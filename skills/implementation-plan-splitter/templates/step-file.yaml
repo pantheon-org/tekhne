@@ -1,0 +1,57 @@
+# Template for Step/Activity Leaf Files
+# Used at: step-X.Y-name.md or activity-X.Y-name.md
+
+title: "{{type_singular|title}} {{number}}: {{name}}"
+description: |
+  Individual step or activity file with checklist,
+  acceptance criteria, and implementation notes.
+
+sections:
+  - name: "Description"
+    template: |
+      {{description}}
+
+  - name: "Checklist"
+    template: |
+      {{#each checklist}}
+      - [ ] {{this}}
+      {{/each}}
+
+  - name: "Acceptance Criteria"
+    template: |
+      {{#each acceptance_criteria}}
+      - {{this}}
+      {{/each}}
+
+  - name: "Status"
+    template: |
+      **Current State**: {{status}}
+
+  - name: "Notes"
+    template: |
+      _Add implementation notes, decisions, and learnings here._
+
+  - name: "Dependencies"
+    template: |
+      {{#if dependencies}}
+      {{#each dependencies}}
+      - {{this}}
+      {{/each}}
+      {{else}}
+      None
+      {{/if}}
+
+# Template variables:
+# - type_singular: "activity" or "step"
+# - number: Step/activity number (e.g., "1.1", "2.2.3")
+# - name: Step/activity name
+# - description: Step/activity description
+# - checklist: Array of checklist items
+# - acceptance_criteria: Array of acceptance criteria
+# - status: Current status (default: "Not Started")
+# - dependencies: Optional array of dependencies
+
+# Default values:
+defaults:
+  status: "Not Started"
+  dependencies: []

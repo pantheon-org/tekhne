@@ -1,0 +1,98 @@
+{
+  "name": "cdk-nag",
+  "description": "Generic CDK Nag security and compliance linting guide with comprehensive reference documentation for AWS CDK applications",
+  "version": "1.0.0",
+  "keywords": [
+    "cdk-nag",
+    "aws-cdk",
+    "security",
+    "compliance",
+    "linting",
+    "suppressions",
+    "rules",
+    "best-practices",
+    "troubleshooting",
+    "integration"
+  ],
+  "triggers": [
+    "cdk nag",
+    "cdknag",
+    "aws solutions",
+    "security rules",
+    "compliance checking",
+    "rule suppression",
+    "cdk security",
+    "nag suppressions",
+    "security linting",
+    "infrastructure security"
+  ],
+  "references": [
+    {
+      "name": "implementation-guide.md",
+      "description": "Complete setup and implementation patterns",
+      "loadWhen": [
+        "setup",
+        "implementation",
+        "configuration",
+        "multiple rule packs"
+      ]
+    },
+    {
+      "name": "rule-packs.md",
+      "description": "All available rule packs and selection guide",
+      "loadWhen": [
+        "rule packs",
+        "compliance",
+        "HIPAA",
+        "NIST",
+        "PCI DSS",
+        "serverless"
+      ]
+    },
+    {
+      "name": "suppression-guide.md",
+      "description": "Comprehensive suppression patterns and best practices",
+      "loadWhen": [
+        "suppressions",
+        "violations",
+        "granular",
+        "appliesTo",
+        "best practices"
+      ]
+    },
+    {
+      "name": "troubleshooting.md",
+      "description": "Common issues and resolution strategies",
+      "loadWhen": [
+        "errors",
+        "debugging",
+        "import issues",
+        "pipeline problems",
+        "false positives"
+      ]
+    },
+    {
+      "name": "rule-evolution.md",
+      "description": "Historical context and rule changes over time",
+      "loadWhen": [
+        "deprecated rules",
+        "version changes",
+        "SNS2",
+        "rule history",
+        "migration"
+      ]
+    },
+    {
+      "name": "integration-patterns.md",
+      "description": "CI/CD integration and workflow patterns",
+      "loadWhen": [
+        "CI/CD",
+        "GitHub Actions",
+        "GitLab",
+        "Jenkins",
+        "automation",
+        "reporting"
+      ]
+    }
+  ]
+}
