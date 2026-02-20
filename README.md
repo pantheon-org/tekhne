@@ -9,31 +9,39 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 ## Available Skills
 
-| Skill                         | Description                                                              |
-| ----------------------------- | ------------------------------------------------------------------------ |
-| `acceptance-criteria`         | Write effective acceptance criteria for user stories                     |
-| `agents-md`                   | AGENTS.md management - create, generate, and maintain AI documentation   |
-| `bdd-testing`                 | Behavior-Driven Development with Gherkin/Cucumber                        |
-| `bun-development`             | Bun.js runtime APIs, testing, SQLite, and security                       |
-| `cdk-nag`                     | AWS CDK security and compliance validation                               |
-| `colyseus-multiplayer`        | Colyseus multiplayer game server framework                               |
-| `commanderjs`                 | Commander.js CLI framework for building command-line tools               |
-| `conventional-commits`        | Structured, semantic commit messages following spec                      |
-| `create-context-file`         | Create context files in `.context/` with unique IDs and frontmatter      |
-| `github-copilot-models`       | Query GitHub Copilot model availability and configurations               |
-| `implementation-plan-splitter`| Split large implementation plans into digestible structures              |
-| `markdown-authoring`          | Markdown syntax, markdownlint, and documentation guidance                |
-| `mise-complete`               | Mise tool management for versions, tasks, and env vars                   |
-| `moscow-prioritization`       | Prioritize requirements using MoSCoW method                              |
-| `nx-biome-integration`        | Integrate Biome linter/formatter into Nx monorepos                       |
-| `nx-bun-integration`          | Integrate Bun runtime into Nx monorepos                                  |
-| `nx-vite-integration`         | Set up and configure Vite in Nx workspaces                               |
-| `nx-workspace-patterns`       | Configure and optimize Nx monorepo workspaces                            |
-| `opencode-config`             | Edit opencode.json, AGENTS.md, and configuration files                   |
-| `plain-english`               | Write technical content for non-technical stakeholders                   |
-| `test-driven-development`     | Master TDD with Red-Green-Refactor cycle                                 |
-| `typescript-advanced`         | Advanced TypeScript types, compiler config, and best practices           |
-| `ui-debug-workflow`           | Debug UI changes with visual testing and evidence collection             |
+| Skill                          | Description                                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------ |
+| `acceptance-criteria`          | Write effective acceptance criteria for user stories                           |
+| `agents-md`                    | AGENTS.md management - create, generate, and maintain AI documentation         |
+| `bdd-testing`                  | Behavior-Driven Development with Gherkin/Cucumber                              |
+| `biome-complete`               | Biome toolchain: configuration, linting, formatting, ESLint/Prettier migration |
+| `bun-development`              | Bun.js runtime APIs, testing, SQLite, and security                             |
+| `cdk-nag`                      | AWS CDK security and compliance validation                                     |
+| `cfn-behavior-validator`       | Validate CloudFormation resource update behaviors through testing              |
+| `cfn-template-compare`         | Compare deployed CloudFormation templates with local CDK templates             |
+| `colyseus-multiplayer`         | Colyseus multiplayer game server framework                                     |
+| `commanderjs`                  | Commander.js CLI framework for building command-line tools                     |
+| `conventional-commits`         | Structured, semantic commit messages following spec                            |
+| `create-context-file`          | Create context files in `.context/` with unique IDs and frontmatter            |
+| `extending-nx-plugins`         | Create and manage Nx plugins: generators, tasks, migrations                    |
+| `github-copilot-models`        | Query GitHub Copilot model availability and configurations                     |
+| `implementation-plan-splitter` | Split large implementation plans into digestible structures                    |
+| `markdown-authoring`           | Markdown syntax, markdownlint, and documentation guidance                      |
+| `mise-complete`                | Mise tool management for versions, tasks, and env vars                         |
+| `moscow-prioritization`        | Prioritize requirements using MoSCoW method                                    |
+| `nx-biome-integration`         | Integrate Biome linter/formatter into Nx monorepos                             |
+| `nx-bun-integration`           | Integrate Bun runtime into Nx monorepos                                        |
+| `nx-executors`                 | Create and use custom Nx executors in TypeScript monorepos                     |
+| `nx-generators`                | Create Nx generators to automate code scaffolding                              |
+| `nx-vite-integration`          | Set up and configure Vite in Nx workspaces                                     |
+| `nx-workspace-patterns`        | Configure and optimize Nx monorepo workspaces                                  |
+| `opencode-config`              | Edit opencode.json, AGENTS.md, and configuration files                         |
+| `plain-english`                | Write technical content for non-technical stakeholders                         |
+| `skill-quality-auditor`        | Automate skill quality evaluation, duplication detection, aggregations         |
+| `software-design-principles`   | Architecture decisions, SOLID principles, and code quality fundamentals        |
+| `test-driven-development`      | Master TDD with Red-Green-Refactor cycle                                       |
+| `typescript-advanced`          | Advanced TypeScript types, compiler config, and best practices                 |
+| `ui-debug-workflow`            | Debug UI changes with visual testing and evidence collection                   |
 
 ## Installation
 
