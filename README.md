@@ -59,7 +59,7 @@ Each skill is self-contained in its own directory under `skills/`. To use a skil
 
 Each skill follows this standard structure:
 
-```
+```text
 skills/<skill-name>/
 ├── SKILL.md          # Main skill definition with instructions
 ├── resources/        # Optional: preference for md files
@@ -103,3 +103,7 @@ We welcome contributions! To add a new skill:
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
+
+## Tooling References
+
+- [yq by mikefarah](https://github.com/mikefarah/yq) for YAML validation in pre-commit hooks
