@@ -1,6 +1,6 @@
 ---
 name: skill-quality-auditor
-description: Automate skill quality evaluation, duplication detection, and aggregation recommendations using skill-judge framework
+description: Automated skill quality evaluation and maintenance. Use when: (1) auditing skill collections quarterly, (2) evaluating new skills before merge, (3) detecting duplication across skills, (4) planning skill aggregations, (5) setting up CI/CD quality gates. Keywords: skill audit, quality evaluation, duplication detection, aggregation, skill-judge, 8-dimension evaluation, skill health, consolidation
 consolidates: skill-quality-auditor from .opencode/skills + skill-aggregation-pattern from knowledge-base
 ---
 
@@ -110,11 +110,81 @@ bun run scripts/plan-aggregation.ts --family bdd
 
 ## Anti-Patterns
 
-❌ **Never** run audits without baseline comparison (can't track regression)  
-❌ **Never** aggregate skills with <20% similarity (creates confusion)  
-❌ **Never** skip verification after aggregation (risk breaking references)  
-❌ **Never** create aggregations with >10 source skills (too broad)  
-❌ **Never** ignore C-grade skills for >1 quarter (technical debt accumulates)
+### ❌ Never run audits without baseline comparison
+
+**WHY:** Without baseline, you cannot detect regression or measure improvement.
+
+```bash
+# BAD - No baseline comparison
+./scripts/audit-skills.sh > report.md
+# Next quarter: same command, no way to compare
+
+# GOOD - Track baseline for comparison
+./scripts/audit-skills.sh --baseline .context/baselines/quarterly.md
+# Compare: diff .context/baselines/q1.md .context/baselines/q2.md
+```
+
+**Consequence:** Quality regressions go unnoticed; impossible to prove ROI.
+
+### ❌ Never aggregate skills with <20% similarity
+
+**WHY:** Low-similarity skills have different purposes; merging creates confusion.
+
+```markdown
+# BAD - 12% similarity, different purposes
+bdd-testing + typescript-advanced → "testing-and-types" (confusing)
+
+# GOOD - 42% similarity, related domain
+bdd-gherkin + cucumber-best-practices → "bdd-testing" (clear purpose)
+```
+
+**Consequence:** Users cannot find the right skill; maintenance burden increases.
+
+### ❌ Never skip verification after aggregation
+
+**WHY:** Aggregation changes file paths and references, breaking downstream dependencies.
+
+```bash
+# BAD - No verification
+mv skills/bdd-gherkin skills/bdd-testing/references/
+# References to skills/bdd-gherkin now broken
+
+# GOOD - Verify all references
+grep -r "skills/bdd-gherkin" . --include="*.md"
+# Fix all references before committing
+```
+
+**Consequence:** Dead links, broken imports, confused users.
+
+### ❌ Never create aggregations with >10 source skills
+
+**WHY:** Large aggregations become unwieldy and lose focus.
+
+```markdown
+# BAD - 15 skills aggregated
+"frontend-development" ← react, vue, angular, svelte, css, html, ...
+
+# GOOD - 3-5 related skills
+"react-patterns" ← react-hooks, react-state, react-testing
+```
+
+**Consequence:** Skill becomes a "kitchen sink"; users cannot navigate efficiently.
+
+### ❌ Never ignore C-grade skills for >1 quarter
+
+**WHY:** Low-quality skills accumulate technical debt and mislead users.
+
+```markdown
+# BAD - C-grade skill ignored for 6 months
+skill-x: 72/120 (D grade)
+# No action taken, skill quality degrades further
+
+# GOOD - Action plan within quarter
+skill-x: 72/120 (D grade)
+Action: Apply aggregation or refactor within 30 days
+```
+
+**Consequence:** Skill collection degrades; users lose trust in quality standards.
 
 ## Related Skills
 
