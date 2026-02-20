@@ -1,224 +1,161 @@
 # Skill Evaluation Report: skill-quality-auditor
 
 **Review Date**: 2026-02-20  
-**Reviewer**: skill-judge framework  
+**Reviewer**: skill-judge workflow (script-backed + manual verification)  
 **Skill Location**: `skills/skill-quality-auditor/`  
-**Last Updated**: 2026-02-20 (post-improvements)
+**Last Updated**: 2026-02-20 (expanded full-format review)
 
 ---
 
 ## Summary
 
 | Metric | Value |
-|--------|-------|
-| **Total Score** | 104/120 (86.7%) |
+| --- | --- |
+| **Total Score** | 106/120 (88.3%) |
 | **Grade** | B+ |
-| **Pattern** | Navigation Hub (well-implemented) |
-| **Knowledge Ratio** | E:A:R = 55:25:20 |
-| **Verdict** | Production-ready with minor refinements possible |
+| **Pattern** | Navigation Hub with deep reference catalog |
+| **Knowledge Ratio** | E:A:R = 55:25:20 (estimated) |
+| **Verdict** | Strong content quality, but automation scripts need portability and robustness fixes |
 
 ---
 
 ## Dimension Scores
 
 | Dimension | Score | Max | Notes |
-|-----------|-------|-----|-------|
-| D1: Knowledge Delta | 14 | 20 | Good expert content; some redundancy with skill-judge |
-| D2: Mindset + Procedures | 13 | 15 | Clear workflow + navigation structure |
-| D3: Anti-Pattern Quality | 14 | 15 | Concrete examples with BAD/GOOD comparisons |
-| D4: Specification Compliance | 14 | 15 | Description includes triggers and keywords |
-| D5: Progressive Disclosure | 14 | 15 | Excellent: hub + 13 references + categories |
-| D6: Freedom Calibration | 14 | 15 | Well-calibrated for automation skill |
-| D7: Pattern Recognition | 9 | 10 | Follows Navigation Hub pattern correctly |
-| D8: Practical Usability | 12 | 15 | Scripts use semantic evaluation via evaluate.ts |
-| **TOTAL** | **104** | **120** | |
+| --- | ---: | ---: | --- |
+| D1: Knowledge Delta | 17 | 20 | Rich expert guidance and anti-pattern coverage |
+| D2: Mindset + Procedures | 12 | 15 | Clear workflow, but can tighten action sequencing |
+| D3: Anti-Pattern Quality | 15 | 15 | Concrete BAD/GOOD examples with consequences |
+| D4: Specification Compliance | 15 | 15 | Strong frontmatter description with clear triggers |
+| D5: Progressive Disclosure | 10 | 15 | Hub is still long (220 lines); should be slimmer |
+| D6: Freedom Calibration | 12 | 15 | Good constraints, but room to tighten defaults |
+| D7: Pattern Recognition | 10 | 10 | Strong activation keywords and discoverability |
+| D8: Practical Usability | 15 | 15 | Helpful scripts and reproducible command paths |
+| **TOTAL** | **106** | **120** | **B+** |
+
+---
+
+## Audit Execution
+
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Single-skill semantic evaluation | Pass | `bun run skills/skill-quality-auditor/scripts/evaluate.ts skill-quality-auditor --json` returned `106/120` (`B+`) |
+| Full collection audit script | Fail | `skills/skill-quality-auditor/scripts/audit-skills.sh` failed at `declare -A` (`audit-skills.sh:64`) on Bash 3.2 |
+| Duplication detection script (default clean run) | Fail | `detect-duplication.sh` writes output before ensuring `.context/analysis/` exists (`detect-duplication.sh:10`) |
+| Duplication detection script (`skills` arg, after dir exists) | Pass | report generated at `./.context/analysis/duplication-report-2026-02-20.md` |
+
+---
+
+## Findings
+
+### High Severity
+
+1. **Cross-skill audit workflow is not portable on default macOS Bash**  
+Location: `skills/skill-quality-auditor/scripts/audit-skills.sh:64`  
+Cause: associative arrays (`declare -A`) require Bash 4+, while macOS defaults to 3.2.  
+Impact: primary “run full audit” workflow breaks on a common local environment.
+
+2. **Duplication script assumes output directory exists**  
+Location: `skills/skill-quality-auditor/scripts/detect-duplication.sh:10`  
+Cause: output redirection occurs before `mkdir -p`.  
+Impact: script fails on clean clones and first-run setups.
+
+### Medium Severity
+
+1. **Default duplication scope does not match repo layout**  
+Location: `skills/skill-quality-auditor/scripts/detect-duplication.sh:6`  
+Cause: default path is `.agents/skills`; this repository uses `skills/` for active skills.  
+Impact: no-arg runs can return low-value or empty analysis.
+
+2. **Progressive disclosure score is constrained by SKILL.md length**  
+Signal: D5 = `10/15` from evaluator output.  
+Cause: `SKILL.md` currently includes substantial detail better suited for `references/`.  
+Impact: lower hub clarity and slower scan time for users.
 
 ---
 
 ## Improvements Applied
 
-### 1. ✅ Fixed Description Field (D4: +4 points)
-
-**Before:**
-```yaml
-description: Automate skill quality evaluation, duplication detection, and aggregation recommendations using skill-judge framework
-```
-
-**After:**
-```yaml
-description: Automated skill quality evaluation and maintenance. Use when: (1) auditing skill collections quarterly, (2) evaluating new skills before merge, (3) detecting duplication across skills, (4) planning skill aggregations, (5) setting up CI/CD quality gates. Keywords: skill audit, quality evaluation, duplication detection, aggregation, skill-judge, 8-dimension evaluation, skill health, consolidation
-```
-
-**Impact:** D4 score improved from 10/15 to 14/15
-
-### 2. ✅ Added Concrete Anti-Pattern Examples (D3: +3 points)
-
-**Before:** Simple list with 5 items
-
-**After:** Each anti-pattern includes:
-- ❌ BAD vs ✅ GOOD code examples
-- Specific consequences explained
-- Real-world scenarios
-
-**Example:**
-```bash
-# BAD - No baseline comparison
-./scripts/audit-skills.sh > report.md
-
-# GOOD - Track baseline for comparison
-./scripts/audit-skills.sh --baseline .context/baselines/quarterly.md
-```
-
-**Impact:** D3 score improved from 11/15 to 14/15
-
-### 3. ✅ Fixed Script Evaluation (D8: +2 points)
-
-**Before:** Naive line-count heuristics:
-```bash
-if [ $LINES -lt 100 ]; then
-  SCORE=95
-  GRADE="A"
-```
-
-**After:** Semantic evaluation via evaluate.ts:
-```bash
-EVAL_OUTPUT=$(bun run "$SKILL_AUDITOR_DIR/scripts/evaluate.ts" "$skill_name" --json)
-```
-
-**Impact:** D8 score improved from 10/15 to 12/15
+1. **Review artifact quality improved**: this report is now restored to a full review format with explicit sectioning, scoring tables, execution evidence, and traceable conclusions.
+2. **Validation assets added for repeatability**: introduced a report template and schema for format validation in `skills/skill-quality-auditor/templates/` and `skills/skill-quality-auditor/schemas/`.
+3. **Automated report format validation added**: created `skills/skill-quality-auditor/scripts/validate-review-format.ts` to enforce required sections and required command evidence.
 
 ---
 
 ## Score Evolution
 
 | Review | Score | Grade | Status |
-|--------|-------|-------|--------|
-| Original | 79/120 | D | Incomplete, missing files |
-| After file creation | 95/120 | C+ | Complete, needs polish |
-| **Current** | **104/120** | **B+** | **Production-ready** |
+| --- | --- | --- | --- |
+| Original baseline | 79/120 | D | Incomplete and missing core depth |
+| Post file-creation pass | 95/120 | C+ | Structurally complete, needed stronger quality controls |
+| Prior detailed review | 104/120 | B+ | Production-ready with script maturity gaps |
+| **Current** | **106/120** | **B+** | Content quality improved; script portability issues remain |
 
-**Total Improvement:** +25 points (+31.6%)
-
----
-
-## Remaining Minor Issues
-
-### D1: Knowledge Delta (-6 points)
-
-`framework-skill-judge-dimensions.md` still has some overlap with skill-judge. This is acceptable for a Navigation Hub that needs to provide context for automated evaluation.
-
-**Recommendation:** Consider trimming redundancy in future updates.
-
-### D8: Practical Usability (-3 points)
-
-Scripts now use semantic evaluation, but:
-- `evaluate.ts` should be validated for accuracy
-- Consider adding test coverage for scripts
-
-**Recommendation:** Add integration tests for the audit pipeline.
+**Net Improvement vs baseline**: +27 points (+34.2%)
 
 ---
 
 ## Dimension Analysis
 
-### D3: Anti-Pattern Quality (14/15) ⬆️
+### D3: Anti-Pattern Quality (15/15)
 
-**Strengths:**
-- 5 concrete anti-patterns with examples
-- ❌ BAD vs ✅ GOOD code comparisons
-- Consequences clearly stated
-- Real-world scenarios included
+Strengths:
 
-**Example from SKILL.md:**
-```markdown
-### ❌ Never aggregate skills with <20% similarity
+- Strong “NEVER” guidance with explicit rationale.
+- BAD/GOOD examples are concrete and actionable.
+- Consequences are clearly tied to operational risk.
 
-**WHY:** Low-similarity skills have different purposes; merging creates confusion.
+### D4: Specification Compliance (15/15)
 
-# BAD - 12% similarity, different purposes
-bdd-testing + typescript-advanced → "testing-and-types" (confusing)
+Strengths:
 
-# GOOD - 42% similarity, related domain
-bdd-gherkin + cucumber-best-practices → "bdd-testing" (clear purpose)
+- Frontmatter description includes activation triggers and keyword breadth.
+- Skill scope and use cases are explicit.
+- Commands map directly to expected workflows.
 
-**Consequence:** Users cannot find the right skill; maintenance burden increases.
-```
+### D8: Practical Usability (15/15)
 
-### D4: Specification Compliance (14/15) ⬆️
+Strengths:
 
-| Component | Score | Notes |
-|-----------|-------|-------|
-| Description Quality | 10/10 | Includes triggers and keywords |
-| Frontmatter Valid | 3/3 | Correct YAML syntax |
-| Activation Keywords | 1/2 | Could add more trigger phrases |
+- Script entry points are clear and executable.
+- Evaluator can emit machine-readable JSON (`--json`) for automation.
+- Skill includes actionable command references for key tasks.
 
-### D8: Practical Usability (12/15) ⬆️
+Risk note:
 
-**Strengths:**
-- Scripts use semantic evaluation via evaluate.ts
-- Clear output paths defined
-- Report format documented
-- Baseline comparison support added
-
-**Scripts Updated:**
-```bash
-# audit-skills.sh now uses evaluate.ts
-EVAL_OUTPUT=$(bun run "$SKILL_AUDITOR_DIR/scripts/evaluate.ts" "$skill_name" --json)
-
-# Falls back gracefully if bun/npx unavailable
-if command -v bun &> /dev/null; then
-  # Use bun for speed
-else
-  # Fallback to npx tsx
-fi
-```
+- Usability score is high at content level, but execution reliability is currently reduced by shell/version assumptions in `audit-skills.sh`.
 
 ---
 
 ## Files Inventory
 
-```
+```text
 skills/skill-quality-auditor/
-├── SKILL.md (updated - description + anti-patterns)
-├── AGENTS.md (156 lines - reference guide)
-├── references/
-│   ├── framework-skill-judge-dimensions.md (409 lines)
-│   ├── framework-scoring-rubric.md (174 lines)
-│   ├── framework-quality-standards.md
-│   ├── duplication-detection-algorithm.md (184 lines)
-│   ├── duplication-remediation.md
-│   ├── aggregation-pattern.md
-│   ├── aggregation-implementation.md
-│   ├── scripts-audit-workflow.md
-│   ├── scripts-ci-integration.md
-│   ├── reporting-analysis.md
-│   ├── reporting-dashboards.md
-│   ├── advanced-trends-analysis.md
-│   └── advanced-custom-metrics.md
-└── scripts/
-    ├── audit-skills.sh (updated - semantic evaluation)
-    ├── detect-duplication.sh
-    ├── evaluate.ts
-    └── plan-aggregation.ts
-
-Total: 17 files (13 references + 2 core + 4 scripts)
+├── SKILL.md
+├── AGENTS.md
+├── references/ (14 markdown references)
+├── scripts/
+│   ├── audit-skills.sh
+│   ├── detect-duplication.sh
+│   ├── evaluate.ts
+│   ├── plan-aggregation.ts
+│   └── validate-review-format.ts
+├── templates/
+│   ├── review-report-template.md
+│   └── review-report.requirements.json
+└── schemas/
+    └── review-report.schema.json
 ```
 
 ---
 
 ## Verification
 
-To verify improvements, run:
-
 ```bash
-# Check description triggers
-grep "Use when" skills/skill-quality-auditor/SKILL.md
-
-# Check anti-pattern examples
-grep -A5 "BAD\|GOOD" skills/skill-quality-auditor/SKILL.md
-
-# Run audit with semantic evaluation
-./skills/skill-quality-auditor/scripts/audit-skills.sh
+bun run skills/skill-quality-auditor/scripts/evaluate.ts skill-quality-auditor --json
+skills/skill-quality-auditor/scripts/audit-skills.sh
+skills/skill-quality-auditor/scripts/detect-duplication.sh skills
+bun run skills/skill-quality-auditor/scripts/validate-review-format.ts .context/reviews/skill-quality-auditor-review.md
 ```
 
 ---
@@ -226,9 +163,9 @@ grep -A5 "BAD\|GOOD" skills/skill-quality-auditor/SKILL.md
 ## Grade Scale Reference
 
 | Grade | Percentage | Meaning |
-|-------|------------|---------|
-| A | 90%+ (108+) | Excellent - production-ready expert Skill |
-| **B** | **80-89% (96-107)** | **Good - minor improvements needed** |
+| --- | --- | --- |
+| A | 90%+ (108+) | Excellent - production-ready expert skill |
+| B | 80-89% (96-107) | Good - minor improvements needed |
 | C | 70-79% (84-95) | Adequate - clear improvement path |
 | D | 60-69% (72-83) | Below Average - significant issues |
 | F | <60% (<72) | Poor - needs fundamental redesign |
@@ -237,13 +174,4 @@ grep -A5 "BAD\|GOOD" skills/skill-quality-auditor/SKILL.md
 
 ## Conclusion
 
-This skill is now **production-ready at B+ grade**. All critical issues from the previous review have been addressed:
-
-1. ✅ Description includes trigger scenarios and keywords
-2. ✅ Anti-patterns have concrete examples
-3. ✅ Scripts use semantic evaluation instead of naive heuristics
-
-**Next steps for A grade:**
-- Add test coverage for audit scripts
-- Consider reducing knowledge delta with skill-judge
-- Add more trigger phrases for activation
+The skill remains **B+ (106/120)** and is strong on content quality, anti-pattern guidance, and usability documentation. The current blocking issues are operational: Bash compatibility and output-directory handling in audit scripts. Once those are resolved and `SKILL.md` is trimmed to a tighter hub, this skill is positioned to cross into A-grade territory.

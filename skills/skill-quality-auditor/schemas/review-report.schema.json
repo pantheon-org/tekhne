@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Skill Quality Auditor Review Report Format",
+  "type": "object",
+  "required": [
+    "required_h2_headings",
+    "required_metadata_labels",
+    "required_dimension_labels",
+    "required_commands"
+  ],
+  "properties": {
+    "required_h2_headings": {
+      "type": "array",
+      "minItems": 10,
+      "items": { "type": "string" }
+    },
+    "required_metadata_labels": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "type": "string" }
+    },
+    "required_dimension_labels": {
+      "type": "array",
+      "minItems": 8,
+      "items": { "type": "string" }
+    },
+    "required_commands": {
+      "type": "array",
+      "minItems": 3,
+      "items": { "type": "string" }
+    },
+    "require_grade_scale_section": { "type": "boolean" },
+    "require_score_evolution_section": { "type": "boolean" }
+  },
+  "additionalProperties": false
+}
