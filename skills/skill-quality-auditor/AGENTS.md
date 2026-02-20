@@ -25,7 +25,7 @@ Core evaluation methodology based on skill-judge:
 
 | File | Purpose | Lines | When to Read |
 |------|---------|-------|--------------|
-| `framework-skill-judge-dimensions.md` | 8-dimension evaluation criteria | ~350 | Evaluating any skill |
+| `framework-skill-judge-dimensions.md` | 8-dimension evaluation criteria | ~410 | Evaluating any skill |
 | `framework-scoring-rubric.md` | Detailed scoring methodology | ~280 | Understanding scores |
 | `framework-quality-standards.md` | A-grade requirements | ~220 | Setting quality goals |
 
@@ -49,7 +49,7 @@ Consolidate related skills using Navigation Hub pattern:
 | File | Purpose | Lines | When to Read |
 |------|---------|-------|--------------|
 | `aggregation-pattern.md` | Navigation Hub + References | ~500 | Learning pattern |
-| `aggregation-implementation.md` | 6-step implementation | ~420 | Creating aggregations |
+| `aggregation-implementation.md` | 6-step implementation | ~490 | Creating aggregations |
 
 **Success rate**: 96%+ size reduction, <5% duplication
 
