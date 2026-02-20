@@ -64,7 +64,7 @@ skills/<skill-name>/
 ├── SKILL.md          # Main skill definition with instructions
 ├── resources/        # Optional: preference for md files
 ├── templates/        # Optional: preference for yaml files
-├── scripts/          # Optional: preferences for bun/typescript
+├── scripts/          # Optional: preferences for bash
 ├── schemas/          # Optional: preference for json
 └── README.md         # Optional: additional documentation
 ```

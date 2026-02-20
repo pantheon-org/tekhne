@@ -20,15 +20,15 @@ Visualization approaches for skill quality metrics. Provides templates for track
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                   SKILL COLLECTION HEALTH                    │
+│                   SKILL COLLECTION HEALTH                   │
 ├──────────────────┬──────────────────┬───────────────────────┤
 │  Total Skills    │  A-Grade Rate    │  Avg Duplication      │
 │      50          │      72%         │       12%             │
 │   (target: N/A)  │ (target: 90%)    │  (target: <5%)        │
 ├──────────────────┴──────────────────┴───────────────────────┤
-│  STATUS: NEEDS ATTENTION                                     │
-│  • 8 skills below A-grade                                    │
-│  • 3 aggregation candidates                                  │
+│  STATUS: NEEDS ATTENTION                                    │
+│  • 8 skills below A-grade                                   │
+│  • 3 aggregation candidates                                 │
 └─────────────────────────────────────────────────────────────┘
 ```
 
