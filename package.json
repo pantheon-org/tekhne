@@ -1,0 +1,21 @@
+{
+  "name": "tekhne",
+  "version": "1.0.0",
+  "description": "A curated collection of reusable agent skills for AI assistants, designed for easy redistribution and integration.",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "bunx lefthook install",
+    "check:biome": "bunx @biomejs/biome check .",
+    "check:markdown": "bunx markdownlint-cli2 \"**/*.md\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.4",
+    "lefthook": "^2.1.1",
+    "markdownlint-cli2": "^0.21.0"
+  }
+}
