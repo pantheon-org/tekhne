@@ -1,7 +1,7 @@
 ---
 name: skill-quality-auditor
 description: Automated skill quality evaluation and maintenance. Use when: (1) auditing skill collections quarterly, (2) evaluating new skills before merge, (3) detecting duplication across skills, (4) planning skill aggregations, (5) setting up CI/CD quality gates. Keywords: skill audit, quality evaluation, duplication detection, aggregation, skill-judge, 8-dimension evaluation, skill health, consolidation
-consolidates: skill-quality-auditor from .opencode/skills + skill-aggregation-pattern from knowledge-base
+consolidates: skill-quality-auditor from .opencode/skills + skill-aggregation-pattern from knowledge-base + skill-judge framework
 ---
 
 # Skill Quality Auditor
@@ -11,6 +11,7 @@ Automated skill quality evaluation and maintenance using the skill-judge framewo
 ## When to Apply
 
 Use this skill when:
+
 - **Quarterly audits** - Regular skill collection health checks
 - **New skill review** - Evaluating newly created skills before merge
 - **Aggregation planning** - Identifying related skills to consolidate
@@ -23,7 +24,7 @@ Use this skill when:
 
 | Priority | Category | Impact | Prefix | Files |
 |----------|----------|--------|--------|-------|
-| **CRITICAL** | Evaluation Framework | Foundational | `framework-` | 3 |
+| **CRITICAL** | Evaluation Framework | Foundational | `framework-` | 4 |
 | **HIGH** | Duplication Detection | High ROI | `duplication-` | 2 |
 | **HIGH** | Aggregation Planning | High ROI | `aggregation-` | 2 |
 | **MEDIUM** | Automation Scripts | Efficiency | `scripts-` | 2 |
@@ -35,32 +36,39 @@ Use this skill when:
 This skill follows **progressive disclosure** - start with what you need:
 
 ### Quick Start
+
 1. Load this skill (you just did)
 2. Run basic audit: `./scripts/audit-skills.sh`
 3. Review generated reports in `.context/analysis/skill-audit-YYYY-MM-DD.md`
 
 ### Deep Evaluation
-1. Read `framework-skill-judge-dimensions.md` for evaluation criteria
-2. Read `framework-scoring-rubric.md` for scoring methodology
-3. Apply evaluation to individual skills
+
+1. Read `framework-skill-judge-canonical.md` for canonical framework source
+2. Read `framework-skill-judge-dimensions.md` for normalized 8-dimension criteria
+3. Read `framework-scoring-rubric.md` for scoring methodology
+4. Apply evaluation to individual skills
 
 ### Duplication Detection
+
 1. Read `duplication-detection-algorithm.md` for methodology
 2. Run `./scripts/detect-duplication.sh` to find >20% similarity
 3. Review recommendations in generated report
 
 ### Aggregation Planning
+
 1. Read `aggregation-pattern.md` for Navigation Hub pattern
 2. Read `aggregation-implementation.md` for step-by-step guide
 3. Identify candidates using duplication + family analysis
 4. Calculate ROI: (hours saved / hours invested)
 
 ### Automation
+
 1. Read `scripts-audit-workflow.md` for automation setup
 2. Read `scripts-ci-integration.md` for GitHub Actions/GitLab CI
 3. Configure quality gates (block PRs with C-grade skills)
 
 ### Advanced
+
 1. Read `advanced-trends-analysis.md` for historical tracking
 2. Read `advanced-custom-metrics.md` for domain-specific evaluation
 
@@ -80,6 +88,7 @@ graph TD
 ## Success Metrics
 
 After applying this skill, you should achieve:
+
 - **Quality**: 90%+ skills at A-grade (≥108/120)
 - **Duplication**: <5% redundant content across collection
 - **Size**: Average skill <150 lines (navigation hubs <100 lines)
@@ -89,21 +98,25 @@ After applying this skill, you should achieve:
 ## Quick Reference
 
 **Evaluate a single skill:**
+
 ```bash
 bun run .agents/skills/skill-quality-auditor/scripts/evaluate.ts skill-name
 ```
 
 **Find duplicates:**
+
 ```bash
 ./scripts/detect-duplication.sh
 ```
 
 **Plan aggregation:**
+
 ```bash
 bun run scripts/plan-aggregation.ts --family bdd
 ```
 
 **Full audit:**
+
 ```bash
 ./scripts/audit-skills.sh --output .context/analysis/
 ```
@@ -188,7 +201,7 @@ Action: Apply aggregation or refactor within 30 days
 
 ## Related Skills
 
-- **skill-judge** - Foundation evaluation framework (this skill implements it)
+- **skill-judge** - Foundation evaluation framework (integrated under `references/framework-skill-judge-canonical.md`)
 - **skill-harvester** - Creates new skills from git history (quality check with auditor after)
 - **architecture-design** - Use for designing skill structure decisions
 - **proof-of-work** - Verification philosophy applied to skill changes

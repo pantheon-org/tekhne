@@ -4,10 +4,10 @@ This skill provides automated quality evaluation and maintenance for your skill 
 
 ## Overview
 
-**Total Files**: 13 reference files + 2 scripts  
+**Total Files**: 14 reference files + 2 scripts  
 **Categories**: 6 (Framework, Duplication, Aggregation, Scripts, Reporting, Advanced)  
 **Pattern**: Navigation Hub (SKILL.md) + Expert References  
-**Origin**: Consolidates skill-quality-auditor + skill-aggregation-pattern
+**Origin**: Consolidates skill-quality-auditor + skill-aggregation-pattern + skill-judge
 
 ## Usage Instructions
 
@@ -25,11 +25,12 @@ Core evaluation methodology based on skill-judge:
 
 | File | Purpose | Lines | When to Read |
 |------|---------|-------|--------------|
+| `framework-skill-judge-canonical.md` | Canonical upstream skill-judge mapping | ~60 | Validating framework intent/source |
 | `framework-skill-judge-dimensions.md` | 8-dimension evaluation criteria | ~410 | Evaluating any skill |
 | `framework-scoring-rubric.md` | Detailed scoring methodology | ~280 | Understanding scores |
 | `framework-quality-standards.md` | A-grade requirements | ~220 | Setting quality goals |
 
-**Load first**: framework-skill-judge-dimensions.md
+**Load first**: framework-skill-judge-dimensions.md (load canonical source when checking framework fidelity)
 
 ### Duplication Detection (HIGH Priority)
 
@@ -88,12 +89,13 @@ Optional features for power users:
 
 ## Complete File Listing
 
-```
+```text
 .agents/skills/skill-quality-auditor/
 ├── SKILL.md                                    # Navigation hub
 ├── AGENTS.md                                   # This file
 ├── references/
 │   ├── framework-skill-judge-dimensions.md     # CRITICAL
+│   ├── framework-skill-judge-canonical.md      # CRITICAL
 │   ├── framework-scoring-rubric.md             # CRITICAL
 │   ├── framework-quality-standards.md          # CRITICAL
 │   ├── duplication-detection-algorithm.md      # HIGH
@@ -110,30 +112,35 @@ Optional features for power users:
     ├── audit-skills.sh                         # Full audit
     └── detect-duplication.sh                   # Duplication finder
 
-Total: 15 files (13 references + 2 scripts)
+Total: 16 files (14 references + 2 scripts)
 ```
 
 ## Navigation Workflow
 
 ### For Quality Evaluation
+
 1. Load `framework-skill-judge-dimensions.md`
-2. Load `framework-scoring-rubric.md`
-3. Apply to skill, calculate score
-4. Compare against `framework-quality-standards.md`
+2. Load `framework-skill-judge-canonical.md` when checking intent or edge cases
+3. Load `framework-scoring-rubric.md`
+4. Apply to skill, calculate score
+5. Compare against `framework-quality-standards.md`
 
 ### For Duplication Detection
+
 1. Run `scripts/detect-duplication.sh`
 2. Review generated report
 3. Load `duplication-remediation.md` for fixes
 4. Load `aggregation-pattern.md` if >20% similarity
 
 ### For Creating Aggregations
+
 1. Load `aggregation-pattern.md` (learn pattern)
 2. Load `aggregation-implementation.md` (step-by-step)
 3. Follow 6-step process
 4. Verify with `framework-quality-standards.md`
 
 ### For Automation Setup
+
 1. Load `scripts-audit-workflow.md`
 2. Load `scripts-ci-integration.md`
 3. Configure CI/CD pipeline
@@ -142,6 +149,7 @@ Total: 15 files (13 references + 2 scripts)
 ## Success Criteria
 
 After using this skill, you should have:
+
 - ✅ All skills evaluated with 8-dimension scores
 - ✅ Duplication report showing <5% redundancy
 - ✅ Aggregation candidates identified with ROI
