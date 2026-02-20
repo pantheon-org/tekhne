@@ -50,10 +50,10 @@ Each skill is self-contained in its own directory under `skills/`. To use a skil
 1. Copy the skill directory to your agent's skills location:
 
    ```bash
-   cp -r skills/<skill-name> ~/.config/opencode/skills/
+   npx skills add https://github.com/pantheon-org/tekhne --skill <skill-name> 
    ```
 
-2. The skill will be automatically available in your OpenCode sessions.
+2. The skill will be automatically available in your Harness of choice.
 
 ## Skill Structure
 
@@ -62,7 +62,10 @@ Each skill follows this standard structure:
 ```
 skills/<skill-name>/
 ├── SKILL.md          # Main skill definition with instructions
-├── resources/        # Optional: templates, scripts, references
+├── resources/        # Optional: preference for md files
+├── templates/        # Optional: preference for yaml files
+├── scripts/          # Optional: preferences for bun/typescript
+├── schemas/          # Optional: preference for json
 └── README.md         # Optional: additional documentation
 ```
 
