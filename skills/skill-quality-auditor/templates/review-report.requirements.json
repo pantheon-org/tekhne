@@ -1,0 +1,37 @@
+{
+  "required_h2_headings": [
+    "Summary",
+    "Dimension Scores",
+    "Audit Execution",
+    "Findings",
+    "Improvements Applied",
+    "Score Evolution",
+    "Dimension Analysis",
+    "Files Inventory",
+    "Verification",
+    "Grade Scale Reference",
+    "Conclusion"
+  ],
+  "required_metadata_labels": [
+    "Review Date",
+    "Reviewer",
+    "Skill Location"
+  ],
+  "required_dimension_labels": [
+    "D1: Knowledge Delta",
+    "D2: Mindset + Procedures",
+    "D3: Anti-Pattern Quality",
+    "D4: Specification Compliance",
+    "D5: Progressive Disclosure",
+    "D6: Freedom Calibration",
+    "D7: Pattern Recognition",
+    "D8: Practical Usability"
+  ],
+  "required_commands": [
+    "bun run skills/skill-quality-auditor/scripts/evaluate.ts skill-quality-auditor --json",
+    "skills/skill-quality-auditor/scripts/audit-skills.sh",
+    "skills/skill-quality-auditor/scripts/detect-duplication.sh skills"
+  ],
+  "require_grade_scale_section": true,
+  "require_score_evolution_section": true
+}
