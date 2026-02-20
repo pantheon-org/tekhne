@@ -12,11 +12,7 @@
     "Grade Scale Reference",
     "Conclusion"
   ],
-  "required_metadata_labels": [
-    "Review Date",
-    "Reviewer",
-    "Skill Location"
-  ],
+  "required_metadata_labels": ["Review Date", "Reviewer", "Skill Location"],
   "required_dimension_labels": [
     "D1: Knowledge Delta",
     "D2: Mindset + Procedures",
