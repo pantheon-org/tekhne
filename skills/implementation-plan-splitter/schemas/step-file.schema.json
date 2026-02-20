@@ -1,0 +1,214 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://deadalus.local/schemas/step-activity.schema.json",
+  "title": "Step/Activity Document",
+  "description": "Schema for validating split implementation plan step or activity markdown files",
+  "type": "object",
+  "required": ["title", "description", "checklist", "acceptanceCriteria"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to this schema"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Title of the step or activity"
+    },
+    "phase": {
+      "type": "string",
+      "pattern": "^phase-[0-9]+(\\.[0-9]+)*(-[a-z0-9-]+)?$",
+      "description": "Parent phase identifier"
+    },
+    "parent": {
+      "type": "string",
+      "pattern": "^(step|activity)-[0-9]+(\\.[0-9]+)*(-[a-z0-9-]+)?$",
+      "description": "Parent step or activity identifier"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["step", "activity"],
+      "description": "Whether this is a step or activity"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["pending", "in-progress", "completed", "blocked", "cancelled"],
+      "default": "pending",
+      "description": "Current status of the step/activity"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"],
+      "default": "medium",
+      "description": "Priority level"
+    },
+    "estimatedEffort": {
+      "type": "string",
+      "enum": ["XS", "S", "M", "L", "XL"],
+      "description": "T-shirt size effort estimate"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Detailed description of what this step/activity accomplishes"
+    },
+    "prerequisites": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(step|activity)-[0-9]+(\\.[0-9]+)*(-[a-z0-9-]+)?$"
+      },
+      "description": "List of prerequisite steps/activities that must be completed first",
+      "default": []
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the dependency"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["library", "tool", "service", "api", "file", "config"],
+            "description": "Type of dependency"
+          },
+          "version": {
+            "type": "string",
+            "description": "Required version"
+          },
+          "optional": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this dependency is optional"
+          }
+        }
+      },
+      "description": "External dependencies required",
+      "default": []
+    },
+    "checklist": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["item"],
+        "properties": {
+          "item": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Checklist item description"
+          },
+          "completed": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether this item is completed"
+          },
+          "assignee": {
+            "type": "string",
+            "description": "Person responsible for this item"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "List of actionable items to complete"
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["criterion"],
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Acceptance criterion"
+          },
+          "validation": {
+            "type": "string",
+            "description": "How to validate this criterion is met"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Criteria that must be met for this step/activity to be considered complete"
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the output"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["file", "directory", "code", "test", "documentation", "config"],
+            "description": "Type of output"
+          },
+          "path": {
+            "type": "string",
+            "description": "Expected path/location of output"
+          },
+          "optional": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "Expected outputs from this step/activity",
+      "default": []
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["risk", "probability", "impact"],
+        "properties": {
+          "risk": {
+            "type": "string",
+            "description": "Description of the risk"
+          },
+          "probability": {
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "impact": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "mitigation": {
+            "type": "string",
+            "description": "How to mitigate this risk"
+          }
+        }
+      },
+      "description": "Risks associated with this step/activity",
+      "default": []
+    },
+    "rollbackProcedure": {
+      "type": "string",
+      "description": "Steps to rollback changes if something goes wrong"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional notes or context"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags for categorization",
+      "default": []
+    }
+  }
+}

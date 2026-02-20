@@ -1,0 +1,21 @@
+# Template for Intermediate Directory README.md
+# Used at: phase-X-name/activities/README.md or phase-X-name/steps/README.md
+
+title: "{{type|title}}"  # "Activities" or "Steps"
+description: |
+  Intermediate directory documentation providing navigation
+  to grouped activities or steps.
+
+sections:
+  - name: "Description"
+    template: |
+      This directory contains {{type}} for this phase.
+
+  - name: "Groups"
+    template: |
+      Navigate to each group for detailed implementation {{type}}.
+
+      > Note: Each group directory contains a README with file listing and prerequisites.
+
+# Template variables:
+# - type: "activities" or "steps"
