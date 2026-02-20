@@ -1,7 +1,6 @@
 ---
 name: skill-quality-auditor
 description: Automated skill quality evaluation and maintenance. Use when: (1) auditing skill collections quarterly, (2) evaluating new skills before merge, (3) detecting duplication across skills, (4) planning skill aggregations, (5) setting up CI/CD quality gates. Keywords: skill audit, quality evaluation, duplication detection, aggregation, skill-judge, 8-dimension evaluation, skill health, consolidation
-consolidates: skill-quality-auditor from .opencode/skills + skill-aggregation-pattern from knowledge-base + skill-judge framework
 ---
 
 # Skill Quality Auditor
