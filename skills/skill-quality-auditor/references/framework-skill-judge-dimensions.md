@@ -1,12 +1,14 @@
 ---
 category: framework
 priority: CRITICAL
-source: skill-judge + session experience
+source: skill-judge canonical + session experience
 ---
 
 # Skill-Judge Evaluation Framework: 8 Dimensions
 
 Complete evaluation methodology for assessing skill quality using the skill-judge framework. This is the foundation for all quality auditing.
+
+Canonical source reference: `framework-skill-judge-canonical.md`
 
 ## Overview
 
@@ -19,6 +21,7 @@ The skill-judge framework evaluates skills across 8 dimensions totaling 120 poin
 **Purpose:** Ensure skill contains expert-only knowledge, not redundant information.
 
 **Scoring:**
+
 - **18-20 points:** Pure expert knowledge, <5% redundancy
 - **15-17 points:** Mostly expert, 5-15% redundancy  
 - **12-14 points:** 15-30% redundancy (acceptable)
@@ -60,6 +63,7 @@ The skill-judge framework evaluates skills across 8 dimensions totaling 120 poin
 ### Examples
 
 **❌ Low Knowledge Delta (12/20):**
+
 ```markdown
 # TypeScript Basics
 
@@ -73,9 +77,11 @@ Functions can be declared or arrow:
 function add(a: number, b: number) { return a + b }
 const add = (a: number, b: number) => a + b
 ```
+
 *Problem: Claude already knows basic TypeScript syntax*
 
 **✅ High Knowledge Delta (19/20):**
+
 ```markdown
 # TypeScript: Making Illegal States Unrepresentable
 
@@ -99,6 +105,7 @@ type Request =
 Bad design allows bugs: `{ loading: true, data: user }` is impossible but TypeScript allows it.
 Good design: TypeScript prevents impossible states at compile time.
 ```
+
 *Expert pattern Claude doesn't know by default*
 
 ## Dimension 2: Mindset + Procedures (15 points)
@@ -106,6 +113,7 @@ Good design: TypeScript prevents impossible states at compile time.
 **Purpose:** Provide philosophical framing and step-by-step workflows.
 
 **Scoring:**
+
 - **13-15 points:** Clear mindset + detailed procedures + when/when-not
 - **10-12 points:** Has most elements, minor gaps
 - **7-9 points:** Missing key element
@@ -132,6 +140,7 @@ Good design: TypeScript prevents impossible states at compile time.
 ### Example
 
 **✅ Strong Mindset + Procedures (15/15):**
+
 ```markdown
 # Test-Driven Development
 
@@ -158,6 +167,7 @@ Write tests BEFORE implementation. The test defines the contract; implementation
 **Purpose:** Teach what NOT to do with clear explanations of WHY.
 
 **Scoring:**
+
 - **13-15 points:** NEVER lists + concrete examples + consequences
 - **10-12 points:** Has most elements
 - **7-9 points:** Generic warnings
@@ -183,6 +193,7 @@ Write tests BEFORE implementation. The test defines the contract; implementation
 ### Example
 
 **✅ Strong Anti-Patterns (14/15):**
+
 ```markdown
 ## Anti-Patterns
 
@@ -208,6 +219,7 @@ WHY: False positives waste hours debugging phantom issues
 **Purpose:** Ensure proper frontmatter, description, and activation keywords.
 
 **Scoring:**
+
 - **13-15 points:** Perfect spec compliance
 - **10-12 points:** Minor issues
 - **7-9 points:** Missing key elements
@@ -233,21 +245,25 @@ WHY: False positives waste hours debugging phantom issues
 ### Example
 
 **✅ Excellent Description (10/10):**
+
 ```yaml
 ---
 name: bdd-testing
 description: Behavior-Driven Development with Given-When-Then scenarios, Cucumber.js, Three Amigos collaboration, Example Mapping, living documentation, and acceptance criteria. Use when writing BDD tests, feature files, or planning discovery workshops.
 ---
 ```
+
 *Comprehensive, includes triggers, explains when to use*
 
 **❌ Weak Description (4/10):**
+
 ```yaml
 ---
 name: bdd-testing  
 description: BDD testing patterns
 ---
 ```
+
 *Too generic, no activation keywords, no usage guidance*
 
 ## Dimension 5: Progressive Disclosure (15 points)
@@ -255,6 +271,7 @@ description: BDD testing patterns
 **Purpose:** Structure content for on-demand loading, not frontloading everything.
 
 **Scoring:**
+
 - **13-15 points:** Navigation hub + references/ + categories
 - **10-12 points:** Some organization, could improve
 - **7-9 points:** Everything frontloaded, >300 lines
@@ -280,6 +297,7 @@ description: BDD testing patterns
 ### Example
 
 **✅ Excellent Progressive Disclosure (15/15):**
+
 ```
 bdd-testing/
 ├── SKILL.md (64 lines - navigation hub)
@@ -291,6 +309,7 @@ bdd-testing/
 ```
 
 **❌ Poor Progressive Disclosure (6/15):**
+
 ```
 bdd-testing/
 └── SKILL.md (1,800 lines - everything frontloaded)
@@ -301,6 +320,7 @@ bdd-testing/
 **Purpose:** Balance prescription (rigid rules) vs flexibility (guidelines).
 
 **Scoring:**
+
 - **13-15 points:** Appropriate for skill type
 - **10-12 points:** Slightly too rigid or loose
 - **7-9 points:** Mismatched calibration
@@ -323,6 +343,7 @@ bdd-testing/
 ### Example
 
 **✅ Well-Calibrated (14/15):**
+
 ```markdown
 # Proof of Work (Mindset skill)
 
@@ -331,9 +352,11 @@ NEVER trust agent completion reports without verification.
 ALWAYS show command output as proof.
 ZERO exceptions to verification protocol.
 ```
+
 *Appropriately rigid for critical verification*
 
 **❌ Miscalibrated (7/15):**
+
 ```markdown
 # TypeScript Basics (Tool skill)
 
@@ -341,6 +364,7 @@ ZERO exceptions to verification protocol.
 ALWAYS use const for all variables.
 NEVER use let or var under any circumstances.
 ```
+
 *Too rigid - let has valid use cases*
 
 ## Dimension 7: Pattern Recognition (10 points)
@@ -348,6 +372,7 @@ NEVER use let or var under any circumstances.
 **Purpose:** Ensure skill activates when needed via description keywords.
 
 **Scoring:**
+
 - **9-10 points:** Rich keywords, comprehensive triggers
 - **7-8 points:** Good keywords, could expand
 - **5-6 points:** Basic keywords
@@ -366,6 +391,7 @@ NEVER use let or var under any circumstances.
 **Purpose:** Ensure skill is immediately useful with clear examples.
 
 **Scoring:**
+
 - **13-15 points:** Concrete + runnable + clear
 - **10-12 points:** Most examples good
 - **7-9 points:** Some weak examples
