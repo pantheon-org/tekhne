@@ -34,6 +34,9 @@ This file defines how LLM agents should work in this repository.
 - Store deep details in `references/` and keep `SKILL.md` as a navigation hub.
 - Use Markdown fenced code blocks with language tags when applicable.
 - Use ASCII unless a file already requires Unicode.
+- Files under `skills/<skill-name>/templates/` must use YAML extensions (`.yaml` or `.yml`).
+- Files under `skills/<skill-name>/schemas/` must be JSON Schema files named `*.schema.json` and include a `"$schema"` URL from `json-schema.org`.
+- Files under `skills/<skill-name>/scripts/` must be portable shell scripts (`.sh`) with `#!/usr/bin/env sh`.
 
 ## Validation Commands
 
@@ -44,12 +47,15 @@ bunx @biomejs/biome check .
 bunx markdownlint-cli2 "**/*.md"
 ```
 
+For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `skill-quality-auditor` workflow documented in `skills/skill-quality-auditor/SKILL.md`.
+
 ## Git Hooks
 
 - Pre-commit uses `lefthook` and runs:
 - Biome checks on staged JS/TS/JSON files (with `--write`).
 - markdownlint on staged `.md` files.
 - YAML parse validation with `yq` when available.
+- Skill artifact conventions for `templates/`, `schemas/`, and `scripts/`.
 
 Do not bypass hooks unless explicitly requested by the user.
 

@@ -7,6 +7,8 @@ pre-commit:
     markdownlint:
       glob: "*.md"
       run: bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc {staged_files}
+    skill-artifacts:
+      run: ./skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh {staged_files}
     yamllint:
       glob: "*.{yml,yaml}"
       run: command -v yq >/dev/null 2>&1 && yq eval '.' {staged_files} >/dev/null
