@@ -9,39 +9,39 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 ## Available Skills
 
-| Skill                          | Description                                                                    |
-| ------------------------------ | ------------------------------------------------------------------------------ |
-| `acceptance-criteria`          | Write effective acceptance criteria for user stories                           |
-| `agents-md`                    | AGENTS.md management - create, generate, and maintain AI documentation         |
-| `bdd-testing`                  | Behavior-Driven Development with Gherkin/Cucumber                              |
-| `biome-complete`               | Biome toolchain: configuration, linting, formatting, ESLint/Prettier migration |
-| `bun-development`              | Bun.js runtime APIs, testing, SQLite, and security                             |
-| `cdk-nag`                      | AWS CDK security and compliance validation                                     |
-| `cfn-behavior-validator`       | Validate CloudFormation resource update behaviors through testing              |
-| `cfn-template-compare`         | Compare deployed CloudFormation templates with local CDK templates             |
-| `colyseus-multiplayer`         | Colyseus multiplayer game server framework                                     |
-| `commanderjs`                  | Commander.js CLI framework for building command-line tools                     |
-| `conventional-commits`         | Structured, semantic commit messages following spec                            |
-| `create-context-file`          | Create context files in `.context/` with unique IDs and frontmatter            |
-| `extending-nx-plugins`         | Create and manage Nx plugins: generators, tasks, migrations                    |
-| `github-copilot-models`        | Query GitHub Copilot model availability and configurations                     |
-| `implementation-plan-splitter` | Split large implementation plans into digestible structures                    |
-| `markdown-authoring`           | Markdown syntax, markdownlint, and documentation guidance                      |
-| `mise-complete`                | Mise tool management for versions, tasks, and env vars                         |
-| `moscow-prioritization`        | Prioritize requirements using MoSCoW method                                    |
-| `nx-biome-integration`         | Integrate Biome linter/formatter into Nx monorepos                             |
-| `nx-bun-integration`           | Integrate Bun runtime into Nx monorepos                                        |
-| `nx-executors`                 | Create and use custom Nx executors in TypeScript monorepos                     |
-| `nx-generators`                | Create Nx generators to automate code scaffolding                              |
-| `nx-vite-integration`          | Set up and configure Vite in Nx workspaces                                     |
-| `nx-workspace-patterns`        | Configure and optimize Nx monorepo workspaces                                  |
-| `opencode-config`              | Edit opencode.json, AGENTS.md, and configuration files                         |
-| `plain-english`                | Write technical content for non-technical stakeholders                         |
-| `skill-quality-auditor`        | Automate skill quality evaluation, duplication detection, aggregations         |
-| `software-design-principles`   | Architecture decisions, SOLID principles, and code quality fundamentals        |
-| `test-driven-development`      | Master TDD with Red-Green-Refactor cycle                                       |
-| `typescript-advanced`          | Advanced TypeScript types, compiler config, and best practices                 |
-| `ui-debug-workflow`            | Debug UI changes with visual testing and evidence collection                   |
+| Skill                          | Description                                                                    | Rating                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| `acceptance-criteria`          | Write effective acceptance criteria for user stories                           | ![C+](https://img.shields.io/badge/Rating-92%2F120-yellowgreen) |
+| `agents-md`                    | AGENTS.md management - create, generate, and maintain AI documentation         | ![B](https://img.shields.io/badge/Rating-97%2F120-green)        |
+| `bdd-testing`                  | Behavior-Driven Development with Gherkin/Cucumber                              | ![C](https://img.shields.io/badge/Rating-84%2F120-yellowgreen)  |
+| `biome-complete`               | Biome toolchain: configuration, linting, formatting, ESLint/Prettier migration | ![D](https://img.shields.io/badge/Rating-79%2F120-orange)       |
+| `bun-development`              | Bun.js runtime APIs, testing, SQLite, and security                             | ![C](https://img.shields.io/badge/Rating-85%2F120-yellowgreen)  |
+| `cdk-nag`                      | AWS CDK security and compliance validation                                     | ![C](https://img.shields.io/badge/Rating-84%2F120-yellowgreen)  |
+| `cfn-behavior-validator`       | Validate CloudFormation resource update behaviors through testing              | ![C+](https://img.shields.io/badge/Rating-93%2F120-yellowgreen) |
+| `cfn-template-compare`         | Compare deployed CloudFormation templates with local CDK templates             | ![B](https://img.shields.io/badge/Rating-101%2F120-green)       |
+| `colyseus-multiplayer`         | Colyseus multiplayer game server framework                                     | ![D](https://img.shields.io/badge/Rating-83%2F120-orange)       |
+| `commanderjs`                  | Commander.js CLI framework for building command-line tools                     | ![C+](https://img.shields.io/badge/Rating-90%2F120-yellowgreen) |
+| `conventional-commits`         | Structured, semantic commit messages following spec                            | ![C](https://img.shields.io/badge/Rating-87%2F120-yellowgreen)  |
+| `create-context-file`          | Create context files in `.context/` with unique IDs and frontmatter            | ![C](https://img.shields.io/badge/Rating-88%2F120-yellowgreen)  |
+| `extending-nx-plugins`         | Create and manage Nx plugins: generators, tasks, migrations                    | ![C](https://img.shields.io/badge/Rating-88%2F120-yellowgreen)  |
+| `github-copilot-models`        | Query GitHub Copilot model availability and configurations                     | ![C](https://img.shields.io/badge/Rating-89%2F120-yellowgreen)  |
+| `implementation-plan-splitter` | Split large implementation plans into digestible structures                    | ![B+](https://img.shields.io/badge/Rating-106%2F120-green)      |
+| `markdown-authoring`           | Markdown syntax, markdownlint, and documentation guidance                      | ![D](https://img.shields.io/badge/Rating-82%2F120-orange)       |
+| `mise-complete`                | Mise tool management for versions, tasks, and env vars                         | ![D](https://img.shields.io/badge/Rating-82%2F120-orange)       |
+| `moscow-prioritization`        | Prioritize requirements using MoSCoW method                                    | ![D](https://img.shields.io/badge/Rating-80%2F120-orange)       |
+| `nx-biome-integration`         | Integrate Biome linter/formatter into Nx monorepos                             | ![C](https://img.shields.io/badge/Rating-85%2F120-yellowgreen)  |
+| `nx-bun-integration`           | Integrate Bun runtime into Nx monorepos                                        | ![C+](https://img.shields.io/badge/Rating-91%2F120-yellowgreen) |
+| `nx-executors`                 | Create and use custom Nx executors in TypeScript monorepos                     | ![B+](https://img.shields.io/badge/Rating-103%2F120-green)      |
+| `nx-generators`                | Create Nx generators to automate code scaffolding                              | ![B](https://img.shields.io/badge/Rating-96%2F120-green)        |
+| `nx-vite-integration`          | Set up and configure Vite in Nx workspaces                                     | ![D](https://img.shields.io/badge/Rating-78%2F120-orange)       |
+| `nx-workspace-patterns`        | Configure and optimize Nx monorepo workspaces                                  | ![C+](https://img.shields.io/badge/Rating-90%2F120-yellowgreen) |
+| `opencode-config`              | Edit opencode.json, AGENTS.md, and configuration files                         | ![C](https://img.shields.io/badge/Rating-88%2F120-yellowgreen)  |
+| `plain-english`                | Write technical content for non-technical stakeholders                         | ![C](https://img.shields.io/badge/Rating-87%2F120-yellowgreen)  |
+| `skill-quality-auditor`        | Automate skill quality evaluation, duplication detection, aggregations         | ![B+](https://img.shields.io/badge/Rating-106%2F120-green)      |
+| `software-design-principles`   | Architecture decisions, SOLID principles, and code quality fundamentals        | ![B](https://img.shields.io/badge/Rating-97%2F120-green)        |
+| `test-driven-development`      | Master TDD with Red-Green-Refactor cycle                                       | ![B](https://img.shields.io/badge/Rating-99%2F120-green)        |
+| `typescript-advanced`          | Advanced TypeScript types, compiler config, and best practices                 | ![C](https://img.shields.io/badge/Rating-87%2F120-yellowgreen)  |
+| `ui-debug-workflow`            | Debug UI changes with visual testing and evidence collection                   | ![C](https://img.shields.io/badge/Rating-85%2F120-yellowgreen)  |
 
 ## Installation
 
@@ -88,22 +88,23 @@ npx skills add ./skills --list
 
 This repository follows the [Agent Skills specification](https://agentskills.io) and works with 41+ AI assistants:
 
-| Agent         | `--agent` Flag    | Project Path              | Global Path                      |
-|---------------|-------------------|---------------------------|----------------------------------|
-| Claude Code   | `claude-code`     | `.claude/skills/`         | `~/.claude/skills/`              |
-| Cursor        | `cursor`          | `.agents/skills/`         | `~/.cursor/skills/`              |
-| Gemini CLI    | `gemini-cli`      | `.agents/skills/`         | `~/.gemini/skills/`              |
-| Codex         | `codex`           | `.agents/skills/`         | `~/.codex/skills/`               |
-| OpenCode      | `opencode`        | `.agents/skills/`         | `~/.config/opencode/skills/`     |
-| Cline         | `cline`           | `.cline/skills/`          | `~/.cline/skills/`               |
-| Windsurf      | `windsurf`        | `.windsurf/skills/`       | `~/.codeium/windsurf/skills/`    |
-| Roo Code      | `roo`             | `.roo/skills/`            | `~/.roo/skills/`                 |
-| GitHub Copilot| `github-copilot`  | `.agents/skills/`         | `~/.copilot/skills/`             |
-| Goose         | `goose`           | `.goose/skills/`          | `~/.config/goose/skills/`        |
-| OpenHands     | `openhands`       | `.openhands/skills/`      | `~/.openhands/skills/`           |
-| Amp           | `amp`             | `.agents/skills/`         | `~/.config/agents/skills/`       |
+| Agent          | `--agent` Flag   | Project Path         | Global Path                   |
+| -------------- | ---------------- | -------------------- | ----------------------------- |
+| Claude Code    | `claude-code`    | `.claude/skills/`    | `~/.claude/skills/`           |
+| Cursor         | `cursor`         | `.agents/skills/`    | `~/.cursor/skills/`           |
+| Gemini CLI     | `gemini-cli`     | `.agents/skills/`    | `~/.gemini/skills/`           |
+| Codex          | `codex`          | `.agents/skills/`    | `~/.codex/skills/`            |
+| OpenCode       | `opencode`       | `.agents/skills/`    | `~/.config/opencode/skills/`  |
+| Cline          | `cline`          | `.cline/skills/`     | `~/.cline/skills/`            |
+| Windsurf       | `windsurf`       | `.windsurf/skills/`  | `~/.codeium/windsurf/skills/` |
+| Roo Code       | `roo`            | `.roo/skills/`       | `~/.roo/skills/`              |
+| GitHub Copilot | `github-copilot` | `.agents/skills/`    | `~/.copilot/skills/`          |
+| Goose          | `goose`          | `.goose/skills/`     | `~/.config/goose/skills/`     |
+| OpenHands      | `openhands`      | `.openhands/skills/` | `~/.openhands/skills/`        |
+| Amp            | `amp`            | `.agents/skills/`    | `~/.config/agents/skills/`    |
 
-For the complete list of supported agents, see the [Vercel Labs Skills repository](https://github.com/vercel-labs/skills).
+For the complete list of supported agents, see the
+[Vercel Labs Skills repository](https://github.com/vercel-labs/skills).
 
 ## Skill Structure
 
@@ -124,7 +125,8 @@ Repository enforcement:
 - `templates/` entries must be valid YAML (`.yaml` or `.yml`).
 - `schemas/` entries must be `*.schema.json` and include a JSON Schema `"$schema"` URL from `json-schema.org`.
 - `scripts/` entries must be `.sh` with `#!/usr/bin/env sh` and pass `sh -n`.
-- Use the `skill-quality-auditor` skill workflow (see `skills/skill-quality-auditor/SKILL.md`) to validate and enforce these conventions.
+- Use the `skill-quality-auditor` skill workflow (see `skills/skill-quality-auditor/SKILL.md`) to validate and enforce
+  these conventions.
 
 ### SKILL.md Format
 
