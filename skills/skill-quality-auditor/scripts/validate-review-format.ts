@@ -28,7 +28,7 @@ type Schema = {
 };
 
 const ROOT = process.cwd();
-const DEFAULT_REPORT = ".context/reviews/skill-quality-auditor-review.md";
+const DEFAULT_REPORT = ".context/audits/skill-quality-auditor-review.md";
 const DEFAULT_TEMPLATE =
   "skills/skill-quality-auditor/templates/review-report-template.md";
 const DEFAULT_SCHEMA =

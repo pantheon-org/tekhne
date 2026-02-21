@@ -125,7 +125,7 @@ skills/[skill-name]/
 bun run skills/skill-quality-auditor/scripts/evaluate.ts [skill-name] --json
 skills/skill-quality-auditor/scripts/audit-skills.sh
 skills/skill-quality-auditor/scripts/detect-duplication.sh skills
-bun run skills/skill-quality-auditor/scripts/validate-review-format.ts .context/reviews/[report-file].md
+bun run skills/skill-quality-auditor/scripts/validate-review-format.ts .context/audits/[report-file].md
 ```
 
 ---
