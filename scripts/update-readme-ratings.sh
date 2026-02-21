@@ -104,7 +104,12 @@ get_skill_badge() {
     
     color=$(get_grade_color "$grade")
     
-    badge="![${grade}](https://img.shields.io/badge/Rating-${grade}-${color})"
+    case "$grade" in
+        *+) badge_grade="$grade" ;;
+        *)  badge_grade="${grade}%20" ;;
+    esac
+    
+    badge="![${grade}](https://img.shields.io/badge/Rating-${badge_grade}-${color})"
     printf '%-65s' "$badge"
 }
 
