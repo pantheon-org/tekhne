@@ -4,12 +4,15 @@ import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
 
 type Requirements = {
-  required_h2_headings: string[];
+  required_title_prefix: string;
   required_metadata_labels: string[];
+  recommended_metadata_labels?: string[];
+  required_h2_groups: string[][];
+  required_h2_order: string[][];
+  recommended_h2_groups?: string[][];
   required_dimension_labels: string[];
   required_commands: string[];
-  require_grade_scale_section?: boolean;
-  require_score_evolution_section?: boolean;
+  recommended_commands?: string[];
 };
 
 type Schema = {
@@ -39,6 +42,25 @@ function readJson<T>(path: string): T {
 
 function extractH2Headings(markdown: string): string[] {
   return Array.from(markdown.matchAll(/^##\s+(.+)$/gm), (m) => m[1].trim());
+}
+
+function extractH1Heading(markdown: string): string | null {
+  const match = markdown.match(/^#\s+(.+)$/m);
+  return match ? match[1].trim() : null;
+}
+
+function findFirstHeadingIndex(
+  headings: string[],
+  alternatives: string[],
+): number {
+  let first = -1;
+  for (const heading of alternatives) {
+    const index = headings.indexOf(heading);
+    if (index >= 0 && (first < 0 || index < first)) {
+      first = index;
+    }
+  }
+  return first;
 }
 
 function validateRequirementsShape(
@@ -101,10 +123,26 @@ function validateReport(
   report: string,
   template: string,
   requirements: Requirements,
-): string[] {
+  strictRecommended: boolean,
+): { errors: string[]; warnings: string[] } {
   const errors: string[] = [];
+  const warnings: string[] = [];
   const reportH2 = new Set(extractH2Headings(report));
-  const templateH2 = extractH2Headings(template);
+  const reportH2List = extractH2Headings(report);
+  const templateTitle = extractH1Heading(template);
+  const reportTitle = extractH1Heading(report);
+
+  if (!reportTitle) {
+    errors.push("missing H1 title");
+  } else if (!reportTitle.startsWith(requirements.required_title_prefix)) {
+    errors.push(
+      `title must start with '${requirements.required_title_prefix}'`,
+    );
+  }
+
+  if (!templateTitle?.startsWith(requirements.required_title_prefix)) {
+    errors.push("template title is out of sync with required title prefix");
+  }
 
   for (const label of requirements.required_metadata_labels) {
     if (!report.includes(`**${label}**:`)) {
@@ -112,16 +150,53 @@ function validateReport(
     }
   }
 
-  for (const heading of requirements.required_h2_headings) {
-    if (!reportH2.has(heading)) {
-      errors.push(`missing required H2 heading: ${heading}`);
+  for (const label of requirements.recommended_metadata_labels ?? []) {
+    if (!report.includes(`**${label}**:`)) {
+      const message = `missing recommended metadata label: ${label}`;
+      if (strictRecommended) {
+        errors.push(message);
+      } else {
+        warnings.push(message);
+      }
     }
   }
 
-  // Template guard: all template H2 headings should exist in the report.
-  for (const heading of templateH2) {
-    if (!reportH2.has(heading)) {
-      errors.push(`missing template H2 heading: ${heading}`);
+  for (const alternatives of requirements.required_h2_groups) {
+    const hasOne = alternatives.some((heading) => reportH2.has(heading));
+    if (!hasOne) {
+      errors.push(
+        `missing required H2 heading group (one of): ${alternatives.join(", ")}`,
+      );
+    }
+  }
+
+  let previous = -1;
+  for (const alternatives of requirements.required_h2_order) {
+    const index = findFirstHeadingIndex(reportH2List, alternatives);
+    if (index < 0) {
+      errors.push(
+        `missing ordered H2 heading group (one of): ${alternatives.join(", ")}`,
+      );
+      continue;
+    }
+
+    if (index < previous) {
+      errors.push(
+        `H2 order violation near group: ${alternatives.join(", ")}; expected after prior required section`,
+      );
+    }
+    previous = index;
+  }
+
+  for (const alternatives of requirements.recommended_h2_groups ?? []) {
+    const hasOne = alternatives.some((heading) => reportH2.has(heading));
+    if (!hasOne) {
+      const message = `missing recommended H2 heading group (one of): ${alternatives.join(", ")}`;
+      if (strictRecommended) {
+        errors.push(message);
+      } else {
+        warnings.push(message);
+      }
     }
   }
 
@@ -137,27 +212,26 @@ function validateReport(
     }
   }
 
-  if (
-    requirements.require_grade_scale_section &&
-    !reportH2.has("Grade Scale Reference")
-  ) {
-    errors.push("Grade Scale Reference section is required");
+  for (const command of requirements.recommended_commands ?? []) {
+    if (!report.includes(command)) {
+      const message = `missing recommended command: ${command}`;
+      if (strictRecommended) {
+        errors.push(message);
+      } else {
+        warnings.push(message);
+      }
+    }
   }
 
-  if (
-    requirements.require_score_evolution_section &&
-    !reportH2.has("Score Evolution")
-  ) {
-    errors.push("Score Evolution section is required");
-  }
-
-  return errors;
+  return { errors, warnings };
 }
 
 function main(): void {
   const args = process.argv.slice(2);
+  const strictRecommended = args.includes("--strict-recommended");
+  const reportArg = args.find((arg) => !arg.startsWith("--"));
 
-  const reportPath = resolve(ROOT, args[0] ?? DEFAULT_REPORT);
+  const reportPath = resolve(ROOT, reportArg ?? DEFAULT_REPORT);
   const templatePath = resolve(ROOT, DEFAULT_TEMPLATE);
   const schemaPath = resolve(ROOT, DEFAULT_SCHEMA);
   const requirementsPath = resolve(ROOT, DEFAULT_REQUIREMENTS);
@@ -184,7 +258,19 @@ function main(): void {
   }
 
   const requirements = requirementsRaw as Requirements;
-  const reportErrors = validateReport(report, template, requirements);
+  const { errors: reportErrors, warnings } = validateReport(
+    report,
+    template,
+    requirements,
+    strictRecommended,
+  );
+
+  if (warnings.length > 0) {
+    console.warn(`Review format warnings for: ${reportPath}`);
+    for (const warning of warnings) {
+      console.warn(`- ${warning}`);
+    }
+  }
 
   if (reportErrors.length > 0) {
     console.error(`Review format validation failed for: ${reportPath}`);

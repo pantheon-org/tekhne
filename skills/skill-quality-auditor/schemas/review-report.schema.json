@@ -3,20 +3,52 @@
   "title": "Skill Quality Auditor Review Report Format",
   "type": "object",
   "required": [
-    "required_h2_headings",
+    "required_title_prefix",
     "required_metadata_labels",
+    "required_h2_groups",
+    "required_h2_order",
     "required_dimension_labels",
     "required_commands"
   ],
   "properties": {
-    "required_h2_headings": {
+    "required_title_prefix": {
+      "type": "string",
+      "minLength": 1
+    },
+    "required_h2_groups": {
       "type": "array",
-      "minItems": 10,
-      "items": { "type": "string" }
+      "minItems": 5,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "type": "string" }
+      }
+    },
+    "required_h2_order": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "type": "string" }
+      }
+    },
+    "recommended_h2_groups": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "type": "string" }
+      }
     },
     "required_metadata_labels": {
       "type": "array",
-      "minItems": 3,
+      "minItems": 0,
+      "items": { "type": "string" }
+    },
+    "recommended_metadata_labels": {
+      "type": "array",
+      "minItems": 0,
       "items": { "type": "string" }
     },
     "required_dimension_labels": {
@@ -26,11 +58,14 @@
     },
     "required_commands": {
       "type": "array",
-      "minItems": 3,
+      "minItems": 0,
       "items": { "type": "string" }
     },
-    "require_grade_scale_section": { "type": "boolean" },
-    "require_score_evolution_section": { "type": "boolean" }
+    "recommended_commands": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "type": "string" }
+    }
   },
   "additionalProperties": false
 }

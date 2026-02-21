@@ -1,18 +1,37 @@
 {
-  "required_h2_headings": [
-    "Summary",
-    "Dimension Scores",
-    "Audit Execution",
-    "Findings",
-    "Improvements Applied",
-    "Score Evolution",
-    "Dimension Analysis",
-    "Files Inventory",
-    "Verification",
-    "Grade Scale Reference",
-    "Conclusion"
+  "required_title_prefix": "Skill Evaluation Report:",
+  "required_metadata_labels": [],
+  "recommended_metadata_labels": ["Review Date", "Reviewer", "Skill Location"],
+  "required_h2_groups": [
+    ["Executive Summary", "Summary"],
+    ["Dimension Scores"],
+    ["Critical Issues", "Findings"],
+    [
+      "Top 3 Recommended Improvements",
+      "Top 3 Improvements",
+      "Improvements Applied"
+    ],
+    ["Detailed Dimension Analysis", "Detailed Analysis", "Dimension Analysis"]
   ],
-  "required_metadata_labels": ["Review Date", "Reviewer", "Skill Location"],
+  "required_h2_order": [
+    ["Executive Summary", "Summary"],
+    ["Dimension Scores"],
+    ["Critical Issues", "Findings"],
+    [
+      "Top 3 Recommended Improvements",
+      "Top 3 Improvements",
+      "Improvements Applied"
+    ],
+    ["Detailed Dimension Analysis", "Detailed Analysis", "Dimension Analysis"]
+  ],
+  "recommended_h2_groups": [
+    ["Conclusion"],
+    ["Files Inventory", "Files Audit"],
+    ["Verification"],
+    ["Audit Execution"],
+    ["Score Evolution"],
+    ["Grade Scale Reference"]
+  ],
   "required_dimension_labels": [
     "D1: Knowledge Delta",
     "D2: Mindset + Procedures",
@@ -23,11 +42,10 @@
     "D7: Pattern Recognition",
     "D8: Practical Usability"
   ],
-  "required_commands": [
-    "bun run skills/skill-quality-auditor/scripts/evaluate.ts skill-quality-auditor --json",
+  "required_commands": [],
+  "recommended_commands": [
+    "skills/skill-quality-auditor/scripts/evaluate.ts",
     "skills/skill-quality-auditor/scripts/audit-skills.sh",
-    "skills/skill-quality-auditor/scripts/detect-duplication.sh skills"
-  ],
-  "require_grade_scale_section": true,
-  "require_score_evolution_section": true
+    "skills/skill-quality-auditor/scripts/detect-duplication.sh"
+  ]
 }
