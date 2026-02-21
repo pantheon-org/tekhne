@@ -163,4 +163,5 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 ## Tooling References
 
+- [shellcheck](https://www.shellcheck.net/) for shell script linting in pre-commit hooks
 - [yq by mikefarah](https://github.com/mikefarah/yq) for YAML validation in pre-commit hooks
