@@ -57,7 +57,7 @@ jobs:
             echo "Evaluating: $skill_name"
             
             cd skills/skill-quality-auditor
-            score=$(bun run scripts/evaluate.ts "$skill_name" 2>/dev/null | grep -oE '[0-9]+/120' | cut -d/ -f1)
+            score=$(sh scripts/evaluate.sh "$skill_name" --json 2>/dev/null | jq '.total')
             cd ../..
             
             if [ -n "$score" ] && [ "$score" -lt 90 ]; then
@@ -163,7 +163,7 @@ skill-quality:
       for file in $(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA $CI_COMMIT_SHA | grep "skills/.*/SKILL.md"); do
         skill_name=$(basename $(dirname $file))
         cd skills/skill-quality-auditor
-        bun run scripts/evaluate.ts "$skill_name"
+        sh scripts/evaluate.sh "$skill_name" --json
         cd ../..
       done
     - skills/skill-quality-auditor/scripts/detect-duplication.sh
@@ -224,7 +224,7 @@ pipeline {
           for file in $(git diff --name-only origin/main HEAD | grep "skills/.*/SKILL.md"); do
             skill_name=$(basename $(dirname $file))
             cd skills/skill-quality-auditor
-            bun run scripts/evaluate.ts "$skill_name"
+            sh scripts/evaluate.sh "$skill_name" --json
             cd ../..
           done
         '''

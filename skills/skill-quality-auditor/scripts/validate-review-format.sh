@@ -3,9 +3,9 @@
 set -e
 
 DEFAULT_REPORT=".context/audits/skill-quality-auditor-review.md"
-DEFAULT_TEMPLATE="skills/skill-quality-auditor/templates/review-report-template.md"
+DEFAULT_TEMPLATE="skills/skill-quality-auditor/templates/review-report-template.yaml"
 DEFAULT_SCHEMA="skills/skill-quality-auditor/schemas/review-report.schema.json"
-DEFAULT_REQUIREMENTS="skills/skill-quality-auditor/templates/review-report.requirements.json"
+DEFAULT_REQUIREMENTS="skills/skill-quality-auditor/references/review-report.requirements.json"
 
 strict_recommended=0
 report_arg=""
@@ -43,7 +43,40 @@ if [ -n "$missing_files" ]; then
 fi
 
 report_content=$(cat "$report_path")
-template_content=$(cat "$template_path")
+template_content=""
+
+load_yaml_markdown_template() {
+  _file="$1"
+  awk '
+    BEGIN { in_block = 0 }
+    /^report_template_markdown:[[:space:]]*\|[[:space:]]*$/ {
+      in_block = 1
+      next
+    }
+    in_block == 1 {
+      if ($0 ~ /^  /) {
+        print substr($0, 3)
+      } else if ($0 ~ /^[[:space:]]*$/) {
+        print ""
+      } else {
+        exit
+      }
+    }
+  ' "$_file"
+}
+
+case "$template_path" in
+  *.yaml|*.yml)
+    template_content=$(load_yaml_markdown_template "$template_path")
+    if [ -z "$template_content" ]; then
+      printf "Template YAML missing 'report_template_markdown: |' block: %s\n" "$template_path" >&2
+      exit 1
+    fi
+    ;;
+  *)
+    template_content=$(cat "$template_path")
+    ;;
+esac
 
 json_get_string() {
   _file="$1"
@@ -156,10 +189,37 @@ extract_h2_headings() {
   printf "%s\n" "$1" | grep "^## " | sed 's/^## //'
 }
 
+extract_frontmatter() {
+  awk '
+    BEGIN { delim_count = 0 }
+    NR == 1 && $0 == "---" {
+      delim_count = 1
+      next
+    }
+    delim_count == 1 {
+      if ($0 == "---") {
+        delim_count = 2
+        exit
+      }
+      print
+    }
+  ' <<EOF
+$1
+EOF
+}
+
+has_frontmatter_key() {
+  _content="$1"
+  _key="$2"
+  printf "%s\n" "$_content" | grep -q "^${_key}:[[:space:]]*"
+}
+
 report_title=$(extract_h1 "$report_content")
 template_title=$(extract_h1 "$template_content")
 report_h2=$(extract_h2_headings "$report_content" | sort -u)
 report_h2_list=$(extract_h2_headings "$report_content")
+report_frontmatter=$(extract_frontmatter "$report_content")
+template_frontmatter=$(extract_frontmatter "$template_content")
 
 errors_file=$(mktemp)
 warnings_file=$(mktemp)
@@ -182,6 +242,28 @@ case "$template_title" in
     echo "template title is out of sync with required title prefix" >> "$errors_file"
     ;;
 esac
+
+json_get_string_array_items "$requirements_path" "required_frontmatter_keys" | while IFS= read -r key; do
+  [ -z "$key" ] && continue
+  if ! has_frontmatter_key "$report_frontmatter" "$key"; then
+    echo "missing required frontmatter key: ${key}" >> "$errors_file"
+  fi
+  if ! has_frontmatter_key "$template_frontmatter" "$key"; then
+    echo "template missing required frontmatter key: ${key}" >> "$errors_file"
+  fi
+done
+
+json_get_string_array_items "$requirements_path" "recommended_frontmatter_keys" | while IFS= read -r key; do
+  [ -z "$key" ] && continue
+  if ! has_frontmatter_key "$report_frontmatter" "$key"; then
+    msg="missing recommended frontmatter key: ${key}"
+    if [ "$strict_recommended" -eq 1 ]; then
+      echo "$msg" >> "$errors_file"
+    else
+      echo "$msg" >> "$warnings_file"
+    fi
+  fi
+done
 
 json_get_string_array_items "$requirements_path" "required_metadata_labels" | while IFS= read -r label; do
   [ -z "$label" ] && continue

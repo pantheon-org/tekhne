@@ -149,7 +149,11 @@ Follow the skill-quality-auditor workflow:
 
 Save the audit report to: .context/audits/${skill_name}-${DATE}.md
 
-Use the existing audit report format from .context/audits/colyseus-multiplayer-2026-02-20.md as a template. Include:
+Use the canonical template at skills/skill-quality-auditor/templates/review-report-template.yaml (field: report_template_markdown). Include:
+- YAML frontmatter at top:
+  - review_date: ${DATE}
+  - reviewer: automated audit
+  - skill_location: \`skills/$skill_name/SKILL.md\`
 - Executive summary with score/grade
 - Dimension scores table
 - Critical issues with file references
@@ -157,6 +161,9 @@ Use the existing audit report format from .context/audits/colyseus-multiplayer-2
 - Detailed dimension analysis
 - Files inventory
 - Verification commands
+
+After writing the report, run:
+\`./skills/skill-quality-auditor/scripts/validate-review-format.sh .context/audits/${skill_name}-${DATE}.md\`
 
 After saving the report, output ONLY the final rating in format: RATING: <score>/<max> (<grade>)"
 

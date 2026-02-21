@@ -1,7 +1,9 @@
 {
   "required_title_prefix": "Skill Evaluation Report:",
+  "required_frontmatter_keys": ["review_date", "reviewer", "skill_location"],
+  "recommended_frontmatter_keys": [],
   "required_metadata_labels": [],
-  "recommended_metadata_labels": ["Review Date", "Reviewer", "Skill Location"],
+  "recommended_metadata_labels": [],
   "required_h2_groups": [
     ["Executive Summary", "Summary"],
     ["Dimension Scores"],
@@ -44,7 +46,7 @@
   ],
   "required_commands": [],
   "recommended_commands": [
-    "skills/skill-quality-auditor/scripts/evaluate.ts",
+    "skills/skill-quality-auditor/scripts/evaluate.sh",
     "skills/skill-quality-auditor/scripts/audit-skills.sh",
     "skills/skill-quality-auditor/scripts/detect-duplication.sh"
   ]

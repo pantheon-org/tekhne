@@ -41,7 +41,7 @@ The canonical framework evaluates across 8 dimensions totaling 120 points.
 
 1. Compare this file and `framework-skill-judge-dimensions.md` against upstream `skill-judge`.
 2. If upstream semantics change, update local dimensions and rubric references first.
-3. Re-run audits using `scripts/evaluate.ts` and `scripts/audit-skills.sh`.
+3. Re-run audits using `scripts/evaluate.sh` and `scripts/audit-skills.sh`.
 4. Record version notes in the audit report under `.context/analysis/`.
 
 ## Notes

@@ -101,6 +101,12 @@ Run:
 
 For staged files in commits, enforcement is also wired through `lefthook` pre-commit.
 
+For skill audit report format specifically:
+
+- Template source is `skills/skill-quality-auditor/templates/review-report-template.yaml` under `report_template_markdown`.
+- Generated reports must include YAML frontmatter keys: `review_date`, `reviewer`, `skill_location`.
+- Validate with `./skills/skill-quality-auditor/scripts/validate-review-format.sh <report-path>`.
+
 ## Success Metrics
 
 After applying this skill, you should achieve:
@@ -116,7 +122,7 @@ After applying this skill, you should achieve:
 **Evaluate a single skill:**
 
 ```bash
-bun run .agents/skills/skill-quality-auditor/scripts/evaluate.ts skill-name
+sh skills/skill-quality-auditor/scripts/evaluate.sh skill-name --json
 ```
 
 **Find duplicates:**
