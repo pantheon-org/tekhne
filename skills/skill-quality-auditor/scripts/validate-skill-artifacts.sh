@@ -43,7 +43,8 @@ check_schemas_file() {
     fi
   fi
 
-  if ! grep -Eq '"\\$schema"[[:space:]]*:[[:space:]]*"https?://json-schema.org/' "$file"; then
+  schema_pattern="\"\\\$schema\"[[:space:]]*:[[:space:]]*\"https?://json-schema.org/"
+  if ! grep -Eq "$schema_pattern" "$file"; then
     error "$file does not declare a JSON Schema \"\$schema\" URL from json-schema.org."
   fi
 }
@@ -91,7 +92,7 @@ if [ "$#" -gt 0 ]; then
     check_file "$file"
   done
 else
-  for file in $(find skills -type f \( -path 'skills/*/templates/*' -o -path 'skills/*/schemas/*' -o -path 'skills/*/scripts/*' \)); do
+  find skills -type f \( -path 'skills/*/templates/*' -o -path 'skills/*/schemas/*' -o -path 'skills/*/scripts/*' \) | while IFS= read -r file; do
     check_file "$file"
   done
 fi

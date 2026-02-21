@@ -59,28 +59,44 @@ REPORT_FILE="$AUDITS_DIR/${SKILL_NAME}-${DATE}.md"
 echo "Auditing: $SKILL_NAME"
 
 # Run evaluation to get scores (JSON output for parsing)
-EVAL_OUTPUT=$(cd "$PROJECT_ROOT" && bun run skills/skill-quality-auditor/scripts/evaluate.ts "$SKILL_NAME" --json 2>/dev/null)
+EVAL_OUTPUT=""
+if [[ -f "$PROJECT_ROOT/skills/skill-quality-auditor/scripts/evaluate.ts" ]] && command -v bun >/dev/null 2>&1; then
+  EVAL_OUTPUT=$(cd "$PROJECT_ROOT" && bun run skills/skill-quality-auditor/scripts/evaluate.ts "$SKILL_NAME" --json 2>/dev/null || true)
+fi
+if [[ -z "$EVAL_OUTPUT" ]]; then
+  EVAL_OUTPUT=$(cd "$PROJECT_ROOT" && sh skills/skill-quality-auditor/scripts/evaluate.sh "$SKILL_NAME" --json 2>/dev/null || true)
+fi
 
 if [[ -z "$EVAL_OUTPUT" ]]; then
   echo "Error: Evaluation failed for $SKILL_NAME"
   exit 1
 fi
 
-# Parse JSON scores using grep/sed (portable, no jq dependency)
-TOTAL=$(echo "$EVAL_OUTPUT" | grep -oP '"total"\s*:\s*\K[0-9]+')
-MAX_TOTAL=$(echo "$EVAL_OUTPUT" | grep -oP '"maxTotal"\s*:\s*\K[0-9]+')
-GRADE=$(echo "$EVAL_OUTPUT" | grep -oP '"grade"\s*:\s*"\K[^"]+')
-LINES=$(echo "$EVAL_OUTPUT" | grep -oP '"lines"\s*:\s*\K[0-9]+')
-REF_COUNT=$(echo "$EVAL_OUTPUT" | grep -oP '"referenceCount"\s*:\s*\K[0-9]+')
+json_get_number() {
+  local key="$1"
+  echo "$EVAL_OUTPUT" | sed -n "s/.*\"$key\"[[:space:]]*:[[:space:]]*\\([0-9][0-9]*\\).*/\\1/p" | head -1
+}
 
-D1=$(echo "$EVAL_OUTPUT" | grep -oP '"knowledgeDelta"\s*:\s*\K[0-9]+')
-D2=$(echo "$EVAL_OUTPUT" | grep -oP '"mindsetProcedures"\s*:\s*\K[0-9]+')
-D3=$(echo "$EVAL_OUTPUT" | grep -oP '"antiPatternQuality"\s*:\s*\K[0-9]+')
-D4=$(echo "$EVAL_OUTPUT" | grep -oP '"specificationCompliance"\s*:\s*\K[0-9]+')
-D5=$(echo "$EVAL_OUTPUT" | grep -oP '"progressiveDisclosure"\s*:\s*\K[0-9]+')
-D6=$(echo "$EVAL_OUTPUT" | grep -oP '"freedomCalibration"\s*:\s*\K[0-9]+')
-D7=$(echo "$EVAL_OUTPUT" | grep -oP '"patternRecognition"\s*:\s*\K[0-9]+')
-D8=$(echo "$EVAL_OUTPUT" | grep -oP '"practicalUsability"\s*:\s*\K[0-9]+')
+json_get_string() {
+  local key="$1"
+  echo "$EVAL_OUTPUT" | sed -n "s/.*\"$key\"[[:space:]]*:[[:space:]]*\"\\([^\"]*\\)\".*/\\1/p" | head -1
+}
+
+# Parse JSON scores using portable sed (no jq/grep -P dependency)
+TOTAL=$(json_get_number "total")
+MAX_TOTAL=$(json_get_number "maxTotal")
+GRADE=$(json_get_string "grade")
+LINES=$(json_get_number "lines")
+REF_COUNT=$(json_get_number "referenceCount")
+
+D1=$(json_get_number "knowledgeDelta")
+D2=$(json_get_number "mindsetProcedures")
+D3=$(json_get_number "antiPatternQuality")
+D4=$(json_get_number "specificationCompliance")
+D5=$(json_get_number "progressiveDisclosure")
+D6=$(json_get_number "freedomCalibration")
+D7=$(json_get_number "patternRecognition")
+D8=$(json_get_number "practicalUsability")
 
 PERCENT=$(echo "scale=1; $TOTAL * 100 / $MAX_TOTAL" | bc)
 
@@ -205,11 +221,13 @@ fi
 
 # Generate report
 cat > "$REPORT_FILE" << EOF
-# Skill Evaluation Report: $SKILL_NAME
+---
+review_date: $DATE
+reviewer: automated audit
+skill_location: \`skills/$SKILL_NAME/SKILL.md\`
+---
 
-**Review Date**: $DATE
-**Reviewer**: automated audit
-**Skill Location**: \`skills/$SKILL_NAME/SKILL.md\`
+# Skill Evaluation Report: $SKILL_NAME
 
 ---
 
@@ -252,6 +270,42 @@ $(echo -e "$RECOMMENDATIONS")
 
 ---
 
+## Detailed Dimension Analysis
+
+### D1: Knowledge Delta
+
+$D1_ASSESSMENT
+
+### D2: Mindset + Procedures
+
+$D2_ASSESSMENT
+
+### D3: Anti-Pattern Quality
+
+$D3_ASSESSMENT
+
+### D4: Specification Compliance
+
+$D4_ASSESSMENT
+
+### D5: Progressive Disclosure
+
+$D5_ASSESSMENT
+
+### D6: Freedom Calibration
+
+$D6_ASSESSMENT
+
+### D7: Pattern Recognition
+
+$D7_ASSESSMENT
+
+### D8: Practical Usability
+
+$D8_ASSESSMENT
+
+---
+
 ## Files Inventory
 
 \`\`\`text
@@ -263,7 +317,7 @@ $FILES_INVENTORY
 ## Verification
 
 \`\`\`bash
-bun run skills/skill-quality-auditor/scripts/evaluate.ts $SKILL_NAME
+sh skills/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json
 bunx markdownlint-cli2 "skills/$SKILL_NAME/SKILL.md"
 \`\`\`
 
@@ -277,6 +331,12 @@ EOF
 # Post-process: squeeze multiple blank lines to single (MD012)
 # Use awk for portability
 awk 'NF || !blank++ {print; if(NF) blank=0}' "$REPORT_FILE" > "${REPORT_FILE}.tmp" && mv "${REPORT_FILE}.tmp" "$REPORT_FILE"
+
+# Validate generated report format
+(
+  cd "$PROJECT_ROOT"
+  ./skills/skill-quality-auditor/scripts/validate-review-format.sh "$REPORT_FILE"
+)
 
 echo "  Report: $REPORT_FILE"
 echo "  Score: $TOTAL/$MAX_TOTAL ($GRADE)"

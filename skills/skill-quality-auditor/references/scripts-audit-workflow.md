@@ -31,6 +31,7 @@ Full skill collection audit:
 ```
 
 **Options:**
+
 - `--output` - Custom output directory (default: `.context/analysis/`)
 
 **Output:** `skill-audit-YYYY-MM-DD.md`
@@ -44,19 +45,21 @@ Duplication detection:
 ```
 
 **Arguments:**
+
 - `skills-dir` - Skills directory (default: `skills`)
 
 **Output:** `duplication-report-YYYY-MM-DD.md`
 
-### evaluate.ts
+### evaluate.sh
 
 Single skill evaluation:
 
 ```bash
-bun run scripts/evaluate.ts <skill-name>
+sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
 ```
 
 **Arguments:**
+
 - `skill-name` - Name of skill to evaluate
 
 **Output:** JSON score report
@@ -70,6 +73,7 @@ bun run scripts/plan-aggregation.ts --family <prefix>
 ```
 
 **Options:**
+
 - `--family` - Skill family prefix (e.g., `bdd`, `typescript`)
 
 **Output:** Aggregation plan with recommendations
@@ -189,12 +193,28 @@ jobs:
         run: |
           for skill in $(git diff --name-only origin/main | grep "skills/.*/SKILL.md"); do
             skill_name=$(basename $(dirname $skill))
-            score=$(bun run scripts/evaluate.ts $skill_name --json | jq '.score')
+            score=$(sh skills/skill-quality-auditor/scripts/evaluate.sh "$skill_name" --json | jq '.total')
             if [ "$score" -lt 90 ]; then
               echo "Skill $skill_name scored $score (below 90)"
               exit 1
             fi
           done
+```
+
+## Single-Skill Report Format
+
+Audit reports in `.context/audits/*.md` must follow the frontmatter-first format:
+
+```yaml
+review_date: YYYY-MM-DD
+reviewer: automated audit
+skill_location: `skills/<skill-name>/SKILL.md`
+```
+
+Use `skills/skill-quality-auditor/templates/review-report-template.yaml` as the canonical format source, then validate generated reports with:
+
+```bash
+./skills/skill-quality-auditor/scripts/validate-review-format.sh .context/audits/<skill>-YYYY-MM-DD.md
 ```
 
 ## Report Interpretation
@@ -208,6 +228,7 @@ jobs:
 ```
 
 **Actions:**
+
 - Score <90: Review and improve
 - Score <80: Critical issues
 - Lines >300: Consider progressive disclosure
@@ -221,6 +242,7 @@ jobs:
 ```
 
 **Actions:**
+>
 - >35%: Immediate aggregation
 - 20-35%: Plan aggregation
 - <20%: Monitor

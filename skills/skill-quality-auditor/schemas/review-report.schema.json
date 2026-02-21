@@ -4,6 +4,7 @@
   "type": "object",
   "required": [
     "required_title_prefix",
+    "required_frontmatter_keys",
     "required_metadata_labels",
     "required_h2_groups",
     "required_h2_order",
@@ -14,6 +15,16 @@
     "required_title_prefix": {
       "type": "string",
       "minLength": 1
+    },
+    "required_frontmatter_keys": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "type": "string" }
+    },
+    "recommended_frontmatter_keys": {
+      "type": "array",
+      "minItems": 0,
+      "items": { "type": "string" }
     },
     "required_h2_groups": {
       "type": "array",

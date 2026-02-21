@@ -18,12 +18,14 @@ Strategies for fixing content duplication across skills. Provides actionable app
 ### Strategy 1: Aggregation (Recommended)
 
 **Use When:**
+
 - Skills are in same domain/family
 - >20% content overlap
 - Users confused about which skill to use
 - Maintenance burden high
 
 **Process:**
+
 1. Design category structure
 2. Create navigation hub (SKILL.md)
 3. Extract content to references/
@@ -35,11 +37,13 @@ Strategies for fixing content duplication across skills. Provides actionable app
 ### Strategy 2: Extraction
 
 **Use When:**
+
 - Shared content across unrelated skills
 - Common patterns worth centralizing
 - Multiple skills reference same concept
 
 **Process:**
+
 1. Identify shared content
 2. Create shared reference file
 3. Update all skills to reference shared file
@@ -51,11 +55,13 @@ Strategies for fixing content duplication across skills. Provides actionable app
 ### Strategy 3: Elimination
 
 **Use When:**
+
 - Content is truly redundant
 - No value in keeping duplicate
 - One version is superior
 
 **Process:**
+
 1. Identify best version
 2. Verify no unique content in others
 3. Delete inferior versions
@@ -83,6 +89,7 @@ cat .context/analysis/duplication-report-*.md
 ```
 
 Identify:
+
 - Pairs with >35% similarity (critical)
 - Skill families with multiple overlaps
 - Shared content patterns
@@ -106,18 +113,21 @@ For each high-duplication pair:
 ### Step 3: Execute Remediation
 
 **For Aggregation:**
+
 1. Follow `aggregation-implementation.md` 6-step process
 2. Create navigation hub
 3. Move content to references
 4. Deprecate originals
 
 **For Extraction:**
+
 1. Create `references/shared-topic.md`
 2. Add frontmatter with source skills
 3. Replace duplicated content with `@see` references
 4. Verify all skills still work
 
 **For Elimination:**
+
 1. Delete inferior skill file
 2. Move to `.deprecated/` for history
 3. Update any cross-references
@@ -135,7 +145,9 @@ grep -r "@see" skills/*/SKILL.md | while read ref; do
 done
 
 # Run skill-judge evaluation
-bun run scripts/evaluate.ts --all
+find skills -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | while read -r skill_name; do
+  sh skills/skill-quality-auditor/scripts/evaluate.sh "$skill_name" --json >/dev/null
+done
 ```
 
 ### Step 5: Update Documentation
@@ -166,6 +178,7 @@ source: multiple skills
 ```
 
 Then reference from skills:
+
 ```markdown
 ## Anti-Patterns
 See @see references/shared-anti-patterns.md for universal anti-patterns.
