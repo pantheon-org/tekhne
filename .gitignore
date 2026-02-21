@@ -1,3 +1,4 @@
-node_modules/
+.agents/
 .vscode/
+node_modules/
 skills-lock.json
