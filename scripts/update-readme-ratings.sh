@@ -19,12 +19,15 @@ done
 get_grade_color() {
     grade="$1"
     case "$grade" in
-        A+|A) echo "brightgreen" ;;
-        B+|B) echo "green" ;;
-        C+|C) echo "yellowgreen" ;;
-        D) echo "orange" ;;
-        F) echo "red" ;;
-        *) echo "lightgrey" ;;
+        A+) echo "brightgreen" ;;
+        A)  echo "green" ;;
+        B+) echo "yellowgreen" ;;
+        B)  echo "yellow" ;;
+        C+) echo "orange" ;;
+        C)  echo "red" ;;
+        D)  echo "purple" ;;
+        F)  echo "purple" ;;
+        *)  echo "lightgrey" ;;
     esac
 }
 
@@ -182,19 +185,7 @@ update_readme() {
                     if [ "$has_rating_column" = false ]; then
                         printf '%s %s |\n' "$line" "$badge"
                     else
-                        field_count=$(printf '%s\n' "$line" | awk -F'|' '{print NF}')
-                        
-                        if [ "$field_count" -ge 5 ]; then
-                            printf '%s\n' "$line" | awk -F'|' -v badge="$badge" '{
-                                for (i=2; i<NF; i++) {
-                                    if (i==4) printf "| %s ", badge;
-                                    else printf "| %s ", $i;
-                                }
-                                printf "|\n";
-                            }'
-                        else
-                            printf '%s %s |\n' "$line" "$badge"
-                        fi
+                        printf '%s\n' "$line" | sed 's|!\[.*\](https://img.shields.io/badge/Rating-[^|]*)|'"$badge"'|'
                     fi
                     continue
                 fi
