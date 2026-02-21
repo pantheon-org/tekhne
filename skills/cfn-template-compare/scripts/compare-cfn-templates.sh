@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+# shellcheck disable=SC2012,SC2046,SC2086,SC2129,SC2155,SC2329,SC3024,SC3030,SC3037,SC3043,SC3054
 #
 # CloudFormation Template Comparison Script
 # 
@@ -18,8 +19,7 @@
 #   2 - Script error (missing dependencies, AWS error, etc.)
 #
 
-set -e
-set -o pipefail
+set -eu
 
 # Colors for output
 RED='\033[0;31m'

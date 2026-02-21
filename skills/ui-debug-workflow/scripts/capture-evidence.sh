@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env sh
+# shellcheck disable=SC2012
 # capture-evidence.sh - Automated evidence collection for UI debugging
 #
 # Usage: ./capture-evidence.sh <session-name> <url> <output-dir>
@@ -6,7 +7,7 @@
 # Example:
 #   ./capture-evidence.sh ui-test http://localhost:19888 ./docs/change-fix/changed
 
-set -e
+set -eu
 
 SESSION="${1:-ui-debug-session}"
 URL="${2:-http://localhost:3000}"
