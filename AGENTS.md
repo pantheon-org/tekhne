@@ -59,6 +59,38 @@ For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `
 
 Do not bypass hooks unless explicitly requested by the user.
 
+## Multi-Agent Development
+
+This repository follows the [Agent Skills specification](https://agentskills.io) for cross-harness compatibility.
+
+### Syncing Skills to Your Harness
+
+Contributors can sync local skills to their development environment:
+
+```bash
+# Sync all skills to all detected agents
+npx skills add ./skills --all
+
+# Sync to specific agents
+npx skills add ./skills -a claude-code -a cursor -a gemini-cli
+
+# Sync globally for cross-project access
+npx skills add ./skills --all -g
+```
+
+### Cross-Agent Compatibility
+
+When authoring skills for multiple agents:
+
+- Use standard `SKILL.md` frontmatter format (compatible with all harnesses)
+- The `allowed-tools` field is agent-specific; check support before using
+- Avoid agent-specific features in shared skills
+- Test with `npx skills add ./skills --dry-run` before committing
+
+### Supported Harnesses
+
+See README.md for the full list of 41+ supported agents via `npx skills`.
+
 ## Safety Constraints
 
 - Never delete or rename existing skills unless explicitly asked.
