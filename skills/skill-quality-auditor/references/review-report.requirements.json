@@ -13,7 +13,8 @@
       "Top 3 Improvements",
       "Improvements Applied"
     ],
-    ["Detailed Dimension Analysis", "Detailed Analysis", "Dimension Analysis"]
+    ["Detailed Dimension Analysis", "Detailed Analysis", "Dimension Analysis"],
+    ["Proposed Restructured SKILL.md", "Proposed SKILL.md Changes"]
   ],
   "required_h2_order": [
     ["Executive Summary", "Summary"],
@@ -24,7 +25,8 @@
       "Top 3 Improvements",
       "Improvements Applied"
     ],
-    ["Detailed Dimension Analysis", "Detailed Analysis", "Dimension Analysis"]
+    ["Detailed Dimension Analysis", "Detailed Analysis", "Dimension Analysis"],
+    ["Proposed Restructured SKILL.md", "Proposed SKILL.md Changes"]
   ],
   "recommended_h2_groups": [
     ["Conclusion"],
