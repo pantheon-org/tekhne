@@ -4,14 +4,19 @@ pre-commit:
     biome:
       glob: "*.{js,cjs,mjs,ts,tsx,jsx,json,jsonc}"
       run: bunx @biomejs/biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true
     markdownlint:
       glob: "*.md"
       run: bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc {staged_files}
+      stage_fixed: true
     skill-artifacts:
       run: ./skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh {staged_files}
+      stage_fixed: true
     yamllint:
       glob: "*.{yml,yaml}"
       run: command -v yq >/dev/null 2>&1 && yq eval '.' {staged_files} >/dev/null
+      stage_fixed: true
     shellcheck:
       glob: "*.sh"
       run: command -v shellcheck >/dev/null 2>&1 && shellcheck {staged_files}
+      stage_fixed: true
