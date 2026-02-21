@@ -12,3 +12,6 @@ pre-commit:
     yamllint:
       glob: "*.{yml,yaml}"
       run: command -v yq >/dev/null 2>&1 && yq eval '.' {staged_files} >/dev/null
+    shellcheck:
+      glob: "*.sh"
+      run: command -v shellcheck >/dev/null 2>&1 && shellcheck {staged_files}
