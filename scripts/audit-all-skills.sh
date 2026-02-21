@@ -107,7 +107,7 @@ declare -A RATINGS
 
 for skill_path in $SKILLS; do
   skill_name=$(basename "$skill_path")
-  report_file="$AUDITS_DIR/${skill_name}-skill-quality-audit-${DATE}.md"
+  report_file="$AUDITS_DIR/${skill_name}-${DATE}.md"
   
   # Skip if skill-quality-auditor itself
   if [[ "$skill_name" == "skill-quality-auditor" ]]; then
@@ -125,7 +125,7 @@ for skill_path in $SKILLS; do
   
   # Note if we're re-auditing a stale report
   if [[ "$FORCE" == false ]]; then
-    EXISTING_REPORT=$(find "$AUDITS_DIR" -name "${skill_name}-skill-quality-audit-*.md" 2>/dev/null | sort -r | head -1)
+    EXISTING_REPORT=$(find "$AUDITS_DIR" -name "${skill_name}-*.md" 2>/dev/null | sort -r | head -1)
     if [[ -n "$EXISTING_REPORT" && -f "$EXISTING_REPORT" ]]; then
       REPORT_DATE=$(basename "$EXISTING_REPORT" | grep -oP '\d{4}-\d{2}-\d{2}' | head -1)
       if [[ "$REPORT_DATE" != "$DATE" ]]; then
@@ -147,9 +147,9 @@ Follow the skill-quality-auditor workflow:
 3. Evaluate skills/$skill_name/SKILL.md against the 8-dimension framework
 4. Calculate the total score and grade
 
-Save the audit report to: .context/audits/${skill_name}-skill-quality-audit-${DATE}.md
+Save the audit report to: .context/audits/${skill_name}-${DATE}.md
 
-Use the existing audit report format from .context/audits/colyseus-multiplayer-skill-quality-audit-2026-02-20.md as a template. Include:
+Use the existing audit report format from .context/audits/colyseus-multiplayer-2026-02-20.md as a template. Include:
 - Executive summary with score/grade
 - Dimension scores table
 - Critical issues with file references

@@ -62,7 +62,7 @@ extract_rating_from_report() {
     return 0
 }
 
-get_latest_rating() {
+get_latest_audit_info() {
     skill_name="$1"
     
     if [ ! -d "$AUDITS_DIR" ]; then
@@ -73,10 +73,10 @@ get_latest_rating() {
     latest_file=""
     latest_timestamp=""
     
-    for file in "$AUDITS_DIR"/"${skill_name}-skill-quality-audit-"*; do
+    for file in "$AUDITS_DIR"/"${skill_name}-"*; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
-            timestamp=$(echo "$filename" | sed "s/${skill_name}-skill-quality-audit-//" | sed 's/\.md$//')
+            timestamp=$(echo "$filename" | sed "s/${skill_name}-//" | sed 's/\.md$//')
             
             if [ -z "$latest_timestamp" ] || expr "$timestamp" ">" "$latest_timestamp" >/dev/null; then
                 latest_timestamp="$timestamp"
@@ -86,7 +86,8 @@ get_latest_rating() {
     done
     
     if [ -n "$latest_file" ]; then
-        extract_rating_from_report "$latest_file"
+        rating=$(extract_rating_from_report "$latest_file")
+        echo "${latest_timestamp}|${rating}"
     fi
 }
 
@@ -110,14 +111,38 @@ get_skill_badge() {
     esac
     
     badge="![${grade}](https://img.shields.io/badge/Rating-${badge_grade}-${color})"
-    printf '%-65s' "$badge"
+    printf '%s' "$badge"
+}
+
+get_audit_link() {
+    timestamp="$1"
+    skill_name="$2"
+    
+    if [ -z "$timestamp" ]; then
+        echo "N/A"
+        return
+    fi
+    
+    audit_file=".context/audits/${skill_name}-${timestamp}.md"
+    printf '[%s](%s)' "$timestamp" "$audit_file"
 }
 
 is_skill_table_row() {
     line="$1"
     
     # shellcheck disable=SC2016
-    printf '%s\n' "$line" | grep -q '^|  *`[^`]*` *|'
+    printf '%s\n' "$line" | grep -qE '^\| *\[`[^`]*`\]'
+}
+
+build_skill_row() {
+    skill_name="$1"
+    description="$2"
+    badge="$3"
+    audit_link="$4"
+    
+    # shellcheck disable=SC2006
+    skill_link="[`${skill_name}`](skills/${skill_name}/SKILL.md)"
+    printf '| %-80s | %-78s | %-57s | %-72s |' "$skill_link" "$description" "$badge" "$audit_link"
 }
 
 extract_skill_name() {
@@ -133,7 +158,7 @@ update_readme() {
     fi
     
     table_start_line=0
-    has_rating_column=false
+    has_full_format=false
     line_num=0
     
     while IFS= read -r line || [ -n "$line" ]; do
@@ -143,7 +168,7 @@ update_readme() {
             *\|\ Skill*\|\ Description*\|*)
                 table_start_line=$line_num
                 case "$line" in
-                    *Rating*) has_rating_column=true ;;
+                    *Audit*) has_full_format=true ;;
                 esac
                 ;;
         esac
@@ -163,8 +188,8 @@ update_readme() {
         
         if [ "$current_line" -eq "$table_start_line" ]; then
             in_table=true
-            if [ "$has_rating_column" = false ]; then
-                printf '%s Rating |\n' "$line"
+            if [ "$has_full_format" = false ]; then
+                printf '%s Rating | Audit |\n' "$line"
             else
                 printf '%s\n' "$line"
             fi
@@ -172,8 +197,8 @@ update_readme() {
         fi
         
         if [ "$in_table" = true ] && [ "$current_line" -eq $((table_start_line + 1)) ]; then
-            if [ "$has_rating_column" = false ]; then
-                printf '%s ------ |\n' "$line"
+            if [ "$has_full_format" = false ]; then
+                printf '%s ------ | ------ |\n' "$line"
             else
                 printf '%s\n' "$line"
             fi
@@ -185,13 +210,28 @@ update_readme() {
                 skill_name=$(extract_skill_name "$line")
                 
                 if [ -n "$skill_name" ]; then
-                    rating=$(get_latest_rating "$skill_name")
-                    badge=$(get_skill_badge "$rating")
+                    audit_info=$(get_latest_audit_info "$skill_name")
                     
-                    if [ "$has_rating_column" = false ]; then
-                        printf '%s %s |\n' "$line" "$badge"
+                    if [ -n "$audit_info" ]; then
+                        timestamp=$(echo "$audit_info" | cut -d'|' -f1)
+                        rating=$(echo "$audit_info" | cut -d'|' -f2-)
+                        badge=$(get_skill_badge "$rating")
+                        audit_link=$(get_audit_link "$timestamp" "$skill_name")
                     else
-                        printf '%s\n' "$line" | sed 's|!\[.*\](https://img.shields.io/badge/Rating-[^)]*)[[:space:]]*|'"$badge"'|'
+                        badge="N/A"
+                        audit_link="N/A"
+                    fi
+                    
+                    description=$(echo "$line" | sed 's/^[^|]*|[^|]*| *\([^|]*\) *|.*/\1/')
+                    
+                    if [ "$has_full_format" = false ]; then
+                        # shellcheck disable=SC2006
+                        skill_link="[`${skill_name}`](skills/${skill_name}/SKILL.md)"
+                        printf '| %-80s | %-78s | %-57s | %-72s |\n' "$skill_link" "$description" "$badge" "$audit_link"
+                    else
+                        new_line=$(echo "$line" | sed 's|!\[.*\](https://img.shields.io/badge/Rating-[^)]*)|'"$badge"'|')
+                        new_line=$(echo "$new_line" | sed 's|\[20[0-9][0-9-[0-9][0-9]-[0-9][0-9]\](\.context/audits/[^)|]*)|'"$audit_link"'|')
+                        printf '%s\n' "$new_line"
                     fi
                     continue
                 fi
@@ -222,7 +262,7 @@ update_readme() {
         rm -f "$temp_file"
     else
         mv "$temp_file" "$README_PATH"
-        echo "README.md updated with skill ratings"
+        echo "README.md updated with skill ratings and audit links"
     fi
 }
 
