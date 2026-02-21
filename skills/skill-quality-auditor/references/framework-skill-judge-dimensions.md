@@ -216,7 +216,7 @@ WHY: False positives waste hours debugging phantom issues
 
 ## Dimension 4: Specification Compliance (15 points)
 
-**Purpose:** Ensure proper frontmatter, description, and activation keywords.
+**Purpose:** Ensure proper frontmatter, single-task focus, and activation keywords.
 
 **Scoring:**
 
@@ -227,20 +227,26 @@ WHY: False positives waste hours debugging phantom issues
 
 ### Components
 
-1. **Description Field Quality (10 points) ⭐ CRITICAL**
-   - **Primary agents:** Exactly 3 words
-   - **Other agents:** Comprehensive with trigger examples
-   - Must include activation keywords
-   - **Most important field** - determines if skill activates
+1. **Task Focus Declaration (5 points) ⭐ CRITICAL**
+    - Skill indicates ONE type of task it helps complete
+    - Description clearly scopes to single purpose
+    - No ambiguity about what the skill does
+    - Example: "Write BDD tests" (good) vs "Testing and development" (bad - two tasks)
 
-2. **Proper Frontmatter (3 points)**
-   - name, description present
-   - Consolidation notes if applicable
-   - Correct YAML syntax
+2. **Description Field Quality (7 points)**
+    - **Primary agents:** Exactly 3 words
+    - **Other agents:** Comprehensive with trigger examples
+    - Must include activation keywords
+    - Determines if skill activates
 
-3. **Activation Keywords (2 points)**
-   - Domain terms that trigger skill
-   - Example: "BDD, Gherkin, Given-When-Then, Cucumber"
+3. **Proper Frontmatter (2 points)**
+    - name, description present
+    - Consolidation notes if applicable
+    - Correct YAML syntax
+
+4. **Activation Keywords (1 point)**
+    - Domain terms that trigger skill
+    - Example: "BDD, Gherkin, Given-When-Then, Cucumber"
 
 ### Example
 
