@@ -199,6 +199,24 @@ grep -r "skills/bdd-gherkin" . --include="*.md"
 
 **Consequence:** Skill becomes a "kitchen sink"; users cannot navigate efficiently.
 
+### ❌ Never create multi-purpose skills
+
+**WHY:** Skills covering multiple tasks confuse users about when to activate.
+
+```markdown
+# BAD - Two different tasks in one skill
+name: testing-and-deployment
+description: Write tests and deploy applications to production.
+# User asks: "How do I write a unit test?" → Unclear which part applies
+
+# GOOD - Single-purpose skill
+name: unit-testing
+description: Write unit tests with Jest, Vitest, or Mocha. Use when creating test files, writing test cases, or mocking dependencies.
+# Clear: skill activates for test writing only
+```
+
+**Consequence:** Wrong skill activates; user gets irrelevant guidance; skill collection becomes unmanageable.
+
 ### ❌ Never ignore C-grade skills for >1 quarter
 
 **WHY:** Low-quality skills accumulate technical debt and mislead users.
