@@ -104,7 +104,8 @@ get_skill_badge() {
     
     color=$(get_grade_color "$grade")
     
-    echo "![${grade}](https://img.shields.io/badge/Rating-${score}%2F${max_score}-${color})"
+    badge="![${grade}](https://img.shields.io/badge/Rating-${grade}-${color})"
+    printf '%-65s' "$badge"
 }
 
 is_skill_table_row() {
@@ -185,7 +186,7 @@ update_readme() {
                     if [ "$has_rating_column" = false ]; then
                         printf '%s %s |\n' "$line" "$badge"
                     else
-                        printf '%s\n' "$line" | sed 's|!\[.*\](https://img.shields.io/badge/Rating-[^|]*)|'"$badge"'|'
+                        printf '%s\n' "$line" | sed 's|!\[.*\](https://img.shields.io/badge/Rating-[^)]*)[[:space:]]*|'"$badge"'|'
                     fi
                     continue
                 fi
