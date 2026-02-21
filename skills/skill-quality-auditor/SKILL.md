@@ -76,6 +76,7 @@ This skill follows **progressive disclosure** - start with what you need:
 ```mermaid
 graph TD
     A[Inventory Skills] --> B[Evaluate Quality]
+    B --> B1[Validate Artifact Conventions]
     B --> C[Detect Duplication]
     C --> D[Plan Aggregations]
     D --> E[Generate Reports]
@@ -83,6 +84,22 @@ graph TD
     F --> G[Verify Improvements]
     G --> H[Update Baseline]
 ```
+
+## Artifact Convention Enforcement
+
+Use this skill to enforce deterministic artifact rules across all skills:
+
+- Files in `templates/` MUST be YAML (`.yaml` or `.yml`).
+- Files in `schemas/` MUST be JSON Schema files named `*.schema.json` and include a `"$schema"` URL from `json-schema.org`.
+- Files in `scripts/` MUST be portable shell scripts (`.sh`) with `#!/usr/bin/env sh`, and pass `sh -n`.
+
+Run:
+
+```bash
+./skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh
+```
+
+For staged files in commits, enforcement is also wired through `lefthook` pre-commit.
 
 ## Success Metrics
 

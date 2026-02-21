@@ -63,11 +63,18 @@ Each skill follows this standard structure:
 skills/<skill-name>/
 ├── SKILL.md          # Main skill definition with instructions
 ├── resources/        # Optional: preference for md files
-├── templates/        # Optional: preference for yaml files
-├── scripts/          # Optional: preferences for bash
-├── schemas/          # Optional: preference for json
+├── templates/        # Optional: YAML files only (.yaml/.yml)
+├── scripts/          # Optional: POSIX shell scripts only (.sh, #!/usr/bin/env sh)
+├── schemas/          # Optional: JSON Schema files only (*.schema.json)
 └── README.md         # Optional: additional documentation
 ```
+
+Repository enforcement:
+
+- `templates/` entries must be valid YAML (`.yaml` or `.yml`).
+- `schemas/` entries must be `*.schema.json` and include a JSON Schema `"$schema"` URL from `json-schema.org`.
+- `scripts/` entries must be `.sh` with `#!/usr/bin/env sh` and pass `sh -n`.
+- Use the `skill-quality-auditor` skill workflow (see `skills/skill-quality-auditor/SKILL.md`) to validate and enforce these conventions.
 
 ### SKILL.md Format
 
