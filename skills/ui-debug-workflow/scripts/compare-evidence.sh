@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env sh
+# shellcheck disable=SC2012,SC2129
 # compare-evidence.sh - Compare baseline and changed evidence
 #
 # Usage: ./compare-evidence.sh <baseline-dir> <changed-dir> <output-report>
@@ -6,7 +7,7 @@
 # Example:
 #   ./compare-evidence.sh ./docs/change-fix/baseline ./docs/change-fix/changed ./docs/change-fix/comparison.md
 
-set -e
+set -eu
 
 BASELINE_DIR="${1:-./docs/change-fix/baseline}"
 CHANGED_DIR="${2:-./docs/change-fix/changed}"
@@ -32,7 +33,7 @@ echo ""
 mkdir -p "$(dirname "$OUTPUT_REPORT")"
 
 # Start report
-cat > "$OUTPUT_REPORT" << 'EOF'
+cat > "$OUTPUT_REPORT" <<EOF
 # Evidence Comparison Report
 
 **Generated**: $(date '+%Y-%m-%d %H:%M:%S')
@@ -74,25 +75,38 @@ for json_file in "$BASELINE_DIR"/*.json; do
       echo "" >> "$OUTPUT_REPORT"
       echo "**Baseline**:" >> "$OUTPUT_REPORT"
       echo "\`\`\`json" >> "$OUTPUT_REPORT"
-      cat "$json_file" | python3 -m json.tool 2>/dev/null || cat "$json_file" >> "$OUTPUT_REPORT"
+      if python3 -m json.tool "$json_file" >/dev/null 2>&1; then
+        python3 -m json.tool "$json_file" >> "$OUTPUT_REPORT"
+      else
+        cat "$json_file" >> "$OUTPUT_REPORT"
+      fi
       echo "\`\`\`" >> "$OUTPUT_REPORT"
       echo "" >> "$OUTPUT_REPORT"
       
       echo "**Changed**:" >> "$OUTPUT_REPORT"
       echo "\`\`\`json" >> "$OUTPUT_REPORT"
-      cat "$changed_file" | python3 -m json.tool 2>/dev/null || cat "$changed_file" >> "$OUTPUT_REPORT"
+      if python3 -m json.tool "$changed_file" >/dev/null 2>&1; then
+        python3 -m json.tool "$changed_file" >> "$OUTPUT_REPORT"
+      else
+        cat "$changed_file" >> "$OUTPUT_REPORT"
+      fi
       echo "\`\`\`" >> "$OUTPUT_REPORT"
       echo "" >> "$OUTPUT_REPORT"
       
       # Attempt diff
-      if command -v jq &> /dev/null; then
+      if command -v jq >/dev/null 2>&1; then
         baseline_sorted=$(cat "$json_file" | jq -S 2>/dev/null)
         changed_sorted=$(cat "$changed_file" | jq -S 2>/dev/null)
         
         if [ "$baseline_sorted" != "$changed_sorted" ]; then
           echo "**Differences**:" >> "$OUTPUT_REPORT"
           echo "\`\`\`diff" >> "$OUTPUT_REPORT"
-          diff <(echo "$baseline_sorted") <(echo "$changed_sorted") || true >> "$OUTPUT_REPORT"
+          tmp_baseline=$(mktemp)
+          tmp_changed=$(mktemp)
+          trap 'rm -f "$tmp_baseline" "$tmp_changed"' EXIT INT TERM
+          printf '%s\n' "$baseline_sorted" > "$tmp_baseline"
+          printf '%s\n' "$changed_sorted" > "$tmp_changed"
+          diff "$tmp_baseline" "$tmp_changed" >> "$OUTPUT_REPORT" || true
           echo "\`\`\`" >> "$OUTPUT_REPORT"
         else
           echo "**Result**: ✅ Identical" >> "$OUTPUT_REPORT"
@@ -126,7 +140,7 @@ for screenshot in "$BASELINE_DIR"/*.png; do
       echo "" >> "$OUTPUT_REPORT"
       
       # If ImageMagick is available, compute diff
-      if command -v compare &> /dev/null; then
+      if command -v compare >/dev/null 2>&1; then
         diff_image="$CHANGED_DIR/diff-$filename"
         compare -metric AE -fuzz 5% "$screenshot" "$changed_screenshot" "$diff_image" 2>/dev/null || true
         

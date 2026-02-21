@@ -92,9 +92,12 @@ if [ "$#" -gt 0 ]; then
     check_file "$file"
   done
 else
-  find skills -type f \( -path 'skills/*/templates/*' -o -path 'skills/*/schemas/*' -o -path 'skills/*/scripts/*' \) | while IFS= read -r file; do
+  tmp_files=$(mktemp)
+  trap 'rm -f "$tmp_files"' EXIT INT TERM
+  find skills -type f \( -path 'skills/*/templates/*' -o -path 'skills/*/schemas/*' -o -path 'skills/*/scripts/*' \) > "$tmp_files"
+  while IFS= read -r file; do
     check_file "$file"
-  done
+  done < "$tmp_files"
 fi
 
 if [ "$errors" -ne 0 ]; then

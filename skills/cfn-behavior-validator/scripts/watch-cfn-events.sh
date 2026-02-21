@@ -1,8 +1,9 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
+# shellcheck disable=SC3012
 # CloudFormation Event Watcher
 # Watches CloudFormation events in real-time during stack updates
 
-set -euo pipefail
+set -eu
 
 STACK_NAME="${1:-}"
 WATCH_INTERVAL="${2:-5}"
@@ -39,7 +40,7 @@ while true; do
   # Filter events newer than last seen
   NEW_EVENTS=$(echo "$EVENTS" | while read -r line; do
     TIMESTAMP=$(echo "$line" | awk '{print $1}')
-    if [ -z "$LAST_TIMESTAMP" ] || [[ "$TIMESTAMP" > "$LAST_TIMESTAMP" ]]; then
+    if [ -z "$LAST_TIMESTAMP" ] || [ "$TIMESTAMP" \> "$LAST_TIMESTAMP" ]; then
       echo "$line"
     fi
   done)
@@ -50,7 +51,7 @@ while true; do
       RESOURCE=$(echo "$line" | awk '{print $3}')
       TYPE=$(echo "$line" | awk '{print $4}')
       STATUS=$(echo "$line" | awk '{print $5}')
-      REASON=$(echo "$line" | cut -d$'\t' -f6-)
+      REASON=$(echo "$line" | awk '{for (i = 6; i <= NF; i++) printf("%s%s", $i, (i < NF ? " " : "\n"))}')
 
       # Color code based on status
       case "$STATUS" in

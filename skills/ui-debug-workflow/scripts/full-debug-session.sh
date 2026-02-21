@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env sh
+# shellcheck disable=SC2012,SC2129
 # full-debug-session.sh - Complete debugging session from start to finish
 #
 # Usage: ./full-debug-session.sh <baseline-branch> <changed-branch> <app-url> <build-command> <start-command>
@@ -6,7 +7,7 @@
 # Example:
 #   ./full-debug-session.sh main fix/code-annotations "http://localhost:19888" "bun run build:hook" "bun run apps/hook/server/index.ts plan"
 
-set -e
+set -eu
 
 BASELINE_BRANCH="${1:-main}"
 CHANGED_BRANCH="${2:-HEAD}"
