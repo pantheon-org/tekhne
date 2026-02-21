@@ -45,15 +45,65 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 ## Installation
 
-Each skill is self-contained in its own directory under `skills/`. To use a skill:
+### For Users
 
-1. Copy the skill directory to your agent's skills location:
+Install skills from this repository using the [Agent Skills](https://agentskills.io) CLI:
 
-   ```bash
-   npx skills add https://github.com/pantheon-org/tekhne --skill <skill-name> 
-   ```
+```bash
+# Install a specific skill to all detected agents
+npx skills add pantheon-org/tekhne --skill <skill-name>
 
-2. The skill will be automatically available in your Harness of choice.
+# Install a specific skill to a specific agent
+npx skills add pantheon-org/tekhne --skill <skill-name> -a claude-code
+
+# Install globally (available across all projects)
+npx skills add pantheon-org/tekhne --skill <skill-name> -g
+
+# List available skills
+npx skills add pantheon-org/tekhne --list
+```
+
+### For Contributors
+
+Sync local skills to your development harness:
+
+```bash
+# Sync all local skills to all detected agents (project scope)
+npx skills add ./skills --all
+
+# Sync to specific agent(s)
+npx skills add ./skills -a claude-code -a cursor
+
+# Sync globally for cross-project access
+npx skills add ./skills --all -g
+
+# Preview changes without applying
+npx skills add ./skills --all --dry-run
+
+# List available local skills
+npx skills add ./skills --list
+```
+
+## Supported Agents
+
+This repository follows the [Agent Skills specification](https://agentskills.io) and works with 41+ AI assistants:
+
+| Agent         | `--agent` Flag    | Project Path              | Global Path                      |
+|---------------|-------------------|---------------------------|----------------------------------|
+| Claude Code   | `claude-code`     | `.claude/skills/`         | `~/.claude/skills/`              |
+| Cursor        | `cursor`          | `.agents/skills/`         | `~/.cursor/skills/`              |
+| Gemini CLI    | `gemini-cli`      | `.agents/skills/`         | `~/.gemini/skills/`              |
+| Codex         | `codex`           | `.agents/skills/`         | `~/.codex/skills/`               |
+| OpenCode      | `opencode`        | `.agents/skills/`         | `~/.config/opencode/skills/`     |
+| Cline         | `cline`           | `.cline/skills/`          | `~/.cline/skills/`               |
+| Windsurf      | `windsurf`        | `.windsurf/skills/`       | `~/.codeium/windsurf/skills/`    |
+| Roo Code      | `roo`             | `.roo/skills/`            | `~/.roo/skills/`                 |
+| GitHub Copilot| `github-copilot`  | `.agents/skills/`         | `~/.copilot/skills/`             |
+| Goose         | `goose`           | `.goose/skills/`          | `~/.config/goose/skills/`        |
+| OpenHands     | `openhands`       | `.openhands/skills/`      | `~/.openhands/skills/`           |
+| Amp           | `amp`             | `.agents/skills/`         | `~/.config/agents/skills/`       |
+
+For the complete list of supported agents, see the [Vercel Labs Skills repository](https://github.com/vercel-labs/skills).
 
 ## Skill Structure
 
