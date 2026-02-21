@@ -8,6 +8,10 @@
     "check:biome": "bunx @biomejs/biome check .",
     "check:markdown": "bunx markdownlint-cli2 \"**/*.md\"",
     "check:skill-artifacts": "./skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
+    "audit:skills": "./scripts/audit-all-skills.sh",
+    "audit:skills:force": "./scripts/audit-all-skills.sh --force",
+    "audit:update-readme": "bun run scripts/update-readme-ratings.ts",
+    "audit:update-readme:dry": "bun run scripts/update-readme-ratings.ts --dry-run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
