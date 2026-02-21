@@ -11,37 +11,37 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 | Skill                          | Description                                                                    | Rating                                                           |
 | ------------------------------ | ------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| `acceptance-criteria`          | Write effective acceptance criteria for user stories                           | ![C+](https://img.shields.io/badge/Rating-92%2F120-orange)       |
-| `agents-md`                    | AGENTS.md management - create, generate, and maintain AI documentation         | ![B](https://img.shields.io/badge/Rating-97%2F120-yellow)        |
-| `bdd-testing`                  | Behavior-Driven Development with Gherkin/Cucumber                              | ![C](https://img.shields.io/badge/Rating-84%2F120-red)           |
-| `biome-complete`               | Biome toolchain: configuration, linting, formatting, ESLint/Prettier migration | ![D](https://img.shields.io/badge/Rating-79%2F120-purple)        |
-| `bun-development`              | Bun.js runtime APIs, testing, SQLite, and security                             | ![C](https://img.shields.io/badge/Rating-85%2F120-red)           |
-| `cdk-nag`                      | AWS CDK security and compliance validation                                     | ![C](https://img.shields.io/badge/Rating-84%2F120-red)           |
-| `cfn-behavior-validator`       | Validate CloudFormation resource update behaviors through testing              | ![C+](https://img.shields.io/badge/Rating-93%2F120-orange)       |
-| `cfn-template-compare`         | Compare deployed CloudFormation templates with local CDK templates             | ![B](https://img.shields.io/badge/Rating-101%2F120-yellow)       |
-| `colyseus-multiplayer`         | Colyseus multiplayer game server framework                                     | ![D](https://img.shields.io/badge/Rating-83%2F120-purple)        |
-| `commanderjs`                  | Commander.js CLI framework for building command-line tools                     | ![C+](https://img.shields.io/badge/Rating-90%2F120-orange)       |
-| `conventional-commits`         | Structured, semantic commit messages following spec                            | ![C](https://img.shields.io/badge/Rating-87%2F120-red)           |
-| `create-context-file`          | Create context files in `.context/` with unique IDs and frontmatter            | ![C](https://img.shields.io/badge/Rating-88%2F120-red)           |
-| `extending-nx-plugins`         | Create and manage Nx plugins: generators, tasks, migrations                    | ![C](https://img.shields.io/badge/Rating-88%2F120-red)           |
-| `github-copilot-models`        | Query GitHub Copilot model availability and configurations                     | ![C](https://img.shields.io/badge/Rating-89%2F120-red)           |
-| `implementation-plan-splitter` | Split large implementation plans into digestible structures                    | ![B+](https://img.shields.io/badge/Rating-106%2F120-yellowgreen) |
-| `markdown-authoring`           | Markdown syntax, markdownlint, and documentation guidance                      | ![D](https://img.shields.io/badge/Rating-82%2F120-purple)        |
-| `mise-complete`                | Mise tool management for versions, tasks, and env vars                         | ![D](https://img.shields.io/badge/Rating-82%2F120-purple)        |
-| `moscow-prioritization`        | Prioritize requirements using MoSCoW method                                    | ![D](https://img.shields.io/badge/Rating-80%2F120-purple)        |
-| `nx-biome-integration`         | Integrate Biome linter/formatter into Nx monorepos                             | ![C](https://img.shields.io/badge/Rating-85%2F120-red)           |
-| `nx-bun-integration`           | Integrate Bun runtime into Nx monorepos                                        | ![C+](https://img.shields.io/badge/Rating-91%2F120-orange)       |
-| `nx-executors`                 | Create and use custom Nx executors in TypeScript monorepos                     | ![B+](https://img.shields.io/badge/Rating-103%2F120-yellowgreen) |
-| `nx-generators`                | Create Nx generators to automate code scaffolding                              | ![B](https://img.shields.io/badge/Rating-96%2F120-yellow)        |
-| `nx-vite-integration`          | Set up and configure Vite in Nx workspaces                                     | ![D](https://img.shields.io/badge/Rating-78%2F120-purple)        |
-| `nx-workspace-patterns`        | Configure and optimize Nx monorepo workspaces                                  | ![C+](https://img.shields.io/badge/Rating-90%2F120-orange)       |
-| `opencode-config`              | Edit opencode.json, AGENTS.md, and configuration files                         | ![C](https://img.shields.io/badge/Rating-88%2F120-red)           |
-| `plain-english`                | Write technical content for non-technical stakeholders                         | ![C](https://img.shields.io/badge/Rating-87%2F120-red)           |
-| `skill-quality-auditor`        | Automate skill quality evaluation, duplication detection, aggregations         | ![B+](https://img.shields.io/badge/Rating-106%2F120-yellowgreen) |
-| `software-design-principles`   | Architecture decisions, SOLID principles, and code quality fundamentals        | ![B](https://img.shields.io/badge/Rating-97%2F120-yellow)        |
-| `test-driven-development`      | Master TDD with Red-Green-Refactor cycle                                       | ![B](https://img.shields.io/badge/Rating-99%2F120-yellow)        |
-| `typescript-advanced`          | Advanced TypeScript types, compiler config, and best practices                 | ![C](https://img.shields.io/badge/Rating-87%2F120-red)           |
-| `ui-debug-workflow`            | Debug UI changes with visual testing and evidence collection                   | ![C](https://img.shields.io/badge/Rating-85%2F120-red)           |
+| `acceptance-criteria`          | Write effective acceptance criteria for user stories                           | ![C+](https://img.shields.io/badge/Rating-C+-orange)             |
+| `agents-md`                    | AGENTS.md management - create, generate, and maintain AI documentation         | ![B](https://img.shields.io/badge/Rating-B-yellow)               |
+| `bdd-testing`                  | Behavior-Driven Development with Gherkin/Cucumber                              | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `biome-complete`               | Biome toolchain: configuration, linting, formatting, ESLint/Prettier migration | ![D](https://img.shields.io/badge/Rating-D-purple)               |
+| `bun-development`              | Bun.js runtime APIs, testing, SQLite, and security                             | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `cdk-nag`                      | AWS CDK security and compliance validation                                     | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `cfn-behavior-validator`       | Validate CloudFormation resource update behaviors through testing              | ![C+](https://img.shields.io/badge/Rating-C+-orange)             |
+| `cfn-template-compare`         | Compare deployed CloudFormation templates with local CDK templates             | ![B](https://img.shields.io/badge/Rating-B-yellow)               |
+| `colyseus-multiplayer`         | Colyseus multiplayer game server framework                                     | ![D](https://img.shields.io/badge/Rating-D-purple)               |
+| `commanderjs`                  | Commander.js CLI framework for building command-line tools                     | ![C+](https://img.shields.io/badge/Rating-C+-orange)             |
+| `conventional-commits`         | Structured, semantic commit messages following spec                            | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `create-context-file`          | Create context files in `.context/` with unique IDs and frontmatter            | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `extending-nx-plugins`         | Create and manage Nx plugins: generators, tasks, migrations                    | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `github-copilot-models`        | Query GitHub Copilot model availability and configurations                     | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `implementation-plan-splitter` | Split large implementation plans into digestible structures                    | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen)        |
+| `markdown-authoring`           | Markdown syntax, markdownlint, and documentation guidance                      | ![D](https://img.shields.io/badge/Rating-D-purple)               |
+| `mise-complete`                | Mise tool management for versions, tasks, and env vars                         | ![D](https://img.shields.io/badge/Rating-D-purple)               |
+| `moscow-prioritization`        | Prioritize requirements using MoSCoW method                                    | ![D](https://img.shields.io/badge/Rating-D-purple)               |
+| `nx-biome-integration`         | Integrate Biome linter/formatter into Nx monorepos                             | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `nx-bun-integration`           | Integrate Bun runtime into Nx monorepos                                        | ![C+](https://img.shields.io/badge/Rating-C+-orange)             |
+| `nx-executors`                 | Create and use custom Nx executors in TypeScript monorepos                     | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen)        |
+| `nx-generators`                | Create Nx generators to automate code scaffolding                              | ![B](https://img.shields.io/badge/Rating-B-yellow)               |
+| `nx-vite-integration`          | Set up and configure Vite in Nx workspaces                                     | ![D](https://img.shields.io/badge/Rating-D-purple)               |
+| `nx-workspace-patterns`        | Configure and optimize Nx monorepo workspaces                                  | ![C+](https://img.shields.io/badge/Rating-C+-orange)             |
+| `opencode-config`              | Edit opencode.json, AGENTS.md, and configuration files                         | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `plain-english`                | Write technical content for non-technical stakeholders                         | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `skill-quality-auditor`        | Automate skill quality evaluation, duplication detection, aggregations         | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen)        |
+| `software-design-principles`   | Architecture decisions, SOLID principles, and code quality fundamentals        | ![B](https://img.shields.io/badge/Rating-B-yellow)               |
+| `test-driven-development`      | Master TDD with Red-Green-Refactor cycle                                       | ![B](https://img.shields.io/badge/Rating-B-yellow)               |
+| `typescript-advanced`          | Advanced TypeScript types, compiler config, and best practices                 | ![C](https://img.shields.io/badge/Rating-C-red)                  |
+| `ui-debug-workflow`            | Debug UI changes with visual testing and evidence collection                   | ![C](https://img.shields.io/badge/Rating-C-red)                  |
 
 ## Installation
 
