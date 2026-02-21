@@ -54,7 +54,7 @@ fi
 
 mkdir -p "$AUDITS_DIR"
 
-REPORT_FILE="$AUDITS_DIR/${SKILL_NAME}-skill-quality-audit-${DATE}.md"
+REPORT_FILE="$AUDITS_DIR/${SKILL_NAME}-${DATE}.md"
 
 echo "Auditing: $SKILL_NAME"
 
