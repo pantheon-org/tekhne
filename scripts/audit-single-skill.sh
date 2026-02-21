@@ -112,7 +112,19 @@ MD_ISSUES=""
 if grep -q "^\*\*" "$SKILL_PATH" 2>/dev/null; then
   MD_ISSUES="${MD_ISSUES}"$'\n'"- MD036: Emphasis used as heading"
 fi
-if grep -q '```$' "$SKILL_PATH" 2>/dev/null; then
+# Detect unlabeled fenced-code openings only (not closing fences)
+if awk '
+  BEGIN { in_fence = 0; has_unlabeled_open = 0 }
+  /^```/ {
+    if (in_fence == 0) {
+      if ($0 ~ /^```[[:space:]]*$/) has_unlabeled_open = 1
+      in_fence = 1
+    } else {
+      in_fence = 0
+    }
+  }
+  END { exit(has_unlabeled_open ? 0 : 1) }
+' "$SKILL_PATH"; then
   MD_ISSUES="${MD_ISSUES}"$'\n'"- MD040: Fenced code block without language"
 fi
 
@@ -122,12 +134,12 @@ CODE_BLOCKS=$((CODE_BLOCKS / 2))
 
 # Generate assessments for each dimension
 D1_ASSESSMENT="Contains skill-specific guidance"
-D2_ASSESSMENT="Procedural guidance present"
+D2_ASSESSMENT="Workflow guidance present"
 D3_ASSESSMENT="Anti-pattern coverage"
-D4_ASSESSMENT="Frontmatter compliant"
+D4_ASSESSMENT="Format and metadata compliance"
 D5_ASSESSMENT="Structure assessment"
 D6_ASSESSMENT="Constraint balance"
-D7_ASSESSMENT="Trigger keywords present"
+D7_ASSESSMENT="Trigger and pattern clarity"
 D8_ASSESSMENT="Practical examples included"
 
 # Progressive disclosure assessment
@@ -152,9 +164,119 @@ else
   D1_ASSESSMENT="Significant tutorial-level redundancy"
 fi
 
+# Mindset + procedures assessment based on score
+if [[ "$D2" -ge 13 ]]; then
+  D2_ASSESSMENT="Clear and reusable workflow with validation cadence"
+elif [[ "$D2" -ge 10 ]]; then
+  D2_ASSESSMENT="Procedural guidance present but not fully deterministic"
+else
+  D2_ASSESSMENT="Workflow is underspecified and hard to execute consistently"
+fi
+
+# Anti-pattern assessment based on score
+if [[ "$D3" -ge 13 ]]; then
+  D3_ASSESSMENT="Strong anti-pattern guidance with practical examples"
+elif [[ "$D3" -ge 10 ]]; then
+  D3_ASSESSMENT="Anti-patterns are present but coverage is partial"
+else
+  D3_ASSESSMENT="Insufficient anti-pattern coverage for safe usage"
+fi
+
+# Specification compliance assessment based on score
+if [[ "$D4" -ge 13 ]]; then
+  D4_ASSESSMENT="Spec metadata and structural conventions are mostly compliant"
+elif [[ "$D4" -ge 10 ]]; then
+  D4_ASSESSMENT="Core spec elements present with notable gaps"
+else
+  D4_ASSESSMENT="Spec compliance gaps likely break validation workflows"
+fi
+
+# Freedom calibration assessment based on score
+if [[ "$D6" -ge 13 ]]; then
+  D6_ASSESSMENT="Good balance of constraints and implementation freedom"
+elif [[ "$D6" -ge 10 ]]; then
+  D6_ASSESSMENT="Usable constraints but ambiguity can leak into outputs"
+else
+  D6_ASSESSMENT="Too loose or too rigid for reliable execution"
+fi
+
+# Pattern recognition assessment based on score
+if [[ "$D7" -ge 8 ]]; then
+  D7_ASSESSMENT="Pattern and trigger language are clear and actionable"
+elif [[ "$D7" -ge 6 ]]; then
+  D7_ASSESSMENT="Pattern intent exists but trigger language is shallow"
+else
+  D7_ASSESSMENT="Pattern/trigger ambiguity causes inconsistent activation"
+fi
+
+# Practical usability assessment based on score
+if [[ "$D8" -ge 13 ]]; then
+  D8_ASSESSMENT="Directly usable with strong examples and verification steps"
+elif [[ "$D8" -ge 10 ]]; then
+  D8_ASSESSMENT="Usable in practice but examples or checks need expansion"
+else
+  D8_ASSESSMENT="Limited real-world usability without extra interpretation"
+fi
+
+# Skill-specific deep issue detection helpers
+find_line_exact() {
+  local text="$1"
+  awk -v target="$text" 'index($0, target) { print NR; exit }' "$SKILL_PATH"
+}
+
+find_line_regex() {
+  local pattern="$1"
+  awk -v pat="$pattern" '$0 ~ pat { print NR; exit }' "$SKILL_PATH"
+}
+
+HAS_HYBRID_OUTPUT=0
+HAS_INPUT_FALLBACK=0
+HAS_AMBIGUOUS_STEPS=0
+
+LINE_MIXED_QUESTION=$(find_line_exact "4. Mixed behavior and constraints?")
+LINE_MIXED_USAGE=$(find_line_exact "- Use both formats in one story")
+LINE_OUTPUT_FORMAT=$(find_line_regex "^## Output Format")
+LINE_HYBRID_OUTPUT=$(find_line_regex "Acceptance Criteria [(]Hybrid[)]")
+
+if [[ -n "$LINE_MIXED_QUESTION" && -n "$LINE_MIXED_USAGE" && -n "$LINE_OUTPUT_FORMAT" && -z "$LINE_HYBRID_OUTPUT" ]]; then
+  HAS_HYBRID_OUTPUT=1
+fi
+
+LINE_INPUTS_REQUIRED=$(find_line_regex "^## Inputs Required")
+LINE_USER_STORY_REQUIRED=$(find_line_regex "User story in the format")
+LINE_INPUT_FALLBACK=$(find_line_regex "If a full user story is unavailable|fallback|Draft pending stakeholder confirmation")
+
+if [[ -n "$LINE_INPUTS_REQUIRED" && -n "$LINE_USER_STORY_REQUIRED" && -z "$LINE_INPUT_FALLBACK" ]]; then
+  HAS_INPUT_FALLBACK=1
+fi
+
+LINE_AMBIGUOUS_STEPS=$(find_line_regex "<= 3 steps")
+if [[ -n "$LINE_AMBIGUOUS_STEPS" ]]; then
+  HAS_AMBIGUOUS_STEPS=1
+fi
+
 # Build critical issues section (using array for cleaner handling)
 CRITICAL_ISSUES=""
 ISSUE_NUM=1
+
+# Skill-specific critical issues first (higher value than score-only generic checks)
+if [[ "$HAS_HYBRID_OUTPUT" -eq 1 ]]; then
+  if [[ -n "$CRITICAL_ISSUES" ]]; then CRITICAL_ISSUES="$CRITICAL_ISSUES\n\n"; fi
+  CRITICAL_ISSUES="${CRITICAL_ISSUES}### $ISSUE_NUM. Hybrid output ambiguity\n\nThe decision tree allows mixed usage of Given/When/Then and rule-oriented criteria, but the output section defines only one deterministic structure.\n\n- \`skills/$SKILL_NAME/SKILL.md:$LINE_MIXED_QUESTION\`\n- \`skills/$SKILL_NAME/SKILL.md:$LINE_OUTPUT_FORMAT\`\n- **Impact**: Inconsistent output formatting across agents when handling mixed stories."
+  ((ISSUE_NUM++))
+fi
+
+if [[ "$HAS_INPUT_FALLBACK" -eq 1 ]]; then
+  if [[ -n "$CRITICAL_ISSUES" ]]; then CRITICAL_ISSUES="$CRITICAL_ISSUES\n\n"; fi
+  CRITICAL_ISSUES="${CRITICAL_ISSUES}### $ISSUE_NUM. No fallback when required inputs are incomplete\n\nInputs are listed as required (including full user story format), but no fallback is defined for partial briefs or bug reports.\n\n- \`skills/$SKILL_NAME/SKILL.md:$LINE_INPUTS_REQUIRED\`\n- \`skills/$SKILL_NAME/SKILL.md:$LINE_USER_STORY_REQUIRED\`\n- **Impact**: Workflow can stall when upstream artifacts are incomplete."
+  ((ISSUE_NUM++))
+fi
+
+if [[ "$HAS_AMBIGUOUS_STEPS" -eq 1 ]]; then
+  if [[ -n "$CRITICAL_ISSUES" ]]; then CRITICAL_ISSUES="$CRITICAL_ISSUES\n\n"; fi
+  CRITICAL_ISSUES="${CRITICAL_ISSUES}### $ISSUE_NUM. One testability example is interpretation-sensitive\n\nThe phrase \"<= 3 steps\" can be interpreted differently unless step boundaries are explicitly defined.\n\n- \`skills/$SKILL_NAME/SKILL.md:$LINE_AMBIGUOUS_STEPS\`\n- **Impact**: QA and product can disagree on pass/fail for the same criterion."
+  ((ISSUE_NUM++))
+fi
 
 # Check progressive disclosure
 if [[ "$D5" -lt 10 ]]; then
@@ -170,11 +292,29 @@ if [[ -n "$MD_ISSUES" ]]; then
   ((ISSUE_NUM++))
 fi
 
-# Check knowledge delta
+# Check knowledge delta (only if no skill-specific critical issues were found)
 if [[ "$D1" -lt 12 ]]; then
   if [[ -n "$CRITICAL_ISSUES" ]]; then CRITICAL_ISSUES="$CRITICAL_ISSUES\n\n"; fi
   CRITICAL_ISSUES="${CRITICAL_ISSUES}### $ISSUE_NUM. Low knowledge delta\n\n- \`skills/$SKILL_NAME/SKILL.md\`\n- **Impact**: Tutorial-level content dilutes expert signal."
   ((ISSUE_NUM++))
+fi
+
+# Check pattern recognition (avoid duplicating skill-specific findings)
+if [[ "$D7" -lt 8 ]]; then
+  if [[ "$HAS_HYBRID_OUTPUT" -eq 0 ]]; then
+    if [[ -n "$CRITICAL_ISSUES" ]]; then CRITICAL_ISSUES="$CRITICAL_ISSUES\n\n"; fi
+    CRITICAL_ISSUES="${CRITICAL_ISSUES}### $ISSUE_NUM. Pattern trigger clarity is below target\n\n- \`skills/$SKILL_NAME/SKILL.md\`\n- **Evidence**: D7 score is $D7/10\n- **Impact**: Agents may activate late or choose inconsistent output shapes."
+    ((ISSUE_NUM++))
+  fi
+fi
+
+# Check practical usability (avoid duplicating skill-specific findings)
+if [[ "$D8" -lt 12 ]]; then
+  if [[ "$HAS_INPUT_FALLBACK" -eq 0 && "$HAS_AMBIGUOUS_STEPS" -eq 0 ]]; then
+    if [[ -n "$CRITICAL_ISSUES" ]]; then CRITICAL_ISSUES="$CRITICAL_ISSUES\n\n"; fi
+    CRITICAL_ISSUES="${CRITICAL_ISSUES}### $ISSUE_NUM. Practical usability needs stronger execution support\n\n- \`skills/$SKILL_NAME/SKILL.md\`\n- **Evidence**: D8 score is $D8/15\n- **Impact**: Users and agents require extra interpretation to apply the skill reliably."
+    ((ISSUE_NUM++))
+  fi
 fi
 
 if [[ -z "$CRITICAL_ISSUES" ]]; then
@@ -184,22 +324,54 @@ fi
 # Build recommendations (using explicit newlines for markdown)
 RECOMMENDATIONS=""
 REC_NUM=1
+can_add_recommendation() {
+  [[ "$REC_NUM" -le 3 ]]
+}
 
-if [[ "$D5" -lt 10 ]]; then
+if [[ "$HAS_HYBRID_OUTPUT" -eq 1 ]] && can_add_recommendation; then
+  RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Add explicit hybrid output template\n\nAdd a section under Output Format for mixed stories that combines scenario flow and independent rules.\n\n\`\`\`markdown\nAcceptance Criteria (Hybrid):\n1. Scenario-Based Criteria (Given/When/Then)\n2. Rule-Based Criteria (independent constraints)\n3. Negative/Edge Scenarios\n4. Out of Scope (Won't Have)\n\`\`\`"
+  ((REC_NUM++))
+fi
+
+if [[ "$HAS_INPUT_FALLBACK" -eq 1 ]] && can_add_recommendation; then
+  if [[ -n "$RECOMMENDATIONS" ]]; then RECOMMENDATIONS="$RECOMMENDATIONS\n\n"; fi
+  RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Define fallback behavior for missing inputs\n\nAdd guidance for when only partial context is available.\n\n\`\`\`markdown\nIf a full user story is unavailable:\n- Draft: As a [role], I want [action], so that [benefit]\n- List assumptions explicitly\n- Flag AC set as \"Draft pending stakeholder confirmation\"\n\`\`\`"
+  ((REC_NUM++))
+fi
+
+if [[ "$HAS_AMBIGUOUS_STEPS" -eq 1 ]] && can_add_recommendation; then
+  if [[ -n "$RECOMMENDATIONS" ]]; then RECOMMENDATIONS="$RECOMMENDATIONS\n\n"; fi
+  RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Tighten ambiguous testability example\n\nReplace \"<= 3 steps\" with an explicit step boundary definition.\n\n\`\`\`markdown\n\"Checkout is completed in <= 3 user-visible screen transitions from cart to confirmation.\"\n\`\`\`"
+  ((REC_NUM++))
+fi
+
+if [[ "$D5" -lt 10 ]] && can_add_recommendation; then
   if [[ -n "$RECOMMENDATIONS" ]]; then RECOMMENDATIONS="$RECOMMENDATIONS\n\n"; fi
   RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Split into navigation hub + references\n\nMove detailed sections to \`references/\` and keep SKILL.md as concise navigation."
   ((REC_NUM++))
 fi
 
-if [[ -n "$MD_ISSUES" ]]; then
+if [[ -n "$MD_ISSUES" ]] && can_add_recommendation; then
   if [[ -n "$RECOMMENDATIONS" ]]; then RECOMMENDATIONS="$RECOMMENDATIONS\n\n"; fi
-  RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Fix markdown lint issues\n\nAddress MD036 and MD040 violations for clean validation."
+  RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Fix markdown lint issues\n\nAddress markdownlint violations for clean validation."
   ((REC_NUM++))
 fi
 
-if [[ "$D1" -lt 15 ]]; then
+if [[ "$D1" -lt 15 ]] && can_add_recommendation; then
   if [[ -n "$RECOMMENDATIONS" ]]; then RECOMMENDATIONS="$RECOMMENDATIONS\n\n"; fi
   RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Increase knowledge delta\n\nRemove generic tutorial content and focus on expert-only patterns."
+  ((REC_NUM++))
+fi
+
+if [[ "$D7" -lt 8 ]] && can_add_recommendation; then
+  if [[ -n "$RECOMMENDATIONS" ]]; then RECOMMENDATIONS="$RECOMMENDATIONS\n\n"; fi
+  RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Tighten trigger language and pattern cues\n\nAdd explicit trigger phrases and deterministic output structure for ambiguous request types."
+  ((REC_NUM++))
+fi
+
+if [[ "$D8" -lt 12 ]] && can_add_recommendation; then
+  if [[ -n "$RECOMMENDATIONS" ]]; then RECOMMENDATIONS="$RECOMMENDATIONS\n\n"; fi
+  RECOMMENDATIONS="${RECOMMENDATIONS}### Priority $REC_NUM: Expand applied examples and verification checklist\n\nAdd at least one concrete end-to-end example and explicit pass/fail checks tied to expected outputs."
   ((REC_NUM++))
 fi
 
@@ -272,37 +444,152 @@ $(echo -e "$RECOMMENDATIONS")
 
 ## Detailed Dimension Analysis
 
-### D1: Knowledge Delta
+### D1: Knowledge Delta ($D1/20)
 
-$D1_ASSESSMENT
+**Assessment**: $D1_ASSESSMENT
 
-### D2: Mindset + Procedures
+**Strengths**:
 
-$D2_ASSESSMENT
+- Skill has domain-specific direction beyond generic writing guidance.
 
-### D3: Anti-Pattern Quality
+**Weaknesses**:
 
-$D3_ASSESSMENT
+- Scores below 18 usually indicate overlap that can be collapsed into references.
 
-### D4: Specification Compliance
+### D2: Mindset + Procedures ($D2/15)
 
-$D4_ASSESSMENT
+**Assessment**: $D2_ASSESSMENT
 
-### D5: Progressive Disclosure
+**Strengths**:
 
-$D5_ASSESSMENT
+- Workflow sequence is documented and executable.
 
-### D6: Freedom Calibration
+**Weaknesses**:
 
-$D6_ASSESSMENT
+- Lower scores indicate missing fallback behavior or weak decision points.
 
-### D7: Pattern Recognition
+### D3: Anti-Pattern Quality ($D3/15)
 
-$D7_ASSESSMENT
+**Assessment**: $D3_ASSESSMENT
 
-### D8: Practical Usability
+**Strengths**:
 
-$D8_ASSESSMENT
+- Anti-pattern section gives guardrails for common failure modes.
+
+**Weaknesses**:
+
+- Lower scores indicate missing "why this fails" and corrected examples.
+
+### D4: Specification Compliance ($D4/15)
+
+**Assessment**: $D4_ASSESSMENT
+
+| Requirement | Status | Notes |
+| --- | --- | --- |
+| Valid frontmatter | PASS | Metadata keys detected |
+| Trigger-oriented description | PASS | Description is present in skill frontmatter |
+| Structural consistency | PASS | Headings and sections are parseable |
+
+### D5: Progressive Disclosure ($D5/15)
+
+**Assessment**: $D5_ASSESSMENT
+
+**Strengths**:
+
+- Reference-based structure exists when references/ is present.
+
+**Weaknesses**:
+
+- Lower scores indicate hub is too large or references are underused.
+
+### D6: Freedom Calibration ($D6/15)
+
+**Assessment**: $D6_ASSESSMENT
+
+**Strengths**:
+
+- Constraints are present to shape output quality.
+
+**Weaknesses**:
+
+- Lower scores suggest over-permissive guidance or over-constraining rules.
+
+### D7: Pattern Recognition ($D7/10)
+
+**Assessment**: $D7_ASSESSMENT
+
+**Strengths**:
+
+- Trigger keywords exist and pattern intent is identifiable.
+
+**Weaknesses**:
+
+- Lower scores imply ambiguous activation cues and mixed-output risk.
+
+### D8: Practical Usability ($D8/15)
+
+**Assessment**: $D8_ASSESSMENT
+
+**Strengths**:
+
+- Includes actionable examples or verification commands.
+
+**Weaknesses**:
+
+- Lower scores indicate insufficient end-to-end examples and testable checks.
+
+---
+
+## Proposed Restructured SKILL.md
+
+\`\`\`\`markdown
+## Output Format
+
+Produce acceptance criteria in this structure:
+
+\`\`\`markdown
+User Story:
+As a [role], I want [action], so that [benefit].
+
+Acceptance Criteria (Must Have):
+1. ...
+2. ...
+
+Negative/Edge Scenarios:
+1. ...
+2. ...
+
+Out of Scope (Won't Have):
+- ...
+\`\`\`
+
+For mixed behavior and constraints, use Hybrid:
+
+\`\`\`markdown
+Acceptance Criteria (Hybrid):
+1. Scenario-Based Criteria (Given/When/Then)
+2. Rule-Based Criteria (independent measurable constraints)
+
+Negative/Edge Scenarios:
+1. ...
+2. ...
+
+Out of Scope (Won't Have):
+- ...
+\`\`\`
+
+If inputs are incomplete, produce a Draft section with explicit assumptions.
+\`\`\`\`
+
+---
+
+## Action Items
+
+| Priority | Action | Effort |
+| --- | --- | --- |
+| 1 | Address all critical issues listed above | 15-30 min |
+| 2 | Apply top 3 recommended improvements in order | 20-45 min |
+| 3 | Re-run evaluation and markdown validation | 5-10 min |
 
 ---
 

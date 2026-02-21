@@ -156,11 +156,26 @@ Use the canonical template at skills/skill-quality-auditor/templates/review-repo
   - skill_location: \`skills/$skill_name/SKILL.md\`
 - Executive summary with score/grade
 - Dimension scores table
-- Critical issues with file references
+- Critical issues with concrete evidence and file references
 - Top 3 recommended improvements
-- Detailed dimension analysis
+- Detailed dimension analysis for D1-D8
+- Proposed Restructured SKILL.md section with concrete markdown snippet(s)
 - Files inventory
 - Verification commands
+
+Depth requirements (mandatory):
+- Match the level of detail of historical deep audits (not compressed summaries).
+- For each critical issue include:
+  - at least 2 evidence bullets
+  - at least 1 concrete file reference with line number when possible
+  - explicit impact statement
+- For each of D1-D8 include:
+  - one assessment sentence
+  - at least 1 strength bullet
+  - at least 1 weakness bullet
+- Include an \`Action Items\` table with priority, action, and effort.
+- Include a \`Proposed Restructured SKILL.md\` section with deterministic output template changes.
+- Keep recommendations deterministic and directly actionable.
 
 After writing the report, run:
 \`./skills/skill-quality-auditor/scripts/validate-review-format.sh .context/audits/${skill_name}-${DATE}.md\`

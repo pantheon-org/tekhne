@@ -41,11 +41,13 @@ report_template_markdown: |
   ### 1. [issue title]
 
   - `skills/[skill-name]/SKILL.md:[line]`
+  - **Evidence**: [score/structure signal]
   - **Impact**: [why this matters]
 
   ### 2. [issue title]
 
   - `skills/[skill-name]/SKILL.md:[line]`
+  - **Evidence**: [score/structure signal]
   - **Impact**: [why this matters]
 
   ---
@@ -80,31 +82,109 @@ report_template_markdown: |
 
   ### D2: Mindset + Procedures
 
-  [analysis]
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
 
   ### D3: Anti-Pattern Quality
 
-  [analysis]
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
 
   ### D4: Specification Compliance
 
-  [analysis]
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
 
   ### D5: Progressive Disclosure
 
-  [analysis]
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
 
   ### D6: Freedom Calibration
 
-  [analysis]
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
 
   ### D7: Pattern Recognition
 
-  [analysis]
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
 
   ### D8: Practical Usability
 
-  [analysis]
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
+
+  ---
+
+  ## Proposed Restructured SKILL.md
+
+  ````markdown
+  ## Output Format
+
+  [show a deterministic output template tailored to this skill]
+
+  If inputs are incomplete, produce a Draft section with explicit assumptions.
+  ````
+
+  ---
+
+  ## Action Items
+
+  | Priority | Action | Effort |
+  | --- | --- | --- |
+  | 1 | [first high-impact change] | [time estimate] |
+  | 2 | [second change] | [time estimate] |
+  | 3 | [third change] | [time estimate] |
 
   ---
 
