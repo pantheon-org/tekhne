@@ -71,23 +71,38 @@ get_latest_audit_info() {
     fi
     
     latest_file=""
-    latest_timestamp=""
+    latest_date=""
     
-    for file in "$AUDITS_DIR"/"${skill_name}-"*; do
+    for file in "$AUDITS_DIR"/"${skill_name}-"*.md; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
-            timestamp=$(echo "$filename" | sed "s/${skill_name}-//" | sed 's/\.md$//')
-            
-            if [ -z "$latest_timestamp" ] || expr "$timestamp" ">" "$latest_timestamp" >/dev/null; then
-                latest_timestamp="$timestamp"
+
+            # Support both naming conventions:
+            #   <skill>-YYYY-MM-DD.md
+            #   <skill>-audit-YYYY-MM-DD.md
+            date_part=$(echo "$filename" | sed -n "s/^${skill_name}-audit-\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\)\.md$/\1/p")
+            if [ -z "$date_part" ]; then
+                date_part=$(echo "$filename" | sed -n "s/^${skill_name}-\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\)\.md$/\1/p")
+            fi
+
+            [ -n "$date_part" ] || continue
+
+            if [ -z "$latest_date" ]; then
+                latest_date="$date_part"
                 latest_file="$file"
+            else
+                max_date=$(printf '%s\n%s\n' "$date_part" "$latest_date" | sort | tail -n 1)
+                if [ "$max_date" = "$date_part" ] && [ "$date_part" != "$latest_date" ]; then
+                    latest_date="$date_part"
+                    latest_file="$file"
+                fi
             fi
         fi
     done
     
     if [ -n "$latest_file" ]; then
         rating=$(extract_rating_from_report "$latest_file")
-        echo "${latest_timestamp}|${rating}"
+        echo "${latest_date}|${latest_file}|${rating}"
     fi
 }
 
@@ -115,16 +130,16 @@ get_skill_badge() {
 }
 
 get_audit_link() {
-    timestamp="$1"
-    skill_name="$2"
-    
-    if [ -z "$timestamp" ]; then
+    date_part="$1"
+    audit_path="$2"
+
+    if [ -z "$date_part" ] || [ -z "$audit_path" ]; then
         echo "N/A"
         return
     fi
-    
-    audit_file=".context/audits/${skill_name}-${timestamp}.md"
-    printf '[%s](%s)' "$timestamp" "$audit_file"
+
+    rel_path=$(echo "$audit_path" | sed "s|^$PROJECT_ROOT/||")
+    printf '[%s](%s)' "$date_part" "$rel_path"
 }
 
 is_skill_table_row() {
@@ -140,15 +155,17 @@ build_skill_row() {
     badge="$3"
     audit_link="$4"
     
-    # shellcheck disable=SC2006
-    skill_link="[`${skill_name}`](skills/${skill_name}/SKILL.md)"
-    printf '| %-80s | %-78s | %-57s | %-72s |' "$skill_link" "$description" "$badge" "$audit_link"
+    skill_link="[\`$skill_name\`](skills/$skill_name/SKILL.md)"
+    printf '| %s | %s | %s | %s |' "$skill_link" "$description" "$badge" "$audit_link"
 }
 
 extract_skill_name() {
     line="$1"
+    # Works for both:
+    #   | `skill` | ...
+    #   | [`skill`](skills/skill/SKILL.md) | ...
     # shellcheck disable=SC2016
-    printf '%s\n' "$line" | sed -n 's/^| `\([^`]*\)`.*/\1/p'
+    printf '%s\n' "$line" | awk -F'|' '{print $2}' | sed -n 's/.*`\([^`]*\)`.*/\1/p'
 }
 
 update_readme() {
@@ -158,7 +175,6 @@ update_readme() {
     fi
     
     table_start_line=0
-    has_full_format=false
     line_num=0
     
     while IFS= read -r line || [ -n "$line" ]; do
@@ -167,9 +183,6 @@ update_readme() {
         case "$line" in
             *\|\ Skill*\|\ Description*\|*)
                 table_start_line=$line_num
-                case "$line" in
-                    *Audit*) has_full_format=true ;;
-                esac
                 ;;
         esac
     done < "$README_PATH"
@@ -188,20 +201,12 @@ update_readme() {
         
         if [ "$current_line" -eq "$table_start_line" ]; then
             in_table=true
-            if [ "$has_full_format" = false ]; then
-                printf '%s Rating | Audit |\n' "$line"
-            else
-                printf '%s\n' "$line"
-            fi
+            printf '| Skill | Description | Rating | Audit |\n'
             continue
         fi
         
         if [ "$in_table" = true ] && [ "$current_line" -eq $((table_start_line + 1)) ]; then
-            if [ "$has_full_format" = false ]; then
-                printf '%s ------ | ------ |\n' "$line"
-            else
-                printf '%s\n' "$line"
-            fi
+            printf '| --- | --- | --- | --- |\n'
             continue
         fi
         
@@ -213,26 +218,19 @@ update_readme() {
                     audit_info=$(get_latest_audit_info "$skill_name")
                     
                     if [ -n "$audit_info" ]; then
-                        timestamp=$(echo "$audit_info" | cut -d'|' -f1)
-                        rating=$(echo "$audit_info" | cut -d'|' -f2-)
+                        date_part=$(echo "$audit_info" | cut -d'|' -f1)
+                        audit_path=$(echo "$audit_info" | cut -d'|' -f2)
+                        rating=$(echo "$audit_info" | cut -d'|' -f3-)
                         badge=$(get_skill_badge "$rating")
-                        audit_link=$(get_audit_link "$timestamp" "$skill_name")
+                        audit_link=$(get_audit_link "$date_part" "$audit_path")
                     else
                         badge="N/A"
                         audit_link="N/A"
                     fi
                     
-                    description=$(echo "$line" | sed 's/^[^|]*|[^|]*| *\([^|]*\) *|.*/\1/')
-                    
-                    if [ "$has_full_format" = false ]; then
-                        # shellcheck disable=SC2006
-                        skill_link="[`${skill_name}`](skills/${skill_name}/SKILL.md)"
-                        printf '| %-80s | %-78s | %-57s | %-72s |\n' "$skill_link" "$description" "$badge" "$audit_link"
-                    else
-                        new_line=$(echo "$line" | sed 's|!\[.*\](https://img.shields.io/badge/Rating-[^)]*)|'"$badge"'|')
-                        new_line=$(echo "$new_line" | sed 's|\[20[0-9][0-9-[0-9][0-9]-[0-9][0-9]\](\.context/audits/[^)|]*)|'"$audit_link"'|')
-                        printf '%s\n' "$new_line"
-                    fi
+                    description=$(printf '%s\n' "$line" | awk -F'|' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); print $3}')
+
+                    printf '%s\n' "$(build_skill_row "$skill_name" "$description" "$badge" "$audit_link")"
                     continue
                 fi
             fi
