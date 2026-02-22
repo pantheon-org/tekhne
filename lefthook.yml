@@ -12,6 +12,10 @@ pre-commit:
     skill-artifacts:
       run: ./skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh {staged_files}
       stage_fixed: true
+    audit-readme-sync:
+      glob: ".context/audits/*.md"
+      run: ./scripts/update-readme-ratings.sh && bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md
+      stage_fixed: true
     yamllint:
       glob: "*.{yml,yaml}"
       run: command -v yq >/dev/null 2>&1 && yq eval '.' {staged_files} >/dev/null
