@@ -1,280 +1,112 @@
 ---
 name: opencode-config
-description: |-
-  Edit opencode.json, AGENTS.md, and config files. Use proactively for provider setup, permission changes, model config, formatter rules, or environment variables.
-  
-  Examples:
-  - user: "Add Anthropic as a provider" → edit opencode.json providers, add API key baseEnv var, verify with opencode run test
-  - user: "Restrict this agent's permissions" → add permission block to agent config, set deny/allow for tools/fileAccess
-  - user: "Set GPT-5 as default model" → edit global or agent-level model preference, verify model name format
-  - user: "Disable gofmt formatter" → edit formatters section, set languages.gofmt.enabled = false
+description: Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior.
 ---
 
 # OpenCode Configuration
 
-Help users configure OpenCode through guided setup of config files and rules.
+Navigation hub for OpenCode configuration tasks.
 
-<question_tool>
+## When to Use
 
-**Batching Rule:** Use only for 2+ related questions; single questions use plain text.
+- Adding or updating providers and model preferences.
+- Editing permissions for tools, shell commands, or file access.
+- Updating formatter or instruction configuration in `opencode.json`.
+- Creating or refining `AGENTS.md` instructions.
+- Diagnosing configuration precedence or behavior mismatches.
 
-**Syntax Constraints:** header max 12 chars, labels 1-5 words, mark defaults with `(Recommended)`.
+## When Not to Use
 
-**Purpose:** Clarify config scope (models/permissions/rules), validate approach, and handle multiple valid options.
+- General coding implementation tasks.
+- Plugin/tool development outside standard config fields.
+- Agent personality design unrelated to config structure.
 
-</question_tool>
+## Mindset
 
-<reference>
+- Prefer explicit, minimal configuration changes over broad rewrites.
+- Treat permissions and secrets as security-critical defaults.
+- Validate behavior immediately after each meaningful config edit.
 
-## File Locations
+## Scope
 
-| Type | Global | Project |
-|------|--------|---------|
-| **Config** | `~/.config/opencode/opencode.json` | `./opencode.json` |
-| **Rules** | `~/.config/opencode/AGENTS.md` | `./AGENTS.md` |
+| File | Purpose |
+| --- | --- |
+| `opencode.json` | Main OpenCode runtime configuration |
+| `AGENTS.md` | Project-level behavior and workflow rules |
+| `.env`/shell env | Provider keys and environment-backed configuration |
+| `references/*.md` | Deep configuration guidance |
 
-**Precedence:** Project > Global. Configs are merged, not replaced.
-
-</reference>
-
-<workflow>
-
-## Question Tool
-
-**Batching:** Use the `question` tool for 2+ related questions. Single questions → plain text.
-
-**Syntax:** `header` ≤12 chars, `label` 1-5 words, add "(Recommended)" to default.
-
-When to ask: Vague request ("configure opencode"), permission/security changes, or multiple valid options exist.
+Out of scope: plugin authoring and custom tool SDK development.
 
 ## Workflow
 
-Ask the user what they want to configure:
+1. Identify target config file(s) from request intent.
+2. Read current config state and precedence (project vs global).
+3. Apply minimal configuration edits with explicit rationale.
+4. Validate syntax and run OpenCode config test.
+5. Confirm expected behavior and document key constraints.
 
-1. **"What would you like to set up?"**
-   - Config file (models, tools, permissions, theme)
-   - Rules (project instructions via AGENTS.md)
+## Quick Commands
 
-Then guide them through the relevant section below.
-
-</workflow>
-
-<config_file>
-
-## Config File (opencode.json)
-
-### Basic Setup
-
-```jsonc
-{
-  "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-20250514",
-  "theme": "opencode",
-  "autoupdate": true
-}
+```bash
+rg -n "model|provider|permission|instructions" opencode.json AGENTS.md
 ```
-
-### Key Options
-
-| Option | Purpose | Example |
-|--------|---------|---------|
-| `model` | Default model | `"anthropic/claude-sonnet-4-20250514"` |
-| `small_model` | Lightweight tasks | `"anthropic/claude-3-5-haiku-20241022"` |
-| `theme` | UI theme | `"opencode"`, `"catppuccin"`, `"dracula"` |
-| `autoupdate` | Auto-update OpenCode | `true` / `false` |
-| `share` | Session sharing | `"manual"` / `"auto"` / `"disabled"` |
-
-### Permissions
-
-Control what requires approval using the `permission` field.
-
-```jsonc
-{
-  "permission": {
-    "edit": "allow",           // "allow" | "ask" | "deny"
-    "bash": {
-      "npm *": "allow",        // pattern matching
-      "git *": "allow",
-      "rm *": "ask",
-      "*": "ask"               // default for this tool
-    },
-    "webfetch": "allow",
-    "skill": {
-      "*": "allow",
-      "dangerous-*": "deny"
-    }
-  }
-}
-```
-
-### Legacy Configuration
-
-Agents may occasionally work on legacy projects using outdated configuration fields (e.g., `tools`, `maxSteps`). You MUST correct these to the modern `permission` and `steps` fields when encountered.
-
-### Custom Instructions
-
-Include additional instruction files:
-
-```jsonc
-{
-  "instructions": [
-    "CONTRIBUTING.md",
-    "docs/guidelines.md",
-    ".cursor/rules/*.md"
-  ]
-}
-```
-
-**Full schema reference:** See `references/config-schema.md`
-
-</config_file>
-
-<rules_file>
-
-## Rules (AGENTS.md)
-
-Project instructions for all agents. Similar to CLAUDE.md or Cursor rules.
-
-### Create with /init
-
-Run `/init` in OpenCode to auto-generate based on project analysis.
-
-### Manual Creation
-
-```markdown
-# Project Name
-
-This is a [framework] project using [language].
-
-## Project Structure
-- `src/` - Source code
-- `tests/` - Test files
-
-## Code Standards
-- Use TypeScript strict mode
-- Prefer functional patterns
-- Write tests for all features
-
-## Commands
-- `npm run build` - Build project
-- `npm test` - Run tests
-```
-
-### Tips
-
-- SHOULD be specific about your project's patterns
-- SHOULD include common commands
-- SHOULD document any non-obvious conventions
-- SHOULD keep it concise (agents have limited context)
-
-</rules_file>
-
-<config_tips>
-
-## Comment Out, Don't Delete
-
-OpenCode supports JSONC (JSON with comments). SHOULD comment out unused configs instead of deleting:
-
-```jsonc
-{
-  "plugin": [
-    "opencode-openai-codex-auth@latest",
-    //"@tarquinen/opencode-dcp@latest",     // disabled for now
-    //"@howaboua/pickle-thinker@0.4.0",     // only for GLM-4.6
-    "@ramtinj95/opencode-tokenscope@latest"
-  ]
-}
-```
-
-**Why:** You might want to re-enable later. Keeps a record of what you've tried.
-
-## Validate After Major Changes
-
-After editing opencode.json, you MUST run this validation (not just suggest it):
 
 ```bash
 opencode run "test"
 ```
 
-**Execute it yourself** using the Bash tool before telling the user the change is complete.
-
-If broken, you'll see a clear error with line number:
-```
-Error: Config file at ~/.config/opencode/opencode.json is not valid JSON(C):
---- Errors ---
-CommaExpected at line 464, column 5
-   Line 464:     "explore": {
-              ^
---- End ---
+```bash
+jq . opencode.json >/dev/null
 ```
 
-Common JSONC mistakes:
-- Missing comma after object (especially after adding new sections)
-- Trailing comma before `}`
-- Unclosed brackets
-
-</config_tips>
-
-<common_configurations>
-
-## Minimal Safe Config
-
-```jsonc
-{
-  "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-20250514",
-  "permission": {
-    "edit": "ask",
-    "bash": "ask"
-  }
-}
+```bash
+rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 ```
 
-## Power User Config
+## Gotchas
 
-```jsonc
-{
-  "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-20250514",
-  "autoupdate": true,
-  "permission": {
-    "edit": "allow",
-    "bash": {
-      "*": "allow",
-      "rm -rf *": "deny",
-      "sudo *": "ask"
-    }
-  },
-  "instructions": ["CONTRIBUTING.md"]
-}
-```
+- Provider order matters when multiple providers can satisfy a model name.
+- Agent-level permissions can be stricter than global defaults.
+- Environment precedence is typically shell > dotenv loader > config defaults.
+- Model identifiers must match provider format exactly.
 
-## Team Project Config
+## Production Caveats
 
-```jsonc
-{
-  "$schema": "https://opencode.ai/config.json",
-  "model": "anthropic/claude-sonnet-4-20250514",
-  "share": "auto",
-  "instructions": [
-    "docs/development.md",
-    "docs/api-guidelines.md"
-  ]
-}
-```
+- NEVER commit raw API keys to repository config files.
+- Prefer least-privilege permissions and widen only when required.
+- Re-test config after permission or provider edits.
 
-</common_configurations>
+## Anti-Patterns
 
-<troubleshooting>
+### NEVER commit API keys directly in config
 
-| Issue | Solution |
-|-------|----------|
-| Config not loading | Check JSON syntax, ensure valid path |
-| Skill not found | Verify `SKILL.md` (uppercase), check frontmatter |
-| Permission denied unexpectedly | Check global vs project config precedence |
+WHY: secret leakage through source control history is irreversible.
+BAD: `"apiKey": "sk-..."`. GOOD: `"baseEnv": "OPENAI_API_KEY"`.
 
-</troubleshooting>
+### NEVER use broad filesystem or shell permissions by default
+
+WHY: permissive defaults increase blast radius of mistakes.
+BAD: root-level read/write and unrestricted shell. GOOD: scoped paths and explicit command allowlists.
+
+### NEVER use ambiguous model names
+
+WHY: providers may resolve generic model aliases differently.
+BAD: `"model": "gpt-4"`. GOOD: provider-qualified or exact model identifiers.
+
+### NEVER skip verification after permission changes
+
+WHY: permission regressions are often silent until runtime.
+BAD: edit-and-commit without test. GOOD: run `opencode run "test"` and validate behavior.
+
+## Quick Reference
+
+| Topic | Reference |
+| --- | --- |
+| Provider setup and model mapping | [references/provider-configuration.md](references/provider-configuration.md) |
+| Permission structure and patterns | [references/permission-schema.md](references/permission-schema.md) |
+| Full config field reference | [references/config-schema.md](references/config-schema.md) |
 
 ## References
 
-- `references/config-schema.md` - Full config options
+- [OpenCode Docs](https://opencode.ai/docs/)
