@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: nx-workspace-patterns
 source_audit: .context/audits/nx-workspace-patterns-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: nx-workspace-patterns
@@ -20,7 +22,7 @@ source_audit: .context/audits/nx-workspace-patterns-audit-2026-02-22.md
 ## Critical Issues to Address
 
 | # | Issue | Severity | Dimension |
-|---|-------|----------|-----------|
+| --- | --- | --- | --- |
 | 1 | Progressive disclosure weak (7/15) | High | D5 |
 | 2 | Anti-pattern quality weak (8/15) | High | D3 |
 | 3 | Mindset + procedures unclear (10/15) | Medium | D2 |
