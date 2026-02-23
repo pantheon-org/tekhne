@@ -1,64 +1,134 @@
 ---
 name: bdd-testing
-description: |-
-  Master Behavior-Driven Development (BDD) testing with comprehensive guidance on principles, patterns, Gherkin syntax, collaboration practices, and Cucumber.js implementation. Use when: writing BDD tests, creating feature files, implementing step definitions, running Three Amigos sessions, facilitating example mapping, or applying Given/When/Then patterns.
-  
-  Keywords: BDD, Gherkin, Cucumber, Given-When-Then, feature files, step definitions, acceptance criteria, Three Amigos, example mapping, living documentation, scenario outlines, ubiquitous language, collaboration, specification by example
+description: Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. Use when defining acceptance scenarios, writing feature files, implementing step definitions, running Three Amigos sessions, or diagnosing BDD test quality issues. Keywords: bdd, gherkin, cucumber, given when then, feature files, step definitions, acceptance criteria, three amigos, example mapping.
 allowed-tools:
   - Read
   - Bash
 ---
 
-# BDD Testing & Practices
+# BDD Testing
 
-Comprehensive Behavior-Driven Development guidance covering principles, collaboration practices, Gherkin syntax, and Cucumber.js implementation. Navigate to specific topics based on your needs.
+## When to Use
 
-## When to Apply
+Use this skill when behavior needs to be specified and validated in shared, business-readable scenarios.
 
-Use this skill when:
-- Writing BDD scenarios or feature files
-- Implementing Cucumber.js tests with TypeScript
-- Facilitating Three Amigos or Example Mapping sessions
-- Defining acceptance criteria for user stories
-- Creating living documentation from tests
-- Setting up BDD testing infrastructure
-- Reviewing or refactoring existing BDD tests
+## When Not to Use
 
-## Categories by Priority
+Do not use BDD feature files for low-level unit behavior that is internal and not stakeholder-facing.
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Principles & Philosophy | CRITICAL | `principles-` |
-| 2 | Gherkin Syntax & Structure | CRITICAL | `gherkin-` |
-| 3 | Collaboration Practices | HIGH | `collaboration-` |
-| 4 | Scenario Writing | HIGH | `scenarios-` |
-| 5 | Patterns & Anti-patterns | MEDIUM | `patterns-` |
-| 6 | Cucumber.js Implementation | MEDIUM | `cucumber-` |
+## Core Principles
 
-## How to Use
+1. Specify observable behavior, not implementation details.
+2. Keep a shared language across product, engineering, and QA.
+3. Scenarios should be deterministic and independently executable.
+4. Feature files should remain readable by non-developers.
 
-Read individual reference files for detailed guidance:
+## Deterministic Workflow
 
-```
-references/principles-core-philosophy.md
-references/gherkin-syntax.md
-references/collaboration-three-amigos.md
+1. Align on examples in a Three Amigos discussion.
+2. Write scenarios in Gherkin using Given/When/Then.
+3. Implement step definitions that map to business language.
+4. Execute Cucumber and review failures by scenario intent.
+5. Refactor scenarios and steps to remove duplication.
+
+## Quick Commands
+
+### Run all feature tests
+
+```bash
+npx cucumber-js features
 ```
 
-Each reference file contains:
-- Core concepts and explanations
-- Practical examples with code
-- Best practices and common pitfalls
-- When to apply specific techniques
-- Related resources and links
+Expected result: scenario pass/fail summary and non-zero exit on failures.
 
-## Progressive Disclosure
+### Dry-run to detect missing step definitions
 
-Start with **principles** to understand the BDD mindset, then explore **gherkin** for syntax, **collaboration** for team practices, and **cucumber** for implementation details.
+```bash
+npx cucumber-js --dry-run features
+```
+
+Expected result: undefined steps listed without full execution.
+
+### Run a tagged subset
+
+```bash
+npx cucumber-js --tags "@smoke and not @wip"
+```
+
+Expected result: only matching scenarios execute.
+
+### Generate JSON report
+
+```bash
+npx cucumber-js --format json:reports/cucumber-report.json
+```
+
+Expected result: machine-readable execution report for CI/reporting.
+
+### Evaluate this skill quality
+
+```bash
+sh skills/skill-quality-auditor/scripts/evaluate.sh bdd-testing --json
+```
+
+Expected result: updated quality dimensions and grade.
+
+## Constraints
+
+### Hard Constraints
+
+- Use business-facing language in feature files.
+- Keep each scenario focused on one behavior.
+- Avoid cross-scenario state coupling.
+
+### Soft Constraints
+
+- Scenario count per feature should stay manageable.
+- Prefer explicit examples over abstract wording.
+- Reuse step phrases only when semantics are identical.
+
+## Anti-Patterns
+
+### NEVER encode implementation details in Gherkin steps
+
+**WHY:** Implementation-centric steps break when internals change.
+
+**BAD:** `When I click the submit button and call validateForm()`
+**GOOD:** `When I submit the form`
+
+**Consequence:** Scenarios become brittle and unreadable to stakeholders.
+
+### NEVER skip Three Amigos before writing key scenarios
+
+**WHY:** Missing perspectives create ambiguous or incomplete acceptance behavior.
+
+**BAD:** Engineering writes scenarios alone from assumptions.
+**GOOD:** Product, QA, and engineering align on examples first.
+
+**Consequence:** Rework increases and acceptance disputes appear late.
+
+### NEVER use vague Then steps without observable outcomes
+
+**WHY:** Unverifiable outcomes cannot fail meaningfully.
+
+**BAD:** `Then it should work correctly`
+**GOOD:** `Then I should see "Order confirmed"`
+
+**Consequence:** Tests pass without validating user-visible behavior.
+
+### NEVER couple scenarios with ordering dependencies
+
+**WHY:** Scenario order dependence creates flaky suites.
+
+**BAD:** Scenario B assumes data created by scenario A.
+**GOOD:** Each scenario creates or mocks its own prerequisites.
+
+**Consequence:** Parallel runs and CI become unstable.
 
 ## References
 
-- https://cucumber.io/docs/bdd
-- https://cucumber.io/docs/gherkin/reference
-- https://github.com/cucumber/cucumber-js
-- https://cucumber.io/docs/cucumber/cucumber-expressions
+- `references/principles-core-philosophy.md`
+- `references/gherkin-syntax.md`
+- `references/principles-three-amigos.md`
+- `references/principles-example-mapping.md`
+- `references/cucumber-setup.md`

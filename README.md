@@ -13,7 +13,7 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 | --- | --- | --- | --- |
 | [`acceptance-criteria`](skills/acceptance-criteria/SKILL.md) | Write effective acceptance criteria for user stories | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-02-22](.context/audits/acceptance-criteria-audit-2026-02-22.md) |
 | [`agents-md`](skills/agents-md/SKILL.md) | AGENTS.md management - create, generate, and maintain AI documentation | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-22](.context/audits/agents-md-audit-2026-02-22.md) |
-| [`bdd-testing`](skills/bdd-testing/SKILL.md) | Behavior-Driven Development with Gherkin/Cucumber | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/bdd-testing-audit-2026-02-22.md) |
+| [`bdd-testing`](skills/bdd-testing/SKILL.md) | Behavior-Driven Development with Gherkin/Cucumber | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/bdd-testing-audit-2026-02-23.md) |
 | [`biome-complete`](skills/biome-complete/SKILL.md) | Biome toolchain: configuration, linting, formatting, ESLint/Prettier migration | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/biome-complete-audit-2026-02-23.md) |
 | [`bun-development`](skills/bun-development/SKILL.md) | Bun.js runtime APIs, testing, SQLite, and security | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/bun-development-audit-2026-02-22.md) |
 | [`cdk-nag`](skills/cdk-nag/SKILL.md) | AWS CDK security and compliance validation | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/cdk-nag-audit-2026-02-22.md) |
