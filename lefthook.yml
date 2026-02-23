@@ -14,7 +14,7 @@ pre-commit:
       stage_fixed: true
     audit-readme-sync:
       glob: ".context/audits/*.md"
-      run: ./scripts/update-readme-ratings.sh && bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md
+      run: ./scripts/update-readme-ratings.sh && bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md && git add README.md
       stage_fixed: true
     yamllint:
       glob: "*.{yml,yaml}"
