@@ -1,6 +1,6 @@
 ---
 name: nx-generators
-description: Create Nx generators to automate code scaffolding and enforce best practices in Nx workspaces. Covers the Tree API, schema validation, composing generators, template files, and testing with TypeScript.
+description: Create Nx generators for TypeScript monorepos with deterministic Tree API usage, schema-driven options, template file generation, project-graph-safe updates, and testable workflows; use when scaffolding code, enforcing conventions, or building reusable plugin automation in Nx workspaces.
 license: MIT
 compatibility: opencode
 metadata:
@@ -8,281 +8,123 @@ metadata:
   audience: nx-developers
 ---
 
-# Nx Generators Skill
+# Nx Generators
 
-Guide for creating custom Nx generators to automate code scaffolding and enforce workspace best practices.
+Navigation hub for authoring and operating custom Nx generators.
 
-## When to Use This Skill
+## When to Use
 
-Use this skill when:
-- User requests creating a new Nx generator
-- Scaffolding code in an Nx workspace
-- Automating repetitive project setup tasks
-- Enforcing workspace conventions and best practices
+- You need to scaffold files/projects with repeatable conventions.
+- You are adding or modifying custom generators in an Nx plugin.
+- You need deterministic project configuration updates through the Tree API.
 
-## Knowledge Base References
+## When Not to Use
 
-For technical details on Nx generators, refer to these KB articles:
+- The task requires runtime execution logic (use executors instead).
+- The task is workspace policy only, without code scaffolding.
 
-1. **[concepts.md](knowledge-base/concepts.md)** - Generator structure, Tree API, schema system
-2. **[template-system.md](knowledge-base/template-system.md)** - EJS templates, file naming, variable injection
-3. **[utilities.md](knowledge-base/utilities.md)** - Devkit utilities (names, logger, dependencies)
+## Principles
 
-## Agent Workflow
+- Keep generators deterministic and idempotent where possible.
+- Prefer small, composable generation steps over one large mutation pass.
+- You may compose existing generators when it improves consistency.
 
-### Step 1: Understand Requirements
+## Workflow
 
-Before creating a generator, clarify:
-- What does the generator create? (library, component, configuration)
-- What files need to be generated?
-- What options should it accept? (required vs optional)
-- What conventions should it enforce? (naming, structure, tags)
+1. Define generator schema and option constraints.
+2. Implement generation logic using Tree API only.
+3. Add templates and variable mapping.
+4. Update project configuration safely when needed.
+5. Validate with dry-run, tests, and generated output checks.
 
-Ask the user if any requirements are unclear.
+## Constraint vs Flexibility Guidelines
 
-### Step 2: Set Up Generator Structure
+### Hard Constraints (MUST)
 
-Create the generator scaffold:
+- MUST use Tree API (`tree.write`, `generateFiles`, `updateJson`) for filesystem edits.
+- MUST validate generator options via schema and explicit guards.
+- MUST respect Nx project graph boundaries and existing tags.
+- MUST test with `--dry-run` before broad rollouts.
 
-```bash
-# If no plugin exists yet
-nx add @nx/plugin
-nx g @nx/plugin:plugin plugins/<namespace>
+### Flexible Choices (CAN)
 
-# Create generator
-nx generate @nx/plugin:generator <generator-name> --project=<plugin-name>
-```
+- CAN choose template style (EJS-heavy vs minimal placeholders).
+- CAN choose option naming conventions if documented in schema.
+- CAN compose other generators when it reduces duplication.
 
-This creates:
-```
-plugins/<namespace>/src/generators/<generator-name>/
-├── generator.ts      # Main implementation
-├── generator.spec.ts # Tests
-├── schema.d.ts       # TypeScript types
-├── schema.json       # CLI configuration
-└── files/            # Template directory (create manually)
-```
+### Fallback Behaviors
 
-### Step 3: Define Schema
+| Missing Input | Fallback |
+| --- | --- |
+| `directory` omitted | Use workspace default location |
+| optional flags omitted | Apply safe schema defaults |
+| custom template not provided | Generate minimal boilerplate |
 
-Start with the schema to define the generator's interface:
-
-```json
-// schema.json
-{
-  "cli": "nx",
-  "id": "<generator-name>",
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "Name of the generated artifact",
-      "$default": { "$source": "argv", "index": 0 }
-    }
-  },
-  "required": ["name"]
-}
-```
-
-**Reference:** [concepts.md](knowledge-base/concepts.md#schema-definitions)
-
-### Step 4: Implement Generator Logic
-
-Follow this pattern:
-
-```typescript
-// generator.ts
-import {
-  Tree, formatFiles, generateFiles,
-  joinPathFragments, names, logger
-} from "@nx/devkit"
-
-export default async function (tree: Tree, schema: Schema) {
-  // 1. Validate input
-  if (!schema.name.match(/^[a-z][a-z0-9-]*$/)) {
-    throw new Error("Name must be kebab-case")
-  }
-  
-  // 2. Compute paths and variables
-  const projectRoot = `libs/${schema.name}`
-  const templateVars = {
-    ...schema,
-    ...names(schema.name),
-    tmpl: ""
-  }
-  
-  // 3. Generate files from templates
-  generateFiles(
-    tree,
-    joinPathFragments(__dirname, "./files"),
-    projectRoot,
-    templateVars
-  )
-  
-  // 4. Format generated files
-  await formatFiles(tree)
-  
-  // 5. Log success
-  logger.info(`Generated ${schema.name} successfully`)
-}
-```
-
-**Reference:** [concepts.md](knowledge-base/concepts.md#tree-api), [utilities.md](knowledge-base/utilities.md)
-
-### Step 5: Create Template Files
-
-Create `files/` directory with templates:
-
-```
-files/
-├── README.md.template
-├── src/
-│   ├── index.ts.template
-│   └── __name__.ts.template  # __name__ replaced with actual name
-```
-
-Use EJS syntax for variable injection:
-
-```typescript
-// src/__name__.ts.template
-export const <%= propertyName %> = () => {
-  return "<%= name %>"
-}
-```
-
-**Reference:** [template-system.md](knowledge-base/template-system.md)
-
-### Step 6: Write Tests
-
-```typescript
-// generator.spec.ts
-import { createTreeWithEmptyWorkspace } from "@nx/devkit/testing"
-import generator from "./generator"
-
-describe("my-generator", () => {
-  it("should generate files", async () => {
-    const tree = createTreeWithEmptyWorkspace()
-    await generator(tree, { name: "test-lib" })
-    
-    expect(tree.exists("libs/test-lib/README.md")).toBeTruthy()
-  })
-})
-```
-
-### Step 7: Test Manually
+## Quick Commands
 
 ```bash
-# Dry run (shows changes without writing)
-nx g <plugin-name>:<generator-name> test-lib --dry-run
-
-# Actual run
-nx g <plugin-name>:<generator-name> test-lib
-
-# Run tests
-nx test <plugin-name>
+nx g @nx/plugin:generator my-generator --project=my-plugin
 ```
 
-### Step 8: Iterate and Refine
-
-Based on test results:
-1. Add error handling for edge cases
-2. Improve validation messages
-3. Add conditional logic if needed
-4. Update documentation
-
-## Common Patterns
-
-### Composing Generators
-
-```typescript
-import { libraryGenerator } from "@nx/js"
-
-export default async function (tree: Tree, schema: Schema) {
-  await libraryGenerator(tree, { name: schema.name })
-  generateFiles(/* ... */)
-  await formatFiles(tree)
-}
+```bash
+nx g my-plugin:my-generator sample-name --dry-run
 ```
 
-### Conditional File Generation
-
-```typescript
-export default async function (tree: Tree, schema: Schema) {
-  generateFiles(tree, baseSrc, dest, schema)
-  
-  if (schema.includeTests) {
-    generateFiles(tree, testSrc, dest, schema)
-  }
-}
+```bash
+nx g my-plugin:my-generator sample-name
 ```
 
-### Updating Project Configuration
-
-```typescript
-import { readProjectConfiguration, updateProjectConfiguration } from "@nx/devkit"
-
-const config = readProjectConfiguration(tree, schema.name)
-updateProjectConfiguration(tree, schema.name, {
-  ...config,
-  tags: [...(config.tags || []), "scope:shared"]
-})
+```bash
+nx test my-plugin
 ```
 
-## Troubleshooting
+```bash
+bun run nx g my-plugin:my-generator sample-name --dry-run
+```
 
-### Generator Not Found
-- Ensure plugin is built: `nx build <plugin-name>`
-- Use package.json name: `nx g @myorg/plugin:gen`
+```bash
+rg -n "generateFiles|updateJson|readProjectConfiguration" plugins tools
+```
 
-### Template Variables Not Substituted
-- Ensure `tmpl: ""` in variables object
-- Check EJS syntax: `<%= var %>` not `{{ var }}`
+## Anti-Patterns
 
-### Tree Changes Not Persisted
-- Call `await formatFiles(tree)` before returning
+### NEVER modify files outside the Tree API
 
-### Schema Validation Fails
-- Verify `schema.json` has correct types and required fields
+WHY: direct filesystem writes bypass dry-run and change tracking.
+BAD: `writeFileSync("libs/my-lib/src/index.ts", content)`. GOOD: `tree.write("libs/my-lib/src/index.ts", content)`.
 
-## Best Practices
+### NEVER hardcode project paths in generator logic
 
-1. **Validate Early** - Check inputs before making changes
-2. **Use Type Safety** - Import schema types in generator
-3. **Always Format** - Call `formatFiles(tree)` before returning
-4. **Write Tests** - Test success paths and error cases
-5. **Document Options** - Add descriptions to schema.json properties
-6. **Use Dry Run** - Test with `--dry-run` first
-7. **Compose When Possible** - Reuse existing generators
-8. **Log Progress** - Use `logger.info()` for user feedback
+WHY: brittle paths fail when workspace layout evolves.
+BAD: fixed `libs/my-lib/...` writes. GOOD: derive paths from schema/context helpers.
+
+### NEVER skip schema validation and typed options
+
+WHY: invalid inputs fail late with unclear errors.
+BAD: `schema: any` and no guardrails. GOOD: typed schema + required fields + runtime guards.
+
+### NEVER generate across project boundaries without explicit checks
+
+WHY: hidden boundary violations can introduce circular dependencies.
+BAD: generator in one scope writing imports into disallowed scopes. GOOD: verify tags and dependency direction first.
+
+### NEVER mutate project configuration blindly
+
+WHY: naive updates remove existing targets/tags.
+BAD: overwrite full `project.json`. GOOD: read, merge, and update only intended keys.
 
 ## Quick Reference
 
-```typescript
-// Essential imports
-import {
-  Tree, formatFiles, generateFiles,
-  joinPathFragments, names, logger,
-  readProjectConfiguration,
-  updateProjectConfiguration,
-  updateJson, installPackagesTask
-} from "@nx/devkit"
+| Topic | Reference |
+| --- | --- |
+| Tree API method patterns | [references/tree-api-reference.md](references/tree-api-reference.md) |
+| Schema design patterns | [references/schema-design-patterns.md](references/schema-design-patterns.md) |
+| Template engine guidance | [references/template-engine-guide.md](references/template-engine-guide.md) |
+| Core concepts | [knowledge-base/concepts.md](knowledge-base/concepts.md) |
+| Template system details | [knowledge-base/template-system.md](knowledge-base/template-system.md) |
+| Utility helpers | [knowledge-base/utilities.md](knowledge-base/utilities.md) |
 
-// Template variables
-{
-  ...schema,
-  ...names(schema.name),
-  tmpl: ""  // Remove .template extension
-}
+## References
 
-// Running generators
-nx g <plugin>:<generator> <name> [options] --dry-run
-```
-
-## Resources
-
-- **KB Articles:**
-  - [concepts.md](knowledge-base/concepts.md) - Core generator concepts
-  - [template-system.md](knowledge-base/template-system.md) - Template syntax
-  - [utilities.md](knowledge-base/utilities.md) - Helper utilities
-- **Official Docs:** [Nx Plugin Development](https://nx.dev/extending-nx/intro)
-- **API Reference:** [Nx Devkit](https://nx.dev/reference/devkit)
+- [Nx Plugin Development](https://nx.dev/extending-nx/intro)
+- [Nx Devkit API](https://nx.dev/reference/devkit)
