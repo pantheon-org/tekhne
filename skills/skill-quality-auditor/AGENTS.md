@@ -4,8 +4,8 @@ This skill provides automated quality evaluation and maintenance for your skill 
 
 ## Overview
 
-**Total Files**: 14 reference files + 2 scripts  
-**Categories**: 6 (Framework, Duplication, Aggregation, Scripts, Reporting, Advanced)  
+**Total Files**: 15 reference files + 3 scripts + 2 templates  
+**Categories**: 7 (Framework, Duplication, Aggregation, Remediation, Scripts, Reporting, Advanced)  
 **Pattern**: Navigation Hub (SKILL.md) + Expert References  
 **Origin**: Consolidates skill-quality-auditor + skill-aggregation-pattern + skill-judge
 
@@ -54,6 +54,28 @@ Consolidate related skills using Navigation Hub pattern:
 
 **Success rate**: 96%+ size reduction, <5% duplication
 
+### Remediation Planning (HIGH Priority)
+
+Create actionable improvement plans from audit results:
+
+| File | Purpose | Lines | When to Read |
+|------|---------|-------|--------------|
+| `remediation-planning.md` | Plan creation guide | ~300 | Creating remediation plans |
+| `templates/remediation-plan-template.yaml` | Plan template | ~110 | Formatting plans |
+| `schemas/remediation-plan.schema.json` | JSON Schema | ~250 | Validating plans |
+
+**Usage**:
+
+```bash
+# Generate plan from audit
+sh scripts/generate-remediation-plan.sh <skill-name> [target-score]
+
+# Validate plan against schema
+sh scripts/validate-remediation-plan.sh .context/plans/<skill>-remediation-plan.md
+```
+
+**Output**: `.context/plans/<skill-name>-remediation-plan.md`
+
 ### Scripts (MEDIUM Priority)
 
 Automation tools for quality enforcement:
@@ -93,26 +115,34 @@ Optional features for power users:
 .agents/skills/skill-quality-auditor/
 ├── SKILL.md                                    # Navigation hub
 ├── AGENTS.md                                   # This file
+├── templates/
+│   ├── review-report-template.yaml             # Audit report format
+│   └── remediation-plan-template.yaml           # Remediation plan format
+├── schemas/
+│   └── remediation-plan.schema.json            # JSON Schema for plan validation
 ├── references/
 │   ├── framework-skill-judge-dimensions.md     # CRITICAL
 │   ├── framework-skill-judge-canonical.md      # CRITICAL
 │   ├── framework-scoring-rubric.md             # CRITICAL
-│   ├── framework-quality-standards.md          # CRITICAL
-│   ├── duplication-detection-algorithm.md      # HIGH
-│   ├── duplication-remediation.md              # HIGH
-│   ├── aggregation-pattern.md                  # HIGH
-│   ├── aggregation-implementation.md           # HIGH
+│   ├── framework-quality-standards.md           # CRITICAL
+│   ├── duplication-detection-algorithm.md       # HIGH
+│   ├── duplication-remediation.md               # HIGH
+│   ├── aggregation-pattern.md                   # HIGH
+│   ├── aggregation-implementation.md            # HIGH
+│   ├── remediation-planning.md                  # HIGH
 │   ├── scripts-audit-workflow.md               # MEDIUM
 │   ├── scripts-ci-integration.md               # MEDIUM
-│   ├── reporting-analysis.md                   # MEDIUM
-│   ├── reporting-dashboards.md                 # MEDIUM
-│   ├── advanced-trends-analysis.md             # LOW
-│   └── advanced-custom-metrics.md              # LOW
+│   ├── reporting-analysis.md                    # MEDIUM
+│   ├── reporting-dashboards.md                  # MEDIUM
+│   ├── advanced-trends-analysis.md              # LOW
+│   └── advanced-custom-metrics.md               # LOW
 └── scripts/
     ├── audit-skills.sh                         # Full audit
-    └── detect-duplication.sh                   # Duplication finder
+    ├── detect-duplication.sh                   # Duplication finder
+    ├── generate-remediation-plan.sh            # Remediation plan generator
+    └── validate-remediation-plan.sh            # Plan schema validator
 
-Total: 16 files (14 references + 2 scripts)
+Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
 ```
 
 ## Navigation Workflow
@@ -139,6 +169,13 @@ Total: 16 files (14 references + 2 scripts)
 3. Follow 6-step process
 4. Verify with `framework-quality-standards.md`
 
+### For Remediation Planning
+
+1. Run `sh scripts/evaluate.sh <skill-name> --json`
+2. Load `remediation-planning.md` for guidance
+3. Use `templates/remediation-plan-template.yaml`
+4. Save plan to `.context/plans/<skill-name>-remediation-plan.md`
+
 ### For Automation Setup
 
 1. Load `scripts-audit-workflow.md`
@@ -152,6 +189,7 @@ After using this skill, you should have:
 
 - ✅ All skills evaluated with 8-dimension scores
 - ✅ Duplication report showing <5% redundancy
+- ✅ Remediation plans for all skills below target grade
 - ✅ Aggregation candidates identified with ROI
 - ✅ Quality dashboard tracking metrics
 - ✅ CI/CD quality gates enforcing A-grade minimum

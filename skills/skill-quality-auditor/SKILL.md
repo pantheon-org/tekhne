@@ -26,7 +26,8 @@ Use this skill when:
 | **CRITICAL** | Evaluation Framework | Foundational | `framework-` | 4 |
 | **HIGH** | Duplication Detection | High ROI | `duplication-` | 2 |
 | **HIGH** | Aggregation Planning | High ROI | `aggregation-` | 2 |
-| **MEDIUM** | Automation Scripts | Efficiency | `scripts-` | 2 |
+| **HIGH** | Remediation Planning | High ROI | `remediation-` | 1 |
+| **MEDIUM** | Automation Scripts | Efficiency | `scripts-` | 3 |
 | **MEDIUM** | Reporting & Analysis | Visibility | `reporting-` | 2 |
 | **LOW** | Advanced Features | Optional | `advanced-` | 2 |
 
@@ -116,6 +117,47 @@ After applying this skill, you should achieve:
 - **Size**: Average skill <150 lines (navigation hubs <100 lines)
 - **Clarity**: Zero confusion about which skill to use
 - **Maintenance**: Updates require changing only 1 file per concept
+
+## Remediation Planning
+
+Create actionable improvement plans from audit results:
+
+### When to Use
+
+- A skill scored below target (typically <108/120, grade B or lower)
+- Converting audit findings into structured improvement tasks
+
+### How to Create a Remediation Plan
+
+1. **Run Audit**: `sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json`
+2. **Locate Report**: `.context/audits/<skill-name>-audit-YYYY-MM-DD.md`
+3. **Load Template**: `skills/skill-quality-auditor/templates/remediation-plan-template.yaml`
+4. **Read Guide**: `references/remediation-planning.md`
+
+### Output Location
+
+Remediation plans should be saved to:
+
+```text
+.context/plans/<skill-name>-remediation-plan.md
+```
+
+### Quick Start
+
+```bash
+# Generate basic remediation plan from audit
+# 1. Run evaluation
+sh skills/skill-quality-auditor/scripts/evaluate.sh my-skill --json
+
+# 2. Create plan using template
+# Copy from templates/remediation-plan-template.yaml
+# Fill in from audit results
+
+# 3. Validate plan against schema (REQUIRED)
+sh skills/skill-quality-auditor/scripts/validate-remediation-plan.sh .context/plans/my-skill-remediation-plan.md
+
+# 4. Save to .context/plans/
+```
 
 ## Quick Reference
 
@@ -253,6 +295,7 @@ All detailed content has been moved to the `references/` directory. Load on-dema
 - **Framework** (CRITICAL) - Evaluation methodology
 - **Duplication** (HIGH) - Detection and remediation
 - **Aggregation** (HIGH) - Consolidation patterns
+- **Remediation** (HIGH) - Plan generation from audits
 - **Scripts** (MEDIUM) - Automation tools
 - **Reporting** (MEDIUM) - Analysis and visualization
 - **Advanced** (LOW) - Trends and custom metrics
