@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: biome-complete
 source_audit: .context/audits/biome-complete-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: biome-complete
