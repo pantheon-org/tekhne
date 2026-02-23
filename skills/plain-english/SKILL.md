@@ -83,33 +83,38 @@ awk -F'.' '{for(i=1;i<=NF;i++) print $i}' <file>.md | awk '{print NF}' | awk '{s
 
 ### NEVER use jargon without translation
 
-WHY: non-technical readers cannot act on unexplained specialist terms.
-Consequence: decision delay and misunderstandings.
-BAD: "The API returns 429 due to upstream throttling." GOOD: "The system is receiving too many requests; retry windows are being enforced."
+- **WHY**: non-technical readers cannot act on unexplained specialist terms.
+- **Consequence**: decision delay and misunderstandings.
+- **BAD**: "The API returns 429 due to upstream throttling."
+- **GOOD**: "The system is receiving too many requests; retry windows are being enforced."
 
 ### NEVER assume prior technical context
 
-WHY: stakeholders have varying domain familiarity.
-Consequence: gaps in understanding and misaligned actions.
-BAD: "Refactor monolith into microservices." GOOD: "Break the large application into smaller independent services to reduce release risk and speed delivery."
+- **WHY**: stakeholders have varying domain familiarity.
+- **Consequence**: gaps in understanding and misaligned actions.
+- **BAD**: "Refactor monolith into microservices."
+- **GOOD**: "Break the large application into smaller independent services to reduce release risk and speed delivery."
 
 ### NEVER bury the key decision
 
-WHY: time-constrained readers scan the first section only.
-Consequence: critical actions are missed.
-BAD: recommendation appears after multiple background sections. GOOD: first paragraph states recommendation and impact.
+- **WHY**: time-constrained readers scan the first section only.
+- **Consequence**: critical actions are missed.
+- **BAD**: recommendation appears after multiple background sections.
+- **GOOD**: first paragraph states recommendation and impact.
 
 ### NEVER use passive action language for owned tasks
 
-WHY: passive voice obscures accountability.
-Consequence: work stalls because ownership is unclear.
-BAD: "The database should be optimized." GOOD: "The database team should optimize query performance by Q2."
+- **WHY**: passive voice obscures accountability.
+- **Consequence**: work stalls because ownership is unclear.
+- **BAD**: "The database should be optimized."
+- **GOOD**: "The database team should optimize query performance by Q2."
 
 ### NEVER skip audience identification
 
-WHY: tone and depth must match reader intent.
-Consequence: over-technical or over-simplified communication.
-BAD: draft starts before audience is known. GOOD: start with "Audience: compliance managers; goal: approve mitigation plan."
+- **WHY**: tone and depth must match reader intent.
+- **Consequence**: over-technical or over-simplified communication.
+- **BAD**: draft starts before audience is known.
+- **GOOD**: start with "Audience: compliance managers; goal: approve mitigation plan."
 
 ## Quick Reference
 
