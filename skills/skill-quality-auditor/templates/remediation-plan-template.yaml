@@ -1,0 +1,108 @@
+# Remediation Plan Template
+# This YAML file describes the structure of a remediation plan
+# Use with JSON Schema: ../schemas/remediation-plan.schema.json
+
+# =============================================================================
+# FRONTMATTER SECTION
+# =============================================================================
+# Required: YAML frontmatter with metadata
+# Format: Standard YAML frontmatter (--- delimited)
+---
+plan_date: "YYYY-MM-DD"           # ISO date when plan was created
+skill_name: "string"              # Name of the skill being remediated
+source_audit: "path"              # Path to audit file (e.g., .context/audits/<skill>-audit-YYYY-MM-DD.md)
+
+# =============================================================================
+# EXECUTIVE SUMMARY SECTION
+# =============================================================================
+# Required: High-level metrics and assessment
+# Structure: Table with Current/Target columns + Focus Areas + Verdict
+executive_summary:
+  score:
+    current: "string"             # e.g., "84/120 (70%)"
+    target: "string"             # e.g., "102/120 (85%)"
+  grade:
+    current: "string"            # e.g., "C"
+    target: "string"             # e.g., "B"
+  priority: "Critical|High|Medium|Low"
+  effort: "S|M|L"
+  focus_areas:                   # Top 2-3 dimensions
+    - "D3: Anti-Pattern Quality"
+    - "D5: Progressive Disclosure"
+  verdict: "string"               # One-line assessment
+
+# =============================================================================
+# CRITICAL ISSUES SECTION
+# =============================================================================
+# Required: Top 3-5 issues from audit
+critical_issues:
+  - issue: "string"             # Issue description
+    dimension: "string"          # e.g., "D3 (8/15)"
+    severity: "Critical|High|Medium|Low"
+    impact: "string"             # Why this matters
+
+# =============================================================================
+# DETAILED REMEDIATION STEPS SECTION
+# =============================================================================
+# Required: Phased approach with specific actions
+remediation_phases:
+  - phase: integer               # Phase number (1, 2, 3...)
+    dimension: "string"          # Dimension name (e.g., "Anti-Pattern Quality")
+    priority: "Critical|High|Medium|Low"
+    target: "string"             # Target score improvement
+    steps:
+      - step: "string"           # Step identifier (e.g., "1.1")
+        title: "string"          # Step title
+        description: "string"    # What to do
+        file: "string"           # Optional: file to modify
+        code_block:              # Optional: code example
+          language: "string"     # e.g., "typescript", "bash", "markdown"
+          content: "string"      # Code content
+
+# =============================================================================
+# VERIFICATION COMMANDS SECTION
+# =============================================================================
+# Required: Commands to verify remediation
+verification_commands:
+  - "string"                     # e.g., "sh skills/skill-quality-auditor/scripts/evaluate.sh <skill> --json"
+
+# =============================================================================
+# SUCCESS CRITERIA SECTION
+# =============================================================================
+# Required: Measurable targets
+success_criteria:
+  - criterion: "string"          # e.g., "D3 Anti-Pattern Quality"
+    measurement: "string"        # e.g., "Score >= 13/15"
+
+# =============================================================================
+# EFFORT ESTIMATE SECTION
+# =============================================================================
+# Required: Time estimates per phase
+effort_estimates:
+  - phase: "string"              # e.g., "Phase 1: Anti-patterns"
+    effort: "S|M|L"
+    time: "string"              # e.g., "1 hour"
+  - phase: "Total"
+    effort: "S|M|L"
+    time: "string"
+
+# =============================================================================
+# DEPENDENCIES SECTION
+# =============================================================================
+# Required: Prerequisites or blockers
+dependencies:
+  - "string"                     # e.g., "None (standalone skill)"
+
+# =============================================================================
+# ROLLBACK PLAN SECTION
+# =============================================================================
+# Required: Git command to revert changes
+rollback_plan: "string"          # e.g., "git checkout HEAD~1 -- skills/<skill>/SKILL.md"
+
+# =============================================================================
+# NOTES SECTION
+# =============================================================================
+# Required: Honest assessment
+notes:
+  rating: "string"               # e.g., "7/10"
+  assessment: "string"          # e.g., "Good structure with detailed phases"

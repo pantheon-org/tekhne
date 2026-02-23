@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tekhne.io/schemas/remediation-plan.schema.json",
+  "title": "Remediation Plan",
+  "description": "Schema for validating skill remediation plans",
+  "type": "object",
+  "required": [
+    "plan_date",
+    "skill_name",
+    "source_audit",
+    "executive_summary",
+    "critical_issues",
+    "remediation_phases",
+    "verification_commands",
+    "success_criteria",
+    "effort_estimates",
+    "dependencies",
+    "rollback_plan",
+    "notes"
+  ],
+  "properties": {
+    "plan_date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO date when plan was created"
+    },
+    "skill_name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Name of the skill being remediated (kebab-case)"
+    },
+    "source_audit": {
+      "type": "string",
+      "pattern": "^\\.context/audits/.+\\.md$",
+      "description": "Path to the audit file this plan is based on"
+    },
+    "executive_summary": {
+      "type": "object",
+      "required": [
+        "score",
+        "grade",
+        "priority",
+        "effort",
+        "focus_areas",
+        "verdict"
+      ],
+      "properties": {
+        "score": {
+          "type": "object",
+          "required": ["current", "target"],
+          "properties": {
+            "current": {
+              "type": "string",
+              "pattern": "^\\d+/120\\s*\\(\\d+%\\)$"
+            },
+            "target": {
+              "type": "string",
+              "pattern": "^\\d+/120\\s*\\(\\d+%\\)$"
+            }
+          }
+        },
+        "grade": {
+          "type": "object",
+          "required": ["current", "target"],
+          "properties": {
+            "current": {
+              "type": "string",
+              "enum": ["A+", "A", "B+", "B", "C+", "C", "D", "F"]
+            },
+            "target": {
+              "type": "string",
+              "enum": ["A+", "A", "B+", "B", "C+", "C", "D", "F"]
+            }
+          }
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["Critical", "High", "Medium", "Low"]
+        },
+        "effort": {
+          "type": "string",
+          "enum": ["S", "M", "L"]
+        },
+        "focus_areas": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "pattern": "^D[1-8]:\\s+.+"
+          }
+        },
+        "verdict": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 100
+        }
+      }
+    },
+    "critical_issues": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["issue", "dimension", "severity", "impact"],
+        "properties": {
+          "issue": {
+            "type": "string",
+            "minLength": 10
+          },
+          "dimension": {
+            "type": "string",
+            "pattern": "^D[1-8]:\\s+.+\\s+\\(\\d+/\\d+\\)$"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["Critical", "High", "Medium", "Low"]
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 10
+          }
+        }
+      }
+    },
+    "remediation_phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase", "dimension", "priority", "target", "steps"],
+        "properties": {
+          "phase": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "dimension": {
+            "type": "string",
+            "minLength": 5
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["Critical", "High", "Medium", "Low"]
+          },
+          "target": {
+            "type": "string",
+            "pattern": "^Increase from \\d+/\\d+ to \\d+/\\d+"
+          },
+          "steps": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["step", "title", "description"],
+              "properties": {
+                "step": {
+                  "type": "string",
+                  "pattern": "^\\d+\\.\\d+$"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 3
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 10
+                },
+                "file": {
+                  "type": "string"
+                },
+                "code_block": {
+                  "type": "object",
+                  "properties": {
+                    "language": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "verification_commands": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^sh |^bunx |^npm "
+      }
+    },
+    "success_criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["criterion", "measurement"],
+        "properties": {
+          "criterion": {
+            "type": "string",
+            "minLength": 5
+          },
+          "measurement": {
+            "type": "string",
+            "pattern": "Score >=|>= "
+          }
+        }
+      }
+    },
+    "effort_estimates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase", "effort", "time"],
+        "properties": {
+          "phase": {
+            "type": "string"
+          },
+          "effort": {
+            "type": "string",
+            "enum": ["S", "M", "L"]
+          },
+          "time": {
+            "type": "string",
+            "pattern": "^\\d+"
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rollback_plan": {
+      "type": "string",
+      "pattern": "^git checkout"
+    },
+    "notes": {
+      "type": "object",
+      "required": ["rating", "assessment"],
+      "properties": {
+        "rating": {
+          "type": "string",
+          "pattern": "^\\d+/10$"
+        },
+        "assessment": {
+          "type": "string",
+          "minLength": 10
+        }
+      }
+    }
+  }
+}
