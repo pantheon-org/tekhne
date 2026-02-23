@@ -8,106 +8,163 @@ source_audit: .context/audits/bdd-testing-audit-2026-02-22.md
 
 ## Executive Summary
 
-| Metric | Value |
-| --- | --- |
-| **Current Score** | 84/120 (70%) |
-| **Current Grade** | C |
-| **Target Score** | 102/120 (B+) |
-| **Priority** | High |
-| **Estimated Effort** | 4-5 hours |
+| Metric | Current | Target |
+| --- | --- | --- |
+| **Score** | 84/120 (70%) | 102/120 (85%) |
+| **Grade** | C | B+ |
+| **Priority** | High | - |
+| **Effort** | Medium (M) | - |
+
+**Focus Areas**: Anti-pattern quality (D3), Practical usability (D8), Pattern recognition (D7)
+
+**Verdict**: Priority improvements required. Multiple dimensions need enhancement.
 
 ## Critical Issues to Address
 
-| Issue | Severity | Dimension |
-| --- | --- | --- |
-| Anti-pattern quality weak | **High** | D3 (8/15) |
-| Practical usability gaps | **High** | D8 (8/15) |
-| Pattern recognition lacking | Medium | D7 (6/10) |
-| Freedom calibration | Medium | D6 (10/15) |
+| Issue | Dimension | Severity | Impact |
+| --- | --- | --- | --- |
+| Anti-pattern quality weak | D3 (8/15) | High | Common mistakes may be repeated |
+| Practical usability gaps | D8 (8/15) | High | Missing executable commands |
+| Pattern recognition lacking | D7 (6/10) | Medium | Skill may not activate |
+| Freedom calibration | D6 (10/15) | Medium | Constraint balance issues |
 
 ## Detailed Remediation Steps
 
-### D3: Anti-Pattern Quality (Current: 8/15, Target: 13/15)
+### Phase 1: Anti-Pattern Quality (D3) - Priority: High
 
-**Problem**: Anti-patterns are weak; missing WHY and consequences.
+**Target**: Increase from 8/15 to 13/15 (+5 points)
 
-**Actions**:
-1. Add concrete NEVER statements:
-   - NEVER write implementation details in Gherkin
-   - NEVER skip the Three Amigos session
-   - NEVER use technical jargon in feature files
-2. Add BAD/GOOD examples for each anti-pattern:
-   - BAD: "When I click the submit button" (implementation)
-   - GOOD: "When I submit the form" (behavior)
-3. Explain WHY and consequences for each
+#### Step 1.1: Add concrete NEVER statements
 
-**Files to Edit**:
-- `skills/bdd-testing/SKILL.md` - Add comprehensive anti-patterns section
-- `skills/bdd-testing/references/anti-patterns.md` - Create if needed
+**File**: `skills/bdd-testing/SKILL.md`
 
-### D8: Practical Usability (Current: 8/15, Target: 13/15)
+````markdown
+## Anti-Patterns
 
-**Problem**: Missing executable commands and examples.
+### NEVER Write Implementation Details in Gherkin
 
-**Actions**:
-1. Add copy/paste commands for:
-   - Running Cucumber tests
-   - Generating step definitions
-   - Validating feature files
-2. Add expected outputs for each command
-3. Add completion verification checklist
+**WHY**: Gherkin should describe behavior, not implementation.
 
-**Files to Edit**:
-- `skills/bdd-testing/SKILL.md` - Add Quick Commands section
-- `skills/bdd-testing/references/commands.md` - Create if needed
+**BAD**:
+```
+When I click the submit button
+Then the form validates using JavaScript validation
+```
 
-### D7: Pattern Recognition (Current: 6/10, Target: 9/10)
+**GOOD**:
+```
+When I submit the form
+Then I should see a success message
+```
 
-**Problem**: Trigger keywords insufficient.
+### NEVER Skip the Three Amigos Session
 
-**Actions**:
-1. Expand frontmatter description with keywords:
-   - "behavior-driven development"
-   - "Gherkin syntax"
-   - "Cucumber tests"
-   - "Given When Then"
-   - "feature files"
-   - "step definitions"
-2. Add "use when" phrases
+**WHY**: Without business, development, and test perspectives, scenarios are incomplete.
 
-**Files to Edit**:
-- `skills/bdd-testing/SKILL.md` - Update frontmatter
+### NEVER Use Technical Jargon in Feature Files
 
-### D6: Freedom Calibration (Current: 10/15, Target: 13/15)
+**WHY**: Feature files should be readable by all stakeholders.
+````
 
-**Problem**: Over-constrained or under-specified in places.
+---
 
-**Actions**:
-1. Keep hard constraints for:
-   - Gherkin syntax compliance
-   - Step definition patterns
-2. Make flexible where safe:
-   - Tool choice (Cucumber vs others)
-   - Feature file organization
-3. Add fallback paths for missing context
+### Phase 2: Practical Usability (D8) - Priority: High
 
-**Files to Edit**:
-- `skills/bdd-testing/SKILL.md` - Review constraint language
+**Target**: Increase from 8/15 to 13/15 (+5 points)
+
+#### Step 2.1: Add copy/paste commands
+
+**File**: `skills/bdd-testing/SKILL.md`
+
+````markdown
+## Quick Commands
+
+### Run Cucumber Tests
+```bash
+npx cucumber-js features/
+```
+
+### Generate Step Definitions
+```bash
+npx cucumber-js --dry-run features/
+```
+````
+
+---
+
+### Phase 3: Pattern Recognition (D7) - Priority: Medium
+
+**Target**: Increase from 6/10 to 9/10 (+3 points)
+
+#### Step 3.1: Expand frontmatter
+
+**File**: `skills/bdd-testing/SKILL.md`
+
+```yaml
+---
+name: bdd-testing
+description: |
+  Master Behavior-Driven Development (BDD) testing with Gherkin and Cucumber.
+  Use when: writing BDD tests, creating feature files, implementing step definitions.
+  
+  Keywords: BDD, Gherkin, Cucumber, Given When Then, feature files,
+  step definitions, acceptance criteria, Three Amigos
+---
+```
+
+---
+
+### Phase 4: Freedom Calibration (D6) - Priority: Medium
+
+**Target**: Increase from 10/15 to 13/15 (+3 points)
+
+#### Step 4.1: Clarify hard vs soft constraints
+
+**File**: `skills/bdd-testing/SKILL.md`
+
+Add constraint classification.
+
+---
 
 ## Verification Commands
 
 ```bash
 sh skills/skill-quality-auditor/scripts/evaluate.sh bdd-testing --json
-skills/skill-quality-auditor/scripts/audit-skills.sh --skills-dir skills
-skills/skill-quality-auditor/scripts/validate-review-format.sh .context/audits/bdd-testing-audit-2026-02-22.md
+bunx markdownlint-cli2 "skills/bdd-testing/**/*.md"
 ```
 
 ## Success Criteria
 
-- [ ] Score >= 102/120 (B+)
-- [ ] D3 (Anti-Pattern Quality) >= 13/15
-- [ ] D8 (Practical Usability) >= 13/15
-- [ ] D7 (Pattern Recognition) >= 9/10
-- [ ] D6 (Freedom Calibration) >= 13/15
-- [ ] All anti-patterns have BAD/GOOD examples
-- [ ] All commands are copy/paste ready
+| Criterion | Measurement |
+| --- | --- |
+| D3 Anti-Pattern Quality | Score >= 13/15 |
+| D8 Practical Usability | Score >= 13/15 |
+| D7 Pattern Recognition | Score >= 9/10 |
+| Overall Score | >= 102/120 (B+) |
+
+## Effort Estimate
+
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Anti-patterns | M | 1 hour |
+| Phase 2: Commands | S | 30 min |
+| Phase 3: Triggers | S | 20 min |
+| Phase 4: Constraints | S | 20 min |
+| **Total** | **M** | **2 hours** |
+
+## Dependencies
+
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/bdd-testing/SKILL.md
+```
+
+## Notes
+
+- Rating: **7/10** - Good plan with clear phases and specific anti-patterns
+- Already includes Timeline table
+- Anti-patterns have good WHY/BAD/GOOD format
+- Minor: Could add more verification steps

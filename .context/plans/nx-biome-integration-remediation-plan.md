@@ -50,7 +50,7 @@ source_audit: .context/audits/nx-biome-integration-audit-2026-02-22.md
 - Use `include`/`exclude` patterns for project-specific rules
 ```
 
-2. Add 3-5 repository-specific anti-patterns covering:
+1. Add 3-5 repository-specific anti-patterns covering:
    - ESLint/Prettier coexistence conflicts
    - Incorrect formatter enablement in CI
    - Cache invalidation issues
@@ -74,7 +74,7 @@ description: |
 ---
 ```
 
-2. Add "Use When" section at top of SKILL.md:
+1. Add "Use When" section at top of SKILL.md:
 
 ```markdown
 ## Use When
@@ -132,21 +132,12 @@ Expected: `biome.json` created at workspace root
 ...
 ````
 
-2. Add "When NOT to use" section
+1. Add "When NOT to use" section
 
-## Verification Commands
+## Notes
 
-```bash
-sh skills/skill-quality-auditor/scripts/evaluate.sh nx-biome-integration --json
-bunx @biomejs/biome check skills/nx-biome-integration/
-bunx markdownlint-cli2 "skills/nx-biome-integration/**/*.md"
-```
-
-## Success Criteria
-
-- [ ] Re-run audit shows score >= 102/120 (grade B)
-- [ ] D3 (Anti-Pattern Quality) >= 12/15
-- [ ] D7 (Pattern Recognition) >= 9/10
-- [ ] D5 (Progressive Disclosure) >= 12/15
-- [ ] SKILL.md line count reduced by 30%+ with content moved to references/
-- [ ] All verification commands pass
+- Rating: **8/10** - Already follows Format B template very well with detailed phases and code examples
+- Strong structure with clear priorities (Critical, High, Medium)
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Code examples in remediation steps are specific and actionable
+- Minor: Already comprehensive - just needs minor polish

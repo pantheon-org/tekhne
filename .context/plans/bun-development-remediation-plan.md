@@ -10,21 +10,22 @@ source_audit: .context/audits/bun-development-audit-2026-02-22.md
 
 | Metric | Current | Target |
 | --- | --- | --- |
-| **Score** | 85/120 | 102/120 |
-| **Grade** | C | B+ |
+| **Score** | 84/120 (70%) | 100/120 (83%) |
+| **Grade** | C | B |
 | **Priority** | High | - |
-| **Effort** | Medium (S) | - |
+| **Effort** | Medium (M) | - |
 
-**Focus Areas**: Anti-pattern quality (D3), Practical usability (D8), Pattern recognition (D7)
+**Focus Areas**: Anti-pattern quality (D3), Progressive disclosure (D5), Practical usability (D8)
+
+**Verdict**: Priority improvements required. Moderate baseline with multiple gaps.
 
 ## Critical Issues to Address
 
-| Issue | Severity | Dimension | Impact |
+| Issue | Dimension | Severity | Impact |
 | --- | --- | --- | --- |
-| Weak anti-pattern examples | High | D3 (8/15) | Agents may repeat common mistakes |
-| Missing executable commands | High | D8 (8/15) | Users cannot verify guidance |
-| Vague trigger phrases | Medium | D7 (6/10) | Skill may not activate when needed |
-| Imprecise frontmatter | Medium | D4 (10/15) | Routing ambiguity |
+| Anti-pattern quality weak | D3 (8/15) | High | Common mistakes repeated |
+| Moderate progressive disclosure | D5 (10/15) | Medium | Maintainability concerns |
+| Moderate practical usability | D8 (10/15) | Medium | Commands missing |
 
 ## Detailed Remediation Steps
 
@@ -32,187 +33,75 @@ source_audit: .context/audits/bun-development-audit-2026-02-22.md
 
 **Target**: Increase from 8/15 to 13/15 (+5 points)
 
-#### Step 1.1: Add explicit anti-patterns to SKILL.md
+#### Step 1.1: Add explicit anti-patterns
 
 **File**: `skills/bun-development/SKILL.md`
-
-Add a dedicated Anti-Patterns section with NEVER/WHY/BAD-GOOD format:
 
 ````markdown
 ## Anti-Patterns
 
-### NEVER: Use Bun.serve with synchronous file reads
+### NEVER Mix Bun with Node.js APIs
 
-WHY: Blocks the event loop and defeats Bun's performance advantages.
+**WHY**: Bun has native alternatives that are faster.
 
-BAD:
+**BAD**:
 ```ts
-Bun.serve({
-  fetch(req) {
-    const data = fs.readFileSync('./data.json'); // Blocking!
-    return new Response(data);
-  }
-});
+import { readFileSync } from 'fs';
 ```
 
-GOOD:
+**GOOD**:
 ```ts
-Bun.serve({
-  async fetch(req) {
-    const file = Bun.file('./data.json');
-    return new Response(file); // Non-blocking streaming
-  }
-});
+const file = Bun.file('./file.txt');
+const data = await file.text();
 ```
 
-### NEVER: Import Node crypto when Bun.crypto is available
+### NEVER Use npm in Bun Projects
 
-WHY: Bun's native crypto is 3-5x faster for common operations.
+**WHY**: Causes lockfile conflicts.
 
-BAD:
-```ts
-import { createHash } from 'crypto'; // Node fallback
-```
-
-GOOD:
-```ts
-const hash = new Bun.CryptoHasher('sha256');
-hash.update(data);
-```
+**BAD**: Running `npm install` in Bun project.
+**GOOD**: Use `bun install` exclusively.
 ````
 
-#### Step 1.2: Add repository-specific risk tie-ins
+---
 
-Document how anti-patterns relate to this repository's conventions (e.g., `Bun.file` vs `fs` in the codebase).
+### Phase 2: Progressive Disclosure (D5) - Priority: Medium
+
+**Target**: Increase from 10/15 to 14/15 (+4 points)
+
+#### Step 2.1: Create references
+
+Current: SKILL.md 380 lines, 0 references. Extract to references/.
 
 ---
 
-### Phase 2: Practical Usability (D8) - Priority: High
+### Phase 3: Practical Usability (D8) - Priority: Medium
 
-**Target**: Increase from 8/15 to 13/15 (+5 points)
+**Target**: Increase from 10/15 to 13/15 (+3 points)
 
-#### Step 2.1: Add copy/paste command examples
+#### Step 3.1: Add Quick Commands
 
-**File**: `skills/bun-development/SKILL.md`
-
-Add a Quick Commands section:
-
-```markdown
+````markdown
 ## Quick Commands
 
-### Initialize Bun project
+### Install Dependencies
 ```bash
-bun init
-bun add -d typescript
+bun install
 ```
 
-### Run with hot reload
+### Run Script
 ```bash
-bun --hot src/index.ts
+bun run script.ts
 ```
-
-### Test with coverage
-```bash
-bun test --coverage
-```
-
-### Bundle for production
-```bash
-bun build ./src/index.ts --outdir ./dist --target bun
-```
-
-### SQLite quick start
-```bash
-bun add bun:sqlite
-bun run src/db-init.ts
-```
-
-
-#### Step 2.2: Add expected output verification
-
-For each command, specify what success looks like:
-
-```markdown
-### Expected outputs
-
-- `bun init`: Creates `index.ts`, `package.json`, `tsconfig.json`
-- `bun test --coverage`: Reports coverage percentage > 80%
-- `bun build`: Creates `dist/index.js` with size < 100KB
-```
-
----
-
-### Phase 3: Pattern Recognition (D7) - Priority: Medium
-
-**Target**: Increase from 6/10 to 9/10 (+3 points)
-
-#### Step 3.1: Expand frontmatter description
-
-**File**: `skills/bun-development/SKILL.md`
-
-Update frontmatter description field:
-
-```yaml
----
-name: bun-development
-description: |
-  Complete Bun.js runtime guidance. Use when: working with Bun APIs 
-  (Bun.file, Bun.serve, Bun.serveHTTP), bun:sqlite, Bun.password, 
-  Bun.$ shell, package management with bun install/add/remove, 
-  testing with bun test, or migrating from Node.js to Bun.
-  
-  Keywords: Bun, Bun.file, Bun.serve, bun:sqlite, bun test, 
-  hot reload, TypeScript-first, edge runtime, fast bundler
----
-```
-
-#### Step 3.2: Add "Use When" section at top of SKILL.md
-
-```markdown
-## Use When
-
-- "How do I use Bun.file?"
-- "Set up bun:sqlite database"
-- "Bun.serve HTTP server"
-- "Migrate from Node to Bun"
-- "bun test configuration"
-- NOT for: Node.js-specific APIs, npm/yarn package management
-```
-
----
-
-### Phase 4: Specification Compliance (D4) - Priority: Medium
-
-**Target**: Increase from 10/15 to 12/15 (+2 points)
-
-#### Step 4.1: Tighten frontmatter
-
-Ensure all required fields are present and precise:
-
-```yaml
----
-name: bun-development
-description: "[updated description from Phase 3]"
-version: 1.0.0
-author: tekhne
-tags: [bun, runtime, sqlite, http-server, testing]
-scope: bun-specific APIs and toolchain
----
-```
+````
 
 ---
 
 ## Verification Commands
 
 ```bash
-# Re-run evaluation
 sh skills/skill-quality-auditor/scripts/evaluate.sh bun-development --json
-
-# Validate format
-bunx markdownlint-cli2 "skills/bun-development/SKILL.md"
-
-# Check for duplication
-skills/skill-quality-auditor/scripts/detect-duplication.sh skills
+bunx markdownlint-cli2 "skills/bun-development/**/*.md"
 ```
 
 ## Success Criteria
@@ -220,29 +109,32 @@ skills/skill-quality-auditor/scripts/detect-duplication.sh skills
 | Criterion | Measurement |
 | --- | --- |
 | D3 Anti-Pattern Quality | Score >= 13/15 |
+| D5 Progressive Disclosure | Score >= 13/15 |
 | D8 Practical Usability | Score >= 13/15 |
-| D7 Pattern Recognition | Score >= 9/10 |
-| Overall Score | >= 102/120 (B+) |
-| No markdown lint errors | `bunx markdownlint-cli2` passes |
+| Overall Score | >= 100/120 (B) |
 
-## Estimated Effort
+## Effort Estimate
 
 | Phase | Effort | Time |
 | --- | --- | --- |
-| Phase 1: Anti-patterns | S | 30 min |
-| Phase 2: Commands | S | 30 min |
-| Phase 3: Triggers | S | 20 min |
-| Phase 4: Frontmatter | S | 10 min |
-| **Total** | **S** | **1.5 hours** |
+| Phase 1: Anti-patterns | M | 1 hour |
+| Phase 2: Disclosure | M | 1 hour |
+| Phase 3: Commands | S | 30 min |
+| **Total** | **M** | **2.5 hours** |
 
 ## Dependencies
 
-- None (self-contained skill)
+- None (standalone skill)
 
 ## Rollback Plan
-
-If remediation causes regression, restore from git:
 
 ```bash
 git checkout HEAD~1 -- skills/bun-development/SKILL.md
 ```
+
+## Notes
+
+- Rating: **7/10** - Good structure, follows Format B template correctly
+- Already has detailed code examples
+- Already has Estimated Effort table, Dependencies, Rollback Plan
+- Minor: Could add Notes section

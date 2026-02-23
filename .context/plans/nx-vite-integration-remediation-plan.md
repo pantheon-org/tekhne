@@ -285,11 +285,42 @@ ls -la skills/nx-vite-integration/references/  # Should have 5 files
 
 ## Success Criteria
 
-- [ ] Re-run audit shows score >= 96/120 (grade B)
-- [ ] D5 (Progressive Disclosure) >= 12/15
-- [ ] D2 (Mindset + Procedures) >= 12/15
-- [ ] D3 (Anti-Pattern Quality) >= 12/15
-- [ ] D7 (Pattern Recognition) >= 9/10
-- [ ] SKILL.md line count < 300 (from 558)
-- [ ] At least 4 reference files created
-- [ ] All verification commands pass
+| Criterion | Measurement |
+| --- | --- |
+| D5 Progressive Disclosure | Score >= 12/15 |
+| D2 Mindset + Procedures | Score >= 12/15 |
+| D3 Anti-Pattern Quality | Score >= 12/15 |
+| D7 Pattern Recognition | Score >= 9/10 |
+| SKILL.md line count | < 300 (from 558) |
+| References created | >= 4 files |
+| Overall Score | >= 96/120 (B) |
+
+## Effort Estimate
+
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Disclosure | L | 3 hours |
+| Phase 2: Procedures | M | 2 hours |
+| Phase 3: Anti-patterns | M | 1.5 hours |
+| Phase 4: Pattern Recognition | S | 30 min |
+| Phase 5: Spec Compliance | S | 20 min |
+| Phase 6: Freedom Calibration | S | 20 min |
+| **Total** | **L** | **7+ hours** |
+
+## Dependencies
+
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/nx-vite-integration/
+```
+
+## Notes
+
+- Rating: **8/10** - Already follows Format B template very well with detailed phases and code examples
+- Strong structure with 6 phases - most detailed plan
+- Identified as "Critical" priority with major restructuring needed
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Code examples in remediation steps are specific and actionable

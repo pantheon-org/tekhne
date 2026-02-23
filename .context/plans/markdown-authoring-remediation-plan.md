@@ -10,372 +10,94 @@ source_audit: .context/audits/markdown-authoring-audit-2026-02-22.md
 
 | Metric | Current | Target |
 | --- | --- | --- |
-| **Score** | 82/120 (68%) | 100/120 (83%) |
-| **Grade** | D | B |
-| **Priority** | Critical | - |
+| **Score** | 90/120 (75%) | 102/120 (85%) |
+| **Grade** | C+ | B+ |
+| **Priority** | Medium | - |
+| **Effort** | Small-Medium (S-M) | - |
 
-**Verdict**: Major rewrite recommended. Low usability and weak anti-patterns.
+**Focus Areas**: Progressive disclosure (D5), Anti-pattern quality (D3), Practical usability (D8)
+
+**Verdict**: Targeted improvements recommended. Good baseline with room for enhancement.
 
 ## Critical Issues to Address
 
 | Issue | Dimension | Severity | Impact |
 | --- | --- | --- | --- |
-| Weak anti-pattern precision | D3 (8/15) | High | Common markdown mistakes repeated |
-| Low practical usability | D8 (8/15) | **Critical** | Commands/examples missing |
-| Poor trigger discoverability | D7 (6/10) | High | Skill not activated |
-| Moderate spec compliance | D4 (10/15) | Medium | Routing confusion |
-| Missing deterministic workflow | D2 (10/15) | Medium | Execution ambiguity |
-| Over/under constraint | D6 (10/15) | Medium | Flexibility issues |
+| Progressive disclosure moderate | D5 (10/15) | Medium | Maintainability |
+| Anti-pattern quality moderate | D3 (10/15) | Medium | Mistakes may be repeated |
+| Practical usability gaps | D8 (10/15) | Medium | Commands could be clearer |
 
 ## Detailed Remediation Steps
 
-### Phase 1: Practical Usability (D8) - CRITICAL PRIORITY
+### Phase 1: Progressive Disclosure (D5) - Priority: Medium
 
-**File**: `skills/markdown-authoring/SKILL.md`
+**Target**: Increase from 10/15 to 14/15 (+4 points)
 
-**Problem**: D8 score of 8/15 indicates missing commands and examples.
+#### Step 1.1: Create references
 
-1. **Add Quick Commands section**:
+Extract detailed content to references/.
 
-````markdown
-## Quick Commands
-
-### Lint Markdown Files
-```bash
-bunx markdownlint-cli2 "**/*.md"
-```
-
-### Fix Markdown Issues
-```bash
-bunx markdownlint-cli2 "**/*.md" --fix
-```
-
-### Check Specific File
-```bash
-bunx markdownlint-cli2 path/to/file.md
-```
-
-### Validate Configuration
-```bash
-cat .markdownlint.json
-```
-
-### Generate Table of Contents
-```bash
-npx markdown-toc README.md --no-firsth1
-```
-
-### Convert to Other Formats
-```bash
-npx marked README.md > README.html
-```
-````
-
-2. **Add expected output examples**:
-
-````markdown
-## Expected Outputs
-
-### Lint Output (Clean)
-```
-[No issues found]
-```
-
-### Lint Output (Issues Found)
-```
-README.md:3:81 MD013/line-length Line length [Expected: 80, Actual: 95]
-README.md:15:1 MD022/blanks-around-headings Headings should be surrounded by blank lines
-```
-
-### Fixed File Structure
-```
-document.md
-├── Heading 1 (line 1)
-├── Blank line (line 2)
-├── Paragraph (lines 3-5)
-├── Blank line (line 6)
-├── Heading 2 (line 7)
-└── ...
-```
-````
-
-3. **Add concrete examples for common tasks**:
-
-````markdown
-## Common Tasks
-
-### Create a README
-1. Create file with standard structure:
-```markdown
-# Project Name
-
-Brief description of what this project does.
-
-## Installation
-
-\`\`\`bash
-npm install project-name
-\`\`\`
-
-## Usage
-
-\`\`\`javascript
-import { feature } from 'project-name';
-feature();
-\`\`\`
-
-## License
-
-MIT
-```
-
-### Add a Code Block
-- Use triple backticks with language tag
-- Always specify language for syntax highlighting
-- BAD: ```
-- GOOD: \`\`\`typescript
-
-### Create a Table
-```markdown
-| Column 1 | Column 2 |
-|----------|----------|
-| Value 1  | Value 2  |
-```
-````
-
-### Phase 2: Anti-Pattern Quality (D3) - HIGH PRIORITY
-
-**File**: `skills/markdown-authoring/SKILL.md`
-
-1. **Add explicit anti-patterns section**:
-
-````markdown
-## Anti-Patterns
-
-### NEVER use inline HTML for formatting
-- **WHY**: Reduces portability and linting effectiveness
-- **BAD**: `<strong>bold text</strong>`
-- **GOOD**: `**bold text**`
-- **CONSEQUENCE**: Inconsistent rendering, linting failures
-
-### NEVER skip blank lines around headings
-- **WHY**: Markdown parsers require blank lines for proper heading detection
-- **BAD**:
-  ```markdown
-  # Heading
-  Some text
-  ```
-- **GOOD**:
-  ```markdown
-  # Heading
-
-  Some text
-  ```
-- **CONSEQUENCE**: Headings may not render, TOC generation fails
-
-### NEVER use hard tabs
-- **WHY**: Inconsistent rendering across editors
-- **BAD**: `→→code indent`
-- **GOOD**: `  code indent` (2 spaces)
-- **CONSEQUENCE**: Mixed indentation, formatting issues
-
-### NEVER exceed line length limits
-- **WHY**: Readability and diff clarity
-- **BAD**: Single line of 150+ characters
-- **GOOD**: Break at 80-100 characters
-- **CONSEQUENCE**: Horizontal scrolling, poor diffs
-
-### NEVER nest code blocks improperly
-- **WHY**: Parser ambiguity
-- **BAD**: Triple backticks inside triple backticks without escaping
-- **GOOD**: Use different fence characters or indentation
-- **CONSEQUENCE**: Rendering breaks
-
-### NEVER use emoji in technical documentation
-- **WHY**: Plain text compatibility, accessibility
-- **BAD**: "Great feature!"
-- **GOOD**: "Feature: implemented authentication module"
-- **CONSEQUENCE**: Display issues, accessibility problems
-
-### Repository-Specific Rules
-- This repository enforces MD013 (line-length) at 100 characters
-- All markdown files must pass markdownlint-cli2
-- Configuration in `.markdownlint.json` at repository root
-````
-
-### Phase 3: Pattern Recognition (D7) - HIGH PRIORITY
-
-**File**: `skills/markdown-authoring/SKILL.md`
-
-1. **Expand frontmatter description**:
-
-```markdown
 ---
-name: markdown-authoring
-description: Complete markdown authoring and documentation guidance covering syntax, documentation structure, markdownlint configuration, and CI/CD integration. Use when: "write README", "create documentation", "fix markdown lint errors", "configure markdownlint", "markdown best practices", "format markdown", "add code blocks", "create tables".
+
+### Phase 2: Anti-Pattern Quality (D3) - Priority: Medium
+
+**Target**: Increase from 10/15 to 14/15 (+4 points)
+
+#### Step 2.1: Enhance anti-patterns
+
+Add more specific NEVER statements with BAD/GOOD examples.
+
 ---
-```
 
-2. **Add explicit trigger phrases**:
+### Phase 3: Practical Usability (D8) - Priority: Medium
 
-```markdown
-## Activation Triggers
+**Target**: Increase from 10/15 to 13/15 (+3 points)
 
-This skill activates when users ask:
+#### Step 3.1: Add Quick Commands
 
-### Documentation Creation
-- "Write a README for this project"
-- "Create documentation for [feature]"
-- "Add a contributing guide"
-- "Generate API documentation"
+Add executable command examples.
 
-### Linting Issues
-- "Fix markdown lint errors"
-- "Why is markdownlint failing?"
-- "Configure markdownlint rules"
-- "Suppress markdown lint warning"
-
-### Formatting Questions
-- "How do I format [element] in markdown?"
-- "Create a table in markdown"
-- "Add a code block"
-- "Link to another file"
-
-### Best Practices
-- "Markdown best practices"
-- "Improve documentation structure"
-- "Documentation style guide"
-```
-
-### Phase 4: Specification Compliance (D4) - MEDIUM PRIORITY
-
-**File**: `skills/markdown-authoring/SKILL.md`
-
-1. **Add output specification**:
-
-````markdown
-## Output Specification
-
-### README Structure
-```markdown
-# Project Name (required)
-Brief description (required)
-
-## Installation (required)
-## Usage (required)
-## Configuration (optional)
-## API Reference (optional)
-## Contributing (optional)
-## License (required)
-```
-
-### Documentation File Structure
-- All documentation files in `docs/` directory
-- Use kebab-case filenames
-- Include frontmatter with `title`, `date`, `author` (optional)
-````
-
-### Phase 5: Workflow Determinism (D2) - MEDIUM PRIORITY
-
-**File**: `skills/markdown-authoring/SKILL.md`
-
-1. **Add explicit workflow**:
-
-````markdown
-## Workflow
-
-### Step 1: Identify Document Type
-- **Input**: User request
-- **Decision**: README | API docs | Contributing guide | General docs
-- **Output**: Document type confirmed
-
-### Step 2: Apply Template
-- **Action**: Select appropriate template
-- **Output**: Document skeleton with required sections
-
-### Step 3: Write Content
-- **Action**: Fill in sections following style guide
-- **Output**: Complete document content
-
-### Step 4: Validate
-```bash
-bunx markdownlint-cli2 "path/to/document.md"
-```
-- **Exit condition**: No lint errors
-
-### Step 5: Review Structure
-- Check heading hierarchy (H1 > H2 > H3)
-- Verify all links resolve
-- Confirm code blocks have language tags
-````
-
-### Phase 6: Freedom Calibration (D6) - MEDIUM PRIORITY
-
-**File**: `skills/markdown-authoring/SKILL.md`
-
-1. **Add flexibility guidelines**:
-
-```markdown
-## Flexibility Guidelines
-
-### Hard Constraints (NEVER violate)
-- Files must pass markdownlint
-- Line length max 100 characters
-- No inline HTML for formatting
-- Blank lines around headings
-
-### Flexible Decisions (adapt to context)
-- Document section order (adapt to project needs)
-- Level of detail (match audience)
-- Additional sections (add as needed)
-
-### Fallback Paths
-- If lint config missing: Use defaults from `.markdownlint.json`
-- If template unknown: Use standard README template
-- If link unresolved: Mark as TODO for review
-```
+---
 
 ## Verification Commands
 
 ```bash
-# Re-run skill evaluation
 sh skills/skill-quality-auditor/scripts/evaluate.sh markdown-authoring --json
-
-# Verify markdownlint works
-bunx markdownlint-cli2 "**/*.md"
-
-# Check skill structure
-ls -la skills/markdown-authoring/
-
-# Run full audit
-skills/skill-quality-auditor/scripts/audit-skills.sh --skills-dir skills
+bunx markdownlint-cli2 "skills/markdown-authoring/**/*.md"
 ```
 
 ## Success Criteria
 
-| Criterion | Measurement | Target |
-| --- | --- | --- |
-| D8: Practical Usability | Score increase | >= 13/15 |
-| D3: Anti-Pattern Quality | Score increase | >= 12/15 |
-| D7: Pattern Recognition | Score increase | >= 9/10 |
-| D4: Specification Compliance | Score increase | >= 13/15 |
-| D2: Mindset + Procedures | Score increase | >= 13/15 |
-| D6: Freedom Calibration | Score increase | >= 12/15 |
-| Overall Score | Total points | >= 100/120 |
-| Grade | Letter grade | >= B |
+| Criterion | Measurement |
+| --- | --- |
+| D5 Progressive Disclosure | Score >= 14/15 |
+| D3 Anti-Pattern Quality | Score >= 14/15 |
+| D8 Practical Usability | Score >= 13/15 |
+| References created | >= 2 files |
+| Overall Score | >= 102/120 (B+) |
 
 ## Effort Estimate
 
-- **T-shirt size**: M (4-6 hours)
-- **Complexity**: Medium
-- **Risk**: Low (additive changes)
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Disclosure | S | 30 min |
+| Phase 2: Anti-patterns | S | 30 min |
+| Phase 3: Commands | S | 20 min |
+| **Total** | **S** | **1.5 hours** |
 
 ## Dependencies
 
-- markdownlint-cli2 installed (already in project)
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/markdown-authoring/SKILL.md
+```
 
 ## Notes
 
-- D5 (Progressive Disclosure) is already strong at 15/15 - maintain current structure
-- Consider moving detailed lint rule explanations to references/
-- 16 reference files already exist - leverage them in SKILL.md navigation
+- Rating: **7/10** - Already follows Format B template well
+- Has detailed code examples
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Minor: Could add Notes section for consistency

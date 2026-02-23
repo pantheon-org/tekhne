@@ -10,28 +10,30 @@ source_audit: .context/audits/commanderjs-audit-2026-02-22.md
 
 | Metric | Current | Target |
 | --- | --- | --- |
-| **Score** | 90/120 | 102/120 |
+| **Score** | 90/120 (75%) | 102/120 (85%) |
 | **Grade** | C+ | B+ |
 | **Priority** | Medium | - |
-| **Effort** | Medium (S-M) | - |
+| **Effort** | Small-Medium (S-M) | - |
 
 **Focus Areas**: Pattern recognition (D7), Progressive disclosure (D5), Anti-pattern quality (D3)
 
+**Verdict**: Targeted improvements recommended. Good baseline with room for enhancement.
+
 ## Critical Issues to Address
 
-| Issue | Severity | Dimension | Impact |
+| Issue | Dimension | Severity | Impact |
 | --- | --- | --- | --- |
-| Vague trigger phrases | High | D7 (6/10) | Skill may not activate for CLI tasks |
-| Large SKILL.md (201 lines, 6 refs) | Medium | D5 (10/15) | Navigation complexity |
-| Moderate anti-pattern quality | Medium | D3 (10/15) | Common CLI mistakes not prevented |
+| Pattern recognition moderate | D7 (7/10) | Medium | Skill may not activate |
+| Progressive disclosure moderate | D5 (10/15) | Medium | Maintainability |
+| Anti-pattern quality moderate | D3 (10/15) | Medium | Mistakes may be repeated |
 
 ## Detailed Remediation Steps
 
-### Phase 1: Pattern Recognition (D7) - Priority: High
+### Phase 1: Pattern Recognition (D7) - Priority: Medium
 
-**Target**: Increase from 6/10 to 10/10 (+4 points)
+**Target**: Increase from 7/10 to 9/10 (+2 points)
 
-#### Step 1.1: Expand frontmatter description
+#### Step 1.1: Expand trigger keywords
 
 **File**: `skills/commanderjs/SKILL.md`
 
@@ -39,29 +41,12 @@ source_audit: .context/audits/commanderjs-audit-2026-02-22.md
 ---
 name: commanderjs
 description: |
-  Complete Commander.js CLI framework guidance. Use when: building CLI tools,
-  parsing command-line arguments, implementing subcommands, handling options/flags,
-  creating interactive CLIs, migrating from yargs/meow, or adding --help/--version.
+  Complete Commander.js CLI framework guidance. Use when: building CLI tools, parsing command-line arguments,
+  implementing subcommands, handling options/flags, creating interactive CLIs.
   
   Keywords: Commander.js, CLI, command-line, arguments, options, flags, subcommands,
-  action handlers, version, help text, TypeScript, program, parseAsync, opts, args,
-  variadic, required options, default values, custom help, error handling
+  action handlers, version, help text, TypeScript, program
 ---
-```
-
-#### Step 1.2: Add comprehensive "Use When" section
-
-```markdown
-## Use When
-
-- "Create a CLI tool with Commander.js"
-- "Parse command-line arguments"
-- "Add subcommands to my CLI"
-- "Handle --help and --version"
-- "Migrate from yargs to Commander"
-- "TypeScript CLI with Commander"
-- "Variadic arguments in CLI"
-- NOT for: Browser applications, non-CLI tools
 ```
 
 ---
@@ -70,55 +55,9 @@ description: |
 
 **Target**: Increase from 10/15 to 14/15 (+4 points)
 
-#### Step 2.1: Audit existing references
+#### Step 2.1: Create references
 
-Current references (6 files) may be sufficient. Evaluate if SKILL.md can be further condensed.
-
-#### Step 2.2: Extract detailed examples to reference
-
-**File**: `skills/commanderjs/references/advanced-patterns.md`
-
-Move complex patterns from SKILL.md:
-
-```markdown
-# Advanced Commander.js Patterns
-
-## Async Action Handlers
-
-```ts
-program
-  .command('fetch')
-  .action(async (options) => {
-    const data = await fetchData(options.url);
-    console.log(data);
-  });
-
-// Use parseAsync for async handlers
-program.parseAsync();
-```
-
-## Custom Help Formatting
-
-[Detailed help customization examples...]
-
-## Error Handling Patterns
-
-[Detailed error handling patterns...]
-```
-
-#### Step 2.3: Update SKILL.md hub
-
-Replace detailed content with:
-
-```markdown
-## Advanced Patterns
-
-For complex scenarios:
-
-- Async action handlers: [Advanced Patterns](references/advanced-patterns.md)
-- Custom help formatting: [Advanced Patterns](references/advanced-patterns.md)
-- Error handling: [Advanced Patterns](references/advanced-patterns.md)
-```
+Current: SKILL.md 328 lines, 0 references. Extract detailed content.
 
 ---
 
@@ -126,111 +65,9 @@ For complex scenarios:
 
 **Target**: Increase from 10/15 to 14/15 (+4 points)
 
-#### Step 3.1: Add explicit anti-patterns
+#### Step 3.1: Enhance anti-patterns
 
-**File**: `skills/commanderjs/SKILL.md`
-
-```markdown
-## Anti-Patterns
-
-### NEVER: Use parse() with async action handlers
-
-WHY: Async operations will not complete before process exits.
-
-BAD:
-```ts
-program
-  .command('fetch')
-  .action(async () => {
-    const data = await fetch(url); // Never completes!
-  });
-program.parse(); // Sync parse exits immediately
-```
-
-GOOD:
-```ts
-program
-  .command('fetch')
-  .action(async () => {
-    const data = await fetch(url);
-  });
-program.parseAsync(); // Waits for async
-```
-
-### NEVER: Define options after command()
-
-WHY: Options must be declared before the command they modify.
-
-BAD:
-```ts
-program
-  .command('deploy')
-  .action(() => { ... });
-program.option('-e, --env <env>'); // Too late!
-```
-
-GOOD:
-```ts
-program
-  .option('-e, --env <env>')
-  .command('deploy')
-  .action(() => { ... });
-```
-
-### NEVER: Access opts() before parse()
-
-WHY: Options are not populated until parsing completes.
-
-BAD:
-```ts
-const options = program.opts(); // Empty!
-program.parse();
-```
-
-GOOD:
-```ts
-program.parse();
-const options = program.opts(); // Now populated
-```
-
-### NEVER: Use process.exit() in action handlers
-
-WHY: Prevents cleanup and async operations from completing.
-
-BAD:
-```ts
-.action(() => {
-  process.exit(1); // Abrupt exit
-});
-```
-
-GOOD:
-```ts
-.action(async () => {
-  await cleanup();
-  process.exitCode = 1; // Graceful exit
-});
-```
-```
-
----
-
-### Phase 4: Specification Compliance (D4) - Priority: Low
-
-**Target**: Increase from 10/15 to 12/15 (+2 points)
-
-#### Step 4.1: Tighten frontmatter
-
-```yaml
----
-name: commanderjs
-description: "[from Phase 1]"
-version: 1.0.0
-author: tekhne
-tags: [cli, commander, command-line, typescript, node]
-scope: CLI application development with Commander.js
----
-```
+Add more specific NEVER statements with BAD/GOOD examples.
 
 ---
 
@@ -239,34 +76,40 @@ scope: CLI application development with Commander.js
 ```bash
 sh skills/skill-quality-auditor/scripts/evaluate.sh commanderjs --json
 bunx markdownlint-cli2 "skills/commanderjs/**/*.md"
-skills/skill-quality-auditor/scripts/detect-duplication.sh skills
 ```
 
 ## Success Criteria
 
 | Criterion | Measurement |
 | --- | --- |
-| D7 Pattern Recognition | Score >= 10/10 |
-| D5 Progressive Disclosure | Score >= 14/15 |
+| D7 Pattern Recognition | Score >= 9/10 |
+| D5 Progressive Disclosure | Score >= 13/15 |
 | D3 Anti-Pattern Quality | Score >= 14/15 |
+| References created | >= 2 files |
 | Overall Score | >= 102/120 (B+) |
 
-## Estimated Effort
+## Effort Estimate
 
 | Phase | Effort | Time |
 | --- | --- | --- |
 | Phase 1: Triggers | S | 20 min |
-| Phase 2: Disclosure | M | 45 min |
-| Phase 3: Anti-patterns | M | 45 min |
-| Phase 4: Frontmatter | S | 10 min |
-| **Total** | **M** | **2 hours** |
+| Phase 2: Disclosure | S | 30 min |
+| Phase 3: Anti-patterns | S | 30 min |
+| **Total** | **S** | **1.5 hours** |
 
 ## Dependencies
 
-- None (self-contained skill)
+- None (standalone skill)
 
 ## Rollback Plan
 
 ```bash
-git checkout HEAD~1 -- skills/commanderjs/
+git checkout HEAD~1 -- skills/commanderjs/SKILL.md
 ```
+
+## Notes
+
+- Rating: **7/10** - Already follows Format B template well
+- Has detailed code examples
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Minor: Could add Notes section

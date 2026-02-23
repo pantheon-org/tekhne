@@ -93,6 +93,7 @@ const content = await fs.promises.readFile(path);
 ````
 
 Add 2+ more anti-patterns covering:
+
 - Schema validation mistakes
 - Incorrect dependencies specification
 
@@ -164,8 +165,35 @@ ls -la skills/nx-executors/references/  # Should have 2+ files
 
 ## Success Criteria
 
-- [ ] Re-run audit shows score >= 110/120 (grade A)
-- [ ] D3 (Anti-Pattern Quality) >= 14/15
-- [ ] D5 (Progressive Disclosure) >= 13/15
-- [ ] At least 2 reference files created
-- [ ] All verification commands pass
+| Criterion | Measurement |
+| --- | --- |
+| D3 Anti-Pattern Quality | Score >= 14/15 |
+| D5 Progressive Disclosure | Score >= 13/15 |
+| References created | >= 2 files |
+| Overall Score | >= 110/120 (A) |
+
+## Effort Estimate
+
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Anti-patterns | S | 30 min |
+| Phase 2: Disclosure | S | 30 min |
+| Phase 3: Procedures | S | 20 min |
+| **Total** | **S** | **1.5 hours** |
+
+## Dependencies
+
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/nx-executors/SKILL.md
+```
+
+## Notes
+
+- Rating: **8/10** - Already follows Format B template very well with detailed phases and code examples
+- Good baseline score (B, targeting A)
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Code examples in remediation steps are specific and actionable
