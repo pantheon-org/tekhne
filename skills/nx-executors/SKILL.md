@@ -1,6 +1,6 @@
 ---
 name: nx-executors
-description: Create and use custom Nx executors in TypeScript monorepos. Covers executor structure, package references (@scope:executor), schema definitions, ExecutorContext API, and best practices for reusable build tasks.
+description: Create and operate custom Nx executors in TypeScript monorepos with deterministic schema design, ExecutorContext usage, package-reference registration, cache-aware outputs, and migration-safe testing workflows; use when implementing a new executor, debugging target resolution, or standardizing reusable task orchestration in Nx plugins.
 license: MIT
 compatibility: opencode
 metadata:
@@ -8,198 +8,122 @@ metadata:
   audience: nx-developers
 ---
 
-# Custom Nx Executors
+# Nx Executors
 
-Create reusable build, test, and development tasks for Nx workspaces.
+Navigation hub for custom Nx executor authoring and operations.
 
-## When to Use This Skill
+## When to Use
 
-- User requests creating a new Nx executor
-- User needs to use or modify existing executors in the workspace
-- User encounters executor resolution errors
-- User asks about executor configuration or usage
+- You are creating a new custom executor in an Nx plugin or tools package.
+- You need to register or fix executor references in `project.json` targets.
+- You are debugging executor resolution, schema, or runtime behavior.
 
-## Knowledge Base References
+## When Not to Use
 
-This skill references domain knowledge from:
-- [Core Concepts](./knowledge-base/concepts.md) - Nx executor fundamentals and API
-- [Workspace Setup](./knowledge-base/workspace-setup.md) - Project-specific configuration
-- [Troubleshooting](./knowledge-base/troubleshooting.md) - Common issues and solutions
+- The task is generator authoring rather than executor authoring.
+- The task is generic Nx workspace setup unrelated to custom executors.
+
+## Principles
+
+- ALWAYS keep executors as orchestration units, not business-logic containers.
+- ALWAYS return deterministic outputs when targets produce artifacts.
+- You may start simple, then add schema constraints as usage hardens.
+
+## Workflow
+
+1. Step 1: Define schema.
+Preconditions: executor intent and options are known.
+Actions: create `schema.json` with required fields, defaults, and descriptions.
+Exit: schema validates and CLI help renders expected options.
+2. Step 2: Implement executor.
+Preconditions: schema exists.
+Actions: implement `executor.ts` default export with `ExecutorContext` and error handling.
+Exit: TypeScript compiles and returns `{ success: boolean }`.
+3. Step 3: Register executor.
+Preconditions: implementation path is final.
+Actions: register in plugin manifest and reference via package notation.
+Exit: `nx run <project>:<target> --help` resolves successfully.
+4. Step 4: Verify execution.
+Preconditions: target exists in `project.json`.
+Actions: run with and without cache; confirm output paths and behavior.
+Exit: target executes predictably in local and CI contexts.
+
+## Quick Commands
+
+```bash
+mkdir -p tools/executors/my-executor
+```
+
+```bash
+bunx nx run my-project:my-target --help
+```
+
+```bash
+bunx nx run my-project:my-target --skip-nx-cache
+```
+
+```bash
+bunx nx reset
+```
+
+```bash
+bun run tsc -p tsconfig.base.json --noEmit
+```
+
+```bash
+rg -n '"executor"\s*:' tools apps libs
+```
+
+## Anti-Patterns
+
+### NEVER put business logic directly inside executor entrypoints
+
+**WHY**: bloated executors are hard to test and reuse.
+BAD: 200 lines of transformation logic in `executor.ts`. GOOD: delegate to composable library functions.
+
+### NEVER use relative executor references in targets
+
+**WHY**: relative paths are fragile across workspace changes.
+BAD: `"executor": "../../tools/executors:task"`. GOOD: `"executor": "@scope/tools:task"`.
+
+### NEVER skip schema validation details
+
+**WHY**: weak schemas produce invalid runtime invocations.
+BAD: untyped options with no required fields. GOOD: explicit `type`, `required`, defaults, and descriptions.
+
+### NEVER omit outputs and dependencies semantics for cacheable work
+
+**WHY**: Nx cache quality depends on deterministic inputs and outputs.
+BAD: no outputs and implicit file writes. GOOD: declare outputs and stable execution paths.
+
+### NEVER block executor runs with synchronous file I/O in hot paths
+
+**WHY**: sync I/O hurts parallel throughput.
+BAD: `fs.readFileSync` in main execution flow. GOOD: `await fs.promises.readFile` with structured error handling.
+
+### NEVER register executors without runnable target verification
+
+**WHY**: unresolved registrations fail only at invocation time.
+BAD: update manifest without executing target. GOOD: verify `nx run <project>:<target> --help` and actual run.
+
+## Gotchas
+
+- Executor resolution issues often come from manifest path drift after refactors.
+- Cache confusion after plugin changes is common; run `nx reset` before re-testing.
+- Production task behavior can differ from local dry runs; validate both modes.
 
 ## Quick Reference
 
-### This Workspace Uses Package References
+| Topic | Reference |
+| --- | --- |
+| Schema design and validation patterns | [references/executor-schema-design.md](references/executor-schema-design.md) |
+| `ExecutorContext` API usage | [references/context-api-reference.md](references/context-api-reference.md) |
+| Core concepts | [knowledge-base/concepts.md](knowledge-base/concepts.md) |
+| Workspace specifics | [knowledge-base/workspace-setup.md](knowledge-base/workspace-setup.md) |
+| Troubleshooting | [knowledge-base/troubleshooting.md](knowledge-base/troubleshooting.md) |
 
-```json
-{
-  "executor": "@pantheon-org/tools:executor-name"
-}
-```
+## References
 
-**Never use relative paths:**
-```json
-{
-  "executor": "../../tools/executors:executor-name"  // ❌ WRONG
-}
-```
-
-### Existing Executors
-
-Available in `@pantheon-org/tools`:
-- `dev-proxy` - Development server with hot reload
-- `check-mirror-exists` - Validate GitHub mirror repository
-- `typecheck` - TypeScript type checking
-
-See [Workspace Setup](./knowledge-base/workspace-setup.md) for details.
-
-## Agent Workflow
-
-### Creating a New Executor
-
-**Steps:**
-
-1. **Create structure:** `mkdir tools/executors/<executor-name>`
-2. **Create files:** `executor.ts`, `schema.json`, `schema.d.ts`
-3. **Define schema** - See [Core Concepts](./knowledge-base/concepts.md#schema-definition)
-4. **Implement executor** - Use arrow function pattern (see `AGENTS.md`)
-5. **Register** in `tools/executors/executors.json`
-6. **Test:** `bunx nx run <project>:<target> --help`
-
-**Implementation template:**
-
-```typescript
-import type { ExecutorContext } from '@nx/devkit';
-import type { ExecutorNameSchema } from './schema';
-
-export default async (
-  options: ExecutorNameSchema,
-  context: ExecutorContext
-): Promise<{ success: boolean }> => {
-  try {
-    // Executor logic
-    return { success: true };
-  } catch (error) {
-    console.error('Executor failed:', error);
-    return { success: false };
-  }
-};
-```
-
-**Key requirements:**
-- Return `{ success: boolean }`
-- Use arrow function (not named function)
-- Handle errors gracefully
-- Use `ExecutorContext` for project info
-
-### Using Executors in Projects
-
-**Add to `project.json`:**
-
-```json
-{
-  "targets": {
-    "my-task": {
-      "executor": "@pantheon-org/tools:executor-name",
-      "options": { "option1": "value" }
-    }
-  }
-}
-```
-
-**Test:** `bunx nx run <project>:my-task --help`
-
-### Modifying Existing Executors
-
-1. Locate: `tools/executors/<executor-name>/`
-2. Edit using arrow function pattern
-3. Test: `bunx nx run <project>:<target> --skip-nx-cache`
-4. Clear cache if needed: `bunx nx reset`
-
-### Debugging Executors
-
-**Resolution errors:** See [Troubleshooting Guide](./knowledge-base/troubleshooting.md#unable-to-resolve-scopetoolsexecutor-name)
-
-**Quick diagnostics:**
-```bash
-bun pm ls | grep @pantheon-org/tools
-bunx nx run <project>:<target> --verbose
-bunx nx show project <project> --web
-```
-
-### Best Practices for Agents
-
-**1. Reference Knowledge Base**
-
-When users ask about:
-- Executor concepts → [Core Concepts](./knowledge-base/concepts.md)
-- Configuration → [Workspace Setup](./knowledge-base/workspace-setup.md)
-- Errors → [Troubleshooting](./knowledge-base/troubleshooting.md)
-
-**2. Always Use Package References**
-
-Never generate relative path references. Always use:
-```json
-"executor": "@pantheon-org/tools:executor-name"
-```
-
-**3. Follow Arrow Function Pattern**
-
-This workspace uses arrow functions exclusively:
-
-```typescript
-// ✅ Correct
-export default async (options, context) => {
-  // implementation
-};
-
-// ❌ Wrong
-export default async function executor(options, context) {
-  // implementation
-}
-```
-
-See `AGENTS.md` in workspace root.
-
-**4. Test Before Declaring Success**
-
-Always verify:
-```bash
-bunx nx run <project>:<target> --help  # Resolution works
-bunx nx run <project>:<target>         # Execution works
-```
-
-**5. Handle Errors Gracefully**
-
-Every executor should:
-- Return `{ success: boolean }`
-- Catch and log errors
-- Provide helpful error messages
-
-**6. Document Options Clearly**
-
-Schema descriptions help users:
-
-```json
-{
-  "properties": {
-    "port": {
-      "type": "number",
-      "description": "Port number for the development server",
-      "default": 3000
-    }
-  }
-}
-```
-
-## Common Patterns
-
-See [Core Concepts](./knowledge-base/concepts.md#common-context-usage-patterns) for:
-- Accessing project information via `ExecutorContext`
-- Supporting dry run and verbose modes
-- Error handling patterns
-
-## Resources
-
-- [Nx Executors Documentation](https://nx.dev/concepts/executors-and-configurations)
-- [Creating Custom Executors](https://nx.dev/extending-nx/recipes/local-executors)
+- [Nx Executors and Configurations](https://nx.dev/concepts/executors-and-configurations)
+- [Nx Local Executors Recipe](https://nx.dev/extending-nx/recipes/local-executors)
 - [Nx Devkit API](https://nx.dev/reference/devkit)
