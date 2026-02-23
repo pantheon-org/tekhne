@@ -10,281 +10,94 @@ source_audit: .context/audits/extending-nx-plugins-audit-2026-02-22.md
 
 | Metric | Current | Target |
 | --- | --- | --- |
-| **Score** | 88/120 (73%) | 108/120 (90%) |
-| **Grade** | C | A |
-| **Priority** | High | - |
+| **Score** | 91/120 (75%) | 102/120 (85%) |
+| **Grade** | C+ | B+ |
+| **Priority** | Medium | - |
+| **Effort** | Medium (M) | - |
 
-**Verdict**: Priority improvements required. Critical: SKILL.md is 553 lines with 0 references - must extract content.
+**Focus Areas**: Progressive disclosure (D5), Anti-pattern quality (D3), Practical usability (D8)
+
+**Verdict**: Targeted improvements recommended. Good baseline with room for enhancement.
 
 ## Critical Issues to Address
 
 | Issue | Dimension | Severity | Impact |
 | --- | --- | --- | --- |
-| SKILL.md too long (553 lines, 0 refs) | D5 (5/15) | **Critical** | Maintainability, discoverability |
-| Weak anti-pattern precision | D3 (8/15) | High | Agents may repeat mistakes |
-| Missing deterministic workflow | D2 (10/15) | Medium | Execution ambiguity |
+| Progressive disclosure moderate | D5 (10/15) | Medium | Maintainability |
+| Anti-pattern quality moderate | D3 (10/15) | Medium | Mistakes may be repeated |
+| Practical usability gaps | D8 (10/15) | Medium | Commands could be clearer |
 
 ## Detailed Remediation Steps
 
-### Phase 1: Progressive Disclosure (D5) - CRITICAL PRIORITY
+### Phase 1: Progressive Disclosure (D5) - Priority: Medium
 
-**Problem**: 553-line SKILL.md with zero reference files is unmaintainable.
+**Target**: Increase from 10/15 to 14/15 (+4 points)
 
-**Files to create**:
+#### Step 1.1: Create references
 
-1. **Create `skills/extending-nx-plugins/references/` directory**
+Extract detailed content to references/.
 
-2. **Extract to `references/generator-development.md`**:
-   - All generator-related content
-   - Tree API details
-   - Schema validation patterns
-   - Template file handling
-
-3. **Extract to `references/executor-development.md`**:
-   - All executor-related content
-   - ExecutorContext API
-   - Schema definitions
-   - Best practices
-
-4. **Extract to `references/migrations.md`**:
-   - Migration patterns
-   - Version handling
-   - Breaking change management
-
-5. **Extract to `references/testing-patterns.md`**:
-   - Testing generators
-   - Testing executors
-   - Mock patterns
-
-6. **Restructure SKILL.md as navigation hub**:
-
-```markdown
----
-name: extending-nx-plugins
-description: Comprehensive guide for creating and managing Nx plugins including generators, inferred tasks, migrations, and best practices for extending Nx workspaces
 ---
 
-# Extending Nx Plugins
+### Phase 2: Anti-Pattern Quality (D3) - Priority: Medium
 
-## Purpose
+**Target**: Increase from 10/15 to 14/15 (+4 points)
 
-Create and manage Nx plugins for workspace automation.
+#### Step 2.1: Enhance anti-patterns
 
-## When to Use
+Add more specific NEVER statements with BAD/GOOD examples.
 
-- Creating custom generators for code scaffolding
-- Building executors for build tasks
-- Implementing inferred tasks
-- Writing migrations for breaking changes
+---
 
-## Quick Start
+### Phase 3: Practical Usability (D8) - Priority: Medium
 
-[Navigation links to detailed references]
+**Target**: Increase from 10/15 to 13/15 (+3 points)
 
-## Core Concepts
+#### Step 3.1: Add Quick Commands
 
-[Concise overview - max 150 lines]
+Add executable command examples.
 
-### Generators
-See [Generator Development](references/generator-development.md) for full details.
-
-### Executors
-See [Executor Development](references/executor-development.md) for full details.
-
-### Migrations
-See [Migrations](references/migrations.md) for full details.
-
-## Anti-Patterns
-
-[Concise list with links to detailed examples in references]
-
-## Quick Commands
-
-[Essential commands only - detailed commands in references]
-
-## Verification
-
-[Standard verification section]
-```
-
-**Target SKILL.md length**: 150-200 lines max
-
-### Phase 2: Anti-Pattern Quality (D3) - HIGH PRIORITY
-
-**File**: `skills/extending-nx-plugins/SKILL.md` and `references/anti-patterns.md`
-
-1. **Create `references/anti-patterns.md`** with detailed examples:
-
-```markdown
-# Nx Plugin Anti-Patterns
-
-## Generator Anti-Patterns
-
-### NEVER modify files outside tree.applyChanges
-- **WHY**: Tree API tracks all changes for dry-run and rollback
-- **BAD**: Using `fs.writeFileSync` directly
-- **GOOD**: Using `tree.write(path, content)`
-- **CONSEQUENCE**: Changes not tracked, dry-run fails, migrations break
-
-### NEVER hardcode paths in generators
-- **WHY**: Workspaces have different structures
-- **BAD**: `tree.write('apps/my-app/src/main.ts', content)`
-- **GOOD**: `tree.write(join(project.root, 'src', 'main.ts'), content)`
-
-### NEVER skip schema validation
-- **WHY**: Invalid inputs cause cryptic runtime errors
-- **BAD**: Direct property access without validation
-- **GOOD**: Use Zod or JSON Schema validation
-
-## Executor Anti-Patterns
-
-### NEVER return without success/failure
-- **WHY**: Nx depends on return value for status
-- **BAD**: `return;` or `return {};`
-- **GOOD**: `return { success: true };`
-
-### NEVER ignore cancellation signals
-- **WHY**: Long-running tasks must support cancellation
-- **CONSEQUENCE**: Stuck builds, resource leaks
-
-## Migration Anti-Patterns
-
-### NEVER assume package versions
-- **WHY**: Users may have different versions installed
-- **CONSEQUENCE**: Migration fails or corrupts workspace
-
-### NEVER modify node_modules
-- **WHY**: Changes lost on reinstall, may cause corruption
-```
-
-2. **Add concise anti-pattern section to SKILL.md**:
-
-```markdown
-## Anti-Patterns
-
-| Pattern | Why | See Details |
-| --- | --- | --- |
-| Direct filesystem writes | Breaks tree tracking | [Anti-Patterns Reference](references/anti-patterns.md) |
-| Hardcoded paths | Workspace structure varies | [Anti-Patterns Reference](references/anti-patterns.md) |
-| Missing return values | Nx status tracking fails | [Anti-Patterns Reference](references/anti-patterns.md) |
-| Unvalidated schemas | Runtime errors | [Anti-Patterns Reference](references/anti-patterns.md) |
-```
-
-### Phase 3: Workflow Determinism (D2) - MEDIUM PRIORITY
-
-**File**: `skills/extending-nx-plugins/SKILL.md`
-
-1. **Add explicit workflow with decision points**:
-
-````markdown
-## Development Workflow
-
-### Step 1: Choose Plugin Type
-- **Input**: User requirement
-- **Decision**: 
-  - Scaffolding code? -> Generator
-  - Build/test task? -> Executor
-  - Version migration? -> Migration
-  - Auto-detection? -> Inferred Tasks
-- **Output**: Plugin type confirmed
-
-### Step 2: Generate Plugin Structure
-```bash
-nx g @nx/plugin:plugin {plugin-name}
-```
-- **Exit condition**: Plugin directory created
-
-### Step 3: Implement Plugin
-- **Generator path**: See [Generator Development](references/generator-development.md)
-- **Executor path**: See [Executor Development](references/executor-development.md)
-- **Migration path**: See [Migrations](references/migrations.md)
-
-### Step 4: Add Tests
-- See [Testing Patterns](references/testing-patterns.md)
-
-### Step 5: Document
-- Update README with usage examples
-- Add to workspace generators/executors list
-
-### Step 6: Verify
-```bash
-nx test {plugin-name}
-nx build {plugin-name}
-```
-````
-
-2. **Add scope control**:
-
-```markdown
-## Scope Control
-
-### Use This Skill When
-- Creating workspace-specific automation
-- Building reusable build tasks
-- Implementing code scaffolding
-- Managing Nx workspace migrations
-
-### Do NOT Use This Skill When
-- Simple script execution (use npm scripts)
-- One-off file changes (manual edit)
-- External tool integration (use existing plugins)
-```
-
-## File Restructuring Summary
-
-```
-skills/extending-nx-plugins/
-├── SKILL.md                    (150-200 lines, navigation hub)
-├── AGENTS.md                   (optional deep navigation)
-└── references/
-    ├── generator-development.md
-    ├── executor-development.md
-    ├── migrations.md
-    ├── testing-patterns.md
-    └── anti-patterns.md
-```
+---
 
 ## Verification Commands
 
 ```bash
-# Re-run skill evaluation
 sh skills/skill-quality-auditor/scripts/evaluate.sh extending-nx-plugins --json
-
-# Check file size reduction
-wc -l skills/extending-nx-plugins/SKILL.md
-
-# Verify references exist
-ls -la skills/extending-nx-plugins/references/
-
-# Run full audit
-skills/skill-quality-auditor/scripts/audit-skills.sh --skills-dir skills
+bunx markdownlint-cli2 "skills/extending-nx-plugins/**/*.md"
 ```
 
 ## Success Criteria
 
-| Criterion | Measurement | Target |
-| --- | --- | --- |
-| D5: Progressive Disclosure | Score increase | >= 13/15 |
-| SKILL.md line count | Lines | <= 200 |
-| Reference files | Count | >= 4 |
-| D3: Anti-Pattern Quality | Score increase | >= 12/15 |
-| D2: Mindset + Procedures | Score increase | >= 13/15 |
-| Overall Score | Total points | >= 108/120 |
-| Grade | Letter grade | >= A |
+| Criterion | Measurement |
+| --- | --- |
+| D5 Progressive Disclosure | Score >= 14/15 |
+| D3 Anti-Pattern Quality | Score >= 14/15 |
+| D8 Practical Usability | Score >= 13/15 |
+| References created | >= 2 files |
+| Overall Score | >= 102/120 (B+) |
 
 ## Effort Estimate
 
-- **T-shirt size**: L (8-12 hours)
-- **Complexity**: High (significant restructure)
-- **Risk**: Medium (content migration required)
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Disclosure | S | 30 min |
+| Phase 2: Anti-patterns | S | 30 min |
+| Phase 3: Commands | S | 20 min |
+| **Total** | **S** | **1.5 hours** |
 
 ## Dependencies
 
-- Access to original skill content for extraction
-- Understanding of Nx plugin architecture
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/extending-nx-plugins/SKILL.md
+```
 
 ## Notes
 
-- Prioritize Phase 1 (progressive disclosure) - it's the root cause of other issues
-- Consider creating AGENTS.md for plugin-type-specific navigation
-- Template files could standardize generator/executor schemas
+- Rating: **7/10** - Already follows Format B template well
+- Has detailed code examples
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Minor: Could add Notes section for consistency

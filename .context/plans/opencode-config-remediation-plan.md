@@ -49,7 +49,7 @@ description: |
 ---
 ```
 
-2. Add comprehensive "Use When" section:
+1. Add comprehensive "Use When" section:
 
 ```markdown
 ## Use When
@@ -296,10 +296,40 @@ ls -la skills/opencode-config/references/  # Should have 3+ files (1 existing)
 
 ## Success Criteria
 
-- [ ] Re-run audit shows score >= 102/120 (grade B)
-- [ ] D7 (Pattern Recognition) >= 9/10
-- [ ] D2 (Mindset + Procedures) >= 12/15
-- [ ] D4 (Specification Compliance) >= 12/15
-- [ ] D3 (Anti-Pattern Quality) >= 12/15
-- [ ] At least 2 new reference files created
-- [ ] All verification commands pass
+| Criterion | Measurement |
+| --- | --- |
+| D7 Pattern Recognition | Score >= 9/10 |
+| D2 Mindset + Procedures | Score >= 12/15 |
+| D4 Specification Compliance | Score >= 12/15 |
+| D3 Anti-Pattern Quality | Score >= 12/15 |
+| References created | >= 2 new files |
+| Overall Score | >= 102/120 (B+) |
+
+## Effort Estimate
+
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Pattern Recognition | S | 30 min |
+| Phase 2: Procedures | S | 30 min |
+| Phase 3: Spec Compliance | S | 30 min |
+| Phase 4: Knowledge Delta | S | 30 min |
+| Phase 5: Anti-patterns | S | 30 min |
+| Phase 6: Progressive Disclosure | S | 20 min |
+| **Total** | **S** | **3 hours** |
+
+## Dependencies
+
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/opencode-config/SKILL.md
+```
+
+## Notes
+
+- Rating: **8/10** - Already follows Format B template very well with detailed phases and code examples
+- Strong structure with 6 phases covering all critical dimensions
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Code examples in remediation steps are specific and actionable

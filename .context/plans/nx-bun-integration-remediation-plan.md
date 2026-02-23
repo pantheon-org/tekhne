@@ -112,6 +112,7 @@ const data = await file.text();
 ````
 
 Add 3+ more anti-patterns covering:
+
 - Bun:test vs Jest conflicts
 - SQLite connection pooling mistakes
 - Hot reload configuration issues
@@ -136,7 +137,7 @@ Bun.sqlite transactions auto-commit on function exit. Wrap in explicit
 transaction blocks for multi-statement operations.
 ```
 
-2. Add production caveats:
+1. Add production caveats:
    - Memory limits in containerized environments
    - Hot reload edge cases with NX
    - Bundle size considerations
@@ -178,9 +179,38 @@ ls -la skills/nx-bun-integration/references/  # Should have 3+ files
 
 ## Success Criteria
 
-- [ ] Re-run audit shows score >= 102/120 (grade B)
-- [ ] D5 (Progressive Disclosure) >= 12/15
-- [ ] D3 (Anti-Pattern Quality) >= 12/15
-- [ ] SKILL.md line count < 350 (from 897)
-- [ ] At least 3 reference files created
-- [ ] All verification commands pass
+| Criterion | Measurement |
+| --- | --- |
+| D5 Progressive Disclosure | Score >= 12/15 |
+| D3 Anti-Pattern Quality | Score >= 12/15 |
+| SKILL.md line count | < 350 (from 897) |
+| References created | >= 3 files |
+| Overall Score | >= 102/120 (B+) |
+
+## Effort Estimate
+
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Disclosure | M | 2 hours |
+| Phase 2: Anti-patterns | S | 45 min |
+| Phase 3: Knowledge Delta | S | 30 min |
+| Phase 4: Procedures | S | 30 min |
+| **Total** | **M** | **4 hours** |
+
+## Dependencies
+
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/nx-bun-integration/SKILL.md
+```
+
+## Notes
+
+- Rating: **8/10** - Already follows Format B template very well with detailed phases and code examples
+- Strong structure with clear priorities (Critical first)
+- Has Estimated Effort table, Dependencies, Rollback Plan
+- Code examples in remediation steps are specific and actionable
+- Minor: Already comprehensive

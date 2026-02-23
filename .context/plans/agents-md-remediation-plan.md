@@ -8,90 +8,98 @@ source_audit: .context/audits/agents-md-audit-2026-02-22.md
 
 ## Executive Summary
 
-| Metric | Value |
-| --- | --- |
-| **Current Score** | 97/120 (80%) |
-| **Current Grade** | B |
-| **Target Score** | 108/120 (A) |
-| **Priority** | Low |
-| **Estimated Effort** | 2-3 hours |
+| Metric | Current | Target |
+| --- | --- | --- |
+| **Score** | 97/120 (80%) | 108/120 (90%) |
+| **Grade** | B | A |
+| **Priority** | Low | - |
+| **Effort** | Small (S) | - |
+
+**Focus Areas**: Procedural clarity (D2), Progressive disclosure (D5), Anti-pattern quality (D3)
+
+**Verdict**: Solid baseline with targeted improvements. Already high-scoring skill.
 
 ## Critical Issues to Address
 
-| Issue | Severity | Dimension |
-| --- | --- | --- |
-| Procedural clarity gaps | Medium | D2 (10/15) |
-| Progressive disclosure needed | Medium | D5 (10/15) |
-| Anti-pattern quality | Medium | D3 (11/15) |
-| Practical usability | Medium | D8 (10/15) |
+| Issue | Dimension | Severity | Impact |
+| --- | --- | --- | --- |
+| Procedural clarity gaps | D2 (10/15) | Medium | Workflow not fully deterministic |
+| Progressive disclosure needed | D5 (10/15) | Medium | SKILL.md could be condensed |
+| Anti-pattern quality | D3 (11/15) | Medium | Could be more specific |
 
 ## Detailed Remediation Steps
 
-### D2: Mindset + Procedures (Current: 10/15, Target: 13/15)
+### Phase 1: Procedural Clarity (D2) - Priority: Medium
 
-**Problem**: Workflow not deterministic; missing decision points.
+**Target**: Increase from 10/15 to 13/15 (+3 points)
 
-**Actions**:
-1. Rewrite workflow as ordered steps with explicit outcomes
-2. Add "when to use / when not to use" section
-3. Add guardrails for ambiguous inputs (e.g., "should I add AGENTS.md?")
+#### Step 1.1: Add deterministic workflow
 
-**Files to Edit**:
-- `skills/agents-md/SKILL.md` - Restructure workflow section
+**File**: `skills/agents-md/SKILL.md`
 
-### D5: Progressive Disclosure (Current: 10/15, Target: 14/15)
+Add explicit workflow with entry/exit conditions.
 
-**Problem**: SKILL.md has 234 lines; only 7 references; content should be extracted.
+---
 
-**Actions**:
-1. Keep SKILL.md as navigation hub (<100 lines)
-2. Move detailed examples to existing references
-3. Add concise summaries with links
+### Phase 2: Progressive Disclosure (D5) - Priority: Medium
 
-**Files to Edit**:
-- `skills/agents-md/SKILL.md` - Condense
-- `skills/agents-md/references/*.md` - Expand with moved content
+**Target**: Increase from 10/15 to 14/15 (+4 points)
 
-### D3: Anti-Pattern Quality (Current: 11/15, Target: 14/15)
+#### Step 2.1: Condense SKILL.md
 
-**Problem**: Anti-patterns need more specificity.
+Keep SKILL.md as navigation hub under 100 lines. Move detailed examples to references.
 
-**Actions**:
-1. Add NEVER statements with WHY
-2. Add BAD/GOOD examples for:
-   - Over-documenting simple projects
-   - Missing project context
-   - Outdated AGENTS.md
-3. Tie to repository-specific risks
+---
 
-**Files to Edit**:
-- `skills/agents-md/SKILL.md` - Enhance anti-patterns section
+### Phase 3: Anti-Pattern Quality (D3) - Priority: Medium
 
-### D8: Practical Usability (Current: 10/15, Target: 13/15)
+**Target**: Increase from 11/15 to 14/15 (+3 points)
 
-**Problem**: Missing executable commands.
+#### Step 3.1: Enhance anti-patterns
 
-**Actions**:
-1. Add copy/paste commands for AGENTS.md creation
-2. Add validation commands
-3. Add expected outputs
+Add NEVER statements with WHY and BAD/GOOD examples.
 
-**Files to Edit**:
-- `skills/agents-md/SKILL.md` - Add Quick Commands section
+---
 
 ## Verification Commands
 
 ```bash
 sh skills/skill-quality-auditor/scripts/evaluate.sh agents-md --json
-skills/skill-quality-auditor/scripts/audit-skills.sh --skills-dir skills
-skills/skill-quality-auditor/scripts/detect-duplication.sh skills
+bunx markdownlint-cli2 "skills/agents-md/**/*.md"
 ```
 
 ## Success Criteria
 
-- [ ] Score >= 108/120 (A)
-- [ ] D2 (Mindset + Procedures) >= 13/15
-- [ ] D5 (Progressive Disclosure) >= 14/15
-- [ ] D3 (Anti-Pattern Quality) >= 14/15
-- [ ] SKILL.md < 100 lines
-- [ ] All procedures have explicit entry/exit conditions
+| Criterion | Measurement |
+| --- | --- |
+| D2 Mindset + Procedures | Score >= 13/15 |
+| D5 Progressive Disclosure | Score >= 14/15 |
+| D3 Anti-Pattern Quality | Score >= 14/15 |
+| SKILL.md line count | <= 100 lines |
+| Overall Score | >= 108/120 (A) |
+
+## Effort Estimate
+
+| Phase | Effort | Time |
+| --- | --- | --- |
+| Phase 1: Procedures | S | 30 min |
+| Phase 2: Disclosure | S | 30 min |
+| Phase 3: Anti-patterns | S | 30 min |
+| **Total** | **S** | **1.5 hours** |
+
+## Dependencies
+
+- None (standalone skill)
+
+## Rollback Plan
+
+```bash
+git checkout HEAD~1 -- skills/agents-md/SKILL.md
+```
+
+## Notes
+
+- Rating: **8/10** - Already strong, needs minor enhancements
+- Good baseline score (B grade)
+- Actions are clear and actionable
+- Could add more code examples
