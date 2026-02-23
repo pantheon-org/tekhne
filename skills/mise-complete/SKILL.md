@@ -1,9 +1,6 @@
 ---
 name: mise-complete
-description: |-
-  Complete Mise tool management guidance covering version management, task automation, environment variables, and configuration. Use when: installing tools with mise, defining tasks, managing environment variables, or configuring mise.toml for development environments.
-  
-  Keywords: mise, rtx, asdf, tool versions, mise.toml, .tool-versions, tasks, environment variables, mise use, mise install, mise tasks, mise env, mise set
+description: Configure and operate Mise for deterministic developer environments. Use when installing runtime/tool versions, defining reusable tasks, managing layered environment variables, migrating from asdf/nvm/pyenv, or debugging mise.toml behavior in CI and local shells. Keywords: mise, mise.toml, tool versions, tasks, env, asdf migration, setup automation, dev environment.
 allowed-tools:
   - Read
   - Write
@@ -11,49 +8,128 @@ allowed-tools:
   - Bash
 ---
 
-# Mise Complete Tool Management
+# Mise Complete
 
-Comprehensive Mise guidance covering tool version management, task automation, environment variables, and hierarchical configuration.
+## When to Use
 
-## When to Apply
+Use this skill when setup, version management, or task automation needs to be standardized with Mise.
 
-Use this skill when:
-- Installing and managing development tool versions
-- Defining project tasks and workflows
-- Managing environment variables per project
-- Configuring mise.toml for teams
-- Migrating from asdf, nvm, rbenv, pyenv
-- Setting up development environments
+## When Not to Use
 
-## Categories by Priority
+Do not use this skill when the repository intentionally uses another tool manager as the source of truth.
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Tool Version Management | CRITICAL | `tools-` |
-| 2 | Task Automation | HIGH | `tasks-` |
-| 3 | Environment Variables | HIGH | `env-` |
-| 4 | Configuration | MEDIUM | `config-` |
+## Core Principles
 
-## How to Use
+1. Keep one canonical `mise.toml` per project scope.
+2. Pin tool versions for reproducible builds.
+3. Make tasks deterministic and non-interactive by default.
+4. Keep secrets out of committed task definitions.
 
-Read individual reference files for detailed guidance:
+## Deterministic Workflow
 
+1. Detect existing tool managers and migration constraints.
+2. Define or update `mise.toml` tool versions.
+3. Add or normalize tasks for common workflows.
+4. Configure environment variables by scope.
+5. Validate setup with local and CI-safe commands.
+
+## Quick Commands
+
+### Install configured tools
+
+```bash
+mise install
 ```
-references/tools-installation.md
-references/tasks-definition.md
-references/env-management.md
+
+Expected result: configured runtimes are installed for the current project.
+
+### Pin a tool version
+
+```bash
+mise use node@22
 ```
 
-Each reference file contains:
-- Mise command usage and examples
-- Configuration file formats
-- Best practices and patterns
-- Migration guides
-- Common workflows
+Expected result: `mise.toml` updated with pinned Node version.
+
+### List active tools and versions
+
+```bash
+mise ls
+```
+
+Expected result: active tools with resolved versions are displayed.
+
+### Run a named task
+
+```bash
+mise run test
+```
+
+Expected result: task executes with the environment defined by Mise.
+
+### Inspect effective environment
+
+```bash
+mise env
+```
+
+Expected result: resolved environment variables and tool paths are printed.
+
+### Evaluate this skill quality
+
+```bash
+sh skills/skill-quality-auditor/scripts/evaluate.sh mise-complete --json
+```
+
+Expected result: updated audit dimensions and grade.
+
+## Anti-Patterns
+
+### NEVER keep floating tool versions in team repositories
+
+**WHY:** Unpinned versions cause machine-to-machine drift.
+
+**BAD:** `node = "latest"` for shared project tooling.
+**GOOD:** Pin exact versions required by CI and teammates.
+
+**Consequence:** Builds pass on one machine and fail on another.
+
+### NEVER embed secrets in committed `mise.toml`
+
+**WHY:** Version control is not a secret store.
+
+**BAD:** Hardcode API tokens in environment blocks.
+**GOOD:** Load secrets from external secret management or local env files.
+
+**Consequence:** Secret leakage and mandatory credential rotation.
+
+### NEVER define tasks that rely on implicit shell state
+
+**WHY:** Hidden state makes task outcomes non-deterministic.
+
+**BAD:** Task assumes manual `cd` or prior env exports.
+**GOOD:** Task commands are self-contained with explicit paths.
+
+**Consequence:** Task behavior differs across terminals and CI.
+
+### NEVER mix multiple tool managers as active authority
+
+**WHY:** Overlapping managers conflict on PATH and versions.
+
+**BAD:** Keep both `nvm` and Mise controlling Node in CI.
+**GOOD:** Migrate ownership per tool and remove overlapping activation.
+
+**Consequence:** Unpredictable runtime resolution and flaky builds.
 
 ## References
 
-- https://mise.jdx.dev/
-- https://mise.jdx.dev/configuration.html
-- https://mise.jdx.dev/tasks/
-- https://mise.jdx.dev/environments.html
+- `references/tools-installation.md`
+- `references/tools-versions.md`
+- `references/tools-migration.md`
+- `references/tasks-definition.md`
+- `references/tasks-execution.md`
+- `references/env-definition.md`
+- `references/env-hierarchies.md`
+- `references/config-structure.md`
+- `references/config-management.md`
+- `references/config-anti-patterns.md`
