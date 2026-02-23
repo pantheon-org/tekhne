@@ -83,43 +83,33 @@ Expected: only changed projects execute with Nx scheduling.
 
 ### NEVER mix npm/yarn installs with Bun in the same migration scope
 
-**WHY**: mixed lockfiles and resolver behavior cause drift and non-reproducible installs.
-
-**BAD**: `npm install` after `bun add` in a Bun-migrated workspace.
-
-**GOOD**: use Bun consistently for migrated projects and clean old lockfiles per migration policy.
+- **WHY**: mixed lockfiles and resolver behavior cause drift and non-reproducible installs.
+- **BAD**: `npm install` after `bun add` in a Bun-migrated workspace.
+- **GOOD**: use Bun consistently for migrated projects and clean old lockfiles per migration policy.
 
 ### NEVER run Jest and `bun test` on the same suite without boundary
 
-**WHY**: duplicate test ownership creates inconsistent results and CI noise.
-
-**BAD**: keep Jest target unchanged while adding `@nx-bun/nx:test` to same files.
-
-**GOOD**: split test ownership by project/path and decommission old target deliberately.
+- **WHY**: duplicate test ownership creates inconsistent results and CI noise.
+- **BAD**: keep Jest target unchanged while adding `@nx-bun/nx:test` to same files.
+- **GOOD**: split test ownership by project/path and decommission old target deliberately.
 
 ### NEVER skip cache metadata on Bun build/test targets
 
-**WHY**: missing outputs/inputs reduces cache hit reliability and slows CI.
-
-**BAD**: executor configured with no `outputs` and no tuned inputs.
-
-**GOOD**: declare outputs and reference production/default named inputs as appropriate.
+- **WHY**: missing outputs/inputs reduces cache hit reliability and slows CI.
+- **BAD**: executor configured with no `outputs` and no tuned inputs.
+- **GOOD**: declare outputs and reference production/default named inputs as appropriate.
 
 ### NEVER assume SQLite behavior is identical to Node DB wrappers
 
-**WHY**: transaction handling and connection patterns differ across libraries.
-
-**BAD**: copy Node pooling assumptions directly into Bun SQLite implementation.
-
-**GOOD**: use Bun SQLite patterns validated in reference examples.
+- **WHY**: transaction handling and connection patterns differ across libraries.
+- **BAD**: copy Node pooling assumptions directly into Bun SQLite implementation.
+- **GOOD**: use Bun SQLite patterns validated in reference examples.
 
 ### NEVER rely on hot reload defaults for production validation
 
-**WHY**: hot/watch modes hide startup and lifecycle differences seen in production runs.
-
-**BAD**: validate only with `hot: true` local serve.
-
-**GOOD**: run non-hot production-oriented build and run validation before release.
+- **WHY**: hot/watch modes hide startup and lifecycle differences seen in production runs.
+- **BAD**: validate only with `hot: true` local serve.
+- **GOOD**: run non-hot production-oriented build and run validation before release.
 
 ## Gotchas
 

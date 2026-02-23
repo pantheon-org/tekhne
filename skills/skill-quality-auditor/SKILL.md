@@ -95,18 +95,21 @@ Canonical audit path: use `.context/audits/` only. Do not use `.context/audit/`.
 
 ### NEVER skip baseline comparison in recurring audits
 
-WHY: score changes are meaningless without prior reference points.
-BAD: run ad hoc audits with no previous report linkage. GOOD: compare current results to previous dated audits.
+- **WHY**: score changes are meaningless without prior reference points.
+- **BAD**: run ad hoc audits with no previous report linkage.
+- **GOOD**: compare current results to previous dated audits.
 
 ### NEVER aggregate low-similarity skills
 
-WHY: merging unrelated skills harms discoverability and intent routing.
-BAD: aggregate different domains with weak overlap. GOOD: aggregate only when similarity and domain fit are clear.
+- **WHY**: merging unrelated skills harms discoverability and intent routing.
+- **BAD**: aggregate different domains with weak overlap.
+- **GOOD**: aggregate only when similarity and domain fit are clear.
 
 ### NEVER ship remediation plans without validation checks
 
-WHY: invalid or incomplete plans create execution drift.
-BAD: write plan and execute blindly. GOOD: validate schema/format and ensure deterministic success criteria.
+- **WHY**: invalid or incomplete plans create execution drift.
+- **BAD**: write plan and execute blindly.
+- **GOOD**: validate schema/format and ensure deterministic success criteria.
 
 ## Self-Audit
 

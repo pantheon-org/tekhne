@@ -90,28 +90,33 @@ rg -n "generateFiles|updateJson|readProjectConfiguration" plugins tools
 
 ### NEVER modify files outside the Tree API
 
-WHY: direct filesystem writes bypass dry-run and change tracking.
-BAD: `writeFileSync("libs/my-lib/src/index.ts", content)`. GOOD: `tree.write("libs/my-lib/src/index.ts", content)`.
+- **WHY**: direct filesystem writes bypass dry-run and change tracking.
+- **BAD**: `writeFileSync("libs/my-lib/src/index.ts", content)`.
+- **GOOD**: `tree.write("libs/my-lib/src/index.ts", content)`.
 
 ### NEVER hardcode project paths in generator logic
 
-WHY: brittle paths fail when workspace layout evolves.
-BAD: fixed `libs/my-lib/...` writes. GOOD: derive paths from schema/context helpers.
+- **WHY**: brittle paths fail when workspace layout evolves.
+- **BAD**: fixed `libs/my-lib/...` writes.
+- **GOOD**: derive paths from schema/context helpers.
 
 ### NEVER skip schema validation and typed options
 
-WHY: invalid inputs fail late with unclear errors.
-BAD: `schema: any` and no guardrails. GOOD: typed schema + required fields + runtime guards.
+- **WHY**: invalid inputs fail late with unclear errors.
+- **BAD**: `schema: any` and no guardrails.
+- **GOOD**: typed schema + required fields + runtime guards.
 
 ### NEVER generate across project boundaries without explicit checks
 
-WHY: hidden boundary violations can introduce circular dependencies.
-BAD: generator in one scope writing imports into disallowed scopes. GOOD: verify tags and dependency direction first.
+- **WHY**: hidden boundary violations can introduce circular dependencies.
+- **BAD**: generator in one scope writing imports into disallowed scopes.
+- **GOOD**: verify tags and dependency direction first.
 
 ### NEVER mutate project configuration blindly
 
-WHY: naive updates remove existing targets/tags.
-BAD: overwrite full `project.json`. GOOD: read, merge, and update only intended keys.
+- **WHY**: naive updates remove existing targets/tags.
+- **BAD**: overwrite full `project.json`.
+- **GOOD**: read, merge, and update only intended keys.
 
 ## Quick Reference
 
