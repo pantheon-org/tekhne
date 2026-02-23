@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: markdown-authoring
 source_audit: .context/audits/markdown-authoring-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: markdown-authoring
