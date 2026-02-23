@@ -1,305 +1,141 @@
 ---
 name: skill-quality-auditor
-description: Automated skill quality evaluation and maintenance. Use when: (1) auditing skill collections quarterly, (2) evaluating new skills before merge, (3) detecting duplication across skills, (4) planning skill aggregations, (5) setting up CI/CD quality gates. Keywords: skill audit, quality evaluation, duplication detection, aggregation, skill-judge, 8-dimension evaluation, skill health, consolidation
+description: Audit and improve skill collections with an 8-dimension scoring framework, duplication detection, remediation planning, and CI quality gates; use when evaluating skill quality, generating remediation plans, validating report format, or enforcing repository-wide skill artifact conventions.
 ---
 
 # Skill Quality Auditor
 
-Automated skill quality evaluation and maintenance using the skill-judge framework. Detects duplication, evaluates quality across 8 dimensions, recommends aggregations, and tracks skill health over time.
+Navigation hub for evaluating, maintaining, and improving skill quality.
 
-## When to Apply
+## When to Use
 
-Use this skill when:
+- Running periodic quality audits of all skills.
+- Evaluating a specific skill before merge.
+- Creating remediation plans from audit results.
+- Detecting duplication and planning aggregations.
+- Enforcing artifact and report format conventions.
 
-- **Quarterly audits** - Regular skill collection health checks
-- **New skill review** - Evaluating newly created skills before merge
-- **Aggregation planning** - Identifying related skills to consolidate
-- **Quality enforcement** - Ensuring skills meet A-grade standards (≥108/120)
-- **Duplication detection** - Finding redundant content across skills
-- **Health monitoring** - Tracking skill collection metrics over time
-- **CI/CD integration** - Automated quality gates in pull requests
+## When Not to Use
 
-## Categories by Priority
+- The task is pure feature implementation unrelated to skill quality.
+- The goal is ad hoc writing without measurable audit criteria.
 
-| Priority | Category | Impact | Prefix | Files |
-|----------|----------|--------|--------|-------|
-| **CRITICAL** | Evaluation Framework | Foundational | `framework-` | 4 |
-| **HIGH** | Duplication Detection | High ROI | `duplication-` | 2 |
-| **HIGH** | Aggregation Planning | High ROI | `aggregation-` | 2 |
-| **HIGH** | Remediation Planning | High ROI | `remediation-` | 1 |
-| **MEDIUM** | Automation Scripts | Efficiency | `scripts-` | 3 |
-| **MEDIUM** | Reporting & Analysis | Visibility | `reporting-` | 2 |
-| **LOW** | Advanced Features | Optional | `advanced-` | 2 |
+## Mindset
 
-## How to Use This Skill
+- Treat scores as directional signals, not absolute truth.
+- Prioritize deterministic, reproducible checks over subjective opinions.
+- Apply strict rules where safety/consistency matters; stay flexible elsewhere.
 
-This skill follows **progressive disclosure** - start with what you need:
+## Workflow
 
-### Quick Start
+1. Inventory target skills (single skill or full collection).
+2. Run evaluator/audit scripts.
+3. Generate and validate reports.
+4. Create remediation plans for low-scoring skills.
+5. Re-evaluate and track score deltas.
 
-1. Load this skill (you just did)
-2. Run basic audit: `./scripts/audit-skills.sh`
-3. Review generated reports in `.context/analysis/skill-audit-YYYY-MM-DD.md`
+## Categories
 
-### Deep Evaluation
+| Priority | Area | Purpose |
+| --- | --- | --- |
+| Critical | Framework | 8-dimension quality scoring |
+| High | Remediation | Plan and execute improvements |
+| High | Duplication | Identify consolidation opportunities |
+| Medium | Scripts | Automation and CI integration |
+| Medium | Reporting | Report generation and format validation |
+| Low | Advanced | Trends and custom metrics |
 
-1. Read `framework-skill-judge-canonical.md` for canonical framework source
-2. Read `framework-skill-judge-dimensions.md` for normalized 8-dimension criteria
-3. Read `framework-scoring-rubric.md` for scoring methodology
-4. Apply evaluation to individual skills
+## Quick Start
 
-### Duplication Detection
-
-1. Read `duplication-detection-algorithm.md` for methodology
-2. Run `./scripts/detect-duplication.sh` to find >20% similarity
-3. Review recommendations in generated report
-
-### Aggregation Planning
-
-1. Read `aggregation-pattern.md` for Navigation Hub pattern
-2. Read `aggregation-implementation.md` for step-by-step guide
-3. Identify candidates using duplication + family analysis
-4. Calculate ROI: (hours saved / hours invested)
-
-### Automation
-
-1. Read `scripts-audit-workflow.md` for automation setup
-2. Read `scripts-ci-integration.md` for GitHub Actions/GitLab CI
-3. Configure quality gates (block PRs with C-grade skills)
-
-### Advanced
-
-1. Read `advanced-trends-analysis.md` for historical tracking
-2. Read `advanced-custom-metrics.md` for domain-specific evaluation
-
-## Core Workflow
-
-```mermaid
-graph TD
-    A[Inventory Skills] --> B[Evaluate Quality]
-    B --> B1[Validate Artifact Conventions]
-    B --> C[Detect Duplication]
-    C --> D[Plan Aggregations]
-    D --> E[Generate Reports]
-    E --> F[Implement Changes]
-    F --> G[Verify Improvements]
-    G --> H[Update Baseline]
-```
-
-## Artifact Convention Enforcement
-
-Use this skill to enforce deterministic artifact rules across all skills:
-
-- Files in `templates/` MUST be YAML (`.yaml` or `.yml`).
-- Files in `schemas/` MUST be JSON Schema files named `*.schema.json` and include a `"$schema"` URL from `json-schema.org`.
-- Files in `scripts/` MUST be portable shell scripts (`.sh`) with `#!/usr/bin/env sh`, and pass `sh -n`.
-
-Run:
+### Evaluate One Skill
 
 ```bash
-./skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh
+sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
 ```
 
-For staged files in commits, enforcement is also wired through `lefthook` pre-commit.
+### Audit All Skills
 
-For skill audit report format specifically:
+```bash
+sh skills/skill-quality-auditor/scripts/audit-skills.sh --skills-dir skills
+```
 
-- Template source is `skills/skill-quality-auditor/templates/review-report-template.yaml` under `report_template_markdown`.
-- Generated reports must include YAML frontmatter keys: `review_date`, `reviewer`, `skill_location`.
-- Validate with `./skills/skill-quality-auditor/scripts/validate-review-format.sh <report-path>`.
+### Validate Skill Artifacts
 
-## Success Metrics
+```bash
+sh skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh
+```
 
-After applying this skill, you should achieve:
+### Validate Report Format
 
-- **Quality**: 90%+ skills at A-grade (≥108/120)
-- **Duplication**: <5% redundant content across collection
-- **Size**: Average skill <150 lines (navigation hubs <100 lines)
-- **Clarity**: Zero confusion about which skill to use
-- **Maintenance**: Updates require changing only 1 file per concept
+```bash
+sh skills/skill-quality-auditor/scripts/validate-review-format.sh <report-path>
+```
+
+## Scoring
+
+See [references/scoring-rubric.md](references/scoring-rubric.md) for full weights and grade scale.
+
+Quick thresholds:
+
+- Passing: `>= 84` (C)
+- Recommended: `>= 96` (B)
+- Target: `>= 108` (A)
 
 ## Remediation Planning
 
-Create actionable improvement plans from audit results:
+1. Run evaluation: `sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json`
+2. Locate report: `.context/audits/<skill-name>-audit-YYYY-MM-DD.md`
+3. Use template: `skills/skill-quality-auditor/templates/remediation-plan-template.yaml`
+4. Validate plan: `sh skills/skill-quality-auditor/scripts/validate-remediation-plan.sh <plan-path>`
+5. Save plan: `.context/plans/<skill-name>-remediation-plan.md`
 
-### When to Use
-
-- A skill scored below target (typically <108/120, grade B or lower)
-- Converting audit findings into structured improvement tasks
-
-### How to Create a Remediation Plan
-
-1. **Run Audit**: `sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json`
-2. **Locate Report**: `.context/audits/<skill-name>-audit-YYYY-MM-DD.md`
-3. **Load Template**: `skills/skill-quality-auditor/templates/remediation-plan-template.yaml`
-4. **Read Guide**: `references/remediation-planning.md`
-
-**Canonical audit path**: Use `.context/audits/` only. Do not create or use `.context/audit/`.
-
-### Output Location
-
-Remediation plans should be saved to:
-
-```text
-.context/plans/<skill-name>-remediation-plan.md
-```
-
-### Quick Start
-
-```bash
-# Generate basic remediation plan from audit
-# 1. Run evaluation
-sh skills/skill-quality-auditor/scripts/evaluate.sh my-skill --json
-
-# 2. Create plan using template
-# Copy from templates/remediation-plan-template.yaml
-# Fill in from audit results
-
-# 3. Validate plan against schema (REQUIRED)
-sh skills/skill-quality-auditor/scripts/validate-remediation-plan.sh .context/plans/my-skill-remediation-plan.md
-
-# 4. Save to .context/plans/
-```
-
-## Quick Reference
-
-**Evaluate a single skill:**
-
-```bash
-sh skills/skill-quality-auditor/scripts/evaluate.sh skill-name --json
-```
-
-**Find duplicates:**
-
-```bash
-./scripts/detect-duplication.sh
-```
-
-**Plan aggregation:**
-
-```bash
-bun run scripts/plan-aggregation.ts --family bdd
-```
-
-**Full audit:**
-
-```bash
-./scripts/audit-skills.sh --output .context/analysis/
-```
+Canonical audit path: use `.context/audits/` only. Do not use `.context/audit/`.
 
 ## Anti-Patterns
 
-### ❌ Never run audits without baseline comparison
+### NEVER skip baseline comparison in recurring audits
 
-**WHY:** Without baseline, you cannot detect regression or measure improvement.
+WHY: score changes are meaningless without prior reference points.
+BAD: run ad hoc audits with no previous report linkage. GOOD: compare current results to previous dated audits.
 
-```bash
-# BAD - No baseline comparison
-./scripts/audit-skills.sh > report.md
-# Next quarter: same command, no way to compare
+### NEVER aggregate low-similarity skills
 
-# GOOD - Track baseline for comparison
-./scripts/audit-skills.sh --baseline .context/baselines/quarterly.md
-# Compare: diff .context/baselines/q1.md .context/baselines/q2.md
-```
+WHY: merging unrelated skills harms discoverability and intent routing.
+BAD: aggregate different domains with weak overlap. GOOD: aggregate only when similarity and domain fit are clear.
 
-**Consequence:** Quality regressions go unnoticed; impossible to prove ROI.
+### NEVER ship remediation plans without validation checks
 
-### ❌ Never aggregate skills with <20% similarity
+WHY: invalid or incomplete plans create execution drift.
+BAD: write plan and execute blindly. GOOD: validate schema/format and ensure deterministic success criteria.
 
-**WHY:** Low-similarity skills have different purposes; merging creates confusion.
+## Self-Audit
 
-```markdown
-# BAD - 12% similarity, different purposes
-bdd-testing + typescript-advanced → "testing-and-types" (confusing)
-
-# GOOD - 42% similarity, related domain
-bdd-gherkin + cucumber-best-practices → "bdd-testing" (clear purpose)
-```
-
-**Consequence:** Users cannot find the right skill; maintenance burden increases.
-
-### ❌ Never skip verification after aggregation
-
-**WHY:** Aggregation changes file paths and references, breaking downstream dependencies.
+This skill is the quality baseline and must pass its own evaluator.
 
 ```bash
-# BAD - No verification
-mv skills/bdd-gherkin skills/bdd-testing/references/
-# References to skills/bdd-gherkin now broken
-
-# GOOD - Verify all references
-grep -r "skills/bdd-gherkin" . --include="*.md"
-# Fix all references before committing
+sh skills/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json
 ```
 
-**Consequence:** Dead links, broken imports, confused users.
+Expected: score `>= 100`.
 
-### ❌ Never create aggregations with >10 source skills
+## Consistency Check
 
-**WHY:** Large aggregations become unwieldy and lose focus.
+Use the helper script to verify basic structural consistency across skills:
 
-```markdown
-# BAD - 15 skills aggregated
-"frontend-development" ← react, vue, angular, svelte, css, html, ...
-
-# GOOD - 3-5 related skills
-"react-patterns" ← react-hooks, react-state, react-testing
+```bash
+sh skills/skill-quality-auditor/scripts/check-consistency.sh skills
 ```
 
-**Consequence:** Skill becomes a "kitchen sink"; users cannot navigate efficiently.
+## Reference Map
 
-### ❌ Never create multi-purpose skills
-
-**WHY:** Skills covering multiple tasks confuse users about when to activate.
-
-```markdown
-# BAD - Two different tasks in one skill
-name: testing-and-deployment
-description: Write tests and deploy applications to production.
-# User asks: "How do I write a unit test?" → Unclear which part applies
-
-# GOOD - Single-purpose skill
-name: unit-testing
-description: Write unit tests with Jest, Vitest, or Mocha. Use when creating test files, writing test cases, or mocking dependencies.
-# Clear: skill activates for test writing only
-```
-
-**Consequence:** Wrong skill activates; user gets irrelevant guidance; skill collection becomes unmanageable.
-
-### ❌ Never ignore C-grade skills for >1 quarter
-
-**WHY:** Low-quality skills accumulate technical debt and mislead users.
-
-```markdown
-# BAD - C-grade skill ignored for 6 months
-skill-x: 72/120 (D grade)
-# No action taken, skill quality degrades further
-
-# GOOD - Action plan within quarter
-skill-x: 72/120 (D grade)
-Action: Apply aggregation or refactor within 30 days
-```
-
-**Consequence:** Skill collection degrades; users lose trust in quality standards.
-
-## Related Skills
-
-- **skill-judge** - Foundation evaluation framework (integrated under `references/framework-skill-judge-canonical.md`)
-- **skill-harvester** - Creates new skills from git history (quality check with auditor after)
-- **architecture-design** - Use for designing skill structure decisions
-- **proof-of-work** - Verification philosophy applied to skill changes
+- Framework: `references/framework-skill-judge-dimensions.md`, `references/framework-skill-judge-canonical.md`
+- Scoring: `references/scoring-rubric.md`, `references/framework-quality-standards.md`
+- Remediation: `references/remediation-planning.md`, `references/dimension-analysis-template.md`
+- Duplication: `references/duplication-detection-algorithm.md`, `references/duplication-remediation.md`
+- Aggregation: `references/aggregation-pattern.md`, `references/aggregation-implementation.md`
+- Scripts/CI: `references/scripts-audit-workflow.md`, `references/scripts-ci-integration.md`
+- Reporting: `references/reporting-analysis.md`, `references/reporting-dashboards.md`
 
 ## References
 
-All detailed content has been moved to the `references/` directory. Load on-demand based on your task:
-
-- **Framework** (CRITICAL) - Evaluation methodology
-- **Duplication** (HIGH) - Detection and remediation
-- **Aggregation** (HIGH) - Consolidation patterns
-- **Remediation** (HIGH) - Plan generation from audits
-- **Scripts** (MEDIUM) - Automation tools
-- **Reporting** (MEDIUM) - Analysis and visualization
-- **Advanced** (LOW) - Trends and custom metrics
-
-See `AGENTS.md` for complete file listing.
+- [Skill Judge Canonical Source](https://github.com/metaskills/skill-judge)
