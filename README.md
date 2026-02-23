@@ -29,7 +29,7 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 | [`markdown-authoring`](skills/markdown-authoring/SKILL.md) | Markdown syntax, markdownlint, and documentation guidance | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/markdown-authoring-audit-2026-02-23.md) |
 | [`mise-complete`](skills/mise-complete/SKILL.md) | Mise tool management for versions, tasks, and env vars | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/mise-complete-audit-2026-02-23.md) |
 | [`moscow-prioritization`](skills/moscow-prioritization/SKILL.md) | Prioritize requirements using MoSCoW method | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/moscow-prioritization-audit-2026-02-23.md) |
-| [`nx-biome-integration`](skills/nx-biome-integration/SKILL.md) | Integrate Biome linter/formatter into Nx monorepos | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/nx-biome-integration-audit-2026-02-22.md) |
+| [`nx-biome-integration`](skills/nx-biome-integration/SKILL.md) | Integrate Biome linter/formatter into Nx monorepos | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/nx-biome-integration-audit-2026-02-23.md) |
 | [`nx-bun-integration`](skills/nx-bun-integration/SKILL.md) | Integrate Bun runtime into Nx monorepos | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/nx-bun-integration-audit-2026-02-22.md) |
 | [`nx-executors`](skills/nx-executors/SKILL.md) | Create and use custom Nx executors in TypeScript monorepos | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-22](.context/audits/nx-executors-audit-2026-02-22.md) |
 | [`nx-generators`](skills/nx-generators/SKILL.md) | Create Nx generators to automate code scaffolding | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-22](.context/audits/nx-generators-audit-2026-02-22.md) |
@@ -163,7 +163,7 @@ We welcome contributions! To add a new skill:
 
 Prompt your agent with the following:
 
-```
+```text
 Find the next remediation plan under .context/plans and following the same steps:
 
     1. implement all remediation changes
