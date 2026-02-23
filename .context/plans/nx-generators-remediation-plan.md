@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: nx-generators
 source_audit: .context/audits/nx-generators-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: nx-generators
@@ -20,7 +22,7 @@ source_audit: .context/audits/nx-generators-audit-2026-02-22.md
 ## Critical Issues to Address
 
 | # | Issue | Severity | Dimension |
-|---|-------|----------|-----------|
+| --- | --- | --- | --- |
 | 1 | Anti-pattern quality weak (8/15) | High | D3 |
 | 2 | Freedom calibration moderate (10/15) | Medium | D6 |
 | 3 | Progressive disclosure needed (10/15) | Medium | D5 |
