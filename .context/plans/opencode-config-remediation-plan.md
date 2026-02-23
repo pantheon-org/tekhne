@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: opencode-config
 source_audit: .context/audits/opencode-config-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: opencode-config
@@ -20,7 +22,7 @@ source_audit: .context/audits/opencode-config-audit-2026-02-22.md
 ## Critical Issues to Address
 
 | # | Issue | Severity | Dimension |
-|---|-------|----------|-----------|
+| --- | --- | --- | --- |
 | 1 | Pattern recognition low (6/10) | High | D7 |
 | 2 | Mindset + procedures unclear (10/15) | Medium | D2 |
 | 3 | Specification compliance moderate (10/15) | Medium | D4 |
