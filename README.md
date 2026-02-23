@@ -159,6 +159,20 @@ We welcome contributions! To add a new skill:
 - Include examples where helpful
 - Keep skills focused and modular
 
+### Improving a skill
+
+Prompt your agent with the following:
+
+```
+Find the next remediation plan under .context/plans and following the same steps:
+
+    1. implement all remediation changes
+    2. run validation/audit
+    3. update README/report artifacts
+    4. set remediation plan status: `completed`
+    5. commit
+```
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
