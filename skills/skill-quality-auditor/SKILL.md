@@ -134,6 +134,8 @@ Create actionable improvement plans from audit results:
 3. **Load Template**: `skills/skill-quality-auditor/templates/remediation-plan-template.yaml`
 4. **Read Guide**: `references/remediation-planning.md`
 
+**Canonical audit path**: Use `.context/audits/` only. Do not create or use `.context/audit/`.
+
 ### Output Location
 
 Remediation plans should be saved to:
