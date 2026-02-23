@@ -78,33 +78,39 @@ rg -n '"executor"\s*:' tools apps libs
 
 ### NEVER put business logic directly inside executor entrypoints
 
-**WHY**: bloated executors are hard to test and reuse.
-BAD: 200 lines of transformation logic in `executor.ts`. GOOD: delegate to composable library functions.
+- **WHY**: bloated executors are hard to test and reuse.
+- **BAD**: 200 lines of transformation logic in `executor.ts`.
+- **GOOD**: delegate to composable library functions.
 
 ### NEVER use relative executor references in targets
 
-**WHY**: relative paths are fragile across workspace changes.
-BAD: `"executor": "../../tools/executors:task"`. GOOD: `"executor": "@scope/tools:task"`.
+- **WHY**: relative paths are fragile across workspace changes.
+- **BAD**: `"executor": "../../tools/executors:task"`.
+- **GOOD**: `"executor": "@scope/tools:task"`.
 
 ### NEVER skip schema validation details
 
-**WHY**: weak schemas produce invalid runtime invocations.
-BAD: untyped options with no required fields. GOOD: explicit `type`, `required`, defaults, and descriptions.
+- **WHY**: weak schemas produce invalid runtime invocations.
+- **BAD**: untyped options with no required fields.
+- **GOOD**: explicit `type`, `required`, defaults, and descriptions.
 
 ### NEVER omit outputs and dependencies semantics for cacheable work
 
-**WHY**: Nx cache quality depends on deterministic inputs and outputs.
-BAD: no outputs and implicit file writes. GOOD: declare outputs and stable execution paths.
+- **WHY**: Nx cache quality depends on deterministic inputs and outputs.
+- **BAD**: no outputs and implicit file writes.
+- **GOOD**: declare outputs and stable execution paths.
 
 ### NEVER block executor runs with synchronous file I/O in hot paths
 
-**WHY**: sync I/O hurts parallel throughput.
-BAD: `fs.readFileSync` in main execution flow. GOOD: `await fs.promises.readFile` with structured error handling.
+- **WHY**: sync I/O hurts parallel throughput.
+- **BAD**: `fs.readFileSync` in main execution flow.
+- **GOOD**: `await fs.promises.readFile` with structured error handling.
 
 ### NEVER register executors without runnable target verification
 
-**WHY**: unresolved registrations fail only at invocation time.
-BAD: update manifest without executing target. GOOD: verify `nx run <project>:<target> --help` and actual run.
+- **WHY**: unresolved registrations fail only at invocation time.
+- **BAD**: update manifest without executing target.
+- **GOOD**: verify `nx run <project>:<target> --help` and actual run.
 
 ## Gotchas
 

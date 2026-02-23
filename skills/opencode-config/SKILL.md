@@ -81,23 +81,27 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 
 ### NEVER commit API keys directly in config
 
-WHY: secret leakage through source control history is irreversible.
-BAD: `"apiKey": "sk-..."`. GOOD: `"baseEnv": "OPENAI_API_KEY"`.
+- **WHY**: secret leakage through source control history is irreversible.
+- **BAD**: `"apiKey": "sk-..."`.
+- **GOOD**: `"baseEnv": "OPENAI_API_KEY"`.
 
 ### NEVER use broad filesystem or shell permissions by default
 
-WHY: permissive defaults increase blast radius of mistakes.
-BAD: root-level read/write and unrestricted shell. GOOD: scoped paths and explicit command allowlists.
+- **WHY**: permissive defaults increase blast radius of mistakes.
+- **BAD**: root-level read/write and unrestricted shell.
+- **GOOD**: scoped paths and explicit command allowlists.
 
 ### NEVER use ambiguous model names
 
-WHY: providers may resolve generic model aliases differently.
-BAD: `"model": "gpt-4"`. GOOD: provider-qualified or exact model identifiers.
+- **WHY**: providers may resolve generic model aliases differently.
+- **BAD**: `"model": "gpt-4"`.
+- **GOOD**: provider-qualified or exact model identifiers.
 
 ### NEVER skip verification after permission changes
 
-WHY: permission regressions are often silent until runtime.
-BAD: edit-and-commit without test. GOOD: run `opencode run "test"` and validate behavior.
+- **WHY**: permission regressions are often silent until runtime.
+- **BAD**: edit-and-commit without test.
+- **GOOD**: run `opencode run "test"` and validate behavior.
 
 ## Quick Reference
 

@@ -74,28 +74,33 @@ rg -n "@nx/enforce-module-boundaries|depConstraints" .
 
 ### NEVER create circular dependencies between projects
 
-WHY: cycles degrade graph clarity and destabilize build ordering.
-BAD: `libs/ui` depends on `libs/data` while `libs/data` depends on `libs/ui`. GOOD: extract shared contracts to a lower-level library.
+- **WHY**: cycles degrade graph clarity and destabilize build ordering.
+- **BAD**: `libs/ui` depends on `libs/data` while `libs/data` depends on `libs/ui`.
+- **GOOD**: extract shared contracts to a lower-level library.
 
 ### NEVER run `run-many --all` in CI as the default verification path
 
-WHY: full-workspace execution wastes CI budget and slows feedback loops.
-BAD: always build/test every project on each PR. GOOD: use `nx affected` with explicit base/head.
+- **WHY**: full-workspace execution wastes CI budget and slows feedback loops.
+- **BAD**: always build/test every project on each PR.
+- **GOOD**: use `nx affected` with explicit base/head.
 
 ### NEVER tag projects inconsistently
 
-WHY: boundary rules are only as strong as tag consistency.
-BAD: mixed ad hoc tags with no vocabulary. GOOD: defined tag taxonomy with lint enforcement.
+- **WHY**: boundary rules are only as strong as tag consistency.
+- **BAD**: mixed ad hoc tags with no vocabulary.
+- **GOOD**: defined tag taxonomy with lint enforcement.
 
 ### NEVER skip target pipeline dependencies in `targetDefaults`
 
-WHY: missing `dependsOn` prevents optimal scheduling and can hide ordering bugs.
-BAD: implicit task order assumptions. GOOD: explicit `dependsOn` for build/test/lint behavior.
+- **WHY**: missing `dependsOn` prevents optimal scheduling and can hide ordering bugs.
+- **BAD**: implicit task order assumptions.
+- **GOOD**: explicit `dependsOn` for build/test/lint behavior.
 
 ### NEVER ignore cache inputs and outputs for critical targets
 
-WHY: incomplete cache metadata causes stale hits or unnecessary misses.
-BAD: cache enabled but no stable inputs/outputs. GOOD: declare outputs and relevant named inputs per target.
+- **WHY**: incomplete cache metadata causes stale hits or unnecessary misses.
+- **BAD**: cache enabled but no stable inputs/outputs.
+- **GOOD**: declare outputs and relevant named inputs per target.
 
 ## Quick Reference
 

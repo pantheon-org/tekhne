@@ -87,39 +87,31 @@ Expected result: updated audit dimensions and grade.
 
 ### NEVER keep floating tool versions in team repositories
 
-**WHY:** Unpinned versions cause machine-to-machine drift.
-
-**BAD:** `node = "latest"` for shared project tooling.
-**GOOD:** Pin exact versions required by CI and teammates.
-
-**Consequence:** Builds pass on one machine and fail on another.
+- **WHY:** Unpinned versions cause machine-to-machine drift.
+- **BAD:** `node = "latest"` for shared project tooling.
+- **GOOD:** Pin exact versions required by CI and teammates.
+- **Consequence:** Builds pass on one machine and fail on another.
 
 ### NEVER embed secrets in committed `mise.toml`
 
-**WHY:** Version control is not a secret store.
-
-**BAD:** Hardcode API tokens in environment blocks.
-**GOOD:** Load secrets from external secret management or local env files.
-
-**Consequence:** Secret leakage and mandatory credential rotation.
+- **WHY:** Version control is not a secret store.
+- **BAD:** Hardcode API tokens in environment blocks.
+- **GOOD:** Load secrets from external secret management or local env files.
+- **Consequence:** Secret leakage and mandatory credential rotation.
 
 ### NEVER define tasks that rely on implicit shell state
 
-**WHY:** Hidden state makes task outcomes non-deterministic.
-
-**BAD:** Task assumes manual `cd` or prior env exports.
-**GOOD:** Task commands are self-contained with explicit paths.
-
-**Consequence:** Task behavior differs across terminals and CI.
+- **WHY:** Hidden state makes task outcomes non-deterministic.
+- **BAD:** Task assumes manual `cd` or prior env exports.
+- **GOOD:** Task commands are self-contained with explicit paths.
+- **Consequence:** Task behavior differs across terminals and CI.
 
 ### NEVER mix multiple tool managers as active authority
 
-**WHY:** Overlapping managers conflict on PATH and versions.
-
-**BAD:** Keep both `nvm` and Mise controlling Node in CI.
-**GOOD:** Migrate ownership per tool and remove overlapping activation.
-
-**Consequence:** Unpredictable runtime resolution and flaky builds.
+- **WHY:** Overlapping managers conflict on PATH and versions.
+- **BAD:** Keep both `nvm` and Mise controlling Node in CI.
+- **GOOD:** Migrate ownership per tool and remove overlapping activation.
+- **Consequence:** Unpredictable runtime resolution and flaky builds.
 
 ## References
 
