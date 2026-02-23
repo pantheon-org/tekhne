@@ -1,558 +1,291 @@
 ---
 name: nx-vite-integration
-description: |-
-  Configure and integrate Vite build tool in Nx monorepo workspaces for applications and libraries. Covers TypeScript path resolution, framework plugins, asset handling, vitest configuration, library mode, and file replacements. Use proactively when setting up Vite in Nx projects or migrating from other build tools.
-  
+description: |
+  Configure and integrate Vite in Nx monorepos for applications and libraries.
+  Covers vite.config.ts setup, framework plugins, TypeScript path resolution,
+  asset copying, library mode builds, and Vitest integration.
+
+  Use when: adding Vite to an Nx project, migrating from Webpack,
+  configuring Vitest, fixing tsconfig path resolution, or setting up library mode.
+
+  Triggers: "add vite", "nx vite", "vite setup", "vite.config.ts",
+  "vitest config", "library mode", "nxViteTsPaths", "copy assets",
+  "vite path aliases", "migrate webpack to vite"
+
   Examples:
-  - user: "Add Vite to my Nx React app" → configure vite.config.ts with nxViteTsPaths, React plugin, proper paths
-  - user: "Set up Vite for my library" → configure library mode with dts plugin, external dependencies
-  - user: "Configure vitest in Nx" → add test configuration with proper cache dirs and reporters
-  - user: "Vite build not resolving TypeScript paths" → add nxViteTsPaths plugin
-  - user: "Copy assets during Vite build" → use nxCopyAssetsPlugin for non-public assets
+  - user: "Add Vite to this Nx app" -> install plugin and configure vite.config.ts
+  - user: "Vitest is failing in Nx" -> fix test config and cache/coverage paths
+  - user: "Path aliases break in Vite" -> add nxViteTsPaths plugin
+  - user: "Set up Vite for my Nx library" -> configure lib mode + dts + externals
 ---
 
 # Nx Vite Integration
 
-Configure Vite as the build tool for Nx monorepo applications and libraries.
+Configure Vite as the build tool in Nx workspaces with predictable, cache-friendly defaults.
 
-## Prerequisites
+## Scope
 
-Install the Nx Vite plugin:
+In scope:
+
+- Nx projects using Vite for app and library builds
+- Monorepo TypeScript path resolution
+- Vitest setup in Nx projects
+- Library packaging patterns with `vite-plugin-dts`
+
+Out of scope:
+
+- Webpack-only features (complex module federation, loader chains)
+- Legacy IE11 browser support
+- Non-Nx monorepo tooling decisions
+
+## Use When
+
+- Setting up Vite for a new Nx app or library
+- Migrating an existing Nx project from Webpack to Vite
+- Configuring Vitest with Nx-compatible cache/coverage paths
+- Fixing path alias resolution across workspace packages
+- Setting up library mode with externalized dependencies
+
+## When NOT to Use
+
+- Project depends on Webpack-specific loaders/plugins that have no Vite equivalent
+- You require advanced module federation patterns that are currently Webpack-first
+- Browser support requirements include IE11
+
+## Quick Reference
+
+| Topic | Reference |
+| --- | --- |
+| Vite Config Patterns | [references/vite-config-patterns.md](references/vite-config-patterns.md) |
+| Nx Vite Plugins | [references/nx-vite-plugin-reference.md](references/nx-vite-plugin-reference.md) |
+| Library Mode | [references/library-mode-guide.md](references/library-mode-guide.md) |
+| Vitest Integration | [references/vitest-integration.md](references/vitest-integration.md) |
+| Troubleshooting | [references/troubleshooting.md](references/troubleshooting.md) |
+
+## Mindset
+
+- Prefer generator-first setup, then manual edits for edge cases.
+- Configure workspace-relative paths first; path mistakes cause most Nx + Vite failures.
+- Treat library externalization as mandatory for publishable packages.
+- Keep build and test concerns explicit and easy to verify.
+
+## Workflow
+
+### Step 1: Install Dependencies
+
+Preconditions:
+
+- Nx workspace exists
+- Node.js 18+ and package manager available
+
+Commands:
 
 ```bash
-npm install -D @nx/vite
+bunx nx add @nx/vite
+bun add -d vite
+```
+
+Framework plugin (choose one):
+
+```bash
+bun add -d @vitejs/plugin-react
 # or
-bun add -d @nx/vite
+bun add -d @vitejs/plugin-vue
+# or
+bun add -d @sveltejs/vite-plugin-svelte
 ```
 
-## Quick Setup (Recommended)
+Expected result:
 
-Use the Nx generator to automatically configure Vite:
+- `@nx/vite` and framework plugin installed
+
+### Step 2: Generate or Configure Vite
+
+Preconditions:
+
+- Dependencies installed
+- Target project exists in Nx
+
+Recommended command:
 
 ```bash
-nx g @nx/vite:configuration <project-name>
+bunx nx g @nx/vite:configuration <project-name>
 ```
 
-This handles all configuration automatically. Use manual setup below only when needed.
+Manual baseline (`vite.config.ts`):
 
-## Manual Configuration
-
-### For Applications
-
-Create `vite.config.ts` in your app root (e.g., `apps/my-app/vite.config.ts`):
-
-```typescript
-/// <reference types='vitest' />
+```ts
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig({
   root: __dirname,
-  build: {
-    outDir: '../../dist/apps/my-app',
-    reportCompressedSize: true,
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-  },
-  cacheDir: '../../node_modules/.vite/apps/my-app',
-  server: {
-    port: 4200,
-    host: 'localhost',
-  },
-  preview: {
-    port: 4300,
-    host: 'localhost',
-  },
   plugins: [react(), nxViteTsPaths()],
-  test: {
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: '../../coverage/apps/my-app',
-      provider: 'v8',
-    },
-    globals: true,
-    cache: {
-      dir: '../../node_modules/.vitest/apps/my-app',
-    },
-    environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-  },
 });
 ```
 
-### For Libraries
+Expected result:
 
-Create `vite.config.ts` in your library root (e.g., `libs/my-lib/vite.config.ts`):
+- `vite.config.ts` exists and resolves workspace path aliases
 
-```typescript
-/// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
-import * as path from 'path';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+### Step 3: Configure Nx Targets
 
-export default defineConfig({
-  root: __dirname,
-  cacheDir: '../../node_modules/.vite/my-lib',
-  plugins: [
-    react(),
-    nxViteTsPaths(),
-    dts({
-      entryRoot: 'src',
-      tsConfigFilePath: path.join(__dirname, 'tsconfig.lib.json'),
-      skipDiagnostics: true,
-    }),
-  ],
-  build: {
-    outDir: '../../dist/libs/my-lib',
-    reportCompressedSize: true,
-    commonjsOptions: {
-      transformMixedEsModules: true,
-    },
-    lib: {
-      entry: 'src/index.ts',
-      name: 'my-lib',
-      fileName: 'index',
-      formats: ['es'],
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-    },
-  },
-  test: {
-    globals: true,
-    cache: {
-      dir: '../../node_modules/.vitest/libs/my-lib',
-    },
-    environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: '../../coverage/libs/my-lib',
-      provider: 'v8',
-    },
-  },
-});
-```
+Preconditions:
 
-## Critical Configuration Requirements
+- Vite config exists
 
-### 1. TypeScript Path Resolution
+Ensure target config supports:
 
-**MUST use `nxViteTsPaths()` plugin** to resolve monorepo paths correctly:
+- `build`
+- `serve`
+- `test` (Vitest)
 
-```typescript
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+Expected result:
 
-export default defineConfig({
-  plugins: [nxViteTsPaths()],
-});
-```
+- `nx run <project>:build` and `nx run <project>:test` are valid targets
 
-Without this, imports from other workspace packages will fail.
+### Step 4: Add Project-Specific Features
 
-### 2. Root Path
+For apps:
 
-**MUST set `root: __dirname`** for correct path resolution:
+- Set `outDir` and `cacheDir` relative to workspace root
+- Add `nxCopyAssetsPlugin` if non-public files must be copied
+- Add environment replacement plugin when needed
 
-```typescript
-export default defineConfig({
-  root: __dirname,
-});
-```
+For libraries:
 
-### 3. Output Directory
+- Configure `build.lib`
+- Externalize peer deps in `rollupOptions.external`
+- Add `vite-plugin-dts` for declaration output
 
-**MUST set `outDir` relative to workspace root**:
+Expected result:
 
-- For `apps/my-app`: `outDir: '../../dist/apps/my-app'`
-- For `libs/my-lib`: `outDir: '../../dist/libs/my-lib'`
-- For `packages/my-pkg`: `outDir: '../dist/packages/my-pkg'`
+- Build outputs to `dist/` with correct dependency boundaries
 
-Pattern: Navigate up to workspace root, then into `dist/` with same structure.
+### Step 5: Verify Setup
 
-## Framework Plugins
-
-### React
+Commands:
 
 ```bash
-npm install -D @vitejs/plugin-react
+bunx nx run <project>:build
+bunx nx run <project>:test
 ```
 
-```typescript
-import react from '@vitejs/plugin-react';
+Expected result:
 
+- Build succeeds
+- Tests run with configured environment and cache directories
+
+## Anti-Patterns
+
+### NEVER: Skip `nxViteTsPaths()` in Nx Monorepos
+
+Why:
+
+- Workspace path aliases (`@org/lib`) fail without Nx path plugin integration.
+
+Bad:
+
+```ts
 export default defineConfig({
   plugins: [react()],
 });
 ```
 
-### Vue
+Good:
 
-```bash
-npm install -D @vitejs/plugin-vue
-```
-
-```typescript
-import vue from '@vitejs/plugin-vue';
-
+```ts
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [react(), nxViteTsPaths()],
 });
 ```
 
-### Other Frameworks
+### NEVER: Bundle All Dependencies in Library Mode
 
-Check [Vite plugin directory](https://vite.dev/plugins/) for Svelte, Solid, Preact, etc.
+Why:
 
-## Library-Specific Configuration
+- Bloats bundles and breaks consumer-side tree shaking.
 
-### TypeScript Declaration Files (DTS)
+Bad:
 
-Install the plugin:
-
-```bash
-npm install -D vite-plugin-dts
-```
-
-#### Fast Builds (Skip Type Checking)
-
-```typescript
-import dts from 'vite-plugin-dts';
-import { join } from 'path';
-
-export default defineConfig({
-  plugins: [
-    dts({
-      entryRoot: 'src',
-      tsConfigFilePath: join(__dirname, 'tsconfig.lib.json'),
-      skipDiagnostics: true,
-    }),
-  ],
-});
-```
-
-Use when:
-- Build speed is critical
-- Type checking happens elsewhere (CI, IDE)
-- Rapid iteration during development
-
-#### Full Type Checking
-
-```typescript
-import dts from 'vite-plugin-dts';
-
-export default defineConfig({
-  plugins: [
-    dts({
-      root: '../../',
-      entryRoot: 'libs/my-lib/src',
-      tsConfigFilePath: 'libs/my-lib/tsconfig.lib.json',
-      include: ['libs/my-lib/src/**/*.ts'],
-      outputDir: 'dist/libs/my-lib',
-      skipDiagnostics: false,
-    }),
-  ],
-});
-```
-
-Use when:
-- Type errors must block builds
-- Publishing to npm
-- Strict type guarantees required
-
-### Library Mode Configuration
-
-```typescript
-export default defineConfig({
-  build: {
-    lib: {
-      entry: 'src/index.ts',
-      name: 'MyLib',
-      fileName: 'index',
-      formats: ['es'], // or ['es', 'cjs', 'umd']
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-    },
-  },
-});
-```
-
-**Key points:**
-
-- `entry`: Main export file (usually `src/index.ts`)
-- `name`: Global variable name for UMD builds
-- `fileName`: Output file name pattern
-- `formats`: Output formats - `'es'` (ESM), `'cjs'` (CommonJS), `'umd'` (UMD)
-- `external`: Dependencies NOT to bundle (peer dependencies)
-
-## Asset Handling
-
-### Public Directory
-
-Files in `publicDir` (default: `public/`) are copied automatically.
-
-### Non-Public Assets
-
-Use `nxCopyAssetsPlugin` for assets outside `publicDir`:
-
-```typescript
-import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
-
-export default defineConfig({
-  plugins: [
-    nxCopyAssetsPlugin(['*.md', 'LICENSE']),
-  ],
-});
-```
-
-Accepts glob patterns for flexible asset selection.
-
-## Environment-Specific File Replacement
-
-Replace files for different environments (production, staging, etc.):
-
-```typescript
-import { replaceFiles } from '@nx/vite/plugins/rollup-replace-files.plugin';
-
-export default defineConfig({
-  plugins: [
-    replaceFiles([
-      {
-        replace: 'apps/my-app/src/environments/environment.ts',
-        with: 'apps/my-app/src/environments/environment.prod.ts',
-      },
-    ]),
-  ],
-});
-```
-
-Common use case: Environment configurations in `src/environments/`.
-
-## Vitest Configuration
-
-```typescript
-export default defineConfig({
-  test: {
-    globals: true,
-    cache: {
-      dir: '../../node_modules/.vitest/<project-root>',
-    },
-    environment: 'jsdom', // or 'node', 'happy-dom'
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: '../../coverage/<project-root>',
-      provider: 'v8', // or 'istanbul'
-    },
-  },
-});
-```
-
-**Required settings:**
-
-- `reporters`: Nx needs explicit reporter configuration
-- `environment`: Specify test environment (jsdom for DOM APIs)
-- `cache.dir`: Relative to workspace root for Nx caching
-- `coverage.reportsDirectory`: Relative to workspace root
-
-## Common Patterns
-
-### Multi-Format Library
-
-```typescript
+```ts
 build: {
-  lib: {
-    entry: 'src/index.ts',
-    name: 'MyLib',
-    fileName: (format) => `index.${format}.js`,
-    formats: ['es', 'cjs'],
-  },
+  lib: { entry: 'src/index.ts' },
 }
 ```
 
-### Externalize All Dependencies
+Good:
 
-```typescript
+```ts
 build: {
+  lib: { entry: 'src/index.ts' },
   rollupOptions: {
-    external: (id) => !id.startsWith('.') && !id.startsWith('/'),
+    external: ['react', 'react-dom', /^@my-org\//],
   },
 }
 ```
 
-### Custom Dev Server Proxy
+### NEVER: Use Project-Relative Cache/Coverage Paths that Ignore Workspace Root
 
-```typescript
-server: {
-  proxy: {
-    '/api': {
-      target: 'http://localhost:3000',
-      changeOrigin: true,
-      rewrite: (path) => path.replace(/^\/api/, ''),
-    },
-  },
+Why:
+
+- Nx caching and output tracking become inconsistent across projects.
+
+Bad:
+
+```ts
+test: {
+  cache: { dir: './node_modules/.vitest' },
+  coverage: { reportsDirectory: './coverage' },
 }
 ```
 
-### Optimize Dependencies
+Good:
 
-```typescript
-optimizeDeps: {
-  include: ['react', 'react-dom'],
-  exclude: ['@my-org/my-lib'],
+```ts
+test: {
+  cache: { dir: '../../node_modules/.vitest/apps/my-app' },
+  coverage: { reportsDirectory: '../../coverage/apps/my-app' },
 }
 ```
 
-## Troubleshooting
+### NEVER: Mix Unrelated Build and Test Concerns Without Intention
 
-### TypeScript paths not resolving
+Why:
 
-**Solution:** Add `nxViteTsPaths()` plugin.
+- Large mixed configs become hard to debug and maintain.
 
-### Build outputs to wrong directory
+Bad:
 
-**Solution:** Check `outDir` is relative to workspace root, not project root.
+- One growing config with ad-hoc overrides and no sectioning.
 
-### Library consumers can't find types
+Good:
 
-**Solution:** Ensure `vite-plugin-dts` is configured and `package.json` has `types` field.
+- Keep sections intentional (`build`, `server`, `test`, plugins) and validate each step.
 
-### Tests not running
+## Constraint Guidelines
 
-**Solution:** Verify `test.reporters` and `test.environment` are set.
+### Hard Constraints
 
-### Assets not copied
+- Always include `nxViteTsPaths()` in Nx monorepos
+- Always set `root: __dirname`
+- Always configure `outDir` and `cacheDir` relative to workspace root
+- Always externalize peer dependencies for published libraries
+- Always define `test.reporters`, `test.environment`, and deterministic cache/coverage paths
 
-**Solution:** Use `nxCopyAssetsPlugin` for non-public assets.
+### Flexible Choices
 
-### Slow library builds
+- Framework plugin (React, Vue, Svelte, Solid, etc.)
+- Output formats (`es`, `cjs`, `umd`) based on consumers
+- CSS tooling (PostCSS, Tailwind, vanilla)
+- DTS strictness (`skipDiagnostics: true/false`) based on CI strategy
 
-**Solution:** Enable `skipDiagnostics: true` in `vite-plugin-dts`.
+## Verification Commands
 
-## Path Depth Reference
-
-Calculate `outDir` and `cacheDir` based on project depth:
-
-| Project Location | Workspace Root Relative | Cache Dir | Out Dir |
-|-----------------|-------------------------|-----------|---------|
-| `apps/my-app` | `../../` | `../../node_modules/.vite/apps/my-app` | `../../dist/apps/my-app` |
-| `libs/my-lib` | `../../` | `../../node_modules/.vite/libs/my-lib` | `../../dist/libs/my-lib` |
-| `packages/pkg` | `../` | `../node_modules/.vite/packages/pkg` | `../dist/packages/pkg` |
-| `my-app` (root) | `../` | `../node_modules/.vite/my-app` | `../dist/my-app` |
-
-Count `../` segments from project root to workspace root.
-
-## Complete Examples
-
-### Nx + Vite + React App
-
-```typescript
-/// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { replaceFiles } from '@nx/vite/plugins/rollup-replace-files.plugin';
-
-export default defineConfig({
-  root: __dirname,
-  build: {
-    outDir: '../../dist/apps/web-app',
-    reportCompressedSize: true,
-    commonjsOptions: { transformMixedEsModules: true },
-  },
-  cacheDir: '../../node_modules/.vite/apps/web-app',
-  server: {
-    port: 4200,
-    host: 'localhost',
-  },
-  preview: {
-    port: 4300,
-    host: 'localhost',
-  },
-  plugins: [
-    react(),
-    nxViteTsPaths(),
-    replaceFiles([
-      {
-        replace: 'apps/web-app/src/environments/environment.ts',
-        with: 'apps/web-app/src/environments/environment.prod.ts',
-      },
-    ]),
-  ],
-  test: {
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: '../../coverage/apps/web-app',
-      provider: 'v8',
-    },
-    globals: true,
-    cache: { dir: '../../node_modules/.vitest/apps/web-app' },
-    environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-  },
-});
+```bash
+bunx nx run <project>:build
+bunx nx run <project>:test
+bunx @biomejs/biome check skills/nx-vite-integration/
+bunx markdownlint-cli2 "skills/nx-vite-integration/**/*.md"
 ```
-
-### Nx + Vite + React Library (Published)
-
-```typescript
-/// <reference types='vitest' />
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
-import * as path from 'path';
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
-
-export default defineConfig({
-  root: __dirname,
-  cacheDir: '../../node_modules/.vite/libs/ui-components',
-  plugins: [
-    react(),
-    nxViteTsPaths(),
-    nxCopyAssetsPlugin(['*.md']),
-    dts({
-      entryRoot: 'src',
-      tsConfigFilePath: path.join(__dirname, 'tsconfig.lib.json'),
-      skipDiagnostics: false,
-    }),
-  ],
-  build: {
-    outDir: '../../dist/libs/ui-components',
-    reportCompressedSize: true,
-    commonjsOptions: { transformMixedEsModules: true },
-    lib: {
-      entry: 'src/index.ts',
-      name: 'UiComponents',
-      fileName: (format) => `index.${format}.js`,
-      formats: ['es', 'cjs'],
-    },
-    rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
-    },
-  },
-  test: {
-    globals: true,
-    cache: { dir: '../../node_modules/.vitest/libs/ui-components' },
-    environment: 'jsdom',
-    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: '../../coverage/libs/ui-components',
-      provider: 'v8',
-    },
-  },
-});
-```
-
-## Related Resources
-
-- [Vite Documentation](https://vite.dev/config/)
-- [Nx Vite Plugin Reference](https://nx.dev/nx-api/vite)
-- [vite-plugin-dts Documentation](https://www.npmjs.com/package/vite-plugin-dts)
-- [Vitest Configuration](https://vitest.dev/config/)
