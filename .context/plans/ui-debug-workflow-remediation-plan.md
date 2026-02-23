@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: ui-debug-workflow
 source_audit: .context/audits/ui-debug-workflow-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: ui-debug-workflow
@@ -39,7 +41,7 @@ source_audit: .context/audits/ui-debug-workflow-audit-2026-02-22.md
 
 **File**: `skills/ui-debug-workflow/references/`
 
-```
+```text
 skills/ui-debug-workflow/
 ├── SKILL.md (hub, ~150 lines)
 └── references/
