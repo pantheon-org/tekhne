@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: cdk-nag
 source_audit: .context/audits/cdk-nag-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: cdk-nag

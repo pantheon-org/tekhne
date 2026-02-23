@@ -1,146 +1,123 @@
-# CDK Nag Skill
-
-## Overview
-
-CDK Nag is a security and compliance linting tool for AWS CDK applications that validates infrastructure code against various security frameworks and best practices. It operates as a CDK Aspect to automatically scan and validate your infrastructure during synthesis.
-
-## Available References
-
-This skill includes detailed reference documentation that can be loaded on demand:
-
-- **[implementation-guide.md](references/implementation-guide.md)** - Complete implementation patterns and setup instructions
-- **[rule-packs.md](references/rule-packs.md)** - All available rule packs and their purposes
-- **[suppression-guide.md](references/suppression-guide.md)** - Comprehensive suppression patterns and best practices
-- **[troubleshooting.md](references/troubleshooting.md)** - Common issues and resolution strategies
-- **[rule-evolution.md](references/rule-evolution.md)** - Historical context of rule changes and deprecations
-- **[integration-patterns.md](references/integration-patterns.md)** - CI/CD integration and workflow patterns
-
-## Quick Start
-
-### Basic Implementation
-
-```typescript
-import { AwsSolutionsChecks } from 'cdk-nag';
-import { App, Aspects } from 'aws-cdk-lib';
-
-const app = new App();
-const stack = new MyStack(app, 'MyStack');
-Aspects.of(app).add(new AwsSolutionsChecks());
-```
-
-### Basic Suppression
-
-```typescript
-import { NagSuppressions } from 'cdk-nag';
-
-NagSuppressions.addResourceSuppressions(resource, [
-  {
-    id: 'AwsSolutions-SNS3',
-    reason: 'SSL enforcement auto-applied when topic uses KMS encryption',
-  },
-]);
-```
-
-## Key Concepts
-
-### Rule Naming Convention
-
-Rules follow the pattern: `{RulePack}-{Service}{Number}`
-
-- Examples: `AwsSolutions-SNS3`, `AwsSolutions-IAM4`, `HIPAA.Security-S3PublicRead`
-
-### Rule Packs Available
-
-1. **AWS Solutions** (AwsSolutions) - AWS Foundational Security Best Practices
-2. **HIPAA Security** - Healthcare compliance requirements
-3. **NIST 800-53 Rev 4 & 5** - Government security standards
-4. **PCI DSS 3.2.1** - Payment card industry standards
-5. **Serverless** - Serverless-specific security patterns
-
-### Suppression Types
-
-- **Resource-level** - Target specific constructs
-- **Stack-level** - Apply to entire stacks
-- **Path-based** - Target by construct path
-- **Granular** - Target specific rule findings with `appliesTo`
-
-## When to Load References
-
-**Load implementation-guide.md when:**
-
-- Setting up CDK Nag for the first time
-- Implementing multiple rule packs
-- Configuring conditional application
-
-**Load rule-packs.md when:**
-
-- Understanding available compliance frameworks
-- Choosing appropriate rule pack for requirements
-- Comparing rule pack coverage
-
-**Load suppression-guide.md when:**
-
-- Writing suppressions for rule violations
-- Understanding granular suppression patterns
-- Following suppression best practices
-
-**Load troubleshooting.md when:**
-
-- Encountering import or syntax errors
-- Debugging rule validation failures
-- Resolving CI/CD integration issues
-
-**Load rule-evolution.md when:**
-
-- Understanding deprecated rules
-- Investigating rule changes between versions
-- Planning suppression cleanup
-
-**Load integration-patterns.md when:**
-
-- Setting up CI/CD pipelines
-- Implementing environment-specific rules
-- Configuring automated security scanning
-
-## Common Patterns
-
-### Environmental Application
-
-```typescript
-// Production gets full compliance
-if (environment === 'production') {
-  AwsSolutionsChecks.check(app);
-  HipaaSecurityChecks.check(app);
-}
-```
-
-### Multiple Rule Packs
-
-```typescript
-import { AwsSolutionsChecks, NIST80053R5Checks } from 'cdk-nag';
-
-Aspects.of(app).add(new AwsSolutionsChecks());
-Aspects.of(app).add(new NIST80053R5Checks());
-```
-
-### Granular Suppressions
-
-```typescript
-NagSuppressions.addResourceSuppressions(resource, [
-  {
-    id: 'AwsSolutions-IAM5',
-    reason: 'Wildcard required for dynamic resource patterns',
-    appliesTo: ['Action::s3:*'],
-  },
-]);
-```
-
-## Resources
-
-- **CDK Nag Repository**: https://github.com/cdklabs/cdk-nag
-- **Rule Documentation**: https://github.com/cdklabs/cdk-nag/blob/main/RULES.md
-- **API Reference**: https://github.com/cdklabs/cdk-nag/blob/main/API.md
-
+---
+name: cdk-nag
+description: Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding rule packs, triaging findings, writing justified suppressions, integrating checks in CI/CD, or preventing insecure infrastructure patterns in CDK stacks. Keywords: cdk-nag, aws cdk, security linting, compliance, suppressions, aws solutions checks, nist, pci, hipaa.
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
 ---
 
-_Use the reference documents above for detailed guidance on specific aspects of CDK Nag usage. Each reference is self-contained and focuses on a specific domain._
+# CDK Nag
+
+## When to Use
+
+Use this skill when CDK infrastructure must be validated against security/compliance guardrails.
+
+## When Not to Use
+
+Do not use this skill for Terraform-only repositories without AWS CDK constructs.
+
+## Core Principles
+
+1. Run compliance checks early in development.
+2. Prefer fixing insecure resources over suppressing findings.
+3. Use suppressions only with explicit, reviewable rationale.
+4. Keep CI enforcement consistent with risk profile.
+
+## Deterministic Workflow
+
+1. Add relevant cdk-nag rule packs to the app.
+2. Synthesize stacks and collect findings.
+3. Fix failing resources where feasible.
+4. Add minimal, scoped suppressions when justified.
+5. Re-run synth and CI checks before merge.
+
+## Quick Commands
+
+### Install cdk-nag
+
+```bash
+npm install --save-dev cdk-nag
+```
+
+Expected result: cdk-nag dependency available for CDK app.
+
+### Run synth to surface findings
+
+```bash
+npx cdk synth
+```
+
+Expected result: nag findings shown during synthesis.
+
+### Run synth for one stack
+
+```bash
+npx cdk synth MyStack
+```
+
+Expected result: targeted findings for the selected stack.
+
+### Run tests and synth in CI style
+
+```bash
+npm test && npx cdk synth
+```
+
+Expected result: failing status when tests or nag checks fail.
+
+### Evaluate this skill quality
+
+```bash
+sh skills/skill-quality-auditor/scripts/evaluate.sh cdk-nag --json
+```
+
+Expected result: updated skill score and grade.
+
+## Anti-Patterns
+
+### NEVER suppress findings without a concrete security rationale
+
+**WHY:** Unjustified suppressions hide unresolved risk.
+
+**BAD:** `reason: "false positive"` with no evidence.
+**GOOD:** `reason: "resource isolated in private subnet; compensating controls documented"`.
+
+**Consequence:** Audit posture weakens and real issues stay unresolved.
+
+### NEVER apply broad stack-level suppressions for convenience
+
+**WHY:** Broad suppressions mask unrelated violations.
+
+**BAD:** Suppress an entire rule for every resource in a stack.
+**GOOD:** Scope suppression to exact resource and finding.
+
+**Consequence:** New regressions pass undetected.
+
+### NEVER enable production rule packs only at release time
+
+**WHY:** Late checks create expensive rework.
+
+**BAD:** Add strict rule packs only before deployment.
+**GOOD:** Run target rule packs continuously in feature branches.
+
+**Consequence:** Security defects are found too late.
+
+### NEVER ignore recurring nag violations in CI
+
+**WHY:** Repeated failures indicate systemic misconfiguration.
+
+**BAD:** Re-run pipeline until flake passes without remediation.
+**GOOD:** Fix root cause or add justified suppression once.
+
+**Consequence:** Compliance debt accumulates quickly.
+
+## References
+
+- `references/implementation-guide.md`
+- `references/rule-packs.md`
+- `references/suppression-guide.md`
+- `references/troubleshooting.md`
+- `references/rule-evolution.md`
+- `references/integration-patterns.md`
