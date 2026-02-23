@@ -1,9 +1,6 @@
 ---
 name: markdown-authoring
-description: |-
-  Complete markdown authoring and documentation guidance covering syntax, documentation structure, markdownlint configuration, and CI/CD integration. Use when: writing README files, creating documentation, configuring markdownlint, or setting up markdown linting in CI pipelines.
-  
-  Keywords: markdown, markdownlint, README, documentation, syntax, headings, lists, code blocks, links, images, linting rules, CI/CD, pre-commit hooks
+description: Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style.
 allowed-tools:
   - Read
   - Write
@@ -11,49 +8,113 @@ allowed-tools:
   - Bash
 ---
 
-# Markdown Authoring & Documentation
+# Markdown Authoring
 
-Comprehensive markdown authoring guidance covering syntax fundamentals, documentation structure, markdownlint configuration, and linting integration.
+## When to Use
 
-## When to Apply
+Use this skill when the task involves Markdown content, linting, or documentation standards.
 
-Use this skill when:
-- Writing README files or project documentation
-- Creating markdown-based documentation sites
-- Configuring markdownlint rules
-- Setting up markdown linting in CI/CD
-- Debugging markdownlint errors
-- Establishing markdown style guides
+## When Not to Use
 
-## Categories by Priority
+Do not use this skill for non-Markdown document formats (for example `.adoc` or `.rst`) unless conversion is part of the task.
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Markdown Syntax | CRITICAL | `syntax-` |
-| 2 | Documentation Structure | HIGH | `documentation-` |
-| 3 | Linting Configuration | HIGH | `linting-config-` |
-| 4 | Linting Integration | MEDIUM | `linting-integration-` |
+## Core Principles
 
-## How to Use
+1. Structure first, wording second.
+2. Keep Markdown lint-clean and deterministic.
+3. Use code fences with explicit language tags.
+4. Keep file-level conventions consistent across the repository.
 
-Read individual reference files for detailed guidance:
+## Deterministic Workflow
 
+1. Identify document type (README, guide, API doc, changelog).
+2. Apply template and section order from references.
+3. Write content with concise headings and actionable examples.
+4. Run markdownlint locally and fix violations.
+5. Validate CI/pre-commit integration for regression prevention.
+
+## Quick Commands
+
+### Lint all Markdown files
+
+```bash
+bunx markdownlint-cli2 "**/*.md"
 ```
-references/syntax-fundamentals.md
-references/documentation-readme.md
-references/linting-config-rules.md
+
+Expected result: no errors for staged or target files.
+
+### Lint one skill folder
+
+```bash
+bunx markdownlint-cli2 "skills/markdown-authoring/**/*.md"
 ```
 
-Each reference file contains:
-- Markdown syntax and examples
-- Best practices for documentation
-- Linting rule explanations
-- Configuration patterns
-- Integration examples
+Expected result: folder-specific Markdown issues reported or zero errors.
+
+### Run repository checks
+
+```bash
+bunx @biomejs/biome check .
+```
+
+Expected result: non-Markdown formatting/lint issues also caught.
+
+### Evaluate this skill quality
+
+```bash
+sh skills/skill-quality-auditor/scripts/evaluate.sh markdown-authoring --json
+```
+
+Expected result: updated dimension scores and grade.
+
+## Anti-Patterns
+
+### NEVER ship Markdown with missing fence language tags
+
+**WHY:** Untyped code blocks reduce readability and tooling support.
+
+**BAD:** Use plain triple backticks for code samples.
+**GOOD:** Use typed fences like ` ```bash ` or ` ```ts `.
+
+**Consequence:** Syntax highlighting and lint checks become inconsistent.
+
+### NEVER ignore markdownlint violations by disabling broad rules
+
+**WHY:** Global suppression hides real quality and maintainability issues.
+
+**BAD:** Turn off multiple rules to make CI green quickly.
+**GOOD:** Fix source content or apply narrow, justified exceptions.
+
+**Consequence:** Documentation quality degrades release-over-release.
+
+### NEVER use heading levels out of sequence
+
+**WHY:** Skipped heading levels break document hierarchy.
+
+**BAD:** Jump from `##` to `####` with no `###`.
+**GOOD:** Increase heading levels one step at a time.
+
+**Consequence:** Navigation and accessibility suffer.
+
+### NEVER mix inconsistent list and table styles in one document
+
+**WHY:** Style drift makes docs harder to scan and review.
+
+**BAD:** Alternate list markers and inconsistent table pipe spacing.
+**GOOD:** Keep one list style and normalized table formatting.
+
+**Consequence:** Diff noise increases and review confidence drops.
 
 ## References
 
-- https://commonmark.org/
-- https://github.github.com/gfm/
-- https://github.com/DavidAnson/markdownlint
-- https://github.com/igorshubovych/markdownlint-cli
+- `references/syntax-headings.md`
+- `references/syntax-lists.md`
+- `references/syntax-code-blocks.md`
+- `references/syntax-links-images.md`
+- `references/docs-readme.md`
+- `references/docs-organization.md`
+- `references/docs-writing-style.md`
+- `references/lint-config.md`
+- `references/lint-rules.md`
+- `references/lint-cli.md`
+- `references/lint-ci.md`
