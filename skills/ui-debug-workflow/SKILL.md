@@ -1,307 +1,128 @@
 ---
 name: ui-debug-workflow
-description:
-  Complete workflow for debugging UI changes with visual testing, evidence collection, and comprehensive reporting
-license: MIT
-compatibility: opencode
-metadata:
-  applies_to: ui, frontend, react, web-development, testing, debugging
-  methodology: visual-testing, evidence-based-debugging
-  tools: playwright, browser-automation, screenshots, git
+description: Debug UI changes with a repeatable evidence-first workflow. Use when validating visual regressions, reproducing frontend bugs, comparing baseline vs changed behavior, collecting screenshots/DOM/logs, or producing stakeholder-ready UI debug reports. Keywords: ui bug, visual regression, browser devtools, playwright, screenshot evidence, dom snapshot, frontend debugging.
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - Bash
 ---
 
 # UI Debug Workflow
 
-Systematic, evidence-based workflow for debugging and validating UI changes.
+## When to Use
 
-## What I Do
+Use this skill when frontend behavior must be verified with reproducible evidence.
 
-I guide you through a 4-phase debugging workflow:
+## When Not to Use
 
-1. **Capture Baseline** - Document current behavior before changes
-2. **Apply & Test Changes** - Implement fix and capture new behavior
-3. **Compare & Analyze** - Document differences and verify the fix
-4. **Generate Report** - Create comprehensive debug report with evidence
+Do not use this workflow for backend-only issues with no UI symptom.
 
-## When to Use Me
+## Core Principles
 
-- ✅ Validating UI bug fixes
-- ✅ Testing new UI features
-- ✅ Visual regression testing
-- ✅ Interactive behavior testing
-- ✅ Creating evidence-based reports for stakeholders
+1. Reproduce first, then modify code.
+2. Capture baseline and changed evidence under the same conditions.
+3. Compare artifacts before declaring a fix.
+4. Document commands, environment, and outcomes.
 
-## Prerequisites
+## Deterministic Workflow
+
+1. Capture baseline evidence from a known branch.
+2. Apply fix and capture changed evidence with identical steps.
+3. Compare screenshots, DOM, and logs.
+4. Record pass/fail outcomes and unresolved risks.
+5. Publish a concise report with links to artifacts.
+
+## Quick Commands
+
+### Install browser runtime for automation
 
 ```bash
-# Install Playwright browsers
 npx playwright install chromium
-
-# Verify agent-browser (optional but recommended)
-which agent-browser
 ```
 
-**Project requirements**: Build scripts, development server, Git
+Expected result: Chromium runtime is available for automated UI checks.
 
-## Quick Start
-
-### Automated Workflow
-
-Use the provided scripts for complete automation:
+### Capture baseline evidence
 
 ```bash
-~/.config/opencode/skills/ui-debug-workflow/scripts/full-debug-session.sh \
-  main \
-  fix/my-feature \
-  "http://localhost:3000" \
-  "npm run build" \
-  "npm start"
+./skills/ui-debug-workflow/scripts/capture-evidence.sh baseline http://localhost:3000 ./baseline
 ```
 
-**Output**: Complete debug report in `./docs/change-fix/YYYY-MM-DD-HHMMSS/`
+Expected result: screenshots, DOM snapshots, and logs saved in `./baseline`.
 
-### Manual Workflow
-
-#### Phase 1: Capture Baseline (~10-15 min)
+### Capture changed evidence
 
 ```bash
-# 1. Checkout baseline
-git checkout main
-
-# 2. Build and start
-npm run build
-npm start  # Note the port
-
-# 3. Capture evidence
-./scripts/capture-evidence.sh baseline http://localhost:3000 ./baseline
-
-# Evidence collected:
-# - Screenshots at key points
-# - DOM snapshots
-# - Element counts and status
+./skills/ui-debug-workflow/scripts/capture-evidence.sh changed http://localhost:3000 ./changed
 ```
 
-#### Phase 2: Apply & Test Changes (~10-15 min)
+Expected result: comparable artifacts saved in `./changed`.
+
+### Compare baseline vs changed artifacts
 
 ```bash
-# 1. Checkout fix branch
-git checkout fix/my-feature
-git diff main...HEAD > changes.diff
-
-# 2. Rebuild
-npm run build
-npm start  # Same port
-
-# 3. Capture evidence
-./scripts/capture-evidence.sh changed http://localhost:3000 ./changed
+./skills/ui-debug-workflow/scripts/compare-evidence.sh ./baseline ./changed ./comparison.md
 ```
 
-#### Phase 3: Compare & Analyze (~5-10 min)
+Expected result: `comparison.md` with summarized differences.
+
+### Run end-to-end debug session
 
 ```bash
-# Compare evidence
-./scripts/compare-evidence.sh ./baseline ./changed ./comparison.md
-
-# Review:
-# - Side-by-side screenshots
-# - JSON data diffs
-# - Visual differences
+./skills/ui-debug-workflow/scripts/full-debug-session.sh main fix/my-branch http://localhost:3000 "npm run build" "npm start"
 ```
 
-#### Phase 4: Generate Report (~15-20 min)
+Expected result: complete session output with report-ready evidence.
 
-Fill out the comprehensive debug report template:
-
-- Executive summary with status (✅/⚠️/❌)
-- Test environment details
-- Before/after evidence
-- Test results table
-- Findings and recommendations
-
-**See**: [knowledge-base/reporting/comprehensive-template.md](./knowledge-base/reporting/comprehensive-template.md)
-
-## Browser Automation
-
-### agent-browser (Basic)
-
-Good for: Screenshots, DOM inspection, simple clicks
+### Evaluate this skill quality
 
 ```bash
-agent-browser --session test open http://localhost:3000
-agent-browser --session test screenshot output.png
-agent-browser --session test snapshot > dom.txt
-agent-browser --session test close
+sh skills/skill-quality-auditor/scripts/evaluate.sh ui-debug-workflow --json
 ```
 
-**Limitations**: Cannot trigger complex UI interactions (toolbars, drag-and-drop)
+Expected result: updated score and grade.
 
-**See**: [knowledge-base/browser-automation/agent-browser.md](./knowledge-base/browser-automation/agent-browser.md)
+## Anti-Patterns
 
-### Playwright (Full Control)
+### NEVER debug without deterministic reproduction steps
 
-Required for: Real mouse interactions, complex gestures, visual regression
+**WHY:** Non-reproducible issues cannot be verified or closed with confidence.
 
-```typescript
-import { test, expect } from "@playwright/test";
+**BAD:** "I clicked around and it looked broken once."
+**GOOD:** "1) Open /users 2) Click Sort 3) Observe console error."
 
-test("ui test", async ({ page }) => {
-  await page.goto("http://localhost:3000");
-  await page.locator("pre code").click({ clickCount: 3 }); // Real mouse
-  await page.screenshot({ path: "screenshot.png" });
-});
-```
+**Consequence:** Fixes become guesswork and regressions reappear.
 
-**See**:
-[knowledge-base/browser-automation/playwright-testing.md](./knowledge-base/browser-automation/playwright-testing.md)
+### NEVER skip console and network error review
 
-## Evidence Collection
+**WHY:** Browser errors often reveal root cause faster than code browsing.
 
-### Screenshots
+**BAD:** Edit components before checking runtime errors.
+**GOOD:** Inspect console/network first, then form hypothesis.
 
-**Best practices**:
+**Consequence:** Time is wasted on unrelated code paths.
 
-- Use sequential naming: `01-initial-load.png`, `02-text-selected.png`
-- Capture full page AND focused elements
-- Take screenshots at each interaction step
+### NEVER compare baseline and changed runs under different conditions
 
-**See**: [knowledge-base/evidence-collection/screenshots.md](./knowledge-base/evidence-collection/screenshots.md)
+**WHY:** Different data, viewport, or build mode invalidates comparisons.
 
-### DOM Snapshots
+**BAD:** Baseline on desktop, changed on mobile viewport.
+**GOOD:** Use identical URL, viewport, seed data, and commands.
 
-**Two types**:
+**Consequence:** False positives and false negatives in debug conclusions.
 
-1. Accessibility tree (quick, for element IDs)
-2. Full HTML (complete, for debugging)
+### NEVER close a UI fix without evidence artifacts
 
-**See**: [knowledge-base/evidence-collection/dom-snapshots.md](./knowledge-base/evidence-collection/dom-snapshots.md)
+**WHY:** Unlogged fixes are hard to review and hard to trust.
 
-### Logs
+**BAD:** Merge after manual spot-check with no screenshots/logs.
+**GOOD:** Attach baseline, changed, and comparison artifacts.
 
-**Capture**:
+**Consequence:** Stakeholders cannot verify what changed.
 
-- Build output: `npm run build 2>&1 | tee build.log`
-- Server logs: `npm start 2>&1 | tee server.log`
-- Browser console (via Playwright)
-- Git context: `git diff main...HEAD > changes.diff`
+## References
 
-**See**: [knowledge-base/evidence-collection/logs.md](./knowledge-base/evidence-collection/logs.md)
-
-## Workflow Checklist
-
-**Phase 1: Baseline** (~10-15 min)
-
-- [ ] Checkout baseline branch
-- [ ] Build application
-- [ ] Start server (note port)
-- [ ] Capture screenshots
-- [ ] Save DOM snapshots
-- [ ] Document bugs
-- [ ] Save to `baseline/`
-
-**Phase 2: Changes** (~10-15 min)
-
-- [ ] Checkout fix branch
-- [ ] Save git diff
-- [ ] Rebuild application
-- [ ] Restart server (same port)
-- [ ] Repeat identical test steps
-- [ ] Save to `changed/`
-
-**Phase 3: Compare** (~5-10 min)
-
-- [ ] Compare screenshots side-by-side
-- [ ] Diff DOM snapshots
-- [ ] Analyze differences
-- [ ] Run comparison script
-
-**Phase 4: Report** (~15-20 min)
-
-- [ ] Fill out report template
-- [ ] Include evidence
-- [ ] Document test results
-- [ ] Add recommendations
-
-**Total time**: ~40-50 minutes
-
-## Scripts
-
-All scripts located in `scripts/`:
-
-- **`capture-evidence.sh`** - Single evidence capture session
-- **`compare-evidence.sh`** - Compare baseline vs changed
-- **`full-debug-session.sh`** - Complete end-to-end workflow
-
-**Example**:
-
-```bash
-./scripts/capture-evidence.sh session-name http://localhost:3000 ./output
-```
-
-## Troubleshooting
-
-**Common Issues**:
-
-1. **agent-browser not found**
-   - Solution: Use Playwright directly or install agent-browser
-   - See:
-     [knowledge-base/troubleshooting/agent-browser-not-found.md](./knowledge-base/troubleshooting/agent-browser-not-found.md)
-
-2. **Blank screenshots**
-   - Cause: Page not loaded
-   - Solution: Add wait conditions
-   - See: [knowledge-base/troubleshooting/blank-screenshots.md](./knowledge-base/troubleshooting/blank-screenshots.md)
-
-3. **Text selection doesn't trigger UI**
-   - Cause: Programmatic selection ignored
-   - Solution: Use Playwright with real mouse
-   - See:
-     [knowledge-base/troubleshooting/programmatic-selection.md](./knowledge-base/troubleshooting/programmatic-selection.md)
-
-## Knowledge Base
-
-Detailed documentation organized by domain:
-
-```sh
-knowledge-base/
-├── browser-automation/
-│   ├── agent-browser.md           # Basic automation
-│   └── playwright-testing.md      # Full browser control
-├── evidence-collection/
-│   ├── screenshots.md             # Screenshot best practices
-│   ├── dom-snapshots.md           # DOM capture techniques
-│   ├── logs.md                    # Build, server, browser logs
-│   └── git-context.md             # Version control info
-├── reporting/
-│   └── comprehensive-template.md  # Full report template
-└── troubleshooting/
-    ├── agent-browser-not-found.md
-    ├── blank-screenshots.md
-    └── programmatic-selection.md
-```
-
-## Examples
-
-Complete test suite: [examples/ui-debug-test.spec.ts](./examples/ui-debug-test.spec.ts)
-
-## Remember
-
-**Evidence-based debugging is systematic, not speculative.**
-
-- ✅ Capture baseline BEFORE making changes
-- ✅ Test changes in identical conditions
-- ✅ Document everything (screenshots, logs, commands)
-- ✅ Compare objectively (side-by-side evidence)
-- ✅ Report comprehensively (what worked, what didn't, what's next)
-
-**Use this skill when**:
-
-- Visual changes need validation
-- Stakeholders need evidence
-- Regression testing required
-- Documentation is important
-
-**Skip this skill when**:
-
-- Unit tests cover the change
-- Change is non-visual (API, backend)
-- Issue is trivial and low-risk
+- `references/debugging-checklist.md`
+- `references/browser-devtools-guide.md`
+- `references/evidence-templates.md`

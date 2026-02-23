@@ -41,7 +41,7 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 | [`software-design-principles`](skills/software-design-principles/SKILL.md) | Architecture decisions, SOLID principles, and code quality fundamentals | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-22](.context/audits/software-design-principles-audit-2026-02-22.md) |
 | [`test-driven-development`](skills/test-driven-development/SKILL.md) | Master TDD with Red-Green-Refactor cycle | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-22](.context/audits/test-driven-development-audit-2026-02-22.md) |
 | [`typescript-advanced`](skills/typescript-advanced/SKILL.md) | Advanced TypeScript types, compiler config, and best practices | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/typescript-advanced-audit-2026-02-22.md) |
-| [`ui-debug-workflow`](skills/ui-debug-workflow/SKILL.md) | Debug UI changes with visual testing and evidence collection | ![D](https://img.shields.io/badge/Rating-D%20-purple) | [2026-02-22](.context/audits/ui-debug-workflow-audit-2026-02-22.md) |
+| [`ui-debug-workflow`](skills/ui-debug-workflow/SKILL.md) | Debug UI changes with visual testing and evidence collection | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/ui-debug-workflow-audit-2026-02-23.md) |
 
 ## Installation
 
