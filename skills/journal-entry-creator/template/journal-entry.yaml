@@ -1,0 +1,259 @@
+# Journal Entry Template Schema
+# Describes the REQUIRED structure for general journal entries
+
+template_name: journal-entry
+description: General purpose journal entry for documentation and session notes
+filename_pattern: "YYYY-MM-DD-slug.md"
+location_pattern: "YYYY/MM/"
+
+# YAML frontmatter structure (REQUIRED at top of file)
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: "Descriptive title for the journal entry"
+      example: "Investigating API Performance Issues"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: "Entry date, must match filename date"
+      validation: "Must match the date in filename"
+
+    - name: authors
+      type: array
+      description: "List of authors (typically Thomas Roche)"
+      example:
+        - Thomas Roche
+
+    - name: tags
+      type: array
+      description: "Lowercase, hyphen-separated tags (3-7 tags recommended)"
+      example:
+        - api-performance
+        - troubleshooting
+        - optimization
+        - monitoring
+
+    - name: status
+      type: enum
+      values: [draft, published]
+      default: draft
+      description: "Publication status of the entry"
+
+  optional_fields:
+    - name: source
+      type: string
+      description: "URL or reference if applicable"
+
+# Document structure (REQUIRED sections in order)
+structure:
+  # Single H1 heading
+  - section: h1_title
+    level: 1
+    format: "# [Title] - [Month D, YYYY]"
+    required: true
+    description: "Single H1 with title and formatted date"
+    example: "# Investigating API Performance Issues - February 24, 2025"
+    validation:
+      - "Must be the only H1 in document"
+      - "Date format must be 'Month D, YYYY'"
+
+  # Metadata block (bold key-value pairs)
+  - section: metadata_block
+    required: true
+    format: "**Key:** Value"
+    fields:
+      - Date: "Month D, YYYY"
+      - Duration: "X hours (optional)"
+      - Context: "Brief context"
+      - System: "System/Service name"
+    example: |
+      **Date:** February 24, 2025
+      **Duration:** 3 hours
+      **Context:** Production API slowdown reported by users
+      **System:** AWS Lambda / API Gateway
+
+  # Session Overview
+  - section: session_overview
+    level: 2
+    heading: "## Session Overview"
+    required: true
+    description: "High-level summary of the session (2-4 sentences)"
+    example: |
+      Investigation into API performance degradation affecting production users. 
+      Analyzed CloudWatch metrics, traced requests, and identified database query bottleneck.
+
+  # Context
+  - section: context
+    level: 2
+    heading: "## Context"
+    required: true
+    description: "Background information and motivation for the session"
+    example: |
+      Users reported slow response times (>5s) on API endpoints starting at 2:30 PM UTC.
+      Previous baseline was <500ms for these endpoints.
+
+  # Problem Description
+  - section: problem_description
+    level: 2
+    heading: "## Problem Description"
+    required: true
+    description: "Detailed problem description with symptoms, errors, scope"
+    subsections:
+      - Symptoms/impact (bulleted list)
+      - Error messages (in code blocks or quotes)
+      - Scope/affected systems
+    example: |
+      - API response times increased from 500ms to 5000ms
+      - Affects all `/api/v1/users/*` endpoints
+      - Error rate increased to 3% (normally <0.1%)
+
+  # Key Learning/Summary
+  - section: key_learning
+    level: 2
+    heading: "## Key Learning / Summary"
+    required: true
+    description: "One-line summary and key takeaways (bulleted)"
+    example: |
+      - Database connection pool exhaustion due to long-running queries
+      - Query timeout not configured properly
+      - Monitoring alerts need tuning
+
+  # Investigation Process
+  - section: investigation_process
+    level: 2
+    heading: "## Investigation Process"
+    required: true
+    description: "Numbered investigation steps with consistent structure"
+    subsection_format:
+      level: 3
+      heading: "### Step N — [Title]"
+      required_fields:
+        - what: "Short description of what was investigated"
+        - commands: "Commands used (in code blocks with language specifiers)"
+        - result: "Observed output or behavior"
+    example: |
+      ### Step 1 — Check CloudWatch Metrics
+
+      - **What:** Review API Gateway and Lambda metrics for anomalies
+      - **Commands used:**
+
+      ```bash
+      aws cloudwatch get-metric-statistics \
+        --namespace AWS/ApiGateway \
+        --metric-name Latency \
+        --start-time 2025-02-24T14:00:00Z \
+        --end-time 2025-02-24T16:00:00Z
+      ```
+
+      - **Result:** Confirmed latency spike starting at 14:30 UTC
+
+  # Root Cause (if applicable)
+  - section: root_cause
+    level: 2
+    heading: "## Root Cause"
+    required: false
+    description: "Primary cause with supporting evidence"
+    format: "**Primary cause:** [statement]"
+    example: |
+      **Primary cause:** Database connection pool exhaustion caused by unoptimized query
+
+      Evidence from database logs showed connection pool maxed at 50 concurrent connections.
+
+  # Resolution Steps Taken
+  - section: resolution_steps
+    level: 2
+    heading: "## Resolution Steps Taken"
+    required: true
+    description: "Concrete steps performed with commands and code blocks"
+    example: |
+      1. Increased database connection pool size from 50 to 100
+      2. Added query timeout of 5 seconds
+      3. Optimized slow query with index
+
+      ```sql
+      CREATE INDEX idx_users_created_at ON users(created_at);
+      ```
+
+  # Session Outcome
+  - section: session_outcome
+    level: 2
+    heading: "## Session Outcome"
+    required: true
+    description: "Status emoji, one-line summary, and next steps"
+    format: |
+      [Emoji] **Outcome Summary** — one-line outcome
+
+      📋 **Next steps:**
+      - Action item 1
+      - Action item 2
+    example: |
+      ✅ **Resolved** — API latency restored to normal levels (<500ms)
+
+      📋 **Next steps:**
+      - Monitor for 24 hours to ensure stability
+      - Review other endpoints for similar query patterns
+      - Update runbook with this scenario
+
+  # Future Reference/Notes
+  - section: future_reference
+    level: 2
+    heading: "## Future Reference / Notes"
+    required: true
+    description: "Prevention steps, links, references, related entries"
+    example: |
+      - Added CloudWatch alarm for connection pool utilization >80%
+      - Related: [2025-11-15-database-optimization-guide.md]
+      - Documentation: https://docs.aws.amazon.com/lambda/connection-pooling
+
+  # Tags (at end of document)
+  - section: tags
+    level: 2
+    heading: "## Tags"
+    required: true
+    description: "Backtick-separated tags matching frontmatter"
+    format: "`tag1` | `tag2` | `tag3`"
+    validation: "Must match tags in frontmatter"
+    example: "`api-performance` | `troubleshooting` | `optimization` | `monitoring`"
+
+# Code block requirements
+code_blocks:
+  required: true
+  language_specifier: true
+  description: "All code blocks MUST have language specifiers"
+  examples:
+    - "```bash"
+    - "```python"
+    - "```sql"
+    - "```json"
+    - "```yaml"
+  validation: "No bare ``` code blocks allowed"
+
+# Formatting requirements
+formatting:
+  markdown_hierarchy: true
+  description: "Proper heading hierarchy: H1 → H2 → H3 (no skipping levels)"
+
+  prettier: true
+  markdownlint: true
+
+  compliance_comment: true
+  comment_text: "<!-- markdownlint-disable MD025 -->"
+  comment_location: "After frontmatter, before content"
+
+# Validation
+validation:
+  script: "scripts/validate-journal-entry.sh"
+  required_checks:
+    - "Filename matches date in frontmatter"
+    - "Single H1 heading"
+    - "All code blocks have language specifiers"
+    - "Tags in frontmatter match tags section"
+    - "Required sections present"
+    - "Proper markdown hierarchy"
+
+# Git commit format
+git_commit:
+  format: "Add journal entry: [Brief Description] (YYYY-MM-DD)"
+  example: "Add journal entry: API performance investigation (2025-02-24)"

@@ -1,0 +1,236 @@
+# Troubleshooting Entry Template Schema
+# Describes the REQUIRED structure for troubleshooting session entries
+
+template_name: troubleshooting
+description: Structured troubleshooting session documentation with problem resolution focus
+filename_pattern: "YYYY-MM-DD-slug.md"
+location_pattern: "YYYY/MM/"
+
+# Extends journal-entry template with troubleshooting-specific requirements
+extends: journal-entry
+
+# YAML frontmatter (inherits from journal-entry with additions)
+frontmatter:
+  required_fields:
+    # Same as journal-entry plus:
+    - name: tags
+      type: array
+      description: "Must include 'troubleshooting' tag"
+      validation: "Must contain 'troubleshooting' in array"
+      example:
+        - troubleshooting
+        - service-outage
+        - production
+        - incident-response
+
+# Document structure (REQUIRED sections in order)
+structure:
+  # H1 Title (same as journal-entry)
+  - section: h1_title
+    level: 1
+    format: "# [Issue Description] - [Month D, YYYY]"
+    required: true
+    example: "# Production API Service Outage - February 24, 2025"
+
+  # Metadata block (extended for troubleshooting)
+  - section: metadata_block
+    required: true
+    format: "**Key:** Value (NO bullet points, NO list formatting)"
+    fields:
+      - Date: "Month D, YYYY"
+      - Time: "HH:MM - HH:MM [Timezone]"
+      - Duration: "X hours"
+      - System: "System/Service name"
+      - Issue: "Short description"
+      - Status: "Resolved / Investigating / Workaround Applied / Escalated (text only, NO emojis)"
+    example: |
+      **Date:** February 24, 2025
+      **Time:** 14:30 - 17:45 UTC
+      **Duration:** 3 hours 15 minutes
+      **System:** Production API Gateway + Lambda
+      **Issue:** Complete service unavailability
+      **Status:** Resolved
+
+  # Session Overview
+  - section: session_overview
+    level: 2
+    heading: "## Session Overview"
+    required: true
+    description: "High-level summary focusing on the incident and resolution"
+
+  # Context
+  - section: context
+    level: 2
+    heading: "## Context"
+    required: true
+    description: "Background and business impact of the issue"
+    emphasis: "Include business impact and urgency"
+
+  # Problem Description (CRITICAL for troubleshooting)
+  - section: problem_description
+    level: 2
+    heading: "## Problem Description"
+    required: true
+    emphasis: "Highly detailed - this is the core of troubleshooting docs"
+    subsections:
+      - Observable symptoms (detailed)
+      - Error messages (exact text in code blocks or quotes)
+      - Scope/affected systems (specific services, users, regions)
+      - Initial indicators (alerts, monitoring, user reports)
+    example: |
+      ### Observable Symptoms
+      - All API endpoints returning 503 Service Unavailable
+      - AWS Lambda CloudWatch showing 100% throttling
+      - Connection timeouts from client applications
+
+      ### Error Messages
+      ```
+      ERROR: Rate Exceeded
+      Lambda function execution throttled due to concurrent execution limit
+      ```
+
+      ### Scope
+      - Affected: All production API endpoints in us-east-1
+      - Users impacted: ~5,000 active users
+      - Services: API Gateway, Lambda functions, downstream services
+
+  # Investigation Process (CRITICAL for troubleshooting)
+  - section: investigation_process
+    level: 2
+    heading: "## Investigation Process"
+    required: true
+    emphasis: "Systematic, numbered steps with full detail"
+    description: "Each step must include what/commands/result format"
+    subsection_format:
+      level: 3
+      heading: "### Step N — [Descriptive Title]"
+      required_fields:
+        - what: "What was investigated and why"
+        - commands: "Exact commands used (reproducible)"
+        - result: "What was observed (include relevant output)"
+    validation:
+      - "Steps must be numbered sequentially"
+      - "Each step has clear what/commands/result"
+      - "Commands are in code blocks with language specifiers"
+
+  # Root Cause (REQUIRED for troubleshooting)
+  - section: root_cause
+    level: 2
+    heading: "## Root Cause"
+    required: true
+    emphasis: "This section is MANDATORY for troubleshooting entries"
+    format: |
+      **Primary cause:** [Clear, concise root cause statement]
+
+      [Supporting evidence with logs, metrics, config snippets]
+    example: |
+      **Primary cause:** Lambda concurrent execution limit (1000) reached due to sudden traffic spike
+
+      CloudWatch metrics showed:
+      - Normal traffic: 200 concurrent executions
+      - Spike traffic: 1500+ concurrent executions
+      - Trigger: Marketing campaign email sent to entire user base
+
+  # Resolution Steps Taken (REQUIRED with detail)
+  - section: resolution_steps
+    level: 2
+    heading: "## Resolution Steps Taken"
+    required: true
+    description: "Concrete, reproducible steps with commands and code"
+    format: "Numbered list with code blocks for commands"
+    example: |
+      1. **Immediate mitigation:** Increased Lambda concurrency limit
+         ```bash
+         aws lambda put-function-concurrency \
+           --function-name api-handler \
+           --reserved-concurrent-executions 2000
+         ```
+
+      2. **Validation:** Confirmed service recovery
+         ```bash
+         curl -I https://api.example.com/health
+         # HTTP/1.1 200 OK
+         ```
+
+      3. **Long-term fix:** Implemented request throttling and auto-scaling
+
+  # Session Outcome
+  - section: session_outcome
+    level: 2
+    heading: "## Session Outcome"
+    required: true
+    format: |
+      **[Status]** — brief summary
+
+      **Next steps:**
+      - [ ] Action item with checkbox
+      - [ ] Follow-up task
+    status_options:
+      - "Resolved"
+      - "Investigating"
+      - "Workaround Applied"
+      - "Escalated"
+    example: |
+      **Resolved** — Service fully restored, concurrency limits increased
+
+      **Next steps:**
+      - [ ] Monitor for 24 hours to ensure stability
+      - [ ] Coordinate with marketing on traffic surge notifications
+      - [ ] Review and increase other Lambda limits proactively
+      - [ ] Update incident response runbook
+
+  # Future Reference/Preventative Measures (REQUIRED)
+  - section: future_reference
+    level: 2
+    heading: "## Future Reference / Preventative Measures"
+    required: true
+    emphasis: "Focus on prevention and lessons learned"
+    subsections:
+      - Prevention steps
+      - Monitoring improvements
+      - Alerts added
+      - Documentation updates
+      - Related incidents
+    example: |
+      ### Prevention
+      - Added CloudWatch alarm for Lambda concurrent executions >80%
+      - Implemented request throttling at API Gateway level
+      - Set up auto-scaling for Lambda concurrency based on traffic
+
+      ### Monitoring
+      - New dashboard: Production Lambda Health
+      - Alert: Lambda throttling >5% for 2 minutes
+
+      ### Documentation
+      - Updated runbook: https://wiki.example.com/lambda-scaling
+      - Related incident: [2025-01-15-lambda-memory-issue.md]
+
+# Troubleshooting-specific validation
+validation:
+  required_sections:
+    - problem_description
+    - investigation_process
+    - root_cause
+    - resolution_steps
+    - future_reference
+
+  required_tags:
+    - troubleshooting
+
+  status_emoji_required: true
+
+  investigation_steps_format:
+    - "Must have numbered steps"
+    - "Each step has what/commands/result"
+    - "Commands in code blocks"
+
+# Best practices for troubleshooting entries
+best_practices:
+  - "Be specific about symptoms and errors (exact messages)"
+  - "Include timestamps for all observations"
+  - "Document what DIDN'T work (save others time)"
+  - "Provide reproducible commands"
+  - "Capture evidence (logs, screenshots, metrics)"
+  - "Link to related incidents or documentation"
+  - "Update monitoring/alerts based on lessons learned"
+  - "Focus on root cause, not just symptoms"

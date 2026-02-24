@@ -1,0 +1,307 @@
+# Article Summary Template Schema
+# Describes the REQUIRED structure for article/content summary entries
+
+template_name: article-summary
+description: Documentation of external content (articles, videos, podcasts, talks)
+filename_pattern: "YYYY-MM-DD-slug.md"
+location_pattern: "YYYY/MM/"
+
+# YAML frontmatter structure
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: "Title of the article/video/content being summarized"
+      example: "The Future of AI Agents - DeepMind Keynote"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: "Date you consumed/documented this content"
+
+    - name: authors
+      type: array
+      description: "Original content authors (not your name)"
+      example:
+        - Demis Hassabis
+        - Shane Legg
+
+    - name: tags
+      type: array
+      description: "Must include 'article' or content type tag, plus topic tags"
+      validation: "Must contain 'article', 'video', 'podcast', or 'talk' tag"
+      example:
+        - article
+        - ai-agents
+        - machine-learning
+        - deepmind
+        - research
+
+    - name: source
+      type: string
+      description: "URL to the original content"
+      required: true
+      example: "https://www.youtube.com/watch?v=example123"
+
+    - name: status
+      type: enum
+      values: [draft, published]
+      default: draft
+
+# Document structure (REQUIRED sections in order)
+structure:
+  # Single H1 heading
+  - section: h1_title
+    level: 1
+    format: "# [Content Title] - [Month D, YYYY]"
+    required: true
+    example: "# The Future of AI Agents - February 24, 2025"
+
+  # Metadata block (article-specific fields)
+  - section: metadata_block
+    required: true
+    format: "**Key:** Value"
+    fields:
+      - Date: "Date consumed (Month D, YYYY)"
+      - Source: "Publication or platform name"
+      - URL: "Full URL to content"
+      - Format: "Article / Video / Podcast / Talk / Slides"
+      - Duration: "Reading/watching time (for videos/podcasts)"
+      - Author: "Original author name(s)"
+    example: |
+      **Date:** February 24, 2025
+      **Source:** DeepMind Blog
+      **URL:** https://deepmind.com/blog/future-of-ai-agents
+      **Format:** Article
+      **Duration:** 15 min read
+      **Author:** Demis Hassabis
+
+  # Session Overview (adapted for summaries)
+  - section: session_overview
+    level: 2
+    heading: "## Session Overview"
+    required: true
+    description: "Brief context about why you consumed this content"
+    example: |
+      Read this article to understand DeepMind's perspective on autonomous AI agents
+      and their potential applications in enterprise software development.
+
+  # Core Summary (CRITICAL section)
+  - section: core_summary
+    level: 2
+    heading: "## Core Summary"
+    required: true
+    emphasis: "This is the most important section - capture the essence"
+    description: "One paragraph (2-4 sentences) capturing main thesis or argument"
+    length: "2-4 sentences, no more"
+    example: |
+      DeepMind argues that next-generation AI agents will move beyond simple task
+      automation to true autonomous reasoning and planning. The key breakthrough is
+      combining large language models with symbolic reasoning and external tool use.
+      This hybrid approach enables agents to handle complex, multi-step tasks while
+      remaining interpretable and controllable.
+
+  # Key Points/Takeaways (CRITICAL section)
+  - section: key_points
+    level: 2
+    heading: "## Key Points / Takeaways"
+    required: true
+    emphasis: "Structured breakdown of main arguments"
+    description: "3-7 key points with what/why/evidence structure"
+    subsection_format:
+      - "**Point N (what):** Brief description"
+      - "  - **Why it matters:** Significance"
+      - "  - **Evidence / Quote:** Supporting quote or data"
+      - "  - **Timestamp:** (for video/podcast) MM:SS"
+    example: |
+      - **Point 1: Hybrid AI Architecture**
+        - **Why it matters:** Pure LLMs lack structured reasoning capabilities
+        - **Evidence:** "We found that combining neural networks with symbolic 
+          reasoning increased task success rate from 60% to 94%"
+        - **Timestamp:** 3:45
+
+      - **Point 2: Tool Integration is Critical**
+        - **Why it matters:** Agents need to interact with external systems
+        - **Evidence:** Demonstrated agents using calculators, APIs, and databases
+        - **Timestamp:** 8:20
+
+      - **Point 3: Safety Through Interpretability**
+        - **Why it matters:** Enterprise adoption requires transparency
+        - **Evidence:** "Each agent decision can be traced through its reasoning graph"
+        - **Timestamp:** 15:30
+
+  # Interesting Quotes/Excerpts
+  - section: interesting_quotes
+    level: 2
+    heading: "## Interesting Quotes / Excerpts"
+    required: false
+    description: "Notable quotes with location or timestamp"
+    format: '- "Quote text" — [location/timestamp]'
+    example: |
+      - "The future of AI is not about replacing humans, but augmenting human 
+        capability with autonomous reasoning" — Introduction
+      - "We're moving from narrow AI that does one thing well to general-purpose 
+        agents that can tackle any cognitive task" — 12:45
+      - "Safety isn't an afterthought; it's built into the architecture" — Conclusion
+
+  # Questions & Critique
+  - section: questions_critique
+    level: 2
+    heading: "## Questions & Critique"
+    required: false
+    description: "Your questions, doubts, or critiques of the content"
+    emphasis: "Critical thinking - what's missing or questionable?"
+    example: |
+      - How do they handle edge cases where symbolic reasoning fails?
+      - No discussion of computational costs - what's the performance overhead?
+      - Claims about 94% success rate - what was the test set? Reproducible?
+      - Missing: comparison with other approaches (ReAct, Chain-of-Thought)
+      - Concern: Interpretability claims seem optimistic for complex tasks
+
+  # Applications/Where to Use
+  - section: applications
+    level: 2
+    heading: "## Applications / Where to Use"
+    required: true
+    description: "Practical applications or implications of this content"
+    emphasis: "How does this apply to your work or projects?"
+    example: |
+      - **Code generation:** Agents that understand requirements, plan architecture, 
+        write code, and test - not just single-function generation
+      - **DevOps automation:** Autonomous incident response with reasoning about 
+        root causes and appropriate fixes
+      - **Documentation:** Agents that analyze codebases and generate accurate, 
+        contextual documentation
+      - **Security audits:** Agents that understand attack patterns and reason 
+        about vulnerabilities
+      - **Project at work:** Could apply hybrid architecture to our AI assistant 
+        to improve complex query handling
+
+  # Related Resources
+  - section: related_resources
+    level: 2
+    heading: "## Related Resources"
+    required: false
+    description: "Links to related content, papers, tools"
+    format: "- [Title](URL) — brief description"
+    example: |
+      - [DeepMind's RT-2 Paper](https://arxiv.org/abs/example) — Technical details
+      - [OpenAI's Function Calling](https://platform.openai.com/docs/guides/function-calling) — Similar approach
+      - [ReAct Paper](https://arxiv.org/abs/2210.03629) — Related reasoning framework
+      - [LangChain Agents](https://docs.langchain.com/docs/components/agents) — Implementation tools
+
+  # Personal Notes/Actions
+  - section: personal_notes
+    level: 2
+    heading: "## Personal Notes / Actions"
+    required: true
+    description: "Your personal takeaways and actionable next steps"
+    format: "Bulleted or checkbox list"
+    emphasis: "What will YOU do with this information?"
+    example: |
+      - [ ] Read the full RT-2 paper for technical implementation details
+      - [ ] Experiment with LangChain agents for hybrid reasoning
+      - [ ] Share with team - relevant to our Q2 AI roadmap
+      - [ ] Prototype: simple agent with tool use for database queries
+      - [ ] Follow up: subscribe to DeepMind blog for updates
+      - Key insight: Our current approach is too LLM-centric, need symbolic layer
+
+  # Summary/Reflection (optional)
+  - section: summary_reflection
+    level: 2
+    heading: "## Summary / Reflection"
+    required: false
+    description: "Personal reflection on the content's value and relevance"
+    example: |
+      High-quality overview of agent architectures with concrete examples. The hybrid
+      approach is compelling and addresses real limitations of pure LLM agents. Would
+      like to see more technical depth on the symbolic reasoning component. Overall,
+      valuable for understanding the direction of AI agent development.
+
+  # Tags (at end)
+  - section: tags
+    level: 2
+    heading: "## Tags"
+    required: true
+    format: "`tag1` | `tag2` | `tag3`"
+    example: "`article` | `ai-agents` | `machine-learning` | `deepmind` | `research`"
+
+# Article-specific validation
+validation:
+  required_sections:
+    - session_overview
+    - core_summary
+    - key_points
+    - applications
+    - personal_notes
+
+  required_tags:
+    - Must contain one of: article, video, podcast, talk, slides
+
+  required_frontmatter:
+    - source (URL)
+
+  core_summary_length:
+    min_sentences: 2
+    max_sentences: 4
+    description: "Core summary must be concise (2-4 sentences)"
+
+  key_points_structure:
+    required_fields:
+      - what
+      - why_it_matters
+      - evidence_or_quote
+    optional_fields:
+      - timestamp (for video/podcast)
+
+# Content type variations
+content_types:
+  article:
+    typical_sections: [core_summary, key_points, questions_critique, applications]
+    location_format: "Section name or page number"
+
+  video:
+    typical_sections: [core_summary, key_points, interesting_quotes, applications]
+    location_format: "Timestamp (MM:SS or HH:MM:SS)"
+    additional_metadata:
+      - Duration: "Video length"
+      - Platform: "YouTube / Vimeo / etc"
+
+  podcast:
+    typical_sections: [core_summary, key_points, interesting_quotes]
+    location_format: "Timestamp (MM:SS or HH:MM:SS)"
+    additional_metadata:
+      - Duration: "Podcast length"
+      - Episode: "Episode number"
+
+  talk:
+    typical_sections: [core_summary, key_points, interesting_quotes, applications]
+    location_format: "Slide number or timestamp"
+    additional_metadata:
+      - Event: "Conference or venue"
+      - Speaker: "Speaker name(s)"
+
+  slides:
+    typical_sections: [core_summary, key_points, applications]
+    location_format: "Slide number"
+
+# Best practices for article summaries
+best_practices:
+  - "Write Core Summary immediately after reading (captures first impression)"
+  - "Use author's own words in quotes (with proper attribution)"
+  - "Include timestamps for video/podcast (makes re-listening easier)"
+  - "Be critical - note what's missing or questionable"
+  - "Focus on actionable insights in Applications section"
+  - "Link to related content you've already documented"
+  - "Set concrete next steps in Personal Notes"
+  - "For videos: screenshot key slides/diagrams if helpful"
+  - "Update tags to match your taxonomy (not just article keywords)"
+  - "Keep it scannable - use formatting liberally"
+
+# Tone and style
+style:
+  tone: "Analytical and reflective"
+  perspective: "Third-person for summary, first-person for notes/actions"
+  focus: "Extracting actionable insights"
+  length: "Varies by content (article: 500-800 words, video: 800-1200 words)"
+  objectivity: "Summarize faithfully, critique separately"

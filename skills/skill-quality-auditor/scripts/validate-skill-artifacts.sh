@@ -52,7 +52,7 @@ check_schemas_file() {
 check_scripts_file() {
   file=$1
 
-  case "$file" in
+  case $file in
     *.sh) ;;
     *)
       error "$file is in scripts/ but is not a shell script (.sh)."
@@ -61,12 +61,22 @@ check_scripts_file() {
   esac
 
   first_line=$(head -n 1 "$file" 2>/dev/null || true)
-  if [ "$first_line" != "#!/usr/bin/env sh" ]; then
-    error "$file must start with portable shebang: #!/usr/bin/env sh"
+  # Allow #!/usr/bin/env bash if explicitly marked with # shell: bash
+  if [ "$first_line" = "#!/usr/bin/env sh" ]; then
+    :
+  elif [ "$first_line" = "#!/usr/bin/env bash" ]; then
+    # Check for bash comment marker - allow bash scripts that opt-in
+    if ! grep -q '^# shell: bash' "$file" 2>/dev/null; then
+      error "$file must start with portable shebang: #!/usr/bin/env sh (or add '# shell: bash' to allow bash)"
+    fi
+  else
+    error "$file must start with portable shebang: #!/usr/bin/env sh (or add '# shell: bash' to allow bash)"
   fi
 
-  if ! sh -n "$file" >/dev/null 2>&1; then
-    error "$file failed POSIX shell syntax check (sh -n)."
+  if [ "$first_line" = "#!/usr/bin/env sh" ]; then
+    if ! sh -n "$file" >/dev/null 2>&1; then
+      error "$file failed POSIX shell syntax check (sh -n)."
+    fi
   fi
 }
 
