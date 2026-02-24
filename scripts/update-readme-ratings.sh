@@ -336,7 +336,7 @@ update_readme() {
         if is_skill_table_row "$line"; then
             skill_name=$(extract_skill_name "$line")
             if [ -n "$skill_name" ]; then
-                description=$(printf '%s\n' "$line" | awk -F'|' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); print $3}')
+                description=$(printf '%s\n' "$line" | awk -F'|' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); gsub(/\n/, " ", $3); print $3}' | sed 's/  */ /g' | sed 's/ $//')
                 existing_skills="${existing_skills}${skill_name}|${description}\n"
             fi
         fi
@@ -361,10 +361,11 @@ update_readme() {
                 for skill_name in $all_skills; do
                     # Get description - prefer existing, otherwise extract from SKILL.md
                     existing_desc=$(printf '%s' "$existing_skills" | grep "^${skill_name}|" | head -1 | cut -d'|' -f2)
-                    if [ -n "$existing_desc" ]; then
-                        description="$existing_desc"
-                    else
+                    # Force re-extract if existing is empty or malformed
+                    if [ -z "$existing_desc" ] || echo "$existing_desc" | grep -qE '^\s*\|' || echo "$existing_desc" | grep -qE '^\s*-$' ; then
                         description=$(get_skill_description "$skill_name")
+                    else
+                        description="$existing_desc"
                     fi
                     
                     # Get audit info
