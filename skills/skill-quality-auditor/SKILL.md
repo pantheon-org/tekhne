@@ -56,7 +56,19 @@ sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
 ### Audit All Skills
 
 ```bash
-sh skills/skill-quality-auditor/scripts/audit-skills.sh --skills-dir skills
+sh skills/skill-quality-auditor/scripts/audit-skills.sh
+```
+
+### Audit Only Changed Skills (PR Workflow)
+
+```bash
+sh skills/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only --latest-symlink
+```
+
+### Prune Old Audits
+
+```bash
+sh skills/skill-quality-auditor/scripts/prune-audits.sh --keep 5
 ```
 
 ### Validate Skill Artifacts
@@ -83,13 +95,31 @@ Quick thresholds:
 
 ## Remediation Planning
 
-1. Run evaluation: `sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json`
-2. Locate report: `.context/audits/<skill-name>-audit-YYYY-MM-DD.md`
-3. Use template: `skills/skill-quality-auditor/templates/remediation-plan-template.yaml`
+1. Run audit: `sh skills/skill-quality-auditor/scripts/audit-skills.sh`
+2. Locate audit: `.context/audits/skill-audit/YYYY-MM-DD/audit.json`
+3. Generate plan: `sh skills/skill-quality-auditor/scripts/generate-remediation-plan.sh --audit-dir .context/audits/skill-audit/latest/ <skill-name>`
 4. Validate plan: `sh skills/skill-quality-auditor/scripts/validate-remediation-plan.sh <plan-path>`
 5. Save plan: `.context/plans/<skill-name>-remediation-plan.md`
 
-Canonical audit path: use `.context/audits/` only. Do not use `.context/audit/`.
+## Audit Directory Structure
+
+```
+.context/
+└── audits/
+    └── skill-audit/
+        ├── 2026-02-21/
+        │   ├── audit.json
+        │   ├── analysis.md
+        │   └── remediation-plan.md
+        ├── 2026-02-22/
+        │   ├── audit.json
+        │   ├── analysis.md
+        │   └── remediation-plan.md
+        └── latest/        # symlink to most recent
+            ├── audit.json
+            ├── analysis.md
+            └── remediation-plan.md
+```
 
 ## Anti-Patterns
 

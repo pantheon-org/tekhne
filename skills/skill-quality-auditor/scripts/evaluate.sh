@@ -1,23 +1,41 @@
 #!/usr/bin/env sh
 # Evaluate a single skill using the skill-judge framework
-# Usage: sh evaluate.sh <skill-name> [--json]
+# Usage: sh evaluate.sh <skill-name> [--json] [--output <path>] [--store]
 
 set -e
 
 SKILL_NAME=""
 JSON_OUTPUT=0
+OUTPUT_PATH=""
+STORE_MODE=0
 
-for arg in "$@"; do
-  case "$arg" in
+while [ "$#" -gt 0 ]; do
+  case "$1" in
     --json) JSON_OUTPUT=1 ;;
+    --store) STORE_MODE=1 ;;
+    --output)
+      if [ "$#" -ge 2 ]; then
+        OUTPUT_PATH="$2"
+        shift
+      fi
+      ;;
     -*) ;;
-    *) SKILL_NAME="$arg" ;;
+    *)
+      if [ -z "$SKILL_NAME" ]; then
+        SKILL_NAME="$1"
+      fi
+      ;;
   esac
+  shift
 done
 
 if [ -z "$SKILL_NAME" ]; then
-  echo "Usage: sh evaluate.sh <skill-name> [--json]" >&2
+  echo "Usage: sh evaluate.sh <skill-name> [--json] [--output <path>] [--store]" >&2
   exit 1
+fi
+
+if [ "$STORE_MODE" -eq 1 ]; then
+  OUTPUT_PATH=".context/audits/skill-audit/latest/audit.json"
 fi
 
 find_skill_path() {
@@ -233,10 +251,9 @@ D8=$(evaluate_practical_usability)
 TOTAL=$((D1 + D2 + D3 + D4 + D5 + D6 + D7 + D8))
 GRADE=$(calculate_grade "$TOTAL")
 
-if [ "$JSON_OUTPUT" -eq 1 ]; then
-  cat <<EOF
+JSON_OUTPUT_STRING=$(cat <<EOF
 {
-  "name": "$SKILL_NAME",
+  "skill": "$SKILL_NAME",
   "dimensions": {
     "knowledgeDelta": $D1,
     "mindsetProcedures": $D2,
@@ -255,6 +272,18 @@ if [ "$JSON_OUTPUT" -eq 1 ]; then
   "referenceCount": $REF_COUNT
 }
 EOF
+)
+
+if [ -n "$OUTPUT_PATH" ]; then
+  mkdir -p "$(dirname "$OUTPUT_PATH")"
+  printf '%s\n' "$JSON_OUTPUT_STRING" > "$OUTPUT_PATH"
+  if [ "$JSON_OUTPUT" -eq 0 ]; then
+    echo "Stored: $OUTPUT_PATH"
+  fi
+fi
+
+if [ "$JSON_OUTPUT" -eq 1 ]; then
+  printf '%s\n' "$JSON_OUTPUT_STRING"
 else
   cat <<EOF
 Skill: $SKILL_NAME
