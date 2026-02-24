@@ -362,7 +362,8 @@ update_readme() {
                     # Get description - prefer existing, otherwise extract from SKILL.md
                     existing_desc=$(printf '%s' "$existing_skills" | grep "^${skill_name}|" | head -1 | cut -d'|' -f2)
                     # Force re-extract if existing is empty or malformed or contains newlines
-                    if [ -z "$existing_desc" ] || echo "$existing_desc" | grep -qE '^\s*\|' || echo "$existing_desc" | grep -qE '^\s*-$' || echo "$existing_desc" | grep -q '\n' ; then
+                    clean_desc=$(echo "$existing_desc" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+                    if [ -z "$clean_desc" ] || [ "$clean_desc" = "-" ] || [ "$clean_desc" = "|-" ] || echo "$clean_desc" | grep -q '\n' || [ ${#clean_desc} -lt 3 ]; then
                         description=$(get_skill_description "$skill_name")
                     else
                         description="$existing_desc"
