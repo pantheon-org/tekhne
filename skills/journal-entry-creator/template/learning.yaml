@@ -1,0 +1,283 @@
+# Learning Entry Template Schema
+# Describes the REQUIRED structure for learning documentation entries
+
+template_name: learning
+description: Documentation of new skills, tools, or concepts learned
+filename_pattern: "YYYY-MM-DD-slug.md"
+location_pattern: "YYYY/MM/"
+
+# YAML frontmatter structure
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: "Learning topic title"
+      example: "Learning Ripgrep for Codebase Search"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: "Entry date, must match filename date"
+
+    - name: authors
+      type: array
+      example:
+        - Thomas Roche
+
+    - name: tags
+      type: array
+      description: "Must include 'learning' tag, plus relevant technical tags"
+      validation: "Must contain 'learning' in array"
+      example:
+        - learning
+        - tools
+        - cli
+        - productivity
+
+    - name: status
+      type: enum
+      values: [draft, published]
+      default: draft
+
+  optional_fields:
+    - name: source
+      type: string
+      description: "URL to tutorial, documentation, or course if applicable"
+
+# Document structure (REQUIRED sections in order)
+structure:
+  # Single H1 heading
+  - section: h1_title
+    level: 1
+    format: "# [Learning Topic] - [Month D, YYYY]"
+    required: true
+    example: "# Learning Ripgrep for Codebase Search - February 24, 2025"
+
+  # Metadata block (simplified for learning)
+  - section: metadata_block
+    required: true
+    format: "**Key:** Value"
+    fields:
+      - Date: "Month D, YYYY"
+      - Topic: "Main subject area"
+      - Duration: "X hours (optional)"
+    example: |
+      **Date:** February 24, 2025
+      **Topic:** Command-line search tools
+      **Duration:** 2 hours
+
+  # Session Overview
+  - section: session_overview
+    level: 2
+    heading: "## Session Overview"
+    required: true
+    description: "Brief summary of what was learned (1-2 sentences)"
+    example: |
+      Explored ripgrep (rg) as a faster alternative to grep for searching codebases.
+      Learned basic usage, regex patterns, and integration with development workflow.
+
+  # Context (motivation)
+  - section: context
+    level: 2
+    heading: "## Context"
+    required: true
+    description: "Why you needed to learn this - motivation and background"
+    emphasis: "Focus on the 'why' - what problem drove this learning"
+    example: |
+      Needed a faster way to search large codebases during code reviews and debugging.
+      grep was too slow on monorepo with 500K+ files. Heard ripgrep was significantly faster.
+
+  # Key Learning (CRITICAL section)
+  - section: key_learning
+    level: 2
+    heading: "## Key Learning"
+    required: true
+    emphasis: "Core concept or capability learned - the main takeaway"
+    description: "Main concept, tool, or process learned"
+    example: |
+      ripgrep (`rg`) is a line-oriented search tool that recursively searches directories
+      for regex patterns. It's optimized for speed and respects .gitignore by default.
+
+      Key advantages over grep:
+      - 3-5x faster on large codebases
+      - Built-in .gitignore support
+      - Better regex support (PCRE2)
+      - Colored output by default
+
+  # Process/Solution (how-to)
+  - section: process_solution
+    level: 2
+    heading: "## Process / Solution"
+    required: true
+    description: "Step-by-step guide on how to use what was learned"
+    subsection_format:
+      level: 3
+      heading: "### Step N — [Action]"
+      structure:
+        - Command or action (in code block)
+        - Description and results
+        - Tips or notes
+    example: |
+      ### Step 1 — Basic Search
+
+      ```bash
+      rg "TODO" src/
+      ```
+
+      Searches for "TODO" in all files under src/ directory. Results show:
+      - Filename and line number
+      - Matched line with colored highlighting
+      - Fast results even on large directories
+
+      ### Step 2 — Regex Patterns
+
+      ```bash
+      rg "function\s+\w+\(" --type js
+      ```
+
+      Finds JavaScript function declarations using regex. The `--type` flag filters
+      by file extension.
+
+      ### Step 3 — Case Insensitive Search
+
+      ```bash
+      rg -i "error" logs/
+      ```
+
+      The `-i` flag makes the search case-insensitive.
+
+  # Key Takeaways (bulleted insights)
+  - section: key_takeaways
+    level: 2
+    heading: "## Key Takeaways"
+    required: true
+    description: "Bulleted list of important points and insights"
+    format: "Bulleted list (3-7 items)"
+    example: |
+      - ripgrep is 3-5x faster than grep on large codebases
+      - Respects .gitignore automatically (use --no-ignore to override)
+      - PCRE2 regex support is more powerful than basic grep
+      - `rg --files` lists all searchable files (useful for verification)
+      - Integrates well with editors (VS Code, Vim, Emacs)
+      - Single binary installation, no dependencies
+      - Smart defaults: colored output, line numbers, recursive search
+
+  # Use Cases (practical applications)
+  - section: use_cases
+    level: 2
+    heading: "## Use Cases"
+    required: true
+    description: "Where and when to apply this knowledge"
+    emphasis: "Real-world scenarios where this learning is applicable"
+    example: |
+      - **Code reviews:** Quickly find all usages of a function or variable
+      - **Debugging:** Search for error messages or stack trace patterns
+      - **Refactoring:** Find all references before renaming
+      - **Security audits:** Search for hardcoded credentials or API keys
+      - **Documentation:** Find TODO/FIXME comments across codebase
+      - **Dependency analysis:** Search for import statements
+
+  # Next Steps/Actions
+  - section: next_steps
+    level: 2
+    heading: "## Next Steps / Actions"
+    required: true
+    description: "Practical follow-ups, experiments, or areas to explore"
+    format: "Bulleted or checkbox list"
+    example: |
+      - [ ] Replace grep with rg in custom shell scripts
+      - [ ] Configure VS Code to use ripgrep for workspace search
+      - [ ] Create shell aliases for common search patterns
+      - [ ] Explore advanced features: multiline search, file type filtering
+      - [ ] Learn ripgrep JSON output format for scripting
+      - [ ] Share findings with team in next tech talk
+
+  # Examples Section (optional but recommended)
+  - section: examples
+    level: 2
+    heading: "## Common Examples"
+    required: false
+    description: "Quick reference of common usage patterns"
+    example: |
+      ```bash
+      # Find all TODOs
+      rg "TODO|FIXME"
+
+      # Search only JavaScript files
+      rg "import.*from" --type js
+
+      # Search with context lines
+      rg "error" -C 3
+
+      # Count matches per file
+      rg "console.log" --count
+
+      # List files that would be searched
+      rg --files
+      ```
+
+  # Resources (optional)
+  - section: resources
+    level: 2
+    heading: "## Resources"
+    required: false
+    description: "Links to documentation, tutorials, related materials"
+    example: |
+      - [ripgrep GitHub](https://github.com/BurntSushi/ripgrep)
+      - [User Guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md)
+      - [Regex Tutorial](https://regexone.com/)
+
+  # Tags (at end)
+  - section: tags
+    level: 2
+    heading: "## Tags"
+    required: true
+    format: "`tag1` | `tag2` | `tag3`"
+    example: "`learning` | `tools` | `cli` | `productivity` | `ripgrep`"
+
+# Learning-specific validation
+validation:
+  required_sections:
+    - context
+    - key_learning
+    - process_solution
+    - key_takeaways
+    - use_cases
+    - next_steps
+
+  required_tags:
+    - learning
+
+  key_learning_emphasis: true
+  description: "Key Learning section must be substantive (not a placeholder)"
+
+# Code blocks (highly encouraged for learning entries)
+code_blocks:
+  required: true
+  language_specifier: true
+  description: "Use code blocks to show commands, syntax, examples"
+  examples:
+    - "```bash"
+    - "```python"
+    - "```javascript"
+    - "```sql"
+
+# Best practices for learning entries
+best_practices:
+  - "Focus on 'why' in Context section (motivation)"
+  - "Make Process/Solution reproducible with clear steps"
+  - "Include practical examples with real commands"
+  - "Document gotchas and common mistakes"
+  - "Link to official documentation"
+  - "Add concrete use cases (not generic)"
+  - "Set specific, actionable next steps"
+  - "Keep it concise - learning notes should be scannable"
+  - "Use code blocks generously for examples"
+  - "Highlight key insights in Key Takeaways"
+
+# Tone and style
+style:
+  tone: "Instructional and clear"
+  perspective: "First-person learning journey"
+  focus: "Practical application over theory"
+  length: "Concise but complete (typically 500-1000 words)"
