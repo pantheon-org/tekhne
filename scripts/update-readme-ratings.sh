@@ -53,12 +53,23 @@ get_skill_description() {
                 fi
                 ;;
             description:*)
-                # Single-line description
-                desc=$(echo "$line" | sed 's/^description:[[:space:]]*//' | sed 's/^"//' | sed 's/"$//')
-                if [ -n "$desc" ]; then
-                    break
+                # Check for YAML block scalar indicators (| or |- or > or >-)
+                # These indicate multiline content that follows
+                first_part=$(echo "$line" | sed 's/^description:[[:space:]]*//')
+                if echo "$first_part" | grep -qE '^[|>]-?[[:space:]]*$'; then
+                    # Block scalar indicator - treat as multiline, continue to next lines
+                    in_description=true
+                elif [ -n "$first_part" ]; then
+                    # Single-line description
+                    desc=$(echo "$first_part" | sed 's/^"//' | sed 's/"$//')
+                    if [ -n "$desc" ]; then
+                        break
+                    else
+                        # Multiline description - will be on following lines
+                        in_description=true
+                    fi
                 else
-                    # Multiline description - will be on following lines
+                    # Empty value after description: - treat as multiline
                     in_description=true
                 fi
                 ;;
