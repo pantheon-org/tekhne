@@ -1,0 +1,9 @@
+# Remediation Plan
+
+**Skill:** opencode-config
+**Date:** latest
+
+See [analysis.md](analysis.md) for detailed audit results.
+
+Individual remediation plans are stored in:
+`.context/plans/opencode-config-remediation-plan.md`
