@@ -191,26 +191,33 @@ get_latest_audit_info() {
         fi
     done
     
-    # First, try new format: analysis.md files in subdirectories
-    for subdir in "$AUDITS_DIR"/*/; do
-        if [ -d "$subdir" ]; then
-            analysis_file="${subdir}analysis.md"
-            if [ -f "$analysis_file" ]; then
-                # Extract date from subdirectory name
-                subdir_name=$(basename "$subdir")
-                if echo "$subdir_name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
-                    rating=$(extract_from_analysis_table "$analysis_file" "$skill_name")
-                    if [ -n "$rating" ]; then
-                        if [ -z "$latest_date" ] || [ "$subdir_name" > "$latest_date" ]; then
-                            latest_date="$subdir_name"
-                            latest_file="$analysis_file"
-                            latest_rating="$rating"
+    # New format: .context/audits/<skill>/<date>/audit.json
+    skill_audit_dir="$AUDITS_DIR/$skill_name"
+    if [ -d "$skill_audit_dir" ]; then
+        # Find the latest dated subdirectory
+        for date_dir in "$skill_audit_dir"/*/; do
+            if [ -d "$date_dir" ]; then
+                date_name=$(basename "$date_dir")
+                if echo "$date_name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+                    audit_json="${date_dir}audit.json"
+                    if [ -f "$audit_json" ]; then
+                        # Extract from JSON: totalScore, grade
+                        score=$(grep -oP '"totalScore":\s*\K[0-9]+' "$audit_json" | head -1)
+                        grade=$(grep -oP '"grade":\s*"\K[A-F+]+' "$audit_json" | head -1)
+                        max_score=120
+
+                        if [ -n "$score" ] && [ -n "$grade" ]; then
+                            if [ -z "$latest_date" ] || [ "$date_name" > "$latest_date" ]; then
+                                latest_date="$date_name"
+                                latest_file="$audit_json"
+                                latest_rating="$score|$max_score|$grade"
+                            fi
                         fi
                     fi
                 fi
             fi
-        fi
-    done
+        done
+    fi
     
     # If we found a rating from analysis.md, return it
     if [ -n "$latest_file" ]; then
