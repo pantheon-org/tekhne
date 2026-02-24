@@ -11,38 +11,38 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 | Skill | Description | Rating | Audit |
 | --- | --- | --- | --- |
-| [`acceptance-criteria`](skills/acceptance-criteria/SKILL.md) | Write effective acceptance criteria for user stories\nagents-md | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/acceptance-criteria-audit-2026-02-23.md) |
-| [`agents-md`](skills/agents-md/SKILL.md) | Create and maintain AGENTS.md documentation for simple projects and complex m... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/agents-md-audit-2026-02-23.md) |
-| [`bdd-testing`](skills/bdd-testing/SKILL.md) | Write and maintain Behavior-Driven Development tests with Gherkin and Cucumbe... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/bdd-testing-audit-2026-02-23.md) |
-| [`biome-complete`](skills/biome-complete/SKILL.md) | Complete Biome toolchain guidance for real repository workflows. Use when use... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/biome-complete-audit-2026-02-23.md) |
-| [`bun-development`](skills/bun-development/SKILL.md) | Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package manage... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/bun-development-audit-2026-02-23.md) |
-| [`cdk-nag`](skills/cdk-nag/SKILL.md) | Enforce AWS CDK security and compliance controls with cdk-nag. Use when addin... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/cdk-nag-audit-2026-02-23.md) |
-| [`cfn-behavior-validator`](skills/cfn-behavior-validator/SKILL.md) | Validate CloudFormation resource update behaviors through repeatable experime... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/cfn-behavior-validator-audit-2026-02-23.md) |
-| [`cfn-template-compare`](skills/cfn-template-compare/SKILL.md) | Compare deployed CloudFormation templates with locally synthesized CDK templa... | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-22](.context/audits/cfn-template-compare-audit-2026-02-22.md) |
-| [`colyseus-multiplayer`](skills/colyseus-multiplayer/SKILL.md) | Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use wh... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/colyseus-multiplayer-audit-2026-02-23.md) |
-| [`commanderjs`](skills/commanderjs/SKILL.md) | Commander.js CLI framework for building command-line tools | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-02-22](.context/audits/commanderjs-audit-2026-02-22.md) |
-| [`conventional-commits`](skills/conventional-commits/SKILL.md) | Skill for creating structured, semantic commit messages following the Convent... | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/conventional-commits-audit-2026-02-22.md) |
-| [`create-context-file`](skills/create-context-file/SKILL.md) | Create context files (plans, justifications, scratches) in .context/ director... | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/create-context-file-audit-2026-02-22.md) |
-| [`extending-nx-plugins`](skills/extending-nx-plugins/SKILL.md) | Comprehensive guide for creating and managing Nx plugins including generators... | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/extending-nx-plugins-audit-2026-02-22.md) |
-| [`github-copilot-models`](skills/github-copilot-models/SKILL.md) | Query GitHub Copilot model availability and configurations | ![C](https://img.shields.io/badge/Rating-C%20-red) | [2026-02-22](.context/audits/github-copilot-models-audit-2026-02-22.md) |
-| [`implementation-plan-splitter`](skills/implementation-plan-splitter/SKILL.md) | Split large implementation plan documents into digestible, hierarchical struc... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-22](.context/audits/implementation-plan-splitter-audit-2026-02-22.md) |
-| [`journal-entry-creator`](skills/journal-entry-creator/SKILL.md) | Create structured journal entries with YAML frontmatter | N/A | N/A |
-| [`markdown-authoring`](skills/markdown-authoring/SKILL.md) | Author high-quality Markdown documentation with deterministic structure, lint... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/markdown-authoring-audit-2026-02-23.md) |
-| [`mise-complete`](skills/mise-complete/SKILL.md) | Configure and operate Mise for deterministic developer environments. Use when... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/mise-complete-audit-2026-02-23.md) |
-| [`moscow-prioritization`](skills/moscow-prioritization/SKILL.md) | Prioritize product requirements with the MoSCoW framework in a deterministic ... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/moscow-prioritization-audit-2026-02-23.md) |
-| [`nx-biome-integration`](skills/nx-biome-integration/SKILL.md) | Integrate Biome into Nx monorepos with deterministic setup, caching, migratio... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/nx-biome-integration-audit-2026-02-23.md) |
-| [`nx-bun-integration`](skills/nx-bun-integration/SKILL.md) | Integrate Bun runtime into Nx monorepos with deterministic plugin setup, exec... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/nx-bun-integration-audit-2026-02-23.md) |
-| [`nx-executors`](skills/nx-executors/SKILL.md) | Create and operate custom Nx executors in TypeScript monorepos with determini... | ![A+](https://img.shields.io/badge/Rating-A+-brightgreen) | [2026-02-23](.context/audits/nx-executors-audit-2026-02-23.md) |
-| [`nx-generators`](skills/nx-generators/SKILL.md) | Create Nx generators for TypeScript monorepos with deterministic Tree API usa... | ![A+](https://img.shields.io/badge/Rating-A+-brightgreen) | [2026-02-23](.context/audits/nx-generators-audit-2026-02-23.md) |
-| [`nx-vite-integration`](skills/nx-vite-integration/SKILL.md) | Set up and configure Vite in Nx workspaces | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-23](.context/audits/nx-vite-integration-audit-2026-02-23.md) |
-| [`nx-workspace-patterns`](skills/nx-workspace-patterns/SKILL.md) | Configure and optimize Nx monorepo workspaces with deterministic project-grap... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/nx-workspace-patterns-audit-2026-02-23.md) |
-| [`opencode-config`](skills/opencode-config/SKILL.md) | Configure OpenCode via opencode.json and AGENTS.md with deterministic provide... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/opencode-config-audit-2026-02-23.md) |
-| [`plain-english`](skills/plain-english/SKILL.md) | Write technical content in plain English for non-technical stakeholders by tr... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/plain-english-audit-2026-02-23.md) |
-| [`skill-quality-auditor`](skills/skill-quality-auditor/SKILL.md) | Audit and improve skill collections with an 8-dimension scoring framework, du... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/skill-quality-auditor-audit-2026-02-23.md) |
-| [`software-design-principles`](skills/software-design-principles/SKILL.md) | Apply software design principles across architecture and implementation using... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/software-design-principles-audit-2026-02-23.md) |
-| [`test-driven-development`](skills/test-driven-development/SKILL.md) | Master Test-Driven Development with deterministic red-green-refactor workflow... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/test-driven-development-audit-2026-02-23.md) |
-| [`typescript-advanced`](skills/typescript-advanced/SKILL.md) | Comprehensive TypeScript guidance covering compiler configuration, advanced t... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/typescript-advanced-audit-2026-02-23.md) |
-| [`ui-debug-workflow`](skills/ui-debug-workflow/SKILL.md) | Debug UI changes with a repeatable evidence-first workflow. Use when validati... | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/ui-debug-workflow-audit-2026-02-23.md) |
+| [`acceptance-criteria`](skills/acceptance-criteria/SKILL.md) | Write effective acceptance criteria for user stories\nagents-md\nagents-md | N/A | N/A |
+| [`agents-md`](skills/agents-md/SKILL.md) | Create and maintain AGENTS.md documentation for simple projects and complex m... | N/A | N/A |
+| [`bdd-testing`](skills/bdd-testing/SKILL.md) | Write and maintain Behavior-Driven Development tests with Gherkin and Cucumbe... | N/A | N/A |
+| [`biome-complete`](skills/biome-complete/SKILL.md) | Complete Biome toolchain guidance for real repository workflows. Use when use... | N/A | N/A |
+| [`bun-development`](skills/bun-development/SKILL.md) | Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package manage... | N/A | N/A |
+| [`cdk-nag`](skills/cdk-nag/SKILL.md) | Enforce AWS CDK security and compliance controls with cdk-nag. Use when addin... | N/A | N/A |
+| [`cfn-behavior-validator`](skills/cfn-behavior-validator/SKILL.md) | Validate CloudFormation resource update behaviors through repeatable experime... | N/A | N/A |
+| [`cfn-template-compare`](skills/cfn-template-compare/SKILL.md) | Compare deployed CloudFormation templates with locally synthesized CDK templa... | N/A | N/A |
+| [`colyseus-multiplayer`](skills/colyseus-multiplayer/SKILL.md) | Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use wh... | N/A | N/A |
+| [`commanderjs`](skills/commanderjs/SKILL.md) | |- | N/A | N/A |
+| [`conventional-commits`](skills/conventional-commits/SKILL.md) | Skill for creating structured, semantic commit messages following the Convent... | N/A | N/A |
+| [`create-context-file`](skills/create-context-file/SKILL.md) | Create context files (plans, justifications, scratches) in .context/ director... | N/A | N/A |
+| [`extending-nx-plugins`](skills/extending-nx-plugins/SKILL.md) | Comprehensive guide for creating and managing Nx plugins including generators... | N/A | N/A |
+| [`github-copilot-models`](skills/github-copilot-models/SKILL.md) | |- | N/A | N/A |
+| [`implementation-plan-splitter`](skills/implementation-plan-splitter/SKILL.md) | Split large implementation plan documents into digestible, hierarchical struc... | N/A | N/A |
+| [`journal-entry-creator`](skills/journal-entry-creator/SKILL.md) |  | N/A | N/A |
+| [`markdown-authoring`](skills/markdown-authoring/SKILL.md) | Author high-quality Markdown documentation with deterministic structure, lint... | N/A | N/A |
+| [`mise-complete`](skills/mise-complete/SKILL.md) | Configure and operate Mise for deterministic developer environments. Use when... | N/A | N/A |
+| [`moscow-prioritization`](skills/moscow-prioritization/SKILL.md) | Prioritize product requirements with the MoSCoW framework in a deterministic ... | N/A | N/A |
+| [`nx-biome-integration`](skills/nx-biome-integration/SKILL.md) | Integrate Biome into Nx monorepos with deterministic setup, caching, migratio... | N/A | N/A |
+| [`nx-bun-integration`](skills/nx-bun-integration/SKILL.md) | Integrate Bun runtime into Nx monorepos with deterministic plugin setup, exec... | N/A | N/A |
+| [`nx-executors`](skills/nx-executors/SKILL.md) | Create and operate custom Nx executors in TypeScript monorepos with determini... | N/A | N/A |
+| [`nx-generators`](skills/nx-generators/SKILL.md) | Create Nx generators for TypeScript monorepos with deterministic Tree API usa... | N/A | N/A |
+| [`nx-vite-integration`](skills/nx-vite-integration/SKILL.md) | | | N/A | N/A |
+| [`nx-workspace-patterns`](skills/nx-workspace-patterns/SKILL.md) | Configure and optimize Nx monorepo workspaces with deterministic project-grap... | N/A | N/A |
+| [`opencode-config`](skills/opencode-config/SKILL.md) | Configure OpenCode via opencode.json and AGENTS.md with deterministic provide... | N/A | N/A |
+| [`plain-english`](skills/plain-english/SKILL.md) | Write technical content in plain English for non-technical stakeholders by tr... | N/A | N/A |
+| [`skill-quality-auditor`](skills/skill-quality-auditor/SKILL.md) | Audit and improve skill collections with an 8-dimension scoring framework, du... | N/A | N/A |
+| [`software-design-principles`](skills/software-design-principles/SKILL.md) | Apply software design principles across architecture and implementation using... | N/A | N/A |
+| [`test-driven-development`](skills/test-driven-development/SKILL.md) | Master Test-Driven Development with deterministic red-green-refactor workflow... | N/A | N/A |
+| [`typescript-advanced`](skills/typescript-advanced/SKILL.md) | Comprehensive TypeScript guidance covering compiler configuration, advanced t... | N/A | N/A |
+| [`ui-debug-workflow`](skills/ui-debug-workflow/SKILL.md) | Debug UI changes with a repeatable evidence-first workflow. Use when validati... | N/A | N/A |
 
 ## Installation
 
