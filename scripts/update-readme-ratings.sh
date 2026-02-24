@@ -207,7 +207,7 @@ get_latest_audit_info() {
                         max_score=120
 
                         if [ -n "$score" ] && [ -n "$grade" ]; then
-                            if [ -z "$latest_date" ] || [ "$(printf '%s\n' "$date_name" "$latest_date" | sort -V | head -n1)" != "$latest_date" ]; then
+                            if [ -z "$latest_date" ] || [ "$date_name" \> "$latest_date" ]; then
                                 latest_date="$date_name"
                                 latest_file="$audit_json"
                                 latest_rating="$score|$max_score|$grade"
