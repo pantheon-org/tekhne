@@ -39,7 +39,6 @@ get_skill_description() {
         return
     fi
     
-    # Try to extract from frontmatter description field (handle multiline YAML scalar)
     in_frontmatter=false
     in_description=false
     desc=""
@@ -58,19 +57,26 @@ get_skill_description() {
                 desc=$(echo "$line" | sed 's/^description:[[:space:]]*//' | sed 's/^"//' | sed 's/"$//')
                 if [ -n "$desc" ]; then
                     break
+                else
+                    # Multiline description - will be on following lines
+                    in_description=true
                 fi
                 ;;
-            "    "*)
+            "    "*|"  "*)
                 # Indented content - might be continuation of multiline description
                 if [ "$in_description" = true ]; then
-                    line_desc=$(echo "$line" | sed 's/^[[:space:]]*//' | sed 's/^"//' | sed 's/"$//')
+                    line_desc=$(echo "$line" | sed 's/^[[:space:]]*//' | sed 's/^"//' | sed 's/"$//' | sed 's/  */ /g')
                     if [ -n "$line_desc" ]; then
-                        desc="$desc $line_desc"
+                        if [ -n "$desc" ]; then
+                            desc="$desc $line_desc"
+                        else
+                            desc="$line_desc"
+                        fi
                     fi
                 fi
                 ;;
             *)
-                # Check if we hit another top-level key
+                # Check if we hit another top-level key in frontmatter
                 if [ "$in_frontmatter" = true ] && [ "$in_description" = true ]; then
                     if echo "$line" | grep -qE '^[a-z]'; then
                         break
@@ -207,7 +213,7 @@ get_latest_audit_info() {
                         max_score=120
 
                         if [ -n "$score" ] && [ -n "$grade" ]; then
-                            if [ -z "$latest_date" ] || [ "$date_name" \> "$latest_date" ]; then
+                            if [ -z "$latest_date" ] ||[ "$(printf '%s\n%s\n' "$date_name" "$latest_date" | sort -r | head -1)" = "$date_name" ]; then
                                 latest_date="$date_name"
                                 latest_file="$audit_json"
                                 latest_rating="$score|$max_score|$grade"
@@ -345,7 +351,6 @@ update_readme() {
     temp_file=$(mktemp)
     current_line=0
     in_table=false
-    skills_processed=""
     
     while IFS= read -r line || [ -n "$line" ]; do
         current_line=$((current_line + 1))
