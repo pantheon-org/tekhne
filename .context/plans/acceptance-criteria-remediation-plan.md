@@ -2,6 +2,8 @@
 plan_date: 2026-02-23
 skill_name: acceptance-criteria
 source_audit: .context/audits/acceptance-criteria-audit-2026-02-22.md
+status: completed
+completed_date: 2026-02-23
 ---
 
 # Remediation Plan: acceptance-criteria

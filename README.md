@@ -11,7 +11,7 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 | Skill | Description | Rating | Audit |
 | --- | --- | --- | --- |
-| [`acceptance-criteria`](skills/acceptance-criteria/SKILL.md) | Write effective acceptance criteria for user stories | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-02-22](.context/audits/acceptance-criteria-audit-2026-02-22.md) |
+| [`acceptance-criteria`](skills/acceptance-criteria/SKILL.md) | Write effective acceptance criteria for user stories | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/acceptance-criteria-audit-2026-02-23.md) |
 | [`agents-md`](skills/agents-md/SKILL.md) | AGENTS.md management - create, generate, and maintain AI documentation | ![B](https://img.shields.io/badge/Rating-B%20-yellow) | [2026-02-22](.context/audits/agents-md-audit-2026-02-22.md) |
 | [`bdd-testing`](skills/bdd-testing/SKILL.md) | Behavior-Driven Development with Gherkin/Cucumber | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-02-23](.context/audits/bdd-testing-audit-2026-02-23.md) |
 | [`biome-complete`](skills/biome-complete/SKILL.md) | Biome toolchain: configuration, linting, formatting, ESLint/Prettier migration | ![A](https://img.shields.io/badge/Rating-A%20-green) | [2026-02-23](.context/audits/biome-complete-audit-2026-02-23.md) |
