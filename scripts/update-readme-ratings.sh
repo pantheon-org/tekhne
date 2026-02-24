@@ -8,6 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
 README_PATH="$PROJECT_ROOT/README.md"
 AUDITS_DIR="$PROJECT_ROOT/.context/audits"
+SKILLS_DIR="$PROJECT_ROOT/skills"
 
 DRY_RUN=false
 for arg in "$@"; do
@@ -15,6 +16,83 @@ for arg in "$@"; do
         --dry-run) DRY_RUN=true ;;
     esac
 done
+
+get_all_skills() {
+    if [ ! -d "$SKILLS_DIR" ]; then
+        echo ""
+        return
+    fi
+    
+    for dir in "$SKILLS_DIR"/*/; do
+        if [ -d "$dir" ] && [ -f "$dir/SKILL.md" ]; then
+            basename "$dir" | sed 's/\/$//'
+        fi
+    done
+}
+
+get_skill_description() {
+    skill_name="$1"
+    skill_file="$SKILLS_DIR/$skill_name/SKILL.md"
+    
+    if [ ! -f "$skill_file" ]; then
+        echo ""
+        return
+    fi
+    
+    # Try to extract from frontmatter description field (handle multiline YAML scalar)
+    in_frontmatter=false
+    in_description=false
+    desc=""
+    
+    while IFS= read -r line || [ -n "$line" ]; do
+        case "$line" in
+            ---)
+                if [ "$in_frontmatter" = false ]; then
+                    in_frontmatter=true
+                else
+                    break
+                fi
+                ;;
+            description:*)
+                # Single-line description
+                desc=$(echo "$line" | sed 's/^description:[[:space:]]*//' | sed 's/^"//' | sed 's/"$//')
+                if [ -n "$desc" ]; then
+                    break
+                fi
+                ;;
+            "    "*)
+                # Indented content - might be continuation of multiline description
+                if [ "$in_description" = true ]; then
+                    line_desc=$(echo "$line" | sed 's/^[[:space:]]*//' | sed 's/^"//' | sed 's/"$//')
+                    if [ -n "$line_desc" ]; then
+                        desc="$desc $line_desc"
+                    fi
+                fi
+                ;;
+            *)
+                # Check if we hit another top-level key
+                if [ "$in_frontmatter" = true ] && [ "$in_description" = true ]; then
+                    if echo "$line" | grep -qE '^[a-z]'; then
+                        break
+                    fi
+                fi
+                ;;
+        esac
+    done < "$skill_file"
+    
+    if [ -n "$desc" ]; then
+        # Truncate if too long
+        if [ ${#desc} -gt 80 ]; then
+            printf '%s...' "$(echo "$desc" | cut -c1-77)"
+        else
+            printf '%s' "$desc"
+        fi
+        return
+    fi
+    
+    # No description found - return empty (caller will use existing)
+    echo ""
+}
 
 get_grade_color() {
     grade="$1"
@@ -38,6 +116,13 @@ extract_rating_from_report() {
         return 1
     fi
     
+    # New format: analysis.md with table
+    if echo "$file" | grep -q "analysis.md"; then
+        extract_from_analysis_table "$file"
+        return $?
+    fi
+    
+    # Legacy format: standalone audit markdown files
     score_line=$(grep '\*\*Total Score\*\*' "$file" | head -1)
     grade_line=$(grep '\*\*Grade\*\*' "$file" | head -1)
     
@@ -62,6 +147,31 @@ extract_rating_from_report() {
     return 0
 }
 
+extract_from_analysis_table() {
+    file="$1"
+    skill_name="$2"
+    
+    # Table format: | Skill | Score | Grade | Lines | Refs |
+    # Example: | nx-executors | 114/120 | A+ | 135 | 2 |
+    line=$(grep "|[[:space:]]*${skill_name}[[:space:]]*|" "$file" | head -1)
+    
+    if [ -z "$line" ]; then
+        return 1
+    fi
+    
+    # Extract score (e.g., "114/120")
+    score=$(echo "$line" | sed -n 's/.*|[[:space:]]*\([0-9]*\)\/\([0-9]*\)[[:space:]]*|.*/\1/p')
+    max_score=$(echo "$line" | sed -n 's/.*|[[:space:]]*\([0-9]*\)\/\([0-9]*\)[[:space:]]*|.*/\2/p')
+    grade=$(echo "$line" | sed -n 's/.*|[[:space:]]*[A-F+]*[[:space:]]*|[[:space:]]*\([A-F+]*\)[[:space:]]*|.*/\1/p')
+    
+    if [ -z "$score" ] || [ -z "$max_score" ] || [ -z "$grade" ]; then
+        return 1
+    fi
+    
+    echo "$score|$max_score|$grade"
+    return 0
+}
+
 get_latest_audit_info() {
     skill_name="$1"
     
@@ -73,6 +183,42 @@ get_latest_audit_info() {
     latest_file=""
     latest_date=""
     
+    # Search in both root audits dir and subdirectories (e.g., .context/audits/skill-audit/2026-02-24/)
+    search_dirs="$AUDITS_DIR"
+    for subdir in "$AUDITS_DIR"/*/; do
+        if [ -d "$subdir" ]; then
+            search_dirs="$search_dirs $subdir"
+        fi
+    done
+    
+    # First, try new format: analysis.md files in subdirectories
+    for subdir in "$AUDITS_DIR"/*/; do
+        if [ -d "$subdir" ]; then
+            analysis_file="${subdir}analysis.md"
+            if [ -f "$analysis_file" ]; then
+                # Extract date from subdirectory name
+                subdir_name=$(basename "$subdir")
+                if echo "$subdir_name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
+                    rating=$(extract_from_analysis_table "$analysis_file" "$skill_name")
+                    if [ -n "$rating" ]; then
+                        if [ -z "$latest_date" ] || [ "$subdir_name" > "$latest_date" ]; then
+                            latest_date="$subdir_name"
+                            latest_file="$analysis_file"
+                            latest_rating="$rating"
+                        fi
+                    fi
+                fi
+            fi
+        fi
+    done
+    
+    # If we found a rating from analysis.md, return it
+    if [ -n "$latest_file" ]; then
+        echo "${latest_date}|${latest_file}|${latest_rating}"
+        return
+    fi
+    
+    # Fallback: legacy format - individual audit files in root
     for file in "$AUDITS_DIR"/"${skill_name}-"*.md; do
         if [ -f "$file" ]; then
             filename=$(basename "$file")
@@ -174,47 +320,47 @@ update_readme() {
         exit 1
     fi
     
-    table_start_line=0
-    line_num=0
+    # Get all skills from filesystem
+    all_skills=$(get_all_skills)
     
+    # Build a map of existing skills in README (skill_name -> description)
+    existing_skills=""
     while IFS= read -r line || [ -n "$line" ]; do
-        line_num=$((line_num + 1))
-        
-        case "$line" in
-            *\|\ Skill*\|\ Description*\|*)
-                table_start_line=$line_num
-                ;;
-        esac
+        if is_skill_table_row "$line"; then
+            skill_name=$(extract_skill_name "$line")
+            if [ -n "$skill_name" ]; then
+                description=$(printf '%s\n' "$line" | awk -F'|' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); print $3}')
+                existing_skills="${existing_skills}${skill_name}|${description}\n"
+            fi
+        fi
     done < "$README_PATH"
-    
-    if [ "$table_start_line" -eq 0 ]; then
-        echo "Error: Could not find skills table in README.md" >&2
-        exit 1
-    fi
     
     temp_file=$(mktemp)
     current_line=0
     in_table=false
+    skills_processed=""
     
     while IFS= read -r line || [ -n "$line" ]; do
         current_line=$((current_line + 1))
         
-        if [ "$current_line" -eq "$table_start_line" ]; then
-            in_table=true
-            printf '| Skill | Description | Rating | Audit |\n'
-            continue
-        fi
-        
-        if [ "$in_table" = true ] && [ "$current_line" -eq $((table_start_line + 1)) ]; then
-            printf '| --- | --- | --- | --- |\n'
-            continue
-        fi
-        
-        if [ "$in_table" = true ]; then
-            if is_skill_table_row "$line"; then
-                skill_name=$(extract_skill_name "$line")
+        case "$line" in
+            *\|\ Skill*\|\ Description*\|*)
+                in_table=true
+                # Write header
+                printf '| Skill | Description | Rating | Audit |\n' >> "$temp_file"
+                printf '| --- | --- | --- | --- |\n' >> "$temp_file"
                 
-                if [ -n "$skill_name" ]; then
+                # Process all skills from filesystem
+                for skill_name in $all_skills; do
+                    # Get description - prefer existing, otherwise extract from SKILL.md
+                    existing_desc=$(printf '%s' "$existing_skills" | grep "^${skill_name}|" | head -1 | cut -d'|' -f2)
+                    if [ -n "$existing_desc" ]; then
+                        description="$existing_desc"
+                    else
+                        description=$(get_skill_description "$skill_name")
+                    fi
+                    
+                    # Get audit info
                     audit_info=$(get_latest_audit_info "$skill_name")
                     
                     if [ -n "$audit_info" ]; then
@@ -228,26 +374,38 @@ update_readme() {
                         audit_link="N/A"
                     fi
                     
-                    description=$(printf '%s\n' "$line" | awk -F'|' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); print $3}')
-
-                    printf '%s\n' "$(build_skill_row "$skill_name" "$description" "$badge" "$audit_link")"
-                    continue
-                fi
-            fi
-            
+                    printf '| %s | %s | %s | %s |\n' \
+                        "[\`$skill_name\`](skills/$skill_name/SKILL.md)" \
+                        "$description" \
+                        "$badge" \
+                        "$audit_link" >> "$temp_file"
+                done
+                
+                # Skip original table rows
+                continue
+                ;;
+        esac
+        
+        if [ "$in_table" = true ]; then
+            # Skip until we exit the table
             case "$line" in
                 "|"*)
+                    # Skip table rows - we've already written them
                     ;;
                 "")
+                    # Empty line - might be end of table
+                    in_table=false
+                    printf '\n' >> "$temp_file"
                     ;;
                 *)
                     in_table=false
+                    printf '%s\n' "$line" >> "$temp_file"
                     ;;
             esac
+        else
+            printf '%s\n' "$line" >> "$temp_file"
         fi
-        
-        printf '%s\n' "$line"
-    done < "$README_PATH" > "$temp_file"
+    done < "$README_PATH"
     
     if [ "$DRY_RUN" = true ]; then
         echo "=== DRY RUN - Changes that would be made ==="
