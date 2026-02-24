@@ -1,9 +1,6 @@
 ---
 name: typescript-advanced
-description: |-
-  Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type guards, best practices, and documentation. Use when: configuring tsconfig, working with complex types, implementing type-safe patterns, making illegal states unrepresentable, or generating API documentation.
-  
-  Keywords: TypeScript, tsconfig, strict mode, generics, conditional types, mapped types, utility types, Partial, Pick, Omit, ReturnType, type guards, typeof, instanceof, type narrowing, template literal types, type-first development, JSDoc, TypeDoc, Zod validation, discriminated unions, branded types
+description: Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type guards, strict mode workflows, and documentation patterns; use when configuring tsconfig, designing complex generics, making illegal states unrepresentable, fixing type errors, or writing testable and maintainable type-safe APIs.
 allowed-tools:
   - Read
   - Write
@@ -18,6 +15,7 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 ## When to Apply
 
 Use this skill when:
+
 - Configuring TypeScript compiler (tsconfig.json)
 - Working with advanced type features (generics, conditionals, mapped types)
 - Creating custom utility types and type guards
@@ -28,6 +26,28 @@ Use this skill when:
 - Creating architectural decision records (ADRs)
 - Debugging complex type errors
 - Optimizing type checking performance
+
+## Use When
+
+- "Help me do this with strict TypeScript."
+- "How should I model this union/generic type?"
+- "How do I avoid `any` and unsafe assertions?"
+- "How do I fix this TypeScript compile error safely?"
+
+## Scope
+
+### In Scope
+
+- tsconfig and strict-mode guidance.
+- Advanced type modeling (generics, conditionals, mapped types).
+- Runtime narrowing and type-safe validation patterns.
+- TypeScript documentation patterns (JSDoc/TypeDoc, ADRs).
+
+### Out of Scope
+
+- End-to-end testing setup.
+- Framework build pipeline setup unrelated to TypeScript design.
+- Language-agnostic coding standards.
 
 ## Consolidation Note
 
@@ -42,7 +62,7 @@ This skill consolidates **5 original TypeScript skills** (~3,372 lines) into a *
 ## Categories by Priority
 
 | Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
+| --- | --- | --- | --- |
 | CRITICAL | Compiler & Configuration | Essential foundation | `compiler-` |
 | CRITICAL | Best Practices & Patterns | Type-first workflow | `practices-` |
 | HIGH | Advanced Types | Complex type logic | `types-advanced-` |
@@ -55,7 +75,7 @@ This skill consolidates **5 original TypeScript skills** (~3,372 lines) into a *
 
 Read individual reference files for detailed guidance:
 
-```
+```text
 references/compiler-strict-mode.md
 references/practices-type-first.md
 references/types-advanced-conditional.md
@@ -64,6 +84,7 @@ references/docs-jsdoc-patterns.md
 ```
 
 Each reference file contains:
+
 - Concepts and explanations
 - Practical TypeScript examples
 - Common patterns and use cases
@@ -79,9 +100,82 @@ Each reference file contains:
 5. **Implement narrowing** - Add type guards for runtime safety
 6. **Document** - Generate API docs with JSDoc/TypeDoc
 
+## Quick Commands
+
+### Type Check
+
+```bash
+npx tsc --noEmit
+```
+
+### Type Check Single Entry
+
+```bash
+npx tsc --noEmit src/index.ts
+```
+
+### Generate Docs
+
+```bash
+npx typedoc --out docs src/index.ts
+```
+
+### Find Unsafe Patterns
+
+```bash
+rg -n "\\bany\\b|@ts-ignore| as " src
+```
+
+## Anti-Patterns
+
+### NEVER use `any` as a default escape hatch
+
+**WHY**: `any` disables type checking and hides design bugs.
+
+**BAD**:
+
+```typescript
+function process(data: any) {
+  return data.value;
+}
+```
+
+**GOOD**:
+
+```typescript
+function process<T extends { value: unknown }>(data: T) {
+  return data.value;
+}
+```
+
+### NEVER silence type errors with unchecked assertions
+
+**WHY**: assertions bypass compiler safety without runtime guarantees.
+
+**BAD**:
+
+```typescript
+const id = input as string;
+```
+
+**GOOD**:
+
+```typescript
+if (typeof input !== "string") throw new TypeError("Expected string");
+const id = input;
+```
+
+### NEVER disable strict-mode findings instead of fixing model issues
+
+**WHY**: strict mode surfaces real defects early.
+
+**BAD**: `@ts-ignore`, `strict: false`, or broad ignore patterns.
+
+**GOOD**: adjust type model, narrow correctly, and keep strict checks enabled.
+
 ## References
 
-- https://www.typescriptlang.org/docs/handbook/
-- https://www.typescriptlang.org/tsconfig
-- https://www.typescriptlang.org/docs/handbook/utility-types.html
-- https://github.com/type-challenges/type-challenges
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/)
+- [TSConfig Reference](https://www.typescriptlang.org/tsconfig)
+- [Utility Types](https://www.typescriptlang.org/docs/handbook/utility-types.html)
+- [Type Challenges](https://github.com/type-challenges/type-challenges)
