@@ -26,9 +26,9 @@ pre-commit:
       stage_fixed: true
     tessl-lint:
       glob: "skills/**/SKILL.md"
-      run: bun run tessl:lint {staged_files}
+      run: for f in {staged_files}; do bun run tessl:lint -- "$f"; done
       stage_fixed: true
     tessl-review:
       glob: "skills/**/SKILL.md"
-      run: bun run tessl:review {staged_files}
+      run: for f in {staged_files}; do bun run tessl:review -- "$f"; done
       stage_fixed: true
