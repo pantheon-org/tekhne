@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent avoids common anti-patterns when creating AGENTS.md: not assuming technology stack, not dumping encyclopedic content, not duplicating content, and not providing unverified commands.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No technology assumptions",
+      "description": "Documentation does NOT assume technologies that weren't present in the input (e.g., no React mention for Python project)",
+      "max_score": 15
+    },
+    {
+      "name": "Discovery-based content",
+      "description": "Content is based on discovered technologies from provided config files",
+      "max_score": 15
+    },
+    {
+      "name": "Concise root file",
+      "description": "Root AGENTS.md is NOT encyclopedic (no full framework manual embedded)",
+      "max_score": 15
+    },
+    {
+      "name": "No duplication",
+      "description": "Instructions are NOT duplicated across multiple files unnecessarily",
+      "max_score": 15
+    },
+    {
+      "name": "Verified commands",
+      "description": "Commands included are valid for the detected stack (e.g., correct package manager, testing framework)",
+      "max_score": 15
+    },
+    {
+      "name": "References over duplication",
+      "description": "Uses references/links to external docs rather than embedding full documentation",
+      "max_score": 10
+    },
+    {
+      "name": "Path-specific content",
+      "description": "Commands are specific to this project, not generic placeholders",
+      "max_score": 15
+    }
+  ]
+}
