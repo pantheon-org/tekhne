@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/nx-executors",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Create and operate custom Nx executors in TypeScript monorepos with deterministic schema design, ExecutorContext usage, package-reference registration, cache-aware outputs, and migration-safe testing workflows; use when implementing a new executor, debugging target resolution, or standardizing reusable task orchestration in Nx plugins.",
+  "skills": {
+    "nx-executors": {
+      "path": "SKILL.md"
+    }
+  }
+}

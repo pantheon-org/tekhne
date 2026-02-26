@@ -1,11 +1,6 @@
 ---
 name: biome-complete
-description: Complete Biome toolchain guidance for real repository workflows. Use when users ask to configure biome.json, run lint or format commands, migrate from ESLint or Prettier, tune rule severity, fix formatter drift, or replace mixed ESLint+Prettier pipelines with Biome-only workflows. Keywords: biome, biome.json, linter, formatter, eslint migration, prettier migration, check, format, CI, VCS, suppression comments.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+description: Complete Biome toolchain guidance for real repository workflows. Use when users ask to configure biome.json, run lint or format commands, migrate from ESLint or Prettier, tune rule severity, fix formatter drift, or replace mixed ESLint+Prettier pipelines with Biome-only workflows.
 ---
 
 # Biome Complete Toolchain

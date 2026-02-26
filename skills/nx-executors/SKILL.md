@@ -124,9 +124,9 @@ rg -n '"executor"\s*:' tools apps libs
 | --- | --- |
 | Schema design and validation patterns | [references/executor-schema-design.md](references/executor-schema-design.md) |
 | `ExecutorContext` API usage | [references/context-api-reference.md](references/context-api-reference.md) |
-| Core concepts | [knowledge-base/concepts.md](knowledge-base/concepts.md) |
-| Workspace specifics | [knowledge-base/workspace-setup.md](knowledge-base/workspace-setup.md) |
-| Troubleshooting | [knowledge-base/troubleshooting.md](knowledge-base/troubleshooting.md) |
+| Core concepts | [references/concepts.md](references/concepts.md) |
+| Workspace specifics | [references/workspace-setup.md](references/workspace-setup.md) |
+| Troubleshooting | [references/troubleshooting.md](references/troubleshooting.md) |
 
 ## References
 
