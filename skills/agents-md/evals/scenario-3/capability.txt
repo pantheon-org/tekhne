@@ -1,0 +1,1 @@
+Command validation for AGENTS.md

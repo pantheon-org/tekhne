@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "instruction": "Discover repository shape and technologies before generating documentation",
+      "original_snippets": "1. Discover repository shape and technologies. Output: simple vs hierarchical documentation strategy.",
+      "relevant_when": "When asked to create or update AGENTS.md for any repository",
+      "why_given": "new knowledge - agents may assume technology stack without checking"
+    },
+    {
+      "instruction": "Use discovery baseline command: rg --files",
+      "original_snippets": "# Discovery baseline\nrg --files",
+      "relevant_when": "When exploring a new repository structure",
+      "why_given": "reminder - specific command preference"
+    },
+    {
+      "instruction": "Detect core config/tooling using rg with patterns: workspaces|nx|turbo|pnpm|yarn|packageManager|tsconfig|pytest|playwright",
+      "original_snippets": "# Detect core config/tooling\nrg -n \"workspaces|nx|turbo|pnpm|yarn|packageManager|tsconfig|pytest|playwright\" .",
+      "relevant_when": "When determining if project is monorepo or simple project",
+      "why_given": "reminder - specific command preference"
+    },
+    {
+      "instruction": "Locate existing AGENTS files using find command",
+      "original_snippets": "# Locate existing AGENTS files\nfind . -name AGENTS.md -o -name AI-DOCS.md",
+      "relevant_when": "When checking for existing documentation before creating new",
+      "why_given": "reminder - specific command preference"
+    },
+    {
+      "instruction": "Select single AGENTS.md for simple projects with uniform stack and patterns",
+      "original_snippets": "Simple project: one AGENTS.md when stack and patterns are uniform.",
+      "relevant_when": "When project has uniform technology stack",
+      "why_given": "preference - best practice for simple projects"
+    },
+    {
+      "instruction": "Select hierarchical AGENTS.md (root + subdirectory) for complex monorepos",
+      "original_snippets": "Complex monorepo: root AGENTS.md + scoped subdirectory AGENTS.md files.",
+      "relevant_when": "When project is a monorepo with multiple packages",
+      "why_given": "preference - best practice for complex projects"
+    },
+    {
+      "instruction": "Keep instructions concise, concrete, and path-specific",
+      "original_snippets": "Keep instructions concise, concrete, and path-specific.",
+      "relevant_when": "When writing AGENTS.md content",
+      "why_given": "preference - usability optimization"
+    },
+    {
+      "instruction": "Prefer references and indices over duplicated prose",
+      "original_snippets": "Prefer references and indices over duplicated prose.",
+      "relevant_when": "When organizing hierarchical AGENTS.md files",
+      "why_given": "preference - maintainability optimization"
+    },
+    {
+      "instruction": "Optimize for nearest-file relevance in hierarchical layouts",
+      "original_snippets": "Optimize for nearest-file relevance in hierarchical layouts.",
+      "relevant_when": "When creating subdirectory AGENTS.md files",
+      "why_given": "preference - navigation optimization"
+    },
+    {
+      "instruction": "NEVER assume a technology stack without discovery - run discovery commands and map docs to detected stack",
+      "original_snippets": "WHY: incorrect assumptions produce unusable instructions.\nBAD: generate React/Jest guidance without evidence. GOOD: run discovery commands and map docs to detected stack.",
+      "relevant_when": "When starting any AGENTS.md work",
+      "why_given": "new knowledge - common agent mistake"
+    },
+    {
+      "instruction": "NEVER dump encyclopedic content into root AGENTS.md - keep root concise and link to scoped files/references",
+      "original_snippets": "WHY: oversized docs increase token cost and reduce usability.\nBAD: embed full framework manuals. GOOD: keep root concise and link to scoped files/references.",
+      "relevant_when": "When writing root AGENTS.md in monorepo",
+      "why_given": "new knowledge - common agent mistake"
+    },
+    {
+      "instruction": "NEVER duplicate the same instructions across root and sub-files - keep universal rules at root and package-specific rules locally",
+      "original_snippets": "WHY: duplication creates drift and maintenance overhead.\nBAD: copy/paste identical conventions in every file. GOOD: keep universal rules at root and package-specific rules locally.",
+      "relevant_when": "When creating hierarchical AGENTS.md structure",
+      "why_given": "new knowledge - common agent mistake"
+    },
+    {
+      "instruction": "NEVER provide unverified commands - include only validated copy-paste commands",
+      "original_snippets": "WHY: broken commands erode trust and block contributors.\nBAD: include hypothetical commands. GOOD: include only validated copy-paste commands.",
+      "relevant_when": "When adding any commands to AGENTS.md",
+      "why_given": "new knowledge - common agent mistake"
+    },
+    {
+      "instruction": "Validate command correctness and duplication boundaries",
+      "original_snippets": "4. Validate command correctness and duplication boundaries. Output: clean, copy-paste-safe instruction files.",
+      "relevant_when": "Before finalizing AGENTS.md",
+      "why_given": "reminder - quality check step"
+    },
+    {
+      "instruction": "Re-check AGENTS.md after major repo changes",
+      "original_snippets": "5. Re-check after major repo changes. Output: synchronized documentation.",
+      "relevant_when": "When repository structure or tooling changes",
+      "why_given": "reminder - maintenance workflow"
+    }
+  ]
+}

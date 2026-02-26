@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent can update and revalidate existing AGENTS.md after repository changes, ensuring documentation stays synchronized.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Change detection",
+      "description": "Agent detected what changed in the repository (new scripts, removed dependencies, etc.)",
+      "max_score": 15
+    },
+    {
+      "name": "Removed stale content",
+      "description": "Removed or updated instructions for removed tooling/commands",
+      "max_score": 15
+    },
+    {
+      "name": "Added new content",
+      "description": "Added instructions for new tooling or commands",
+      "max_score": 15
+    },
+    {
+      "name": "Structure still appropriate",
+      "description": "Documentation structure remains appropriate for project (simple vs hierarchical)",
+      "max_score": 15
+    },
+    {
+      "name": "Command validation",
+      "description": "Validated that commands still work after changes",
+      "max_score": 15
+    },
+    {
+      "name": "No duplication introduced",
+      "description": "Did not introduce new duplication during update",
+      "max_score": 10
+    },
+    {
+      "name": "References updated",
+      "description": "References to external docs are still valid",
+      "max_score": 15
+    }
+  ]
+}

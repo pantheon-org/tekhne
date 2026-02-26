@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent correctly creates hierarchical AGENTS.md structure for a monorepo, avoiding duplication between root and sub-files and optimizing for nearest-file relevance.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Discovery performed",
+      "description": "Agent ran discovery commands to understand monorepo structure (packages, workspaces, etc.)",
+      "max_score": 8
+    },
+    {
+      "name": "Hierarchical structure",
+      "description": "Created root AGENTS.md plus subdirectory AGENTS.md files (not single flat file)",
+      "max_score": 8
+    },
+    {
+      "name": "Root concise",
+      "description": "Root AGENTS.md is concise and does not contain encyclopedic content",
+      "max_score": 9
+    },
+    {
+      "name": "No duplication root-sub",
+      "description": "No identical instructions duplicated between root and subdirectory AGENTS.md files",
+      "max_score": 12
+    },
+    {
+      "name": "Universal rules at root",
+      "description": "Common/shared conventions (linting, git workflow) are at root level",
+      "max_score": 8
+    },
+    {
+      "name": "Package-specific at local",
+      "description": "Package-specific instructions are in their respective subdirectory AGENTS.md",
+      "max_score": 8
+    },
+    {
+      "name": "References used",
+      "description": "Uses references/links to other files rather than duplicating content",
+      "max_score": 8
+    },
+    {
+      "name": "Nearest-file relevance",
+      "description": "Subdirectory AGENTS.md contains locally relevant commands and paths",
+      "max_score": 8
+    },
+    {
+      "name": "Path-specific commands",
+      "description": "Commands include specific paths relevant to each package",
+      "max_score": 8
+    },
+    {
+      "name": "Verified commands",
+      "description": "All commands are valid for the detected project structure",
+      "max_score": 8
+    },
+    {
+      "name": "Index/links present",
+      "description": "Root file provides clear navigation to subdirectory documentation",
+      "max_score": 8
+    },
+    {
+      "name": "Quality check",
+      "description": "No broken links or invalid commands in any file",
+      "max_score": 8
+    }
+  ]
+}

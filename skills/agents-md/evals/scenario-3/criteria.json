@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent validates that commands in AGENTS.md are correct before finalizing documentation, ensuring copy-paste safety.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Command validation performed",
+      "description": "Agent validated that commands work before including them (evidence of checking)",
+      "max_score": 20
+    },
+    {
+      "name": "Correct package manager",
+      "description": "Uses correct package manager commands (e.g., pnpm for pnpm workspace, not npm)",
+      "max_score": 15
+    },
+    {
+      "name": "Valid test command",
+      "description": "Test command matches project's test setup (e.g., correct test runner, proper flags)",
+      "max_score": 15
+    },
+    {
+      "name": "Valid build command",
+      "description": "Build command is valid for the project's build system",
+      "max_score": 15
+    },
+    {
+      "name": "Valid lint command",
+      "description": "Lint command uses configured linter with correct paths",
+      "max_score": 15
+    },
+    {
+      "name": "No broken commands",
+      "description": "No commands that would fail when copy-pasted (no typos, correct flags)",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly creates AGENTS.md for a simple single-package project following the skill's discovery workflow, structure decision, and anti-pattern avoidance principles.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Discovery performed",
+      "description": "Agent ran discovery commands (rg or similar) to understand the repository structure before creating documentation",
+      "max_score": 10
+    },
+    {
+      "name": "Technology detection",
+      "description": "Agent detected actual technology stack (package manager, testing framework, etc.) from config files rather than assuming",
+      "max_score": 10
+    },
+    {
+      "name": "Single file structure",
+      "description": "Created single AGENTS.md at root (not unnecessary hierarchical structure for simple project)",
+      "max_score": 10
+    },
+    {
+      "name": "Concise content",
+      "description": "Content is concise and not encyclopedic (no full framework manuals embedded)",
+      "max_score": 10
+    },
+    {
+      "name": "Path-specific commands",
+      "description": "Commands include specific paths relevant to this project, not generic placeholders",
+      "max_score": 10
+    },
+    {
+      "name": "Verified commands",
+      "description": "Commands appear to be valid for the detected project (e.g., correct package manager commands)",
+      "max_score": 10
+    },
+    {
+      "name": "No assumptions",
+      "description": "Documentation reflects discovered technologies, not assumed ones",
+      "max_score": 10
+    },
+    {
+      "name": "Actionable instructions",
+      "description": "Instructions are concrete and actionable, not vague",
+      "max_score": 10
+    },
+    {
+      "name": "Discovery commands included",
+      "description": "Includes useful discovery commands for future agents (e.g., file listing, config detection)",
+      "max_score": 10
+    },
+    {
+      "name": "Quality check",
+      "description": "Documentation appears validated (no obvious broken links or invalid commands)",
+      "max_score": 10
+    }
+  ]
+}

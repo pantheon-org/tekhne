@@ -1,0 +1,1 @@
+Hierarchical AGENTS.md for monorepo
