@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/biome-complete",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Complete Biome toolchain guidance for real repository workflows. Use when users ask to configure biome.json, run lint or format commands, migrate from ESLint or Prettier, tune rule severity, fix formatter drift, or replace mixed ESLint+Prettier pipelines with Biome-only workflows.",
+  "skills": {
+    "biome-complete": {
+      "path": "SKILL.md"
+    }
+  }
+}

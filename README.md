@@ -160,6 +160,21 @@ We welcome contributions! To add a new skill:
 - Include examples where helpful
 - Keep skills focused and modular
 
+### Publishing Skills to Tessl Registry
+
+To publish a skill to the tessl registry:
+
+```bash
+# Import the skill into your workspace
+bun run tessl:import -- skills/<skill-name> --workspace pantheon-ai
+
+# Lint the skill for errors
+bun run tessl:lint -- skills/<skill-name>
+
+# Publish to the registry
+bun run tessl:publish -- skills/<skill-name>
+```
+
 ### Improving a skill
 
 Prompt your agent with the following:

@@ -13,6 +13,10 @@
     "audit:skills:force": "./scripts/audit-all-skills.sh --force",
     "audit:update-readme": "bun run scripts/update-readme-ratings.ts",
     "audit:update-readme:dry": "bun run scripts/update-readme-ratings.ts --dry-run",
+    "tessl:import": "tessl skill import",
+    "tessl:lint": "tessl skill lint",
+    "tessl:publish": "tessl skill publish",
+    "tessl:review": "tessl skill review",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -22,6 +26,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
     "lefthook": "^2.1.1",
-    "markdownlint-cli2": "^0.21.0"
+    "markdownlint-cli2": "^0.21.0",
+    "tessl": "^0.68.0"
   }
 }

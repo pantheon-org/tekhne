@@ -1,6 +1,6 @@
 ---
 name: software-design-principles
-description: Apply software design principles across architecture and implementation using deterministic decision workflows, SOLID checks, structural patterns, and anti-pattern detection; use when reviewing designs, refactoring modules, or resolving maintainability and coupling risks.
+description: Apply SOLID principles, detect design anti-patterns, and evaluate architectural tradeoffs for code reviews, design decisions, and refactoring. Use when reviewing code for maintainability issues, evaluating architecture decisions, identifying code smells and technical debt, or refactoring modules with coupling or testability problems.
 ---
 
 # Software Design Principles
@@ -9,30 +9,102 @@ Navigation hub for strategic architecture, tactical design, and code quality dec
 
 ## When to Use
 
+- Reviewing code for maintainability, coupling, testability, or code smells.
+- Evaluating competing architectural or design approaches with explicit tradeoffs.
 - Designing a new module, service boundary, or cross-team interface.
-- Reviewing code for maintainability, coupling, and extensibility risks.
-- Refactoring legacy areas with repeated design problems.
-- Evaluating competing approaches with explicit tradeoffs.
+- Refactoring legacy areas with repeated design problems or technical debt.
+- Assessing design decisions before implementation to catch issues early.
 
 ## When Not to Use
 
 - One-line bug fixes with no design decision.
 - Purely operational tasks (deployment/scripts) without architecture impact.
+- Line-by-line code style or formatting review (use linters instead).
 
 ## Design Decision Workflow
 
-1. Step 1: Identify decision type.
-Output: classify as architectural, tactical, or foundational.
-2. Step 2: Apply strategic checks for architecture decisions.
-Output: boundary/dependency direction and ADR rationale.
-3. Step 3: Apply SOLID checks for tactical decisions.
-Output: compliance notes and required refactors.
-4. Step 4: Select structural pattern only if it reduces complexity.
-Output: pattern choice with explicit win condition.
-5. Step 5: Validate anti-patterns.
-Output: violations listed with BAD/GOOD corrective action.
-6. Step 6: Document tradeoffs and limitations.
-Output: alternatives considered, decision, and risks.
+### Step 1: Identify Decision Type
+**Output:** Classify as architectural, tactical, or foundational.
+
+Example classification:
+- **Architectural:** Service boundaries, dependency direction, module structure
+- **Tactical:** Class design, method extraction, interface definition
+- **Foundational:** Language features, build tooling, testing strategy
+
+### Step 2: Apply Strategic Checks (Architecture Decisions)
+**Output:** Boundary/dependency direction assessment + ADR rationale.
+
+Checklist:
+- [ ] Dependencies point inward (no outer layers importing inner layers)
+- [ ] No circular dependencies between modules
+- [ ] Clear ownership of contracts/interfaces
+- [ ] Entities remain pure (no infrastructure leakage)
+
+**Example ADR snippet:**
+```
+Decision: Extract shared authentication contract into separate module.
+Rationale: Breaks circular dependency between auth-service and user-service.
+Alternatives: Merge modules (loses separation), add adapter layer (adds complexity).
+Risk: Requires migration of existing consumers.
+```
+
+### Step 3: Apply SOLID Checks (Tactical Decisions)
+**Output:** Compliance assessment + required refactors.
+
+| Principle | Check | Refactor Signal |
+| --- | --- | --- |
+| SRP | Does this class have one reason to change? | Multiple concerns → split into focused classes |
+| OCP | Can you extend behavior without modifying existing code? | Adding features requires editing stable code → use abstraction |
+| LSP | Do subtypes preserve base behavior contracts? | Subtype breaks parent assumptions → redesign hierarchy |
+| ISP | Do clients depend only on methods they use? | Clients ignore many interface methods → split interface |
+| DIP | Do you depend on abstractions, not concrete details? | Direct concrete coupling → introduce interface/port |
+
+**Example compliance note:**
+```
+SRP violation: UserService handles auth, persistence, and notifications.
+Refactor: Extract NotificationService and PersistenceGateway.
+Validation: Each class now has one reason to change.
+```
+
+### Step 4: Select Structural Pattern (Only If It Reduces Complexity)
+**Output:** Pattern choice with explicit win condition.
+
+Ask before choosing a pattern:
+- Does this pattern solve a concrete problem in the current design?
+- What complexity does it remove vs. add?
+- Can the team maintain it?
+
+**Example decision:**
+```
+Pattern: Strategy (not Factory).
+Win condition: Eliminates if/else chains for payment processor selection.
+Cost: One extra interface + implementations. Benefit: Easy to add new processors.
+```
+
+### Step 5: Validate Anti-Patterns
+**Output:** Violations listed with BAD/GOOD corrective action.
+
+Run anti-pattern checks (see section below) and document findings:
+```
+Anti-pattern: Hard-coded environment config.
+Violation: Database URL in source code.
+BAD: const DB_URL = "postgres://prod.example.com"
+GOOD: const DB_URL = process.env.DATABASE_URL
+```
+
+### Step 6: Document Tradeoffs and Limitations
+**Output:** Alternatives considered, decision, and risks.
+
+Template:
+```
+Decision: Use event-driven architecture for order processing.
+Alternatives: 
+  - Synchronous RPC (simpler, tightly coupled, harder to scale)
+  - Batch processing (decoupled, eventual consistency delays)
+Chosen: Event-driven (loose coupling, handles scale, adds complexity)
+Risks: Eventual consistency requires idempotent handlers; harder to debug.
+Validation: Peer review before implementation.
+```
 
 ## SOLID Principles Summary
 
@@ -48,45 +120,59 @@ Output: alternatives considered, decision, and risks.
 
 ### NEVER design for imagined future requirements
 
-WHY: YAGNI violations create complexity without proven value.
-Consequence: slower delivery and harder maintenance.
-BAD: add abstraction "in case" of possible future DB migration. GOOD: solve current need and refactor when trigger appears.
+**WHY:** YAGNI violations create complexity without proven value.  
+**Consequence:** slower delivery and harder maintenance.
+
+**BAD:** Add abstraction "in case" of possible future DB migration.  
+**GOOD:** Solve current need and refactor when trigger appears.
 
 ### NEVER allow circular dependencies
 
-WHY: cycles break modular reasoning and complicate builds.
-Consequence: fragile deployment and high change risk.
-BAD: module A imports B and B imports A. GOOD: extract shared contract/module and invert dependencies.
+**WHY:** Cycles break modular reasoning and complicate builds.  
+**Consequence:** Fragile deployment and high change risk.
+
+**BAD:** Module A imports B and B imports A.  
+**GOOD:** Extract shared contract/module and invert dependencies.
 
 ### NEVER use god classes/services
 
-WHY: violates single responsibility and creates merge hotspots.
-Consequence: low testability and unclear ownership.
-BAD: one class handles auth, persistence, notifications, and reporting. GOOD: split into focused collaborators.
+**WHY:** Violates single responsibility and creates merge hotspots.  
+**Consequence:** Low testability and unclear ownership.
+
+**BAD:** One class handles auth, persistence, notifications, and reporting.  
+**GOOD:** Split into focused collaborators with clear boundaries.
 
 ### NEVER optimize before measurement
 
-WHY: unmeasured optimization often trades clarity for no gain.
-Consequence: needless complexity and hidden bugs.
-BAD: add cache because function "might be slow." GOOD: measure baseline, optimize when threshold is exceeded.
+**WHY:** Unmeasured optimization often trades clarity for no gain.  
+**Consequence:** Needless complexity and hidden bugs.
+
+**BAD:** Add cache because function "might be slow."  
+**GOOD:** Measure baseline, optimize when threshold is exceeded.
 
 ### NEVER hard-code environment configuration and secrets
 
-WHY: hard-coded values block secure deployment and portability.
-Consequence: security leaks and environment drift.
-BAD: inline passwords/URLs in source. GOOD: use environment/config providers.
+**WHY:** Hard-coded values block secure deployment and portability.  
+**Consequence:** Security leaks and environment drift.
+
+**BAD:** Inline passwords/URLs in source.  
+**GOOD:** Use environment/config providers.
 
 ### NEVER bypass interface contracts when integrating dependencies
 
-WHY: direct concrete coupling reduces substitution and testability.
-Consequence: brittle tests and expensive refactors.
-BAD: instantiate concrete infra type in domain workflow. GOOD: depend on interface/port and inject implementation.
+**WHY:** Direct concrete coupling reduces substitution and testability.  
+**Consequence:** Brittle tests and expensive refactors.
+
+**BAD:** Instantiate concrete infra type in domain workflow.  
+**GOOD:** Depend on interface/port and inject implementation.
 
 ### NEVER bypass TypeScript strictness in design-critical paths
 
-WHY: weak typing hides invalid states and contract violations.
-Consequence: runtime errors that static checks should catch.
-BAD: broad `any` and repeated `@ts-ignore`. GOOD: model uncertain values as `unknown` and narrow explicitly.
+**WHY:** Weak typing hides invalid states and contract violations.  
+**Consequence:** Runtime errors that static checks should catch.
+
+**BAD:** Broad `any` and repeated `@ts-ignore`.  
+**GOOD:** Model uncertain values as `unknown` and narrow explicitly.
 
 ## Quick Commands
 
