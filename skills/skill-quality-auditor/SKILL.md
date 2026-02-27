@@ -36,7 +36,7 @@ sh skills/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only
 - Creating remediation plans with measurable success criteria
 - Detecting duplication (>20% similarity threshold) and planning aggregations
 - Enforcing artifact conventions across skill collections
-- Implementing CI quality gates with score thresholds (≥84 passing, ≥108 A-grade)
+- Implementing CI quality gates with score thresholds (see [Score Thresholds](#score-thresholds))
 
 ## Workflow
 
@@ -49,20 +49,18 @@ sh skills/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only
 
 ## Self-Audit
 
-This skill is the quality baseline and must pass its own evaluator with a score ≥100. The skill-quality-auditor passes its own 8-dimension framework evaluation, demonstrating that quality assessment tools should meet the standards they enforce.
+This skill must pass its own evaluator with score >= 100:
 
 ```bash
 sh skills/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json
 ```
 
-Expected: score `>= 100`. This self-audit requirement ensures the framework maintains credibility and serves as a working example of A-grade skill quality.
-
 ## Mindset
 
 - Treat scores as directional signals, not absolute truth.
-- Prioritize deterministic, reproducible checks over subjective opinions - automated validation beats manual review.
+- Prioritize deterministic, reproducible checks — automated validation beats manual review.
 - Apply strict rules where safety/consistency matters; stay flexible elsewhere.
-- Use threshold-based evaluation (≥84 passing, ≥108 A-grade) rather than relative comparisons.
+- Use threshold-based evaluation rather than relative comparisons (see [Score Thresholds](#score-thresholds)).
 
 ## Anti-Patterns
 
@@ -116,19 +114,39 @@ sh skills/skill-quality-auditor/scripts/check-consistency.sh skills
 
 This script validates frontmatter format, directory structures, required sections, and naming conventions. Critical for maintaining uniform skill quality standards across the entire collection.
 
-## Categories
+Run this check:
 
-### Framework (Critical Foundation)
+- Before publishing skills to ensure compliance
+- After bulk edits to catch structural issues
+- As part of CI quality gates
 
-- Quality assessment methodology
-- Scoring frameworks and thresholds
+## Artifact Validation
 
-### Process (High Priority)
+Validate skill artifacts before submission:
 
-- Audit workflows and remediation
-- CI integration and quality gates
+```bash
+sh skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh
+```
 
-### Tools (Medium Priority)
+This validates:
 
-- Script automation and validation
-- Report generation and compliance
+- **tile.json existence and format**: Required for registry submission — every skill needs valid tile.json with name, summary, version
+- **SKILL.md frontmatter**: name, description fields present and valid
+- **Directory conventions**: Proper structure under `skills/<skill-name>/`
+- **Template format**: YAML files in templates/ use correct `.yaml`/`.yml` extension
+- **Schema format**: JSON Schema files include `"$schema"` declaration
+- **Script portability**: Shell scripts have proper shebang `#!/usr/bin/env sh`
+
+Always validate artifacts before running audits to ensure results are meaningful.
+
+## Progressive Disclosure Evaluation
+
+Skills should use Navigation Hub architecture with progressive disclosure:
+
+1. **SKILL.md as Hub (8 points)**: Keep SKILL.md under 100 lines — overview, when-to-use, and reference guide only.
+2. **References Directory (4 points)**: Detailed content goes in `references/*.md` files for deeper dives.
+3. **Artifact Separation**: Scripts in `scripts/`, templates in `templates/`, schemas in `schemas/` — not mixed into main docs.
+
+## Score Thresholds
+
+See [Quality Thresholds & Scoring](references/quality-thresholds-scoring.md) for grade boundaries, score interpretation, and detailed A-grade requirements.
