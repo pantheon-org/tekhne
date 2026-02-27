@@ -1,0 +1,100 @@
+{
+  "instructions": [
+    {
+      "instruction": "Write the smallest failing test that expresses one behavior BEFORE implementing any production code",
+      "original_snippets": "1. Write the smallest failing test that expresses one behavior. 2. Run tests and verify failure is for the expected reason. 3. Implement minimal code to make the test pass... NEVER implement feature code before writing a failing test",
+      "relevant_when": "when implementing new functions, adding features, or starting any new functionality",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always run your new test and watch it fail before writing implementation code",
+      "original_snippets": "Always run your new test and watch it fail before writing implementation code. A test that passes immediately either tests nothing meaningful or the feature already exists... Run test - see it fail... This confirms the test is wired up correctly",
+      "relevant_when": "when following the red-green-refactor cycle during test-first development",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Implement minimal code to make the test pass",
+      "original_snippets": "3. Implement minimal code to make the test pass... GREEN — implement the minimum code to pass",
+      "relevant_when": "when in the green phase of red-green-refactor cycle",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Refactor while keeping the suite green",
+      "original_snippets": "4. Refactor while keeping the suite green... REFACTOR — improve without breaking green",
+      "relevant_when": "when improving code structure after tests pass",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use Arrange-Act-Assert (AAA) pattern with blank lines between sections",
+      "original_snippets": "Structure tests with Arrange-Act-Assert pattern for readability... Use clear AAA structure with blank lines between sections",
+      "relevant_when": "when structuring individual unit tests",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "One Act per test",
+      "original_snippets": "one Act per test, assert only outcomes of that specific Act",
+      "relevant_when": "when structuring individual unit tests",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Each test should verify one logical concept",
+      "original_snippets": "Each test should verify one logical concept. When a test fails, you should know exactly what's broken without reading the test body",
+      "relevant_when": "when designing test cases",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Test names should describe the scenario and expected outcome",
+      "original_snippets": "Test names should describe the scenario and expected outcome so clearly that you understand what broke without reading the test code... Pattern: [unit]_[scenario]_[expectedBehavior]... should [outcome] when [condition]",
+      "relevant_when": "when writing test cases",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Test observable behavior, not internal implementation details",
+      "original_snippets": "Test observable behavior, not internal implementation... Verify what code does (behavior) not how it does it (implementation)... NEVER test implementation details instead of behavior",
+      "relevant_when": "when writing assertions and deciding what to test",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use dependency injection to receive dependencies through constructor/parameters rather than creating internally",
+      "original_snippets": "Use dependency injection for testability... Receive dependencies through constructor/parameters rather than creating internally... incorrect hard-coded dependencies vs correct injected interfaces",
+      "relevant_when": "when designing classes that need external dependencies",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Replace external systems (databases, APIs, file systems) with test doubles/mocks",
+      "original_snippets": "Replace external systems (databases, APIs, file systems) with test doubles. This makes tests fast, deterministic, and independent of external state... Mock External Dependencies",
+      "relevant_when": "when testing code that interacts with external systems",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "All test data should be visible within the test or clearly referenced",
+      "original_snippets": "All test data should be visible within the test or clearly referenced. Hidden data loaded from fixtures or external files makes tests impossible to understand in isolation... Avoid Mystery Guests",
+      "relevant_when": "when setting up test data",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use the most specific assertion available for the check",
+      "original_snippets": "Use the most specific assertion available for the check. Specific assertions provide better failure messages... toHaveLength() over .length === n... toContain() over includes() === true",
+      "relevant_when": "when writing assertions in tests",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Fix or quarantine flaky tests immediately",
+      "original_snippets": "A flaky test is one that sometimes passes and sometimes fails without code changes. Fix or quarantine flaky tests immediately - they erode trust in the entire suite... Fix Flaky Tests Immediately",
+      "relevant_when": "when encountering non-deterministic test failures",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never use arbitrary sleeps in unit tests",
+      "original_snippets": "NEVER use arbitrary sleeps in unit tests... fixed waits create flaky and slow suites... await sleep(1000); // BAD... await expect(promise).resolves.toBeDefined(); // GOOD",
+      "relevant_when": "when testing asynchronous code",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never combine multiple behaviors into one test case",
+      "original_snippets": "NEVER combine multiple behaviors into one test case... failures become ambiguous and debugging slows down... one test covers create/login/update/delete flow // BAD... one behavior per test // GOOD",
+      "relevant_when": "when designing test cases that cover complex workflows",
+      "why_given": "new knowledge"
+    }
+  ]
+}

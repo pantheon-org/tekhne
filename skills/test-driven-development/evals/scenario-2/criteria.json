@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent properly uses dependency injection for testability and mocks external dependencies correctly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Constructor dependency injection",
+      "description": "Service receives notification channels through constructor/parameters, not creating them internally",
+      "max_score": 15
+    },
+    {
+      "name": "External dependencies mocked",
+      "description": "Tests replace real email/SMS services with test doubles/mocks",
+      "max_score": 15
+    },
+    {
+      "name": "Interface-based design",
+      "description": "Uses interfaces/contracts for notification channels to enable easy mocking",
+      "max_score": 10
+    },
+    {
+      "name": "Test data visibility",
+      "description": "All test data (notification content, recipients, etc.) is defined within the test files",
+      "max_score": 10
+    },
+    {
+      "name": "Independent test execution",
+      "description": "Tests run without requiring real external services or network calls",
+      "max_score": 10
+    },
+    {
+      "name": "Mock verification",
+      "description": "Tests verify that mocked services are called with correct parameters",
+      "max_score": 10
+    },
+    {
+      "name": "Error scenario testing",
+      "description": "Tests cover failure cases by configuring mocks to simulate errors",
+      "max_score": 10
+    },
+    {
+      "name": "Clear test boundaries",
+      "description": "Tests focus on service behavior, not testing the mocked dependencies themselves",
+      "max_score": 10
+    },
+    {
+      "name": "Deterministic test data",
+      "description": "No random values or timestamps that could cause flaky tests",
+      "max_score": 10
+    }
+  ]
+}
