@@ -1,6 +1,6 @@
 ---
 name: skill-quality-auditor
-description: Audit and improve skill collections with an 8-dimension scoring framework, duplication detection, remediation planning, and CI quality gates; use when evaluating skill quality, generating remediation plans, validating report format, or enforcing repository-wide skill artifact conventions.
+description: Audit and improve skill collections with an 8-dimension scoring framework, duplication detection, remediation planning, and CI quality gates. Use when evaluating skill quality, generating remediation plans, validating report format, enforcing repository-wide skill artifact conventions, or when users say 'check my skills', 'review skill files', 'skill audit', 'improve my SKILL.md files', 'find duplicate skills', 'validate skill format', or 'quality check my skills'.
 ---
 
 # Skill Quality Auditor
