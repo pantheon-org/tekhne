@@ -1,0 +1,66 @@
+{
+  "context": "Tests troubleshooting entry creation with proper schema compliance, file structure, and validation workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Template schema loaded",
+      "description": "Evidence shows troubleshooting.yaml template was consulted before generation",
+      "max_score": 8
+    },
+    {
+      "name": "Correct directory structure",
+      "description": "File placed in YYYY/MM/ directory matching the date",
+      "max_score": 8
+    },
+    {
+      "name": "Lowercase filename slug",
+      "description": "Filename slug uses only lowercase letters and hyphens, no uppercase or underscores",
+      "max_score": 8
+    },
+    {
+      "name": "Triple date sync",
+      "description": "Date matches exactly across filename, frontmatter, and H1 title",
+      "max_score": 10
+    },
+    {
+      "name": "H1 date format",
+      "description": "H1 title uses 'Month D, YYYY' format (not 'Month DD')",
+      "max_score": 8
+    },
+    {
+      "name": "Single H1 heading",
+      "description": "Document contains exactly one H1 heading",
+      "max_score": 8
+    },
+    {
+      "name": "Required troubleshooting tag",
+      "description": "Includes 'troubleshooting' tag in frontmatter",
+      "max_score": 8
+    },
+    {
+      "name": "Tag consistency",
+      "description": "Tags match exactly between frontmatter array and Tags section",
+      "max_score": 10
+    },
+    {
+      "name": "Lowercase hyphenated tags",
+      "description": "All tags use lowercase with hyphens, no uppercase or underscores",
+      "max_score": 8
+    },
+    {
+      "name": "Code block languages",
+      "description": "All code blocks have language specifiers, no bare triple backticks",
+      "max_score": 8
+    },
+    {
+      "name": "Bold metadata formatting",
+      "description": "Metadata block uses **Key:** Value format with bold keys",
+      "max_score": 8
+    },
+    {
+      "name": "No emojis used",
+      "description": "Document contains no emojis in any section or content",
+      "max_score": 8
+    }
+  ]
+}

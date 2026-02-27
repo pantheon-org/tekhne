@@ -1,0 +1,160 @@
+{
+  "instructions": [
+    {
+      "instruction": "Read complete template schema file before generating any entry",
+      "original_snippets": "Before generating any entry, you MUST read the complete template schema file: ... Do NOT generate entries without loading the schema first.",
+      "relevant_when": "When creating any type of journal entry",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use four-phase workflow: Interactive Gathering, Schema Loading, Generation, Validation & Formatting",
+      "original_snippets": "## Four-Phase Workflow ... Phase 1: Interactive Gathering ... Phase 2: Schema Loading (MANDATORY) ... Phase 3: Generation ... Phase 4: Validation & Formatting",
+      "relevant_when": "When creating journal entries to ensure systematic approach",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Create filename with lowercase-only slug using hyphens",
+      "original_snippets": "Generate filename: `YYYY-MM-DD-slug.md` (slug must be lowercase with hyphens only) ... **MUST be lowercase-only with hyphens** (NO uppercase letters, NO underscores)",
+      "relevant_when": "When naming journal entry files",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Maintain triple date sync across filename, frontmatter, and H1 title",
+      "original_snippets": "All three must match exactly: 1. Filename: `2025-02-24-topic.md` 2. Frontmatter: `date: 2025-02-24` 3. H1 title: `# Topic - February 24, 2025`",
+      "relevant_when": "When creating journal entries with dates",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use specific H1 date format: Month D, YYYY (not Month DD)",
+      "original_snippets": "The H1 date format is `Month D, YYYY` (not `Month DD`). Example: `February 3, 2025` not `February 03, 2025`",
+      "relevant_when": "When writing H1 titles with dates",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Place files in YYYY/MM/ directory structure matching date",
+      "original_snippets": "File must be in `YYYY/MM/` directory matching its date: - `2025-02-24-*.md` → Must be in `2025/02/`",
+      "relevant_when": "When organizing journal entry files",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use exactly ONE H1 heading per document",
+      "original_snippets": "Exactly ONE H1 in the entire document with precise format: ... **Not allowed:** - Multiple H1 headings",
+      "relevant_when": "When structuring journal entry documents",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Match tags between frontmatter array and Tags section",
+      "original_snippets": "Tags must: 1. Match between frontmatter array and final `## Tags` section ... Must match: ## Tags `troubleshooting` | `api-gateway` | `aws-lambda`",
+      "relevant_when": "When adding tags to journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use lowercase with hyphens for all tags",
+      "original_snippets": "Be lowercase with hyphens (not underscores, not camelCase)",
+      "relevant_when": "When creating tags for journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Include entry type tag when required (troubleshooting, learning, article/video/podcast/talk)",
+      "original_snippets": "Include entry type tag when required (troubleshooting, learning, article/video/podcast/talk)",
+      "relevant_when": "When creating specific types of journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "All code blocks MUST have language identifiers",
+      "original_snippets": "ALL code blocks MUST have language identifiers. No bare triple backticks allowed. ... **Invalid:** ``` git status ```",
+      "relevant_when": "When including code blocks in journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run validation script before proceeding",
+      "original_snippets": "bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM/YYYY-MM-DD-slug.md",
+      "relevant_when": "After creating journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run prettier formatting after validation passes",
+      "original_snippets": "# 2. Format (only if validation passes) npx prettier --write YYYY/MM/YYYY-MM-DD-slug.md",
+      "relevant_when": "When formatting completed journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run markdownlint with auto-fix after formatting",
+      "original_snippets": "# 3. Lint and auto-fix npx markdownlint-cli2 YYYY/MM/YYYY-MM-DD-slug.md --fix",
+      "relevant_when": "When linting completed journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never skip reading template schema before generation",
+      "original_snippets": "- NEVER skip reading the template schema before generating entry",
+      "relevant_when": "When creating any journal entry",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never use multiple H1 headings",
+      "original_snippets": "- NEVER use multiple H1 headings (only one allowed)",
+      "relevant_when": "When structuring journal documents",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never use bare code blocks without language specifiers",
+      "original_snippets": "- NEVER use bare ``` code blocks without language specifier",
+      "relevant_when": "When including code in journal entries",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never use uppercase in tags or filename slugs",
+      "original_snippets": "- NEVER use uppercase in tags or slugs (`API` → `api`, `CloudWatch` → `cloudwatch`)",
+      "relevant_when": "When naming files or creating tags",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never use underscores in slugs (use hyphens)",
+      "original_snippets": "- NEVER use underscores in slugs (use hyphens: `api_fix` → `api-fix`)",
+      "relevant_when": "When creating filename slugs",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never mismatch dates across filename, frontmatter, and H1",
+      "original_snippets": "- NEVER mismatch dates across filename, frontmatter, and H1",
+      "relevant_when": "When creating dated journal entries",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never use emojis in journal entries",
+      "original_snippets": "- NEVER use emojis in journal entries (status, sections, or content)",
+      "relevant_when": "When writing journal entry content",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never use bullet points in metadata blocks (use **Key:** Value format)",
+      "original_snippets": "- NEVER use bullet points in metadata blocks (use `**Key:** Value` format only)",
+      "relevant_when": "When creating metadata sections in journal entries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Ask user before overwriting existing files",
+      "original_snippets": "Ask user: `Entry already exists at [path]. Overwrite? (y/N)`",
+      "relevant_when": "When a journal entry file already exists at the target location",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use entry type decision framework to determine correct template",
+      "original_snippets": "**Before selecting entry type, ask yourself:** - **Is this documenting a problem and its resolution?** → Troubleshooting - **Is this capturing new knowledge or skills acquired?** → Learning",
+      "relevant_when": "When determining which type of journal entry to create",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Create directory structure if needed: mkdir -p YYYY/MM",
+      "original_snippets": "Create directory if needed: `mkdir -p YYYY/MM`",
+      "relevant_when": "When the target directory doesn't exist for journal entry",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use bold formatting for metadata block keys",
+      "original_snippets": "- NEVER create metadata block without bold formatting (`**Key:**`)",
+      "relevant_when": "When creating metadata blocks in journal entries",
+      "why_given": "preference"
+    }
+  ]
+}

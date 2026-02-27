@@ -1,0 +1,61 @@
+{
+  "context": "Tests learning entry creation with proper workflow execution and file organization compliance.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Schema consultation",
+      "description": "Shows evidence of loading learning.yaml template before generation",
+      "max_score": 10
+    },
+    {
+      "name": "Four-phase workflow",
+      "description": "Demonstrates systematic approach with gathering, schema loading, generation, validation phases",
+      "max_score": 10
+    },
+    {
+      "name": "File organization",
+      "description": "Creates proper YYYY/MM/ directory structure for the file location",
+      "max_score": 8
+    },
+    {
+      "name": "Filename compliance",
+      "description": "Uses YYYY-MM-DD-slug.md format with lowercase-only slug and hyphens",
+      "max_score": 8
+    },
+    {
+      "name": "Date synchronization",
+      "description": "Maintains exact date match across filename, frontmatter, and H1 header",
+      "max_score": 10
+    },
+    {
+      "name": "Learning tag inclusion",
+      "description": "Includes required 'learning' tag in frontmatter tags array",
+      "max_score": 8
+    },
+    {
+      "name": "Tag format compliance",
+      "description": "Uses lowercase-hyphenated format for all tags (no underscores or camelCase)",
+      "max_score": 8
+    },
+    {
+      "name": "Tag section consistency",
+      "description": "Tags section matches frontmatter array exactly with pipe-separated format",
+      "max_score": 10
+    },
+    {
+      "name": "Code language specifiers",
+      "description": "All code blocks include language identifiers (bash, yaml, etc.)",
+      "max_score": 8
+    },
+    {
+      "name": "Validation execution",
+      "description": "Shows evidence of running validation script on generated file",
+      "max_score": 10
+    },
+    {
+      "name": "Formatting compliance",
+      "description": "Evidence of prettier and markdownlint execution after validation",
+      "max_score": 10
+    }
+  ]
+}
