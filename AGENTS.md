@@ -61,6 +61,29 @@ bunx markdownlint-cli2 "**/*.md"
 
 For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `skill-quality-auditor` workflow documented in `skills/skill-quality-auditor/SKILL.md`.
 
+## Skill Management with Tessl
+
+The repository includes an automated skill management script at `scripts/manage-skills.sh` that handles the complete tessl lifecycle:
+
+```bash
+# Process all skills (import, lint, review, publish)
+./scripts/manage-skills.sh
+
+# Process a specific skill
+./scripts/manage-skills.sh skill-name
+
+# Use different workspace
+./scripts/manage-skills.sh --workspace=my-org
+```
+
+The script automatically:
+
+1. **Imports** skills without `tile.json` using `tessl skill import`
+2. **Lints and reviews** skills with `tile.json` using `tessl skill lint` and `tessl skill review`
+3. **Publishes** skills that pass validation (if not already published)
+
+See `scripts/README.md` for detailed usage information.
+
 ## Git Hooks
 
 - Pre-commit uses `lefthook` and runs:
