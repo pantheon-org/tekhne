@@ -1,38 +1,40 @@
 {
-  "criteria": [
+  "context": "Architectural decision documentation - tests whether the agent uses proper ADR format and architectural decision-making process",
+  "type": "weighted_checklist",
+  "checklist": [
     {
       "name": "Classifies as architectural decision",
-      "weight": 10,
+      "max_score": 10,
       "description": "Correctly identifies this as architectural (not tactical/foundational)"
     },
     {
       "name": "Uses proper ADR format",
-      "weight": 20,
+      "max_score": 20,
       "description": "Includes Status, Context, Decision, Alternatives, Consequences sections"
     },
     {
       "name": "Documents alternatives with rationale",
-      "weight": 20,
+      "max_score": 20,
       "description": "Lists all 3 options with pros/cons analysis"
     },
     {
       "name": "Explains chosen decision clearly",
-      "weight": 15,
+      "max_score": 15,
       "description": "States the selected approach and why it was chosen"
     },
     {
       "name": "Documents risks and mitigation",
-      "weight": 15,
+      "max_score": 15,
       "description": "Identifies potential problems and how to address them"
     },
     {
       "name": "Includes validation steps",
-      "weight": 10,
+      "max_score": 10,
       "description": "Specifies how to verify the decision works (peer review, etc.)"
     },
     {
       "name": "Applies architectural dependency checks",
-      "weight": 10,
+      "max_score": 10,
       "description": "Considers dependency direction and coupling implications"
     }
   ]
