@@ -1,0 +1,51 @@
+{
+  "context": "Creating architecture decision for a new notification microservice - tests strategic checks, dependency direction, entity purity, and ADR documentation",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Classifies decision type",
+      "description": "Classifies the architecture as architectural, tactical, or foundational",
+      "max_score": 8
+    },
+    {
+      "name": "Checks dependency direction",
+      "description": "Ensures dependencies point inward - outer layers do not import inner layers",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids circular dependencies",
+      "description": "Design prevents circular dependencies between services",
+      "max_score": 12
+    },
+    {
+      "name": "Clear interface ownership",
+      "description": "Defines clear ownership of contracts and interfaces",
+      "max_score": 10
+    },
+    {
+      "name": "Entity purity",
+      "description": "Domain entities remain pure without infrastructure leakage",
+      "max_score": 15
+    },
+    {
+      "name": "Uses ADR format",
+      "description": "Documents decision with Architecture Decision Record format",
+      "max_score": 15
+    },
+    {
+      "name": "Documents alternatives",
+      "description": "Lists alternatives considered with tradeoffs",
+      "max_score": 10
+    },
+    {
+      "name": "Documents risks",
+      "description": "Identifies risks associated with the decision",
+      "max_score": 10
+    },
+    {
+      "name": "Includes validation step",
+      "description": "Includes validation step (e.g., peer review) before implementation",
+      "max_score": 5
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Code review of existing codebase - tests whether the agent applies SOLID principles, detects anti-patterns, and documents findings properly",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Classifies decision type",
+      "description": "Classifies the analysis as architectural, tactical, or foundational before proceeding",
+      "max_score": 5
+    },
+    {
+      "name": "Checks SRP compliance",
+      "description": "Evaluates whether classes have single responsibility and identifies violations",
+      "max_score": 10
+    },
+    {
+      "name": "Checks OCP compliance",
+      "description": "Evaluates whether code is open for extension, closed for modification",
+      "max_score": 10
+    },
+    {
+      "name": "Checks LSP compliance",
+      "description": "Evaluates whether subtypes preserve base behavior contracts",
+      "max_score": 10
+    },
+    {
+      "name": "Checks ISP compliance",
+      "description": "Evaluates whether clients depend only on methods they use",
+      "max_score": 10
+    },
+    {
+      "name": "Checks DIP compliance",
+      "description": "Evaluates whether code depends on abstractions, not concrete details",
+      "max_score": 10
+    },
+    {
+      "name": "Detects god class anti-pattern",
+      "description": "Identifies god classes/services that handle multiple concerns",
+      "max_score": 8
+    },
+    {
+      "name": "Detects hardcoded secrets",
+      "description": "Identifies hardcoded environment configuration or secrets",
+      "max_score": 7
+    },
+    {
+      "name": "Detects bypassed interfaces",
+      "description": "Identifies direct concrete coupling instead of interface/port patterns",
+      "max_score": 8
+    },
+    {
+      "name": "Documents with BAD/GOOD format",
+      "description": "Uses BAD/GOOD corrective action format for anti-pattern violations",
+      "max_score": 7
+    },
+    {
+      "name": "Documents tradeoffs",
+      "description": "Documents alternatives considered, decision rationale, and risks",
+      "max_score": 10
+    },
+    {
+      "name": "Checks TypeScript strictness",
+      "description": "Identifies use of 'any', '@ts-ignore' in critical paths",
+      "max_score": 5
+    }
+  ]
+}

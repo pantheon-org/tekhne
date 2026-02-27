@@ -1,0 +1,1 @@
+Avoiding YAGNI violations in new feature design

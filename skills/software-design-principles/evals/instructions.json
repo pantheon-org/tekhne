@@ -1,0 +1,142 @@
+{
+  "instructions": [
+    {
+      "instruction": "Classify the design decision type as architectural, tactical, or foundational before proceeding with analysis",
+      "original_snippets": "Output: Classify as architectural, tactical, or foundational. Example classification: Architectural: Service boundaries, dependency direction, module structure; Tactical: Class design, method extraction, interface definition; Foundational: Language features, build tooling, testing strategy",
+      "relevant_when": "When analyzing any design decision, before applying any checks or patterns",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Ensure dependencies point inward - outer layers should not import inner layers",
+      "original_snippets": "Dependencies point inward (no outer layers importing inner layers)",
+      "relevant_when": "When evaluating architectural decisions or service boundaries",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Ensure no circular dependencies exist between modules",
+      "original_snippets": "No circular dependencies between modules",
+      "relevant_when": "When evaluating module relationships or dependency structure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Ensure clear ownership of contracts/interfaces",
+      "original_snippets": "Clear ownership of contracts/interfaces",
+      "relevant_when": "When evaluating interface definitions or API contracts",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Ensure entities remain pure (no infrastructure leakage)",
+      "original_snippets": "Entities remain pure (no infrastructure leakage)",
+      "relevant_when": "When evaluating domain entity design",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Apply SOLID checks: SRP - Does this class have one reason to change?",
+      "original_snippets": "SRP: Does this class have one reason to change? Multiple concerns → split into focused classes",
+      "relevant_when": "When evaluating class design",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Apply SOLID checks: OCP - Can you extend behavior without modifying existing code?",
+      "original_snippets": "OCP: Can you extend behavior without modifying existing code? Adding features requires editing stable code → use abstraction",
+      "relevant_when": "When evaluating extensibility of code",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Apply SOLID checks: LSP - Do subtypes preserve base behavior contracts?",
+      "original_snippets": "LSP: Do subtypes preserve base behavior contracts? Subtype breaks parent assumptions → redesign hierarchy",
+      "relevant_when": "When evaluating inheritance hierarchies",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Apply SOLID checks: ISP - Do clients depend only on methods they use?",
+      "original_snippets": "ISP: Do clients depend only on methods they use? Clients ignore many interface methods → split interface",
+      "relevant_when": "When evaluating interface design",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Apply SOLID checks: DIP - Do you depend on abstractions, not concrete details?",
+      "original_snippets": "DIP: Do you depend on abstractions, not concrete details? Direct concrete coupling → introduce interface/port",
+      "relevant_when": "When evaluating dependency relationships",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Select structural patterns only if they reduce complexity, not add it",
+      "original_snippets": "Select Structural Pattern (Only If It Reduces Complexity): Ask before choosing a pattern: Does this pattern solve a concrete problem in the current design? What complexity does it remove vs. add? Can the team maintain it?",
+      "relevant_when": "When considering applying design patterns",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Document anti-pattern violations with BAD/GOOD corrective action format",
+      "original_snippets": "Output: Violations listed with BAD/GOOD corrective action. Example: Anti-pattern: Hard-coded environment config. BAD: const DB_URL = \"postgres://prod.example.com\"; GOOD: const DB_URL = process.env.DATABASE_URL",
+      "relevant_when": "When identifying code smells or anti-patterns",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Document tradeoffs with alternatives considered, decision, and risks",
+      "original_snippets": "Output: Alternatives considered, decision, and risks. Template: Decision: [choice]. Alternatives: [options]. Chosen: [decision]. Risks: [risks]. Validation: Peer review before implementation.",
+      "relevant_when": "When making architectural or design decisions",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "NEVER design for imagined future requirements (YAGNI)",
+      "original_snippets": "NEVER design for imagined future requirements. WHY: YAGNI violations create complexity without proven value. BAD: Add abstraction 'in case' of possible future DB migration. GOOD: Solve current need and refactor when trigger appears.",
+      "relevant_when": "When designing new features or abstractions",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER allow circular dependencies between modules",
+      "original_snippets": "NEVER allow circular dependencies. WHY: Cycles break modular reasoning and complicate builds. BAD: Module A imports B and B imports A. GOOD: Extract shared contract/module and invert dependencies.",
+      "relevant_when": "When evaluating or creating module relationships",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER use god classes/services",
+      "original_snippets": "NEVER use god classes/services. WHY: Violates single responsibility and creates merge hotspots. BAD: One class handles auth, persistence, notifications, and reporting. GOOD: Split into focused collaborators with clear boundaries.",
+      "relevant_when": "When evaluating class design",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER optimize before measurement",
+      "original_snippets": "NEVER optimize before measurement. WHY: Unmeasured optimization often trades clarity for no gain. BAD: Add cache because function 'might be slow.' GOOD: Measure baseline, optimize when threshold is exceeded.",
+      "relevant_when": "When considering performance optimizations",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER hard-code environment configuration and secrets",
+      "original_snippets": "NEVER hard-code environment configuration and secrets. WHY: Hard-coded values block secure deployment and portability. BAD: Inline passwords/URLs in source. GOOD: Use environment/config providers.",
+      "relevant_when": "When handling configuration or secrets",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER bypass interface contracts when integrating dependencies",
+      "original_snippets": "NEVER bypass interface contracts when integrating dependencies. WHY: Direct concrete coupling reduces substitution and testability. BAD: Instantiate concrete infra type in domain workflow. GOOD: Depend on interface/port and inject implementation.",
+      "relevant_when": "When integrating external dependencies or infrastructure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER bypass TypeScript strictness in design-critical paths",
+      "original_snippets": "NEVER bypass TypeScript strictness in design-critical paths. WHY: Weak typing hides invalid states and contract violations. BAD: Broad `any` and repeated `@ts-ignore`. GOOD: Model uncertain values as `unknown` and narrow explicitly.",
+      "relevant_when": "When writing TypeScript code in critical paths",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use the quick command to find design-risk hotspots: rg -n 'any|@ts-ignore|new [A-Z].*Service\\(|import .*infrastructure' src",
+      "original_snippets": "rg -n \"any|@ts-ignore|new [A-Z].*Service\\(|import .*infrastructure\" src",
+      "relevant_when": "When scanning codebase for design risks",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use nx graph to inspect dependency graph",
+      "original_snippets": "nx graph",
+      "relevant_when": "When visualizing module dependencies",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Run nx affected to re-check affected scope after changes",
+      "original_snippets": "nx affected -t lint,test,build --base=origin/main",
+      "relevant_when": "When validating changes in a monorepo",
+      "why_given": "reminder"
+    }
+  ]
+}

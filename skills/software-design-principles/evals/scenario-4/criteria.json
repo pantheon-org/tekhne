@@ -1,0 +1,46 @@
+{
+  "context": "Designing a new module - tests design decision workflow and avoiding YAGNI violations",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Classifies decision type",
+      "description": "Classifies the design as architectural, tactical, or foundational",
+      "max_score": 10
+    },
+    {
+      "name": "Applies design workflow",
+      "description": "Follows the design decision workflow step by step",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids YAGNI violation",
+      "description": "Does NOT design for imagined future requirements",
+      "max_score": 20
+    },
+    {
+      "name": "Solves current need",
+      "description": "Addresses only the current requirements, not speculative features",
+      "max_score": 15
+    },
+    {
+      "name": "Plans for refactoring",
+      "description": "Acknowledges that future needs can be addressed through refactoring when triggered",
+      "max_score": 10
+    },
+    {
+      "name": "Documents tradeoffs",
+      "description": "Documents alternatives considered and why current approach was chosen",
+      "max_score": 15
+    },
+    {
+      "name": "Applies SOLID where relevant",
+      "description": "Applies SOLID principles appropriately for the current scope",
+      "max_score": 10
+    },
+    {
+      "name": "Includes validation step",
+      "description": "Includes peer review or validation step",
+      "max_score": 5
+    }
+  ]
+}
