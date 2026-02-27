@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent creates measurable performance criteria with specific timing requirements, avoids vague qualitative terms, and includes UI behavior constraints with precise measurements.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Specific timing requirements",
+      "description": "Uses precise measurements like '<= 2 seconds', 'within 500ms' instead of vague terms like 'fast'",
+      "max_score": 20
+    },
+    {
+      "name": "Measurable quantities",
+      "description": "Includes specific numbers for data limits, page sizes, or performance thresholds",
+      "max_score": 15
+    },
+    {
+      "name": "Observable UI behavior",
+      "description": "Describes what users can see/interact with rather than internal system performance",
+      "max_score": 15
+    },
+    {
+      "name": "Rule-oriented format",
+      "description": "Uses checkbox format for independent performance requirements rather than sequential scenarios",
+      "max_score": 10
+    },
+    {
+      "name": "Negative performance cases",
+      "description": "Includes failure scenarios like slow loading, timeouts, or high data volumes",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids vague terms",
+      "description": "Does NOT use unmeasurable qualitative terms like 'fast', 'responsive', 'good performance'",
+      "max_score": 10
+    },
+    {
+      "name": "User outcome focus",
+      "description": "Focuses on user experience outcomes rather than technical implementation details",
+      "max_score": 8
+    },
+    {
+      "name": "Checkbox validation format",
+      "description": "Uses checkbox format (- [ ]) to enable clear pass/fail validation of performance criteria",
+      "max_score": 7
+    },
+    {
+      "name": "Multiple measurement types",
+      "description": "Covers different measurement categories (time, quantity, percentage, etc.)",
+      "max_score": 3
+    },
+    {
+      "name": "Scope definition",
+      "description": "Includes boundaries about what performance aspects are in/out of scope",
+      "max_score": 2
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent uses rule-oriented format for independent requirements, includes specific API response codes, covers form validation patterns, and handles error scenarios appropriately.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Rule-oriented format",
+      "description": "Uses rule-oriented checklist format rather than Given/When/Then for independent API requirements",
+      "max_score": 15
+    },
+    {
+      "name": "Specific response codes",
+      "description": "Includes exact HTTP response codes (201, 400, 409, etc.) for different scenarios",
+      "max_score": 12
+    },
+    {
+      "name": "Form validation rules",
+      "description": "Specifies email format validation, password requirements, and field constraints",
+      "max_score": 12
+    },
+    {
+      "name": "Error handling details",
+      "description": "Defines specific error messages and validation feedback for different failure cases",
+      "max_score": 12
+    },
+    {
+      "name": "Checkbox format usage",
+      "description": "Uses checkbox format (- [ ]) for rule-oriented criteria to enable pass/fail validation",
+      "max_score": 10
+    },
+    {
+      "name": "Negative scenarios",
+      "description": "Includes failure cases like duplicate email, invalid format, missing fields",
+      "max_score": 10
+    },
+    {
+      "name": "Measurable constraints",
+      "description": "Specifies measurable limits (password length, email format regex, response timing)",
+      "max_score": 10
+    },
+    {
+      "name": "Independent requirements",
+      "description": "Each requirement can be validated independently without dependencies on other criteria",
+      "max_score": 8
+    },
+    {
+      "name": "User outcome focus",
+      "description": "Focuses on user-observable outcomes rather than internal implementation details",
+      "max_score": 5
+    },
+    {
+      "name": "Stakeholder alignment",
+      "description": "References need for validation with product owner, QA, and development team before implementation",
+      "max_score": 5
+    },
+    {
+      "name": "Scope boundaries",
+      "description": "Includes out-of-scope items to prevent feature creep and clarify boundaries",
+      "max_score": 1
+    }
+  ]
+}

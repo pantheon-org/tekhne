@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use Given/When/Then format for scenario-driven acceptance criteria where user interactions follow a specific sequence",
+      "original_snippets": "Given/When/Then Format Use when acceptance criteria describe user interactions or workflows that follow a specific sequence... suitable for scenarios like login flows, checkout processes, or multi-step forms",
+      "relevant_when": "Writing acceptance criteria for workflows with sequential user interactions like login, checkout, or multi-step processes",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use rule-oriented format for independent, stateless requirements that can be validated independently",
+      "original_snippets": "Rule-Oriented Format Use when acceptance criteria describe independent requirements, business rules, or constraints that don't require a specific user journey... suitable for form validation, API responses, or UI behavior requirements",
+      "relevant_when": "Writing acceptance criteria for independent requirements like form validation, API specifications, or UI constraints",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Include both positive (happy path) and negative (failure/edge) scenarios in acceptance criteria",
+      "original_snippets": "Anti-Pattern: Skipping negative scenarios... Add both positive (happy path) and negative (failure paths, edge cases) scenarios",
+      "relevant_when": "Writing comprehensive acceptance criteria for any user story or feature",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Make acceptance criteria measurable with specific numbers, timeframes, or observable outcomes instead of vague qualitative terms",
+      "original_snippets": "Anti-Pattern: Vague, unmeasurable criteria... Bad: 'System should be fast'... Good: 'Page loads in <= 2 seconds'",
+      "relevant_when": "Writing acceptance criteria that involve performance, quantities, or quality requirements",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Focus on user outcomes and business value, not implementation details",
+      "original_snippets": "Anti-Pattern: Implementation-focused criteria... Avoid describing HOW the system works internally. Focus on WHAT the user experiences... Anti-Pattern: Coupling multiple behaviors... Split complex criteria into independent, testable units",
+      "relevant_when": "Writing acceptance criteria for any feature or user story",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Validate acceptance criteria using INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable)",
+      "original_snippets": "## INVEST Quality Checklist... Independent: No unrelated blockers or dependencies... Negotiable: Implementation details can be decided during development... Valuable: Provides clear user or business value... Estimable: Clear enough for development team to size... Small: Can be completed within a single iteration... Testable: Has objective, binary pass/fail criteria",
+      "relevant_when": "Reviewing and validating user stories and their acceptance criteria",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Include explicit scope boundaries with 'Out of Scope' sections to prevent scope creep",
+      "original_snippets": "## Out of Scope - Integration with third-party payment processors - Advanced fraud detection algorithms - Mobile app implementation",
+      "relevant_when": "Writing comprehensive acceptance criteria for features with potential scope ambiguity",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use checkboxes format for rule-oriented acceptance criteria to enable clear pass/fail validation",
+      "original_snippets": "### Must Have - [ ] User can enter email and password - [ ] System validates email format - [ ] Login completes within 3 seconds",
+      "relevant_when": "Writing rule-oriented acceptance criteria that need clear validation checkpoints",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Write scenario names that describe user behavior, not system features",
+      "original_snippets": "Good: 'User successfully logs in with valid credentials' Bad: 'Login endpoint returns 200'",
+      "relevant_when": "Writing Given/When/Then scenarios for user-facing functionality",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Keep Given statements to essential prerequisites that matter for the test, avoid irrelevant setup details",
+      "original_snippets": "Given: Set up only the prerequisites that matter for this specific test scenario",
+      "relevant_when": "Writing Given/When/Then format acceptance criteria",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Structure When statements as single, clear actions that trigger the behavior being tested",
+      "original_snippets": "When: Describe the single action that triggers the behavior you're testing",
+      "relevant_when": "Writing Given/When/Then format acceptance criteria",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Write Then statements that describe observable, measurable outcomes",
+      "original_snippets": "Then: Focus on what the user can observe or measure",
+      "relevant_when": "Writing Given/When/Then format acceptance criteria",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Include specific timing requirements using precise measurements (<=, >=, exact numbers)",
+      "original_snippets": "Response time <= 500ms... Page loads in <= 2 seconds... Session timeout after 30 minutes of inactivity",
+      "relevant_when": "Writing acceptance criteria for performance-sensitive features",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Specify exact response codes and error handling for API-related acceptance criteria",
+      "original_snippets": "Returns 201 Created status... Returns 400 Bad Request with validation errors... Returns 409 Conflict if email already exists",
+      "relevant_when": "Writing acceptance criteria for API endpoints or backend services",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Align with stakeholders before finalizing acceptance criteria to ensure shared understanding",
+      "original_snippets": "Anti-Pattern: Bypassing stakeholder alignment... Validate with product owner, QA, and development team before implementation begins",
+      "relevant_when": "Completing acceptance criteria for any user story before development begins",
+      "why_given": "reminder"
+    }
+  ]
+}

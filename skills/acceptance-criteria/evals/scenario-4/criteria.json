@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses rule-oriented format for independent search constraints, includes comprehensive negative/edge cases, and creates measurable criteria for search behavior and results.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Rule-oriented format",
+      "description": "Uses rule-oriented checkbox format for independent search requirements rather than Given/When/Then",
+      "max_score": 12
+    },
+    {
+      "name": "Comprehensive edge cases",
+      "description": "Includes negative scenarios like empty results, invalid input, timeout, special characters",
+      "max_score": 15
+    },
+    {
+      "name": "Input validation rules",
+      "description": "Specifies search input limits, character restrictions, and format requirements",
+      "max_score": 12
+    },
+    {
+      "name": "Measurable result limits",
+      "description": "Includes specific numbers for result counts, pagination, or display limits (e.g., 'max 20 results per page')",
+      "max_score": 12
+    },
+    {
+      "name": "Performance timing",
+      "description": "Specifies measurable timing requirements for search execution (e.g., '<= 2 seconds')",
+      "max_score": 12
+    },
+    {
+      "name": "Error handling scenarios",
+      "description": "Covers failure cases like no results found, search timeout, or system unavailability",
+      "max_score": 10
+    },
+    {
+      "name": "Result formatting rules",
+      "description": "Specifies how search results should be displayed, sorted, or formatted",
+      "max_score": 10
+    },
+    {
+      "name": "Checkbox validation format",
+      "description": "Uses checkbox format (- [ ]) to enable clear pass/fail validation of search criteria",
+      "max_score": 8
+    },
+    {
+      "name": "Independent requirements",
+      "description": "Each search requirement can be tested independently without dependencies",
+      "max_score": 6
+    },
+    {
+      "name": "User outcome focus",
+      "description": "Focuses on what users experience during search rather than backend implementation details",
+      "max_score": 3
+    }
+  ]
+}

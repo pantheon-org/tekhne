@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent applies INVEST criteria validation, uses Given/When/Then for sequential onboarding steps, and emphasizes stakeholder alignment before finalizing acceptance criteria.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "INVEST validation applied",
+      "description": "Uses INVEST criteria (Independent, Negotiable, Valuable, Estimable, Small, Testable) to validate the user story",
+      "max_score": 18
+    },
+    {
+      "name": "Given/When/Then sequences",
+      "description": "Uses Given/When/Then format for multi-step onboarding workflow rather than rule-oriented format",
+      "max_score": 15
+    },
+    {
+      "name": "Stakeholder alignment mention",
+      "description": "References need for alignment with product owner, QA, and development team before implementation",
+      "max_score": 12
+    },
+    {
+      "name": "Sequential step validation",
+      "description": "Each step can be completed independently without unrelated dependencies (Independent criterion)",
+      "max_score": 10
+    },
+    {
+      "name": "Testable binary criteria",
+      "description": "Criteria have objective, binary pass/fail validation (Testable criterion)",
+      "max_score": 10
+    },
+    {
+      "name": "User behavior scenarios",
+      "description": "Scenario names describe user actions and behavior rather than system functionality",
+      "max_score": 8
+    },
+    {
+      "name": "Business value emphasis",
+      "description": "Clearly demonstrates user or business value in the story and criteria (Valuable criterion)",
+      "max_score": 8
+    },
+    {
+      "name": "Estimable clarity",
+      "description": "Requirements are clear enough for development team to estimate effort (Estimable criterion)",
+      "max_score": 8
+    },
+    {
+      "name": "Single iteration scope",
+      "description": "Story is scoped to be completable within one iteration (Small criterion)",
+      "max_score": 6
+    },
+    {
+      "name": "Implementation flexibility",
+      "description": "Allows for negotiable implementation details during development (Negotiable criterion)",
+      "max_score": 5
+    }
+  ]
+}

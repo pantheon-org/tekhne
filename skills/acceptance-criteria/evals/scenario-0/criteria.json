@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses Given/When/Then format for sequential workflows, includes measurable timing requirements, covers negative scenarios, and defines explicit scope boundaries.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Given/When/Then format",
+      "description": "Uses Given/When/Then structure for checkout flow scenarios rather than rule-oriented format",
+      "max_score": 15
+    },
+    {
+      "name": "Measurable timing",
+      "description": "Includes specific timing requirements with precise measurements (e.g., '<= 3 seconds', 'within 500ms')",
+      "max_score": 10
+    },
+    {
+      "name": "Observable outcomes",
+      "description": "Then statements describe what user can observe or measure, not internal system behavior",
+      "max_score": 10
+    },
+    {
+      "name": "Negative scenarios",
+      "description": "Includes failure scenarios like payment declined, timeout, or invalid input",
+      "max_score": 15
+    },
+    {
+      "name": "Single action When",
+      "description": "When statements contain single, clear actions that trigger behavior being tested",
+      "max_score": 10
+    },
+    {
+      "name": "Essential Given setup",
+      "description": "Given statements include only prerequisites that matter, avoiding irrelevant setup details",
+      "max_score": 10
+    },
+    {
+      "name": "User behavior scenarios",
+      "description": "Scenario names describe user behavior (e.g., 'User completes checkout') not system features",
+      "max_score": 10
+    },
+    {
+      "name": "Out of scope section",
+      "description": "Includes explicit 'Out of Scope' section to define boundaries and prevent scope creep",
+      "max_score": 10
+    },
+    {
+      "name": "Checkbox format",
+      "description": "Uses checkbox format (- [ ]) for criteria to enable clear pass/fail validation",
+      "max_score": 5
+    },
+    {
+      "name": "User outcome focus",
+      "description": "Focuses on user outcomes and business value rather than implementation details",
+      "max_score": 5
+    }
+  ]
+}
