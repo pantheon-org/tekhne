@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent properly structures tests for complex workflows without combining multiple behaviors and uses proper test data management.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Single behavior per test",
+      "description": "Each test verifies only one workflow step or one specific behavior, not entire order lifecycle",
+      "max_score": 15
+    },
+    {
+      "name": "No behavior combination",
+      "description": "Avoids tests that cover create/validate/pay/fulfill in one test case",
+      "max_score": 15
+    },
+    {
+      "name": "Visible test data",
+      "description": "All order data, test scenarios, and expected states are defined within test files",
+      "max_score": 15
+    },
+    {
+      "name": "Independent test cases",
+      "description": "Tests don't rely on shared state or data from other tests, each test creates its own data",
+      "max_score": 10
+    },
+    {
+      "name": "Logical test organization",
+      "description": "Tests are grouped by workflow step or component, not mixed together randomly",
+      "max_score": 10
+    },
+    {
+      "name": "Clear workflow step tests",
+      "description": "Separate tests for each workflow transition (pending→validated, validated→paid, etc.)",
+      "max_score": 10
+    },
+    {
+      "name": "Error scenario isolation",
+      "description": "Failure cases tested independently for each step, not combined into one failure test",
+      "max_score": 10
+    },
+    {
+      "name": "Descriptive test structure",
+      "description": "Test names clearly identify which workflow step and scenario is being tested",
+      "max_score": 10
+    },
+    {
+      "name": "Clean test setup",
+      "description": "Each test creates minimal required data, no excess or irrelevant test objects",
+      "max_score": 5
+    }
+  ]
+}

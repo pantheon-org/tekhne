@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent properly handles asynchronous code testing without creating flaky tests or using arbitrary delays.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No arbitrary sleeps",
+      "description": "Tests do not use setTimeout, sleep, or fixed delays to wait for async operations",
+      "max_score": 15
+    },
+    {
+      "name": "Proper async assertions",
+      "description": "Uses proper async test patterns like await expect().resolves, waitFor, or promise-based assertions",
+      "max_score": 15
+    },
+    {
+      "name": "Deterministic timing",
+      "description": "Tests control timing through mocks, promises, or synchronization mechanisms, not arbitrary waits",
+      "max_score": 15
+    },
+    {
+      "name": "AAA structure in async",
+      "description": "Async tests maintain clear Arrange-Act-Assert structure with proper await usage",
+      "max_score": 10
+    },
+    {
+      "name": "Isolated async tests",
+      "description": "Each test properly cleans up async operations and doesn't affect other tests",
+      "max_score": 10
+    },
+    {
+      "name": "Error case handling",
+      "description": "Tests async error scenarios using proper rejection handling, not try/catch patterns",
+      "max_score": 10
+    },
+    {
+      "name": "Stable test execution",
+      "description": "Tests pass consistently without timing dependencies or race conditions",
+      "max_score": 10
+    },
+    {
+      "name": "Mock async dependencies",
+      "description": "External async services are mocked to eliminate network/IO timing variability",
+      "max_score": 10
+    },
+    {
+      "name": "Clear async test names",
+      "description": "Test names describe the async behavior being tested clearly",
+      "max_score": 5
+    }
+  ]
+}

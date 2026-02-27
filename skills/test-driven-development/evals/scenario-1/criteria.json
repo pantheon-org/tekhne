@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent properly reproduces bugs with failing tests and uses good assertion practices when implementing fixes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Bug reproduction test",
+      "description": "Creates a failing test that demonstrates the specific bug before fixing it",
+      "max_score": 15
+    },
+    {
+      "name": "Behavior-focused tests",
+      "description": "Tests focus on observable cart calculation behavior, not internal implementation details",
+      "max_score": 15
+    },
+    {
+      "name": "Descriptive test naming",
+      "description": "Test names clearly describe scenario and expected behavior using patterns like 'should_X_when_Y'",
+      "max_score": 10
+    },
+    {
+      "name": "One assertion per test",
+      "description": "Each test verifies one logical concept, not multiple different calculations",
+      "max_score": 10
+    },
+    {
+      "name": "Specific assertions used",
+      "description": "Uses specific matcher methods rather than generic equality checks (e.g., toBeCloseTo for numbers)",
+      "max_score": 10
+    },
+    {
+      "name": "Edge case coverage",
+      "description": "Tests cover boundary conditions like exactly $50, exactly $100, zero quantities",
+      "max_score": 10
+    },
+    {
+      "name": "Clear test structure",
+      "description": "Tests follow logical Arrange-Act-Assert organization",
+      "max_score": 10
+    },
+    {
+      "name": "Isolated test cases",
+      "description": "Each test is independent and doesn't rely on state from other tests",
+      "max_score": 10
+    },
+    {
+      "name": "Bug fix verification",
+      "description": "Shows that previously failing tests now pass after the fix",
+      "max_score": 10
+    }
+  ]
+}

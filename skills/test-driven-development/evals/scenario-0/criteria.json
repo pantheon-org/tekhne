@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent follows core TDD red-green-refactor cycle principles when implementing new functionality from scratch.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Test-first implementation",
+      "description": "Evidence shows failing tests were written before implementation code (commit history, comments, or documentation)",
+      "max_score": 15
+    },
+    {
+      "name": "Verified test failures",
+      "description": "Shows evidence of running tests to confirm they fail before implementation (comments, logs, or documentation)",
+      "max_score": 15
+    },
+    {
+      "name": "Minimal implementation",
+      "description": "Initial implementation is minimal to make tests pass, not over-engineered",
+      "max_score": 10
+    },
+    {
+      "name": "Refactoring evidence",
+      "description": "Shows improvement/cleanup of code after tests pass (multiple versions or comments about refactoring)",
+      "max_score": 10
+    },
+    {
+      "name": "Red-green cycle discipline",
+      "description": "Multiple test/implementation cycles visible, not one big implementation",
+      "max_score": 10
+    },
+    {
+      "name": "Test structure follows AAA",
+      "description": "Tests use clear Arrange-Act-Assert structure with logical separation",
+      "max_score": 10
+    },
+    {
+      "name": "One Act per test",
+      "description": "Each test performs only one action/method call in the Act phase",
+      "max_score": 10
+    },
+    {
+      "name": "Single behavior per test",
+      "description": "Each test verifies one logical concept, not multiple behaviors combined",
+      "max_score": 10
+    },
+    {
+      "name": "Descriptive test names",
+      "description": "Test names describe scenario and expected outcome clearly",
+      "max_score": 10
+    }
+  ]
+}
