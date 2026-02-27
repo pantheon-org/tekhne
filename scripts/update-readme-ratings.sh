@@ -312,7 +312,13 @@ get_tessl_status() {
     private=$(grep -o '"private"[[:space:]]*:[[:space:]]*[^,}]*' "$tile_path" | sed 's/.*:[[:space:]]*//' | tr -d ' ')
     
     if [ "$private" = "false" ]; then
-        echo "Published"
+        # Extract the name field for registry URL
+        tessl_name=$(grep -o '"name"[[:space:]]*:[[:space:]]*"[^"]*"' "$tile_path" | sed 's/.*"name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
+        if [ -n "$tessl_name" ]; then
+            echo "[Published](https://tessl.io/registry/skills/$tessl_name)"
+        else
+            echo "Published"
+        fi
     elif [ "$private" = "true" ]; then
         echo "Private"
     else
@@ -362,6 +368,15 @@ get_tessl_info() {
     
     if [ "$status" = "Not configured" ]; then
         echo "N/A"
+    elif echo "$status" | grep -q "Published]("; then
+        # Status is already a markdown link for published skills
+        if [ -n "$rating" ]; then
+            # Extract the URL and text for the link, then append rating
+            url=$(echo "$status" | sed 's/.*(\([^)]*\)).*/\1/')
+            echo "[Published ($rating)]($url)"
+        else
+            echo "$status"
+        fi
     elif [ -n "$rating" ]; then
         echo "$status ($rating)"
     else
