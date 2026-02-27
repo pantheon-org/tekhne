@@ -12,7 +12,7 @@ Canonical source reference: `framework-skill-judge-canonical.md`
 
 ## Overview
 
-The skill-judge framework evaluates skills across 8 dimensions totaling 120 points. **Dimension 1 (Knowledge Delta)** is most important - skills must contain expert-only knowledge, not concepts Claude already knows.
+The skill-judge framework evaluates skills across 8 dimensions totaling 120 points. **Dimension 1 (Knowledge Delta)** is most important - skills must contain expert-only knowledge, not concepts AI assistants already know.
 
 **Target Score:** ≥108 points (90%) = A-grade
 
@@ -28,12 +28,12 @@ The skill-judge framework evaluates skills across 8 dimensions totaling 120 poin
 - **9-11 points:** 30-50% redundancy (needs improvement)
 - **0-8 points:** >50% redundancy (failing)
 
-**Core Principle:** Skill = Expert Knowledge - What Claude Already Knows
+**Core Principle:** Skill = Expert Knowledge - What AI Assistants Already Know
 
 ### Three Knowledge Types
 
 1. **Expert (KEEP):**
-   - Domain-specific patterns Claude doesn't know
+   - Domain-specific patterns AI assistants don't know
    - Project-specific conventions
    - Lessons from production experience
    - Tool gotchas and non-obvious behavior
@@ -46,7 +46,7 @@ The skill-judge framework evaluates skills across 8 dimensions totaling 120 poin
    - Brief context setting (2-3 sentences)
 
 3. **Redundant (DELETE):**
-   - Basic syntax Claude knows
+   - Basic syntax AI assistants know
    - Installation instructions from official docs
    - API documentation copied verbatim
    - Generic best practices
@@ -54,7 +54,7 @@ The skill-judge framework evaluates skills across 8 dimensions totaling 120 poin
 
 ### Red Flags for Low Knowledge Delta
 
-❌ Teaching basic syntax (Claude knows `if/else`, `function`, `class`)  
+❌ Teaching basic syntax (AI assistants know `if/else`, `function`, `class`)  
 ❌ Copying official documentation (schema definitions, rule lists)  
 ❌ Explaining fundamentals (what is REST, what is a database)  
 ❌ Generic advice (write tests, use version control)  
@@ -78,7 +78,7 @@ function add(a: number, b: number) { return a + b }
 const add = (a: number, b: number) => a + b
 ```
 
-*Problem: Claude already knows basic TypeScript syntax*
+*Problem: AI assistants already know basic TypeScript syntax*
 
 **✅ High Knowledge Delta (19/20):**
 
@@ -106,7 +106,7 @@ Bad design allows bugs: `{ loading: true, data: user }` is impossible but TypeSc
 Good design: TypeScript prevents impossible states at compile time.
 ```
 
-*Expert pattern Claude doesn't know by default*
+*Expert pattern AI assistants don't know by default*
 
 ## Dimension 2: Mindset + Procedures (15 points)
 

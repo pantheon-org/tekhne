@@ -29,7 +29,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 
 **Evaluation Method:**
 1. Read entire skill content
-2. Identify content Claude already knows
+2. Identify content AI assistants already know
 3. Calculate: Expert Content / Total Content
 4. Apply scoring threshold
 

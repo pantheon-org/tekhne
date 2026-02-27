@@ -162,18 +162,49 @@ We welcome contributions! To add a new skill:
 
 ### Publishing Skills to Tessl Registry
 
-To publish a skill to the tessl registry:
+[Tessl](https://tessl.io/) is a platform for managing agent skills with performance evaluation and distribution. Skills published to the Tessl registry undergo automated evaluation and receive performance scores for community discovery.
 
-```bash
-# Import the skill into your workspace
-bun run tessl:import -- skills/<skill-name> --workspace pantheon-ai
+#### Prerequisites for Tessl Submission
 
-# Lint the skill for errors
-bun run tessl:lint -- skills/<skill-name>
+Before submitting skills to Tessl, ensure they meet quality standards:
 
-# Publish to the registry
-bun run tessl:publish -- skills/<skill-name>
-```
+1. **Performance-ready**: Skills should be tested and functional across different agents
+2. **Agent-agnostic**: Avoid agent-specific features or tool dependencies
+3. **Quality score**: Target A-grade (≥108 points) using `skill-quality-auditor`
+4. **Documentation**: Complete SKILL.md with clear instructions and examples
+5. **Validation**: Pass all artifact conventions (templates/, schemas/, scripts/)
+
+#### Submission Process
+
+Tessl evaluates skills directly from GitHub repositories:
+
+1. **Prepare repository**: Ensure your skills follow this repository's structure
+2. **Quality audit**: Run comprehensive evaluation before submission
+
+   ```bash
+   sh skills/skill-quality-auditor/scripts/audit-skills.sh
+   ```
+
+3. **Submit for evaluation**: Visit [tessl.io/registry/skills/submit](https://tessl.io/registry/skills/submit)
+4. **Provide repository URL**: Tessl will analyze and identify discrete, reusable skills
+5. **Review evaluation**: Approved skills receive performance scores and public distribution
+
+#### Performance Evaluation
+
+Tessl measures skill effectiveness with:
+
+- **Performance scores**: Percentage ratings (82%, 91%, 100%, etc.)
+- **Effectiveness metrics**: Quantified improvement measurements (↑ 1.52x lift)
+- **Quality assessment**: Due diligence for code quality and reusability
+- **Community discovery**: Public registry with category-based browsing
+
+#### Best Practices for Tessl
+
+- **Single responsibility**: Each skill should have one clear purpose
+- **Comprehensive examples**: Include practical use cases and expected outcomes
+- **Cross-platform compatibility**: Test with multiple AI assistants when possible
+- **Performance focus**: Optimize for measurable effectiveness improvements
+- **Clear documentation**: Write for both human contributors and automated evaluation
 
 ### Improving a skill
 
