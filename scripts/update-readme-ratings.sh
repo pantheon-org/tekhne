@@ -299,6 +299,76 @@ get_skill_badge() {
     printf '%s' "$badge"
 }
 
+get_tessl_status() {
+    skill_name="$1"
+    tile_path="$SKILLS_DIR/$skill_name/tile.json"
+    
+    if [ ! -f "$tile_path" ]; then
+        echo "Not configured"
+        return
+    fi
+    
+    # Check if private field exists and is false (published)
+    private=$(grep -o '"private"[[:space:]]*:[[:space:]]*[^,}]*' "$tile_path" | sed 's/.*:[[:space:]]*//' | tr -d ' ')
+    
+    if [ "$private" = "false" ]; then
+        echo "Published"
+    elif [ "$private" = "true" ]; then
+        echo "Private"
+    else
+        echo "Configured"
+    fi
+}
+
+get_tessl_rating() {
+    skill_name="$1"
+    skill_path="$SKILLS_DIR/$skill_name"
+    
+    # Only get rating if skill has tile.json (is configured for Tessl)
+    if [ ! -f "$skill_path/tile.json" ]; then
+        echo ""
+        return
+    fi
+    
+    # Try to get rating from tessl review command with timeout
+    rating_json=$(timeout 30s tessl skill review "$skill_path" --json 2>/dev/null || echo "")
+    
+    if [ -z "$rating_json" ]; then
+        echo ""
+        return
+    fi
+    
+    # Extract normalizedScore from JSON (values like 1.0 = 100%)
+    # Look for "normalizedScore": 0.95 or similar
+    normalized_score=$(echo "$rating_json" | grep -o '"normalizedScore"[[:space:]]*:[[:space:]]*[0-9.]*' | sed 's/.*:[[:space:]]*//')
+    
+    if [ -n "$normalized_score" ]; then
+        # Convert to percentage and round to nearest integer
+        percentage=$(echo "$normalized_score * 100" | bc -l 2>/dev/null | cut -d. -f1 2>/dev/null || echo "")
+        if [ -n "$percentage" ] && [ "$percentage" -ne 0 ] 2>/dev/null; then
+            echo "${percentage}%"
+        else
+            echo ""
+        fi
+    else
+        echo ""
+    fi
+}
+
+get_tessl_info() {
+    skill_name="$1"
+    status=$(get_tessl_status "$skill_name")
+    rating=$(get_tessl_rating "$skill_name")
+    
+    if [ "$status" = "Not configured" ]; then
+        echo "N/A"
+    elif [ -n "$rating" ]; then
+        echo "$status ($rating)"
+    else
+        echo "$status"
+    fi
+}
+
 get_audit_link() {
     date_part="$1"
     audit_path="$2"
@@ -324,9 +394,10 @@ build_skill_row() {
     description="$2"
     badge="$3"
     audit_link="$4"
+    tessl_info="$5"
     
     skill_link="[\`$skill_name\`](skills/$skill_name/SKILL.md)"
-    printf '| %s | %s | %s | %s |' "$skill_link" "$description" "$badge" "$audit_link"
+    printf '| %s | %s | %s | %s | %s |' "$skill_link" "$description" "$badge" "$audit_link" "$tessl_info"
 }
 
 extract_skill_name() {
@@ -370,8 +441,8 @@ update_readme() {
             *\|\ Skill*\|\ Description*\|*)
                 in_table=true
                 # Write header
-                printf '| Skill | Description | Rating | Audit |\n' >> "$temp_file"
-                printf '| --- | --- | --- | --- |\n' >> "$temp_file"
+                printf '| Skill | Description | Rating | Audit | Tessl |\n' >> "$temp_file"
+                printf '| --- | --- | --- | --- | --- |\n' >> "$temp_file"
                 
                 # Process all skills from filesystem
                 for skill_name in $all_skills; do
@@ -399,11 +470,15 @@ update_readme() {
                         audit_link="N/A"
                     fi
                     
-                    printf '| %s | %s | %s | %s |\n' \
+                    # Get Tessl info
+                    tessl_info=$(get_tessl_info "$skill_name")
+                    
+                    printf '| %s | %s | %s | %s | %s |\n' \
                         "[\`$skill_name\`](skills/$skill_name/SKILL.md)" \
                         "$description" \
                         "$badge" \
-                        "$audit_link" >> "$temp_file"
+                        "$audit_link" \
+                        "$tessl_info" >> "$temp_file"
                 done
                 
                 # Skip original table rows
