@@ -1,16 +1,6 @@
 ---
 name: acceptance-criteria
 description: Write clear, testable acceptance criteria for user stories and feature delivery; use when defining done conditions, creating measurable requirements, applying INVEST checks, documenting negative scenarios, and aligning product, engineering, and QA on expected outcomes.
-type: skill
-category: Development
-version: 2.1.0
-tags:
-  - acceptance-criteria
-  - user-stories
-  - requirements
-  - testing
-  - agile
-last_updated: 2026-02-23
 ---
 
 # Acceptance Criteria
@@ -36,6 +26,59 @@ Navigation hub for writing measurable, test-ready acceptance criteria.
 3. Draft must-pass criteria with measurable outcomes.
 4. Add negative and boundary scenarios.
 5. Validate with checklist before sign-off.
+
+## Worked Example
+
+**Starting Point (Vague Requirement):**
+> "Users should be able to reset their password easily."
+
+**Step 1: Capture Intent**
+- User outcome: User regains account access after forgetting password.
+- Business intent: Reduce support tickets; maintain security.
+
+**Step 2: Select Format**
+Choose Given/When/Then (Gherkin) for clarity.
+
+**Step 3: Draft Must-Pass Criteria**
+```gherkin
+Given a user is on the login page
+When they click "Forgot Password"
+Then a password reset form appears within 1 second
+
+Given a user enters a valid email in the reset form
+When they click "Send Reset Link"
+Then an email is sent within 30 seconds
+And the email contains a clickable reset link valid for 24 hours
+
+Given a user clicks the reset link from the email
+When they enter a new password (min 8 chars, 1 uppercase, 1 number)
+And click "Update Password"
+Then the password is updated
+And they are redirected to login within 2 seconds
+```
+
+**Step 4: Add Negative & Boundary Scenarios**
+```gherkin
+Given a user enters an unregistered email
+When they click "Send Reset Link"
+Then they see "Email not found" message (no account enumeration)
+
+Given a user's reset link has expired (>24 hours old)
+When they click the link
+Then they see "Link expired, request a new one"
+
+Given a user enters a weak password (e.g., "pass")
+When they click "Update Password"
+Then validation error appears: "Password must be 8+ chars with uppercase and number"
+```
+
+**Step 5: Validation Checklist**
+- ✓ All criteria are measurable (pass/fail).
+- ✓ Happy path (valid email → reset → new password) covered.
+- ✓ Failure paths (invalid email, expired link, weak password) covered.
+- ✓ Wording describes outcomes, not implementation ("email is sent within 30s" not "use SendGrid API").
+- ✓ Scope clear: password reset flow only, not account recovery via SMS.
+- ✓ Product, engineering, and QA can all understand and test.
 
 ## Quick Commands
 

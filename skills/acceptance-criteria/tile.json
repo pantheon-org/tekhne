@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/acceptance-criteria",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Write clear, testable acceptance criteria for user stories and feature delivery; use when defining done conditions, creating measurable requirements, applying INVEST checks, documenting negative scenarios, and aligning product, engineering, and QA on expected outcomes.",
+  "skills": {
+    "acceptance-criteria": {
+      "path": "SKILL.md"
+    }
+  }
+}
