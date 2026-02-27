@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent properly uses audit scripts, implements baseline comparison, organizes results correctly, and follows proper audit workflow procedures.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Audit script execution",
+      "description": "Uses sh scripts/audit-skills.sh command or similar audit script execution",
+      "max_score": 12
+    },
+    {
+      "name": "JSON output format",
+      "description": "Generates structured JSON results using --json flag or equivalent",
+      "max_score": 8
+    },
+    {
+      "name": "Baseline comparison",
+      "description": "Compares current audit results against previous audit data showing score changes",
+      "max_score": 12
+    },
+    {
+      "name": "Directory structure organization",
+      "description": "Organizes results in .context/audits/ structure or mentions dated audit storage",
+      "max_score": 10
+    },
+    {
+      "name": "NEVER skip baseline rule",
+      "description": "Demonstrates understanding that baseline comparison is critical for recurring audits",
+      "max_score": 7
+    },
+    {
+      "name": "Score threshold application",
+      "description": "Applies >= 84 (passing) or >= 108 (A-grade) thresholds to evaluate skills",
+      "max_score": 8
+    },
+    {
+      "name": "Grade assignment",
+      "description": "Converts numerical scores to letter grades (A/B/C/D/F system)",
+      "max_score": 8
+    },
+    {
+      "name": "Trend analysis",
+      "description": "Analyzes score improvements or declines between audits",
+      "max_score": 9
+    },
+    {
+      "name": "PR workflow consideration",
+      "description": "Mentions --pr-changes-only flag or selective audit for changed skills",
+      "max_score": 8
+    },
+    {
+      "name": "Skill artifact validation",
+      "description": "Uses validate-skill-artifacts.sh script to check directory conventions and artifact compliance",
+      "max_score": 6
+    },
+    {
+      "name": "Consistency checks",
+      "description": "Uses check-consistency.sh script to verify structural consistency across skills",
+      "max_score": 6
+    },
+    {
+      "name": "Reproducible audit process",
+      "description": "Documents commands and methodology for consistent future audits",
+      "max_score": 6
+    }
+  ]
+}

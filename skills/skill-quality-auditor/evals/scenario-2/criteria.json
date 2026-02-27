@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent creates proper remediation plans using templates, validation procedures, and schema compliance for skill improvement.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Executive summary format",
+      "description": "Includes current score, target score, grades, priority, effort estimate, and focus areas",
+      "max_score": 10
+    },
+    {
+      "name": "Critical issues table",
+      "description": "Identifies top issues with dimension references, severity levels, and impact descriptions",
+      "max_score": 10
+    },
+    {
+      "name": "Phase-based organization",
+      "description": "Organizes improvements into phases with specific targets and step-by-step actions",
+      "max_score": 10
+    },
+    {
+      "name": "Remediation script usage",
+      "description": "References generate-remediation-plan.sh script or similar automation tools",
+      "max_score": 10
+    },
+    {
+      "name": "Schema validation",
+      "description": "Uses validate-remediation-plan.sh or mentions schema compliance checking",
+      "max_score": 10
+    },
+    {
+      "name": "NEVER validation rule",
+      "description": "Follows the rule to never ship plans without validation checks",
+      "max_score": 12
+    },
+    {
+      "name": "Specific file modifications",
+      "description": "Identifies exact files to modify with specific changes needed",
+      "max_score": 10
+    },
+    {
+      "name": "Success criteria metrics",
+      "description": "Defines measurable targets like dimension scores and overall score improvements",
+      "max_score": 10
+    },
+    {
+      "name": "T-shirt sizing effort",
+      "description": "Uses S/M/L effort estimates for phases and total time estimates",
+      "max_score": 8
+    },
+    {
+      "name": "Code block escaping",
+      "description": "Uses 4 backticks when documenting markdown examples that contain code fences",
+      "max_score": 4
+    },
+    {
+      "name": "Honest quality rating",
+      "description": "Includes self-assessment rating out of 10 for plan quality and comprehensiveness",
+      "max_score": 6
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent properly detects content duplication, applies similarity thresholds, and makes appropriate consolidation decisions following aggregation rules.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Similarity percentage calculation",
+      "description": "Calculates content similarity percentages between skill pairs",
+      "max_score": 15
+    },
+    {
+      "name": "20% threshold application",
+      "description": "Uses >20% similarity as aggregation candidate threshold",
+      "max_score": 12
+    },
+    {
+      "name": "35% critical threshold",
+      "description": "Identifies >35% similarity as critical duplication requiring immediate action",
+      "max_score": 10
+    },
+    {
+      "name": "Text similarity analysis",
+      "description": "Performs line-by-line or content comparison to detect overlapping text",
+      "max_score": 12
+    },
+    {
+      "name": "NEVER aggregate low-similarity",
+      "description": "Follows the rule to never aggregate skills with low similarity or different domains",
+      "max_score": 15
+    },
+    {
+      "name": "Domain fit evaluation",
+      "description": "Considers whether skills serve similar purposes vs different domains",
+      "max_score": 12
+    },
+    {
+      "name": "Consolidation recommendations",
+      "description": "Provides specific recommendations for which skills to merge or keep separate",
+      "max_score": 10
+    },
+    {
+      "name": "Pairwise comparison",
+      "description": "Compares each skill against others systematically",
+      "max_score": 8
+    },
+    {
+      "name": "Structural analysis",
+      "description": "Considers similar file organization, reference patterns, or naming conventions",
+      "max_score": 6
+    }
+  ]
+}

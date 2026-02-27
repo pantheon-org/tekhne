@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent applies the 8-dimension skill-judge evaluation framework, correctly identifies knowledge delta issues, and provides proper scoring with A-grade targets.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "8-dimension framework",
+      "description": "Uses all 8 evaluation dimensions: Knowledge Delta, Mindset+Procedures, Anti-Pattern Quality, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability",
+      "max_score": 12
+    },
+    {
+      "name": "Knowledge Delta assessment",
+      "description": "Identifies redundant content (basic concepts, installation instructions) and calculates redundancy percentage accurately",
+      "max_score": 10
+    },
+    {
+      "name": "120-point scoring system",
+      "description": "Uses correct point allocation (Knowledge Delta: 20, others: 15/10/15) totaling 120 points maximum",
+      "max_score": 8
+    },
+    {
+      "name": "A-grade target",
+      "description": "References >= 108 points as A-grade target or >= 90% threshold",
+      "max_score": 8
+    },
+    {
+      "name": "Expert vs redundant classification",
+      "description": "Correctly identifies that basic SQL syntax, installation commands, and generic best practices are redundant content",
+      "max_score": 10
+    },
+    {
+      "name": "Missing expert knowledge",
+      "description": "Identifies lack of domain-specific patterns, production gotchas, decision frameworks, or anti-patterns with WHY explanations",
+      "max_score": 12
+    },
+    {
+      "name": "Specification compliance check",
+      "description": "Evaluates frontmatter quality, description field, and activation keywords",
+      "max_score": 8
+    },
+    {
+      "name": "Progressive disclosure evaluation",
+      "description": "Assesses content structure, notes lack of references/ directory, and evaluates frontloading issues",
+      "max_score": 7
+    },
+    {
+      "name": "Numerical scoring breakdown",
+      "description": "Provides specific scores for each dimension with justification",
+      "max_score": 10
+    },
+    {
+      "name": "Mindset principles",
+      "description": "Treats scores as directional signals and prioritizes deterministic checks over subjective opinions",
+      "max_score": 5
+    },
+    {
+      "name": "Self-audit awareness",
+      "description": "Mentions that skill-quality-auditor must pass its own evaluator with score >= 100",
+      "max_score": 5
+    },
+    {
+      "name": "Actionable recommendations",
+      "description": "Provides specific improvement suggestions based on identified weaknesses",
+      "max_score": 5
+    }
+  ]
+}
