@@ -10,25 +10,20 @@ description:
 
 Automate creation of structured journal entries with template schemas, frontmatter validation, and compliance checking.
 
-## Entry Type Decision Framework
+## Entry Type Selection
 
-**Before selecting entry type, ask yourself:**
+**Decision criteria:**
+- **Problem resolution?** → Troubleshooting
+- **New knowledge/skills?** → Learning  
+- **External content summary?** → Article Summary
+- **Otherwise** → Journal Entry
 
-- **Is this documenting a problem and its resolution?** → Troubleshooting
-- **Is this capturing new knowledge or skills acquired?** → Learning
-- **Is this summarizing external content (article/video/podcast)?** → Article Summary
-- **Otherwise (general documentation, session notes)?** → Journal Entry
-
-## Entry Type Selection Matrix
-
-| User Intent Signals                                        | Entry Type      | Template Schema        | Required Tag                             |
-| ---------------------------------------------------------- | --------------- | ---------------------- | ---------------------------------------- |
-| "error", "fix", "broke", "resolved", "incident"            | Troubleshooting | `troubleshooting.yaml` | `troubleshooting`                        |
-| "learned", "studied", "discovered", "explored", "tutorial" | Learning        | `learning.yaml`        | `learning`                               |
-| Has URL/source, "read", "watched", "listened", "summarize" | Article Summary | `article-summary.yaml` | `article`, `video`, `podcast`, or `talk` |
-| General documentation, session notes, investigation        | Journal Entry   | `journal-entry.yaml`   | (flexible)                               |
-
-**Trade-off:** When intent is ambiguous, prefer more specific type (Troubleshooting > Learning > General). Specific templates provide better structure and future searchability.
+| User Intent Signals | Type | Template | Required Tag |
+| -------------------- | ---- | -------- | ------------ |
+| "error", "fix", "resolved", "incident" | Troubleshooting | `troubleshooting.yaml` | `troubleshooting` |
+| "learned", "tutorial", "discovered" | Learning | `learning.yaml` | `learning` |
+| URL/source, "read", "watched", "summarize" | Article Summary | `article-summary.yaml` | `article`/`video`/`podcast`/`talk` |
+| General documentation, investigation | Journal Entry | `journal-entry.yaml` | (flexible) |
 
 ## Template Schema System
 
@@ -61,14 +56,9 @@ Beyond standard markdown, this journal system enforces:
 
 All three must match exactly:
 
-1. Filename: `2025-02-24-topic.md` (slug must be lowercase-only)
+1. Filename: `2025-02-24-topic.md` (slug lowercase-only)
 2. Frontmatter: `date: 2025-02-24`
-3. H1 title: `# Topic - February 24, 2025`
-
-**Critical:**
-
-- The H1 date format is `Month D, YYYY` (not `Month DD`). Example: `February 3, 2025` not `February 03, 2025`.
-- The filename slug (after date) must be **lowercase-only** with hyphens. NO uppercase letters allowed.
+3. H1 title: `# Topic - February 24, 2025` (Month D, YYYY format)
 
 ### Location Hierarchy
 
@@ -136,22 +126,23 @@ git status
 ```
 ````
 
-## NEVER Do
+## Success Criteria & Validation Rules
 
-**Content and formatting violations:**
+Entry is complete when ALL criteria are met:
 
-- NEVER use emojis in journal entries (status, sections, or content)
-- NEVER create metadata block without bold formatting (`**Key:** Value`)
-- NEVER use bullet points in metadata blocks (use `**Key:** Value` format only)
-- NEVER skip heading levels (H1 → H3 without H2)
+**Critical violations (NEVER):**
+- Using emojis, bare code blocks (without language), or skipping heading levels
+- Creating entries without reading template schema first
+- Proceeding with failed validation or overwriting files without confirmation
 
-**Process violations:**
-
-- NEVER skip reading the template schema before generating entry
-- NEVER create entries without running validation afterward
-- NEVER commit without running prettier and markdownlint first
-- NEVER proceed if validation fails — fix issues first
-- NEVER overwrite existing files without asking user
+**Triple sync validation:**
+- ✅ File location: `YYYY/MM/YYYY-MM-DD-slug.md`
+- ✅ YAML frontmatter with all required fields  
+- ✅ Date consistency: filename = frontmatter = H1 title
+- ✅ Tag consistency: frontmatter array = Tags section
+- ✅ All required sections present per schema
+- ✅ Validation script passes with zero errors
+- ✅ Prettier formatting and markdownlint pass
 
 ## Four-Phase Workflow
 
@@ -167,11 +158,11 @@ git status
 **Key questions to ask:**
 
 1. Topic/issue being documented
-2. Entry type (or infer from topic)
+2. Entry type (or infer from context)
 3. Date (default: today)
-4. Type-specific context (problem details, learning source, article URL, etc.)
+4. Type-specific context per table above
 
-**Edge case:** If user provides topic like "OpenCode killed process fix" - identify as Troubleshooting based on "fix" keyword.
+**Slug generation:** Extract 3-6 meaningful keywords, remove common words, use lowercase-only with hyphens (30-50 chars). Examples: `opencode-killed-process-fix`, `aws-bedrock-inventory`
 
 ### Phase 2: Schema Loading (MANDATORY)
 
@@ -189,7 +180,7 @@ git status
 **Medium freedom - guided by schema:**
 
 1. Create directory if needed: `mkdir -p YYYY/MM`
-2. Generate filename: `YYYY-MM-DD-slug.md` (slug must be lowercase with hyphens only)
+2. Generate filename: `YYYY-MM-DD-slug.md` (see slug principles above)
 3. Populate YAML frontmatter per schema requirements
 4. Create metadata block with bold keys
 5. Fill all required sections from schema in correct order
@@ -199,11 +190,10 @@ git status
 
 **Slug generation principles:**
 
-- Extract 3-6 meaningful keywords from topic
-- Remove common words ("the", "a", "and", "for")
-- **MUST be lowercase-only with hyphens** (NO uppercase letters, NO underscores)
+- Extract 3-6 meaningful keywords, remove common words ("the", "a", "and", "for")
+- **MUST be lowercase-only with hyphens** (NO uppercase/underscores)
 - Target 30-50 characters
-- Examples: `opencode-killed-process-fix`, `aws-bedrock-inventory`, `foss-enterprise-evaluation`
+- Examples: `opencode-killed-process-fix`, `aws-bedrock-inventory`
 
 ### Phase 4: Validation & Formatting (LOW FREEDOM)
 
@@ -247,11 +237,7 @@ bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM/YYYY
 
 **Problem:** User says "document yesterday's work" but filename uses today's date
 
-**Resolution:**
-
-1. Ask user: `Use date [yesterday] or [today] for this entry?`
-2. Update ALL three locations (filename, frontmatter, H1) to match
-3. Ensure file location directory matches date (YYYY/MM/)
+**Resolution:** Ask user which date to use, then update ALL locations (filename, frontmatter, H1) to match and ensure correct directory placement.
 
 ### Schema Not Found
 
@@ -272,32 +258,19 @@ bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM/YYYY
 
 | Error                  | Auto-fix Strategy                               |
 | ---------------------- | ----------------------------------------------- |
-| Missing code language  | Add `bash` or `text` specifier based on content |
-| Multiple blank lines   | Remove extras with prettier                     |
-| Heading hierarchy skip | Adjust heading levels to follow H1→H2→H3        |
-| Tag mismatch           | Sync Tags section with frontmatter array        |
-| Date format wrong      | Reformat H1 date to `Month D, YYYY`             |
+| Missing code language  | Add `bash` or `text` based on content          |
+| Multiple blank lines   | Remove with prettier                            |
+| Heading hierarchy skip | Adjust levels H1→H2→H3                          |
+| Tag mismatch           | Sync Tags section with frontmatter             |
+| Date format wrong      | Use `Month D, YYYY` format                      |
 
-**Cannot auto-fix (ask user):**
-
-- Missing required sections (need content)
-- Incorrect entry type (need confirmation to change)
-- Ambiguous slug (need better keywords)
+**Manual fixes required:** Missing sections (need content), incorrect entry type, ambiguous slug.
 
 ### User Wants Custom Structure
 
-**Problem:** User asks to deviate from template (add/remove sections, change order)
+**Problem:** User asks to deviate from template structure
 
-**Resolution:**
-
-1. Explain: `This journal system has validation that enforces template structure. Deviation will fail CI checks.`
-2. Offer options:
-   - **Option A:** Add custom content within existing sections (flexible)
-   - **Option B:** Add custom sections AFTER all required sections (acceptable)
-   - **Option C:** Use different entry type that fits better
-3. Warn: `Removing required sections will fail validation and block commits`
-
-**Trade-off:** Consistency and searchability vs flexibility. This system prioritizes consistency.
+**Resolution:** Explain validation requirements and offer: (A) custom content within existing sections, (B) additional sections after required ones, or (C) different entry type. Warn that removing required sections fails validation.
 
 ## Git Integration (Optional)
 
@@ -315,21 +288,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - Date in parentheses (YYYY-MM-DD)
 - Example: `Add journal entry: OpenCode process fix (2025-02-24)`
 
-## Success Criteria
 
-Entry is complete when ALL of the following are true:
-
-- ✅ Template schema was read before generation
-- ✅ File created in correct location: `YYYY/MM/YYYY-MM-DD-slug.md`
-- ✅ YAML frontmatter populated with all required fields
-- ✅ All required sections present in schema order
-- ✅ Triple date sync: filename = frontmatter = H1
-- ✅ Tags consistent: frontmatter array = Tags section
-- ✅ All code blocks have language specifiers
-- ✅ Validation script passes with zero errors
-- ✅ Prettier formatting applied
-- ✅ Markdownlint passes with zero errors
-- ✅ User confirms entry is ready
 
 ## Bundled Resources
 
