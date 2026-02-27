@@ -103,14 +103,19 @@ Expected result: updated dimension scores and grade.
 
 ## References
 
-- `references/syntax-headings.md`
-- `references/syntax-lists.md`
-- `references/syntax-code-blocks.md`
-- `references/syntax-links-images.md`
-- `references/docs-readme.md`
-- `references/docs-organization.md`
-- `references/docs-writing-style.md`
-- `references/lint-config.md`
-- `references/lint-rules.md`
-- `references/lint-cli.md`
-- `references/lint-ci.md`
+- [Syntax: Headings](references/syntax-headings.md)
+- [Syntax: Lists](references/syntax-lists.md)
+- [Syntax: Code Blocks](references/syntax-code-blocks.md)
+- [Syntax: Links & Images](references/syntax-links-images.md)
+- [Syntax: Formatting](references/syntax-formatting.md)
+- [Syntax: Other Elements](references/syntax-other-elements.md)
+- [Docs: README](references/docs-readme.md)
+- [Docs: Organization](references/docs-organization.md)
+- [Docs: Writing Style](references/docs-writing-style.md)
+- [Docs: API](references/docs-api.md)
+- [Docs: Changelog](references/docs-changelog.md)
+- [Lint: Config](references/lint-config.md)
+- [Lint: Rules](references/lint-rules.md)
+- [Lint: CLI](references/lint-cli.md)
+- [Lint: CI](references/lint-ci.md)
+- [Lint: API](references/lint-api.md)

@@ -1,3 +1,5 @@
 skills/*/evals/**
-evals/**skills/**/evals/
+evals/**
+skills/**/evals/
 **/*evals*.md
+skills/markdown-authoring/references/

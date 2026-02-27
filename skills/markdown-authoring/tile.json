@@ -1,0 +1,12 @@
+{
+  "name": "pantheon-ai/markdown-authoring",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style.",
+  "docs": "references/docs-readme.md",
+  "skills": {
+    "markdown-authoring": {
+      "path": "SKILL.md"
+    }
+  }
+}
