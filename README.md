@@ -185,9 +185,27 @@ Tessl evaluates skills directly from GitHub repositories:
    sh skills/skill-quality-auditor/scripts/audit-skills.sh
    ```
 
-3. **Submit for evaluation**: Visit [tessl.io/registry/skills/submit](https://tessl.io/registry/skills/submit)
-4. **Provide repository URL**: Tessl will analyze and identify discrete, reusable skills
-5. **Review evaluation**: Approved skills receive performance scores and public distribution
+3. **Automated skill management**: Use the built-in script to handle tessl lifecycle
+
+   ```bash
+   # Process all skills (import, lint, review, publish)
+   ./scripts/manage-skills.sh
+   
+   # Process a specific skill
+   ./scripts/manage-skills.sh skill-name
+   
+   # Use different workspace
+   ./scripts/manage-skills.sh --workspace=my-org
+   ```
+
+   The script automatically:
+   - Imports skills without `tile.json` using `tessl skill import`
+   - Lints and reviews skills with `tile.json` using `tessl skill lint` and `tessl skill review`
+   - Publishes skills that pass validation (if not already published)
+
+4. **Submit for evaluation**: Visit [tessl.io/registry/skills/submit](https://tessl.io/registry/skills/submit)
+5. **Provide repository URL**: Tessl will analyze and identify discrete, reusable skills
+6. **Review evaluation**: Approved skills receive performance scores and public distribution
 
 #### Performance Evaluation
 
