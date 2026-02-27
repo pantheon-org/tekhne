@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/journal-entry-creator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "summary": "Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports four entry types: general journal entries, troubleshooting sessions, learning notes, and article summaries. Keywords: journal, documentation, troubleshooting, learning, article-summary, YAML frontmatter, template schemas, validation.",
   "skills": {
