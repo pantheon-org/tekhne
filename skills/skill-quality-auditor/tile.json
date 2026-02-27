@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/skill-quality-auditor",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
+  "private": false,
   "summary": "Audit and improve skill collections with an 8-dimension scoring framework, duplication detection, remediation planning, and CI quality gates; use when evaluating skill quality, generating remediation plans, validating report format, or enforcing repository-wide skill artifact conventions.",
   "skills": {
     "skill-quality-auditor": {
