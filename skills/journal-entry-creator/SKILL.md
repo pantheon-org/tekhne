@@ -138,48 +138,20 @@ git status
 
 ## NEVER Do
 
-**Structure violations:**
+**Content and formatting violations:**
 
-- NEVER skip reading the template schema before generating entry
-- NEVER create entries without running validation afterward
-- NEVER use multiple H1 headings (only one allowed)
-- NEVER skip heading levels (H1 → H3 without H2)
-- NEVER guess section order - follow schema exactly
-
-**Naming violations:**
-
-- NEVER use uppercase in tags or slugs (`API` → `api`, `CloudWatch` → `cloudwatch`)
-- NEVER use underscores in slugs (use hyphens: `api_fix` → `api-fix`)
-- NEVER use spaces in filenames (replace with hyphens)
-- NEVER omit date from H1 title
-
-**Content violations:**
-
-- NEVER use bare ``` code blocks without language specifier
-- NEVER misalign tags between frontmatter and Tags section
-- NEVER mismatch dates across filename, frontmatter, and H1
-- NEVER create metadata block without bold formatting (`**Key:**`)
 - NEVER use emojis in journal entries (status, sections, or content)
+- NEVER create metadata block without bold formatting (`**Key:** Value`)
 - NEVER use bullet points in metadata blocks (use `**Key:** Value` format only)
-- NEVER use uppercase letters in filename slugs (must be lowercase with hyphens: `aws-lambda`, not `AWS-Lambda` or `AWS_Lambda`)
+- NEVER skip heading levels (H1 → H3 without H2)
 
 **Process violations:**
 
+- NEVER skip reading the template schema before generating entry
+- NEVER create entries without running validation afterward
 - NEVER commit without running prettier and markdownlint first
-- NEVER skip validation script execution
-- NEVER proceed if validation fails - fix issues first
+- NEVER proceed if validation fails — fix issues first
 - NEVER overwrite existing files without asking user
-
-**Why these matter:**
-
-- Validation is mandatory in CI - violations block commits
-- Tag casing breaks cross-referencing and search functionality
-- Date mismatches break chronological organization and tooling
-- Schema violations make future maintenance inconsistent
-- Missing language specifiers fail markdownlint validation
-- Emojis reduce accessibility and professional appearance
-- Bullet points in metadata blocks violate the schema format
-- Uppercase in filenames breaks consistency and creates naming conflicts
 
 ## Four-Phase Workflow
 
