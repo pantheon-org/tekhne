@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent properly documents anti-patterns using NEVER statements, WHY explanations, concrete examples, and consequence descriptions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "NEVER statements",
+      "description": "Uses explicit \"NEVER do X because Y\" statements with strong warning language",
+      "max_score": 15
+    },
+    {
+      "name": "WHY explanations",
+      "description": "Provides clear explanations of why each anti-pattern is problematic",
+      "max_score": 12
+    },
+    {
+      "name": "Concrete examples",
+      "description": "Shows actual bad code examples, not just descriptions of problems",
+      "max_score": 15
+    },
+    {
+      "name": "Side-by-side comparisons",
+      "description": "Uses ❌ BAD / ✅ GOOD format to contrast incorrect and correct approaches",
+      "max_score": 12
+    },
+    {
+      "name": "Consequence descriptions",
+      "description": "Explains what breaks when anti-patterns are used (security, performance, maintainability)",
+      "max_score": 15
+    },
+    {
+      "name": "Strong language usage",
+      "description": "Uses decisive language like NEVER, AVOID, rather than weak suggestions",
+      "max_score": 8
+    },
+    {
+      "name": "Real-world scenarios",
+      "description": "Includes realistic failure scenarios showing impact of anti-patterns",
+      "max_score": 10
+    },
+    {
+      "name": "Security vulnerability focus",
+      "description": "Addresses SQL injection, authentication bypasses, or input validation failures",
+      "max_score": 8
+    },
+    {
+      "name": "Anti-pattern organization",
+      "description": "Groups anti-patterns logically with clear headings and structure",
+      "max_score": 5
+    }
+  ]
+}

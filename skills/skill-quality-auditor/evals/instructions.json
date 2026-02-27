@@ -1,0 +1,172 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run evaluator/audit scripts using sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json",
+      "original_snippets": "Run evaluator/audit scripts... sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json",
+      "relevant_when": "when evaluating a single skill for quality assessment",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run full audit using sh skills/skill-quality-auditor/scripts/audit-skills.sh",
+      "original_snippets": "### Audit All Skills\n\n```bash\nsh skills/skill-quality-auditor/scripts/audit-skills.sh\n```",
+      "relevant_when": "when auditing entire skill collection",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use --pr-changes-only --latest-symlink flags for PR workflows",
+      "original_snippets": "sh skills/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only --latest-symlink",
+      "relevant_when": "when auditing only changed skills in PR workflows",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Target score >= 108 points (A-grade) for skills",
+      "original_snippets": "Target: `>= 108` (A)... **Target Score:** ≥108 points (90%) = A-grade",
+      "relevant_when": "when setting quality targets for skills",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Passing threshold is >= 84 points (C grade)",
+      "original_snippets": "Passing: `>= 84` (C)",
+      "relevant_when": "when determining minimum acceptable skill quality",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "NEVER skip baseline comparison in recurring audits",
+      "original_snippets": "### NEVER skip baseline comparison in recurring audits\n\n- **WHY**: score changes are meaningless without prior reference points.\n- **BAD**: run ad hoc audits with no previous report linkage.\n- **GOOD**: compare current results to previous dated audits.",
+      "relevant_when": "when running recurring skill quality audits",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER aggregate low-similarity skills",
+      "original_snippets": "### NEVER aggregate low-similarity skills\n\n- **WHY**: merging unrelated skills harms discoverability and intent routing.\n- **BAD**: aggregate different domains with weak overlap.\n- **GOOD**: aggregate only when similarity and domain fit are clear.",
+      "relevant_when": "when considering skill consolidation or aggregation",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER ship remediation plans without validation checks",
+      "original_snippets": "### NEVER ship remediation plans without validation checks\n\n- **WHY**: invalid or incomplete plans create execution drift.\n- **BAD**: write plan and execute blindly.\n- **GOOD**: validate schema/format and ensure deterministic success criteria.",
+      "relevant_when": "when creating and implementing skill remediation plans",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use 8-dimension evaluation framework with Knowledge Delta as most important (20 points)",
+      "original_snippets": "The skill-judge framework evaluates skills across 8 dimensions totaling 120 points. **Dimension 1 (Knowledge Delta)** is most important",
+      "relevant_when": "when evaluating skill quality using skill-judge framework",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Ensure skills contain expert-only knowledge with <5% redundancy for top scores",
+      "original_snippets": "**18-20 points:** Pure expert knowledge, <5% redundancy... **Core Principle:** Skill = Expert Knowledge - What Claude Already Knows",
+      "relevant_when": "when assessing knowledge delta dimension of skills",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "DELETE redundant content: basic syntax, installation instructions, API documentation, generic best practices",
+      "original_snippets": "3. **Redundant (DELETE):**\n   - Basic syntax Claude knows\n   - Installation instructions from official docs\n   - API documentation copied verbatim\n   - Generic best practices\n   - Obvious examples",
+      "relevant_when": "when improving knowledge delta of skills",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "KEEP expert content: domain-specific patterns, project conventions, production experience, tool gotchas, decision frameworks, anti-patterns with WHY",
+      "original_snippets": "1. **Expert (KEEP):**\n   - Domain-specific patterns Claude doesn't know\n   - Project-specific conventions\n   - Lessons from production experience\n   - Tool gotchas and non-obvious behavior\n   - Decision frameworks (when to use X vs Y)\n   - Anti-patterns with WHY they fail",
+      "relevant_when": "when creating or improving skill content",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use NEVER statements with WHY explanations and concrete consequences for anti-patterns",
+      "original_snippets": "**NEVER Lists with WHY (5 points)**\n   - Explicit \"NEVER do X because Y\" statements\n   - Not just \"avoid\" - use strong language... **Consequences Explained (5 points)**\n   - What breaks when anti-pattern used",
+      "relevant_when": "when documenting anti-patterns in skills",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Declare ONE type of task per skill in task focus",
+      "original_snippets": "1. **Task Focus Declaration (5 points) ⭐ CRITICAL**\n     - Skill indicates ONE type of task it helps complete\n     - Description clearly scopes to single purpose\n     - No ambiguity about what the skill does\n     - Example: \"Write BDD tests\" (good) vs \"Testing and development\" (bad - two tasks)",
+      "relevant_when": "when defining skill scope and purpose",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use Navigation Hub approach with SKILL.md <100 lines and detailed content in references/",
+      "original_snippets": "1. **Navigation Hub Approach (8 points)**\n   - SKILL.md is <100 lines\n   - Overview + when-to-use + reference guide\n   - NOT full content... 2. **References Directory (4 points)**\n   - Detailed content in references/*.md",
+      "relevant_when": "when structuring skill content for progressive disclosure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Include comprehensive activation keywords in skill description",
+      "original_snippets": "- Description must include domain keywords\n- Trigger scenarios in description or \"When to Apply\"\n- Example: \"Use when writing BDD tests, feature files, Gherkin scenarios...\"... **Remember:** Best description = exhaustive trigger list + examples",
+      "relevant_when": "when writing skill descriptions for pattern recognition",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Generate remediation plans using sh skills/skill-quality-auditor/scripts/generate-remediation-plan.sh",
+      "original_snippets": "3. Generate plan: `sh skills/skill-quality-auditor/scripts/generate-remediation-plan.sh --audit-dir .context/audits/skill-audit/latest/ <skill-name>`",
+      "relevant_when": "when creating improvement plans from audit results",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate remediation plans using sh skills/skill-quality-auditor/scripts/validate-remediation-plan.sh",
+      "original_snippets": "4. Validate plan: `sh skills/skill-quality-auditor/scripts/validate-remediation-plan.sh <plan-path>`",
+      "relevant_when": "when ensuring remediation plan format compliance",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Store audit results in .context/audits/skill-audit/YYYY-MM-DD/ structure",
+      "original_snippets": "```\n.context/\n└── audits/\n    └── skill-audit/\n        ├── 2026-02-21/\n        │   ├── audit.json\n        │   ├── analysis.md\n        │   └── remediation-plan.md",
+      "relevant_when": "when organizing audit outputs and results",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use >20% similarity threshold for aggregation candidates",
+      "original_snippets": "**Purpose**: Find skills with >20% content overlap for consolidation... **Threshold**: >20% similarity = aggregation candidate, >35% = critical",
+      "relevant_when": "when detecting duplicate content across skills",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Self-audit requirement: this skill must pass its own evaluator with score >= 100",
+      "original_snippets": "This skill is the quality baseline and must pass its own evaluator.\n\n```bash\nsh skills/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json\n```\n\nExpected: score `>= 100`.",
+      "relevant_when": "when validating the skill-quality-auditor skill itself",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Validate skill artifacts using sh skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
+      "original_snippets": "### Validate Skill Artifacts\n\n```bash\nsh skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh\n```",
+      "relevant_when": "when checking skill directory conventions and artifact compliance",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run consistency checks using sh skills/skill-quality-auditor/scripts/check-consistency.sh",
+      "original_snippets": "Use the helper script to verify basic structural consistency across skills:\n\n```bash\nsh skills/skill-quality-auditor/scripts/check-consistency.sh skills\n```",
+      "relevant_when": "when verifying structural consistency across skill collections",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use 4 backticks when documenting markdown code examples that contain code fences",
+      "original_snippets": "#### Code Block Escaping\n\nWhen documenting code examples that contain markdown code fences, use 4 backticks:\n\n````markdown",
+      "relevant_when": "when writing documentation that includes nested markdown code blocks",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Rate remediation plans honestly out of 10 based on comprehensiveness and quality",
+      "original_snippets": "| Rating | Criteria |\n|--------|----------|\n| **9-10/10** | Template gold standard, comprehensive |\n| **8/10** | Follows Format B well, detailed code examples |\n| **7/10** | Good structure but gaps in specifics |",
+      "relevant_when": "when evaluating quality of remediation plans",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Treat scores as directional signals, not absolute truth",
+      "original_snippets": "- Treat scores as directional signals, not absolute truth.",
+      "relevant_when": "when interpreting skill quality scores",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Prioritize deterministic, reproducible checks over subjective opinions",
+      "original_snippets": "- Prioritize deterministic, reproducible checks over subjective opinions.",
+      "relevant_when": "when designing quality evaluation criteria",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Apply strict rules where safety/consistency matters; stay flexible elsewhere",
+      "original_snippets": "- Apply strict rules where safety/consistency matters; stay flexible elsewhere.",
+      "relevant_when": "when balancing prescription vs flexibility in quality standards",
+      "why_given": "preference"
+    }
+  ]
+}
