@@ -24,31 +24,37 @@ Navigation hub for strategic architecture, tactical design, and code quality dec
 ## Design Decision Workflow
 
 ### Step 1: Identify Decision Type
+
 **Output:** Classify as architectural, tactical, or foundational.
 
 Example classification:
+
 - **Architectural:** Service boundaries, dependency direction, module structure
 - **Tactical:** Class design, method extraction, interface definition
 - **Foundational:** Language features, build tooling, testing strategy
 
 ### Step 2: Apply Strategic Checks (Architecture Decisions)
+
 **Output:** Boundary/dependency direction assessment + ADR rationale.
 
 Checklist:
+
 - [ ] Dependencies point inward (no outer layers importing inner layers)
 - [ ] No circular dependencies between modules
 - [ ] Clear ownership of contracts/interfaces
 - [ ] Entities remain pure (no infrastructure leakage)
 
 **Example ADR snippet:**
-```
+
+```texttext
 Decision: Extract shared authentication contract into separate module.
 Rationale: Breaks circular dependency between auth-service and user-service.
 Alternatives: Merge modules (loses separation), add adapter layer (adds complexity).
 Risk: Requires migration of existing consumers.
-```
+```text
 
 ### Step 3: Apply SOLID Checks (Tactical Decisions)
+
 **Output:** Compliance assessment + required refactors.
 
 | Principle | Check | Refactor Signal |
@@ -60,43 +66,51 @@ Risk: Requires migration of existing consumers.
 | DIP | Do you depend on abstractions, not concrete details? | Direct concrete coupling → introduce interface/port |
 
 **Example compliance note:**
-```
+
+```text
 SRP violation: UserService handles auth, persistence, and notifications.
 Refactor: Extract NotificationService and PersistenceGateway.
 Validation: Each class now has one reason to change.
-```
+```text
 
 ### Step 4: Select Structural Pattern (Only If It Reduces Complexity)
+
 **Output:** Pattern choice with explicit win condition.
 
 Ask before choosing a pattern:
+
 - Does this pattern solve a concrete problem in the current design?
 - What complexity does it remove vs. add?
 - Can the team maintain it?
 
 **Example decision:**
-```
+
+```text
 Pattern: Strategy (not Factory).
 Win condition: Eliminates if/else chains for payment processor selection.
 Cost: One extra interface + implementations. Benefit: Easy to add new processors.
-```
+```text
 
 ### Step 5: Validate Anti-Patterns
+
 **Output:** Violations listed with BAD/GOOD corrective action.
 
 Run anti-pattern checks (see section below) and document findings:
-```
+
+```text
 Anti-pattern: Hard-coded environment config.
 Violation: Database URL in source code.
 BAD: const DB_URL = "postgres://prod.example.com"
 GOOD: const DB_URL = process.env.DATABASE_URL
-```
+```text
 
 ### Step 6: Document Tradeoffs and Limitations
+
 **Output:** Alternatives considered, decision, and risks.
 
 Template:
-```
+
+```text
 Decision: Use event-driven architecture for order processing.
 Alternatives: 
   - Synchronous RPC (simpler, tightly coupled, harder to scale)
@@ -104,17 +118,11 @@ Alternatives:
 Chosen: Event-driven (loose coupling, handles scale, adds complexity)
 Risks: Eventual consistency requires idempotent handlers; harder to debug.
 Validation: Peer review before implementation.
-```
+```text
 
-## SOLID Principles Summary
+## SOLID Principles Reference
 
-| Principle | One-liner | Detail |
-| --- | --- | --- |
-| SRP | One reason to change | [references/usecase-single-responsibility.md](references/usecase-single-responsibility.md) |
-| OCP | Extend without modifying stable behavior | [references/comp-common-closure.md](references/comp-common-closure.md) |
-| LSP | Subtypes preserve base behavior contracts | [references/detailed-examples.md](references/detailed-examples.md) |
-| ISP | Depend only on methods you use | [references/adapt-gateway-abstraction.md](references/adapt-gateway-abstraction.md) |
-| DIP | Depend on abstractions, not concrete details | [references/dep-interface-ownership.md](references/dep-interface-ownership.md) |
+For detailed guidance on each principle, see the Quick Reference section below. The SOLID checks in Step 3 provide the actionable refactor signals for tactical decisions.
 
 ## Anti-Patterns
 
@@ -176,40 +184,93 @@ Validation: Peer review before implementation.
 
 ## Quick Commands
 
-```bash
+```textbash
 # Find design-risk hotspots
 rg -n "any|@ts-ignore|new [A-Z].*Service\(|import .*infrastructure" src
-```
+```text
 
-```bash
+```textbash
 # Inspect dependency graph
 nx graph
-```
+```text
 
-```bash
+```textbash
 # Re-check affected scope
 nx affected -t lint,test,build --base=origin/main
-```
+```text
 
 ## Quick Reference
 
 ### Strategic Architecture
 
+**Dependency Management:**
+
 - Dependency direction: [references/dep-inward-only.md](references/dep-inward-only.md)
 - Acyclic dependencies: [references/dep-acyclic-dependencies.md](references/dep-acyclic-dependencies.md)
-- Entity purity: [references/entity-pure-business-rules.md](references/entity-pure-business-rules.md)
-- Rich entities: [references/entity-rich-not-anemic.md](references/entity-rich-not-anemic.md)
+- Interface ownership: [references/dep-interface-ownership.md](references/dep-interface-ownership.md)
+- Stable abstractions: [references/dep-stable-abstractions.md](references/dep-stable-abstractions.md)
+- Data crossing boundaries: [references/dep-data-crossing-boundaries.md](references/dep-data-crossing-boundaries.md)
+- No framework imports: [references/dep-no-framework-imports.md](references/dep-no-framework-imports.md)
+
+**Component Design:**
+
+- Screaming architecture: [references/comp-screaming-architecture.md](references/comp-screaming-architecture.md)
+- Common closure: [references/comp-common-closure.md](references/comp-common-closure.md)
+- Common reuse: [references/comp-common-reuse.md](references/comp-common-reuse.md)
+- Reuse-release equivalence: [references/comp-reuse-release-equivalence.md](references/comp-reuse-release-equivalence.md)
+- Stable dependencies: [references/comp-stable-dependencies.md](references/comp-stable-dependencies.md)
+
+**Boundary Management:**
+
+- Boundary cost awareness: [references/bound-boundary-cost-awareness.md](references/bound-boundary-cost-awareness.md)
+- Defer decisions: [references/bound-defer-decisions.md](references/bound-defer-decisions.md)
+- Humble object: [references/bound-humble-object.md](references/bound-humble-object.md)
+- Main component: [references/bound-main-component.md](references/bound-main-component.md)
+- Partial boundaries: [references/bound-partial-boundaries.md](references/bound-partial-boundaries.md)
+- Service internal architecture: [references/bound-service-internal-architecture.md](references/bound-service-internal-architecture.md)
 
 ### Tactical Design
 
+**Entity Design:**
+
+- Entity purity: [references/entity-pure-business-rules.md](references/entity-pure-business-rules.md)
+- Rich entities: [references/entity-rich-not-anemic.md](references/entity-rich-not-anemic.md)
+- Encapsulate invariants: [references/entity-encapsulate-invariants.md](references/entity-encapsulate-invariants.md)
+- Value objects: [references/entity-value-objects.md](references/entity-value-objects.md)
+- No persistence awareness: [references/entity-no-persistence-awareness.md](references/entity-no-persistence-awareness.md)
+
+**Use Case Design:**
+
 - Use-case isolation: [references/usecase-single-responsibility.md](references/usecase-single-responsibility.md)
 - Explicit dependencies: [references/usecase-explicit-dependencies.md](references/usecase-explicit-dependencies.md)
-- Structural guidance: [references/anti-patterns-and-frameworks.md](references/anti-patterns-and-frameworks.md)
+- Orchestrates not implements: [references/usecase-orchestrates-not-implements.md](references/usecase-orchestrates-not-implements.md)
+- Input/output ports: [references/usecase-input-output-ports.md](references/usecase-input-output-ports.md)
+- No presentation logic: [references/usecase-no-presentation-logic.md](references/usecase-no-presentation-logic.md)
+- Transaction boundary: [references/usecase-transaction-boundary.md](references/usecase-transaction-boundary.md)
 
-### Quality and Testing
+**Adapter Patterns:**
+
+- Gateway abstraction: [references/adapt-gateway-abstraction.md](references/adapt-gateway-abstraction.md)
+- Anti-corruption layer: [references/adapt-anti-corruption-layer.md](references/adapt-anti-corruption-layer.md)
+- Controller thin: [references/adapt-controller-thin.md](references/adapt-controller-thin.md)
+- Mapper translation: [references/adapt-mapper-translation.md](references/adapt-mapper-translation.md)
+- Presenter formats: [references/adapt-presenter-formats.md](references/adapt-presenter-formats.md)
+
+**Framework Integration:**
+
+- DI container at edge: [references/frame-di-container-edge.md](references/frame-di-container-edge.md)
+- Domain purity: [references/frame-domain-purity.md](references/frame-domain-purity.md)
+- Logging abstraction: [references/frame-logging-abstraction.md](references/frame-logging-abstraction.md)
+- ORM in infrastructure: [references/frame-orm-in-infrastructure.md](references/frame-orm-in-infrastructure.md)
+- Web in infrastructure: [references/frame-web-in-infrastructure.md](references/frame-web-in-infrastructure.md)
+
+**Quality and Testing:**
 
 - Boundary testing: [references/test-boundary-verification.md](references/test-boundary-verification.md)
 - Testable design: [references/test-testable-design.md](references/test-testable-design.md)
+- Layer isolation: [references/test-layer-isolation.md](references/test-layer-isolation.md)
+- Tests are architecture: [references/test-tests-are-architecture.md](references/test-tests-are-architecture.md)
+- Structural guidance: [references/anti-patterns-and-frameworks.md](references/anti-patterns-and-frameworks.md)
 - Worked examples: [references/detailed-examples.md](references/detailed-examples.md)
 
 ## References

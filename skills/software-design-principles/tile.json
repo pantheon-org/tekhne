@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/software-design-principles",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": false,
   "summary": "Apply software design principles across architecture and implementation using deterministic decision workflows, SOLID checks, structural patterns, and anti-pattern detection; use when reviewing designs, refactoring modules, or resolving maintainability and coupling risks.",
   "skills": {
