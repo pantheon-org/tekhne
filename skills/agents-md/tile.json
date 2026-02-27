@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/agents-md",
-  "version": "0.1.1",
-  "private": true,
+  "version": "0.1.2",
+  "private": false,
   "summary": "Create and maintain AGENTS.md documentation for simple projects and complex monorepos with deterministic discovery, scoped instruction files, and low-token navigation patterns; use when generating AGENTS.md, updating agent docs, or standardizing AI-facing project guidance.",
   "skills": {
     "agents-md": {
