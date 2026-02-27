@@ -1,17 +1,6 @@
 ---
 name: test-driven-development
 description: Guides TDD (test-driven development) with red-green-refactor workflows, test-first feature delivery, bug reproduction through failing tests, behavior-focused assertions, and refactoring safety. Use when writing unit tests, implementing new functions, adding test coverage, fixing regressions, changing APIs, or restructuring code under test — especially when a user says "write tests first", "TDD", or "test before code".
-keywords:
-  - tdd
-  - test-driven development
-  - red-green-refactor
-  - write failing test first
-  - test first
-  - unit testing
-  - behavior testing
-  - arrange act assert
-  - test isolation
-  - refactor safely
 ---
 
 # Test-Driven Development
