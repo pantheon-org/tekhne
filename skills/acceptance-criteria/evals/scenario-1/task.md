@@ -47,3 +47,4 @@ Based on user research:
 - Users don't know if email already exists until after form submission
 - No clear success confirmation
 ```
+

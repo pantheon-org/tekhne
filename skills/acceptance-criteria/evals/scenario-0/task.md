@@ -22,20 +22,27 @@ Save your work as `checkout-acceptance-criteria.md`.
 The following files are provided as context. Extract them before beginning.
 
 =============== FILE: inputs/current-issues.md ===============
+
 # Current Checkout Issues
 
 ## Performance Problems
+
 - Payment processing taking 8-12 seconds
 - Page timeouts during peak hours
 - No loading indicators for users
 
-## User Experience Issues  
+## User Experience Issues
+
 - Generic error messages ("Something went wrong")
 - No confirmation of successful orders
 - Users unsure if payment was processed
 
 ## Business Requirements
+
 - Must support credit cards and PayPal
 - Order confirmation required within 5 seconds
 - Need to track conversion metrics
+
+```text
 ```
+
