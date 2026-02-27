@@ -1,38 +1,40 @@
 {
-  "criteria": [
+  "context": "Refactoring an anemic domain model - tests whether the agent identifies anti-patterns and applies rich entity design principles correctly",
+  "type": "weighted_checklist",
+  "checklist": [
     {
       "name": "Classifies design decision type correctly",
-      "weight": 10,
+      "max_score": 10,
       "description": "Identifies this as a tactical design decision"
     },
     {
       "name": "Identifies anemic domain model anti-pattern",
-      "weight": 20,
+      "max_score": 20,
       "description": "Recognizes that entities are data containers without behavior"
     },
     {
       "name": "Identifies scattered business logic in services",
-      "weight": 15,
+      "max_score": 15,
       "description": "Points out business rules are in service layer instead of entities"
     },
     {
       "name": "Recommends rich entity refactoring",
-      "weight": 20,
+      "max_score": 20,
       "description": "Suggests moving business logic into domain entities"
     },
     {
       "name": "Uses BAD/GOOD format for recommendations",
-      "weight": 15,
+      "max_score": 15,
       "description": "Shows problematic code and improved alternatives"
     },
     {
       "name": "Documents tradeoffs of rich entities",
-      "weight": 10,
+      "max_score": 10,
       "description": "Explains benefits and costs of rich vs anemic domain models"
     },
     {
       "name": "Proposes concrete entity methods for business rules",
-      "weight": 10,
+      "max_score": 10,
       "description": "Shows specific methods like canBorrow(), borrow() on entities"
     }
   ]
