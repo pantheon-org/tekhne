@@ -16,6 +16,7 @@
     "tessl:import": "tessl skill import",
     "tessl:lint": "tessl skill lint",
     "tessl:publish": "tessl skill publish",
+    "tessl:publish-check": "./scripts/tessl-publish-check.sh",
     "tessl:review": "tessl skill review",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

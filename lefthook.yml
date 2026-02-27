@@ -32,3 +32,7 @@ pre-commit:
       glob: "skills/**/SKILL.md"
       run: for f in {staged_files}; do bun run tessl:review -- "$f"; done
       stage_fixed: true
+    tessl-publish-check:
+      glob: "skills/**/tile.json"
+      run: ./scripts/tessl-publish-check.sh {staged_files}
+      stage_fixed: true
