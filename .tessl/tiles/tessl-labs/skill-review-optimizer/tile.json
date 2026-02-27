@@ -1,0 +1,11 @@
+{
+  "name": "tessl-labs/skill-review-optimizer",
+  "version": "0.1.1",
+  "private": false,
+  "summary": "Automate iterative skill improvement using tessl skill review. Use when optimizing skills, improving skill quality scores, iterating on skill design based on tessl feedback, or systematically enhancing skill descriptions and content. Runs tessl reviews, parses scores and suggestions, identifies missing metadata fields, rewrites descriptions with concrete actions, restructures content sections, adjusts frontmatter fields, and guides incremental refinement until target scores are achieved.",
+  "skills": {
+    "skill-review-optimizer": {
+      "path": "SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "tessl-labs/tile-creator",
+  "version": "1.1.0",
+  "summary": "Create tessl tiles with docs, rules, and skills.",
+  "private": false,
+  "skills": {
+    "tile-creator": {
+      "path": "SKILL.md"
+    }
+  }
+}
