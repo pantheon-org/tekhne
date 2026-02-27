@@ -17,6 +17,7 @@ Domain-specific evaluation frameworks for specialized skill quality assessment.
 ## When to Add Custom Metrics
 
 Consider custom metrics when:
+
 - Standard dimensions don't capture domain needs
 - Organization has specific compliance requirements
 - Skills serve specialized audiences
@@ -307,6 +308,7 @@ With custom metrics, adjust grade scale:
 ## Best Practices
 
 ### DO
+
 - Start with standard metrics
 - Add custom metrics only when necessary
 - Document rationale for each metric
@@ -314,6 +316,7 @@ With custom metrics, adjust grade scale:
 - Re-evaluate custom metrics quarterly
 
 ### DON'T
+
 - Create metrics without clear purpose
 - Add metrics that duplicate standard dimensions
 - Make metrics too complex

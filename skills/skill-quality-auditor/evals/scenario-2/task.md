@@ -45,17 +45,18 @@ The following files are provided as inputs. Extract them before beginning.
       "severity": "Critical"
     },
     {
-      "issue": "Missing NEVER statements with WHY explanations", 
+      "issue": "Missing NEVER statements with WHY explanations",
       "dimension": "D3",
       "severity": "High"
     },
     {
       "issue": "All content frontloaded in single 400-line file",
-      "dimension": "D5", 
+      "dimension": "D5",
       "severity": "High"
     }
   ]
 }
+
 ```
 
 =============== FILE: inputs/schema-template.json ===============

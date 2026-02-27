@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent correctly identifies when NOT to use BDD, distinguishes between stakeholder-facing behavior vs internal implementation details, and applies appropriate scope boundaries for BDD feature files.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies internal implementation exclusions",
+      "description": "Correctly identifies that low-level unit behavior (validation functions, algorithms, utilities) should NOT use BDD",
+      "max_score": 25
+    },
+    {
+      "name": "Stakeholder-facing behavior identification",
+      "description": "Correctly identifies user-visible behaviors that ARE appropriate for BDD (registration, checkout, search)",
+      "max_score": 20
+    },
+    {
+      "name": "Clear scope boundaries",
+      "description": "Provides clear guidelines distinguishing BDD-appropriate vs inappropriate scenarios",
+      "max_score": 20
+    },
+    {
+      "name": "Alternative testing recommendations",
+      "description": "Suggests appropriate testing approaches for scenarios that shouldn't use BDD (unit tests, integration tests)",
+      "max_score": 15
+    },
+    {
+      "name": "Business readability principle",
+      "description": "Uses business readability as a key criterion for BDD scope decisions",
+      "max_score": 10
+    },
+    {
+      "name": "Implementation detail avoidance",
+      "description": "Explicitly excludes internal system details, algorithms, and technical components from BDD scope",
+      "max_score": 10
+    }
+  ]
+}

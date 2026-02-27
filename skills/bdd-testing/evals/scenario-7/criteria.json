@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent demonstrates advanced Cucumber CLI usage, multiple format outputs, failure analysis workflows, and enterprise CI/CD integration patterns for BDD test execution.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Multiple output formats",
+      "description": "Uses multiple --format options (JSON, HTML, JUnit) for different reporting needs",
+      "max_score": 15
+    },
+    {
+      "name": "Advanced tag strategies",
+      "description": "Demonstrates complex tag filtering for different pipeline stages (smoke vs regression vs integration)",
+      "max_score": 15
+    },
+    {
+      "name": "CI/CD pipeline integration",
+      "description": "Shows how BDD tests integrate into different CI/CD pipeline stages with appropriate execution strategies",
+      "max_score": 20
+    },
+    {
+      "name": "Failure analysis workflow",
+      "description": "Provides systematic approach for analyzing scenario failures and debugging steps",
+      "max_score": 15
+    },
+    {
+      "name": "Performance and timing considerations",
+      "description": "Addresses execution time requirements and optimization for different pipeline stages",
+      "max_score": 10
+    },
+    {
+      "name": "Report organization and usage",
+      "description": "Organizes different report formats for appropriate audiences (technical vs stakeholder)",
+      "max_score": 10
+    },
+    {
+      "name": "Configuration management",
+      "description": "Shows how to manage Cucumber configuration for different environments and use cases",
+      "max_score": 10
+    },
+    {
+      "name": "Exit code handling",
+      "description": "Properly handles Cucumber exit codes for CI/CD pipeline decision making",
+      "max_score": 5
+    }
+  ]
+}

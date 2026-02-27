@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent uses correct Cucumber command-line options for different execution scenarios, generates JSON reports, uses dry-run for validation, and applies tag filtering appropriately.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Basic cucumber execution",
+      "description": "Uses 'npx cucumber-js features' or similar command to run all feature tests",
+      "max_score": 10
+    },
+    {
+      "name": "Dry-run validation",
+      "description": "Uses '--dry-run' flag to detect missing step definitions without full execution",
+      "max_score": 15
+    },
+    {
+      "name": "Tag-based filtering",
+      "description": "Uses '--tags' parameter with logical operators (e.g., '@smoke and not @wip')",
+      "max_score": 15
+    },
+    {
+      "name": "JSON report generation",
+      "description": "Uses '--format json:' to generate machine-readable reports for CI/reporting",
+      "max_score": 15
+    },
+    {
+      "name": "Multiple execution methods",
+      "description": "Demonstrates at least 3 different ways to run cucumber tests (full, filtered, dry-run)",
+      "max_score": 10
+    },
+    {
+      "name": "Proper file paths",
+      "description": "Correctly specifies 'features' directory or specific .feature files in commands",
+      "max_score": 10
+    },
+    {
+      "name": "Exit code awareness",
+      "description": "Mentions or handles non-zero exit codes on test failures",
+      "max_score": 10
+    },
+    {
+      "name": "Report file organization",
+      "description": "Organizes generated reports in appropriate directory structure",
+      "max_score": 15
+    }
+  ]
+}

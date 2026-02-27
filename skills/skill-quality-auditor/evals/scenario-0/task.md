@@ -22,31 +22,41 @@ Create a comprehensive quality assessment that includes:
 The following files are provided as inputs. Extract them before beginning.
 
 =============== FILE: inputs/database-optimization/SKILL.md ===============
+
+```yaml
 ---
 name: database-optimization
 description: Database performance optimization techniques
 ---
+```
 
+```markdown
 # Database Optimization
 
 ## Introduction
+
 Databases are critical components of applications. Performance optimization ensures fast response times.
 
 ## Basic Concepts
+
 A database is a structured collection of data. SQL (Structured Query Language) is used to interact with relational databases.
 
 ## Query Optimization
+
 To optimize queries, you can:
+
 - Use indexes on frequently queried columns
 - Avoid SELECT * statements
 - Use LIMIT clauses
 
 Example:
+
 ```sql
 SELECT name, email FROM users WHERE active = 1 LIMIT 100;
 ```
 
 ## Indexing
+
 Indexes speed up data retrieval. Create indexes on columns used in WHERE clauses:
 
 ```sql
@@ -54,24 +64,31 @@ CREATE INDEX idx_user_active ON users(active);
 ```
 
 ## Connection Pooling
+
 Use connection pools to manage database connections efficiently. Popular tools include:
+
 - HikariCP for Java
 - pgbouncer for PostgreSQL
 
 ## Monitoring
+
 Monitor database performance using tools like:
+
 - pgAdmin for PostgreSQL  
 - MySQL Workbench for MySQL
 - MongoDB Compass for MongoDB
 
 ## Best Practices
+
 - Always backup your data
 - Use transactions for data integrity
 - Normalize your schema appropriately
 - Keep your database software updated
 
 ## Installation
+
 Most databases can be installed using package managers:
+
 ```bash
 # PostgreSQL
 sudo apt-get install postgresql
@@ -81,5 +98,6 @@ sudo apt-get install mysql-server
 ```
 
 ## Conclusion
+
 Following these practices will improve your database performance.
 ```

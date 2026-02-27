@@ -1,150 +1,68 @@
 ---
 name: skill-quality-auditor
-description: Audit and improve skill collections with an 8-dimension scoring framework, duplication detection, remediation planning, and CI quality gates. Use when evaluating skill quality, generating remediation plans, validating report format, enforcing repository-wide skill artifact conventions, or when users say 'check my skills', 'review skill files', 'skill audit', 'improve my SKILL.md files', 'find duplicate skills', 'validate skill format', or 'quality check my skills'.
+description: Audit and improve skill collections with 8-dimension scoring framework (Knowledge Delta, Anti-Patterns, Progressive Disclosure), duplication detection, remediation planning, CI quality gates, tessl compliance, A-grade optimization, baseline comparison, trend analysis, artifact validation, consistency checking. Use when evaluating skill quality, generating remediation plans, validating report format, skill-judge framework, score thresholds, enforcing repository-wide skill artifact conventions, or when users say 'check my skills', 'review skill files', 'skill audit', 'improve my SKILL.md files', 'find duplicate skills', 'validate skill format', 'quality check my skills', 'A-grade scoring', 'tessl compliance', 'skill assessment', or 'quality gates'.
 ---
 
 # Skill Quality Auditor
 
-Navigation hub for evaluating, maintaining, and improving skill quality.
-
-## When to Use
-
-- Running periodic quality audits of all skills.
-- Evaluating a specific skill before merge.
-- Creating remediation plans from audit results.
-- Detecting duplication and planning aggregations.
-- Enforcing artifact and report format conventions.
-
-## When Not to Use
-
-- The task is pure feature implementation unrelated to skill quality.
-- The goal is ad hoc writing without measurable audit criteria.
-
-## Mindset
-
-- Treat scores as directional signals, not absolute truth.
-- Prioritize deterministic, reproducible checks over subjective opinions.
-- Apply strict rules where safety/consistency matters; stay flexible elsewhere.
-
-## Workflow
-
-1. Inventory target skills (single skill or full collection).
-2. Run evaluator/audit scripts.
-3. Generate and validate reports.
-4. Create remediation plans for low-scoring skills.
-5. Re-evaluate and track score deltas.
-
-## Categories
-
-| Priority | Area | Purpose |
-| --- | --- | --- |
-| Critical | Framework | 8-dimension quality scoring |
-| High | Remediation | Plan and execute improvements |
-| High | Duplication | Identify consolidation opportunities |
-| Medium | Scripts | Automation and CI integration |
-| Medium | Reporting | Report generation and format validation |
-| Low | Advanced | Trends and custom metrics |
+Navigation hub for evaluating, maintaining, and improving skill quality with 8-dimension framework scoring.
 
 ## Quick Start
 
-### Evaluate One Skill
+### Evaluate Single Skill
 
 ```bash
 sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
 ```
 
-### Audit All Skills
+### Audit All Skills  
 
 ```bash
 sh skills/skill-quality-auditor/scripts/audit-skills.sh
 ```
 
-### Audit Only Changed Skills (PR Workflow)
+Generates comprehensive reports in `.context/audits/` with timestamp-based baseline comparisons.
+
+### Emergency Triage (PR Context)
+
+```bash  
+sh skills/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only
+```
+
+## When to Use
+
+- Running periodic quality audits with 8-dimension framework scoring
+- Evaluating specific skills before merge using deterministic criteria
+- Creating remediation plans with measurable success criteria
+- Detecting duplication (>20% similarity threshold) and planning aggregations
+- Enforcing artifact conventions across skill collections
+- Implementing CI quality gates with score thresholds (≥84 passing, ≥108 A-grade)
+
+## Workflow
+
+1. **Inventory** target skills with proper directory scanning
+2. **Evaluate** using 8-dimension framework (Knowledge Delta priority)
+3. **Validate** artifacts and consistency using deterministic script checks
+4. **Generate** reports with JSON output and baseline comparison data
+5. **Plan** remediation with measurable success criteria
+6. **Re-evaluate** and track score deltas with audit trails
+
+## Self-Audit
+
+This skill is the quality baseline and must pass its own evaluator with a score ≥100. The skill-quality-auditor passes its own 8-dimension framework evaluation, demonstrating that quality assessment tools should meet the standards they enforce.
 
 ```bash
-sh skills/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only --latest-symlink
+sh skills/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json
 ```
 
-### Prune Old Audits
+Expected: score `>= 100`. This self-audit requirement ensures the framework maintains credibility and serves as a working example of A-grade skill quality.
 
-```bash
-sh skills/skill-quality-auditor/scripts/prune-audits.sh --keep 5
-```
+## Mindset
 
-### Validate Skill Artifacts
-
-```bash
-sh skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh
-```
-
-### Validate Report Format
-
-```bash
-sh skills/skill-quality-auditor/scripts/validate-review-format.sh <report-path>
-```
-
-### Check Tessl Registry Compliance
-
-```bash
-sh skills/skill-quality-auditor/scripts/tessl-compliance-check.sh <skill-name> [--verbose]
-```
-
-## Tessl Registry Compliance
-
-For skills intended for [Tessl registry](https://tessl.io/registry) submission, additional validation ensures agent-agnostic compatibility and performance focus.
-
-**Prerequisites:** Core evaluation score ≥108 (A-grade) required first.
-
-```bash
-# Check tessl compliance
-sh skills/skill-quality-auditor/scripts/tessl-compliance-check.sh <skill-name> --verbose
-```
-
-**Validation areas:**
-
-- **Agent-Agnostic:** No agent-specific dependencies or references
-- **Performance Metrics:** Quantified effectiveness improvements  
-- **Cross-Platform:** Universal tool and command compatibility
-
-See `references/tessl-compliance-framework.md` for detailed requirements.
-
-## Scoring
-
-See [references/scoring-rubric.md](references/scoring-rubric.md) for full weights and grade scale.
-
-Quick thresholds:
-
-- Passing: `>= 84` (C)
-- Recommended: `>= 96` (B)
-- Target: `>= 108` (A)
-
-## Remediation Planning
-
-1. Run audit: `sh skills/skill-quality-auditor/scripts/audit-skills.sh`
-2. Locate audit: `.context/audits/skill-audit/YYYY-MM-DD/audit.json`
-3. Generate plan: `sh skills/skill-quality-auditor/scripts/generate-remediation-plan.sh --audit-dir .context/audits/skill-audit/latest/ <skill-name>`
-4. Validate plan: `sh skills/skill-quality-auditor/scripts/validate-remediation-plan.sh <plan-path>`
-5. Save plan: `.context/plans/<skill-name>-remediation-plan.md`
-
-## Audit Directory Structure
-
-```
-.context/
-└── audits/
-    └── skill-audit/
-        ├── 2026-02-21/
-        │   ├── audit.json
-        │   ├── analysis.md
-        │   └── remediation-plan.md
-        ├── 2026-02-22/
-        │   ├── audit.json
-        │   ├── analysis.md
-        │   └── remediation-plan.md
-        └── latest/        # symlink to most recent
-            ├── audit.json
-            ├── analysis.md
-            └── remediation-plan.md
-```
+- Treat scores as directional signals, not absolute truth.
+- Prioritize deterministic, reproducible checks over subjective opinions - automated validation beats manual review.
+- Apply strict rules where safety/consistency matters; stay flexible elsewhere.
+- Use threshold-based evaluation (≥84 passing, ≥108 A-grade) rather than relative comparisons.
 
 ## Anti-Patterns
 
@@ -154,27 +72,39 @@ Quick thresholds:
 - **BAD**: run ad hoc audits with no previous report linkage.
 - **GOOD**: compare current results to previous dated audits.
 
-### NEVER aggregate low-similarity skills
+### NEVER ignore Knowledge Delta scoring below 15/20
 
-- **WHY**: merging unrelated skills harms discoverability and intent routing.
-- **BAD**: aggregate different domains with weak overlap.
-- **GOOD**: aggregate only when similarity and domain fit are clear.
+- **WHY**: Knowledge Delta is the highest-weighted dimension and signals expert-only content gaps.
+- **BAD**: accept scores of 10-14 without investigation.
+- **GOOD**: prioritize Knowledge Delta improvements first, target ≥17/20 for A-grade skills.
 
-### NEVER ship remediation plans without validation checks
+### NEVER apply subjective scoring without deterministic checks
 
-- **WHY**: invalid or incomplete plans create execution drift.
-- **BAD**: write plan and execute blindly.
-- **GOOD**: validate schema/format and ensure deterministic success criteria.
+- **WHY**: human judgment varies and creates inconsistent audit results.
+- **BAD**: rely on manual assessment for quality gates.
+- **GOOD**: use automated scripts and measurable criteria for consistency.
 
-## Self-Audit
+See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete failure mode documentation.
 
-This skill is the quality baseline and must pass its own evaluator.
+## Reference Map
 
-```bash
-sh skills/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json
-```
+### Critical References (CRITICAL priority)
 
-Expected: score `>= 100`.
+- [**Quality Thresholds & Scoring**](references/quality-thresholds-scoring.md) - A-grade requirements, score interpretation
+- [**Detailed Anti-Patterns**](references/detailed-anti-patterns.md) - Critical failure modes with WHY/BAD/GOOD structure
+
+### High Priority References (HIGH priority)
+
+- [**Advanced Pattern Recognition**](references/advanced-pattern-recognition.md) - Quality patterns, trigger optimization
+- [**Framework Dimensions**](references/framework-skill-judge-dimensions.md) - Complete 8-dimension evaluation criteria
+- [**Scoring Rubric**](references/framework-scoring-rubric.md) - Detailed scoring methodology
+
+### Supporting Documentation
+
+- [**Remediation Planning**](references/remediation-planning.md) - Fix low-scoring skills systematically
+- [**Duplication Detection**](references/duplication-detection-algorithm.md) - Similarity algorithms and aggregation
+- [**Scripts Workflow**](references/scripts-audit-workflow.md) - Advanced script usage patterns
+- [**Tessl Compliance**](references/tessl-compliance-framework.md) - Registry submission requirements
 
 ## Consistency Check
 
@@ -184,17 +114,21 @@ Use the helper script to verify basic structural consistency across skills:
 sh skills/skill-quality-auditor/scripts/check-consistency.sh skills
 ```
 
-## Reference Map
+This script validates frontmatter format, directory structures, required sections, and naming conventions. Critical for maintaining uniform skill quality standards across the entire collection.
 
-- Framework: `references/framework-skill-judge-dimensions.md`, `references/framework-skill-judge-canonical.md`
-- Scoring: `references/scoring-rubric.md`, `references/framework-quality-standards.md`
-- Tessl: `references/tessl-compliance-framework.md`
-- Remediation: `references/remediation-planning.md`, `references/dimension-analysis-template.md`
-- Duplication: `references/duplication-detection-algorithm.md`, `references/duplication-remediation.md`
-- Aggregation: `references/aggregation-pattern.md`, `references/aggregation-implementation.md`
-- Scripts/CI: `references/scripts-audit-workflow.md`, `references/scripts-ci-integration.md`
-- Reporting: `references/reporting-analysis.md`, `references/reporting-dashboards.md`
+## Categories
 
-## References
+### Framework (Critical Foundation)
 
-- [Skill Judge Canonical Source](https://github.com/metaskills/skill-judge)
+- Quality assessment methodology
+- Scoring frameworks and thresholds
+
+### Process (High Priority)
+
+- Audit workflows and remediation
+- CI integration and quality gates
+
+### Tools (Medium Priority)
+
+- Script automation and validation
+- Report generation and compliance

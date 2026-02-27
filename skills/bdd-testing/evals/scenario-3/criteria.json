@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent creates scenarios with proper Given/When/Then structure, avoids cross-scenario dependencies, ensures deterministic execution, and makes each scenario independently executable.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Given/When/Then structure",
+      "description": "All scenarios follow proper Gherkin Given/When/Then structure with clear steps",
+      "max_score": 15
+    },
+    {
+      "name": "Scenario independence",
+      "description": "Each scenario creates or mocks its own prerequisites rather than depending on other scenarios",
+      "max_score": 20
+    },
+    {
+      "name": "No cross-scenario coupling",
+      "description": "Scenarios do NOT assume data or state created by other scenarios",
+      "max_score": 20
+    },
+    {
+      "name": "Deterministic execution",
+      "description": "Scenarios are designed to produce consistent results regardless of execution order",
+      "max_score": 15
+    },
+    {
+      "name": "Self-contained setup",
+      "description": "Each scenario includes its own Given steps for required context and data",
+      "max_score": 15
+    },
+    {
+      "name": "Single behavior focus",
+      "description": "Each scenario focuses on testing one specific behavior or user journey",
+      "max_score": 10
+    },
+    {
+      "name": "Cleanup consideration",
+      "description": "Scenarios are designed to not leave state that affects other scenarios",
+      "max_score": 5
+    }
+  ]
+}

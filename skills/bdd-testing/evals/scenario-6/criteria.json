@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent demonstrates systematic approaches to removing duplication in BDD tests, refactoring similar scenarios, creating reusable step definitions, and maintaining test suite quality during maintenance.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Duplication identification",
+      "description": "Identifies specific patterns of duplication in scenarios and step definitions",
+      "max_score": 15
+    },
+    {
+      "name": "Scenario consolidation strategy",
+      "description": "Demonstrates how to consolidate similar scenarios while preserving test coverage and intent",
+      "max_score": 20
+    },
+    {
+      "name": "Step definition refactoring",
+      "description": "Shows how to refactor similar steps into reusable, parameterized definitions",
+      "max_score": 20
+    },
+    {
+      "name": "Maintains scenario readability",
+      "description": "Ensures refactored scenarios remain readable and understandable to non-technical stakeholders",
+      "max_score": 15
+    },
+    {
+      "name": "Systematic refactoring approach",
+      "description": "Provides a methodical process for identifying and eliminating duplication across the test suite",
+      "max_score": 15
+    },
+    {
+      "name": "Preserves test intent",
+      "description": "Maintains the original business intent and coverage while reducing duplication",
+      "max_score": 10
+    },
+    {
+      "name": "Reusable step library design",
+      "description": "Creates patterns for building reusable, maintainable step definition libraries",
+      "max_score": 5
+    }
+  ]
+}

@@ -22,21 +22,27 @@ Create enhanced documentation that includes:
 The following files are provided as inputs. Extract them before beginning.
 
 =============== FILE: inputs/original-guide.md ===============
+
 # Security Best Practices
 
 ## Authentication
+
 Use secure authentication methods in your applications.
 
 ## Data Validation
+
 Always validate user input to prevent issues.
 
 ## Database Access
+
 Use proper database access patterns for security.
 
 ## Error Handling
+
 Handle errors appropriately in your application.
 
 ## Code Examples
+
 Here are some good examples:
 
 ```javascript
@@ -49,6 +55,7 @@ const isValid = validate(input);
 // Database
 const result = db.query(sql, params);
 ```
+
 ```
 
 =============== FILE: inputs/user-feedback.json ===============

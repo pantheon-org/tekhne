@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent uses business-facing language, creates readable scenarios for non-developers, specifies observable behavior rather than implementation details, and structures scenarios with proper Given/When/Then format.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Business language usage",
+      "description": "Feature file uses business-facing terminology that stakeholders would understand, avoiding technical jargon",
+      "max_score": 15
+    },
+    {
+      "name": "Non-developer readability",
+      "description": "Scenarios are written in plain language that business stakeholders could review and understand",
+      "max_score": 15
+    },
+    {
+      "name": "Observable behavior focus",
+      "description": "Scenarios specify user-visible outcomes rather than internal system behavior or implementation details",
+      "max_score": 15
+    },
+    {
+      "name": "Given/When/Then structure",
+      "description": "Scenarios follow proper Gherkin Given/When/Then structure with clear context/action/outcome",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids implementation details",
+      "description": "Steps do NOT reference specific UI elements, APIs, database operations, or internal method calls",
+      "max_score": 15
+    },
+    {
+      "name": "Specific observable outcomes",
+      "description": "Then steps specify concrete, verifiable outcomes like displayed text, visible elements, or user feedback",
+      "max_score": 10
+    },
+    {
+      "name": "Single behavior focus",
+      "description": "Each scenario focuses on testing one specific behavior or user journey",
+      "max_score": 10
+    },
+    {
+      "name": "Deterministic scenarios",
+      "description": "Scenarios are written to be repeatable and predictable without external dependencies",
+      "max_score": 10
+    }
+  ]
+}

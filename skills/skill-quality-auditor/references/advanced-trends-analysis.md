@@ -24,6 +24,7 @@ Historical tracking and trend analysis for skill quality metrics over time.
 ```
 
 **Captured Data:**
+
 - Total skill count
 - Grade distribution
 - Average score

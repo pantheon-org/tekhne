@@ -13,6 +13,7 @@ Guide to interpreting skill quality audit reports and taking action based on fin
 ### Quality Report (skill-audit-*.md)
 
 Contains:
+
 - Overall skill collection statistics
 - Individual skill scores and grades
 - Grade distribution
@@ -21,6 +22,7 @@ Contains:
 ### Duplication Report (duplication-report-*.md)
 
 Contains:
+
 - Skill pairs with similarity percentages
 - High-priority consolidation candidates
 - Common content patterns
@@ -29,6 +31,7 @@ Contains:
 ### Aggregation Plan (aggregation-plan-*.md)
 
 Contains:
+
 - Source skills for consolidation
 - Proposed category structure
 - Estimated effort and ROI
@@ -47,6 +50,7 @@ Contains:
 ```
 
 **Interpretation:**
+
 - Target: 90%+ A-grade
 - Warning: Any C-grade skills
 - Critical: D or F grades
@@ -74,14 +78,17 @@ Contains:
 ### Common Score Patterns
 
 **High Lines, Low Score (450, 72):**
+
 - Problem: Overly verbose, not focused
 - Solution: Progressive disclosure, extract to references
 
 **Low Lines, Low Score (80, 75):**
+
 - Problem: Missing content, incomplete
 - Solution: Add missing dimensions (anti-patterns, examples)
 
 **High Lines, High Score (450, 105):**
+
 - Problem: Good content but needs reorganization
 - Solution: Split into navigation hub + references
 
@@ -118,6 +125,7 @@ Contains:
 ```
 
 **Actions:**
+
 - Calculate consolidation ROI
 - Plan aggregation implementation
 - Schedule remediation
@@ -214,6 +222,7 @@ diff .context/analysis/skill-audit-2026-01-15.md \
 ```
 
 **Look for:**
+
 - Grade changes (improvements/regressions)
 - New skills added
 - Skills removed/deprecated
@@ -251,6 +260,7 @@ diff .context/analysis/skill-audit-2026-01-15.md \
 ### Technical Details
 
 Provide full reports for technical teams with:
+
 - Complete score breakdowns
 - All dimension scores
 - Specific improvement recommendations

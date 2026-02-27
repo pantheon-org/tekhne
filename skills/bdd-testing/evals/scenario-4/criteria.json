@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent demonstrates Three Amigos collaborative approach, avoids vague Then steps, ensures scenarios have observable outcomes, and documents alignment between product/engineering/QA perspectives.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Three Amigos collaboration",
+      "description": "Documents or demonstrates alignment between product, engineering, and QA perspectives before writing scenarios",
+      "max_score": 20
+    },
+    {
+      "name": "Avoids vague outcomes",
+      "description": "Then steps specify concrete, observable outcomes rather than vague assertions like 'should work correctly'",
+      "max_score": 20
+    },
+    {
+      "name": "Observable behavior specification",
+      "description": "Scenarios specify user-visible or system-observable outcomes that can be verified",
+      "max_score": 15
+    },
+    {
+      "name": "Stakeholder alignment evidence",
+      "description": "Shows consideration of different stakeholder perspectives (product, engineering, QA) in scenario creation",
+      "max_score": 15
+    },
+    {
+      "name": "Specific examples over abstractions",
+      "description": "Uses concrete examples and specific values rather than abstract or generic wording",
+      "max_score": 15
+    },
+    {
+      "name": "Anti-pattern avoidance",
+      "description": "Actively avoids documented BDD anti-patterns like implementation details in steps or scenario dependencies",
+      "max_score": 10
+    },
+    {
+      "name": "Business language consistency",
+      "description": "Maintains shared business terminology that all stakeholders can understand",
+      "max_score": 5
+    }
+  ]
+}

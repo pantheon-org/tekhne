@@ -11,6 +11,7 @@ Step-by-step guide to consolidating related skills using the Navigation Hub + Re
 ## When to Aggregate
 
 Aggregate skills when you have:
+
 - **Skill families** - Related skills with shared domain (bdd-*, typescript-*, bun-*)
 - **>20% duplication** - Redundant content across multiple skills
 - **User confusion** - "Which skill should I use?"
@@ -18,6 +19,7 @@ Aggregate skills when you have:
 - **Oversized skills** - Individual skills >500 lines
 
 **Do NOT aggregate when:**
+
 - <20% similarity (creates confusion)
 - Different domains (don't mix BDD with Docker)
 - Skills already well-organized
@@ -54,6 +56,7 @@ wc -l .agents/skills/bdd-*/SKILL.md
 | Maintenance pain | >3 update locations | HIGH |
 
 **Example Analysis:**
+
 ```
 BDD Skills Family:
 - bdd-collaboration (237 lines)
@@ -89,11 +92,13 @@ DECISION: AGGREGATE ✅
 ```
 
 **Naming Convention:**
+
 - Use `prefix-specific-topic.md` format
 - Example: `principles-three-amigos.md`, `gherkin-syntax.md`
 - Lowercase with hyphens
 
 **Priority Guidelines:**
+
 - **CRITICAL**: Foundation concepts, load first
 - **HIGH**: Core functionality, frequently used
 - **MEDIUM**: Specialized features
@@ -158,6 +163,7 @@ See `AGENTS.md` for complete file listing.
 ```
 
 **Real Example (bdd-testing):**
+
 ```markdown
 ---
 name: bdd-testing
@@ -191,11 +197,13 @@ Complete Behavior-Driven Development workflow covering collaboration, Gherkin sc
 **For each category:**
 
 1. **Create reference file**:
+
 ```bash
 touch .agents/skills/[aggregation]/references/[prefix]-[topic].md
 ```
 
-2. **Add frontmatter**:
+1. **Add frontmatter**:
+
 ```markdown
 ---
 category: [category-name]
@@ -208,7 +216,7 @@ source: [original-skill-name]
 [2-3 sentence overview]
 ```
 
-3. **Extract expert knowledge**:
+1. **Extract expert knowledge**:
    - Read original skill
    - Copy ONLY expert-level content
    - Remove tutorials, installation, basic syntax
@@ -216,7 +224,8 @@ source: [original-skill-name]
    - Include best practices
    - Include anti-patterns with WHY
 
-4. **Structure content**:
+2. **Structure content**:
+
 ```markdown
 ## Overview
 [What this topic covers]
@@ -241,6 +250,7 @@ source: [original-skill-name]
 ```
 
 **Example (principles-three-amigos.md):**
+
 ```markdown
 ---
 category: principles
@@ -316,6 +326,7 @@ Scenario: Expired reset link
 - @see principles-example-mapping.md - Structured discovery technique
 - @see principles-ubiquitous-language.md - Shared vocabulary
 - @see gherkin-scenarios.md - Writing Given-When-Then
+
 ```
 
 ### Step 5: Create AGENTS.md Navigation Guide
@@ -358,6 +369,7 @@ Scenario: Expired reset link
 ## Complete File Listing
 
 ```
+
 .agents/skills/[aggregation]/
 ├── SKILL.md
 ├── AGENTS.md
@@ -366,6 +378,7 @@ Scenario: Expired reset link
 │   └── category-file2.md
 └── scripts/
     └── script.sh
+
 ```
 
 ## Navigation Workflow
@@ -426,6 +439,7 @@ EOF
 ```
 
 **Verify deprecation:**
+
 ```bash
 # Count active skills
 ls -1 .agents/skills/ | grep -v "^\." | wc -l
@@ -455,6 +469,7 @@ After completing all 6 steps:
 ## Success Metrics
 
 Target outcomes:
+
 - **90%+ size reduction** from original total lines
 - **<5% duplication** across collection
 - **A-grade score** (≥108/120) on skill-judge evaluation

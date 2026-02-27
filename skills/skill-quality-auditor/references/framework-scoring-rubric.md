@@ -28,6 +28,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-8 | Failing | >50% |
 
 **Evaluation Method:**
+
 1. Read entire skill content
 2. Identify content AI assistants already know
 3. Calculate: Expert Content / Total Content
@@ -43,6 +44,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-6 | Generic or absent |
 
 **Component Breakdown:**
+
 - Clear Mindset/Philosophy: 5 points
 - Step-by-Step Procedures: 5 points
 - When/When-Not Guidance: 5 points
@@ -57,6 +59,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-6 | Missing or weak |
 
 **Component Breakdown:**
+
 - NEVER Lists with WHY: 5 points
 - Concrete Examples: 5 points
 - Consequences Explained: 5 points
@@ -71,6 +74,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-6 | Non-compliant |
 
 **Component Breakdown:**
+
 - Description Field Quality: 10 points (most critical)
 - Proper Frontmatter: 3 points
 - Activation Keywords: 2 points
@@ -85,6 +89,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-6 | No structure, >500 lines |
 
 **Component Breakdown:**
+
 - Navigation Hub Approach: 8 points
 - References Directory: 4 points
 - Category Organization: 3 points
@@ -99,6 +104,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-6 | Completely wrong |
 
 **Calibration Types:**
+
 - Rigid (Mindset skills): Strong rules, must follow
 - Balanced (Process skills): Clear steps with flexibility
 - Flexible (Tool skills): Options and trade-offs
@@ -113,6 +119,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-4 | Missing or poor |
 
 **Evaluation Method:**
+
 - Count domain keywords in description
 - Check trigger scenarios present
 - Verify activation clarity
@@ -127,6 +134,7 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 | 0-6 | Abstract or missing |
 
 **Component Breakdown:**
+
 - Concrete Examples: 5 points
 - Runnable Code: 5 points
 - Clear Structure: 5 points
@@ -147,18 +155,23 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 ## Scoring Process
 
 ### Step 1: Read and Understand
+
 Read the entire skill, including all references if present.
 
 ### Step 2: Score Each Dimension
+
 Apply rubric to each of 8 dimensions independently.
 
 ### Step 3: Calculate Total
+
 Sum all 8 dimension scores for total out of 120.
 
 ### Step 4: Assign Grade
+
 Map total score to grade using grade assignment table.
 
 ### Step 5: Identify Improvements
+
 For scores below A-grade, identify specific improvements needed.
 
 ## Common Score Patterns

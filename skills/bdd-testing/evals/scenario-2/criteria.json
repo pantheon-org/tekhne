@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent implements step definitions that map to business language, avoids encoding implementation details in steps, and maintains the business meaning while implementing executable test logic.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Business language mapping",
+      "description": "Step definitions preserve and map directly to the business terminology used in the scenarios",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids implementation details",
+      "description": "Step implementations do NOT expose UI elements, API calls, database queries, or internal method names",
+      "max_score": 20
+    },
+    {
+      "name": "Maintains scenario meaning",
+      "description": "Step definitions implement the business intent rather than technical implementation",
+      "max_score": 15
+    },
+    {
+      "name": "Proper Cucumber syntax",
+      "description": "Uses Given/When/Then imports and correct step definition syntax",
+      "max_score": 10
+    },
+    {
+      "name": "Step reusability",
+      "description": "Creates steps that can be reused across different scenarios with similar meaning",
+      "max_score": 15
+    },
+    {
+      "name": "Abstraction layer",
+      "description": "Step definitions act as a translation layer between business language and implementation",
+      "max_score": 15
+    },
+    {
+      "name": "No brittle dependencies",
+      "description": "Steps don't couple to specific UI elements, selectors, or implementation details that could change",
+      "max_score": 10
+    }
+  ]
+}
