@@ -82,6 +82,28 @@ The script automatically:
 2. **Lints and reviews** skills with `tile.json` using `tessl skill lint` and `tessl skill review`
 3. **Publishes** skills that pass validation (if not already published)
 
+### Manual Skill Review and Publishing Workflow
+
+When manually reviewing and publishing individual skills to the public Tessl registry:
+
+```bash
+# 1. Initial quality assessment
+tessl skill review skills/<skill-name>
+
+# 2. Optimize if score < 90% (critical step!)
+tessl skill review skills/<skill-name> --optimize
+
+# 3. Prepare for public publishing
+# - Set "private": false in tile.json
+# - Bump version if already published privately
+# - Target 90%+ quality scores for public skills
+
+# 4. Publish to public registry
+tessl skill publish skills/<skill-name> --public
+```
+
+**Key insight**: Always use `--optimize` flag for skills scoring below 90%. This can dramatically improve scores (observed 85% → 99% improvements) by applying Tessl's automatic optimization engine.
+
 See `scripts/README.md` for detailed usage information.
 
 ## Git Hooks

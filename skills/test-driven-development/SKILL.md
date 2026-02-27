@@ -1,6 +1,6 @@
 ---
 name: test-driven-development
-description: Master Test-Driven Development with deterministic red-green-refactor workflows, test-first feature delivery, bug reproduction through failing tests, behavior-focused assertions, and refactoring safety; use when implementing new functions, changing APIs, fixing regressions, or restructuring code under test.
+description: Guides TDD (test-driven development) with red-green-refactor workflows, test-first feature delivery, bug reproduction through failing tests, behavior-focused assertions, and refactoring safety. Use when writing unit tests, implementing new functions, adding test coverage, fixing regressions, changing APIs, or restructuring code under test — especially when a user says "write tests first", "TDD", or "test before code".
 keywords:
   - tdd
   - test-driven development
@@ -54,6 +54,53 @@ Navigation hub for applying TDD in day-to-day implementation work.
 4. Refactor while keeping the suite green.
 5. Repeat for next behavior/edge case.
 
+### Example: Red-Green-Refactor Cycle (TypeScript)
+
+**RED — write the failing test first:**
+
+```typescript
+// add.test.ts
+import { add } from "./add";
+
+test("add returns the sum of two numbers", () => {
+  expect(add(2, 3)).toBe(5);
+});
+// ❌ Fails: cannot find module './add'
+```
+
+**GREEN — implement the minimum code to pass:**
+
+```typescript
+// add.ts
+export function add(a: number, b: number): number {
+  return a + b;
+}
+// ✅ Test passes
+```
+
+**REFACTOR — improve without breaking green:**
+
+```typescript
+// add.ts — no logic change needed here, but you might rename,
+// extract constants, or improve types while the suite stays green.
+export const add = (a: number, b: number): number => a + b;
+// ✅ Still green
+```
+
+### Example: Elixir variant
+
+```elixir
+# test/math_test.exs  (RED)
+test "add/2 returns the sum" do
+  assert Math.add(2, 3) == 5
+end
+
+# lib/math.ex  (GREEN)
+defmodule Math do
+  def add(a, b), do: a + b
+end
+```
+
 ## Quick Commands
 
 ```bash
@@ -81,22 +128,56 @@ mix test
 ### NEVER implement feature code before writing a failing test
 
 WHY: skipping RED phase removes behavior-first design pressure.
-BAD: write production code then add tests after. GOOD: test first, then minimal implementation.
+
+```typescript
+// BAD: production code written first, test added after
+export function greet(name: string) { return `Hello, ${name}!`; }
+// ... then test written to match existing impl
+
+// GOOD: test written first, impl follows
+test("greet returns a personalised greeting", () => {
+  expect(greet("Ada")).toBe("Hello, Ada!");
+});
+// ❌ red → write greet() → ✅ green
+```
 
 ### NEVER test implementation details instead of behavior
 
 WHY: implementation-coupled tests break during valid refactors.
-BAD: assert private calls/internal sequence. GOOD: assert observable outcomes and contract behavior.
+
+```typescript
+// BAD: asserting internal call sequence
+expect(mockFormatter.format).toHaveBeenCalledBefore(mockLogger.log);
+
+// GOOD: assert observable output
+expect(result).toBe("Hello, Ada!");
+```
 
 ### NEVER combine multiple behaviors into one test case
 
 WHY: failures become ambiguous and debugging slows down.
-BAD: one test covers create/login/update/delete flow. GOOD: one behavior per test.
+
+```typescript
+// BAD: one test covers create/login/update/delete flow
+test("user lifecycle", () => { /* 40 lines */ });
+
+// GOOD: one behavior per test
+test("createUser returns a user with the given name", () => { ... });
+test("login returns a session token for valid credentials", () => { ... });
+```
 
 ### NEVER use arbitrary sleeps in unit tests
 
 WHY: fixed waits create flaky and slow suites.
-BAD: `await sleep(1000)`. GOOD: synchronize with deterministic signals or direct assertions.
+
+```typescript
+// BAD
+await sleep(1000);
+expect(result).toBeDefined();
+
+// GOOD: synchronize with deterministic signals
+await expect(promise).resolves.toBeDefined();
+```
 
 ## Quick Reference
 
