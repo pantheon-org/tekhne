@@ -1,11 +1,6 @@
 ---
 name: markdown-authoring
-description: Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+description: "Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style."
 ---
 
 # Markdown Authoring
@@ -30,7 +25,8 @@ Do not use this skill for non-Markdown document formats (for example `.adoc` or 
 1. Identify document type (README, guide, API doc, changelog).
 2. Apply template and section order from references.
 3. Write content with concise headings and actionable examples.
-4. Run markdownlint locally and fix violations.
+4. Run markdownlint locally and fix violations. Re-run until zero errors are reported. If a violation persists: identify the specific rule, fix the source content or apply a narrow, justified inline exception, then re-lint. Do not proceed until lint is clean.
+   - Lint-fix loop: `lint fails → identify rule → fix source or add justified exception → re-lint → proceed only when clean`
 5. Validate CI/pre-commit integration for regression prevention.
 
 ## Quick Commands
