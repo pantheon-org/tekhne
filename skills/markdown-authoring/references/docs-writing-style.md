@@ -5,11 +5,13 @@
 ### Be Concise
 
 **Bad:**
+
 ```markdown
 In order to be able to use this feature, you will need to first install the package and then configure it properly before you can actually start using it.
 ```
 
 **Good:**
+
 ```markdown
 Install and configure the package before use.
 ```
@@ -17,11 +19,13 @@ Install and configure the package before use.
 ### Use Active Voice
 
 **Bad:**
+
 ```markdown
 The file is read by the parser and the data is extracted.
 ```
 
 **Good:**
+
 ```markdown
 The parser reads the file and extracts the data.
 ```
@@ -29,16 +33,19 @@ The parser reads the file and extracts the data.
 ### Address the Reader Directly
 
 **Bad:**
+
 ```markdown
 One should configure the database before starting the application.
 ```
 
 **Good:**
+
 ```markdown
 Configure the database before starting the application.
 ```
 
 Or:
+
 ```markdown
 You should configure the database before starting the application.
 ```
@@ -46,11 +53,13 @@ You should configure the database before starting the application.
 ### Use Present Tense
 
 **Bad:**
+
 ```markdown
 The function will return a promise that will resolve with the data.
 ```
 
 **Good:**
+
 ```markdown
 The function returns a promise that resolves with the data.
 ```
@@ -67,6 +76,7 @@ The function returns a promise that resolves with the data.
 - Include more examples
 
 **Example:**
+
 ```markdown
 ## Installation
 
@@ -77,6 +87,8 @@ npm install package-name
 ```
 
 This downloads the package and adds it to your project's dependencies.
+
+```text
 ```
 
 #### Advanced Users
@@ -94,7 +106,9 @@ This downloads the package and adds it to your project's dependencies.
 npm install package-name
 ```
 
-Supports Node.js 18+ with ESM and CJS. See [Migration Guide](migration.md) for upgrading from v1.x.
+Supports Node.js 18+ with ESM and CJS. See the [changelog](./docs-changelog.md) for upgrading from v1.x.
+
+```text
 ```
 
 ### Progressive Disclosure
@@ -126,7 +140,10 @@ For fine-grained control, use the low-level API:
 const client = api.createClient();
 client.configure({ /* ... */ });
 const result = await client.request({ /* ... */ });
+```javascript
 ```
+
+```text
 ```
 
 ## Technical Writing
@@ -139,6 +156,7 @@ Configure the settings appropriately.
 ```
 
 **Good:**
+
 ```markdown
 Set `timeout` to `5000` and `retries` to `3`.
 ```
@@ -146,11 +164,13 @@ Set `timeout` to `5000` and `retries` to `3`.
 ### Use Examples
 
 **Bad:**
+
 ```markdown
 The function accepts various options for configuration.
 ```
 
 **Good:**
+
 ```markdown
 ```javascript
 fetchData({
@@ -159,6 +179,7 @@ fetchData({
   cache: true       // Enable response caching
 });
 ```
+
 ```
 
 ### Define Technical Terms
@@ -169,6 +190,7 @@ Use JWT (JSON Web Token) for authentication. JWTs are...
 ```
 
 Subsequent uses:
+
 ```markdown
 The JWT contains...
 ```
@@ -176,11 +198,13 @@ The JWT contains...
 ### Avoid Ambiguity
 
 **Bad:**
+
 ```markdown
 Run the script before deployment.
 ```
 
 **Good:**
+
 ```markdown
 Run `npm run build` before deploying to production.
 ```
@@ -192,6 +216,7 @@ Run `npm run build` before deploying to production.
 #### Inline Comments
 
 For single lines:
+
 ```javascript
 const timeout = 5000; // Connection timeout in milliseconds
 ```
@@ -199,6 +224,7 @@ const timeout = 5000; // Connection timeout in milliseconds
 #### Block Comments
 
 For functions, classes, or complex logic:
+
 ```javascript
 /**
  * Fetches user data from the API.
@@ -269,6 +295,7 @@ module.exports = {
 Start items with same part of speech:
 
 **Bad:**
+
 ```markdown
 - Installing dependencies
 - Configuration
@@ -276,6 +303,7 @@ Start items with same part of speech:
 ```
 
 **Good:**
+
 ```markdown
 - Install dependencies
 - Configure settings
@@ -285,16 +313,19 @@ Start items with same part of speech:
 ### Emphasis
 
 Use sparingly:
+
 - **Bold** for important terms or actions
 - *Italic* for emphasis or new terms
 - `Code` for code references
 
 **Bad:**
+
 ```markdown
 **IMPORTANT:** You **MUST** run `npm install` **before** starting!
 ```
 
 **Good:**
+
 ```markdown
 Run `npm install` before starting.
 ```
@@ -304,16 +335,19 @@ Run `npm install` before starting.
 ### Professional but Friendly
 
 **Too Formal:**
+
 ```markdown
 One must ensure that the appropriate configuration has been applied prior to initialization.
 ```
 
 **Too Casual:**
+
 ```markdown
 Just slap in some config and you're good to go!
 ```
 
 **Just Right:**
+
 ```markdown
 Configure the application before starting it.
 ```
@@ -321,21 +355,25 @@ Configure the application before starting it.
 ### Avoid Unnecessary Words
 
 **Wordy:**
+
 ```markdown
 In order to be able to use this feature...
 ```
 
 **Concise:**
+
 ```markdown
 To use this feature...
 ```
 
 **Wordy:**
+
 ```markdown
 It is important to note that...
 ```
 
 **Concise:**
+
 ```markdown
 Note:
 ```
@@ -343,11 +381,13 @@ Note:
 ### Positive Language
 
 **Negative:**
+
 ```markdown
 Don't forget to configure the database or the application won't work.
 ```
 
 **Positive:**
+
 ```markdown
 Configure the database to ensure the application works correctly.
 ```
@@ -357,17 +397,20 @@ Configure the database to ensure the application works correctly.
 ### Assuming Knowledge
 
 **Bad:**
+
 ```markdown
 Use the CLI to scaffold the project.
 ```
 
 **Good:**
+
 ```markdown
 Use the command-line interface (CLI) to generate project files:
 
 ```bash
 npx create-app my-project
 ```
+
 ```
 
 ### Vague Instructions
@@ -378,6 +421,7 @@ Update the configuration as needed.
 ```
 
 **Good:**
+
 ```markdown
 Update `config.json`:
 
@@ -387,6 +431,7 @@ Update `config.json`:
   "timeout": 5000
 }
 ```
+
 ```
 
 ### Missing Context
@@ -398,6 +443,7 @@ Run the migration:
 ```bash
 npm run migrate
 ```
+
 ```
 
 **Good:**
@@ -409,6 +455,7 @@ npm run migrate
 ```
 
 This creates the `users` and `posts` tables in your database.
+
 ```
 
 ## Best Practices

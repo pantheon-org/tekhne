@@ -25,6 +25,8 @@ project.doSomething();
 ## License
 
 MIT
+
+```text
 ```
 
 ## Comprehensive README Template
@@ -104,19 +106,21 @@ Configuration options:
 
 ## API Reference
 
-See [API Documentation](docs/api.md) for detailed API reference.
+See [API Documentation](./docs-api.md) for detailed API reference.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+See [Contributing Guide](./docs-organization.md) for contribution guidelines.
 
 ## License
 
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+This project is licensed under the MIT License - see the project LICENSE file for details.
 
 ## Acknowledgments
 
 - Credit contributors, inspirations, or related projects
+
+```text
 ```
 
 ## Key Sections
@@ -135,6 +139,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 ### Description
 
 1-2 paragraphs explaining:
+
 - What the project does
 - Why it exists
 - Key benefits
@@ -143,6 +148,7 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 ### Installation
 
 Step-by-step setup instructions:
+
 - Prerequisites with versions
 - Installation commands
 - Environment setup
@@ -199,11 +205,13 @@ Explain the problem before the solution:
 Use examples instead of descriptions:
 
 **Bad:**
+
 ```markdown
 This library makes API calls easier.
 ```
 
 **Good:**
+
 ```markdown
 ```javascript
 // Before
@@ -214,7 +222,10 @@ fetch('https://api.example.com/users')
 
 // After
 const users = await api.get('/users');
+```javascript
 ```
+
+```text
 ```
 
 ### Quick Start First
@@ -230,9 +241,11 @@ cd my-project
 npm start
 ```
 
-Open http://localhost:3000 to see your app.
+Open <http://localhost:3000> to see your app.
 
-That's it! See [detailed installation](docs/installation.md) for more options.
+That's it! See [installation](#installation) for more options.
+
+```text
 ```
 
 ### Progressive Disclosure
@@ -286,6 +299,7 @@ This comprehensive enterprise-grade solution leverages cutting-edge technologies
 ```
 
 **Good:**
+
 ```markdown
 # Project
 
@@ -298,6 +312,7 @@ npm install project
 ```javascript
 const users = await db.users.findMany();
 ```
+
 ```
 
 ### No Examples
@@ -310,6 +325,7 @@ Install the package and import it into your project. Configure as needed.
 ```
 
 **Good:**
+
 ```markdown
 ## Usage
 
@@ -321,7 +337,10 @@ const client = createClient({
 });
 
 const data = await client.fetch('/users');
+```javascript
 ```
+
+```text
 ```
 
 ### Outdated Information
