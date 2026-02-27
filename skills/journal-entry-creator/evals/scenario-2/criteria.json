@@ -1,0 +1,66 @@
+{
+  "context": "Tests article summary entry creation with proper type classification and external content handling.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Article-summary schema",
+      "description": "Shows evidence of loading article-summary.yaml template schema",
+      "max_score": 8
+    },
+    {
+      "name": "Entry type identification",
+      "description": "Correctly identified as article summary type based on URL/source context",
+      "max_score": 8
+    },
+    {
+      "name": "Article tag inclusion",
+      "description": "Includes required 'article' tag in frontmatter (not video/podcast/talk)",
+      "max_score": 10
+    },
+    {
+      "name": "Directory placement",
+      "description": "File created in correct YYYY/MM/ directory structure",
+      "max_score": 8
+    },
+    {
+      "name": "Filename slug format",
+      "description": "Uses lowercase slug with hyphens, no uppercase letters or underscores",
+      "max_score": 8
+    },
+    {
+      "name": "Triple date consistency",
+      "description": "Date matches exactly in filename, frontmatter date field, and H1 title",
+      "max_score": 10
+    },
+    {
+      "name": "H1 format compliance",
+      "description": "H1 uses correct 'Topic - Month D, YYYY' format (not Month DD)",
+      "max_score": 8
+    },
+    {
+      "name": "Unique H1 heading",
+      "description": "Document has exactly one H1 heading, no multiples",
+      "max_score": 8
+    },
+    {
+      "name": "Tag synchronization",
+      "description": "Frontmatter tags array matches Tags section with pipe separators",
+      "max_score": 10
+    },
+    {
+      "name": "Hyphenated tags",
+      "description": "All tags use lowercase-hyphenated format (event-sourcing not EventSourcing)",
+      "max_score": 8
+    },
+    {
+      "name": "Code block languages",
+      "description": "Any code blocks include language specifiers, no bare backticks",
+      "max_score": 8
+    },
+    {
+      "name": "Metadata formatting",
+      "description": "Metadata block uses **Key:** Value format with proper bold formatting",
+      "max_score": 6
+    }
+  ]
+}

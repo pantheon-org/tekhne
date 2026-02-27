@@ -1,0 +1,61 @@
+{
+  "context": "Tests edge case handling including file naming constraints, overwrite protection, and complex technical scenarios.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Schema loading first",
+      "description": "Evidence shows template schema was read before attempting generation",
+      "max_score": 8
+    },
+    {
+      "name": "Lowercase filename slug",
+      "description": "Converts technical terms to lowercase hyphenated format (api-gateway-cloudwatch not API_Gateway_CloudWatch)",
+      "max_score": 12
+    },
+    {
+      "name": "No underscores in slug",
+      "description": "Uses hyphens instead of underscores in filename slug",
+      "max_score": 10
+    },
+    {
+      "name": "Overwrite protection",
+      "description": "Asks user permission before overwriting existing file or creates alternative filename",
+      "max_score": 10
+    },
+    {
+      "name": "Current date usage",
+      "description": "Uses current date (2025-02-27) for filename, frontmatter, and H1",
+      "max_score": 8
+    },
+    {
+      "name": "Directory structure",
+      "description": "Places file in 2025/02/ directory matching the current date",
+      "max_score": 8
+    },
+    {
+      "name": "Date format precision",
+      "description": "H1 uses 'February 27, 2025' format (not February 27th or Feb 27)",
+      "max_score": 8
+    },
+    {
+      "name": "Tag case conversion",
+      "description": "Converts technical tags to lowercase-hyphenated format (cloudwatch-migration)",
+      "max_score": 10
+    },
+    {
+      "name": "Tag type requirement",
+      "description": "Includes required 'troubleshooting' tag for this incident type",
+      "max_score": 8
+    },
+    {
+      "name": "Code block compliance",
+      "description": "All code blocks include language specifiers, no bare backticks",
+      "max_score": 8
+    },
+    {
+      "name": "Validation workflow",
+      "description": "Runs validation script and addresses any compliance issues found",
+      "max_score": 10
+    }
+  ]
+}

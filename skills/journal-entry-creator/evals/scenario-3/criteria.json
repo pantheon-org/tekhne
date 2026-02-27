@@ -1,0 +1,66 @@
+{
+  "context": "Tests general journal entry creation with emphasis on constraint adherence and file overwrite handling.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Journal-entry schema",
+      "description": "Shows evidence of loading journal-entry.yaml template before generation",
+      "max_score": 8
+    },
+    {
+      "name": "Directory creation",
+      "description": "Creates YYYY/MM/ directory structure using mkdir -p if needed",
+      "max_score": 8
+    },
+    {
+      "name": "Filename constraints",
+      "description": "Filename follows YYYY-MM-DD-slug.md with no spaces, all lowercase slug",
+      "max_score": 10
+    },
+    {
+      "name": "Date triple sync",
+      "description": "Date consistency across filename, frontmatter, and H1 exactly matching",
+      "max_score": 10
+    },
+    {
+      "name": "H1 date precision",
+      "description": "H1 title uses exact 'Month D, YYYY' format (February 3, not February 03)",
+      "max_score": 8
+    },
+    {
+      "name": "Single H1 constraint",
+      "description": "Document contains only one H1 heading, no duplicates",
+      "max_score": 8
+    },
+    {
+      "name": "Tag case compliance",
+      "description": "All tags use lowercase-hyphenated format (ci-cd not CI_CD or ciCd)",
+      "max_score": 10
+    },
+    {
+      "name": "Tag matching",
+      "description": "Frontmatter tags array perfectly matches Tags section format",
+      "max_score": 10
+    },
+    {
+      "name": "Code language requirement",
+      "description": "All code blocks include language specifiers, no bare ``` blocks",
+      "max_score": 8
+    },
+    {
+      "name": "No emoji constraint",
+      "description": "Document contains no emojis in any section or content area",
+      "max_score": 8
+    },
+    {
+      "name": "Bold metadata keys",
+      "description": "Metadata block uses **Key:** format with bold keys, no bullet points",
+      "max_score": 6
+    },
+    {
+      "name": "Validation execution",
+      "description": "Shows evidence of running validation script and fixing any issues",
+      "max_score": 6
+    }
+  ]
+}
