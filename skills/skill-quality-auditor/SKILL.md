@@ -83,6 +83,31 @@ sh skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh
 sh skills/skill-quality-auditor/scripts/validate-review-format.sh <report-path>
 ```
 
+### Check Tessl Registry Compliance
+
+```bash
+sh skills/skill-quality-auditor/scripts/tessl-compliance-check.sh <skill-name> [--verbose]
+```
+
+## Tessl Registry Compliance
+
+For skills intended for [Tessl registry](https://tessl.io/registry) submission, additional validation ensures agent-agnostic compatibility and performance focus.
+
+**Prerequisites:** Core evaluation score ≥108 (A-grade) required first.
+
+```bash
+# Check tessl compliance
+sh skills/skill-quality-auditor/scripts/tessl-compliance-check.sh <skill-name> --verbose
+```
+
+**Validation areas:**
+
+- **Agent-Agnostic:** No agent-specific dependencies or references
+- **Performance Metrics:** Quantified effectiveness improvements  
+- **Cross-Platform:** Universal tool and command compatibility
+
+See `references/tessl-compliance-framework.md` for detailed requirements.
+
 ## Scoring
 
 See [references/scoring-rubric.md](references/scoring-rubric.md) for full weights and grade scale.
@@ -163,6 +188,7 @@ sh skills/skill-quality-auditor/scripts/check-consistency.sh skills
 
 - Framework: `references/framework-skill-judge-dimensions.md`, `references/framework-skill-judge-canonical.md`
 - Scoring: `references/scoring-rubric.md`, `references/framework-quality-standards.md`
+- Tessl: `references/tessl-compliance-framework.md`
 - Remediation: `references/remediation-planning.md`, `references/dimension-analysis-template.md`
 - Duplication: `references/duplication-detection-algorithm.md`, `references/duplication-remediation.md`
 - Aggregation: `references/aggregation-pattern.md`, `references/aggregation-implementation.md`

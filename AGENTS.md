@@ -38,6 +38,18 @@ This file defines how LLM agents should work in this repository.
 - Files under `skills/<skill-name>/schemas/` must be JSON Schema files named `*.schema.json` and include a `"$schema"` URL from `json-schema.org`.
 - Files under `skills/<skill-name>/scripts/` must be portable shell scripts (`.sh`) with `#!/usr/bin/env sh`.
 
+### Tessl Registry Preparation
+
+When preparing skills for [Tessl](https://tessl.io/) submission, follow these additional guidelines:
+
+- **Performance focus**: Write skills that provide measurable effectiveness improvements
+- **Agent agnostic**: Avoid features specific to individual AI assistants
+- **Quality threshold**: Target A-grade scores (≥108 points) using skill-quality-auditor
+- **Single responsibility**: Each skill should solve one well-defined problem domain
+- **Comprehensive examples**: Include practical use cases with expected outcomes
+- **Cross-platform testing**: Validate functionality across multiple agents when possible
+- **Clear success metrics**: Define what "effective use" looks like for evaluation
+
 ## Validation Commands
 
 Run these from repository root:

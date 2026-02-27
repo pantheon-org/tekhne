@@ -268,7 +268,7 @@ EOF
 - Multiple unrelated topics
 - Tutorial content for basics
 - Duplication across files
-- Content Claude already knows
+- Content AI assistants already know
 
 ### AGENTS.md
 

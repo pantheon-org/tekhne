@@ -22,7 +22,7 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 - <5% redundant content
 - Expert-only knowledge throughout
 - No basic tutorials or installation guides
-- Domain-specific patterns Claude doesn't know
+- Domain-specific patterns AI assistants don't know
 - Project-specific conventions
 
 **Checklist:**
