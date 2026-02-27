@@ -1,0 +1,41 @@
+{
+  "context": "Designing interfaces for external integrations - tests DIP, interface segregation, and avoiding direct concrete coupling",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Applies DIP",
+      "description": "Defines interfaces/ports instead of depending on concrete implementations",
+      "max_score": 20
+    },
+    {
+      "name": "Applies ISP",
+      "description": "Creates focused interfaces that clients actually use, not bloated interfaces",
+      "max_score": 15
+    },
+    {
+      "name": "Clear interface ownership",
+      "description": "Defines clear ownership of contracts/interfaces",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids concrete coupling",
+      "description": "Does NOT instantiate concrete infrastructure types in domain code",
+      "max_score": 15
+    },
+    {
+      "name": "Uses dependency injection",
+      "description": "Uses dependency injection pattern for implementations",
+      "max_score": 15
+    },
+    {
+      "name": "Documents tradeoffs",
+      "description": "Documents alternatives and tradeoffs for the interface design",
+      "max_score": 10
+    },
+    {
+      "name": "Includes validation step",
+      "description": "Includes peer review or validation step",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Refactoring legacy monolithic code - tests SOLID application, pattern selection criteria, and avoiding premature optimization",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Classifies decision type",
+      "description": "Classifies refactoring as architectural, tactical, or foundational",
+      "max_score": 8
+    },
+    {
+      "name": "Applies SRP",
+      "description": "Identifies classes with multiple responsibilities and splits them",
+      "max_score": 12
+    },
+    {
+      "name": "Applies OCP",
+      "description": "Designs for extension without modifying existing stable code",
+      "max_score": 12
+    },
+    {
+      "name": "Applies DIP",
+      "description": "Introduces abstractions to decouple from concrete implementations",
+      "max_score": 12
+    },
+    {
+      "name": "Avoids god class",
+      "description": "Does NOT keep the monolithic class - properly splits responsibilities",
+      "max_score": 10
+    },
+    {
+      "name": "Evaluates pattern necessity",
+      "description": "Asks whether pattern reduces complexity before applying it",
+      "max_score": 10
+    },
+    {
+      "name": "Documents tradeoffs",
+      "description": "Documents alternatives and why the chosen approach was selected",
+      "max_score": 10
+    },
+    {
+      "name": "Does not premature optimize",
+      "description": "Does NOT add caching or performance optimizations without evidence",
+      "max_score": 10
+    },
+    {
+      "name": "Uses BAD/GOOD format",
+      "description": "Documents problematic patterns with BAD/GOOD examples",
+      "max_score": 8
+    },
+    {
+      "name": "Includes validation",
+      "description": "Includes validation or peer review step",
+      "max_score": 8
+    }
+  ]
+}

@@ -7,5 +7,10 @@
     "software-design-principles": {
       "path": "SKILL.md"
     }
+  },
+  "docs": {
+    "adapt-anti-corruption-layer": {
+      "path": "docs/adapt-anti-corruption-layer.md"
+    }
   }
 }
