@@ -235,18 +235,21 @@ sh skills/skill-quality-auditor/scripts/tessl-compliance-check.sh <skill-name>
 ### Automated Validation
 
 **Agent-Agnostic Check:**
+
 ```bash
 # Check for agent-specific terms
 grep -ri "claude\|cursor\|openai\|copilot\|gemini" skills/<skill>/
 ```
 
 **Tool Compatibility Check:**
+
 ```bash
 # Extract and validate allowed-tools
 yq '.allowed-tools[]?' skills/<skill>/SKILL.md | grep -E "(claude|cursor|openai)-"
 ```
 
 **Performance Metrics Check:**
+
 ```bash  
 # Look for quantified outcomes
 grep -E "[0-9]+(%|x|times|\s(seconds|minutes|hours)|reduction|improvement)" skills/<skill>/

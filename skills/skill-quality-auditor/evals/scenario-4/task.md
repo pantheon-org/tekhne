@@ -23,16 +23,21 @@ The following files are provided as inputs. Extract them before beginning.
 
 =============== FILE: inputs/skills/react-testing/SKILL.md ===============
 ---
+
 name: react-testing  
 description: React component testing patterns
 ---
+
 # React Testing
 
 ## Component Testing
+
 Test React components using Jest and React Testing Library.
 
 ## Test Structure
+
 Organize tests with describe/it blocks:
+
 ```javascript
 describe('Component', () => {
   it('should render correctly', () => {
@@ -42,7 +47,9 @@ describe('Component', () => {
 ```
 
 ## Mocking
+
 Mock external dependencies for isolated testing.
+
 ```
 
 =============== FILE: inputs/skills/frontend-testing/SKILL.md ===============
@@ -69,7 +76,9 @@ describe('Component', () => {
 ```
 
 ## Mocking Dependencies
+
 Mock external services for unit testing.
+
 ```
 
 =============== FILE: inputs/skills/api-integration/SKILL.md ===============

@@ -1,0 +1,23 @@
+{
+  "total_scenarios": 8,
+  "instructions_coverage": {
+    "total_instructions": 21,
+    "instructions_tested": 21,
+    "coverage_percentage": 100.0
+  },
+  "reason_distribution": {
+    "reminder": 3,
+    "new knowledge": 4,
+    "preference": 14
+  },
+  "coverage_improvements": {
+    "previous_coverage": 90.5,
+    "new_coverage": 100.0,
+    "added_scenarios": 3,
+    "newly_covered_instructions": [
+      "Do not use BDD for low-level unit behavior that is internal and not stakeholder-facing",
+      "Refactor scenarios and steps to remove duplication",
+      "Advanced Cucumber CLI usage patterns for enterprise workflows"
+    ]
+  }
+}

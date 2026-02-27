@@ -106,6 +106,7 @@ Skills in same family with >20% overlap = strong aggregation candidates.
 ### Step 4: Generate Report
 
 Create markdown report with:
+
 - Similarity matrix
 - Top candidates by overlap
 - Recommendations by priority
@@ -140,12 +141,14 @@ Create markdown report with:
 Not all similarity indicates duplication:
 
 **Expected Similarity (Not Duplication):**
+
 - Shared YAML frontmatter structure
 - Common markdown formatting
 - Standard section headers
 - Universal anti-patterns
 
 **True Duplication (Needs Consolidation):**
+
 - Identical code examples
 - Same conceptual explanations
 - Repeated workflow steps

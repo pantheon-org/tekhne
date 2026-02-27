@@ -18,6 +18,7 @@ Large skill collections face several challenges:
 5. **Quality Issues** - Skills with 40% tutorial content score C grade
 
 **Example:**
+
 - 6 BDD skills (1,839 lines total) with 35% duplication
 - Users confused: "Should I use bdd-gherkin or cucumber-best-practices?"
 - Updates required in 3 files for one concept change
@@ -42,6 +43,7 @@ skill-name/
 ### Three Components
 
 **1. SKILL.md (Navigation Hub)**
+
 - 60-90 lines maximum
 - Overview (2-3 sentences)
 - "When to Apply" section
@@ -50,6 +52,7 @@ skill-name/
 - External references
 
 **2. AGENTS.md (Reference Guide)**
+
 - Skill structure overview
 - Usage workflow
 - Complete category table with descriptions
@@ -58,6 +61,7 @@ skill-name/
 - Navigation best practices
 
 **3. references/ (Expert Content)**
+
 - One file per focused topic
 - Organized by category prefix (e.g., `principles-`, `patterns-`)
 - 100-500 lines per file (only when justified)
@@ -74,6 +78,7 @@ skill-name/
 ### 1. Identify Consolidation Candidates
 
 Look for:
+
 - **Families of related skills** (e.g., BDD, TypeScript, Bun)
 - **High duplication** (>20% shared content)
 - **User confusion** ("Which skill should I use?")
@@ -81,6 +86,7 @@ Look for:
 - **Oversized skills** (>500 lines)
 
 **Example:**
+
 ```
 BDD family: 6 skills, 1,839 lines, 35% duplication → Consolidate
 Random unrelated skills → Keep separate
@@ -89,11 +95,13 @@ Random unrelated skills → Keep separate
 ### 2. Design Category Structure
 
 Organize by:
+
 1. **Priority** - CRITICAL (foundations) → LOW (advanced/optional)
 2. **Workflow** - Natural progression through content
 3. **Topic** - Logical grouping of related concepts
 
 **Example - BDD Testing:**
+
 ```
 CRITICAL: principles-    (philosophy, Three Amigos)
 HIGH:     gherkin-       (syntax, step definitions)
@@ -105,6 +113,7 @@ MEDIUM:   practices-     (best practices, anti-patterns)
 ### 3. Create Navigation Hub (SKILL.md)
 
 Template:
+
 ```markdown
 ---
 name: skill-name
@@ -146,6 +155,7 @@ reduction: XX%
 ### 4. Create Reference Guide (AGENTS.md)
 
 Template:
+
 ```markdown
 # [Skill Name] - Reference Guide
 
@@ -187,6 +197,7 @@ For each reference file:
 1. **Read source skill** and identify focused topic
 2. **Extract expert knowledge** (remove tutorials)
 3. **Create reference file** with frontmatter:
+
    ```markdown
    ---
    category: [category-name]
@@ -242,6 +253,7 @@ EOF
 ### Navigation Hub (SKILL.md)
 
 ✅ **Must Have:**
+
 - 60-90 lines (exceptions rare)
 - Clear description with keywords
 - Priority-based categories
@@ -249,6 +261,7 @@ EOF
 - "When to Apply" section
 
 ❌ **Must Not Have:**
+
 - Tutorial content
 - Code examples (move to references/)
 - Detailed explanations (move to references/)
@@ -257,6 +270,7 @@ EOF
 ### Reference Files
 
 ✅ **Must Have:**
+
 - Proper frontmatter
 - Focused on ONE topic
 - Expert knowledge only
@@ -265,6 +279,7 @@ EOF
 - Related references (@see)
 
 ❌ **Must Not Have:**
+
 - Multiple unrelated topics
 - Tutorial content for basics
 - Duplication across files
@@ -273,12 +288,14 @@ EOF
 ### AGENTS.md
 
 ✅ **Must Have:**
+
 - Complete file listing
 - Category descriptions
 - Usage workflow
 - File count summary
 
 ❌ **Must Not Have:**
+
 - Actual content (link to references/)
 - Tutorial explanations
 
@@ -287,6 +304,7 @@ EOF
 ## Success Metrics
 
 ### Before Aggregation
+
 - Multiple related skills (3-6)
 - 1,000-3,000+ total lines
 - 20-35% duplication
@@ -294,6 +312,7 @@ EOF
 - C/B grade average (75-85/120)
 
 ### After Aggregation
+
 - Single navigation hub
 - 60-90 line SKILL.md
 - <5% duplication
@@ -301,6 +320,7 @@ EOF
 - A/A+ grade (90-98/120)
 
 ### Specific Improvements
+
 | Metric | Before | After | Improvement |
 |--------|--------|-------|-------------|
 | Main file size | 500-700 lines | 60-90 lines | 85-95% |
@@ -316,6 +336,7 @@ EOF
 ### Case Study: BDD Testing Aggregation
 
 **Before:**
+
 - 6 separate skills: bdd-collaboration, bdd-gherkin, bdd-patterns, bdd-principles, bdd-scenarios, cucumber-best-practices
 - 1,839 total lines
 - 35% duplication (Gherkin syntax in 3 skills)
@@ -323,6 +344,7 @@ EOF
 - Average grade: 90/120 (B)
 
 **After:**
+
 - 1 aggregation: bdd-testing
 - 64-line navigation hub
 - 42 reference files planned (7 created)
@@ -331,6 +353,7 @@ EOF
 - Grade: 98/120 (A+)
 
 **Results:**
+
 - 96.5% reduction in main file size (1,839 → 64)
 - 86% reduction in duplication (35% → <5%)
 - 8-point grade improvement (90 → 98)
@@ -341,36 +364,43 @@ EOF
 ## Common Pitfalls
 
 ### 1. Over-Consolidation
+
 **Problem:** Consolidating unrelated skills because they share technology  
 **Example:** Consolidating all "Python" skills regardless of domain  
 **Solution:** Only consolidate skills users would naturally use together
 
 ### 2. Under-Consolidation
+
 **Problem:** Creating too many small aggregations  
 **Example:** Separate aggregations for "BDD Principles" and "BDD Patterns"  
 **Solution:** Consolidate related concepts into single aggregation with categories
 
 ### 3. Hub Too Large
+
 **Problem:** Navigation hub exceeds 100 lines  
 **Example:** Including code examples, detailed explanations in SKILL.md  
 **Solution:** Move ALL detailed content to references/
 
 ### 4. Missing Priorities
+
 **Problem:** All categories marked CRITICAL  
 **Example:** No clear order for learning progression  
 **Solution:** Use CRITICAL (foundations), HIGH (core), MEDIUM (specialized), LOW (advanced)
 
 ### 5. Poor Category Design
+
 **Problem:** Categories not aligned with user workflow  
 **Example:** Alphabetical instead of logical progression  
 **Solution:** Design categories by priority and natural learning/usage flow
 
 ### 6. Reference Files Too Large
+
 **Problem:** 800+ line reference files defeating progressive disclosure  
 **Example:** Single "typescript-everything.md" file  
 **Solution:** Split into focused 100-500 line files per topic
 
 ### 7. Incomplete AGENTS.md
+
 **Problem:** Missing file listings, unclear navigation  
 **Example:** "See references/ for more" without specific guidance  
 **Solution:** List every reference file with description
@@ -388,6 +418,7 @@ Don't aggregate if:
 5. **Single skill in domain** - No family of related skills
 
 **Example:**
+
 - ✅ Aggregate: 6 BDD skills (same domain, same audience, high duplication)
 - ❌ Don't aggregate: proof-of-work + code-reviewer (different purposes despite both about code quality)
 
@@ -469,17 +500,20 @@ Don't aggregate if:
 ## References
 
 ### Pattern Origin
+
 - supabase-postgres-best-practices (108/120 - A grade)
 - 65-line hub managing 31 reference files
 - Perfect progressive disclosure implementation
 
 ### Related Patterns
+
 - Progressive Disclosure (UX design)
 - Information Architecture (IA)
 - Hub-and-Spoke (knowledge management)
 - Single Source of Truth (SSOT)
 
 ### External Resources
+
 - [Progressive Disclosure - Nielsen Norman Group](https://www.nngroup.com/articles/progressive-disclosure/)
 - [Information Architecture Basics - Usability.gov](https://www.usability.gov/what-and-why/information-architecture.html)
 

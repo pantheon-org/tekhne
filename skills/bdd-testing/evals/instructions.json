@@ -1,0 +1,130 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use business-facing language in feature files",
+      "original_snippets": "Use business-facing language in feature files.",
+      "relevant_when": "when writing Gherkin feature files and scenarios",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Keep each scenario focused on one behavior",
+      "original_snippets": "Keep each scenario focused on one behavior.",
+      "relevant_when": "when writing individual scenarios in feature files",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Avoid cross-scenario state coupling",
+      "original_snippets": "Avoid cross-scenario state coupling.",
+      "relevant_when": "when designing multiple scenarios that might share data",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use Given/When/Then structure for scenarios",
+      "original_snippets": "Write scenarios in Gherkin using Given/When/Then.",
+      "relevant_when": "when writing scenario steps in feature files",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Align on examples in Three Amigos discussion before writing scenarios",
+      "original_snippets": "Align on examples in a Three Amigos discussion.",
+      "relevant_when": "before writing key scenarios and feature files",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Implement step definitions that map to business language",
+      "original_snippets": "Implement step definitions that map to business language.",
+      "relevant_when": "when implementing step definitions for Gherkin steps",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Execute Cucumber and review failures by scenario intent",
+      "original_snippets": "Execute Cucumber and review failures by scenario intent.",
+      "relevant_when": "when running BDD tests and analyzing failures",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Refactor scenarios and steps to remove duplication",
+      "original_snippets": "Refactor scenarios and steps to remove duplication.",
+      "relevant_when": "when maintaining and improving BDD test suites",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use npx cucumber-js features to run all feature tests",
+      "original_snippets": "npx cucumber-js features ... Expected result: scenario pass/fail summary and non-zero exit on failures.",
+      "relevant_when": "when running the complete BDD test suite",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use --dry-run to detect missing step definitions",
+      "original_snippets": "npx cucumber-js --dry-run features ... Expected result: undefined steps listed without full execution.",
+      "relevant_when": "when checking for missing step implementations before running tests",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use --tags to run tagged subsets of scenarios",
+      "original_snippets": "npx cucumber-js --tags \"@smoke and not @wip\" ... Expected result: only matching scenarios execute.",
+      "relevant_when": "when running specific categories of scenarios",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Generate JSON reports for CI/reporting",
+      "original_snippets": "npx cucumber-js --format json:reports/cucumber-report.json ... Expected result: machine-readable execution report for CI/reporting.",
+      "relevant_when": "when generating reports for continuous integration or analysis",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never encode implementation details in Gherkin steps",
+      "original_snippets": "NEVER encode implementation details in Gherkin steps ... BAD: When I click the submit button and call validateForm() GOOD: When I submit the form",
+      "relevant_when": "when writing Gherkin scenario steps",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never skip Three Amigos before writing key scenarios",
+      "original_snippets": "NEVER skip Three Amigos before writing key scenarios ... BAD: Engineering writes scenarios alone from assumptions. GOOD: Product, QA, and engineering align on examples first.",
+      "relevant_when": "before writing important scenarios and acceptance criteria",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never use vague Then steps without observable outcomes",
+      "original_snippets": "NEVER use vague Then steps without observable outcomes ... BAD: Then it should work correctly GOOD: Then I should see \"Order confirmed\"",
+      "relevant_when": "when writing verification steps in scenarios",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never couple scenarios with ordering dependencies",
+      "original_snippets": "NEVER couple scenarios with ordering dependencies ... BAD: Scenario B assumes data created by scenario A. GOOD: Each scenario creates or mocks its own prerequisites.",
+      "relevant_when": "when designing multiple scenarios that might share setup or data",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Specify observable behavior, not implementation details",
+      "original_snippets": "Specify observable behavior, not implementation details.",
+      "relevant_when": "when writing scenarios and acceptance criteria",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Keep a shared language across product, engineering, and QA",
+      "original_snippets": "Keep a shared language across product, engineering, and QA.",
+      "relevant_when": "when collaborating on BDD scenarios and terminology",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Scenarios should be deterministic and independently executable",
+      "original_snippets": "Scenarios should be deterministic and independently executable.",
+      "relevant_when": "when designing scenarios and test execution",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Feature files should remain readable by non-developers",
+      "original_snippets": "Feature files should remain readable by non-developers.",
+      "relevant_when": "when writing feature files and scenarios",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Do not use BDD for low-level unit behavior that is internal and not stakeholder-facing",
+      "original_snippets": "Do not use BDD feature files for low-level unit behavior that is internal and not stakeholder-facing.",
+      "relevant_when": "when deciding whether to use BDD testing approach",
+      "why_given": "preference"
+    }
+  ]
+}

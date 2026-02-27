@@ -19,6 +19,7 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D1: Knowledge Delta (≥18/20)
 
 **Requirements:**
+
 - <5% redundant content
 - Expert-only knowledge throughout
 - No basic tutorials or installation guides
@@ -26,6 +27,7 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 - Project-specific conventions
 
 **Checklist:**
+
 - [ ] No basic syntax explanations
 - [ ] No copied official documentation
 - [ ] No generic best practices
@@ -35,12 +37,14 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D2: Mindset + Procedures (≥13/15)
 
 **Requirements:**
+
 - Clear philosophical framing
 - Step-by-step numbered workflow
 - Explicit "when to apply" criteria
 - Explicit "when NOT to apply" scenarios
 
 **Checklist:**
+
 - [ ] Philosophy/core principle stated
 - [ ] Numbered workflow steps
 - [ ] Entry/exit points defined
@@ -50,12 +54,14 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D3: Anti-Pattern Quality (≥13/15)
 
 **Requirements:**
+
 - NEVER statements with WHY explanations
 - Concrete code examples of anti-patterns
 - Consequences explained
 - ❌ BAD / ✅ GOOD comparisons
 
 **Checklist:**
+
 - [ ] At least 3 NEVER statements
 - [ ] Each NEVER has WHY explanation
 - [ ] Code examples for anti-patterns
@@ -65,11 +71,13 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D4: Specification Compliance (≥13/15)
 
 **Requirements:**
+
 - Description field with activation keywords
 - Proper YAML frontmatter
 - Clear trigger scenarios in description
 
 **Checklist:**
+
 - [ ] Description is comprehensive
 - [ ] Domain keywords included
 - [ ] Trigger scenarios mentioned
@@ -79,12 +87,14 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D5: Progressive Disclosure (≥13/15)
 
 **Requirements:**
+
 - SKILL.md <100 lines for aggregations
 - References directory with categorized files
 - Navigation hub approach
 - Content organized by priority
 
 **Checklist:**
+
 - [ ] Main file is navigation hub
 - [ ] Detailed content in references/
 - [ ] Files organized by prefix
@@ -94,12 +104,14 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D6: Freedom Calibration (≥13/15)
 
 **Requirements:**
+
 - Rigidity matches skill type
 - Mindset skills: Strong rules
 - Process skills: Balanced flexibility
 - Tool skills: Options and trade-offs
 
 **Checklist:**
+
 - [ ] Calibration appropriate for type
 - [ ] Mindset skills use NEVER/ALWAYS
 - [ ] Process skills allow adaptation
@@ -109,11 +121,13 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D7: Pattern Recognition (≥9/10)
 
 **Requirements:**
+
 - Rich domain keywords in description
 - Comprehensive trigger scenarios
 - Clear activation signals
 
 **Checklist:**
+
 - [ ] 5+ domain keywords in description
 - [ ] Trigger examples provided
 - [ ] When-to-use scenarios clear
@@ -122,12 +136,14 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ### D8: Practical Usability (≥13/15)
 
 **Requirements:**
+
 - Concrete, runnable code examples
 - Real-world scenarios
 - Clear, scannable structure
 - Complete implementations (not fragments)
 
 **Checklist:**
+
 - [ ] Code examples are runnable
 - [ ] Examples use realistic scenarios
 - [ ] Headings are scannable
@@ -137,6 +153,7 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 ## Common A-Grade Patterns
 
 ### Navigation Hub Pattern (Best for Aggregations)
+
 ```
 skill-name/
 ├── SKILL.md (60-90 lines)
@@ -147,6 +164,7 @@ skill-name/
 ```
 
 ### Single-File Pattern (Best for Focused Skills)
+
 ```
 skill-name/
 ├── SKILL.md (100-250 lines)
