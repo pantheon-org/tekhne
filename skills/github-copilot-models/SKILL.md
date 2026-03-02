@@ -15,34 +15,6 @@ description: |-
 Query available GitHub Copilot AI models directly from the API to see what models you actually have access to (not just
 what OpenCode knows about).
 
-## Core Concepts
-
-### Model Picker Status
-
-Models returned by the API have a `model_picker_enabled` flag:
-
-- **`true`**: Actively promoted by GitHub, ready for production use
-- **`false`**: Available but not featured (legacy, specialized, or deprecated)
-
-### Model Categories
-
-GitHub organizes models into categories via `model_picker_category`:
-
-- **`powerful`**: High-performance models for complex tasks (large context windows)
-- **`versatile`**: Balanced models for general-purpose coding
-- **`lightweight`**: Fast, efficient models for quick tasks
-
-### Capabilities
-
-Each model includes a `capabilities` object with:
-
-- **Context limits**: `max_context_window_tokens`, `max_output_tokens`, `max_prompt_tokens`
-- **Vision support**: Image formats, max images, max size
-- **Tool support**: `parallel_tool_calls`, `tool_calls`
-- **Structured outputs**: JSON schema enforcement (GPT models only)
-- **Thinking budget**: Min/max tokens for reasoning (Claude, Gemini)
-- **Streaming**: Real-time response streaming
-
 ## Usage
 
 ### Quick Query
@@ -84,93 +56,6 @@ curl -s -H "Authorization: Bearer $AUTH_TOKEN" \
   "https://api.githubcopilot.com/models" | jq .
 ```
 
-## Model Information
-
-### Key Fields
-
-```json
-{
-  "id": "claude-sonnet-4.5",
-  "name": "Claude Sonnet 4.5",
-  "vendor": "Anthropic",
-  "model_picker_enabled": true,
-  "model_picker_category": "versatile",
-  "preview": false,
-  "capabilities": {
-    "family": "claude-sonnet-4.5",
-    "limits": {
-      "max_context_window_tokens": 144000,
-      "max_output_tokens": 32000,
-      "max_prompt_tokens": 128000
-    },
-    "supports": {
-      "vision": true,
-      "tool_calls": true,
-      "streaming": true
-    }
-  }
-}
-```
-
-### Understanding Limits
-
-- **`max_context_window_tokens`**: Total tokens (prompt + output)
-- **`max_prompt_tokens`**: Maximum input size
-- **`max_output_tokens`**: Maximum response length
-- **`max_non_streaming_output_tokens`**: Limit when not streaming (some models)
-
-Example: Claude Sonnet 4.5
-
-- Context: 144K total
-- Prompt: Up to 128K
-- Output: Up to 32K streaming, 16K non-streaming
-
-## Comparing Models
-
-### By Context Window
-
-Largest context windows (as of 2026-02-04):
-
-1. **GPT-5.1/5.2 Codex variants**: 400K tokens
-2. **GPT-5.1/5.2, GPT-5-mini**: 264K tokens
-3. **Claude Opus 4.5**: 160K tokens
-4. **Claude Sonnet/Haiku 4.5**: 144K tokens
-5. **GPT-4.1, GPT-4o, Gemini**: 128K tokens
-
-### By Vision Capabilities
-
-- **Most images**: Gemini (10 images)
-- **Good for multi-image**: Claude (5 images)
-- **Single image**: GPT models (1 image)
-- **Formats**: Most support JPEG, PNG, WebP; Gemini adds HEIC/HEIF
-
-### By Output Length
-
-Longest outputs:
-
-1. **GPT-5.1/5.2 Codex variants**: 128K tokens
-2. **GPT-5.1/5.2, Gemini**: 64K tokens
-3. **Claude models**: 32K tokens (streaming)
-
-### By Feature
-
-**Structured Outputs (JSON Schema):**
-
-- ✅ GPT-5.x models
-- ✅ GPT-4.1
-- ❌ Claude models
-- ❌ Gemini models
-
-**Thinking Budget (Reasoning):**
-
-- ✅ Claude (1K-32K tokens)
-- ✅ Gemini (128-32K tokens)
-- ❌ GPT models
-
-**Parallel Tool Calls:**
-
-- ✅ All featured models
-
 ## Authentication
 
 The script automatically reads your OpenCode authentication from:
@@ -210,36 +95,11 @@ opencode run --model gpt-5.2-codex "Refactor this code"
 # Edit ~/.config/opencode/opencode.json
 ```
 
-## Troubleshooting
-
-### "Provider not found" Error
-
-Make sure you're querying `github-copilot` specifically:
+Verify the active model after switching:
 
 ```bash
-opencode models github-copilot
+opencode config show | grep model
 ```
-
-### "Invalid token" or 401 Error
-
-Re-authenticate:
-
-```bash
-opencode auth add github-copilot
-```
-
-### Models Not Showing in OpenCode
-
-OpenCode's model registry may be out of sync. Use this skill's script to query the API directly for the most up-to-date
-list.
-
-### Model Not Available When Trying to Use
-
-Some models may appear in the API response but have usage restrictions:
-
-- Check `policy.state` (should be `"enabled"`)
-- Check `preview` flag (preview models may have limited availability)
-- Verify your GitHub Copilot subscription level
 
 ## Example Workflows
 
@@ -270,6 +130,17 @@ Some models may appear in the API response but have usage restrictions:
 # Extract just the IDs
 ./scripts/fetch-models.sh --json | jq -r '.data[].id'
 ```
+
+## Troubleshooting
+
+See [TROUBLESHOOTING.md](.opencode/skills/github-copilot-models/TROUBLESHOOTING.md) for detailed remediation steps.
+
+Common issues:
+
+- **"Provider not found"** — Run `opencode models github-copilot` to target the correct provider.
+- **401 / "Invalid token"** — Re-authenticate with `opencode auth add github-copilot`.
+- **Models not showing in OpenCode** — OpenCode's registry may be stale; use the script to query the API directly.
+- **Model unavailable at runtime** — Check `policy.state` (`"enabled"` required) and the `preview` flag in the API response; preview models may have restricted availability depending on your subscription.
 
 ## Resources
 
