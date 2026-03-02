@@ -25,14 +25,6 @@ Run the syntax validation script to check for basic correctness:
 python3 .claude/skills/promql-validator/scripts/validate_syntax.py "<query>"
 ```
 
-The script will check for:
-- Valid metric names and label matchers
-- Correct operator usage
-- Proper function syntax
-- Valid time durations and ranges
-- Balanced brackets and quotes
-- Correct use of modifiers (offset, @)
-
 ### Step 2: Check Best Practices
 
 Run the best practices checker to detect anti-patterns and optimization opportunities:
@@ -40,17 +32,6 @@ Run the best practices checker to detect anti-patterns and optimization opportun
 ```bash
 python3 .claude/skills/promql-validator/scripts/check_best_practices.py "<query>"
 ```
-
-The script will identify:
-- High cardinality queries without label filters
-- Inefficient regex matchers that could be exact matches
-- Missing rate()/increase() on counter metrics
-- rate() used on gauge metrics
-- Averaging pre-calculated quantiles
-- Subqueries with excessive time ranges
-- irate() over long time ranges
-- Opportunities to add more specific label filters
-- Complex queries that should use recording rules
 
 ### Step 3: Explain the Query
 
@@ -152,34 +133,7 @@ Give the user control:
 
 ## Output Format
 
-Present Phase 1 results (Steps 1–4) using this structure:
-
-```
-## PromQL Validation Results
-
-### Syntax Check
-✅ VALID / ⚠️ WARNING / ❌ ERROR
-- [list any issues with line/position]
-
-### Best Practices
-✅ OPTIMIZED / ⚠️ CAN BE IMPROVED / ❌ INEFFICIENT
-- [list anti-patterns and optimization opportunities]
-
-### Query Explanation
-`<query>`
-- [Plain English explanation]
-- Metrics: [names and types]
-- Functions: [what each function does]
-- **Output Labels**: [labels in result, or "None (fully aggregated to scalar)"]
-- **Expected Result Structure**: [instant vector / range vector / scalar] with [N series / single value]
-
-### Intent Verification
-1. What are you trying to measure?
-2. Counter / gauge / histogram / summary?
-3. What time range interests you?
-4. Do you need aggregation, and by which labels?
-5. Alerting, dashboarding, or ad-hoc analysis?
-```
+Present Phase 1 results (Steps 1–4) with syntax status, best practices findings, plain English explanation including output labels and result structure, and intent verification questions.
 
 After the user responds, continue with Phase 2 (Steps 5–7): intent comparison, optimizations, and refinement.
 
