@@ -7,5 +7,10 @@
     "ansible-generator": {
       "path": "SKILL.md"
     }
-  }
+  },
+  "files": [
+    "references/best-practices.md",
+    "references/module-patterns.md",
+    "assets/templates/role/README.md"
+  ]
 }
