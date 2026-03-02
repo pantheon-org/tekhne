@@ -35,7 +35,9 @@ if [ -z "$SKILL_NAME" ]; then
 fi
 
 if [ "$STORE_MODE" -eq 1 ]; then
-  OUTPUT_PATH=".context/audits/skill-audit/latest/audit.json"
+  AUDIT_DATE=$(date +%Y-%m-%d)
+  AUDIT_DIR=".context/audits/${SKILL_NAME}/${AUDIT_DATE}"
+  OUTPUT_PATH="${AUDIT_DIR}/audit.json"
 fi
 
 find_skill_path() {
@@ -239,6 +241,257 @@ calculate_grade() {
   echo "F"
 }
 
+generate_analysis_md() {
+  output_file="$1"
+  cat > "$output_file" <<EOF
+# Skill Quality Analysis: $SKILL_NAME
+
+**Date**: $(date +%Y-%m-%d)  
+**Overall Score**: $TOTAL/120 ($((TOTAL * 100 / 120))%)  
+**Grade**: $GRADE
+
+---
+
+## Dimension Breakdown
+
+| Dimension | Score | Max | Percentage | Status |
+|-----------|-------|-----|------------|--------|
+| D1: Knowledge Delta | $D1 | 20 | $((D1 * 100 / 20))% | $([ "$D1" -ge 16 ] && echo "✓ Good" || echo "⚠ Needs work") |
+| D2: Mindset + Procedures | $D2 | 15 | $((D2 * 100 / 15))% | $([ "$D2" -ge 12 ] && echo "✓ Good" || echo "⚠ Needs work") |
+| D3: Anti-Pattern Quality | $D3 | 15 | $((D3 * 100 / 15))% | $([ "$D3" -ge 12 ] && echo "✓ Good" || echo "⚠ Needs work") |
+| D4: Specification Compliance | $D4 | 15 | $((D4 * 100 / 15))% | $([ "$D4" -ge 12 ] && echo "✓ Good" || echo "⚠ Needs work") |
+| D5: Progressive Disclosure | $D5 | 15 | $((D5 * 100 / 15))% | $([ "$D5" -ge 12 ] && echo "✓ Good" || echo "⚠ Needs work") |
+| D6: Freedom Calibration | $D6 | 15 | $((D6 * 100 / 15))% | $([ "$D6" -ge 12 ] && echo "✓ Good" || echo "⚠ Needs work") |
+| D7: Pattern Recognition | $D7 | 10 | $((D7 * 100 / 10))% | $([ "$D7" -ge 8 ] && echo "✓ Good" || echo "⚠ Needs work") |
+| D8: Practical Usability | $D8 | 15 | $((D8 * 100 / 15))% | $([ "$D8" -ge 12 ] && echo "✓ Good" || echo "⚠ Needs work") |
+
+---
+
+## Metadata
+
+- **Skill Path**: $SKILL_PATH
+- **Total Lines**: $LINES
+- **Has References**: $([ "$HAS_REFS" -eq 1 ] && echo "Yes" || echo "No")
+- **Reference Count**: $REF_COUNT files
+
+---
+
+## Interpretation
+
+$(if [ "$TOTAL" -ge 108 ]; then
+  echo "**Grade A**: This skill meets high quality standards. Minor improvements may be possible."
+elif [ "$TOTAL" -ge 96 ]; then
+  echo "**Grade B**: This skill is good but has room for improvement in specific dimensions."
+elif [ "$TOTAL" -ge 84 ]; then
+  echo "**Grade C**: This skill needs moderate improvements across multiple dimensions."
+else
+  echo "**Grade D/F**: This skill requires significant remediation work."
+fi)
+
+---
+
+## Next Steps
+
+$(if [ "$TOTAL" -lt 108 ]; then
+  echo "See \`remediation-plan.md\` in this directory for detailed improvement steps."
+else
+  echo "No remediation plan needed. Consider minor refinements based on dimension scores."
+fi)
+EOF
+}
+
+generate_remediation_plan() {
+  output_file="$1"
+  
+  # Calculate target score (aim for at least A grade = 108)
+  target_score=108
+  if [ "$TOTAL" -ge 96 ]; then
+    target_score=108
+  elif [ "$TOTAL" -ge 84 ]; then
+    target_score=102
+  else
+    target_score=96
+  fi
+  
+  target_grade=$(calculate_grade "$target_score")
+  score_delta=$((target_score - TOTAL))
+  
+  # Determine priority
+  priority="High"
+  [ "$TOTAL" -lt 84 ] && priority="Critical"
+  [ "$TOTAL" -ge 96 ] && priority="Medium"
+  
+  # Determine effort
+  effort="M"
+  [ "$score_delta" -gt 20 ] && effort="L"
+  [ "$score_delta" -lt 10 ] && effort="S"
+  
+  cat > "$output_file" <<EOF
+# Remediation Plan: $SKILL_NAME
+
+---
+plan_date: "$(date +%Y-%m-%d)"
+skill_name: "$SKILL_NAME"
+source_audit: ".context/audits/$SKILL_NAME/$(date +%Y-%m-%d)/audit.json"
+---
+
+## Executive Summary
+
+| Metric | Current | Target |
+|--------|---------|--------|
+| **Score** | $TOTAL/120 ($((TOTAL * 100 / 120))%) | $target_score/120 ($((target_score * 100 / 120))%) |
+| **Grade** | $GRADE | $target_grade |
+| **Priority** | $priority | |
+| **Effort** | $effort | |
+
+**Focus Areas**:
+$(
+  # Find weakest dimensions (below 80% of max)
+  [ "$((D1 * 100 / 20))" -lt 80 ] && echo "- D1: Knowledge Delta ($D1/20)"
+  [ "$((D2 * 100 / 15))" -lt 80 ] && echo "- D2: Mindset + Procedures ($D2/15)"
+  [ "$((D3 * 100 / 15))" -lt 80 ] && echo "- D3: Anti-Pattern Quality ($D3/15)"
+  [ "$((D4 * 100 / 15))" -lt 80 ] && echo "- D4: Specification Compliance ($D4/15)"
+  [ "$((D5 * 100 / 15))" -lt 80 ] && echo "- D5: Progressive Disclosure ($D5/15)"
+  [ "$((D6 * 100 / 15))" -lt 80 ] && echo "- D6: Freedom Calibration ($D6/15)"
+  [ "$((D7 * 100 / 10))" -lt 80 ] && echo "- D7: Pattern Recognition ($D7/10)"
+  [ "$((D8 * 100 / 15))" -lt 80 ] && echo "- D8: Practical Usability ($D8/15)"
+)
+
+**Verdict**: Targeted improvements needed to reach grade $target_grade (+$score_delta points).
+
+---
+
+## Critical Issues
+
+| Issue | Dimension | Severity | Impact |
+|-------|-----------|----------|--------|
+$(
+  # List dimensions scoring below 80%
+  [ "$((D1 * 100 / 20))" -lt 80 ] && echo "| Low knowledge delta signals | D1 ($D1/20) | High | Skill may duplicate basic docs |"
+  [ "$((D2 * 100 / 15))" -lt 80 ] && echo "| Missing mindset/procedures | D2 ($D2/15) | High | Agents lack decision frameworks |"
+  [ "$((D3 * 100 / 15))" -lt 80 ] && echo "| Insufficient anti-patterns | D3 ($D3/15) | High | Agents repeat common mistakes |"
+  [ "$((D4 * 100 / 15))" -lt 80 ] && echo "| Weak description field | D4 ($D4/15) | Medium | Skill discovery suffers |"
+  [ "$((D5 * 100 / 15))" -lt 80 ] && echo "| Poor progressive disclosure | D5 ($D5/15) | High | Skill is too long or lacks refs |"
+  [ "$((D6 * 100 / 15))" -lt 80 ] && echo "| Imbalanced constraint language | D6 ($D6/15) | Medium | Over/under-prescriptive |"
+  [ "$((D7 * 100 / 10))" -lt 80 ] && echo "| Weak pattern recognition | D7 ($D7/10) | Medium | Skill trigger rate is low |"
+  [ "$((D8 * 100 / 15))" -lt 80 ] && echo "| Limited practical examples | D8 ($D8/15) | High | Agents struggle to apply skill |"
+)
+
+---
+
+## Detailed Remediation Steps
+
+> **Note**: This is an auto-generated template. Review dimension scores and customize based on actual skill content.
+
+$(
+  phase=1
+  [ "$((D3 * 100 / 15))" -lt 80 ] && cat <<PHASE3
+
+### Phase $phase: Anti-Pattern Quality - Priority: High
+
+**Target**: Increase D3 from $D3/15 to 13/15 (+$((13 - D3)) points)
+
+#### Step $phase.1: Add NEVER/ALWAYS Constraints
+
+Add explicit anti-pattern warnings to prevent common mistakes.
+
+**File**: \`$SKILL_PATH\`
+
+**Action**: Add section with BAD vs GOOD examples.
+
+PHASE3
+  [ "$((D3 * 100 / 15))" -lt 80 ] && phase=$((phase + 1))
+  
+  [ "$((D5 * 100 / 15))" -lt 80 ] && cat <<PHASE5
+
+### Phase $phase: Progressive Disclosure - Priority: High
+
+**Target**: Increase D5 from $D5/15 to 13/15 (+$((13 - D5)) points)
+
+#### Step $phase.1: Create Reference Files
+
+Move detailed content to \`references/\` directory.
+
+**Action**: Extract deep-dive content into separate files, keep SKILL.md as navigation hub.
+
+PHASE5
+  [ "$((D5 * 100 / 15))" -lt 80 ] && phase=$((phase + 1))
+  
+  [ "$((D8 * 100 / 15))" -lt 80 ] && cat <<PHASE8
+
+### Phase $phase: Practical Usability - Priority: High
+
+**Target**: Increase D8 from $D8/15 to 13/15 (+$((13 - D8)) points)
+
+#### Step $phase.1: Add Code Examples
+
+Add executable code blocks with language tags.
+
+**File**: \`$SKILL_PATH\`
+
+**Action**: Include bash/typescript examples with clear syntax highlighting.
+
+PHASE8
+)
+
+---
+
+## Verification Commands
+
+\`\`\`bash
+# Re-run evaluation
+sh skills/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json --store
+
+# Check target score achieved
+sh skills/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json | jq '.total >= $target_score'
+\`\`\`
+
+---
+
+## Success Criteria
+
+| Criterion | Measurement |
+|-----------|-------------|
+| Overall Score | >= $target_score/120 |
+| Grade | >= $target_grade |
+$(
+  [ "$((D3 * 100 / 15))" -lt 80 ] && echo "| D3: Anti-Pattern Quality | >= 13/15 |"
+  [ "$((D5 * 100 / 15))" -lt 80 ] && echo "| D5: Progressive Disclosure | >= 13/15 |"
+  [ "$((D8 * 100 / 15))" -lt 80 ] && echo "| D8: Practical Usability | >= 13/15 |"
+)
+
+---
+
+## Effort Estimate
+
+| Phase | Effort | Time |
+|-------|--------|------|
+| Total | $effort | $(if [ "$effort" = "S" ]; then echo "1-2 hours"; elif [ "$effort" = "M" ]; then echo "2-4 hours"; else echo "4-8 hours"; fi) |
+
+---
+
+## Dependencies
+
+- None (standalone skill)
+
+---
+
+## Rollback Plan
+
+\`\`\`bash
+git checkout HEAD~1 -- $SKILL_PATH
+\`\`\`
+
+---
+
+## Notes
+
+**Rating**: 6/10 (auto-generated template - requires customization)
+
+**Assessment**: This is a baseline remediation plan. Review actual skill content to add specific, actionable steps with code examples.
+EOF
+}
+
 D1=$(evaluate_knowledge_delta)
 D2=$(evaluate_mindset_procedures)
 D3=$(evaluate_anti_pattern_quality)
@@ -277,8 +530,32 @@ EOF
 if [ -n "$OUTPUT_PATH" ]; then
   mkdir -p "$(dirname "$OUTPUT_PATH")"
   printf '%s\n' "$JSON_OUTPUT_STRING" > "$OUTPUT_PATH"
+  
+  # Create symlink to latest audit if in store mode
+  if [ "$STORE_MODE" -eq 1 ]; then
+    SKILL_AUDIT_DIR=".context/audits/${SKILL_NAME}"
+    LATEST_LINK="${SKILL_AUDIT_DIR}/latest"
+    
+    # Remove old symlink if it exists
+    [ -L "$LATEST_LINK" ] && rm "$LATEST_LINK"
+    
+    # Create relative symlink to current audit directory
+    (cd "$SKILL_AUDIT_DIR" && ln -s "$AUDIT_DATE" latest)
+    
+    # Generate analysis.md
+    generate_analysis_md "${AUDIT_DIR}/analysis.md"
+    
+    # Generate remediation-plan.md if score is below threshold (108/120 = A grade)
+    if [ "$TOTAL" -lt 108 ]; then
+      generate_remediation_plan "${AUDIT_DIR}/remediation-plan.md"
+    fi
+  fi
+  
   if [ "$JSON_OUTPUT" -eq 0 ]; then
     echo "Stored: $OUTPUT_PATH"
+    if [ "$STORE_MODE" -eq 1 ]; then
+      echo "Latest symlink: ${SKILL_AUDIT_DIR}/latest -> ${AUDIT_DATE}"
+    fi
   fi
 fi
 
