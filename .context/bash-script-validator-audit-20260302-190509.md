@@ -1,6 +1,6 @@
-- Reviewing skill...
+# bash-script-validator Quality Audit
 
-Validation Checks
+## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 175 (<= 500)
   ✔ frontmatter_valid - YAML frontmatter is valid
@@ -16,7 +16,7 @@ Validation Checks
 
 Overall: PASSED (0 errors, 0 warnings)
 
-Judge Evaluation
+## Judge Evaluation
 
   Description: 100%
     specificity: 3/3 - Lists multiple specific concrete actions: 'validating, linting, and optimizing', 'validating script syntax', 'detecting unquoted variables', 'checking POSIX compliance', 'identifying unsafe command substitutions', 'validating shebang lines', 'finding security vulnerabilities', 'debugging shell script problems'.
