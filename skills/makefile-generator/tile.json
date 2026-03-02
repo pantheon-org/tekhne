@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/makefile-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "summary": "Generate GNU Make build systems that define build targets, configure dependencies, set up phony targets, and implement parallel builds. Use when creating make/Makefile/.mk files, implementing compile rules, or building production-ready build automation for C/C++, Go, Python, and Java projects.",
   "docs": "references/README.md",

@@ -285,37 +285,7 @@ The mbake validator may report warnings for valid GNU Make special targets. Thes
 
 #### Validation Report Output (REQUIRED)
 
-After validation completes, you MUST output a structured report. Example format:
-
-```
-## Validation Report
-
-**Result:** PASSED with warnings
-**Errors:** 0
-**Warnings:** 2
-**Info:** 1
-
-### Errors Fixed
-- None
-
-### Warnings Addressed
-- Fixed: Added error handling to install target (|| exit 1)
-
-### Warnings Skipped (with reasons)
-- mbake reports ".DELETE_ON_ERROR" as unknown - this is a valid and critical
-  GNU Make special target that ensures failed builds don't leave corrupt files.
-  See: https://www.gnu.org/software/make/manual/html_node/Special-Targets.html
-
-### Formatting Applied
-- Yes - Applied `mbake format` to fix whitespace issues
-
-### Info Items Addressed
-- Added .NOTPARALLEL for Docker targets (parallel safety)
-- Added error handling for docker-push target
-
-### Remaining Issues
-- None - Makefile is production-ready
-```
+After validation completes, output a structured report with: **Result** (PASSED/FAILED), **Errors/Warnings/Info counts**, **Changes applied** (errors fixed, warnings addressed, formatting applied), and **Remaining issues**.
 
 **Common Info Items to Address:**
 
@@ -415,14 +385,7 @@ These scripts are **optional convenience tools** for quick template generation.
 
 ### When to Use Scripts vs Manual Generation
 
-| Scenario | Recommendation |
-|----------|----------------|
-| Simple, standard project (single binary, no special features) | ✅ Use `generate_makefile_template.sh` for speed |
-| Complex project (Docker, multi-binary, custom patterns) | ❌ Use manual generation for full control |
-| Adding targets to existing Makefile | ✅ Use `add_standard_targets.sh` |
-| User has specific formatting/style requirements | ❌ Use manual generation |
-| Rapid prototyping / proof-of-concept | ✅ Use scripts, customize later |
-| Production-ready Makefile | ⚠️ Start with script, then customize manually |
+Use `scripts/generate_makefile_template.sh` for simple standard projects. Use manual generation for complex projects (Docker, multi-binary, custom patterns) or specific user requirements.
 
 ### generate_makefile_template.sh
 
