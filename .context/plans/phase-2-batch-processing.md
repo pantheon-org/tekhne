@@ -80,7 +80,7 @@ echo "✅ Backup created: $BACKUP_DIR"
 ```bash
 # Check all required scripts
 for script in audit-skill.sh batch-audit.sh audit-helpers.sh; do
-  if [ -f "scripts/$script" ]; then
+  if [ -f "skills/skill-quality-auditor/scripts/$script" ]; then
     echo "✅ $script"
   else
     echo "❌ MISSING: $script"
@@ -89,18 +89,18 @@ for script in audit-skill.sh batch-audit.sh audit-helpers.sh; do
 done
 
 # Verify scripts are executable
-chmod +x scripts/audit-skill.sh scripts/batch-audit.sh scripts/audit-helpers.sh
+chmod +x skills/skill-quality-auditor/scripts/audit-skill.sh skills/skill-quality-auditosh skills/skill-quality-auditor/scripts/batch-audit.sh skills/skill-quality-auditor/scripts/audit-helpers.sh
 ```
 
 ### 3. Test Scripts on Phase 1 Skill
 
 ```bash
 # Test audit-skill.sh on a Phase 1 skill
-./scripts/audit-skill.sh acceptance-criteria
+sh skills/skill-quality-auditor/scripts/audit-skill.sh acceptance-criteria
 # Should complete without errors and show: ✅ Audit complete
 
 # Test batch-audit.sh on multiple Phase 1 skills
-./scripts/batch-audit.sh acceptance-criteria ansible-generator
+sh skills/skill-quality-auditosh skills/skill-quality-auditor/scripts/batch-audit.sh acceptance-criteria ansible-generator
 # Should show success summary
 ```
 
@@ -131,7 +131,7 @@ test -f .context/analysis/phase2-issues.md && echo "✅ Ready" || echo "❌ Miss
 
 **Using batch-audit.sh (recommended):**
 ```bash
-./scripts/batch-audit.sh agents-md ansible-validator azure-pipelines-generator \
+sh skills/skill-quality-auditor/scripts/batch-audit.sh agents-md ansible-validator azure-pipelines-generator \
   azure-pipelines-validator bash-script-generator bash-script-validator \
   biome-complete bun-development cdk-nag cfn-behavior-validator
 ```
@@ -389,7 +389,7 @@ git commit -m "audit: batch 4 complete (skills 36-45)"
 
 **Using batch-audit.sh (recommended):**
 ```bash
-./scripts/batch-audit.sh nx-biome-integration nx-bun-integration nx-generators \
+sh skills/skill-quality-auditor/scripts/batch-audit.sh nx-biome-integration nx-bun-integration nx-generators \
   nx-vite-integration nx-workspace-patterns opencode-config plain-english \
   promql-generator promql-validator sop-structure
 ```
@@ -466,7 +466,7 @@ git commit -m "audit: batch 5 complete (skills 46-55)"
 
 **Using batch-audit.sh (recommended):**
 ```bash
-./scripts/batch-audit.sh software-design-principles supabase-postgres-best-practices \
+sh skills/skill-quality-auditor/scripts/batch-audit.sh software-design-principles supabase-postgres-best-practices \
   terraform-generator terraform-validator test-driven-development typescript-advanced \
   ui-debug-workflow user-story-writing
 ```
@@ -573,7 +573,7 @@ if [ -n "$missing_audits" ]; then
   echo "Skills without audits:$missing_audits"
   echo ""
   echo "To audit missing skills:"
-  echo "  ./scripts/batch-audit.sh$missing_audits"
+  echo "  sh skills/skill-quality-auditor/scripts/batch-audit.sh$missing_audits"
   exit 1
 else
   echo ""
@@ -756,7 +756,7 @@ done
 git restore .context/audits/<skill-name>
 
 # Re-run the batch
-./scripts/batch-audit.sh $batch_skills
+sh skills/skill-quality-auditor/scripts/batch-audit.sh $batch_skills
 ```
 
 ### Full Phase 2 Rollback (Nuclear Option)
@@ -839,7 +839,7 @@ If skills fail during a batch:
 4. **Retry individually** - Use `./scripts/audit-skill.sh <skill-name>` for targeted retry
 5. **Batch retry if needed** - If multiple skills failed with same error, fix root cause then retry all:
    ```bash
-   ./scripts/batch-audit.sh skill1 skill2 skill3
+   sh skills/skill-quality-auditor/scripts/batch-audit.sh skill1 skill2 skill3
    ```
 
 ### Quality Threshold Responses
