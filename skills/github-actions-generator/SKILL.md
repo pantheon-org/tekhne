@@ -1,6 +1,6 @@
 ---
 name: github-actions-generator
-description: Comprehensive toolkit for generating best practice GitHub Actions workflows, custom local actions, and configurations following current standards and conventions. Use this skill when creating new GitHub Actions resources, implementing CI/CD workflows, or building reusable actions.
+description: Generates production-ready GitHub Actions workflows, custom actions, and CI/CD configurations following security and performance standards. Creates CI/CD pipelines, test workflows, deployment configurations, matrix builds, caching strategies, composite actions, Docker actions, JavaScript actions, and reusable workflows. Use when creating or scaffolding GHA resources, writing .github/workflows YAML files, setting up build automation, implementing deployment pipelines, adding security scanning, or building reusable actions — including triggers like 'create a workflow', 'build a pipeline', 'add CI', 'set up GHA', or 'generate a YAML workflow'.
 ---
 
 # GitHub Actions Generator
