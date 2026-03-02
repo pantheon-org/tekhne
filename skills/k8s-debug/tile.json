@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/k8s-debug",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Comprehensive Kubernetes debugging and troubleshooting toolkit. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, or performing cluster health checks.",
+  "skills": {
+    "k8s-debug": {
+      "path": "SKILL.md"
+    }
+  }
+}
