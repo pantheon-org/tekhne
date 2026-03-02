@@ -114,12 +114,10 @@ metadata:
 nodeSelector: {{- toYaml . | nindent 2 }}
 {{- end }}
 
-# Config change restart trigger (ALWAYS add to workloads)
+# Checksum annotation (REQUIRED for Deployments/StatefulSets/DaemonSets to trigger restarts on config changes)
 annotations:
   checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
 ```
-
-**Checksum annotation is REQUIRED** for Deployments/StatefulSets/DaemonSets to trigger restarts on config changes.
 
 ### Stage 6: Create values.yaml
 
@@ -148,19 +146,6 @@ See `references/helm_template_functions.md` for complete guide.
 | `toYaml` | Convert to YAML | `{{ toYaml .Values.x \| nindent 2 }}` |
 | `tpl` | Render as template | `{{ tpl .Values.config . }}` |
 | `nindent` | Newline + indent | `{{- include "x" . \| nindent 4 }}` |
-
-**Conditional patterns:**
-```yaml
-{{- if .Values.enabled }}...{{- end }}
-{{- if not .Values.autoscaling.enabled }}replicas: {{ .Values.replicaCount }}{{- end }}
-```
-
-**Iteration:**
-```yaml
-{{- range .Values.items }}
-- {{ . }}
-{{- end }}
-```
 
 ## Working with CRDs
 
