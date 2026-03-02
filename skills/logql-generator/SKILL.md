@@ -1,13 +1,9 @@
 ---
 name: logql-generator
-description: Comprehensive toolkit for generating best practice LogQL (Loki Query Language) queries following current standards and conventions. Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki.
+description: Generate label matchers, line filters, log aggregations, and metric queries in LogQL (Loki Query Language) following current standards and conventions. Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki.
 ---
 
 # LogQL Query Generator
-
-## Overview
-
-Interactive workflow for generating production-ready LogQL queries. LogQL is Grafana Loki's query language—distributed grep with labels for filtering, plus aggregation and metrics capabilities.
 
 ## When to Use This Skill
 
@@ -42,9 +38,9 @@ Gather requirements using **AskUserQuestion**:
 4. **Aggregation**: `count_over_time()`, `rate()`, `sum by (label)`, `quantile_over_time()`
 5. **Time Range**: `[5m]`, `[1h]`, `[24h]`
 
-### Stage 4: Present Plan & Confirm
+### Stage 4: Plan, Validate & Consult References
 
-**Before generating code**, present a plain-English plan:
+**Before generating code**, present a plain-English plan and confirm with the user via **AskUserQuestion**:
 
 ```
 ## LogQL Query Plan
@@ -59,35 +55,22 @@ Gather requirements using **AskUserQuestion**:
 **Does this match your intentions?**
 ```
 
-Use **AskUserQuestion** to confirm before proceeding.
+Once confirmed, **MANDATORY**: use the **Read tool** to consult the appropriate reference files before generating. Do NOT rely on prior knowledge or cached information.
 
-### Stage 4a: Consult Reference Files (REQUIRED for Complex Queries)
-
-**MANDATORY**: Use the **Read tool** to explicitly read reference files during skill execution. Do NOT rely on prior knowledge or cached information.
-
-**BEFORE generating queries**, when the query involves ANY of the following, you MUST use the Read tool:
-
-| Query Complexity | Action Required |
+| Query Complexity | File to Read |
 |------------------|-----------------|
-| **Complex aggregations** (nested topk, multiple sum by, percentiles) | `Read assets/common_queries.logql` for verified patterns |
-| **Performance-critical queries** (large time ranges, high-volume streams) | `Read references/best_practices.md` sections #1-5, #15-18 |
-| **Alerting rules** | `Read references/best_practices.md` sections #19-21, #39 |
-| **Structured metadata / Loki 3.x features** | `Read references/best_practices.md` sections #35-37 |
-| **Template functions** (line_format, label_format) | `Read assets/common_queries.logql` Template Functions section |
-| **IP filtering, pattern extraction, regex** | `Read assets/common_queries.logql` for exact syntax |
+| **Complex aggregations** (nested topk, multiple sum by, percentiles) | `assets/common_queries.logql` — verified patterns |
+| **Performance-critical queries** (large time ranges, high-volume streams) | `references/best_practices.md` — sections #1-5, #15-18 |
+| **Alerting rules** | `references/best_practices.md` — sections #19-21, #39 |
+| **Structured metadata / Loki 3.x features** | `references/best_practices.md` — sections #35-37 |
+| **Template functions** (line_format, label_format) | `assets/common_queries.logql` — Template Functions section |
+| **IP filtering, pattern extraction, regex** | `assets/common_queries.logql` — exact syntax |
 
-**How to consult (MUST use Read tool)**:
+**Paths to use with the Read tool**:
 ```
-# Use the Read tool with these paths during skill execution:
-Read(".claude/skills/logql-generator/assets/common_queries.logql")   # For query patterns
-Read(".claude/skills/logql-generator/references/best_practices.md")    # For optimization and anti-patterns
+Read(".claude/skills/logql-generator/assets/common_queries.logql")   # Query patterns
+Read(".claude/skills/logql-generator/references/best_practices.md")  # Optimization and anti-patterns
 ```
-
-**Example workflow**:
-1. User requests alerting rule with topk aggregation
-2. **MUST** call: `Read assets/common_queries.logql` to get topk patterns
-3. **MUST** call: `Read references/best_practices.md` to get alerting best practices (#19-21, #39)
-4. Then generate query using patterns from the files you just read
 
 **Why this matters**: Reference files contain battle-tested patterns and edge cases not covered in the skill overview. Explicit consultation during each skill execution ensures you use the latest patterns and prevents syntax errors.
 
@@ -297,9 +280,9 @@ sum(count_over_time({app="api"} | json | level="error" [5m])) or vector(0)
 - **service_name**: Auto-populated from container name
 - **detected_level**: Auto-detected when `discover_log_levels: true` (stored as structured metadata)
 
-## Function Reference
+## Quick Function Reference
 
-### Log Range Aggregations
+### Log Range Aggregations (most common)
 
 | Function | Description |
 |----------|-------------|
@@ -308,7 +291,7 @@ sum(count_over_time({app="api"} | json | level="error" [5m])) or vector(0)
 | `bytes_rate(log-range)` | Bytes per second |
 | `absent_over_time(log-range)` | Returns 1 if no logs |
 
-### Unwrapped Range Aggregations
+### Unwrapped Range Aggregations (most common)
 
 | Function | Description |
 |----------|-------------|
@@ -430,7 +413,7 @@ When user asks for "error tracking with trace correlation in Loki 3.x":
 
 1. **Always plan interactively** - Present plain-English plan before generating
 2. **Use AskUserQuestion** - Gather requirements and confirm plans
-3. **MUST use Read tool for complex queries** - Explicitly call `Read` on `assets/common_queries.logql` and `references/best_practices.md` during skill execution for alerting rules, topk, percentiles, or performance-critical queries. Do NOT skip this step or rely on prior knowledge.
+3. **MUST use Read tool for complex queries** - See Stage 4 for the authoritative table of when and which files to read; do NOT skip this step or rely on prior knowledge
 4. **Fetch docs for advanced features** - Use context7 MCP when Loki 3.x features, approx_topk, or unclear syntax is involved (see Documentation Lookup triggers)
 5. **Offer incremental building** - For learning or debugging, present step-by-step query construction (see Stage 5a)
 6. **Explain queries** - What it does, how to interpret results
