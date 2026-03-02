@@ -1,6 +1,6 @@
 ---
 name: k8s-debug
-description: Comprehensive Kubernetes debugging and troubleshooting toolkit. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, or performing cluster health checks.
+description: Inspect pod logs, analyze resource quotas, trace network policies, check deployment rollout status, and run cluster health checks for Kubernetes. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, or performing cluster health checks.
 ---
 
 # Kubernetes Debugging Skill
@@ -9,86 +9,33 @@ description: Comprehensive Kubernetes debugging and troubleshooting toolkit. Use
 
 Systematic toolkit for debugging and troubleshooting Kubernetes clusters, pods, services, and deployments. Provides scripts, workflows, and reference guides for identifying and resolving common Kubernetes issues efficiently.
 
-## When to Use This Skill
-
-Invoke this skill when encountering:
-- Pod failures (CrashLoopBackOff, ImagePullBackOff, Pending, OOMKilled)
-- Service connectivity or DNS resolution issues
-- Network policy or ingress problems
-- Volume and storage mount failures
-- Deployment rollout issues
-- Cluster health or performance degradation
-- Resource exhaustion (CPU/memory)
-- Configuration problems (ConfigMaps, Secrets, RBAC)
-
 ## Debugging Workflow
 
 Follow this systematic approach for any Kubernetes issue:
 
 ### 1. Identify the Problem Layer
 
-Categorize the issue:
-- **Application Layer**: Application crashes, errors, bugs
-- **Pod Layer**: Pod not starting, restarting, or pending
-- **Service Layer**: Network connectivity, DNS issues
-- **Node Layer**: Node not ready, resource exhaustion
-- **Cluster Layer**: Control plane issues, API problems
-- **Storage Layer**: Volume mount failures, PVC issues
-- **Configuration Layer**: ConfigMap, Secret, RBAC issues
+Categorize the issue at the appropriate layer: Application, Pod, Service, Node, Cluster, Storage, or Configuration.
 
 ### 2. Gather Diagnostic Information
 
 Use the appropriate diagnostic script based on scope:
 
 #### Pod-Level Diagnostics
-Use `scripts/pod_diagnostics.py` for comprehensive pod analysis:
-
 ```bash
 python3 scripts/pod_diagnostics.py <pod-name> -n <namespace>
+# Save output: python3 scripts/pod_diagnostics.py <pod-name> -n <namespace> -o diagnostics.txt
 ```
 
-This script gathers:
-- Pod status and description
-- Pod events
-- Container logs (current and previous)
-- Resource usage
-- Node information
-- YAML configuration
-
-Output can be saved for analysis: `python3 scripts/pod_diagnostics.py <pod-name> -n <namespace> -o diagnostics.txt`
-
 #### Cluster-Level Health Check
-Use `scripts/cluster_health.sh` for overall cluster diagnostics:
-
 ```bash
 ./scripts/cluster_health.sh
 ```
 
-This script checks:
-- Cluster info and version
-- Node status and resources
-- Pods across all namespaces
-- Failed/pending pods
-- Recent events
-- Deployments, services, statefulsets, daemonsets
-- PVCs and PVs
-- Component health
-- Common error states (CrashLoopBackOff, ImagePullBackOff)
-
 #### Network Diagnostics
-Use `scripts/network_debug.sh` for connectivity issues:
-
 ```bash
 ./scripts/network_debug.sh <namespace> <pod-name>
 ```
-
-This script analyzes:
-- Pod network configuration
-- DNS setup and resolution
-- Service endpoints
-- Network policies
-- Connectivity tests
-- CoreDNS logs
 
 ### 3. Follow Issue-Specific Workflow
 
@@ -150,7 +97,7 @@ kubectl get networkpolicies -n <namespace>
 kubectl top nodes
 kubectl top pods -n <namespace> --containers
 
-# Get pod metrics
+# Get pod resources
 kubectl get pod <pod-name> -n <namespace> -o yaml | grep -A 10 resources
 
 # Check for OOMKilled
@@ -174,118 +121,111 @@ kubectl logs <pod-name> -n <namespace> --tail=100
 # - Resource quota usage
 ```
 
-## Essential Manual Commands
+## Key Debugging Commands
 
-While scripts automate diagnostics, understand these core commands:
+Focus on non-obvious flags and patterns most useful during debugging:
 
 ### Pod Debugging
 ```bash
-# View pod status
-kubectl get pods -n <namespace> -o wide
+# Cross-namespace pod overview
+kubectl get pods -A -o wide --field-selector=status.phase!=Running
 
-# Detailed pod information
+# Previous container logs (post-crash)
+kubectl logs <pod-name> -n <namespace> --previous
+
+# Multi-container pod: target specific container
+kubectl logs <pod-name> -n <namespace> -c <container>
+
+# Stream logs with timestamps
+kubectl logs <pod-name> -n <namespace> -f --timestamps
+
+# Describe for Events section — most useful first stop
 kubectl describe pod <pod-name> -n <namespace>
 
-# View logs
-kubectl logs <pod-name> -n <namespace>
-kubectl logs <pod-name> -n <namespace> --previous  # Previous container
-kubectl logs <pod-name> -n <namespace> -c <container>  # Specific container
-
-# Execute commands in pod
-kubectl exec <pod-name> -n <namespace> -it -- /bin/sh
-
-# Get pod YAML
+# Full pod YAML including status conditions
 kubectl get pod <pod-name> -n <namespace> -o yaml
 ```
 
 ### Service and Network Debugging
 ```bash
-# Check services
-kubectl get svc -n <namespace>
-kubectl describe svc <service-name> -n <namespace>
+# Confirm endpoint IPs match running pod IPs (label selector mismatch shows empty)
+kubectl get endpoints <service-name> -n <namespace>
 
-# Check endpoints
-kubectl get endpoints -n <namespace>
-
-# Test DNS
+# Test DNS from within the cluster
 kubectl exec <pod-name> -n <namespace> -- nslookup kubernetes.default
 
-# View events
+# Sort events by time to find recent failures
 kubectl get events -n <namespace> --sort-by='.lastTimestamp'
 ```
 
 ### Resource Monitoring
 ```bash
-# Node resources
-kubectl top nodes
-kubectl describe nodes
-
-# Pod resources
-kubectl top pods -n <namespace>
+# Per-container resource usage (reveals which container is the culprit)
 kubectl top pod <pod-name> -n <namespace> --containers
+
+# Resource quota consumption vs. limits
+kubectl describe resourcequota -n <namespace>
 ```
 
-### Emergency Operations
+## Emergency Operations
+
+> ⚠️ These commands are destructive or disruptive. Follow the verification steps before and after each operation.
+
+### Restart Deployment
 ```bash
-# Restart deployment
+# Verify current rollout state first
+kubectl rollout status deployment/<name> -n <namespace>
+
+# Restart
 kubectl rollout restart deployment/<name> -n <namespace>
 
-# Rollback deployment
-kubectl rollout undo deployment/<name> -n <namespace>
-
-# Force delete stuck pod
-kubectl delete pod <pod-name> -n <namespace> --force --grace-period=0
-
-# Drain node (maintenance)
-kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data
-
-# Cordon node (prevent scheduling)
-kubectl cordon <node-name>
+# Verify rollout completes successfully
+kubectl rollout status deployment/<name> -n <namespace> --timeout=120s
 ```
 
-## Reference Documentation
+### Rollback Deployment
+```bash
+# Check rollout history to pick the correct revision
+kubectl rollout history deployment/<name> -n <namespace>
 
-### Detailed Troubleshooting Guides
+# Rollback to previous revision
+kubectl rollout undo deployment/<name> -n <namespace>
 
-Consult `references/troubleshooting_workflow.md` for:
-- Step-by-step workflows for each issue type
-- Decision trees for diagnosis
-- Command sequences for systematic debugging
-- Quick reference command cheat sheet
+# Confirm rollback success and pods are running
+kubectl rollout status deployment/<name> -n <namespace>
+kubectl get pods -n <namespace> -l app=<name>
+```
 
-### Common Issues Database
+### Force Delete Stuck Pod
+```bash
+# Confirm the pod is genuinely stuck (not just slow to terminate)
+kubectl get pod <pod-name> -n <namespace> -w   # Watch for 60s before proceeding
 
-Consult `references/common_issues.md` for:
-- Detailed explanations of each common issue
-- Symptoms and causes
-- Specific debugging steps
-- Solutions and fixes
-- Prevention strategies
+# Force delete only if pod remains Terminating with no progress
+kubectl delete pod <pod-name> -n <namespace> --force --grace-period=0
 
-## Best Practices
+# Verify the pod is gone and not rescheduled with an error state
+kubectl get pod <pod-name> -n <namespace>
+```
 
-### Systematic Approach
-1. **Observe**: Gather facts before making changes
-2. **Analyze**: Use diagnostic scripts to collect comprehensive data
-3. **Hypothesize**: Form theory about root cause
-4. **Test**: Verify hypothesis with targeted commands
-5. **Fix**: Apply appropriate solution
-6. **Verify**: Confirm issue is resolved
-7. **Document**: Record findings for future reference
+### Drain Node (Maintenance)
+```bash
+# Review what will be evicted before draining
+kubectl get pods --all-namespaces --field-selector spec.nodeName=<node-name>
 
-### Data Collection
-- Save diagnostic output to files for analysis
-- Capture logs before restarting failing pods
-- Record events timeline for incident reports
-- Export resource metrics for trend analysis
+# Cordon first to prevent new scheduling
+kubectl cordon <node-name>
 
-### Prevention
-- Set appropriate resource requests and limits
-- Implement health checks (liveness/readiness probes)
-- Use proper logging and monitoring
-- Apply network policies incrementally
-- Test changes in non-production environments
-- Maintain documentation of cluster architecture
+# Drain (evicts pods gracefully)
+kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data
+
+# Verify node is drained and no workloads remain
+kubectl get pods --all-namespaces --field-selector spec.nodeName=<node-name>
+
+# After maintenance, uncordon to restore scheduling
+kubectl uncordon <node-name>
+kubectl get node <node-name>   # Confirm status returns to Ready
+```
 
 ## Advanced Debugging Techniques
 
@@ -342,13 +282,21 @@ Before escalating issues, verify:
 - [ ] Checked for resource quotas/limits
 - [ ] Reviewed cluster component health
 
-## Related Tools
+## Reference Documentation
 
-Useful additional tools for Kubernetes debugging:
-- **kubectl-debug**: Advanced debugging plugin
-- **stern**: Multi-pod log tailing
-- **kubectx/kubens**: Context and namespace switching
-- **k9s**: Terminal UI for Kubernetes
-- **lens**: Desktop IDE for Kubernetes
-- **Prometheus/Grafana**: Monitoring and alerting
-- **Jaeger/Zipkin**: Distributed tracing
+### Detailed Troubleshooting Guides
+
+Consult `references/troubleshooting_workflow.md` for:
+- Step-by-step workflows for each issue type
+- Decision trees for diagnosis
+- Command sequences for systematic debugging
+- Quick reference command cheat sheet
+
+### Common Issues Database
+
+Consult `references/common_issues.md` for:
+- Detailed explanations of each common issue
+- Symptoms and causes
+- Specific debugging steps
+- Solutions and fixes
+- Prevention strategies
