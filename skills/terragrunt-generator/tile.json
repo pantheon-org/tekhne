@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/terragrunt-generator",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "summary": "Comprehensive toolkit for generating best practice Terragrunt configurations (HCL files) following current standards and conventions. Use this skill when creating new Terragrunt resources (root configs, child modules, stacks, environment setups), or building multi-environment Terragrunt projects.",
   "skills": {
     "terragrunt-generator": {
