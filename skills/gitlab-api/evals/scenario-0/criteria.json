@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses the get_mr_comments.sh script, validates responses, filters system messages, groups by author, and properly handles the structured output format.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses get_mr_comments.sh script",
+      "description": "Script calls .agents/skills/gitlab-api/scripts/get_mr_comments.sh or includes the script in the solution",
+      "max_score": 15
+    },
+    {
+      "name": "Validates response output",
+      "description": "Checks for expected fields like 'Author:' or 'Date:' in the script output before processing",
+      "max_score": 10
+    },
+    {
+      "name": "Filters System: false",
+      "description": "Explicitly filters or excludes comments where System: true to remove automated messages",
+      "max_score": 15
+    },
+    {
+      "name": "Groups by author",
+      "description": "Organizes comments by author name or username in the summary",
+      "max_score": 12
+    },
+    {
+      "name": "Parses Author field",
+      "description": "Extracts and uses the Author field from the output format",
+      "max_score": 8
+    },
+    {
+      "name": "Parses Date field",
+      "description": "Extracts and uses the Date field from the output format",
+      "max_score": 7
+    },
+    {
+      "name": "Parses Type field",
+      "description": "Extracts and uses the Type field (DiffNote or comment) from the output format",
+      "max_score": 8
+    },
+    {
+      "name": "Parses System field",
+      "description": "Extracts and uses the System field to identify automated vs human comments",
+      "max_score": 10
+    },
+    {
+      "name": "Handles GITLAB_TOKEN",
+      "description": "References, sets, or documents the need for GITLAB_TOKEN or GITLAB_PAT environment variable",
+      "max_score": 8
+    },
+    {
+      "name": "Error handling",
+      "description": "Includes error handling for invalid URLs or authentication failures",
+      "max_score": 7
+    }
+  ]
+}

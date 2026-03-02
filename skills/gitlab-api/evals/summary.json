@@ -1,0 +1,83 @@
+{
+  "scenarios": [
+    {
+      "scenario_id": "scenario-0",
+      "capability": "MR review summary generation",
+      "coverage": [
+        "Use the get_mr_comments.sh script to fetch MR comments",
+        "Validate API response by checking for expected fields (Author:, Date:) before processing",
+        "Filter by System: false to exclude automated messages",
+        "Group comments by author when generating MR review summaries",
+        "Parse output by looking for specific fields: Author, Date, Type, System, and comment body",
+        "Set GITLAB_TOKEN or GITLAB_PAT environment variable before making API calls"
+      ],
+      "why_useful": "Tests core workflow of fetching MR data, validating responses, filtering automated content, and organizing by reviewer - essential for any review analysis tool",
+      "estimated_time_minutes": 8
+    },
+    {
+      "scenario_id": "scenario-1",
+      "capability": "Review progress monitoring",
+      "coverage": [
+        "Use the get_mr_comments.sh script to fetch MR comments",
+        "Compare timestamps to identify recent activity when tracking review progress",
+        "Identify inline code review comments by Type: DiffNote",
+        "Flag unresolved DiffNotes when tracking review progress",
+        "Timestamps are in UTC using ISO8601 format",
+        "Validate API response by checking for expected fields (Author:, Date:) before processing"
+      ],
+      "why_useful": "Tests temporal analysis capabilities and DiffNote identification - critical for monitoring review velocity and identifying stalled reviews",
+      "estimated_time_minutes": 7
+    },
+    {
+      "scenario_id": "scenario-2",
+      "capability": "Error detection and troubleshooting",
+      "coverage": [
+        "Handle 401 Unauthorized by checking token existence and scope",
+        "Handle 404 by verifying URL format and project access",
+        "Validate MR URL format matches https://gitlab.com/group/project/-/merge_requests/ID",
+        "Check script exit codes: 0 for success, 1 for errors",
+        "Set GITLAB_TOKEN or GITLAB_PAT environment variable before making API calls",
+        "Create GitLab token with read_api scope"
+      ],
+      "why_useful": "Tests error handling and troubleshooting capabilities - essential for production-ready tools that need robust failure recovery",
+      "estimated_time_minutes": 6
+    },
+    {
+      "scenario_id": "scenario-3",
+      "capability": "Inline vs general comment analysis",
+      "coverage": [
+        "Identify inline code review comments by Type: DiffNote",
+        "Filter by System: false to exclude automated messages",
+        "Parse output by looking for specific fields: Author, Date, Type, System, and comment body",
+        "Use the get_mr_comments.sh script to fetch MR comments",
+        "Set GITLAB_TOKEN or GITLAB_PAT environment variable before making API calls"
+      ],
+      "why_useful": "Tests ability to distinguish comment types and filter automated content - key for separating code-level feedback from architectural discussions",
+      "estimated_time_minutes": 7
+    },
+    {
+      "scenario_id": "scenario-4",
+      "capability": "GitLab API integration bootstrap",
+      "coverage": [
+        "Set GITLAB_TOKEN or GITLAB_PAT environment variable before making API calls",
+        "Create GitLab token with read_api scope",
+        "Use curl for API requests",
+        "Use jq for JSON parsing",
+        "Validate MR URL format matches https://gitlab.com/group/project/-/merge_requests/ID",
+        "URL encode project path by replacing / with %2F",
+        "Check script exit codes: 0 for success, 1 for errors"
+      ],
+      "why_useful": "Tests documentation and setup knowledge - ensures developers know how to properly configure and use the GitLab API integration",
+      "estimated_time_minutes": 9
+    }
+  ],
+  "coverage_summary": {
+    "total_instructions": 18,
+    "covered_instructions": 16,
+    "uncovered_instructions": [
+      "Use curl for API requests (only documented in scenario-4)",
+      "Use jq for JSON parsing (only documented in scenario-4)"
+    ],
+    "coverage_notes": "All critical instructions are covered across multiple scenarios. curl and jq usage is primarily a documentation concern in scenario-4. Core workflow instructions (script usage, filtering, parsing) are tested extensively across scenarios 0-3."
+  }
+}

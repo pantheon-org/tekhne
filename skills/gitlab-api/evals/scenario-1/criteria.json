@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent uses timestamp comparison, identifies DiffNote types for inline comments, validates timestamps are in UTC/ISO8601 format, and properly tracks review activity.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses get_mr_comments.sh",
+      "description": "Calls .agents/skills/gitlab-api/scripts/get_mr_comments.sh in the solution",
+      "max_score": 12
+    },
+    {
+      "name": "Compares timestamps",
+      "description": "Includes logic to compare or sort comment timestamps to identify recent activity",
+      "max_score": 15
+    },
+    {
+      "name": "Identifies DiffNote type",
+      "description": "Checks the Type field to distinguish between DiffNote (inline code comments) and general comments",
+      "max_score": 15
+    },
+    {
+      "name": "Processes Date field",
+      "description": "Extracts and uses the Date field from the comment output",
+      "max_score": 10
+    },
+    {
+      "name": "Handles ISO8601 format",
+      "description": "Treats or references timestamps as ISO8601 format (no manual conversion to other formats)",
+      "max_score": 10
+    },
+    {
+      "name": "Validates response",
+      "description": "Checks that the fetched data contains expected fields before processing",
+      "max_score": 8
+    },
+    {
+      "name": "Identifies inline comments",
+      "description": "Specifically counts or flags Type: DiffNote comments as pending inline reviews",
+      "max_score": 12
+    },
+    {
+      "name": "Authentication setup",
+      "description": "Documents or handles GITLAB_TOKEN/GITLAB_PAT environment variable requirement",
+      "max_score": 8
+    },
+    {
+      "name": "Error handling",
+      "description": "Includes checks for missing credentials or invalid MR URLs with appropriate error messages",
+      "max_score": 10
+    }
+  ]
+}
