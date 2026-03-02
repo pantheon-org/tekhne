@@ -4,11 +4,9 @@ category: nx-development
 last_updated: January 2026
 ---
 
-# Nx Executors - Troubleshooting
-
 ## Common Issues and Solutions
 
-### "Unable to resolve @scope/tools:executor-name"
+### "Unable to resolve executor package reference"
 
 **Error Message:**
 
