@@ -5,156 +5,58 @@ description: Comprehensive toolkit for generating, validating, and managing Kube
 
 # K8s Generator
 
-## Overview
-
-This skill provides a complete workflow for generating Kubernetes YAML resources with built-in validation and intelligent CRD support. Generate production-ready manifests for any Kubernetes resource type, with automatic validation and version-aware documentation lookup for custom resources.
-
-## When to Use This Skill
-
-Use this skill when:
-- Generating Kubernetes YAML manifests (Deployments, Services, ConfigMaps, etc.)
-- Creating custom resources (ArgoCD Applications, Istio VirtualServices, etc.)
-- Building production-ready Kubernetes configurations
-- Need to ensure YAML validity and K8s API compliance
-- Working with CRDs that require documentation lookup
-
 ## Core Workflow
-
-Follow this workflow when generating Kubernetes YAML resources:
 
 ### 1. Understand Requirements
 
-**Gather information about:**
-- Resource type (Deployment, Service, ConfigMap, CRD, etc.)
-- Target Kubernetes version (if specified)
-- Application requirements (replicas, ports, volumes, etc.)
-- Environment-specific needs (namespaces, labels, annotations)
-- Custom resource specifications (for CRDs)
-
-**For CRDs specifically:**
-- Identify the CRD type and version (e.g., ArgoCD Application v1alpha1, Istio VirtualService v1beta1)
-- Determine if documentation is needed (complex CRDs, unfamiliar APIs)
+Gather: resource type, target K8s version, app requirements (replicas, ports, volumes), namespace/labels/annotations, and CRD specifics (kind, apiVersion, version).
 
 ### 2. Fetch CRD Documentation (if needed)
 
-**When dealing with Custom Resource Definitions (CRDs):**
-
-**IMPORTANT: Always consider version compatibility when working with CRDs**
-
-**Step 2a: Identify the CRD and Version**
-- Extract the CRD's apiVersion and kind from the user request
-- Examples:
-  - ArgoCD Application: `apiVersion: argoproj.io/v1alpha1, kind: Application`
-  - Istio VirtualService: `apiVersion: networking.istio.io/v1beta1, kind: VirtualService`
-  - Cert-Manager Certificate: `apiVersion: cert-manager.io/v1, kind: Certificate`
-
-**Step 2b: Resolve Library ID using Context7 MCP**
-
-Use the `mcp__context7__resolve-library-id` tool to find the correct library:
-
+**Step 2a – Resolve the library ID:**
 ```
-libraryName: "<project-name>"
+mcp__context7__resolve-library-id: libraryName: "<project-name>"
+# e.g. "argo-cd", "istio", "cert-manager"
+```
+Select the result with best name match, version compatibility, and benchmark score.
+
+**Step 2b – Fetch docs:**
+```
+mcp__context7__get-library-docs: context7CompatibleLibraryID: "/org/project/version"
+  topic: "<CRD type or feature>"
+  page: 1   # increment up to 10 if context is insufficient; try alternate topic keywords
 ```
 
-Examples:
-- For ArgoCD: `libraryName: "argo-cd"`
-- For Istio: `libraryName: "istio"`
-- For Cert-Manager: `libraryName: "cert-manager"`
-
-**The tool will return:**
-- A list of matching libraries with their Context7-compatible IDs (format: `/org/project` or `/org/project/version`)
-- Benchmark scores indicating documentation quality
-- Code snippet counts showing coverage
-
-**Select the most appropriate library based on:**
-- Name match accuracy
-- Target version compatibility (if user specified a version)
-- Benchmark score (higher is better, 100 is highest)
-- Documentation coverage (code snippet count)
-
-**Step 2c: Fetch Documentation using Context7 MCP**
-
-Use the `mcp__context7__get-library-docs` tool with the selected library ID:
-
+**Step 2c – Fallback to web search** if Context7 returns insufficient results:
 ```
-context7CompatibleLibraryID: "/org/project/version"
-topic: "specific CRD type or feature"
-page: 1
+WebSearch: "<CRD-name> <version> spec documentation"
+# e.g. "ArgoCD Application v1alpha1 spec documentation"
 ```
-
-Examples:
-- For ArgoCD Application CRD: `context7CompatibleLibraryID: "/argoproj/argo-cd/v2.9.0", topic: "application crd spec", page: 1`
-- For Istio VirtualService: `context7CompatibleLibraryID: "/istio/istio/1.20.0", topic: "virtualservice", page: 1`
-
-**If context is insufficient:**
-- Increment the `page` parameter (page: 2, page: 3, etc.) with the same topic
-- Try different topic keywords
-- Maximum page number is 10
-
-**Step 2d: Fallback to Web Search**
-
-**If context7 MCP fails or returns insufficient information:**
-- Use the `WebSearch` tool with version-specific queries
-- Include the version in the search query: `"<CRD-name> <version> spec documentation"`
-- Examples:
-  - `"ArgoCD Application v1alpha1 spec documentation"`
-  - `"Istio VirtualService v1beta1 configuration"`
-  - `"cert-manager Certificate v1 spec fields"`
-
-**CRITICAL: Always include version information in web searches to ensure compatibility**
+Always include the version in the query for compatibility.
 
 ### 3. Generate YAML Resource
 
-**Apply Kubernetes best practices:**
+**Recommended labels** (use consistently across all resources):
+```yaml
+labels:
+  app.kubernetes.io/name: myapp
+  app.kubernetes.io/instance: myapp-prod
+  app.kubernetes.io/version: "1.0.0"
+  app.kubernetes.io/component: backend
+  app.kubernetes.io/part-of: myplatform
+  app.kubernetes.io/managed-by: claude-code
+```
 
-**General Best Practices:**
-- Use explicit API versions (avoid deprecated versions)
-- Include meaningful labels for organization and selection (use [Kubernetes recommended labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/)):
-  ```yaml
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-abc123
-    app.kubernetes.io/version: "1.0.0"
-    app.kubernetes.io/component: frontend
-    app.kubernetes.io/part-of: myplatform
-    app.kubernetes.io/managed-by: claude-code
-  ```
-- Add annotations for metadata and tooling:
-  ```yaml
-  annotations:
-    description: "Purpose of this resource"
-    contact: "team@example.com"
-  ```
-- Specify resource requests and limits (for Pods):
-  ```yaml
-  resources:
-    requests:
-      memory: "64Mi"
-      cpu: "250m"
-    limits:
-      memory: "128Mi"
-      cpu: "500m"
-  ```
-- Use namespaces for multi-tenancy
-- Implement health checks (livenessProbe, readinessProbe)
-- Follow naming conventions (lowercase, hyphens, descriptive)
+**Best practices checklist:**
+- Explicit, non-deprecated API versions
+- Resource requests/limits on all containers
+- Liveness and readiness probes
+- Non-root `securityContext`; Pod Security Standards
+- Secrets in Secret objects (not ConfigMaps)
+- Namespace specified on all namespace-scoped resources
+- For CRDs: include all required fields; add comments on complex configs
 
-**Security Best Practices:**
-- Never run containers as root (use `securityContext`)
-- Implement Pod Security Standards
-- Use least-privilege RBAC
-- Store secrets in Secret objects, not ConfigMaps
-- Use `imagePullPolicy: Always` or `IfNotPresent` appropriately
-
-**For CRDs:**
-- Reference the fetched documentation for accurate spec fields
-- Include all required fields
-- Use appropriate defaults for optional fields
-- Add comments explaining complex configurations
-
-**Common Resource Templates:**
-
-**Deployment:**
+**Deployment template:**
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -164,10 +66,6 @@ metadata:
   labels:
     app.kubernetes.io/name: myapp
     app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/version: "1.0.0"
-    app.kubernetes.io/component: backend
-    app.kubernetes.io/part-of: myplatform
-    app.kubernetes.io/managed-by: claude-code
 spec:
   replicas: 3
   selector:
@@ -179,10 +77,6 @@ spec:
       labels:
         app.kubernetes.io/name: myapp
         app.kubernetes.io/instance: myapp-prod
-        app.kubernetes.io/version: "1.0.0"
-        app.kubernetes.io/component: backend
-        app.kubernetes.io/part-of: myplatform
-        app.kubernetes.io/managed-by: claude-code
     spec:
       containers:
       - name: myapp
@@ -190,39 +84,25 @@ spec:
         ports:
         - containerPort: 8080
         resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+          requests: { memory: "64Mi", cpu: "250m" }
+          limits:   { memory: "128Mi", cpu: "500m" }
         livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
+          httpGet: { path: /health, port: 8080 }
           initialDelaySeconds: 30
           periodSeconds: 10
         readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8080
+          httpGet: { path: /ready, port: 8080 }
           initialDelaySeconds: 5
           periodSeconds: 5
 ```
 
-**Service:**
+**Service template:**
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
   name: myapp-service
   namespace: default
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/component: backend
-    app.kubernetes.io/part-of: myplatform
-    app.kubernetes.io/managed-by: claude-code
 spec:
   type: ClusterIP  # or LoadBalancer, NodePort
   selector:
@@ -235,153 +115,41 @@ spec:
     name: http
 ```
 
-**ConfigMap:**
+**ConfigMap template:**
 ```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: myapp-config
   namespace: default
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/component: config
-    app.kubernetes.io/part-of: myplatform
-    app.kubernetes.io/managed-by: claude-code
 data:
   app.properties: |
     key1=value1
-    key2=value2
   config.json: |
-    {
-      "setting": "value"
-    }
+    { "setting": "value" }
 ```
 
 ### 4. Validate Generated YAML
 
-**CRITICAL: Always validate generated YAML using the devops-skills:k8s-yaml-validator skill**
+**CRITICAL: Always validate using the devops-skills:k8s-yaml-validator skill immediately after generation.**
 
-After generating the YAML resource, immediately invoke the devops-skills:k8s-yaml-validator skill:
-
-**Use the Skill tool:**
 ```
 Skill: devops-skills:k8s-yaml-validator
 ```
 
-**The devops-skills:k8s-yaml-validator skill will:**
-1. Validate YAML syntax using `yamllint`
-2. Validate Kubernetes API compliance using `kubeconform`
-3. Check for best practices and common issues
-4. For CRDs: Automatically detect custom resources and fetch documentation if needed
-5. Perform dry-run validation against the cluster (if available)
-
-**Wait for validation results and address any issues:**
-- Syntax errors: Fix YAML formatting issues
-- Schema errors: Correct field names, types, or structure
-- Best practice violations: Update according to recommendations
-- CRD validation errors: Re-fetch documentation and correct spec fields
-
-**If validation fails:**
-- Review the error messages carefully
-- Update the YAML to address the issues
-- Re-run validation
-- Repeat until validation passes
+The validator runs `yamllint` (syntax), `kubeconform` (schema/API compliance), best-practice checks, and optional cluster dry-run. Address all reported errors—fix, re-validate, repeat until clean.
 
 ### 5. Deliver the Resource
 
-**Once validation passes:**
-- Present the validated YAML to the user
-- Include a summary of what was generated
-- Highlight any important configuration choices
-- Suggest next steps (kubectl apply, customization, etc.)
+Present the validated YAML with a brief summary, key configuration choices, and next steps:
 
-**Format:**
-```yaml
-# Generated and validated Kubernetes resource
-# Resource: <Type>
-# Namespace: <namespace>
-# Validation: Passed
-
-<YAML content here>
-```
-
-**Suggest next steps:**
 ```bash
-# Apply the resource
 kubectl apply -f <filename>.yaml
-
-# Verify the resource
 kubectl get <resource-type> <name> -n <namespace>
-
-# Check status
 kubectl describe <resource-type> <name> -n <namespace>
 ```
 
-## Advanced Features
-
-### Multi-Resource Generation
-
-When generating multiple related resources:
-1. Create each resource following the core workflow
-2. Use consistent labels across resources for grouping
-3. Consider resource dependencies (create ConfigMaps before Deployments)
-4. Validate each resource individually with devops-skills:k8s-yaml-validator
-5. Optionally combine into a single multi-document YAML file using `---` separator
-
-**Example multi-document YAML:**
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: myapp-config
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/part-of: myplatform
-data:
-  key: value
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: myapp
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/part-of: myplatform
-spec:
-  # deployment spec with matching labels
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: myapp-service
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/part-of: myplatform
-spec:
-  # service spec with matching selector
-```
-
-### Version-Specific Generation
-
-When targeting specific Kubernetes versions:
-- Use appropriate API versions (check deprecations)
-- Reference version-specific features
-- Note any version-specific caveats
-- Example: Ingress moved from `extensions/v1beta1` to `networking.k8s.io/v1` in K8s 1.19+
-
-### Namespace Management
-
-Best practices for namespace handling:
-- Always specify namespace in metadata (except for cluster-scoped resources)
-- Use namespaces for environment separation (dev, staging, prod)
-- Consider namespace-scoped resources vs cluster-scoped
-- Include namespace creation YAML if needed
-
-## Common CRDs and Examples
+## Common CRD Examples
 
 ### ArgoCD Application
 
@@ -392,9 +160,6 @@ metadata:
   name: myapp
   namespace: argocd
   labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/part-of: myplatform
     app.kubernetes.io/managed-by: argocd
 spec:
   project: default
@@ -418,11 +183,6 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: myapp
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/component: networking
-    app.kubernetes.io/part-of: myplatform
 spec:
   hosts:
   - myapp.example.com
@@ -444,11 +204,6 @@ kind: Certificate
 metadata:
   name: myapp-tls
   namespace: default
-  labels:
-    app.kubernetes.io/name: myapp
-    app.kubernetes.io/instance: myapp-prod
-    app.kubernetes.io/component: tls
-    app.kubernetes.io/part-of: myplatform
 spec:
   secretName: myapp-tls-secret
   issuerRef:
@@ -458,46 +213,35 @@ spec:
   - myapp.example.com
 ```
 
+## Advanced Features
+
+### Multi-Resource Generation
+
+1. Generate each resource following the core workflow
+2. Use consistent labels across all resources
+3. Respect dependency order (e.g., ConfigMaps before Deployments)
+4. Validate each resource individually with devops-skills:k8s-yaml-validator
+5. Combine into a single multi-document YAML with `---` separators if desired
+
+### Version-Specific Generation
+
+- Use appropriate API versions for the target K8s version (check deprecations)
+- Example: Ingress moved from `extensions/v1beta1` to `networking.k8s.io/v1` in K8s 1.19+
+
 ## Troubleshooting
 
-### CRD Documentation Not Found
-- **Issue**: Context7 MCP cannot find the CRD documentation
-- **Solution**:
-  - Try alternative search terms (project name variations)
-  - Use WebSearch as fallback with version-specific queries
-  - Check the official project documentation directly
+| Issue | Solution |
+|---|---|
+| CRD docs not found in Context7 | Try name variations; fall back to WebSearch with version-specific query |
+| Validation failures | Read errors carefully; verify field names/types/required fields; re-validate |
+| Wrong API version | Confirm target K8s version; check deprecation status; update `apiVersion`; re-validate |
 
-### Validation Failures
-- **Issue**: devops-skills:k8s-yaml-validator reports errors
-- **Solution**:
-  - Read error messages carefully
-  - Check field names and types against documentation
-  - Verify API version compatibility
-  - Ensure required fields are present
+## Integration
 
-### Version Mismatches
-- **Issue**: Generated YAML uses wrong API version
-- **Solution**:
-  - Confirm target Kubernetes version with user
-  - Check API deprecation status
-  - Update apiVersion field to correct version
-  - Re-validate
+- **devops-skills:k8s-yaml-validator** — automatic validation of generated resources
+- **k8s-debug** — troubleshooting deployed resources
+- **helm-validator** — validating Helm charts using these resources
 
-## Integration with Other Skills
+---
 
-This skill works seamlessly with:
-- **devops-skills:k8s-yaml-validator**: Automatic validation of generated resources
-- **k8s-debug**: Troubleshooting deployed resources
-- **helm-validator**: Validating Helm charts that use these resources
-
-## Summary
-
-The k8s-generator skill provides:
-1. ✅ Intelligent YAML generation for any Kubernetes resource
-2. ✅ Automatic validation via devops-skills:k8s-yaml-validator
-3. ✅ Version-aware CRD documentation lookup via context7 MCP
-4. ✅ Fallback web search for CRD specifications
-5. ✅ Best practices and security considerations
-6. ✅ Production-ready configurations
-
-Always follow the core workflow: Understand → Fetch CRD Docs (if needed) → Generate → Validate → Deliver
+**Workflow summary:** Understand → Fetch CRD Docs (if needed) → Generate → Validate → Deliver
