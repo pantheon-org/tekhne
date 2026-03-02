@@ -1,6 +1,6 @@
 ---
 name: plain-english
-description: Write technical content in plain English for non-technical stakeholders by translating jargon into business language, surfacing decisions and impact early, and producing actionable recommendations with clear ownership and timeline.
+description: Translates technical content into plain English for non-technical stakeholders by converting jargon into business language, surfacing decisions and impact early, and producing actionable recommendations with clear ownership and timeline. Use when the user asks to simplify technical content, write an executive summary, explain something in layman's terms, rewrite for non-technical audiences, or translate jargon for management or stakeholders. Applies to document types such as technical reports, architecture decision records, incident summaries, risk assessments, and status updates. Distinct from general writing or documentation skills by its focus on audience identification, decision-first structure, and jargon elimination for non-technical readers.
 version: 1.1.0
 created: 2026-01-21
 ---
