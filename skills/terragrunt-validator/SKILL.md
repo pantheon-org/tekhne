@@ -5,22 +5,6 @@ description: Comprehensive toolkit for validating, linting, testing, and automat
 
 # Terragrunt Validator
 
-## Overview
-
-This skill provides comprehensive validation, linting, and testing capabilities for Terragrunt configurations. Terragrunt is a thin wrapper for Terraform/OpenTofu that provides extra tools for keeping configurations DRY (Don't Repeat Yourself), working with multiple modules, and managing remote state.
-
-**Use this skill when:**
-- Validating Terragrunt HCL files (*.hcl, terragrunt.hcl, terragrunt.stack.hcl)
-- Working with Terragrunt Stacks (unit/stack blocks, `terragrunt stack generate/run`)
-- Performing dry-run testing with `terragrunt plan`
-- Linting Terragrunt/Terraform code for best practices
-- Detecting and researching custom providers or modules
-- Debugging Terragrunt configuration issues
-- Checking dependency graphs
-- Formatting HCL files
-- Running security scans on infrastructure code (Trivy, Checkov)
-- Generating run reports and summaries
-
 > **Note:** This skill is designed for **Terragrunt 0.93+**. For version compatibility details and command migration guidance, see `references/version_compatibility.md`.
 
 ## Core Capabilities
@@ -81,77 +65,7 @@ python3 scripts/detect_custom_resources.py [DIRECTORY] [--format text|json]
 
 **When custom resources are detected:**
 
-> **CRITICAL: You MUST look up documentation for EVERY detected custom resource (both providers AND modules). Do NOT skip any. This is mandatory, not optional.**
-
-1. **For custom providers:**
-   - **Option A - WebSearch:** Search for provider documentation
-     - Query format: `"{provider_source} terraform provider documentation version {version}"`
-     - Example: `"mongodb/mongodbatlas terraform provider documentation version 1.14.0"`
-   - **Option B - Context7 MCP (Preferred):** Use Context7 for structured documentation lookup
-     - Step 1: Resolve library ID: `mcp__context7__resolve-library-id` with provider name (e.g., "datadog terraform provider")
-     - Step 2: **REQUIRED** - Fetch documentation: `mcp__context7__get-library-docs` with the resolved library ID
-     - Use `topic: "authentication"` or `topic: "configuration"` for targeted docs
-
-2. **For custom modules (EQUALLY IMPORTANT - DO NOT SKIP):**
-   - **Terraform Registry modules:**
-     - Use Context7: `mcp__context7__resolve-library-id` with module name (e.g., "terraform-aws-modules vpc")
-     - Then fetch docs with `mcp__context7__get-library-docs`
-     - Or visit `https://registry.terraform.io/modules/{source}/{version}`
-   - **Git modules:** Use WebSearch with the repository URL to find README or documentation
-   - **HTTP modules:** Investigate the source URL for documentation
-   - Pay attention to version compatibility with your Terraform/Terragrunt version
-
-3. **Documentation lookup workflow (MANDATORY for ALL detected resources):**
-   ```
-   a) Run detect_custom_resources.py
-   b) For EACH custom provider/module:
-      - Note the exact version
-      - Use Context7 MCP:
-        1. mcp__context7__resolve-library-id with libraryName: "{provider/module name}"
-        2. mcp__context7__get-library-docs with:
-           - context7CompatibleLibraryID: "{resolved ID}"
-           - topic: "authentication" (for auth requirements)
-           - topic: "configuration" (for setup requirements)
-      - OR use WebSearch with version-specific queries
-      - Review documentation for:
-        * Required configuration blocks
-        * Authentication requirements (API keys, credentials)
-        * Available resources/data sources
-        * Known issues or breaking changes in the version
-   c) Apply learnings to validation/troubleshooting
-   d) Document findings if issues are encountered
-   ```
-
-**Example using Context7 MCP:**
-```
-# 1. Detect custom resources
-python3 scripts/detect_custom_resources.py ./infrastructure
-# Output: Provider: datadog/datadog, Version: 3.30.0
-
-# 2. Resolve library ID
-mcp__context7__resolve-library-id with libraryName: "datadog terraform provider"
-# Result: /datadog/terraform-provider-datadog
-
-# 3. Fetch authentication docs (REQUIRED)
-mcp__context7__get-library-docs with:
-  context7CompatibleLibraryID: "/datadog/terraform-provider-datadog"
-  topic: "authentication"
-
-# 4. Fetch configuration docs
-mcp__context7__get-library-docs with:
-  context7CompatibleLibraryID: "/datadog/terraform-provider-datadog"
-  topic: "configuration"
-```
-
-**Example using WebSearch:**
-```bash
-# Detect custom resources
-python3 scripts/detect_custom_resources.py ./infrastructure
-
-# Then search for documentation:
-# WebSearch: "datadog terraform provider 3.30.0 authentication configuration"
-# WebSearch: "datadog terraform provider api_key app_key setup"
-```
+> **CRITICAL: You MUST look up documentation for EVERY detected custom resource (both providers AND modules). See the "Documentation Lookup" section in the Validation Workflow below for the complete mandatory process.**
 
 ### 3. Step-by-Step Validation
 
@@ -376,33 +290,74 @@ This ensures you understand the patterns, anti-patterns, and checklists you will
 
 > **CRITICAL: If ANY custom providers or modules are detected, you MUST look up documentation for EACH ONE. Do not skip any.**
 
-4. **For EACH detected custom provider - look up documentation:**
-   - Use Context7 MCP (preferred):
-     1. `mcp__context7__resolve-library-id` with provider name
-     2. `mcp__context7__get-library-docs` with topic: "authentication"
-     3. `mcp__context7__get-library-docs` with topic: "configuration"
-   - OR use WebSearch: `"{provider} terraform provider {version} documentation"`
+**For custom providers:**
+- **Option A - Context7 MCP (Preferred):** Use Context7 for structured documentation lookup
+  - Step 1: Resolve library ID: `mcp__context7__resolve-library-id` with provider name (e.g., "datadog terraform provider")
+  - Step 2: **REQUIRED** - Fetch documentation: `mcp__context7__get-library-docs` with the resolved library ID
+  - Use `topic: "authentication"` or `topic: "configuration"` for targeted docs
+- **Option B - WebSearch:** Search for provider documentation
+  - Query format: `"{provider_source} terraform provider documentation version {version}"`
+  - Example: `"mongodb/mongodbatlas terraform provider documentation version 1.14.0"`
 
-5. **For EACH detected custom module - look up documentation:**
-   - Use Context7 MCP for Terraform Registry modules:
-     1. `mcp__context7__resolve-library-id` with module name (e.g., "terraform-aws-modules vpc")
-     2. `mcp__context7__get-library-docs` with relevant topic
-   - For Git modules: Use WebSearch with repository URL
-   - For HTTP modules: Investigate source URL for documentation
+**For custom modules (EQUALLY IMPORTANT - DO NOT SKIP):**
+- **Terraform Registry modules:**
+  - Use Context7: `mcp__context7__resolve-library-id` with module name (e.g., "terraform-aws-modules vpc")
+  - Then fetch docs with `mcp__context7__get-library-docs`
+  - Or visit `https://registry.terraform.io/modules/{source}/{version}`
+- **Git modules:** Use WebSearch with the repository URL to find README or documentation
+- **HTTP modules:** Investigate the source URL for documentation
+- Pay attention to version compatibility with your Terraform/Terragrunt version
 
-6. **Document findings for each resource:**
-   - Required configuration blocks
-   - Authentication requirements
-   - Known issues or breaking changes in the version
+**Documentation lookup workflow:**
+```
+a) Run detect_custom_resources.py
+b) For EACH custom provider/module:
+   - Note the exact version
+   - Use Context7 MCP:
+     1. mcp__context7__resolve-library-id with libraryName: "{provider/module name}"
+     2. mcp__context7__get-library-docs with:
+        - context7CompatibleLibraryID: "{resolved ID}"
+        - topic: "authentication" (for auth requirements)
+        - topic: "configuration" (for setup requirements)
+   - OR use WebSearch with version-specific queries
+   - Review documentation for:
+     * Required configuration blocks
+     * Authentication requirements (API keys, credentials)
+     * Available resources/data sources
+     * Known issues or breaking changes in the version
+c) Apply learnings to validation/troubleshooting
+d) Document findings if issues are encountered
+```
+
+**Example using Context7 MCP:**
+```
+# 1. Detect custom resources
+python3 scripts/detect_custom_resources.py ./infrastructure
+# Output: Provider: datadog/datadog, Version: 3.30.0
+
+# 2. Resolve library ID
+mcp__context7__resolve-library-id with libraryName: "datadog terraform provider"
+# Result: /datadog/terraform-provider-datadog
+
+# 3. Fetch authentication docs (REQUIRED)
+mcp__context7__get-library-docs with:
+  context7CompatibleLibraryID: "/datadog/terraform-provider-datadog"
+  topic: "authentication"
+
+# 4. Fetch configuration docs
+mcp__context7__get-library-docs with:
+  context7CompatibleLibraryID: "/datadog/terraform-provider-datadog"
+  topic: "configuration"
+```
 
 ### Validation Execution
 
-7. **Run comprehensive validation:**
+1. **Run comprehensive validation:**
    ```bash
    bash scripts/validate_terragrunt.sh <target-directory>
    ```
 
-8. **Review output for errors:**
+2. **Review output for errors:**
    - Format errors → Fix with `terragrunt hcl fmt`
    - Configuration errors → Check terragrunt.hcl syntax and inputs
    - Terraform validation errors → Check .tf files or generated configs
@@ -415,7 +370,7 @@ This ensures you understand the patterns, anti-patterns, and checklists you will
 
 > **You MUST verify each checklist item below and document the result (✅ pass or ❌ fail). Incomplete verification is not acceptable.**
 
-9. **Perform explicit best practices verification using `references/best_practices.md`:**
+**Perform explicit best practices verification using `references/best_practices.md`:**
 
    **Configuration Pattern Checklist - verify each item:**
    ```
@@ -469,57 +424,57 @@ This ensures you understand the patterns, anti-patterns, and checklists you will
 
 ### Troubleshooting
 
-10. **Common issues and resolutions:**
+**Common issues and resolutions:**
 
-   **Issue: Module not found**
-   ```bash
-   rm -rf .terragrunt-cache
-   terragrunt init
-   ```
+**Issue: Module not found**
+```bash
+rm -rf .terragrunt-cache
+terragrunt init
+```
 
-   **Issue: Provider authentication errors**
-   - Check provider configuration in generated files
-   - Verify environment variables or credentials
-   - Review provider documentation from WebSearch
+**Issue: Provider authentication errors**
+- Check provider configuration in generated files
+- Verify environment variables or credentials
+- Review provider documentation from WebSearch
 
-   **Issue: Dependency errors**
-   - Check dependency paths are correct
-   - Ensure mock_outputs are provided for validation
-   - Review dependency graph with `terragrunt dag graph`
+**Issue: Dependency errors**
+- Check dependency paths are correct
+- Ensure mock_outputs are provided for validation
+- Review dependency graph with `terragrunt dag graph`
 
-   **Issue: State locking errors**
-   ```bash
-   terragrunt force-unlock <LOCK_ID>
-   ```
+**Issue: State locking errors**
+```bash
+terragrunt force-unlock <LOCK_ID>
+```
 
-   **Issue: Unknown provider or module parameters**
-   - Re-run custom resource detection
-   - Use WebSearch to look up current documentation
-   - Check version compatibility
+**Issue: Unknown provider or module parameters**
+- Re-run custom resource detection
+- Use WebSearch to look up current documentation
+- Check version compatibility
 
-   **Issue: Generate block conflicts (file already exists)**
-   ```
-   ERROR: The file path ./versions.tf already exists and was not generated by terragrunt.
-   Can not generate terraform file: ./versions.tf already exists
-   ```
-   **Solution:** This occurs when static `.tf` files exist that conflict with Terragrunt's `generate` blocks. Either:
-   - Remove the conflicting static files (`versions.tf`, `provider.tf`, `backend.tf`)
-   - Or use `if_exists = "skip"` in the generate block to not overwrite existing files
-   ```bash
-   # Remove conflicting files
-   rm -f versions.tf provider.tf backend.tf
-   rm -rf .terragrunt-cache
-   ```
+**Issue: Generate block conflicts (file already exists)**
+```
+ERROR: The file path ./versions.tf already exists and was not generated by terragrunt.
+Can not generate terraform file: ./versions.tf already exists
+```
+**Solution:** This occurs when static `.tf` files exist that conflict with Terragrunt's `generate` blocks. Either:
+- Remove the conflicting static files (`versions.tf`, `provider.tf`, `backend.tf`)
+- Or use `if_exists = "skip"` in the generate block to not overwrite existing files
+```bash
+# Remove conflicting files
+rm -f versions.tf provider.tf backend.tf
+rm -rf .terragrunt-cache
+```
 
-   **Issue: Root terragrunt.hcl anti-pattern warning**
-   ```
-   WARN: Using `terragrunt.hcl` as the root of Terragrunt configurations is an anti-pattern
-   ```
-   **Solution:** In Terragrunt 0.93+, the root configuration file should be named `root.hcl` instead of `terragrunt.hcl`. Rename the file:
-   ```bash
-   mv terragrunt.hcl root.hcl
-   # Update include blocks in child modules to reference root.hcl
-   ```
+**Issue: Root terragrunt.hcl anti-pattern warning**
+```
+WARN: Using `terragrunt.hcl` as the root of Terragrunt configurations is an anti-pattern
+```
+**Solution:** In Terragrunt 0.93+, the root configuration file should be named `root.hcl` instead of `terragrunt.hcl`. Rename the file:
+```bash
+mv terragrunt.hcl root.hcl
+# Update include blocks in child modules to reference root.hcl
+```
 
 ## Best Practices Integration
 
@@ -593,22 +548,6 @@ terragrunt --version
 trivy --version
 checkov --version
 ```
-
-## Integration with Context7 MCP
-
-If Context7 MCP is available, use it for provider/module documentation lookup:
-
-1. **Resolve library ID:**
-   ```
-   mcp__context7__resolve-library-id with libraryName: "mongodb/mongodbatlas"
-   ```
-
-2. **Get documentation:**
-   ```
-   mcp__context7__get-library-docs with context7CompatibleLibraryID: "/mongodb/mongodbatlas"
-   ```
-
-This provides version-aware documentation directly, as an alternative to WebSearch.
 
 ## Automated Workflows
 
