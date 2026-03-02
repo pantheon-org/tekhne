@@ -75,34 +75,39 @@ cp -r .context/audits "$BACKUP_DIR"
 echo "✅ Backup created: $BACKUP_DIR"
 ```
 
-### 2. Verify All Scripts Exist
+### 2. Verify Skill-Quality-Auditor Capability
+
+The skill-quality-auditor provides batch auditing capability via `batch-audit.sh`.
+
+**Verification:**
 
 ```bash
-# Check all required scripts
-for script in audit-skill.sh batch-audit.sh audit-helpers.sh; do
-  if [ -f "skills/skill-quality-auditor/scripts/$script" ]; then
-    echo "✅ $script"
-  else
-    echo "❌ MISSING: $script"
-    exit 1
-  fi
-done
+# Verify evaluate.sh exists (single skill audit)
+test -x skills/skill-quality-auditor/scripts/evaluate.sh && echo "✅ evaluate.sh" || echo "❌ MISSING"
 
-# Verify scripts are executable
-chmod +x skills/skill-quality-auditor/scripts/audit-skill.sh skills/skill-quality-auditosh skills/skill-quality-auditor/scripts/batch-audit.sh skills/skill-quality-auditor/scripts/audit-helpers.sh
+# Verify batch-audit.sh exists (batch wrapper)
+test -x skills/skill-quality-auditor/scripts/batch-audit.sh && echo "✅ batch-audit.sh" || echo "❌ MISSING"
 ```
 
-### 3. Test Scripts on Phase 1 Skill
+**Expected result:** Both scripts exist and are executable
+
+### 3. Test Batch Audit Capability
+
+Use the skill-quality-auditor's batch capability on Phase 1 skills to verify it works:
 
 ```bash
-# Test audit-skill.sh on a Phase 1 skill
-sh skills/skill-quality-auditor/scripts/audit-skill.sh acceptance-criteria
-# Should complete without errors and show: ✅ Audit complete
+# Test batch audit on 2 Phase 1 skills
+sh skills/skill-quality-auditor/scripts/batch-audit.sh acceptance-criteria ansible-generator
 
-# Test batch-audit.sh on multiple Phase 1 skills
-sh skills/skill-quality-auditosh skills/skill-quality-auditor/scripts/batch-audit.sh acceptance-criteria ansible-generator
-# Should show success summary
+# Expected output:
+# ✅ acceptance-criteria audit complete
+# ✅ ansible-generator audit complete
+# Summary: 2/2 succeeded, 0 failed
 ```
+
+**Decision:**
+- ✅ **PROCEED** if both skills audit successfully
+- ⚠️ **HALT** if any failures occur - investigate before continuing
 
 ### 4. Initialize phase2-issues.md
 
