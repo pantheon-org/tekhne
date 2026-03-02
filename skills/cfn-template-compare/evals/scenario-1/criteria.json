@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent knows to check prerequisites before comparison and handles common failure scenarios with appropriate error messages.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "AWS credential check",
+      "description": "preflight-checks.sh uses 'aws sts get-caller-identity' to verify credentials",
+      "max_score": 15
+    },
+    {
+      "name": "Profile flag usage",
+      "description": "The get-caller-identity command includes --profile flag",
+      "max_score": 8
+    },
+    {
+      "name": "Stack existence check",
+      "description": "preflight-checks.sh uses 'aws cloudformation describe-stacks' to confirm stack exists",
+      "max_score": 15
+    },
+    {
+      "name": "StackStatus query",
+      "description": "The describe-stacks command uses --query to extract StackStatus",
+      "max_score": 7
+    },
+    {
+      "name": "CDK synth validation",
+      "description": "preflight-checks.sh runs 'make synth' to verify synthesis works",
+      "max_score": 15
+    },
+    {
+      "name": "JSON validation",
+      "description": "preflight-checks.sh uses jq to validate JSON after template retrieval",
+      "max_score": 10
+    },
+    {
+      "name": "Error messages present",
+      "description": "Script includes error messages or echo statements for failures",
+      "max_score": 8
+    },
+    {
+      "name": "Credential error fix",
+      "description": "error-recovery.md explains what to do if credentials are invalid (e.g., check AWS_PROFILE, verify profile name)",
+      "max_score": 7
+    },
+    {
+      "name": "Stack not found fix",
+      "description": "error-recovery.md explains what to do if StackNotFoundException occurs (check stack name and region)",
+      "max_score": 8
+    },
+    {
+      "name": "Synth failure fix",
+      "description": "error-recovery.md explains what to do if synthesis fails (check env vars in env-local.mk or env.mk)",
+      "max_score": 7
+    }
+  ]
+}

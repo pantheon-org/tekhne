@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent properly designs a minimal, isolated test stack with parameterization and defines observable success criteria for validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Context parameterization",
+      "description": "memory-test-stack.ts uses this.node.tryGetContext() or similar to drive the memory configuration",
+      "max_score": 15
+    },
+    {
+      "name": "Minimal resources",
+      "description": "memory-test-stack.ts contains only Lambda function and essential dependencies (IAM role), no unrelated resources like S3 buckets, DynamoDB tables, or API Gateway",
+      "max_score": 15
+    },
+    {
+      "name": "Single property focus",
+      "description": "The stack is designed to isolate testing the memory property specifically, not multiple Lambda properties",
+      "max_score": 10
+    },
+    {
+      "name": "Observable criteria defined",
+      "description": "test-execution-plan.md defines specific CloudFormation events to look for (e.g., DELETE + CREATE for replacement)",
+      "max_score": 15
+    },
+    {
+      "name": "Success criteria explicit",
+      "description": "test-execution-plan.md explicitly states what outcomes indicate replacement vs in-place update",
+      "max_score": 15
+    },
+    {
+      "name": "Verification method",
+      "description": "test-execution-plan.md describes how to verify results (e.g., checking function ARN, inspecting CFN events)",
+      "max_score": 15
+    },
+    {
+      "name": "Valid CDK syntax",
+      "description": "memory-test-stack.ts uses valid CDK v2 syntax (imports from 'aws-cdk-lib', extends cdk.Stack)",
+      "max_score": 15
+    }
+  ]
+}

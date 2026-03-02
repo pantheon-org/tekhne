@@ -1,9 +1,8 @@
-#!/usr/bin/env sh
-# shellcheck disable=SC2012
+#!/usr/bin/env bash
 # Compare CloudFormation Resource Properties
 # Compares a specific resource's properties before and after a change
 
-set -eu
+set -euo pipefail
 
 STACK_NAME="${1:-}"
 LOGICAL_RESOURCE_ID="${2:-}"
@@ -95,12 +94,7 @@ if [ -n "$PREVIOUS_SNAPSHOTS" ]; then
   # Full diff
   echo ""
   echo "Full Diff:"
-  TMP_PREV=$(mktemp)
-  TMP_CURR=$(mktemp)
-  trap 'rm -f "$TMP_PREV" "$TMP_CURR"' EXIT INT TERM
-  jq -S '.' "$PREVIOUS_SNAPSHOT" > "$TMP_PREV"
-  jq -S '.' "$OUTPUT_FILE" > "$TMP_CURR"
-  diff "$TMP_PREV" "$TMP_CURR" || true
+  diff <(jq -S '.' "$PREVIOUS_SNAPSHOT") <(jq -S '.' "$OUTPUT_FILE") || true
 fi
 
 echo ""

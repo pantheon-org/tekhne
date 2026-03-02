@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent follows the complete validation workflow including documentation research, community research, hypothesis formation, and structured result documentation with required fields.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "CFN docs lookup",
+      "description": "research-findings.md references AWS CloudFormation documentation and identifies the 'Update requires' field for the Endpoint property",
+      "max_score": 10
+    },
+    {
+      "name": "Community research",
+      "description": "research-findings.md mentions searching or checking GitHub (AWS CDK repo), Stack Overflow, or AWS re:Post",
+      "max_score": 10
+    },
+    {
+      "name": "Hypothesis stated",
+      "description": "research-findings.md contains an explicit hypothesis statement about expected behavior",
+      "max_score": 8
+    },
+    {
+      "name": "Non-prod environment",
+      "description": "test-plan.md specifies using a non-production or disposable test environment",
+      "max_score": 8
+    },
+    {
+      "name": "Resource isolation",
+      "description": "test-plan.md describes creating a minimal test stack with only the SNS subscription (no unrelated resources)",
+      "max_score": 10
+    },
+    {
+      "name": "Observable criteria",
+      "description": "test-plan.md defines specific success criteria such as looking for DELETE/CREATE events vs UPDATE_IN_PLACE",
+      "max_score": 10
+    },
+    {
+      "name": "CFN events inspection",
+      "description": "test-plan.md or validation-report.md includes using 'aws cloudformation describe-stack-events' command",
+      "max_score": 8
+    },
+    {
+      "name": "Required report fields",
+      "description": "validation-report.md contains at least 5 of these fields: Date/Region/CDK Version, Resource Type & Property Changed, AWS Docs Say, What Actually Happened, CFN Events, Matches Docs, Workaround Needed",
+      "max_score": 15
+    },
+    {
+      "name": "Behavior classification",
+      "description": "validation-report.md classifies the behavior as one of: UPDATE_IN_PLACE, REPLACEMENT, NO-OP, or error",
+      "max_score": 10
+    },
+    {
+      "name": "Workaround decision",
+      "description": "validation-report.md includes explicit decision on whether a workaround is needed with reasoning",
+      "max_score": 11
+    }
+  ]
+}

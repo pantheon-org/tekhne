@@ -1,79 +1,94 @@
 ---
 name: cfn-behavior-validator
-description: Validate CloudFormation resource update behaviors through repeatable experiments before introducing workarounds; use when update semantics are unclear, replacement behavior is disputed, or architecture decisions depend on real deployment evidence.
+description: "Creates test stacks, analyzes CloudFormation events, and compares actual vs documented update behavior to validate whether resource property changes trigger replacement or in-place updates. Use when: a user wants to test if a CFN property change causes resource replacement; when investigating stack update behavior or \"Update requires\" documentation accuracy; when validating whether a workaround (e.g. hash-based logical IDs) is actually necessary; when questioning UpdateRequiresReplacement behavior for immutable properties; when empirical evidence is needed before an architectural decision involving CDK or CloudFormation stack updates."
 ---
 
-# CloudFormation Behavior Validator
+# CloudFormation Resource Update Behavior Validator
 
-Navigation hub for testing how CloudFormation handles resource property changes.
+## Purpose
 
-## When to Use
-
-- You are unsure whether a property change updates in place or replaces a resource.
-- A workaround exists and you need proof before keeping/removing it.
-- Documentation and observed behavior appear inconsistent.
+Empirically validate how CloudFormation handles specific resource property changes by deploying a controlled test stack, making a targeted change, and observing actual CFN events — then deciding whether workarounds are justified.
 
 ## Workflow
 
-1. Review official resource docs and expected update behavior.
-2. Create a minimal reproducible stack for one property change.
-3. Deploy baseline, then deploy changed version.
-4. Observe stack events and verify runtime outcomes.
-5. Document decision and apply/remove workaround accordingly.
+### 1. Research
 
-## Quick Commands
+- Find the resource's CloudFormation reference page; note **"Update requires"** for the target property.
+- Search GitHub (AWS CDK repo), Stack Overflow, and AWS re:Post for community reports of discrepancies.
+- State a hypothesis: _"Docs say Replacement — does CFN actually replace the resource?"_
+
+### 2. Design Minimal Test Stack
+
+- Use a non-production, disposable environment.
+- Isolate the single property under test; remove unrelated resources.
+- Define observable success criteria (e.g. DELETE + CREATE events for the resource type).
+
+```typescript
+// Example: minimal CDK stack parameterised via context
+export class BehaviorTestStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+    // Add only the resource under test, driven by this.node.tryGetContext(...)
+  }
+}
+```
+
+### 3. Execute Test
 
 ```bash
-# Baseline deploy
+# 1. Deploy initial state
 cdk deploy --require-approval never
-```
 
-```bash
-# Redeploy after single-property change
+# 2. Record resource ARNs / IDs, confirm any required manual steps (e.g. email confirmation)
+
+# 3. Make the single property change, then redeploy
 cdk deploy --require-approval never
+
+# 4. Inspect CFN events — stop and debug if deployment fails before proceeding
+aws cloudformation describe-stack-events \
+  --stack-name <stack-name> \
+  --query 'StackEvents[?ResourceType==`<ResourceType>`].[Timestamp,ResourceStatus,ResourceStatusReason]' \
+  --output table
 ```
 
-```bash
-# Inspect recent stack events
-aws cloudformation describe-stack-events --stack-name <stack-name> --max-items 30
+**Validation gates:**
+- If initial deployment fails → stop and fix before making any changes.
+- If events show unexpected behavior → document immediately and abort further changes.
+- If behavior is ambiguous → repeat the test to confirm repeatability.
+
+### 4. Document Findings & Decide
+
+```markdown
+## CloudFormation Behavior Test Results
+- **Date / Region / CDK Version:**
+- **Resource Type & Property Changed:**
+- **AWS Docs Say:** "Update requires: ..."
+- **What Actually Happened:** [UPDATE_IN_PLACE | REPLACEMENT | NO-OP | error]
+- **CFN Events:** [paste relevant rows]
+- **Matches Docs:** Yes / No
+- **Workaround Needed:** Yes / No — Reasoning: ...
+- **Code Changes:** [commit/PR link]
 ```
 
-```bash
-# Filter for a specific resource type
-aws cloudformation describe-stack-events --stack-name <stack-name> \
-  --query 'StackEvents[?ResourceType==`AWS::SNS::Subscription`].[Timestamp,ResourceStatus,LogicalResourceId]'
-```
+Update the code: implement or remove the workaround and add a comment citing this test.
 
-## Anti-Patterns
+## Helper Scripts
 
-### NEVER test behavior in production stacks
+| Script | Location | Purpose |
+|---|---|---|
+| `watch-cfn-events.sh` | `./scripts/watch-cfn-events.sh` | Stream CFN events in real-time during deployment |
+| `compare-resources.sh` | `./scripts/compare-resources.sh` | Diff resource properties before and after deployment |
 
-WHY: experiments can trigger destructive replacements.
-BAD: validating replacement semantics in live customer stack. GOOD: use isolated disposable environment.
+See `EXAMPLES.md` in this skill directory for a full walkthrough of an SNS email subscription endpoint change test.
 
-### NEVER change multiple properties in one validation run
+## Related Skills
 
-WHY: multi-variable changes make causality unclear.
-BAD: change endpoint, topic policy, and tags simultaneously. GOOD: change one property per experiment.
-
-### NEVER keep undocumented workarounds
-
-WHY: future maintainers cannot assess why complexity exists.
-BAD: hash-based ID workaround with no evidence trail. GOOD: record findings and rationale in decision notes.
-
-### NEVER trust docs alone when behavior is disputed
-
-WHY: implementation edge cases can differ from expectations.
-BAD: assume docs are always sufficient. GOOD: verify with controlled deployment evidence.
-
-## Quick Reference
-
-| Topic | Reference |
-| --- | --- |
-| End-to-end validation workflow | [references/validation-workflow.md](references/validation-workflow.md) |
-| Test templates and output format | [references/test-templates.md](references/test-templates.md) |
+- `cfn-template-compare` — Compare deployed vs local templates
+- `aws-cdk` — General AWS CDK development
+- `terraform-validator` — Similar testing for Terraform
 
 ## References
 
 - [CloudFormation Update Behaviors](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html)
 - [CloudFormation Resource Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-template-resource-type-ref.html)
+- [AWS CDK Best Practices](https://docs.aws.amazon.com/cdk/v2/guide/best-practices.html)

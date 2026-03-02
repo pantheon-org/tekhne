@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent knows about helper scripts for real-time event streaming and resource comparison, even if they don't exist in the eval environment.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Real-time event streaming",
+      "description": "automation-workflow.md or monitor-deployment.sh mentions streaming/watching CloudFormation events in real-time during deployment (not just after)",
+      "max_score": 15
+    },
+    {
+      "name": "watch-cfn-events reference",
+      "description": "Document mentions a script like 'watch-cfn-events.sh' or similar tool for streaming CFN events",
+      "max_score": 20
+    },
+    {
+      "name": "Resource comparison mentioned",
+      "description": "automation-workflow.md describes comparing resource properties before and after deployment",
+      "max_score": 12
+    },
+    {
+      "name": "compare-resources reference",
+      "description": "Document mentions a script like 'compare-resources.sh' or similar tool for diffing resource properties",
+      "max_score": 20
+    },
+    {
+      "name": "Before state capture",
+      "description": "Workflow includes capturing resource properties/state before making changes",
+      "max_score": 10
+    },
+    {
+      "name": "After state capture",
+      "description": "Workflow includes capturing resource properties/state after deployment completes",
+      "max_score": 10
+    },
+    {
+      "name": "Sequential workflow",
+      "description": "automation-workflow.md shows a clear sequence: capture before state → deploy → monitor → capture after state → compare",
+      "max_score": 13
+    }
+  ]
+}
