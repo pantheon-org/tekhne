@@ -2,6 +2,23 @@
 
 Comprehensive security validation checklist for Terraform configurations. Use this reference when performing security reviews or auditing infrastructure-as-code.
 
+## Checkov Check ID Quick Reference
+
+When reporting Checkov findings, use this table to find the relevant section in this document:
+
+| Checkov Check | Section | Description |
+|---------------|---------|-------------|
+| `CKV_AWS_24` | "Overly Permissive Security Groups" | SSH open to 0.0.0.0/0 |
+| `CKV_AWS_260` | "Overly Permissive Security Groups" | HTTP open to 0.0.0.0/0 |
+| `CKV_AWS_16` | "Encryption at Rest" | RDS storage encryption |
+| `CKV_AWS_17` | "RDS Databases" | RDS publicly accessible |
+| `CKV_AWS_130` | "Network Security" | Public subnet exposure |
+| `CKV_AWS_53-56` | "Public S3 Buckets" | S3 public access blocks |
+| `CKV_AWS_*` (IAM) | "IAM Security" | IAM policy issues |
+| `CKV_AWS_79` | "EC2/EKS Security" | IMDSv1 usage |
+| Hardcoded passwords | "Hardcoded Credentials" | Secrets in code |
+| Sensitive outputs | "Sensitive Output Exposure" | Exposed sensitive data |
+
 ## Secrets Management
 
 ### Hardcoded Credentials

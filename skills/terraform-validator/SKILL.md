@@ -49,58 +49,22 @@ Use these wrapper scripts instead of calling tools directly:
 
 ## Provider Documentation Lookup
 
-For every provider detected, look up documentation via Context7:
+**Detection and lookup workflow:**
 
 ```
 1. Run extract_tf_info_wrapper.sh to get provider list
-2. For each provider (e.g., "aws", "google", "azurerm"):
+2. Collect explicit providers from "providers" array
+3. Detect implicit providers from resource type prefixes:
+   - Extract prefix (e.g., "random" from "random_id")
+   - Common implicit: random, null, local, tls, time, archive, http, external
+4. For each provider (explicit + implicit):
    a. Call: mcp__context7__resolve-library-id with "terraform-provider-{name}"
    b. Call: mcp__context7__get-library-docs with the resolved ID
-   c. Note version-specific features and constraints
-3. Include relevant provider guidance in validation report
+   c. If Context7 fails: WebSearch("terraform-provider-{name} hashicorp documentation site:registry.terraform.io")
+5. Include relevant provider guidance in validation report
 ```
 
-**Example for AWS provider:**
-```
-mcp__context7__resolve-library-id("terraform-provider-aws")
-mcp__context7__get-library-docs(context7CompatibleLibraryID, topic="best practices")
-```
-
-**Context7 Fallback to WebSearch:** If Context7 does not find a provider, use WebSearch:
-```
-WebSearch("terraform-provider-{name} hashicorp documentation site:registry.terraform.io")
-```
-
-HashiCorp utility providers (random, null, local, time, tls, archive, external, http) are often not indexed in Context7 — fall back to WebSearch directly for these.
-
-## Detecting Implicit Providers
-
-Providers can be used without being declared in `required_providers`. Detect all providers by:
-
-1. **Explicit providers:** from the `providers` array in `extract_tf_info_wrapper.sh` output
-2. **Implicit providers:** inferred from resource type prefixes
-
-| Resource Type Prefix | Provider Name |
-|---------------------|---------------|
-| `random_*` | `random` |
-| `null_*` | `null` |
-| `local_*` | `local` |
-| `tls_*` | `tls` |
-| `time_*` | `time` |
-| `archive_*` | `archive` |
-| `http` (data source) | `http` |
-| `external` (data source) | `external` |
-
-**Detection workflow:**
-```
-1. Parse extract_tf_info_wrapper.sh output
-2. Collect providers from "providers" array (explicit)
-3. For each resource in "resources" array:
-   a. Extract prefix (e.g., "random" from "random_id")
-   b. If not already in providers list: add as implicit provider
-4. Perform Context7 lookup for all providers (explicit + implicit)
-   — use WebSearch fallback for utility providers (see Provider Documentation Lookup)
-```
+**Note:** HashiCorp utility providers (random, null, local, time, tls, archive, external, http) are often not indexed in Context7 — use WebSearch directly for these.
 
 ## Required Reference Files
 
@@ -160,22 +124,12 @@ terraform plan -target=aws_instance.example  # Plan specific resource
 
 **Plan output symbols:** `+` create · `-` destroy · `~` modify · `-/+` replace
 
-## Security Finding Cross-Reference
+## Security Finding Reports
 
-When reporting security findings, cite specific sections from `security_checklist.md`:
-
-| Checkov Check | security_checklist.md Section | Lines |
-|---------------|-------------------------------|-------|
-| `CKV_AWS_24` (SSH open) | "Overly Permissive Security Groups" | 66-110 |
-| `CKV_AWS_260` (HTTP open) | "Overly Permissive Security Groups" | 66-110 |
-| `CKV_AWS_16` (RDS encryption) | "Encryption at Rest" | 141-175 |
-| `CKV_AWS_17` (RDS public) | "RDS Databases" | 356-366 |
-| `CKV_AWS_130` (public subnet) | "Network Security" | 62-140 |
-| `CKV_AWS_53-56` (S3 public access) | "Public S3 Buckets" | 112-139 |
-| `CKV_AWS_*` (IAM) | "IAM Security" | 217-308 |
-| `CKV_AWS_79` (IMDSv1) | "EC2/EKS Security" | 382-389 |
-| Hardcoded passwords | "Hardcoded Credentials" | 8-45 |
-| Sensitive outputs | "Sensitive Output Exposure" | 47-61 |
+When reporting security findings from Checkov/Trivy scans, cross-reference specific sections from `security_checklist.md`. The security checklist contains:
+- Checkov check ID to section mappings
+- Remediation patterns with code examples
+- Severity guidelines
 
 ### Report Template for Security Findings
 
@@ -186,7 +140,7 @@ When reporting security findings, cite specific sections from `security_checklis
 **Resource:** [Resource name and file:line]
 **Severity:** [HIGH/MEDIUM/LOW]
 
-**Reference:** security_checklist.md - "[Section Name]" (lines X-Y)
+**Reference:** security_checklist.md - "[Section Name]" (see relevant section for check ID)
 
 **Remediation Pattern:**
 [Copy relevant code example from security_checklist.md]
@@ -204,7 +158,7 @@ When reporting security findings, cite specific sections from `security_checklis
 **Resource:** aws_security_group.web (main.tf:47-79)
 **Severity:** HIGH
 
-**Reference:** security_checklist.md - "Overly Permissive Security Groups" (lines 66-110)
+**Reference:** security_checklist.md - "Overly Permissive Security Groups"
 
 **Remediation Pattern (from reference):**
 ```hcl
