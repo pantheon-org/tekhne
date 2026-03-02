@@ -78,47 +78,28 @@ After all errors are addressed:
 
 ```bash
 cd .claude/skills/github-actions-validator
-bash scripts/install_tools.sh
+bash scripts/install_tools.sh  # Installs act and actionlint to scripts/.tools/
 ```
 
-This installs **act** (local workflow execution) and **actionlint** (static analysis) to `scripts/.tools/`.
-
-### Basic Validation
+### Validation Commands
 
 ```bash
-# Validate a single workflow
+# Full validation (lint + test)
 bash scripts/validate_workflow.sh .github/workflows/ci.yml
 
-# Validate all workflows
-bash scripts/validate_workflow.sh .github/workflows/
-
-# Lint-only (fastest)
+# Lint-only (fastest, no Docker required)
 bash scripts/validate_workflow.sh --lint-only .github/workflows/ci.yml
 
 # Test-only with act (requires Docker)
-bash scripts/validate_workflow.sh --test-only .github/workflows/
+bash scripts/validate_workflow.sh --test-only .github/workflows/ci.yml
+
+# Validate all workflows
+bash scripts/validate_workflow.sh .github/workflows/
 ```
 
-## Core Validation Workflow
+**actionlint checks:** YAML syntax, schema compliance, expression syntax, runner labels, action inputs/outputs, job dependencies, CRON syntax, glob patterns, shell scripts, security vulnerabilities.
 
-Run the three stages in order:
-
-1. **Static analysis** — catches syntax errors and common issues first:
-   ```bash
-   bash scripts/validate_workflow.sh --lint-only .github/workflows/ci.yml
-   ```
-   *actionlint checks:* YAML syntax, schema compliance, expression syntax, runner labels, action inputs/outputs, job dependencies, CRON syntax, glob patterns, shell scripts, security vulnerabilities.
-
-2. **Local execution test** — after passing static analysis, test workflow execution (requires Docker):
-   ```bash
-   bash scripts/validate_workflow.sh --test-only .github/workflows/
-   ```
-   *Note:* act has limitations — see `references/act_usage.md`.
-
-3. **Full validation** — both stages together:
-   ```bash
-   bash scripts/validate_workflow.sh .github/workflows/ci.yml
-   ```
+**Note:** act has limitations — see `references/act_usage.md`.
 
 ## Validating Resource Types
 
@@ -180,17 +161,6 @@ actionlint -verbose .github/workflows/ci.yml  # Verbose actionlint
 act -v                                         # Verbose act
 act -n                                         # Dry-run (no execution)
 ```
-
-## Best Practices
-
-1. **Always validate locally first** - Catch errors before pushing
-2. **Use actionlint in CI/CD** - Automate validation in pipelines
-3. **Pin action versions** - Use `@v6` not `@main` for stability; SHA pinning for security
-4. **Keep tools updated** - Regularly update actionlint and act
-5. **Use web search for unknown actions** - Verify usage with documentation
-6. **Check version compatibility** - See `references/action_versions.md`
-7. **Enable shellcheck** - Catch shell script issues early
-8. **Review security warnings** - Address script injection issues
 
 ## Limitations
 
