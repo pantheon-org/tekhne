@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-02  
 **Parent Plan:** complete-skill-audit-remediation.md  
-**Duration:** 1-2 hours  
+**Duration:** 2-4 hours (see calculation below)  
 **Status:** PENDING PHASE 2 COMPLETION
 
 ---
@@ -11,12 +11,74 @@
 
 Create comprehensive audit reports and analysis documents using the established framework.
 
+## Duration Calculation
+
+**Minimum (automated path):** 2 hours
+- Task 3.1 (automated script): 30 min
+- Task 3.2 (skipped): 0 min
+- Task 3.3 (minimal writing): 60 min
+- Wrap-up: 30 min
+
+**Maximum (manual + comparison):** 4 hours
+- Task 3.1 (manual review): 60 min
+- Task 3.2 (full comparison): 60 min
+- Task 3.3 (detailed writing): 90 min
+- Wrap-up: 30 min
+
+**Recommended:** 2-3 hours (automate Task 3.1, skip Task 3.2, thorough Task 3.3)
+
+---
+
 ## Prerequisites
 
-- [ ] Phase 1 completed successfully
-- [ ] Phase 2 completed successfully
+- [ ] Phase 1 completed successfully (6 skills audited)
+- [ ] Phase 2 completed successfully (57 skills audited)
 - [ ] All 63 skills have audit structure in `.context/audits/<skill-name>/latest/`
-- [ ] Phase 1 and Phase 2 summary documents exist
+- [ ] Phase 1 data collection complete (`.context/analysis/score-mapping-phase1.md` and `phase1-blockers.md` exist)
+- [ ] Phase 2 data collection complete (`.context/analysis/phase2-issues.md` exists with populated tables)
+- [ ] jq tool installed and available
+- [ ] `scripts/generate-audit-summary.sh` script exists and is executable
+
+---
+
+## Pre-Phase 3: Data Collection
+
+Before generating reports, gather data from Phases 1 and 2 for reference:
+
+```bash
+echo "========================================="
+echo "Phase 1 & 2 Summary Data"
+echo "========================================="
+echo ""
+
+# Phase 1 timing
+echo "Phase 1 Timing:"
+grep "TOTAL" .context/analysis/phase1-blockers.md || echo "  (check phase1-blockers.md manually)"
+echo ""
+
+# Phase 2 timing
+echo "Phase 2 Timing:"
+grep -A 8 "^| **Total**" .context/analysis/phase2-issues.md || echo "  (check phase2-issues.md Time Tracking table)"
+echo ""
+
+# Skill counts
+echo "Skill Counts:"
+echo "  Phase 1: 6 skills"
+echo "  Phase 2: 57 skills"
+echo "  Total: 63 skills"
+echo ""
+
+# Phase 2 quality summary
+echo "Phase 2 Quality Summary:"
+grep -A 8 "Score Distribution by Batch" .context/analysis/phase2-issues.md | head -15 || echo "  (check phase2-issues.md Score Distribution table)"
+echo ""
+
+echo "========================================="
+echo "Keep this data available for Task 3.3"
+echo "========================================="
+```
+
+**Keep this terminal open** or save output to a file for reference when writing lessons learned document.
 
 ---
 
@@ -59,6 +121,68 @@ The automation script has been created at `scripts/generate-audit-summary.sh` wi
 - Uses `$(date +%Y-%m-%d)` instead of hardcoded dates
 - Output file: `.context/audits/summary-2026-03-02.md` (or current date)
 
+### Validate Summary Report Output
+
+**Check for completeness immediately after generation:**
+
+```bash
+summary_file=".context/audits/summary-$(date +%Y-%m-%d).md"
+
+echo "Validating summary report..."
+echo ""
+
+# 1. Verify file was created
+if [ ! -f "$summary_file" ]; then
+  echo "❌ ERROR: Summary file not created"
+  exit 1
+fi
+echo "✅ Summary file created: $summary_file"
+
+# 2. Verify grade distribution has 8 categories
+grade_count=$(grep -E "A\+:|^A:|B\+:|^B:|C\+:|^C:|D:|F:" "$summary_file" | wc -l)
+if [ "$grade_count" -ge 8 ]; then
+  echo "✅ Grade distribution complete ($grade_count categories found)"
+else
+  echo "⚠️  Grade distribution incomplete (expected 8, found $grade_count)"
+fi
+
+# 3. Check dimensional averages calculated (no TBD)
+if grep -qi "tbd" "$summary_file"; then
+  echo "❌ ERROR: Found TBD placeholders - script may have failed"
+  grep -i "tbd" "$summary_file"
+else
+  echo "✅ No TBD placeholders"
+fi
+
+# 4. Verify top/bottom 10 lists exist
+top_bottom_count=$(grep -E "Top 10|Bottom 10|Highest Scoring|Lowest Scoring" "$summary_file" | wc -l)
+if [ "$top_bottom_count" -ge 2 ]; then
+  echo "✅ Top/Bottom 10 lists present"
+else
+  echo "⚠️  Top/Bottom 10 lists may be missing"
+fi
+
+# 5. Check weakest dimensions identified
+weakest_count=$(grep -i "weakest dimension" "$summary_file" | wc -l)
+if [ "$weakest_count" -ge 10 ]; then
+  echo "✅ Weakest dimensions identified ($weakest_count entries)"
+else
+  echo "⚠️  Weakest dimensions may be incomplete (found $weakest_count, expected ~10)"
+fi
+
+echo ""
+echo "========================================="
+echo "Validation complete. Review summary file:"
+echo "  $summary_file"
+echo "========================================="
+```
+
+**If validation fails:**
+- Review generated summary manually
+- Check if generate-audit-summary.sh script errored
+- Look for jq parsing errors in script execution
+- May need to fix script or audit.json formatting issues
+
 ### Manual Review Tasks (Optional)
 
 1. Review bottom 10 skills to identify specific remediation priorities
@@ -68,6 +192,7 @@ The automation script has been created at `scripts/generate-audit-summary.sh` wi
 ### Success Criteria
 
 - [ ] Summary report generated successfully
+- [ ] Validation checks all passed (or issues documented)
 - [ ] All grade distribution accurate with 8 categories (A+ through F)
 - [ ] Dimensional averages calculated (not TBD placeholders)
 - [ ] Top/bottom 10 lists complete
@@ -82,7 +207,48 @@ The automation script has been created at `scripts/generate-audit-summary.sh` wi
 
 **Note:** Tessl audit txt files exist in `.context/` but contain qualitative reviews, not quantitative scores comparable to skill-judge's 120-point scale. This task is **optional** and only valuable if you want to document qualitative differences.
 
-### Quick Tessl Data Check
+### Should You Do Tessl Comparison?
+
+**YES - Pursue comparison if:**
+- ✅ You plan to submit skills to Tessl registry
+- ✅ Need to justify choosing skill-judge over Tessl
+- ✅ Stakeholders requested framework comparison
+- ✅ Time available (30-60 min)
+
+**NO - Skip comparison if:**
+- ❌ Internal use only (not publishing to Tessl)
+- ❌ Framework choice already decided
+- ❌ Time constrained (<3 hours total for Phase 3)
+- ❌ No one requested comparison
+
+**If skipping, document the decision:**
+
+```bash
+cat > .context/analysis/tessl-comparison-skipped.md <<'EOF'
+# Tessl Comparison Skipped
+
+**Date:** $(date +%Y-%m-%d)  
+**Reason:** [Choose: Internal use only / Time constraint / Framework already decided / Not requested]
+
+## Decision
+
+Opted to skip Tessl vs skill-judge comparison because:
+- skill-judge selected as primary audit framework
+- Comparison not required for current objectives
+- Time better spent on lessons learned analysis
+
+## Future Consideration
+
+If Tessl comparison becomes necessary:
+- Template available in phase-3-analysis-documentation.md
+- Tessl audit .txt files preserved in .context/
+- Can generate comparison retroactively
+EOF
+
+echo "✅ Documented decision to skip Tessl comparison"
+```
+
+### Quick Tessl Data Check (If Pursuing Comparison)
 
 ```bash
 # Count skills with tessl audit files
@@ -151,11 +317,15 @@ Use **tessl** for:
 
 ### Success Criteria
 
+**If pursuing comparison:**
 - [ ] Framework differences documented
-- [ ] Sample comparisons completed
+- [ ] Sample comparisons completed (3-5 skills)
 - [ ] Clear recommendation provided
-- **OR**
-- [ ] Task skipped as optional (tessl comparison not valuable for this remediation)
+
+**If skipping (recommended for most cases):**
+- [ ] Decision documented in tessl-comparison-skipped.md
+- [ ] Reason for skipping recorded
+- [ ] Future consideration notes added
 
 ---
 
@@ -189,6 +359,8 @@ Use **tessl** for:
 - Cannot measure quality trends over time
 - Inconsistent quality bar (qualitative vs quantitative)
 
+**Data Point:** All 63 skills bypassed proper audit structure initially
+
 ### 2. Subagent Instructions
 
 **Issue:** Spawned 63 skill-creation subagents without mandating audit framework
@@ -203,6 +375,8 @@ Use **tessl** for:
 - No consistency across skill quality
 - Remediation work required after the fact
 
+**Data Point:** 63 parallel subagents created, 0 used skill-quality-auditor framework
+
 ### 3. Documentation Gap
 
 **Issue:** AGENTS.md didn't explicitly require skill-quality-auditor for audits
@@ -216,6 +390,8 @@ Use **tessl** for:
 - Easy to bypass without realizing mistake
 - No enforcement or validation
 - "Invisible" quality requirements
+
+**Data Point:** AGENTS.md had 0 references to mandatory audit workflow
 
 ## What Went Right
 
@@ -249,11 +425,11 @@ Use **tessl** for:
 
 ### 3. Remediation Was Possible
 
-**Success:** Could batch-fix all 63 skills in ~6 hours
+**Success:** Could batch-fix all 63 skills in ~6-8 hours
 
 **Why it worked:**
 - Automation script (`audit-skill.sh`) reduced manual work
-- Phase 1 validation (5 skills) caught bugs early
+- Phase 1 validation (6 skills) caught bugs early
 - Clear 3-phase plan with checkpoints
 
 **Preservation:**
@@ -261,14 +437,24 @@ Use **tessl** for:
 - Document remediation process in repository
 - Maintain batch processing patterns
 
+**Data Point:** Phase 1 validated process on 6 skills, Phase 2 scaled to 57 skills
+
 ## Time/Effort Analysis
 
 ### Remediation Cost (Actual)
 
-- Phase 1 (Baseline - 5 skills): [fill in actual]
-- Phase 2 (Batch - 58 skills): [fill in actual]
-- Phase 3 (Analysis): [fill in actual]
-- **Total:** [fill in actual] hours
+**Fill in actual times from data collection step:**
+
+- Phase 1 (Baseline - 6 skills): [fill in actual from phase1-blockers.md]
+- Phase 2 (Batch - 57 skills): [fill in actual from phase2-issues.md]
+- Phase 3 (Analysis): [fill in actual - log your time for this phase]
+- **Total:** [calculate sum] hours
+
+**Example calculation:**
+- If Phase 1: 3 hours
+- If Phase 2: 6 hours  
+- If Phase 3: 2 hours
+- **Total:** 11 hours
 
 ### Prevention Cost (Estimated)
 
@@ -337,8 +523,15 @@ Remediation cost ([X] hours) comparable to prevention cost (~5 hours), but **fro
 
 ## Action Items
 
-- [ ] Update AGENTS.md with explicit audit requirements (Phase 4)
-- [ ] Create pre-commit hook for audit verification (Phase 4)
+The following action items are addressed in **Phase 4: Process Improvement** (see .context/plans/phase-4-process-improvement.md):
+
+### Covered in Phase 4
+- [ ] Update AGENTS.md with explicit audit requirements → Phase 4, Task 4.1
+- [ ] Create pre-commit hook for audit verification → Phase 4, Task 4.2
+- [ ] Document mandatory framework in skill-quality-auditor SKILL.md → Phase 4, Task 4.3
+- [ ] Build `scripts/verify-audit-compliance.sh` validation script → Phase 4, Task 4.2
+
+### Additional Ongoing Items
 - [ ] Add anti-pattern examples to skill-quality-auditor SKILL.md
 - [ ] Create `/check-skill-audit` validation command (optional)
 - [ ] Share lessons learned in team documentation
@@ -379,15 +572,76 @@ This remediation effort **succeeded** in establishing consistent quality standar
 ### Final Verification
 
 ```bash
-# Verify summary report exists and is complete
-test -f .context/audits/summary-$(date +%Y-%m-%d).md && echo "✓ Summary exists" || echo "✗ Missing summary"
+echo "========================================="
+echo "Phase 3 Completion Verification"
+echo "========================================="
+echo ""
 
-# Check for TBD placeholders (should be none)
-grep -i "TBD\|TODO\|\[fill in\]" .context/audits/summary-*.md | wc -l
-# Should output: 0 (or low number)
+# 1. Verify summary report exists and is complete
+summary_file=".context/audits/summary-$(date +%Y-%m-%d).md"
+if [ -f "$summary_file" ]; then
+  echo "✅ Summary exists: $summary_file"
+else
+  echo "❌ Missing summary report"
+fi
 
-# Verify lessons learned document
-test -f .context/analysis/audit-remediation-lessons-$(date +%Y-%m-%d).md && echo "✓ Lessons learned exists" || echo "✗ Missing lessons"
+# 2. Check for unfilled placeholders in summary (more specific than basic grep)
+echo ""
+echo "Checking for placeholders in summary..."
+placeholder_count=$(grep -E "\[\?\]|\[X\]|\[fill|<fill|<TBD>|: TBD$|: \?\??" "$summary_file" 2>/dev/null | wc -l)
+if [ "$placeholder_count" -eq 0 ]; then
+  echo "✅ No placeholders found"
+else
+  echo "⚠️  Found $placeholder_count placeholder(s):"
+  grep -n -E "\[\?\]|\[X\]|\[fill|<fill|<TBD>|: TBD$|: \?\??" "$summary_file" 2>/dev/null | head -5
+  echo "  (Review and fill in manually)"
+fi
+
+# 3. Verify lessons learned document
+lessons_file=".context/analysis/audit-remediation-lessons-$(date +%Y-%m-%d).md"
+if [ -f "$lessons_file" ]; then
+  echo ""
+  echo "✅ Lessons learned exists: $lessons_file"
+else
+  echo ""
+  echo "❌ Missing lessons learned document"
+fi
+
+# 4. Check for unfilled data in lessons learned
+echo ""
+echo "Checking for unfilled data in lessons learned..."
+unfilled_count=$(grep -E "\[fill in|<fill|TBD" "$lessons_file" 2>/dev/null | wc -l)
+if [ "$unfilled_count" -eq 0 ]; then
+  echo "✅ All data filled in"
+else
+  echo "⚠️  Found $unfilled_count unfilled field(s):"
+  grep -n -E "\[fill in|<fill|TBD" "$lessons_file" 2>/dev/null | head -5
+  echo "  (Review and complete manually)"
+fi
+
+# 5. Check Tessl comparison status
+echo ""
+if [ -f ".context/analysis/tessl-comparison-$(date +%Y-%m-%d).md" ]; then
+  echo "✅ Tessl comparison completed"
+elif [ -f ".context/analysis/tessl-comparison-skipped.md" ]; then
+  echo "✅ Tessl comparison skipped (documented)"
+else
+  echo "⚠️  Tessl comparison status unclear (complete or skip Task 3.2)"
+fi
+
+echo ""
+echo "========================================="
+echo "Verification complete"
+echo "========================================="
+```
+
+**Manual review recommended:**
+```bash
+# Review summary for quality
+less "$summary_file"
+
+# Review lessons learned for completeness  
+less "$lessons_file"
 ```
 
 ### Commit Results
@@ -411,18 +665,21 @@ All 63 skills audited with skill-quality-auditor framework."
 
 ### Success Checklist
 
-- [ ] Audit summary report completed
+- [ ] Pre-Phase 3 data collection completed
+- [ ] Audit summary report generated successfully
+- [ ] Summary validation checks passed (or issues documented)
 - [ ] Dimensional analysis calculated (not TBD)
-- [ ] Grade distribution accurate (8 categories)
-- [ ] Lessons learned document completed with actual data
-- [ ] Tessl comparison completed OR explicitly skipped as optional
-- [ ] All documents reviewed for completeness
-- [ ] No TBD placeholders remaining
-- [ ] Time logged for Phase 3
+- [ ] Grade distribution accurate (8 categories: A+, A, B+, B, C+, C, D, F)
+- [ ] Tessl comparison completed OR explicitly skipped with documented reason
+- [ ] Lessons learned document completed with actual time data
+- [ ] All placeholders filled in (verified with grep checks)
+- [ ] Action items linked to Phase 4 (or marked as standalone)
+- [ ] All documents reviewed for completeness and accuracy
+- [ ] Time logged for Phase 3 in lessons learned document
 - [ ] Analysis documents committed to git
 
 ---
 
-**Next Step:** Task 3.1 - Generate Audit Summary Report  
+**Next Step:** Pre-Phase 3 Data Collection, then Task 3.1  
 **Owner:** AI Agent (OpenCode)  
 **Status:** PENDING PHASE 2 COMPLETION
