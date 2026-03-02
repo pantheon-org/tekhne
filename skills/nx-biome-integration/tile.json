@@ -7,5 +7,10 @@
     "nx-biome-integration": {
       "path": "SKILL.md"
     }
-  }
+  },
+  "files": [
+    "references/biome-configuration-deep-dive.md",
+    "references/migration-guide.md",
+    "references/plugin-patterns.md"
+  ]
 }
