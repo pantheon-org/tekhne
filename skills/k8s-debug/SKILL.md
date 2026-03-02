@@ -5,120 +5,54 @@ description: Inspect pod logs, analyze resource quotas, trace network policies, 
 
 # Kubernetes Debugging Skill
 
-## Overview
+## Quick Diagnostic Patterns
 
-Systematic toolkit for debugging and troubleshooting Kubernetes clusters, pods, services, and deployments. Provides scripts, workflows, and reference guides for identifying and resolving common Kubernetes issues efficiently.
-
-## Debugging Workflow
-
-Follow this systematic approach for any Kubernetes issue:
-
-### 1. Identify the Problem Layer
-
-Categorize the issue at the appropriate layer: Application, Pod, Service, Node, Cluster, Storage, or Configuration.
-
-### 2. Gather Diagnostic Information
-
-Use the appropriate diagnostic script based on scope:
-
-#### Pod-Level Diagnostics
-```bash
-python3 scripts/pod_diagnostics.py <pod-name> -n <namespace>
-# Save output: python3 scripts/pod_diagnostics.py <pod-name> -n <namespace> -o diagnostics.txt
-```
-
-#### Cluster-Level Health Check
-```bash
-./scripts/cluster_health.sh
-```
-
-#### Network Diagnostics
-```bash
-./scripts/network_debug.sh <namespace> <pod-name>
-```
-
-### 3. Follow Issue-Specific Workflow
-
-Based on the identified issue, consult `references/troubleshooting_workflow.md` for detailed workflows:
-
-- **Pod Pending**: Resource/scheduling workflow
-- **CrashLoopBackOff**: Application crash workflow
-- **ImagePullBackOff**: Image pull workflow
-- **Service issues**: Network connectivity workflow
-- **DNS failures**: DNS troubleshooting workflow
-- **Resource exhaustion**: Performance investigation workflow
-- **Storage issues**: PVC binding workflow
-- **Deployment stuck**: Rollout workflow
-
-### 4. Apply Targeted Fixes
-
-Refer to `references/common_issues.md` for specific solutions to common problems.
-
-## Common Debugging Patterns
-
-### Pattern 1: Pod Not Starting
+### Pod Not Starting
 
 ```bash
 # Quick assessment
 kubectl get pod <pod-name> -n <namespace>
-kubectl describe pod <pod-name> -n <namespace>
+kubectl describe pod <pod-name> -n <namespace>  # Events section is key
 
 # Detailed diagnostics
 python3 scripts/pod_diagnostics.py <pod-name> -n <namespace>
 
-# Check common causes:
-# - ImagePullBackOff: Verify image exists and credentials
-# - CrashLoopBackOff: Check logs with --previous flag
-# - Pending: Check node resources and scheduling
+# Check previous logs if CrashLoopBackOff
+kubectl logs <pod-name> -n <namespace> --previous
 ```
 
-### Pattern 2: Service Connectivity Issues
+### Service Connectivity Issues
 
 ```bash
-# Verify service and endpoints
+# Verify service endpoints match pod IPs
 kubectl get svc <service-name> -n <namespace>
 kubectl get endpoints <service-name> -n <namespace>
 
 # Network diagnostics
 ./scripts/network_debug.sh <namespace> <pod-name>
 
-# Test connectivity from debug pod
+# Test from debug pod
 kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot -- /bin/bash
-# Inside: curl <service-name>.<namespace>.svc.cluster.local:<port>
-
-# Check network policies
-kubectl get networkpolicies -n <namespace>
 ```
 
-### Pattern 3: Application Performance Issues
+### Performance Degradation
 
 ```bash
-# Check resource usage
-kubectl top nodes
+# Resource usage by container
 kubectl top pods -n <namespace> --containers
-
-# Get pod resources
-kubectl get pod <pod-name> -n <namespace> -o yaml | grep -A 10 resources
 
 # Check for OOMKilled
 kubectl get pod <pod-name> -n <namespace> -o yaml | grep -A 10 lastState
 
-# Review application logs
-kubectl logs <pod-name> -n <namespace> --tail=100
+# Review recent logs
+kubectl logs <pod-name> -n <namespace> --tail=100 --timestamps
 ```
 
-### Pattern 4: Cluster Health Assessment
+### Cluster Health Check
 
 ```bash
-# Run comprehensive health check
+# Comprehensive health report
 ./scripts/cluster_health.sh > cluster-health-$(date +%Y%m%d-%H%M%S).txt
-
-# Review output for:
-# - Node conditions and resource pressure
-# - Failed or pending pods
-# - Recent error events
-# - Component health status
-# - Resource quota usage
 ```
 
 ## Key Debugging Commands
@@ -264,23 +198,6 @@ kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.phase,IP:.
 # Node taints
 kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints
 ```
-
-## Troubleshooting Checklist
-
-Before escalating issues, verify:
-
-- [ ] Reviewed pod events: `kubectl describe pod`
-- [ ] Checked pod logs (current and previous)
-- [ ] Verified resource availability on nodes
-- [ ] Confirmed image exists and is accessible
-- [ ] Validated service selectors match pod labels
-- [ ] Tested DNS resolution from pods
-- [ ] Checked network policies
-- [ ] Reviewed recent cluster events
-- [ ] Confirmed ConfigMaps/Secrets exist
-- [ ] Validated RBAC permissions
-- [ ] Checked for resource quotas/limits
-- [ ] Reviewed cluster component health
 
 ## Reference Documentation
 
