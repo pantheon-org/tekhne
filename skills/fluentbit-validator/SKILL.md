@@ -539,39 +539,51 @@ Recommendations:
 
 ### Configuration Errors
 
-**Issue: Parser file not found**
+#### Issue: Parser file not found
+
 ```
 [error] [config] parser file 'parsers.conf' not found
 ```
+
 Solution:
+
 - Verify Parsers_File path in SERVICE section
 - Check if file exists at specified location
 - Use relative path from config file location
 
-**Issue: Missing required parameter**
+#### Issue: Missing required parameter
+
 ```
 [error] [output:es] property 'Host' not set
 ```
+
 Solution:
+
 - Add required parameter to OUTPUT section
 - Check documentation for required fields
 
-**Issue: Invalid plugin name**
+#### Issue: Invalid plugin name
+
 ```
 [error] [plugins] invalid plugin 'unknownplugin'
 ```
+
 Solution:
+
 - Check plugin name spelling
 - Verify plugin is available (may need installation)
 - Consult documentation for correct plugin names
 
 ### Tag Routing Issues
 
-**Issue: No logs reaching output**
+#### Issue: No logs reaching output
+
 ```
 # Logs are generated but don't appear in output
 ```
+
 Debug:
+
 1. Check INPUT Tag matches FILTER Match
 2. Check FILTER Match/tag_prefix matches OUTPUT Match
 3. Enable debug logging: `Log_Level debug`
@@ -591,11 +603,14 @@ Solution:
 
 ### Memory Issues
 
-**Issue: Fluent Bit OOM killed**
+#### Issue: Fluent Bit OOM killed
+
 ```
 # Container or process killed due to memory
 ```
+
 Solution:
+
 - Add Mem_Buf_Limit to all tail inputs
 - Reduce Mem_Buf_Limit values
 - Set storage.total_limit_size on outputs
@@ -604,28 +619,37 @@ Solution:
 
 ### Security Issues
 
-**Issue: Hardcoded credentials in config**
+#### Issue: Hardcoded credentials in config
+
 ```
 [OUTPUT]
     HTTP_Passwd  secretpassword
 ```
+
 Solution:
+
 - Use environment variables:
+
 ```ini
 [OUTPUT]
     HTTP_Passwd  ${ES_PASSWORD}
 ```
+
 - Mount secrets in Kubernetes
 - Use IAM roles for cloud services (AWS, GCP, Azure)
 
-**Issue: TLS disabled or not verified**
+#### Issue: TLS disabled or not verified
+
 ```
 [OUTPUT]
     tls On
     tls.verify Off
 ```
+
 Solution:
+
 - Enable verification for production:
+
 ```ini
 [OUTPUT]
     tls         On
@@ -648,7 +672,8 @@ This validator is automatically invoked by the fluentbit-generator skill after g
 
 ### scripts/
 
-**validate_config.py**
+#### validate_config.py
+
 - Main validation script with all checks integrated in a single file
 - Usage: `python3 scripts/validate_config.py --file <config> --check <type>`
 - Available check types: `all`, `structure`, `syntax`, `sections`, `tags`, `security`, `performance`, `best-practices`, `dry-run`
@@ -657,7 +682,8 @@ This validator is automatically invoked by the fluentbit-generator skill after g
 - Returns detailed error messages with line numbers
 - Supports JSON output format: `--json`
 
-**validate.sh**
+#### validate.sh
+
 - Convenience wrapper script for easier invocation
 - Usage: `bash scripts/validate.sh <config-file>`
 - Automatically calls validate_config.py with proper Python interpreter

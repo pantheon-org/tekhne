@@ -282,7 +282,7 @@ act -n                                         # Dry-run (no execution)
 - **Network actions**: Some GitHub API actions may fail locally
 - **Private actions**: Cannot validate without access
 - **Runtime behavior**: Static analysis cannot catch all issues
-- **File location**: act can only validate workflows in `.github/workflows/` directory; files outside (like `examples/`) can only be validated with actionlint
+- **File location**: act can only validate workflows in `.github/workflows/` directory; files outside (like `assets/`) can only be validated with actionlint
 
 ## Quick Examples
 
