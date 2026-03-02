@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/logql-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "summary": "Generate label matchers, line filters, log aggregations, and metric queries in LogQL (Loki Query Language) following current standards and conventions. Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki.",
   "skills": {
