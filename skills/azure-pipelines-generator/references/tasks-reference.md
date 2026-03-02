@@ -573,8 +573,8 @@ Create a GitHub release.
 
 For detailed task documentation:
 
-1. **Official Task Reference**: https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/
-2. **Task Source Code**: https://github.com/microsoft/azure-pipelines-tasks
+1. **Official Task Reference**: <https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/>
+2. **Task Source Code**: <https://github.com/microsoft/azure-pipelines-tasks>
 3. **Use WebSearch**: Search for "[TaskName] Azure Pipelines task documentation"
 4. **Use Context7**: Query for specific task documentation via MCP
 

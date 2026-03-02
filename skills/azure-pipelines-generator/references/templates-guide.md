@@ -12,7 +12,8 @@ Templates allow you to define reusable content, logic, and parameters in YAML pi
 
 Reusable sets of steps.
 
-**template: templates/build-steps.yml**
+#### template: templates/build-steps.yml
+
 ```yaml
 steps:
 - task: NodeTool@0
@@ -30,7 +31,8 @@ steps:
   displayName: 'Run tests'
 ```
 
-**Usage:**
+#### Usage
+
 ```yaml
 jobs:
 - job: Build
@@ -42,7 +44,8 @@ jobs:
 
 Reusable job definitions.
 
-**templates/test-job.yml**
+### templates/test-job.yml
+
 ```yaml
 parameters:
 - name: nodeVersion
@@ -70,7 +73,8 @@ jobs:
     displayName: 'Run tests'
 ```
 
-**Usage:**
+#### Usage
+
 ```yaml
 stages:
 - stage: Test
@@ -90,7 +94,8 @@ stages:
 
 Reusable stage definitions.
 
-**templates/deploy-stage.yml**
+### templates/deploy-stage.yml
+
 ```yaml
 parameters:
 - name: environment
@@ -116,7 +121,8 @@ stages:
             displayName: 'Deploy'
 ```
 
-**Usage:**
+#### Usage
+
 ```yaml
 stages:
 - stage: Build
@@ -137,7 +143,8 @@ stages:
 
 Reusable variable definitions.
 
-**templates/variables-common.yml**
+### templates/variables-common.yml
+
 ```yaml
 variables:
   nodeVersion: '20'
@@ -145,7 +152,8 @@ variables:
   artifactName: 'drop'
 ```
 
-**Usage:**
+#### Usage
+
 ```yaml
 variables:
 - template: templates/variables-common.yml
@@ -310,7 +318,8 @@ stages:
 
 The `extends` keyword allows you to extend an entire pipeline template.
 
-**templates/secure-pipeline.yml**
+### templates/secure-pipeline.yml
+
 ```yaml
 parameters:
 - name: buildSteps
@@ -334,7 +343,8 @@ stages:
     - script: echo "Post-build checks"
 ```
 
-**azure-pipelines.yml**
+### azure-pipelines.yml
+
 ```yaml
 extends:
   template: templates/secure-pipeline.yml
@@ -395,7 +405,8 @@ jobs:
 
 ### Matrix Build Template
 
-**templates/matrix-test.yml**
+### templates/matrix-test.yml
+
 ```yaml
 parameters:
 - name: operatingSystems
@@ -431,7 +442,8 @@ jobs:
 
 ### Conditional Stage Template
 
-**templates/optional-deploy.yml**
+### templates/optional-deploy.yml
+
 ```yaml
 parameters:
 - name: shouldDeploy
@@ -456,7 +468,8 @@ stages:
 
 ### Nested Templates
 
-**templates/full-pipeline.yml**
+### templates/full-pipeline.yml
+
 ```yaml
 parameters:
 - name: runTests
@@ -569,7 +582,8 @@ resources:
 
 ### Build and Test Template
 
-**templates/build-and-test.yml**
+### templates/build-and-test.yml
+
 ```yaml
 parameters:
 - name: projectPath
@@ -605,7 +619,8 @@ steps:
 
 ### Docker Build Template
 
-**templates/docker-build.yml**
+### templates/docker-build.yml
+
 ```yaml
 parameters:
 - name: dockerfilePath
@@ -642,7 +657,8 @@ steps:
 
 ### Deployment Approval Template
 
-**templates/deploy-with-approval.yml**
+### templates/deploy-with-approval.yml
+
 ```yaml
 parameters:
 - name: environment
