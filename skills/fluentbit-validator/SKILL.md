@@ -376,28 +376,28 @@ fluent-bit -c <config-file> --dry-run
 **Common errors:**
 
 1. **Parser file not found:**
-```
-[error] [config] parser file 'parsers.conf' not found
-```
-Fix: Create parser file or update Parsers_File path
+   ```
+   [error] [config] parser file 'parsers.conf' not found
+   ```
+   Fix: Create parser file or update Parsers_File path
 
-2. **Plugin not found:**
-```
-[error] [plugins] invalid plugin 'unknownplugin'
-```
-Fix: Check plugin name spelling or install plugin
+1. **Plugin not found:**
+   ```
+   [error] [plugins] invalid plugin 'unknownplugin'
+   ```
+   Fix: Check plugin name spelling or install plugin
 
-3. **Invalid parameter:**
-```
-[error] [input:tail] invalid property 'InvalidParam'
-```
-Fix: Remove invalid parameter or check documentation
+1. **Invalid parameter:**
+   ```
+   [error] [input:tail] invalid property 'InvalidParam'
+   ```
+   Fix: Remove invalid parameter or check documentation
 
-4. **Permission denied:**
-```
-[error] cannot open /var/log/containers/*.log
-```
-Fix: Check file permissions or run with appropriate user
+1. **Permission denied:**
+   ```
+   [error] cannot open /var/log/containers/*.log
+   ```
+   Fix: Check file permissions or run with appropriate user
 
 **If fluent-bit binary is not available:**
 - Skip this stage
@@ -663,31 +663,9 @@ This validator is automatically invoked by the fluentbit-generator skill after g
 - Automatically calls validate_config.py with proper Python interpreter
 - Simplifies command-line usage
 
-### tests/
+### Test Fixtures
 
-**Test Configuration Files:**
-- `valid-basic.conf` - Valid basic Kubernetes logging setup
-- `valid-multioutput.conf` - Valid configuration with multiple outputs
-- `valid-opentelemetry.conf` - Valid OpenTelemetry output configuration (Fluent Bit 2.x+)
-- `invalid-missing-required.conf` - Missing required parameters
-- `invalid-security-issues.conf` - Security vulnerabilities (hardcoded credentials, disabled TLS)
-- `invalid-opentelemetry.conf` - OpenTelemetry configuration errors
-- `invalid-tag-mismatch.conf` - Tag routing issues
-
-**Running Tests:**
-```bash
-# Test on valid config
-python3 scripts/validate_config.py --file tests/valid-basic.conf
-
-# Test on invalid config (should report errors)
-python3 scripts/validate_config.py --file tests/invalid-security-issues.conf
-
-# Test all configs
-for config in tests/*.conf; do
-    echo "Testing $config"
-    python3 scripts/validate_config.py --file "$config"
-done
-```
+The skill includes test configuration files in `references/test-fixtures/` for validating the validator itself. See `references/test-fixtures.md` for details on running tests.
 
 ### Documentation Sources
 
