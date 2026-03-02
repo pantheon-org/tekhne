@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/nx-generators",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Create Nx generators for TypeScript monorepos with deterministic Tree API usage, schema-driven options, template file generation, project-graph-safe updates, and testable workflows; use when scaffolding code, enforcing conventions, or building reusable plugin automation in Nx workspaces.",
+  "skills": {
+    "nx-generators": {
+      "path": "SKILL.md"
+    }
+  }
+}

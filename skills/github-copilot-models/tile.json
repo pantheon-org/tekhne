@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/github-copilot-models",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Query and display available GitHub Copilot AI models with their capabilities, context limits, and features. Use when: \"what models are available\", \"show copilot models\", \"list github models\", \"check model capabilities\", \"switch models\".\n\nExamples:\n- user: \"What models can I use with GitHub Copilot?\" → fetch and display available models\n- user: \"Show me models with vision support\" → filter models by capability\n- user: \"Which model has the largest context window?\" → compare model specifications\n- user: \"List all GPT-5 models\" → filter by model family",
+  "skills": {
+    "github-copilot-models": {
+      "path": "SKILL.md"
+    }
+  }
+}
