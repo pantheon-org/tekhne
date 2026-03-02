@@ -15,6 +15,8 @@ description: Comprehensive toolkit for validating, optimizing, and understanding
 
 ## Workflow
 
+This skill uses a **two-phase interactive workflow**: Phase 1 (Steps 1-4) presents validation results and asks clarifying questions, then **stops and waits** for user response before proceeding to Phase 2 (Steps 5-7) for tailored recommendations.
+
 When a user provides a PromQL query, follow this workflow:
 
 ### Step 1: Validate Syntax
@@ -36,57 +38,24 @@ python3 .claude/skills/promql-validator/scripts/check_best_practices.py "<query>
 ### Step 3: Explain the Query
 
 Parse and explain what the query does in plain English:
-- What metrics are being queried
-- What type of metrics they are (counter, gauge, histogram, summary)
-- What functions are applied and why
-- What the query calculates
-- What labels will be in the output
-- What the expected result structure looks like
+- What metrics are being queried and their types (counter, gauge, histogram, summary)
+- What functions are applied and what the query calculates
+- **Output Labels**: [list labels in result, or "None (fully aggregated)"]
+- **Expected Result Structure**: [instant/range vector/scalar] with [N series/single value]
 
-**Required Output Details** (always include these explicitly):
-
-```
-**Output Labels**: [list labels that will be in the result, or "None (fully aggregated to scalar)"]
-**Expected Result Structure**: [instant vector / range vector / scalar] with [N series / single value]
-```
-
-Example:
-```
-**Output Labels**: job, instance
-**Expected Result Structure**: Instant vector with one series per job/instance combination
-```
-
-### Step 4: Interactive Query Planning (Phase 1 - STOP AND WAIT)
+### Step 4: Interactive Query Planning
 
 Ask the user clarifying questions to verify the query matches their intent:
 
 1. **Understand the Goal**: "What are you trying to monitor or measure?"
-   - Request rate, error rate, latency, resource usage, etc.
-
 2. **Verify Metric Type**: "Is this a counter (always increasing), gauge (can go up/down), histogram, or summary?"
-   - This affects which functions to use
-
 3. **Clarify Time Range**: "What time window do you need?"
-   - Instant value, rate over time, historical analysis
-
 4. **Confirm Aggregation**: "Do you need to aggregate data across labels? If so, which labels?"
-   - by (job), by (instance), without (pod), etc.
-
 5. **Check Output Intent**: "Are you using this for alerting, dashboarding, or ad-hoc analysis?"
-   - Affects optimization priorities
 
-> **IMPORTANT: Two-Phase Dialogue**
->
-> After presenting Steps 1-4 results (Syntax, Best Practices, Query Explanation, and Intent Questions):
->
-> **⏸️ STOP HERE AND WAIT FOR USER RESPONSE**
->
-> Do NOT proceed to Steps 5-7 until the user answers the clarifying questions.
-> This ensures the subsequent recommendations are tailored to the user's actual intent.
+**⏸️ STOP HERE AND WAIT FOR USER RESPONSE** before proceeding to Steps 5-7.
 
-### Step 5: Compare Intent vs Implementation (Phase 2 - After User Response)
-
-**Only proceed to this step after the user has answered the clarifying questions from Step 4.**
+### Step 5: Compare Intent vs Implementation
 
 After understanding the user's intent:
 - Explain what the current query actually does
@@ -130,12 +99,6 @@ Give the user control:
 - Offer to help rewrite it for better performance
 - Provide multiple alternatives if applicable
 - Explain trade-offs between different approaches
-
-## Output Format
-
-Present Phase 1 results (Steps 1–4) with syntax status, best practices findings, plain English explanation including output labels and result structure, and intent verification questions.
-
-After the user responds, continue with Phase 2 (Steps 5–7): intent comparison, optimizations, and refinement.
 
 ## Interactive Dialogue
 
