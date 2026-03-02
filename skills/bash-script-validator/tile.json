@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/bash-script-validator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "summary": "Comprehensive toolkit for validating, linting, and optimizing bash and shell scripts. Use this skill when working with shell scripts (.sh, .bash), validating script syntax, checking for best practices, identifying security issues, or debugging shell script problems.",
   "skills": {
