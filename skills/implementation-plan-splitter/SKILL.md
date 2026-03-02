@@ -10,44 +10,6 @@ description: >
 
 ## Decision Points
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│                    WHAT IS YOUR SOURCE?                      │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-              ┌───────────────────────────────┐
-              │  Flat markdown phase files?   │
-              │  (phase-1.md, phase-2.md)     │
-              └───────────────────────────────┘
-                    │ YES              │ NO
-                    ▼                  ▼
-        ┌─────────────────┐   ┌───────────────────────┐
-        │  Manual Split   │   │  JSON plan definition? │
-        │  (Steps 1-8)    │   │  (plan.json file)     │
-        └─────────────────┘   └───────────────────────┘
-                                      │ YES
-                                      ▼
-                            ┌─────────────────────┐
-                            │  Use generate-      │
-                            │  structure.ts       │
-                            └─────────────────────┘
-                              │
-                              ▼
-                    ┌─────────────────────────┐
-                    │  Structure exists and   │
-                    │  needs validation?      │
-                    └─────────────────────────┘
-                              │ YES
-                              ▼
-                    ┌─────────────────────────┐
-                    │  Run validate-          │
-                    │  structure.ts           │
-                    └─────────────────────────┘
-```
-
-**Scenario Guide:**
-
 | Source Type | Approach | Tool Usage |
 |-------------|----------|------------|
 | Flat .md phase files | Manual workflow (Steps 1-8) | Use validate-structure.ts after split |
@@ -206,7 +168,7 @@ step-1/           # NEVER
 activity-2/       # NEVER
 ```
 
-**WHY:** Contributors cannot understand intent without opening files. Numeric names create navigation friction and force users to drill into directories just to learn what they contain. Descriptive names enable rapid comprehension at a glance.
+**WHY:** Contributors cannot navigate without opening every file — descriptive names enable comprehension at a glance.
 
 ### NEVER Mix Different Parent Groups
 
@@ -220,7 +182,7 @@ step-2-create-structure/
   └── step-2.2-configure-nx.md     # Orphaned - should be with 2.1
 ```
 
-**WHY:** Mixing groups breaks the mental model. Users expect `step-1.x` items together. Cross-pollinating directories forces users to search multiple locations for related work.
+**WHY:** Users expect `step-1.x` items together; mixing groups forces searching multiple locations for related work.
 
 ### NEVER Create Deeply Nested Structures
 
@@ -233,22 +195,21 @@ phase-1/
                   └── sub-steps/     # NEVER - too deep
 ```
 
-**WHY:** Maximum 4 levels deep (phase → activities/steps → group → leaf files). Deeper nesting increases cognitive load and makes navigation tedious. Flatten intermediate levels if needed.
+**WHY:** Maximum 4 levels deep — flatten intermediate levels if needed to prevent tedious navigation.
 
 ### NEVER Skip README Files
 
-**WHY:** Every directory must explain its purpose. Missing READMEs create dead ends where users must explore blindly. A 3-line README is better than none.
+**WHY:** Every directory must explain its purpose; a missing README creates a dead end that forces blind exploration.
 
 ### NEVER Use Generic Directory Names
 
 ```
 step-1-stuff/        # NEVER
 step-2-misc/         # NEVER
-step-3-various/      # NEVER
 activity-1-things/   # NEVER
 ```
 
-**WHY:** Generic names are worse than numeric names - they suggest organization but provide zero information. A name like "misc" forces users to open files just to learn what "miscellaneous" means in this context. Either use a specific description or keep the numeric name.
+**WHY:** Generic names provide zero information, forcing users to open files just to understand the context.
 
 ## Validation Checklist
 
