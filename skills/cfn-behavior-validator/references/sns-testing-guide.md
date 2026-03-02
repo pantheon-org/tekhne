@@ -20,7 +20,7 @@ This guide walks through testing whether CloudFormation properly handles SNS ema
 Before making any changes, capture the current resource state:
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/compare-resources.sh \
+./scripts/compare-resources.sh \
   <your-stack-name> \
   <logical-resource-id>
 ```
@@ -28,7 +28,7 @@ Before making any changes, capture the current resource state:
 **Example:**
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/compare-resources.sh \
+./scripts/compare-resources.sh \
   MyAppStack-Dev \
   AlertEmailSubscription
 ```
@@ -40,7 +40,7 @@ This creates a snapshot in `.context/cfn-resource-snapshots/`
 In a separate terminal, start watching CloudFormation events:
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/watch-cfn-events.sh \
+./scripts/watch-cfn-events.sh \
   <your-stack-name> \
   5
 ```
@@ -48,7 +48,7 @@ In a separate terminal, start watching CloudFormation events:
 **Example:**
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/watch-cfn-events.sh \
+./scripts/watch-cfn-events.sh \
   MyAppStack-Dev \
   5
 ```
@@ -59,13 +59,13 @@ This will display events in real-time as they occur.
 
 Update the email address in your configuration using your project's method:
 
-**Option A: CDK Context Parameter**
+#### Option A: CDK Context Parameter
 
 ```bash
 cdk deploy --context alertEmail="new-email@example.com"
 ```
 
-**Option B: Environment Variable**
+#### Option B: Environment Variable
 
 ```bash
 export ALERT_EMAIL="new-email@example.com"
@@ -100,7 +100,7 @@ This creates a snapshot in `.context/cfn-resource-snapshots/`
 In a separate terminal, start watching CloudFormation events:
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/watch-cfn-events.sh \
+./scripts/watch-cfn-events.sh \
   LctMonitoringStack-ST \
   5
 ```
@@ -111,7 +111,7 @@ This will display events in real-time as they occur.
 
 Update the email address in your configuration:
 
-**Option A: Environment variable**
+#### Option A: Environment variable
 
 ```bash
 export PROCESS_EMAIL="new-email@example.com"
@@ -157,7 +157,7 @@ or no events at all for the subscription.
 After deployment completes, capture the new state:
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/compare-resources.sh \
+./scripts/compare-resources.sh \
   <your-stack-name> \
   <logical-resource-id>
 ```
@@ -165,7 +165,7 @@ After deployment completes, capture the new state:
 **Example:**
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/compare-resources.sh \
+./scripts/compare-resources.sh \
   MyAppStack-Dev \
   AlertEmailSubscription
 ```
@@ -192,7 +192,7 @@ or no events at all for the subscription.
 After deployment completes, capture the new state:
 
 ```bash
-.opencode/skills/cfn-behavior-validator/scripts/compare-resources.sh \
+./scripts/compare-resources.sh \
   LctMonitoringStack-ST \
   ProcessAlertEmailSubscription
 ````

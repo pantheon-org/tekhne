@@ -1,0 +1,106 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use aws cloudformation get-template with specific flags to retrieve deployed template",
+      "original_snippets": "aws cloudformation get-template \\\n  --stack-name <stack-name> \\\n  --region <region> \\\n  --profile <profile> \\\n  --query TemplateBody \\\n  --output json > deployed.json",
+      "relevant_when": "When retrieving the deployed CloudFormation template",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use make synth to synthesize local CDK template",
+      "original_snippets": "make synth\ncp cdk.out/<stack-name>.template.json local.json",
+      "relevant_when": "When generating local template for comparison",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Compare structure using jq 'keys' on both templates",
+      "original_snippets": "jq 'keys' deployed.json\njq 'keys' local.json",
+      "relevant_when": "When comparing top-level template structure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Compare resource counts using jq '.Resources | length'",
+      "original_snippets": "jq '.Resources | length' deployed.json\njq '.Resources | length' local.json",
+      "relevant_when": "When checking if resources were added or removed",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use diff with process substitution to find added/removed resource IDs",
+      "original_snippets": "diff <(jq -r '.Resources | keys[]' deployed.json | sort) \\\n     <(jq -r '.Resources | keys[]' local.json | sort)",
+      "relevant_when": "When identifying which resources changed",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Check AWS credentials with aws sts get-caller-identity before starting",
+      "original_snippets": "aws sts get-caller-identity --profile <profile>\n# → If this fails: verify AWS_PROFILE or --profile value before proceeding",
+      "relevant_when": "During prerequisite verification",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Confirm stack exists with aws cloudformation describe-stacks before retrieval",
+      "original_snippets": "aws cloudformation describe-stacks \\\n  --stack-name <stack-name> --region <region> --profile <profile> \\\n  --query 'Stacks[0].StackStatus'\n# → If StackNotFoundException: check stack name and region",
+      "relevant_when": "During prerequisite verification",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Confirm CDK project synthesises cleanly with make synth",
+      "original_snippets": "make synth\n# → If synth fails: fix missing env vars in env-local.mk / env.mk before proceeding",
+      "relevant_when": "During prerequisite verification",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Validate JSON after retrieval using jq",
+      "original_snippets": "# → Validate: jq '.' deployed.json >/dev/null || echo \"ERROR: invalid JSON\"",
+      "relevant_when": "After template retrieval to ensure valid JSON",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use hierarchical analysis approach: structure, resource count, added/removed resources, security, IAM",
+      "original_snippets": "# 1. Structure (top-level keys)\n# 2. Resource count\n# 3. Added / removed resources\n# 4. Security — CDK Nag suppressions\n# 5. IAM roles and policies",
+      "relevant_when": "When performing detailed template comparison",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Check CDK Nag suppressions differences",
+      "original_snippets": "diff \\\n  <(jq '[.Resources[].Metadata.\"cdk_nag\" // empty]' deployed.json) \\\n  <(jq '[.Resources[].Metadata.\"cdk_nag\" // empty]' local.json)",
+      "relevant_when": "When checking for security-related changes",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Compare IAM roles and policies specifically",
+      "original_snippets": "diff \\\n  <(jq '[.Resources | to_entries[] | select(.value.Type | startswith(\"AWS::IAM\"))]' deployed.json) \\\n  <(jq '[.Resources | to_entries[] | select(.value.Type | startswith(\"AWS::IAM\"))]' local.json)",
+      "relevant_when": "When checking IAM-related changes",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Categorise differences by risk level: Expected, Low risk, Medium risk, High risk, Critical",
+      "original_snippets": "| Category | Examples | Action |\n|---|---|---|\n| **Expected** | Environmental tags, GitRef, stack-name in resource IDs | Auto-approve |\n| **Low risk** | Display names, cosmetic metadata | Note and approve |\n| **Medium risk** | Alarm thresholds, EventBridge schedules, Lambda config | Review and approve |\n| **High risk** | IAM policies, encryption settings | Require explicit sign-off |\n| **Critical** | CDK Nag suppressions, public access flags, resource removal | Block — get InfoSec/stakeholder approval |",
+      "relevant_when": "When assessing deployment risk from differences",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Save artifacts in timestamped directory with branch name",
+      "original_snippets": "BRANCH=$(git rev-parse --abbrev-ref HEAD)\nDIR=\"cfn-compare-results/$(date +%Y-%m-%d-%H%M%S)_deployed-main_local-${BRANCH}\"\nmkdir -p \"$DIR\"",
+      "relevant_when": "When creating audit trail of comparison",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Generate comparison report with specific markdown template",
+      "original_snippets": "cat > \"$DIR/comparison-report.md\" <<EOF\n# CloudFormation Template Comparison\n\n## Summary\n- Deployed: <stack-name> ($(jq '.Resources|length' deployed.json) resources)\n- Local:    <stack-name> ($(jq '.Resources|length' local.json) resources)\n- Status: ✅ Safe to deploy | ⚠️ Review required | ❌ Critical issues\n\n## Differences\n<!-- Populate from Step 3 output -->\n\n## Recommendations\n<!-- List required actions -->\n\n## Deployment Decision\n<!-- Approve | Reject | Conditional — reasoning -->\nEOF",
+      "relevant_when": "After completing comparison analysis",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use comm -3 to find added/removed resources",
+      "original_snippets": "comm -3 \\\n  <(jq -r '.Resources | keys[]' deployed.json | sort) \\\n  <(jq -r '.Resources | keys[]' local.json | sort)",
+      "relevant_when": "When identifying resource changes",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For large templates (>5000 line diff), switch to hierarchical comparison instead of line diff",
+      "original_snippets": "| `Diff > 5000 lines` | Template too large | Switch to hierarchical comparison (Step 3) instead of line diff |",
+      "relevant_when": "When dealing with very large templates",
+      "why_given": "preference"
+    }
+  ]
+}

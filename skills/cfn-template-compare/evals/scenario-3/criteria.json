@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent can properly categorize template differences by risk level and make appropriate deployment recommendations.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Risk categories defined",
+      "description": "risk-assessment.md defines or lists at least 4 risk categories (Expected, Low, Medium, High, Critical or similar)",
+      "max_score": 10
+    },
+    {
+      "name": "GitRef as expected",
+      "description": "The GitRef tag change is categorized as Expected or Low risk (environment-specific metadata)",
+      "max_score": 10
+    },
+    {
+      "name": "Alarm threshold as medium",
+      "description": "The alarm threshold change is categorized as Medium risk (requires review)",
+      "max_score": 12
+    },
+    {
+      "name": "IAM policy as high risk",
+      "description": "The IAM policy modification is categorized as High risk (requires explicit sign-off)",
+      "max_score": 15
+    },
+    {
+      "name": "CDK Nag suppression as critical",
+      "description": "The new CDK Nag suppression is categorized as Critical or High risk (security override)",
+      "max_score": 15
+    },
+    {
+      "name": "Resource changes assessed",
+      "description": "The added CloudWatch alarms and removed S3 lifecycle policy are categorized with risk levels",
+      "max_score": 10
+    },
+    {
+      "name": "Deployment decision present",
+      "description": "Document includes a clear deployment decision (approve, review, sign-off, or block)",
+      "max_score": 10
+    },
+    {
+      "name": "Decision matches risk",
+      "description": "The deployment decision is appropriate for the risk levels found (should require sign-off or block due to IAM/CDK Nag changes)",
+      "max_score": 10
+    },
+    {
+      "name": "Required actions listed",
+      "description": "Document lists specific actions required before deployment (e.g., InfoSec approval, stakeholder review)",
+      "max_score": 8
+    }
+  ]
+}

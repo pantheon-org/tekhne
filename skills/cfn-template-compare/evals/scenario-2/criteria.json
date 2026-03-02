@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent performs hierarchical comparison in the correct order and uses appropriate jq queries for security-focused analysis.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Structure comparison first",
+      "description": "detailed-analysis.sh performs structure comparison (jq 'keys') before resource details",
+      "max_score": 8
+    },
+    {
+      "name": "Resource count check",
+      "description": "detailed-analysis.sh uses jq '.Resources | length' to check counts",
+      "max_score": 8
+    },
+    {
+      "name": "Added/removed check",
+      "description": "detailed-analysis.sh uses diff or comm to find added/removed resources",
+      "max_score": 10
+    },
+    {
+      "name": "Process substitution",
+      "description": "The resource comparison uses process substitution with <() syntax",
+      "max_score": 8
+    },
+    {
+      "name": "Sorted resource lists",
+      "description": "Resource key extraction includes 'sort' in the pipeline",
+      "max_score": 5
+    },
+    {
+      "name": "CDK Nag extraction",
+      "description": "detailed-analysis.sh extracts cdk_nag metadata from Resources using jq",
+      "max_score": 15
+    },
+    {
+      "name": "IAM resource filter",
+      "description": "detailed-analysis.sh filters resources where Type starts with 'AWS::IAM' using jq select",
+      "max_score": 15
+    },
+    {
+      "name": "Hierarchical order explained",
+      "description": "analysis-report.md explains why structure → count → resources → security is the recommended order",
+      "max_score": 10
+    },
+    {
+      "name": "CDK Nag interpretation",
+      "description": "analysis-report.md explains what CDK Nag suppressions are and why changes matter",
+      "max_score": 10
+    },
+    {
+      "name": "IAM policy analysis",
+      "description": "analysis-report.md explains how to identify IAM policy changes and their significance",
+      "max_score": 11
+    }
+  ]
+}
