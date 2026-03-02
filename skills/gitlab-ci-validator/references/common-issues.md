@@ -7,6 +7,7 @@
 **Problem:** YAML formatting errors prevent pipeline execution.
 
 **Common causes:**
+
 - Inconsistent indentation (mixing tabs and spaces)
 - Missing colons after keys
 - Incorrect list formatting
@@ -53,6 +54,7 @@ job_name:
 **Problem:** Using reserved keywords as job names causes validation errors.
 
 **Reserved keywords:**
+
 - `image`, `services`, `stages`, `types`
 - `before_script`, `after_script`, `variables`
 - `cache`, `include`, `pages`, `default`, `workflow`
@@ -279,6 +281,7 @@ test_job:
 **Problem:** Dependencies downloaded on every job run.
 
 **Common causes:**
+
 - Wrong cache paths
 - Incorrect cache key
 - Cache policy misconfiguration
@@ -417,6 +420,7 @@ test_job:
 **Problem:** Cannot pull Docker images.
 
 **Common causes:**
+
 - Image doesn't exist
 - Authentication required
 - Network issues
@@ -505,6 +509,7 @@ build_job:
 **Solutions:**
 
 1. **Use caching:**
+
 ```yaml
 .node_cache:
   cache:
@@ -520,7 +525,8 @@ build_job:
     - npm run build
 ```
 
-2. **Use `needs` for parallel execution:**
+1. **Use `needs` for parallel execution:**
+
 ```yaml
 # Instead of sequential stages
 build_a:
@@ -537,7 +543,8 @@ test_a:
   script: make test_a
 ```
 
-3. **Use parallel jobs:**
+1. **Use parallel jobs:**
+
 ```yaml
 test_job:
   script:
@@ -745,6 +752,7 @@ stop_review:
 **Problem:** Jobs stuck in "pending" state.
 
 **Solutions:**
+
 - Check runner tags match job tags
 - Verify runners are online and not paused
 - Check runner capacity and queue

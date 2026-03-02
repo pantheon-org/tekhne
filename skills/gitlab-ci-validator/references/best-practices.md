@@ -53,6 +53,7 @@ deploy:
 ```
 
 **Benefits:**
+
 - Faster pipeline execution
 - Parallel job execution
 - Reduced waiting time
@@ -114,6 +115,7 @@ test_job:
 ```
 
 **Best practices:**
+
 - Use version prefixes in cache keys for invalidation
 - Use `pull` policy for read-only jobs
 - Cache package manager files (.npm, .pip, .gem)
