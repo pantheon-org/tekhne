@@ -1,6 +1,6 @@
 ---
 name: terragrunt-generator
-description: Comprehensive toolkit for generating best practice Terragrunt configurations (HCL files) following current standards and conventions. Use this skill when creating new Terragrunt resources (root configs, child modules, stacks, environment setups), or building multi-environment Terragrunt projects.
+description: Comprehensive toolkit for generating best-practice Terragrunt configurations (HCL files) following current standards and conventions. Generates terragrunt.hcl files, root configurations, child modules, stacks, and environment setups; configures remote state backends, dependency blocks, include blocks, feature flags, exclude blocks, and errors blocks; supports DRY Terraform patterns, multi-environment layouts (dev/staging/prod), and OpenTofu engine integration. Use when creating new Terragrunt projects or resources, scaffolding multi-environment infrastructure, implementing DRY Terraform wrapper configurations, setting up terragrunt.hcl files with remote state or provider config, managing module dependencies, or building infrastructure modules with Terragrunt stacks.
 ---
 
 # Terragrunt Generator
@@ -27,13 +27,13 @@ Generate production-ready Terragrunt configurations following current best pract
 
 ## Architecture Patterns
 
-> **CRITICAL:** Before generating ANY configuration, you MUST determine the architecture pattern and understand its constraints.
+> **CRITICAL:** Before generating ANY configuration, determine the architecture pattern and understand its constraints.
 
 ### Pattern A: Multi-Environment with Environment-Agnostic Root
 
 **Use when:** Managing multiple environments (dev/staging/prod) with shared root configuration.
 
-**Key principle:** `root.hcl` is **environment-agnostic** - it does NOT read environment-specific files.
+**Key principle:** `root.hcl` is **environment-agnostic** — it does NOT read environment-specific files. Use static values or `get_env()` for runtime configuration; use `${path_relative_to_include()}` for state keys (resolves dynamically). Child modules read `env.hcl` directly.
 
 ```
 infrastructure/
@@ -47,12 +47,6 @@ infrastructure/
     ├── vpc/terragrunt.hcl
     └── rds/terragrunt.hcl
 ```
-
-**Root.hcl constraints:**
-- ❌ CANNOT use `read_terragrunt_config(find_in_parent_folders("env.hcl"))` - env.hcl doesn't exist at root level
-- ❌ CANNOT reference `local.environment` or `local.aws_region` that come from env.hcl
-- ✅ CAN use static values or `get_env()` for runtime configuration
-- ✅ CAN use `${path_relative_to_include()}` for state keys (this works dynamically)
 
 **Child modules read env.hcl:**
 ```hcl
@@ -85,14 +79,13 @@ infrastructure/
 
 **Root.hcl can detect environment:**
 ```hcl
-# root.hcl - environment detection via directory path
 locals {
   # Parse environment from path (e.g., "prod/vpc" -> "prod")
   path_parts  = split("/", path_relative_to_include())
   environment = local.path_parts[0]
 
   # OR use environment variable
-  environment = get_env("TG_ENVIRONMENT", "dev")
+  # environment = get_env("TG_ENVIRONMENT", "dev")
 }
 ```
 
@@ -122,58 +115,30 @@ locals {
   env_vars = read_terragrunt_config("${get_repo_root()}/_env/prod.hcl")
 
   # Re-export for child modules
-  environment        = local.env_vars.locals.environment
-  aws_region         = local.env_vars.locals.aws_region
-  vpc_cidr           = local.env_vars.locals.vpc_cidr
-  # ... other variables
+  environment = local.env_vars.locals.environment
+  aws_region  = local.env_vars.locals.aws_region
+  vpc_cidr    = local.env_vars.locals.vpc_cidr
 }
 ```
 
-### Pre-Generation Pattern Checklist
+### Pattern Decision Tree
 
-> **MANDATORY:** Before writing any files, you MUST complete this checklist and OUTPUT it to the user with checkmarks filled in. This is not optional.
-
-**Output this completed checklist before generating any files:**
 ```
-## Architecture Pattern Selection
-
-[x] Identified architecture pattern: Pattern ___ (A/B/C)
-[x] Root.hcl scope: [ ] environment-agnostic  OR  [ ] environment-aware
-[x] env.hcl location: ___________________
-[x] Child modules access env via: ___________________
-[x] Verified: No file references a path that doesn't exist from its location
+Q: Multiple environments (dev/staging/prod)?
+├─ YES → Q: Shared root configuration?
+│   ├─ YES → Pattern A: Environment-Agnostic Root
+│   └─ NO  → Separate root.hcl per environment
+└─ NO  → Q: Environment detection needed?
+    ├─ YES → Pattern B: Environment-Aware Root
+    └─ NO  → Pattern B: Simple single-environment
 ```
-
-**Example completed checklist:**
-```
-## Architecture Pattern Selection
-
-[x] Identified architecture pattern: Pattern A (Multi-Environment with Environment-Agnostic Root)
-[x] Root.hcl scope: [x] environment-agnostic  OR  [ ] environment-aware
-[x] env.hcl location: dev/env.hcl, prod/env.hcl (one per environment)
-[x] Child modules access env via: read_terragrunt_config(find_in_parent_folders("env.hcl"))
-[x] Verified: No file references a path that doesn't exist from its location
-```
-
-## When to Use
-
-- Creating new Terragrunt projects or configurations
-- Setting up multi-environment infrastructure (dev/staging/prod)
-- Implementing DRY Terraform configurations
-- Managing complex infrastructure with dependencies
-- Working with custom Terraform providers or modules
 
 ## Core Capabilities
 
 ### 1. Generate Root Configuration
 Create root-level `root.hcl` or `terragrunt.hcl` with remote state, provider config, and common variables.
 
-> **MANDATORY:** Before generating, READ the template file:
-> ```
-> Read: assets/templates/root/terragrunt.hcl
-> ```
-
-**Template:** `assets/templates/root/terragrunt.hcl`
+**Read before generating:** `assets/templates/root/terragrunt.hcl`
 **Patterns:** `references/common-patterns.md` → Root Configuration Patterns
 
 **Key placeholders to replace:**
@@ -182,20 +147,15 @@ Create root-level `root.hcl` or `terragrunt.hcl` with remote state, provider con
 - `[ENVIRONMENT]`, `[PROJECT_NAME]`
 
 **Root.hcl Design Principles:**
-1. **Environment-agnostic by default** - Don't assume env.hcl exists at root level
-2. **Use static values for provider/backend region** - Or use `get_env()` for runtime config
-3. **State key uses `path_relative_to_include()`** - This automatically includes environment path
-4. **Provider tags can be static** - Environment-specific tags go in child modules
+1. **Environment-agnostic by default** — Don't assume env.hcl exists at root level
+2. **Use static values for provider/backend region** — Or `get_env()` for runtime config
+3. **State key uses `path_relative_to_include()`** — Automatically includes environment path
+4. **Provider tags can be static** — Environment-specific tags go in child modules
 
 ### 2. Generate Child Module Configuration
 Create child modules with dependencies, mock outputs, and proper includes.
 
-> **MANDATORY:** Before generating, READ the template file:
-> ```
-> Read: assets/templates/child/terragrunt.hcl
-> ```
-
-**Template:** `assets/templates/child/terragrunt.hcl`
+**Read before generating:** `assets/templates/child/terragrunt.hcl`
 **Patterns:** `references/common-patterns.md` → Child Module Patterns
 
 **Module source options:**
@@ -206,24 +166,19 @@ Create child modules with dependencies, mock outputs, and proper includes.
 ### 3. Generate Standalone Module
 Self-contained modules without root dependency.
 
-> **MANDATORY:** Before generating, READ the template file:
-> ```
-> Read: assets/templates/module/terragrunt.hcl
-> ```
-
-**Template:** `assets/templates/module/terragrunt.hcl`
+**Read before generating:** `assets/templates/module/terragrunt.hcl`
 
 ### 4. Generate Multi-Environment Infrastructure
 Complete directory structures for dev/staging/prod.
 
-> **MANDATORY:** Before generating:
-> 1. Determine architecture pattern (see Architecture Patterns section)
-> 2. Read relevant templates for root and child modules
-> 3. Verify env.hcl placement and access patterns
+Before generating:
+1. Determine architecture pattern (see Architecture Patterns section)
+2. Read relevant templates for root and child modules
+3. Verify env.hcl placement and access patterns
 
 **Patterns:** `references/common-patterns.md` → Environment-Specific Patterns
 
-**Typical structure (Pattern A - Environment-Agnostic Root):**
+**Typical structure (Pattern A):**
 ```
 infrastructure/
 ├── root.hcl              # Environment-AGNOSTIC root config
@@ -238,15 +193,8 @@ infrastructure/
 ### 5. Generate Terragrunt Stacks (2025)
 Infrastructure blueprints using `terragrunt.stack.hcl`.
 
-> **MANDATORY:** Before generating, READ the template files:
-> ```
-> Read: assets/templates/stack/terragrunt.stack.hcl
-> Read: assets/templates/catalog/terragrunt.hcl
-> ```
-
+**Read before generating:** `assets/templates/stack/terragrunt.stack.hcl` and `assets/templates/catalog/terragrunt.hcl`
 **Docs:** [Stacks Documentation](https://terragrunt.gruntwork.io/docs/features/stacks/)
-**Template:** `assets/templates/stack/terragrunt.stack.hcl`
-**Catalog Template:** `assets/templates/catalog/terragrunt.hcl`
 **Patterns:** `references/common-patterns.md` → Stacks Patterns
 
 **Commands:**
@@ -264,20 +212,17 @@ Runtime control without code changes.
 **Docs:** [Feature Flags Documentation](https://terragrunt.gruntwork.io/docs/features/feature-flags/)
 **Patterns:** `references/common-patterns.md` → Feature Flags Patterns
 
-> **CRITICAL:** Feature flag `default` values MUST be static (boolean, string, number).
-> They CANNOT reference `local.*` values. Use static defaults and override via CLI/env vars.
+> **CRITICAL:** Feature flag `default` values MUST be static (boolean, string, number) — they CANNOT reference `local.*` values.
 
-**Correct:**
 ```hcl
+# Correct: static default
 feature "enable_monitoring" {
-  default = false  # Static value - OK
+  default = false
 }
-```
 
-**Incorrect:**
-```hcl
+# Incorrect: dynamic reference — FAILS
 feature "enable_monitoring" {
-  default = local.env.locals.enable_monitoring  # Dynamic reference - FAILS
+  default = local.env.locals.enable_monitoring
 }
 ```
 
@@ -288,8 +233,6 @@ terragrunt apply --feature enable_monitoring=true
 export TG_FEATURE="enable_monitoring=true"
 ```
 
-**Environment-specific defaults:** Use different static defaults per environment file, not dynamic references.
-
 ### 7. Generate Exclude Blocks (2025)
 Fine-grained execution control (replaces deprecated `skip`).
 
@@ -298,16 +241,14 @@ Fine-grained execution control (replaces deprecated `skip`).
 
 **Actions:** `"plan"`, `"apply"`, `"destroy"`, `"all"`, `"all_except_output"`
 
-**Production Recommendation:** For critical production resources, add exclude blocks to prevent accidental destruction:
+**Production recommendation:** Protect critical resources from accidental destruction:
 ```hcl
-# Protect production databases from accidental destroy
 exclude {
   if      = true
   actions = ["destroy"]
   exclude_dependencies = false
 }
 
-# Also use prevent_destroy for critical resources
 prevent_destroy = true
 ```
 
@@ -342,8 +283,7 @@ When generating configs with custom providers:
 - What dependencies exist between modules?
 - What providers/modules will be used?
 
-### Step 2: Determine Architecture Pattern
-> **MANDATORY:** Select and document the pattern BEFORE writing any files.
+### Step 2: Determine Architecture Pattern and Complete Checklist
 
 | Scenario | Pattern | Root.hcl Scope |
 |----------|---------|----------------|
@@ -351,16 +291,19 @@ When generating configs with custom providers:
 | Single environment | Pattern B | Environment-aware |
 | Centralized env vars | Pattern C | Environment-agnostic |
 
-**Verify:**
+> **MANDATORY:** Before writing any files, complete and output this checklist to the user.
+
 ```
-[ ] Pattern identified: ____
-[ ] Root.hcl will be: [ ] environment-agnostic  [ ] environment-aware
-[ ] env.hcl will be located in: ____
-[ ] Child modules will read env.hcl via: ____
+## Architecture Pattern Selection
+
+[x] Identified architecture pattern: Pattern ___ (A/B/C)
+[x] Root.hcl scope: [ ] environment-agnostic  OR  [ ] environment-aware
+[x] env.hcl location: ___________________
+[x] Child modules access env via: ___________________
+[x] Verified: No file references a path that doesn't exist from its location
 ```
 
 ### Step 3: Read Required Templates
-> **MANDATORY:** Read the relevant template file(s) BEFORE generating each configuration type.
 
 | Configuration Type | Template to Read |
 |-------------------|------------------|
@@ -370,48 +313,37 @@ When generating configs with custom providers:
 | Stack file | `assets/templates/stack/terragrunt.stack.hcl` |
 | Catalog unit | `assets/templates/catalog/terragrunt.hcl` |
 
-**Also read:**
-- `references/common-patterns.md` - Primary source for generation patterns
+Also read: `references/common-patterns.md` — primary source for all generation patterns.
 
 ### Step 4: Generate with Validation
-
-> **Validation Strategy:** Use a combination of inline checks during generation and batch validation at the end.
 
 **Generation order for multi-environment projects:**
 
 1. **Generate root.hcl first**
-   - **Inline checks (during generation):**
-     - [ ] No `read_terragrunt_config(find_in_parent_folders("env.hcl"))` if environment-agnostic
-     - [ ] `remote_state` block has `encrypt = true`
-     - [ ] `errors` block used (not deprecated `retryable_errors`)
+   - [ ] No `read_terragrunt_config(find_in_parent_folders("env.hcl"))` if environment-agnostic
+   - [ ] `remote_state` block has `encrypt = true`
+   - [ ] `errors` block used (not deprecated `retryable_errors`)
 
 2. **Generate env.hcl files for each environment**
-   - **Inline checks (during generation):**
-     - [ ] `locals` block contains environment, aws_region, and module-specific vars
-     - [ ] No references to files that don't exist at that directory level
+   - [ ] `locals` block contains environment, aws_region, and module-specific vars
+   - [ ] No references to files that don't exist at that directory level
 
-3. **Generate child modules (VPC, etc.) - modules with NO dependencies first**
-   - **Inline checks (during generation):**
-     - [ ] `include` block uses `find_in_parent_folders("root.hcl")`
-     - [ ] `read_terragrunt_config(find_in_parent_folders("env.hcl"))` present
-     - [ ] `terraform.source` uses valid syntax (tfr:///, git::, or relative path)
+3. **Generate child modules — modules with NO dependencies first**
+   - [ ] `include` block uses `find_in_parent_folders("root.hcl")`
+   - [ ] `read_terragrunt_config(find_in_parent_folders("env.hcl"))` present
+   - [ ] `terraform.source` uses valid syntax (tfr:///, git::, or relative path)
 
 4. **Generate dependent modules (RDS, EKS, etc.)**
-   - **Inline checks (during generation):**
-     - [ ] `dependency` blocks have `mock_outputs`
-     - [ ] `mock_outputs_allowed_terraform_commands` includes `["validate", "plan", "destroy"]`
-     - [ ] Production modules have `prevent_destroy = true` and/or `exclude` block
+   - [ ] `dependency` blocks have `mock_outputs`
+   - [ ] `mock_outputs_allowed_terraform_commands` includes `["validate", "plan", "destroy"]`
+   - [ ] Production modules have `prevent_destroy = true` and/or `exclude` block
 
-5. **Run batch validation after ALL files are generated**
-   > **Note:** Full CLI validation (`terragrunt hcl fmt`, `terragrunt dag graph`) requires all files to exist, so these are batched at the end.
-
+5. **Run batch validation after ALL files are generated:**
    ```bash
-   # Batch validation commands (run after all files exist):
    terragrunt hcl fmt --check          # Format validation
    terragrunt dag graph                 # Dependency graph validation
    ```
-
-   - Invoke `devops-skills:terragrunt-validator` skill for comprehensive validation
+   Invoke `devops-skills:terragrunt-validator` for comprehensive validation.
 
 ### Step 5: Fix and Re-Validate
 If validation fails:
@@ -421,13 +353,13 @@ If validation fails:
 4. Repeat until ALL errors are resolved
 
 ### Step 6: Present Results
-Follow "Presentation Requirements" section below.
+Follow the Presentation Requirements section below.
 
 ## Validation Workflow
 
-**CRITICAL:** Every generated configuration MUST be validated.
+Every generated configuration MUST be validated.
 
-### Incremental Validation Checks
+### Incremental Validation
 
 **After generating root.hcl:**
 ```bash
@@ -447,33 +379,23 @@ terragrunt hcl validate --inputs
 
 After all files are generated:
 
-1. **Invoke validation skill:**
-   ```
-   Invoke: devops-skills:terragrunt-validator skill
-   ```
+1. Invoke `devops-skills:terragrunt-validator` skill
+2. If validation fails: analyze errors, fix, and re-validate until all pass
+3. If validation succeeds: present configurations with usage instructions
 
-2. **If validation fails:**
-   - Analyze errors (missing placeholders, invalid syntax, wrong paths)
-   - Fix issues
-   - **Re-validate** (repeat until ALL errors are resolved)
-
-3. **If validation succeeds:** Present configurations with usage instructions
-
-**Skip validation only for:** Partial snippets, documentation examples, or explicit user request
+**Skip validation only for:** Partial snippets, documentation examples, or explicit user request.
 
 ## Presentation Requirements
 
-> **MANDATORY:** After successful validation, you MUST present ALL of the following sections. Incomplete presentation is not acceptable. Copy and fill in the templates below.
+After successful validation, present ALL of the following sections.
 
-### 1. Directory Structure Summary (MANDATORY)
+### 1. Directory Structure Summary
 ```bash
-# Show the generated structure
 tree <infrastructure-directory>
 ```
 
-### 2. Files Generated (MANDATORY)
+### 2. Files Generated
 
-**Output this table with all generated files:**
 ```markdown
 | File | Purpose |
 |------|---------|
@@ -484,43 +406,27 @@ tree <infrastructure-directory>
 | ... | ... |
 ```
 
-### 3. Usage Instructions (MANDATORY)
-
-> **You MUST include this section.** Copy the template below and fill in the actual values:
+### 3. Usage Instructions
 
 ```markdown
 ## Usage Instructions
 
 ### Prerequisites
-Before running Terragrunt commands, ensure:
-1. AWS credentials are configured (`aws configure` or environment variables)
+1. AWS credentials configured (`aws configure` or environment variables)
 2. S3 bucket `<BUCKET_NAME>` exists for state storage
 3. DynamoDB table `<TABLE_NAME>` exists for state locking
 
 ### Commands
-
-# Navigate to infrastructure directory
 cd <INFRASTRUCTURE_DIR>
 
-# Initialize all modules
-terragrunt run --all init
-
-# Preview changes for a specific environment
-cd <ENV>/vpc && terragrunt plan
-
-# Preview all changes
-terragrunt run --all plan
-
-# Apply changes (requires approval)
-terragrunt run --all apply
-
-# Destroy (use with extreme caution)
-terragrunt run --all destroy
+terragrunt run --all init          # Initialize all modules
+cd <ENV>/vpc && terragrunt plan    # Preview a specific module
+terragrunt run --all plan          # Preview all changes
+terragrunt run --all apply         # Apply changes (requires approval)
+terragrunt run --all destroy       # Destroy (use with extreme caution)
 ```
 
-### 4. Environment-Specific Notes (MANDATORY)
-
-> **You MUST include this section.** Copy the template below and fill in the actual values:
+### 4. Environment-Specific Notes
 
 ```markdown
 ## Environment Notes
@@ -559,7 +465,7 @@ Reference `../devops-skills:terragrunt-validator/references/best_practices.md` f
 - Never hardcode credentials or secrets
 - Configure retry logic for transient errors
 
-> **Note on Version Constraints with Registry Modules:** When using Terraform Registry modules (e.g., `tfr:///terraform-aws-modules/vpc/aws?version=5.1.0`), they typically define their own `required_providers`. In this case, you may omit generating `required_providers` in `root.hcl` to avoid conflicts. The module's pinned version (`?version=X.X.X`) provides the version constraint. See "Common Issues → Provider Conflict with Registry Modules" for details.
+> **Note on Version Constraints with Registry Modules:** When using Terraform Registry modules (e.g., `tfr:///terraform-aws-modules/vpc/aws?version=5.1.0`), they typically define their own `required_providers`. Omit generating `required_providers` in `root.hcl` to avoid conflicts — the module's pinned version provides the constraint.
 
 **Anti-patterns to avoid:**
 - Hardcoded account IDs, regions, or environment names
@@ -581,7 +487,7 @@ Reference `../devops-skills:terragrunt-validator/references/best_practices.md` f
 
 ## Resources
 
-### Templates - MUST Read Before Generating
+### Templates — Read Before Generating
 
 | Configuration Type | Template File | When to Read |
 |-------------------|---------------|--------------|
@@ -596,6 +502,7 @@ Reference `../devops-skills:terragrunt-validator/references/best_practices.md` f
 | Reference | Content | When to Read |
 |-----------|---------|--------------|
 | `references/common-patterns.md` | All generation patterns with examples | Always, before generating |
+| `references/troubleshooting.md` | Common issues and fixes | When encountering errors |
 | `../devops-skills:terragrunt-validator/references/best_practices.md` | Comprehensive best practices | Always, before generating |
 
 ### Official Documentation
@@ -609,14 +516,11 @@ Reference `../devops-skills:terragrunt-validator/references/best_practices.md` f
 
 ## Common Issues
 
+> For a full troubleshooting reference, see `references/troubleshooting.md`.
+
 ### Root.hcl Cannot Find env.hcl
 
-**Symptom:**
-```
-Error: Attempt to get attribute from null value
-  on ./root.hcl line X:
-  This value is null, so it does not have any attributes.
-```
+**Symptom:** `Error: Attempt to get attribute from null value` in root.hcl
 
 **Cause:** Root.hcl is trying to read `env.hcl` via `find_in_parent_folders("env.hcl")`, but env.hcl doesn't exist at the root level.
 
@@ -633,7 +537,7 @@ generate "provider" {
   if_exists = "overwrite_terragrunt"
   contents  = <<EOF
 provider "aws" {
-  region = "us-east-1"  # Static value, or use get_env("AWS_REGION", "us-east-1")
+  region = "us-east-1"  # Or: get_env("AWS_REGION", "us-east-1")
 }
 EOF
 }
@@ -641,17 +545,11 @@ EOF
 
 ### Provider Conflict with Registry Modules
 
-When using Terraform Registry modules (e.g., `tfr:///terraform-aws-modules/vpc/aws`), they may define their own `required_providers` block. This can conflict with provider configuration generated by `root.hcl`.
-
-**Symptoms:**
-```
-Error: Duplicate required providers configuration
-```
+**Symptom:** `Error: Duplicate required providers configuration`
 
 **Solutions:**
-1. **Remove conflicting generate block** - If using registry modules that manage their own providers, avoid generating duplicate `required_providers`:
+1. **Remove conflicting generate block** — Only generate `provider "aws"`, not `required_providers`, when using registry modules:
    ```hcl
-   # In root.hcl - only generate provider config, not required_providers
    generate "provider" {
      path      = "provider.tf"
      if_exists = "overwrite_terragrunt"
@@ -663,19 +561,18 @@ Error: Duplicate required providers configuration
    }
    ```
 
-2. **Use if_exists = "skip"** - Skip generation if file already exists:
+2. **Use `if_exists = "skip"`** — Skip generation if the file already exists:
    ```hcl
    generate "versions" {
      path      = "versions.tf"
-     if_exists = "skip"  # Don't overwrite module's versions.tf
+     if_exists = "skip"
      contents  = "..."
    }
    ```
 
-3. **Clear cache** - If conflicts persist after fixes:
+3. **Clear cache** if conflicts persist:
    ```bash
-   rm -rf .terragrunt-cache
-   terragrunt init
+   rm -rf .terragrunt-cache && terragrunt init
    ```
 
 ### Feature Flag Validation Errors
@@ -684,47 +581,12 @@ If you see `Unknown variable; There is no variable named "local"` in feature blo
 
 ### Child Module Cannot Find env.hcl
 
-**Symptom:**
-```
-Error: Attempt to get attribute from null value
-  on ./dev/vpc/terragrunt.hcl line X:
-```
-
-**Cause:** Child module's `find_in_parent_folders("env.hcl")` cannot find env.hcl.
+**Symptom:** `Error: Attempt to get attribute from null value` in a child module
 
 **Solution:** Ensure env.hcl exists in the environment directory:
 ```
 dev/
-├── env.hcl           # This file MUST exist
+├── env.hcl              # MUST exist
 └── vpc/
-    └── terragrunt.hcl  # Calls find_in_parent_folders("env.hcl")
+    └── terragrunt.hcl   # Calls find_in_parent_folders("env.hcl")
 ```
-
-## Quick Reference Card
-
-### File Reading Checklist
-
-Before generating, READ these files in order:
-
-1. [ ] `references/common-patterns.md` - Understand available patterns
-2. [ ] `../devops-skills:terragrunt-validator/references/best_practices.md` - Know the rules
-3. [ ] Relevant template(s) from `assets/templates/` - Structural reference
-
-### Architecture Decision Tree
-
-```
-Q: Multiple environments (dev/staging/prod)?
-├─ YES → Q: Shared root configuration?
-│   ├─ YES → Pattern A: Environment-Agnostic Root
-│   └─ NO  → Separate root.hcl per environment
-└─ NO  → Q: Environment detection needed?
-    ├─ YES → Pattern B: Environment-Aware Root
-    └─ NO  → Pattern B: Simple single-environment
-```
-
-### Validation Sequence
-
-1. Format check: `terragrunt hcl fmt --check`
-2. Input validation: `terragrunt hcl validate --inputs`
-3. Full validation: Invoke `devops-skills:terragrunt-validator` skill
-4. Fix errors → Re-validate → Repeat until clean
