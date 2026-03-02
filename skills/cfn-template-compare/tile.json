@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/cfn-template-compare",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "summary": "Compares deployed CloudFormation templates with locally synthesized CDK templates to detect drift, validate changes, and ensure consistency before deployment. Use when the user wants to compare CDK output with a deployed stack, check for infrastructure drift, run a pre-deployment validation, audit IAM or security changes, investigate a failing deployment, or perform a 'cdk diff'-style review. Triggered by phrases like 'compare templates', 'check for drift', 'cfn drift', 'stack comparison', 'infrastructure drift detection', 'safe to deploy', or 'what changed in my CDK stack'.",
   "skills": {
