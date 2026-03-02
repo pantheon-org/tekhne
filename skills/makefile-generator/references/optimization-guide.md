@@ -21,7 +21,7 @@ make -j
 
 ### Making Makefiles Parallel-Safe
 
-**Problem: Shared resources**
+#### Problem: Shared resources
 
 ```makefile
 # WRONG: Multiple rules write to same file
@@ -34,7 +34,7 @@ target2:
 # With -j2, file corruption likely!
 ```
 
-**Solution: Proper dependencies**
+#### Solution: Proper dependencies
 
 ```makefile
 # RIGHT: Serialize access with dependencies
@@ -233,7 +233,7 @@ make -j4
 
 ### Accurate Dependencies
 
-**Problem: Incorrect dependencies**
+#### Problem: Incorrect dependencies
 
 ```makefile
 # WRONG: Missing header dependencies
@@ -243,7 +243,7 @@ main.o: main.c
 # If common.h changes, main.o won't rebuild!
 ```
 
-**Solution: Automatic dependency generation**
+#### Solution: Automatic dependency generation
 
 ```makefile
 # Generate dependencies during compilation
@@ -314,6 +314,7 @@ main.o: main.c common.h
 ### Optimizing Dependency Chains
 
 **Inefficient:**
+
 ```makefile
 # Every source depends on config.h
 # Changing config.h rebuilds EVERYTHING
@@ -322,7 +323,8 @@ utils.o: utils.c config.h
 helper.o: helper.c config.h
 ```
 
-**Better: Only include where needed**
+#### Better: Only include where needed
+
 ```makefile
 # Only main.c actually uses config.h
 main.o: main.c config.h
@@ -330,7 +332,8 @@ utils.o: utils.c
 helper.o: helper.c
 ```
 
-**Best: Use automatic dependencies**
+#### Best: Use automatic dependencies
+
 ```makefile
 %.o: %.c
 	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
@@ -357,7 +360,7 @@ helper.o: helper.c
 
 ### Avoiding Unnecessary Rebuilds
 
-**Problem: Timestamp updates without changes**
+#### Problem: Timestamp updates without changes
 
 ```makefile
 # WRONG: Always updates config.h
@@ -366,7 +369,7 @@ config.h: config.h.in
 	# Updates timestamp even if content unchanged!
 ```
 
-**Solution: Conditional update**
+#### Solution: Conditional update
 
 ```makefile
 # RIGHT: Only update if different
@@ -482,7 +485,7 @@ VERSION := $(file < VERSION.txt)
 
 ### 5. Avoid Recursive Make
 
-**Inefficient: Recursive Make**
+#### Inefficient: Recursive Make
 
 ```makefile
 # Top-level Makefile
@@ -493,11 +496,12 @@ all:
 ```
 
 **Problems:**
+
 - Multiple make invocations (slow)
 - Incorrect dependency tracking
 - Parallel builds broken
 
-**Efficient: Non-Recursive Make**
+#### Efficient: Non-Recursive Make
 
 ```makefile
 # Single Makefile
@@ -699,7 +703,7 @@ profile:
 
 ## Benchmarking Results
 
-**Example project: 100 C files**
+### Example project: 100 C files
 
 | Configuration | Build Time | Rebuild Time |
 |---------------|------------|--------------|

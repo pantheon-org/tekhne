@@ -75,31 +75,31 @@ Collect information for the following categories. **Use AskUserQuestion when inf
 
 **Lookup Process (follow in order):**
 
-1. **ALWAYS consult internal docs/ FIRST using the Read tool** (primary source of truth):
+1. **ALWAYS consult internal references/ FIRST using the Read tool** (primary source of truth):
 
    | Requirement | Read This Doc |
    |-------------|---------------|
-   | Docker/container targets | `docs/patterns-guide.md` (Pattern 8: Docker Integration) |
-   | Multi-binary projects | `docs/patterns-guide.md` (Pattern 7: Multi-Binary Project) |
-   | Go projects with version embedding | `docs/patterns-guide.md` (Pattern 5: Go Project) |
-   | Parallel builds, caching, ccache | `docs/optimization-guide.md` |
-   | Credentials, secrets, API keys | `docs/security-guide.md` |
-   | Complex dependencies, pattern rules | `docs/patterns-guide.md` |
-   | Order-only prerequisites | `docs/optimization-guide.md` or `docs/targets-guide.md` |
-   | Variables, assignment operators | `docs/variables-guide.md` |
+   | Docker/container targets | `references/patterns-guide.md` (Pattern 8: Docker Integration) |
+   | Multi-binary projects | `references/patterns-guide.md` (Pattern 7: Multi-Binary Project) |
+   | Go projects with version embedding | `references/patterns-guide.md` (Pattern 5: Go Project) |
+   | Parallel builds, caching, ccache | `references/optimization-guide.md` |
+   | Credentials, secrets, API keys | `references/security-guide.md` |
+   | Complex dependencies, pattern rules | `references/patterns-guide.md` |
+   | Order-only prerequisites | `references/optimization-guide.md` or `references/targets-guide.md` |
+   | Variables, assignment operators | `references/variables-guide.md` |
 
    **CRITICAL:** You MUST explicitly use the Read tool to consult relevant docs during generation, even if you have prior knowledge. Do NOT rely on context from earlier in the conversation. This ensures patterns are always current and correctly applied.
 
    **Required Workflow Example (Docker + Go with version embedding):**
    ```
    # Step 1: Use Read tool to get Go pattern
-   Read: docs/patterns-guide.md (find Pattern 5: Go Project)
+   Read: references/patterns-guide.md (find Pattern 5: Go Project)
 
    # Step 2: Use Read tool to get Docker pattern
-   Read: docs/patterns-guide.md (find Pattern 8: Docker Integration)
+   Read: references/patterns-guide.md (find Pattern 8: Docker Integration)
 
    # Step 3: Use Read tool for security considerations
-   Read: docs/security-guide.md (credential handling for docker-push)
+   Read: references/security-guide.md (credential handling for docker-push)
 
    # Step 4: Generate Makefile combining patterns
    # Step 5: Document which docs were consulted in Makefile header
@@ -511,7 +511,7 @@ bash scripts/add_standard_targets.sh Makefile install uninstall help
 
 ## Documentation
 
-Detailed guides in `docs/`:
+Detailed guides in `references/`:
 - **makefile-structure.md** - Organization, layout, includes
 - **variables-guide.md** - Assignment operators, automatic variables
 - **targets-guide.md** - Standard targets, .PHONY, prerequisites
