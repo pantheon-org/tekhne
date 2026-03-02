@@ -1,6 +1,9 @@
 ---
 name: implementation-plan-splitter
-description: Split large implementation plan documents into digestible, hierarchical structures with descriptive names. Use when refactoring monolithic planning docs, organizing phase documentation, or creating contributor-friendly task breakdowns. Triggers: "split this plan", "organize phases", "break down implementation docs", "create task hierarchy".
+description: >
+  Split large implementation plan documents into digestible, hierarchical structures with descriptive names.
+  Use when refactoring monolithic planning docs, organizing phase documentation, or creating contributor-friendly task breakdowns.
+  Triggers: "split this plan", "organize phases", "break down implementation docs", "create task hierarchy".
 ---
 
 # Implementation Plan Splitter
@@ -336,5 +339,3 @@ bun run scripts/validate-structure.ts docs/refactoring/phases
 ```
 
 Checks: READMEs present, descriptive names, required sections, valid links, proper hierarchy.
-
-
