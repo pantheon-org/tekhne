@@ -7,5 +7,9 @@
     "k8s-yaml-validator": {
       "path": "SKILL.md"
     }
-  }
+  },
+  "references": [
+    "references/k8s_best_practices.md",
+    "references/validation_workflow.md"
+  ]
 }
