@@ -43,8 +43,9 @@ Out of scope: plugin authoring and custom tool SDK development.
 1. Identify target config file(s) from request intent.
 2. Read current config state and precedence (project vs global).
 3. Apply minimal configuration edits with explicit rationale.
-4. Validate syntax and run OpenCode config test.
-5. Confirm expected behavior and document key constraints.
+4. Validate syntax: `jq . opencode.json >/dev/null && rg -n "API_KEY|baseEnv|permission" opencode.json .env*`
+5. Run a smoke test: `opencode run "test"`
+6. Confirm expected behavior and document key constraints. If errors surface, re-read config precedence before widening permissions.
 
 ## Quick Commands
 
@@ -62,6 +63,46 @@ jq . opencode.json >/dev/null
 
 ```bash
 rg -n "API_KEY|baseEnv|permission" opencode.json .env*
+```
+
+## Configuration Examples
+
+### Minimal `opencode.json` — provider with `baseEnv` pattern
+
+```json
+{
+  "providers": [
+    {
+      "id": "openai",
+      "baseEnv": "OPENAI_API_KEY",
+      "models": [
+        { "id": "gpt-4o-2024-08-06", "default": true }
+      ]
+    }
+  ],
+  "permissions": {
+    "filesystem": { "read": ["./src", "./docs"], "write": ["./src"] },
+    "shell": { "allow": ["npm test", "jq"] }
+  },
+  "formatter": { "enabled": true }
+}
+```
+
+### Minimal `AGENTS.md` template
+
+```markdown
+# Project Agent Instructions
+
+## Scope
+- Work only within `src/` and `docs/` unless explicitly told otherwise.
+
+## Workflow Rules
+- Run `npm test` after every code change.
+- Never modify `opencode.json` directly; propose changes for human review.
+
+## Constraints
+- Do not execute destructive shell commands (rm -rf, git push --force).
+- Prefer read operations before any write or delete action.
 ```
 
 ## Gotchas
