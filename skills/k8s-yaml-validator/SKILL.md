@@ -188,13 +188,7 @@ When a YAML file contains multiple resources (separated by `---`):
 3. For dry-run, the file is tested as a unit
 4. Track issues per-resource in the report
 
-### Partial Parsing Behavior
-
-When a multi-document YAML file has some valid and some invalid documents:
-- `detect_crd.py` parses valid documents and skips invalid ones
-- kubeconform validates resources it can parse and reports errors for unparseable ones
-
-**Example — 3 documents, document 1 has a syntax error:**
+**Partial parsing:** Tools parse valid documents and continue when some documents have syntax errors:
 
 | Document | Resource | Parsing | Validation |
 |----------|----------|---------|------------|
@@ -257,40 +251,6 @@ Parallelising is most beneficial for files with more than 5 resources.
 - Check for deprecated APIs (e.g., `extensions/v1beta1` → `apps/v1`)
 - For CRDs, ensure the apiVersion matches what's in the cluster
 - Use `kubectl api-versions` to list available API versions
-
-## Test Coverage Guidance
-
-For detailed test scenarios and expected outputs, load:
-```
-Read references/validation_workflow.md
-```
-
-### Test Files
-
-| Test File | Purpose | Expected Behavior |
-|-----------|---------|-------------------|
-| `deployment-test.yaml` | Valid standard K8s resource | All stages pass, no errors |
-| `certificate-crd-test.yaml` | Valid CRD resource | CRD detected, context7 lookup performed, no errors |
-| `comprehensive-test.yaml` | Multi-resource with intentional errors | Syntax error detected, partial parsing works, CRD found |
-
-### Validation Paths to Test
-
-1. **Happy Path** — `deployment-test.yaml`: All stages pass, 0 errors, 0 warnings
-2. **CRD Detection** — `certificate-crd-test.yaml`: CRD detected, context7 MCP called, documentation retrieved
-3. **Syntax Error Path** — `comprehensive-test.yaml`: yamllint catches error, kubeconform partial validation, dry-run blocked
-4. **Multi-Resource Partial Parsing** — `comprehensive-test.yaml`: 2/3 resources validated, parse error for document 1
-5. **No Cluster Access** — Any valid file without kubectl cluster configured: Server-side fails, falls back to client-side
-6. **Missing Tools** — Remove a tool from PATH: `setup_tools.sh` reports missing, validation continues with available tools
-
-### Expected Report Checklist
-
-- [ ] Summary table with issue counts by severity
-- [ ] Stage-by-stage status table (passed/failed/skipped)
-- [ ] Document parsing table (for multi-resource files)
-- [ ] Before/after code blocks for each issue
-- [ ] Fix complexity indicators ([Simple], [Medium], [Complex])
-- [ ] File-absolute line numbers
-- [ ] "Next Steps" section
 
 ## Resources
 
