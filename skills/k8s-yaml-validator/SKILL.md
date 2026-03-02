@@ -121,37 +121,18 @@ For CRDs where kubeconform reports "no schema found", use the documentation from
 
 ### Stage 5: Cluster Dry-Run (if available)
 
-**Always try server-side dry-run first** — it runs through admission controllers and webhooks.
+Try server-side dry-run first (runs admission controllers and webhooks):
 
-**Decision Tree:**
-
-```
-1. Try server-side dry-run first:
-   kubectl apply --dry-run=server -f <file.yaml>
-
-   └─ If SUCCESS → Use results, continue to Stage 6
-
-   └─ If FAILS with connection error ("connection refused", "unable to connect"):
-      │
-      ├─ 2. Fall back to client-side dry-run:
-      │     kubectl apply --dry-run=client -f <file.yaml>
-      │     Document: "Server-side validation skipped (no cluster access)"
-      │
-      └─ If FAILS with validation error ("admission webhook denied", "resource quota exceeded"):
-         └─ Record the error, continue to Stage 6
-
-   └─ If FAILS with parse error ("error converting YAML to JSON"):
-      └─ Record the error, skip client-side dry-run (same error will occur)
-         Document: "Dry-run blocked by YAML syntax errors - fix syntax first"
-         Continue to Stage 6
+```bash
+kubectl apply --dry-run=server -f <file.yaml>
 ```
 
-**Document in your report which mode was used:**
-- Server-side: "Full cluster validation performed"
-- Client-side: "Limited validation (no cluster access) - admission policies not checked"
-- Skipped: "Dry-run skipped - kubectl not available"
+**Fallback logic:**
+- Connection error → try `--dry-run=client` and document "Limited validation (no cluster access)"
+- Validation error → record error, continue to Stage 6
+- Parse error → skip client dry-run (same error), continue to Stage 6
 
-For updates to existing resources, also run:
+For updates to existing resources:
 ```bash
 kubectl diff -f <file.yaml>
 ```
@@ -162,68 +143,27 @@ kubectl diff -f <file.yaml>
 
 **Report structure:**
 
-1. **Issue summary table:**
-   ```
-   | Severity | Stage | Location | Issue | Suggested Fix |
-   |----------|-------|----------|-------|---------------|
-   | Error | Syntax | file.yaml:5 | Indentation error | Use 2 spaces |
-   | Error | Schema | file.yaml:21 | Wrong type | Change to integer |
-   | Warning | Best Practice | file.yaml:30 | Missing labels | Add app label |
-   ```
+1. **Issue summary table** with severity, stage, location, issue, and suggested fix
+2. **Severity categories:** Errors (must fix), Warnings (should fix), Info (optional)
+3. **Before/after code blocks** for each issue with fix complexity: [Simple], [Medium], [Complex]
+4. **Validation summary** with stage status table and next steps
 
-2. **Severity categories:**
-   - **Errors** (must fix): Syntax errors, missing required fields, dry-run failures
-   - **Warnings** (should fix): Style issues, best practice violations
-   - **Info** (optional): Suggestions for improvement
+Example issue format:
+```
+**Issue 1: deployment.yaml:21 - Wrong field type (Error) [Simple]**
 
-3. **Before/after code blocks for each issue:**
-   ```
-   **Issue 1: deployment.yaml:21 - Wrong field type (Error) [Simple]**
+Current:
+```yaml
+        - containerPort: "80"
+```
 
-   Current:
-   ```yaml
-           - containerPort: "80"
-   ```
+Suggested Fix:
+```yaml
+        - containerPort: 80
+```
 
-   Suggested Fix:
-   ```yaml
-           - containerPort: 80
-   ```
-
-   **Why:** containerPort must be an integer. Reference: k8s_best_practices.md "Invalid Values".
-   ```
-
-   Use fix complexity indicators in issue headers:
-   - **[Simple]**: Single-line fixes (indentation, typos, value changes)
-   - **[Medium]**: Multi-line changes or adding missing fields/sections
-   - **[Complex]**: Logic changes, restructuring, or changes affecting multiple resources
-
-4. **Validation summary:**
-   ```
-   ## Validation Report Summary
-
-   File: deployment.yaml
-   Resources Analyzed: 3 (Deployment, Service, Certificate)
-
-   | Stage | Status | Issues Found |
-   |-------|--------|--------------|
-   | YAML Syntax | ❌ Failed | 2 errors |
-   | CRD Detection | ✅ Passed | 1 CRD detected (Certificate) |
-   | Schema Validation | ❌ Failed | 1 error |
-   | Dry-Run | ❌ Failed | 1 error |
-
-   Total Issues: 4 errors, 2 warnings
-
-   ## Detailed Findings
-
-   [List each issue with before/after code blocks]
-
-   ## Next Steps
-
-   1. Fix the 4 errors listed above (deployment will fail without these)
-   2. Consider addressing the 2 warnings for best practices
-   3. Re-run validation after fixes to confirm resolution
-   ```
+**Why:** containerPort must be an integer.
+```
 
 ## Best Practices Reference
 
@@ -256,13 +196,11 @@ When a multi-document YAML file has some valid and some invalid documents:
 
 **Example — 3 documents, document 1 has a syntax error:**
 
-```
 | Document | Resource | Parsing | Validation |
 |----------|----------|---------|------------|
 | 1 | Deployment | ❌ Syntax error (line 6) | Skipped |
 | 2 | Service | ✅ Parsed | ✅ Valid |
 | 3 | Certificate | ✅ Parsed | ✅ Valid |
-```
 
 **Always use file-absolute line numbers** (relative to the start of the entire file) — this matches what yamllint, kubeconform, and kubectl report, and lets users navigate directly to errors in their editor.
 
