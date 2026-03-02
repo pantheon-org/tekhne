@@ -45,6 +45,7 @@ skills/journal-entry-creator/template/journal-entry.yaml
 
 - Load schema: ALWAYS before creating entry (mandatory)
 - Load `compliance.md`: Only if validation fails and you need detailed rules
+- Load `edge-cases.md`: Only for complex or unusual edge cases
 - Load `example-*.md`: Only if user asks for examples or you need clarification on structure
 - Do NOT load: `journal-command.md` (superseded by this skill)
 
@@ -162,7 +163,7 @@ Entry is complete when ALL criteria are met:
 3. Date (default: today)
 4. Type-specific context per table above
 
-**Slug generation:** Extract 3-6 meaningful keywords, remove common words, use lowercase-only with hyphens (30-50 chars). Examples: `opencode-killed-process-fix`, `aws-bedrock-inventory`
+**Slug generation:** Extract 3-6 meaningful keywords (see Phase 3 for detailed rules)
 
 ### Phase 2: Schema Loading (MANDATORY)
 
@@ -180,7 +181,7 @@ Entry is complete when ALL criteria are met:
 **Medium freedom - guided by schema:**
 
 1. Create directory if needed: `mkdir -p YYYY/MM`
-2. Generate filename: `YYYY-MM-DD-slug.md` (see slug principles above)
+2. Generate filename: `YYYY-MM-DD-slug.md` using slug principles below
 3. Populate YAML frontmatter per schema requirements
 4. Create metadata block with bold keys
 5. Fill all required sections from schema in correct order
@@ -190,10 +191,11 @@ Entry is complete when ALL criteria are met:
 
 **Slug generation principles:**
 
-- Extract 3-6 meaningful keywords, remove common words ("the", "a", "and", "for")
+- Extract 3-6 meaningful keywords from topic/title
+- Remove common words ("the", "a", "and", "for", "with", "to")
 - **MUST be lowercase-only with hyphens** (NO uppercase/underscores)
-- Target 30-50 characters
-- Examples: `opencode-killed-process-fix`, `aws-bedrock-inventory`
+- Target 30-50 characters for readability
+- Examples: `opencode-killed-process-fix`, `aws-bedrock-inventory`, `react-state-patterns`
 
 ### Phase 4: Validation & Formatting (LOW FREEDOM)
 
@@ -223,54 +225,16 @@ bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM/YYYY
 
 ## Edge Case Handling
 
-### File Already Exists
+**Common scenarios:** File exists, date mismatch, schema missing, validation failures, custom structure requests.
 
-**Detection:** Check before writing file
+**Quick reference:**
 
-**Resolution:**
+- **File exists:** Ask to overwrite or suggest alternative filename
+- **Date mismatch:** Confirm intended date, update all three locations
+- **Schema missing:** STOP immediately, list available schemas
+- **Validation fails:** Auto-fix formatting issues, ask user for content clarifications
 
-1. Ask user: `Entry already exists at [path]. Overwrite? (y/N)`
-2. If no: Suggest alternative filename with suffix `-v2`, `-alt`, or `-revised`
-3. If yes: Backup original (rename to `.bak`) then write new file
-
-### Date Mismatch Detected
-
-**Problem:** User says "document yesterday's work" but filename uses today's date
-
-**Resolution:** Ask user which date to use, then update ALL locations (filename, frontmatter, H1) to match and ensure correct directory placement.
-
-### Schema Not Found
-
-**Problem:** Template YAML file missing or unreadable
-
-**Resolution:**
-
-1. STOP immediately - do not proceed
-2. Error message: `Template schema [type].yaml not found. Cannot generate entry without schema definition.`
-3. List available schemas in template/ directory
-4. Ask user to select available type or fix schema location
-
-**Do NOT:** Generate entry with guessed structure - this violates compliance
-
-### Validation Fails After Generation
-
-**Common failures and auto-fixes:**
-
-| Error                  | Auto-fix Strategy                               |
-| ---------------------- | ----------------------------------------------- |
-| Missing code language  | Add `bash` or `text` based on content          |
-| Multiple blank lines   | Remove with prettier                            |
-| Heading hierarchy skip | Adjust levels H1→H2→H3                          |
-| Tag mismatch           | Sync Tags section with frontmatter             |
-| Date format wrong      | Use `Month D, YYYY` format                      |
-
-**Manual fixes required:** Missing sections (need content), incorrect entry type, ambiguous slug.
-
-### User Wants Custom Structure
-
-**Problem:** User asks to deviate from template structure
-
-**Resolution:** Explain validation requirements and offer: (A) custom content within existing sections, (B) additional sections after required ones, or (C) different entry type. Warn that removing required sections fails validation.
+**For detailed resolution strategies:** Load `skills/journal-entry-creator/references/edge-cases.md` only when encountering an unusual or complex edge case.
 
 ## Git Integration (Optional)
 
@@ -287,8 +251,6 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - Brief description (30-50 chars)
 - Date in parentheses (YYYY-MM-DD)
 - Example: `Add journal entry: OpenCode process fix (2025-02-24)`
-
-
 
 ## Bundled Resources
 
@@ -311,6 +273,7 @@ Load with relative paths: `skills/journal-entry-creator/template/[file]`
 
 ### References (references/)
 
+- `edge-cases.md` - Detailed edge case resolution strategies (load only for complex scenarios)
 - `example-journal-entry.md` - Real entry example (load only if user asks)
 - `example-with-frontmatter.md` - Frontmatter example (load only if needed)
 - `journal-command.md` - Legacy workflow (superseded, do not use)
