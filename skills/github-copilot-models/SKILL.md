@@ -51,22 +51,20 @@ Use the provided script to fetch your available models:
 
 ```bash
 # From project root
-.opencode/skills/github-copilot-models/fetch-models.sh
+.opencode/skills/github-copilot-models/scripts/fetch-models.sh
 
 # With JSON output for parsing
-.opencode/skills/github-copilot-models/fetch-models.sh --json
+.opencode/skills/github-copilot-models/scripts/fetch-models.sh --json
 
 # Filter by category
-.opencode/skills/github-copilot-models/fetch-models.sh --category powerful
+.opencode/skills/github-copilot-models/scripts/fetch-models.sh --category powerful
 
 # Show only picker-enabled models
-.opencode/skills/github-copilot-models/fetch-models.sh --picker-only
+.opencode/skills/github-copilot-models/scripts/fetch-models.sh --picker-only
 ```
 
 ### Script Options
 
-| Option             | Description               | Example                                |
-| ------------------ | ------------------------- | -------------------------------------- |
 | `--json`           | Raw JSON output           | `fetch-models.sh --json`               |
 | `--picker-only`    | Only show featured models | `fetch-models.sh --picker-only`        |
 | `--category <cat>` | Filter by category        | `fetch-models.sh --category versatile` |
@@ -249,28 +247,28 @@ Some models may appear in the API response but have usage restrictions:
 
 ```bash
 # Find models with 200K+ context
-./fetch-models.sh --json | jq '.data[] | select(.capabilities.limits.max_context_window_tokens > 200000) | {id, context: .capabilities.limits.max_context_window_tokens}'
+./scripts/fetch-models.sh --json | jq '.data[] | select(.capabilities.limits.max_context_window_tokens > 200000) | {id, context: .capabilities.limits.max_context_window_tokens}'
 ```
 
 ### Find Models with Vision for Screenshot Analysis
 
 ```bash
 # Show vision-capable models
-./fetch-models.sh --vision
+./scripts/fetch-models.sh --vision
 ```
 
 ### Compare All Claude Models
 
 ```bash
 # Filter by vendor
-./fetch-models.sh --vendor Anthropic
+./scripts/fetch-models.sh --vendor Anthropic
 ```
 
 ### Get Model IDs for Scripting
 
 ```bash
 # Extract just the IDs
-./fetch-models.sh --json | jq -r '.data[].id'
+./scripts/fetch-models.sh --json | jq -r '.data[].id'
 ```
 
 ## Resources
