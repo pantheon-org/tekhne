@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/azure-pipelines-validator",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Comprehensive toolkit for validating, linting, and securing Azure DevOps Pipeline configurations.",
+  "skills": {
+    "azure-pipelines-validator": {
+      "path": "SKILL.md"
+    }
+  }
+}
