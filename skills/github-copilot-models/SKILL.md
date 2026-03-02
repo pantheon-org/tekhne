@@ -133,8 +133,6 @@ opencode config show | grep model
 
 ## Troubleshooting
 
-See [TROUBLESHOOTING.md](.opencode/skills/github-copilot-models/TROUBLESHOOTING.md) for detailed remediation steps.
-
 Common issues:
 
 - **"Provider not found"** — Run `opencode models github-copilot` to target the correct provider.
