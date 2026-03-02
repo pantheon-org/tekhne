@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/conventional-commits",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Skill for creating structured, semantic commit messages following the Conventional Commits specification",
+  "skills": {
+    "conventional-commits": {
+      "path": "SKILL.md"
+    }
+  }
+}

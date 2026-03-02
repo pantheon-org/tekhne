@@ -1,4 +1,5 @@
 ---
+name: conventional-commits
 title: Writing Conventional Commit Messages
 description: Skill for creating structured, semantic commit messages following the Conventional Commits specification
 type: skill
@@ -13,7 +14,7 @@ tags:
 last_updated: 2026-01-26
 ---
 
-# Skill: Writing Conventional Commit Messages
+## Overview
 
 This skill guides you through creating structured commit messages that enable automated tooling, clear communication,
 and semantic versioning.
