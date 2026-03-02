@@ -1,11 +1,7 @@
 ---
 name: typescript-advanced
 description: Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type guards, strict mode workflows, and documentation patterns; use when configuring tsconfig, designing complex generics, making illegal states unrepresentable, fixing type errors, or writing testable and maintainable type-safe APIs.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # TypeScript Advanced
