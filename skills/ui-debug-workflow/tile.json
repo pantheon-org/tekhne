@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/ui-debug-workflow",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "summary": "Debug UI changes with a repeatable evidence-first workflow. Use when validating visual regressions, reproducing frontend bugs, comparing baseline vs changed behavior, collecting screenshots/DOM/logs, or producing stakeholder-ready UI debug reports. Keywords: ui bug, visual regression, browser devtools, playwright, screenshot evidence, dom snapshot, frontend debugging.\n",
   "skills": {
