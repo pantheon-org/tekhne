@@ -1,43 +1,17 @@
 ---
 name: dockerfile-generator
-description: Comprehensive toolkit for generating production-ready Dockerfiles following current standards and best practices. Use this skill when creating new Dockerfiles, implementing containerization for applications, or optimizing existing Docker builds.
+description: Generates production-ready Dockerfiles with multi-stage builds, layer caching, security hardening (non-root users, minimal base images), health checks, and automatic .dockerignore creation. Validates output using devops-skills:dockerfile-validator with iterative error fixing. Use when a user wants to create, generate, write, or build a Dockerfile or docker image, containerize an app, set up a container, or needs a Dockerfile for Node.js, Python, Go, Java, or another language. Also applies when the user says 'containerize my app', 'docker-compose setup', 'container setup', or 'optimize my Docker build'.
 ---
 
 # Dockerfile Generator
 
 ## Overview
 
-This skill provides a comprehensive workflow for generating production-ready Dockerfiles with security, optimization, and best practices built-in. Generates multi-stage builds, security-hardened configurations, and optimized layer structures with automatic validation and iterative error fixing.
+Generates production-ready Dockerfiles with security, optimization, and best practices built-in: multi-stage builds, security-hardened configurations, optimized layer structures, automatic validation, and iterative error fixing.
 
-**Key Features:**
-- Multi-stage builds for optimal image size (50-85% reduction)
-- Security hardening (non-root users, minimal base images, no secrets)
-- Layer caching optimization for faster builds
-- Language-specific templates (Node.js, Python, Go, Java)
-- Automatic .dockerignore generation
-- Integration with devops-skills:dockerfile-validator for validation
-- Iterative validation and error fixing (minimum 1 iteration if errors found)
-- WebSearch and context7 integration for framework-specific patterns
+## When to Use / Not Use
 
-## When to Use This Skill
-
-Invoke this skill when:
-- Creating new Dockerfiles from scratch
-- Containerizing applications (Node.js, Python, Go, Java, or other languages)
-- Implementing multi-stage builds for size optimization
-- Converting existing Dockerfiles to best practices
-- Generating production-ready container configurations
-- Optimizing Docker builds for security and performance
-- The user asks to "create", "generate", "build", or "write" a Dockerfile
-- Implementing containerization for microservices
-- Setting up CI/CD pipeline container builds
-
-## Do NOT Use This Skill For
-
-- Validating existing Dockerfiles (use devops-skills:dockerfile-validator instead)
-- Building or running containers (use docker build/run commands)
-- Debugging running containers (use docker logs, docker exec)
-- Managing Docker images or registries
+Use for creating, generating, or optimizing Dockerfiles and containerizing applications. Do **not** use for validating existing Dockerfiles (use devops-skills:dockerfile-validator), building/running containers, debugging running containers, or managing image registries.
 
 ## Dockerfile Generation Workflow
 
@@ -47,48 +21,13 @@ Follow this workflow when generating Dockerfiles. Adapt based on user needs:
 
 **Objective:** Understand what needs to be containerized and gather all necessary information.
 
-**Information to Collect:**
+**Information to Collect (use AskUserQuestion if missing or unclear):**
 
-1. **Application Details:**
-   - Programming language and version (Node.js 18/20, Python 3.11/3.12, Go 1.21+, Java 17/21, etc.)
-   - Application type (web server, API, CLI tool, batch job, etc.)
-   - Framework (Express, FastAPI, Spring Boot, etc.)
-   - Entry point (main file, command to run)
-
-2. **Dependencies:**
-   - Package manager (npm/yarn/pnpm, pip/poetry, go mod, maven/gradle)
-   - System dependencies (build tools, libraries, etc.)
-   - Build-time vs runtime dependencies
-
-3. **Application Configuration:**
-   - Port(s) to expose
-   - Environment variables needed
-   - Configuration files
-   - Health check endpoint (for web services)
-   - Volume mounts (if any)
-
-4. **Build Requirements:**
-   - Build commands
-   - Test commands (optional)
-   - Compilation needs (for compiled languages)
-   - Static asset generation
-
-5. **Production Requirements:**
-   - Expected image size constraints
-   - Security requirements
-   - Scaling needs
-   - Resource constraints (CPU, memory)
-
-**Use AskUserQuestion if information is missing or unclear.**
-
-**Example Questions:**
-```
-- What programming language and version is your application using?
-- What is the main entry point to run your application?
-- Does your application expose any ports? If so, which ones?
-- Do you need any system dependencies beyond the base language runtime?
-- Does your application need a health check endpoint?
-```
+- Language/version, application type, framework, entry point
+- Package manager, system dependencies, build-time vs runtime deps
+- Port(s), environment variables, config files, health check endpoint, volume mounts
+- Build/test commands, compilation needs, static asset generation
+- Image size constraints, security requirements, resource constraints
 
 ### Stage 2: Framework/Library Documentation Lookup (if needed)
 
@@ -145,7 +84,6 @@ Follow this workflow when generating Dockerfiles. Adapt based on user needs:
    - Separate build stage from runtime stage
    - Keep build tools out of final image
    - Copy only necessary artifacts
-   - Results in 50-85% smaller images
 
 2. **Security Hardening (REQUIRED):**
    - Use specific version tags (NEVER use :latest)
@@ -554,7 +492,7 @@ docker scout sbom myapp:latest
 
 ### BuildKit Cache Mounts (Advanced)
 
-**Use Case:** Dramatically faster builds by persisting package manager caches across builds.
+**Use Case:** Persist package manager caches across builds for faster iteration.
 
 **Already covered in detail in `references/optimization_patterns.md` (lines 98-125).**
 
@@ -562,7 +500,7 @@ docker scout sbom myapp:latest
 ```dockerfile
 # syntax=docker/dockerfile:1
 
-# NPM cache mount (30-50% faster builds)
+# NPM cache mount
 RUN --mount=type=cache,target=/root/.npm \
     npm ci
 
