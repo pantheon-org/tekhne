@@ -34,14 +34,17 @@ job_name:
 ## Global Keywords
 
 ### `default`
+
 Establishes custom default values that are copied to jobs lacking specific keyword definitions.
 
 **Supported keywords:**
+
 - `image`, `services`, `before_script`, `after_script`
 - `cache`, `artifacts`, `retry`, `timeout`, `interruptible`
 - `tags`, `hooks`
 
 **Example:**
+
 ```yaml
 default:
   image: ruby:3.0
@@ -53,9 +56,11 @@ default:
 ```
 
 ### `include`
+
 Imports configuration from external YAML files.
 
 **Types:**
+
 - `local`: Files in same repository
 - `project`: Files from other GitLab projects
 - `remote`: Files from external URLs
@@ -63,6 +68,7 @@ Imports configuration from external YAML files.
 - `component`: CI/CD catalog components
 
 **Example:**
+
 ```yaml
 include:
   - local: '/templates/.gitlab-ci-template.yml'
@@ -74,9 +80,11 @@ include:
 ```
 
 ### `stages`
+
 Defines the names and order of pipeline stages. Jobs in the same stage run in parallel.
 
 **Default stages (if not defined):**
+
 1. `.pre`
 2. `build`
 3. `test`
@@ -84,6 +92,7 @@ Defines the names and order of pipeline stages. Jobs in the same stage run in pa
 5. `.post`
 
 **Example:**
+
 ```yaml
 stages:
   - build
@@ -93,9 +102,11 @@ stages:
 ```
 
 ### `variables`
+
 Sets CI/CD variables available to all jobs or specific jobs.
 
 **Example:**
+
 ```yaml
 variables:
   DATABASE_URL: "postgres://postgres@postgres/db"
@@ -109,9 +120,11 @@ job_name:
 ```
 
 ### `workflow`
+
 Controls pipeline behavior and creation rules.
 
 **Example:**
+
 ```yaml
 workflow:
   rules:
@@ -124,9 +137,11 @@ workflow:
 ### Required Keywords
 
 #### `script`
+
 The only required keyword. Defines shell commands executed by the runner.
 
 **Syntax:**
+
 ```yaml
 job_name:
   script: "single command"
@@ -144,9 +159,11 @@ job_name:
 ### Execution Control
 
 #### `before_script`
+
 Commands running before the `script` section.
 
 **Example:**
+
 ```yaml
 job_name:
   before_script:
@@ -157,9 +174,11 @@ job_name:
 ```
 
 #### `after_script`
+
 Commands running after `script` completion. Executes in a separate shell context.
 
 **Example:**
+
 ```yaml
 job_name:
   script:
@@ -169,9 +188,11 @@ job_name:
 ```
 
 #### `stage`
+
 Assigns the job to a specific pipeline stage.
 
 **Example:**
+
 ```yaml
 build_job:
   stage: build
@@ -180,9 +201,11 @@ build_job:
 ```
 
 #### `when`
+
 Controls when jobs run.
 
 **Values:**
+
 - `on_success` (default): Run when all previous jobs succeed
 - `on_failure`: Run when at least one previous job fails
 - `always`: Always run
@@ -191,6 +214,7 @@ Controls when jobs run.
 - `never`: Never run
 
 **Example:**
+
 ```yaml
 cleanup_job:
   stage: cleanup
@@ -208,9 +232,11 @@ deploy_job:
 ### Artifact Management
 
 #### `artifacts`
+
 Specifies files and directories to save after job completion.
 
 **Sub-keywords:**
+
 - `paths`: File locations to include
 - `exclude`: Patterns to exclude
 - `expire_in`: Retention duration (default: 30 days)
@@ -219,6 +245,7 @@ Specifies files and directories to save after job completion.
 - `reports`: Collect test/coverage/security reports
 
 **Example:**
+
 ```yaml
 test_job:
   script:
@@ -238,9 +265,11 @@ test_job:
 ```
 
 #### `cache`
+
 Defines files cached between job runs for faster execution.
 
 **Sub-keywords:**
+
 - `paths`: Items to cache
 - `key`: Cache identifier
 - `policy`: Download/upload behavior (pull, push, pull-push)
@@ -248,6 +277,7 @@ Defines files cached between job runs for faster execution.
 - `untracked`: Cache untracked files
 
 **Example:**
+
 ```yaml
 build_job:
   script:
@@ -273,9 +303,11 @@ test_job:
 ### Job Dependencies
 
 #### `dependencies`
+
 Restricts artifact downloads to specified jobs only.
 
 **Example:**
+
 ```yaml
 build_job:
   stage: build
@@ -294,9 +326,11 @@ test_job:
 ```
 
 #### `needs`
+
 Executes jobs earlier than stage ordering permits, creating a directed acyclic graph (DAG).
 
 **Example:**
+
 ```yaml
 build_job:
   stage: build
@@ -321,9 +355,11 @@ deploy_job:
 ### Conditional Execution
 
 #### `rules`
+
 Determines job creation based on conditions. Replaces `only`/`except`.
 
 **Example:**
+
 ```yaml
 deploy_job:
   script:
@@ -347,9 +383,11 @@ test_job:
 ```
 
 #### `allow_failure`
+
 Permits job failure without stopping the pipeline.
 
 **Example:**
+
 ```yaml
 experimental_test:
   script:
@@ -367,9 +405,11 @@ integration_test:
 ### Environment & Deployment
 
 #### `environment`
+
 Specifies deployment target environment.
 
 **Sub-keywords:**
+
 - `name`: Environment name
 - `url`: Environment URL
 - `on_stop`: Job to stop environment
@@ -377,6 +417,7 @@ Specifies deployment target environment.
 - `action`: Deployment action (start, prepare, stop)
 
 **Example:**
+
 ```yaml
 deploy_staging:
   stage: deploy
@@ -411,9 +452,11 @@ stop_review:
 ### Container Configuration
 
 #### `image`
+
 Specifies Docker container image for job execution.
 
 **Example:**
+
 ```yaml
 test_job:
   image: node:18-alpine
@@ -428,9 +471,11 @@ secure_job:
 ```
 
 #### `services`
+
 Defines Docker service images (databases, cache servers, etc.).
 
 **Example:**
+
 ```yaml
 integration_test:
   image: node:18
@@ -450,9 +495,11 @@ integration_test:
 ### Resource Management
 
 #### `tags`
+
 Selects runners by labels.
 
 **Example:**
+
 ```yaml
 build_job:
   tags:
@@ -466,9 +513,11 @@ deploy_job:
 ```
 
 #### `timeout`
+
 Sets job-level timeout, overriding project settings.
 
 **Example:**
+
 ```yaml
 long_running_job:
   script:
@@ -477,9 +526,11 @@ long_running_job:
 ```
 
 #### `resource_group`
+
 Limits job concurrency within a resource group.
 
 **Example:**
+
 ```yaml
 deploy_production:
   script:
@@ -488,9 +539,11 @@ deploy_production:
 ```
 
 #### `parallel`
+
 Runs multiple job instances in parallel.
 
 **Example:**
+
 ```yaml
 test_job:
   script:
@@ -508,9 +561,11 @@ test_matrix:
 ```
 
 #### `interruptible`
+
 Allows job cancellation when made redundant by newer runs.
 
 **Example:**
+
 ```yaml
 test_job:
   script:
@@ -521,9 +576,11 @@ test_job:
 ### Advanced Features
 
 #### `extends`
+
 Inherits configuration from other jobs or templates.
 
 **Example:**
+
 ```yaml
 .default_retry:
   retry:
@@ -539,9 +596,11 @@ test_job:
 ```
 
 #### `retry`
+
 Auto-retry configuration on failure.
 
 **Example:**
+
 ```yaml
 test_job:
   script:
@@ -555,9 +614,11 @@ test_job:
 ```
 
 #### `coverage`
+
 Extracts code coverage metrics via regex.
 
 **Example:**
+
 ```yaml
 test_job:
   script:
@@ -566,9 +627,11 @@ test_job:
 ```
 
 #### `secrets`
+
 Specifies required CI/CD secrets from external providers.
 
 **Example:**
+
 ```yaml
 deploy_job:
   script:
@@ -582,9 +645,11 @@ deploy_job:
 ```
 
 #### `trigger`
+
 Defines downstream pipeline triggers.
 
 **Example:**
+
 ```yaml
 trigger_downstream:
   stage: deploy
@@ -594,9 +659,11 @@ trigger_downstream:
 ```
 
 #### `release`
+
 Generates release objects.
 
 **Example:**
+
 ```yaml
 release_job:
   stage: release
@@ -638,6 +705,7 @@ Common CI/CD variables available in all pipelines:
 ## Reserved Keywords
 
 The following keywords cannot be used as job names:
+
 - `image`
 - `services`
 - `stages`
@@ -654,6 +722,7 @@ The following keywords cannot be used as job names:
 ## Validation
 
 Use the GitLab CI Lint tool to validate your configuration:
+
 - Web UI: Navigate to Build > Pipeline editor > Validate tab
 - API: POST to `/api/v4/ci/lint`
 - VS Code: Use GitLab Workflow extension
