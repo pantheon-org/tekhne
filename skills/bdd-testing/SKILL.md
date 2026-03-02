@@ -26,6 +26,10 @@ Do not use BDD feature files for low-level unit behavior that is internal and no
 2. Write scenarios in Gherkin using Given/When/Then.
 3. Implement step definitions that map to business language.
 4. Execute Cucumber and review failures by scenario intent.
+   - **Validation checkpoint:** If scenarios fail due to incorrect business logic, loop back to step 2 to clarify requirements.
+   - **Validation checkpoint:** If scenarios fail due to step definition errors or missing steps, loop back to step 3 to fix implementation.
+   - **Error recovery:** Run `npx cucumber-js --dry-run` to identify missing step definitions before full execution.
+   - **Error recovery:** For async timing issues, verify step definitions properly await promises.
 5. Refactor scenarios and steps to remove duplication.
 
 ## Quick Commands
@@ -61,6 +65,22 @@ npx cucumber-js --format json:reports/cucumber-report.json
 ```
 
 Expected result: machine-readable execution report for CI/reporting.
+
+### Troubleshoot common Cucumber failures
+
+**Step definition mismatch:**
+
+```bash
+npx cucumber-js --dry-run features
+```
+
+Expected result: lists undefined steps that need implementation or have mismatched patterns.
+
+**Async timing issues:**
+
+Check that step definitions return or await promises. Steps that don't wait for async operations will complete before actions finish.
+
+**Pattern:** Ensure `async` functions use `await` for all asynchronous calls.
 
 ### Evaluate this skill quality
 
