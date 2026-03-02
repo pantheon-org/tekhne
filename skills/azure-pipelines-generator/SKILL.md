@@ -22,9 +22,9 @@ Create simple continuous integration pipelines for building and testing applicat
 **Process:**
 1. Understand the user's requirements (language, framework, testing needs)
 2. Identify triggers, pool/agent requirements, and build steps
-3. Reference `docs/yaml-schema.md` for YAML structure
-4. Reference `docs/best-practices.md` for implementation patterns
-5. Reference `docs/tasks-reference.md` for common tasks
+3. Reference `references/yaml-schema.md` for YAML structure
+4. Reference `references/best-practices.md` for implementation patterns
+5. Reference `references/tasks-reference.md` for common tasks
 6. Generate the pipeline following these principles:
    - Use specific vmImage versions (not 'latest')
    - Pin task versions to major versions (e.g., `@2`)
@@ -90,8 +90,8 @@ Create complex pipelines with multiple stages for build, test, and deployment.
 1. Identify all stages needed (Build, Test, Deploy)
 2. Determine stage dependencies and conditions
 3. Plan deployment strategies and environments
-4. Use `docs/yaml-schema.md` for stage/job/step hierarchy
-5. Reference `examples/multi-stage-cicd.yml` for patterns
+4. Use `references/yaml-schema.md` for stage/job/step hierarchy
+5. Reference `assets/examples/multi-stage-cicd.yml` for patterns
 6. Generate pipeline with:
    - Clear stage organization
    - Proper `dependsOn` relationships
@@ -152,8 +152,8 @@ Create pipelines for building and pushing Docker images to container registries.
 1. Identify Docker registry (ACR, Docker Hub, etc.)
 2. Determine image naming and tagging strategy
 3. Plan for security scanning if needed
-4. Reference `docs/tasks-reference.md` for Docker@2 task
-5. Reference `examples/kubernetes-deploy.yml` for Docker build patterns
+4. Reference `references/tasks-reference.md` for Docker@2 task
+5. Reference `assets/examples/kubernetes-deploy.yml` for Docker build patterns
 6. Generate pipeline with:
    - Docker@2 task for build and push
    - Service connection for registry authentication
@@ -194,8 +194,8 @@ Create pipelines that deploy applications to Kubernetes clusters.
 1. Identify Kubernetes deployment method (kubectl, Helm, manifests)
 2. Determine cluster connection details
 3. Plan namespace and environment strategy
-4. Reference `docs/tasks-reference.md` for Kubernetes tasks
-5. Reference `examples/kubernetes-deploy.yml` for patterns
+4. Reference `references/tasks-reference.md` for Kubernetes tasks
+5. Reference `assets/examples/kubernetes-deploy.yml` for patterns
 6. Generate pipeline with:
    - KubernetesManifest@0 or Kubernetes@1 tasks
    - Service connection for cluster authentication
@@ -232,7 +232,7 @@ Create pipelines optimized for specific programming languages and frameworks.
 
 **Process:**
 1. Identify the programming language and framework
-2. Reference `docs/tasks-reference.md` for language-specific tasks
+2. Reference `references/tasks-reference.md` for language-specific tasks
 3. Reference language-specific examples (dotnet-cicd.yml, python-cicd.yml, go-cicd.yml)
 4. Generate pipeline with:
    - Language/runtime setup tasks
@@ -300,7 +300,7 @@ steps:
   displayName: 'Run tests'
 ```
 
-**Reference:** See `examples/go-cicd.yml` for a complete Go CI/CD pipeline example.
+**Reference:** See `assets/examples/go-cicd.yml` for a complete Go CI/CD pipeline example.
 
 ### 6. Generate Template-Based Pipelines
 
@@ -313,8 +313,8 @@ Create reusable templates and pipelines that use them.
 **Process:**
 1. Identify common patterns to extract
 2. Design template parameters
-3. Reference `docs/templates-guide.md` for template syntax
-4. Reference `examples/templates/` for template patterns
+3. Reference `references/templates-guide.md` for template syntax
+4. Reference `assets/examples/templates/` for template patterns
 5. Generate templates with:
    - Clear parameter definitions with types and defaults
    - Documentation comments
@@ -358,9 +358,9 @@ When generating pipelines that use specific Azure Pipelines tasks or require lat
 
 1. **ALWAYS check local documentation first (REQUIRED):**
    Local docs are sufficient for most common tasks and should be your primary reference:
-   - `docs/tasks-reference.md` - Contains .NET, Node.js, Python, Go, Docker, Kubernetes, Azure tasks
-   - `docs/yaml-schema.md` - Complete YAML syntax reference
-   - `docs/best-practices.md` - Security, performance, naming patterns
+   - `references/tasks-reference.md` - Contains .NET, Node.js, Python, Go, Docker, Kubernetes, Azure tasks
+   - `references/yaml-schema.md` - Complete YAML syntax reference
+   - `references/best-practices.md` - Security, performance, naming patterns
 
    **Most pipelines can be generated using only local docs.** External lookup is only needed for:
    - Tasks not documented locally (rare Azure services, third-party marketplace tasks)
@@ -369,10 +369,10 @@ When generating pipelines that use specific Azure Pipelines tasks or require lat
 
 2. **Read relevant example files (RECOMMENDED):**
    Before generating, read the example file(s) that match the user's request:
-   - Go pipeline? → Read `examples/go-cicd.yml`
-   - Docker/K8s? → Read `examples/kubernetes-deploy.yml`
-   - Multi-stage? → Read `examples/multi-stage-cicd.yml`
-   - Templates? → Read `examples/template-usage.yml`
+   - Go pipeline? → Read `assets/examples/go-cicd.yml`
+   - Docker/K8s? → Read `assets/examples/kubernetes-deploy.yml`
+   - Multi-stage? → Read `assets/examples/multi-stage-cicd.yml`
+   - Templates? → Read `assets/examples/template-usage.yml`
 
    This ensures consistent patterns and best practices.
 
@@ -481,7 +481,7 @@ Only skip validation when:
 
 ## Best Practices to Enforce
 
-Reference `docs/best-practices.md` for comprehensive guidelines. Key principles:
+Reference `references/best-practices.md` for comprehensive guidelines. Key principles:
 
 ### Mandatory Standards
 
@@ -537,25 +537,25 @@ Reference `docs/best-practices.md` for comprehensive guidelines. Key principles:
 
 ### Documentation (Load as Needed)
 
-- `docs/yaml-schema.md` - Complete Azure Pipelines YAML syntax reference
+- `references/yaml-schema.md` - Complete Azure Pipelines YAML syntax reference
   - Pipeline structure, stages, jobs, steps
   - Triggers, pools, variables, parameters
   - Conditions and expressions
   - **Use this:** For YAML syntax and structure
 
-- `docs/tasks-reference.md` - Common Azure Pipelines tasks catalog
+- `references/tasks-reference.md` - Common Azure Pipelines tasks catalog
   - .NET, Node.js, Python, Docker, Kubernetes tasks
   - Task inputs, outputs, and examples
   - Service connection requirements
   - **Use this:** When selecting which task to use
 
-- `docs/best-practices.md` - Azure Pipelines best practices
+- `references/best-practices.md` - Azure Pipelines best practices
   - Security patterns, performance optimization
   - Pipeline design, error handling
   - Common patterns and anti-patterns
   - **Use this:** When implementing any pipeline
 
-- `docs/templates-guide.md` - Templates and reusability guide
+- `references/templates-guide.md` - Templates and reusability guide
   - Template types (step, job, stage, variable)
   - Parameter definitions and usage
   - Template expressions and iteration
@@ -567,21 +567,21 @@ Reference `docs/best-practices.md` for comprehensive guidelines. Key principles:
 
 | Example File | When to Read |
 |-------------|--------------|
-| `examples/basic-ci.yml` | Simple CI pipelines, single-stage builds |
-| `examples/multi-stage-cicd.yml` | Multi-environment deployments, complex workflows |
-| `examples/kubernetes-deploy.yml` | Docker + K8s deployments, container builds |
-| `examples/go-cicd.yml` | Go/Golang applications |
-| `examples/dotnet-cicd.yml` | .NET/C# applications |
-| `examples/python-cicd.yml` | Python applications |
-| `examples/template-usage.yml` | Template-based pipelines |
-| `examples/templates/build-template.yml` | Creating reusable build templates |
-| `examples/templates/deploy-template.yml` | Creating reusable deployment templates |
+| `assets/examples/basic-ci.yml` | Simple CI pipelines, single-stage builds |
+| `assets/examples/multi-stage-cicd.yml` | Multi-environment deployments, complex workflows |
+| `assets/examples/kubernetes-deploy.yml` | Docker + K8s deployments, container builds |
+| `assets/examples/go-cicd.yml` | Go/Golang applications |
+| `assets/examples/dotnet-cicd.yml` | .NET/C# applications |
+| `assets/examples/python-cicd.yml` | Python applications |
+| `assets/examples/template-usage.yml` | Template-based pipelines |
+| `assets/examples/templates/build-template.yml` | Creating reusable build templates |
+| `assets/examples/templates/deploy-template.yml` | Creating reusable deployment templates |
 
 **Example reading workflow:**
 ```
 1. User requests: "Create a Go CI/CD pipeline with Docker"
-2. Read: examples/go-cicd.yml (for Go patterns)
-3. Read: examples/kubernetes-deploy.yml (for Docker/K8s patterns)
+2. Read: assets/examples/go-cicd.yml (for Go patterns)
+3. Read: assets/examples/kubernetes-deploy.yml (for Docker/K8s patterns)
 4. Generate pipeline combining both patterns
 5. Validate with devops-skills:azure-pipelines-validator skill
 ```
@@ -600,10 +600,10 @@ Reference `docs/best-practices.md` for comprehensive guidelines. Key principles:
    - Multiple environments (staging, production)
 
 2. ✅ Reference resources:
-   - Check `docs/yaml-schema.md` for multi-stage structure
-   - Check `docs/tasks-reference.md` for NodeTool, Docker, Kubernetes tasks
-   - Check `docs/best-practices.md` for pipeline patterns
-   - Review `examples/multi-stage-cicd.yml` and `examples/kubernetes-deploy.yml`
+   - Check `references/yaml-schema.md` for multi-stage structure
+   - Check `references/tasks-reference.md` for NodeTool, Docker, Kubernetes tasks
+   - Check `references/best-practices.md` for pipeline patterns
+   - Review `assets/examples/multi-stage-cicd.yml` and `assets/examples/kubernetes-deploy.yml`
 
 3. ✅ Search for latest task documentation:
    - WebSearch: "Docker@2 Azure Pipelines task"
@@ -638,6 +638,7 @@ Reference `docs/best-practices.md` for comprehensive guidelines. Key principles:
 ## Common Pipeline Patterns
 
 ### Basic Three-Stage Pattern
+
 ```yaml
 stages:
 - stage: Build
@@ -666,6 +667,7 @@ stages:
 ```
 
 ### Matrix Testing Pattern
+
 ```yaml
 strategy:
   matrix:
@@ -685,6 +687,7 @@ steps:
 ```
 
 ### Conditional Deployment Pattern
+
 ```yaml
 - stage: DeployProd
   condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
@@ -700,7 +703,7 @@ steps:
 
 ## Error Messages and Troubleshooting
 
-### If devops-skills:azure-pipelines-validator reports errors:
+### If devops-skills:azure-pipelines-validator reports errors
 
 1. **Syntax errors:** Fix YAML formatting, indentation, or structure
 2. **Task version errors:** Ensure tasks use proper version format (TaskName@version)
@@ -708,11 +711,11 @@ steps:
 4. **Stage/Job errors:** Verify stages contain jobs, jobs contain steps
 5. **Security warnings:** Address hardcoded secrets, :latest tags
 
-### If documentation for specific task is not found:
+### If documentation for specific task is not found
 
 1. Try alternative search queries
-2. Check Microsoft Learn directly: https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/
-3. Check GitHub: https://github.com/microsoft/azure-pipelines-tasks
+2. Check Microsoft Learn directly: <https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/>
+3. Check GitHub: <https://github.com/microsoft/azure-pipelines-tasks>
 4. Ask user if they have specific task version requirements
 
 ## Summary
@@ -720,7 +723,7 @@ steps:
 Always follow this sequence when generating Azure Pipelines:
 
 1. **Understand** - Clarify user requirements, language, deployment targets
-2. **Reference** - Check docs/yaml-schema.md, tasks-reference.md, best-practices.md
+2. **Reference** - Check references/yaml-schema.md, tasks-reference.md, best-practices.md
 3. **Search** - For specific tasks, use WebSearch or Context7 for current docs
 4. **Generate** - Follow standards (pinning, caching, naming, stages)
 5. **Validate** - ALWAYS use devops-skills:azure-pipelines-validator skill

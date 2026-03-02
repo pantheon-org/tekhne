@@ -52,10 +52,10 @@ The following steps are **REQUIRED** for every script generation. Skipping these
 **Before writing code**, explain to the user:
 
 1. **Script Architecture**: What components and functions you'll create
-2. **Tool Selection**: Why you're choosing grep/awk/sed/etc. for specific tasks
-   - Reference: `docs/text-processing-guide.md` for tool selection rationale
-3. **Key Design Decisions**: Any tradeoffs or assumptions you're making
-4. **Customization Points**: What the user might want to modify
+1. **Tool Selection**: Why you're choosing grep/awk/sed/etc. for specific tasks
+   - Reference: `references/text-processing-guide.md` for tool selection rationale
+1. **Key Design Decisions**: Any tradeoffs or assumptions you're making
+1. **Customization Points**: What the user might want to modify
 
 **Example pre-generation explanation:**
 ```
@@ -69,7 +69,7 @@ I'll create a log analyzer with these components:
 
 **Tool Selection:**
 - awk for status code analysis (single-pass counting, as recommended in
-  docs/text-processing-guide.md)
+  references/text-processing-guide.md)
 - grep for date filtering (simple pattern matching)
 - sort | uniq -c for frequency counting
 
@@ -115,18 +115,18 @@ Gather information about what the script needs to do:
    - What tasks does it automate?
    - Who will use it (developers, ops, cron, CI/CD)?
 
-2. **Functionality requirements:**
+1. **Functionality requirements:**
    - Input sources (files, stdin, arguments, APIs)
    - Processing steps (text manipulation, system operations, etc.)
    - Output destinations (stdout, files, logs, APIs)
    - Expected data formats
 
-3. **Shell type:**
+1. **Shell type:**
    - Bash-specific (modern systems, can use arrays, associative arrays, etc.)
    - POSIX sh (maximum portability, limited features)
    - Default to bash unless portability is explicitly required
 
-4. **Argument parsing:**
+1. **Argument parsing:**
    - Command-line options needed
    - Required vs optional arguments
    - Help/usage text requirements
@@ -158,7 +158,7 @@ Plan the script structure based on requirements:
    - Logging strategy
    - Error handling approach
 
-2. **Select appropriate tools:**
+1. **Select appropriate tools:**
    - **grep** for pattern matching and filtering
    - **awk** for structured text processing (CSV, logs, columnar data)
    - **sed** for stream editing and substitution
@@ -166,12 +166,12 @@ Plan the script structure based on requirements:
    - **curl/wget** for HTTP operations
    - Built-in bash features when possible
 
-3. **Plan error handling:**
+1. **Plan error handling:**
    - Use `set -euo pipefail` for strict mode (recommended)
    - Define error handling functions
    - Plan cleanup procedures (trap for EXIT, ERR signals)
 
-4. **Plan logging:**
+1. **Plan logging:**
    - Log levels needed (DEBUG, INFO, WARN, ERROR)
    - Output destinations (stderr for logs, stdout for data)
    - Log formatting
@@ -191,7 +191,8 @@ Create the basic script structure:
 #
 ```
 
-2. **Strict mode (recommended for all scripts):**
+1. **Strict mode (recommended for all scripts):**
+
 ```bash
 set -euo pipefail
 IFS=$'\n\t'
@@ -203,7 +204,8 @@ Explanation:
 - `set -o pipefail`: Exit if any command in pipeline fails
 - `IFS`: Set safe Internal Field Separator
 
-3. **Script-level variables and constants:**
+1. **Script-level variables and constants:**
+
 ```bash
 # Script directory and name
 readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -214,7 +216,8 @@ readonly DEFAULT_CONFIG_FILE="${SCRIPT_DIR}/config.conf"
 readonly LOG_FILE="/var/log/myscript.log"
 ```
 
-4. **Signal handlers for cleanup:**
+1. **Signal handlers for cleanup:**
+
 ```bash
 # Cleanup function
 cleanup() {
@@ -361,13 +364,13 @@ Implement the core functionality based on requirements:
    - **awk**: Field extraction, calculations, formatted output
    - **sed**: Stream editing, substitutions, deletions
 
-2. **For system administration**, include:
+1. **For system administration**, include:
    - Validation of prerequisites
    - Backup procedures
    - Rollback capabilities
    - Progress indicators
 
-3. **For API clients**, include:
+1. **For API clients**, include:
    - HTTP error handling
    - Retry logic
    - Authentication handling
@@ -426,8 +429,8 @@ function_name() {
 }
 ```
 
-2. **Inline comments** for complex logic
-3. **Usage examples** in the header or usage function
+1. **Inline comments** for complex logic
+1. **Usage examples** in the header or usage function
 
 ### Stage 8: Validate Generated Script
 
@@ -458,7 +461,8 @@ If validation fails, fix issues and re-validate until all checks pass.
 
 Choose the right tool for the job:
 
-### Use grep when:
+
+### Use grep when
 - Searching for patterns in files
 - Filtering lines that match/don't match patterns
 - Counting matches
@@ -479,7 +483,8 @@ grep -in "warning" *.log
 grep -E "(error|fail|critical)" app.log
 ```
 
-### Use awk when:
+
+### Use awk when
 - Processing structured data (CSV, TSV, logs with fields)
 - Performing calculations on data
 - Extracting specific fields
@@ -504,7 +509,8 @@ awk '$3 > 100 {print $1, $3}' data.txt
 awk '{printf "Name: %-20s Age: %d\n", $1, $2}' people.txt
 ```
 
-### Use sed when:
+
+### Use sed when
 - Performing substitutions
 - Deleting lines matching patterns
 - In-place file editing
@@ -532,7 +538,7 @@ sed '/ERROR/s/old/new/g' log.txt
 sed -e 's/foo/bar/g' -e 's/baz/qux/g' file.txt
 ```
 
-### Combining tools in pipelines:
+### Combining tools in pipelines
 
 ```bash
 # grep to filter, awk to extract
@@ -563,7 +569,7 @@ rm $file
 grep $pattern $input_file
 ```
 
-2. **Validate all inputs:**
+1. **Validate all inputs:**
 ```bash
 # Validate file paths
 [[ "${input_file}" =~ ^[a-zA-Z0-9/_.-]+$ ]] || die "Invalid file path"
@@ -572,7 +578,7 @@ grep $pattern $input_file
 [[ "${count}" =~ ^[0-9]+$ ]] || die "Count must be numeric"
 ```
 
-3. **Avoid eval with user input:**
+1. **Avoid eval with user input:**
 ```bash
 # Never do this
 eval "${user_input}"
@@ -585,7 +591,7 @@ case "${command}" in
 esac
 ```
 
-4. **Use $() instead of backticks:**
+1. **Use $() instead of backticks:**
 ```bash
 # Good - more readable, can nest
 result=$(command)
@@ -606,7 +612,7 @@ if [[ -f "${file}" ]]; then
 if [ -f "${file}" ]; then
 ```
 
-2. **Avoid useless use of cat (UUOC):**
+1. **Avoid useless use of cat (UUOC):**
 ```bash
 # Good
 grep "pattern" file.txt
@@ -617,7 +623,7 @@ cat file.txt | grep "pattern"
 cat file.txt | awk '{print $1}'
 ```
 
-3. **Process in a single pass when possible:**
+1. **Process in a single pass when possible:**
 ```bash
 # Good - single awk call
 awk '/ERROR/ {errors++} /WARN/ {warns++} END {print errors, warns}' log.txt
@@ -630,9 +636,9 @@ warns=$(grep -c "WARN" log.txt)
 ### Maintainability
 
 1. **Use functions for reusable code**
-2. **Keep functions focused (single responsibility)**
-3. **Use meaningful variable names**
-4. **Add comments for complex logic**
+1. **Keep functions focused (single responsibility)**
+1. **Use meaningful variable names**
+1. **Add comments for complex logic**
 5. **Group related functionality**
 6. **Use readonly for constants**
 
@@ -653,7 +659,7 @@ if [[ -f "${file}" ]]; then
 if [ -f "${file}" ]; then
 ```
 
-2. **Test with sh:**
+1. **Test with sh:**
 ```bash
 sh -n script.sh  # Syntax check
 ```
@@ -804,7 +810,8 @@ The script will copy the standard template and make it executable. You can then 
 
 ### Core Bash Scripting
 
-#### docs/bash-scripting-guide.md
+#### references/bash-scripting-guide.md
+
 - Comprehensive bash scripting guide
 - Bash vs POSIX sh differences
 - Strict mode and error handling strategies
@@ -814,7 +821,8 @@ The script will copy the standard template and make it executable. You can then 
 - Process substitution and command substitution
 - Best practices and modern patterns
 
-#### docs/script-patterns.md
+#### references/script-patterns.md
+
 - Common bash script patterns and templates
 - Argument parsing patterns (getopts, manual)
 - Configuration file handling
@@ -824,7 +832,8 @@ The script will copy the standard template and make it executable. You can then 
 - Signal handling and cleanup
 - Retry logic and backoff strategies
 
-#### docs/generation-best-practices.md
+#### references/generation-best-practices.md
+
 - Guidelines for generating quality scripts
 - Code organization principles
 - Naming conventions
@@ -836,7 +845,8 @@ The script will copy the standard template and make it executable. You can then 
 
 ### Text Processing Tools
 
-#### docs/text-processing-guide.md
+#### references/text-processing-guide.md
+
 - When to use grep vs awk vs sed
 - Combining tools effectively in pipelines
 - Performance optimization for large files
@@ -915,17 +925,17 @@ This ensures all generated scripts:
 **You MUST explicitly cite documentation** when using patterns or making tool selections. This helps users understand the rationale and learn best practices.
 
 1. **In the approach explanation**, cite documentation for:
-   - Tool selection rationale: "Using awk for field extraction (recommended in `docs/text-processing-guide.md` for structured data)"
-   - Pattern choices: "Using getopts pattern from `docs/script-patterns.md`"
-   - Best practices: "Following strict mode guidelines from `docs/bash-scripting-guide.md`"
+   - Tool selection rationale: "Using awk for field extraction (recommended in `references/text-processing-guide.md` for structured data)"
+   - Pattern choices: "Using getopts pattern from `references/script-patterns.md`"
+   - Best practices: "Following strict mode guidelines from `references/bash-scripting-guide.md`"
 
-2. **In generated code comments**, reference documentation:
+1. **In generated code comments**, reference documentation:
    ```bash
-   # Using single-pass awk processing (per docs/text-processing-guide.md)
+   # Using single-pass awk processing (per references/text-processing-guide.md)
    awk '{ip[$1]++} END {for (i in ip) print ip[i], i}' "${log_file}"
    ```
 
-3. **Minimum citation requirement**: At least 2 documentation references must appear in:
+1. **Minimum citation requirement**: At least 2 documentation references must appear in:
    - The approach explanation (before code generation)
    - The Post-Generation Summary
 
@@ -964,8 +974,8 @@ Provide a **Post-Generation Summary** that includes:
 **Validation Status:** ✅ Passed ShellCheck / ❌ Issues found (fixing...)
 
 **Documentation References:**
-- docs/text-processing-guide.md (tool selection)
-- docs/script-patterns.md (argument parsing)
+- references/text-processing-guide.md (tool selection)
+- references/script-patterns.md (argument parsing)
 ```
 
 This summary ensures users understand what was generated and how to use it.
@@ -986,7 +996,7 @@ This summary ensures users understand what was generated and how to use it.
 - [Minimal Safe Bash Script Template](https://betterdev.blog/minimal-safe-bash-script-template/)
 
 ### Internal References
-All documentation is included in the `docs/` directory for offline reference and context loading.
+All documentation is included in the `references/` directory for offline reference and context loading.
 
 ---
 

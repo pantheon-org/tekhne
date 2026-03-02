@@ -64,7 +64,7 @@ variables:
 
 Use the principle of least privilege for service connections and agent pools.
 
-##  Performance Optimization
+## Performance Optimization
 
 ### 1. Use Caching
 
