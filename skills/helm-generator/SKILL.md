@@ -1,6 +1,6 @@
 ---
 name: helm-generator
-description: Comprehensive toolkit for generating best practice Helm charts and resources following current standards and conventions. Use this skill when creating new Helm charts, implementing Helm templates, or building Helm projects from scratch.
+description: Comprehensive toolkit for generating best practice Helm charts and resources following current standards and conventions. Use this skill when creating new Helm charts, implementing Helm templates, scaffolding Chart.yaml and values.yaml, defining deployment templates, service definitions, ingress configurations, .tpl helpers, or building Helm projects from scratch. Trigger phrases include "create", "generate", "build", "scaffold" alongside terms like "kubernetes helm", "k8s charts", "helm package", "chart dependencies", "values.yaml", or "helm install".
 ---
 
 # Helm Chart Generator
@@ -10,31 +10,15 @@ description: Comprehensive toolkit for generating best practice Helm charts and 
 Generate production-ready Helm charts with best practices built-in. Create complete charts or individual resources with standard helpers, proper templating, and automatic validation.
 
 **Official Documentation:**
-- [Helm Docs](https://helm.sh/docs/) - Main documentation
-- [Chart Best Practices](https://helm.sh/docs/chart_best_practices/) - Official best practices guide
-- [Template Functions](https://helm.sh/docs/chart_template_guide/function_list/) - Built-in functions
-- [Sprig Functions](http://masterminds.github.io/sprig/) - Extended function library
+- [Helm Docs](https://helm.sh/docs/) | [Chart Best Practices](https://helm.sh/docs/chart_best_practices/) | [Template Functions](https://helm.sh/docs/chart_template_guide/function_list/) | [Sprig Functions](http://masterminds.github.io/sprig/)
 
 ## When to Use This Skill
 
-| Use helm-generator | Use OTHER skill |
-|-------------------|-----------------|
-| Create new Helm charts | **devops-skills:helm-validator**: Validate/lint existing charts |
-| Generate Helm templates | **k8s-generator**: Raw K8s YAML (no Helm) |
-| Convert K8s manifests to Helm | **k8s-debug**: Debug deployed resources |
-| Implement CRDs in Helm | **k8s-yaml-validator**: Validate K8s manifests |
-
-**Trigger phrases:** "create", "generate", "build", "scaffold" Helm charts/templates
+Use for creating/generating Helm charts and templates. For validation/linting of existing charts use **devops-skills:helm-validator**; for raw K8s YAML (no Helm) use **k8s-generator**.
 
 ## Chart Generation Workflow
 
 ### Stage 1: Understand Requirements
-
-Gather information about:
-- **Scope**: Full chart, specific resources, or manifest conversion
-- **Application**: Name, image, ports, env vars, resources, scaling, storage
-- **CRDs/Operators**: cert-manager, Prometheus Operator, Istio, etc.
-- **Security**: RBAC, security contexts, network policies
 
 **REQUIRED: Use `AskUserQuestion`** if any of these are missing or ambiguous:
 
@@ -87,31 +71,12 @@ bash scripts/generate_chart_structure.sh <chart-name> <output-directory> [option
 - The script uses `http` as the default port name in templates. **Customize port names** for non-HTTP services (e.g., `redis`, `mysql`, `grpc`)
 - Templates include checksum annotations for ConfigMap/Secret changes (conditionally enabled via `.Values.configMap.enabled` and `.Values.secret.enabled`)
 
-**Standard structure:**
-```
-mychart/
-  Chart.yaml           # Chart metadata (apiVersion: v2)
-  values.yaml          # Default configuration
-  values.schema.json   # Optional: JSON Schema validation
-  templates/
-    _helpers.tpl       # Standard helpers (ALWAYS create)
-    NOTES.txt          # Post-install notes
-    deployment.yaml    # Workloads
-    service.yaml       # Services
-    ingress.yaml       # Ingress (conditional)
-    configmap.yaml     # ConfigMaps
-    serviceaccount.yaml # RBAC
-  .helmignore          # Ignore patterns
-```
-
 ### Stage 4: Generate Standard Helpers
 
 Use the helpers script or `assets/_helpers-template.tpl`:
 ```bash
 bash scripts/generate_standard_helpers.sh <chart-name> <chart-directory>
 ```
-
-**Required helpers:** `name`, `fullname`, `chart`, `labels`, `selectorLabels`, `serviceAccountName`
 
 ### Stage 5: Generate Templates
 
