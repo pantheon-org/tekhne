@@ -48,35 +48,28 @@ stage('Deploy') {
 ### 1. Declarative Pipelines (RECOMMENDED)
 
 **Process:**
-1. **Read templates for structure reference:**
-   - Read `assets/templates/declarative/basic.Jenkinsfile` to understand the standard structure
-   - Templates show the expected sections: pipeline → agent → environment → options → parameters → stages → post
-   - For complex requests, adapt the structure rather than copying verbatim
-2. **Consult reference documentation:**
-   - Read `references/best_practices.md` for performance, security, and reliability patterns
-   - Read `references/common_plugins.md` for plugin-specific syntax
-3. **Generate with required elements:**
-   - Proper stages with descriptive names
+1. Consult `assets/templates/declarative/basic.Jenkinsfile` and `references/best_practices.md`
+2. Generate with required elements:
+   - Stages with descriptive names
    - Environment block with credentials binding (never hardcode secrets)
    - Options: timeout, buildDiscarder, timestamps, disableConcurrentBuilds
    - Post conditions: always (cleanup), success (artifacts), failure (notifications)
-   - **Always add `parallelsAlwaysFailFast()` in options for any pipeline with parallel blocks** (see [Parallel & Matrix](#parallel--matrix))
+   - **Always add `parallelsAlwaysFailFast()` in options when using parallel blocks**
    - **Always include `fingerprint: true` when using `archiveArtifacts`**
-4. **ALWAYS validate** using devops-skills:jenkinsfile-validator skill
+3. **ALWAYS validate** using devops-skills:jenkinsfile-validator skill
 
 ### 2. Scripted Pipelines
 
-**When:** Complex conditional logic, dynamic generation, full Groovy control
+Use for complex conditional logic, dynamic generation, or full Groovy control.
+
 **Process:**
-1. **Read templates for structure reference:**
-   - Read `assets/templates/scripted/basic.Jenkinsfile` for node/stage patterns
-   - Understand try-catch-finally structure for error handling
+1. Consult `assets/templates/scripted/basic.Jenkinsfile`
 2. Implement try-catch-finally for error handling
 3. **ALWAYS validate** using devops-skills:jenkinsfile-validator skill
 
 ### 3. Parallel/Matrix Pipelines
 
-Use `parallel {}` block or `matrix {}` with `axes {}` for multi-dimensional builds. See [Parallel & Matrix](#parallel--matrix) for full guidance including `failFast` configuration.
+Use `parallel {}` or `matrix {}` with `axes {}` for multi-dimensional builds. See [Parallel & Matrix](#parallel--matrix) for `failFast` configuration.
 
 ### 4. Security Scanning (DevSecOps)
 
@@ -166,14 +159,14 @@ post {
 ```
 **Order:** always → changed → fixed → regression → failure → success → unstable → cleanup
 
-**NOTE:** Always use `fingerprint: true` with `archiveArtifacts` for build traceability and artifact tracking.
+Always use `fingerprint: true` with `archiveArtifacts` for build traceability.
 
 ### Parallel & Matrix
 
-**IMPORTANT:** Always add `parallelsAlwaysFailFast()` to the pipeline `options {}` block — it covers all parallel/matrix blocks automatically and is preferred over per-block `failFast true`. Only use the per-block alternative when `options`-level configuration is not applicable:
+**Always add `parallelsAlwaysFailFast()` to pipeline `options {}` block** — covers all parallel/matrix blocks automatically. Use per-block `failFast true` only when options-level is not set:
 
 ```groovy
-// Per-block alternative (only when options-level is not set)
+// Per-block alternative (when options-level not set)
 stage('Tests') {
     failFast true
     parallel {
@@ -204,7 +197,7 @@ stage('Deploy') {
     steps { sh './deploy.sh' }
 }
 ```
-**IMPORTANT:** Place `input` outside steps to avoid holding agents.
+Place `input` outside steps to avoid holding agents.
 
 ## Scripted Syntax Reference
 
@@ -232,7 +225,7 @@ withEnv(['VERSION=1.0.0']) { sh 'echo $VERSION' }
 withCredentials([string(credentialsId: 'key', variable: 'KEY')]) { sh 'curl -H "Auth: $KEY" ...' }
 ```
 
-### NonCPS Annotation for Non-Serializable Operations
+### NonCPS Annotation
 
 ```groovy
 @NonCPS
@@ -241,7 +234,7 @@ def parseJson(String json) {
 }
 ```
 
-**Rules:** No pipeline steps (`sh`, `echo`) inside `@NonCPS`. Use for JsonSlurper, iterators, regex Matchers.
+Required for non-serializable operations (JsonSlurper, iterators, regex Matchers). No pipeline steps inside.
 
 ## Docker & Kubernetes
 
@@ -292,19 +285,16 @@ log.info 'Starting build'
 
 ## Validation Workflow
 
-**CRITICAL: ALWAYS validate using devops-skills:jenkinsfile-validator skill:**
+**ALWAYS validate using devops-skills:jenkinsfile-validator skill:**
 
 1. Generate Jenkinsfile
 2. Invoke `devops-skills:jenkinsfile-validator` skill
 3. **Handle validation results by severity:**
-   - **ERRORS:** MUST fix before presenting to user - these break the pipeline
-   - **WARNINGS:** SHOULD fix - these indicate potential issues
-   - **INFO/SUGGESTIONS:** Consider applying based on use case:
-     - `failFast true` for parallel blocks → apply by default
-     - Build triggers → ask user if they want automated builds
-     - Other optimizations → apply if they improve the pipeline
+   - **ERRORS:** Must fix - these break the pipeline
+   - **WARNINGS:** Should fix - indicate potential issues
+   - **INFO:** Apply optimizations based on use case (failFast, build triggers, etc.)
 4. Re-validate after fixes
-5. Only present validated Jenkinsfiles to user
+5. Present validated Jenkinsfile to user
 
 **Validation commands:**
 ```bash
@@ -317,7 +307,7 @@ bash scripts/validate_jenkinsfile.sh --syntax-only Jenkinsfile
 
 ## Generator Scripts
 
-Use scripts for simple, standard pipelines (basic CI/CD, common patterns). Use manual generation for complex pipelines with multiple features, custom logic, or non-standard requirements.
+Use for simple, standard pipelines. Use manual generation for complex pipelines with custom logic or non-standard requirements.
 
 ```bash
 # Declarative (simple pipelines)
@@ -332,22 +322,16 @@ python3 scripts/generate_shared_library.py --name my-library --package com.examp
 
 ## Plugin Documentation Lookup
 
-**Always consult Context7 or WebSearch for:**
-- Plugins NOT covered in `references/common_plugins.md`
-- Version-specific documentation requests
-- Complex plugin configurations or advanced options
-- When user explicitly asks for latest documentation
+**Always consult external docs for:**
+- Plugins NOT in `references/common_plugins.md`
+- Version-specific documentation
+- Complex configurations or advanced options
 
-**May skip external lookup when:**
-- Using basic plugin syntax already documented in `references/common_plugins.md`
-- Simple, well-documented plugin steps (e.g., basic `sh`, `checkout scm`, `junit`)
+**Skip external lookup when:**
+- Using basic syntax from `references/common_plugins.md`
+- Simple, well-documented steps (e.g., `sh`, `checkout scm`, `junit`)
 
-**Plugins covered in common_plugins.md:** Git, Docker, Kubernetes, Credentials, JUnit, Slack, SonarQube, OWASP Dependency-Check, Email, AWS, Azure, HTTP Request, Microsoft Teams, Nexus, Artifactory, GitHub
-
-**Lookup methods (in order of preference):**
-1. **Context7:** `mcp__context7__resolve-library-id` with `/jenkinsci/<plugin-name>-plugin`
-2. **WebSearch:** `Jenkins [plugin-name] plugin documentation 2025`
-3. **Official:** plugins.jenkins.io, jenkins.io/doc/pipeline/steps/
+**Covered plugins:** Git, Docker, Kubernetes, Credentials, JUnit, Slack, SonarQube, OWASP Dependency-Check, Email, AWS, Azure, HTTP Request, Microsoft Teams, Nexus, Artifactory, GitHub
 
 ## References
 
