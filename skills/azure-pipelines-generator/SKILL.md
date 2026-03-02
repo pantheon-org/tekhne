@@ -13,13 +13,7 @@ Generate production-ready Azure DevOps Pipeline configurations following current
 
 ### 1. Basic CI Pipelines
 
-**Triggers:** "Create an Azure Pipeline for...", "Build a CI pipeline...", "Generate azure-pipelines.yml..."
-
-**Process:**
-1. Clarify language, framework, and testing needs
-2. Read `references/yaml-schema.md`, `references/best-practices.md`, `references/tasks-reference.md`
-3. Read `assets/examples/basic-ci.yml` for patterns
-4. Generate following mandatory standards (see **Best Practices** below)
+Read `references/yaml-schema.md`, `references/best-practices.md`, `references/tasks-reference.md`, and `assets/examples/basic-ci.yml`.
 
 **Example:**
 ```yaml
@@ -67,12 +61,7 @@ steps:
 
 ### 2. Multi-Stage CI/CD Pipelines
 
-**Triggers:** "Create a full CI/CD pipeline...", "Multi-stage pipeline...", "Deploy to multiple environments..."
-
-**Process:**
-1. Identify all stages (Build, Test, Deploy), dependencies, and branch conditions
-2. Read `references/yaml-schema.md` and `assets/examples/multi-stage-cicd.yml`
-3. Use deployment jobs for environment tracking; publish artifacts between stages
+Read `references/yaml-schema.md` and `assets/examples/multi-stage-cicd.yml`. Use deployment jobs for environment tracking; publish artifacts between stages.
 
 **Example:**
 ```yaml
@@ -118,12 +107,7 @@ stages:
 
 ### 3. Docker Build Pipelines
 
-**Triggers:** "Build Docker image...", "Push to container registry...", "Create Docker pipeline..."
-
-**Process:**
-1. Identify registry (ACR, Docker Hub), image naming, and tagging strategy
-2. Read `references/tasks-reference.md` for Docker@2 and `assets/examples/kubernetes-deploy.yml`
-3. Use service connection for authentication; tag with `$(Build.BuildId)` as primary
+Read `references/tasks-reference.md` for Docker@2 and `assets/examples/kubernetes-deploy.yml`. Use service connection for authentication; tag with `$(Build.BuildId)` as primary.
 
 **Example:**
 ```yaml
@@ -152,12 +136,7 @@ steps:
 
 ### 4. Kubernetes Deployment Pipelines
 
-**Triggers:** "Deploy to Kubernetes...", "K8s deployment pipeline...", "Deploy to AKS..."
-
-**Process:**
-1. Identify deployment method (kubectl, Helm, manifests) and cluster connection
-2. Read `references/tasks-reference.md` and `assets/examples/kubernetes-deploy.yml`
-3. Use KubernetesManifest@0 or Kubernetes@1; include namespace management and health checks
+Read `references/tasks-reference.md` and `assets/examples/kubernetes-deploy.yml`. Use KubernetesManifest@0 or Kubernetes@1; include namespace management and health checks.
 
 **Example:**
 ```yaml
@@ -179,9 +158,7 @@ steps:
 
 **Supported languages:** .NET/C#, Node.js, Python, Java, Go, Docker multi-stage
 
-**Process:**
-1. Read `references/tasks-reference.md` for language-specific tasks
-2. Read the matching example file before generating:
+Read `references/tasks-reference.md` and the matching example file:
 
 | Language | Example File |
 |----------|-------------|
@@ -190,7 +167,7 @@ steps:
 | Python | `assets/examples/python-cicd.yml` |
 | Node.js | `assets/examples/basic-ci.yml` or `multi-stage-cicd.yml` |
 
-3. Include: runtime setup, package manager caching, build, test with reporting, artifact publish
+Include: runtime setup, package manager caching, build, test with reporting, artifact publish.
 
 **Go-specific notes:**
 - Use `GoTool@0` (only major version available — @0 is correct)
@@ -220,12 +197,7 @@ steps:
 
 ### 6. Template-Based Pipelines
 
-**Triggers:** "Create reusable template...", "Build modular pipeline...", "DRY pipeline..."
-
-**Process:**
-1. Design template parameters with types and defaults
-2. Read `references/templates-guide.md` and `assets/examples/templates/`
-3. Use `${{ parameters.name }}` syntax; generate both template and consuming pipeline
+Read `references/templates-guide.md` and `assets/examples/templates/`. Use `${{ parameters.name }}` syntax; generate both template and consuming pipeline.
 
 **Example:**
 ```yaml
@@ -299,21 +271,9 @@ Reference `references/best-practices.md` for comprehensive guidelines.
 
 ---
 
-## Typical Workflow
+## Workflow Process
 
-**User request:** "Create a CI/CD pipeline for a Node.js app with Docker deployment to AKS"
-
-```
-1. UNDERSTAND  — Node.js build/test → Docker image → push to ACR → deploy to AKS (staging + prod)
-2. READ        — references/yaml-schema.md, tasks-reference.md, best-practices.md
-                 assets/examples/multi-stage-cicd.yml, kubernetes-deploy.yml
-3. LOOKUP      — Context7 or WebSearch for any tasks not covered locally
-4. GENERATE    — Stage 1: NodeTool@0 + npm ci (cached) + build + test + PublishTestResults
-                 Stage 2: Docker@2 buildAndPush (tag with BuildId + latest)
-                 Stage 3: Deployment job → KubernetesManifest@0 → health check
-5. VALIDATE    — Invoke devops-skills:azure-pipelines-validator; fix errors; re-validate
-6. PRESENT     — Validated pipeline + stage explanation + setup notes (service connections, environments)
-```
+For a complete end-to-end workflow example (Understanding → Reading → Lookup → Generate → Validate → Present), see `references/typical-workflow.md`.
 
 ---
 
@@ -327,6 +287,7 @@ Reference `references/best-practices.md` for comprehensive guidelines.
 | `references/tasks-reference.md` | Task catalog with inputs, outputs, service connection requirements |
 | `references/best-practices.md` | Security, performance, naming, anti-patterns |
 | `references/templates-guide.md` | Template types, parameter definitions, expressions, iteration |
+| `references/typical-workflow.md` | Complete end-to-end workflow example with validation steps |
 
 ### Examples (read before generating matching pipeline type)
 
