@@ -11,11 +11,7 @@ description: Generate label matchers, line filters, log aggregations, and metric
 
 ### Stages 1-3: Gather Requirements (use **AskUserQuestion**)
 
-| Stage | What to Ask |
-|-------|-------------|
-| **1. Goal** | Primary goal (error analysis, performance tracking, security, debugging)? Use case (dashboard, alerting, troubleshooting)? Context (app/service, environment, time range, log format)? |
-| **2. Sources** | Label identifiers (`job`, `namespace`, `app`, `level`)? Log format (JSON, logfmt, plain text)? Strategy: labels for stream selection (indexed), line filters for content (not indexed) |
-| **3. Parameters** | Query type (log/metric)? Filtering (stream selector, line filters, label filters)? Parsing (`json`, `logfmt`, `pattern`, `regexp`)? Aggregation (`count_over_time`, `rate`, `sum by`)? Time range (`[5m]`, `[1h]`)? |
+Ask about: goal (error analysis, alerting, debugging), use case, log sources (labels, format), query type (log/metric), filtering needs, parsing method, aggregation, and time range.
 
 ### Stage 4: Plan, Validate & Consult References
 
@@ -175,12 +171,6 @@ sum(count_over_time({app="api"} |= "error" | json | level="error" [5m]))
 
 Complete metric query
 ```
-
-**Benefits of incremental building:**
-1. Identify which step breaks (no results, parse errors)
-2. Understand performance impact of each operation
-3. Debug unexpected results by testing each stage
-4. Learn LogQL query structure naturally
 
 **Use AskUserQuestion** to offer incremental mode:
 - Option: "Show step-by-step construction" vs "Show final query only"
