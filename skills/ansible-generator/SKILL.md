@@ -16,7 +16,7 @@ Generate production-ready Ansible resources (playbooks, roles, task files, inven
 ### 1. Generate Playbooks
 
 **Process:**
-1. Clarify target hosts, required privileges, and OS
+1. Clarify hosts, privileges, OS
 2. Read `references/best-practices.md` and `references/module-patterns.md`
 3. Use `assets/templates/playbook/basic_playbook.yml` as structural reference
 4. Generate following mandatory standards (see [Mandatory Standards](#mandatory-standards))
@@ -73,16 +73,16 @@ Generate production-ready Ansible resources (playbooks, roles, task files, inven
 4. Prefix all role variables with the role name (e.g., `nginx_port`, `nginx_worker_processes`)
 5. Use `include_vars` for OS-specific variables
 
-**`meta/argument_specs.yml`** enables automatic variable validation — always include it when generating roles (Ansible 2.11+).
+**`meta/argument_specs.yml`** enables automatic variable validation (Ansible 2.11+).
 
 ---
 
 ### 3. Generate Task Files
 
 **Process:**
-1. Define the specific operation
+1. Define the operation
 2. Reference `references/module-patterns.md` for module usage
-3. Generate with: verb-first task names, FQCN modules, idempotency checks, appropriate tags
+3. Generate with: verb-first names, FQCN modules, idempotency checks, tags
 
 See `assets/templates/` for full task file examples (e.g., database backup, user management).
 
@@ -91,11 +91,11 @@ See `assets/templates/` for full task file examples (e.g., database backup, user
 ### 4. Generate Inventory Files
 
 **Process:**
-1. Understand the infrastructure topology
+1. Understand infrastructure topology
 2. Use `assets/templates/inventory/` as reference:
    - `hosts` — main inventory (INI for simple; YAML for complex hierarchies)
    - `group_vars/all.yml`, `group_vars/[groupname].yml`, `host_vars/[hostname].yml`
-3. Organize hosts into logical groups (functional, environment, geographic) with `[group:children]` hierarchies
+3. Organize hosts into logical groups (functional, environment, geographic)
 4. Define variables at appropriate levels: all → group → host
 
 **Dynamic inventory (cloud):** Use provider plugins configured from `references/module-patterns.md`:
