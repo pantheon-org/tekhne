@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/helm-validator",
   "version": "0.1.1",
-  "private": true,
+  "private": false,
   "summary": "Comprehensive toolkit for validating, linting, testing, and analyzing Helm charts and their rendered Kubernetes resources. Use this skill when working with Helm charts, validating templates, debugging chart issues, working with Custom Resource Definitions (CRDs) that require documentation lookup, or checking Helm best practices.",
   "skills": {
     "helm-validator": {

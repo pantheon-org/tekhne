@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/ansible-generator",
   "version": "0.1.1",
-  "private": true,
+  "private": false,
   "summary": "Comprehensive toolkit for generating best practice Ansible playbooks, roles, tasks, and inventory files.",
   "skills": {
     "ansible-generator": {

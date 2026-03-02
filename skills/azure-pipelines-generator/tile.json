@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/azure-pipelines-generator",
   "version": "0.1.1",
-  "private": true,
+  "private": false,
   "summary": "Comprehensive toolkit for generating best practice Azure DevOps Pipelines following current standards and conventions. Use this skill when creating new Azure Pipelines, implementing CI/CD workflows, or building deployment pipelines.",
   "skills": {
     "azure-pipelines-generator": {

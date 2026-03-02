@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/bun-development",
   "version": "0.1.1",
-  "private": true,
+  "private": false,
   "summary": "Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management, testing, SQLite, and security; use proactively when setting up Bun projects, replacing Node.js APIs with Bun-native APIs, writing bun test suites, implementing Bun.serve services, using bun:sqlite with prepared statements, configuring workspaces and lockfiles, hardening shell and SQL boundaries, or optimizing Bun performance and migration workflows.",
   "skills": {
     "bun-development": {
