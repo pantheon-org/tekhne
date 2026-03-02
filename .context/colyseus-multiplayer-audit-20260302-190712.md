@@ -1,5 +1,6 @@
+# Colyseus Multiplayer Skill Quality Audit
 
-Validation Checks
+## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 245 (<= 500)
   ✔ frontmatter_valid - YAML frontmatter is valid
@@ -15,9 +16,9 @@ Validation Checks
 
 Overall: PASSED (0 errors, 1 warnings)
 
-Judge Evaluation
+## Judge Evaluation
 
-  Description: 100%
+### Description: 100%
     specificity: 3/3 - Lists multiple specific concrete actions: 'implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, server-side anti-cheat constraints'. These are concrete, actionable capabilities.
     trigger_term_quality: 3/3 - Excellent coverage of natural terms users would say: 'colyseus', 'room lifecycle', 'schema', 'multiplayer', 'websocket', 'matchmaking', 'onJoin', 'onLeave', 'onDrop', 'allowReconnection'. Includes both conceptual terms and API-specific method names.
     completeness: 3/3 - Clearly answers both what ('Build authoritative real-time multiplayer servers with Colyseus 0.17+') and when ('Use when implementing rooms, schema state sync...') with explicit trigger guidance and a Keywords section.
