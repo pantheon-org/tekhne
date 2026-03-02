@@ -1,0 +1,39 @@
+- Reviewing skill...
+
+Validation Checks
+
+  ✔ skill_md_line_count - SKILL.md line count is 100 (<= 500)
+  ✔ frontmatter_valid - YAML frontmatter is valid
+  ✔ name_field - 'name' field is valid: 'agents-md'
+  ✔ description_field - 'description' field is valid (273 chars)
+  ✔ compatibility_field - 'compatibility' field not present (optional)
+  ✔ allowed_tools_field - 'allowed-tools' field not present (optional)
+  ✔ metadata_version - 'metadata' field not present (optional)
+  ✔ metadata_field - 'metadata' field not present (optional)
+  ✔ license_field - 'license' field not present (optional)
+  ✔ frontmatter_unknown_keys - No unknown frontmatter keys found
+  ✔ body_present - SKILL.md body is present
+
+Overall: PASSED (0 errors, 0 warnings)
+
+Judge Evaluation
+
+  Description: 100%
+    specificity: 3/3 - Lists multiple specific concrete actions: 'Create and maintain AGENTS.md documentation', 'deterministic discovery', 'scoped instruction files', and 'low-token navigation patterns'. These are concrete, actionable capabilities.
+    trigger_term_quality: 3/3 - Includes natural keywords users would say: 'AGENTS.md', 'agent docs', 'AI-facing project guidance', 'monorepos', 'generating AGENTS.md', 'updating agent docs'. Good coverage of terms a user would naturally use when needing this skill.
+    completeness: 3/3 - Clearly answers both what ('Create and maintain AGENTS.md documentation for simple projects and complex monorepos with deterministic discovery, scoped instruction files, and low-token navigation patterns') AND when ('use when generating AGENTS.md, updating agent docs, or standardizing AI-facing project guidance').
+    distinctiveness_conflict_risk: 3/3 - Very specific niche focused on AGENTS.md documentation specifically. The explicit mention of 'AGENTS.md', 'agent docs', and 'AI-facing project guidance' creates clear, distinct triggers unlikely to conflict with general documentation or coding skills.
+
+    Assessment: This is a strong skill description that clearly articulates specific capabilities (creating/maintaining AGENTS.md with specific patterns), includes natural trigger terms users would say, and explicitly states when to use it. The description is well-scoped to a distinct niche (AGENTS.md documentation) with minimal conflict risk against other documentation-related skills.
+
+  Content: 100%
+    conciseness: 3/3 - The content is lean and efficient, avoiding explanations of concepts Claude already knows. Every section serves a purpose with no padding or unnecessary context about what AGENTS.md files are or why documentation matters.
+    actionability: 3/3 - Provides concrete, executable bash commands for discovery, detection, and verification. The workflow steps have clear outputs, and the anti-patterns section gives specific BAD/GOOD contrasts that are immediately actionable.
+    workflow_clarity: 3/3 - The 5-step workflow is clearly sequenced with explicit outputs for each step. The structure decision provides clear branching logic, and the verification section provides validation commands to confirm correctness.
+    progressive_disclosure: 3/3 - Excellent structure with a concise overview and well-organized Quick Reference table linking to 7 separate reference files. References are one level deep and clearly signaled with descriptive topic names.
+
+    Assessment: This is a well-crafted skill that exemplifies best practices: concise instructions, executable commands, clear workflow with outputs, and appropriate use of external references. The anti-patterns section with BAD/GOOD contrasts is particularly effective for guiding behavior. The content respects token budget while providing comprehensive coverage.
+
+Average Score: 100%
+
+✔ Skill evaluation completed successfully!
