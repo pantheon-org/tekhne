@@ -9,16 +9,6 @@ description: Comprehensive toolkit for validating, linting, and testing GitHub A
 
 Validate and test GitHub Actions workflows, custom actions, and public actions using industry-standard tools (actionlint and act). This skill provides comprehensive validation including syntax checking, static analysis, local workflow execution testing, and action verification with version-aware documentation lookup.
 
-## When to Use This Skill
-
-Use this skill when:
-- **Validating workflow files**: Checking `.github/workflows/*.yml` for syntax errors and best practices
-- **Testing workflows locally**: Running workflows with `act` before pushing to GitHub
-- **Debugging workflow failures**: Identifying issues in workflow configuration
-- **Validating custom actions**: Checking composite, Docker, or JavaScript actions
-- **Verifying public actions**: Validating usage of actions from GitHub Marketplace
-- **Pre-commit validation**: Ensuring workflows are valid before committing
-
 ## CRITICAL: Assistant Workflow (MUST FOLLOW)
 
 **Every validation MUST follow these steps. Skipping any step is non-compliant.**
@@ -63,62 +53,24 @@ After all errors are addressed:
 - Note any warnings
 - Recommend best practices from `references/`
 
-### Error Type to Reference File Mapping
+### Error-to-Reference Mapping
 
-| Error Pattern in Output | Reference File to Read | Section to Quote |
-|------------------------|----------------------|------------------|
+| Error Pattern / Output Category | Reference File | Section to Consult |
+|----------------------------------|---------------|--------------------|
 | `runs-on:`, `runner`, `ubuntu`, `macos`, `windows` | `references/runners.md` | Runner labels |
-| `cron`, `schedule` | `references/common_errors.md` | Schedule Errors |
-| `${{`, `expression`, `if:` | `references/common_errors.md` | Expression Errors |
-| `needs:`, `job`, `dependency` | `references/common_errors.md` | Job Configuration Errors |
-| `uses:`, `action`, `input` | `references/common_errors.md` | Action Errors |
-| `untrusted`, `injection`, `security` | `references/common_errors.md` | Script Injection section |
+| `cron`, `schedule` / `[SCHEDULE]` | `references/common_errors.md` | Schedule Errors |
+| `${{`, `expression`, `if:` / `[EXPRESSION]` | `references/common_errors.md` | Expression Errors |
+| `needs:`, `job`, `dependency` / `[SYNTAX]` | `references/common_errors.md` | Job Configuration Errors |
+| `uses:`, `action`, `input` / `[ACTION]` | `references/common_errors.md` | Action Errors |
+| `untrusted`, `injection`, `security` / `[SECURITY]` | `references/common_errors.md` | Script Injection section |
 | `syntax`, `yaml`, `unexpected` | `references/common_errors.md` | Syntax Errors |
-| `docker`, `container` | `references/act_usage.md` | Troubleshooting |
+| `docker`, `container` / `[DOCKER]` | `references/act_usage.md` | Troubleshooting |
+| `[ACT-LIMIT]`, act fails but GitHub works | `references/act_usage.md` | Limitations |
 | `@v3`, `@v4`, `deprecated`, `outdated` | `references/action_versions.md` | Version table |
 | `workflow_call`, `reusable`, `oidc` | `references/modern_features.md` | Relevant section |
 | `glob`, `path`, `paths:`, `pattern` | `references/common_errors.md` | Path Filter Errors |
-
-### Example: Complete Error Handling Workflow
-
-**User's workflow has this error:**
-```
-runs-on: ubuntu-lastest
-```
-
-**Step 1 - Script output:**
-```
-label "ubuntu-lastest" is unknown
-```
-
-**Step 2 - Read `references/runners.md` or `references/common_errors.md`:**
-Find the "Invalid Runner Label" section.
-
-**Step 3 - Quote the fix to user:**
-
-> **Error:** `label "ubuntu-lastest" is unknown`
->
-> **Cause:** Typo in runner label (from `references/common_errors.md`):
-> ```yaml
-> # Bad
-> runs-on: ubuntu-lastest  # Typo
-> ```
->
-> **Fix** (from `references/common_errors.md`):
-> ```yaml
-> # Good
-> runs-on: ubuntu-latest
-> ```
->
-> **Valid runner labels** (from `references/runners.md`):
-> - `ubuntu-latest`, `ubuntu-24.04`, `ubuntu-22.04`
-> - `windows-latest`, `windows-2025`, `windows-2022`
-> - `macos-latest`, `macos-15`, `macos-14`
-
-**Step 4 - Provide corrected code:**
-```yaml
-runs-on: ubuntu-latest
-```
+| User asks about actionlint config | `references/actionlint_usage.md` | Provide examples |
+| Runner questions/errors | `references/runners.md` | Labels and availability |
 
 ## Quick Start
 
@@ -149,31 +101,24 @@ bash scripts/validate_workflow.sh --test-only .github/workflows/
 
 ## Core Validation Workflow
 
-### 1. Static Analysis with actionlint
+Run the three stages in order:
 
-Start with static analysis to catch syntax errors and common issues:
+1. **Static analysis** — catches syntax errors and common issues first:
+   ```bash
+   bash scripts/validate_workflow.sh --lint-only .github/workflows/ci.yml
+   ```
+   *actionlint checks:* YAML syntax, schema compliance, expression syntax, runner labels, action inputs/outputs, job dependencies, CRON syntax, glob patterns, shell scripts, security vulnerabilities.
 
-```bash
-bash scripts/validate_workflow.sh --lint-only .github/workflows/ci.yml
-```
+2. **Local execution test** — after passing static analysis, test workflow execution (requires Docker):
+   ```bash
+   bash scripts/validate_workflow.sh --test-only .github/workflows/
+   ```
+   *Note:* act has limitations — see `references/act_usage.md`.
 
-**What actionlint checks:** YAML syntax, schema compliance, expression syntax, runner labels, action inputs/outputs, job dependencies, CRON syntax, glob patterns, shell scripts, security vulnerabilities.
-
-### 2. Local Testing with act
-
-After passing static analysis, test workflow execution:
-
-```bash
-bash scripts/validate_workflow.sh --test-only .github/workflows/
-```
-
-**Note:** act has limitations - see `references/act_usage.md`.
-
-### 3. Full Validation
-
-```bash
-bash scripts/validate_workflow.sh .github/workflows/ci.yml
-```
+3. **Full validation** — both stages together:
+   ```bash
+   bash scripts/validate_workflow.sh .github/workflows/ci.yml
+   ```
 
 ## Validating Resource Types
 
@@ -207,34 +152,6 @@ When workflows use public actions (e.g., `actions/checkout@v6`):
 4. Run validation script
 
 **Search format:** `"[action-name] [version] github action documentation"`
-
-## Reference File Consultation Guide
-
-### MANDATORY Reference Consultation
-
-| Situation | Reference File | Action |
-|-----------|---------------|--------|
-| actionlint reports ANY error | `references/common_errors.md` | Find matching error, quote solution |
-| act fails with Docker error | `references/act_usage.md` | Check Troubleshooting section |
-| act fails but workflow works on GitHub | `references/act_usage.md` | Read Limitations section |
-| User asks about actionlint config | `references/actionlint_usage.md` | Provide examples |
-| User asks about act options | `references/act_usage.md` | Read Advanced Options |
-| Security vulnerability detected | `references/common_errors.md` | Quote fix |
-| Validating action versions | `references/action_versions.md` | Check version table |
-| Using modern features | `references/modern_features.md` | Check syntax examples |
-| Runner questions/errors | `references/runners.md` | Check labels and availability |
-
-### Script Output to Reference Mapping
-
-| Output Category | Reference File |
-|-----------------|----------------|
-| `[SYNTAX]` | `common_errors.md` - Syntax Errors |
-| `[EXPRESSION]` | `common_errors.md` - Expression Errors |
-| `[ACTION]` | `common_errors.md` - Action Errors |
-| `[SCHEDULE]` | `common_errors.md` - Schedule Errors |
-| `[SECURITY]` | `common_errors.md` - Security section |
-| `[DOCKER]` | `act_usage.md` - Troubleshooting |
-| `[ACT-LIMIT]` | `act_usage.md` - Limitations |
 
 ## Reference Files Summary
 
@@ -304,8 +221,6 @@ bash scripts/validate_workflow.sh .github/workflows/failing.yml
 
 ## Complete Worked Example: Multi-Error Workflow
 
-This example demonstrates the **full assistant workflow** for handling multiple errors.
-
 ### User's Problematic Workflow
 
 ```yaml
@@ -340,138 +255,33 @@ bash scripts/validate_workflow.sh --lint-only workflow.yml
 [ERROR] job "deploy" needs job "biuld" which does not exist
 ```
 
-### Step 2-3: Consult References and Quote Fixes
+### Step 2-3: Consult References and Quote Fixes to User
 
----
+Using the Error-to-Reference Mapping table above, consult the relevant reference file for each error and quote the fix to the user:
 
-**Error 1: Invalid CRON Expression**
+| # | Error | Reference File | Fix |
+|---|-------|---------------|-----|
+| 1 | `invalid CRON format "0 0 * * 8"` | `common_errors.md` - Schedule Errors | Change `8` to `0` (weekday range is 0–6) |
+| 2 | `label "ubuntu-lastest" is unknown` | `common_errors.md` + `runners.md` | Change to `ubuntu-latest` |
+| 3 | `checkout@v3` (outdated) | `action_versions.md` | Update to `@v6` or SHA-pinned equivalent |
+| 4 | Untrusted input in `run:` | `common_errors.md` - Script Injection | Pass through environment variable |
+| 5 | `needs: biuld` (typo) | `common_errors.md` - Job Configuration | Change to `needs: build` |
 
-*From `references/common_errors.md` - Schedule Errors:*
-
-> **Cause:** Day of week 8 doesn't exist (valid: 0-6, where 0 = Sunday)
->
-> ```yaml
-> # Bad
-> schedule:
->   - cron: '0 0 * * 8'  # Day 8 doesn't exist
->
-> # Good
-> schedule:
->   - cron: '0 0 * * 0'  # Sunday
-> ```
->
-> **CRON format:** `minute hour day month weekday`
-> - Weekday: 0-6 (0 = Sunday)
-
-**Fix:** Change `8` to `0` (Sunday) or `1-6` for Monday-Saturday.
-
----
-
-**Error 2: Invalid Runner Label**
-
-*From `references/common_errors.md` - Job Configuration Errors and `references/runners.md`:*
-
-> **Cause:** Typo in runner label
->
-> ```yaml
-> # Bad
-> runs-on: ubuntu-lastest  # Typo
->
-> # Good
-> runs-on: ubuntu-latest
-> ```
->
-> **Valid labels (from `references/runners.md`):**
-> - `ubuntu-latest` (Ubuntu 24.04)
-> - `ubuntu-24.04`, `ubuntu-22.04`
-> - `macos-latest` (macOS 15)
-> - `windows-latest` (Windows Server 2022)
-
-**Fix:** Change `ubuntu-lastest` to `ubuntu-latest`.
-
----
-
-**Error 3: Outdated Action Version**
-
-*From `references/action_versions.md`:*
-
-> | Action | Current Version | Minimum Supported |
-> |--------|----------------|-------------------|
-> | `actions/checkout` | **v6** | v4 |
->
-> **SHA Pinning Best Practice:**
-> ```yaml
-> # Recommended: SHA pinning with version comment
-> - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0
-> ```
-
-**Fix:** Update from `@v3` to `@v6` (or SHA-pinned version).
-
----
-
-**Error 4: Security Vulnerability (Script Injection)**
-
-*From `references/common_errors.md` - Expression Errors:*
-
-> **Warning:** Potential script injection via untrusted input
->
-> ```yaml
-> # Bad - vulnerable to injection
-> run: echo ${{ github.event.issue.title }}
->
-> # Good - use environment variables
-> env:
->   TITLE: ${{ github.event.issue.title }}
-> run: echo "$TITLE"
-> ```
->
-> **Why:** Untrusted input (issue titles, PR bodies, commit messages) can contain malicious commands. Using environment variables sanitizes the input.
-
-**Fix:** Pass untrusted input through environment variable.
-
----
-
-**Error 5: Undefined Job Dependency**
-
-*From `references/common_errors.md` - Job Configuration Errors:*
-
-> **Error:** Job 'deploy' depends on job 'biuld' which does not exist
->
-> ```yaml
-> # Bad
-> jobs:
->   build:
->     runs-on: ubuntu-latest
->   deploy:
->     needs: biuld  # Typo
->
-> # Good
-> jobs:
->   build:
->     runs-on: ubuntu-latest
->   deploy:
->     needs: build
-> ```
-
-**Fix:** Change `biuld` to `build`.
-
----
-
-### Step 4: Provide Corrected Workflow
+### Step 4: Corrected Workflow
 
 ```yaml
 name: Fixed CI
 on:
   schedule:
-    - cron: '0 0 * * 0'  # Fixed: Sunday (0-6 valid)
+    - cron: '0 0 * * 0'  # Fixed: Sunday (valid range 0-6)
 jobs:
   build:
     runs-on: ubuntu-latest  # Fixed: typo corrected
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0 - Fixed: updated version
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0
       - name: Process issue
         env:
-          TITLE: ${{ github.event.issue.title }}  # Fixed: use env var
+          TITLE: ${{ github.event.issue.title }}  # Fixed: sanitized via env var
         run: echo "$TITLE"
   deploy:
     needs: build  # Fixed: typo corrected
