@@ -5,13 +5,6 @@ description: Generate label matchers, line filters, log aggregations, and metric
 
 # LogQL Query Generator
 
-## When to Use This Skill
-
-- Creating LogQL queries for log analysis, dashboards, or alerting
-- Converting log analysis requirements into LogQL expressions
-- Troubleshooting applications through log analysis
-- Working with structured logs (JSON, logfmt)
-
 ## Interactive Query Planning Workflow
 
 **CRITICAL**: Always engage the user in collaborative planning before generating queries.
