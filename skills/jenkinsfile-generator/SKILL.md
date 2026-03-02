@@ -1,18 +1,11 @@
 ---
 name: jenkinsfile-generator
-description: Comprehensive toolkit for generating best practice Jenkinsfiles for both Declarative and Scripted pipeline syntaxes. Use this skill when creating new Jenkins pipelines, implementing CI/CD workflows.
+description: Generates Jenkinsfiles with stages, agents, parallel builds, post-build actions, and security scanning for Declarative and Scripted pipeline syntaxes. Use when creating a Jenkins pipeline script, Groovy pipeline, or build configuration; implementing CI/CD workflows, continuous integration, or build automation; adding Docker/Kubernetes deployments, matrix builds, parameterized pipelines, or DevSecOps security scanning to a Jenkins setup.
 ---
 
 # Jenkinsfile Generator Skill
 
 Generate production-ready Jenkinsfiles following best practices. All generated files are validated using devops-skills:jenkinsfile-validator skill.
-
-## When to Use
-- Creating new Jenkinsfiles (declarative or scripted)
-- CI/CD pipelines, Docker/Kubernetes deployments
-- Parallel execution, matrix builds, parameterized pipelines
-- DevSecOps pipelines with security scanning
-- Shared library scaffolding
 
 ## Quick Reference
 
@@ -66,7 +59,7 @@ stage('Deploy') {
    - Environment block with credentials binding (never hardcode secrets)
    - Options: timeout, buildDiscarder, timestamps, disableConcurrentBuilds
    - Post conditions: always (cleanup), success (artifacts), failure (notifications)
-   - **Always add `failFast true` or `parallelsAlwaysFailFast()` for parallel blocks**
+   - **Always add `parallelsAlwaysFailFast()` in options for any pipeline with parallel blocks** (see [Parallel & Matrix](#parallel--matrix))
    - **Always include `fingerprint: true` when using `archiveArtifacts`**
 4. **ALWAYS validate** using devops-skills:jenkinsfile-validator skill
 
@@ -80,7 +73,7 @@ stage('Deploy') {
 3. **ALWAYS validate** using devops-skills:jenkinsfile-validator skill
 
 ### 3. Parallel/Matrix Pipelines
-Use `parallel {}` block or `matrix {}` with `axes {}` for multi-dimensional builds.
+Use `parallel {}` block or `matrix {}` with `axes {}` for multi-dimensional builds. See [Parallel & Matrix](#parallel--matrix) for full guidance including `failFast` configuration.
 
 ### 4. Security Scanning (DevSecOps)
 Add SonarQube, OWASP Dependency-Check, Trivy stages with fail thresholds.
@@ -165,20 +158,12 @@ post {
 
 ### Parallel & Matrix
 
-**IMPORTANT:** Always ensure parallel blocks fail fast on first failure using one of these approaches:
+**IMPORTANT:** Always add `parallelsAlwaysFailFast()` to the pipeline `options {}` block — it covers all parallel/matrix blocks automatically and is preferred over per-block `failFast true`. Only use the per-block alternative when `options`-level configuration is not applicable:
 
-**Option 1: Global (RECOMMENDED)** - Use `parallelsAlwaysFailFast()` in pipeline options:
 ```groovy
-options {
-    parallelsAlwaysFailFast()  // Applies to ALL parallel blocks in pipeline
-}
-```
-This is the preferred approach as it covers all parallel blocks automatically.
-
-**Option 2: Per-block** - Use `failFast true` on individual parallel stages:
-```groovy
+// Per-block alternative (only when options-level is not set)
 stage('Tests') {
-    failFast true  // Only affects this parallel block
+    failFast true
     parallel {
         stage('Unit') { steps { sh 'npm test:unit' } }
         stage('E2E') { steps { sh 'npm test:e2e' } }
@@ -186,11 +171,8 @@ stage('Tests') {
 }
 ```
 
-**NOTE:** When `parallelsAlwaysFailFast()` is set in options, explicit `failFast true` on individual parallel blocks is redundant.
-
 ```groovy
 stage('Matrix') {
-    failFast true
     matrix {
         axes {
             axis { name 'PLATFORM'; values 'linux', 'windows' }
@@ -200,6 +182,7 @@ stage('Matrix') {
         stages { stage('Test') { steps { echo "Testing ${PLATFORM}/${BROWSER}" } } }
     }
 }
+```
 
 ### Input (Manual Approval)
 ```groovy
@@ -316,9 +299,7 @@ bash scripts/validate_jenkinsfile.sh --syntax-only Jenkinsfile
 
 ## Generator Scripts
 
-**When to use scripts vs manual generation:**
-- **Use scripts for:** Simple, standard pipelines with common patterns (basic CI, straightforward CD)
-- **Use manual generation for:** Complex pipelines with multiple features (parallel tests + security scanning + Docker + K8s deployments), custom logic, or non-standard requirements
+Use scripts for simple, standard pipelines (basic CI/CD, common patterns). Use manual generation for complex pipelines with multiple features, custom logic, or non-standard requirements.
 
 ```bash
 # Declarative (simple pipelines)
