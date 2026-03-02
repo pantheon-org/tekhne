@@ -1,6 +1,8 @@
+# Terraform Validator Skill Quality Audit
+
 - Reviewing skill...
 
-Validation Checks
+## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 266 (<= 500)
   ✔ frontmatter_valid - YAML frontmatter is valid
@@ -16,7 +18,7 @@ Validation Checks
 
 Overall: PASSED (0 errors, 0 warnings)
 
-Judge Evaluation
+## Judge Evaluation
 
   Description: 100%
     specificity: 3/3 - Lists multiple specific concrete actions: 'validating, linting, testing, and automating Terraform configurations and HCL files'. Also mentions specific operations like 'dry-run testing with terraform plan' and 'working with custom providers and modules'.
