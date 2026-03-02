@@ -7,70 +7,18 @@ description: Comprehensive toolkit for validating, linting, testing, and automat
 
 Comprehensive toolkit for validating, linting, and testing Jenkinsfile pipelines (both Declarative and Scripted). This skill applies when working with Jenkins pipeline files, validating pipeline syntax, checking best practices, debugging pipeline issues, or working with custom plugins that require documentation lookup.
 
-## When to Use This Skill
-
-- Validating Jenkinsfile syntax before committing to repository
-- Checking Jenkins pipeline best practices compliance
-- Debugging pipeline syntax errors or configuration issues
-- Validating both Declarative and Scripted pipeline syntaxes
-- **Validating Jenkins Shared Library files (vars/*.groovy, src/**/*.groovy)**
-- Working with plugin-specific steps that need documentation
-- Ensuring proper credential handling and security practices
-- Checking for common anti-patterns and performance issues
-- Verifying variable usage and scope
-
 ## Validation Capabilities
 
-### Declarative Pipeline Validation
+**Declarative**: Required sections, directive placement, parallel execution, credential management, combined shell commands.
+**Scripted**: Groovy syntax, node blocks, try-catch-finally, NonCPS annotation usage, variable scoping.
+**Both types**: Hardcoded credential detection, controller-heavy operations (JsonSlurper, HttpRequest), variable declarations, plugin-specific step validation.
+**Shared Library** — `vars/*.groovy`: call() method, NonCPS annotation correctness, CPS compatibility, camelCase naming, documentation comments. `src/**/*.groovy`: package declaration, class-filename match, Serializable implementation, wildcard import warnings, static method CPS compatibility.
 
-- **Syntax Structure**: Validates required sections (pipeline, agent, stages, steps)
-- **Directive Validation**: Checks proper usage of environment, options, parameters, triggers, tools, when, input
-- **Best Practices**: Parallel execution, credential management, combined shell commands
-- **Section Placement**: Ensures directives are in correct locations
-
-See [references/declarative_syntax.md](references/declarative_syntax.md) for complete syntax reference.
-
-### Scripted Pipeline Validation
-
-- **Groovy Syntax**: Validates Groovy code syntax and structure
-- **Node Blocks**: Ensures proper node/agent block usage
-- **Error Handling**: Checks for try-catch-finally patterns
-- **Best Practices**: @NonCPS usage, agent-based operations, proper variable scoping
-
-See [references/scripted_syntax.md](references/scripted_syntax.md) for complete syntax reference.
-
-### Common Validations (Both Types)
-
-- **Security**: Detects hardcoded credentials, passwords, API keys
-- **Performance**: Identifies controller-heavy operations (JsonSlurper, HttpRequest on controller)
-- **Variables**: Validates variable declarations and usage
-- **Plugins**: Detects and validates plugin-specific steps with dynamic documentation lookup
-
-### Shared Library Validation
-
-- **vars/*.groovy**: Validates global variable files (callable steps)
-  - call() method presence and signature
-  - @NonCPS annotation correctness (no pipeline steps in @NonCPS methods)
-  - CPS compatibility (closures with .each{}, .collect{}, etc.)
-  - Hardcoded credentials detection
-  - Controller-heavy operations (JsonSlurper, new URL(), new File())
-  - Thread.sleep() vs sleep() step
-  - System.getenv() vs env.VAR_NAME
-  - File naming conventions (camelCase)
-  - Documentation comment presence
-- **src/**/*.groovy**: Validates Groovy source class files
-  - Package declaration presence
-  - Class naming matches filename
-  - Serializable implementation (required for CPS)
-  - Wildcard import warnings
-  - Static method CPS compatibility
+See [references/validation_rules.md](references/validation_rules.md) for detailed rules, error reporting format, and examples.
 
 ## Pipeline Type Detection
 
-The skill automatically detects the pipeline type:
-- **Declarative**: Starts with `pipeline {` block
-- **Scripted**: Starts with `node` or contains Groovy code outside pipeline block
-- **Ambiguous**: Will ask for clarification if uncertain
+Auto-detected: Declarative (`pipeline {`), Scripted (`node` block or Groovy outside pipeline block). Clarification is requested only if ambiguous.
 
 ## Core Validation Workflow
 
@@ -83,12 +31,7 @@ Follow this workflow when validating Jenkinsfiles to catch issues early and ensu
 bash scripts/validate_jenkinsfile.sh Jenkinsfile
 ```
 
-This single command:
-1. Auto-detects pipeline type (Declarative/Scripted)
-2. Runs syntax validation
-3. Runs security scan (credential detection)
-4. Runs best practices check
-5. Provides a unified summary with pass/fail status
+This single command auto-detects pipeline type, runs syntax validation, a security scan (credential detection), and a best practices check, then produces a unified summary with pass/fail status.
 
 ### Validation Options
 
@@ -148,10 +91,6 @@ bash scripts/validate_shared_library.sh vars/myStep.groovy
 # Validate entire shared library directory
 bash scripts/validate_shared_library.sh /path/to/shared-library
 ```
-
-The shared library validator checks:
-- **vars/*.groovy files**: call() method, @NonCPS usage, CPS compatibility, credential handling
-- **src/**/*.groovy files**: Package declaration, class naming, Serializable implementation, imports
 
 ## Plugin Documentation Lookup
 
@@ -215,42 +154,6 @@ When a user provides a Jenkinsfile for validation:
 4. **Report results** with line numbers, severity, and actionable suggestions
 
 5. **Provide inline fix suggestions** when errors are found (do not use AskUserQuestion - include corrected code snippets directly in the response)
-
-## Common Validation Scenarios
-
-### Scenario 1: Validate Declarative Pipeline
-
-```markdown
-User: "Validate my Jenkinsfile"
-1. Read the Jenkinsfile
-2. Detect type: Declarative (starts with 'pipeline {')
-3. Run: bash scripts/validate_declarative.sh Jenkinsfile
-4. Run: bash scripts/best_practices.sh Jenkinsfile
-5. Report results with suggestions
-```
-
-### Scenario 2: Validate with Unknown Plugin
-
-```markdown
-User: "Check this pipeline with custom plugin steps"
-1. Read Jenkinsfile
-2. Run validation
-3. Detect unknown step (e.g., 'customDeploy')
-4. Search context7 for plugin docs
-5. If not found, web search "Jenkins custom deploy plugin"
-6. Validate plugin usage against found documentation
-7. Report results
-```
-
-### Scenario 3: Security Audit
-
-```markdown
-User: "Check for security issues in my pipeline"
-1. Run: bash scripts/validate_jenkinsfile.sh --security-only Jenkinsfile
-2. Report all credential/secret findings
-3. Suggest withCredentials patterns
-4. Reference: references/best_practices.md#credential-management
-```
 
 ## Tools Available
 
