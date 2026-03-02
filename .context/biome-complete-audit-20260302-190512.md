@@ -1,5 +1,6 @@
+# Biome Complete Skill Quality Audit
 
-Validation Checks
+## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 131 (<= 500)
   ✔ frontmatter_valid - YAML frontmatter is valid
@@ -15,7 +16,7 @@ Validation Checks
 
 Overall: PASSED (0 errors, 0 warnings)
 
-Judge Evaluation
+## Judge Evaluation
 
   Description: 100%
     specificity: 3/3 - Lists multiple specific concrete actions: 'configure biome.json', 'run lint or format commands', 'migrate from ESLint or Prettier', 'tune rule severity', 'fix formatter drift', 'replace mixed ESLint+Prettier pipelines'.
