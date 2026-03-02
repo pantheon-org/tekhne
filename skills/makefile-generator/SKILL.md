@@ -1,6 +1,6 @@
 ---
 name: makefile-generator
-description: Comprehensive toolkit for generating best practice Makefiles following current standards and conventions. Use this skill when creating new Makefiles, implementing build automation, or building production-ready build systems.
+description: Generate GNU Make build systems that define build targets, configure dependencies, set up phony targets, and implement parallel builds. Use when creating make/Makefile/.mk files, implementing compile rules, or building production-ready build automation for C/C++, Go, Python, and Java projects.
 ---
 
 # Makefile Generator
@@ -33,27 +33,11 @@ Collect information for the following categories. **Use AskUserQuestion when inf
 | **Targets** | all, install, clean, test, dist, help (which are needed?) |
 | **Config** | Compiler, flags, pkg-config dependencies, cross-compilation |
 
-**When to Use AskUserQuestion (MUST ask if any apply):**
+**When to Use AskUserQuestion:** MUST ask when language unspecified, project structure unclear, Docker registry unknown, multiple binaries possible, install paths unclear, or cross-compilation mentioned. Example questions: "What programming language?", "Single or multi-directory project?", "Which container registry?", "Target platform/architecture?"
 
-| Condition | Example Question |
-|-----------|------------------|
-| Language not specified | "What programming language is this project? (C/C++/Go/Python/Java)" |
-| Project structure unclear | "Is this a single-directory or multi-directory project?" |
-| Docker requested but registry unknown | "Which container registry should be used? (docker.io/ghcr.io/custom)" |
-| Multiple binaries possible | "Should this build a single binary or multiple executables?" |
-| Install targets needed but paths unclear | "Where should binaries be installed? (default: /usr/local/bin)" |
-| Cross-compilation mentioned | "What is the target platform/architecture?" |
+**Skip when:** User provides all info explicitly, standard project with obvious defaults (e.g., "Go project with Docker"), or user says "use defaults".
 
-**When to Skip AskUserQuestion (proceed with defaults):**
-- User explicitly provides all required information
-- Standard project type with obvious defaults (e.g., "Go project with Docker" → use standard Go+Docker patterns)
-- User says "use defaults" or "standard setup"
-
-**Default Assumptions (when not asking):**
-- Single-directory project structure
-- PREFIX=/usr/local
-- Standard targets: all, build, test, clean, install, help
-- No cross-compilation
+**Default Assumptions:** Single-directory, PREFIX=/usr/local, standard targets (all/build/test/clean/install/help), no cross-compilation.
 
 ### Stage 2: Documentation Lookup
 
@@ -301,42 +285,7 @@ The mbake validator may report warnings for valid GNU Make special targets. Thes
 
 #### Validation Report Output (REQUIRED)
 
-After validation completes, you MUST output a structured report in the following format. This is not optional.
-
-**Required Report Format:**
-
-```
-## Validation Report
-
-**Result:** [PASSED / PASSED with warnings / FAILED]
-**Errors:** [count]
-**Warnings:** [count]
-**Info:** [count]
-
-### Errors Fixed
-- [List each error and how it was fixed, or "None" if 0 errors]
-
-### Warnings Addressed
-- [List each warning that was fixed]
-
-### Warnings Skipped (with reasons)
-- [List each warning that was NOT fixed and explain why]
-- Example: "mbake reports '.DELETE_ON_ERROR' as unknown - this is a valid GNU Make
-  special target (false positive)"
-
-### Formatting Applied
-- [Yes/No] - [If No, explain why formatting was skipped]
-
-### Info Items Addressed
-- [List info items that were addressed for production Makefiles]
-- [Or "N/A - simple project" if not applicable]
-
-### Remaining Issues (if any)
-- [List any issues requiring user attention]
-- [Or "None - Makefile is production-ready"]
-```
-
-**Example Complete Report:**
+After validation completes, you MUST output a structured report. Example format:
 
 ```
 ## Validation Report
