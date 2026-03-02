@@ -1,13 +1,7 @@
 ---
 name: nx-bun-integration
-description: Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executor configuration, migration from Node.js toolchains, and cache-aware build/test workflows; use when adding @nx-bun/nx, converting projects, or standardizing Bun targets across Nx workspaces.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
-  - Grep
-  - Glob
+description: Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executor configuration, migration from Node.js toolchains, and cache-aware build/test workflows; use when adding the nx-bun plugin, converting projects, or standardizing Bun targets across Nx workspaces.
+allowed-tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
 # Nx Bun Integration

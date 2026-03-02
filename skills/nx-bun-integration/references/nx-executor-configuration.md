@@ -1,4 +1,4 @@
-# Nx Executor Configuration with @nx-bun/nx
+# Nx Executor Configuration with nx-bun Plugin
 
 Use this reference for detailed target configuration.
 
