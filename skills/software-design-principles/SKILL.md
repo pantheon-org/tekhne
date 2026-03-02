@@ -120,64 +120,39 @@ Risks: Eventual consistency requires idempotent handlers; harder to debug.
 Validation: Peer review before implementation.
 ```text
 
-## SOLID Principles Reference
-
-For detailed guidance on each principle, see the Quick Reference section below. The SOLID checks in Step 3 provide the actionable refactor signals for tactical decisions.
-
 ## Anti-Patterns
 
 ### NEVER design for imagined future requirements
-
-**WHY:** YAGNI violations create complexity without proven value.  
-**Consequence:** slower delivery and harder maintenance.
 
 **BAD:** Add abstraction "in case" of possible future DB migration.  
 **GOOD:** Solve current need and refactor when trigger appears.
 
 ### NEVER allow circular dependencies
 
-**WHY:** Cycles break modular reasoning and complicate builds.  
-**Consequence:** Fragile deployment and high change risk.
-
 **BAD:** Module A imports B and B imports A.  
 **GOOD:** Extract shared contract/module and invert dependencies.
 
 ### NEVER use god classes/services
-
-**WHY:** Violates single responsibility and creates merge hotspots.  
-**Consequence:** Low testability and unclear ownership.
 
 **BAD:** One class handles auth, persistence, notifications, and reporting.  
 **GOOD:** Split into focused collaborators with clear boundaries.
 
 ### NEVER optimize before measurement
 
-**WHY:** Unmeasured optimization often trades clarity for no gain.  
-**Consequence:** Needless complexity and hidden bugs.
-
 **BAD:** Add cache because function "might be slow."  
 **GOOD:** Measure baseline, optimize when threshold is exceeded.
 
 ### NEVER hard-code environment configuration and secrets
-
-**WHY:** Hard-coded values block secure deployment and portability.  
-**Consequence:** Security leaks and environment drift.
 
 **BAD:** Inline passwords/URLs in source.  
 **GOOD:** Use environment/config providers.
 
 ### NEVER bypass interface contracts when integrating dependencies
 
-**WHY:** Direct concrete coupling reduces substitution and testability.  
-**Consequence:** Brittle tests and expensive refactors.
-
 **BAD:** Instantiate concrete infra type in domain workflow.  
 **GOOD:** Depend on interface/port and inject implementation.
 
 ### NEVER bypass TypeScript strictness in design-critical paths
-
-**WHY:** Weak typing hides invalid states and contract violations.  
-**Consequence:** Runtime errors that static checks should catch.
 
 **BAD:** Broad `any` and repeated `@ts-ignore`.  
 **GOOD:** Model uncertain values as `unknown` and narrow explicitly.
