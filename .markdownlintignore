@@ -3,3 +3,4 @@ evals/**
 skills/**/evals/
 **/*evals*.md
 skills/markdown-authoring/references/
+skills/ansible-validator/assets/test/**

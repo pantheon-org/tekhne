@@ -32,3 +32,8 @@ Thumbs.db
 *.tmp
 *.bak
 .cache/
+
+# Exclude test role artifacts from skill conventions
+assets/test/roles/**/templates/
+assets/test/roles/**/schemas/
+assets/test/roles/**/scripts/
