@@ -18,7 +18,7 @@
 
 Overall: PASSED (0 errors, 0 warnings)
 
-Judge Evaluation
+## Judge Evaluation
 
   Description: 100%
     specificity: 3/3 - Lists multiple specific concrete actions: 'Generate Terraform modules, configure providers, define variables and outputs, set up remote state backends, and write production-ready HCL (.tf files)' - these are all distinct, actionable capabilities.
