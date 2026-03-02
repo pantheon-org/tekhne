@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/colyseus-multiplayer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "summary": "Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, or server-side anti-cheat constraints. Keywords: colyseus, room lifecycle, schema, multiplayer, websocket, matchmaking, onJoin, onLeave, onDrop, allowReconnection.",
   "skills": {
