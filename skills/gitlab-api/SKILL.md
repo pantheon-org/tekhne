@@ -1,12 +1,6 @@
 ---
 name: gitlab-api
 description: Fetches and analyzes GitLab merge request (MR) comments, metadata, and review feedback using authenticated API calls. Capabilities include fetching comment threads, retrieving reviewer feedback, filtering unresolved discussions, and generating MR activity reports. Use when the user asks about GitLab MR comments, code review discussions, review feedback, approval status, troubleshooting review delays, or needs to fetch merge request metadata via the GitLab API.
-version: 0.2.1
-tags:
-  - gitlab
-  - api
-  - merge-requests
-  - code-review
 ---
 
 # GitLab API Integration
@@ -58,24 +52,9 @@ Comment body text
 
 **When to Examine Script Internals:**
 
-**DO NOT read script source** for:
-- Basic usage (fetching comments, standard workflows)
-- Standard error handling (401, 404)
-
-**READ script source** when:
-- Debugging unexpected output format
-- Extending script for custom metadata
-- Understanding URL encoding for nested groups
+Read script source when debugging unexpected output, extending for custom metadata, or understanding URL encoding. For basic usage, the examples above suffice.
 
 Script location: `.agents/skills/gitlab-api/scripts/get_mr_comments.sh` (~80 lines)
-
-## Before Analyzing MR Comments
-
-Ask yourself:
-- **Purpose**: What insight am I trying to extract? (review summary, blockers, team dynamics)
-- **Signal**: What differentiates valuable feedback from noise? (System: false, DiffNote vs comment)
-- **Temporal**: Does recency matter, or full history? (timestamps, recent activity)
-- **Completeness**: Am I filtering out important automated messages? (CI failures, merge conflicts)
 
 ## Common Workflows
 
@@ -100,8 +79,6 @@ Ask yourself:
 2. Compare timestamps to identify recent activity
 3. Flag unresolved DiffNotes and report on response times
 
-**Adapting Workflows**: These patterns are templates. Modify validation checks, add filtering steps, or combine workflows based on your specific analysis needs.
-
 ## Error Handling
 
 **401 Unauthorized**: Token missing or invalid
@@ -112,13 +89,12 @@ Ask yourself:
 - Confirm URL format: `https://gitlab.com/group/project/-/merge_requests/ID`
 - Check token has access to the project
 
-## NEVER Do When Working with GitLab MR Data
+## Critical Pitfalls
 
-- **NEVER parse comment output without checking System field** — automated bot messages will pollute your analysis with CI notifications, merge conflict warnings, and automated code quality reports
-- **NEVER assume Type: comment means low priority** — critical architectural feedback and blocking concerns often appear in general comments rather than inline code reviews
-- **NEVER use grep on raw API JSON responses** — field order isn't guaranteed by the API spec; always use `jq` for JSON parsing to ensure reliable field extraction
-- **NEVER skip response validation** — GitLab API can return 200 OK with error messages embedded in the response body; always check for expected fields like "Author:" before processing
-- **NEVER hardcode project paths in URLs** — nested groups require URL encoding (replace `/` with `%2F`), otherwise the API returns 404 even for valid projects
-- **NEVER cache MR data without considering staleness** — comments can be edited, deleted, or have their resolved status changed; always re-fetch for accuracy in time-sensitive analysis
-- **NEVER ignore DiffNote vs comment distinction** — treating all feedback equally misses the critical difference between code-level technical debt and high-level architectural discussions
-- **NEVER process ISO8601 timestamps without timezone awareness** — all timestamps are UTC; converting to local time without proper handling causes incorrect temporal analysis
+- Check System field to exclude bot messages
+- Use `jq` for JSON parsing, never grep on raw API JSON
+- Validate responses before processing (API returns 200 OK with errors)
+- URL-encode nested groups (`%2F` for `/` in project paths)
+- Re-fetch for time-sensitive analysis (comments can be edited/deleted)
+- Respect Type distinction: DiffNote (code-level) vs comment (architectural)
+- Handle UTC timestamps with proper timezone conversion

@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/gitlab-api",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "private": true,
   "summary": "Retrieve and analyze GitLab merge request comments and metadata using authenticated API calls",
   "skills": {

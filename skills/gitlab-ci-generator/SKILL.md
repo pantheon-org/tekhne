@@ -58,24 +58,21 @@ After reading references, output this confirmation before proceeding:
 
 ### 1. Basic CI/CD Pipelines
 
-Generate complete `.gitlab-ci.yml` files with proper structure, security best practices, and efficient CI/CD patterns.
+Generate complete `.gitlab-ci.yml` files with proper structure, security best practices, and efficient CI/CD patterns. Use `assets/templates/basic-pipeline.yml` as structural foundation, referencing `references/best-practices.md` and `references/common-patterns.md`.
 
-**Process:**
-1. Understand requirements (stages, jobs, dependencies, artifacts)
-2. Use `assets/templates/basic-pipeline.yml` as structural foundation
-3. Reference `references/best-practices.md` and `references/common-patterns.md`
-4. Apply these principles:
-   - Semantic stage and job names (kebab-case)
-   - Pin Docker images to specific versions (never `:latest`)
-   - Masked variables for secrets; never hardcode credentials
-   - Caching for dependencies (npm, pip, maven, etc.)
-   - Artifact expiration (`expire_in` always set)
-   - `needs` keyword for DAG optimization
-   - `rules` instead of deprecated `only`/`except`
-   - **Explicit `timeout` on ALL jobs** (10–30 minutes typically)
-   - `retry` for flaky operations (network, external APIs)
-   - `resource_group` for deployment jobs
-5. Validate per the [Validation Workflow](#validation-workflow) section
+**Apply these principles:**
+- Semantic stage and job names (kebab-case)
+- Pin Docker images to specific versions (never `:latest`)
+- Masked variables for secrets; never hardcode credentials
+- Caching for dependencies (npm, pip, maven, etc.)
+- Artifact expiration (`expire_in` always set)
+- `needs` keyword for DAG optimization
+- `rules` instead of deprecated `only`/`except`
+- **Explicit `timeout` on ALL jobs** (10–30 minutes typically)
+- `retry` for flaky operations (network, external APIs)
+- `resource_group` for deployment jobs
+
+Validate per the [Validation Workflow](#validation-workflow) section.
 
 **Minimal example:**
 ```yaml
@@ -124,15 +121,7 @@ deploy-production:
 
 ### 2. Docker Build Pipelines
 
-Create pipelines for building, scanning, and pushing Docker images to container registries.
-
-**Process:**
-1. Use `assets/templates/docker-build.yml` as foundation
-2. Implement Docker-in-Docker or Kaniko for builds
-3. Configure registry authentication via GitLab CI predefined variables
-4. Implement image tagging strategy (`$CI_COMMIT_SHORT_SHA`)
-5. Add container security scanning (Trivy or GitLab template)
-6. Validate per the [Validation Workflow](#validation-workflow) section
+Create pipelines for building, scanning, and pushing Docker images to container registries. Use `assets/templates/docker-build.yml` as foundation with Docker-in-Docker or Kaniko, registry authentication via predefined variables, image tagging strategy (`$CI_COMMIT_SHORT_SHA`), and container security scanning (Trivy or GitLab template). Validate per the [Validation Workflow](#validation-workflow) section.
 
 **Minimal example:**
 ```yaml
@@ -157,14 +146,7 @@ docker-build:
 
 ### 3. Kubernetes Deployment Pipelines
 
-Create pipelines deploying to Kubernetes clusters via kubectl, Helm, or Kustomize.
-
-**Process:**
-1. Identify deployment method (kubectl, Helm, Kustomize)
-2. Use `assets/templates/kubernetes-deploy.yml` as foundation
-3. Configure cluster authentication via `$KUBE_CONTEXT`
-4. Implement environment management and rollback capabilities
-5. Validate per the [Validation Workflow](#validation-workflow) section
+Create pipelines deploying to Kubernetes clusters via kubectl, Helm, or Kustomize. Use `assets/templates/kubernetes-deploy.yml` as foundation with cluster authentication via `$KUBE_CONTEXT`, environment management, and rollback capabilities. Validate per the [Validation Workflow](#validation-workflow) section.
 
 **Minimal example:**
 ```yaml
@@ -187,24 +169,11 @@ deploy-k8s:
 
 ### 4. Multi-Project Pipelines
 
-Create pipelines that trigger other projects or use parent-child patterns for monorepos and microservices.
-
-**Process:**
-1. Use `assets/templates/multi-project.yml` or parent-child templates
-2. Configure artifact passing between pipelines
-3. Implement parallel execution where appropriate
-4. Validate per the [Validation Workflow](#validation-workflow) section
+Create pipelines that trigger other projects or use parent-child patterns for monorepos and microservices. Use `assets/templates/multi-project.yml` or parent-child templates with artifact passing between pipelines and parallel execution where appropriate. Validate per the [Validation Workflow](#validation-workflow) section.
 
 ### 5. Reusable Template Configurations
 
-Create modular, DRY configurations using `extends`, YAML anchors, and `include`.
-
-**Process:**
-1. Extract common patterns into hidden jobs (`.template-name`)
-2. Use `extends` for inheritance (preferred over YAML anchors in GitLab CI)
-3. Organize into separate files with `include`
-4. Include explicit `timeout` in all templates
-5. Validate per the [Validation Workflow](#validation-workflow) section
+Create modular, DRY configurations using `extends`, YAML anchors, and `include`. Extract common patterns into hidden jobs (`.template-name`), use `extends` for inheritance (preferred over YAML anchors), organize into separate files with `include`, and include explicit `timeout` in all templates. Validate per the [Validation Workflow](#validation-workflow) section.
 
 **Minimal example:**
 ```yaml
@@ -253,34 +222,13 @@ variables:
 ### Process
 
 1. After generating, invoke `devops-skills:gitlab-ci-validator`
-2. Act on results by severity:
-
-| Severity | Action |
-|----------|--------|
-| **CRITICAL** | Must fix before presenting |
-| **HIGH** | Must fix before presenting |
-| **MEDIUM** | Fix or explain why acceptable |
-| **LOW** | Acknowledge in output |
-| **SUGGESTIONS** | Review and apply if beneficial |
-
+2. Act on results by severity (CRITICAL/HIGH: must fix; MEDIUM: fix or explain; LOW: acknowledge; SUGGESTIONS: review and apply if beneficial)
 3. Fix CRITICAL/HIGH issues and re-validate until clear
 4. Skip validation only for partial snippets, documentation examples, or when user explicitly requests it
 
 ### Presentation Requirements
 
-When presenting the final pipeline, include:
-
-1. **Validation status** — pass/fail with issue counts
-2. **MEDIUM issues table** (if any) — Issue | Status (Fixed/Acceptable) | Explanation
-3. **Suggestions review table** (if any) — Suggestion | Apply/Skip | Reason
-4. **Usage instructions** — Required CI/CD variables, setup steps, pipeline behavior per branch/tag
-
-**MEDIUM issue example:**
-
-| Issue | Status | Explanation |
-|-------|--------|-------------|
-| `image-variable-no-digest` | Acceptable | Using `python:${PYTHON_VERSION}-alpine` allows flexible version management; `PYTHON_VERSION` is internally pinned to "3.12". |
-| `git-strategy-none` | Acceptable | `stop-staging` only runs kubectl commands requiring no source code. |
+See `references/validation-presentation.md` for detailed requirements on presenting validation results, including status tables, issue explanations, and usage instructions.
 
 ---
 
@@ -297,6 +245,7 @@ See `references/best-practices.md` for the full set of security, performance, re
 - `references/common-patterns.md` — Standard patterns (basic CI, Docker, K8s, multi-project)
 - `references/gitlab-ci-reference.md` — Full keyword and syntax reference
 - `references/security-guidelines.md` — Secrets, image, script, and artifact security
+- `references/validation-presentation.md` — Validation results presentation format
 
 ### Template Files
 - `assets/templates/basic-pipeline.yml` — Basic pipeline template
