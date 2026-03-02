@@ -30,6 +30,7 @@ Do not use this workflow for backend-only issues with no UI symptom.
 1. Capture baseline evidence from a known branch.
 2. Apply fix and capture changed evidence with identical steps.
 3. Compare screenshots, DOM, and logs.
+   - If comparison shows unexpected differences: 1) verify identical conditions (URL, viewport, seed data, build mode) 2) check for flaky or animated elements 3) re-capture both runs if needed before concluding.
 4. Record pass/fail outcomes and unresolved risks.
 5. Publish a concise report with links to artifacts.
 
@@ -82,6 +83,22 @@ sh skills/skill-quality-auditor/scripts/evaluate.sh ui-debug-workflow --json
 ```
 
 Expected result: updated score and grade.
+
+## Troubleshooting
+
+**`capture-evidence.sh` fails to run:**
+- Ensure the dev server is running and reachable at the target URL before executing the script.
+- Check that the expected port is not occupied by another process (`lsof -i :<port>`).
+- Confirm Chromium is installed (`npx playwright install chromium`).
+
+**`compare-evidence.sh` produces no output or errors:**
+- Verify both `./baseline` and `./changed` directories exist and contain artifacts.
+- Re-run the capture steps if either directory is empty or incomplete.
+
+**Comparison reveals unexpected differences:**
+1. Confirm identical conditions: same URL, viewport size, seed data, and build mode.
+2. Check for flaky elements (animations, timestamps, dynamic content) that may differ between runs.
+3. Re-capture both baseline and changed runs under verified identical conditions before drawing conclusions.
 
 ## Anti-Patterns
 

@@ -5,7 +5,15 @@
   "summary": "Comprehensive toolkit for validating, linting, testing, and automating Terragrunt configurations, HCL files, and Stacks. Use this skill when working with Terragrunt files (.hcl, terragrunt.hcl, terragrunt.stack.hcl), validating infrastructure-as-code, debugging Terragrunt configurations, performing dry-run testing with terragrunt plan, working with Terragrunt Stacks, or working with custom providers and modules.",
   "skills": {
     "terragrunt-validator": {
-      "path": "SKILL.md"
+      "path": "SKILL.md",
+      "references": [
+        "references/best_practices.md",
+        "references/version_compatibility.md",
+        "references/cli_commands.md",
+        "references/troubleshooting.md",
+        "references/output_interpretation.md",
+        "references/advanced_usage.md"
+      ]
     }
   }
 }

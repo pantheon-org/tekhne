@@ -21,31 +21,7 @@ This skill provides comprehensive validation, linting, and testing capabilities 
 - Running security scans on infrastructure code (Trivy, Checkov)
 - Generating run reports and summaries
 
-## Terragrunt Version Compatibility
-
-This skill is designed for **Terragrunt 0.93+** which includes the new CLI redesign.
-
-### CLI Command Migration Reference
-
-| Deprecated Command | New Command |
-|-------------------|-------------|
-| `run-all` | `run --all` |
-| `hclfmt` | `hcl fmt` |
-| `hclvalidate` | `hcl validate` |
-| `validate-inputs` | `hcl validate --inputs` |
-| `graph-dependencies` | `dag graph` |
-| `render-json` | `render --json -w` |
-| `terragrunt-info` | `info print` |
-| `plan-all`, `apply-all` | `run --all plan`, `run --all apply` |
-
-### Key Changes in 0.93+:
-- `terragrunt run --all` replaces `terragrunt run-all` for multi-module operations
-- `terragrunt dag graph` replaces `terragrunt graph-dependencies` for dependency visualization
-- `terragrunt hcl validate --inputs` replaces `validate-inputs` for input validation
-- HCL syntax validation via `terragrunt hcl fmt --check` or `terragrunt hcl validate`
-- Full validation requires `terragrunt init && terragrunt validate`
-
-If using an older Terragrunt version, some commands may need adjustment.
+> **Note:** This skill is designed for **Terragrunt 0.93+**. For version compatibility details and command migration guidance, see `references/version_compatibility.md`.
 
 ## Core Capabilities
 
@@ -351,248 +327,18 @@ TG_STRICT_CONTROL='cli-redesign,deprecated-commands' terragrunt run --all plan
 # - bare-include: Errors on bare include blocks (use named includes)
 ```
 
-### 7. New CLI Commands (0.93+)
+### 7-11. CLI Commands and Features
 
-#### Render Configuration
-```bash
-# Render configuration to JSON
-terragrunt render --json
+Terragrunt 0.93+ includes many new CLI commands and features. For detailed documentation on:
+- Render configuration and info print
+- Find and list units
+- Run summary and reports
+- Terragrunt Stacks (GA in v0.78.0+)
+- Exec command for running arbitrary programs
+- Feature flags for safe infrastructure changes
+- Experiments for unstable features
 
-# Render and write to file
-terragrunt render --json --write
-
-# Output goes to terragrunt.rendered.json
-```
-
-#### Info Print (replaces terragrunt-info)
-```bash
-# Get contextual information about current configuration
-terragrunt info print
-
-# Output includes:
-# - config_path
-# - download_dir
-# - terraform_binary
-# - working_dir
-```
-
-#### Find and List Units
-```bash
-# Find all units/stacks in directory
-terragrunt find
-
-# Output as JSON
-terragrunt find --json
-
-# Include dependency information
-terragrunt find --json --dag
-
-# List units (simpler output)
-terragrunt list
-```
-
-#### Run Summary and Reports
-```bash
-# Run with summary output (default in newer versions)
-terragrunt run --all plan
-
-# Disable summary output
-terragrunt run --all plan --summary-disable
-
-# Generate detailed report file
-terragrunt run --all plan --report-file=report.json
-
-# CSV format report
-terragrunt run --all plan --report-file=report.csv
-```
-
-### 8. Terragrunt Stacks (GA in v0.78.0+)
-
-Terragrunt Stacks provide declarative infrastructure generation using `terragrunt.stack.hcl` files.
-
-#### Stack File Structure
-```hcl
-# terragrunt.stack.hcl
-locals {
-  environment = "dev"
-  aws_region  = "us-east-1"
-}
-
-# Define a unit (generates a single terragrunt.hcl)
-unit "vpc" {
-  source = "git::git@github.com:acme/infra-catalog.git//units/vpc?ref=v0.0.1"
-  path   = "vpc"
-
-  values = {
-    environment = local.environment
-    cidr        = "10.0.0.0/16"
-  }
-}
-
-unit "database" {
-  source = "git::git@github.com:acme/infra-catalog.git//units/database?ref=v0.0.1"
-  path   = "database"
-
-  values = {
-    environment = local.environment
-    vpc_path    = "../vpc"
-  }
-}
-
-# Include reusable stacks
-stack "monitoring" {
-  source = "git::git@github.com:acme/infra-catalog.git//stacks/monitoring?ref=v0.0.1"
-  path   = "monitoring"
-
-  values = {
-    environment = local.environment
-  }
-}
-```
-
-#### Stack Commands
-```bash
-# Generate stack (creates .terragrunt-stack directory)
-terragrunt stack generate
-
-# Generate stack without validation
-terragrunt stack generate --no-stack-validate
-
-# Run command on all stack units
-terragrunt stack run plan
-terragrunt stack run apply
-
-# Clean generated stack directories
-terragrunt stack clean
-
-# Get stack outputs
-terragrunt stack output
-```
-
-#### Stack Validation Control
-
-Use `no_validation` attribute to skip validation for specific units:
-
-```hcl
-unit "experimental" {
-  source = "git::git@github.com:acme/infra-catalog.git//units/experimental?ref=v0.0.1"
-  path   = "experimental"
-
-  # Skip validation for this unit (useful for incomplete/experimental units)
-  no_validation = true
-
-  values = {
-    environment = local.environment
-  }
-}
-```
-
-#### Benefits of Stacks
-- **Clean working directory**: Generated code in hidden `.terragrunt-stack` directory
-- **Reusable patterns**: Define infrastructure patterns once, deploy many times
-- **Version pinning**: Different environments can pin different versions
-- **Atomic updates**: Easy rollbacks of both modules and configurations
-
-### 9. Exec Command (Run Arbitrary Programs)
-
-The `exec` command allows you to run arbitrary programs against units with Terragrunt context. This is useful for integrating other tools like tflint, checkov, or AWS CLI with Terragrunt's configuration.
-
-```bash
-# Run tflint with unit context (TF_VAR_ env vars available)
-terragrunt exec -- tflint
-
-# Run checkov against specific unit
-terragrunt exec -- checkov -d .
-
-# Run AWS CLI with unit's configuration
-terragrunt exec -- aws s3 ls s3://my-bucket
-
-# Run custom scripts with Terragrunt context
-terragrunt exec -- ./scripts/validate.sh
-
-# Run across all units
-terragrunt run --all exec -- tflint
-```
-
-**Key Features:**
-- Terragrunt loads the inputs for the unit and makes them available as `TF_VAR_` prefixed environment variables
-- Works with any program that can use environment variables
-- Integrates with Terragrunt's authentication context (e.g., AWS profiles)
-- Can be combined with `run --all` for multi-unit operations
-
-**Use Cases:**
-- Running security scanners (checkov, trivy) with unit context
-- Executing linters (tflint) per unit
-- Running operational commands (AWS CLI) with correct credentials
-- Custom validation scripts that need Terragrunt inputs
-
-### 10. Feature Flags (Production Feature)
-
-Terragrunt supports first-class Feature Flags for safe infrastructure changes. Feature flags allow you to integrate incomplete work without risk, decouple release from deployment, and codify IaC evolution.
-
-#### Defining Feature Flags
-
-```hcl
-# terragrunt.hcl
-feature "enable_monitoring" {
-  default = false
-}
-
-feature "use_new_vpc" {
-  default = true
-}
-
-inputs = {
-  monitoring_enabled = feature.enable_monitoring.value
-  vpc_version       = feature.use_new_vpc.value ? "v2" : "v1"
-}
-```
-
-#### Using Feature Flags via CLI
-
-```bash
-# Enable a feature flag
-terragrunt plan --feature enable_monitoring=true
-
-# Enable multiple feature flags
-terragrunt plan --feature enable_monitoring=true --feature use_new_vpc=false
-
-# Via environment variable
-TG_FEATURE='enable_monitoring=true' terragrunt plan
-```
-
-#### Feature Flags with run --all
-
-```bash
-# Apply feature flag across all units
-terragrunt run --all plan --feature enable_monitoring=true
-```
-
-**Benefits:**
-- **Safe rollouts**: Test changes on subset of infrastructure
-- **Gradual migrations**: Enable new features incrementally
-- **A/B testing**: Compare infrastructure configurations
-- **Emergency rollbacks**: Quickly disable problematic features
-
-### 11. Experiments (Opt-in Unstable Features)
-
-Terragrunt provides an experiments system for trying unstable features before they're GA:
-
-```bash
-# Enable all experiments (not recommended for production)
-terragrunt --experiment-mode run --all plan
-
-# Enable specific experiment
-terragrunt --experiment symlinks run --all plan
-
-# Enable CAS (Content Addressable Storage) for faster cloning
-terragrunt --experiment cas run --all plan
-```
-
-**Available Experiments:**
-- `symlinks` - Support symlink resolution for Terragrunt units
-- `cas` - Content Addressable Storage for faster Git/module cloning
-- `filter-flag` - Advanced filtering capabilities (coming in 1.0)
+See `references/cli_commands.md` for complete usage and examples.
 
 ## Validation Workflow
 
@@ -911,132 +657,17 @@ terragrunt hcl fmt --check || {
 echo "Pre-commit validation passed!"
 ```
 
-## Troubleshooting Guide
+## Troubleshooting
 
-### Debug Mode
-
-Enable debug output for troubleshooting:
-
-```bash
-# Terragrunt debug
-TERRAGRUNT_DEBUG=1 terragrunt plan
-
-# Terraform trace
-TF_LOG=TRACE terragrunt plan
-```
-
-### Common Error Patterns
-
-**"Error: Module not found"**
-- Clear cache: `rm -rf .terragrunt-cache`
-- Re-initialize: `terragrunt init`
-
-**"Error: Provider not found"**
-- Check provider configuration
-- Run custom resource detection
-- Use WebSearch to find correct provider source and version
-- Verify required_providers block
-
-**"Error: Invalid function call"**
-- Check Terragrunt version compatibility
-- Review function syntax in documentation
-
-**"Cycle detected in dependency graph"**
-- Review dependency chains
-- Consider refactoring into single module
-- Use data sources instead of dependencies
-
-**"Error acquiring state lock"**
-- Check if another process is running
-- Verify DynamoDB table (for S3 backend)
-- Force unlock if safe: `terragrunt force-unlock <LOCK_ID>`
-
-**"Error: unknown command" (Terragrunt 0.93+)**
-- Terragrunt 0.93+ has a new CLI with breaking changes
-- Commands like `render-json`, `validate-inputs` are deprecated
-- Use `terragrunt run -- <command>` for custom/unsupported commands
-- Replace `graph-dependencies` with `dag graph`
-- See: https://terragrunt.gruntwork.io/docs/migrate/cli-redesign/
+For detailed troubleshooting guidance including debug mode, common error patterns, and resolution steps, see `references/troubleshooting.md`.
 
 ## Output Interpretation
 
-### Success Indicators
-
-✅ **All checks passing:**
-- All HCL files properly formatted
-- Inputs are valid
-- Terraform configuration is valid
-- No linting issues
-- No critical security issues
-- Valid dependency graph
-- Plan generated successfully
-
-### Warning Indicators
-
-⚠️ **Review needed:**
-- Security warnings from tfsec (non-critical)
-- Linting suggestions (best practices)
-- Deprecated provider features
-- Missing recommended configurations
-
-### Error Indicators
-
-✗ **Must fix:**
-- Format errors
-- Invalid inputs
-- Terraform validation failures
-- Circular dependencies
-- Provider authentication failures
-- State locking errors
+For detailed guidance on interpreting validation output, success/warning/error indicators, see `references/output_interpretation.md`.
 
 ## Advanced Usage
 
-### Custom Validation Rules
-
-Create custom tflint rules by adding `.tflint.hcl`:
-
-```hcl
-plugin "terraform" {
-  enabled = true
-  preset  = "recommended"
-}
-
-plugin "aws" {
-  enabled = true
-  version = "0.27.0"
-  source  = "github.com/terraform-linters/tflint-ruleset-aws"
-}
-
-rule "terraform_naming_convention" {
-  enabled = true
-}
-```
-
-### Custom Security Policies
-
-Create custom tfsec policies by adding `.tfsec/config.yml`:
-
-```yaml
-minimum_severity: MEDIUM
-exclude:
-  - AWS001  # Example: exclude specific rules
-```
-
-### Dependency Graph Analysis
-
-Analyze complex dependency chains:
-
-```bash
-# Generate detailed graph (Terragrunt 0.93+ syntax)
-terragrunt dag graph > graph.dot
-
-# Convert to visual format
-dot -Tpng graph.dot > graph.png
-dot -Tsvg graph.dot > graph.svg
-
-# Analyze for circular dependencies
-grep -A5 "cycle" <(terragrunt dag graph 2>&1)
-```
+For advanced topics including custom validation rules, security policies, and dependency graph analysis, see `references/advanced_usage.md`.
 
 ## Resources
 
@@ -1047,14 +678,12 @@ grep -A5 "cycle" <(terragrunt dag graph 2>&1)
 
 ### References
 
-- `references/best_practices.md` - Comprehensive best practices guide covering:
-  - Directory structure patterns
-  - DRY principles and configuration sharing
-  - Dependency management
-  - Security best practices
-  - Testing and validation workflows
-  - Common anti-patterns to avoid
-  - Troubleshooting guides
+- `references/best_practices.md` - Comprehensive best practices guide
+- `references/version_compatibility.md` - Terragrunt version compatibility and CLI migration
+- `references/cli_commands.md` - Detailed CLI commands, Stacks, feature flags, experiments
+- `references/troubleshooting.md` - Debug mode and common error patterns
+- `references/output_interpretation.md` - Validation output indicators
+- `references/advanced_usage.md` - Custom rules, security policies, dependency analysis
 
 ### External Documentation
 
