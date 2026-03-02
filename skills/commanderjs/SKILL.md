@@ -11,31 +11,6 @@ allowed-tools: Read, Write, Edit, Bash
 
 Complete Commander.js framework guidance for building robust command-line interfaces with proper argument parsing, subcommands, options, and TypeScript support.
 
-## When to Apply
-
-Use this skill when:
-- Building CLI tools with Commander.js
-- Parsing command-line arguments and options
-- Implementing subcommands and nested command structures
-- Handling required/optional options and variadic arguments
-- Creating custom help text and version information
-- Implementing action handlers with async/await
-- Integrating Commander.js with TypeScript
-- Migrating from other CLI frameworks (yargs, meow)
-- Handling CLI errors and validation
-- Testing CLI applications
-
-## Categories by Priority
-
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Core Concepts | CRITICAL | `core-` |
-| 2 | Options & Arguments | CRITICAL | `options-` |
-| 3 | Commands & Subcommands | HIGH | `commands-` |
-| 4 | Action Handlers | HIGH | `actions-` |
-| 5 | TypeScript Integration | MEDIUM | `typescript-` |
-| 6 | Best Practices | MEDIUM | `practices-` |
-
 ## How to Use
 
 Read individual reference files for detailed guidance:
@@ -85,7 +60,8 @@ await program.parseAsync(process.argv);
 3. **Structure commands** - Create subcommands and command hierarchies
 4. **Implement actions** - Write action handlers with async/await
 5. **Integrate TypeScript** - Add proper typing and type safety
-6. **Apply best practices** - Error handling, validation, and testing
+6. **Validate parsing** - Test with `--help` and invalid inputs to verify argument parsing and error handling
+7. **Apply best practices** - Error handling, validation, and testing
 
 ## Common Patterns
 
