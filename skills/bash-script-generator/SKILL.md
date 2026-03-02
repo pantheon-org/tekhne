@@ -130,12 +130,12 @@ parse_args() {
 
 ```bash
 main() {
-    parse_args "$@"
+    parse_args "$@"  # From Stage 4
     check_command "grep"
     check_command "awk"
     [[ -n "${INPUT_FILE:-}" ]] || die "Input file not specified. Use -f option."
     validate_file "${INPUT_FILE}"
-    log_info "Starting processing..."
+    log_info "Starting processing..."  # From Stage 4
     # Main logic here
     log_info "Processing completed successfully"
 }
@@ -188,12 +188,15 @@ main "$@"
 
 ## Common Script Patterns
 
-See `references/script-patterns.md` for full templates including text processing and parallel batch processing. Quick reference for the most common case:
+See `references/script-patterns.md` for full templates including text processing and parallel batch processing. Quick reference for simple CLI tools:
 
 **Pattern 1 – Simple CLI tool:**
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail
+
+# For production scripts, use the full logging and argument parsing
+# functions from Stage 4 above. This minimal example demonstrates structure:
 
 usage() { cat << EOF
 Usage: ${0##*/} [OPTIONS] FILE
