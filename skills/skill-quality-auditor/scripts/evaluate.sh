@@ -152,10 +152,26 @@ evaluate_specification_compliance() {
   desc_len=${#description}
   
   if [ "$desc_len" -gt 100 ]; then
-    score=$((score + 3))
+    score=$((score + 2))
   fi
   if [ "$desc_len" -gt 200 ]; then
-    score=$((score + 2))
+    score=$((score + 1))
+  fi
+  
+  # Cross-harness portability checks (3 points)
+  # Check for harness-specific paths
+  if ! echo "$CONTENT" | grep -qE '\.(opencode|claude|cursor|aider|continue)/'; then
+    score=$((score + 1))
+  fi
+  
+  # Check for agent-specific references in instructions
+  if ! echo "$CONTENT" | grep -qiE 'claude code|cursor agent|github copilot|aider|continue\.dev'; then
+    score=$((score + 1))
+  fi
+  
+  # Check for relative paths from skill directory (scripts/, references/, templates/)
+  if echo "$CONTENT" | grep -qE '(scripts|references|templates)/[a-zA-Z0-9_-]+'; then
+    score=$((score + 1))
   fi
   
   if [ "$score" -gt 15 ]; then score=15; fi

@@ -46,6 +46,20 @@ Critical failure modes to avoid when evaluating and improving skill quality.
 - **BAD**: evaluate skills with ad hoc file placement.
 - **GOOD**: enforce conventional directory structure before quality assessment.
 
+### NEVER use harness-specific paths in skill content
+
+- **WHY**: paths like `.opencode/`, `.claude/`, `.cursor/` break cross-harness portability when skills are synced to other agents.
+- **BAD**: reference `.opencode/scripts/setup.sh` in instructions.
+- **GOOD**: use relative paths from skill directory: `scripts/setup.sh`.
+- **IMPACT**: skill fails to load assets when synced to Cursor, Gemini CLI, Aider, or 40+ other agents.
+
+### NEVER mention specific agent names in skill instructions
+
+- **WHY**: skills should work across all agentic harnesses following the Agent Skills specification.
+- **BAD**: "For Claude Code users, run...", "Cursor Agent should...", "GitHub Copilot can...".
+- **GOOD**: use generic agent-agnostic instructions that work everywhere.
+- **IMPACT**: creates confusion and excludes users of other agents unnecessarily.
+
 ## Impact Analysis
 
 Each anti-pattern leads to specific failure modes:
