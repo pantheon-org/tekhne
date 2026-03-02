@@ -26,7 +26,7 @@ Overall: PASSED (0 errors, 1 warnings)
 
     Assessment: This is an excellent skill description that hits all the marks. It provides specific capabilities, explicit 'Use when' guidance, comprehensive trigger terms including both user-facing concepts and API method names, and is clearly distinguishable from other skills through its framework-specific focus on Colyseus 0.17+.
 
-  Content: 100%
+### Content: 100%
     conciseness: 3/3 - The skill is lean and efficient, assuming Claude's competence with TypeScript and multiplayer concepts. No unnecessary explanations of basic concepts like WebSockets or what multiplayer means—every section provides actionable, specific guidance.
     actionability: 3/3 - Provides fully executable TypeScript code with complete room implementation, concrete bash commands with expected results, and specific anti-pattern examples showing both BAD and GOOD code patterns that are copy-paste ready.
     workflow_clarity: 3/3 - The deterministic workflow has clear numbered steps with explicit validation checkpoints (steps 4 and 7) that include specific verification criteria. The workflow covers the full lifecycle from schema definition through multi-client testing with feedback loops for reconnection handling.
@@ -34,6 +34,6 @@ Overall: PASSED (0 errors, 1 warnings)
 
     Assessment: This is an excellent skill document that demonstrates strong technical writing. It provides comprehensive, actionable guidance for Colyseus multiplayer development with executable code examples, explicit validation checkpoints, and well-documented anti-patterns with clear consequences. The structure enables quick reference while supporting deeper exploration through referenced materials.
 
-Average Score: 100%
+## Average Score: 100%
 
 ✔ Skill evaluation completed successfully!
