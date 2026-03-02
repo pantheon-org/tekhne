@@ -121,7 +121,7 @@ For CRDs where kubeconform reports "no schema found", use the documentation from
 
 ### Stage 5: Cluster Dry-Run (if available)
 
-Try server-side dry-run first (runs admission controllers and webhooks):
+Try server-side dry-run first:
 
 ```bash
 kubectl apply --dry-run=server -f <file.yaml>
@@ -130,9 +130,9 @@ kubectl apply --dry-run=server -f <file.yaml>
 **Fallback logic:**
 - Connection error → try `--dry-run=client` and document "Limited validation (no cluster access)"
 - Validation error → record error, continue to Stage 6
-- Parse error → skip client dry-run (same error), continue to Stage 6
+- Parse error → skip client dry-run, continue to Stage 6
 
-For updates to existing resources:
+For updates:
 ```bash
 kubectl diff -f <file.yaml>
 ```
@@ -161,8 +161,6 @@ Suggested Fix:
 ```yaml
         - containerPort: 80
 ```
-
-**Why:** containerPort must be an integer.
 ```
 
 ## Best Practices Reference
@@ -225,26 +223,6 @@ When a YAML file contains multiple resources (separated by `---`):
 - Continue to next stage even if one fails
 - Collect all errors before presenting to user
 - Prioritize fixing earlier stage errors first
-
-## Communication Guidelines
-
-When presenting validation results:
-- Use `file:line` references for all issues
-- Explain why issues matter (e.g., "This will cause pod creation to fail")
-- Group related issues (e.g., all missing label issues together)
-- Provide fix complexity indicators ([Simple], [Medium], [Complex])
-
-## Performance Optimization
-
-### Parallel Tool Execution
-
-**Can run in parallel:**
-- `yamllint` (Stage 2) and `detect_crd_wrapper.sh` (Stage 3) operate independently on the input file
-
-**Must run sequentially:**
-- Stage 0 → Stage 1 → Stages 2+3 (parallel) → Stage 4 → Stage 5 → Stage 6
-
-Parallelising is most beneficial for files with more than 5 resources.
 
 ## Version Awareness
 

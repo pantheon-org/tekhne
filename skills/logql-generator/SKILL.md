@@ -16,27 +16,13 @@ description: Generate label matchers, line filters, log aggregations, and metric
 
 **CRITICAL**: Always engage the user in collaborative planning before generating queries.
 
-### Stage 1: Understand the Goal
+### Stages 1-3: Gather Requirements (use **AskUserQuestion**)
 
-Gather requirements using **AskUserQuestion**:
-
-1. **Primary Goal**: Error analysis, performance tracking, security monitoring, debugging, pattern detection?
-2. **Use Case**: Dashboard, alerting rule, ad-hoc troubleshooting, metrics generation?
-3. **Context**: Application/service, environment, time range, log format?
-
-### Stage 2: Identify Log Sources
-
-1. **Labels**: What labels identify your logs? (`job`, `namespace`, `app`, `level`, `service_name`)
-2. **Log Format**: JSON, logfmt, plain text, or custom?
-3. **Strategy**: Use labels for stream selection (indexed), line filters for content (not indexed)
-
-### Stage 3: Determine Query Parameters
-
-1. **Query Type**: Log query (return lines) or metric query (calculate values)?
-2. **Filtering**: Stream selector `{job="app"}`, line filters `|= "error"`, label filters `| status >= 500`
-3. **Parsing**: `| json`, `| logfmt`, `| pattern "<ip> - <user>"`, `| regexp "(?P<field>...)"`
-4. **Aggregation**: `count_over_time()`, `rate()`, `sum by (label)`, `quantile_over_time()`
-5. **Time Range**: `[5m]`, `[1h]`, `[24h]`
+| Stage | What to Ask |
+|-------|-------------|
+| **1. Goal** | Primary goal (error analysis, performance tracking, security, debugging)? Use case (dashboard, alerting, troubleshooting)? Context (app/service, environment, time range, log format)? |
+| **2. Sources** | Label identifiers (`job`, `namespace`, `app`, `level`)? Log format (JSON, logfmt, plain text)? Strategy: labels for stream selection (indexed), line filters for content (not indexed) |
+| **3. Parameters** | Query type (log/metric)? Filtering (stream selector, line filters, label filters)? Parsing (`json`, `logfmt`, `pattern`, `regexp`)? Aggregation (`count_over_time`, `rate`, `sum by`)? Time range (`[5m]`, `[1h]`)? |
 
 ### Stage 4: Plan, Validate & Consult References
 
@@ -55,25 +41,36 @@ Gather requirements using **AskUserQuestion**:
 **Does this match your intentions?**
 ```
 
-Once confirmed, **MANDATORY**: use the **Read tool** to consult the appropriate reference files before generating. Do NOT rely on prior knowledge or cached information.
+Once confirmed, **MANDATORY**: consult references before generating. Do NOT rely on prior knowledge.
+
+#### Local References (Read tool)
 
 | Query Complexity | File to Read |
 |------------------|-----------------|
-| **Complex aggregations** (nested topk, multiple sum by, percentiles) | `assets/common_queries.logql` — verified patterns |
+| **Complex aggregations** (nested topk, multiple sum by, percentiles) | `assets/common_queries.logql` |
 | **Performance-critical queries** (large time ranges, high-volume streams) | `references/best_practices.md` — sections #1-5, #15-18 |
 | **Alerting rules** | `references/best_practices.md` — sections #19-21, #39 |
 | **Structured metadata / Loki 3.x features** | `references/best_practices.md` — sections #35-37 |
-| **Template functions** (line_format, label_format) | `assets/common_queries.logql` — Template Functions section |
-| **Function/parser syntax** | `references/function_reference.md` — quick lookup tables |
-| **IP filtering, pattern extraction, regex** | `assets/common_queries.logql` — exact syntax |
+| **Template functions** (line_format, label_format) | `assets/common_queries.logql` |
+| **Function/parser syntax** | `references/function_reference.md` |
+| **IP filtering, pattern extraction, regex** | `assets/common_queries.logql` |
 
-**Paths to use with the Read tool**:
+**Example paths**:
+
 ```
-Read(".claude/skills/logql-generator/assets/common_queries.logql")   # Query patterns
-Read(".claude/skills/logql-generator/references/best_practices.md")  # Optimization and anti-patterns
+Read(".claude/skills/logql-generator/assets/common_queries.logql")
+Read(".claude/skills/logql-generator/references/best_practices.md")
 ```
 
-**Why this matters**: Reference files contain battle-tested patterns and edge cases not covered in the skill overview. Explicit consultation during each skill execution ensures you use the latest patterns and prevents syntax errors.
+#### External Documentation (context7 MCP / WebSearch)
+
+Use when local references don't cover the topic:
+
+| Trigger | Use Tool |
+|---------|----------|
+| Loki 3.x features (`approx_topk`, pattern match `\|>`, `vector()`, structured metadata) | context7 MCP → `grafana loki` + topic |
+| Recording rules, unclear syntax, edge cases | context7 MCP → `grafana loki` + topic |
+| Version-specific behavior, Grafana Alloy integration | WebSearch → `"Grafana Loki LogQL [topic] [year]"` |
 
 ### Stage 5: Generate Query
 
@@ -310,43 +307,6 @@ sum(rate({app="api"} | json | level="error" [5m])) or vector(0) > 10
 | Parse errors | Verify log format matches parser, test JSON validity |
 | High cardinality | Use line filters not label filters for unique values, aggregate |
 
-## Documentation Lookup
-
-### When to Fetch External Documentation (MANDATORY)
-
-**Trigger context7 MCP or WebSearch when the query involves ANY of these:**
-
-| Trigger | Topic to Search | Tool to Use |
-|---------|-----------------|-------------|
-| User mentions "Loki 3.x" features | `structured metadata`, `bloom filters`, `detected_level` | context7 MCP |
-| `approx_topk` function needed | `approx_topk probabilistic` | context7 MCP |
-| Pattern match operators (`\|>`, `!>`) | `pattern match operator` | context7 MCP |
-| `vector()` function for alerting | `vector function alerting` | context7 MCP |
-| Recording rules configuration | `recording rules loki` | context7 MCP |
-| Unclear syntax or edge cases | Specific function or operator | context7 MCP |
-| Version-specific behavior questions | Version + feature | WebSearch |
-| Grafana Alloy integration | `grafana alloy loki` | WebSearch |
-
-### How to Use
-
-**context7 MCP** (preferred - authoritative docs):
-```
-1. mcp__context7__resolve-library-id with libraryName="grafana loki"
-2. mcp__context7__get-library-docs with context7CompatibleLibraryID and topic="[specific topic]"
-```
-
-**WebSearch** (fallback for latest features):
-```
-WebSearch query: "Grafana Loki LogQL [topic] documentation [year]"
-```
-
-### Example Workflow
-
-When user asks for "error tracking with trace correlation in Loki 3.x":
-1. Recognize trigger: "Loki 3.x" + "trace" → structured metadata
-2. Fetch docs: `mcp__context7__get-library-docs` with topic="structured metadata trace_id"
-3. Apply patterns from docs to generate accurate query
-
 ## Resources
 
 - **assets/common_queries.logql**: Comprehensive query examples
@@ -357,11 +317,10 @@ When user asks for "error tracking with trace correlation in Loki 3.x":
 
 1. **Always plan interactively** - Present plain-English plan before generating
 2. **Use AskUserQuestion** - Gather requirements and confirm plans
-3. **Consult references** - See Stage 4 for mandatory reference consultation
-4. **Fetch docs for advanced features** - Use context7 MCP for Loki 3.x features (see Documentation Lookup)
-5. **Offer incremental building** - See Stage 5a for step-by-step construction
-6. **Explain queries** - What it does, how to interpret results
-7. **Prioritize performance** - Specific selectors, filter early, simpler parsers
+3. **Consult references** - See Stage 4 for mandatory reference consultation (local + external)
+4. **Offer incremental building** - See Stage 5a for step-by-step construction
+5. **Explain queries** - What it does, how to interpret results
+6. **Prioritize performance** - Specific selectors, filter early, simpler parsers
 
 ## Version Notes
 
