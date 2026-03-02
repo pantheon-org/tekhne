@@ -136,6 +136,7 @@ steps:
 #### Security Benefits
 
 ✅ **Safer than `pull_request_target`** for external PRs:
+
 - Runs with workflow file from target branch (not PR)
 - No access to PR code by default
 - Secrets are safe from malicious PRs
@@ -162,6 +163,7 @@ on:
 #### Event Types
 
 Event types are custom strings you define. Common patterns:
+
 - `deploy-<environment>` - Deployment triggers
 - `run-<task>` - Task execution
 - `notify-<event>` - Notification handling
@@ -355,12 +357,14 @@ jobs:
 #### Security Considerations
 
 🔒 **Token Security:**
+
 - Use a Personal Access Token (PAT) or GitHub App token
 - Minimum required scope: `repo` (for private repos) or `public_repo` (for public repos)
 - Store token in secrets, never in code
 - Rotate tokens regularly
 
 🔒 **Payload Validation:**
+
 - Always validate `client_payload` fields
 - Sanitize user input to prevent injection
 - Use allowlists for critical fields
@@ -527,21 +531,25 @@ jobs:
 #### Common ChatOps Commands
 
 **1. /deploy [environment]**
+
 ```yaml
 startsWith(github.event.comment.body, '/deploy')
 ```
 
 **2. /run-tests [suite]**
+
 ```yaml
 startsWith(github.event.comment.body, '/run-tests')
 ```
 
 **3. /benchmark**
+
 ```yaml
 contains(github.event.comment.body, '/benchmark')
 ```
 
 **4. /approve**
+
 ```yaml
 github.event.comment.body == '/approve'
 ```
@@ -602,12 +610,14 @@ steps:
 #### Security Best Practices for ChatOps
 
 🔒 **Always validate:**
+
 1. Command is from a PR: `github.event.issue.pull_request`
 2. User has permissions: `github.event.comment.author_association`
 3. Command format is valid
 4. Arguments are sanitized
 
 🔒 **Never:**
+
 - Execute arbitrary code from comments
 - Use comment content in shell commands without validation
 - Trust external PR authors for sensitive operations
@@ -902,7 +912,7 @@ curl -X POST \
 
 ## Example Workflows
 
-See the `examples/triggers/` directory for complete working examples:
+See the `assets/examples/triggers/` directory for complete working examples:
 
 - `workflow-orchestration.yml` - CI → Deploy workflow chaining
 - `repository-dispatch.yml` - External API triggers

@@ -7,7 +7,9 @@ This directory contains example workflows and actions generated using the github
 ### Language-Specific CI Pipelines
 
 #### nodejs-ci.yml
+
 Complete CI pipeline for Node.js applications demonstrating:
+
 - Matrix testing across multiple Node.js versions and operating systems
 - Dependency caching with `actions/setup-node`
 - Parallel linting and testing
@@ -18,7 +20,9 @@ Complete CI pipeline for Node.js applications demonstrating:
 **Use case:** Standard CI/CD for Node.js projects
 
 #### python-ci.yml
+
 Python CI pipeline demonstrating:
+
 - Matrix testing across Python versions
 - Virtual environment management
 - Dependency caching with pip
@@ -28,7 +32,9 @@ Python CI pipeline demonstrating:
 **Use case:** Python application CI/CD
 
 #### go-ci.yml
+
 Go CI pipeline demonstrating:
+
 - Go module caching
 - Cross-platform builds
 - Go testing and benchmarking
@@ -39,7 +45,9 @@ Go CI pipeline demonstrating:
 ### Container & Deployment Workflows
 
 #### docker-build-push.yml
+
 Docker image build and push workflow demonstrating:
+
 - Multi-platform builds (amd64, arm64)
 - GitHub Container Registry integration
 - Docker layer caching with GitHub Actions cache
@@ -49,7 +57,9 @@ Docker image build and push workflow demonstrating:
 **Use case:** Containerized application deployment
 
 #### multi-environment-deploy.yml
+
 Multi-environment deployment workflow demonstrating:
+
 - Environment protection rules and approval gates
 - Dynamic environment selection (dev, staging, production)
 - AWS deployment with OIDC authentication
@@ -63,7 +73,9 @@ Multi-environment deployment workflow demonstrating:
 ### Advanced Workflow Patterns
 
 #### monorepo-ci.yml
+
 Monorepo CI pipeline demonstrating:
+
 - Path-based change detection
 - Conditional job execution based on affected packages
 - Cross-package dependency management
@@ -74,7 +86,9 @@ Monorepo CI pipeline demonstrating:
 **Use case:** Monorepo projects with multiple packages
 
 #### scheduled-tasks.yml
+
 Scheduled maintenance workflow demonstrating:
+
 - Cron schedule configuration
 - Dependency security audits
 - Stale branch cleanup
@@ -88,7 +102,9 @@ Scheduled maintenance workflow demonstrating:
 ### Security Workflows
 
 #### security/dependency-review.yml
+
 Dependency review workflow demonstrating:
+
 - Pull request dependency scanning
 - Vulnerability severity thresholds
 - License policy enforcement
@@ -97,7 +113,9 @@ Dependency review workflow demonstrating:
 **Use case:** Supply chain security for PRs
 
 #### security/sbom-attestation.yml
+
 SBOM and attestation workflow demonstrating:
+
 - Software Bill of Materials generation
 - SBOM attestation with GitHub's signing infrastructure
 - Build provenance attestation
@@ -110,7 +128,9 @@ SBOM and attestation workflow demonstrating:
 ## Actions
 
 ### setup-node-cached/action.yml
+
 Composite action for Node.js setup demonstrating:
+
 - Smart dependency caching for npm, yarn, and pnpm
 - Input validation
 - Multiple package manager support
@@ -122,6 +142,7 @@ Composite action for Node.js setup demonstrating:
 ## Usage
 
 These examples can be used as:
+
 1. **Templates** - Copy and modify for your own projects
 2. **Learning Resources** - Study best practices and patterns
 3. **Testing** - Validate with github-actions-validator skill
@@ -138,6 +159,7 @@ bash scripts/validate_workflow.sh ../../github-actions-generator/examples/workfl
 ## Best Practices Demonstrated
 
 All examples follow these best practices:
+
 - ✅ Actions pinned to SHAs with version comments
 - ✅ Minimal permissions with explicit `permissions:` blocks
 - ✅ Concurrency controls to prevent duplicate runs
