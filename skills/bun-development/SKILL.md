@@ -30,8 +30,12 @@ Use this skill when:
 2. Choose the category (runtime, file I/O, testing, sqlite, package, security).
 3. Implement with copy/paste commands from Quick Commands.
 4. Apply anti-pattern checks before finalizing.
+   - If `bun install` fails: check `bun.lock`/`bun.lockb` for merge conflicts, resolve them, and re-run `bun install`.
+   - If tests fail after dependency changes: run `bun test` to isolate regressions before proceeding.
 5. Validate behavior with tests or execution checks.
-6. Document decisions with links to exact references used.
+   - If validation fails: revert the last change, confirm the error, and address the specific failure before re-validating.
+6. For SQL validation (`rg` finds non-prepared statements in existing code): refactor each flagged call to use `db.prepare(...)` with bound parameters before merging; do not leave raw interpolations in place.
+7. Document decisions with links to exact references used.
 
 ## Quick Commands
 
@@ -81,7 +85,7 @@ Expected: service binds configured port and handles requests via `Bun.serve`.
 rg -n "query\\(|prepare\\(" src
 ```
 
-Expected: queries in new code paths use prepared statements where input is user-controlled.
+Expected: queries in new code paths use prepared statements where input is user-controlled. If raw `query(` calls with interpolated values are found in existing code, refactor them to `db.prepare(...)` with bound parameters before proceeding.
 
 ## Categories by Priority
 
