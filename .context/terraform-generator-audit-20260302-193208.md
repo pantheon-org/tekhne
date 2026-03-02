@@ -1,6 +1,8 @@
+# Terraform Generator Skill Quality Audit
+
 - Reviewing skill...
 
-Validation Checks
+## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 490 (<= 500)
   ✔ frontmatter_valid - YAML frontmatter is valid
