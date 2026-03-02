@@ -16,9 +16,9 @@
 
 Overall: PASSED (0 errors, 1 warnings)
 
-Judge Evaluation
+## Judge Evaluation
 
-  Description: 100%
+### Description: 100%
     specificity: 3/3 - Lists multiple specific concrete actions: 'compiler configuration', 'advanced types', 'utility types', 'type guards', 'strict mode workflows', 'documentation patterns', 'configuring tsconfig', 'designing complex generics', 'making illegal states unrepresentable', 'fixing type errors', 'writing testable and maintainable type-safe APIs'.
     trigger_term_quality: 3/3 - Excellent coverage of natural terms users would say: 'TypeScript', 'tsconfig', 'generics', 'type errors', 'type guards', 'utility types', 'strict mode', 'type-safe APIs'. These are terms developers naturally use when seeking TypeScript help.
     completeness: 3/3 - Clearly answers both what (comprehensive TypeScript guidance covering specific areas) AND when with explicit triggers ('use when configuring tsconfig, designing complex generics, making illegal states unrepresentable, fixing type errors, or writing testable and maintainable type-safe APIs').
@@ -26,7 +26,7 @@ Judge Evaluation
 
     Assessment: This is a strong skill description that excels across all dimensions. It provides comprehensive coverage of TypeScript-specific capabilities with concrete actions, includes natural trigger terms developers would use, explicitly states both what the skill does and when to use it, and maintains clear distinctiveness from other potential skills.
 
-  Content: 100%
+### Content: 100%
     conciseness: 3/3 - The skill is lean and efficient, consolidating ~3,372 lines into ~120 lines. It assumes Claude's TypeScript competence and avoids explaining basic concepts, with every section earning its place.
     actionability: 3/3 - Provides fully executable code examples for quick fixes, concrete bash commands for type checking and doc generation, and copy-paste ready patterns. The anti-patterns section shows clear BAD/GOOD comparisons with working code.
     workflow_clarity: 3/3 - The Navigation Workflow section provides a clear 6-step sequence with explicit validation checkpoints (run `npx tsc --noEmit` after each change) and feedback loops (if errors persist, consult specific reference files).
@@ -34,6 +34,6 @@ Judge Evaluation
 
     Assessment: This is an exemplary skill that effectively consolidates extensive TypeScript guidance into a concise navigation hub. It excels at actionability with executable code examples, maintains clear workflow with validation checkpoints, and demonstrates excellent progressive disclosure by pointing to detailed reference files without burying content in nested layers.
 
-Average Score: 100%
+## Average Score: 100%
 
 ✔ Skill evaluation completed successfully!
