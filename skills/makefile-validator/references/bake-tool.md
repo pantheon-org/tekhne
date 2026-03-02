@@ -300,8 +300,8 @@ build:
 
 # After (tabs - correct!)
 build:
-	echo "Building..."
-	go build -o app
+ echo "Building..."
+ go build -o app
 ```
 
 ### 2. Variable Assignment Formatting
@@ -345,32 +345,32 @@ Automatically identifies phony targets by analyzing recipes.
 ```makefile
 # Before
 clean:
-	rm -rf build
+ rm -rf build
 
 test:
-	go test ./...
+ go test ./...
 
 install:
-	cp app /usr/local/bin/
+ cp app /usr/local/bin/
 
 # After
 .PHONY: clean test install
 
 clean:
-	rm -rf build
+ rm -rf build
 
 test:
-	go test ./...
+ go test ./...
 
 install:
-	cp app /usr/local/bin/
+ cp app /usr/local/bin/
 ```
 
 **Detection Logic:**
 - Targets with `rm`, `mkdir`, `echo` commands → Phony
 - Targets with `npm`, `go test`, `docker` commands → Phony
 - Targets with `curl`, `ssh`, `scp` commands → Phony
-- Targets producing actual files (*.o, *.a, binaries) → Not phony
+- Targets producing actual files (*.o,*.a, binaries) → Not phony
 
 ### 5. Line Continuation Normalization
 
@@ -396,12 +396,12 @@ Removes all trailing spaces and tabs.
 # Before (invisible trailing spaces marked with ·)
 VAR = value···
 build:···
-	echo "test"··
+ echo "test"··
 
 # After (clean)
 VAR = value
 build:
-	echo "test"
+ echo "test"
 ```
 
 ### 7. Syntax Validation
@@ -431,7 +431,7 @@ target1:prerequisites
 # Preserve legacy formatting in this section
 VAR2   =    value
 target2   :   prerequisites
-	    echo   "custom spacing"
+     echo   "custom spacing"
 # bake-format on
 
 # Standard formatting resumes
@@ -552,21 +552,21 @@ Add to your Makefile:
 .PHONY: format-check format-fix validate-makefile
 
 format-check:
-	@echo "Checking Makefile formatting..."
-	@mbake format --check $(MAKEFILE_LIST)
+ @echo "Checking Makefile formatting..."
+ @mbake format --check $(MAKEFILE_LIST)
 
 format-fix:
-	@echo "Applying formatting to Makefile..."
-	@mbake format $(MAKEFILE_LIST)
+ @echo "Applying formatting to Makefile..."
+ @mbake format $(MAKEFILE_LIST)
 
 validate-makefile:
-	@echo "Validating Makefile syntax..."
-	@mbake validate $(MAKEFILE_LIST)
+ @echo "Validating Makefile syntax..."
+ @mbake validate $(MAKEFILE_LIST)
 
 # Run all checks
 .PHONY: check
 check: format-check validate-makefile
-	@echo "All checks passed!"
+ @echo "All checks passed!"
 ```
 
 Usage:
@@ -955,12 +955,12 @@ checkmake --config checkmake.ini Makefile
 # Makefile validation target
 .PHONY: lint
 lint:
-	@echo "Running mbake..."
-	mbake format --check Makefile
-	mbake validate Makefile
-	@echo "Running checkmake..."
-	checkmake Makefile || true
-	@echo "Lint complete!"
+ @echo "Running mbake..."
+ mbake format --check Makefile
+ mbake validate Makefile
+ @echo "Running checkmake..."
+ checkmake Makefile || true
+ @echo "Lint complete!"
 ```
 
 ### CI/CD with Both Tools
@@ -978,11 +978,11 @@ lint:
 
 ## Resources
 
-- **mbake GitHub**: https://github.com/EbodShojaei/bake
-- **mbake PyPI**: https://pypi.org/project/mbake/
-- **mbake Issues**: https://github.com/EbodShojaei/bake/issues
+- **mbake GitHub**: <https://github.com/EbodShojaei/bake>
+- **mbake PyPI**: <https://pypi.org/project/mbake/>
+- **mbake Issues**: <https://github.com/EbodShojaei/bake/issues>
 - **mbake VS Code Extension**: Search "mbake" in Extensions marketplace
-- **checkmake GitHub**: https://github.com/checkmake/checkmake
+- **checkmake GitHub**: <https://github.com/checkmake/checkmake>
 
 ## Version Compatibility
 
