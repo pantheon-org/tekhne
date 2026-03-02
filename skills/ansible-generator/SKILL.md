@@ -11,80 +11,57 @@ Generate production-ready Ansible resources (playbooks, roles, task files, inven
 
 ## Core Capabilities
 
-### 1. Generate Playbooks
+> **All capabilities follow the same validation loop:** generate → invoke `devops-skills:ansible-validator` → fix errors → re-validate → present output. See [Validation Workflow](#validation-workflow) for full details.
 
-**Triggers:** "Create a playbook to...", "Build a playbook for...", "Generate playbook that..."
+### 1. Generate Playbooks
 
 **Process:**
 1. Clarify target hosts, required privileges, and OS
 2. Read `references/best-practices.md` and `references/module-patterns.md`
 3. Use `assets/templates/playbook/basic_playbook.yml` as structural reference
 4. Generate following mandatory standards (see [Mandatory Standards](#mandatory-standards))
-5. Validate per [Validation Workflow](#validation-workflow)
 
 **Example structure:**
 ```yaml
 ---
-# Playbook: Deploy Web Application
-# Description: Deploy nginx web server with SSL
-# Requirements: Ansible 2.10+, Ubuntu 20.04+
+# Playbook: <title>
+# Description: <what it does>
+# Requirements: Ansible 2.10+, <OS>
 # Variables:
-#   - app_port: Application port (default: 8080)
-# Usage: ansible-playbook -i inventory/production deploy_web.yml
+#   - <var_name>: <description> (default: <value>)
+# Usage: ansible-playbook -i inventory/<env> <playbook>.yml
 
-- name: Deploy and configure web server
-  hosts: webservers
+- name: <Verb phrase describing the play>
+  hosts: <group>
   become: true
   gather_facts: true
   vars:
     app_port: 8080
 
   pre_tasks:
-    - name: Update package cache
-      ansible.builtin.apt:
-        update_cache: true
-        cache_valid_time: 3600
-      when: ansible_os_family == "Debian"
+    - name: <Setup steps>
+      # ...
 
   tasks:
-    - name: Ensure nginx is installed
-      ansible.builtin.package:
-        name: nginx
-        state: present
-      tags: [install, nginx]
-
-    - name: Deploy nginx configuration
-      ansible.builtin.template:
-        src: templates/nginx.conf.j2
-        dest: /etc/nginx/nginx.conf
-        mode: '0644'
-        backup: true
-        validate: 'nginx -t -c %s'
-      notify: Reload nginx
-      tags: [configure]
+    - name: <Verb-first task name>
+      ansible.builtin.<module>:
+        # parameters
+      tags: [<tag1>, <tag2>]
 
   post_tasks:
-    - name: Verify nginx is responding
-      ansible.builtin.uri:
-        url: "http://localhost:{{ app_port }}/health"
-        status_code: 200
-      register: health_check
-      until: health_check.status == 200
-      retries: 5
-      delay: 10
+    - name: <Verification steps>
+      # ...
 
   handlers:
-    - name: Reload nginx
+    - name: <Handler name>
       ansible.builtin.service:
-        name: nginx
+        name: <service>
         state: reloaded
 ```
 
 ---
 
 ### 2. Generate Roles
-
-**Triggers:** "Create a role for...", "Generate a role to...", "Build role that..."
 
 **Process:**
 1. Clarify role purpose and scope
@@ -95,7 +72,6 @@ Generate production-ready Ansible resources (playbooks, roles, task files, inven
 3. Replace all `[PLACEHOLDERS]`: `[ROLE_NAME]`, `[role_name]`, `[PLAYBOOK_DESCRIPTION]`, `[package_name]`, `[service_name]`, `[default_port]`
 4. Prefix all role variables with the role name (e.g., `nginx_port`, `nginx_worker_processes`)
 5. Use `include_vars` for OS-specific variables
-6. Validate per [Validation Workflow](#validation-workflow)
 
 **`meta/argument_specs.yml`** enables automatic variable validation — always include it when generating roles (Ansible 2.11+).
 
@@ -103,62 +79,16 @@ Generate production-ready Ansible resources (playbooks, roles, task files, inven
 
 ### 3. Generate Task Files
 
-**Triggers:** "Create tasks to...", "Generate task file for..."
-
 **Process:**
 1. Define the specific operation
 2. Reference `references/module-patterns.md` for module usage
 3. Generate with: verb-first task names, FQCN modules, idempotency checks, appropriate tags
-4. Validate per [Validation Workflow](#validation-workflow)
 
-**Example (database backup):**
-```yaml
----
-# Tasks: Database backup operations
-
-- name: Create backup directory
-  ansible.builtin.file:
-    path: "{{ backup_dir }}"
-    state: directory
-    mode: '0755'
-    owner: postgres
-    group: postgres
-
-- name: Dump PostgreSQL database
-  ansible.builtin.command: >
-    pg_dump -h {{ db_host }} -U {{ db_user }} -d {{ db_name }}
-    -f {{ backup_dir }}/{{ db_name }}_{{ ansible_date_time.date }}.sql
-  environment:
-    PGPASSWORD: "{{ db_password }}"
-  no_log: true
-  changed_when: true
-
-- name: Compress backup file
-  ansible.builtin.archive:
-    path: "{{ backup_dir }}/{{ db_name }}_{{ ansible_date_time.date }}.sql"
-    dest: "{{ backup_dir }}/{{ db_name }}_{{ ansible_date_time.date }}.sql.gz"
-    format: gz
-    remove: true
-
-- name: Find old backups
-  ansible.builtin.find:
-    paths: "{{ backup_dir }}"
-    patterns: "*.sql.gz"
-    age: "{{ backup_retention_days }}d"
-  register: old_backups
-
-- name: Delete old backup files
-  ansible.builtin.file:
-    path: "{{ item.path }}"
-    state: absent
-  loop: "{{ old_backups.files }}"
-```
+See `assets/templates/` for full task file examples (e.g., database backup, user management).
 
 ---
 
 ### 4. Generate Inventory Files
-
-**Triggers:** "Create inventory for...", "Generate inventory file..."
 
 **Process:**
 1. Understand the infrastructure topology
@@ -175,8 +105,6 @@ Generate production-ready Ansible resources (playbooks, roles, task files, inven
 ---
 
 ### 5. Generate Project Configuration Files
-
-**Triggers:** "Set up Ansible project", "Initialize Ansible configuration"
 
 Use templates from `assets/templates/project/`:
 - `ansible.cfg` — forks, timeout, paths
@@ -222,13 +150,6 @@ All generated resources must follow these standards. See `references/best-practi
 | Secrets | `no_log: true` | plain logging |
 | File perms | `'0644'` configs, `'0600'` secrets | world-writable |
 
-### Module Selection Priority
-
-1. **`ansible.builtin.*`** — always first choice
-2. **Official collection modules** — only when no builtin alternative exists
-3. **`community.*` modules** — third choice
-4. **`command`/`shell`** — last resort only
-
 ### Builtin Fallback Pattern
 
 When validation fails due to missing collections, rewrite using builtins:
@@ -260,6 +181,7 @@ When validation fails due to missing collections, rewrite using builtins:
 ## Common Patterns
 
 ### Multi-OS Support
+
 ```yaml
 - name: Install nginx (Debian/Ubuntu)
   ansible.builtin.apt:
@@ -275,6 +197,7 @@ When validation fails due to missing collections, rewrite using builtins:
 ```
 
 ### Async Long-Running Tasks
+
 ```yaml
 - name: Run database migration
   ansible.builtin.command: /opt/app/migrate.sh
