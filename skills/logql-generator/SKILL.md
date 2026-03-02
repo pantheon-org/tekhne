@@ -69,23 +69,23 @@ Use **AskUserQuestion** to confirm before proceeding.
 
 | Query Complexity | Action Required |
 |------------------|-----------------|
-| **Complex aggregations** (nested topk, multiple sum by, percentiles) | `Read examples/common_queries.logql` for verified patterns |
+| **Complex aggregations** (nested topk, multiple sum by, percentiles) | `Read assets/common_queries.logql` for verified patterns |
 | **Performance-critical queries** (large time ranges, high-volume streams) | `Read references/best_practices.md` sections #1-5, #15-18 |
 | **Alerting rules** | `Read references/best_practices.md` sections #19-21, #39 |
 | **Structured metadata / Loki 3.x features** | `Read references/best_practices.md` sections #35-37 |
-| **Template functions** (line_format, label_format) | `Read examples/common_queries.logql` Template Functions section |
-| **IP filtering, pattern extraction, regex** | `Read examples/common_queries.logql` for exact syntax |
+| **Template functions** (line_format, label_format) | `Read assets/common_queries.logql` Template Functions section |
+| **IP filtering, pattern extraction, regex** | `Read assets/common_queries.logql` for exact syntax |
 
 **How to consult (MUST use Read tool)**:
 ```
 # Use the Read tool with these paths during skill execution:
-Read(".claude/skills/logql-generator/examples/common_queries.logql")   # For query patterns
+Read(".claude/skills/logql-generator/assets/common_queries.logql")   # For query patterns
 Read(".claude/skills/logql-generator/references/best_practices.md")    # For optimization and anti-patterns
 ```
 
 **Example workflow**:
 1. User requests alerting rule with topk aggregation
-2. **MUST** call: `Read examples/common_queries.logql` to get topk patterns
+2. **MUST** call: `Read assets/common_queries.logql` to get topk patterns
 3. **MUST** call: `Read references/best_practices.md` to get alerting best practices (#19-21, #39)
 4. Then generate query using patterns from the files you just read
 
@@ -162,34 +162,44 @@ topk(10, sum by (error_type) (count_over_time({job="app"} | json | level="error"
 ## Building Your Query Step-by-Step
 
 ### Step 1: Stream Selector (verify logs exist)
+
 ```logql
 {app="api"}
 ```
-*Test this first to confirm logs are flowing*
+
+Test this first to confirm logs are flowing
 
 ### Step 2: Add Line Filter (fast pre-filtering)
+
 ```logql
 {app="api"} |= "error"
 ```
-*Reduces data before parsing*
+
+Reduces data before parsing
 
 ### Step 3: Add Parser (extract fields)
+
 ```logql
 {app="api"} |= "error" | json
 ```
-*Now you can filter on extracted labels*
+
+Now you can filter on extracted labels
 
 ### Step 4: Add Label Filter (precise filtering)
+
 ```logql
 {app="api"} |= "error" | json | level="error"
 ```
-*Final filter on parsed data*
+
+Final filter on parsed data
 
 ### Step 5: Add Aggregation (if metric query)
+
 ```logql
 sum(count_over_time({app="api"} |= "error" | json | level="error" [5m]))
 ```
-*Complete metric query*
+
+Complete metric query
 ```
 
 **Benefits of incremental building:**
@@ -210,31 +220,37 @@ sum(count_over_time({app="api"} |= "error" | json | level="error" [5m]))
 ## Advanced Techniques
 
 ### Multiple Parsers
+
 ```logql
 {app="api"} | json | regexp "user_(?P<user_id>\\d+)"
 ```
 
 ### Unwrap for Numeric Metrics
+
 ```logql
 sum(sum_over_time({app="api"} | json | unwrap duration [5m]))
 ```
 
 ### Pattern Match Operators (Loki 3.0+, 10x faster than regex)
+
 ```logql
 {service_name=`app`} |> "<_> level=debug <_>"
 ```
 
 ### Logical Operators
+
 ```logql
 {app="api"} | json | (status_code >= 400 and status_code < 500) or level="error"
 ```
 
 ### Offset Modifier
+
 ```logql
 sum(rate({app="api"} | json | level="error" [5m])) - sum(rate({app="api"} | json | level="error" [5m] offset 1d))
 ```
 
 ### Label Operations
+
 ```logql
 {app="api"} | json | keep namespace, pod, level
 {app="api"} | json | drop pod, instance
@@ -245,14 +261,18 @@ sum(rate({app="api"} | json | level="error" [5m])) - sum(rate({app="api"} | json
 ## Loki 3.x Key Features
 
 ### Structured Metadata
+
 High-cardinality data without indexing (trace_id, user_id, request_id):
+
 ```logql
 # Filter AFTER stream selector, NOT in it
 {app="api"} | trace_id="abc123" | json | level="error"
 ```
 
 ### Query Acceleration (Bloom Filters)
+
 Place structured metadata filters BEFORE parsers:
+
 ```logql
 # ACCELERATED
 {cluster="prod"} | detected_level="error" | logfmt | json
@@ -261,22 +281,26 @@ Place structured metadata filters BEFORE parsers:
 ```
 
 ### approx_topk (Probabilistic)
+
 ```logql
 approx_topk(10, sum by (endpoint) (rate({app="api"}[5m])))
 ```
 
 ### vector() for Alerting
+
 ```logql
 sum(count_over_time({app="api"} | json | level="error" [5m])) or vector(0)
 ```
 
 ### Automatic Labels
+
 - **service_name**: Auto-populated from container name
 - **detected_level**: Auto-detected when `discover_log_levels: true` (stored as structured metadata)
 
 ## Function Reference
 
 ### Log Range Aggregations
+
 | Function | Description |
 |----------|-------------|
 | `rate(log-range)` | Entries per second |
@@ -285,6 +309,7 @@ sum(count_over_time({app="api"} | json | level="error" [5m])) or vector(0)
 | `absent_over_time(log-range)` | Returns 1 if no logs |
 
 ### Unwrapped Range Aggregations
+
 | Function | Description |
 |----------|-------------|
 | `sum_over_time`, `avg_over_time`, `max_over_time`, `min_over_time` | Aggregate numeric values |
@@ -292,17 +317,20 @@ sum(count_over_time({app="api"} | json | level="error" [5m])) or vector(0)
 | `first_over_time`, `last_over_time` | First/last value |
 
 ### Aggregation Operators
+
 `sum`, `avg`, `min`, `max`, `count`, `stddev`, `topk`, `bottomk`, `approx_topk`, `sort`, `sort_desc`
 
 With grouping: `sum by (label1, label2)` or `sum without (label1)`
 
 ### Conversion Functions
+
 | Function | Description |
 |----------|-------------|
 | `duration_seconds(label)` | Convert duration string |
 | `bytes(label)` | Convert byte string (KB, MB) |
 
 ### label_replace()
+
 ```logql
 label_replace(rate({job="api"} |= "err" [1m]), "foo", "$1", "service", "(.*):.*")
 ```
@@ -310,6 +338,7 @@ label_replace(rate({job="api"} |= "err" [1m]), "foo", "$1", "service", "(.*):.*"
 ## Parser Reference
 
 ### logfmt
+
 ```logql
 | logfmt [--strict] [--keep-empty]
 ```
@@ -317,6 +346,7 @@ label_replace(rate({job="api"} |= "err" [1m]), "foo", "$1", "service", "(.*):.*"
 - `--keep-empty`: Keep standalone keys
 
 ### JSON
+
 ```logql
 | json                                           # All fields
 | json method="request.method", status="response.status"  # Specific fields
@@ -333,7 +363,7 @@ Common functions for `line_format` and `label_format`:
 **Regex**: `regexReplaceAll`, `count`
 **Other**: `fromJson`, `default`, `int`, `float64`, `__line__`, `__timestamp__`
 
-See `examples/common_queries.logql` for detailed usage.
+See `assets/common_queries.logql` for detailed usage.
 
 ## Alerting Rules
 
@@ -393,14 +423,14 @@ When user asks for "error tracking with trace correlation in Loki 3.x":
 
 ## Resources
 
-- **examples/common_queries.logql**: Comprehensive query examples
+- **assets/common_queries.logql**: Comprehensive query examples
 - **references/best_practices.md**: 39+ LogQL best practices, performance optimization, anti-patterns
 
 ## Guidelines
 
 1. **Always plan interactively** - Present plain-English plan before generating
 2. **Use AskUserQuestion** - Gather requirements and confirm plans
-3. **MUST use Read tool for complex queries** - Explicitly call `Read` on `examples/common_queries.logql` and `references/best_practices.md` during skill execution for alerting rules, topk, percentiles, or performance-critical queries. Do NOT skip this step or rely on prior knowledge.
+3. **MUST use Read tool for complex queries** - Explicitly call `Read` on `assets/common_queries.logql` and `references/best_practices.md` during skill execution for alerting rules, topk, percentiles, or performance-critical queries. Do NOT skip this step or rely on prior knowledge.
 4. **Fetch docs for advanced features** - Use context7 MCP when Loki 3.x features, approx_topk, or unclear syntax is involved (see Documentation Lookup triggers)
 5. **Offer incremental building** - For learning or debugging, present step-by-step query construction (see Stage 5a)
 6. **Explain queries** - What it does, how to interpret results
