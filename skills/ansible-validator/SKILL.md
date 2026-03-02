@@ -9,7 +9,7 @@ description: Comprehensive toolkit for validating, linting, testing, and automat
 
 Comprehensive toolkit for validating, linting, and testing Ansible playbooks, roles, and collections. Ensures code quality through syntax validation, lint enforcement, dry-run testing, automatic molecule testing for roles, and intelligent documentation lookup for custom modules with version awareness.
 
-**IMPORTANT BEHAVIOR:** When validating any Ansible role, this skill AUTOMATICALLY runs molecule tests if a `molecule/` directory is detected in the role. This is non-negotiable and happens without asking for user permission. If molecule tests cannot run due to environmental issues (Docker, version compatibility), the skill documents the blocker but continues with other validation steps.
+**Key Behavior:** Molecule tests run automatically for roles with `molecule/` directories. If blocked by environment issues, document the blocker and continue with other validation steps.
 
 ## Validation Workflow
 
@@ -28,37 +28,33 @@ Follow this decision tree for comprehensive Ansible validation:
 
 3. Lint and Best Practices
    ├─> Run ansible-lint
-   ├─> Check for deprecated modules (see references/module_alternatives.md)
-   ├─> **DETECT NON-FQCN MODULE USAGE** (apt vs ansible.builtin.apt)
-   │   └─> Run bash scripts/check_fqcn.sh
-   │   └─> Recommend FQCN alternatives from references/module_alternatives.md
+   ├─> Check for deprecated modules (references/module_alternatives.md)
+   ├─> Detect non-FQCN usage: bash scripts/check_fqcn.sh
    └─> Verify role structure
 
 4. Dry-Run Testing (check mode)
    └─> Run ansible-playbook --check --diff (if inventory available)
 
-5. Molecule Testing (for roles) - AUTOMATIC
-   ├─> Check if molecule/ directory exists in role
-   ├─> If present, ALWAYS run bash scripts/test_role.sh <role-path> automatically
-   └─> Report results (pass/fail/blocked) including any environmental blockers
+5. Molecule Testing (for roles)
+   ├─> Check if molecule/ directory exists
+   ├─> If present, run bash scripts/test_role.sh <role-path> automatically
+   └─> Report results (pass/fail/blocked) with any environmental blockers
 
 6. Custom Module/Collection Analysis (if detected)
    ├─> Run bash scripts/extract_ansible_info_wrapper.sh <path> to extract info
    ├─> Lookup docs via Context7 MCP or WebSearch (see Custom Module Lookup below)
    └─> Provide version-specific guidance
 
-7. Security and Best Practices Review - DUAL SCANNING REQUIRED
+6. Security and Best Practices Review
    ├─> Run bash scripts/validate_playbook_security.sh or validate_role_security.sh (Checkov)
-   └─> **ALSO run bash scripts/scan_secrets.sh** (catches passwords, API keys, tokens Checkov may miss)
+   └─> Run bash scripts/scan_secrets.sh (detects hardcoded credentials)
 
-8. Reference Documentation - MANDATORY CONSULTATION
-   ├─> **MUST READ** references/common_errors.md when ANY errors are detected
-   ├─> **MUST READ** references/best_practices.md when warnings are detected
-   ├─> **MUST READ** references/module_alternatives.md for deprecated or non-FQCN modules
-   └─> **MUST READ** references/security_checklist.md when security issues found
+7. Reference Documentation
+   ├─> Read references/common_errors.md when errors detected
+   ├─> Read references/best_practices.md when warnings detected
+   ├─> Read references/module_alternatives.md for deprecated/non-FQCN modules
+   └─> Read references/security_checklist.md when security issues found
 ```
-
-**CRITICAL: Reference files are NOT optional.** When issues are detected, the corresponding reference file MUST be read and its guidance applied. Simply mentioning the reference file path is insufficient — the content must be consulted and relevant guidance extracted.
 
 ## Core Capabilities (Summary)
 
@@ -82,9 +78,9 @@ ansible-lint -x yaml[line-length] playbook.yml  # skip rule
 ansible-lint -f pep8 playbook.yml  # parseable output
 ```
 
-### 3. Security Scanning (Checkov + Secrets)
+### 3. Security Scanning
 
-**Always run both scripts.** Checkov covers SSL/TLS, HTTPS enforcement, package GPG verification, and cloud misconfigurations. `scan_secrets.sh` covers hardcoded credentials Checkov may miss.
+Run both Checkov and secrets scanning:
 
 ```bash
 bash scripts/validate_playbook_security.sh playbook.yml
@@ -92,7 +88,7 @@ bash scripts/validate_role_security.sh roles/webserver/
 bash scripts/scan_secrets.sh <playbook.yml|role-dir|directory>
 ```
 
-Key Checkov checks: `CKV_ANSIBLE_1-6` (cert validation, GPG), `CKV2_ANSIBLE_1-6` (HTTPS, dnf, error handling). Full policy index: <https://www.checkov.io/5.Policy%20Index/ansible.html>
+Checkov covers SSL/TLS, HTTPS enforcement, package GPG verification. Secrets scan catches hardcoded credentials. Key checks: `CKV_ANSIBLE_1-6`, `CKV2_ANSIBLE_1-6`. Full policy: <https://www.checkov.io/5.Policy%20Index/ansible.html>
 
 ```yaml
 # BAD
@@ -118,9 +114,9 @@ ansible-playbook -i inventory playbook.yml --check --tags deploy
 
 Interpret output: `ok` = no change, `changed` = would change, `failed` = would fail (check check_mode support), `skipped` = conditional skip. Note: not all modules support check mode — use `check_mode: no` override where needed.
 
-### 5. Molecule Testing (Automatic for Roles)
+### 5. Molecule Testing
 
-When a `molecule/` directory is detected, `bash scripts/test_role.sh <role-path>` runs automatically without prompting.
+When `molecule/` is detected, `bash scripts/test_role.sh <role-path>` runs automatically.
 
 ```bash
 molecule init scenario --driver-name docker  # initialize
@@ -220,47 +216,6 @@ All validation scripts auto-install required tools in a temporary venv if not av
 | `assets/.ansible-lint` | Pre-configured ansible-lint configuration |
 | `assets/molecule.yml.template` | Molecule configuration template |
 
-## Workflow Examples
-
-### Validate a Single Playbook
-
-```
-1. yamllint → ansible-playbook --syntax-check → ansible-lint
-2. bash scripts/validate_playbook_security.sh playbook.yml
-3. bash scripts/scan_secrets.sh playbook.yml
-4. If custom modules detected, run extract_ansible_info_wrapper.sh and lookup docs
-5. Consult references/ for any issues found; propose fixes
-```
-
-### Validate an Ansible Role
-
-```
-1. bash scripts/validate_role.sh ./roles/webserver/
-2. bash scripts/validate_role_security.sh ./roles/webserver/
-3. bash scripts/scan_secrets.sh ./roles/webserver/
-4. **CRITICAL:** If molecule/ exists → AUTOMATICALLY run bash scripts/test_role.sh ./roles/webserver/
-5. Consult references/ for issues; provide debugging steps for molecule failures
-```
-
-### Dry-Run for Production
-
-```
-1. Verify inventory exists
-2. ansible-playbook --check --diff -i production playbook.yml
-3. Highlight changed tasks, handler notifications, security concerns
-4. Recommend safe/unsafe to apply
-```
-
-### Custom Collection Documentation
-
-```
-User: "community.postgresql.postgresql_db version 2.3.0 — what parameters?"
-1. mcp__context7__resolve-library-id("ansible community.postgresql")
-2. mcp__context7__get-library-docs for postgresql_db module
-3. Fallback: WebSearch "ansible community.postgresql version 2.3.0 postgresql_db documentation"
-4. Extract required vs optional params, examples, version notes
-```
-
 ## Integration with Other Skills
 
 - **k8s-yaml-validator** — when Ansible manages Kubernetes resources
@@ -270,6 +225,5 @@ User: "community.postgresql.postgresql_db version 2.3.0 — what parameters?"
 ## Notes
 
 - Validation order: YAML syntax → Ansible syntax → Lint → Security scan → Secrets scan → Check mode → Molecule tests
-- **CRITICAL:** Role with `molecule/` directory → run molecule tests automatically, no user prompt required
 - Use Ansible Vault for all sensitive data; never commit unencrypted secrets
 - Pin collection versions in `requirements.yml`; test before upgrading
