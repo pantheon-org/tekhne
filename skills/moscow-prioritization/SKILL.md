@@ -1,11 +1,12 @@
 ---
 name: moscow-prioritization
-description: Prioritize product requirements with the MoSCoW framework in a deterministic way. Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts, prevent scope creep, or rebalance backlog under time, budget, or staffing constraints. Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp, release planning, scope control, stakeholder alignment.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+description: >
+  Prioritize product requirements with the MoSCoW framework in a deterministic way. 
+  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts, 
+  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints. 
+  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp, 
+  release planning, scope control, stakeholder alignment.
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # MoSCoW Prioritization
