@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/promql-generator",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Comprehensive toolkit for generating best practice PromQL (Prometheus Query Language) queries following current standards and conventions. Use this skill when creating new PromQL queries, implementing monitoring and alerting rules, or building observability dashboards.",
+  "skills": {
+    "promql-generator": {
+      "path": "SKILL.md"
+    }
+  }
+}
