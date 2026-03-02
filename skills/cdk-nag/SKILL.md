@@ -1,11 +1,6 @@
 ---
 name: cdk-nag
-description: Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding rule packs, triaging findings, writing justified suppressions, integrating checks in CI/CD, or preventing insecure infrastructure patterns in CDK stacks. Keywords: cdk-nag, aws cdk, security linting, compliance, suppressions, aws solutions checks, nist, pci, hipaa.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+description: Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding rule packs, triaging findings, writing justified suppressions, integrating checks in CI/CD, or preventing insecure infrastructure patterns in CDK stacks.
 ---
 
 # CDK Nag
@@ -30,8 +25,9 @@ Do not use this skill for Terraform-only repositories without AWS CDK constructs
 1. Add relevant cdk-nag rule packs to the app.
 2. Synthesize stacks and collect findings.
 3. Fix failing resources where feasible.
-4. Add minimal, scoped suppressions when justified.
-5. Re-run synth and CI checks before merge.
+4. **Checkpoint:** If findings remain after step 3, categorize each as fix / suppress / defer before proceeding. Do not advance until every finding has an owner and decision.
+5. Add minimal, scoped suppressions when justified.
+6. Re-run synth and CI checks before merge.
 
 ## Quick Commands
 
@@ -74,6 +70,44 @@ sh skills/skill-quality-auditor/scripts/evaluate.sh cdk-nag --json
 ```
 
 Expected result: updated skill score and grade.
+
+## Code Examples
+
+### Add a rule pack to a CDK app
+
+```typescript
+import { App, Aspects } from 'aws-cdk-lib';
+import { AwsSolutionsChecks } from 'cdk-nag';
+
+const app = new App();
+
+// Apply the AWS Solutions rule pack to every stack in the app
+Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }));
+```
+
+Expected result: all stacks synthesized with the `AwsSolutionsChecks` pack applied; findings printed to stdout during `cdk synth`.
+
+### Add a scoped suppression on a specific resource
+
+```typescript
+import { NagSuppressions } from 'cdk-nag';
+
+// Suppress a single rule on a specific construct, not the whole stack
+NagSuppressions.addResourceSuppressions(
+  myBucket,
+  [
+    {
+      id: 'AwsSolutions-S1',
+      reason:
+        'Server access logging disabled intentionally: bucket stores only ephemeral build artifacts ' +
+        'with no PII; access is restricted to the CI role via bucket policy. ' +
+        'Risk accepted and documented in ADR-042.',
+    },
+  ],
+);
+```
+
+Expected result: only `myBucket` is exempted from `AwsSolutions-S1`; all other resources and rules remain enforced.
 
 ## Anti-Patterns
 
