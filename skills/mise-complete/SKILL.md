@@ -31,7 +31,8 @@ Do not use this skill when the repository intentionally uses another tool manage
 2. Define or update `mise.toml` tool versions.
 3. Add or normalize tasks for common workflows.
 4. Configure environment variables by scope.
-5. Validate setup with local and CI-safe commands.
+5. Install configured tools and validate with `mise install && mise doctor`.
+6. If `mise install` fails, run `mise doctor` to diagnose path or plugin issues, then re-run `mise install`.
 
 ## Quick Commands
 
@@ -43,6 +44,22 @@ mise install
 
 Expected result: configured runtimes are installed for the current project.
 
+### Verify environment health after install
+
+```bash
+mise doctor
+```
+
+Expected result: no errors reported; any warnings indicate misconfigured plugins or PATH issues to resolve before proceeding.
+
+### Verify active tool versions match pinned values
+
+```bash
+mise ls
+```
+
+Expected result: each tool shows the pinned version from `mise.toml` as the active version.
+
 ### Pin a tool version
 
 ```bash
@@ -50,14 +67,6 @@ mise use node@22
 ```
 
 Expected result: `mise.toml` updated with pinned Node version.
-
-### List active tools and versions
-
-```bash
-mise ls
-```
-
-Expected result: active tools with resolved versions are displayed.
 
 ### Run a named task
 
@@ -82,6 +91,32 @@ sh skills/skill-quality-auditor/scripts/evaluate.sh mise-complete --json
 ```
 
 Expected result: updated audit dimensions and grade.
+
+## mise.toml Example
+
+A minimal `mise.toml` showing pinned tool versions, a task definition, and a scoped environment variable:
+
+```toml
+[tools]
+node = "22.4.0"
+python = "3.12.3"
+terraform = "1.8.5"
+
+[tasks.test]
+description = "Run test suite"
+run = "npm test"
+
+[tasks.lint]
+description = "Run linter"
+run = "npm run lint"
+
+[env]
+NODE_ENV = "development"
+```
+
+- All tool versions are pinned to exact releases for reproducibility.
+- Tasks are self-contained; no implicit shell state is assumed.
+- Environment variables are scoped to this project and not committed with secrets.
 
 ## Anti-Patterns
 
