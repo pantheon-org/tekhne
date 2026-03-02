@@ -1,11 +1,11 @@
 ---
 name: mise-complete
-description: Configure and operate Mise for deterministic developer environments. Use when installing runtime/tool versions, defining reusable tasks, managing layered environment variables, migrating from asdf/nvm/pyenv, or debugging mise.toml behavior in CI and local shells. Keywords: mise, mise.toml, tool versions, tasks, env, asdf migration, setup automation, dev environment.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+description: >
+  Configure and operate Mise for deterministic developer environments. Use when installing runtime/tool versions,
+  defining reusable tasks, managing layered environment variables, migrating from asdf/nvm/pyenv, or debugging
+  mise.toml behavior in CI and local shells. Keywords: mise, mise.toml, tool versions, tasks, env, asdf migration,
+  setup automation, dev environment.
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # Mise Complete
