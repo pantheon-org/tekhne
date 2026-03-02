@@ -12,7 +12,7 @@ A complete, valid CI pipeline that passes all validation checks.
 
 **Usage:**
 ```bash
-bash scripts/validate_workflow.sh examples/valid-ci.yml
+bash scripts/validate_workflow.sh assets/valid-ci.yml
 ```
 
 **Expected Result:** All validations pass
@@ -34,7 +34,7 @@ A workflow containing common intentional errors for testing error detection.
 
 **Usage:**
 ```bash
-bash scripts/validate_workflow.sh examples/with-errors.yml
+bash scripts/validate_workflow.sh assets/with-errors.yml
 ```
 
 **Expected Result:** Multiple errors reported by actionlint
@@ -55,7 +55,7 @@ A workflow using older action versions to test version validation.
 
 **Usage:**
 ```bash
-bash scripts/validate_workflow.sh --check-versions examples/outdated-versions.yml
+bash scripts/validate_workflow.sh --check-versions assets/outdated-versions.yml
 ```
 
 **Expected Result:** Version warnings for outdated actions
@@ -66,22 +66,22 @@ bash scripts/validate_workflow.sh --check-versions examples/outdated-versions.ym
 
 1. **Test successful validation:**
    ```bash
-   bash scripts/validate_workflow.sh examples/valid-ci.yml
+   bash scripts/validate_workflow.sh assets/valid-ci.yml
    ```
 
 2. **Test error detection:**
    ```bash
-   bash scripts/validate_workflow.sh examples/with-errors.yml
+   bash scripts/validate_workflow.sh assets/with-errors.yml
    ```
 
 3. **Test version checking:**
    ```bash
-   bash scripts/validate_workflow.sh --check-versions examples/outdated-versions.yml
+   bash scripts/validate_workflow.sh --check-versions assets/outdated-versions.yml
    ```
 
 4. **Test all examples:**
    ```bash
-   for file in examples/*.yml; do
+   for file in assets/*.yml; do
      echo "=== Testing: $file ==="
      bash scripts/validate_workflow.sh --lint-only "$file"
      echo ""

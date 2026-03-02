@@ -7,5 +7,14 @@
     "github-actions-validator": {
       "path": "SKILL.md"
     }
-  }
+  },
+  "files": [
+    "references/act_usage.md",
+    "references/actionlint_usage.md",
+    "references/common_errors.md",
+    "references/action_versions.md",
+    "references/modern_features.md",
+    "references/runners.md",
+    "assets/README.md"
+  ]
 }
