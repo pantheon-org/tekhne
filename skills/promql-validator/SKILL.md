@@ -3,6 +3,16 @@ name: promql-validator
 description: Comprehensive toolkit for validating, optimizing, and understanding Prometheus Query Language (PromQL) queries. Use this skill when working with PromQL queries to check syntax, detect anti-patterns, identify optimization opportunities, and interactively plan queries with users.
 ---
 
+# PromQL Validator
+
+## Reference Materials
+
+- [Best Practices Guide](references/best_practices.md) - Comprehensive PromQL best practices
+- [Anti-Patterns Reference](references/anti_patterns.md) - Detailed anti-pattern explanations
+- [Good Query Examples](assets/good_queries.promql) - Well-written query patterns
+- [Bad Query Examples](assets/bad_queries.promql) - Common mistakes with corrections
+- [Optimization Examples](assets/optimization_examples.promql) - Before/after optimizations
+
 ## How This Skill Works
 
 This skill performs multi-level validation and provides interactive query planning:
@@ -135,11 +145,11 @@ As shown in `examples/bad_queries.promql` (lines 91-97):
 ```
 
 Citation sources:
-- `examples/good_queries.promql` - for well-formed patterns
-- `examples/optimization_examples.promql` - for before/after comparisons
-- `examples/bad_queries.promql` - for showing what to avoid
-- `docs/best_practices.md` - for detailed explanations
-- `docs/anti_patterns.md` - for anti-pattern deep dives
+- `assets/good_queries.promql` - for well-formed patterns
+- `assets/optimization_examples.promql` - for before/after comparisons
+- `assets/bad_queries.promql` - for showing what to avoid
+- `references/best_practices.md` - for detailed explanations
+- `references/anti_patterns.md` - for anti-pattern deep dives
 
 **Citation Format**: `file_path (lines X-Y)` with the relevant code snippet quoted
 
@@ -157,7 +167,7 @@ Give the user control:
 
 1. **Metric Names**: Must match `[a-zA-Z_:][a-zA-Z0-9_:]*` or use UTF-8 quoting syntax (Prometheus 3.0+):
    - Quoted form: `{"my.metric.with.dots"}`
-   - Using __name__ label: `{__name__="my.metric.with.dots"}`
+   - Using **name** label: `{__name__="my.metric.with.dots"}`
 2. **Label Matchers**: `=` (equal), `!=` (not equal), `=~` (regex match), `!~` (regex not match)
 3. **Time Durations**: `[0-9]+(ms|s|m|h|d|w|y)` - e.g., `5m`, `1h`, `7d`
 4. **Range Vectors**: `metric_name[duration]` - e.g., `http_requests_total[5m]`
@@ -308,14 +318,14 @@ After validation, engage in dialogue:
 
 ## Examples
 
-See the `examples/` directory for:
+See the `assets/` directory for:
 - `good_queries.promql`: Well-written queries following best practices
 - `bad_queries.promql`: Common mistakes and anti-patterns (with corrections)
 - `optimization_examples.promql`: Before/after optimization examples
 
 ## Documentation
 
-See the `docs/` directory for:
+See the `references/` directory for:
 - `best_practices.md`: Comprehensive PromQL best practices guide
 - `anti_patterns.md`: Detailed anti-pattern reference with explanations
 
