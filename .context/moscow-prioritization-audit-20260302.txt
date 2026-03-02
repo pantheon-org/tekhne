@@ -1,0 +1,47 @@
+Skill Quality Audit: moscow-prioritization
+Date: 2026-03-02
+Command: tessl skill review skills/moscow-prioritization
+
+================================================================================
+Validation Checks
+================================================================================
+
+  ✔ skill_md_line_count - SKILL.md line count is 114 (<= 500)
+  ✔ frontmatter_valid - YAML frontmatter is valid
+  ✔ name_field - 'name' field is valid: 'moscow-prioritization'
+  ✔ description_field - 'description' field is valid (494 chars)
+  ✔ compatibility_field - 'compatibility' field not present (optional)
+  ⚠ allowed_tools_field - 'allowed-tools' contains unusual tool name(s)
+  ✔ metadata_version - 'metadata' field not present (optional)
+  ✔ metadata_field - 'metadata' field not present (optional)
+  ✔ license_field - 'license' field not present (optional)
+  ✔ frontmatter_unknown_keys - No unknown frontmatter keys found
+  ✔ body_present - SKILL.md body is present
+
+Overall: PASSED (0 errors, 1 warnings)
+
+================================================================================
+Judge Evaluation
+================================================================================
+
+Description: 100%
+  specificity: 3/3 - Lists multiple specific concrete actions: 'Categorize requirements into Must/Should/Could/Won't tiers', 'generate priority matrices', and 'facilitate trade-off discussions using the MoSCoW framework'.
+  trigger_term_quality: 3/3 - Excellent coverage of natural terms users would say, including explicit keywords section with 'moscow, must should could wont, requirement prioritization, backlog, mvp, release planning, scope control, stakeholder alignment'.
+  completeness: 3/3 - Clearly answers both what (categorize requirements, generate matrices, facilitate discussions) AND when ('Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts, prevent scope creep, or rebalance backlog').
+  distinctiveness_conflict_risk: 3/3 - Clear niche focused specifically on MoSCoW prioritization framework with distinct triggers like 'must should could wont' and 'moscow' that are unlikely to conflict with general project management or other prioritization skills.
+
+  Assessment: This is an excellent skill description that hits all the marks. It provides specific concrete actions, comprehensive trigger terms including an explicit keywords list, clear 'Use when' guidance with multiple scenarios, and a distinct focus on the MoSCoW framework that minimizes conflict risk with other skills.
+
+Content: 100%
+  conciseness: 3/3 - The content is lean and efficient, with no unnecessary explanations of concepts Claude would already know. Every section serves a clear purpose and the anti-patterns use a consistent, compact format.
+  actionability: 3/3 - Provides concrete, copy-paste ready bash commands with expected results, specific percentage thresholds (60% rule), and clear decision criteria. The workflow steps are specific and executable.
+  workflow_clarity: 3/3 - The 7-step deterministic workflow is clearly sequenced with an explicit validation checkpoint at step 5, and step 6 provides a feedback loop with escalation path when validation fails.
+  progressive_disclosure: 3/3 - Clean overview structure with well-signaled one-level-deep references to decision tree, workshop template, and effort balancing docs. Content is appropriately split between main skill and reference files.
+
+  Assessment: This is an exemplary skill document that demonstrates excellent structure and actionability. It provides a clear deterministic workflow with validation checkpoints, concrete commands with expected outputs, and well-organized anti-patterns. The references are appropriately externalized and clearly signaled.
+
+================================================================================
+Overall Score: 100%
+================================================================================
+
+✔ Skill evaluation completed successfully!
