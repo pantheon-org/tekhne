@@ -1,9 +1,10 @@
 ---
 name: nx-executors
-description: Create and operate custom Nx executors in TypeScript monorepos with deterministic schema design, ExecutorContext usage, package-reference registration, cache-aware outputs, and migration-safe testing workflows; use when implementing a new executor, debugging target resolution, or standardizing reusable task orchestration in Nx plugins.
+description: Create and operate custom Nx executors in TypeScript monorepos with deterministic schema design, ExecutorContext usage, package-reference registration, cache-aware outputs, and migration-safe testing workflows; use when implementing a new executor, debugging target resolution, standardizing reusable task orchestration in Nx plugins, building custom build tasks, creating custom commands for workspace automation, or setting up task runners.
 license: MIT
 compatibility: opencode
 metadata:
+  version: 0.2.0
   category: nx-development
   audience: nx-developers
 ---
@@ -47,6 +48,89 @@ Exit: `nx run <project>:<target> --help` resolves successfully.
 Preconditions: target exists in `project.json`.
 Actions: run with and without cache; confirm output paths and behavior.
 Exit: target executes predictably in local and CI contexts.
+
+## Code Examples
+
+### Minimal schema.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "outputPath": {
+      "type": "string",
+      "description": "Output directory for generated files"
+    },
+    "watch": {
+      "type": "boolean",
+      "description": "Enable watch mode",
+      "default": false
+    }
+  },
+  "required": ["outputPath"]
+}
+```
+
+### Basic executor.ts template
+
+```typescript
+import type { ExecutorContext } from '@nx/devkit';
+
+export interface MyExecutorOptions {
+  outputPath: string;
+  watch?: boolean;
+}
+
+export default async function runExecutor(
+  options: MyExecutorOptions,
+  context: ExecutorContext
+): Promise<{ success: boolean }> {
+  const projectName = context.projectName;
+  const projectRoot = context.workspace.projects[projectName].root;
+  
+  try {
+    // Your executor logic here
+    console.log(`Running executor for ${projectName}`);
+    console.log(`Output path: ${options.outputPath}`);
+    
+    return { success: true };
+  } catch (error) {
+    console.error('Executor failed:', error);
+    return { success: false };
+  }
+}
+```
+
+### Executor registration in executors.json
+
+```json
+{
+  "executors": {
+    "my-executor": {
+      "implementation": "./src/executors/my-executor/executor",
+      "schema": "./src/executors/my-executor/schema.json",
+      "description": "Custom executor description"
+    }
+  }
+}
+```
+
+### Target configuration in project.json
+
+```json
+{
+  "targets": {
+    "my-target": {
+      "executor": "@scope/plugin-name:my-executor",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/my-app"
+      }
+    }
+  }
+}
+```
 
 ## Quick Commands
 
