@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/jenkinsfile-validator",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": false,
   "summary": "Comprehensive toolkit for validating, linting, testing, and automating Jenkinsfile pipelines (both Declarative and Scripted). Use this skill when working with Jenkins pipeline files, validating pipeline syntax, checking best practices, debugging pipeline issues, or working with custom plugins.",
   "skills": {

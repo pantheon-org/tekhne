@@ -150,12 +150,6 @@ When a user provides a Jenkinsfile for validation:
 
 5. **Provide inline fix suggestions** when errors are found (include corrected code snippets directly in the response)
 
-## Tools Available
-
-This skill uses standard shell scripts for validation. No special tools or external dependencies are required beyond:
-- bash (for running validation scripts)
-- Basic Unix utilities (grep, awk, sed)
-
 ## External References
 
 - Official Jenkins Pipeline Syntax: <https://www.jenkins.io/doc/book/pipeline/syntax/>
