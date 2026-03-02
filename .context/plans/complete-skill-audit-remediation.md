@@ -25,15 +25,18 @@ Took shortcut by spawning 63 subagents with prompts that bypassed established to
 
 ## Remediation Strategy
 
-### Phase 1: Establish Baseline (Batch 1-5 skills, ~2 hours)
+### Phase 1: Establish Baseline (6 skills, ~3 hours)
 
-**Goal:** Create proper audit structure for 5 representative skills to validate process
+**Goal:** Create proper audit structure for 6 representative skills (including meta-audit) to validate process
+
+**See:** `.context/plans/phase-1-establish-baseline.md` for detailed execution steps
 
 **Skills to process:**
+- skill-quality-auditor (meta-audit of the auditing tool itself)
 - acceptance-criteria (100% tessl score)
 - ansible-generator (93% tessl score)
-- nx-executors (85→100% improvement)
-- dockerfile-generator (93→85% regression)
+- nx-executors (85→99% improvement)
+- dockerfile-generator (76→92% improvement)
 - bdd-testing (existing audit for comparison)
 
 **Actions per skill:**
@@ -50,86 +53,61 @@ Took shortcut by spawning 63 subagents with prompts that bypassed established to
 5. Document any discrepancies or issues with automation
 
 **Success Criteria:**
-- 5 skills have complete audit structure
-- Mapping between tessl (93-100%) and skill-judge (104/120) established
+- 6 skills have complete audit structure (including meta-audit)
+- Mapping between tessl scores and skill-judge scores established
 - Process documented for batch execution
 - Estimated time per skill: 15-20 minutes
 
-### Phase 2: Batch Processing (Remaining 58 skills, ~4-6 hours)
+### Phase 2: Batch Processing (Remaining 57 skills, ~4-6 hours)
 
 **Goal:** Apply validated process to all remaining skills
 
+**See:** `.context/plans/phase-2-batch-processing.md` for detailed batch lists and execution steps
+
 **Execution Strategy:**
-- Process in batches of 10 skills
-- Use single script to automate per-skill workflow
+- Process in 6 batches (5 batches of 10 skills, 1 batch of 7 skills)
+- Use batch-audit.sh script from skill-quality-auditor
+- Apply PASS/WARNING/HALT quality thresholds after each batch
 - Pause between batches to verify structure quality
 
-**Automation Script:**
-```bash
-#!/usr/bin/env sh
-# remediate-skill-audit.sh <skill-name>
+**Automation:**
+- Primary: `sh skills/skill-quality-auditor/scripts/batch-audit.sh <skill1> <skill2> ...`
+- Alternative: `sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json --store` (per-skill)
+- Helper validation: Scripts in `scripts/` directory (audit-helpers.sh, check-skill-audit-status.sh)
 
-SKILL="$1"
-DATE=$(date +%Y-%m-%d)
-
-# 1. Run evaluation with skill-judge framework
-sh skills/skill-quality-auditor/scripts/evaluate.sh "$SKILL" --json --store
-
-# 2. Verify directory structure
-AUDIT_DIR=".context/audits/$SKILL/$DATE"
-if [ ! -d "$AUDIT_DIR" ]; then
-  echo "ERROR: Audit directory not created for $SKILL"
-  exit 1
-fi
-
-# 3. Create symlink to latest
-rm -f ".context/audits/$SKILL/latest"
-ln -s "$DATE" ".context/audits/$SKILL/latest"
-
-# 4. Generate remediation plan if score < 108
-SCORE=$(jq -r '.total' "$AUDIT_DIR/audit.json" 2>/dev/null || echo "0")
-if [ "$SCORE" -lt 108 ]; then
-  echo "Score below A grade threshold, remediation plan will be auto-generated"
-fi
-
-echo "✓ Remediated audit for $SKILL (score: $SCORE/120)"
-```
-
-**Batches:**
-1. Batch 1-10: acceptance-criteria through colyseus-multiplayer
-2. Batch 11-20: commanderjs through extending-nx-plugins
-3. Batch 21-30: fluentbit-generator through journal-entry-creator
-4. Batch 31-40: k8s-debug through nx-biome-integration
-5. Batch 41-50: nx-bun-integration through promql-validator
-6. Batch 51-58: skill-quality-auditor through ui-debug-workflow
+**Note:** Detailed skill lists for each of 6 batches are in phase-2-batch-processing.md
 
 **Success Criteria:**
-- All 63 skills have proper audit structure
+- All 57 remaining skills have proper audit structure
 - Latest symlinks point to current audit
 - Remediation plans exist for skills scoring <108/120
-- Audit summary document updated with skill-judge scores
+- Quality thresholds met (or documented if WARNING/HALT status)
 
-### Phase 3: Analysis & Documentation (1-2 hours)
+### Phase 3: Analysis & Documentation (2-4 hours)
 
 **Goal:** Create comprehensive audit report using established framework
 
+**See:** `.context/plans/phase-3-analysis-documentation.md` for detailed templates and validation steps
+
 **Deliverables:**
-1. **Audit Summary Report** - `.context/audits/summary-2026-03-02.md`
-   - Grade distribution (A/B+/B/C/D)
+1. **Audit Summary Report** - `.context/audits/summary-<DATE>.md`
+   - Automated generation via `scripts/generate-audit-summary.sh`
+   - Grade distribution (A+ through F with 8 categories)
    - Top 10 highest scoring skills
-   - Top 10 skills needing improvement
+   - Top 10 skills needing improvement with weakest dimensions
+   - Dimensional analysis with calculated averages
    - Common patterns in low-scoring dimensions
-   - Comparison to previous audits (if any exist)
 
-2. **Score Mapping Document** - `.context/analysis/tessl-to-skill-judge-mapping.md`
-   - How tessl 93-100% maps to skill-judge 104/120
-   - Dimension-level comparison
-   - Recommendations for future audits
+2. **Score Mapping Document (Optional)** - `.context/analysis/tessl-comparison-<DATE>.md`
+   - Qualitative comparison of tessl vs skill-judge frameworks
+   - Only pursue if publishing to Tessl registry or stakeholder-requested
+   - Can skip if time-constrained or internal use only
 
-3. **Lessons Learned** - `.context/analysis/audit-remediation-lessons-2026-03-02.md`
-   - What went wrong with initial approach
-   - Process improvements for future mass audits
-   - Updates needed to AGENTS.md or skill-quality-auditor docs
+3. **Lessons Learned** - `.context/analysis/audit-remediation-lessons-<DATE>.md`
+   - Root cause analysis of process bypass
+   - Time/effort analysis (remediation vs prevention cost)
+   - Actionable recommendations for future mass operations
+   - Links to Phase 4 process improvements
 
 **Success Criteria:**
 - Complete understanding of current skill quality landscape
@@ -151,16 +129,85 @@ echo "✓ Remediated audit for $SKILL (score: $SCORE/120)"
 - Automated checks enforce audit structure
 - Easy verification of compliance status
 
+## Post-Remediation Verification Checklist
+
+**Note:** This comprehensive checklist serves as the final verification after completing all 4 phases.
+
+### Structural Compliance
+
+- [ ] All skills have `.context/audits/<skill-name>/<date>/` structure
+  ```bash
+  # Dynamic verification
+  skill_count=$(find skills -maxdepth 2 -name "SKILL.md" | wc -l)
+  audit_count=$(find .context/audits -maxdepth 2 -name "latest" -type l | wc -l)
+  
+  echo "Skills found: $skill_count"
+  echo "Audits found: $audit_count"
+  
+  if [ "$skill_count" -eq "$audit_count" ]; then
+    echo "✅ All skills audited ($skill_count/$skill_count)"
+  else
+    echo "⚠️  Missing audits: $((skill_count - audit_count))"
+  fi
+  ```
+- [ ] All audit directories contain `analysis.md`, `audit.json`
+- [ ] All skills with score <108 have `remediation-plan.md`
+- [ ] All skills have `latest` symlink pointing to most recent audit
+
+### Documentation
+
+- [ ] Audit summary report exists (`.context/audits/summary-<DATE>.md`)
+- [ ] Lessons learned document exists (`.context/analysis/audit-remediation-lessons-<DATE>.md`)
+- [ ] Phase 1 and Phase 2 execution notes documented
+- [ ] Tessl comparison completed OR explicitly skipped (optional)
+
+### Process Improvements
+
+- [ ] AGENTS.md updated with explicit audit requirements
+- [ ] skill-quality-auditor/SKILL.md updated with anti-patterns section
+- [ ] Audit status check command created and working (`scripts/check-skill-audit-status.sh`)
+- [ ] Pre-commit hook added (optional)
+
+### Quality Metrics
+
+- [ ] Grade distribution calculated and documented (A+ through F)
+- [ ] Top 10 highest scoring skills identified
+- [ ] Top 10 skills needing improvement identified
+- [ ] Common patterns in low-scoring dimensions analyzed
+- [ ] Dimensional averages calculated across all skills
+
+### Communication
+
+- [ ] Remediation plan marked as COMPLETE
+- [ ] Summary shared with team/stakeholders (if applicable)
+- [ ] Lessons learned reviewed
+- [ ] Next steps identified
+
+### Verification Commands
+
+```bash
+# Run comprehensive compliance check
+./scripts/check-skill-audit-status.sh
+
+# Verify Phase 4 improvements
+grep -q "Skill Quality Audits" AGENTS.md && echo "✅ AGENTS.md updated"
+grep -q "Common Mistakes" skills/skill-quality-auditor/SKILL.md && echo "✅ Anti-patterns documented"
+
+# Confirm all phases completed
+ls -1 .context/audits/summary-*.md && echo "✅ Phase 3 summary exists"
+ls -1 .context/analysis/audit-remediation-lessons-*.md && echo "✅ Lessons learned exists"
+```
+
 ## Execution Timeline
 
-**Total Estimated Time:** 8-10 hours of work spread across phases
+**Total Estimated Time:** 9.5-13.5 hours of work spread across phases
 
 | Phase | Duration | Completion Date |
 |-------|----------|-----------------|
-| Phase 1: Baseline (5 skills) | 2 hours | Day 1 |
-| Phase 2: Batch Processing (58 skills) | 4-6 hours | Day 1-2 |
-| Phase 3: Analysis | 1-2 hours | Day 2 |
-| Phase 4: Process Improvement | 30 min | Day 2 |
+| Phase 1: Baseline (6 skills) | 3 hours | Day 1 |
+| Phase 2: Batch Processing (57 skills) | 4-6 hours | Day 1-2 |
+| Phase 3: Analysis | 2-4 hours | Day 2 |
+| Phase 4: Process Improvement | 30-45 min | Day 2 |
 
 ## Risk Assessment
 
@@ -178,11 +225,12 @@ echo "✓ Remediated audit for $SKILL (score: $SCORE/120)"
 
 ## Success Metrics
 
-1. **Structural Compliance:** 63/63 skills have proper `.context/audits/{skill-name}/{date}/` structure
+1. **Structural Compliance:** All 63 skills have proper `.context/audits/{skill-name}/{date}/` structure
 2. **Documentation:** 100% of skills have analysis.md with 8-dimension scores
-3. **Remediation Plans:** All skills <100/120 have actionable remediation plans
-4. **Baseline Established:** Can compare future audits to 2026-03-02 baseline
+3. **Remediation Plans:** All skills <108/120 have actionable remediation plans
+4. **Baseline Established:** Can compare future audits to current baseline
 5. **Process Documented:** Future audits follow established standard automatically
+6. **Verification Passing:** Post-remediation checklist fully completed
 
 ## Rollback Plan
 
