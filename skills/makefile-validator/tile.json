@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/makefile-validator",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "summary": "Comprehensive toolkit for validating, linting, and optimizing Makefiles. Use this skill when working with Makefiles (Makefile, makefile, *.mk files), validating build configurations, checking for best practices, identifying security issues, or debugging Makefile problems.",
   "skills": {
     "makefile-validator": {
