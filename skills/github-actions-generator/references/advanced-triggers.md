@@ -747,7 +747,7 @@ on:
 
 ### Safe Patterns
 
-**✅ Standard PR validation:**
+#### ✅ Standard PR validation
 
 ```yaml
 on:
@@ -757,7 +757,7 @@ on:
 # Safe: No secrets exposed, runs PR code in isolation
 ```
 
-**✅ Post-CI processing with workflow_run:**
+#### ✅ Post-CI processing with workflow_run
 
 ```yaml
 on:
@@ -768,7 +768,7 @@ on:
 # Safe: Runs after CI, has secrets, but uses target branch code
 ```
 
-##### ⚠️ Dangerous: pull_request_target
+#### ⚠️ Dangerous: pull_request_target
 
 ```yaml
 on:
