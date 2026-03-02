@@ -78,8 +78,6 @@ scripts/
 └── validate_shared_library.sh   # Shared library validator
 ```
 
-**Key Point**: Always use `validate_jenkinsfile.sh` as the main entry point - it orchestrates all other scripts automatically.
-
 ### Shared Library Validation
 
 Validate Jenkins Shared Library files using `validate_shared_library.sh`:
@@ -129,11 +127,11 @@ See [references/common_plugins.md](references/common_plugins.md) for documentati
 - [Validation Rules](references/validation_rules.md): Detailed validation rules, error reporting format, and examples
 - [Troubleshooting](references/troubleshooting.md): Common issues, debug mode, and limitations
 
-## Usage Instructions
+## Workflow When Validating Jenkinsfiles
 
-When a user provides a Jenkinsfile for validation:
+When a user provides a Jenkinsfile for validation, follow this workflow:
 
-1. **Run the main validation script** (recommended - handles everything automatically):
+1. **Always validate syntax first** (errors block execution):
    ```bash
    bash scripts/validate_jenkinsfile.sh <path-to-jenkinsfile>
    ```
@@ -144,7 +142,7 @@ When a user provides a Jenkinsfile for validation:
    - Provide context-specific advice
    - Identify specific plugins being used
 
-3. **After validation, scan for unknown plugins** (Claude's responsibility):
+3. **After validation, look up unknown plugins** (Claude's responsibility):
    - Review the validation output for any unrecognized step names
    - Check `references/common_plugins.md` first for documentation
    - If not found, use Context7 MCP: `mcp__context7__resolve-library-id` with query "jenkinsci \<plugin-name\>"
@@ -160,15 +158,6 @@ When a user provides a Jenkinsfile for validation:
 This skill uses standard shell scripts for validation. No special tools or external dependencies are required beyond:
 - bash (for running validation scripts)
 - Basic Unix utilities (grep, awk, sed)
-
-## Automatic Actions
-
-When this skill is invoked:
-1. Always validate syntax first (errors block execution)
-2. Then check best practices (warnings for improvement)
-3. Look up unknown plugins automatically
-4. Provide actionable suggestions with every issue
-5. Reference documentation files for detailed guidance
 
 ## External References
 
