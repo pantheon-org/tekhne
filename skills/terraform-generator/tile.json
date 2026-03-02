@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/terraform-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "summary": "Comprehensive toolkit for generating best practice Terraform configurations (HCL files) following current standards and conventions. Use this skill when creating new Terraform resources, or building Terraform projects.",
   "skills": {

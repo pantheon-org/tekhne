@@ -202,28 +202,15 @@ terraform-project/
 
 ### Data Sources for Dynamic Values
 
-Always include data sources for dynamic infrastructure values. Do NOT hardcode these:
+Always use data sources for dynamic infrastructure values instead of hardcoding:
 
-```hcl
-# Current AWS region and account info
-data "aws_region" "current" {}
-data "aws_caller_identity" "current" {}
-
-locals {
-  account_id = data.aws_caller_identity.current.account_id
-  region     = data.aws_region.current.name
-}
-```
-
-**Common data sources:**
-
-| Use Case | Data Source |
-|----------|-------------|
-| Current region | `data "aws_region" "current" {}` |
-| Current account | `data "aws_caller_identity" "current" {}` |
-| Available AZs | `data "aws_availability_zones" "available" {}` |
-| Latest AMI | `data "aws_ami" "..."` with filters |
-| Existing VPC | `data "aws_vpc" "..."` |
+| Use Case | Data Source | Example |
+|----------|-------------|---------|
+| Current region | `data "aws_region" "current" {}` | `data.aws_region.current.name` |
+| Current account | `data "aws_caller_identity" "current" {}` | `data.aws_caller_identity.current.account_id` |
+| Available AZs | `data "aws_availability_zones" "available" {}` | `data.aws_availability_zones.available.names` |
+| Latest AMI | `data "aws_ami" "..."` | With `most_recent = true` and filters |
+| Existing VPC | `data "aws_vpc" "..."` | Reference existing infrastructure |
 
 ### Lifecycle Rules on Critical Resources
 
@@ -427,15 +414,13 @@ Generated structure:
 
 ## Error Handling
 
-**Common Issues and Solutions:**
+**Terraform-specific gotchas:**
 
-1. **Provider Not Found:** Ensure provider is listed in `required_providers`, verify source address format (`namespace/name`), check version constraint syntax.
+1. **Provider Not Found:** Verify source address format (`namespace/name`) and version constraint syntax.
 
-2. **Invalid Resource Arguments:** Refer to web search results for custom providers, check required vs optional arguments, verify attribute value types (string, number, bool, list, map).
+2. **Circular Dependencies:** Use explicit `depends_on` or break into separate modules.
 
-3. **Circular Dependencies:** Review resource references, use explicit `depends_on` if needed, consider breaking into separate modules.
-
-4. **Validation Failures:** Run devops-skills:terraform-validator to get detailed errors, fix issues one at a time, re-validate after each fix.
+3. **Validation Failures:** Run devops-skills:terraform-validator for detailed errors, fix iteratively.
 
 ## Version Awareness
 
