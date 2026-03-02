@@ -1,6 +1,6 @@
-- Reviewing skill...
+# BDD Testing Skill Quality Audit
 
-Validation Checks
+## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 132 (<= 500)
   ✔ frontmatter_valid - YAML frontmatter is valid
