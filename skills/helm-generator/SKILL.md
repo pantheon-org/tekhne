@@ -119,12 +119,7 @@ annotations:
   checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
 ```
 
-**Checksum annotation is REQUIRED** for Deployments/StatefulSets/DaemonSets to trigger pod restarts when ConfigMaps or Secrets change. Add conditionally if ConfigMap is optional:
-```yaml
-{{- if .Values.configMap.enabled }}
-checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
-{{- end }}
-```
+**Checksum annotation is REQUIRED** for Deployments/StatefulSets/DaemonSets to trigger restarts on config changes.
 
 ### Stage 6: Create values.yaml
 
@@ -138,15 +133,7 @@ See `assets/values-schema-template.json` for JSON Schema validation.
 
 ### Stage 7: Validate
 
-**ALWAYS validate** using devops-skills:helm-validator skill:
-```
-1. helm lint
-2. helm template (render check)
-3. YAML/schema validation
-4. Dry-run if cluster available
-```
-
-Fix issues and re-validate until all checks pass.
+Run validation using **devops-skills:helm-validator** skill (helm lint, template render, schema checks, dry-run).
 
 ## Template Functions Quick Reference
 
@@ -177,20 +164,14 @@ See `references/helm_template_functions.md` for complete guide.
 
 ## Working with CRDs
 
-See `references/crd_patterns.md` for complete examples.
-
-**Key points:**
-- CRDs you ship → `crds/` directory (not templated, not deleted on uninstall)
-- CR instances → `templates/` directory (fully templated)
-- Always lookup documentation for CRD spec requirements
-- Document operator dependencies in Chart.yaml annotations
+See `references/crd_patterns.md` for complete examples. Ship CRDs in `crds/` directory (not templated); template CR instances in `templates/`.
 
 ## Converting Manifests to Helm
 
-1. **Parameterize:** Names → helpers, values → `values.yaml`
-2. **Apply patterns:** Labels, conditionals, `toYaml` for complex objects
-3. **Add helpers:** Create `_helpers.tpl` with standard helpers
-4. **Validate:** Use devops-skills:helm-validator, test with different values
+1. Parameterize names (use helpers) and extract values
+2. Apply label/conditional patterns, use `toYaml` for complex objects
+3. Create `_helpers.tpl` with standard helpers
+4. Validate with **devops-skills:helm-validator**
 
 ## Error Handling
 
@@ -204,12 +185,14 @@ See `references/crd_patterns.md` for complete examples.
 ## Resources
 
 ### Scripts
+
 | Script | Usage |
 |--------|-------|
 | `scripts/generate_chart_structure.sh` | `bash <script> <chart-name> <output-dir>` |
 | `scripts/generate_standard_helpers.sh` | `bash <script> <chart-name> <chart-dir>` |
 
 ### References
+
 | File | Content |
 |------|---------|
 | `references/helm_template_functions.md` | Complete template function guide |
@@ -217,15 +200,12 @@ See `references/crd_patterns.md` for complete examples.
 | `references/crd_patterns.md` | CRD patterns (cert-manager, Prometheus, Istio, ArgoCD) |
 
 ### Assets
+
 | File | Purpose |
 |------|---------|
 | `assets/_helpers-template.tpl` | Standard helpers template |
 | `assets/values-schema-template.json` | JSON Schema for values validation |
 
-## Integration with devops-skills:helm-validator
+## Post-Generation Validation
 
-After generating charts, **automatically invoke devops-skills:helm-validator** to ensure quality:
-1. Generate chart/templates
-2. Invoke devops-skills:helm-validator skill
-3. Fix identified issues
-4. Re-validate until passing
+After generating charts, invoke **devops-skills:helm-validator** to ensure quality.
