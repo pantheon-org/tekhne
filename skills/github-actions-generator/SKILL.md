@@ -223,6 +223,7 @@ See `references/best-practices.md` for complete guidelines.
 ## Common Patterns
 
 ### Matrix Testing
+
 ```yaml
 strategy:
   matrix:
@@ -232,12 +233,14 @@ strategy:
 ```
 
 ### Conditional Deployment
+
 ```yaml
 deploy:
   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 ```
 
 ### Artifact Sharing
+
 ```yaml
 # Upload
 - uses: actions/upload-artifact@v4
