@@ -27,18 +27,21 @@ Use this skill when:
 ## Validation Capabilities
 
 ### 1. Critical Best Practices
+
 - **.DELETE_ON_ERROR validation**: Checks for this critical GNU Make declaration
 - Ensures partially built files are deleted on recipe failure
 - Prevents corrupt builds from being reused
 - References: [GNU Make Special Targets](https://www.gnu.org/software/make/manual/html_node/Special-Targets.html)
 
 ### 2. Syntax Validation
+
 - **GNU make validation**: Validates using `make -n --dry-run`
 - Catches syntax errors before build time
 - Reports line numbers for syntax issues
 - Validates target dependencies and prerequisites
 
 ### 3. mbake Integration
+
 - **Comprehensive formatting validation**
 - Tab indentation verification for recipes
 - Variable assignment consistency
@@ -48,6 +51,7 @@ Use this skill when:
 - Validates with GNU make before/after formatting
 
 ### 4. Format Checking
+
 - Consistent spacing around assignments
 - Proper spacing after colons
 - Tab vs spaces verification (recipes MUST use tabs)
@@ -56,6 +60,7 @@ Use this skill when:
 - Professional formatting standards
 
 ### 5. Security Checks
+
 - **Unsafe variable expansion** in dangerous commands (rm, sudo, curl, wget)
 - **Hardcoded credentials** detection (passwords, API keys, tokens)
 - **Command injection** vulnerabilities
@@ -64,6 +69,7 @@ Use this skill when:
 - **.EXPORT_ALL_VARIABLES** usage warning (potential data leakage)
 
 ### 6. Best Practices
+
 - **.PHONY declarations** for non-file targets
 - **Tab indentation** enforcement (not spaces)
 - **Error handling** in recipes (set -e, ||, @ prefix)
@@ -75,6 +81,7 @@ Use this skill when:
 - **$(MAKE) usage**: Warns when `make` is used directly instead of `$(MAKE)` for recursive calls
 
 ### 7. Optimization Opportunities
+
 - **Parallel build safety** (.NOTPARALLEL usage)
 - **Intermediate file cleanup** (.INTERMEDIATE, .SECONDARY)
 - **Incremental build efficiency**
@@ -183,6 +190,7 @@ Claude:
 ### Core References
 
 #### best-practices.md
+
 - Makefile organization and structure
 - Variable naming conventions
 - .PHONY target usage
@@ -193,6 +201,7 @@ Claude:
 - Professional Makefile patterns
 
 #### common-mistakes.md
+
 - Spaces vs tabs in recipes
 - Missing .PHONY declarations
 - Improper dependency specification
@@ -203,6 +212,7 @@ Claude:
 - Portability problems
 
 #### bake-tool.md
+
 - mbake installation and configuration
 - Format command options
 - Validation capabilities
@@ -250,6 +260,7 @@ Robust cleanup mechanism:
 ## Installation Requirements
 
 ### Required
+
 - **python3**: For venv and mbake installation
 - **pip3**: For installing mbake
 - **bash**: For running validation script
@@ -266,6 +277,7 @@ Robust cleanup mechanism:
   ```
 
 ### Optional (Recommended)
+
 - **checkmake**: For additional linting coverage
   ```bash
   # With Go (1.16+)
@@ -286,6 +298,7 @@ Robust cleanup mechanism:
   - Dry-run validation with multiple make implementations (bmake, gmake)
 
 ### Automatic Installation
+
 - **mbake**: Automatically installed in isolated venv
   - No manual installation required
   - Automatic cleanup after validation
@@ -400,16 +413,16 @@ jobs:
 ```makefile
 .PHONY: validate-makefile
 validate-makefile:
-	@bash .claude/skills/makefile-validator/scripts/validate_makefile.sh $(MAKEFILE_LIST)
+ @bash .claude/skills/makefile-validator/scripts/validate_makefile.sh $(MAKEFILE_LIST)
 
 .PHONY: format-makefile
 format-makefile:
-	@mbake format --diff $(MAKEFILE_LIST)
-	@read -p "Apply formatting? [y/N] " -n 1 -r; \
-	echo; \
-	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
-		mbake format $(MAKEFILE_LIST); \
-	fi
+ @mbake format --diff $(MAKEFILE_LIST)
+ @read -p "Apply formatting? [y/N] " -n 1 -r; \
+ echo; \
+ if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
+  mbake format $(MAKEFILE_LIST); \
+ fi
 ```
 
 ## Learning Resources
@@ -449,16 +462,17 @@ Use the included documentation to:
 ## Technical Details
 
 ### Directory Structure
+
 ```
 makefile-validator/
 ├── skill.md                    # This file
 ├── scripts/
 │   └── validate_makefile.sh    # Main validation script
-├── docs/
+├── references/
 │   ├── best-practices.md       # Makefile best practices
 │   ├── common-mistakes.md      # Common Makefile mistakes
 │   └── bake-tool.md            # mbake tool reference
-└── examples/
+└── assets/
     ├── good-makefile.mk        # Well-written example
     └── bad-makefile.mk         # Anti-patterns example
 ```
@@ -524,7 +538,7 @@ legacy-target:
 # bake-format on
 
 modern-target:
-	@echo "Standard formatting applies"
+ @echo "Standard formatting applies"
 ```
 
 ### Selective Validation
@@ -563,18 +577,25 @@ For additional linting coverage, consider installing [checkmake](https://github.
 ## Resources
 
 ### Official Documentation
+
 - [GNU Make Manual](https://www.gnu.org/software/make/manual/)
 - [mbake GitHub Repository](https://github.com/EbodShojaei/bake)
 - [mbake PyPI Package](https://pypi.org/project/mbake/)
 - [checkmake GitHub](https://github.com/checkmake/checkmake)
 
 ### Web Resources
+
 - [Makefile Best Practices](https://danyspin97.org/blog/makefiles-best-practices/)
 - [Common Makefile Mistakes](https://moldstud.com/articles/p-makefile-madness-common-pitfalls-and-how-to-avoid-them)
 - [Makefile Optimization](https://moldstud.com/articles/p-makefile-profiling-essentials-best-practices-every-developer-should-know)
 
 ### Internal References
-All documentation is included in the `docs/` directory for offline reference and context loading.
+
+All documentation is included in the `references/` directory for offline reference and context loading:
+
+- [Makefile Best Practices](references/best-practices.md) - Comprehensive guide to writing maintainable Makefiles
+- [Common Makefile Mistakes](references/common-mistakes.md) - Pitfalls to avoid and how to fix them
+- [mbake Tool Reference](references/bake-tool.md) - Documentation for the mbake formatter and linter
 
 ---
 

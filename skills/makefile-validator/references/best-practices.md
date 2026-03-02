@@ -88,11 +88,11 @@ Run entire recipe in a single shell invocation:
 .ONESHELL:
 
 deploy:
-	set -e
-	echo "Deploying..."
-	cd /app
-	git pull
-	./restart.sh
+ set -e
+ echo "Deploying..."
+ cd /app
+ git pull
+ ./restart.sh
 ```
 
 **Without `.ONESHELL`**, each line runs in a separate shell, so `cd` has no effect on subsequent lines.
@@ -173,13 +173,13 @@ Use `/` as delimiter for namespaced targets:
 # Good: Namespaced targets
 .PHONY: docker/build docker/push docker/clean
 docker/build:
-	docker build -t $(IMAGE) .
+ docker build -t $(IMAGE) .
 
 docker/push:
-	docker push $(IMAGE)
+ docker push $(IMAGE)
 
 docker/clean:
-	docker rmi $(IMAGE)
+ docker rmi $(IMAGE)
 
 # Avoid: Flat namespace
 .PHONY: docker-build docker-push docker-clean
@@ -198,17 +198,17 @@ Declare targets that don't create files as phony:
 all: build test
 
 clean:
-	rm -rf $(BUILD_DIR)
+ rm -rf $(BUILD_DIR)
 
 test:
-	go test ./...
+ go test ./...
 
 # BAD: Missing .PHONY - causes issues if files named 'clean' or 'test' exist
 clean:
-	rm -rf build
+ rm -rf build
 
 test:
-	go test ./...
+ go test ./...
 ```
 
 ### Organize .PHONY Declarations
@@ -238,10 +238,10 @@ all: build test
 
 .PHONY: build test
 build:
-	go build -o app
+ go build -o app
 
 test:
-	go test ./...
+ go test ./...
 ```
 
 ## Variable Management
@@ -326,8 +326,8 @@ FLAGS := -Wall
 ```makefile
 # GOOD: Tab character (required)
 build:
-	@echo "Building..."
-	go build -o app
+ @echo "Building..."
+ go build -o app
 
 # BAD: Spaces (will fail)
 build:
@@ -342,29 +342,29 @@ build:
 ```makefile
 # Method 1: Prefix with @ to suppress echo, - to ignore errors
 clean:
-	@echo "Cleaning build artifacts..."
-	-rm -rf $(BUILD_DIR)
-	@echo "Done!"
+ @echo "Cleaning build artifacts..."
+ -rm -rf $(BUILD_DIR)
+ @echo "Done!"
 
 # Method 2: Use || for conditional error handling
 build:
-	mkdir -p $(BUILD_DIR) || exit 1
-	go build -o $(BUILD_DIR)/app || exit 1
+ mkdir -p $(BUILD_DIR) || exit 1
+ go build -o $(BUILD_DIR)/app || exit 1
 
 # Method 3: Use set -e for strict error handling
 test:
-	@set -e; \
-	echo "Running tests..."; \
-	go test ./...; \
-	echo "All tests passed!"
+ @set -e; \
+ echo "Running tests..."; \
+ go test ./...; \
+ echo "All tests passed!"
 
 # Method 4: Check exit codes explicitly
 deploy:
-	@./scripts/deploy.sh
-	@if [ $$? -ne 0 ]; then \
-		echo "Deployment failed!"; \
-		exit 1; \
-	fi
+ @./scripts/deploy.sh
+ @if [ $$? -ne 0 ]; then \
+  echo "Deployment failed!"; \
+  exit 1; \
+ fi
 ```
 
 ### Multi-line Recipes
@@ -372,19 +372,19 @@ deploy:
 ```makefile
 # Use backslash for line continuation
 build: $(SOURCES)
-	@echo "Building $(PROJECT)..."; \
-	mkdir -p $(BUILD_DIR); \
-	$(CC) $(CFLAGS) -o $(BUILD_DIR)/$(PROJECT) $(SOURCES); \
-	echo "Build complete!"
+ @echo "Building $(PROJECT)..."; \
+ mkdir -p $(BUILD_DIR); \
+ $(CC) $(CFLAGS) -o $(BUILD_DIR)/$(PROJECT) $(SOURCES); \
+ echo "Build complete!"
 
 # Or use .ONESHELL for easier multi-line scripts
 .ONESHELL:
 test:
-	echo "Running tests..."
-	for file in tests/*.sh; do
-		bash $$file
-	done
-	echo "All tests passed!"
+ echo "Running tests..."
+ for file in tests/*.sh; do
+  bash $$file
+ done
+ echo "All tests passed!"
 ```
 
 ### Silent vs Verbose Output
@@ -393,20 +393,20 @@ test:
 # Use @ to suppress command echo
 .PHONY: build
 build:
-	@echo "Building..."
-	@$(CC) $(CFLAGS) -o app $(SOURCES)
+ @echo "Building..."
+ @$(CC) $(CFLAGS) -o app $(SOURCES)
 
 # Optional verbose mode
 VERBOSE ?= 0
 ifeq ($(VERBOSE),1)
-	Q :=
+ Q :=
 else
-	Q := @
+ Q := @
 endif
 
 build:
-	$(Q)echo "Building..."
-	$(Q)$(CC) $(CFLAGS) -o app $(SOURCES)
+ $(Q)echo "Building..."
+ $(Q)$(CC) $(CFLAGS) -o app $(SOURCES)
 
 # Usage:
 # make build           # Silent
@@ -420,17 +420,17 @@ build:
 ```makefile
 # GOOD: Proper dependency chain
 app: $(OBJECTS)
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 %.o: %.c %.h
-	$(CC) $(CFLAGS) -c $< -o $@
+ $(CC) $(CFLAGS) -c $< -o $@
 
 # BAD: Missing dependencies - app won't rebuild when headers change
 app: $(OBJECTS)
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+ $(CC) $(CFLAGS) -c $< -o $@
 ```
 
 ### Auto-generate Dependencies (C/C++)
@@ -441,10 +441,10 @@ DEPDIR := .deps
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 
 %.o: %.c $(DEPDIR)/%.d | $(DEPDIR)
-	$(CC) $(DEPFLAGS) $(CFLAGS) -c $< -o $@
+ $(CC) $(DEPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(DEPDIR):
-	@mkdir -p $@
+ @mkdir -p $@
 
 # Include generated dependency files
 -include $(patsubst %,$(DEPDIR)/%.d,$(basename $(SOURCES)))
@@ -457,14 +457,14 @@ Use `|` for prerequisites that shouldn't trigger rebuilds:
 ```makefile
 # Regular prerequisites trigger rebuild
 $(BUILD_DIR)/app: $(SOURCES)
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 # Order-only prerequisites (directories) don't trigger rebuild
 $(BUILD_DIR)/app: $(SOURCES) | $(BUILD_DIR)
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 $(BUILD_DIR):
-	mkdir -p $@
+ mkdir -p $@
 
 # Without |, updating BUILD_DIR timestamp would trigger app rebuild
 # With |, app only rebuilds when SOURCES change
@@ -483,7 +483,7 @@ vpath %.test tests
 
 # Now Make will find files in these directories
 app: main.o utils.o
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 # Make will find src/main.c and src/utils.c automatically
 ```
@@ -497,11 +497,11 @@ app: main.o utils.o
 .PHONY: clean test install
 
 clean:
-	rm -rf $(BUILD_DIR)
+ rm -rf $(BUILD_DIR)
 
 # BAD: Without .PHONY, Make checks for file existence
 clean:
-	rm -rf $(BUILD_DIR)
+ rm -rf $(BUILD_DIR)
 ```
 
 ### Parallel Builds
@@ -514,11 +514,11 @@ clean:
 .NOTPARALLEL: deploy
 
 deploy: build test
-	./scripts/deploy.sh
+ ./scripts/deploy.sh
 
 # Or use order-only prerequisites for partial ordering
 build-frontend: | build-backend
-	npm run build
+ npm run build
 ```
 
 ### Intermediate File Cleanup
@@ -535,7 +535,7 @@ build-frontend: | build-backend
 
 # Example: .o files cleaned after linking
 app: main.o utils.o
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 # main.o and utils.o auto-deleted after successful build
 ```
 
@@ -547,20 +547,20 @@ DATE = $(shell date +%Y%m%d)
 VERSION = $(shell git describe --tags)
 
 target1:
-	echo $(DATE)  # Shell called here
+ echo $(DATE)  # Shell called here
 
 target2:
-	echo $(DATE)  # Shell called again!
+ echo $(DATE)  # Shell called again!
 
 # GOOD: Use := for one-time evaluation
 DATE := $(shell date +%Y%m%d)
 VERSION := $(shell git describe --tags)
 
 target1:
-	echo $(DATE)  # Expands to cached value
+ echo $(DATE)  # Expands to cached value
 
 target2:
-	echo $(DATE)  # Same cached value
+ echo $(DATE)  # Same cached value
 ```
 
 ## Portability
@@ -571,14 +571,14 @@ target2:
 # GOOD: POSIX-compatible commands
 .PHONY: install
 install:
-	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp -f app $(DESTDIR)$(PREFIX)/bin/
-	chmod 755 $(DESTDIR)$(PREFIX)/bin/app
+ mkdir -p $(DESTDIR)$(PREFIX)/bin
+ cp -f app $(DESTDIR)$(PREFIX)/bin/
+ chmod 755 $(DESTDIR)$(PREFIX)/bin/app
 
 # AVOID: Bashisms or GNU-specific features
 install:
-	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp app $(DESTDIR)$(PREFIX)/bin/  # Missing -f for portability
+ mkdir -p $(DESTDIR)$(PREFIX)/bin
+ cp app $(DESTDIR)$(PREFIX)/bin/  # Missing -f for portability
 ```
 
 ### Cross-Platform Variables
@@ -587,16 +587,16 @@ install:
 # Detect operating system
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	PLATFORM := linux
-	EXE_EXT :=
+ PLATFORM := linux
+ EXE_EXT :=
 endif
 ifeq ($(UNAME_S),Darwin)
-	PLATFORM := macos
-	EXE_EXT :=
+ PLATFORM := macos
+ EXE_EXT :=
 endif
 ifeq ($(OS),Windows_NT)
-	PLATFORM := windows
-	EXE_EXT := .exe
+ PLATFORM := windows
+ EXE_EXT := .exe
 endif
 
 # Use platform-specific settings
@@ -608,8 +608,8 @@ APP := app$(EXE_EXT)
 ```makefile
 # BAD: Hard-coded paths
 install:
-	cp app /usr/local/bin/
-	cp docs/app.1 /usr/share/man/man1/
+ cp app /usr/local/bin/
+ cp docs/app.1 /usr/share/man/man1/
 
 # GOOD: Use variables for paths
 PREFIX ?= /usr/local
@@ -617,10 +617,10 @@ BINDIR ?= $(PREFIX)/bin
 MANDIR ?= $(PREFIX)/share/man
 
 install:
-	install -d $(DESTDIR)$(BINDIR)
-	install -m 755 app $(DESTDIR)$(BINDIR)/
-	install -d $(DESTDIR)$(MANDIR)/man1
-	install -m 644 docs/app.1 $(DESTDIR)$(MANDIR)/man1/
+ install -d $(DESTDIR)$(BINDIR)
+ install -m 755 app $(DESTDIR)$(BINDIR)/
+ install -d $(DESTDIR)$(MANDIR)/man1
+ install -m 644 docs/app.1 $(DESTDIR)$(MANDIR)/man1/
 ```
 
 ## Documentation
@@ -652,13 +652,13 @@ all: build test
 # Build the main application binary
 .PHONY: build
 build: $(BUILD_DIR)/$(PROJECT)
-	@echo "Build complete: $(BUILD_DIR)/$(PROJECT)"
+ @echo "Build complete: $(BUILD_DIR)/$(PROJECT)"
 
 # Run all test suites
 .PHONY: test
 test:
-	@echo "Running tests..."
-	@./scripts/run-tests.sh
+ @echo "Running tests..."
+ @./scripts/run-tests.sh
 ```
 
 ### Help Target
@@ -667,30 +667,30 @@ test:
 # Provide a help target
 .PHONY: help
 help:
-	@echo "Available targets:"
-	@echo "  make build    - Build the application"
-	@echo "  make test     - Run tests"
-	@echo "  make clean    - Remove build artifacts"
-	@echo "  make install  - Install to $(PREFIX)"
-	@echo ""
-	@echo "Variables:"
-	@echo "  PREFIX=$(PREFIX)"
-	@echo "  CC=$(CC)"
+ @echo "Available targets:"
+ @echo "  make build    - Build the application"
+ @echo "  make test     - Run tests"
+ @echo "  make clean    - Remove build artifacts"
+ @echo "  make install  - Install to $(PREFIX)"
+ @echo ""
+ @echo "Variables:"
+ @echo "  PREFIX=$(PREFIX)"
+ @echo "  CC=$(CC)"
 
 # Or auto-generate from comments
 .PHONY: help
 help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
-		awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
+ @grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+  awk 'BEGIN {FS = ":.*?## "}; {printf "  %-20s %s\n", $$1, $$2}'
 
 build: ## Build the application
-	@go build -o app
+ @go build -o app
 
 test: ## Run all tests
-	@go test ./...
+ @go test ./...
 
 clean: ## Remove build artifacts
-	@rm -rf $(BUILD_DIR)
+ @rm -rf $(BUILD_DIR)
 ```
 
 ## Security
@@ -700,15 +700,15 @@ clean: ## Remove build artifacts
 ```makefile
 # BAD: Hardcoded secrets
 deploy:
-	curl -H "Authorization: Bearer sk-1234567890" https://api.example.com/deploy
+ curl -H "Authorization: Bearer sk-1234567890" https://api.example.com/deploy
 
 # GOOD: Use environment variables
 deploy:
-	@if [ -z "$$API_TOKEN" ]; then \
-		echo "Error: API_TOKEN not set"; \
-		exit 1; \
-	fi
-	curl -H "Authorization: Bearer $$API_TOKEN" https://api.example.com/deploy
+ @if [ -z "$$API_TOKEN" ]; then \
+  echo "Error: API_TOKEN not set"; \
+  exit 1; \
+ fi
+ curl -H "Authorization: Bearer $$API_TOKEN" https://api.example.com/deploy
 ```
 
 ### Validate Input Variables
@@ -717,16 +717,16 @@ deploy:
 # Validate critical variables
 .PHONY: deploy
 deploy:
-	@if [ -z "$(ENV)" ]; then \
-		echo "Error: ENV not specified (prod|staging|dev)"; \
-		exit 1; \
-	fi
-	@if [ "$(ENV)" != "prod" ] && [ "$(ENV)" != "staging" ] && [ "$(ENV)" != "dev" ]; then \
-		echo "Error: Invalid ENV=$(ENV)"; \
-		exit 1; \
-	fi
-	@echo "Deploying to $(ENV)..."
-	./scripts/deploy.sh $(ENV)
+ @if [ -z "$(ENV)" ]; then \
+  echo "Error: ENV not specified (prod|staging|dev)"; \
+  exit 1; \
+ fi
+ @if [ "$(ENV)" != "prod" ] && [ "$(ENV)" != "staging" ] && [ "$(ENV)" != "dev" ]; then \
+  echo "Error: Invalid ENV=$(ENV)"; \
+  exit 1; \
+ fi
+ @echo "Deploying to $(ENV)..."
+ ./scripts/deploy.sh $(ENV)
 ```
 
 ### Safe Variable Expansion
@@ -734,21 +734,21 @@ deploy:
 ```makefile
 # BAD: Unsafe variable expansion
 clean:
-	rm -rf $(BUILD_DIR)/*  # Dangerous if BUILD_DIR is empty or /
+ rm -rf $(BUILD_DIR)/*  # Dangerous if BUILD_DIR is empty or /
 
 # GOOD: Validate before dangerous operations
 .PHONY: clean
 clean:
-	@if [ -z "$(BUILD_DIR)" ] || [ "$(BUILD_DIR)" = "/" ]; then \
-		echo "Error: Invalid BUILD_DIR"; \
-		exit 1; \
-	fi
-	rm -rf $(BUILD_DIR)/*
+ @if [ -z "$(BUILD_DIR)" ] || [ "$(BUILD_DIR)" = "/" ]; then \
+  echo "Error: Invalid BUILD_DIR"; \
+  exit 1; \
+ fi
+ rm -rf $(BUILD_DIR)/*
 
 # BETTER: Use safer patterns
 BUILD_DIR := build  # Never empty
 clean:
-	@test -d $(BUILD_DIR) && rm -rf $(BUILD_DIR)/* || true
+ @test -d $(BUILD_DIR) && rm -rf $(BUILD_DIR)/* || true
 ```
 
 ## Advanced Patterns
@@ -758,16 +758,16 @@ clean:
 ```makefile
 # Pattern rule for object files
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+ $(CC) $(CFLAGS) -c $< -o $@
 
 # Multiple pattern rules
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+ @mkdir -p $(dir $@)
+ $(CC) $(CFLAGS) -c $< -o $@
 
 # Static pattern rules
 $(OBJECTS): %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+ $(CC) $(CFLAGS) -c $< -o $@
 ```
 
 ### Automatic Variables
@@ -780,9 +780,9 @@ $(OBJECTS): %.o: %.c
 # $* - Stem of pattern rule
 
 build/%.o: src/%.c
-	@mkdir -p $(dir $@)        # Directory of target
-	$(CC) -c $< -o $@          # First prereq to target
-	@echo "Built $@"            # Target name
+ @mkdir -p $(dir $@)        # Directory of target
+ $(CC) -c $< -o $@          # First prereq to target
+ @echo "Built $@"            # Target name
 
 # Example:
 # build/main.o: src/main.c
@@ -806,7 +806,7 @@ VERSION_MAJOR := $(word 1,$(subst ., ,$(VERSION)))
 # Custom functions
 define compile_template
 $(1): $(2)
-	$(CC) $(CFLAGS) -c $$< -o $$@
+ $(CC) $(CFLAGS) -c $$< -o $$@
 endef
 
 $(foreach src,$(SOURCES),$(eval $(call compile_template,$(patsubst %.c,%.o,$(src)),$(src))))
@@ -819,16 +819,16 @@ $(foreach src,$(SOURCES),$(eval $(call compile_template,$(patsubst %.c,%.o,$(src
 DEBUG ?= 0
 
 ifeq ($(DEBUG),1)
-	CFLAGS := -g -O0 -DDEBUG
-	BUILD_TYPE := debug
+ CFLAGS := -g -O0 -DDEBUG
+ BUILD_TYPE := debug
 else
-	CFLAGS := -O2 -DNDEBUG
-	BUILD_TYPE := release
+ CFLAGS := -O2 -DNDEBUG
+ BUILD_TYPE := release
 endif
 
 build:
-	@echo "Building $(BUILD_TYPE) version..."
-	$(CC) $(CFLAGS) -o app $(SOURCES)
+ @echo "Building $(BUILD_TYPE) version..."
+ $(CC) $(CFLAGS) -o app $(SOURCES)
 ```
 
 ## Summary Checklist

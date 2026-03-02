@@ -27,7 +27,7 @@ A comprehensive guide to common mistakes in Makefiles, their consequences, and h
 all: app.bin
 
 app.bin: app.c
-	$(CC) -o $@ $<
+ $(CC) -o $@ $<
 
 # If compilation fails partway through, a partial/corrupt app.bin may exist
 # Next "make" sees the file and thinks target is up-to-date!
@@ -44,7 +44,7 @@ app.bin: app.c
 all: app.bin
 
 app.bin: app.c
-	$(CC) -o $@ $<
+ $(CC) -o $@ $<
 
 # Now if build fails, the partial file is deleted
 # Next "make" will properly rebuild
@@ -64,7 +64,7 @@ app.bin: app.c
 ```makefile
 # Slow: Make checks ~90 built-in suffix rules
 %.o: %.c
-	$(CC) -c $< -o $@
+ $(CC) -c $< -o $@
 ```
 
 **Solution**: Clear .SUFFIXES for faster builds
@@ -74,7 +74,7 @@ app.bin: app.c
 .SUFFIXES:
 
 %.o: %.c
-	$(CC) -c $< -o $@
+ $(CC) -c $< -o $@
 ```
 
 **Impact**: Up to 40% faster rule resolution on large projects
@@ -99,8 +99,8 @@ build:
 ```makefile
 # CORRECT: Tab characters
 build:
-	echo "Building..."  # TAB
-	go build -o app     # TAB
+ echo "Building..."  # TAB
+ go build -o app     # TAB
 ```
 
 **Impact**: Build fails immediately with confusing error message
@@ -114,7 +114,7 @@ build:
 ```makefile
 # WRONG
 build $(SOURCES)
-	$(CC) -o app $^
+ $(CC) -o app $^
 
 # Error: Makefile:1: *** missing separator. Stop.
 ```
@@ -124,7 +124,7 @@ build $(SOURCES)
 ```makefile
 # CORRECT
 build: $(SOURCES)
-	$(CC) -o app $^
+ $(CC) -o app $^
 ```
 
 ### 3. Incorrect Line Continuation
@@ -164,7 +164,7 @@ SOURCES := $(wildcard src/*.c)
 ```makefile
 # WRONG
 message:
-	echo "Building project $(PROJECT)'
+ echo "Building project $(PROJECT)'
 
 # Error: Syntax error or unexpected behavior
 ```
@@ -174,11 +174,11 @@ message:
 ```makefile
 # CORRECT
 message:
-	echo "Building project $(PROJECT)"
+ echo "Building project $(PROJECT)"
 
 # Or use single quotes
 message:
-	echo 'Building project $(PROJECT)'
+ echo 'Building project $(PROJECT)'
 ```
 
 ## Indentation Issues
@@ -190,7 +190,7 @@ message:
 ```makefile
 # WRONG: First line has tab, second has spaces
 build:
-	@echo "Starting..."
+ @echo "Starting..."
     go build -o app  # Spaces!
 
 # Error: Makefile:3: *** missing separator. Stop.
@@ -201,8 +201,8 @@ build:
 ```makefile
 # CORRECT: All tabs
 build:
-	@echo "Starting..."
-	go build -o app
+ @echo "Starting..."
+ go build -o app
 ```
 
 **Editor Configuration**:
@@ -232,7 +232,7 @@ build:
 ```makefile
 # CORRECT: Actual tab character
 build:
-	echo "Building..."  # TAB (shows as single character)
+ echo "Building..."  # TAB (shows as single character)
 ```
 
 ## Target and Dependency Problems
@@ -244,10 +244,10 @@ build:
 ```makefile
 # WRONG: Missing .PHONY
 clean:
-	rm -rf build
+ rm -rf build
 
 test:
-	go test ./...
+ go test ./...
 
 # If files named 'clean' or 'test' exist, targets won't run!
 # $ touch clean  # Create a file named 'clean'
@@ -262,10 +262,10 @@ test:
 .PHONY: clean test all install
 
 clean:
-	rm -rf build
+ rm -rf build
 
 test:
-	go test ./...
+ go test ./...
 ```
 
 **Impact**:
@@ -280,10 +280,10 @@ test:
 ```makefile
 # WRONG: Missing header dependencies
 app: main.o utils.o
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $<
+ $(CC) $(CFLAGS) -c $<
 
 # If headers change, .o files won't rebuild!
 ```
@@ -293,18 +293,18 @@ app: main.o utils.o
 ```makefile
 # CORRECT: Include header dependencies
 app: main.o utils.o
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 main.o: main.c main.h common.h
-	$(CC) $(CFLAGS) -c main.c
+ $(CC) $(CFLAGS) -c main.c
 
 utils.o: utils.c utils.h common.h
-	$(CC) $(CFLAGS) -c utils.c
+ $(CC) $(CFLAGS) -c utils.c
 
 # BETTER: Auto-generate dependencies
 DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 %.o: %.c
-	$(CC) $(DEPFLAGS) $(CFLAGS) -c $<
+ $(CC) $(DEPFLAGS) $(CFLAGS) -c $<
 
 -include $(DEPS)
 ```
@@ -318,10 +318,10 @@ DEPFLAGS = -MT $@ -MMD -MP -MF $(DEPDIR)/$*.d
 ```makefile
 # WRONG: Circular dependency
 A: B
-	@echo "Target A"
+ @echo "Target A"
 
 B: A
-	@echo "Target B"
+ @echo "Target B"
 
 # Error: Makefile:1: *** Circular A <- B dependency dropped.
 ```
@@ -331,13 +331,13 @@ B: A
 ```makefile
 # CORRECT: Proper dependency chain
 A: B
-	@echo "Target A depends on B"
+ @echo "Target A depends on B"
 
 B: C
-	@echo "Target B depends on C"
+ @echo "Target B depends on C"
 
 C:
-	@echo "Target C has no dependencies"
+ @echo "Target C has no dependencies"
 ```
 
 ### 10. Phony Target as Prerequisite of Real Target
@@ -349,10 +349,10 @@ C:
 .PHONY: generate
 
 app.o: app.c generate
-	$(CC) -c app.c -o app.o
+ $(CC) -c app.c -o app.o
 
 generate:
-	./gen-config.sh
+ ./gen-config.sh
 
 # app.o rebuilds EVERY time because 'generate' is always out of date
 ```
@@ -362,10 +362,10 @@ generate:
 ```makefile
 # CORRECT: Depend on actual generated file
 app.o: app.c config.h
-	$(CC) -c app.c -o app.o
+ $(CC) -c app.c -o app.o
 
 config.h:
-	./gen-config.sh
+ ./gen-config.sh
 ```
 
 ## Variable Issues
@@ -380,14 +380,14 @@ BUILD_TIME = $(shell date +%Y%m%d-%H%M%S)
 GIT_HASH = $(shell git rev-parse HEAD)
 
 target1:
-	echo $(BUILD_TIME)  # Shell called here
+ echo $(BUILD_TIME)  # Shell called here
 
 target2:
-	echo $(BUILD_TIME)  # Shell called AGAIN with different time!
-	echo $(GIT_HASH)    # Shell called here
+ echo $(BUILD_TIME)  # Shell called AGAIN with different time!
+ echo $(GIT_HASH)    # Shell called here
 
 target3:
-	echo $(GIT_HASH)    # Shell called AGAIN!
+ echo $(GIT_HASH)    # Shell called AGAIN!
 ```
 
 **Solution**: Use := for immediate expansion
@@ -398,14 +398,14 @@ BUILD_TIME := $(shell date +%Y%m%d-%H%M%S)
 GIT_HASH := $(shell git rev-parse HEAD)
 
 target1:
-	echo $(BUILD_TIME)  # Uses cached value
+ echo $(BUILD_TIME)  # Uses cached value
 
 target2:
-	echo $(BUILD_TIME)  # Same cached value
-	echo $(GIT_HASH)    # Cached value
+ echo $(BUILD_TIME)  # Same cached value
+ echo $(GIT_HASH)    # Cached value
 
 target3:
-	echo $(GIT_HASH)    # Same cached value
+ echo $(GIT_HASH)    # Same cached value
 ```
 
 **Impact**: Can cause significant slowdown and inconsistent builds
@@ -417,7 +417,7 @@ target3:
 ```makefile
 # WRONG: No default value
 install:
-	cp app $(PREFIX)/bin/
+ cp app $(PREFIX)/bin/
 
 # If PREFIX is not set, installs to /bin/ (wrong!) or fails
 ```
@@ -430,8 +430,8 @@ PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
 
 install:
-	mkdir -p $(DESTDIR)$(BINDIR)
-	cp app $(DESTDIR)$(BINDIR)/
+ mkdir -p $(DESTDIR)$(BINDIR)
+ cp app $(DESTDIR)$(BINDIR)/
 ```
 
 ### 13. Incorrect Variable Expansion
@@ -441,10 +441,10 @@ install:
 ```makefile
 # WRONG: Shell variable vs Make variable confusion
 build:
-	for file in *.c; do \
-		echo "Compiling $file"; \
-		$(CC) -c $file; \
-	done
+ for file in *.c; do \
+  echo "Compiling $file"; \
+  $(CC) -c $file; \
+ done
 
 # $file expands as Make variable (empty!), not shell variable
 # Output: Compiling (nothing)
@@ -455,10 +455,10 @@ build:
 ```makefile
 # CORRECT: Escape $ for shell variables
 build:
-	for file in *.c; do \
-		echo "Compiling $$file"; \
-		$(CC) -c $$file; \
-	done
+ for file in *.c; do \
+  echo "Compiling $$file"; \
+  $(CC) -c $$file; \
+ done
 
 # Output: Compiling main.c, Compiling utils.c, etc.
 ```
@@ -483,7 +483,7 @@ BUILD_FLAGS := -j4
 MY_BUILD_TOOL := custom-builder
 
 build:
-	$(MAKE) -f sub.mk $(BUILD_FLAGS)
+ $(MAKE) -f sub.mk $(BUILD_FLAGS)
 ```
 
 ## Security Vulnerabilities
@@ -498,8 +498,8 @@ API_KEY = sk-1234567890abcdef
 DB_PASSWORD = super_secret_123
 
 deploy:
-	curl -H "Authorization: Bearer $(API_KEY)" https://api.example.com/
-	psql -U admin -p $(DB_PASSWORD) -c "SELECT version();"
+ curl -H "Authorization: Bearer $(API_KEY)" https://api.example.com/
+ psql -U admin -p $(DB_PASSWORD) -c "SELECT version();"
 ```
 
 **Solution**: Use environment variables
@@ -507,11 +507,11 @@ deploy:
 ```makefile
 # CORRECT: Load from environment
 deploy:
-	@if [ -z "$$API_KEY" ]; then \
-		echo "Error: API_KEY not set"; \
-		exit 1; \
-	fi
-	curl -H "Authorization: Bearer $$API_KEY" https://api.example.com/
+ @if [ -z "$$API_KEY" ]; then \
+  echo "Error: API_KEY not set"; \
+  exit 1; \
+ fi
+ curl -H "Authorization: Bearer $$API_KEY" https://api.example.com/
 
 # Or use a .env file (not committed)
 include .env
@@ -529,7 +529,7 @@ export
 BUILD_DIR = $(USER_INPUT)
 
 clean:
-	rm -rf $(BUILD_DIR)/*
+ rm -rf $(BUILD_DIR)/*
 
 # If BUILD_DIR is empty or "/", this is catastrophic!
 # $ make clean BUILD_DIR=/
@@ -543,13 +543,13 @@ clean:
 BUILD_DIR := build  # Default value
 
 clean:
-	@if [ -z "$(BUILD_DIR)" ] || [ "$(BUILD_DIR)" = "/" ]; then \
-		echo "Error: Invalid BUILD_DIR=$(BUILD_DIR)"; \
-		exit 1; \
-	fi
-	@if [ -d "$(BUILD_DIR)" ]; then \
-		rm -rf $(BUILD_DIR)/*; \
-	fi
+ @if [ -z "$(BUILD_DIR)" ] || [ "$(BUILD_DIR)" = "/" ]; then \
+  echo "Error: Invalid BUILD_DIR=$(BUILD_DIR)"; \
+  exit 1; \
+ fi
+ @if [ -d "$(BUILD_DIR)" ]; then \
+  rm -rf $(BUILD_DIR)/*; \
+ fi
 ```
 
 ### 17. Command Injection
@@ -559,7 +559,7 @@ clean:
 ```makefile
 # WRONG: User input directly in command
 deploy:
-	ssh user@$(SERVER) "cd /app && git pull origin $(BRANCH)"
+ ssh user@$(SERVER) "cd /app && git pull origin $(BRANCH)"
 
 # Malicious input: BRANCH="; rm -rf /"
 # Executes: git pull origin ; rm -rf /
@@ -573,11 +573,11 @@ ALLOWED_BRANCHES := main develop staging
 BRANCH ?= main
 
 deploy:
-	@if ! echo "$(ALLOWED_BRANCHES)" | grep -wq "$(BRANCH)"; then \
-		echo "Error: Invalid branch $(BRANCH)"; \
-		exit 1; \
-	fi
-	ssh user@$(SERVER) "cd /app && git pull origin '$(BRANCH)'"
+ @if ! echo "$(ALLOWED_BRANCHES)" | grep -wq "$(BRANCH)"; then \
+  echo "Error: Invalid branch $(BRANCH)"; \
+  exit 1; \
+ fi
+ ssh user@$(SERVER) "cd /app && git pull origin '$(BRANCH)'"
 ```
 
 ### 18. Logging Sensitive Information
@@ -587,8 +587,8 @@ deploy:
 ```makefile
 # WRONG: Secrets visible in logs
 deploy:
-	echo "Deploying with token: $(API_TOKEN)"
-	curl -H "Authorization: Bearer $(API_TOKEN)" https://api.example.com/
+ echo "Deploying with token: $(API_TOKEN)"
+ curl -H "Authorization: Bearer $(API_TOKEN)" https://api.example.com/
 ```
 
 **Solution**: Suppress sensitive output
@@ -596,12 +596,12 @@ deploy:
 ```makefile
 # CORRECT: Hide sensitive information
 deploy:
-	@echo "Deploying to production..."
-	@curl -s -H "Authorization: Bearer $$API_TOKEN" https://api.example.com/
-	@echo "Deployment complete"
+ @echo "Deploying to production..."
+ @curl -s -H "Authorization: Bearer $$API_TOKEN" https://api.example.com/
+ @echo "Deployment complete"
 
 # Or mask partial value
-	@echo "Using token: $${API_TOKEN:0:8}..."
+ @echo "Using token: $${API_TOKEN:0:8}..."
 ```
 
 ## Performance Problems
@@ -613,10 +613,10 @@ deploy:
 ```makefile
 # WRONG: wildcard called every time
 build:
-	$(CC) -o app $(wildcard src/*.c)
+ $(CC) -o app $(wildcard src/*.c)
 
 test:
-	for file in $(wildcard tests/*.sh); do bash $$file; done
+ for file in $(wildcard tests/*.sh); do bash $$file; done
 
 # wildcard searches filesystem every time these targets run
 ```
@@ -629,10 +629,10 @@ SOURCES := $(wildcard src/*.c)
 TESTS := $(wildcard tests/*.sh)
 
 build:
-	$(CC) -o app $(SOURCES)
+ $(CC) -o app $(SOURCES)
 
 test:
-	for file in $(TESTS); do bash $$file; done
+ for file in $(TESTS); do bash $$file; done
 ```
 
 **Impact**: Significant speedup for large projects (40%+ in some cases)
@@ -644,9 +644,9 @@ test:
 ```makefile
 # WRONG: No incremental build
 build:
-	rm -rf build
-	mkdir -p build
-	$(CC) -o build/app $(SOURCES)
+ rm -rf build
+ mkdir -p build
+ $(CC) -o build/app $(SOURCES)
 
 # Rebuilds from scratch every time!
 ```
@@ -660,11 +660,11 @@ OBJECTS := $(patsubst src/%.c,build/%.o,$(SOURCES))
 build: build/app
 
 build/app: $(OBJECTS)
-	$(CC) -o $@ $^
+ $(CC) -o $@ $^
 
 build/%.o: src/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+ @mkdir -p $(dir $@)
+ $(CC) $(CFLAGS) -c $< -o $@
 
 # Only rebuilds changed files
 ```
@@ -678,13 +678,13 @@ build/%.o: src/%.c
 ```makefile
 # WRONG: Repetitive rules
 main.o: main.c
-	$(CC) $(CFLAGS) -c main.c -o main.o
+ $(CC) $(CFLAGS) -c main.c -o main.o
 
 utils.o: utils.c
-	$(CC) $(CFLAGS) -c utils.c -o utils.o
+ $(CC) $(CFLAGS) -c utils.c -o utils.o
 
 config.o: config.c
-	$(CC) $(CFLAGS) -c config.c -o config.o
+ $(CC) $(CFLAGS) -c config.c -o config.o
 
 # Lots of duplication!
 ```
@@ -694,12 +694,12 @@ config.o: config.c
 ```makefile
 # CORRECT: Single pattern rule
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+ $(CC) $(CFLAGS) -c $< -o $@
 
 # Or with directories
 build/%.o: src/%.c
-	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@
+ @mkdir -p $(dir $@)
+ $(CC) $(CFLAGS) -c $< -o $@
 ```
 
 ## Portability Issues
@@ -713,7 +713,7 @@ build/%.o: src/%.c
 SOURCES := $(shell find src -name '*.c')
 
 build: $(SOURCES:.c=.o)
-	$(CC) -o app $^
+ $(CC) -o app $^
 
 # Fails with BSD make or other Make implementations
 ```
@@ -738,7 +738,7 @@ CC = /usr/bin/gcc
 PYTHON = /usr/bin/python3
 
 build:
-	$(CC) -o app $(SOURCES)
+ $(CC) -o app $(SOURCES)
 ```
 
 **Solution**: Use which or allow override
@@ -760,10 +760,10 @@ CC := $(shell command -v gcc || command -v clang)
 ```makefile
 # WRONG: Linux-specific
 clean:
-	rm -rf build
+ rm -rf build
 
 copy:
-	cp -r src/* dest/
+ cp -r src/* dest/
 
 # Fails on Windows
 ```
@@ -775,19 +775,19 @@ copy:
 UNAME_S := $(shell uname -s 2>/dev/null || echo Windows)
 
 ifeq ($(UNAME_S),Windows)
-	RM := del /Q /S
-	MKDIR := mkdir
+ RM := del /Q /S
+ MKDIR := mkdir
 else
-	RM := rm -rf
-	MKDIR := mkdir -p
+ RM := rm -rf
+ MKDIR := mkdir -p
 endif
 
 clean:
-	$(RM) build
+ $(RM) build
 
 # Or use Go/Python for cross-platform scripts
 clean:
-	@go run scripts/clean.go
+ @go run scripts/clean.go
 ```
 
 ## Build Logic Errors
@@ -799,10 +799,10 @@ clean:
 ```makefile
 # WRONG: Ignoring failures
 test:
-	go test ./pkg1
-	go test ./pkg2
-	go test ./pkg3
-	@echo "All tests passed!"
+ go test ./pkg1
+ go test ./pkg2
+ go test ./pkg3
+ @echo "All tests passed!"
 
 # If pkg1 fails, Make continues to pkg2, pkg3, and prints "passed"
 ```
@@ -812,18 +812,18 @@ test:
 ```makefile
 # CORRECT: Stop on first failure
 test:
-	@set -e; \
-	go test ./pkg1; \
-	go test ./pkg2; \
-	go test ./pkg3; \
-	echo "All tests passed!"
+ @set -e; \
+ go test ./pkg1; \
+ go test ./pkg2; \
+ go test ./pkg3; \
+ echo "All tests passed!"
 
 # Or check explicitly
 test:
-	@go test ./pkg1 || exit 1
-	@go test ./pkg2 || exit 1
-	@go test ./pkg3 || exit 1
-	@echo "All tests passed!"
+ @go test ./pkg1 || exit 1
+ @go test ./pkg2 || exit 1
+ @go test ./pkg3 || exit 1
+ @echo "All tests passed!"
 ```
 
 ### 26. Race Conditions in Parallel Builds
@@ -835,12 +835,12 @@ test:
 all: build-frontend build-backend
 
 build-frontend:
-	npm install  # Both may write to node_modules!
-	npm run build
+ npm install  # Both may write to node_modules!
+ npm run build
 
 build-backend:
-	npm install  # Race condition!
-	go build
+ npm install  # Race condition!
+ go build
 
 # With make -j2, both run npm install simultaneously
 ```
@@ -852,14 +852,14 @@ build-backend:
 all: build-frontend build-backend
 
 build-frontend: node_modules
-	npm run build
+ npm run build
 
 build-backend: node_modules
-	go build
+ go build
 
 node_modules: package.json
-	npm install
-	@touch node_modules  # Update timestamp
+ npm install
+ @touch node_modules  # Update timestamp
 
 # Or use .NOTPARALLEL for specific target
 .NOTPARALLEL: install
@@ -874,13 +874,13 @@ node_modules: package.json
 all: build test deploy
 
 build:
-	go build -o app
+ go build -o app
 
 test:
-	./scripts/test.sh  # Assumes app exists!
+ ./scripts/test.sh  # Assumes app exists!
 
 deploy:
-	./scripts/deploy.sh  # Assumes tests passed!
+ ./scripts/deploy.sh  # Assumes tests passed!
 
 # Direct "make test" or "make deploy" fails!
 ```
@@ -892,13 +892,13 @@ deploy:
 all: deploy
 
 build:
-	go build -o app
+ go build -o app
 
 test: build
-	./scripts/test.sh
+ ./scripts/test.sh
 
 deploy: test
-	./scripts/deploy.sh
+ ./scripts/deploy.sh
 
 # Now "make deploy" automatically runs build → test → deploy
 ```
