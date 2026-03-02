@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/nx-vite-integration",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Configure and integrate Vite in Nx monorepos for applications and libraries.\nCovers vite.config.ts setup, framework plugins, TypeScript path resolution,\nasset copying, library mode builds, and Vitest integration.\n\nUse when: adding Vite to an Nx project, migrating from Webpack,\nconfiguring Vitest, fixing tsconfig path resolution, or setting up library mode.\n\nTriggers: \"add vite\", \"nx vite\", \"vite setup\", \"vite.config.ts\",\n\"vitest config\", \"library mode\", \"nxViteTsPaths\", \"copy assets\",\n\"vite path aliases\", \"migrate webpack to vite\"\n\nExamples:\n- user: \"Add Vite to this Nx app\" -> install plugin and configure vite.config.ts\n- user: \"Vitest is failing in Nx\" -> fix test config and cache/coverage paths\n- user: \"Path aliases break in Vite\" -> add nxViteTsPaths plugin\n- user: \"Set up Vite for my Nx library\" -> configure lib mode + dts + externals\n",
+  "skills": {
+    "nx-vite-integration": {
+      "path": "SKILL.md"
+    }
+  }
+}

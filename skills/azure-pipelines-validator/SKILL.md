@@ -25,6 +25,7 @@ Use the **azure-pipelines-validator** skill in the following scenarios:
 ## Features
 
 ### 0. YAML Linting (Optional)
+
 - ✅ YAML formatting validation with yamllint
 - ✅ Indentation checking (2-space standard)
 - ✅ Line length validation
@@ -33,6 +34,7 @@ Use the **azure-pipelines-validator** skill in the following scenarios:
 - ✅ Automatic venv management (no manual install required)
 
 ### 1. Syntax Validation
+
 - ✅ YAML syntax checking
 - ✅ Azure Pipelines schema validation
 - ✅ Required fields verification
@@ -46,6 +48,7 @@ Use the **azure-pipelines-validator** skill in the following scenarios:
 - ✅ Dependency validation (dependsOn)
 
 ### 2. Best Practices Checking
+
 - ✅ displayName usage for readability
 - ✅ Task version pinning (specific @N not @0)
 - ✅ Pool vmImage specific versions (not 'latest')
@@ -59,6 +62,7 @@ Use the **azure-pipelines-validator** skill in the following scenarios:
 - ✅ Deployment strategy best practices
 
 ### 3. Security Scanning
+
 - ✅ Hardcoded secrets and credentials detection
 - ✅ API keys and tokens in variables
 - ✅ Task version security
@@ -263,6 +267,7 @@ WebFetch("https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/referen
 ## Validation Rules
 
 ### Syntax Rules
+
 - `yaml-syntax`: Valid YAML formatting
 - `yaml-invalid-root`: Root must be a dictionary
 - `invalid-hierarchy`: Cannot mix stages/jobs/steps at root level
@@ -274,6 +279,7 @@ WebFetch("https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/referen
 - `variable-invalid-name`: Variables should use valid naming
 
 ### Best Practice Rules
+
 - `missing-displayname`: Stages/jobs should have displayName
 - `task-version-zero`: Tasks should not use @0 version (except whitelisted tasks where @0 is the only version: GoTool, NodeTool, UsePythonVersion, KubernetesManifest, DockerCompose, HelmInstaller, HelmDeploy)
 - `task-missing-version`: Tasks must specify version
@@ -286,6 +292,7 @@ WebFetch("https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/referen
 - `many-inline-variables`: Consider using variable groups
 
 ### Security Rules
+
 - `hardcoded-password`: Hardcoded passwords detected
 - `hardcoded-api-key`: Hardcoded API keys detected
 - `hardcoded-secret`: Hardcoded secrets/tokens detected
@@ -320,13 +327,13 @@ pip3 install PyYAML yamllint
 
 ## Documentation
 
-Comprehensive documentation is included in the `docs/` directory:
+Comprehensive documentation is included in the `references/` directory:
 
-- **`azure-pipelines-reference.md`**: Complete Azure Pipelines YAML syntax reference with examples
+- [Azure Pipelines YAML Reference](references/azure-pipelines-reference.md): Complete Azure Pipelines YAML syntax reference with examples
 
 ## Examples
 
-Example Azure Pipelines configurations are provided in the `examples/` directory:
+Example Azure Pipelines configurations are provided in the `assets/examples/` directory:
 
 - **`basic-pipeline.yml`**: Simple CI pipeline with build and test stages
 - **`docker-build.yml`**: Docker build and push workflow
@@ -336,7 +343,7 @@ Example Azure Pipelines configurations are provided in the `examples/` directory
 
 Test the skill with examples:
 ```bash
-bash scripts/validate_azure_pipelines.sh examples/basic-pipeline.yml
+bash scripts/validate_azure_pipelines.sh assets/examples/basic-pipeline.yml
 ```
 
 ## Fetching Latest Documentation
@@ -401,12 +408,14 @@ chmod +x scripts/*.sh scripts/*.py
 ### Validation Errors
 
 Check the documentation:
-- Review `docs/azure-pipelines-reference.md` for syntax reference
-- Consult Azure Pipelines documentation at https://learn.microsoft.com/en-us/azure/devops/pipelines/
+
+- Review `references/azure-pipelines-reference.md` for syntax reference
+- Consult Azure Pipelines documentation at <https://learn.microsoft.com/en-us/azure/devops/pipelines/>
 
 ## Version History
 
 ### v1.0.0 (2025-01-24)
+
 - Initial release
 - Syntax validation with comprehensive Azure Pipelines schema checking
 - Best practices validation with 10+ rules
@@ -430,9 +439,10 @@ This skill is part of the DevOps Skills collection.
 ## Support
 
 For issues, questions, or contributions:
-- Check documentation in `docs/` directory
-- Review examples in `examples/` directory
-- Consult Azure Pipelines documentation: https://learn.microsoft.com/en-us/azure/devops/pipelines/
+
+- Check documentation in `references/` directory
+- Review examples in `assets/examples/` directory
+- Consult Azure Pipelines documentation: <https://learn.microsoft.com/en-us/azure/devops/pipelines/>
 
 ---
 

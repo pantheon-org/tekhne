@@ -39,6 +39,7 @@ steps:
 ## Top-Level Keywords
 
 ### trigger
+
 Defines CI triggers (push events):
 
 ```yaml
@@ -53,6 +54,7 @@ trigger:
 ```
 
 ### pr
+
 Defines PR triggers:
 
 ```yaml
@@ -66,6 +68,7 @@ pr:
 ```
 
 ### schedules
+
 Defines scheduled triggers:
 
 ```yaml
@@ -78,6 +81,7 @@ schedules:
 ```
 
 ### pool
+
 Defines agent pool:
 
 ```yaml
@@ -95,6 +99,7 @@ pool:
 ```
 
 ### variables
+
 Defines variables:
 
 ```yaml
@@ -113,6 +118,7 @@ variables:
 ```
 
 ### resources
+
 Defines external resources:
 
 ```yaml
@@ -237,6 +243,7 @@ strategy:
 ## Step Types
 
 ### task
+
 Executes a pipeline task:
 
 ```yaml
@@ -253,6 +260,7 @@ Executes a pipeline task:
 ```
 
 ### script
+
 Runs a shell script:
 
 ```yaml
@@ -265,6 +273,7 @@ Runs a shell script:
 ```
 
 ### bash
+
 Runs a bash script:
 
 ```yaml
@@ -275,6 +284,7 @@ Runs a bash script:
 ```
 
 ### pwsh / powershell
+
 Runs PowerShell:
 
 ```yaml
@@ -288,6 +298,7 @@ Runs PowerShell:
 ```
 
 ### checkout
+
 Checks out repositories:
 
 ```yaml
@@ -300,6 +311,7 @@ Checks out repositories:
 ```
 
 ### download
+
 Downloads artifacts:
 
 ```yaml
@@ -308,6 +320,7 @@ Downloads artifacts:
 ```
 
 ### publish
+
 Publishes artifacts:
 
 ```yaml
@@ -316,6 +329,7 @@ Publishes artifacts:
 ```
 
 ### template
+
 References a template:
 
 ```yaml
