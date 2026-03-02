@@ -23,7 +23,7 @@ Navigation hub for Nx workspace architecture and operations.
 1. Structure workspace domains (`apps/`, `libs/`, `tools/`).
 2. Define tags and project graph conventions.
 3. Configure target pipelines and caching defaults.
-4. Enforce module boundaries and verify violations fail.
+4. Enforce module boundaries and verify violations fail with `nx lint --skip-nx-cache`.
 5. Integrate affected commands in CI with explicit base/head strategy.
 
 ## Constraint Guidelines
@@ -68,6 +68,66 @@ nx reset
 
 ```bash
 rg -n "@nx/enforce-module-boundaries|depConstraints" .
+```
+
+## Configuration Examples
+
+### nx.json targetDefaults
+
+```json
+{
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["production", "^production"],
+      "cache": true
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+      "cache": true
+    },
+    "lint": {
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
+      "cache": true
+    }
+  }
+}
+```
+
+### ESLint depConstraints (tag-based boundaries)
+
+```json
+{
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "@nx/enforce-module-boundaries": [
+          "error",
+          {
+            "enforceBuildableLibDependency": true,
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "scope:web",
+                "onlyDependOnLibsWithTags": ["scope:web", "scope:shared"]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": ["type:feature", "type:ui", "type:data-access", "type:util"]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": ["type:ui", "type:util"]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
 ```
 
 ## Anti-Patterns

@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/nx-workspace-patterns",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "summary": "Configure and optimize Nx monorepo workspaces with deterministic project-graph structure, boundary enforcement, cache-aware pipelines, and affected-command CI workflows; use when designing workspace architecture, tightening dependency rules, or reducing CI cost through Nx task orchestration.",
   "skills": {
