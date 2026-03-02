@@ -76,29 +76,22 @@ opencode auth list
 
 ## Switching Models
 
-After finding your desired model:
+After finding your desired model, specify it per-command or set a default:
 
 ```bash
-# Method 1: Interactive selector (if supported by OpenCode)
-opencode --model
-
-# Method 2: Specify in command
+# Per-command (recommended for testing)
 opencode run --model gpt-5.2-codex "Refactor this code"
 
-# Method 3: Set default in project config
-# Edit .opencode/opencode.json:
+# Set project default in .opencode/opencode.json
 {
   "defaultModel": "gpt-5.2-codex"
 }
-
-# Method 4: Set default in global config
-# Edit ~/.config/opencode/opencode.json
 ```
 
-Verify the active model after switching:
+**Validation:** Test the model is active and responding correctly:
 
 ```bash
-opencode config show | grep model
+opencode run "Echo back: model working" && echo "✓ Model active"
 ```
 
 ## Example Workflows
@@ -139,10 +132,3 @@ Common issues:
 - **401 / "Invalid token"** — Re-authenticate with `opencode auth add github-copilot`.
 - **Models not showing in OpenCode** — OpenCode's registry may be stale; use the script to query the API directly.
 - **Model unavailable at runtime** — Check `policy.state` (`"enabled"` required) and the `preview` flag in the API response; preview models may have restricted availability depending on your subscription.
-
-## Resources
-
-- **GitHub Copilot Models Docs**:
-  [https://docs.github.com/en/copilot/using-github-copilot/ai-models](https://docs.github.com/en/copilot/using-github-copilot/ai-models)
-- **OpenCode Docs**: [https://opencode.ai/docs](https://opencode.ai/docs)
-- **API Endpoint**: `https://api.githubcopilot.com/models`
