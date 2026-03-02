@@ -119,10 +119,10 @@ echo "✅ Evidence captured to $OUTPUT_DIR"
 3. **Complex event sequences** - Multiple steps that depend on timing
 4. **Visual validation** - Pixel-perfect comparison of before/after
 
-**See**: [playwright-testing.md](./playwright-testing.md) for full Playwright examples.
+**See**: [playwright-testing.md](playwright-testing-browser-automation.md) for full Playwright examples.
 
 ## Related Documentation
 
-- [Playwright Testing](./playwright-testing.md) - Full browser automation
-- [Evidence Collection](../evidence-collection/screenshots.md) - Screenshot best practices
-- [Troubleshooting](../troubleshooting/blank-screenshots.md) - Common issues
+- [Playwright Testing](playwright-testing-browser-automation.md) - Full browser automation
+- [Evidence Collection](screenshots-evidence-collection.md) - Screenshot best practices
+- [Troubleshooting](blank-screenshots-troubleshooting.md) - Common issues

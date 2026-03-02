@@ -83,4 +83,4 @@ test("visual regression", async ({ page }) => {
 
 ## Troubleshooting
 
-See [../troubleshooting/blank-screenshots.md](../troubleshooting/blank-screenshots.md) for common issues.
+See [blank-screenshots-troubleshooting.md](blank-screenshots-troubleshooting.md) for common issues.

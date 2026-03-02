@@ -370,7 +370,7 @@ tools: playwright, browser-automation, screenshots, git
 
 - **Main docs**: `~/.config/opencode/skills/ui-debug-workflow/SKILL.md`
 - **Quick start**: `~/.config/opencode/skills/ui-debug-workflow/README.md`
-- **OpenCode skills**: https://opencode.ai/docs/skills
+- **OpenCode skills**: <https://opencode.ai/docs/skills>
 
 ---
 
