@@ -46,6 +46,7 @@ stage('Deploy') {
 ## Core Capabilities
 
 ### 1. Declarative Pipelines (RECOMMENDED)
+
 **Process:**
 1. **Read templates for structure reference:**
    - Read `assets/templates/declarative/basic.Jenkinsfile` to understand the standard structure
@@ -64,6 +65,7 @@ stage('Deploy') {
 4. **ALWAYS validate** using devops-skills:jenkinsfile-validator skill
 
 ### 2. Scripted Pipelines
+
 **When:** Complex conditional logic, dynamic generation, full Groovy control
 **Process:**
 1. **Read templates for structure reference:**
@@ -73,12 +75,15 @@ stage('Deploy') {
 3. **ALWAYS validate** using devops-skills:jenkinsfile-validator skill
 
 ### 3. Parallel/Matrix Pipelines
+
 Use `parallel {}` block or `matrix {}` with `axes {}` for multi-dimensional builds. See [Parallel & Matrix](#parallel--matrix) for full guidance including `failFast` configuration.
 
 ### 4. Security Scanning (DevSecOps)
+
 Add SonarQube, OWASP Dependency-Check, Trivy stages with fail thresholds.
 
 ### 5. Shared Library Scaffolding
+
 ```bash
 python3 scripts/generate_shared_library.py --name my-library --package org.example
 ```
@@ -86,6 +91,7 @@ python3 scripts/generate_shared_library.py --name my-library --package org.examp
 ## Declarative Syntax Reference
 
 ### Agent Types
+
 ```groovy
 agent any                                    // Any available agent
 agent { label 'linux && docker' }           // Label-based
@@ -95,6 +101,7 @@ agent { kubernetes { yamlFile 'pod.yaml' } } // External YAML
 ```
 
 ### Environment & Credentials
+
 ```groovy
 environment {
     VERSION = '1.0.0'
@@ -103,6 +110,7 @@ environment {
 ```
 
 ### Options
+
 ```groovy
 options {
     buildDiscarder(logRotator(numToKeepStr: '10'))
@@ -115,6 +123,7 @@ options {
 ```
 
 ### Parameters
+
 ```groovy
 parameters {
     string(name: 'VERSION', defaultValue: '1.0.0')
@@ -124,6 +133,7 @@ parameters {
 ```
 
 ### When Conditions
+
 | Condition | Example |
 |-----------|---------|
 | `branch` | `branch 'main'` or `branch pattern: 'release/*', comparator: 'GLOB'` |
@@ -136,6 +146,7 @@ parameters {
 Add `beforeAgent true` to skip agent allocation if condition fails.
 
 ### Error Handling
+
 ```groovy
 catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') { sh '...' }
 warnError('msg') { sh '...' }      // Mark UNSTABLE but continue
@@ -144,6 +155,7 @@ error('Config missing')             // Fail without stack trace
 ```
 
 ### Post Section
+
 ```groovy
 post {
     always { junit '**/target/*.xml'; cleanWs() }
@@ -185,6 +197,7 @@ stage('Matrix') {
 ```
 
 ### Input (Manual Approval)
+
 ```groovy
 stage('Deploy') {
     input { message 'Deploy?'; ok 'Deploy'; submitter 'admin,ops' }
@@ -220,6 +233,7 @@ withCredentials([string(credentialsId: 'key', variable: 'KEY')]) { sh 'curl -H "
 ```
 
 ### @NonCPS for Non-Serializable Operations
+
 ```groovy
 @NonCPS
 def parseJson(String json) {
@@ -231,17 +245,20 @@ def parseJson(String json) {
 ## Docker & Kubernetes
 
 ### Docker Agent
+
 ```groovy
 agent { docker { image 'maven:3.9.11'; args '-v $HOME/.m2:/root/.m2'; reuseNode true } }
 ```
 
 ### Build & Push
+
 ```groovy
 def img = docker.build("myapp:${BUILD_NUMBER}")
 docker.withRegistry('https://registry.example.com', 'creds') { img.push(); img.push('latest') }
 ```
 
 ### Kubernetes Pod
+
 ```groovy
 agent {
     kubernetes {
