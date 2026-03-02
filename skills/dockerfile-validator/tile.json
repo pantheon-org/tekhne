@@ -7,5 +7,10 @@
     "dockerfile-validator": {
       "path": "SKILL.md"
     }
-  }
+  },
+  "files": [
+    "references/docker_best_practices.md",
+    "references/optimization_guide.md",
+    "references/security_checklist.md"
+  ]
 }
