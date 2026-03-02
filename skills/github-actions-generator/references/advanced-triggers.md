@@ -45,7 +45,7 @@ on:
 
 #### Use Cases
 
-**1. Deployment After CI Success**
+##### 1. Deployment After CI Success
 
 ```yaml
 # deploy.yml - Separate deployment workflow
@@ -84,7 +84,7 @@ jobs:
           # Deployment commands here
 ```
 
-**2. Security Scanning for External PRs**
+##### 2. Security Scanning for External PRs
 
 ```yaml
 # security-scan.yml - Runs after CI for external PRs
@@ -272,7 +272,7 @@ jobs:
 
 #### Use Cases
 
-**1. Webhook Integration**
+##### 1. Webhook Integration
 
 Trigger workflows from external monitoring/alerting systems:
 
@@ -298,7 +298,7 @@ jobs:
           fi
 ```
 
-**2. Manual Trigger from Dashboard**
+##### 2. Manual Trigger from Dashboard
 
 Custom deployment dashboard that triggers GitHub Actions:
 
@@ -334,7 +334,7 @@ jobs:
           echo "Approved by: ${{ github.event.client_payload.approver }}"
 ```
 
-**3. Cross-Repository Triggers**
+##### 3. Cross-Repository Triggers
 
 Trigger workflow in repo A from repo B:
 
@@ -542,13 +542,13 @@ startsWith(github.event.comment.body, '/deploy')
 startsWith(github.event.comment.body, '/run-tests')
 ```
 
-**3. /benchmark**
+##### 3. /benchmark
 
 ```yaml
 contains(github.event.comment.body, '/benchmark')
 ```
 
-**4. /approve**
+##### 4. /approve
 
 ```yaml
 github.event.comment.body == '/approve'
@@ -768,7 +768,7 @@ on:
 # Safe: Runs after CI, has secrets, but uses target branch code
 ```
 
-**⚠️ Dangerous: pull_request_target**
+##### ⚠️ Dangerous: pull_request_target
 
 ```yaml
 on:
