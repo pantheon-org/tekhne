@@ -1,0 +1,38 @@
+
+Validation Checks
+
+  ✔ skill_md_line_count - SKILL.md line count is 177 (<= 500)
+  ✔ frontmatter_valid - YAML frontmatter is valid
+  ✔ name_field - 'name' field is valid: 'bun-development'
+  ✔ description_field - 'description' field is valid (434 chars)
+  ✔ compatibility_field - 'compatibility' field not present (optional)
+  ⚠ allowed_tools_field - 'allowed-tools' contains unusual tool name(s)
+  ✔ metadata_version - 'metadata' field not present (optional)
+  ✔ metadata_field - 'metadata' field not present (optional)
+  ✔ license_field - 'license' field not present (optional)
+  ✔ frontmatter_unknown_keys - No unknown frontmatter keys found
+  ✔ body_present - SKILL.md body is present
+
+Overall: PASSED (0 errors, 1 warnings)
+
+Judge Evaluation
+
+  Description: 100%
+    specificity: 3/3 - Lists multiple specific concrete actions: 'runtime APIs, file I/O, package management, testing, SQLite, and security' plus detailed scenarios like 'writing bun test suites, implementing Bun.serve services, using bun:sqlite with prepared statements'.
+    trigger_term_quality: 3/3 - Excellent coverage of natural terms users would say: 'Bun.js', 'Bun projects', 'Node.js APIs', 'bun test', 'Bun.serve', 'bun:sqlite', 'workspaces', 'lockfiles', 'migration' - these match how developers naturally discuss Bun.
+    completeness: 3/3 - Clearly answers both what ('Complete Bun.js ecosystem guidance for runtime APIs, file I/O...') AND when ('use proactively when setting up Bun projects, replacing Node.js APIs...') with explicit trigger scenarios.
+    distinctiveness_conflict_risk: 3/3 - Highly distinctive with Bun-specific terminology ('Bun.serve', 'bun:sqlite', 'bun test') that clearly separates it from generic JavaScript/Node.js skills; unlikely to conflict with other skills.
+
+    Assessment: This is an excellent skill description that comprehensively covers the Bun.js ecosystem with specific capabilities and explicit trigger scenarios. It uses proper third-person voice, includes natural developer terminology, and clearly distinguishes itself from related Node.js or general JavaScript skills. The 'use proactively when...' clause provides extensive guidance for skill selection.
+
+  Content: 100%
+    conciseness: 3/3 - The skill is lean and efficient, avoiding explanations of what Bun is or basic concepts Claude already knows. Every section serves a clear purpose with no padding or unnecessary context.
+    actionability: 3/3 - Provides fully executable commands and code examples throughout. The Quick Commands section has copy-paste ready bash commands with expected outputs, and anti-patterns show concrete BAD/GOOD code comparisons.
+    workflow_clarity: 3/3 - Clear 7-step workflow with explicit validation checkpoints (step 5), error recovery paths (steps 4, 5, 6 include 'if X fails' branches), and specific validation commands. The SQL validation step includes explicit remediation instructions.
+    progressive_disclosure: 3/3 - Excellent structure with a concise overview, categorized priority table, and well-signaled one-level-deep references in the Reference Map section pointing to specific files for each category.
+
+    Assessment: This is a high-quality skill that exemplifies best practices: it's concise without sacrificing clarity, provides executable examples throughout, includes explicit validation checkpoints with error recovery paths, and organizes content with clear navigation to detailed references. The anti-patterns section with BAD/GOOD comparisons is particularly effective for preventing common mistakes.
+
+Average Score: 100%
+
+✔ Skill evaluation completed successfully!
