@@ -90,11 +90,11 @@ Each reference file contains:
 ## Navigation Workflow
 
 1. **Start with practices** - Understand type-first development workflow
-2. **Configure compiler** - Set up tsconfig with strict mode
-3. **Apply advanced types** - Use generics, conditionals, mapped types
-4. **Use utilities** - Leverage built-in and custom utility types
-5. **Implement narrowing** - Add type guards for runtime safety
-6. **Document** - Generate API docs with JSDoc/TypeDoc
+2. **Configure compiler** - Set up tsconfig with strict mode; run `npx tsc --noEmit` to confirm zero errors before proceeding
+3. **Apply advanced types** - Use generics, conditionals, mapped types; run `npx tsc --noEmit` after each change — if errors persist, consult `references/types-advanced-conditional.md`
+4. **Use utilities** - Leverage built-in and custom utility types; if assignability errors appear, check `references/utilities-builtin-partial.md`
+5. **Implement narrowing** - Add type guards for runtime safety; run `npx tsc --noEmit` to confirm narrowing is recognised — if not, consult `references/narrowing-guards.md`
+6. **Document** - Generate API docs with JSDoc/TypeDoc; run `npx typedoc --out docs src/index.ts` and verify output
 
 ## Quick Commands
 
@@ -120,6 +120,57 @@ npx typedoc --out docs src/index.ts
 
 ```bash
 rg -n "\\bany\\b|@ts-ignore| as " src
+```
+
+## Quick Fixes
+
+Common TypeScript errors and their safe resolutions:
+
+### "Type X is not assignable to type Y"
+
+Caused by incompatible types being assigned without narrowing.
+
+```typescript
+// BAD — forces an incompatible assignment
+const id = getValue() as string;
+
+// GOOD — narrow first, then assign
+const raw = getValue();
+if (typeof raw !== "string") throw new TypeError("Expected string");
+const id = raw; // TypeScript now knows id: string
+```
+
+### "Object is possibly 'undefined'"
+
+Caused by accessing a property without a null/undefined check.
+
+```typescript
+// BAD — unsafe access
+function getLength(arr: string[] | undefined) {
+  return arr.length; // error
+}
+
+// GOOD — guard before access
+function getLength(arr: string[] | undefined): number {
+  if (arr === undefined) return 0;
+  return arr.length;
+}
+```
+
+### "Parameter implicitly has an 'any' type"
+
+Caused by missing type annotations under `noImplicitAny`.
+
+```typescript
+// BAD — implicit any
+function double(n) {
+  return n * 2;
+}
+
+// GOOD — explicit annotation
+function double(n: number): number {
+  return n * 2;
+}
 ```
 
 ## Anti-Patterns
