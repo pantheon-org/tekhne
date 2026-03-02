@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/cfn-behavior-validator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": false,
   "summary": "Creates test stacks, analyzes CloudFormation events, and compares actual vs documented update behavior to validate whether resource property changes trigger replacement or in-place updates. Use when: a user wants to test if a CFN property change causes resource replacement; when investigating stack update behavior or \"Update requires\" documentation accuracy; when validating whether a workaround (e.g. hash-based logical IDs) is actually necessary; when questioning UpdateRequiresReplacement behavior for immutable properties; when empirical evidence is needed before an architectural decision involving CDK or CloudFormation stack updates.",
   "skills": {
