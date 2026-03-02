@@ -1,7 +1,5 @@
 # Fluent Bit Validator Skill Quality Audit
 
-- Reviewing skill...
-
 ## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 306 (<= 500)
