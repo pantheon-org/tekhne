@@ -20,20 +20,18 @@ See [references/validation_rules.md](references/validation_rules.md) for detaile
 
 Auto-detected: Declarative (`pipeline {`), Scripted (`node` block or Groovy outside pipeline block). Clarification is requested only if ambiguous.
 
-## Core Validation Workflow
+## Validation Command Reference
 
-Follow this workflow when validating Jenkinsfiles to catch issues early and ensure pipeline quality:
-
-### Quick Start - Full Validation (Recommended)
+### Full Validation (Recommended)
 
 ```bash
 # Run complete validation (syntax + security + best practices)
 bash scripts/validate_jenkinsfile.sh Jenkinsfile
 ```
 
-This single command auto-detects pipeline type, runs syntax validation, a security scan (credential detection), and a best practices check, then produces a unified summary with pass/fail status.
+Auto-detects pipeline type, validates syntax, scans for hardcoded credentials, checks best practices, and produces a unified summary.
 
-### Validation Options
+### Command Options
 
 ```bash
 # Full validation (default)
@@ -127,31 +125,30 @@ See [references/common_plugins.md](references/common_plugins.md) for documentati
 - [Validation Rules](references/validation_rules.md): Detailed validation rules, error reporting format, and examples
 - [Troubleshooting](references/troubleshooting.md): Common issues, debug mode, and limitations
 
-## Workflow When Validating Jenkinsfiles
+## Claude's Workflow
 
-When a user provides a Jenkinsfile for validation, follow this workflow:
+When a user provides a Jenkinsfile for validation:
 
-1. **Always validate syntax first** (errors block execution):
+1. **Run validation** using the main script:
    ```bash
    bash scripts/validate_jenkinsfile.sh <path-to-jenkinsfile>
    ```
-   This single command auto-detects pipeline type, runs syntax validation, security scan, and best practices check.
 
 2. **Optionally read the Jenkinsfile** using the Read tool if you need to:
    - Understand the pipeline structure before validation
    - Provide context-specific advice
    - Identify specific plugins being used
 
-3. **After validation, look up unknown plugins** (Claude's responsibility):
-   - Review the validation output for any unrecognized step names
-   - Check `references/common_plugins.md` first for documentation
+3. **Look up unknown plugins** after validation:
+   - Review validation output for unrecognized step names
+   - Check `references/common_plugins.md` first
    - If not found, use Context7 MCP: `mcp__context7__resolve-library-id` with query "jenkinsci \<plugin-name\>"
    - If still not found, use WebSearch: "Jenkins \<plugin-name\> plugin documentation"
-   - Provide usage guidance based on found documentation
+   - Provide usage guidance based on documentation
 
 4. **Report results** with line numbers, severity, and actionable suggestions
 
-5. **Provide inline fix suggestions** when errors are found (do not use AskUserQuestion - include corrected code snippets directly in the response)
+5. **Provide inline fix suggestions** when errors are found (include corrected code snippets directly in the response)
 
 ## Tools Available
 
