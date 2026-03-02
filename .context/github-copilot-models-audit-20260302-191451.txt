@@ -1,0 +1,43 @@
+
+Validation Checks
+
+  ✔ skill_md_line_count - SKILL.md line count is 149 (<= 500)
+  ✔ frontmatter_valid - YAML frontmatter is valid
+  ✔ name_field - 'name' field is valid: 'github-copilot-models'
+  ✔ description_field - 'description' field is valid (554 chars)
+  ✔ compatibility_field - 'compatibility' field not present (optional)
+  ✔ allowed_tools_field - 'allowed-tools' field not present (optional)
+  ✔ metadata_version - 'metadata' field not present (optional)
+  ✔ metadata_field - 'metadata' field not present (optional)
+  ✔ license_field - 'license' field not present (optional)
+  ✔ frontmatter_unknown_keys - No unknown frontmatter keys found
+  ✔ body_present - SKILL.md body is present
+
+Overall: PASSED (0 errors, 0 warnings)
+
+Judge Evaluation
+
+  Description: 100%
+    specificity: 3/3 - Lists multiple specific concrete actions: 'Query and display available GitHub Copilot AI models with their capabilities, context limits, and features.' The examples further demonstrate specific actions like filtering by capability, comparing specifications, and filtering by model family.
+    trigger_term_quality: 3/3 - Excellent coverage of natural terms users would say: 'what models are available', 'show copilot models', 'list github models', 'check model capabilities', 'switch models'. The examples add more natural phrases like 'What models can I use' and 'Which model has the largest context window'.
+    completeness: 3/3 - Clearly answers both what (query and display GitHub Copilot AI models with capabilities, context limits, features) AND when (explicit 'Use when:' clause with multiple trigger phrases). The examples section further reinforces when to use the skill.
+    distinctiveness_conflict_risk: 3/3 - Very clear niche focused specifically on GitHub Copilot AI models. The triggers are distinct ('copilot models', 'github models') and unlikely to conflict with general coding skills or other model-related skills due to the specific GitHub Copilot context.
+
+    Assessment: This is an excellent skill description that hits all the marks. It provides specific capabilities, includes a comprehensive 'Use when' clause with natural trigger terms, and is clearly distinguishable from other skills through its GitHub Copilot focus. The examples section adds valuable context for edge cases like filtering and comparing models.
+
+  Content: 73%
+    conciseness: 2/3 - The content is mostly efficient but includes some redundancy (e.g., multiple methods for switching models when one or two would suffice, and the resources section adds little value). The script options table and examples are well-organized but could be tighter.
+    actionability: 3/3 - Provides fully executable bash commands, complete script invocations with flags, and specific jq queries for filtering. All examples are copy-paste ready with concrete paths and commands.
+    workflow_clarity: 2/3 - Steps for querying and switching models are clear, but there's no explicit validation checkpoint after switching models beyond a simple 'verify' command. The troubleshooting section helps but the main workflow lacks feedback loops for error recovery.
+    progressive_disclosure: 3/3 - Well-structured with clear sections (Quick Query, Manual API, Authentication, Switching, Examples, Troubleshooting). Content is appropriately organized for a single-file skill with logical progression from simple to advanced use cases.
+
+    Assessment: This is a solid, actionable skill with excellent executable examples and good organization. The main weaknesses are minor verbosity (multiple model-switching methods, external resource links) and missing explicit validation steps in the model-switching workflow. The troubleshooting section is helpful but could be integrated into the workflow as checkpoints.
+
+    Suggestions:
+      - Consolidate the 'Switching Models' section to 1-2 recommended methods instead of 4, moving alternatives to a reference file if needed
+      - Add explicit validation step after model switching: 'Run a test query to confirm the model is working: `opencode run "Hello" && echo "Model active"'
+      - Remove the Resources section - Claude can find documentation; these links add tokens without unique value
+
+Average Score: 86%
+
+✔ Skill evaluation completed successfully!
