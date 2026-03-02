@@ -4,11 +4,7 @@ description: |-
   Complete Commander.js CLI framework guidance covering command structure, options, arguments, subcommands, action handlers, version management, and TypeScript integration. Use when: building CLI tools, parsing command-line arguments, implementing subcommands, handling options/flags, creating interactive CLIs, or migrating from other CLI frameworks.
   
   Keywords: Commander.js, CLI, command-line, arguments, options, flags, subcommands, action handlers, version, help text, TypeScript, yargs, meow, program, parseAsync, opts, args, variadic, required options, default values, custom help, error handling
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # Commander.js
@@ -44,14 +40,12 @@ Use this skill when:
 
 Read individual reference files for detailed guidance:
 
-```
-references/core-basics.md
-references/options-flags.md
-references/commands-structure.md
-references/actions-handlers.md
-references/typescript-setup.md
-references/practices-patterns.md
-```
+- [Core Basics](references/core-basics.md)
+- [Options & Flags](references/options-flags.md)
+- [Commands & Structure](references/commands-structure.md)
+- [Action Handlers](references/actions-handlers.md)
+- [TypeScript Setup](references/typescript-setup.md)
+- [Practices & Patterns](references/practices-patterns.md)
 
 Each reference file contains:
 - API documentation and usage patterns
@@ -196,6 +190,6 @@ program.addCommand(buildCommand);
 
 ## References
 
-- https://github.com/tj/commander.js
-- https://github.com/tj/commander.js/blob/master/Readme.md
-- https://github.com/tj/commander.js/tree/master/examples
+- [Commander.js GitHub Repository](https://github.com/tj/commander.js)
+- [Commander.js Documentation](https://github.com/tj/commander.js/blob/master/Readme.md)
+- [Commander.js Examples](https://github.com/tj/commander.js/tree/master/examples)

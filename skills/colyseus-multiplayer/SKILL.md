@@ -1,11 +1,8 @@
 ---
 name: colyseus-multiplayer
-description: Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, or server-side anti-cheat constraints. Keywords: colyseus, room lifecycle, schema, multiplayer, websocket, matchmaking, onJoin, onLeave, onDrop, allowReconnection.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+description: >-
+  Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, or server-side anti-cheat constraints. Keywords: colyseus, room lifecycle, schema, multiplayer, websocket, matchmaking, onJoin, onLeave, onDrop, allowReconnection.
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # Colyseus Multiplayer
