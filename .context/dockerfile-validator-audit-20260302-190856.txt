@@ -1,0 +1,42 @@
+
+Validation Checks
+
+  ✔ skill_md_line_count - SKILL.md line count is 379 (<= 500)
+  ✔ frontmatter_valid - YAML frontmatter is valid
+  ✔ name_field - 'name' field is valid: 'dockerfile-validator'
+  ✔ description_field - 'description' field is valid (472 chars)
+  ✔ compatibility_field - 'compatibility' field not present (optional)
+  ✔ allowed_tools_field - 'allowed-tools' field not present (optional)
+  ✔ metadata_version - 'metadata' field not present (optional)
+  ✔ metadata_field - 'metadata' field not present (optional)
+  ✔ license_field - 'license' field not present (optional)
+  ✔ frontmatter_unknown_keys - No unknown frontmatter keys found
+  ✔ body_present - SKILL.md body is present
+
+Overall: PASSED (0 errors, 0 warnings)
+
+Judge Evaluation
+
+  Description: 100%
+    specificity: 3/3 - Lists multiple specific concrete actions: 'syntax checking, detecting security vulnerabilities, validating layer ordering, checking for hardcoded secrets, verifying base image tags, and analyzing build optimization.'
+    trigger_term_quality: 3/3 - Excellent coverage of natural terms users would say: 'Dockerfile', 'syntax', 'security', 'lints', 'container security', 'image builds', 'Dockerfile.prod', 'Dockerfile.dev', and common variants.
+    completeness: 3/3 - Clearly answers both what (validates, lints, secures Dockerfiles with specific actions) AND when with explicit 'Use when...' clause covering validation, security checks, optimization, auditing, and debugging scenarios.
+    distinctiveness_conflict_risk: 3/3 - Very clear niche focused specifically on Dockerfiles with distinct triggers like 'Dockerfile', 'container security', 'base image tags', and 'layer ordering' that are unlikely to conflict with general code linting or security skills.
+
+    Assessment: This is an excellent skill description that hits all the marks. It provides comprehensive specific actions, includes natural trigger terms users would actually use, explicitly states both what it does and when to use it, and carves out a distinct niche around Dockerfile validation and security that won't conflict with other skills.
+
+  Content: 85%
+    conciseness: 2/3 - The skill is reasonably efficient but includes some unnecessary verbosity, such as explaining what hadolint and Checkov do when Claude already knows these tools. The emoji checkmarks and some repetitive explanations (e.g., cleanup mentioned multiple times) add token overhead.
+    actionability: 3/3 - Provides fully executable commands throughout, including the main validation script, individual tool commands, grep patterns for custom checks, and complete Dockerfile examples showing good vs bad patterns. All code is copy-paste ready.
+    workflow_clarity: 3/3 - Excellent workflow structure with clear 4-stage validation sequence, explicit pre/post-validation steps, severity-based triage, and a mandatory workflow section with numbered steps. Includes validation checkpoints and error recovery guidance in the troubleshooting table.
+    progressive_disclosure: 3/3 - Well-organized with clear sections progressing from quick start to detailed capabilities. References to external files (references/, scripts/, assets/) are clearly signaled with tables explaining each file's purpose. Content is appropriately split between overview and detailed reference materials.
+
+    Assessment: This is a well-structured, highly actionable skill with excellent workflow clarity and progressive disclosure. The main weakness is moderate verbosity - some explanations of tool capabilities and repeated mentions of features could be trimmed. The mandatory workflow section and clear reference file organization are particular strengths.
+
+    Suggestions:
+      - Remove explanatory text about what hadolint and Checkov do (e.g., '100+ built-in linting rules', '50+ security policies') - Claude knows these tools
+      - Consolidate the cleanup mechanism explanation - it's mentioned in Quick Start, Validation Workflow step 6, and implied elsewhere
+
+Average Score: 93%
+
+✔ Skill evaluation completed successfully!
