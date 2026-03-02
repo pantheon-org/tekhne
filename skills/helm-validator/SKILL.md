@@ -29,20 +29,7 @@ Required: `helm` (v3+), `yamllint`, `kubeconform`, `kubectl` (optional). If tool
 bash scripts/validate_chart_structure.sh <chart-directory>
 ```
 
-**Expected structure:**
-```
-mychart/
-  Chart.yaml          # required
-  values.yaml         # required
-  values.schema.json  # optional
-  templates/          # required
-    _helpers.tpl      # recommended
-    NOTES.txt         # recommended
-    *.yaml
-  charts/             # optional
-  crds/               # optional
-  .helmignore         # optional
-```
+Validates required files (Chart.yaml, values.yaml, templates/) and recommended files (_helpers.tpl, NOTES.txt, .helmignore).
 
 ### Stage 3: Helm Lint
 
@@ -128,13 +115,12 @@ grep -l "resources:" ./rendered/*.yaml
 grep "image:.*:latest" ./rendered/*.yaml
 ```
 
-| Check | Required Fields |
-|-------|----------------|
-| Pod securityContext | `runAsNonRoot: true`, `runAsUser: 1000`, `fsGroup: 2000` |
-| Container securityContext | `allowPrivilegeEscalation: false`, `readOnlyRootFilesystem: true`, `capabilities.drop: [ALL]` |
-| Resource limits/requests | `cpu`, `memory` for both limits and requests |
-| Image tags | No `:latest` or missing tag |
-| Probes | liveness and readiness probes present |
+**Required checks:**
+- Pod securityContext: `runAsNonRoot`, `runAsUser`, `fsGroup`
+- Container securityContext: `allowPrivilegeEscalation: false`, `readOnlyRootFilesystem`, `capabilities.drop: [ALL]`
+- Resource limits/requests for cpu and memory
+- No `:latest` image tags
+- Liveness and readiness probes present
 
 ### Stage 10: Final Report (MANDATORY)
 
@@ -178,17 +164,14 @@ For each issue:
 
 #### Step 5: Automation Opportunities
 
-| Missing Item / Template Issue | Recommendation |
-|-------------------------------|----------------|
-| `_helpers.tpl` | `bash scripts/generate_helpers.sh <chart>` |
-| `.helmignore` | Copy from `assets/.helmignore` |
-| `values.schema.json` | Copy and customize from `assets/values.schema.json` |
-| `NOTES.txt` | Create post-install notes template |
-| `README.md` | Create chart documentation |
-| `template` instead of `include` | Replace with `include` for pipeline support |
-| Missing `nindent` | Add for proper YAML indentation |
-| No default values | Add `default` function for optional values |
-| Missing `required` | Add for critical values |
+**Common fixes:**
+- Missing `_helpers.tpl`: `bash scripts/generate_helpers.sh <chart>`
+- Missing `.helmignore`: Copy from `assets/.helmignore`
+- Missing `values.schema.json`: Copy/customize from `assets/values.schema.json`
+- Use `include` instead of `template` for pipeline support
+- Add `nindent` for proper YAML indentation
+- Add `default` function for optional values
+- Add `required` for critical values
 
 #### Step 6: Final Summary
 
@@ -247,24 +230,18 @@ xattr -cr /path/to/chart/            # remove all recursively
 ## Resources
 
 ### scripts/
-| Script | Purpose | Usage |
-|--------|---------|-------|
-| `setup_tools.sh` | Check/install required tools | `bash scripts/setup_tools.sh` |
-| `validate_chart_structure.sh` | Validate chart directory structure | `bash scripts/validate_chart_structure.sh <chart-dir>` |
-| `detect_crd_wrapper.sh` | Detect CRDs in YAML files (manages Python venv) | `bash scripts/detect_crd_wrapper.sh <file.yaml>` |
-| `detect_crd.py` | Parse YAML to identify CRDs, output JSON | `python3 scripts/detect_crd.py <file.yaml>` |
-| `generate_helpers.sh` | Generate standard `_helpers.tpl` | `bash scripts/generate_helpers.sh <chart-dir>` |
+- `setup_tools.sh`: Check/install required tools
+- `validate_chart_structure.sh`: Validate chart directory structure
+- `detect_crd_wrapper.sh`: Detect CRDs in YAML files (manages Python venv)
+- `detect_crd.py`: Parse YAML to identify CRDs, output JSON
+- `generate_helpers.sh`: Generate standard `_helpers.tpl`
 
 ### references/
-| File | Contents |
-|------|----------|
-| `helm_best_practices.md` | Chart structure, template conventions, values organization |
-| `k8s_best_practices.md` | Metadata, labels, resource limits, security context |
-| `template_functions.md` | All built-in Helm/Sprig functions with examples, standard helper patterns |
+- `helm_best_practices.md`: Chart structure, template conventions, values organization
+- `k8s_best_practices.md`: Metadata, labels, resource limits, security context
+- `template_functions.md`: All built-in Helm/Sprig functions with examples, standard helper patterns
 
 ### assets/
-| File | Contents |
-|------|----------|
-| `.helmignore` | Standard ignore patterns for chart packaging |
-| `.yamllint` | Pre-configured yamllint rules for Kubernetes YAML |
-| `values.schema.json` | Example JSON Schema template for values validation |
+- `.helmignore`: Standard ignore patterns for chart packaging
+- `.yamllint`: Pre-configured yamllint rules for Kubernetes YAML
+- `values.schema.json`: Example JSON Schema template for values validation
