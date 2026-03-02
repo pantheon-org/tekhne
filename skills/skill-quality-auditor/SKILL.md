@@ -82,6 +82,20 @@ sh skills/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json
 - **BAD**: rely on manual assessment for quality gates.
 - **GOOD**: use automated scripts and measurable criteria for consistency.
 
+### NEVER use harness-specific paths in skill content
+
+- **WHY**: paths like `.opencode/`, `.claude/`, `.cursor/` break cross-harness portability when skills are synced to other agents.
+- **BAD**: reference `.opencode/scripts/setup.sh` in instructions.
+- **GOOD**: use relative paths from skill directory: `scripts/setup.sh`.
+- **IMPACT**: skill fails to load assets when synced to Cursor, Gemini CLI, Aider, or 40+ other agents.
+
+### NEVER mention specific agent names in skill instructions
+
+- **WHY**: skills should work across all agentic harnesses following the Agent Skills specification.
+- **BAD**: "For Claude Code users, run...", "Cursor Agent should...", "GitHub Copilot can...".
+- **GOOD**: use generic agent-agnostic instructions that work everywhere.
+- **IMPACT**: creates confusion and excludes users of other agents unnecessarily.
+
 See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete failure mode documentation.
 
 ## Reference Map

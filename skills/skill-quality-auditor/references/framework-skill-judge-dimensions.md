@@ -216,7 +216,7 @@ WHY: False positives waste hours debugging phantom issues
 
 ## Dimension 4: Specification Compliance (15 points)
 
-**Purpose:** Ensure proper frontmatter, single-task focus, and activation keywords.
+**Purpose:** Ensure proper frontmatter, single-task focus, activation keywords, and cross-harness portability.
 
 **Scoring:**
 
@@ -227,50 +227,75 @@ WHY: False positives waste hours debugging phantom issues
 
 ### Components
 
-1. **Task Focus Declaration (5 points) ⭐ CRITICAL**
+1. **Task Focus Declaration (4 points) ⭐ CRITICAL**
     - Skill indicates ONE type of task it helps complete
     - Description clearly scopes to single purpose
     - No ambiguity about what the skill does
     - Example: "Write BDD tests" (good) vs "Testing and development" (bad - two tasks)
 
-2. **Description Field Quality (7 points)**
+2. **Description Field Quality (6 points)**
     - **Primary agents:** Exactly 3 words
     - **Other agents:** Comprehensive with trigger examples
     - Must include activation keywords
     - Determines if skill activates
 
-3. **Proper Frontmatter (2 points)**
+3. **Cross-Harness Portability (3 points) ⭐ CRITICAL**
+    - **No harness-specific paths (1 point):** Avoid `.opencode/`, `.claude/`, `.cursor/`, `.aider/`, `.continue/`
+    - **No agent-specific references (1 point):** Don't mention "Claude Code", "Cursor Agent", "GitHub Copilot", etc. in instructions
+    - **Relative path usage (1 point):** Reference files relative to skill directory (`scripts/`, `references/`, `templates/`)
+    - **WHY:** Skills must work across 40+ agentic harnesses without modification
+    - **IMPACT:** Harness-specific paths break skill discovery when synced to other agents
+
+4. **Proper Frontmatter (1 point)**
     - name, description present
     - Consolidation notes if applicable
     - Correct YAML syntax
 
-4. **Activation Keywords (1 point)**
+5. **Activation Keywords (1 point)**
     - Domain terms that trigger skill
     - Example: "BDD, Gherkin, Given-When-Then, Cucumber"
 
-### Example
+### Examples
 
-**✅ Excellent Description (10/10):**
+**✅ Excellent Specification Compliance (15/15):**
 
 ```yaml
 ---
 name: bdd-testing
 description: Behavior-Driven Development with Given-When-Then scenarios, Cucumber.js, Three Amigos collaboration, Example Mapping, living documentation, and acceptance criteria. Use when writing BDD tests, feature files, or planning discovery workshops.
 ---
+
+# BDD Testing
+
+Execute test runner with portable path:
+```bash
+bun run scripts/run-tests.sh
 ```
 
-*Comprehensive, includes triggers, explains when to use*
+Reference files use relative paths: `references/file.md`
+```
 
-**❌ Weak Description (4/10):**
+*Perfect: comprehensive description, portable paths (scripts/, references/), no agent mentions*
+
+**❌ Poor Specification Compliance (7/15):**
 
 ```yaml
 ---
 name: bdd-testing  
 description: BDD testing patterns
 ---
+
+# BDD Testing
+
+For Claude Code users, run:
+```bash
+.opencode/scripts/run-tests.sh
 ```
 
-*Too generic, no activation keywords, no usage guidance*
+For Cursor users, see `.claude/docs/file.md`
+```
+
+*Problems: weak description, harness-specific paths (.opencode/, .claude/), agent-specific references*
 
 ## Dimension 5: Progressive Disclosure (15 points)
 

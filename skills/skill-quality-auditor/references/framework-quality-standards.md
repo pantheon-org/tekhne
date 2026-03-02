@@ -75,14 +75,18 @@ Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use t
 - Description field with activation keywords
 - Proper YAML frontmatter
 - Clear trigger scenarios in description
+- Cross-harness portability (no agent-specific paths)
 
 **Checklist:**
 
-- [ ] Description is comprehensive
+- [ ] Description is comprehensive (≥100 chars)
 - [ ] Domain keywords included
 - [ ] Trigger scenarios mentioned
 - [ ] Frontmatter syntax correct
 - [ ] Name matches directory
+- [ ] No harness-specific paths (`.opencode/`, `.claude/`, `.cursor/`)
+- [ ] No agent-specific references (Claude Code, Cursor Agent, etc.)
+- [ ] Uses relative paths (`scripts/`, `references/`, `templates/`)
 
 ### D5: Progressive Disclosure (≥13/15)
 

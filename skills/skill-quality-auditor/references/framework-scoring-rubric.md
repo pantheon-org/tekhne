@@ -75,9 +75,17 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 
 **Component Breakdown:**
 
-- Description Field Quality: 10 points (most critical)
-- Proper Frontmatter: 3 points
-- Activation Keywords: 2 points
+- Task Focus Declaration: 4 points
+- Description Field Quality: 6 points
+- Cross-Harness Portability: 3 points (CRITICAL for multi-agent compatibility)
+- Proper Frontmatter: 1 point
+- Activation Keywords: 1 point
+
+**Portability Requirements:**
+
+- No harness-specific paths (`.opencode/`, `.claude/`, `.cursor/`): 1 point
+- No agent-specific references (Claude Code, Cursor Agent, etc.): 1 point
+- Relative paths from skill directory (`scripts/`, `references/`): 1 point
 
 ### D5: Progressive Disclosure (15 points)
 
