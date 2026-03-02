@@ -64,6 +64,7 @@ Once confirmed, **MANDATORY**: use the **Read tool** to consult the appropriate 
 | **Alerting rules** | `references/best_practices.md` — sections #19-21, #39 |
 | **Structured metadata / Loki 3.x features** | `references/best_practices.md` — sections #35-37 |
 | **Template functions** (line_format, label_format) | `assets/common_queries.logql` — Template Functions section |
+| **Function/parser syntax** | `references/function_reference.md` — quick lookup tables |
 | **IP filtering, pattern extraction, regex** | `assets/common_queries.logql` — exact syntax |
 
 **Paths to use with the Read tool**:
@@ -280,73 +281,15 @@ sum(count_over_time({app="api"} | json | level="error" [5m])) or vector(0)
 - **service_name**: Auto-populated from container name
 - **detected_level**: Auto-detected when `discover_log_levels: true` (stored as structured metadata)
 
-## Quick Function Reference
+## Function and Parser Quick Reference
 
-### Log Range Aggregations (most common)
+For comprehensive function and parser documentation, see `references/function_reference.md`:
 
-| Function | Description |
-|----------|-------------|
-| `rate(log-range)` | Entries per second |
-| `count_over_time(log-range)` | Count entries |
-| `bytes_rate(log-range)` | Bytes per second |
-| `absent_over_time(log-range)` | Returns 1 if no logs |
-
-### Unwrapped Range Aggregations (most common)
-
-| Function | Description |
-|----------|-------------|
-| `sum_over_time`, `avg_over_time`, `max_over_time`, `min_over_time` | Aggregate numeric values |
-| `quantile_over_time(φ, range)` | φ-quantile (0 ≤ φ ≤ 1) |
-| `first_over_time`, `last_over_time` | First/last value |
-
-### Aggregation Operators
-
-`sum`, `avg`, `min`, `max`, `count`, `stddev`, `topk`, `bottomk`, `approx_topk`, `sort`, `sort_desc`
-
-With grouping: `sum by (label1, label2)` or `sum without (label1)`
-
-### Conversion Functions
-
-| Function | Description |
-|----------|-------------|
-| `duration_seconds(label)` | Convert duration string |
-| `bytes(label)` | Convert byte string (KB, MB) |
-
-### label_replace()
-
-```logql
-label_replace(rate({job="api"} |= "err" [1m]), "foo", "$1", "service", "(.*):.*")
-```
-
-## Parser Reference
-
-### logfmt
-
-```logql
-| logfmt [--strict] [--keep-empty]
-```
-- `--strict`: Error on malformed entries
-- `--keep-empty`: Keep standalone keys
-
-### JSON
-
-```logql
-| json                                           # All fields
-| json method="request.method", status="response.status"  # Specific fields
-| json servers[0], headers="request.headers[\"User-Agent\"]"  # Nested/array
-```
-
-## Template Functions
-
-Common functions for `line_format` and `label_format`:
-
-**String**: `trim`, `upper`, `lower`, `replace`, `trunc`, `substr`, `printf`, `contains`, `hasPrefix`
-**Math**: `add`, `sub`, `mul`, `div`, `addf`, `subf`, `floor`, `ceil`, `round`
-**Date**: `date`, `now`, `unixEpoch`, `toDate`, `duration_seconds`
-**Regex**: `regexReplaceAll`, `count`
-**Other**: `fromJson`, `default`, `int`, `float64`, `__line__`, `__timestamp__`
-
-See `assets/common_queries.logql` for detailed usage.
+- Log range aggregations: `rate()`, `count_over_time()`, `bytes_rate()`, `absent_over_time()`
+- Unwrapped aggregations: `sum_over_time()`, `quantile_over_time()`, etc.
+- Aggregation operators: `sum`, `topk`, `approx_topk`, with `by`/`without` grouping
+- Parsers: `json`, `logfmt` with options
+- Template functions for `line_format`/`label_format`
 
 ## Alerting Rules
 
@@ -408,14 +351,15 @@ When user asks for "error tracking with trace correlation in Loki 3.x":
 
 - **assets/common_queries.logql**: Comprehensive query examples
 - **references/best_practices.md**: 39+ LogQL best practices, performance optimization, anti-patterns
+- **references/function_reference.md**: Quick function and parser reference tables
 
 ## Guidelines
 
 1. **Always plan interactively** - Present plain-English plan before generating
 2. **Use AskUserQuestion** - Gather requirements and confirm plans
-3. **MUST use Read tool for complex queries** - See Stage 4 for the authoritative table of when and which files to read; do NOT skip this step or rely on prior knowledge
-4. **Fetch docs for advanced features** - Use context7 MCP when Loki 3.x features, approx_topk, or unclear syntax is involved (see Documentation Lookup triggers)
-5. **Offer incremental building** - For learning or debugging, present step-by-step query construction (see Stage 5a)
+3. **Consult references** - See Stage 4 for mandatory reference consultation
+4. **Fetch docs for advanced features** - Use context7 MCP for Loki 3.x features (see Documentation Lookup)
+5. **Offer incremental building** - See Stage 5a for step-by-step construction
 6. **Explain queries** - What it does, how to interpret results
 7. **Prioritize performance** - Specific selectors, filter early, simpler parsers
 
