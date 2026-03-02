@@ -6,6 +6,7 @@ compatibility: opencode
 metadata:
   category: nx-development
   audience: nx-developers
+  version: 0.1.1
 ---
 
 # Nx Generators
@@ -32,10 +33,24 @@ Navigation hub for authoring and operating custom Nx generators.
 ## Workflow
 
 1. Define generator schema and option constraints.
+   - **Validate**: Run schema linting if available.
+   - **Stop if**: Required fields are missing or types are ambiguous.
+
 2. Implement generation logic using Tree API only.
+   - **Validate**: Dry-run generator to inspect tree changes.
+   - **Stop if**: Unexpected files are created or modified.
+
 3. Add templates and variable mapping.
+   - **Validate**: Render template with sample data to check syntax.
+   - **Stop if**: Template rendering fails or produces invalid output.
+
 4. Update project configuration safely when needed.
+   - **Validate**: Dry-run and diff project.json changes.
+   - **Stop if**: Existing targets/tags are removed unintentionally.
+
 5. Validate with dry-run, tests, and generated output checks.
+   - **Feedback loop**: If dry-run shows unexpected changes → review schema defaults → adjust options → re-run dry-run.
+   - **Final check**: Run unit tests and verify generated code compiles.
 
 ## Constraint vs Flexibility Guidelines
 
