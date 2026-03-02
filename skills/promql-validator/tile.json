@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/promql-validator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "summary": "Comprehensive toolkit for validating, optimizing, and understanding Prometheus Query Language (PromQL) queries. Use this skill when working with PromQL queries to check syntax, detect anti-patterns, identify optimization opportunities, and interactively plan queries with users.",
   "skills": {
