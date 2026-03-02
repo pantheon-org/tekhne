@@ -1,0 +1,43 @@
+- Reviewing skill...
+
+Validation Checks
+
+  ✔ skill_md_line_count - SKILL.md line count is 430 (<= 500)
+  ✔ frontmatter_valid - YAML frontmatter is valid
+  ✔ name_field - 'name' field is valid: 'logql-generator'
+  ✔ description_field - 'description' field is valid (283 chars)
+  ✔ compatibility_field - 'compatibility' field not present (optional)
+  ✔ allowed_tools_field - 'allowed-tools' field not present (optional)
+  ✔ metadata_version - 'metadata' field not present (optional)
+  ✔ metadata_field - 'metadata' field not present (optional)
+  ✔ license_field - 'license' field not present (optional)
+  ✔ frontmatter_unknown_keys - No unknown frontmatter keys found
+  ✔ body_present - SKILL.md body is present
+
+Overall: PASSED (0 errors, 0 warnings)
+
+Judge Evaluation
+
+  Description: 100%
+    specificity: 3/3 - Lists multiple specific concrete actions: 'Generate label matchers, line filters, log aggregations, and metric queries' - these are distinct, technical capabilities that clearly describe what the skill does.
+    trigger_term_quality: 3/3 - Includes strong natural keywords users would say: 'LogQL', 'Loki Query Language', 'log analysis', 'dashboards', 'alerting rules', 'Loki', 'troubleshooting'. Good coverage of both the technology name and common use cases.
+    completeness: 3/3 - Clearly answers both what ('Generate label matchers, line filters, log aggregations, and metric queries') AND when ('Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki').
+    distinctiveness_conflict_risk: 3/3 - Very clear niche focused specifically on LogQL/Loki - unlikely to conflict with other query languages or logging tools. The specific technology name (LogQL, Loki) creates strong distinctiveness.
+
+    Assessment: This is a well-crafted skill description that excels across all dimensions. It provides specific capabilities, includes natural trigger terms users would actually use, explicitly states both what it does and when to use it, and has a clear distinctive niche around LogQL/Loki that minimizes conflict risk with other skills.
+
+  Content: 85%
+    conciseness: 2/3 - The skill is comprehensive but includes some redundancy (e.g., repeated emphasis on using Read tool, multiple sections explaining when to consult references). Some sections like the Quick Function Reference tables are efficient, but the overall document could be tightened by consolidating overlapping guidance.
+    actionability: 3/3 - Excellent actionability with fully executable LogQL examples throughout, specific file paths for the Read tool, concrete query patterns for every use case, and copy-paste ready code blocks. The examples cover log filtering, parsing, metrics, alerting, and advanced techniques with real syntax.
+    workflow_clarity: 3/3 - Clear 6-stage workflow with explicit validation checkpoints (Stage 4 requires user confirmation before proceeding, Stage 5a offers incremental building for debugging). The mandatory reference consultation table and the plan-then-confirm pattern provide excellent feedback loops for error prevention.
+    progressive_disclosure: 3/3 - Well-structured with clear overview sections and explicit one-level-deep references to external files (assets/common_queries.logql, references/best_practices.md). The table mapping query complexity to specific reference files is excellent navigation. Content is appropriately split between quick patterns in SKILL.md and detailed references elsewhere.
+
+    Assessment: This is a strong, well-structured skill with excellent actionability and workflow clarity. The interactive planning workflow with explicit validation stages and the mandatory reference consultation pattern are particularly effective. The main weakness is moderate verbosity—some guidance is repeated across sections, and the document could be more concise while preserving its comprehensive coverage.
+
+    Suggestions:
+      - Consolidate the repeated guidance about using the Read tool (appears in Stage 4, Guidelines section, and implicitly elsewhere) into a single authoritative location
+      - Consider moving the Quick Function Reference and Parser Reference tables to a separate reference file to reduce SKILL.md length while maintaining the overview focus
+
+Average Score: 93%
+
+✔ Skill evaluation completed successfully!
