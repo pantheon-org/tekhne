@@ -1,5 +1,6 @@
+# Ansible Validator Skill Quality Audit
 
-Validation Checks
+## Validation Checks
 
   ✔ skill_md_line_count - SKILL.md line count is 276 (<= 500)
   ✔ frontmatter_valid - YAML frontmatter is valid
