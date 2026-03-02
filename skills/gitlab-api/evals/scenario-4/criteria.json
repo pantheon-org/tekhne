@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent documents environment variable setup, token scope requirements, curl/jq dependencies, URL encoding practices, and references the get_mr_comments.sh script.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Documents GITLAB_TOKEN or GITLAB_PAT",
+      "description": "README or documentation mentions setting GITLAB_TOKEN or GITLAB_PAT environment variable",
+      "max_score": 15
+    },
+    {
+      "name": "Specifies read_api scope",
+      "description": "Documentation states that token needs read_api scope/permission",
+      "max_score": 13
+    },
+    {
+      "name": "Documents URL format",
+      "description": "Specifies expected URL format: https://gitlab.com/group/project/-/merge_requests/ID",
+      "max_score": 12
+    },
+    {
+      "name": "References get_mr_comments.sh",
+      "description": "Uses or references .agents/skills/gitlab-api/scripts/get_mr_comments.sh in the solution",
+      "max_score": 12
+    },
+    {
+      "name": "Mentions curl requirement",
+      "description": "Documents that curl is needed as a dependency",
+      "max_score": 10
+    },
+    {
+      "name": "Mentions jq requirement",
+      "description": "Documents that jq is needed for JSON parsing",
+      "max_score": 10
+    },
+    {
+      "name": "Shows URL encoding",
+      "description": "Demonstrates or mentions URL encoding project paths (replacing / with %2F)",
+      "max_score": 10
+    },
+    {
+      "name": "Token creation guidance",
+      "description": "Explains how to create a GitLab token (User Settings → Access Tokens or similar)",
+      "max_score": 10
+    },
+    {
+      "name": "Exit code documentation",
+      "description": "Documents script exit codes (0 for success, 1 for errors)",
+      "max_score": 8
+    }
+  ]
+}

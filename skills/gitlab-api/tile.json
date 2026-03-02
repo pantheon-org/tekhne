@@ -1,0 +1,19 @@
+{
+  "name": "pantheon-ai/gitlab-api",
+  "version": "1.2.0",
+  "private": true,
+  "summary": "Retrieve and analyze GitLab merge request comments and metadata using authenticated API calls",
+  "skills": {
+    "gitlab-api": {
+      "path": "SKILL.md"
+    }
+  },
+  "keywords": [
+    "gitlab",
+    "api",
+    "merge request",
+    "comments",
+    "metadata",
+    "authentication"
+  ]
+}

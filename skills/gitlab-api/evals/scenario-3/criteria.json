@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent distinguishes between DiffNote and comment types, filters System: true automated messages, and properly parses the structured output fields.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses get_mr_comments.sh",
+      "description": "Calls .agents/skills/gitlab-api/scripts/get_mr_comments.sh in the solution",
+      "max_score": 12
+    },
+    {
+      "name": "Checks Type field",
+      "description": "Extracts and uses the Type field from comment output to distinguish between comment types",
+      "max_score": 18
+    },
+    {
+      "name": "Identifies DiffNote as inline",
+      "description": "Treats Type: DiffNote as inline/code-level comments specifically",
+      "max_score": 15
+    },
+    {
+      "name": "Identifies comment as general",
+      "description": "Treats Type: comment as general discussion comments specifically",
+      "max_score": 12
+    },
+    {
+      "name": "Filters System: true",
+      "description": "Excludes comments where System: true to remove automated bot messages",
+      "max_score": 15
+    },
+    {
+      "name": "Checks System field",
+      "description": "Extracts and uses the System field from comment output",
+      "max_score": 10
+    },
+    {
+      "name": "Parses Author field",
+      "description": "Extracts author information from the Author field in output",
+      "max_score": 8
+    },
+    {
+      "name": "Authentication handling",
+      "description": "References or handles GITLAB_TOKEN/GITLAB_PAT environment variable",
+      "max_score": 6
+    },
+    {
+      "name": "Error messages",
+      "description": "Includes error handling with clear messages for access issues",
+      "max_score": 4
+    }
+  ]
+}
