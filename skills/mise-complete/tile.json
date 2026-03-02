@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/mise-complete",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "summary": "Configure and operate Mise for deterministic developer environments. Use when installing runtime/tool versions, defining reusable tasks, managing layered environment variables, migrating from asdf/nvm/pyenv, or debugging mise.toml behavior in CI and local shells. Keywords: mise, mise.toml, tool versions, tasks, env, asdf migration, setup automation, dev environment.\n",
   "skills": {
     "mise-complete": {
