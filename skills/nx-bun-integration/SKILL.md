@@ -25,7 +25,7 @@ Navigation hub for integrating Bun into Nx workspaces.
 1. Install `@nx-bun/nx` and initialize the plugin.
 2. Generate or convert projects to Bun executors.
 3. Configure cache inputs and outputs for build/test targets.
-4. Validate serve, build, and test on one project.
+4. Validate serve, build, and test on one project: run `nx build my-api && nx test my-api && nx serve my-api` and confirm all three exit with code 0 before proceeding. If validation fails: check executor configuration in `project.json`, run `nx reset` to clear stale cache, and retry. Resolve all failures before rolling out.
 5. Roll out to affected projects and enforce anti-pattern checks.
 
 ## Quick Commands
