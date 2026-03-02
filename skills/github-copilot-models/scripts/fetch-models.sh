@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 set -euo pipefail
 
 # GitHub Copilot Models Query Script
