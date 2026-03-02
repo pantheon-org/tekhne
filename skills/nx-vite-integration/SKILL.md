@@ -23,35 +23,6 @@ description: |
 
 Configure Vite as the build tool in Nx workspaces with predictable, cache-friendly defaults.
 
-## Scope
-
-In scope:
-
-- Nx projects using Vite for app and library builds
-- Monorepo TypeScript path resolution
-- Vitest setup in Nx projects
-- Library packaging patterns with `vite-plugin-dts`
-
-Out of scope:
-
-- Webpack-only features (complex module federation, loader chains)
-- Legacy IE11 browser support
-- Non-Nx monorepo tooling decisions
-
-## Use When
-
-- Setting up Vite for a new Nx app or library
-- Migrating an existing Nx project from Webpack to Vite
-- Configuring Vitest with Nx-compatible cache/coverage paths
-- Fixing path alias resolution across workspace packages
-- Setting up library mode with externalized dependencies
-
-## When NOT to Use
-
-- Project depends on Webpack-specific loaders/plugins that have no Vite equivalent
-- You require advanced module federation patterns that are currently Webpack-first
-- Browser support requirements include IE11
-
 ## Quick Reference
 
 | Topic | Reference |
@@ -61,13 +32,6 @@ Out of scope:
 | Library Mode | [references/library-mode-guide.md](references/library-mode-guide.md) |
 | Vitest Integration | [references/vitest-integration.md](references/vitest-integration.md) |
 | Troubleshooting | [references/troubleshooting.md](references/troubleshooting.md) |
-
-## Mindset
-
-- Prefer generator-first setup, then manual edits for edge cases.
-- Configure workspace-relative paths first; path mistakes cause most Nx + Vite failures.
-- Treat library externalization as mandatory for publishable packages.
-- Keep build and test concerns explicit and easy to verify.
 
 ## Workflow
 
