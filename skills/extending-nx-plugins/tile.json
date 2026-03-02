@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/extending-nx-plugins",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "summary": "Comprehensive guide for creating and managing Nx plugins including generators, inferred tasks, migrations, and best practices for extending Nx workspaces",
   "skills": {
