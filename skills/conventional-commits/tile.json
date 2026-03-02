@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/conventional-commits",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "summary": "Skill for creating structured, semantic commit messages following the Conventional Commits specification",
   "skills": {

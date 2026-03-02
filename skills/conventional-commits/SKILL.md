@@ -1,17 +1,18 @@
 ---
 name: conventional-commits
-title: Writing Conventional Commit Messages
 description: Generates and formats git commit messages following the Conventional Commits specification. Use when the user asks for help writing commit messages, formatting git commits, wants to write a commit msg for staged changes, needs to produce a changelog entry, or mentions conventional commits, semantic versioning, or version bumps. Analyzes diffs or change descriptions, selects the correct type/scope, writes an imperative-mood header under 72 characters, and composes optional body and footer sections including breaking-change notation.
-type: skill
-category: Development
-version: 1.0.0
-tags:
-  - git
-  - commits
-  - version-control
-  - semantic-versioning
-  - best-practices
-last_updated: 2026-01-26
+metadata:
+  title: Writing Conventional Commit Messages
+  type: skill
+  category: Development
+  version: 1.0.0
+  tags:
+    - git
+    - commits
+    - version-control
+    - semantic-versioning
+    - best-practices
+  last_updated: 2026-01-26
 ---
 
 ## Commit Message Format
