@@ -232,7 +232,7 @@ withEnv(['VERSION=1.0.0']) { sh 'echo $VERSION' }
 withCredentials([string(credentialsId: 'key', variable: 'KEY')]) { sh 'curl -H "Auth: $KEY" ...' }
 ```
 
-### @NonCPS for Non-Serializable Operations
+### NonCPS Annotation for Non-Serializable Operations
 
 ```groovy
 @NonCPS
@@ -240,7 +240,8 @@ def parseJson(String json) {
     new groovy.json.JsonSlurper().parseText(json)
 }
 ```
-**Rules:** No pipeline steps (`sh`, `echo`) inside @NonCPS. Use for JsonSlurper, iterators, regex Matchers.
+
+**Rules:** No pipeline steps (`sh`, `echo`) inside `@NonCPS`. Use for JsonSlurper, iterators, regex Matchers.
 
 ## Docker & Kubernetes
 
