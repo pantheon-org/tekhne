@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/commanderjs",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "summary": "Complete Commander.js CLI framework guidance covering command structure, options, arguments, subcommands, action handlers, version management, and TypeScript integration. Use when: building CLI tools, parsing command-line arguments, implementing subcommands, handling options/flags, creating interactive CLIs, or migrating from other CLI frameworks.\n\nKeywords: Commander.js, CLI, command-line, arguments, options, flags, subcommands, action handlers, version, help text, TypeScript, yargs, meow, program, parseAsync, opts, args, variadic, required options, default values, custom help, error handling",
   "skills": {
     "commanderjs": {
