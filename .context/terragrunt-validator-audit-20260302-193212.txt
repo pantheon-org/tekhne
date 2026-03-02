@@ -1,0 +1,44 @@
+- Reviewing skill...
+
+Validation Checks
+
+  ⚠ skill_md_line_count - SKILL.md is long (693 lines); consider splitting into references/ and linking
+  ✔ frontmatter_valid - YAML frontmatter is valid
+  ✔ name_field - 'name' field is valid: 'terragrunt-validator'
+  ✔ description_field - 'description' field is valid (415 chars)
+  ✔ compatibility_field - 'compatibility' field not present (optional)
+  ✔ allowed_tools_field - 'allowed-tools' field not present (optional)
+  ✔ metadata_version - 'metadata' field not present (optional)
+  ✔ metadata_field - 'metadata' field not present (optional)
+  ✔ license_field - 'license' field not present (optional)
+  ✔ frontmatter_unknown_keys - No unknown frontmatter keys found
+  ✔ body_present - SKILL.md body is present
+
+Overall: PASSED (0 errors, 1 warnings)
+
+Judge Evaluation
+
+  Description: 100%
+    specificity: 3/3 - Lists multiple specific concrete actions: 'validating, linting, testing, and automating Terragrunt configurations, HCL files, and Stacks' - these are clear, actionable capabilities.
+    trigger_term_quality: 3/3 - Excellent coverage of natural terms users would say: 'Terragrunt', '.hcl', 'terragrunt.hcl', 'terragrunt.stack.hcl', 'infrastructure-as-code', 'terragrunt plan', 'Terragrunt Stacks', 'providers', 'modules' - covers file extensions, tool names, and common operations.
+    completeness: 3/3 - Clearly answers both what ('validating, linting, testing, and automating Terragrunt configurations') AND when with explicit 'Use this skill when...' clause listing six specific trigger scenarios.
+    distinctiveness_conflict_risk: 3/3 - Highly distinctive with clear niche around Terragrunt specifically (not generic Terraform), with specific file extensions and tool-specific terminology that would not conflict with general IaC or Terraform skills.
+
+    Assessment: This is a well-crafted skill description that excels across all dimensions. It provides specific capabilities, comprehensive trigger terms including file extensions and tool-specific terminology, explicit 'Use when' guidance with multiple scenarios, and clear distinctiveness from related infrastructure-as-code tools.
+
+  Content: 85%
+    conciseness: 2/3 - The skill contains significant redundancy - the 'use this skill when' section duplicates the description, documentation lookup instructions are repeated multiple times (sections 2, 4-6, and validation workflow), and there's excessive explanation of concepts Claude would understand (like what Terragrunt is). However, the code examples are appropriately concise.
+    actionability: 3/3 - Excellent actionability with fully executable bash commands, complete Python script invocations, specific environment variables, and copy-paste ready examples throughout. The MCP tool calls are precisely specified with exact parameter names and values.
+    workflow_clarity: 3/3 - Clear multi-step workflows with explicit validation checkpoints (Step 0 mandatory read, numbered steps 1-10), feedback loops for error recovery in troubleshooting section, and checklists for best practices verification. The validation workflow explicitly gates progression on completing documentation lookup.
+    progressive_disclosure: 3/3 - Well-structured with clear overview in main file and one-level-deep references to specialized content (best_practices.md, version_compatibility.md, cli_commands.md, troubleshooting.md, etc.). Navigation is clearly signaled with descriptive link text explaining what each reference contains.
+
+    Assessment: This is a comprehensive and highly actionable skill with excellent workflow clarity and progressive disclosure. The main weakness is verbosity - the documentation lookup instructions are repeated at least three times, and there's unnecessary explanation of what Terragrunt is. The skill would benefit from consolidating redundant sections to reduce token usage while maintaining its strong actionability.
+
+    Suggestions:
+      - Consolidate the documentation lookup instructions into a single authoritative section and reference it elsewhere instead of repeating the full workflow multiple times
+      - Remove the overview paragraph explaining what Terragrunt is - Claude already knows this
+      - Remove the 'Use this skill when' section since it duplicates the skill description in the frontmatter
+
+Average Score: 93%
+
+✔ Skill evaluation completed successfully!
