@@ -15,7 +15,15 @@ Navigation hub for evaluating, maintaining, and improving skill quality with 8-d
 sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
 ```
 
-### Audit All Skills  
+### Batch Audit Multiple Skills
+
+```bash
+sh skills/skill-quality-auditor/scripts/batch-audit.sh <skill1> <skill2> [skill3...]
+```
+
+Audits multiple skills in parallel with failure tracking and summary reporting. Results stored in `.context/audits/<skill-name>/latest/`.
+
+### Audit All Skills
 
 ```bash
 sh skills/skill-quality-auditor/scripts/audit-skills.sh

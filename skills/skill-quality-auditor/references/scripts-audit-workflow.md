@@ -64,6 +64,29 @@ sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
 
 **Output:** JSON score report
 
+### batch-audit.sh
+
+Batch skill auditing with failure tracking:
+
+```bash
+sh skills/skill-quality-auditor/scripts/batch-audit.sh <skill1> <skill2> [skill3...]
+```
+
+**Arguments:**
+
+- `skill1, skill2, ...` - Space-separated list of skill names to audit
+
+**Features:**
+
+- Parallel audit execution using `evaluate.sh`
+- Failure tracking and summary reporting
+- Audit results stored in `.context/audits/<skill-name>/latest/`
+- Exit code reflects failures (0 = all passed, 1 = some failed)
+
+**Output:** Success/failure summary with failed skill list
+
+**Use when:** Auditing multiple skills in phases or batches with consolidated tracking
+
 ### plan-aggregation.ts
 
 Aggregation planning:
