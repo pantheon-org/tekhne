@@ -13,6 +13,10 @@
     "references/common-patterns.md",
     "references/gitlab-ci-reference.md",
     "references/security-guidelines.md",
-    "references/validation-presentation.md"
+    "references/validation-presentation.md",
+    "assets/templates/basic-pipeline.yml",
+    "assets/templates/docker-build.yml",
+    "assets/templates/kubernetes-deploy.yml",
+    "assets/templates/multi-project.yml"
   ]
 }
