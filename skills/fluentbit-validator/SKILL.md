@@ -17,56 +17,29 @@ Follow this sequential validation workflow. Each stage catches different types o
 > ```bash
 > python3 scripts/validate_config.py --file <config-file> --check all
 > ```
-> Individual check modes are available for targeted validation when debugging specific issues.
 
-### Stage 1: Configuration File Structure
+### Validation Stages Summary
 
+| Stage | Check Type | What It Validates |
+|-------|-----------|-------------------|
+| 1 | `structure` | Section headers, key-value format, brackets, indentation, encoding |
+| 2 | `sections` | Required fields, valid plugins, field values per section type |
+| 3 | `tags` | INPUT tags match FILTER/OUTPUT patterns, no orphaned sections |
+| 4 | `security` | Hardcoded credentials, TLS config, file permissions, network exposure |
+| 5 | `performance` | Memory limits, flush intervals, compression, buffer sizes |
+| 6 | `best-practices` | HTTP server, retry limits, storage config, environment variables |
+| 7 | `dry-run` | Config parsing, plugin loading, file permissions (requires fluent-bit binary) |
+
+**Individual check usage** (for debugging specific issues):
 ```bash
-python3 scripts/validate_config.py --file <config-file> --check structure
+python3 scripts/validate_config.py --file <config-file> --check <stage-type>
 ```
 
-**Common issues caught:** missing section headers, malformed key-value pairs, invalid section names, unclosed brackets, mixed tabs/spaces, UTF-8 encoding issues.
+**Detailed section validation rules:** See `references/SECTION-RULES.md` for comprehensive requirements, valid plugins, field specifications, and best practices for SERVICE, INPUT, FILTER, OUTPUT, and PARSER sections
 
-### Stage 2: Section Validation
+### Tag Consistency Check
 
-```bash
-python3 scripts/validate_config.py --file <config-file> --check sections
-```
-
-#### SERVICE Section
-- Required: `Flush`
-- Valid `Log_Level`: off, error, warn, info, debug, trace
-- `Parsers_File` references must exist
-- **Best practices:** Flush 1–5s; `HTTP_Server On`; `storage.metrics on`
-
-#### INPUT Section
-- Required: `Name`, valid plugin names, Tag format, file paths exist (tail), port range valid
-- **Best practices:** Always set `Mem_Buf_Limit` (50–100MB); use `DB` for tail; set `Skip_Long_Lines On`
-
-#### FILTER Section
-- Required: `Name`, `Match` (or `Match_Regex`)
-- Match pattern must correspond to at least one INPUT tag
-- **Best practices:** Avoid bare `*` Match unless intentional; order parsers before modifiers
-
-#### OUTPUT Section
-- Required: `Name`, `Match`
-- Valid plugins: elasticsearch, kafka, loki, s3, cloudwatch, http, forward, file, opentelemetry
-- OpenTelemetry-specific: URI endpoints (metrics_uri, logs_uri, traces_uri)
-- **Best practices:** Set `Retry_Limit 3–5`; configure `storage.total_limit_size`; enable TLS; use env vars for credentials
-
-#### PARSER Section
-- Required: `Name`, `Format`
-- Valid formats: json, regex, logfmt, ltsv
-- Regex syntax must be valid; `Time_Key` required when `Time_Format` is set
-- **Best practices:** Use built-in parsers where possible; use `MULTILINE_PARSER` for stack traces
-
-### Stage 3: Tag Consistency Check
-
-```bash
-python3 scripts/validate_config.py --file <config-file> --check tags
-```
-
-**Checks:** INPUT tags match FILTER Match patterns; FILTER tags match OUTPUT Match patterns; no orphaned filters or outputs; wildcard usage is correct.
+**Validates:** INPUT tags match FILTER Match patterns; FILTER tags match OUTPUT Match patterns; no orphaned filters or outputs; wildcard usage is correct.
 
 **Example:**
 ```ini
@@ -80,11 +53,7 @@ python3 scripts/validate_config.py --file <config-file> --check tags
     Match  app.*      # Matches: ❌ No logs will reach this output
 ```
 
-### Stage 4: Security Audit
-
-```bash
-python3 scripts/validate_config.py --file <config-file> --check security
-```
+### Security Audit
 
 **Checks:**
 1. **Hardcoded credentials:** HTTP_User/Passwd, AWS keys, API tokens in plain text
@@ -105,53 +74,16 @@ python3 scripts/validate_config.py --file <config-file> --check security
     HTTP_Passwd   ${ES_PASSWORD}
 ```
 
-### Stage 5: Performance Analysis
+### Performance Analysis
 
-```bash
-python3 scripts/validate_config.py --file <config-file> --check performance
-```
+**Key checks:**
+- `Mem_Buf_Limit` set on all tail inputs
+- `storage.total_limit_size` set on outputs
+- Flush interval appropriate (1–5s)
+- `Skip_Long_Lines On`; compression on network outputs
+- Kubernetes: `Buffer_Size 0` for kubernetes filter recommended
 
-**Checks:**
-1. `Mem_Buf_Limit` set on all tail inputs; `storage.total_limit_size` set on outputs
-2. Flush interval appropriate (1–5s)
-3. `Skip_Long_Lines On`; `Refresh_Interval` set; compression on network outputs
-4. Kubernetes: `Buffer_Size 0` for kubernetes filter recommended
-
-**Example of well-tuned config:**
-```ini
-[SERVICE]
-    Flush        1
-
-[INPUT]
-    Mem_Buf_Limit     50MB
-    Skip_Long_Lines   On
-    Refresh_Interval  10
-
-[OUTPUT]
-    storage.total_limit_size 5G
-    Retry_Limit       3
-    Compress          gzip
-```
-
-### Stage 6: Best Practice Validation
-
-```bash
-python3 scripts/validate_config.py --file <config-file> --check best-practices
-```
-
-**Checklist:**
-- ✅ SERVICE section with Flush parameter
-- ✅ HTTP_Server enabled for health checks
-- ✅ Mem_Buf_Limit on all tail inputs
-- ✅ DB file for tail inputs (position tracking)
-- ✅ Retry_Limit on all outputs
-- ✅ storage.total_limit_size on outputs
-- ✅ TLS enabled for production
-- ✅ Environment variables for credentials
-- ✅ kubernetes filter for K8s environments
-- ✅ Exclude_Path to prevent log loops
-
-### Stage 7: Dry-Run Testing
+### Dry-Run Testing
 
 ```bash
 fluent-bit -c <config-file> --dry-run
@@ -161,13 +93,7 @@ fluent-bit -c <config-file> --dry-run
 
 **If fluent-bit binary is not available:** skip this stage, document that dry-run was skipped, and recommend testing in a development environment.
 
-**Common errors:**
-- `[error] [config] parser file 'parsers.conf' not found` → verify Parsers_File path
-- `[error] [plugins] invalid plugin 'unknownplugin'` → check plugin name spelling
-- `[error] [input:tail] invalid property 'InvalidParam'` → remove invalid parameter
-- `[error] cannot open /var/log/containers/*.log` → check file permissions
-
-### Stage 8: Documentation Lookup (if needed)
+### Documentation Lookup
 
 **Try context7 MCP first:**
 ```
@@ -183,7 +109,7 @@ Then use mcp__context7__get-library-docs with:
 Search query: "fluent-bit <plugin-type> <plugin-name> configuration parameters site:docs.fluentbit.io"
 ```
 
-### Stage 9: Report and Fix Issues
+### Report and Fix Issues
 
 **1. Summarize all issues:**
 ```
