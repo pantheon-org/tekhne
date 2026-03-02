@@ -616,39 +616,45 @@ When validation tools are not installed:
 
 ### Common Issues and Solutions
 
-**Error: FROM instruction must be first non-comment**
+#### Error: FROM instruction must be first non-comment
+
 ```
 Solution: Move ARG that defines base image tag before FROM
 ARG VERSION=18
 FROM node:${VERSION}
 ```
 
-**Error: Unknown instruction (typo)**
+#### Error: Unknown instruction (typo)
+
 ```
 Solution: Check instruction spelling (RUN, COPY, FROM, etc.)
 Common typos: RUNS, COPIES, FRUM
 ```
 
-**Error: Chained RUN command fails**
+#### Error: Chained RUN command fails
+
 ```
 Solution: Add set -e or check individual command success
 RUN apt-get update && apt-get install -y package || exit 1
 ```
 
-**Error: COPY failed: file not found**
+#### Error: COPY failed: file not found
+
 ```
 Solution: Check file path is relative to build context
 Verify file exists and not excluded by .dockerignore
 ```
 
-**Security: Hardcoded secrets detected**
+#### Security: Hardcoded secrets detected
+
 ```
 Solution: Use build secrets (BuildKit)
 # Instead of: ENV API_KEY=secret123
 # Use: docker build --secret id=api_key,src=api_key.txt
 ```
 
-**Performance: Slow builds**
+#### Performance: Slow builds
+
 ```
 Solution:
 1. Optimize layer caching (COPY package files first)
@@ -661,14 +667,15 @@ Solution:
 
 ### scripts/
 
-**dockerfile-validate.sh**
+#### dockerfile-validate.sh
+
 - Single self-contained validation script
 - Auto-installs hadolint and Checkov if needed
 - Runs all 4 validation stages (syntax, security, best practices, optimization)
 - Auto-cleanup on exit
 - Usage: `bash scripts/dockerfile-validate.sh [Dockerfile]`
 
-### examples/
+### assets/
 
 **good-example.Dockerfile** - Demonstrates best practices and optimal structure
 
@@ -695,26 +702,29 @@ Solution:
 **IMPORTANT:** When using this skill, you MUST follow these steps in order:
 
 ### Pre-Validation (Required)
+
 1. **Read the Dockerfile first** - Always use the Read tool to examine the Dockerfile before running validation. This helps you understand the context and provide better recommendations.
 
 ### Validation (Required)
-2. **Run the validation script** - Execute `bash scripts/dockerfile-validate.sh <Dockerfile>` to run all 4 validation stages.
+
+1. **Run the validation script** - Execute `bash scripts/dockerfile-validate.sh <Dockerfile>` to run all 4 validation stages.
 
 ### Post-Validation (Required)
-3. **Summarize findings by severity** - After validation completes, provide a clear summary organized by:
+
+1. **Summarize findings by severity** - After validation completes, provide a clear summary organized by:
    - Critical issues (security vulnerabilities, hardcoded secrets)
    - High priority (missing USER, HEALTHCHECK, :latest tags)
    - Medium priority (layer optimization, version pinning)
    - Low priority (style, informational)
 
-4. **Propose specific fixes** - For each issue found, provide concrete code examples showing how to fix it. **You MUST use the Read tool** to load the appropriate reference files before proposing fixes:
+1. **Propose specific fixes** - For each issue found, provide concrete code examples showing how to fix it. **You MUST use the Read tool** to load the appropriate reference files before proposing fixes:
    - `references/security_checklist.md` - For security-related fixes
    - `references/optimization_guide.md` - For performance/size improvements
    - `references/docker_best_practices.md` - For general best practices
 
    **Note:** Always explicitly read reference files during the post-validation phase to ensure fix recommendations follow authoritative patterns, even if you have prior knowledge of the content.
 
-5. **Offer to apply fixes** - Ask the user if they want you to apply the proposed fixes to their Dockerfile.
+1. **Offer to apply fixes** - Ask the user if they want you to apply the proposed fixes to their Dockerfile.
 
 ### Reference File Usage
 

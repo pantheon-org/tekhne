@@ -169,195 +169,18 @@ Follow this workflow when generating Dockerfiles. Adapt based on user needs:
 
 **Language-Specific Templates:**
 
-#### Node.js Multi-Stage Dockerfile
+For detailed templates and examples, see:
+- **Node.js/Next.js**: `references/language_specific_guides.md` - Node.js section
+- **Python/FastAPI**: `references/language_specific_guides.md` - Python section
+- **Go**: `references/language_specific_guides.md` - Go section
+- **Java/Spring Boot**: `references/language_specific_guides.md` - Java section
 
-```dockerfile
-# syntax=docker/dockerfile:1
-
-# Build stage
-FROM node:20-alpine AS builder
-WORKDIR /app
-
-# Copy dependency files for caching
-COPY package*.json ./
-# Use npm ci for deterministic builds
-RUN npm ci --only=production && \
-    npm cache clean --force
-
-# Copy application code
-COPY . .
-
-# Build application (if needed)
-# RUN npm run build
-
-# Production stage
-FROM node:20-alpine AS production
-WORKDIR /app
-
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nodejs -u 1001
-
-# Copy dependencies and application from builder
-COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
-COPY --chown=nodejs:nodejs . .
-
-# Switch to non-root user
-USER nodejs
-
-# Expose port
-EXPOSE 3000
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD node -e "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
-
-# Start application
-CMD ["node", "index.js"]
-```
-
-#### Python Multi-Stage Dockerfile
-
-```dockerfile
-# syntax=docker/dockerfile:1
-
-# Build stage
-FROM python:3.12-slim AS builder
-WORKDIR /app
-
-# Install build dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
-# Copy dependency files
-COPY requirements.txt .
-
-# Install Python dependencies
-RUN pip install --no-cache-dir --user -r requirements.txt
-
-# Production stage
-FROM python:3.12-slim AS production
-WORKDIR /app
-
-# Create non-root user
-RUN useradd -m -u 1001 appuser
-
-# Copy dependencies from builder
-COPY --from=builder /root/.local /home/appuser/.local
-
-# Copy application code
-COPY --chown=appuser:appuser . .
-
-# Update PATH
-ENV PATH=/home/appuser/.local/bin:$PATH
-
-# Switch to non-root user
-USER appuser
-
-# Expose port
-EXPOSE 8000
-
-# Health check (adjust endpoint as needed)
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()" || exit 1
-
-# Start application
-CMD ["python", "app.py"]
-```
-
-#### Go Multi-Stage Dockerfile
-
-```dockerfile
-# syntax=docker/dockerfile:1
-
-# Build stage
-FROM golang:1.21-alpine AS builder
-WORKDIR /app
-
-# Copy go mod files
-COPY go.mod go.sum ./
-RUN go mod download
-
-# Copy source code
-COPY . .
-
-# Build the application
-RUN CGO_ENABLED=0 GOOS=linux go build -a -ldflags="-s -w" -o main .
-
-# Production stage (using distroless for minimal image)
-FROM gcr.io/distroless/static-debian12 AS production
-WORKDIR /
-
-# Copy binary from builder
-COPY --from=builder /app/main /main
-
-# Expose port
-EXPOSE 8080
-
-# Health check (distroless doesn't have shell, so this is commented)
-# HEALTHCHECK not supported in distroless without shell
-
-# Switch to non-root user (distroless runs as nonroot by default)
-USER nonroot:nonroot
-
-# Start application
-ENTRYPOINT ["/main"]
-```
-
-#### Java Multi-Stage Dockerfile
-
-```dockerfile
-# syntax=docker/dockerfile:1
-
-# Build stage
-FROM eclipse-temurin:21-jdk-jammy AS builder
-WORKDIR /app
-
-# Copy Maven wrapper and pom.xml
-COPY mvnw pom.xml ./
-COPY .mvn .mvn
-
-# Download dependencies (cached layer)
-RUN ./mvnw dependency:go-offline
-
-# Copy source code
-COPY src ./src
-
-# Build application
-RUN ./mvnw clean package -DskipTests && \
-    mv target/*.jar target/app.jar
-
-# Production stage (using JRE instead of JDK)
-FROM eclipse-temurin:21-jre-jammy AS production
-WORKDIR /app
-
-# Create non-root user
-RUN useradd -m -u 1001 appuser
-
-# Copy JAR from builder
-COPY --from=builder --chown=appuser:appuser /app/target/app.jar ./app.jar
-
-# Switch to non-root user
-USER appuser
-
-# Expose port
-EXPOSE 8080
-
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:8080/actuator/health || exit 1
-
-# Start application
-ENTRYPOINT ["java", "-jar", "app.jar"]
-```
-
-**Selection Logic:**
-- Node.js: Use for JavaScript/TypeScript applications
-- Python: Use for Python applications (web, API, scripts)
-- Go: Use for Go applications (excellent for minimal images)
+**Quick Template Selection:**
+- Node.js: Use for JavaScript/TypeScript applications (Express, Next.js, etc.)
+- Python: Use for Python applications (FastAPI, Django, Flask)
+- Go: Use for Go applications (minimal images with distroless)
 - Java: Use for Spring Boot, Quarkus, or other Java frameworks
-- Generic: Create custom Dockerfile for other languages
+- Generic: Adapt patterns from references for other languages
 
 **Always Include:**
 1. Syntax directive: `# syntax=docker/dockerfile:1`
@@ -610,176 +433,30 @@ cd .claude/skills/dockerfile-generator/scripts
 
 ## Best Practices Reference
 
-### Security Best Practices
+For detailed best practices, see the reference documentation:
+- **Security**: `references/security_best_practices.md` - Non-root users, minimal images, secrets management
+- **Optimization**: `references/optimization_patterns.md` - Layer caching, multi-stage builds, BuildKit features
+- **Multi-stage builds**: `references/multistage_builds.md` - Comprehensive multi-stage patterns
 
-1. **Use Specific Tags:**
-   ```dockerfile
-   # Bad
-   FROM node:alpine
+**Quick Security Checklist:**
+- ✓ Use specific version tags (e.g., `node:20-alpine`, not `node:latest`)
+- ✓ Run as non-root user
+- ✓ Use minimal base images (alpine, distroless)
+- ✓ Never hardcode secrets in ENV
 
-   # Good
-   FROM node:20-alpine
-
-   # Better (with digest for reproducibility)
-   FROM node:20-alpine@sha256:abc123...
-   ```
-
-2. **Run as Non-Root:**
-   ```dockerfile
-   # Create user
-   RUN addgroup -g 1001 -S appgroup && \
-       adduser -S appuser -u 1001 -G appgroup
-
-   # Switch to user before CMD
-   USER appuser
-   ```
-
-3. **Use Minimal Base Images:**
-   - Alpine Linux (small, secure)
-   - Distroless (no shell, minimal attack surface)
-   - Specific runtime images (node:alpine vs node:latest)
-
-4. **Never Hardcode Secrets:**
-   ```dockerfile
-   # Bad
-   ENV API_KEY=secret123
-
-   # Good - use build secrets
-   # docker build --secret id=api_key,src=.env
-   RUN --mount=type=secret,id=api_key \
-       API_KEY=$(cat /run/secrets/api_key) ./configure
-   ```
-
-### Optimization Best Practices
-
-1. **Layer Caching:**
-   ```dockerfile
-   # Copy dependency files first
-   COPY package.json package-lock.json ./
-   RUN npm ci
-
-   # Copy application code last
-   COPY . .
-   ```
-
-2. **Combine RUN Commands:**
-   ```dockerfile
-   # Bad (creates 3 layers)
-   RUN apt-get update
-   RUN apt-get install -y curl
-   RUN rm -rf /var/lib/apt/lists/*
-
-   # Good (creates 1 layer)
-   RUN apt-get update && \
-       apt-get install -y --no-install-recommends curl && \
-       rm -rf /var/lib/apt/lists/*
-   ```
-
-3. **Multi-Stage Builds:**
-   ```dockerfile
-   # Build stage - can be large
-   FROM node:20 AS builder
-   WORKDIR /app
-   COPY . .
-   RUN npm install && npm run build
-
-   # Production stage - minimal
-   FROM node:20-alpine
-   COPY --from=builder /app/dist ./dist
-   CMD ["node", "dist/index.js"]
-   ```
-
-### Production Readiness
-
-1. **Health Checks:**
-   ```dockerfile
-   HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-       CMD curl -f http://localhost:3000/health || exit 1
-   ```
-
-2. **Proper Signals:**
-   ```dockerfile
-   # Use exec form for proper signal handling
-   CMD ["node", "server.js"]  # Good
-   CMD node server.js         # Bad (no signal forwarding)
-   ```
-
-3. **Metadata:**
-   ```dockerfile
-   LABEL maintainer="team@example.com" \
-         version="1.0.0" \
-         description="My application"
-   ```
+**Quick Optimization Checklist:**
+- ✓ Order layers from least to most frequently changing
+- ✓ Copy dependency files before application code
+- ✓ Combine related RUN commands with &&
+- ✓ Clean package manager caches in same layer
 
 ## Common Patterns
 
-### Pattern 1: Node.js with Next.js
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM node:20-alpine AS deps
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-
-FROM node:20-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-RUN npm run build
-
-FROM node:20-alpine AS runner
-WORKDIR /app
-ENV NODE_ENV=production
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nextjs -u 1001
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
-USER nextjs
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-### Pattern 2: Python with FastAPI
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM python:3.12-slim AS builder
-WORKDIR /app
-RUN apt-get update && apt-get install -y --no-install-recommends gcc && \
-    rm -rf /var/lib/apt/lists/*
-COPY requirements.txt .
-RUN pip install --no-cache-dir --user -r requirements.txt
-
-FROM python:3.12-slim
-WORKDIR /app
-RUN useradd -m -u 1001 appuser
-COPY --from=builder /root/.local /home/appuser/.local
-COPY --chown=appuser:appuser . .
-ENV PATH=/home/appuser/.local/bin:$PATH
-USER appuser
-EXPOSE 8000
-HEALTHCHECK CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-### Pattern 3: Go CLI Tool
-
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM golang:1.21-alpine AS builder
-WORKDIR /app
-COPY go.* ./
-RUN go mod download
-COPY . .
-RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /bin/app
-
-FROM scratch
-COPY --from=builder /bin/app /app
-ENTRYPOINT ["/app"]
-```
+For complete pattern examples, see `references/language_specific_guides.md`:
+- Next.js with multi-stage builds
+- FastAPI with health checks
+- Go CLI tools with distroless
+- Spring Boot with JRE optimization
 
 ## Modern Docker Features (2025)
 
