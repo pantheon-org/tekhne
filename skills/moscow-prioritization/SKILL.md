@@ -1,10 +1,11 @@
 ---
 name: moscow-prioritization
 description: >
-  Prioritize product requirements with the MoSCoW framework in a deterministic way. 
-  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts, 
-  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints. 
-  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp, 
+  Categorize requirements into Must/Should/Could/Won't tiers, generate priority matrices,
+  and facilitate trade-off discussions using the MoSCoW framework in a deterministic way.
+  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts,
+  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints.
+  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp,
   release planning, scope control, stakeholder alignment.
 allowed-tools: Read, Write, Edit, Bash
 ---
@@ -32,8 +33,9 @@ Do not use this skill for task-level estimation, bug triage, or sprint capacity 
 2. Confirm release constraints (date, budget, team).
 3. Categorize each item with the decision tree in `references/categorization-decision-tree.md`.
 4. Challenge every `Must` using failure-focused questions.
-5. Rebalance if `Must` work exceeds 60% of effort.
-6. Publish final table with owners and review date.
+5. **Validate:** Verify that the `Must` count does not exceed 60% of total effort before proceeding.
+6. Rebalance if `Must` work exceeds 60% of effort. If rebalancing cannot bring `Must` under 60%, escalate to stakeholders to either re-scope the release (split into two releases, extend the timeline, or increase capacity) before finalizing categories.
+7. Publish final table with owners and review date.
 
 ## Quick Commands
 
