@@ -292,9 +292,9 @@ node {
 }
 ```
 
-### @NonCPS Methods
+### NonCPS Methods
 
-Methods that should not use Continuation Passing Style (for complex Groovy operations).
+Methods annotated with `@NonCPS` should not use Continuation Passing Style (for complex Groovy operations).
 
 ```groovy
 @NonCPS

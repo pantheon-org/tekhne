@@ -22,24 +22,32 @@ Comprehensive toolkit for validating, linting, and testing Jenkinsfile pipelines
 ## Validation Capabilities
 
 ### Declarative Pipeline Validation
+
 - **Syntax Structure**: Validates required sections (pipeline, agent, stages, steps)
 - **Directive Validation**: Checks proper usage of environment, options, parameters, triggers, tools, when, input
 - **Best Practices**: Parallel execution, credential management, combined shell commands
 - **Section Placement**: Ensures directives are in correct locations
 
+See [references/declarative_syntax.md](references/declarative_syntax.md) for complete syntax reference.
+
 ### Scripted Pipeline Validation
+
 - **Groovy Syntax**: Validates Groovy code syntax and structure
 - **Node Blocks**: Ensures proper node/agent block usage
 - **Error Handling**: Checks for try-catch-finally patterns
 - **Best Practices**: @NonCPS usage, agent-based operations, proper variable scoping
 
+See [references/scripted_syntax.md](references/scripted_syntax.md) for complete syntax reference.
+
 ### Common Validations (Both Types)
+
 - **Security**: Detects hardcoded credentials, passwords, API keys
 - **Performance**: Identifies controller-heavy operations (JsonSlurper, HttpRequest on controller)
 - **Variables**: Validates variable declarations and usage
 - **Plugins**: Detects and validates plugin-specific steps with dynamic documentation lookup
 
 ### Shared Library Validation
+
 - **vars/*.groovy**: Validates global variable files (callable steps)
   - call() method presence and signature
   - @NonCPS annotation correctness (no pipeline steps in @NonCPS methods)
@@ -107,50 +115,6 @@ bash scripts/validate_jenkinsfile.sh --no-best-practices Jenkinsfile
 bash scripts/validate_jenkinsfile.sh --strict Jenkinsfile
 ```
 
-### Workflow Diagram
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 1. Type Detection (Automatic)                               │
-│    ├─ Declarative: starts with 'pipeline {'                 │
-│    └─ Scripted: starts with 'node' or Groovy code          │
-│         ↓                                                   │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 2. Syntax Validation (Required)                             │
-│    ├─ Structure validation                                  │
-│    ├─ Required sections                                     │
-│    └─ Groovy syntax                                         │
-│         ↓                                                   │
-│    Reports errors → Continues to next phase                 │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 3. Security Scan (Required)                                 │
-│    ├─ Hardcoded credentials                                 │
-│    ├─ API keys / tokens                                     │
-│    ├─ Cloud provider credentials                            │
-│    └─ Private keys / certificates                           │
-│         ↓                                                   │
-│    Reports issues → Continues to next phase                 │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 4. Best Practices Check (Recommended)                       │
-│    ├─ Combined shell commands                               │
-│    ├─ Timeout configuration                                 │
-│    ├─ Workspace cleanup                                     │
-│    ├─ Error handling                                        │
-│    └─ Test result publishing                                │
-│         ↓                                                   │
-│    Reports suggestions → Complete with summary              │
-└─────────────────────────────────────────────────────────────┘
-
-**Note:** All validation phases run regardless of errors found in previous phases.
-This ensures comprehensive reporting of all issues in a single run.
-```
-
 ### Script Architecture
 
 The validation system uses a modular script architecture:
@@ -165,43 +129,13 @@ scripts/
 │   └── Produces unified summary
 │
 ├── validate_declarative.sh      # Declarative syntax validator
-│   └── Called automatically for pipeline {} blocks
-│
 ├── validate_scripted.sh         # Scripted syntax validator
-│   └── Called automatically for node {} blocks
-│
 ├── common_validation.sh         # Shared functions + security scan
-│   ├── detect_type: Determine pipeline type
-│   ├── check_credentials: Security credential scan
-│   └── Common utilities
-│
 ├── best_practices.sh            # 15-point best practices scorer
-│   └── Performance, security, maintainability checks
-│
 └── validate_shared_library.sh   # Shared library validator
-    └── For vars/*.groovy and src/**/*.groovy files
 ```
 
 **Key Point**: Always use `validate_jenkinsfile.sh` as the main entry point - it orchestrates all other scripts automatically.
-
-### Individual Scripts (Advanced Usage)
-
-If you need to run validators separately (for debugging or specific checks):
-
-```bash
-# Detect pipeline type
-bash scripts/common_validation.sh detect_type Jenkinsfile
-
-# Run syntax validation only
-bash scripts/validate_declarative.sh Jenkinsfile  # For declarative
-bash scripts/validate_scripted.sh Jenkinsfile     # For scripted
-
-# Run security checks only
-bash scripts/common_validation.sh check_credentials Jenkinsfile
-
-# Run best practices check only
-bash scripts/best_practices.sh Jenkinsfile
-```
 
 ### Shared Library Validation
 
@@ -213,37 +147,11 @@ bash scripts/validate_shared_library.sh vars/myStep.groovy
 
 # Validate entire shared library directory
 bash scripts/validate_shared_library.sh /path/to/shared-library
-
-# Validate just vars directory
-bash scripts/validate_shared_library.sh vars/
-
-# Validate just src directory
-bash scripts/validate_shared_library.sh src/
 ```
 
 The shared library validator checks:
 - **vars/*.groovy files**: call() method, @NonCPS usage, CPS compatibility, credential handling
 - **src/**/*.groovy files**: Package declaration, class naming, Serializable implementation, imports
-
-Example output:
-```
-=== Validating Global Variable: myStep ===
-File: vars/myStep.groovy
-
-=== Validation Results ===
-
-ERRORS (2):
-ERROR [Line 15]: @NonCPS method contains pipeline steps (sh, echo, etc.)
-ERROR [Line 15]:   → Pipeline steps cannot be used in @NonCPS methods
-
-WARNINGS (3):
-WARNING [Line 22]: Using 'new File()' - prefer readFile/writeFile for pipeline compatibility
-WARNING [Line 1]: No call() method found - file may not be callable as a step
-WARNING [Line 1]: Filename 'BadStep' should be camelCase starting with lowercase
-
-=== Summary ===
-✗ Validation failed with 2 error(s) and 3 warning(s)
-```
 
 ## Plugin Documentation Lookup
 
@@ -258,118 +166,29 @@ Look up documentation when you encounter:
 
 ### Plugin Lookup Workflow (Claude's Responsibility)
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ 1. Identify Unknown Plugin Step                             │
-│    - Review Jenkinsfile for unrecognized steps              │
-│    - Example: customDeploy, nexusPublish, datadogEvent      │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 2. Check Local Reference First                              │
-│    - Read: references/common_plugins.md                     │
-│    - Contains: git, docker, kubernetes, credentials, etc.   │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 3. Use Context7 MCP (if not in local reference)            │
-│    - mcp__context7__resolve-library-id                      │
-│      query: "jenkinsci <plugin-name>-plugin"               │
-│    - mcp__context7__get-library-docs                        │
-│      for usage examples and parameters                      │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 4. Web Search Fallback (if Context7 has no results)        │
-│    - WebSearch: "Jenkins <plugin-name> plugin documentation"│
-│    - Official source: https://plugins.jenkins.io/           │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│ 5. Provide Usage Guidance                                   │
-│    - Required vs optional parameters                        │
-│    - Best practices for the plugin                          │
-│    - Security considerations                                │
-└─────────────────────────────────────────────────────────────┘
-```
+1. **Identify Unknown Plugin Step** - Review Jenkinsfile for unrecognized steps
+2. **Check Local Reference First** - Read: references/common_plugins.md
+3. **Use Context7 MCP** (if not in local reference)
+   - mcp__context7__resolve-library-id with query: "jenkinsci \<plugin-name\>-plugin"
+   - mcp__context7__get-library-docs for usage examples and parameters
+4. **Web Search Fallback** (if Context7 has no results)
+   - WebSearch: "Jenkins \<plugin-name\> plugin documentation"
+   - Official source: <https://plugins.jenkins.io/>
+5. **Provide Usage Guidance**
+   - Required vs optional parameters
+   - Best practices for the plugin
+   - Security considerations
 
-### Example: Unknown Plugin Detection
-```groovy
-// User's Jenkinsfile contains:
-stage('Deploy') {
-    steps {
-        nexusArtifactUploader artifacts: [[...]], nexusUrl: 'http://nexus'
-        datadogEvent title: 'Deployment', text: 'Deployed v1.0'
-    }
-}
-```
-
-**Claude's Actions:**
-1. Recognize `nexusArtifactUploader` and `datadogEvent` are not in common_plugins.md
-2. Use Context7: `mcp__context7__resolve-library-id` with "jenkinsci nexus-artifact-uploader"
-3. If not found, WebSearch: "Jenkins nexus artifact uploader plugin documentation"
-4. Provide guidance: "The nexusArtifactUploader step requires credentialsId for authentication..."
+See [references/common_plugins.md](references/common_plugins.md) for documentation on commonly used plugins.
 
 ## Reference Documentation
 
-The skill includes comprehensive reference documentation:
-
-- **declarative_syntax.md**: Complete Declarative pipeline syntax reference
-- **scripted_syntax.md**: Scripted pipeline and Groovy patterns
-- **best_practices.md**: Comprehensive best practices guide from official Jenkins docs
-- **common_plugins.md**: Documentation for popular plugins (git, docker, kubernetes, credentials, etc.)
-
-## Validation Rules
-
-### Syntax Issues
-- Missing required sections (agent, stages, steps)
-- Invalid section names or misplaced directives
-- Groovy syntax errors
-- Missing braces, quotes, or brackets
-- Semicolons at end of lines (unnecessary in Jenkins pipelines)
-
-### Best Practices
-- **Combine Shell Commands**: Use single `sh` step with multiple commands instead of multiple `sh` steps
-- **Credential Management**: Use `credentials()` or `withCredentials`, never hardcode secrets
-- **Agent Operations**: Perform heavy operations on agents, not controller
-- **Parallel Execution**: Use `parallel` for independent stages
-- **Error Handling**: Wrap critical sections in try-catch blocks
-- **Timeouts**: Define timeouts in options to prevent hung builds
-- **Clean Workspace**: Clean workspace before/after builds
-
-### Variable Usage
-- Proper variable declaration and scoping
-- Correct interpolation syntax (`${VAR}` vs `$VAR`)
-- Undefined variable detection
-- Environment variable usage
-
-### Security
-- No hardcoded passwords, API keys, or tokens
-- Proper use of Jenkins Credentials Manager
-- Secrets management best practices
-- Role-based access control recommendations
-
-## Error Reporting
-
-Validation results include:
-- **Line numbers** for each issue
-- **Severity levels**: Error, Warning, Info
-- **Descriptions**: Clear explanation of the issue
-- **Suggestions**: How to fix the problem
-- **References**: Links to documentation
-
-### Example Output
-```
-ERROR [Line 5]: Missing required section 'agent'
-  → Add 'agent any' or specific agent configuration at top level
-
-WARNING [Line 12]: Multiple consecutive 'sh' steps detected
-  → Combine into single sh step with triple-quoted string
-  → See: best_practices.md#combine-shell-commands
-
-INFO [Line 23]: Consider using parallel execution for independent stages
-  → See: references/declarative_syntax.md#parallel-stages
-```
+- [Declarative Syntax](references/declarative_syntax.md): Complete Declarative Pipeline syntax reference
+- [Scripted Syntax](references/scripted_syntax.md): Complete Scripted Pipeline syntax reference
+- [Best Practices](references/best_practices.md): Jenkins pipeline best practices and patterns
+- [Common Plugins](references/common_plugins.md): Documentation for frequently used Jenkins plugins
+- [Validation Rules](references/validation_rules.md): Detailed validation rules, error reporting format, and examples
+- [Troubleshooting](references/troubleshooting.md): Common issues, debug mode, and limitations
 
 ## Usage Instructions
 
@@ -389,8 +208,8 @@ When a user provides a Jenkinsfile for validation:
 3. **After validation, scan for unknown plugins** (Claude's responsibility):
    - Review the validation output for any unrecognized step names
    - Check `references/common_plugins.md` first for documentation
-   - If not found, use Context7 MCP: `mcp__context7__resolve-library-id` with query "jenkinsci <plugin-name>"
-   - If still not found, use WebSearch: "Jenkins <plugin-name> plugin documentation"
+   - If not found, use Context7 MCP: `mcp__context7__resolve-library-id` with query "jenkinsci \<plugin-name\>"
+   - If still not found, use WebSearch: "Jenkins \<plugin-name\> plugin documentation"
    - Provide usage guidance based on found documentation
 
 4. **Report results** with line numbers, severity, and actionable suggestions
@@ -400,6 +219,7 @@ When a user provides a Jenkinsfile for validation:
 ## Common Validation Scenarios
 
 ### Scenario 1: Validate Declarative Pipeline
+
 ```markdown
 User: "Validate my Jenkinsfile"
 1. Read the Jenkinsfile
@@ -410,6 +230,7 @@ User: "Validate my Jenkinsfile"
 ```
 
 ### Scenario 2: Validate with Unknown Plugin
+
 ```markdown
 User: "Check this pipeline with custom plugin steps"
 1. Read Jenkinsfile
@@ -422,70 +243,20 @@ User: "Check this pipeline with custom plugin steps"
 ```
 
 ### Scenario 3: Security Audit
+
 ```markdown
 User: "Check for security issues in my pipeline"
-1. Read Jenkinsfile
-2. Run: bash scripts/common_validation.sh check_credentials Jenkinsfile
-3. Scan for hardcoded secrets, passwords, API keys
-4. Check credential management best practices
-5. Report security findings with fix suggestions
+1. Run: bash scripts/validate_jenkinsfile.sh --security-only Jenkinsfile
+2. Report all credential/secret findings
+3. Suggest withCredentials patterns
+4. Reference: references/best_practices.md#credential-management
 ```
 
 ## Tools Available
 
-- **Bash**: Execute validation scripts
-- **Read**: Read Jenkinsfile content
-- **Grep**: Search for patterns in pipeline files
-- **WebSearch**: Find plugin documentation online
-- **Context7 MCP**: Access Jenkins and plugin documentation
-- **WebFetch**: Retrieve specific documentation pages
-
-## Best Practice Examples
-
-### Good: Combined Shell Commands
-```groovy
-sh '''
-  echo "Building..."
-  mkdir build
-  ./gradlew build
-  echo "Build complete"
-'''
-```
-
-### Bad: Multiple Shell Steps
-```groovy
-sh 'echo "Building..."'
-sh 'mkdir build'
-sh './gradlew build'
-sh 'echo "Build complete"'
-```
-
-### Good: Credential Management
-```groovy
-withCredentials([string(credentialsId: 'api-key', variable: 'API_KEY')]) {
-  sh 'curl -H "Authorization: Bearer $API_KEY" ...'
-}
-```
-
-### Bad: Hardcoded Credentials
-```groovy
-sh 'curl -H "Authorization: Bearer abc123xyz" ...'
-```
-
-## Additional Capabilities
-
-- **Dry-run Testing**: Validate without Jenkins server (all validation is local)
-- **Plugin Version Checking**: Warn about deprecated plugin versions
-- **Performance Analysis**: Identify potential performance bottlenecks
-- **Compliance Checking**: Validate against organizational standards
-- **Multi-file Support**: Validate multiple Jenkinsfiles in a directory
-
-## References
-
-- Official Jenkins Pipeline Syntax: https://www.jenkins.io/doc/book/pipeline/syntax/
-- Pipeline Development Tools: https://www.jenkins.io/doc/book/pipeline/development/
-- Pipeline Best Practices: https://www.jenkins.io/doc/book/pipeline/pipeline-best-practices/
-- Jenkins Plugins: https://plugins.jenkins.io/
+This skill uses standard shell scripts for validation. No special tools or external dependencies are required beyond:
+- bash (for running validation scripts)
+- Basic Unix utilities (grep, awk, sed)
 
 ## Automatic Actions
 
@@ -496,46 +267,9 @@ When this skill is invoked:
 4. Provide actionable suggestions with every issue
 5. Reference documentation files for detailed guidance
 
-## Troubleshooting
+## External References
 
-### Common Issues
-
-**Issue: "Best practices check shows false negatives"**
-- **Cause**: Comment stripping may interfere with pattern detection
-- **Solution**: update to latest version
-
-**Issue: "Syntax validation passes but pipeline fails on Jenkins"**
-- **Explanation**: Local validation catches structural issues but cannot verify:
-  - Plugin availability
-  - Agent/node availability
-  - Credential existence
-  - Network connectivity
-- **Solution**: Validate on Jenkins using Replay feature or Pipeline Unit Testing Framework
-
-**Issue: "Security scan shows passed but best practices finds credentials"**
-- **Solution**: security scan now properly detects all credential patterns
-
-**Issue: "Scripts not executable"**
-- **Solution**: Run `chmod +x scripts/*.sh`
-
-### Debug Mode
-
-Enable verbose output for troubleshooting:
-
-```bash
-# Run with bash debug mode
-bash -x scripts/validate_jenkinsfile.sh Jenkinsfile
-
-# Check individual validator output
-bash scripts/validate_declarative.sh Jenkinsfile
-bash scripts/best_practices.sh Jenkinsfile
-bash scripts/common_validation.sh check_credentials Jenkinsfile
-```
-
-## Limitations
-
-- **No Jenkins Server Required**: All validation is local (no live testing)
-- **Plugin Steps**: Cannot fully validate custom plugin steps without documentation
-- **Runtime Behavior**: Cannot detect runtime issues (permissions, network, etc.)
-- **Complex Groovy**: Advanced Groovy constructs may not be fully validated
-- **Shared Libraries**: Remote shared libraries are not fetched or validated
+- Official Jenkins Pipeline Syntax: <https://www.jenkins.io/doc/book/pipeline/syntax/>
+- Pipeline Development Tools: <https://www.jenkins.io/doc/book/pipeline/development/>
+- Pipeline Best Practices: <https://www.jenkins.io/doc/book/pipeline/pipeline-best-practices/>
+- Jenkins Plugins: <https://plugins.jenkins.io/>

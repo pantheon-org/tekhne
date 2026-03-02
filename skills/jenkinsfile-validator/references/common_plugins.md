@@ -745,9 +745,9 @@ waitUntil {
 
 For unlisted plugins, use:
 
-1. **Context7**: Search for `/jenkinsci/<plugin-name>-plugin`
-2. **Web Search**: "Jenkins <plugin-name> plugin documentation"
-3. **Official Plugins**: https://plugins.jenkins.io/
+1. **Context7**: Search for `/jenkinsci/\<plugin-name\>-plugin`
+2. **Web Search**: "Jenkins \<plugin-name\> plugin documentation"
+3. **Official Plugins**: <https://plugins.jenkins.io/>
 
 ---
 

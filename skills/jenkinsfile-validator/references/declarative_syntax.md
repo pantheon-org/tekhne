@@ -21,6 +21,7 @@ pipeline {
 ## Required Sections
 
 ### 1. pipeline
+
 The outermost block that contains all pipeline code.
 
 ```groovy
@@ -30,6 +31,7 @@ pipeline {
 ```
 
 ### 2. agent
+
 Specifies where the pipeline or stage will execute. **Required** at top level or per stage.
 
 ```groovy
@@ -68,6 +70,7 @@ agent none
 ```
 
 ### 3. stages
+
 Contains a sequence of one or more stage directives. **Required**.
 
 ```groovy
@@ -86,6 +89,7 @@ stages {
 ```
 
 ### 4. steps
+
 Defines actions to execute within a stage. **Required** in each stage (unless stage has stages).
 
 ```groovy
@@ -103,6 +107,7 @@ steps {
 ## Optional Top-Level Directives
 
 ### environment
+
 Defines environment variables available to all steps.
 
 ```groovy
@@ -121,6 +126,7 @@ environment {
 ```
 
 ### options
+
 Configures pipeline-specific settings.
 
 ```groovy
@@ -149,6 +155,7 @@ options {
 ```
 
 ### parameters
+
 Defines build parameters users can provide.
 
 ```groovy
@@ -189,6 +196,7 @@ parameters {
 ```
 
 ### triggers
+
 Defines automatic build triggers.
 
 ```groovy
@@ -208,6 +216,7 @@ triggers {
 ```
 
 ### tools
+
 Auto-installs and configures tools.
 
 ```groovy
@@ -219,6 +228,7 @@ tools {
 ```
 
 ### libraries
+
 Loads shared libraries.
 
 ```groovy
@@ -233,6 +243,7 @@ libraries {
 ## Stage-Level Directives
 
 ### agent (stage-level)
+
 Override agent for specific stage.
 
 ```groovy
@@ -247,6 +258,7 @@ stage('Build') {
 ```
 
 ### environment (stage-level)
+
 Stage-specific environment variables.
 
 ```groovy
@@ -261,6 +273,7 @@ stage('Deploy') {
 ```
 
 ### when
+
 Conditional execution of stage.
 
 ```groovy
@@ -313,6 +326,7 @@ when {
 ```
 
 ### input
+
 Pause for user input.
 
 ```groovy
@@ -332,6 +346,7 @@ stage('Deploy') {
 ```
 
 ### options (stage-level)
+
 Stage-specific options.
 
 ```groovy
@@ -348,6 +363,7 @@ stage('Test') {
 ```
 
 ## post
+
 Runs after pipeline/stage completion.
 
 ```groovy
