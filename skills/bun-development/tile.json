@@ -7,5 +7,20 @@
     "bun-development": {
       "path": "SKILL.md"
     }
-  }
+  },
+  "files": [
+    "references/file-glob.md",
+    "references/file-io-patterns.md",
+    "references/file-vs-node.md",
+    "references/pm-workspaces-agent-instructions.md",
+    "references/runtime-globals.md",
+    "references/runtime-http-server.md",
+    "references/runtime-password.md",
+    "references/runtime-shell.md",
+    "references/sqlite-basics.md",
+    "references/testing-bun-test.md",
+    "references/testing-matchers.md",
+    "references/testing-mocking.md",
+    "references/testing-snapshots.md"
+  ]
 }

@@ -125,10 +125,10 @@ When validating shell scripts, Claude MUST follow these steps:
    - Note ShellCheck error codes (SC####) for lookup
 
 3. **Reference documentation** for detailed explanations:
-   - For ShellCheck codes: Read `docs/shellcheck-reference.md`
-   - For common mistakes: Read `docs/common-mistakes.md`
-   - For bash-specific issues: Read `docs/bash-reference.md`
-   - For POSIX sh issues: Read `docs/shell-reference.md`
+   - For ShellCheck codes: Read `references/shellcheck-reference.md`
+   - For common mistakes: Read `references/common-mistakes.md`
+   - For bash-specific issues: Read `references/bash-reference.md`
+   - For POSIX sh issues: Read `references/shell-reference.md`
 
 4. **Suggest fixes** with code examples:
    - For each issue found, provide the corrected code
@@ -147,8 +147,8 @@ User: "Check this bash script for issues"
 Claude MUST:
 1. Run: bash scripts/validate.sh <script-path>
 2. Read the validation output and identify all issues
-3. Read docs/common-mistakes.md for fix patterns
-4. Read docs/shellcheck-reference.md for SC error explanations (if needed)
+3. Read references/common-mistakes.md for fix patterns
+4. Read references/shellcheck-reference.md for SC error explanations (if needed)
 5. For EACH issue found:
    a. Show the problematic code
    b. Explain the issue (referencing documentation)
@@ -256,7 +256,7 @@ causing unexpected behavior with filenames containing spaces or special characte
 
 ## Example Scripts
 
-Located in `examples/` directory:
+Located in `assets/` directory:
 
 - **good-bash.sh**: Well-written bash script demonstrating best practices
 - **bad-bash.sh**: Poorly-written bash script with common mistakes
@@ -425,7 +425,7 @@ bash-script-validator/
 ├── SKILL.md                    # This file
 ├── scripts/
 │   └── validate.sh             # Main validation script
-├── docs/
+├── references/
 │   ├── bash-reference.md       # Bash features and syntax
 │   ├── shell-reference.md      # POSIX sh reference
 │   ├── shellcheck-reference.md # ShellCheck error codes
@@ -434,7 +434,7 @@ bash-script-validator/
 │   ├── sed-reference.md        # sed stream editing
 │   ├── regex-reference.md      # Regular expressions
 │   └── common-mistakes.md      # Common pitfalls
-└── examples/
+└── assets/
     ├── good-bash.sh            # Best practices example
     ├── bad-bash.sh             # Anti-patterns example
     ├── good-shell.sh           # POSIX sh example
@@ -464,7 +464,7 @@ The validator performs checks in this order:
 - [GNU sed](https://www.gnu.org/software/sed/manual/)
 
 ### Internal References
-All documentation is included in the `docs/` directory for offline reference and context loading.
+All documentation is included in the `references/` directory for offline reference and context loading.
 
 ---
 

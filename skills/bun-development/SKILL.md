@@ -1,11 +1,7 @@
 ---
 name: bun-development
 description: Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management, testing, SQLite, and security; use proactively when setting up Bun projects, replacing Node.js APIs with Bun-native APIs, writing bun test suites, implementing Bun.serve services, using bun:sqlite with prepared statements, configuring workspaces and lockfiles, hardening shell and SQL boundaries, or optimizing Bun performance and migration workflows.
-allowed-tools:
-  - Read
-  - Bash
-  - Write
-  - Edit
+allowed-tools: Read, Bash, Write, Edit
 ---
 
 # Bun Development
@@ -163,7 +159,7 @@ await safePath.text();
 
 - Runtime core: `references/runtime-globals.md`, `references/runtime-http-server.md`
 - File I/O: `references/file-io-patterns.md`, `references/file-vs-node.md`, `references/file-glob.md`
-- Testing: `references/testing-bun-test.md`, `references/testing-matchers.md`, `references/testing-mocking.md`
+- Testing: `references/testing-bun-test.md`, `references/testing-matchers.md`, `references/testing-mocking.md`, `references/testing-snapshots.md`
 - SQLite: `references/sqlite-basics.md`
 - Package/workspaces: `references/pm-workspaces-agent-instructions.md`
 - Security: `references/runtime-shell.md`, `references/runtime-password.md`
