@@ -24,18 +24,18 @@ This skill validates Dockerfiles using a **single self-contained script** (`dock
 bash scripts/dockerfile-validate.sh Dockerfile
 ```
 
-The script automatically checks for hadolint and Checkov, installs them temporarily in Python venvs if needed, runs all 4 validation stages, then cleans up on exit via `trap cleanup EXIT INT TERM` (ensures cleanup on normal exit, validation failure, Ctrl+C, and script errors).
+The script automatically checks for hadolint and Checkov, installs them temporarily in Python venvs if needed, runs all 4 validation stages, then cleans up on exit.
 
 ## Validation Workflow
 
 The `dockerfile-validate.sh` script runs a comprehensive 4-stage validation:
 
-1. **Auto-Install (if needed)** — Check for hadolint and Checkov; install in Python venvs if absent; set `TEMP_INSTALL=true` to trigger cleanup on exit
-2. **[1/4] Syntax Validation (hadolint)** — Dockerfile syntax checking, instruction validation, shell script validation via ShellCheck, 100+ built-in linting rules
-3. **[2/4] Security Scan (Checkov)** — Security policy validation, hardcoded secret detection, port exposure checks, USER directive validation, 50+ security policies
+1. **Auto-Install (if needed)** — Check for hadolint and Checkov; install in Python venvs if absent; set flag to trigger cleanup on exit via bash trap
+2. **[1/4] Syntax Validation (hadolint)** — Dockerfile syntax checking, instruction validation, shell script validation via ShellCheck
+3. **[2/4] Security Scan (Checkov)** — Security policy validation, hardcoded secret detection, port exposure checks, USER directive validation
 4. **[3/4] Best Practices Validation (custom)** — Base image tag validation, non-root USER enforcement, HEALTHCHECK presence, layer efficiency, package cache cleanup, COPY ordering
 5. **[4/4] Optimization Analysis (custom)** — Base image size analysis, multi-stage build opportunities, layer count, .dockerignore check, build structure recommendations
-6. **Auto-Cleanup (bash trap — always runs)** — Remove temp venvs if `TEMP_INSTALL=true`
+6. **Auto-Cleanup (always runs)** — Remove temp venvs on exit (success, failure, Ctrl+C, or error)
 
 ## Core Capabilities
 
