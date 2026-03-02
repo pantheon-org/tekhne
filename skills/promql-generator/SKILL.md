@@ -200,7 +200,7 @@ Once the user confirms the plan, generate the actual PromQL query following best
 
 3. **Reference example files** when generating similar queries:
    ```
-   Based on examples/red_method.promql (lines 64-82):
+   Based on assets/red_method.promql (lines 64-82):
    # P95 latency with proper histogram_quantile usage
    ```
 
@@ -275,7 +275,7 @@ This ensures generated queries follow documented patterns and helps users unders
 
 #### Common Query Patterns
 
-**Pattern 1: Request Rate**
+##### Pattern 1: Request Rate
 ```promql
 # Requests per second
 rate(http_requests_total{job="api-server"}[5m])
@@ -284,7 +284,7 @@ rate(http_requests_total{job="api-server"}[5m])
 sum(rate(http_requests_total{job="api-server"}[5m]))
 ```
 
-**Pattern 2: Error Rate**
+##### Pattern 2: Error Rate
 ```promql
 # Error ratio (0 to 1)
 sum(rate(http_requests_total{job="api-server", status_code=~"5.."}[5m]))
@@ -299,7 +299,7 @@ sum(rate(http_requests_total{job="api-server"}[5m]))
 ) * 100
 ```
 
-**Pattern 3: Latency Percentile (Histogram)**
+##### Pattern 3: Latency Percentile (Histogram)
 ```promql
 # 95th percentile latency
 histogram_quantile(0.95,
@@ -309,7 +309,7 @@ histogram_quantile(0.95,
 )
 ```
 
-**Pattern 4: Resource Usage**
+##### Pattern 4: Resource Usage
 ```promql
 # Current memory usage
 process_resident_memory_bytes{job="api-server"}
@@ -318,7 +318,7 @@ process_resident_memory_bytes{job="api-server"}
 avg_over_time(process_cpu_seconds_total{job="api-server"}[5m])
 ```
 
-**Pattern 5: Availability**
+##### Pattern 5: Availability
 ```promql
 # Percentage of up instances
 (
@@ -328,7 +328,7 @@ avg_over_time(process_cpu_seconds_total{job="api-server"}[5m])
 ) * 100
 ```
 
-**Pattern 6: Saturation/Queue Depth**
+##### Pattern 6: Saturation/Queue Depth
 ```promql
 # Average queue length
 avg_over_time(queue_depth{job="worker"}[5m])
@@ -365,7 +365,7 @@ The devops-skills:promql-validator skill will:
 
 If validation fails, fix issues and re-validate until all checks pass.
 
-**IMPORTANT: Display Validation Results to User**
+#### IMPORTANT: Display Validation Results to User
 
 After running validation, you MUST display the structured results to the user in this format:
 
@@ -922,70 +922,70 @@ This ensures all generated queries follow best practices and are production-read
 
 ### references/
 
-**promql_functions.md**
+#### promql_functions.md
 - Comprehensive reference of all PromQL functions
 - Grouped by category (aggregation, math, time, histogram, etc.)
 - Usage examples for each function
 - **Read this file when**: implementing specific function requirements or when user asks about function behavior
 
-**promql_patterns.md**
+#### promql_patterns.md
 - Common query patterns for typical monitoring scenarios
 - RED method patterns (Rate, Errors, Duration)
 - USE method patterns (Utilization, Saturation, Errors)
 - Alerting and recording rule patterns
 - **Read this file when**: implementing standard monitoring patterns like error rates, latency, or resource usage
 
-**best_practices.md**
+#### best_practices.md
 - PromQL best practices and anti-patterns
 - Performance optimization guidelines
 - Cardinality management
 - Query structure recommendations
 - **Read this file when**: optimizing queries, reviewing for anti-patterns, or when cardinality concerns arise
 
-**metric_types.md**
+#### metric_types.md
 - Detailed guide to Prometheus metric types
 - Counter, Gauge, Histogram, Summary
 - When to use each type
 - Appropriate functions for each type
 - **Read this file when**: clarifying metric type questions or determining appropriate functions for a metric
 
-### examples/
+### assets/
 
-**common_queries.promql**
+#### common_queries.promql
 - Collection of commonly-used PromQL queries
 - Request rate, error rate, latency queries
 - Resource usage queries
 - Availability and uptime queries
 - Can be copied and customized
 
-**red_method.promql**
+#### red_method.promql
 - Complete RED method implementation
 - Request rate queries
 - Error rate queries
 - Duration/latency queries
 
-**use_method.promql**
+#### use_method.promql
 - Complete USE method implementation
 - Utilization queries
 - Saturation queries
 - Error queries
 
-**alerting_rules.yaml**
+#### alerting_rules.yaml
 - Example Prometheus alerting rules
 - Various threshold-based alerts
 - Best practices for alert expressions
 
-**recording_rules.yaml**
+#### recording_rules.yaml
 - Example Prometheus recording rules
 - Pre-aggregated metrics
 - Naming conventions
 
-**slo_patterns.promql**
+#### slo_patterns.promql
 - SLO, error budget, and burn rate queries
 - Multi-window, multi-burn-rate alerting patterns
 - Latency SLO compliance queries
 
-**kubernetes_patterns.promql**
+#### kubernetes_patterns.promql
 - Kubernetes monitoring patterns
 - kube-state-metrics queries (pods, deployments, nodes)
 - cAdvisor container metrics (CPU, memory)
