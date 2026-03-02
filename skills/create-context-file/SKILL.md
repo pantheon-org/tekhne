@@ -4,6 +4,7 @@ description: Creates structured context files (plans, justifications, scratches)
 license: MIT
 compatibility: opencode
 metadata:
+  version: "0.1.0"
   audience: agents
   workflow: planning, decision-making, exploration
 ---
