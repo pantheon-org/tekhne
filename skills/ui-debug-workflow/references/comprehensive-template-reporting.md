@@ -211,5 +211,5 @@ For quick reports:
 
 ## Related Documentation
 
-- [Evidence Collection](../evidence-collection/) - How to gather evidence
-- [Git Context](../evidence-collection/git-context.md) - Including version info
+- [Evidence Collection](./) - How to gather evidence
+- [Git Context](git-context-evidence-collection.md) - Including version info

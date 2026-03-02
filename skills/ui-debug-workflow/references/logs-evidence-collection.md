@@ -112,6 +112,6 @@ Suggested directory structure:
 
 ## Related Documentation
 
-- [Screenshots](./screenshots.md) - Visual evidence
-- [DOM Snapshots](./dom-snapshots.md) - Page structure
-- [Git Context](./git-context.md) - Version control info
+- [Screenshots](screenshots-evidence-collection.md) - Visual evidence
+- [DOM Snapshots](dom-snapshots-evidence-collection.md) - Page structure
+- [Git Context](git-context-evidence-collection.md) - Version control info

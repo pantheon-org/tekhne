@@ -1,11 +1,11 @@
 ---
 name: ui-debug-workflow
-description: Debug UI changes with a repeatable evidence-first workflow. Use when validating visual regressions, reproducing frontend bugs, comparing baseline vs changed behavior, collecting screenshots/DOM/logs, or producing stakeholder-ready UI debug reports. Keywords: ui bug, visual regression, browser devtools, playwright, screenshot evidence, dom snapshot, frontend debugging.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - Bash
+description: >
+  Debug UI changes with a repeatable evidence-first workflow. Use when validating visual regressions,
+  reproducing frontend bugs, comparing baseline vs changed behavior, collecting screenshots/DOM/logs,
+  or producing stakeholder-ready UI debug reports. Keywords: ui bug, visual regression, browser devtools,
+  playwright, screenshot evidence, dom snapshot, frontend debugging.
+allowed-tools: Read, Write, Edit, Bash
 ---
 
 # UI Debug Workflow

@@ -77,5 +77,5 @@ agent-browser --session test eval "
 
 ## Related Documentation
 
-- [Screenshots](./screenshots.md) - Visual evidence
-- [Logs](./logs.md) - Build and runtime logs
+- [Screenshots](screenshots-evidence-collection.md) - Visual evidence
+- [Logs](logs-evidence-collection.md) - Build and runtime logs

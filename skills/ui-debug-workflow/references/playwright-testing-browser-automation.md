@@ -189,6 +189,6 @@ jobs:
 
 ## Related Documentation
 
-- [Agent-browser](./agent-browser.md) - Basic automation
-- [Evidence Collection](../evidence-collection/) - Screenshot and log best practices
-- [Example Tests](../../examples/ui-debug-test.spec.ts) - Complete test suite
+- [Agent-browser](agent-browser-browser-automation.md) - Basic automation
+- [Evidence Collection](./) - Screenshot and log best practices
+- [Example Tests](ui-debug-test.spec.ts) - Complete test suite

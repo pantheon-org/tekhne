@@ -27,7 +27,7 @@ npx playwright codegen http://localhost:3000
 
 #### Write Test Script
 
-See [Playwright Testing](../browser-automation/playwright-testing.md) for examples.
+See [Playwright Testing](playwright-testing-browser-automation.md) for examples.
 
 ### Option 3: Use the Automation Scripts
 
@@ -54,6 +54,6 @@ npx playwright list-chromium
 
 ## Related Documentation
 
-- [Agent-browser](../browser-automation/agent-browser.md)
-- [Playwright Testing](../browser-automation/playwright-testing.md)
-- [Scripts](../../scripts/) - Ready-to-use automation scripts
+- [Agent-browser](agent-browser-browser-automation.md)
+- [Playwright Testing](playwright-testing-browser-automation.md)
+- [Scripts](../scripts/) - Ready-to-use automation scripts

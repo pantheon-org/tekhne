@@ -53,5 +53,5 @@ agent-browser --session test screenshot output.png
 
 ## Related Issues
 
-- [Programmatic Selection Issues](./programmatic-selection.md)
-- [Screenshots](../evidence-collection/screenshots.md)
+- [Programmatic Selection Issues](programmatic-selection-troubleshooting.md)
+- [Screenshots](screenshots-evidence-collection.md)

@@ -97,5 +97,5 @@ echo "✅ Git context saved to $OUTPUT_DIR/git/"
 
 ## Related Documentation
 
-- [Logs](./logs.md) - Build and runtime logs
-- [Report Structure](../reporting/comprehensive-template.md) - Using git info in reports
+- [Logs](logs-evidence-collection.md) - Build and runtime logs
+- [Report Structure](comprehensive-template-reporting.md) - Using git info in reports

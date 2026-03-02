@@ -65,9 +65,9 @@ But this doesn't always work. Real mouse interactions are more reliable.
 3. Complex event sequences
 4. Hover effects needed
 
-**Solution**: See [Playwright Testing](../browser-automation/playwright-testing.md)
+**Solution**: See [Playwright Testing](playwright-testing-browser-automation.md)
 
 ## Related Documentation
 
-- [Agent-browser Limitations](../browser-automation/agent-browser.md#capabilities)
-- [Playwright Testing](../browser-automation/playwright-testing.md)
+- [Agent-browser Limitations](agent-browser-browser-automation.md#capabilities)
+- [Playwright Testing](playwright-testing-browser-automation.md)
