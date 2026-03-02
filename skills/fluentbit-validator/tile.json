@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/fluentbit-validator",
   "version": "0.1.1",
-  "private": true,
+  "private": false,
   "summary": "Comprehensive toolkit for validating, linting, and testing Fluent Bit configurations. Use this skill when working with Fluent Bit config files, validating syntax, checking for best practices, identifying security issues, or performing dry-run testing.",
   "skills": {
     "fluentbit-validator": {
