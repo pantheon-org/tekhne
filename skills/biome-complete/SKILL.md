@@ -28,11 +28,16 @@ Do not use this skill when the user asks for ESLint-only or Prettier-only soluti
 ## Deterministic Workflow
 
 1. Confirm scope: migration, config, lint, format, or CI.
-2. Initialize config if missing.
-3. Run checks and capture results.
-4. Apply safe autofixes.
+2. Initialize config if missing: `bunx @biomejs/biome init`.
+3. Run checks and capture results: `bunx @biomejs/biome check .`.
+   - **Verify:** Confirm diagnostics are printed. If command fails, check Node.js version (≥14) and file permissions.
+4. Apply safe autofixes: `bunx @biomejs/biome check . --write`.
+   - **Verify:** Re-run `biome check .` and confirm reduced error count. If errors persist, review unsupported rules or migration conflicts in `references/migration-eslint-prettier.md`.
 5. Add targeted suppressions only when justified.
-6. Verify commands pass in local and CI contexts.
+6. Verify commands pass in local and CI contexts: `bunx @biomejs/biome check . --error-on-warnings`.
+   - **Verify:** Exit code 0 indicates success. If non-zero, review remaining diagnostics and address or document exceptions.
+
+**Error Recovery:** If `biome check` fails after migration, isolate conflicting rules by temporarily disabling rule groups in `biome.json` linter section, then re-enable one group at a time to identify the source.
 
 ## Quick Commands
 
