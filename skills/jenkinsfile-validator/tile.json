@@ -5,7 +5,15 @@
   "summary": "Comprehensive toolkit for validating, linting, testing, and automating Jenkinsfile pipelines (both Declarative and Scripted). Use this skill when working with Jenkins pipeline files, validating pipeline syntax, checking best practices, debugging pipeline issues, or working with custom plugins.",
   "skills": {
     "jenkinsfile-validator": {
-      "path": "SKILL.md"
+      "path": "SKILL.md",
+      "references": [
+        "references/best_practices.md",
+        "references/common_plugins.md",
+        "references/declarative_syntax.md",
+        "references/scripted_syntax.md",
+        "references/validation_rules.md",
+        "references/troubleshooting.md"
+      ]
     }
   }
 }
