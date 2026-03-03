@@ -3,20 +3,26 @@
   "version": "1.0.0",
   "description": "A curated collection of reusable agent skills for AI assistants, designed for easy redistribution and integration.",
   "main": "index.js",
+  "bin": {
+    "tekhne": "./cli/index.ts"
+  },
   "scripts": {
     "prepare": "bunx lefthook install",
     "check:biome": "bunx @biomejs/biome check .",
     "check:markdown": "bunx markdownlint-cli2 \"**/*.md\"",
     "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
-    "audit:skill": "./scripts/audit-single-skill.sh",
-    "audit:skills": "./scripts/audit-all-skills.sh",
-    "audit:skills:force": "./scripts/audit-all-skills.sh --force",
+    "audit:skill": "bun cli/index.ts audit skill",
+    "audit:skills": "bun cli/index.ts audit all",
+    "audit:skills:force": "bun cli/index.ts audit all --force",
+    "audit:status": "bun cli/index.ts audit status",
+    "audit:summary": "bun cli/index.ts audit summary",
     "audit:update-readme": "bun run scripts/update-readme-ratings.ts",
     "audit:update-readme:dry": "bun run scripts/update-readme-ratings.ts --dry-run",
+    "tessl:manage": "bun cli/index.ts tessl manage",
+    "tessl:publish-check": "bun cli/index.ts tessl publish-check",
     "tessl:import": "tessl skill import",
     "tessl:lint": "tessl skill lint",
     "tessl:publish": "tessl skill publish",
-    "tessl:publish-check": "./scripts/tessl-publish-check.sh",
     "tessl:review": "tessl skill review",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,6 +32,8 @@
   "type": "commonjs",
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
+    "@types/bun": "latest",
+    "commander": "^13.0.0",
     "lefthook": "^2.1.1",
     "markdownlint-cli2": "^0.21.0",
     "tessl": "^0.68.0"
