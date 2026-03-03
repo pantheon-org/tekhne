@@ -229,7 +229,7 @@ When validation fails due to missing collections, rewrite using builtins:
 
 ### Required Output Format
 
-```markdown
+````markdown
 ## Generated [Resource Type]: [Name]
 
 **Validation Status:** ✅ All checks passed
@@ -247,7 +247,7 @@ When validation fails due to missing collections, rewrite using builtins:
 
 **Prerequisites:**
 - [Required collections, system requirements]
-```
+````
 
 ---
 
