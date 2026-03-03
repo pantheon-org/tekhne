@@ -11,13 +11,15 @@ This file defines how LLM agents should work in this repository.
 ## Repository Map
 
 - `skills/<domain>/<skill-name>/SKILL.md`: Primary entry point for a skill.
-- `skills/<domain>/<tool>/{generator,validator}/SKILL.md`: Generator/validator pairs.
+- `skills/<domain>/<tool>/{generator,validator}/SKILL.md`: Generator/validator pairs (consolidated under `<tool>/tile.json`).
 - `skills/<domain>/<skill-name>/AGENTS.md`: Optional deep navigation for that skill.
 - `skills/<domain>/<skill-name>/references/`: Focused reference documents.
 - `skills/<domain>/<skill-name>/scripts/`: Utility scripts used by a skill.
 - `skills/<domain>/<skill-name>/templates/`: Reusable templates (mostly YAML).
 - `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
+
+**Note:** Generator/validator pairs are consolidated at the tool level. For example, `terraform-generator` and `terraform-validator` are both referenced in `skills/infrastructure/terraform/tile.json` as a single `terraform-toolkit` tile.
 
 ## Domain Organization
 
@@ -203,22 +205,35 @@ The script automatically:
 When manually reviewing and publishing individual skills to the public Tessl registry:
 
 ```bash
-# 1. Initial quality assessment
-tessl skill review skills/<skill-name>
+# For consolidated tiles (generator/validator pairs, nx-plugin-toolkit):
+# Review individual skills by pointing to their directories
 
-# 2. Optimize if score < 90% (critical step!)
-tessl skill review skills/<skill-name> --optimize
+# Example: Terraform toolkit
+tessl skill review skills/infrastructure/terraform/generator
+tessl skill review skills/infrastructure/terraform/validator
 
-# 3. Prepare for public publishing
-# - Set "private": false in tile.json
-# - Bump version if already published privately
-# - Target 90%+ quality scores for public skills
+# Example: NX plugin toolkit (learning sequence)
+tessl skill review skills/repository-mgmt/nx/generators
+tessl skill review skills/repository-mgmt/nx/executors
+tessl skill review skills/repository-mgmt/nx/extending-plugins
 
-# 4. Publish to public registry
-tessl skill publish skills/<skill-name> --public
+# Or review directly by SKILL.md path
+tessl skill review skills/infrastructure/terraform/generator/SKILL.md
+
+# For standalone skills:
+tessl skill review skills/<domain>/<skill-name>
+
+# Optimize if score < 90% (critical step!)
+tessl skill review skills/<domain>/<skill-name>/generator --optimize
+
+# Publish consolidated tiles at the tile.json level
+tessl skill publish skills/infrastructure/terraform --public
 ```
 
-**Key insight**: Always use `--optimize` flag for skills scoring below 90%. This can dramatically improve scores (observed 85% → 99% improvements) by applying Tessl's automatic optimization engine.
+**Key insights**:
+- Always use `--optimize` flag for skills scoring below 90%. This can dramatically improve scores (observed 85% → 99% improvements) by applying Tessl's automatic optimization engine.
+- The `--skill` flag only works with remote GitHub URLs, not local paths. For local consolidated tiles, point to the specific skill directory.
+- Tile operations (lint, publish) operate on the tile.json directory level.
 
 See `scripts/README.md` for detailed usage information.
 
