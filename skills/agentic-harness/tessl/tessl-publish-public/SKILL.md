@@ -1,6 +1,12 @@
 ---
 name: tessl-publish-public
-description: Ensure Tessl tiles (skills) are publication-ready with proper evaluation scenarios before publishing to the public registry. Validates quality thresholds, eval coverage, and publication requirements.
+description: >
+  Ensure Tessl tiles meet all requirements for public registry publication with
+  comprehensive validation. Use when publishing skills to public registry, validating
+  tile.json configuration, creating evaluation scenarios, checking quality thresholds
+  (≥108/120 A-grade), or preparing skills for release. Validates eval scenario coverage,
+  tile.json fields (name, version, private, summary, skills), agent-agnostic compliance,
+  and publication readiness.
 ---
 
 # Tessl Public Publication Skill
@@ -140,72 +146,36 @@ Each scenario file must include:
 
 ### 3. Configure Tile.json for Public Publishing
 
-Validate and configure tile.json with ALL required fields. Missing any required field will block publication.
+Validate and configure tile.json with ALL required fields. Missing any required field blocks publication.
 
-#### Required Fields (MUST be present)
+**5 Required Fields**:
 
 ```json
 {
   "name": "workspace/skill-name",
   "version": "1.0.0",
   "private": false,
-  "summary": "Complete description with use cases and keywords. Use when trigger phrases for discoverability. Keywords: relevant, searchable, terms",
+  "summary": "Descriptive text with use cases. Keywords: term1, term2, term3",
   "skills": {
-    "skill-identifier": {
+    "skill-id": {
       "path": "SKILL.md",
-      "references": ["references/guide.md", "references/examples.md"]
+      "references": ["references/guide.md"]
     }
-  },
-  "files": ["templates/example.yml"]
+  }
 }
 ```
 
-**Field requirements**:
+**Critical validations**:
 
-| Field | Type | Requirement | Validation |
-|-------|------|-------------|------------|
-| `name` | string | REQUIRED | Must match `workspace/tile-name` format (lowercase, kebab-case) |
-| `version` | string | REQUIRED | Must follow semantic versioning `x.y.z` (e.g., `1.0.0`) |
-| `private` | boolean | REQUIRED | MUST be `false` for public publishing (not `true`, not omitted) |
-| `summary` | string | REQUIRED | 150-300 chars, includes use cases and keywords |
-| `skills` | object | REQUIRED | At least one skill with valid path to SKILL.md |
+- `private: false` - Must be boolean (not string "false")
+- `name` - Format: `workspace/tile-name` (lowercase, kebab-case)
+- `version` - Semantic: `x.y.z` (no `v` prefix)
+- `summary` - 150-300 chars, embed keywords inline (NOT separate array)
+- `skills` - Non-empty, paths exist, SKILL.md has frontmatter
 
-#### Optional Root-Level Fields
+**Optional fields**: `files` (root-level), `references`/`resources` (skill-level), `docs`
 
-| Field | Type | Purpose | Usage |
-|-------|------|---------|-------|
-| `docs` | string | Path to tile overview documentation | Rarely used (2% of tiles) |
-| `files` | array | Additional files to bundle (templates, assets, shared references) | Used by 11% of tiles |
-
-#### Optional Skill-Level Fields (inside skills object)
-
-| Field | Type | Purpose | Usage |
-|-------|------|---------|-------|
-| `references` | array | Skill-specific markdown reference files | Used by 45% of tiles |
-| `resources` | array | Skill-specific markdown resource files (alternative to references) | Rarely used (2% of tiles) |
-
-**IMPORTANT**: Do NOT use a separate `keywords` array (deprecated pattern, only 2% usage). Embed keywords inline in the `summary` field instead:
-
-```json
-"summary": "Validate Terraform configurations with HCL syntax checking. Use when working with .tf files. Keywords: terraform, validation, hcl, iac"
-```
-
-**Critical validation steps**:
-
-1. **Check `private: false`** - Most common blocker, must be explicit boolean `false`
-2. **Validate `name` format** - Must be `workspace/skill-name`, all lowercase, kebab-case
-3. **Verify `version` format** - Must be `x.y.z` (no `v` prefix, exactly 3 numbers)
-4. **Check `summary` quality** - Must be descriptive (not generic "useful skill")
-5. **Validate `skills` paths** - All paths must point to existing SKILL.md files
-6. **Verify SKILL.md frontmatter** - Each SKILL.md must have `name` and `description` in YAML frontmatter
-
-**Version bumping rules** (for republishing):
-
-- Breaking changes → increment MAJOR: `2.0.0` → `3.0.0`
-- New features → increment MINOR: `2.0.0` → `2.1.0`
-- Bug fixes/docs → increment PATCH: `2.0.0` → `2.0.1`
-
-See `references/tile-json-schema.md` for complete field documentation and examples.
+See `references/tile-json-schema.md` for complete documentation with validation rules, examples, and anti-patterns.
 
 ### 4. Run Tessl Optimization
 
@@ -350,129 +320,64 @@ tessl skill publish skills/<domain>/<skill-name> --public
 
 ### NEVER: Skip Evaluation Scenarios
 
-**WHY**: Public skills represent effectiveness standards. Without eval scenarios, there's no proof the skill delivers value.
-
-**BAD**:
+Public skills require eval scenarios to prove effectiveness. Minimum 5 scenarios with specific success criteria.
 
 ```bash
-# Directly publish without eval scenarios
+# BAD: Direct publish without evals
 tessl skill publish skills/domain/skill --public
+
+# GOOD: Verify evals exist first
+ls skills/domain/skill/evaluation-scenarios/ | wc -l  # Must be ≥5
 ```
 
-**GOOD**:
+### NEVER: Publish Below A-Grade (108/120)
+
+Quality threshold exists for a reason. B+ and below skills have significant gaps.
 
 ```bash
-# Verify eval scenarios exist
-ls skills/domain/skill/evaluation-scenarios/
-
-# Create scenarios if missing
-mkdir -p skills/domain/skill/evaluation-scenarios
-# Generate 5-8 comprehensive scenarios with success criteria
-
-# Then publish
+# BAD: Publish at 85/120 (C+ grade)
 tessl skill publish skills/domain/skill --public
-```
 
-### NEVER: Publish Below A-Grade Threshold
-
-**WHY**: B+ and below skills have significant quality issues that confuse agents or provide incomplete guidance.
-
-**BAD**:
-
-```bash
-# Publish skill scoring 85/120 (C+ grade)
-tessl skill publish skills/domain/skill --public
-```
-
-**GOOD**:
-
-```bash
-# Check quality score
+# GOOD: Audit, remediate, re-audit until ≥108/120
 sh skills/testing/skill-quality-auditor/scripts/evaluate.sh domain/skill --json --store
-
-# If < 108/120, review remediation plan
 cat .context/audits/domain/skill/latest/remediation-plan.md
-
-# Address critical dimensions (D1, D2, D3, D5)
-# Re-audit until ≥108/120
-
-# Then publish
-tessl skill publish skills/domain/skill --public
 ```
 
-### NEVER: Forget to Set private: false
+### NEVER: Forget private: false
 
-**WHY**: tile.json defaults to `private: true`, blocking public registry submission even with `--public` flag.
-
-**BAD**:
+tile.json defaults to private:true. Must explicitly set to false.
 
 ```bash
-# tile.json has private: true (or omitted)
+# BAD: Publish without checking
 tessl skill publish skills/domain/skill --public
-# Fails silently or publishes to private workspace only
-```
 
-**GOOD**:
-
-```bash
-# Verify private: false in tile.json
-jq '.private' skills/domain/skill/tile.json
-# Should output: false
-
-# If true or null, update
+# GOOD: Verify and set
 jq '.private = false' skills/domain/skill/tile.json > tmp.json && mv tmp.json skills/domain/skill/tile.json
-
-# Then publish
-tessl skill publish skills/domain/skill --public
 ```
 
-### NEVER: Skip Tessl Optimization Review
+### NEVER: Skip --optimize When <90%
 
-**WHY**: Manual quality improvements may miss optimization opportunities that `--optimize` flag automatically fixes.
-
-**BAD**:
+Tessl optimization can boost scores 85%→99%. Always use it when below 90%.
 
 ```bash
-# Single review without optimization
-tessl skill review skills/domain/skill
-# Score: 85% - publish anyway
+# BAD: Publish at 85% without optimization
 tessl skill publish skills/domain/skill --public
-```
 
-**GOOD**:
-
-```bash
-# Initial review
-tessl skill review skills/domain/skill
-
-# If < 90%, run optimization
+# GOOD: Optimize first
 tessl skill review skills/domain/skill --optimize
-
-# Re-review to verify improvements (often 85% → 99%)
-tessl skill review skills/domain/skill
-
-# Then publish
-tessl skill publish skills/domain/skill --public
+tessl skill review skills/domain/skill  # Verify improvement
 ```
 
-### NEVER: Use Agent-Specific Tools in Public Skills
+### NEVER: Use Agent-Specific Tools
 
-**WHY**: Public skills must work across all agent harnesses (Claude Code, Cursor, Gemini CLI, OpenCode, etc.). Agent-specific tools break cross-platform compatibility.
-
-**BAD**:
+Public skills must work across all harnesses (Claude Code, Cursor, Gemini CLI, OpenCode). Use universal tools only (Bash, Edit, Read, Write, Grep, Glob).
 
 ```markdown
-## Workflow
-1. Use Claude Code's terminal integration to run tests
-2. Use Cursor's multi-file edit feature to update imports
-```
+<!-- BAD: Claude Code specific -->
+Use Claude Code's terminal integration to run tests
 
-**GOOD**:
-
-```markdown
-## Workflow
-1. Use Bash tool to run tests
-2. Use Edit tool to update imports across files
+<!-- GOOD: Universal -->
+Use Bash tool to run tests
 ```
 
 ## Quick Reference
