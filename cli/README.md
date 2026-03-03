@@ -65,6 +65,37 @@ Generate comprehensive audit summary report with:
 - Dimensional analysis (D1-D8)
 - Top/bottom 10 skills
 
+### README Commands
+
+Maintain README.md skill tables organized by 12 domains.
+
+```bash
+tekhne readme update [options]
+```
+
+Options:
+- `--dry-run` - Show changes without applying
+
+Examples:
+
+```bash
+# Update README.md with current audit data
+tekhne readme update
+
+# Preview changes
+tekhne readme update --dry-run
+```
+
+The command automatically:
+- Discovers all skills across 12 domains
+- Parses SKILL.md frontmatter for descriptions
+- Finds latest audit data from `.context/audits/`
+- Checks Tessl publication status from `tile.json`
+- Generates markdown tables organized by domain
+- Updates README.md in place
+
+Used by lefthook pre-commit hook to keep README in sync with audits.
+
 ### Install Commands
 
 Install skills to local agent directories via symlinks.
@@ -158,6 +189,7 @@ This CLI replaces the following shell scripts:
 | `generate-audit-summary.sh` | `tekhne audit summary` |
 | `manage-skills.sh` | `tekhne tessl manage` |
 | `tessl-publish-check.sh` | `tekhne tessl publish-check` |
+| `update-readme-ratings.sh` | `tekhne readme update` |
 | `npx skills add ./skills` | `tekhne install` |
 
 ## Examples

@@ -3,6 +3,7 @@
 import { Command } from "commander";
 import { auditCommand } from "./commands/audit";
 import { installCommand } from "./commands/install";
+import { readmeCommand } from "./commands/readme";
 import { tesslCommand } from "./commands/tessl";
 
 const program = new Command();
@@ -15,5 +16,6 @@ program
 program.addCommand(auditCommand);
 program.addCommand(tesslCommand);
 program.addCommand(installCommand);
+program.addCommand(readmeCommand);
 
 program.parse();
