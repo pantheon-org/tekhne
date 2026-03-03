@@ -13,41 +13,7 @@ description: >
 
 Ensure Tessl tiles (skills) meet all requirements for public registry publication, including evaluation scenario coverage, quality thresholds, and proper tile configuration.
 
-## When to Use This Skill
-
-- **Publishing skills to public Tessl registry**: Ensuring all requirements are met before `tessl skill publish --public`
-- **Pre-publication validation**: Verifying a skill has proper eval scenarios and quality scores
-- **Quality gate enforcement**: Blocking publication of skills below A-grade threshold (≥108/120)
-- **Eval scenario creation**: Generating comprehensive evaluation scenarios for skill effectiveness measurement
-- **Tile configuration audit**: Checking tile.json for public publication settings (private: false)
-- **Registry submission preparation**: Final checklist before submitting to Tessl public registry
-
-Examples:
-
-- user: "Publish this skill to Tessl" → Check eval scenarios, quality score, tile.json settings
-- user: "Is this skill ready for public publishing?" → Run readiness validation workflow
-- user: "Create eval scenarios for this skill" → Generate comprehensive test cases with success criteria
-- user: "Prepare skill for Tessl registry" → Execute full publication readiness workflow
-
-## When NOT to Use This Skill
-
-- **Private skill publishing**: Use standard `tessl skill publish` without public flag
-- **Internal skill development**: Publishing to private workspace only
-- **Quick prototyping**: Skills not intended for public consumption
-- **Pre-alpha testing**: Skills still in early development phase
-
-## Mindset
-
-Public skill publication to the Tessl registry requires discipline and quality enforcement. A public skill represents the community standard and must demonstrate measurable effectiveness through evaluation scenarios.
-
-**Think quality gate, not publishing shortcut.** Every public skill must:
-
-1. **Prove effectiveness**: Eval scenarios demonstrate real-world value
-2. **Meet quality bar**: A-grade minimum (≥108/120) from skill-quality-auditor
-3. **Be agent-agnostic**: No harness-specific features or tools
-4. **Show clear ROI**: Measurable improvements in agent performance
-
-The Tessl registry is curated for quality, not quantity. Respect the threshold.
+> **Not applicable for**: private skill publishing, internal workspace-only development, or pre-alpha prototyping.
 
 ## Scope
 
@@ -57,11 +23,13 @@ The Tessl registry is curated for quality, not quantity. Respect the threshold.
 | Quality threshold enforcement (A-grade ≥108/120) | General skill authoring guidance |
 | Tile.json configuration for public publishing | Private workspace skill publishing |
 | Publication readiness validation workflow | Skill content optimization |
-| Agent-agnostic compliance checking | Tessl installation/authentication |
-| Cross-platform compatibility validation | Skill-quality-auditor execution (separate tool) |
-| Registry submission preparation | Post-publication monitoring |
+| Agent-agnostic compliance checking | Skill-quality-auditor execution (separate tool) |
+| Cross-platform compatibility validation | Post-publication monitoring |
+| Registry submission preparation | |
 
 ## Workflow
+
+Every public skill must prove effectiveness via eval scenarios, meet the A-grade quality bar (≥108/120), be agent-agnostic, and show measurable ROI in agent performance. The following steps enforce these principles.
 
 ### 1. Pre-Publication Quality Audit
 
@@ -262,40 +230,6 @@ cat .context/audits/<domain>/<skill-name>/latest/analysis.md | grep "Total Score
 tessl skill publish skills/<domain>/<skill-name> --public
 ```
 
-## Configuration Examples
-
-### Minimal tile.json for Public Publishing
-
-```json
-{
-  "name": "workspace/skill-name",
-  "version": "1.0.0",
-  "private": false,
-  "summary": "Brief description of skill value",
-  "keywords": ["tessl", "skill", "domain"],
-  "license": "MIT"
-}
-```
-
-### Comprehensive tile.json
-
-```json
-{
-  "name": "workspace/skill-name",
-  "version": "1.2.0",
-  "private": false,
-  "summary": "Clear value proposition for skill effectiveness",
-  "description": "Detailed explanation of what the skill does and how it helps agents perform tasks more effectively",
-  "keywords": ["tessl", "ci-cd", "automation", "quality"],
-  "author": "Your Name <email@example.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/org/repo"
-  }
-}
-```
-
 ## Gotchas
 
 - **Eval scenarios are NOT optional**: Public skills require evaluation scenarios to prove effectiveness
@@ -318,67 +252,13 @@ tessl skill publish skills/<domain>/<skill-name> --public
 
 ## Anti-Patterns
 
-### NEVER: Skip Evaluation Scenarios
+See `references/anti-patterns.md` for detailed examples. Summary:
 
-Public skills require eval scenarios to prove effectiveness. Minimum 5 scenarios with specific success criteria.
-
-```bash
-# BAD: Direct publish without evals
-tessl skill publish skills/domain/skill --public
-
-# GOOD: Verify evals exist first
-ls skills/domain/skill/evaluation-scenarios/ | wc -l  # Must be ≥5
-```
-
-### NEVER: Publish Below A-Grade (108/120)
-
-Quality threshold exists for a reason. B+ and below skills have significant gaps.
-
-```bash
-# BAD: Publish at 85/120 (C+ grade)
-tessl skill publish skills/domain/skill --public
-
-# GOOD: Audit, remediate, re-audit until ≥108/120
-sh skills/testing/skill-quality-auditor/scripts/evaluate.sh domain/skill --json --store
-cat .context/audits/domain/skill/latest/remediation-plan.md
-```
-
-### NEVER: Forget private: false
-
-tile.json defaults to private:true. Must explicitly set to false.
-
-```bash
-# BAD: Publish without checking
-tessl skill publish skills/domain/skill --public
-
-# GOOD: Verify and set
-jq '.private = false' skills/domain/skill/tile.json > tmp.json && mv tmp.json skills/domain/skill/tile.json
-```
-
-### NEVER: Skip --optimize When <90%
-
-Tessl optimization can boost scores 85%→99%. Always use it when below 90%.
-
-```bash
-# BAD: Publish at 85% without optimization
-tessl skill publish skills/domain/skill --public
-
-# GOOD: Optimize first
-tessl skill review skills/domain/skill --optimize
-tessl skill review skills/domain/skill  # Verify improvement
-```
-
-### NEVER: Use Agent-Specific Tools
-
-Public skills must work across all harnesses (Claude Code, Cursor, Gemini CLI, OpenCode). Use universal tools only (Bash, Edit, Read, Write, Grep, Glob).
-
-```markdown
-<!-- BAD: Claude Code specific -->
-Use Claude Code's terminal integration to run tests
-
-<!-- GOOD: Universal -->
-Use Bash tool to run tests
-```
+- **NEVER skip evaluation scenarios** — minimum 5 scenarios with specific success criteria required
+- **NEVER publish below A-grade (108/120)** — audit, remediate, and re-audit until threshold is met
+- **NEVER omit `private: false`** — tile.json defaults to `private: true`; must be set explicitly
+- **NEVER skip `--optimize` when below 90%** — optimization can boost scores from 85% → 99%
+- **NEVER use agent-specific tools** — public skills must use universal tools only (Bash, Edit, Read, Write, Grep, Glob)
 
 ## Quick Reference
 
