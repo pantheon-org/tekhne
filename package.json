@@ -17,6 +17,8 @@
     "audit:status": "bun cli/index.ts audit status",
     "audit:summary": "bun cli/index.ts audit summary",
     "audit:update-readme": "bun run scripts/update-readme-ratings.ts",
+    "install:skills": "bun cli/index.ts install",
+    "install:skills:dry-run": "bun cli/index.ts install --dry-run",
     "audit:update-readme:dry": "bun run scripts/update-readme-ratings.ts --dry-run",
     "tessl:manage": "bun cli/index.ts tessl manage",
     "tessl:publish-check": "bun cli/index.ts tessl publish-check",

@@ -65,6 +65,39 @@ Generate comprehensive audit summary report with:
 - Dimensional analysis (D1-D8)
 - Top/bottom 10 skills
 
+### Install Commands
+
+Install skills to local agent directories via symlinks.
+
+```bash
+tekhne install [options]
+```
+
+Options:
+- `-a, --agent <agents...>` - Target agents (opencode, cursor, gemini, claude, codex) (default: opencode)
+- `-g, --global` - Install to global agent directories (~/.config/)
+- `--dry-run` - Preview changes without modifying filesystem
+
+Examples:
+
+```bash
+# Install to local .agents/skills (default)
+tekhne install
+
+# Install to multiple agents
+tekhne install -a opencode -a cursor -a gemini
+
+# Install globally for all projects
+tekhne install --global
+
+# Preview what would be installed
+tekhne install --dry-run
+```
+
+Skills are symlinked with namespaced names to avoid collisions:
+- Format: `domain--category--[subcategory--]skill-name`
+- Example: `infrastructure--terraform--generator`
+
 ### Tessl Commands
 
 Tessl registry management and publishing.
@@ -125,6 +158,7 @@ This CLI replaces the following shell scripts:
 | `generate-audit-summary.sh` | `tekhne audit summary` |
 | `manage-skills.sh` | `tekhne tessl manage` |
 | `tessl-publish-check.sh` | `tekhne tessl publish-check` |
+| `npx skills add ./skills` | `tekhne install` |
 
 ## Examples
 
