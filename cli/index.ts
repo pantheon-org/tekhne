@@ -2,6 +2,7 @@
 
 import { Command } from "commander";
 import { auditCommand } from "./commands/audit";
+import { installCommand } from "./commands/install";
 import { tesslCommand } from "./commands/tessl";
 
 const program = new Command();
@@ -13,5 +14,6 @@ program
 
 program.addCommand(auditCommand);
 program.addCommand(tesslCommand);
+program.addCommand(installCommand);
 
 program.parse();
