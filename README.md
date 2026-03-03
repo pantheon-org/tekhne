@@ -9,14 +9,6 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 ## Available Skills
 
-
-
-
-
-
-
-
-
 ## CI/CD (10 skills)
 
 CI/CD pipelines & deployment automation
@@ -83,7 +75,7 @@ Development tooling
 | [scripting-makefile-validator](skills/development/scripting/makefile/validator/SKILL.md) | Comprehensive toolkit for validating, linting, and optimizing Makefiles. Use ... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/development/scripting/makefile/validator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/makefile-validator) |
 | [typescript-advanced](skills/development/typescript-advanced/SKILL.md) | Comprehensive TypeScript guidance covering compiler configuration, advanced t... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/development/typescript-advanced/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/typescript-advanced) |
 
-## Agentic Harness (2 skills)
+## Agentic Harness (3 skills)
 
 Agent framework configurations
 
@@ -91,6 +83,7 @@ Agent framework configurations
 | --- | --- | --- | --- | --- |
 | [agents-md](skills/agentic-harness/agents-md/SKILL.md) | Create and maintain AGENTS.md documentation for simple projects and complex m... | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/agents-md/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/agents-md) |
 | [opencode](skills/agentic-harness/opencode/SKILL.md) | Configure OpenCode via opencode.json and AGENTS.md with deterministic provide... | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/opencode/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/opencode-config) |
+| [tessl-tessl-publish-public](skills/agentic-harness/tessl/tessl-publish-public/SKILL.md) | Ensure Tessl tiles meet all requirements for public registry publication with... | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) |
 
 ## Testing (3 skills)
 
