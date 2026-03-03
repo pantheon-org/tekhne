@@ -66,7 +66,7 @@ Expected result: failing status when tests or nag checks fail.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/skill-quality-auditor/scripts/evaluate.sh cdk-nag --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh cdk-nag --json
 ```
 
 Expected result: updated skill score and grade.

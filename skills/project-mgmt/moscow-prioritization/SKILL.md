@@ -63,7 +63,7 @@ Expected result: traceable decisions with ownership.
 ### Validate skill quality after edits
 
 ```bash
-sh skills/skill-quality-auditor/scripts/evaluate.sh moscow-prioritization --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh moscow-prioritization --json
 ```
 
 Expected result: updated score and grade for this skill.

@@ -151,7 +151,14 @@
           },
           "type": {
             "type": "string",
-            "enum": ["file", "directory", "code", "test", "documentation", "config"],
+            "enum": [
+              "file",
+              "directory",
+              "code",
+              "test",
+              "documentation",
+              "config"
+            ],
             "description": "Type of output"
           },
           "path": {

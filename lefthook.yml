@@ -11,7 +11,7 @@ pre-commit:
       run: bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc {staged_files}
       stage_fixed: true
     skill-artifacts:
-      run: ./skills/testing/skill-quality-auditor/scripts/validate-skill-artifacts.sh {staged_files}
+      run: ./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh {staged_files}
       stage_fixed: true
     audit-readme-sync:
       glob: ".context/audits/*.md"

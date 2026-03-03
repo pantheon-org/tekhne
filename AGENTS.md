@@ -36,7 +36,7 @@ Skills are organized into 12 domains for improved discoverability:
 - **project-mgmt/** - Planning & organization (Moscow, plan splitter, context files)
 - **specialized/** - Domain-specific tools (Colyseus, GitHub Copilot models, GitLab API)
 
-See `skills/testing/skill-quality-auditor/references/skill-taxonomy.md` for detailed classification criteria and decision tree.
+See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` for detailed classification criteria and decision tree.
 
 ## Required Workflow For Agents
 
@@ -79,7 +79,7 @@ bunx @biomejs/biome check .
 bunx markdownlint-cli2 "**/*.md"
 ```
 
-For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `skill-quality-auditor` workflow documented in `skills/testing/skill-quality-auditor/SKILL.md`.
+For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `skill-quality-auditor` workflow documented in `skills/agentic-harness/skill-quality-auditor/SKILL.md`.
 
 ## Skill Quality Audits
 
@@ -91,7 +91,7 @@ All skills must be audited with `skill-quality-auditor` before publishing or com
 
 ```bash
 # Run quality audit (creates .context/audits/<domain>/<skill-name>/latest/)
-sh skills/testing/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill-name> --json --store
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill-name> --json --store
 
 # Review results
 cat .context/audits/<domain>/<skill-name>/latest/analysis.md

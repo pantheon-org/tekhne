@@ -183,7 +183,7 @@ await expect(promise).resolves.toBeDefined();
 
 ```bash
 # Evaluate skill quality
-sh skills/skill-quality-auditor/scripts/evaluate.sh test-driven-development --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh test-driven-development --json
 ```
 
 ```bash

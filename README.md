@@ -83,7 +83,7 @@ Agent framework configurations
 | --- | --- | --- | --- | --- |
 | [agents-md](skills/agentic-harness/agents-md/SKILL.md) | Create and maintain AGENTS.md documentation for simple projects and complex m... | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/agents-md/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/agents-md) |
 | [opencode](skills/agentic-harness/opencode/SKILL.md) | Configure OpenCode via opencode.json and AGENTS.md with deterministic provide... | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/opencode/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/opencode-config) |
-| [tessl-publish-public](skills/agentic-harness/tessl-publish-public/SKILL.md) | Ensure Tessl tiles meet all requirements for public registry publication with... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-03](.context/audits/agentic-harness/tessl-publish-public/2026-03-03/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) |
+| [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | Ensure Tessl tiles meet all requirements for public registry publication with... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-03](.context/audits/agentic-harness/tessl-publish-public/2026-03-03/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) |
 
 ## Testing (3 skills)
 
