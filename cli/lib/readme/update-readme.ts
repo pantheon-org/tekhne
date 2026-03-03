@@ -71,6 +71,82 @@ async function generateDomainTables(skills: SkillEntry[]): Promise<string> {
   return output;
 }
 
+interface ReadmeSections {
+  beforeSkills: string[];
+  afterSkills: string[];
+}
+
+function isSkillSectionStart(line: string, domainHeaders: string[]): boolean {
+  return (
+    domainHeaders.some((h) => line.startsWith(`## ${h}`)) ||
+    line.match(/^\| Skill \| Description/) !== null
+  );
+}
+
+function isSkillSectionEnd(line: string, domainHeaders: string[]): boolean {
+  return (
+    line.startsWith("## ") &&
+    !domainHeaders.some((h) => line.startsWith(`## ${h}`))
+  );
+}
+
+function parseReadmeSections(
+  lines: string[],
+  domainHeaders: string[],
+): ReadmeSections {
+  const beforeSkills: string[] = [];
+  const afterSkills: string[] = [];
+  let inSkillsSection = false;
+  let foundEndOfSkills = false;
+
+  for (const line of lines) {
+    if (!inSkillsSection && isSkillSectionStart(line, domainHeaders)) {
+      inSkillsSection = true;
+      continue;
+    }
+
+    if (
+      inSkillsSection &&
+      !foundEndOfSkills &&
+      isSkillSectionEnd(line, domainHeaders)
+    ) {
+      foundEndOfSkills = true;
+      afterSkills.push(line);
+      continue;
+    }
+
+    if (!inSkillsSection) {
+      beforeSkills.push(line);
+    } else if (foundEndOfSkills) {
+      afterSkills.push(line);
+    }
+  }
+
+  return { beforeSkills, afterSkills };
+}
+
+async function showDryRunDiff(
+  readmePath: string,
+  newContent: string,
+): Promise<void> {
+  logger.info("=== DRY RUN - Changes that would be made ===\n");
+
+  const tmpFile = "/tmp/readme-new.md";
+  writeFileSync(tmpFile, newContent);
+
+  try {
+    const diff = await $`diff -u ${readmePath} ${tmpFile}`.text();
+    console.log(diff);
+  } catch (error: unknown) {
+    const err = error as { stdout?: Buffer };
+    if (err.stdout) {
+      console.log(err.stdout.toString());
+    }
+  }
+
+  logger.info("\nTo apply changes, run without --dry-run");
+}
+
 export async function updateReadme(options: UpdateOptions): Promise<void> {
   const readmePath = "README.md";
 
@@ -88,61 +164,17 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
   logger.info("Updating README.md...");
   const content = readFileSync(readmePath, "utf-8");
   const lines = content.split("\n");
-
-  const beforeSkills: string[] = [];
-  const afterSkills: string[] = [];
-  let inSkillsSection = false;
-  let foundEndOfSkills = false;
-
   const domainHeaders = DOMAINS.map((d) => d.title);
 
-  for (const line of lines) {
-    if (
-      !inSkillsSection &&
-      (domainHeaders.some((h) => line.startsWith(`## ${h}`)) ||
-        line.match(/^\| Skill \| Description/))
-    ) {
-      inSkillsSection = true;
-      continue;
-    }
-
-    if (
-      inSkillsSection &&
-      !foundEndOfSkills &&
-      line.startsWith("## ") &&
-      !domainHeaders.some((h) => line.startsWith(`## ${h}`))
-    ) {
-      foundEndOfSkills = true;
-      afterSkills.push(line);
-      continue;
-    }
-
-    if (!inSkillsSection) {
-      beforeSkills.push(line);
-    } else if (foundEndOfSkills) {
-      afterSkills.push(line);
-    }
-  }
+  const { beforeSkills, afterSkills } = parseReadmeSections(
+    lines,
+    domainHeaders,
+  );
 
   const newContent = `${beforeSkills.join("\n") + newTables}\n${afterSkills.join("\n")}`;
 
   if (options.dryRun) {
-    logger.info("=== DRY RUN - Changes that would be made ===\n");
-
-    const tmpFile = "/tmp/readme-new.md";
-    writeFileSync(tmpFile, newContent);
-
-    try {
-      const diff = await $`diff -u ${readmePath} ${tmpFile}`.text();
-      console.log(diff);
-    } catch (error: unknown) {
-      const err = error as { stdout?: Buffer };
-      if (err.stdout) {
-        console.log(err.stdout.toString());
-      }
-    }
-
-    logger.info("\nTo apply changes, run without --dry-run");
+    await showDryRunDiff(readmePath, newContent);
   } else {
     writeFileSync(readmePath, newContent);
     logger.success("README.md updated with 12 domain-organized skill tables");
