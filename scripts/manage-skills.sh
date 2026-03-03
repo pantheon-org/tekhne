@@ -167,17 +167,16 @@ main() {
         exit 1
     fi
     
-    # Process each skill
+    # Process each skill (recursively find all SKILL.md files)
     success_count=0
     error_count=0
     
-    for skill_dir in "$SKILLS_DIR"/*; do
-        if [ -d "$skill_dir" ]; then
-            if process_skill "$skill_dir"; then
-                success_count=$((success_count + 1))
-            else
-                error_count=$((error_count + 1))
-            fi
+    find "$SKILLS_DIR" -name "SKILL.md" -type f | while read -r skill_file; do
+        skill_dir="$(dirname "$skill_file")"
+        if process_skill "$skill_dir"; then
+            success_count=$((success_count + 1))
+        else
+            error_count=$((error_count + 1))
         fi
     done
     
