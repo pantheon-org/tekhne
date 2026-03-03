@@ -72,13 +72,41 @@ lint_skill() {
     fi
 }
 
-# Review skill with tile.json
+# Review skill with tile.json (handles multi-skill tiles)
 review_skill() {
     skill_path="$1"
     skill_name="$(basename "$skill_path")"
     
     log_info "Reviewing skill: $skill_name"
     
+    # Check if this directory has a tile.json with multiple skills
+    if [ -f "$skill_path/tile.json" ]; then
+        # Extract skill paths from tile.json and review each individually
+        skill_count=$(jq -r '.skills | length' "$skill_path/tile.json" 2>/dev/null || echo "0")
+        
+        if [ "$skill_count" -gt 1 ]; then
+            log_info "$skill_name has $skill_count skills - reviewing each individually"
+            
+            # Review each skill directory
+            all_passed=0
+            jq -r '.skills | to_entries[] | .value.path' "$skill_path/tile.json" | while read -r skill_rel_path; do
+                individual_skill_dir="$skill_path/$(dirname "$skill_rel_path")"
+                individual_skill_name="$(basename "$individual_skill_dir")"
+                
+                log_info "  Reviewing individual skill: $individual_skill_name"
+                if tessl skill review "$individual_skill_dir"; then
+                    log_success "  Review passed for $individual_skill_name"
+                else
+                    log_error "  Review failed for $individual_skill_name"
+                    all_passed=1
+                fi
+            done
+            
+            return $all_passed
+        fi
+    fi
+    
+    # Single skill or SKILL.md at root - review directly
     if tessl skill review "$skill_path"; then
         log_success "Review passed for $skill_name"
         return 0

@@ -1,0 +1,14 @@
+{
+  "name": "pantheon-ai/bash-script-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete bash-script toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": {
+    "bash-script-generator": {
+      "path": "generator/SKILL.md"
+    },
+    "bash-script-validator": {
+      "path": "validator/SKILL.md"
+    }
+  }
+}
