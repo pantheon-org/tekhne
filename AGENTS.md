@@ -18,6 +18,7 @@ This file defines how LLM agents should work in this repository.
 - `skills/<domain>/<skill-name>/templates/`: Reusable templates (mostly YAML).
 - `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
+- `cli/`: TypeScript CLI tool (replaced shell scripts) for skill management, auditing, and installation.
 
 **Note:** Generator/validator pairs are consolidated at the tool level. For example, `terraform-generator` and `terraform-validator` are both referenced in `skills/infrastructure/terraform/tile.json` as a single `terraform-toolkit` tile.
 
@@ -160,14 +161,20 @@ Repository-wide audit (2026-03) identified three dimensions that consistently ne
 
 ### Audit Automation
 
-Check audit status across all skills:
+Check audit status across all skills using the CLI tool:
 
 ```bash
-# Check which skills have audits
-sh scripts/check-skill-audit-status.sh
+# Audit a single skill
+bun cli/index.ts audit skill <domain>/<skill-name>
 
-# Generate summary report
-sh scripts/generate-audit-summary.sh
+# Audit all skills
+bun cli/index.ts audit all
+
+# Check audit status and compliance
+bun cli/index.ts audit status
+
+# Generate comprehensive summary report
+bun cli/index.ts audit summary
 ```
 
 ### Integration with Tessl
@@ -181,20 +188,23 @@ Both tools serve complementary purposes:
 
 ## Skill Management with Tessl
 
-The repository includes an automated skill management script at `scripts/manage-skills.sh` that handles the complete tessl lifecycle:
+The repository includes a TypeScript CLI tool at `cli/` that handles the complete tessl lifecycle:
 
 ```bash
 # Process all skills (import, lint, review, publish)
-./scripts/manage-skills.sh
+bun cli/index.ts tessl manage
 
 # Process a specific skill
-./scripts/manage-skills.sh skill-name
+bun cli/index.ts tessl manage <domain>/<skill-name>
 
 # Use different workspace
-./scripts/manage-skills.sh --workspace=my-org
+bun cli/index.ts tessl manage --workspace=my-org
+
+# Pre-publish validation
+bun cli/index.ts tessl publish-check <tile-path>
 ```
 
-The script automatically:
+The CLI automatically:
 
 1. **Imports** skills without `tile.json` using `tessl skill import`
 2. **Lints and reviews** skills with `tile.json` using `tessl skill lint` and `tessl skill review`
@@ -235,7 +245,7 @@ tessl skill publish skills/infrastructure/terraform --public
 - The `--skill` flag only works with remote GitHub URLs, not local paths. For local consolidated tiles, point to the specific skill directory.
 - Tile operations (lint, publish) operate on the tile.json directory level.
 
-See `scripts/README.md` for detailed usage information.
+See `cli/README.md` for detailed usage information.
 
 ## Git Hooks
 
@@ -251,10 +261,27 @@ Do not bypass hooks unless explicitly requested by the user.
 
 This repository follows the [Agent Skills specification](https://agentskills.io) for cross-harness compatibility.
 
-### Syncing Skills to Your Harness
+### Installing Skills for Local Development
 
-Contributors can sync local skills to their development environment:
+Contributors can install local skills to their development environment using the CLI tool:
 
+```bash
+# Install to local .agents/skills (default for opencode)
+bun cli/index.ts install
+
+# Install to specific agents
+bun cli/index.ts install -a opencode -a cursor -a gemini
+
+# Install globally for cross-project access (~/.config/<agent>/skills)
+bun cli/index.ts install --global
+
+# Preview what would be installed
+bun cli/index.ts install --dry-run
+```
+
+Skills are symlinked with namespaced names to avoid collisions: `domain--category--skill-name`
+
+**Alternative:** Use the cross-platform `npx skills` tool:
 ```bash
 # Sync all skills to all detected agents
 npx skills add ./skills --all
