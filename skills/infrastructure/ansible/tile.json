@@ -1,0 +1,19 @@
+{
+  "name": "pantheon-ai/ansible-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete ansible toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": {
+    "ansible-generator": {
+      "path": "generator/SKILL.md"
+    },
+    "ansible-validator": {
+      "path": "validator/SKILL.md"
+    }
+  },
+  "files": [
+    "generator/assets/templates/role/README.md",
+    "generator/references/best-practices.md",
+    "generator/references/module-patterns.md"
+  ]
+}

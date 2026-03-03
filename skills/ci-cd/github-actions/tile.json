@@ -1,0 +1,23 @@
+{
+  "name": "pantheon-ai/github-actions-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete GitHub Actions toolkit with generation and validation capabilities for workflows, custom actions, and CI/CD configurations",
+  "private": false,
+  "skills": {
+    "github-actions-generator": {
+      "path": "generator/SKILL.md"
+    },
+    "github-actions-validator": {
+      "path": "validator/SKILL.md"
+    }
+  },
+  "files": [
+    "validator/references/act_usage.md",
+    "validator/references/actionlint_usage.md",
+    "validator/references/common_errors.md",
+    "validator/references/action_versions.md",
+    "validator/references/modern_features.md",
+    "validator/references/runners.md",
+    "validator/assets/README.md"
+  ]
+}

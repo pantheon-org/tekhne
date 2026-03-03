@@ -1,0 +1,19 @@
+{
+  "name": "pantheon-ai/dockerfile-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete dockerfile toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": {
+    "dockerfile-generator": {
+      "path": "generator/SKILL.md"
+    },
+    "dockerfile-validator": {
+      "path": "validator/SKILL.md"
+    }
+  },
+  "files": [
+    "validator/references/docker_best_practices.md",
+    "validator/references/optimization_guide.md",
+    "validator/references/security_checklist.md"
+  ]
+}

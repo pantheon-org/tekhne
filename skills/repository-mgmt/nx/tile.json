@@ -1,0 +1,17 @@
+{
+  "name": "pantheon-ai/nx-plugin-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete Nx plugin development toolkit: create generators, executors, and extend Nx workspaces",
+  "private": false,
+  "skills": {
+    "nx-generators": {
+      "path": "generators/SKILL.md"
+    },
+    "nx-executors": {
+      "path": "executors/SKILL.md"
+    },
+    "extending-nx-plugins": {
+      "path": "extending-plugins/SKILL.md"
+    }
+  }
+}
