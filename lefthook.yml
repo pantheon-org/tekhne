@@ -7,6 +7,7 @@ pre-commit:
       stage_fixed: true
     markdownlint:
       glob: "*.md"
+      exclude: ".context/**"
       run: bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc {staged_files}
       stage_fixed: true
     skill-artifacts:

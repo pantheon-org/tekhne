@@ -1,0 +1,19 @@
+{
+  "skill": "terraform-validator",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 15
+  },
+  "total": 94,
+  "maxTotal": 120,
+  "grade": "C+",
+  "lines": 219,
+  "hasReferences": true,
+  "referenceCount": 4
+}

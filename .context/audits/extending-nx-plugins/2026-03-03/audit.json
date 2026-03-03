@@ -1,0 +1,19 @@
+{
+  "skill": "extending-nx-plugins",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 8,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 7,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15
+  },
+  "total": 97,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 432,
+  "hasReferences": false,
+  "referenceCount": 0
+}

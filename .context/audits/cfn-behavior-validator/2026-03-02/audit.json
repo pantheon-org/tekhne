@@ -1,0 +1,19 @@
+{
+  "skill": "cfn-behavior-validator",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 8,
+    "antiPatternQuality": 10,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 15,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 13
+  },
+  "total": 98,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 94,
+  "hasReferences": true,
+  "referenceCount": 1
+}

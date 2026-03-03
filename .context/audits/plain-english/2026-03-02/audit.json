@@ -1,0 +1,19 @@
+{
+  "skill": "plain-english",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 11
+  },
+  "total": 104,
+  "maxTotal": 120,
+  "grade": "B+",
+  "lines": 127,
+  "hasReferences": true,
+  "referenceCount": 2
+}

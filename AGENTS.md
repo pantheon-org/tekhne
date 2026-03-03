@@ -61,6 +61,102 @@ bunx markdownlint-cli2 "**/*.md"
 
 For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `skill-quality-auditor` workflow documented in `skills/skill-quality-auditor/SKILL.md`.
 
+## Skill Quality Audits
+
+All skills must be audited with `skill-quality-auditor` before publishing or committing major changes. This ensures consistent quality across the repository and identifies improvement opportunities.
+
+### Required Audit Workflow
+
+**Before publishing or submitting significant skill changes:**
+
+```bash
+# Run quality audit (creates .context/audits/<skill-name>/latest/)
+sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json --store
+
+# Review results
+cat .context/audits/<skill-name>/latest/analysis.md
+cat .context/audits/<skill-name>/latest/remediation-plan.md
+```
+
+### Quality Gates
+
+Skills are evaluated on 8 dimensions (120 total points) and assigned grades:
+
+| Grade | Score Range | Status | Action |
+|-------|-------------|--------|--------|
+| **A** | ≥108/120 (90%) | Publication-ready | Publish immediately |
+| **B+** | 102-107/120 (85-89%) | Near-ready | Optional improvements, can publish |
+| **B** | 96-101/120 (80-84%) | Solid foundation | Review remediation plan, improve if time allows |
+| **C+/C** | <96/120 (<80%) | Needs improvement | **BLOCK publishing** until remediated |
+
+**Target for all skills:** B-grade minimum (96/120) before publishing to Tessl registry.
+
+### Eight Quality Dimensions
+
+1. **Knowledge Delta (D1):** How much new, useful information does the skill provide?
+2. **Mindset & Procedures (D2):** Does it establish proper mental models and workflows?
+3. **Anti-Pattern Quality (D3):** Are common mistakes documented with alternatives?
+4. **Specification Compliance (D4):** Does it follow Agent Skills specification format?
+5. **Progressive Disclosure (D5):** Is information architecture clear and layered?
+6. **Freedom Calibration (D6):** Are boundaries and constraints properly defined?
+7. **Pattern Recognition (D7):** Are examples and use cases well-structured?
+8. **Practical Usability (D8):** Is the skill actionable and immediately useful?
+
+### Prohibited Practices
+
+**DO NOT:**
+- Publish skills without running `skill-quality-auditor` evaluation
+- Skip remediation for skills scoring <96/120 (B-grade threshold)
+- Rely solely on `tessl skill review` scores as quality validation
+- Bypass audit because "it looks good enough"
+- Commit major skill changes without re-auditing
+
+**Rationale:** Between 2025-2026, 63 skills were published using only `tessl skill review`, resulting in:
+- Average score: 98.3/120 (82%) - below B+ threshold
+- 37% of skills in C+/C range (needs significant improvement)
+- Critical weaknesses: Anti-Pattern Quality (D3: 68%), Progressive Disclosure (D5: 73%)
+- 40-60 hours of remediation work required to lift quality to acceptable levels
+
+### Common Weak Dimensions
+
+Repository-wide audit (2026-03) identified three dimensions that consistently need attention:
+
+**D3 Anti-Pattern Quality (68% avg)** - CRITICAL
+- Add "Common Mistakes" or "Anti-Patterns" section to every skill
+- Document 3-5 anti-patterns with explanations of why they fail
+- Provide correct alternatives for each anti-pattern
+
+**D5 Progressive Disclosure (73% avg)** - HIGH PRIORITY
+- Structure information: Quick Start → Detailed Guide → Advanced Topics
+- Use clear heading hierarchy (H2 → H3 → H4)
+- Implement "What → Why → How" organization
+
+**D2 Mindset & Procedures (74% avg)** - HIGH PRIORITY
+- Establish mental models before diving into procedures
+- Explain the "why" behind recommendations
+- Provide decision frameworks, not just step-by-step instructions
+
+### Audit Automation
+
+Check audit status across all skills:
+
+```bash
+# Check which skills have audits
+sh scripts/check-skill-audit-status.sh
+
+# Generate summary report
+sh scripts/generate-audit-summary.sh
+```
+
+### Integration with Tessl
+
+Both tools serve complementary purposes:
+
+- **skill-quality-auditor**: Internal quality improvement, dimensional guidance, remediation plans
+- **tessl skill review**: Registry publication preparation, metadata validation, optimization
+
+**Use both independently.** Do not skip skill-quality-auditor because Tessl scores look high. Phase 1 analysis confirmed no correlation between the two scoring systems.
+
 ## Skill Management with Tessl
 
 The repository includes an automated skill management script at `scripts/manage-skills.sh` that handles the complete tessl lifecycle:

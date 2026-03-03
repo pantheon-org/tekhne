@@ -1,0 +1,19 @@
+{
+  "skill": "makefile-generator",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 12,
+    "antiPatternQuality": 9,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15
+  },
+  "total": 102,
+  "maxTotal": 120,
+  "grade": "B+",
+  "lines": 438,
+  "hasReferences": true,
+  "referenceCount": 7
+}

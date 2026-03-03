@@ -1,0 +1,19 @@
+{
+  "skill": "nx-biome-integration",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 13
+  },
+  "total": 104,
+  "maxTotal": 120,
+  "grade": "B+",
+  "lines": 135,
+  "hasReferences": true,
+  "referenceCount": 3
+}

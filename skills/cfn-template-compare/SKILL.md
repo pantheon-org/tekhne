@@ -142,6 +142,59 @@ cat > "$DIR/comparison-report.md" <<EOF
 EOF
 ```
 
+## Decision Framework
+
+### When to Use This Skill
+
+Use CloudFormation template comparison when:
+- **Pre-deployment validation**: Verify CDK changes match expectations before deploying to prod
+- **Drift detection**: Investigate whether console changes have diverged from IaC
+- **Security audits**: Check for unauthorized IAM policy modifications or CDK Nag suppression changes
+- **Deployment troubleshooting**: Understand why `cdk deploy` is failing or showing unexpected diffs
+- **Change review**: Provide stakeholders with concrete before/after comparison for approval
+
+### When NOT to Use This Skill
+
+Skip template comparison when:
+- **Initial stack deployment**: No deployed template exists yet — synthesize and deploy directly
+- **Cross-account comparisons**: Different account IDs/ARNs make diffs noisy and unreliable
+- **Frequently changing resources**: Dynamic autoscaling groups, ephemeral Lambdas — accept constant drift
+- **CloudFormation managed entirely outside CDK**: If stack wasn't created via CDK, comparison won't map correctly
+
+### Risk Assessment Strategy
+
+Always categorize diffs by risk level before approving:
+
+- **Auto-approve (green)**: Environmental tags, GitRef, timestamps — expected variance
+- **Review (yellow)**: Config changes (alarms, schedules) — verify intent, then approve
+- **Block (red)**: IAM policies, CDK Nag suppressions, resource deletions — require explicit sign-off
+
+## Anti-Patterns
+
+### NEVER compare templates without verifying both sources are valid JSON first
+
+- **WHY**: invalid JSON from AWS CLI or CDK synth causes cryptic `jq` errors that waste time debugging.
+- **BAD**: `jq '.Resources' deployed.json` → `parse error: Expected separator between values at line 1, column 3`.
+- **GOOD**: `jq '.' deployed.json >/dev/null && echo "valid" || echo "INVALID"` before any comparison.
+
+### NEVER rely on line-by-line diff for large templates
+
+- **WHY**: 5000+ line diffs are unreadable and hide critical changes in noise.
+- **BAD**: `diff deployed.json local.json` → terminal flooded with irrelevant formatting differences.
+- **GOOD**: hierarchical comparison (Step 3) — resource counts, added/removed IDs, then targeted deep diffs per resource.
+
+### NEVER approve deployments with unexplained IAM policy changes
+
+- **WHY**: unauthorized privilege escalation or resource exposure can occur through subtle IAM modifications.
+- **BAD**: `diff` shows IAM role trust policy changed → "looks fine, deploying" → security breach.
+- **GOOD**: extract IAM diff specifically (`jq` filter for `AWS::IAM::*`), document justification, get InfoSec approval before deploy.
+
+### NEVER skip saving comparison artifacts before deployment
+
+- **WHY**: if deployment goes wrong, you lose the evidence of what changed and can't rollback confidently.
+- **BAD**: run comparison in terminal, approve deploy, stack fails → no record of what was attempted.
+- **GOOD**: timestamped directory with deployed.json, local.json, diff report — audit trail for incident investigation.
+
 ## Error Recovery
 
 | Error | Cause | Fix |

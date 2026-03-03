@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/create-context-file",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": false,
   "summary": "Create context files (plans, justifications, scratches) in .context/ directory with unique three-word IDs and frontmatter",
   "skills": {

@@ -1,0 +1,19 @@
+{
+  "skill": "gitlab-api",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 9,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 11
+  },
+  "total": 94,
+  "maxTotal": 120,
+  "grade": "C+",
+  "lines": 100,
+  "hasReferences": false,
+  "referenceCount": 0
+}

@@ -1,0 +1,19 @@
+{
+  "skill": "bash-script-validator",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 12,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 15
+  },
+  "total": 99,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 174,
+  "hasReferences": true,
+  "referenceCount": 8
+}
