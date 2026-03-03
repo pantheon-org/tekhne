@@ -310,8 +310,8 @@ generate_domain_tables() {
         
         # Process each skill in domain
         echo "$domain_skills" | while IFS='|' read -r _ skill_rel_path; do
-            # Get skill display name (flatten path with hyphens)
-            skill_display=$(echo "$skill_rel_path" | tr '/' '-')
+            # Get skill display name (use basename of path)
+            skill_display=$(basename "$skill_rel_path")
             
             # Get description
             description=$(get_skill_description "$skill_rel_path")
