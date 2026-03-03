@@ -10,13 +10,33 @@ This file defines how LLM agents should work in this repository.
 
 ## Repository Map
 
-- `skills/<skill-name>/SKILL.md`: Primary entry point for a skill.
-- `skills/<skill-name>/AGENTS.md`: Optional deep navigation for that skill.
-- `skills/<skill-name>/references/`: Focused reference documents.
-- `skills/<skill-name>/scripts/`: Utility scripts used by a skill.
-- `skills/<skill-name>/templates/`: Reusable templates (mostly YAML).
-- `skills/<skill-name>/schemas/`: JSON schemas for validation.
+- `skills/<domain>/<skill-name>/SKILL.md`: Primary entry point for a skill.
+- `skills/<domain>/<tool>/{generator,validator}/SKILL.md`: Generator/validator pairs.
+- `skills/<domain>/<skill-name>/AGENTS.md`: Optional deep navigation for that skill.
+- `skills/<domain>/<skill-name>/references/`: Focused reference documents.
+- `skills/<domain>/<skill-name>/scripts/`: Utility scripts used by a skill.
+- `skills/<domain>/<skill-name>/templates/`: Reusable templates (mostly YAML).
+- `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
+
+## Domain Organization
+
+Skills are organized into 12 domains for improved discoverability:
+
+- **ci-cd/** - CI/CD pipelines (GitHub Actions, GitLab CI, Jenkins, Helm, FluentBit, Azure Pipelines)
+- **infrastructure/** - IaC tools (Terraform, Ansible, K8s, Docker, CFN, AWS CDK)
+- **repository-mgmt/** - Repository management (Nx workspace tools, future: Turborepo, Lerna, Git workflows)
+- **development/** - Dev tooling (Bun, Biome, TypeScript, Commander.js, shell scripting)
+- **agentic-harness/** - Agent framework configs (OpenCode, AGENTS.md, future: Cursor, Claude Desktop)
+- **testing/** - Testing & quality (BDD, TDD, skill auditor, UI debugging)
+- **software-engineering/** - Engineering principles (design patterns, architecture, SOLID, refactoring)
+- **observability/** - Monitoring & debugging (PromQL, LogQL, K8s debug)
+- **documentation/** - Writing & communication (Markdown, acceptance criteria, commits, plain English)
+- **package-mgmt/** - Package/version management (Mise, future: npm, pip, cargo)
+- **project-mgmt/** - Planning & organization (Moscow, plan splitter, context files)
+- **specialized/** - Domain-specific tools (Colyseus, GitHub Copilot models, GitLab API)
+
+See `skills/testing/skill-quality-auditor/references/skill-taxonomy.md` for detailed classification criteria and decision tree.
 
 ## Required Workflow For Agents
 
@@ -59,7 +79,7 @@ bunx @biomejs/biome check .
 bunx markdownlint-cli2 "**/*.md"
 ```
 
-For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `skill-quality-auditor` workflow documented in `skills/skill-quality-auditor/SKILL.md`.
+For artifact convention checks (`templates/`, `schemas/`, `scripts/`), use the `skill-quality-auditor` workflow documented in `skills/testing/skill-quality-auditor/SKILL.md`.
 
 ## Skill Quality Audits
 
@@ -70,12 +90,12 @@ All skills must be audited with `skill-quality-auditor` before publishing or com
 **Before publishing or submitting significant skill changes:**
 
 ```bash
-# Run quality audit (creates .context/audits/<skill-name>/latest/)
-sh skills/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json --store
+# Run quality audit (creates .context/audits/<domain>/<skill-name>/latest/)
+sh skills/testing/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill-name> --json --store
 
 # Review results
-cat .context/audits/<skill-name>/latest/analysis.md
-cat .context/audits/<skill-name>/latest/remediation-plan.md
+cat .context/audits/<domain>/<skill-name>/latest/analysis.md
+cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
 ```
 
 ### Quality Gates
