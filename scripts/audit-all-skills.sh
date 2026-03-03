@@ -149,7 +149,7 @@ Follow the skill-quality-auditor workflow:
 
 Save the audit report to: .context/audits/${skill_name}-${DATE}.md
 
-Use the canonical template at skills/skill-quality-auditor/templates/review-report-template.yaml (field: report_template_markdown). Include:
+Use the canonical template at skills/agentic-harness/skill-quality-auditor/templates/review-report-template.yaml (field: report_template_markdown). Include:
 - YAML frontmatter at top:
   - review_date: ${DATE}
   - reviewer: automated audit
@@ -178,7 +178,7 @@ Depth requirements (mandatory):
 - Keep recommendations deterministic and directly actionable.
 
 After writing the report, run:
-\`./skills/skill-quality-auditor/scripts/validate-review-format.sh .context/audits/${skill_name}-${DATE}.md\`
+\`./skills/agentic-harness/skill-quality-auditor/scripts/validate-review-format.sh .context/audits/${skill_name}-${DATE}.md\`
 
 After saving the report, output ONLY the final rating in format: RATING: <score>/<max> (<grade>)"
 

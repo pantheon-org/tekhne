@@ -29,7 +29,7 @@ echo "🔍 Auditing: $SKILL"
 
 # Run evaluation with skill-quality-auditor
 echo "  → Running evaluation..."
-if ! sh skills/skill-quality-auditor/scripts/evaluate.sh "$SKILL" --json --store; then
+if ! sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh "$SKILL" --json --store; then
   echo "  ❌ Evaluation failed for $SKILL"
   exit 1
 fi

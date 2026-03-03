@@ -95,5 +95,5 @@ BAD: include hypothetical commands. GOOD: include only validated copy-paste comm
 
 ```bash
 bunx markdownlint-cli2 "**/AGENTS.md" "skills/agents-md/**/*.md"
-sh skills/skill-quality-auditor/scripts/evaluate.sh agents-md --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agents-md --json
 ```

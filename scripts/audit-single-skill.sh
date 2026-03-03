@@ -60,11 +60,11 @@ echo "Auditing: $SKILL_NAME"
 
 # Run evaluation to get scores (JSON output for parsing)
 EVAL_OUTPUT=""
-if [[ -f "$PROJECT_ROOT/skills/skill-quality-auditor/scripts/evaluate.ts" ]] && command -v bun >/dev/null 2>&1; then
-  EVAL_OUTPUT=$(cd "$PROJECT_ROOT" && bun run skills/skill-quality-auditor/scripts/evaluate.ts "$SKILL_NAME" --json 2>/dev/null || true)
+if [[ -f "$PROJECT_ROOT/skills/agentic-harness/skill-quality-auditor/scripts/evaluate.ts" ]] && command -v bun >/dev/null 2>&1; then
+  EVAL_OUTPUT=$(cd "$PROJECT_ROOT" && bun run skills/agentic-harness/skill-quality-auditor/scripts/evaluate.ts "$SKILL_NAME" --json 2>/dev/null || true)
 fi
 if [[ -z "$EVAL_OUTPUT" ]]; then
-  EVAL_OUTPUT=$(cd "$PROJECT_ROOT" && sh skills/skill-quality-auditor/scripts/evaluate.sh "$SKILL_NAME" --json 2>/dev/null || true)
+  EVAL_OUTPUT=$(cd "$PROJECT_ROOT" && sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh "$SKILL_NAME" --json 2>/dev/null || true)
 fi
 
 if [[ -z "$EVAL_OUTPUT" ]]; then
@@ -604,7 +604,7 @@ $FILES_INVENTORY
 ## Verification
 
 \`\`\`bash
-sh skills/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json
 bunx markdownlint-cli2 "skills/$SKILL_NAME/SKILL.md"
 \`\`\`
 
@@ -622,7 +622,7 @@ awk 'NF || !blank++ {print; if(NF) blank=0}' "$REPORT_FILE" > "${REPORT_FILE}.tm
 # Validate generated report format
 (
   cd "$PROJECT_ROOT"
-  ./skills/skill-quality-auditor/scripts/validate-review-format.sh "$REPORT_FILE"
+  ./skills/agentic-harness/skill-quality-auditor/scripts/validate-review-format.sh "$REPORT_FILE"
 )
 
 echo "  Report: $REPORT_FILE"

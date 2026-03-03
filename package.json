@@ -7,7 +7,7 @@
     "prepare": "bunx lefthook install",
     "check:biome": "bunx @biomejs/biome check .",
     "check:markdown": "bunx markdownlint-cli2 \"**/*.md\"",
-    "check:skill-artifacts": "./skills/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
+    "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
     "audit:skill": "./scripts/audit-single-skill.sh",
     "audit:skills": "./scripts/audit-all-skills.sh",
     "audit:skills:force": "./scripts/audit-all-skills.sh --force",

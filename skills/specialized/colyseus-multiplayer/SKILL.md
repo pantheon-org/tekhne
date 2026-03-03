@@ -62,7 +62,7 @@ Expected result: room handlers and matchmaker initialized.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/skill-quality-auditor/scripts/evaluate.sh colyseus-multiplayer --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh colyseus-multiplayer --json
 ```
 
 Expected result: updated dimension score breakdown.
