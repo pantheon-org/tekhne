@@ -1,0 +1,14 @@
+{
+  "name": "pantheon-ai/cfn-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete CloudFormation toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": {
+    "cfn-generator": {
+      "path": "generator/SKILL.md"
+    },
+    "cfn-validator": {
+      "path": "validator/SKILL.md"
+    }
+  }
+}

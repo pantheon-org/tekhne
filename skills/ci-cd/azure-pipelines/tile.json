@@ -1,0 +1,15 @@
+{
+  "name": "pantheon-ai/azure-pipelines-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete azure-pipelines toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": {
+    "azure-pipelines-generator": {
+      "path": "generator/SKILL.md"
+    },
+    "azure-pipelines-validator": {
+      "path": "validator/SKILL.md"
+    }
+  },
+  "files": ["validator/references/azure-pipelines-reference.md"]
+}

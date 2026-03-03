@@ -1,0 +1,25 @@
+{
+  "name": "pantheon-ai/gitlab-ci-toolkit",
+  "version": "0.1.0",
+  "summary": "Complete GitLab CI/CD toolkit with generation and validation capabilities for pipelines and configurations",
+  "private": false,
+  "skills": {
+    "gitlab-ci-generator": {
+      "path": "generator/SKILL.md"
+    },
+    "gitlab-ci-validator": {
+      "path": "validator/SKILL.md"
+    }
+  },
+  "files": [
+    "generator/references/best-practices.md",
+    "generator/references/common-patterns.md",
+    "generator/references/gitlab-ci-reference.md",
+    "generator/references/security-guidelines.md",
+    "generator/references/validation-presentation.md",
+    "generator/assets/templates/basic-pipeline.yml",
+    "generator/assets/templates/docker-build.yml",
+    "generator/assets/templates/kubernetes-deploy.yml",
+    "generator/assets/templates/multi-project.yml"
+  ]
+}
