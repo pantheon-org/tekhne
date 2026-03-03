@@ -10,7 +10,6 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 ## Available Skills
 
 
-Generating skills table...
 
 
 
