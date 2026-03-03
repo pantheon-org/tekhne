@@ -376,6 +376,40 @@ export async function myGenerator(tree: Tree, options: Schema) {
 }
 ```
 
+Always maintain compatibility with supported Nx versions and publish breaking changes as major version bumps.
+
+## Anti-Patterns
+
+### NEVER modify files outside the Tree API
+
+- **WHY**: direct filesystem operations bypass dry-run mode and change tracking, breaking `--dry-run` preview.
+- **BAD**: `writeFileSync("libs/my-lib/README.md", content)` in generator.
+- **GOOD**: `tree.write("libs/my-lib/README.md", content)` via Nx Devkit Tree API.
+
+### NEVER hardcode workspace structure assumptions
+
+- **WHY**: monorepo layouts evolve; hardcoded paths like `"apps/"` or `"packages/"` break when directories change.
+- **BAD**: `const projectRoot = "libs/" + options.name;` assumes `libs/` convention.
+- **GOOD**: derive paths from workspace layout: `readProjectConfiguration(tree, projectName).root`.
+
+### NEVER skip schema validation or use `schema: any`
+
+- **WHY**: untyped options cause runtime errors when invalid inputs are passed; users get cryptic failures.
+- **BAD**: generator options interface with `schema: any` and no required fields.
+- **GOOD**: typed schema.json with `"required": ["name"]`, explicit types, descriptions, and defaults.
+
+### NEVER mutate project configuration blindly
+
+- **WHY**: overwriting full `project.json` deletes existing targets and tags that other generators added.
+- **BAD**: `updateProjectConfiguration(tree, name, { root, targets: { build: {...} } })` (replaces entire config).
+- **GOOD**: `const config = readProjectConfiguration(tree, name); config.targets.build = {...}; updateProjectConfiguration(tree, name, config);`.
+
+### NEVER generate across project boundaries without dependency checks
+
+- **WHY**: adding imports from restricted scopes introduces circular dependencies or violates module boundary rules.
+- **BAD**: generator in `@frontend` scope writes imports to `@backend` scope without checking tags.
+- **GOOD**: read target project tags, verify allowed dependencies via `ensureProjectBoundaries` or tag rules before generating imports.
+
 ## Learning Resources
 
 ### Official Tutorials

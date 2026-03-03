@@ -116,3 +116,13 @@ Document any improvements needed for Phase 3 (remediation):
 - [ ] All failures resolved or documented
 - [ ] Quality thresholds met
 - [ ] Ready for Phase 3 (Y/N): ?
+FAILURE: agents-md
+ansible-validator
+azure-pipelines-generator
+azure-pipelines-validator
+bash-script-generator
+bash-script-validator
+biome-complete
+bun-development
+cdk-nag
+cfn-behavior-validator

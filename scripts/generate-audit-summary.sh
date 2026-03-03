@@ -23,7 +23,7 @@ TEMP_DATA=$(mktemp)
 echo "🔍 Generating audit summary report..."
 
 # Single-pass data collection from all audits
-find .context/audits -type f -name "audit.json" -path "*/latest/*" 2>/dev/null > "$TEMP_DATA.files"
+find -L .context/audits -type f -name "audit.json" -path "*/latest/*" 2>/dev/null > "$TEMP_DATA.files"
 
 TOTAL_AUDITS=$(wc -l < "$TEMP_DATA.files" | tr -d ' ')
 

@@ -104,6 +104,13 @@ sh skills/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json
 - **GOOD**: use generic agent-agnostic instructions that work everywhere.
 - **IMPACT**: creates confusion and excludes users of other agents unnecessarily.
 
+### NEVER bypass skill-quality-auditor in favor of tessl review alone
+
+- **WHY**: tessl and skill-quality-auditor measure different quality dimensions; tessl optimizes for registry metadata, skill-quality-auditor ensures agent effectiveness across 8 dimensions (D1-D8).
+- **BAD**: publish skills after only running `tessl skill review` (even at 100% score).
+- **GOOD**: run both tools independently - `evaluate.sh` for internal quality, `tessl skill review` for registry prep.
+- **IMPACT**: historical analysis showed 63 skills published with tessl-only scored 98.3/120 (82% avg) with critical weaknesses in Anti-Pattern Quality (D3: 68%) and Progressive Disclosure (D5: 73%), requiring 40-60 hours remediation.
+
 See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete failure mode documentation.
 
 ## Reference Map

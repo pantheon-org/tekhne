@@ -1,0 +1,19 @@
+{
+  "skill": "nx-vite-integration",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 8,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 13,
+    "patternRecognition": 6,
+    "practicalUsability": 15
+  },
+  "total": 96,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 255,
+  "hasReferences": true,
+  "referenceCount": 5
+}

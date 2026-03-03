@@ -1,0 +1,19 @@
+{
+  "skill": "github-copilot-models",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 11,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 14,
+    "patternRecognition": 6,
+    "practicalUsability": 15
+  },
+  "total": 96,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 193,
+  "hasReferences": false,
+  "referenceCount": 0
+}

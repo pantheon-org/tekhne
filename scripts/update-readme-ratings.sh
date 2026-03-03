@@ -218,9 +218,15 @@ get_latest_audit_info() {
                 if echo "$date_name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
                     audit_json="${date_dir}audit.json"
                     if [ -f "$audit_json" ]; then
-                        # Extract from JSON: totalScore, grade
-                        score=$(grep -oP '"totalScore":\s*\K[0-9]+' "$audit_json" | head -1)
-                        grade=$(grep -oP '"grade":\s*"\K[A-F+]+' "$audit_json" | head -1)
+                        # Extract from JSON using jq (compatible with all systems)
+                        if command -v jq >/dev/null 2>&1; then
+                            score=$(jq -r '.total // empty' "$audit_json" 2>/dev/null)
+                            grade=$(jq -r '.grade // empty' "$audit_json" 2>/dev/null)
+                        else
+                            # Fallback to sed/grep for systems without jq
+                            score=$(grep -o '"total"[[:space:]]*:[[:space:]]*[0-9]*' "$audit_json" | sed 's/.*:[[:space:]]*//' | head -1)
+                            grade=$(grep -o '"grade"[[:space:]]*:[[:space:]]*"[A-F+]*"' "$audit_json" | sed 's/.*"grade"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/' | head -1)
+                        fi
                         max_score=120
 
                         if [ -n "$score" ] && [ -n "$grade" ]; then

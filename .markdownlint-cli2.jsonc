@@ -14,5 +14,5 @@
     "MD047": false,
     "MD060": false
   },
-  "ignore": ["skills/markdown-authoring/references/"]
+  "ignore": ["skills/markdown-authoring/references/", ".context/**"]
 }

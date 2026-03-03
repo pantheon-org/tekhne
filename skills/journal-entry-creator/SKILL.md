@@ -10,6 +10,19 @@ description:
 
 Automate creation of structured journal entries with template schemas, frontmatter validation, and compliance checking.
 
+## When to Use This Skill
+
+Use journal-entry-creator when:
+- **Documentation requirement**: User explicitly asks to "create journal entry", "document this", or "write about [topic]"
+- **Structured output needed**: Standard journal workflows require YAML frontmatter, triple-sync dates, and template compliance
+- **Multiple entry types**: Need to select between troubleshooting, learning, article summary, or general journal
+- **Validation critical**: Entry must pass compliance checks before commit (automated validation available)
+
+**Do NOT use for:**
+- Quick markdown notes without frontmatter (use simple file creation instead)
+- External documentation systems (Confluence, Notion) — this skill is for local .md files only
+- Retrospective backdating of dozens of old entries — use batch import scripts instead
+
 ## Entry Type Selection
 
 **Decision criteria:**
@@ -251,6 +264,39 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - Brief description (30-50 chars)
 - Date in parentheses (YYYY-MM-DD)
 - Example: `Add journal entry: OpenCode process fix (2025-02-24)`
+
+**Commit message format:**
+
+- Prefix: `Add journal entry:`
+- Brief description (30-50 chars)
+- Date in parentheses (YYYY-MM-DD)
+- Example: `Add journal entry: OpenCode process fix (2025-02-24)`
+
+## Anti-Patterns
+
+### NEVER create entries without reading the template schema first
+
+- **WHY**: guessing structure leads to validation failures and missing required sections.
+- **BAD**: immediately write journal entry based on assumptions about structure.
+- **GOOD**: `cat skills/journal-entry-creator/template/troubleshooting.yaml` first, review required fields, then generate.
+
+### NEVER proceed with failed validation
+
+- **WHY**: invalid entries break parsing tools and violate compliance rules.
+- **BAD**: validation script shows 3 errors → ignore and commit anyway.
+- **GOOD**: fix all validation errors (or ask user for clarification), re-run validation until passing, then commit.
+
+### NEVER use bare code blocks without language specifiers
+
+- **WHY**: bare triple backticks fail markdownlint and reduce syntax highlighting readability.
+- **BAD**: ` ```\ngit status\n``` ` (no language).
+- **GOOD**: ` ```bash\ngit status\n``` ` (explicit language).
+
+### NEVER create date mismatches between filename, frontmatter, and H1
+
+- **WHY**: triple sync requirement ensures consistency; mismatches cause directory placement errors and broken date queries.
+- **BAD**: filename `2025-02-24-*.md`, frontmatter `date: 2025-02-25`, H1 `March 1, 2025`.
+- **GOOD**: all three match exactly - `2025-02-24` in filename, `date: 2025-02-24` in frontmatter, `February 24, 2025` in H1.
 
 ## Bundled Resources
 
