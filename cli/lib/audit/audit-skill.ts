@@ -1,5 +1,6 @@
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { AuditFailedError, FileNotFoundError } from "../utils/errors";
 import { logger } from "../utils/logger";
 import { exec } from "../utils/shell";
 
@@ -8,8 +9,7 @@ export async function auditSkill(skillPath: string): Promise<void> {
   const skillFile = join(fullPath, "SKILL.md");
 
   if (!existsSync(skillFile)) {
-    logger.error(`No SKILL.md found at ${fullPath}`);
-    process.exit(1);
+    throw new FileNotFoundError(skillFile);
   }
 
   logger.info(`Auditing skill: ${skillPath}`);
@@ -18,20 +18,15 @@ export async function auditSkill(skillPath: string): Promise<void> {
     "skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh",
   );
   if (!existsSync(evaluateScript)) {
-    logger.error(
-      "Audit script not found: skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh",
-    );
-    process.exit(1);
+    throw new FileNotFoundError(evaluateScript);
   }
 
-  const { exitCode, stderr } = await exec(
+  const { exitCode } = await exec(
     `sh "${evaluateScript}" "${skillPath}" --json --store`,
   );
 
   if (exitCode !== 0) {
-    logger.error("Audit failed");
-    console.error(stderr);
-    process.exit(1);
+    throw new AuditFailedError(skillPath, 0);
   }
 
   const auditJsonPath = join(

@@ -1,5 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { $ } from "bun";
+import { FileNotFoundError } from "../utils/errors";
 import { logger } from "../utils/logger";
 import {
   getAuditLink,
@@ -74,8 +75,7 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
   const readmePath = "README.md";
 
   if (!existsSync(readmePath)) {
-    logger.error("README.md not found");
-    process.exit(1);
+    throw new FileNotFoundError(readmePath);
   }
 
   logger.info("Finding all skills...");
