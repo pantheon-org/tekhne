@@ -38,7 +38,8 @@ echo "  Collecting audit data..."
 
 # Collect all data in one pass
 while IFS= read -r file; do
-  skill=$(echo "$file" | sed 's|.context/audits/||' | sed 's|/.*||')
+  # Extract skill path relative to .context/audits/ (supports nested structure)
+  skill=$(echo "$file" | sed 's|.context/audits/||' | sed 's|/latest/.*||')
   score=$(jq -r '.total' "$file" 2>/dev/null || echo "0")
   grade=$(jq -r '.grade' "$file" 2>/dev/null || echo "?")
   

@@ -33,54 +33,50 @@ missing=0
 
 cd skills || exit 1
 
-for skill_dir in */; do
-  skill=$(basename "$skill_dir")
-  
-  # Skip if not a skill directory
-  if [ ! -f "$skill_dir/SKILL.md" ]; then
-    continue
-  fi
+# Find all SKILL.md files recursively
+find . -name "SKILL.md" -type f | while read -r skill_file; do
+  skill_rel_path="$(dirname "$skill_file" | sed 's|^\./||')"
   
   total=$((total + 1))
   
   # Check if audit exists
-  if [ ! -d "../.context/audits/$skill" ]; then
-    printf "${RED}✗${NC} %s - MISSING AUDIT\n" "$skill"
+  if [ ! -d "../.context/audits/$skill_rel_path" ]; then
+    printf "${RED}✗${NC} %s - MISSING AUDIT\n" "$skill_rel_path"
     missing=$((missing + 1))
     continue
   fi
   
   # Check if latest symlink exists
-  if [ ! -L "../.context/audits/$skill/latest" ]; then
-    printf "${YELLOW}⚠${NC} %s - Missing 'latest' symlink\n" "$skill"
+  if [ ! -L "../.context/audits/$skill_rel_path/latest" ]; then
+    printf "${YELLOW}⚠${NC} %s - Missing 'latest' symlink\n" "$skill_rel_path"
     outdated=$((outdated + 1))
     continue
   fi
   
   # Check if symlink target exists
-  if [ ! -e "../.context/audits/$skill/latest" ]; then
-    printf "${RED}✗${NC} %s - Broken 'latest' symlink\n" "$skill"
+  if [ ! -e "../.context/audits/$skill_rel_path/latest" ]; then
+    printf "${RED}✗${NC} %s - Broken 'latest' symlink\n" "$skill_rel_path"
     missing=$((missing + 1))
     continue
   fi
   
   # Check audit age (warn if > 30 days old)
-  audit_file="../.context/audits/$skill/latest/audit.json"
+  audit_file="../.context/audits/$skill_rel_path/latest/audit.json"
   if [ -f "$audit_file" ]; then
     # Check file modification time
     if find "$audit_file" -mtime +30 2>/dev/null | grep -q .; then
       score=$(jq -r '.total' "$audit_file" 2>/dev/null || echo "?")
       grade=$(jq -r '.grade' "$audit_file" 2>/dev/null || echo "?")
-      printf "${YELLOW}⚠${NC} %s - Audit >30 days old (score: %s/120, grade: %s)\n" "$skill" "$score" "$grade"
+      printf "${YELLOW}⚠${NC} %s - Audit >30 days old (score: %s/120, grade: %s)\n" "$skill_rel_path" "$score" "$grade"
       outdated=$((outdated + 1))
     else
       score=$(jq -r '.total' "$audit_file" 2>/dev/null || echo "?")
       grade=$(jq -r '.grade' "$audit_file" 2>/dev/null || echo "?")
-      printf "${GREEN}✓${NC} %s - Compliant (score: %s/120, grade: %s)\n" "$skill" "$score" "$grade"
+      printf "${GREEN}✓${NC} %s - Compliant (score: %s/120, grade: %s)\n" "$skill_rel_path" "$score" "$grade"
       compliant=$((compliant + 1))
     fi
   else
-    printf "${RED}✗${NC} %s - Missing audit.json\n" "$skill"
+    printf "${RED}✗${NC} %s - Missing audit.json\n" "$skill_rel_path"
     missing=$((missing + 1))
   fi
 done
