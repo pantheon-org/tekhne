@@ -103,6 +103,73 @@ function createSymlink(
   }
 }
 
+interface AgentStats {
+  installed: number;
+  skipped: number;
+  failed: number;
+}
+
+function installSkillsForAgent(
+  agent: string,
+  skills: string[],
+  cwd: string,
+  options: InstallOptions,
+): AgentStats {
+  const stats: AgentStats = { installed: 0, skipped: 0, failed: 0 };
+
+  if (!AGENT_PATHS[agent]) {
+    logger.error(`Unknown agent: ${agent}`);
+    return stats;
+  }
+
+  logger.header(`\nInstalling for ${agent}`);
+
+  const targetDir = AGENT_PATHS[agent](options.global, cwd);
+  logger.info(`Target directory: ${targetDir}`);
+
+  ensureDirectory(targetDir, options.dryRun);
+
+  for (const skillPath of skills) {
+    const skillName = getSkillName(skillPath);
+    const source = join(cwd, skillPath);
+    const target = join(targetDir, skillName);
+
+    const result = createSymlink(source, target, options.dryRun);
+
+    if (result) {
+      stats.installed++;
+    } else if (existsSync(target)) {
+      stats.skipped++;
+    } else {
+      stats.failed++;
+    }
+  }
+
+  return stats;
+}
+
+function displaySummary(
+  agents: string[],
+  stats: Record<string, AgentStats>,
+  dryRun: boolean,
+): void {
+  logger.header("\nInstallation Summary");
+
+  for (const agent of agents) {
+    if (!stats[agent]) continue;
+
+    const { installed, skipped, failed } = stats[agent];
+    logger.info(`\n${agent}:`);
+    if (installed > 0) logger.success(`  Installed: ${installed}`);
+    if (skipped > 0) logger.debug(`  Skipped: ${skipped}`);
+    if (failed > 0) logger.error(`  Failed: ${failed}`);
+  }
+
+  if (dryRun) {
+    logger.warning("\nDry run completed. No changes made.");
+  }
+}
+
 export async function installSkills(options: InstallOptions): Promise<void> {
   const cwd = process.cwd();
 
@@ -119,56 +186,11 @@ export async function installSkills(options: InstallOptions): Promise<void> {
   logger.info(`Target agents: ${agents.join(", ")}`);
   logger.info(`Mode: ${options.global ? "global" : "local"}`);
 
-  const stats: Record<
-    string,
-    { installed: number; skipped: number; failed: number }
-  > = {};
+  const stats: Record<string, AgentStats> = {};
 
   for (const agent of agents) {
-    if (!AGENT_PATHS[agent]) {
-      logger.error(`Unknown agent: ${agent}`);
-      continue;
-    }
-
-    logger.header(`\nInstalling for ${agent}`);
-
-    const targetDir = AGENT_PATHS[agent](options.global, cwd);
-    logger.info(`Target directory: ${targetDir}`);
-
-    ensureDirectory(targetDir, options.dryRun);
-
-    stats[agent] = { installed: 0, skipped: 0, failed: 0 };
-
-    for (const skillPath of skills) {
-      const skillName = getSkillName(skillPath);
-      const source = join(cwd, skillPath);
-      const target = join(targetDir, skillName);
-
-      const result = createSymlink(source, target, options.dryRun);
-
-      if (result) {
-        stats[agent].installed++;
-      } else if (existsSync(target)) {
-        stats[agent].skipped++;
-      } else {
-        stats[agent].failed++;
-      }
-    }
+    stats[agent] = installSkillsForAgent(agent, skills, cwd, options);
   }
 
-  logger.header("\nInstallation Summary");
-
-  for (const agent of agents) {
-    if (!stats[agent]) continue;
-
-    const { installed, skipped, failed } = stats[agent];
-    logger.info(`\n${agent}:`);
-    if (installed > 0) logger.success(`  Installed: ${installed}`);
-    if (skipped > 0) logger.debug(`  Skipped: ${skipped}`);
-    if (failed > 0) logger.error(`  Failed: ${failed}`);
-  }
-
-  if (options.dryRun) {
-    logger.warning("\nDry run completed. No changes made.");
-  }
+  displaySummary(agents, stats, options.dryRun);
 }
