@@ -14,6 +14,7 @@ Generating skills table...
 
 
 
+
 ## CI/CD (10 skills)
 
 CI/CD pipelines & deployment automation
