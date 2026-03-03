@@ -310,8 +310,18 @@ generate_domain_tables() {
         
         # Process each skill in domain
         echo "$domain_skills" | while IFS='|' read -r _ skill_rel_path; do
-            # Get skill display name (use basename of path)
-            skill_display=$(basename "$skill_rel_path")
+            # Get skill display name (include subdomain but not top domain)
+            # Example: repository-mgmt/nx/executors → nx-executors
+            # Example: ci-cd/github-actions/generator → github-actions-generator
+            # Example: documentation/markdown-authoring → markdown-authoring
+            skill_path_without_domain=$(echo "$skill_rel_path" | cut -d'/' -f2-)
+            if echo "$skill_path_without_domain" | grep -q '/'; then
+                # Has subdomain - flatten with hyphens
+                skill_display=$(echo "$skill_path_without_domain" | tr '/' '-')
+            else
+                # No subdomain - use as is
+                skill_display="$skill_path_without_domain"
+            fi
             
             # Get description
             description=$(get_skill_description "$skill_rel_path")
