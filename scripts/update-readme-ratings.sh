@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Update README.md with skill ratings from audit reports
+# Update README.md with skill ratings organized by domain
 # Usage: ./scripts/update-readme-ratings.sh [--dry-run]
 
 set -e
@@ -17,22 +17,74 @@ for arg in "$@"; do
     esac
 done
 
-get_all_skills() {
+# Define domain order and descriptions
+get_domain_info() {
+    domain="$1"
+    case "$domain" in
+        ci-cd)
+            echo "CI/CD|CI/CD pipelines & deployment automation"
+            ;;
+        infrastructure)
+            echo "Infrastructure|Infrastructure as Code"
+            ;;
+        repository-mgmt)
+            echo "Repository Management|Repository & workspace management"
+            ;;
+        development)
+            echo "Development|Development tooling"
+            ;;
+        agentic-harness)
+            echo "Agentic Harness|Agent framework configurations"
+            ;;
+        testing)
+            echo "Testing|Testing methodologies & quality"
+            ;;
+        software-engineering)
+            echo "Software Engineering|Software engineering principles"
+            ;;
+        observability)
+            echo "Observability|Monitoring, logging & debugging"
+            ;;
+        documentation)
+            echo "Documentation|Writing & communication"
+            ;;
+        package-mgmt)
+            echo "Package Management|Package & version management"
+            ;;
+        project-mgmt)
+            echo "Project Management|Planning & organization"
+            ;;
+        specialized)
+            echo "Specialized|Domain-specific tools"
+            ;;
+        *)
+            echo "Unknown|Unknown domain"
+            ;;
+    esac
+}
+
+# Get all skills organized by domain
+get_skills_by_domain() {
     if [ ! -d "$SKILLS_DIR" ]; then
         echo ""
         return
     fi
     
-    for dir in "$SKILLS_DIR"/*/; do
-        if [ -d "$dir" ] && [ -f "$dir/SKILL.md" ]; then
-            basename "$dir" | sed 's/\/$//'
-        fi
-    done
+    # Find all SKILL.md files and extract domain/skill-path
+    find "$SKILLS_DIR" -name "SKILL.md" -type f | while read -r skill_file; do
+        skill_dir="$(dirname "$skill_file")"
+        skill_rel_path="${skill_dir#"$SKILLS_DIR"/}"
+        
+        # Extract domain (first directory component)
+        domain=$(echo "$skill_rel_path" | cut -d'/' -f1)
+        
+        echo "$domain|$skill_rel_path"
+    done | sort
 }
 
 get_skill_description() {
-    skill_name="$1"
-    skill_file="$SKILLS_DIR/$skill_name/SKILL.md"
+    skill_rel_path="$1"
+    skill_file="$SKILLS_DIR/$skill_rel_path/SKILL.md"
     
     if [ ! -f "$skill_file" ]; then
         echo ""
@@ -53,28 +105,21 @@ get_skill_description() {
                 fi
                 ;;
             description:*)
-                # Check for YAML block scalar indicators (| or |- or > or >-)
-                # These indicate multiline content that follows
                 first_part=$(echo "$line" | sed 's/^description:[[:space:]]*//')
                 if echo "$first_part" | grep -qE '^[|>]-?[[:space:]]*$'; then
-                    # Block scalar indicator - treat as multiline, continue to next lines
                     in_description=true
                 elif [ -n "$first_part" ]; then
-                    # Single-line description
                     desc=$(echo "$first_part" | sed 's/^"//' | sed 's/"$//')
                     if [ -n "$desc" ]; then
                         break
                     else
-                        # Multiline description - will be on following lines
                         in_description=true
                     fi
                 else
-                    # Empty value after description: - treat as multiline
                     in_description=true
                 fi
                 ;;
             "    "*|"  "*)
-                # Indented content - might be continuation of multiline description
                 if [ "$in_description" = true ]; then
                     line_desc=$(echo "$line" | sed 's/^[[:space:]]*//' | sed 's/^"//' | sed 's/"$//' | sed 's/  */ /g')
                     if [ -n "$line_desc" ]; then
@@ -87,7 +132,6 @@ get_skill_description() {
                 fi
                 ;;
             *)
-                # Check if we hit another top-level key in frontmatter
                 if [ "$in_frontmatter" = true ] && [ "$in_description" = true ]; then
                     if echo "$line" | grep -qE '^[a-z]'; then
                         break
@@ -98,7 +142,8 @@ get_skill_description() {
     done < "$skill_file"
     
     if [ -n "$desc" ]; then
-        # Truncate if too long
+        # Escape pipe characters to prevent markdown table issues
+        desc=$(echo "$desc" | sed 's/|/\\|/g')
         if [ ${#desc} -gt 80 ]; then
             printf '%s...' "$(echo "$desc" | cut -c1-77)"
         else
@@ -107,7 +152,6 @@ get_skill_description() {
         return
     fi
     
-    # No description found - return empty (caller will use existing)
     echo ""
 }
 
@@ -126,71 +170,8 @@ get_grade_color() {
     esac
 }
 
-extract_rating_from_report() {
-    file="$1"
-    
-    if [ ! -f "$file" ]; then
-        return 1
-    fi
-    
-    # New format: analysis.md with table
-    if echo "$file" | grep -q "analysis.md"; then
-        extract_from_analysis_table "$file"
-        return $?
-    fi
-    
-    # Legacy format: standalone audit markdown files
-    score_line=$(grep '\*\*Total Score\*\*' "$file" | head -1)
-    grade_line=$(grep '\*\*Grade\*\*' "$file" | head -1)
-    
-    if [ -z "$score_line" ]; then
-        return 1
-    fi
-    
-    score=$(echo "$score_line" | sed 's/.*\*\*Total Score\*\*[[:space:]]*|[[:space:]]*\([0-9]*\)\/\([0-9]*\).*/\1/')
-    max_score=$(echo "$score_line" | sed 's/.*\*\*Total Score\*\*[[:space:]]*|[[:space:]]*\([0-9]*\)\/\([0-9]*\).*/\2/')
-    
-    if [ -z "$score" ] || [ -z "$max_score" ]; then
-        return 1
-    fi
-    
-    grade=$(echo "$grade_line" | sed 's/.*\*\*Grade\*\*[[:space:]]*|[[:space:]]*\([A-F+]*\).*/\1/')
-    
-    if [ -z "$grade" ]; then
-        grade="N/A"
-    fi
-    
-    echo "$score|$max_score|$grade"
-    return 0
-}
-
-extract_from_analysis_table() {
-    file="$1"
-    skill_name="$2"
-    
-    # Table format: | Skill | Score | Grade | Lines | Refs |
-    # Example: | nx-executors | 114/120 | A+ | 135 | 2 |
-    line=$(grep "|[[:space:]]*${skill_name}[[:space:]]*|" "$file" | head -1)
-    
-    if [ -z "$line" ]; then
-        return 1
-    fi
-    
-    # Extract score (e.g., "114/120")
-    score=$(echo "$line" | sed -n 's/.*|[[:space:]]*\([0-9]*\)\/\([0-9]*\)[[:space:]]*|.*/\1/p')
-    max_score=$(echo "$line" | sed -n 's/.*|[[:space:]]*\([0-9]*\)\/\([0-9]*\)[[:space:]]*|.*/\2/p')
-    grade=$(echo "$line" | sed -n 's/.*|[[:space:]]*[A-F+]*[[:space:]]*|[[:space:]]*\([A-F+]*\)[[:space:]]*|.*/\1/p')
-    
-    if [ -z "$score" ] || [ -z "$max_score" ] || [ -z "$grade" ]; then
-        return 1
-    fi
-    
-    echo "$score|$max_score|$grade"
-    return 0
-}
-
 get_latest_audit_info() {
-    skill_name="$1"
+    skill_rel_path="$1"
     
     if [ ! -d "$AUDITS_DIR" ]; then
         echo ""
@@ -199,38 +180,28 @@ get_latest_audit_info() {
     
     latest_file=""
     latest_date=""
+    latest_rating=""
     
-    # Search in both root audits dir and subdirectories (e.g., .context/audits/skill-audit/2026-02-24/)
-    search_dirs="$AUDITS_DIR"
-    for subdir in "$AUDITS_DIR"/*/; do
-        if [ -d "$subdir" ]; then
-            search_dirs="$search_dirs $subdir"
-        fi
-    done
-    
-    # New format: .context/audits/<skill>/<date>/audit.json
-    skill_audit_dir="$AUDITS_DIR/$skill_name"
+    # New format: .context/audits/<domain>/<skill-path>/<date>/audit.json
+    skill_audit_dir="$AUDITS_DIR/$skill_rel_path"
     if [ -d "$skill_audit_dir" ]; then
-        # Find the latest dated subdirectory
         for date_dir in "$skill_audit_dir"/*/; do
             if [ -d "$date_dir" ]; then
                 date_name=$(basename "$date_dir")
                 if echo "$date_name" | grep -qE '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
                     audit_json="${date_dir}audit.json"
                     if [ -f "$audit_json" ]; then
-                        # Extract from JSON using jq (compatible with all systems)
                         if command -v jq >/dev/null 2>&1; then
                             score=$(jq -r '.total // empty' "$audit_json" 2>/dev/null)
                             grade=$(jq -r '.grade // empty' "$audit_json" 2>/dev/null)
                         else
-                            # Fallback to sed/grep for systems without jq
                             score=$(grep -o '"total"[[:space:]]*:[[:space:]]*[0-9]*' "$audit_json" | sed 's/.*:[[:space:]]*//' | head -1)
                             grade=$(grep -o '"grade"[[:space:]]*:[[:space:]]*"[A-F+]*"' "$audit_json" | sed 's/.*"grade"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/' | head -1)
                         fi
                         max_score=120
 
                         if [ -n "$score" ] && [ -n "$grade" ]; then
-                            if [ -z "$latest_date" ] ||[ "$(printf '%s\n%s\n' "$date_name" "$latest_date" | sort -r | head -1)" = "$date_name" ]; then
+                            if [ -z "$latest_date" ] || [ "$(printf '%s\n%s\n' "$date_name" "$latest_date" | sort -r | head -1)" = "$date_name" ]; then
                                 latest_date="$date_name"
                                 latest_file="$audit_json"
                                 latest_rating="$score|$max_score|$grade"
@@ -242,43 +213,8 @@ get_latest_audit_info() {
         done
     fi
     
-    # If we found a rating from analysis.md, return it
     if [ -n "$latest_file" ]; then
         echo "${latest_date}|${latest_file}|${latest_rating}"
-        return
-    fi
-    
-    # Fallback: legacy format - individual audit files in root
-    for file in "$AUDITS_DIR"/"${skill_name}-"*.md; do
-        if [ -f "$file" ]; then
-            filename=$(basename "$file")
-
-            # Support both naming conventions:
-            #   <skill>-YYYY-MM-DD.md
-            #   <skill>-audit-YYYY-MM-DD.md
-            date_part=$(echo "$filename" | sed -n "s/^${skill_name}-audit-\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\)\.md$/\1/p")
-            if [ -z "$date_part" ]; then
-                date_part=$(echo "$filename" | sed -n "s/^${skill_name}-\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\)\.md$/\1/p")
-            fi
-
-            [ -n "$date_part" ] || continue
-
-            if [ -z "$latest_date" ]; then
-                latest_date="$date_part"
-                latest_file="$file"
-            else
-                max_date=$(printf '%s\n%s\n' "$date_part" "$latest_date" | sort | tail -n 1)
-                if [ "$max_date" = "$date_part" ] && [ "$date_part" != "$latest_date" ]; then
-                    latest_date="$date_part"
-                    latest_file="$file"
-                fi
-            fi
-        fi
-    done
-    
-    if [ -n "$latest_file" ]; then
-        rating=$(extract_rating_from_report "$latest_file")
-        echo "${latest_date}|${latest_file}|${rating}"
     fi
 }
 
@@ -286,7 +222,7 @@ get_skill_badge() {
     rating="$1"
     
     if [ -z "$rating" ]; then
-        echo "N/A"
+        echo "![?](https://img.shields.io/badge/Rating-?-lightgrey)"
         return
     fi
     
@@ -296,21 +232,16 @@ get_skill_badge() {
     
     color=$(get_grade_color "$grade")
     
-    case "$grade" in
-        *+) badge_grade="$grade" ;;
-        *)  badge_grade="${grade}%20" ;;
-    esac
-    
-    badge="![${grade}](https://img.shields.io/badge/Rating-${badge_grade}-${color})"
+    badge="![${grade}](https://img.shields.io/badge/Rating-${grade}-${color})"
     printf '%s' "$badge"
 }
 
 get_tessl_status() {
-    skill_name="$1"
-    tile_path="$SKILLS_DIR/$skill_name/tile.json"
+    skill_rel_path="$1"
+    tile_path="$SKILLS_DIR/$skill_rel_path/tile.json"
     
     if [ ! -f "$tile_path" ]; then
-        echo "Not configured"
+        echo "No"
         return
     fi
     
@@ -318,12 +249,11 @@ get_tessl_status() {
     private=$(grep -o '"private"[[:space:]]*:[[:space:]]*[^,}]*' "$tile_path" | sed 's/.*:[[:space:]]*//' | tr -d ' ')
     
     if [ "$private" = "false" ]; then
-        # Extract the name field for registry URL
         tessl_name=$(grep -o '"name"[[:space:]]*:[[:space:]]*"[^"]*"' "$tile_path" | sed 's/.*"name"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/')
         if [ -n "$tessl_name" ]; then
-            echo "[Published](https://tessl.io/registry/skills/$tessl_name)"
+            echo "[Public](https://tessl.io/registry/skills/$tessl_name)"
         else
-            echo "Published"
+            echo "Public"
         fi
     elif [ "$private" = "true" ]; then
         echo "Private"
@@ -332,70 +262,12 @@ get_tessl_status() {
     fi
 }
 
-get_tessl_rating() {
-    skill_name="$1"
-    skill_path="$SKILLS_DIR/$skill_name"
-    
-    # Only get rating if skill has tile.json (is configured for Tessl)
-    if [ ! -f "$skill_path/tile.json" ]; then
-        echo ""
-        return
-    fi
-    
-    # Try to get rating from tessl review command with timeout
-    rating_json=$(timeout 30s tessl skill review "$skill_path" --json 2>/dev/null || echo "")
-    
-    if [ -z "$rating_json" ]; then
-        echo ""
-        return
-    fi
-    
-    # Extract normalizedScore from JSON (values like 1.0 = 100%)
-    # Look for "normalizedScore": 0.95 or similar
-    normalized_score=$(echo "$rating_json" | grep -o '"normalizedScore"[[:space:]]*:[[:space:]]*[0-9.]*' | sed 's/.*:[[:space:]]*//')
-    
-    if [ -n "$normalized_score" ]; then
-        # Convert to percentage and round to nearest integer
-        percentage=$(echo "$normalized_score * 100" | bc -l 2>/dev/null | cut -d. -f1 2>/dev/null || echo "")
-        if [ -n "$percentage" ] && [ "$percentage" -ne 0 ] 2>/dev/null; then
-            echo "${percentage}%"
-        else
-            echo ""
-        fi
-    else
-        echo ""
-    fi
-}
-
-get_tessl_info() {
-    skill_name="$1"
-    status=$(get_tessl_status "$skill_name")
-    rating=$(get_tessl_rating "$skill_name")
-    
-    if [ "$status" = "Not configured" ]; then
-        echo "N/A"
-    elif echo "$status" | grep -q "Published]("; then
-        # Status is already a markdown link for published skills
-        if [ -n "$rating" ]; then
-            # Extract the URL and text for the link, then append rating
-            url=$(echo "$status" | sed 's/.*(\([^)]*\)).*/\1/')
-            echo "[Published ($rating)]($url)"
-        else
-            echo "$status"
-        fi
-    elif [ -n "$rating" ]; then
-        echo "$status ($rating)"
-    else
-        echo "$status"
-    fi
-}
-
 get_audit_link() {
     date_part="$1"
     audit_path="$2"
 
     if [ -z "$date_part" ] || [ -z "$audit_path" ]; then
-        echo "N/A"
+        echo "-"
         return
     fi
 
@@ -403,31 +275,77 @@ get_audit_link() {
     printf '[%s](%s)' "$date_part" "$rel_path"
 }
 
-is_skill_table_row() {
-    line="$1"
+generate_domain_tables() {
+    temp_file="$1"
     
-    # shellcheck disable=SC2016
-    printf '%s\n' "$line" | grep -qE '^\| *\[`[^`]*`\]'
-}
-
-build_skill_row() {
-    skill_name="$1"
-    description="$2"
-    badge="$3"
-    audit_link="$4"
-    tessl_info="$5"
+    # Get all skills grouped by domain (redirect to avoid output in README)
+    all_skills=$(get_skills_by_domain 2>/dev/null)
     
-    skill_link="[\`$skill_name\`](skills/$skill_name/SKILL.md)"
-    printf '| %s | %s | %s | %s | %s |' "$skill_link" "$description" "$badge" "$audit_link" "$tessl_info"
-}
-
-extract_skill_name() {
-    line="$1"
-    # Works for both:
-    #   | `skill` | ...
-    #   | [`skill`](skills/skill/SKILL.md) | ...
-    # shellcheck disable=SC2016
-    printf '%s\n' "$line" | awk -F'|' '{print $2}' | sed -n 's/.*`\([^`]*\)`.*/\1/p'
+    # Define domain order
+    domains="ci-cd infrastructure repository-mgmt development agentic-harness testing software-engineering observability documentation package-mgmt project-mgmt specialized"
+    
+    for domain in $domains; do
+        # Get domain info
+        domain_info=$(get_domain_info "$domain")
+        domain_title=$(echo "$domain_info" | cut -d'|' -f1)
+        domain_desc=$(echo "$domain_info" | cut -d'|' -f2)
+        
+        # Filter skills for this domain
+        domain_skills=$(echo "$all_skills" | grep "^${domain}|" || true)
+        
+        if [ -z "$domain_skills" ]; then
+            continue
+        fi
+        
+        # Count skills in domain
+        skill_count=$(echo "$domain_skills" | wc -l | tr -d ' ')
+        
+        # Write domain header
+        {
+            printf '\n## %s (%s skills)\n\n' "$domain_title" "$skill_count"
+            printf '%s\n\n' "$domain_desc"
+            printf '| Skill | Description | Rating | Audit | Tessl |\n'
+            printf '| --- | --- | --- | --- | --- |\n'
+        } >> "$temp_file"
+        
+        # Process each skill in domain
+        echo "$domain_skills" | while IFS='|' read -r _ skill_rel_path; do
+            # Get skill display name (flatten path with hyphens)
+            skill_display=$(echo "$skill_rel_path" | tr '/' '-')
+            
+            # Get description
+            description=$(get_skill_description "$skill_rel_path")
+            if [ -z "$description" ]; then
+                description="-"
+            fi
+            
+            # Get audit info
+            audit_info=$(get_latest_audit_info "$skill_rel_path")
+            
+            if [ -n "$audit_info" ]; then
+                date_part=$(echo "$audit_info" | cut -d'|' -f1)
+                audit_path=$(echo "$audit_info" | cut -d'|' -f2)
+                rating=$(echo "$audit_info" | cut -d'|' -f3-)
+                badge=$(get_skill_badge "$rating")
+                audit_link=$(get_audit_link "$date_part" "$audit_path")
+            else
+                badge="![?](https://img.shields.io/badge/Rating-?-lightgrey)"
+                audit_link="-"
+            fi
+            
+            # Get Tessl status
+            tessl_status=$(get_tessl_status "$skill_rel_path")
+            
+            # Write row
+            printf '| [%s](skills/%s/SKILL.md) | %s | %s | %s | %s |\n' \
+                "$skill_display" \
+                "$skill_rel_path" \
+                "$description" \
+                "$badge" \
+                "$audit_link" \
+                "$tessl_status" >> "$temp_file"
+        done
+    done
 }
 
 update_readme() {
@@ -436,97 +354,42 @@ update_readme() {
         exit 1
     fi
     
-    # Get all skills from filesystem
-    all_skills=$(get_all_skills)
-    
-    # Build a map of existing skills in README (skill_name -> description)
-    existing_skills=""
-    while IFS= read -r line || [ -n "$line" ]; do
-        if is_skill_table_row "$line"; then
-            skill_name=$(extract_skill_name "$line")
-            if [ -n "$skill_name" ]; then
-                description=$(printf '%s\n' "$line" | awk -F'|' '{gsub(/^[[:space:]]+|[[:space:]]+$/, "", $3); gsub(/\n/, " ", $3); print $3}' | sed 's/  */ /g' | sed 's/ $//')
-                existing_skills="${existing_skills}${skill_name}|${description}\n"
-            fi
-        fi
-    done < "$README_PATH"
-    
     temp_file=$(mktemp)
-    current_line=0
-    in_table=false
+    in_skills_section=false
     
+    # Copy README up to skills section
     while IFS= read -r line || [ -n "$line" ]; do
-        current_line=$((current_line + 1))
-        
-        case "$line" in
-            *\|\ Skill*\|\ Description*\|*)
-                in_table=true
-                # Write header
-                printf '| Skill | Description | Rating | Audit | Tessl |\n' >> "$temp_file"
-                printf '| --- | --- | --- | --- | --- |\n' >> "$temp_file"
-                
-                # Process all skills from filesystem
-                for skill_name in $all_skills; do
-                    # Get description - prefer existing, otherwise extract from SKILL.md
-                    existing_desc=$(printf '%s' "$existing_skills" | grep "^${skill_name}|" | head -1 | cut -d'|' -f2)
-                    # Force re-extract if existing is empty or malformed or contains newlines
-                    clean_desc=$(echo "$existing_desc" | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
-                    if [ -z "$clean_desc" ] || [ "$clean_desc" = "-" ] || [ "$clean_desc" = "|-" ] || echo "$clean_desc" | grep -q '\n' || [ ${#clean_desc} -lt 3 ]; then
-                        description=$(get_skill_description "$skill_name")
-                    else
-                        description="$existing_desc"
-                    fi
-                    
-                    # Get audit info
-                    audit_info=$(get_latest_audit_info "$skill_name")
-                    
-                    if [ -n "$audit_info" ]; then
-                        date_part=$(echo "$audit_info" | cut -d'|' -f1)
-                        audit_path=$(echo "$audit_info" | cut -d'|' -f2)
-                        rating=$(echo "$audit_info" | cut -d'|' -f3-)
-                        badge=$(get_skill_badge "$rating")
-                        audit_link=$(get_audit_link "$date_part" "$audit_path")
-                    else
-                        badge="N/A"
-                        audit_link="N/A"
-                    fi
-                    
-                    # Get Tessl info
-                    tessl_info=$(get_tessl_info "$skill_name")
-                    
-                    printf '| %s | %s | %s | %s | %s |\n' \
-                        "[\`$skill_name\`](skills/$skill_name/SKILL.md)" \
-                        "$description" \
-                        "$badge" \
-                        "$audit_link" \
-                        "$tessl_info" >> "$temp_file"
-                done
-                
-                # Skip original table rows
-                continue
-                ;;
-        esac
-        
-        if [ "$in_table" = true ]; then
-            # Skip until we exit the table
-            case "$line" in
-                "|"*)
-                    # Skip table rows - we've already written them
-                    ;;
-                "")
-                    # Empty line - might be end of table
-                    in_table=false
-                    printf '\n' >> "$temp_file"
-                    ;;
-                *)
-                    in_table=false
-                    printf '%s\n' "$line" >> "$temp_file"
-                    ;;
-            esac
-        else
-            printf '%s\n' "$line" >> "$temp_file"
+        # Detect start of skills section (first domain header or old table)
+        if echo "$line" | grep -qE '^## (CI/CD|Infrastructure|Repository Management|Development|Agentic Harness|Testing|Software Engineering|Observability|Documentation|Package Management|Project Management|Specialized)'; then
+            in_skills_section=true
+            break
+        elif echo "$line" | grep -qE '^\| Skill \| Description'; then
+            in_skills_section=true
+            break
         fi
+        
+        printf '%s\n' "$line" >> "$temp_file"
     done < "$README_PATH"
+    
+    # Generate new domain tables
+    generate_domain_tables "$temp_file"
+    
+    # Skip old skills section if we found it
+    if [ "$in_skills_section" = true ]; then
+        # Read until we hit a top-level section that's not a domain
+        while IFS= read -r line || [ -n "$line" ]; do
+            # Stop when we hit a non-domain top-level section
+            if echo "$line" | grep -qE '^## ' && ! echo "$line" | grep -qE '^## (CI/CD|Infrastructure|Repository Management|Development|Agentic Harness|Testing|Software Engineering|Observability|Documentation|Package Management|Project Management|Specialized)'; then
+                printf '\n%s\n' "$line" >> "$temp_file"
+                break
+            fi
+        done < "$README_PATH"
+        
+        # Copy rest of file
+        while IFS= read -r line || [ -n "$line" ]; do
+            printf '%s\n' "$line" >> "$temp_file"
+        done
+    fi
     
     if [ "$DRY_RUN" = true ]; then
         echo "=== DRY RUN - Changes that would be made ==="
@@ -539,7 +402,7 @@ update_readme() {
         rm -f "$temp_file"
     else
         mv "$temp_file" "$README_PATH"
-        echo "README.md updated with skill ratings and audit links"
+        echo "README.md updated with 12 domain-organized skill tables"
     fi
 }
 
