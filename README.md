@@ -9,7 +9,7 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 
 ## Available Skills
 
-## CI/CD (10 skills)
+## CI/CD (12 skills)
 
 CI/CD pipelines & deployment automation
 
@@ -17,6 +17,8 @@ CI/CD pipelines & deployment automation
 | --- | --- | --- | --- | --- |
 | [azure-pipelines-generator](skills/ci-cd/azure-pipelines/generator/SKILL.md) | Generates production-ready Azure DevOps Pipelines (azure-pipelines.yml) follo... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/ci-cd/azure-pipelines/generator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/azure-pipelines-generator) |
 | [azure-pipelines-validator](skills/ci-cd/azure-pipelines/validator/SKILL.md) | Validates, lints, and security-scans Azure DevOps Pipeline configurations (az... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/azure-pipelines/validator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/azure-pipelines-validator) |
+| [fluentbit-generator](skills/ci-cd/fluentbit/generator/SKILL.md) | Generates, validates, and optimizes Fluent Bit configurations for production ... | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/ci-cd/fluentbit/generator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/fluentbit-generator) |
+| [fluentbit-validator](skills/ci-cd/fluentbit/validator/SKILL.md) | Validates syntax, checks pipeline tag connections, detects security misconfig... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/fluentbit/validator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/fluentbit-validator) |
 | [github-actions-generator](skills/ci-cd/github-actions/generator/SKILL.md) | Generates production-ready GitHub Actions workflows, custom actions, and CI/C... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/generator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/github-actions-generator) |
 | [github-actions-validator](skills/ci-cd/github-actions/validator/SKILL.md) | Comprehensive toolkit for validating, linting, and testing GitHub Actions wor... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/validator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/github-actions-validator) |
 | [gitlab-ci-generator](skills/ci-cd/gitlab-ci/generator/SKILL.md) | Creates .gitlab-ci.yml files, configures pipeline stages, defines CI jobs and... | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/ci-cd/gitlab-ci/generator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/gitlab-ci-generator) |
@@ -75,7 +77,7 @@ Development tooling
 | [scripting-makefile-validator](skills/development/scripting/makefile/validator/SKILL.md) | Comprehensive toolkit for validating, linting, and optimizing Makefiles. Use ... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/development/scripting/makefile/validator/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/makefile-validator) |
 | [typescript-advanced](skills/development/typescript-advanced/SKILL.md) | Comprehensive TypeScript guidance covering compiler configuration, advanced t... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/development/typescript-advanced/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/typescript-advanced) |
 
-## Agentic Harness (3 skills)
+## Agentic Harness (4 skills)
 
 Agent framework configurations
 
@@ -83,7 +85,8 @@ Agent framework configurations
 | --- | --- | --- | --- | --- |
 | [agents-md](skills/agentic-harness/agents-md/SKILL.md) | Create and maintain AGENTS.md documentation for simple projects and complex m... | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/agents-md/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/agents-md) |
 | [opencode](skills/agentic-harness/opencode/SKILL.md) | Configure OpenCode via opencode.json and AGENTS.md with deterministic provide... | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/opencode/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/opencode-config) |
-| [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | Ensure Tessl tiles meet all requirements for public registry publication with... | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-03](.context/audits/agentic-harness/tessl-publish-public/2026-03-03/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) |
+| [skill-quality-auditor](skills/agentic-harness/skill-quality-auditor/SKILL.md) | Audit and improve skill collections with 8-dimension scoring framework (Knowl... | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | [Public](https://tessl.io/registry/skills/pantheon-ai/skill-quality-auditor) |
+| [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | Ensure Tessl tiles meet all requirements for public registry publication with... | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) |
 
 ## Testing (3 skills)
 
