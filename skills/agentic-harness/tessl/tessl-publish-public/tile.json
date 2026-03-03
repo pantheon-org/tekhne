@@ -1,0 +1,26 @@
+{
+  "name": "pantheon-ai/tessl-publish-public",
+  "version": "1.0.0",
+  "private": false,
+  "summary": "Ensure Tessl tiles meet all requirements for public registry publishing with comprehensive validation, quality gates, and evaluation scenarios. Use when preparing skills for public Tessl release, validating tile.json configuration, creating evaluation scenarios, enforcing quality thresholds, or checking agent-agnostic compliance. Keywords: tessl, tile, publishing, public-registry, validation, quality-gates, tile.json, evaluation-scenarios, skill-publishing",
+  "skills": {
+    "tessl-publish-public": {
+      "path": "SKILL.md",
+      "references": [
+        "references/tile-json-schema.md",
+        "references/public-publication-requirements.md"
+      ]
+    }
+  },
+  "files": [
+    "evaluation-scenarios/scenario-01.md",
+    "evaluation-scenarios/scenario-02.md",
+    "evaluation-scenarios/scenario-03.md",
+    "evaluation-scenarios/scenario-04.md",
+    "evaluation-scenarios/scenario-05.md",
+    "evaluation-scenarios/scenario-06.md",
+    "evaluation-scenarios/scenario-07.md",
+    "evaluation-scenarios/scenario-08.md",
+    "evaluation-scenarios/scenario-09.md"
+  ]
+}
