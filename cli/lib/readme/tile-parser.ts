@@ -13,6 +13,7 @@ export interface TileEntry {
   domain: string; // e.g., "development"
   shortName: string; // e.g., "makefile-toolkit"
   fullName: string; // e.g., "pantheon-ai/makefile-toolkit"
+  version: string; // e.g., "0.1.0"
   summary: string;
   isPublic: boolean;
   skills: TileSkillEntry[];
@@ -62,6 +63,7 @@ export async function findAllTiles(): Promise<TileEntry[]> {
         domain,
         shortName,
         fullName,
+        version: tileData.version || "",
         summary: tileData.summary || "",
         isPublic: tileData.private === false,
         skills,
