@@ -23,7 +23,7 @@ jobs:
       - name: Detect merged skills
         id: skills
         run: |
-          CHANGED=$(git diff --name-only \
+          CHANGED=$(git diff --name-only --diff-filter=AM \
             "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.merge_commit_sha }}" \
             -- 'skills/**/SKILL.md' 'skills/**/AGENTS.md' 2>/dev/null || true)
 
