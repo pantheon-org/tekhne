@@ -76,7 +76,7 @@ jobs:
             </details>
 
       - name: Fail if lint failed
-        if: steps.lint.outputs.exit_code != '0'
+        if: steps.lint.conclusion != 'skipped' && steps.lint.outputs.exit_code != '0'
         run: exit 1
 
   tessl-review:
