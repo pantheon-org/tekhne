@@ -1,0 +1,20 @@
+{
+  "skill": "software-engineering/software-design-principles",
+  "dimensions": {
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 11,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "evalValidation": 17
+  },
+  "total": 123,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 254,
+  "hasReferences": true,
+  "referenceCount": 44
+}
