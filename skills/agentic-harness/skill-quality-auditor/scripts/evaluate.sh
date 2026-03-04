@@ -158,6 +158,14 @@ evaluate_specification_compliance() {
     score=$((score + 1))
   fi
   
+  # Task focus check: penalize multi-purpose descriptions (kitchen-sink skills)
+  and_or_count=$(echo "$description" | grep -oi ' and \| or ' | wc -l | tr -d ' ')
+  if [ "$and_or_count" -gt 3 ]; then
+    score=$((score - 2))
+  elif [ "$and_or_count" -gt 1 ]; then
+    score=$((score - 1))
+  fi
+  
   # Cross-harness portability checks (3 points)
   # Check for harness-specific paths
   if ! echo "$CONTENT" | grep -qE '\.(opencode|claude|cursor|aider|continue)/'; then
