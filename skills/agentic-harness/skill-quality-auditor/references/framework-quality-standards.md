@@ -6,13 +6,13 @@ source: skill-judge quality requirements
 
 # A-Grade Skill Quality Standards
 
-Requirements for achieving A-grade (≥108/120) on skill-judge evaluation. Use this as a checklist when creating or improving skills.
+Requirements for achieving A-grade (≥126/140) on skill-judge evaluation. Use this as a checklist when creating or improving skills.
 
 ## A-Grade Requirements Summary
 
-**Minimum Score**: 108/120 (90%)  
-**Target Score**: 114/120 (95%) for A+  
-**Perfect Score**: 120/120 (100%)
+**Minimum Score**: 126/140 (90%)  
+**Target Score**: 133/140 (95%) for A+  
+**Perfect Score**: 140/140 (100%)
 
 ## Dimension Requirements for A-Grade
 
@@ -175,6 +175,26 @@ skill-name/
 └── AGENTS.md (optional)
 ```
 
+### D9: Eval Validation (>=17/20)
+
+**Requirements:**
+
+- Complete evals/ directory with tessl eval harness structure
+- instructions.json with full instruction extraction
+- summary.json showing >= 80% instruction coverage
+- At least 3 valid scenarios with task.md + criteria.json + capability.txt
+- Each criteria.json sums to exactly 100
+
+**Checklist:**
+
+- [ ] evals/ directory exists
+- [ ] instructions.json present and non-empty
+- [ ] summary.json shows coverage_percentage >= 80
+- [ ] >= 3 scenario directories with all required files
+- [ ] criteria.json sums to 100 in each scenario
+- [ ] 10+ checklist items per criteria.json
+- [ ] No instruction leakage in task.md files
+
 ## Red Flags (Immediate Disqualification from A-Grade)
 
 - Description <50 characters
@@ -185,6 +205,7 @@ skill-name/
 - >500 lines in single file
 - Generic "best practices" without specificity
 - Multi-purpose scope: skill covers >2 distinct workflows or description requires multiple "and"/"or" connectors to capture all sub-topics
+- No eval scenarios (D9 = 0)
 
 ## Quality Verification Commands
 

@@ -19,8 +19,8 @@ source_audit: "path"              # Path to audit file (e.g., .context/audits/<s
 # Structure: Table with Current/Target columns + Focus Areas + Verdict
 executive_summary:
   score:
-    current: "string"             # e.g., "84/120 (70%)"
-    target: "string"             # e.g., "102/120 (85%)"
+    current: "string"             # e.g., "98/140 (70%)"
+    target: "string"             # e.g., "119/140 (85%)"
   grade:
     current: "string"            # e.g., "C"
     target: "string"             # e.g., "B"
@@ -29,6 +29,7 @@ executive_summary:
   focus_areas:                   # Top 2-3 dimensions
     - "D3: Anti-Pattern Quality"
     - "D5: Progressive Disclosure"
+    - "D9: Eval Validation"
   verdict: "string"               # One-line assessment
 
 # =============================================================================

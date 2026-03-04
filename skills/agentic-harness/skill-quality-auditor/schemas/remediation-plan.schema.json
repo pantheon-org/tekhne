@@ -51,11 +51,11 @@
           "properties": {
             "current": {
               "type": "string",
-              "pattern": "^\\d+/120\\s*\\(\\d+%\\)$"
+              "pattern": "^\\d+/140\\s*\\(\\d+%\\)$"
             },
             "target": {
               "type": "string",
-              "pattern": "^\\d+/120\\s*\\(\\d+%\\)$"
+              "pattern": "^\\d+/140\\s*\\(\\d+%\\)$"
             }
           }
         },
@@ -86,7 +86,7 @@
           "minItems": 1,
           "items": {
             "type": "string",
-            "pattern": "^D[1-8]:\\s+.+"
+            "pattern": "^D[1-9]:\\s+.+"
           }
         },
         "verdict": {
@@ -109,7 +109,7 @@
           },
           "dimension": {
             "type": "string",
-            "pattern": "^D[1-8]:\\s+.+\\s+\\(\\d+/\\d+\\)$"
+            "pattern": "^D[1-9]:\\s+.+\\s+\\(\\d+/\\d+\\)$"
           },
           "severity": {
             "type": "string",

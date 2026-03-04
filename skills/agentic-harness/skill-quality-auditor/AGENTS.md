@@ -26,7 +26,7 @@ Core evaluation methodology based on skill-judge:
 | File | Purpose | Lines | When to Read |
 |------|---------|-------|--------------|
 | `framework-skill-judge-canonical.md` | Canonical upstream skill-judge mapping | ~60 | Validating framework intent/source |
-| `framework-skill-judge-dimensions.md` | 8-dimension evaluation criteria | ~410 | Evaluating any skill |
+| `framework-skill-judge-dimensions.md` | 9-dimension evaluation criteria | ~510 | Evaluating any skill |
 | `framework-scoring-rubric.md` | Detailed scoring methodology | ~280 | Understanding scores |
 | `framework-quality-standards.md` | A-grade requirements | ~220 | Setting quality goals |
 
@@ -176,6 +176,14 @@ Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
 3. Use `templates/remediation-plan-template.yaml`
 4. Save plan to `.context/plans/<skill-name>-remediation-plan.md`
 
+### For Eval Validation (D9)
+
+1. Check if skill has `evals/` directory
+2. If missing, use `creating-eval-scenarios` skill to generate scenarios
+3. Run `tessl eval run <tile-path>` to execute evals
+4. Verify `summary.json` shows `coverage_percentage >= 80`
+5. Re-run `sh scripts/evaluate.sh <skill-name> --json` to confirm D9 score
+
 ### For Automation Setup
 
 1. Load `scripts-audit-workflow.md`
@@ -187,7 +195,7 @@ Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
 
 After using this skill, you should have:
 
-- ✅ All skills evaluated with 8-dimension scores
+- All skills evaluated with 9-dimension scores
 - ✅ Duplication report showing <5% redundancy
 - ✅ Remediation plans for all skills below target grade
 - ✅ Aggregation candidates identified with ROI
@@ -196,7 +204,8 @@ After using this skill, you should have:
 
 ## See Also
 
-- **supabase-postgres-best-practices** - Pattern inspiration (A-grade, 108/120)
+- **supabase-postgres-best-practices** - Pattern inspiration (A-grade)
 - **skill-judge** - Foundation framework this implements
 - **skill-harvester** - Creates new skills (audit after creation)
 - **reducing-entropy** - Minimalism philosophy applied to skill collections
+- **creating-eval-scenarios** - Tessl eval scenario generation (D9 Eval Validation)

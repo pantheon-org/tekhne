@@ -67,7 +67,7 @@ When preparing skills for [Tessl](https://tessl.io/) submission, follow these ad
 
 - **Performance focus**: Write skills that provide measurable effectiveness improvements
 - **Agent agnostic**: Avoid features specific to individual AI assistants
-- **Quality threshold**: Target A-grade scores (≥108 points) using skill-quality-auditor
+- **Quality threshold**: Target A-grade scores (>=126/140 points) using skill-quality-auditor
 - **Single responsibility**: Each skill should solve one well-defined problem domain
 - **Comprehensive examples**: Include practical use cases with expected outcomes
 - **Cross-platform testing**: Validate functionality across multiple agents when possible
@@ -103,18 +103,18 @@ cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
 
 ### Quality Gates
 
-Skills are evaluated on 8 dimensions (120 total points) and assigned grades:
+Skills are evaluated on 9 dimensions (140 total points) and assigned grades:
 
 | Grade | Score Range | Status | Action |
 |-------|-------------|--------|--------|
-| **A** | ≥108/120 (90%) | Publication-ready | Publish immediately |
-| **B+** | 102-107/120 (85-89%) | Near-ready | Optional improvements, can publish |
-| **B** | 96-101/120 (80-84%) | Solid foundation | Review remediation plan, improve if time allows |
-| **C+/C** | <96/120 (<80%) | Needs improvement | **BLOCK publishing** until remediated |
+| **A** | >=126/140 (90%) | Publication-ready | Publish immediately |
+| **B+** | 119-125/140 (85-89%) | Near-ready | Optional improvements, can publish |
+| **B** | 112-118/140 (80-84%) | Solid foundation | Review remediation plan, improve if time allows |
+| **C+/C** | <112/140 (<80%) | Needs improvement | **BLOCK publishing** until remediated |
 
-**Target for all skills:** B-grade minimum (96/120) before publishing to Tessl registry.
+**Target for all skills:** B-grade minimum (112/140) before publishing to Tessl registry.
 
-### Eight Quality Dimensions
+### Nine Quality Dimensions
 
 1. **Knowledge Delta (D1):** How much new, useful information does the skill provide?
 2. **Mindset & Procedures (D2):** Does it establish proper mental models and workflows?
@@ -124,18 +124,19 @@ Skills are evaluated on 8 dimensions (120 total points) and assigned grades:
 6. **Freedom Calibration (D6):** Are boundaries and constraints properly defined?
 7. **Pattern Recognition (D7):** Are examples and use cases well-structured?
 8. **Practical Usability (D8):** Is the skill actionable and immediately useful?
+9. **Eval Validation (D9):** Has the skill been validated at runtime via tessl eval scenarios?
 
 ### Prohibited Practices
 
 **DO NOT:**
 - Publish skills without running `skill-quality-auditor` evaluation
-- Skip remediation for skills scoring <96/120 (B-grade threshold)
+- Skip remediation for skills scoring <112/140 (B-grade threshold)
 - Rely solely on `tessl skill review` scores as quality validation
 - Bypass audit because "it looks good enough"
 - Commit major skill changes without re-auditing
 
 **Rationale:** Between 2025-2026, 63 skills were published using only `tessl skill review`, resulting in:
-- Average score: 98.3/120 (82%) - below B+ threshold
+- Average score: 98.3/120 (82%) - below B+ threshold (scores predate D9 addition; re-audit on 140-point scale pending)
 - 37% of skills in C+/C range (needs significant improvement)
 - Critical weaknesses: Anti-Pattern Quality (D3: 68%), Progressive Disclosure (D5: 73%)
 - 40-60 hours of remediation work required to lift quality to acceptable levels

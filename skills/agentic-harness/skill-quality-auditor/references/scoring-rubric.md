@@ -12,20 +12,21 @@
 | D6 Freedom Calibration | 15 | Constraint/flexibility balance |
 | D7 Pattern Recognition | 10 | Trigger/intent discoverability |
 | D8 Practical Usability | 15 | Actionable examples/commands |
-| Total | 120 | Overall score |
+| D9 Eval Validation | 20 | Runtime validation via tessl evals |
+| Total | 140 | Overall score |
 
 ## Grade Scale
 
 | Grade | Score Range | Assessment |
 | --- | --- | --- |
-| A+ | 115-120 | Exceptional |
-| A | 108-114 | Strong |
-| B+ | 103-107 | Solid baseline |
-| B | 96-102 | Good with gaps |
-| C+ | 90-95 | Moderate |
-| C | 84-89 | Mixed quality |
-| D | 78-83 | Low quality |
-| F | 0-77 | Unacceptable |
+| A+ | 133-140 | Exceptional |
+| A | 126-132 | Strong |
+| B+ | 119-125 | Solid baseline |
+| B | 112-118 | Good with gaps |
+| C+ | 105-111 | Moderate |
+| C | 98-104 | Mixed quality |
+| D | 91-97 | Low quality |
+| F | 0-90 | Unacceptable |
 
 ## Signal Levels
 

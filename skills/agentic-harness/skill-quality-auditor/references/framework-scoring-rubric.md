@@ -10,10 +10,10 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 
 ## Scoring Overview
 
-**Total Possible Score**: 120 points  
-**Passing Grade**: 90 points (75%)  
-**A-Grade Target**: 108 points (90%)  
-**Perfect Score**: 120 points (100%)
+**Total Possible Score**: 140 points  
+**Passing Grade**: 105 points (75%)  
+**A-Grade Target**: 126 points (90%)  
+**Perfect Score**: 140 points (100%)
 
 ## Dimension-by-Dimension Scoring
 
@@ -147,18 +147,38 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 - Runnable Code: 5 points
 - Clear Structure: 5 points
 
+### D9: Eval Validation (20 points)
+
+| Score | Criteria |
+|-------|----------|
+| 17-20 | Complete evals, >=80% coverage, >=3 valid scenarios |
+| 13-16 | Evals present, partial coverage |
+| 7-12 | Evals directory exists, missing key files |
+| 0-6 | Minimal or no eval structure |
+
+**Component Breakdown:**
+
+- Eval Directory Structure: 4 points
+- Instruction Inventory (instructions.json): 3 points
+- Coverage Statistics (summary.json): 3 points
+- Coverage >= 80%: 3 points
+- Valid Scenarios (>=3 complete): 4 points
+- Criteria Quality (sum to 100): 3 points
+
+**Enrichment:** When `instructions.json` exists, D1 and D3 scores are enriched with instruction classification data (`why_given` distribution for D1, anti-pattern instruction count for D3).
+
 ## Grade Assignment
 
 | Grade | Score Range | Interpretation |
 |-------|-------------|----------------|
-| A+ | 114-120 | Exceptional quality |
-| A | 108-113 | Meets all standards |
-| B+ | 102-107 | Strong, minor improvements |
-| B | 96-101 | Good, some gaps |
-| C+ | 90-95 | Acceptable, needs work |
-| C | 84-89 | Below standard |
-| D | 78-83 | Significant issues |
-| F | 0-77 | Failing |
+| A+ | 133-140 | Exceptional quality |
+| A | 126-132 | Meets all standards |
+| B+ | 119-125 | Strong, minor improvements |
+| B | 112-118 | Good, some gaps |
+| C+ | 105-111 | Acceptable, needs work |
+| C | 98-104 | Below standard |
+| D | 91-97 | Significant issues |
+| F | 0-90 | Failing |
 
 ## Scoring Process
 
@@ -168,11 +188,11 @@ Read the entire skill, including all references if present.
 
 ### Step 2: Score Each Dimension
 
-Apply rubric to each of 8 dimensions independently.
+Apply rubric to each of 9 dimensions independently.
 
 ### Step 3: Calculate Total
 
-Sum all 8 dimension scores for total out of 120.
+Sum all 9 dimension scores for total out of 140.
 
 ### Step 4: Assign Grade
 
