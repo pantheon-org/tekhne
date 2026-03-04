@@ -71,13 +71,20 @@ function getEvalCount(skillDir: string): number {
 async function generateTileSection(tile: TileEntry): Promise<string> {
   const tileLink = `[${tile.shortName}](${tile.tileDir})`;
   const description = formatSummary(tile.summary);
-  const tesslStatus = getTileTessl(tile);
 
-  const versionTag = tile.isPublic && tile.version ? `v${tile.version}` : "";
-  const meta = tile.isPublic
-    ? ` · ${[versionTag, tesslStatus].filter(Boolean).join(" · ")}`
-    : "";
-  let output = `\n### ${tileLink}\n\n${description}${meta}\n\n`;
+  const publishedLabel =
+    tile.publishedStatus === "public"
+      ? getTileTessl(tile)
+      : tile.publishedStatus === "private"
+        ? "Private"
+        : "Not Published";
+  const versionLabel = tile.version || "-";
+
+  let output = `\n### ${tileLink}\n\n`;
+  output += `- **description**: ${description}\n`;
+  output += `- **published**: ${publishedLabel}\n`;
+  output += `- **version**: ${versionLabel}\n`;
+  output += "\n";
   output += "| Skill | Rating | Audit | Evals |\n";
   output += "| --- | --- | --- | --- |\n";
 
