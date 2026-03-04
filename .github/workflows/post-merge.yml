@@ -1,0 +1,99 @@
+name: Post-Merge Skill Maintenance
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+    paths:
+      - "skills/**"
+
+jobs:
+  request-quality-audit:
+    name: Request Skill Quality Audit from Copilot
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect merged skills
+        id: skills
+        run: |
+          CHANGED=$(git diff --name-only \
+            "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.merge_commit_sha }}" \
+            -- 'skills/**/SKILL.md' 'skills/**/AGENTS.md' 2>/dev/null || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          SKILL_DIRS=$(echo "$CHANGED" | xargs -I{} dirname {} | sort -u)
+
+          delimiter="$(openssl rand -hex 8)"
+          {
+            echo "dirs<<${delimiter}"
+            echo "${SKILL_DIRS}"
+            echo "${delimiter}"
+            echo "found=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create quality audit issue for Copilot
+        if: steps.skills.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          SKILL_DIRS: ${{ steps.skills.outputs.dirs }}
+        run: |
+          gh issue create \
+            --title "Skill quality audit — PR #${PR_NUMBER}: ${PR_TITLE}" \
+            --body "PR #${PR_NUMBER} has been merged. @github-copilot please run the skill quality audit for the modified skills and commit the results.
+
+          **Modified skills:**
+          \`\`\`
+          ${SKILL_DIRS}
+          \`\`\`
+
+          **Steps:**
+          1. Run \`bun run audit:skill <path>\` for each skill listed above (or \`bun run audit:skills\` for all)
+          2. Verify the generated audit files under \`.context/audits/\`
+          3. Commit and push the updated audit files with message: \`chore: update skill quality audits after PR #${PR_NUMBER}\`"
+
+  update-readme-and-tiles:
+    name: Update README and TILES
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Update README and TILES
+        run: bun run readme:update
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md TILES.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "docs: update README and TILES after PR #${{ github.event.pull_request.number }} [skip ci]"
+            git push
+          fi

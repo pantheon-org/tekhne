@@ -1,0 +1,154 @@
+name: PR Skill Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "skills/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  tessl-lint:
+    name: Tessl Skill Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run tessl skill lint
+        id: lint
+        env:
+          TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
+        run: |
+          set +e
+          output=$(bun run tessl:lint 2>&1)
+          exit_code=$?
+          set -e
+          delimiter="$(openssl rand -hex 8)"
+          {
+            echo "output<<${delimiter}"
+            echo "${output}"
+            echo "${delimiter}"
+            echo "exit_code=${exit_code}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post lint results as PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-tag: tessl-lint
+          body: |
+            ## Tessl Skill Lint
+
+            ${{ steps.lint.outputs.exit_code == '0' && '> ✅ All checks passed' || '> ❌ Issues found — review the output below' }}
+
+            <details>
+            <summary>Lint output</summary>
+
+            ```
+            ${{ steps.lint.outputs.output }}
+            ```
+
+            </details>
+
+  tessl-review:
+    name: Tessl Skill Review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run tessl skill review
+        id: review
+        env:
+          TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
+        run: |
+          set +e
+          output=$(bun run tessl:review 2>&1)
+          exit_code=$?
+          set -e
+          delimiter="$(openssl rand -hex 8)"
+          {
+            echo "output<<${delimiter}"
+            echo "${output}"
+            echo "${delimiter}"
+            echo "exit_code=${exit_code}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post review results as PR comment
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-tag: tessl-review
+          body: |
+            ## Tessl Skill Review
+
+            <details>
+            <summary>Review output</summary>
+
+            ```
+            ${{ steps.review.outputs.output }}
+            ```
+
+            </details>
+
+  request-eval-scenarios:
+    name: Request Eval Scenarios from Copilot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect added or modified skills
+        id: skills
+        run: |
+          # Find SKILL.md / AGENTS.md files that were added or modified
+          CHANGED=$(git diff --name-only --diff-filter=AM \
+            "origin/${{ github.base_ref }}...${{ github.sha }}" \
+            -- 'skills/**/SKILL.md' 'skills/**/AGENTS.md' 2>/dev/null || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # The skill root is the directory containing SKILL.md / AGENTS.md
+          SKILL_DIRS=$(echo "$CHANGED" | xargs -I{} dirname {} | sort -u)
+
+          delimiter="$(openssl rand -hex 8)"
+          {
+            echo "dirs<<${delimiter}"
+            echo "${SKILL_DIRS}"
+            echo "${delimiter}"
+            echo "found=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Post Copilot eval scenario request
+        if: steps.skills.outputs.found == 'true'
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-tag: copilot-eval-request
+          body: |
+            @github-copilot Please create evaluation scenarios for the skill(s) added or modified in this PR.
+
+            **Modified skills:**
+            ${{ steps.skills.outputs.dirs }}
+
+            For each skill, generate eval scenarios following the format in `.tessl/tiles/tessl-labs/tessl-skill-eval-scenarios/`. Place scenarios under `evals/scenario-N/task.md` within the skill's directory.
