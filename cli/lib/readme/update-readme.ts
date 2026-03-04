@@ -12,6 +12,8 @@ import { DOMAINS } from "./domain-config";
 import { getSkillDisplayName, parseSkillDescription } from "./skill-parser";
 import { findAllTiles, getTileTessl, type TileEntry } from "./tile-parser";
 
+const TILES_PATH = "TILES.md";
+
 interface UpdateOptions {
   dryRun?: boolean;
 }
@@ -72,19 +74,8 @@ async function generateTileSection(tile: TileEntry): Promise<string> {
   const tileLink = `[${tile.shortName}](${tile.tileDir})`;
   const description = formatSummary(tile.summary);
 
-  const publishedLabel =
-    tile.publishedStatus === "public"
-      ? getTileTessl(tile)
-      : tile.publishedStatus === "private"
-        ? "Private"
-        : "Not Published";
-  const versionLabel = tile.version || "-";
-
   let output = `\n### ${tileLink}\n\n`;
-  output += `- **description**: ${description}\n`;
-  output += `- **published**: ${publishedLabel}\n`;
-  output += `- **version**: ${versionLabel}\n`;
-  output += "\n";
+  output += `${description}\n\n`;
   output += "| Skill | Rating | Audit | Evals |\n";
   output += "| --- | --- | --- | --- |\n";
 
@@ -130,7 +121,18 @@ async function generateUntiledSkillSection(skill: SkillEntry): Promise<string> {
   return output;
 }
 
-async function generateDomainTables(
+function getTileAnchor(shortName: string): string {
+  return shortName.toLowerCase().replace(/\s+/g, "-");
+}
+
+function toGitHubAnchor(headingText: string): string {
+  return headingText
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .replace(/\s+/g, "-");
+}
+
+async function generateReadmeSummaryTables(
   tiles: TileEntry[],
   untiledSkills: SkillEntry[],
 ): Promise<string> {
@@ -156,18 +158,115 @@ async function generateDomainTables(
     }
 
     output += `\n## ${domainInfo.title} (${countLabel})\n\n`;
-    output += `${domainInfo.description}\n`;
+    output += `${domainInfo.description}\n\n`;
+    output += "| Tile | Skills | Evals | Published | Version |\n";
+    output += "| --- | --- | --- | --- | --- |\n";
 
     for (const tile of domainTiles) {
-      output += await generateTileSection(tile);
+      const anchor = getTileAnchor(tile.shortName);
+      const tileLink = `[${tile.shortName}](${TILES_PATH}#${anchor})`;
+      const skillCount = tile.skills.length;
+      const totalEvals = tile.skills.reduce(
+        (sum, s) => sum + getEvalCount(s.skillDir),
+        0,
+      );
+      const evalsCell = totalEvals > 0 ? String(totalEvals) : "-";
+      const publishedCell =
+        tile.publishedStatus === "public"
+          ? getTileTessl(tile)
+          : tile.publishedStatus === "private"
+            ? "Private"
+            : "-";
+      const versionCell = tile.version || "-";
+      output += `| ${tileLink} | ${skillCount} | ${evalsCell} | ${publishedCell} | ${versionCell} |\n`;
     }
 
     for (const skill of domainUntiledSkills) {
-      output += await generateUntiledSkillSection(skill);
+      const displayName = getSkillDisplayName(skill.relativePath);
+      const anchor = `${getTileAnchor(displayName)}-no-tile`;
+      const skillLink = `[${displayName}](${TILES_PATH}#${anchor}) _(no tile)_`;
+      const evalCount = getEvalCount(`skills/${skill.relativePath}`);
+      const evalsCell = evalCount > 0 ? String(evalCount) : "-";
+      output += `| ${skillLink} | 1 | ${evalsCell} | - | - |\n`;
     }
   }
 
   return output;
+}
+
+interface CatalogDomain {
+  heading: string;
+  description: string;
+  tiles: TileEntry[];
+  untiledSkills: SkillEntry[];
+}
+
+async function generateCatalogContent(
+  tiles: TileEntry[],
+  untiledSkills: SkillEntry[],
+): Promise<string> {
+  // Collect active domains first so we can build ToC and sections together
+  const activeDomains: CatalogDomain[] = [];
+
+  for (const domainInfo of DOMAINS) {
+    const domainTiles = tiles.filter((t) => t.domain === domainInfo.key);
+    const domainUntiledSkills = untiledSkills.filter(
+      (s) => s.domain === domainInfo.key,
+    );
+
+    if (domainTiles.length === 0 && domainUntiledSkills.length === 0) continue;
+
+    const tileCount = domainTiles.length;
+    const skillCount = domainUntiledSkills.length;
+    let countLabel: string;
+    if (tileCount > 0 && skillCount > 0) {
+      countLabel = `${tileCount} tile${tileCount !== 1 ? "s" : ""}, ${skillCount} skill${skillCount !== 1 ? "s" : ""}`;
+    } else if (tileCount > 0) {
+      countLabel = `${tileCount} tile${tileCount !== 1 ? "s" : ""}`;
+    } else {
+      countLabel = `${skillCount} skill${skillCount !== 1 ? "s" : ""}`;
+    }
+
+    activeDomains.push({
+      heading: `${domainInfo.title} (${countLabel})`,
+      description: domainInfo.description,
+      tiles: domainTiles,
+      untiledSkills: domainUntiledSkills,
+    });
+  }
+
+  // Build ToC
+  let toc = "## Contents\n\n";
+  for (const domain of activeDomains) {
+    const domainAnchor = toGitHubAnchor(domain.heading);
+    toc += `- [${domain.heading}](#${domainAnchor})\n`;
+    for (const tile of domain.tiles) {
+      const tileAnchor = getTileAnchor(tile.shortName);
+      toc += `  - [${tile.shortName}](#${tileAnchor})\n`;
+    }
+    for (const skill of domain.untiledSkills) {
+      const displayName = getSkillDisplayName(skill.relativePath);
+      const anchor = `${getTileAnchor(displayName)}-no-tile`;
+      toc += `  - [${displayName} _(no tile)_](#${anchor})\n`;
+    }
+  }
+
+  // Build sections
+  let sections = "";
+  for (const domain of activeDomains) {
+    sections += `\n## ${domain.heading}\n\n`;
+    sections += `${domain.description}\n`;
+
+    for (const tile of domain.tiles) {
+      sections += await generateTileSection(tile);
+    }
+
+    for (const skill of domain.untiledSkills) {
+      sections += await generateUntiledSkillSection(skill);
+    }
+  }
+
+  return `# Tile Catalog\n\nDetailed information for all tiles and skills.\n\n${toc}${sections}`;
 }
 
 interface ReadmeSections {
@@ -260,8 +359,11 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
   const untiledSkills = findUntiledSkills(allSkills, tiles);
   logger.info(`Found ${untiledSkills.length} untiled skills`);
 
-  logger.info("Generating domain tables...");
-  const newTables = await generateDomainTables(tiles, untiledSkills);
+  logger.info("Generating content...");
+  const [summaryTables, catalogContent] = await Promise.all([
+    generateReadmeSummaryTables(tiles, untiledSkills),
+    generateCatalogContent(tiles, untiledSkills),
+  ]);
 
   logger.info("Updating README.md...");
   const content = readFileSync(readmePath, "utf-8");
@@ -273,14 +375,16 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
     domainHeaders,
   );
 
-  const newContent = `${beforeSkills.join("\n") + newTables}\n${afterSkills.join("\n")}`;
+  const newReadmeContent = `${beforeSkills.join("\n") + summaryTables}\n${afterSkills.join("\n")}`;
 
   if (options.dryRun) {
-    await showDryRunDiff(readmePath, newContent);
+    await showDryRunDiff(readmePath, newReadmeContent);
+    logger.info(`\n=== DRY RUN - ${TILES_PATH} would be written (${catalogContent.length} chars) ===`);
   } else {
-    writeFileSync(readmePath, newContent);
+    writeFileSync(readmePath, newReadmeContent);
+    writeFileSync(TILES_PATH, catalogContent);
     logger.success(
-      `README.md updated with ${tiles.length} tiles across domain-organized tables`,
+      `README.md updated with summary tables; ${TILES_PATH} written with full catalog`,
     );
   }
 }

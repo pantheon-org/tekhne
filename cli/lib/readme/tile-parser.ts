@@ -91,7 +91,7 @@ export async function findAllTiles(): Promise<TileEntry[]> {
 export function getTileTessl(tile: TileEntry): string {
   if (!tile.isPublic) return "-";
   if (tile.fullName) {
-    return `[Public](https://tessl.io/registry/skills/pantheon-ai/${tile.fullName})`;
+    return `[Public](https://tessl.io/registry/skills/${tile.fullName})`;
   }
   return "Public";
 }
