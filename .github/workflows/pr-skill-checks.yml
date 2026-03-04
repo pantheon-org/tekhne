@@ -143,7 +143,7 @@ jobs:
             </details>
 
       - name: Fail if review failed
-        if: steps.review.outputs.exit_code != '0'
+        if: steps.review.conclusion != 'skipped' && steps.review.outputs.exit_code != '0'
         run: exit 1
 
   request-eval-scenarios:
