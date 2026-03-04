@@ -103,16 +103,13 @@ Testing methodologies & quality
 | [bdd-testing](TILES.md#bdd-testing) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/bdd-testing) | 0.2.0 |
 | [ui-debug-workflow](TILES.md#ui-debug-workflow) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/ui-debug-workflow) | 0.1.2 |
 
-## Software Engineering (4 skills)
+## Software Engineering (1 tile)
 
-Software engineering principles (SOLID, Clean Architecture, Design Patterns, Testable Design)
+Software engineering principles
 
-| Skill | Description | Rating | Audit | Tessl |
-| --- | --- | --- | --- | --- |
-| [solid-principles](skills/software-engineering/design-principles/solid-principles/SKILL.md) | Apply SOLID principles (SRP, OCP, LSP, ISP, DIP) for tactical class design, method extraction, and interface definition | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/solid-principles/latest/audit.json) | 96% |
-| [clean-architecture](skills/software-engineering/design-principles/clean-architecture/SKILL.md) | Apply Clean Architecture principles for strategic boundary design, dependency direction, and layered system structure | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/clean-architecture/latest/audit.json) | 100% |
-| [design-patterns](skills/software-engineering/design-principles/design-patterns/SKILL.md) | Select and apply structural design patterns (Strategy, Factory, Adapter, Observer, etc.) to reduce complexity in class design | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/design-patterns/latest/audit.json) | 96% |
-| [testable-design](skills/software-engineering/design-principles/testable-design/SKILL.md) | Design code for testability using boundary isolation, dependency injection, and testable architecture patterns | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/testable-design/latest/audit.json) | 100% |
+| Tile | Skills | Published | Version |
+| --- | --- | --- | --- |
+| [design-principles](TILES.md#design-principles) | 4 | [Public](https://tessl.io/registry/skills/pantheon-ai/design-principles) | 1.0.0 |
 
 ## Observability (3 tiles)
 
@@ -163,3 +160,4 @@ Domain-specific tools
 | [github-copilot-models](TILES.md#github-copilot-models) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/github-copilot-models) | 0.2.0 |
 | [gitlab-api](TILES.md#gitlab-api) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/gitlab-api) | 1.3.0 |
 | [colyseus-multiplayer](TILES.md#colyseus-multiplayer) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/colyseus-multiplayer) | 0.1.1 |
+

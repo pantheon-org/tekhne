@@ -1,1 +1,0 @@
-Apply SOLID principles for code review
