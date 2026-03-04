@@ -1,0 +1,45 @@
+name: testable-design-dependency-injection
+description: Refactor hard-to-test code using dependency injection
+skill: testable-design
+prompt: |
+  This service is impossible to unit test because it instantiates concrete dependencies. Refactor it to be testable.
+  
+  ```typescript
+  class OrderService {
+    private repo = new PostgresOrderRepository()
+    private emailer = new SendGridEmailService()
+    private logger = new WinstonLogger()
+    
+    async createOrder(userId: string, items: Item[]): Promise<Order> {
+      this.logger.info('Creating order', { userId })
+      
+      const order = new Order({ userId, items, status: 'pending' })
+      await this.repo.save(order)
+      
+      await this.emailer.send({
+        to: userId,
+        subject: 'Order Confirmation',
+        body: `Your order ${order.id} is confirmed`
+      })
+      
+      this.logger.info('Order created', { orderId: order.id })
+      return order
+    }
+  }
+  ```
+
+expected_behavior: |
+  Agent should:
+  1. Identify concrete instantiation as testability blocker
+  2. Suggest extracting interfaces (IOrderRepository, IEmailService, ILogger)
+  3. Recommend constructor injection of dependencies
+  4. Show how to provide mocks/stubs in tests
+  5. Demonstrate unit test with injected test doubles
+  6. Explain testability benefits
+
+success_criteria:
+  - Identifies dependency injection as solution
+  - Defines at least 2 interface abstractions
+  - Shows constructor injection pattern
+  - Provides example of test with mocked dependencies
+  - Mentions testability, isolation, or maintainability benefits

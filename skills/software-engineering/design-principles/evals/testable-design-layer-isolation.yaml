@@ -1,0 +1,55 @@
+name: testable-design-layer-isolation
+description: Isolate layers to enable fast unit tests
+skill: testable-design
+prompt: |
+  This use case is slow to test because it depends on real infrastructure. Refactor it to enable fast unit tests.
+  
+  ```typescript
+  class CreateOrderUseCase {
+    async execute(input: CreateOrderInput): Promise<CreateOrderOutput> {
+      // Validate inventory (calls real inventory API)
+      const response = await fetch(`${process.env.INVENTORY_API}/check`, {
+        method: 'POST',
+        body: JSON.stringify({ items: input.items })
+      })
+      const { available } = await response.json()
+      
+      if (!available) {
+        throw new Error('Items not in stock')
+      }
+      
+      // Save to database (real Postgres connection)
+      const order = await db.orders.insert({
+        userId: input.userId,
+        items: input.items,
+        status: 'pending'
+      })
+      
+      // Send email (real SendGrid API call)
+      await sendgrid.send({
+        to: input.userId,
+        subject: 'Order Confirmation',
+        text: `Your order ${order.id} is confirmed`
+      })
+      
+      return { orderId: order.id, status: order.status }
+    }
+  }
+  ```
+
+expected_behavior: |
+  Agent should:
+  1. Identify direct infrastructure dependencies as testability problem
+  2. Suggest extracting interfaces (IInventoryService, IOrderRepository, IEmailService)
+  3. Recommend constructor injection
+  4. Show how to provide in-memory or stub implementations in tests
+  5. Demonstrate fast unit test with injected test doubles
+  6. Explain layer isolation principle
+
+success_criteria:
+  - Identifies infrastructure dependencies as slow test cause
+  - Proposes at least 3 interface abstractions
+  - Shows constructor injection of dependencies
+  - Provides example unit test with mocked/stubbed dependencies
+  - Mentions fast feedback, isolation, or layer separation
+  - Test runs without network calls or database

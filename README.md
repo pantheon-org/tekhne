@@ -118,13 +118,16 @@ Testing methodologies & quality
 | [bdd-testing](skills/testing/bdd-testing/SKILL.md) | Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. ... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/testing/bdd-testing/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/bdd-testing) |
 | [ui-debug-workflow](skills/testing/ui-debug-workflow/SKILL.md) | Debug UI changes with a repeatable evidence-first workflow. Use when validating ... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/testing/ui-debug-workflow/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/ui-debug-workflow) |
 
-## Software Engineering (1 skills)
+## Software Engineering (4 skills)
 
-Software engineering principles
+Software engineering principles (SOLID, Clean Architecture, Design Patterns, Testable Design)
 
 | Skill | Description | Rating | Audit | Tessl |
 | --- | --- | --- | --- | --- |
-| [software-design-principles](skills/software-engineering/software-design-principles/SKILL.md) | Apply SOLID principles, detect design anti-patterns, and evaluate architectural ... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/software-engineering/software-design-principles/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/software-design-principles) |
+| [solid-principles](skills/software-engineering/solid-principles/SKILL.md) | Apply SOLID principles (SRP, OCP, LSP, ISP, DIP) for tactical class design, method extraction, and interface definition | - | - | - |
+| [clean-architecture](skills/software-engineering/clean-architecture/SKILL.md) | Apply Clean Architecture principles for strategic boundary design, dependency direction, and layered system structure | - | - | - |
+| [design-patterns](skills/software-engineering/design-patterns/SKILL.md) | Select and apply structural design patterns (Strategy, Factory, Adapter, Observer, etc.) to reduce complexity in class design | - | - | - |
+| [testable-design](skills/software-engineering/testable-design/SKILL.md) | Design code for testability using boundary isolation, dependency injection, and testable architecture patterns | - | - | - |
 
 ## Observability (4 skills)
 

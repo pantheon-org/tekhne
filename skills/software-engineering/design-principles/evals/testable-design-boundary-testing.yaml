@@ -1,0 +1,29 @@
+name: testable-design-boundary-testing
+description: Design test strategy for layered architecture boundaries
+skill: testable-design
+prompt: |
+  Design a test strategy for this Clean Architecture application:
+  
+  - Entities: Order, OrderItem, User
+  - Use Cases: CreateOrder, CancelOrder, GetOrderHistory
+  - Adapters: OrderController, OrderRepository (Postgres), EmailGateway (SendGrid)
+  - Infrastructure: Express server, TypeORM, SendGrid client
+  
+  What types of tests should we write, and what should each test cover?
+
+expected_behavior: |
+  Agent should:
+  1. Recommend unit tests for entities (pure business logic)
+  2. Recommend unit tests for use cases (with mocked ports)
+  3. Recommend integration tests for adapters (with real or in-memory infrastructure)
+  4. Recommend end-to-end tests for complete workflows
+  5. Explain boundary testing principle
+  6. Show example test for each layer
+
+success_criteria:
+  - Defines at least 3 test types (unit, integration, e2e)
+  - Assigns appropriate test type to each layer
+  - Mentions mocking or test doubles for use case ports
+  - Recommends integration tests for adapters
+  - Explains testing at boundaries, not implementation details
+  - Provides at least 1 concrete test example
