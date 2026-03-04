@@ -14,6 +14,8 @@ permissions:
 jobs:
   tessl-lint:
     name: Tessl Skill Lint
+    # Fork PRs run with a read-only GITHUB_TOKEN; skip entirely to avoid permission errors on comment steps
+    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -81,6 +83,8 @@ jobs:
 
   tessl-review:
     name: Tessl Skill Review
+    # Fork PRs run with a read-only GITHUB_TOKEN; skip entirely to avoid permission errors on comment steps
+    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
