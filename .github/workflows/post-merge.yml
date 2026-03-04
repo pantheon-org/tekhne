@@ -68,10 +68,23 @@ jobs:
             printf '3. Commit and push the updated audit files with message: `chore: update skill quality audits after PR #%s`\n' "$PR_NUMBER"
           } > "$body_file"
 
-          gh issue create \
-            --title "Skill quality audit — PR #${PR_NUMBER}: ${PR_TITLE}" \
-            --body-file "$body_file"
+          # Check for an existing open issue for this PR's skill quality audit
+          existing_issue_number=$(
+            gh issue list \
+              --state open \
+              --search "Skill quality audit — PR #${PR_NUMBER}: in:title" \
+              --json number \
+              --jq '.[0].number' || true
+          )
 
+          if [ -n "$existing_issue_number" ]; then
+            echo "Found existing skill quality audit issue #${existing_issue_number} for PR #${PR_NUMBER}, adding a comment instead of creating a new issue."
+            gh issue comment "$existing_issue_number" --body-file "$body_file"
+          else
+            gh issue create \
+              --title "Skill quality audit — PR #${PR_NUMBER}: ${PR_TITLE}" \
+              --body-file "$body_file"
+          fi
   update-readme-and-tiles:
     name: Update README and TILES
     if: github.event.pull_request.merged == true
