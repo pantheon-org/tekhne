@@ -7,6 +7,10 @@ on:
     paths:
       - "skills/**"
 
+concurrency:
+  group: post-merge-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   request-quality-audit:
     name: Request Skill Quality Audit from Copilot
@@ -16,7 +20,7 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
 
@@ -50,19 +54,28 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           SKILL_DIRS: ${{ steps.skills.outputs.dirs }}
         run: |
-          gh issue create \
-            --title "Skill quality audit — PR #${PR_NUMBER}: ${PR_TITLE}" \
-            --body "PR #${PR_NUMBER} has been merged. @github-copilot please run the skill quality audit for the modified skills and commit the results.
+          body_file=$(mktemp)
+          cat > "$body_file" << 'BODY_TEMPLATE'
+          PR #PR_NUMBER_PLACEHOLDER has been merged. @github-copilot please run the skill quality audit for the modified skills and commit the results.
 
           **Modified skills:**
-          \`\`\`
-          ${SKILL_DIRS}
-          \`\`\`
+          ```
+          SKILL_DIRS_PLACEHOLDER
+          ```
 
           **Steps:**
-          1. Run \`bun run audit:skill <path>\` for each skill listed above (or \`bun run audit:skills\` for all)
-          2. Verify the generated audit files under \`.context/audits/\`
-          3. Commit and push the updated audit files with message: \`chore: update skill quality audits after PR #${PR_NUMBER}\`"
+          1. Run `bun run audit:skill <path>` for each skill listed above (or `bun run audit:skills` for all)
+          2. Verify the generated audit files under `.context/audits/`
+          3. Commit and push the updated audit files with message: `chore: update skill quality audits after PR #PR_NUMBER_PLACEHOLDER`
+          BODY_TEMPLATE
+
+          sed -i "s/PR_NUMBER_PLACEHOLDER/${PR_NUMBER}/g" "$body_file"
+          # Use awk to safely substitute SKILL_DIRS which may contain special characters
+          awk -v dirs="$SKILL_DIRS" '{gsub(/SKILL_DIRS_PLACEHOLDER/, dirs)}1' "$body_file" > "${body_file}.tmp" && mv "${body_file}.tmp" "$body_file"
+
+          gh issue create \
+            --title "Skill quality audit — PR #${PR_NUMBER}: ${PR_TITLE}" \
+            --body-file "$body_file"
 
   update-readme-and-tiles:
     name: Update README and TILES
@@ -71,12 +84,12 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
         with:
           bun-version: latest
 
@@ -94,6 +107,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
+            git pull --rebase origin main
             git commit -m "docs: update README and TILES after PR #${{ github.event.pull_request.number }} [skip ci]"
             git push
           fi

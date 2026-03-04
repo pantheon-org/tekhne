@@ -14,11 +14,13 @@ permissions:
 jobs:
   tessl-lint:
     name: Tessl Skill Lint
+    # Skip for fork PRs — TESSL_TOKEN must not be exposed to untrusted PR code
+    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
         with:
           bun-version: latest
 
@@ -42,11 +44,22 @@ jobs:
             echo "exit_code=${exit_code}"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Post lint results as PR comment
-        uses: peter-evans/create-or-update-comment@v4
+      - name: Find existing lint comment
+        id: find-lint-comment
+        if: always()
+        uses: peter-evans/find-comment@3eae4d37986fb5a8592848f6a574fdf654e61f9e # v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-tag: tessl-lint
+          comment-author: github-actions[bot]
+          body-includes: "## Tessl Skill Lint"
+
+      - name: Post lint results as PR comment
+        if: always()
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
+        with:
+          comment-id: ${{ steps.find-lint-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
           body: |
             ## Tessl Skill Lint
 
@@ -61,13 +74,19 @@ jobs:
 
             </details>
 
+      - name: Fail if lint failed
+        if: steps.lint.outputs.exit_code != '0'
+        run: exit 1
+
   tessl-review:
     name: Tessl Skill Review
+    # Skip for fork PRs — TESSL_TOKEN must not be exposed to untrusted PR code
+    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
         with:
           bun-version: latest
 
@@ -91,11 +110,22 @@ jobs:
             echo "exit_code=${exit_code}"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Post review results as PR comment
-        uses: peter-evans/create-or-update-comment@v4
+      - name: Find existing review comment
+        id: find-review-comment
+        if: always()
+        uses: peter-evans/find-comment@3eae4d37986fb5a8592848f6a574fdf654e61f9e # v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-tag: tessl-review
+          comment-author: github-actions[bot]
+          body-includes: "## Tessl Skill Review"
+
+      - name: Post review results as PR comment
+        if: always()
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
+        with:
+          comment-id: ${{ steps.find-review-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
           body: |
             ## Tessl Skill Review
 
@@ -108,11 +138,15 @@ jobs:
 
             </details>
 
+      - name: Fail if review failed
+        if: steps.review.outputs.exit_code != '0'
+        run: exit 1
+
   request-eval-scenarios:
     name: Request Eval Scenarios from Copilot
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
 
@@ -140,12 +174,22 @@ jobs:
             echo "found=true"
           } >> "$GITHUB_OUTPUT"
 
-      - name: Post Copilot eval scenario request
+      - name: Find existing eval request comment
+        id: find-eval-comment
         if: steps.skills.outputs.found == 'true'
-        uses: peter-evans/create-or-update-comment@v4
+        uses: peter-evans/find-comment@3eae4d37986fb5a8592848f6a574fdf654e61f9e # v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
-          comment-tag: copilot-eval-request
+          comment-author: github-actions[bot]
+          body-includes: "@github-copilot Please create evaluation scenarios"
+
+      - name: Post Copilot eval scenario request
+        if: steps.skills.outputs.found == 'true'
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
+        with:
+          comment-id: ${{ steps.find-eval-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
           body: |
             @github-copilot Please create evaluation scenarios for the skill(s) added or modified in this PR.
 
