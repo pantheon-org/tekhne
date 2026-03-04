@@ -54,7 +54,7 @@ async function generateTileSection(tile: TileEntry): Promise<string> {
   const tesslStatus = getTileTessl(tile);
 
   const meta = tile.isPublic ? ` · ${tesslStatus}` : "";
-  let output = `\n### ${tileLink} — ${description}${meta}\n\n`;
+  let output = `\n### ${tileLink}\n\n${description}${meta}\n\n`;
   output += "| Skill | Rating | Audit |\n";
   output += "| --- | --- | --- |\n";
 
@@ -79,7 +79,7 @@ async function generateUntiledSkillSection(skill: SkillEntry): Promise<string> {
   const description = parseSkillDescription(`skills/${skill.relativePath}`);
   const auditInfo = await getLatestAuditInfo(skill.relativePath);
 
-  let output = `\n### ${displayName} _(no tile)_ — ${description}\n\n`;
+  let output = `\n### ${displayName} _(no tile)_\n\n${description}\n\n`;
   output += "| Skill | Rating | Audit |\n";
   output += "| --- | --- | --- |\n";
 
