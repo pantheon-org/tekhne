@@ -1,0 +1,32 @@
+name: solid-dip-violation
+description: Identify and refactor Dependency Inversion Principle violations
+skill: solid-principles
+prompt: |
+  This OrderService is tightly coupled to concrete implementations. Refactor it to follow the Dependency Inversion Principle.
+  
+  ```typescript
+  class OrderService {
+    private repo = new PostgresOrderRepository()
+    private notifier = new EmailNotificationService()
+    
+    async createOrder(userId: string, items: Item[]): Promise<Order> {
+      const order = new Order({ userId, items, status: 'pending' })
+      await this.repo.save(order)
+      await this.notifier.sendOrderConfirmation(order)
+      return order
+    }
+  }
+  ```
+
+expected_behavior: |
+  Agent should:
+  1. Identify DIP violation (depending on concrete classes, not abstractions)
+  2. Suggest extracting IOrderRepository and INotificationService interfaces
+  3. Recommend constructor injection of dependencies
+  4. Explain benefits: testability, flexibility, decoupling
+
+success_criteria:
+  - Identifies DIP violation or mentions "depend on abstractions, not concretions"
+  - Proposes at least 2 interface abstractions
+  - Shows constructor injection pattern
+  - Mentions testability or ability to swap implementations

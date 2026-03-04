@@ -171,23 +171,26 @@ testing/
 ---
 
 ### software-engineering/
-**Scope:** Software engineering principles, design patterns, architecture patterns, refactoring techniques, code quality fundamentals
+**Scope:** Software engineering principles, SOLID, design patterns, architecture patterns
 
 **Includes:**
-- Software design principles (SOLID, Gang of Four, Clean Architecture, Hexagonal Architecture)
-- Design patterns
-- Architecture patterns
-- Refactoring techniques
+- SOLID principles (SRP, OCP, LSP, ISP, DIP)
+- Clean Architecture (boundaries, dependencies, layers)
+- Design patterns (Strategy, Factory, Adapter, Observer, etc.)
+- Testable design (dependency injection, layer isolation)
 
 **Excludes:**
 - Testing methodologies (use testing/ instead)
-- Development tools (use development/ instead)
+- Documentation writing (use documentation/ instead)
 
-**Why Top-Level:** Software engineering principles are foundational and cross-cutting; not specific to testing, development, or any other domain
-
-**Future Expansion:** May split into multiple focused skills if comprehensive skill becomes too large (design-patterns, architecture-patterns, refactoring-techniques)
-
-**Structure:** Flat list (currently single comprehensive skill)
+**Structure:** Focused skills under unified tile
+```
+software-engineering/
+├── solid-principles/
+├── clean-architecture/
+├── design-patterns/
+├── testable-design/
+└── design-principles/tile.json  (unified tile)
 ```
 software-engineering/
 └── software-design-principles/
@@ -334,10 +337,11 @@ Use this flowchart to classify new skills:
 **Rationale:** AGENTS.md files are specifically for AI agent collaboration and orchestration  
 **Alternative considered:** documentation/ (general documentation) - rejected because agent-specific, not general-purpose writing
 
-### software-design-principles
-**Placement:** software-engineering/ (new top-level domain)  
-**Rationale:** Foundational engineering principles are cross-cutting and comprehensive  
-**Alternative considered:** testing/ (quality tool) - rejected because not specific to testing, applies to all development
+### design-principles tile (solid-principles, clean-architecture, design-patterns, testable-design)
+**Placement:** software-engineering/ (top-level domain)  
+**Rationale:** Foundational engineering principles split into focused single-responsibility skills  
+**Alternative considered:** Keep monolithic hub - rejected for violation of single-responsibility and progressive disclosure
+**Migration note:** Replaced monolithic `software-design-principles` hub (254 lines, 44 refs) with 4 focused skills under unified `pantheon-ai/design-principles` tile
 
 ### mise-complete
 **Placement:** package-mgmt/ (new top-level domain)  

@@ -1,0 +1,28 @@
+name: clean-arch-use-case-design
+description: Design a proper use case with input/output ports
+skill: clean-architecture
+prompt: |
+  Design a CreateOrder use case following Clean Architecture principles. The use case should:
+  - Accept order data (userId, items)
+  - Validate items are in stock
+  - Calculate total price
+  - Save order to database
+  - Send confirmation email
+  
+  Show the use case interface, input/output types, and dependencies.
+
+expected_behavior: |
+  Agent should:
+  1. Define input DTO (CreateOrderInput with userId, items)
+  2. Define output DTO (CreateOrderOutput with orderId, status)
+  3. Define port interfaces (IOrderRepository, IInventoryService, INotificationService)
+  4. Show use case depending on abstractions, not concrete implementations
+  5. Demonstrate orchestration of entities and gateways
+  6. Keep use case free of presentation/infrastructure concerns
+
+success_criteria:
+  - Defines explicit input and output types
+  - Defines at least 2 port interfaces
+  - Shows dependency injection of ports in constructor
+  - Use case contains only orchestration logic (no HTTP, DB, or framework code)
+  - Demonstrates single responsibility (one workflow)
