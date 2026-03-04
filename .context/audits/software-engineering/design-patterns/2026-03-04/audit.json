@@ -1,0 +1,20 @@
+{
+  "skill": "software-engineering/design-patterns",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 11,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "evalValidation": 0
+  },
+  "total": 99,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 301,
+  "hasReferences": true,
+  "referenceCount": 11
+}
