@@ -1,4 +1,5 @@
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { $ } from "bun";
 import { FileNotFoundError } from "../utils/errors";
 import { logger } from "../utils/logger";
@@ -47,26 +48,51 @@ function formatSummary(summary: string): string {
   return summary.replace(/\n/g, " ").trim();
 }
 
+function getEvalCount(skillDir: string): number {
+  let count = 0;
+
+  // Convention 1: evals/scenario-N/ subdirectories
+  const evalsDir = join(skillDir, "evals");
+  if (existsSync(evalsDir)) {
+    count += readdirSync(evalsDir).filter((f) => f.startsWith("scenario-")).length;
+  }
+
+  // Convention 2: evaluation-scenarios/scenario-NN.md files
+  const evalScenariosDir = join(skillDir, "evaluation-scenarios");
+  if (existsSync(evalScenariosDir)) {
+    count += readdirSync(evalScenariosDir).filter((f) =>
+      f.startsWith("scenario-") && f.endsWith(".md"),
+    ).length;
+  }
+
+  return count;
+}
+
 async function generateTileSection(tile: TileEntry): Promise<string> {
   const tileLink = `[${tile.shortName}](${tile.tileDir})`;
   const description = formatSummary(tile.summary);
   const tesslStatus = getTileTessl(tile);
 
-  const meta = tile.isPublic ? ` · ${tesslStatus}` : "";
+  const versionTag = tile.isPublic && tile.version ? `v${tile.version}` : "";
+  const meta = tile.isPublic
+    ? ` · ${[versionTag, tesslStatus].filter(Boolean).join(" · ")}`
+    : "";
   let output = `\n### ${tileLink}\n\n${description}${meta}\n\n`;
-  output += "| Skill | Rating | Audit |\n";
-  output += "| --- | --- | --- |\n";
+  output += "| Skill | Rating | Audit | Evals |\n";
+  output += "| --- | --- | --- | --- |\n";
 
   for (const skill of tile.skills) {
     const skillLink = `[${skill.name}](${skill.skillDir}/SKILL.md)`;
     const auditInfo = await getLatestAuditInfo(skill.auditRelPath);
+    const evalCount = getEvalCount(skill.skillDir);
+    const evalsCell = evalCount > 0 ? String(evalCount) : "-";
 
     if (auditInfo) {
       const badge = getBadgeMarkdown(auditInfo.grade);
       const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
-      output += `| ${skillLink} | ${badge} | ${auditLink} |\n`;
+      output += `| ${skillLink} | ${badge} | ${auditLink} | ${evalsCell} |\n`;
     } else {
-      output += `| ${skillLink} | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - |\n`;
+      output += `| ${skillLink} | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | ${evalsCell} |\n`;
     }
   }
 
@@ -77,18 +103,21 @@ async function generateUntiledSkillSection(skill: SkillEntry): Promise<string> {
   const displayName = getSkillDisplayName(skill.relativePath);
   const description = parseSkillDescription(`skills/${skill.relativePath}`);
   const auditInfo = await getLatestAuditInfo(skill.relativePath);
+  const skillDir = `skills/${skill.relativePath}`;
+  const evalCount = getEvalCount(skillDir);
+  const evalsCell = evalCount > 0 ? String(evalCount) : "-";
 
   let output = `\n### ${displayName} _(no tile)_\n\n${description}\n\n`;
-  output += "| Skill | Rating | Audit |\n";
-  output += "| --- | --- | --- |\n";
+  output += "| Skill | Rating | Audit | Evals |\n";
+  output += "| --- | --- | --- | --- |\n";
 
-  const skillLink = `[${displayName}](skills/${skill.relativePath}/SKILL.md)`;
+  const skillLink = `[${displayName}](${skillDir}/SKILL.md)`;
   if (auditInfo) {
     const badge = getBadgeMarkdown(auditInfo.grade);
     const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
-    output += `| ${skillLink} | ${badge} | ${auditLink} |\n`;
+    output += `| ${skillLink} | ${badge} | ${auditLink} | ${evalsCell} |\n`;
   } else {
-    output += `| ${skillLink} | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - |\n`;
+    output += `| ${skillLink} | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | ${evalsCell} |\n`;
   }
 
   return output;
