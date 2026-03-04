@@ -35,7 +35,9 @@ CI/CD pipelines & deployment automation
 
 ### [azure-pipelines-toolkit](skills/ci-cd/azure-pipelines)
 
-Complete azure-pipelines toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/azure-pipelines-toolkit)
+- **description**: Complete azure-pipelines toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/azure-pipelines-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -44,7 +46,9 @@ Complete azure-pipelines toolkit with generation and validation capabilities · 
 
 ### [gitlab-ci-toolkit](skills/ci-cd/gitlab-ci)
 
-Complete GitLab CI/CD toolkit with generation and validation capabilities for pipelines and configurations · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/gitlab-ci-toolkit)
+- **description**: Complete GitLab CI/CD toolkit with generation and validation capabilities for pipelines and configurations
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/gitlab-ci-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -53,7 +57,9 @@ Complete GitLab CI/CD toolkit with generation and validation capabilities for pi
 
 ### [fluentbit-toolkit](skills/ci-cd/fluentbit)
 
-Complete fluentbit toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/fluentbit-toolkit)
+- **description**: Complete fluentbit toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/fluentbit-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -62,7 +68,9 @@ Complete fluentbit toolkit with generation and validation capabilities · v0.1.0
 
 ### [jenkinsfile-toolkit](skills/ci-cd/jenkinsfile)
 
-Complete jenkinsfile toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/jenkinsfile-toolkit)
+- **description**: Complete jenkinsfile toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/jenkinsfile-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -71,7 +79,9 @@ Complete jenkinsfile toolkit with generation and validation capabilities · v0.1
 
 ### [helm-toolkit](skills/ci-cd/helm)
 
-Complete helm toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/helm-toolkit)
+- **description**: Complete helm toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/helm-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -80,7 +90,9 @@ Complete helm toolkit with generation and validation capabilities · v0.1.0 · [
 
 ### [github-actions-toolkit](skills/ci-cd/github-actions)
 
-Complete GitHub Actions toolkit with generation and validation capabilities for workflows, custom actions, and CI/CD configurations · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/github-actions-toolkit)
+- **description**: Complete GitHub Actions toolkit with generation and validation capabilities for workflows, custom actions, and CI/CD configurations
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/github-actions-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -93,7 +105,9 @@ Infrastructure as Code
 
 ### [terraform-toolkit](skills/infrastructure/terraform)
 
-Complete terraform toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/terraform-toolkit)
+- **description**: Complete terraform toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/terraform-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -102,7 +116,9 @@ Complete terraform toolkit with generation and validation capabilities · v0.1.0
 
 ### [dockerfile-toolkit](skills/infrastructure/dockerfile)
 
-Complete dockerfile toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/dockerfile-toolkit)
+- **description**: Complete dockerfile toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/dockerfile-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -111,7 +127,9 @@ Complete dockerfile toolkit with generation and validation capabilities · v0.1.
 
 ### [terragrunt-toolkit](skills/infrastructure/terragrunt)
 
-Complete terragrunt toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/terragrunt-toolkit)
+- **description**: Complete terragrunt toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/terragrunt-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -120,7 +138,9 @@ Complete terragrunt toolkit with generation and validation capabilities · v0.1.
 
 ### [k8s-yaml-toolkit](skills/infrastructure/k8s-yaml)
 
-Complete k8s-yaml toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/k8s-yaml-toolkit)
+- **description**: Complete k8s-yaml toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/k8s-yaml-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -129,7 +149,9 @@ Complete k8s-yaml toolkit with generation and validation capabilities · v0.1.0 
 
 ### [cfn-behavior-validator](skills/infrastructure/cfn/behavior-validator)
 
-Creates test stacks, analyzes CloudFormation events, and compares actual vs documented update behavior to validate whether resource property changes trigger replacement or in-place updates. Use when: a user wants to test if a CFN property change causes resource replacement; when investigating stack update behavior or "Update requires" documentation accuracy; when validating whether a workaround (e.g. hash-based logical IDs) is actually necessary; when questioning UpdateRequiresReplacement behavior for immutable properties; when empirical evidence is needed before an architectural decision involving CDK or CloudFormation stack updates. · v0.1.2 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/cfn-behavior-validator)
+- **description**: Creates test stacks, analyzes CloudFormation events, and compares actual vs documented update behavior to validate whether resource property changes trigger replacement or in-place updates. Use when: a user wants to test if a CFN property change causes resource replacement; when investigating stack update behavior or "Update requires" documentation accuracy; when validating whether a workaround (e.g. hash-based logical IDs) is actually necessary; when questioning UpdateRequiresReplacement behavior for immutable properties; when empirical evidence is needed before an architectural decision involving CDK or CloudFormation stack updates.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/cfn-behavior-validator)
+- **version**: 0.1.2
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -137,7 +159,9 @@ Creates test stacks, analyzes CloudFormation events, and compares actual vs docu
 
 ### [cfn-template-compare](skills/infrastructure/cfn/template-compare)
 
-Compares deployed CloudFormation templates with locally synthesized CDK templates to detect drift, validate changes, and ensure consistency before deployment. Use when the user wants to compare CDK output with a deployed stack, check for infrastructure drift, run a pre-deployment validation, audit IAM or security changes, investigate a failing deployment, or perform a 'cdk diff'-style review. Triggered by phrases like 'compare templates', 'check for drift', 'cfn drift', 'stack comparison', 'infrastructure drift detection', 'safe to deploy', or 'what changed in my CDK stack'. · v0.2.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/cfn-template-compare)
+- **description**: Compares deployed CloudFormation templates with locally synthesized CDK templates to detect drift, validate changes, and ensure consistency before deployment. Use when the user wants to compare CDK output with a deployed stack, check for infrastructure drift, run a pre-deployment validation, audit IAM or security changes, investigate a failing deployment, or perform a 'cdk diff'-style review. Triggered by phrases like 'compare templates', 'check for drift', 'cfn drift', 'stack comparison', 'infrastructure drift detection', 'safe to deploy', or 'what changed in my CDK stack'.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/cfn-template-compare)
+- **version**: 0.2.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -145,7 +169,9 @@ Compares deployed CloudFormation templates with locally synthesized CDK template
 
 ### [ansible-toolkit](skills/infrastructure/ansible)
 
-Complete ansible toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/ansible-toolkit)
+- **description**: Complete ansible toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/ansible-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -154,7 +180,9 @@ Complete ansible toolkit with generation and validation capabilities · v0.1.0 �
 
 ### [cdk-nag](skills/infrastructure/aws-cdk/cdk-nag)
 
-Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding rule packs, triaging findings, writing justified suppressions, integrating checks in CI/CD, or preventing insecure infrastructure patterns in CDK stacks. · v0.1.2 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/cdk-nag)
+- **description**: Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding rule packs, triaging findings, writing justified suppressions, integrating checks in CI/CD, or preventing insecure infrastructure patterns in CDK stacks.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/cdk-nag)
+- **version**: 0.1.2
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -166,7 +194,9 @@ Repository & workspace management
 
 ### [nx-biome-integration](skills/repository-mgmt/nx/biome-integration)
 
-Integrate Biome into Nx monorepos with deterministic setup, caching, migration from ESLint and Prettier, and plugin-based inferred tasks; use when adding Biome, replacing ESLint/Prettier, tuning cache inputs, or scaling lint and format workflows across projects. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-biome-integration)
+- **description**: Integrate Biome into Nx monorepos with deterministic setup, caching, migration from ESLint and Prettier, and plugin-based inferred tasks; use when adding Biome, replacing ESLint/Prettier, tuning cache inputs, or scaling lint and format workflows across projects.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-biome-integration)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -174,7 +204,9 @@ Integrate Biome into Nx monorepos with deterministic setup, caching, migration f
 
 ### [nx-bun-integration](skills/repository-mgmt/nx/bun-integration)
 
-Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executor configuration, migration from Node.js toolchains, and cache-aware build/test workflows; use when adding the nx-bun plugin, converting projects, or standardizing Bun targets across Nx workspaces. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-bun-integration)
+- **description**: Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executor configuration, migration from Node.js toolchains, and cache-aware build/test workflows; use when adding the nx-bun plugin, converting projects, or standardizing Bun targets across Nx workspaces.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-bun-integration)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -182,7 +214,9 @@ Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executo
 
 ### [nx-workspace-patterns](skills/repository-mgmt/nx/workspace-patterns)
 
-Configure and optimize Nx monorepo workspaces with deterministic project-graph structure, boundary enforcement, cache-aware pipelines, and affected-command CI workflows; use when designing workspace architecture, tightening dependency rules, or reducing CI cost through Nx task orchestration. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-workspace-patterns)
+- **description**: Configure and optimize Nx monorepo workspaces with deterministic project-graph structure, boundary enforcement, cache-aware pipelines, and affected-command CI workflows; use when designing workspace architecture, tightening dependency rules, or reducing CI cost through Nx task orchestration.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-workspace-patterns)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -190,7 +224,9 @@ Configure and optimize Nx monorepo workspaces with deterministic project-graph s
 
 ### [nx-plugin-toolkit](skills/repository-mgmt/nx)
 
-Complete Nx plugin development toolkit: create generators, executors, and extend Nx workspaces · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-plugin-toolkit)
+- **description**: Complete Nx plugin development toolkit: create generators, executors, and extend Nx workspaces
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-plugin-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -200,7 +236,9 @@ Complete Nx plugin development toolkit: create generators, executors, and extend
 
 ### [nx-vite-integration](skills/repository-mgmt/nx/vite-integration)
 
-Configure and integrate Vite in Nx monorepos for applications and libraries. Covers vite.config.ts setup, framework plugins, TypeScript path resolution, asset copying, library mode builds, and Vitest integration.  Use when: adding Vite to an Nx project, migrating from Webpack, configuring Vitest, fixing tsconfig path resolution, or setting up library mode.  Triggers: "add vite", "nx vite", "vite setup", "vite.config.ts", "vitest config", "library mode", "nxViteTsPaths", "copy assets", "vite path aliases", "migrate webpack to vite"  Examples: - user: "Add Vite to this Nx app" -> install plugin and configure vite.config.ts - user: "Vitest is failing in Nx" -> fix test config and cache/coverage paths - user: "Path aliases break in Vite" -> add nxViteTsPaths plugin - user: "Set up Vite for my Nx library" -> configure lib mode + dts + externals · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-vite-integration)
+- **description**: Configure and integrate Vite in Nx monorepos for applications and libraries. Covers vite.config.ts setup, framework plugins, TypeScript path resolution, asset copying, library mode builds, and Vitest integration.  Use when: adding Vite to an Nx project, migrating from Webpack, configuring Vitest, fixing tsconfig path resolution, or setting up library mode.  Triggers: "add vite", "nx vite", "vite setup", "vite.config.ts", "vitest config", "library mode", "nxViteTsPaths", "copy assets", "vite path aliases", "migrate webpack to vite"  Examples: - user: "Add Vite to this Nx app" -> install plugin and configure vite.config.ts - user: "Vitest is failing in Nx" -> fix test config and cache/coverage paths - user: "Path aliases break in Vite" -> add nxViteTsPaths plugin - user: "Set up Vite for my Nx library" -> configure lib mode + dts + externals
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/nx-vite-integration)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -212,7 +250,9 @@ Development tooling
 
 ### [makefile-toolkit](skills/development/scripting/makefile)
 
-Complete makefile toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/makefile-toolkit)
+- **description**: Complete makefile toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/makefile-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -221,7 +261,9 @@ Complete makefile toolkit with generation and validation capabilities · v0.1.0 
 
 ### [bash-script-toolkit](skills/development/scripting/bash-script)
 
-Complete bash-script toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/bash-script-toolkit)
+- **description**: Complete bash-script toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/bash-script-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -230,7 +272,9 @@ Complete bash-script toolkit with generation and validation capabilities · v0.1
 
 ### [commanderjs](skills/development/commanderjs)
 
-Complete Commander.js CLI framework guidance covering command structure, options, arguments, subcommands, action handlers, version management, and TypeScript integration. Use when: building CLI tools, parsing command-line arguments, implementing subcommands, handling options/flags, creating interactive CLIs, or migrating from other CLI frameworks.  Keywords: Commander.js, CLI, command-line, arguments, options, flags, subcommands, action handlers, version, help text, TypeScript, yargs, meow, program, parseAsync, opts, args, variadic, required options, default values, custom help, error handling · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/commanderjs)
+- **description**: Complete Commander.js CLI framework guidance covering command structure, options, arguments, subcommands, action handlers, version management, and TypeScript integration. Use when: building CLI tools, parsing command-line arguments, implementing subcommands, handling options/flags, creating interactive CLIs, or migrating from other CLI frameworks.  Keywords: Commander.js, CLI, command-line, arguments, options, flags, subcommands, action handlers, version, help text, TypeScript, yargs, meow, program, parseAsync, opts, args, variadic, required options, default values, custom help, error handling
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/commanderjs)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -238,7 +282,9 @@ Complete Commander.js CLI framework guidance covering command structure, options
 
 ### [bun-development](skills/development/bun-development)
 
-Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management, testing, SQLite, and security; use proactively when setting up Bun projects, replacing Node.js APIs with Bun-native APIs, writing bun test suites, implementing Bun.serve services, using bun:sqlite with prepared statements, configuring workspaces and lockfiles, hardening shell and SQL boundaries, or optimizing Bun performance and migration workflows. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/bun-development)
+- **description**: Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management, testing, SQLite, and security; use proactively when setting up Bun projects, replacing Node.js APIs with Bun-native APIs, writing bun test suites, implementing Bun.serve services, using bun:sqlite with prepared statements, configuring workspaces and lockfiles, hardening shell and SQL boundaries, or optimizing Bun performance and migration workflows.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/bun-development)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -246,7 +292,9 @@ Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package managemen
 
 ### [biome-complete](skills/development/biome-complete)
 
-Complete Biome toolchain guidance for real repository workflows. Use when users ask to configure biome.json, run lint or format commands, migrate from ESLint or Prettier, tune rule severity, fix formatter drift, or replace mixed ESLint+Prettier pipelines with Biome-only workflows. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/biome-complete)
+- **description**: Complete Biome toolchain guidance for real repository workflows. Use when users ask to configure biome.json, run lint or format commands, migrate from ESLint or Prettier, tune rule severity, fix formatter drift, or replace mixed ESLint+Prettier pipelines with Biome-only workflows.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/biome-complete)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -254,7 +302,9 @@ Complete Biome toolchain guidance for real repository workflows. Use when users 
 
 ### [typescript-advanced](skills/development/typescript-advanced)
 
-Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type guards, strict mode workflows, and documentation patterns; use when configuring tsconfig, designing complex generics, making illegal states unrepresentable, fixing type errors, or writing testable and maintainable type-safe APIs. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/typescript-advanced)
+- **description**: Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type guards, strict mode workflows, and documentation patterns; use when configuring tsconfig, designing complex generics, making illegal states unrepresentable, fixing type errors, or writing testable and maintainable type-safe APIs.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/typescript-advanced)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -266,7 +316,9 @@ Agent framework configurations
 
 ### [skill-quality-auditor](skills/agentic-harness/skill-quality-auditor)
 
-Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds. · v0.1.4 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/skill-quality-auditor)
+- **description**: Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/skill-quality-auditor)
+- **version**: 0.1.4
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -274,7 +326,9 @@ Audit and improve skill collections with a 9-dimension scoring framework (Knowle
 
 ### [agents-md](skills/agentic-harness/agents-md)
 
-Create and maintain AGENTS.md documentation for simple projects and complex monorepos with deterministic discovery, scoped instruction files, and low-token navigation patterns; use when generating AGENTS.md, updating agent docs, or standardizing AI-facing project guidance. · v0.1.3 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/agents-md)
+- **description**: Create and maintain AGENTS.md documentation for simple projects and complex monorepos with deterministic discovery, scoped instruction files, and low-token navigation patterns; use when generating AGENTS.md, updating agent docs, or standardizing AI-facing project guidance.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/agents-md)
+- **version**: 0.1.3
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -282,7 +336,9 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 
 ### [tessl-publish-public](skills/agentic-harness/tessl/publish-public)
 
-Ensure Tessl tiles meet all requirements for public registry publishing with comprehensive validation, quality gates, and evaluation scenarios. Use when preparing skills for public Tessl release, validating tile.json configuration, creating evaluation scenarios, enforcing quality thresholds, or checking agent-agnostic compliance. Keywords: tessl, tile, publishing, public-registry, validation, quality-gates, tile.json, evaluation-scenarios, skill-publishing · v1.0.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/tessl-publish-public)
+- **description**: Ensure Tessl tiles meet all requirements for public registry publishing with comprehensive validation, quality gates, and evaluation scenarios. Use when preparing skills for public Tessl release, validating tile.json configuration, creating evaluation scenarios, enforcing quality thresholds, or checking agent-agnostic compliance. Keywords: tessl, tile, publishing, public-registry, validation, quality-gates, tile.json, evaluation-scenarios, skill-publishing
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/tessl-publish-public)
+- **version**: 1.0.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -290,7 +346,9 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 
 ### [opencode-config](skills/agentic-harness/opencode)
 
-Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/opencode-config)
+- **description**: Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/opencode-config)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -302,7 +360,9 @@ Testing methodologies & quality
 
 ### [test-driven-development](skills/testing/test-driven-development)
 
-Master Test-Driven Development with deterministic red-green-refactor workflows, test-first feature delivery, bug reproduction through failing tests, behavior-focused assertions, and refactoring safety; use when implementing new functions, changing APIs, fixing regressions, or restructuring code under test. · v0.2.4 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/test-driven-development)
+- **description**: Master Test-Driven Development with deterministic red-green-refactor workflows, test-first feature delivery, bug reproduction through failing tests, behavior-focused assertions, and refactoring safety; use when implementing new functions, changing APIs, fixing regressions, or restructuring code under test.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/test-driven-development)
+- **version**: 0.2.4
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -310,7 +370,9 @@ Master Test-Driven Development with deterministic red-green-refactor workflows, 
 
 ### [bdd-testing](skills/testing/bdd-testing)
 
-Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. Use when defining acceptance scenarios, writing feature files, implementing step definitions, running Three Amigos sessions, or diagnosing BDD test quality issues. Keywords: bdd, gherkin, cucumber, given when then, feature files, step definitions, acceptance criteria, three amigos, example mapping. · v0.2.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/bdd-testing)
+- **description**: Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. Use when defining acceptance scenarios, writing feature files, implementing step definitions, running Three Amigos sessions, or diagnosing BDD test quality issues. Keywords: bdd, gherkin, cucumber, given when then, feature files, step definitions, acceptance criteria, three amigos, example mapping.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/bdd-testing)
+- **version**: 0.2.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -318,7 +380,9 @@ Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. 
 
 ### [ui-debug-workflow](skills/testing/ui-debug-workflow)
 
-Debug UI changes with a repeatable evidence-first workflow. Use when validating visual regressions, reproducing frontend bugs, comparing baseline vs changed behavior, collecting screenshots/DOM/logs, or producing stakeholder-ready UI debug reports. Keywords: ui bug, visual regression, browser devtools, playwright, screenshot evidence, dom snapshot, frontend debugging. · v0.1.2 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/ui-debug-workflow)
+- **description**: Debug UI changes with a repeatable evidence-first workflow. Use when validating visual regressions, reproducing frontend bugs, comparing baseline vs changed behavior, collecting screenshots/DOM/logs, or producing stakeholder-ready UI debug reports. Keywords: ui bug, visual regression, browser devtools, playwright, screenshot evidence, dom snapshot, frontend debugging.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/ui-debug-workflow)
+- **version**: 0.1.2
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -330,7 +394,9 @@ Software engineering principles
 
 ### [software-design-principles](skills/software-engineering/software-design-principles)
 
-Apply software design principles across architecture and implementation using deterministic decision workflows, SOLID checks, structural patterns, and anti-pattern detection; use when reviewing designs, refactoring modules, or resolving maintainability and coupling risks. · v0.1.4 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/software-design-principles)
+- **description**: Apply software design principles across architecture and implementation using deterministic decision workflows, SOLID checks, structural patterns, and anti-pattern detection; use when reviewing designs, refactoring modules, or resolving maintainability and coupling risks.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/software-design-principles)
+- **version**: 0.1.4
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -342,7 +408,9 @@ Monitoring, logging & debugging
 
 ### [logql-generator](skills/observability/logql-generator)
 
-Generate label matchers, line filters, log aggregations, and metric queries in LogQL (Loki Query Language) following current standards and conventions. Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki. · v0.1.4 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/logql-generator)
+- **description**: Generate label matchers, line filters, log aggregations, and metric queries in LogQL (Loki Query Language) following current standards and conventions. Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/logql-generator)
+- **version**: 0.1.4
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -350,7 +418,9 @@ Generate label matchers, line filters, log aggregations, and metric queries in L
 
 ### [k8s-debug](skills/observability/k8s-debug)
 
-Comprehensive Kubernetes debugging and troubleshooting toolkit. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, or performing cluster health checks. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/k8s-debug)
+- **description**: Comprehensive Kubernetes debugging and troubleshooting toolkit. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, or performing cluster health checks.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/k8s-debug)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -358,7 +428,9 @@ Comprehensive Kubernetes debugging and troubleshooting toolkit. Use this skill w
 
 ### [promql-toolkit](skills/observability/promql)
 
-Complete PromQL toolkit with generation and validation capabilities · v0.1.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/promql-toolkit)
+- **description**: Complete PromQL toolkit with generation and validation capabilities
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/promql-toolkit)
+- **version**: 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -371,7 +443,9 @@ Writing & communication
 
 ### [markdown-authoring](skills/documentation/markdown-authoring)
 
-Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/markdown-authoring)
+- **description**: Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/markdown-authoring)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -379,7 +453,9 @@ Author high-quality Markdown documentation with deterministic structure, lint co
 
 ### [plain-english](skills/documentation/plain-english)
 
-Write technical content in plain English for non-technical stakeholders by translating jargon into business language, surfacing decisions and impact early, and producing actionable recommendations with clear ownership and timeline. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/plain-english)
+- **description**: Write technical content in plain English for non-technical stakeholders by translating jargon into business language, surfacing decisions and impact early, and producing actionable recommendations with clear ownership and timeline.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/plain-english)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -387,7 +463,9 @@ Write technical content in plain English for non-technical stakeholders by trans
 
 ### [journal-entry-creator](skills/documentation/journal-entry-creator)
 
-Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports four entry types: general journal entries, troubleshooting sessions, learning notes, and article summaries. Keywords: journal, documentation, troubleshooting, learning, article-summary, YAML frontmatter, template schemas, validation. · v0.2.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/journal-entry-creator)
+- **description**: Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports four entry types: general journal entries, troubleshooting sessions, learning notes, and article summaries. Keywords: journal, documentation, troubleshooting, learning, article-summary, YAML frontmatter, template schemas, validation.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/journal-entry-creator)
+- **version**: 0.2.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -395,7 +473,9 @@ Create structured journal entries with YAML frontmatter, template-based sections
 
 ### [acceptance-criteria](skills/documentation/acceptance-criteria)
 
-Write clear, testable acceptance criteria for user stories and feature delivery; use when defining done conditions, creating measurable requirements, applying INVEST checks, documenting negative scenarios, and aligning product, engineering, and QA on expected outcomes. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/acceptance-criteria)
+- **description**: Write clear, testable acceptance criteria for user stories and feature delivery; use when defining done conditions, creating measurable requirements, applying INVEST checks, documenting negative scenarios, and aligning product, engineering, and QA on expected outcomes.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/acceptance-criteria)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -403,7 +483,9 @@ Write clear, testable acceptance criteria for user stories and feature delivery;
 
 ### [conventional-commits](skills/documentation/conventional-commits)
 
-Skill for creating structured, semantic commit messages following the Conventional Commits specification · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/conventional-commits)
+- **description**: Skill for creating structured, semantic commit messages following the Conventional Commits specification
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/conventional-commits)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -415,7 +497,9 @@ Package & version management
 
 ### [mise-complete](skills/package-mgmt/mise-complete)
 
-Configure and operate Mise for deterministic developer environments. Use when installing runtime/tool versions, defining reusable tasks, managing layered environment variables, migrating from asdf/nvm/pyenv, or debugging mise.toml behavior in CI and local shells. Keywords: mise, mise.toml, tool versions, tasks, env, asdf migration, setup automation, dev environment. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/mise-complete)
+- **description**: Configure and operate Mise for deterministic developer environments. Use when installing runtime/tool versions, defining reusable tasks, managing layered environment variables, migrating from asdf/nvm/pyenv, or debugging mise.toml behavior in CI and local shells. Keywords: mise, mise.toml, tool versions, tasks, env, asdf migration, setup automation, dev environment.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/mise-complete)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -427,7 +511,9 @@ Planning & organization
 
 ### [create-context-file](skills/project-mgmt/create-context-file)
 
-Create context files (plans, justifications, scratches) in .context/ directory with unique three-word IDs and frontmatter · v0.2.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/create-context-file)
+- **description**: Create context files (plans, justifications, scratches) in .context/ directory with unique three-word IDs and frontmatter
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/create-context-file)
+- **version**: 0.2.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -435,7 +521,9 @@ Create context files (plans, justifications, scratches) in .context/ directory w
 
 ### [moscow-prioritization](skills/project-mgmt/moscow-prioritization)
 
-Prioritize product requirements with the MoSCoW framework in a deterministic way.  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts,  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints.  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp,  release planning, scope control, stakeholder alignment. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/moscow-prioritization)
+- **description**: Prioritize product requirements with the MoSCoW framework in a deterministic way.  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts,  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints.  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp,  release planning, scope control, stakeholder alignment.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/moscow-prioritization)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -443,7 +531,9 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 
 ### [implementation-plan-splitter](skills/project-mgmt/implementation-plan-splitter)
 
-Split large implementation plan documents into digestible, hierarchical structures with descriptive names. Use when refactoring monolithic planning docs, organizing phase documentation, or creating contributor-friendly task breakdowns. Triggers: "split this plan", "organize phases", "break down implementation docs", "create task hierarchy". · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/implementation-plan-splitter)
+- **description**: Split large implementation plan documents into digestible, hierarchical structures with descriptive names. Use when refactoring monolithic planning docs, organizing phase documentation, or creating contributor-friendly task breakdowns. Triggers: "split this plan", "organize phases", "break down implementation docs", "create task hierarchy".
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/implementation-plan-splitter)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -455,7 +545,9 @@ Domain-specific tools
 
 ### [github-copilot-models](skills/specialized/github-copilot-models)
 
-Query and display available GitHub Copilot AI models with their capabilities, context limits, and features. Use when: "what models are available", "show copilot models", "list github models", "check model capabilities", "switch models".  Examples: - user: "What models can I use with GitHub Copilot?" → fetch and display available models - user: "Show me models with vision support" → filter models by capability - user: "Which model has the largest context window?" → compare model specifications - user: "List all GPT-5 models" → filter by model family · v0.2.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/github-copilot-models)
+- **description**: Query and display available GitHub Copilot AI models with their capabilities, context limits, and features. Use when: "what models are available", "show copilot models", "list github models", "check model capabilities", "switch models".  Examples: - user: "What models can I use with GitHub Copilot?" → fetch and display available models - user: "Show me models with vision support" → filter models by capability - user: "Which model has the largest context window?" → compare model specifications - user: "List all GPT-5 models" → filter by model family
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/github-copilot-models)
+- **version**: 0.2.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -463,7 +555,9 @@ Query and display available GitHub Copilot AI models with their capabilities, co
 
 ### [gitlab-api](skills/specialized/gitlab-api)
 
-Retrieve and analyze GitLab merge request comments and metadata using authenticated API calls · v1.3.0 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/gitlab-api)
+- **description**: Retrieve and analyze GitLab merge request comments and metadata using authenticated API calls
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/gitlab-api)
+- **version**: 1.3.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -471,7 +565,9 @@ Retrieve and analyze GitLab merge request comments and metadata using authentica
 
 ### [colyseus-multiplayer](skills/specialized/colyseus-multiplayer)
 
-Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, or server-side anti-cheat constraints. Keywords: colyseus, room lifecycle, schema, multiplayer, websocket, matchmaking, onJoin, onLeave, onDrop, allowReconnection. · v0.1.1 · [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/colyseus-multiplayer)
+- **description**: Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, or server-side anti-cheat constraints. Keywords: colyseus, room lifecycle, schema, multiplayer, websocket, matchmaking, onJoin, onLeave, onDrop, allowReconnection.
+- **published**: [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/colyseus-multiplayer)
+- **version**: 0.1.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |

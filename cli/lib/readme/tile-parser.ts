@@ -8,6 +8,8 @@ export interface TileSkillEntry {
   auditRelPath: string; // e.g., "development/scripting/makefile/generator"
 }
 
+export type PublishedStatus = "public" | "private" | "unpublished";
+
 export interface TileEntry {
   tileDir: string; // e.g., "skills/development/scripting/makefile"
   domain: string; // e.g., "development"
@@ -16,6 +18,7 @@ export interface TileEntry {
   version: string; // e.g., "0.1.0"
   summary: string;
   isPublic: boolean;
+  publishedStatus: PublishedStatus;
   skills: TileSkillEntry[];
 }
 
@@ -58,6 +61,14 @@ export async function findAllTiles(): Promise<TileEntry[]> {
         ? fullName.split("/").slice(1).join("/")
         : fullName;
 
+      const isPublic = tileData.private === false;
+      const publishedStatus: PublishedStatus =
+        tileData.private === false
+          ? "public"
+          : tileData.private === true
+            ? "private"
+            : "unpublished";
+
       tiles.push({
         tileDir,
         domain,
@@ -65,7 +76,8 @@ export async function findAllTiles(): Promise<TileEntry[]> {
         fullName,
         version: tileData.version || "",
         summary: tileData.summary || "",
-        isPublic: tileData.private === false,
+        isPublic,
+        publishedStatus,
         skills,
       });
     } catch {
