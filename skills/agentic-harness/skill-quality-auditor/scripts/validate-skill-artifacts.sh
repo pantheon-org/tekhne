@@ -53,19 +53,22 @@ check_scripts_file() {
   file=$1
 
   case $file in
-    *.sh) ;;
+    *.sh) check_shell_script "$file" ;;
+    *.py) check_python_script "$file" ;;
+    *.ts) check_ts_script "$file" ;;
+    *.js) check_js_script "$file" ;;
     *)
-      error "$file is in scripts/ but is not a shell script (.sh)."
-      return
+      error "$file is in scripts/ but is not a recognised script type (.sh, .py, .ts, .js)."
       ;;
   esac
+}
 
+check_shell_script() {
+  file=$1
   first_line=$(head -n 1 "$file" 2>/dev/null || true)
-  # Allow #!/usr/bin/env bash if explicitly marked with # shell: bash
   if [ "$first_line" = "#!/usr/bin/env sh" ]; then
     :
   elif [ "$first_line" = "#!/usr/bin/env bash" ]; then
-    # Check for bash comment marker - allow bash scripts that opt-in
     if ! grep -q '^# shell: bash' "$file" 2>/dev/null; then
       error "$file must start with portable shebang: #!/usr/bin/env sh (or add '# shell: bash' to allow bash)"
     fi
@@ -78,6 +81,48 @@ check_scripts_file() {
       error "$file failed POSIX shell syntax check (sh -n)."
     fi
   fi
+}
+
+check_python_script() {
+  file=$1
+  first_line=$(head -n 1 "$file" 2>/dev/null || true)
+  case "$first_line" in
+    "#!/usr/bin/env python3"|"#!/usr/bin/env python") ;;
+    *)
+      error "$file must start with shebang: #!/usr/bin/env python3"
+      return
+      ;;
+  esac
+
+  if command -v python3 >/dev/null 2>&1; then
+    if ! python3 -m py_compile "$file" 2>/dev/null; then
+      error "$file failed Python syntax check (py_compile)."
+    fi
+  fi
+}
+
+check_ts_script() {
+  file=$1
+  first_line=$(head -n 1 "$file" 2>/dev/null || true)
+  case "$first_line" in
+    "#!/usr/bin/env bun"|"#!/usr/bin/env -S bun"|"#!/usr/bin/env -S bun run") ;;
+    *)
+      error "$file must start with shebang: #!/usr/bin/env bun"
+      return
+      ;;
+  esac
+}
+
+check_js_script() {
+  file=$1
+  first_line=$(head -n 1 "$file" 2>/dev/null || true)
+  case "$first_line" in
+    "#!/usr/bin/env node"|"#!/usr/bin/env bun") ;;
+    *)
+      error "$file must start with shebang: #!/usr/bin/env node (or #!/usr/bin/env bun)"
+      return
+      ;;
+  esac
 }
 
 check_file() {

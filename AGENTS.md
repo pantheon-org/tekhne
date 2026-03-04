@@ -59,7 +59,12 @@ See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` 
 - Use ASCII unless a file already requires Unicode.
 - Files under `skills/<skill-name>/templates/` must use YAML extensions (`.yaml` or `.yml`).
 - Files under `skills/<skill-name>/schemas/` must be JSON Schema files named `*.schema.json` and include a `"$schema"` URL from `json-schema.org`.
-- Files under `skills/<skill-name>/scripts/` must be portable shell scripts (`.sh`) with `#!/usr/bin/env sh`.
+- Files under `skills/<skill-name>/scripts/` must be executable scripts in one of the accepted languages:
+  - Shell (`.sh`): `#!/usr/bin/env sh` (POSIX) or `#!/usr/bin/env bash` (with `# shell: bash` opt-in marker).
+  - Python (`.py`): `#!/usr/bin/env python3`.
+  - TypeScript (`.ts`): `#!/usr/bin/env bun`.
+  - JavaScript (`.js`): `#!/usr/bin/env node` or `#!/usr/bin/env bun`.
+- Skills must be self-contained: SKILL.md must not reference files outside the skill's own directory tree (no `../` paths, no absolute `skills/X/Y` paths, no `.context/` or `.agents/` references). Content inside fenced code blocks is exempt.
 
 ### Tessl Registry Preparation
 
