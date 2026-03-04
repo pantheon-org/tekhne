@@ -3,22 +3,18 @@
   "version": "1.0.0",
   "summary": "Strategic architecture, tactical design, and testable code principles (SOLID, Clean Architecture, Design Patterns, Testable Design)",
   "private": false,
-  "skills": [
-    {
-      "path": "../solid-principles/SKILL.md",
-      "description": "Apply SOLID principles (SRP, OCP, LSP, ISP, DIP) for tactical class design, method extraction, and interface definition"
+  "skills": {
+    "solid-principles": {
+      "path": "solid-principles/SKILL.md"
     },
-    {
-      "path": "../clean-architecture/SKILL.md",
-      "description": "Apply Clean Architecture principles for strategic boundary design, dependency direction, and layered system structure"
+    "clean-architecture": {
+      "path": "clean-architecture/SKILL.md"
     },
-    {
-      "path": "../design-patterns/SKILL.md",
-      "description": "Select and apply structural design patterns (Strategy, Factory, Adapter, Observer, etc.) to reduce complexity in class design"
+    "design-patterns": {
+      "path": "design-patterns/SKILL.md"
     },
-    {
-      "path": "../testable-design/SKILL.md",
-      "description": "Design code for testability using boundary isolation, dependency injection, and testable architecture patterns"
+    "testable-design": {
+      "path": "testable-design/SKILL.md"
     }
-  ]
+  }
 }
