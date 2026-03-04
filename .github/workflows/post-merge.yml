@@ -95,6 +95,7 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           ref: main
+          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
@@ -111,7 +112,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main
+          git pull --rebase --autostash origin main
           git add README.md TILES.md
           if git diff --staged --quiet; then
             echo "No changes to commit"
