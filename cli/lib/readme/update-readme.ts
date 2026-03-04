@@ -44,8 +44,7 @@ function findUntiledSkills(
 }
 
 function formatSummary(summary: string): string {
-  const cleaned = summary.replace(/\n/g, " ").trim();
-  return cleaned.length > 80 ? `${cleaned.substring(0, 80)}...` : cleaned;
+  return summary.replace(/\n/g, " ").trim();
 }
 
 async function generateTileSection(tile: TileEntry): Promise<string> {
