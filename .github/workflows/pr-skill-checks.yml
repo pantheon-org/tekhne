@@ -14,21 +14,22 @@ permissions:
 jobs:
   tessl-lint:
     name: Tessl Skill Lint
-    # Skip for fork PRs — TESSL_TOKEN must not be exposed to untrusted PR code
-    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
+        if: secrets.TESSL_TOKEN != ''
         with:
-          bun-version: 1.1.29
+          bun-version: "1.3.10"
 
       - name: Install dependencies
+        if: secrets.TESSL_TOKEN != ''
         run: bun install
 
       - name: Run tessl skill lint
         id: lint
+        if: secrets.TESSL_TOKEN != ''
         env:
           TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
         run: |
@@ -63,7 +64,7 @@ jobs:
           body: |
             ## Tessl Skill Lint
 
-            ${{ steps.lint.outputs.exit_code == '0' && '> ✅ All checks passed' || '> ❌ Issues found — review the output below' }}
+            ${{ steps.lint.conclusion == 'skipped' && '> ⏭️ Skipped — `TESSL_TOKEN` is not configured (fork PR or missing secret)' || steps.lint.outputs.exit_code == '0' && '> ✅ All checks passed' || '> ❌ Issues found — review the output below' }}
 
             <details>
             <summary>Lint output</summary>
@@ -80,21 +81,22 @@ jobs:
 
   tessl-review:
     name: Tessl Skill Review
-    # Skip for fork PRs — TESSL_TOKEN must not be exposed to untrusted PR code
-    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
+        if: secrets.TESSL_TOKEN != ''
         with:
-          bun-version: latest
+          bun-version: "1.3.10"
 
       - name: Install dependencies
+        if: secrets.TESSL_TOKEN != ''
         run: bun install
 
       - name: Run tessl skill review
         id: review
+        if: secrets.TESSL_TOKEN != ''
         env:
           TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
         run: |
@@ -128,6 +130,8 @@ jobs:
           edit-mode: replace
           body: |
             ## Tessl Skill Review
+
+            ${{ steps.review.conclusion == 'skipped' && '> ⏭️ Skipped — `TESSL_TOKEN` is not configured (fork PR or missing secret)' || '' }}
 
             <details>
             <summary>Review output</summary>
