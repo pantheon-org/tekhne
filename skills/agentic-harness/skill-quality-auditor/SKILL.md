@@ -10,8 +10,9 @@ Navigation hub for evaluating, maintaining, and improving skill quality with 9-d
 ## Quick Start
 
 ```bash
-# Evaluate single skill
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
+# Evaluate single skill — pass full path from skills/ root, preserving all directory levels
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain/skill-name> --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain/subdomain/skill-name> --json
 
 # Batch audit multiple skills
 sh skills/agentic-harness/skill-quality-auditor/scripts/batch-audit.sh <skill1> <skill2> [skill3...]
@@ -23,7 +24,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh
 sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only
 ```
 
-Results stored in `.context/audits/<skill-name>/latest/`.
+Results stored in `.context/audits/<full-skill-path>/latest/` — the path mirrors `skills/<full-skill-path>/SKILL.md` exactly, including every directory level.
 
 ## When to Use
 
@@ -66,8 +67,15 @@ See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete 
 ## Examples
 
 ```bash
+# 2-level skill (domain/skill-name)
 ./scripts/evaluate.sh infrastructure/terraform-generator --json --store
 # Output: {"grade":"B+","total":122,"dimensions":{...}}
+# Stored: .context/audits/infrastructure/terraform-generator/<date>/
+
+# 3-level skill (domain/subdomain/skill-name)
+./scripts/evaluate.sh software-engineering/design-principles/clean-architecture --json --store
+# Output: {"grade":"C","total":101,"dimensions":{...}}
+# Stored: .context/audits/software-engineering/design-principles/clean-architecture/<date>/
 
 ./scripts/batch-audit.sh infrastructure/terraform-generator ci-cd/github-actions-generator
 # Audits multiple skills, stores results in .context/audits/

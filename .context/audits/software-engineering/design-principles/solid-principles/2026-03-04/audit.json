@@ -1,0 +1,20 @@
+{
+  "skill": "software-engineering/design-principles/solid-principles",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 11,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "evalValidation": 0
+  },
+  "total": 102,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 174,
+  "hasReferences": false,
+  "referenceCount": 0
+}

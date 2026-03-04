@@ -43,7 +43,7 @@ Detailed information for all tiles and skills.
   - [bdd-testing](#bdd-testing)
   - [ui-debug-workflow](#ui-debug-workflow)
 - [Software Engineering (1 tile)](#software-engineering-1-tile)
-  - [software-design-principles](#software-design-principles)
+  - [design-principles](#design-principles)
 - [Observability (3 tiles)](#observability-3-tiles)
   - [logql-generator](#logql-generator)
   - [k8s-debug](#k8s-debug)
@@ -364,13 +364,16 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 Software engineering principles
 
-### [software-design-principles](skills/software-engineering/software-design-principles)
+### [design-principles](skills/software-engineering/design-principles)
 
-Apply software design principles across architecture and implementation using deterministic decision workflows, SOLID checks, structural patterns, and anti-pattern detection; use when reviewing designs, refactoring modules, or resolving maintainability and coupling risks.
+Strategic architecture, tactical design, and testable code principles (SOLID, Clean Architecture, Design Patterns, Testable Design)
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [software-design-principles](skills/software-engineering/software-design-principles/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/software-engineering/software-design-principles/2026-03-02/audit.json) | 7 |
+| [solid-principles](skills/software-engineering/design-principles/solid-principles/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/solid-principles/2026-03-04/audit.json) | - |
+| [clean-architecture](skills/software-engineering/design-principles/clean-architecture/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/clean-architecture/2026-03-04/audit.json) | - |
+| [design-patterns](skills/software-engineering/design-principles/design-patterns/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/design-patterns/2026-03-04/audit.json) | - |
+| [testable-design](skills/software-engineering/design-principles/testable-design/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/testable-design/2026-03-04/audit.json) | - |
 
 ## Observability (3 tiles)
 
