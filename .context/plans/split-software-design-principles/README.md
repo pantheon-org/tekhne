@@ -22,12 +22,12 @@ Split the monolithic `software-design-principles` hub skill (254 lines, 44 refer
 ### 2. clean-architecture  
 **Path:** `skills/software-engineering/design-principles/clean-architecture/`  
 **Scope:** Strategic boundaries, dependency rules, layer isolation  
-**References:** 30-32 docs (dependencies, components, boundaries, frameworks, entities, use cases, adapters)
+**References:** 27-29 docs (dependencies, components, boundaries, frameworks, entities, use cases, adapters)
 
 ### 3. design-patterns
 **Path:** `skills/software-engineering/design-principles/design-patterns/`  
 **Scope:** Structural patterns, when/when-not to use, pattern selection  
-**References:** 6-8 docs (anti-patterns, examples, pattern selection workflow, implementation guides)
+**References:** 8-9 docs (anti-patterns, examples, pattern selection workflow, implementation guides, boundary pattern applications)
 
 ### 4. testable-design
 **Path:** `skills/software-engineering/design-principles/testable-design/`  
@@ -41,7 +41,7 @@ Split the monolithic `software-design-principles` hub skill (254 lines, 44 refer
 | `software-design-principles/` | **DELETED** | - |
 | `references/dep-*.md` | `clean-architecture/references/` | 6 |
 | `references/comp-*.md` | `clean-architecture/references/` | 5 |
-| `references/bound-*.md` | `clean-architecture/references/` | 6 |
+| `references/bound-*.md` | `clean-architecture/references/` (3) + `design-patterns/references/` (3) | 6 |
 | `references/frame-*.md` | `clean-architecture/references/` | 5 |
 | `references/entity-*.md` | `clean-architecture/references/` | 5 |
 | `references/usecase-*.md` | `clean-architecture/references/` | 6 |
@@ -89,7 +89,7 @@ Split the monolithic `software-design-principles` hub skill (254 lines, 44 refer
 **Mitigation:** Run audits iteratively during authoring, target weakest dimensions (D3, D5, D2)
 
 **Risk:** clean-architecture dominance (30-32/44 docs)  
-**Mitigation:** Redistribute 5-8 docs to solid-principles and design-patterns (implementation examples, pattern applications)
+**Mitigation:** Redistribute 3 boundary pattern docs (`bound-humble-object.md`, `bound-partial-boundaries.md`, `bound-defer-decisions.md`) to design-patterns; balances to 27-29 clean-arch, 8-9 design-patterns
 
 **Risk:** Undetected references in other skills/docs  
 **Mitigation:** Phase 0 includes codebase-wide grep for `software-design-principles` before deletion
