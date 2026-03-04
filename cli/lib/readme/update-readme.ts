@@ -159,18 +159,13 @@ async function generateReadmeSummaryTables(
 
     output += `\n## ${domainInfo.title} (${countLabel})\n\n`;
     output += `${domainInfo.description}\n\n`;
-    output += "| Tile | Skills | Evals | Published | Version |\n";
-    output += "| --- | --- | --- | --- | --- |\n";
+    output += "| Tile | Skills | Published | Version |\n";
+    output += "| --- | --- | --- | --- |\n";
 
     for (const tile of domainTiles) {
       const anchor = getTileAnchor(tile.shortName);
       const tileLink = `[${tile.shortName}](${TILES_PATH}#${anchor})`;
       const skillCount = tile.skills.length;
-      const totalEvals = tile.skills.reduce(
-        (sum, s) => sum + getEvalCount(s.skillDir),
-        0,
-      );
-      const evalsCell = totalEvals > 0 ? String(totalEvals) : "-";
       const publishedCell =
         tile.publishedStatus === "public"
           ? getTileTessl(tile)
@@ -178,16 +173,14 @@ async function generateReadmeSummaryTables(
             ? "Private"
             : "-";
       const versionCell = tile.version || "-";
-      output += `| ${tileLink} | ${skillCount} | ${evalsCell} | ${publishedCell} | ${versionCell} |\n`;
+      output += `| ${tileLink} | ${skillCount} | ${publishedCell} | ${versionCell} |\n`;
     }
 
     for (const skill of domainUntiledSkills) {
       const displayName = getSkillDisplayName(skill.relativePath);
       const anchor = `${getTileAnchor(displayName)}-no-tile`;
       const skillLink = `[${displayName}](${TILES_PATH}#${anchor}) _(no tile)_`;
-      const evalCount = getEvalCount(`skills/${skill.relativePath}`);
-      const evalsCell = evalCount > 0 ? String(evalCount) : "-";
-      output += `| ${skillLink} | 1 | ${evalsCell} | - | - |\n`;
+      output += `| ${skillLink} | 1 | - | - |\n`;
     }
   }
 
