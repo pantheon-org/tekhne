@@ -124,10 +124,10 @@ Software engineering principles (SOLID, Clean Architecture, Design Patterns, Tes
 
 | Skill | Description | Rating | Audit | Tessl |
 | --- | --- | --- | --- | --- |
-| [solid-principles](skills/software-engineering/solid-principles/SKILL.md) | Apply SOLID principles (SRP, OCP, LSP, ISP, DIP) for tactical class design, method extraction, and interface definition | - | - | - |
-| [clean-architecture](skills/software-engineering/clean-architecture/SKILL.md) | Apply Clean Architecture principles for strategic boundary design, dependency direction, and layered system structure | - | - | - |
-| [design-patterns](skills/software-engineering/design-patterns/SKILL.md) | Select and apply structural design patterns (Strategy, Factory, Adapter, Observer, etc.) to reduce complexity in class design | - | - | - |
-| [testable-design](skills/software-engineering/testable-design/SKILL.md) | Design code for testability using boundary isolation, dependency injection, and testable architecture patterns | - | - | - |
+| [solid-principles](skills/software-engineering/design-principles/solid-principles/SKILL.md) | Apply SOLID principles (SRP, OCP, LSP, ISP, DIP) for tactical class design, method extraction, and interface definition | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/solid-principles/latest/audit.json) | 96% |
+| [clean-architecture](skills/software-engineering/design-principles/clean-architecture/SKILL.md) | Apply Clean Architecture principles for strategic boundary design, dependency direction, and layered system structure | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/clean-architecture/latest/audit.json) | 100% |
+| [design-patterns](skills/software-engineering/design-principles/design-patterns/SKILL.md) | Select and apply structural design patterns (Strategy, Factory, Adapter, Observer, etc.) to reduce complexity in class design | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/design-patterns/latest/audit.json) | 96% |
+| [testable-design](skills/software-engineering/design-principles/testable-design/SKILL.md) | Design code for testability using boundary isolation, dependency injection, and testable architecture patterns | ![C](https://img.shields.io/badge/Rating-C-orange) | [2026-03-04](.context/audits/software-engineering/testable-design/latest/audit.json) | 100% |
 
 ## Observability (4 skills)
 
