@@ -246,12 +246,26 @@ WHY: False positives waste hours debugging phantom issues
     - **WHY:** Skills must work across 40+ agentic harnesses without modification
     - **IMPACT:** Harness-specific paths break skill discovery when synced to other agents
 
-4. **Proper Frontmatter (1 point)**
+4. **Self-Containment (penalties: up to -4 points) ⭐ CRITICAL**
+    - **No parent-escaping paths (-2 points):** SKILL.md must not use `../` references outside fenced code blocks. Skills are installed to arbitrary locations; parent paths break when the skill is not in its original repo.
+    - **No absolute repo paths (-1 point):** SKILL.md must not reference `skills/X/Y/Z` or other hardcoded repository paths outside fenced code blocks. Cross-skill dependencies should use skill names, not file paths.
+    - **No repo-root directory references (-1 point):** SKILL.md must not reference `.context/`, `.agents/`, or other repo-root directories outside fenced code blocks.
+    - **WHY:** Skills must be fully self-contained. When installed via `tessl install` or `npx skills add`, they land in arbitrary directories. Any reference to files outside the skill's own directory tree will break.
+    - **IMPACT:** Non-self-contained skills fail silently when installed outside their authoring repo.
+
+5. **Script Language Portability (bonus: +1 point)**
+    - Skills with `scripts/` containing Python (`.py`), TypeScript (`.ts`), or JavaScript (`.js`) files earn a portability bonus.
+    - These languages provide better cross-platform string manipulation, JSON handling, and error handling compared to shell for complex logic.
+    - Shell scripts (`.sh`) remain the accepted default and receive no penalty.
+    - **Accepted shebangs:** `#!/usr/bin/env python3` (Python), `#!/usr/bin/env bun` (TypeScript), `#!/usr/bin/env node` (JavaScript)
+    - **WHY:** Complex scripts that parse JSON, manipulate strings, or make HTTP calls are more portable and robust in Python/TS/JS than in POSIX shell (which depends on external tools like `jq`, and has GNU-vs-BSD divergence for `grep`/`sed`/`awk`).
+
+6. **Proper Frontmatter (1 point)**
     - name, description present
     - Consolidation notes if applicable
     - Correct YAML syntax
 
-5. **Activation Keywords (1 point)**
+7. **Activation Keywords (1 point)**
     - Domain terms that trigger skill
     - Example: "BDD, Gherkin, Given-When-Then, Cucumber"
 

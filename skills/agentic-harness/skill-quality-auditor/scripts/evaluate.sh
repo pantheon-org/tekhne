@@ -206,7 +206,41 @@ evaluate_specification_compliance() {
   if echo "$CONTENT" | grep -qE '(scripts|references|templates)/[a-zA-Z0-9_-]+'; then
     score=$((score + 1))
   fi
-  
+
+  # Script portability bonus: reward Python/TS/JS scripts for complex logic (+1)
+  SCRIPTS_DIR="$SKILL_DIR/scripts"
+  if [ -d "$SCRIPTS_DIR" ]; then
+    has_polyglot=0
+    for sf in "$SCRIPTS_DIR"/*.py "$SCRIPTS_DIR"/*.ts "$SCRIPTS_DIR"/*.js; do
+      if [ -f "$sf" ]; then
+        has_polyglot=1
+        break
+      fi
+    done
+    if [ "$has_polyglot" -eq 1 ]; then
+      score=$((score + 1))
+    fi
+  fi
+
+  # Self-containment check: penalize references to files outside the skill directory
+  # Strip fenced code blocks before checking (content inside ``` is examples, not deps)
+  non_code_content=$(echo "$CONTENT" | awk '/^```/{skip=!skip; next} !skip{print}')
+
+  # Penalty: ../ path references escape the skill directory (-2)
+  if echo "$non_code_content" | grep -qE '\.\./'; then
+    score=$((score - 2))
+  fi
+
+  # Penalty: absolute skills/X/Y paths assume repo structure (-1)
+  if echo "$non_code_content" | grep -qE 'skills/[a-z][a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+'; then
+    score=$((score - 1))
+  fi
+
+  # Penalty: references to repo-root dirs like .context/, .agents/ (-1)
+  if echo "$non_code_content" | grep -qE '\.(context|agents)/'; then
+    score=$((score - 1))
+  fi
+
   if [ "$score" -gt 15 ]; then score=15; fi
   if [ "$score" -lt 0 ]; then score=0; fi
   echo "$score"
