@@ -60,6 +60,14 @@ Critical failure modes to avoid when evaluating and improving skill quality.
 - **GOOD**: use generic agent-agnostic instructions that work everywhere.
 - **IMPACT**: creates confusion and excludes users of other agents unnecessarily.
 
+### NEVER create kitchen-sink skills that cover multiple unrelated tasks
+
+- **WHY**: broad-scope skills violate single responsibility and the D4 Task Focus Declaration ("ONE type of task"). They reduce activation accuracy because the description must be vague enough to cover all sub-topics, making it harder for agents to know when to trigger the skill. Maintenance suffers because changes to one sub-topic risk breaking unrelated sections.
+- **BAD**: a single skill covering configuration, linting, formatting, and migration for a tool (e.g., "biome-complete" merging biome-configuration and biome-linting).
+- **GOOD**: split into focused skills with clear single-purpose scope (e.g., `biome-generator` for creating configs, `biome-validator` for linting/checking). Use a consolidated `tile.json` to ship related skills together for distribution without bloating individual skill scope.
+- **IMPACT**: agents activate the skill in wrong contexts (low precision), content becomes generic instead of expert-level (hurts D1 Knowledge Delta), and the skill resists the Navigation Hub pattern because there is no clear "hub" when the skill tries to be everything.
+- **DETECTION**: description contains multiple "and"/"or" connectors suggesting unrelated tasks; skill covers >2 distinct workflows; description >300 characters to capture all sub-topics.
+
 ## Impact Analysis
 
 Each anti-pattern leads to specific failure modes:
@@ -70,3 +78,4 @@ Each anti-pattern leads to specific failure modes:
 - **Knowledge Delta neglect**: Generic content that doesn't add expert value
 - **Subjective scoring**: Inconsistent quality gates across evaluations
 - **Structure violations**: Poor maintainability and discoverability
+- **Kitchen-sink scope**: Low activation precision, generic content, maintenance fragility

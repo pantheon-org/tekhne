@@ -184,6 +184,7 @@ skill-name/
 - No code examples
 - >500 lines in single file
 - Generic "best practices" without specificity
+- Multi-purpose scope: skill covers >2 distinct workflows or description requires multiple "and"/"or" connectors to capture all sub-topics
 
 ## Quality Verification Commands
 

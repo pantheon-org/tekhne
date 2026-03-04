@@ -9,33 +9,21 @@ Navigation hub for evaluating, maintaining, and improving skill quality with 8-d
 
 ## Quick Start
 
-### Evaluate Single Skill
-
 ```bash
+# Evaluate single skill
 sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
-```
 
-### Batch Audit Multiple Skills
-
-```bash
+# Batch audit multiple skills
 sh skills/agentic-harness/skill-quality-auditor/scripts/batch-audit.sh <skill1> <skill2> [skill3...]
-```
 
-Audits multiple skills in parallel with failure tracking and summary reporting. Results stored in `.context/audits/<skill-name>/latest/`.
-
-### Audit All Skills
-
-```bash
+# Audit all skills
 sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh
-```
 
-Generates comprehensive reports in `.context/audits/` with timestamp-based baseline comparisons.
-
-### Emergency Triage (PR Context)
-
-```bash  
+# Emergency triage (PR context)
 sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only
 ```
+
+Results stored in `.context/audits/<skill-name>/latest/`.
 
 ## When to Use
 
@@ -44,7 +32,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh --pr-cha
 - Creating remediation plans with measurable success criteria
 - Detecting duplication (>20% similarity threshold) and planning aggregations
 - Enforcing artifact conventions across skill collections
-- Implementing CI quality gates with score thresholds (see [Score Thresholds](#score-thresholds))
+- Implementing CI quality gates with score thresholds (see [Score Thresholds](references/quality-thresholds-scoring.md))
 
 ## Workflow
 
@@ -55,127 +43,52 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh --pr-cha
 5. **Plan** remediation with measurable success criteria
 6. **Re-evaluate** and track score deltas with audit trails
 
-## Self-Audit
-
-This skill must pass its own evaluator with score >= 100:
-
-```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh skill-quality-auditor --json
-```
-
 ## Mindset
 
 - Treat scores as directional signals, not absolute truth.
-- Prioritize deterministic, reproducible checks — automated validation beats manual review.
+- Prioritize deterministic, reproducible checks over manual review.
 - Apply strict rules where safety/consistency matters; stay flexible elsewhere.
-- Use threshold-based evaluation rather than relative comparisons (see [Score Thresholds](#score-thresholds)).
+- Use threshold-based evaluation rather than relative comparisons.
 
-## Anti-Patterns
+## Anti-Patterns (Summary)
 
-### NEVER skip baseline comparison in recurring audits
+- NEVER skip baseline comparison in recurring audits
+- NEVER ignore Knowledge Delta scoring below 15/20
+- NEVER apply subjective scoring without deterministic checks
+- NEVER use harness-specific paths in skill content
+- NEVER mention specific agent names in skill instructions
+- NEVER create kitchen-sink skills that cover multiple unrelated tasks
+- NEVER bypass skill-quality-auditor in favor of tessl review alone
 
-- **WHY**: score changes are meaningless without prior reference points.
-- **BAD**: run ad hoc audits with no previous report linkage.
-- **GOOD**: compare current results to previous dated audits.
+See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete WHY/BAD/GOOD failure mode documentation.
 
-### NEVER ignore Knowledge Delta scoring below 15/20
+## Common Pitfalls
 
-- **WHY**: Knowledge Delta is the highest-weighted dimension and signals expert-only content gaps.
-- **BAD**: accept scores of 10-14 without investigation.
-- **GOOD**: prioritize Knowledge Delta improvements first, target ≥17/20 for A-grade skills.
+- ALWAYS run `./scripts/evaluate.sh` before publishing; NEVER trust manual review alone
+- ALWAYS check anti-pattern coverage (D3) in production skills; missing gotcha documentation is the most common pitfall
+- NEVER aggregate skills with <20% similarity; see [Duplication Detection](references/duplication-detection-algorithm.md)
 
-### NEVER apply subjective scoring without deterministic checks
+## Self-Audit
 
-- **WHY**: human judgment varies and creates inconsistent audit results.
-- **BAD**: rely on manual assessment for quality gates.
-- **GOOD**: use automated scripts and measurable criteria for consistency.
+This skill ALWAYS passes its own evaluator with score >= 100:
 
-### NEVER use harness-specific paths in skill content
+```bash
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agentic-harness/skill-quality-auditor --json
+# Expected: grade "B+" or higher, total >= 100
+```
 
-- **WHY**: paths like `.opencode/`, `.claude/`, `.cursor/` break cross-harness portability when skills are synced to other agents.
-- **BAD**: reference `.opencode/scripts/setup.sh` in instructions.
-- **GOOD**: use relative paths from skill directory: `scripts/setup.sh`.
-- **IMPACT**: skill fails to load assets when synced to Cursor, Gemini CLI, Aider, or 40+ other agents.
+Interpret output:
 
-### NEVER mention specific agent names in skill instructions
-
-- **WHY**: skills should work across all agentic harnesses following the Agent Skills specification.
-- **BAD**: "For Claude Code users, run...", "Cursor Agent should...", "GitHub Copilot can...".
-- **GOOD**: use generic agent-agnostic instructions that work everywhere.
-- **IMPACT**: creates confusion and excludes users of other agents unnecessarily.
-
-### NEVER bypass skill-quality-auditor in favor of tessl review alone
-
-- **WHY**: tessl and skill-quality-auditor measure different quality dimensions; tessl optimizes for registry metadata, skill-quality-auditor ensures agent effectiveness across 8 dimensions (D1-D8).
-- **BAD**: publish skills after only running `tessl skill review` (even at 100% score).
-- **GOOD**: run both tools independently - `evaluate.sh` for internal quality, `tessl skill review` for registry prep.
-- **IMPACT**: historical analysis showed 63 skills published with tessl-only scored 98.3/120 (82% avg) with critical weaknesses in Anti-Pattern Quality (D3: 68%) and Progressive Disclosure (D5: 73%), requiring 40-60 hours remediation.
-
-See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete failure mode documentation.
+```bash
+# Grade thresholds: A >= 108, B+ >= 102, B >= 96, C+ < 96
+# Dimension range: 0-20 (D1), 0-15 (D2-D8)
+bun cli/index.ts audit status  # Cross-repo compliance dashboard
+```
 
 ## Reference Map
 
-### Critical References (CRITICAL priority)
+**Critical**: [Quality Thresholds](references/quality-thresholds-scoring.md) | [Anti-Patterns](references/detailed-anti-patterns.md)
 
-- [**Quality Thresholds & Scoring**](references/quality-thresholds-scoring.md) - A-grade requirements, score interpretation
-- [**Detailed Anti-Patterns**](references/detailed-anti-patterns.md) - Critical failure modes with WHY/BAD/GOOD structure
+**Framework**: [Dimensions](references/framework-skill-judge-dimensions.md) | [Scoring Rubric](references/framework-scoring-rubric.md) | [Quality Standards](references/framework-quality-standards.md) | [Pattern Recognition](references/advanced-pattern-recognition.md)
 
-### High Priority References (HIGH priority)
-
-- [**Advanced Pattern Recognition**](references/advanced-pattern-recognition.md) - Quality patterns, trigger optimization
-- [**Framework Dimensions**](references/framework-skill-judge-dimensions.md) - Complete 8-dimension evaluation criteria
-- [**Scoring Rubric**](references/framework-scoring-rubric.md) - Detailed scoring methodology
-
-### Supporting Documentation
-
-- [**Remediation Planning**](references/remediation-planning.md) - Fix low-scoring skills systematically
-- [**Duplication Detection**](references/duplication-detection-algorithm.md) - Similarity algorithms and aggregation
-- [**Scripts Workflow**](references/scripts-audit-workflow.md) - Advanced script usage patterns
-- [**Tessl Compliance**](references/tessl-compliance-framework.md) - Registry submission requirements
-
-## Consistency Check
-
-Use the helper script to verify basic structural consistency across skills:
-
-```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/check-consistency.sh skills
-```
-
-This script validates frontmatter format, directory structures, required sections, and naming conventions. Critical for maintaining uniform skill quality standards across the entire collection.
-
-Run this check:
-
-- Before publishing skills to ensure compliance
-- After bulk edits to catch structural issues
-- As part of CI quality gates
-
-## Artifact Validation
-
-Validate skill artifacts before submission:
-
-```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh
-```
-
-This validates:
-
-- **tile.json existence and format**: Required for registry submission — every skill needs valid tile.json with name, summary, version
-- **SKILL.md frontmatter**: name, description fields present and valid
-- **Directory conventions**: Proper structure under `skills/<skill-name>/`
-- **Template format**: YAML files in templates/ use correct `.yaml`/`.yml` extension
-- **Schema format**: JSON Schema files include `"$schema"` declaration
-- **Script portability**: Shell scripts have proper shebang `#!/usr/bin/env sh`
-
-Always validate artifacts before running audits to ensure results are meaningful.
-
-## Progressive Disclosure Evaluation
-
-Skills should use Navigation Hub architecture with progressive disclosure:
-
-1. **SKILL.md as Hub (8 points)**: Keep SKILL.md under 100 lines — overview, when-to-use, and reference guide only.
-2. **References Directory (4 points)**: Detailed content goes in `references/*.md` files for deeper dives.
-3. **Artifact Separation**: Scripts in `scripts/`, templates in `templates/`, schemas in `schemas/` — not mixed into main docs.
-
-## Score Thresholds
-
-See [Quality Thresholds & Scoring](references/quality-thresholds-scoring.md) for grade boundaries, score interpretation, and detailed A-grade requirements.
+**Operations**: [Remediation Planning](references/remediation-planning.md) | [Duplication Detection](references/duplication-detection-algorithm.md) | [Scripts Workflow](references/scripts-audit-workflow.md) | [Tessl Compliance](references/tessl-compliance-framework.md)

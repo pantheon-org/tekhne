@@ -1,0 +1,19 @@
+{
+  "skill": "agentic-harness/skill-quality-auditor",
+  "dimensions": {
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 14,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 15,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 13
+  },
+  "total": 113,
+  "maxTotal": 120,
+  "grade": "A",
+  "lines": 94,
+  "hasReferences": true,
+  "referenceCount": 22
+}
