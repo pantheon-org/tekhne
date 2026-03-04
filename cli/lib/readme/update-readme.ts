@@ -9,7 +9,7 @@ import {
 } from "./audit-info";
 import { DOMAINS } from "./domain-config";
 import { getSkillDisplayName, parseSkillDescription } from "./skill-parser";
-import { getTesslStatus } from "./tessl-status";
+import { findAllTiles, getTileTessl, type TileEntry } from "./tile-parser";
 
 interface UpdateOptions {
   dryRun?: boolean;
@@ -31,40 +31,98 @@ async function findAllSkills(): Promise<SkillEntry[]> {
   });
 }
 
-async function generateDomainTables(skills: SkillEntry[]): Promise<string> {
+function findUntiledSkills(
+  allSkills: SkillEntry[],
+  tiles: TileEntry[],
+): SkillEntry[] {
+  const tiledSkillDirs = new Set(
+    tiles.flatMap((t) => t.skills.map((s) => s.skillDir)),
+  );
+  return allSkills.filter(
+    (skill) => !tiledSkillDirs.has(`skills/${skill.relativePath}`),
+  );
+}
+
+function formatSummary(summary: string): string {
+  const cleaned = summary.replace(/\|/g, "\\|").replace(/\n/g, " ").trim();
+  return cleaned.length > 80 ? `${cleaned.substring(0, 80)}...` : cleaned;
+}
+
+async function buildSkillCell(
+  skillDir: string,
+  skillName: string,
+  auditRelPath: string,
+): Promise<string> {
+  const skillMdLink = `[${skillName}](${skillDir}/SKILL.md)`;
+  const auditInfo = await getLatestAuditInfo(auditRelPath);
+
+  if (auditInfo) {
+    const badge = getBadgeMarkdown(auditInfo.grade);
+    const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
+    return `${skillMdLink} ${badge} ${auditLink}`;
+  }
+
+  return `${skillMdLink} ![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
+}
+
+async function generateDomainTables(
+  tiles: TileEntry[],
+  untiledSkills: SkillEntry[],
+): Promise<string> {
   let output = "";
 
   for (const domainInfo of DOMAINS) {
-    const domainSkills = skills.filter((s) => s.domain === domainInfo.key);
+    const domainTiles = tiles.filter((t) => t.domain === domainInfo.key);
+    const domainUntiledSkills = untiledSkills.filter(
+      (s) => s.domain === domainInfo.key,
+    );
 
-    if (domainSkills.length === 0) {
-      continue;
+    if (domainTiles.length === 0 && domainUntiledSkills.length === 0) continue;
+
+    const tileCount = domainTiles.length;
+    const skillCount = domainUntiledSkills.length;
+    let countLabel: string;
+    if (tileCount > 0 && skillCount > 0) {
+      countLabel = `${tileCount} tile${tileCount !== 1 ? "s" : ""}, ${skillCount} skill${skillCount !== 1 ? "s" : ""}`;
+    } else if (tileCount > 0) {
+      countLabel = `${tileCount} tile${tileCount !== 1 ? "s" : ""}`;
+    } else {
+      countLabel = `${skillCount} skill${skillCount !== 1 ? "s" : ""}`;
     }
 
-    output += `\n## ${domainInfo.title} (${domainSkills.length} skills)\n\n`;
+    output += `\n## ${domainInfo.title} (${countLabel})\n\n`;
     output += `${domainInfo.description}\n\n`;
-    output += "| Skill | Description | Rating | Audit | Tessl |\n";
-    output += "| --- | --- | --- | --- | --- |\n";
+    output += "| Tile | Description | Skills | Tessl |\n";
+    output += "| --- | --- | --- | --- |\n";
 
-    for (const skill of domainSkills) {
+    for (const tile of domainTiles) {
+      const tileLink = `[${tile.shortName}](${tile.tileDir})`;
+      const description = formatSummary(tile.summary);
+      const tesslStatus = getTileTessl(tile);
+
+      const skillCells = await Promise.all(
+        tile.skills.map((s) => buildSkillCell(s.skillDir, s.name, s.auditRelPath)),
+      );
+      const skillsCell = skillCells.join("<br>");
+
+      output += `| ${tileLink} | ${description} | ${skillsCell} | ${tesslStatus} |\n`;
+    }
+
+    for (const skill of domainUntiledSkills) {
       const displayName = getSkillDisplayName(skill.relativePath);
       const description = parseSkillDescription(`skills/${skill.relativePath}`);
       const auditInfo = await getLatestAuditInfo(skill.relativePath);
 
-      let badge: string;
-      let auditLink: string;
-
+      let skillCell: string;
       if (auditInfo) {
-        badge = getBadgeMarkdown(auditInfo.grade);
-        auditLink = getAuditLink(auditInfo.date, auditInfo.path);
+        const badge = getBadgeMarkdown(auditInfo.grade);
+        const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
+        skillCell = `[${displayName}](skills/${skill.relativePath}/SKILL.md) ${badge} ${auditLink}`;
       } else {
-        badge = "![?](https://img.shields.io/badge/Rating-?-lightgrey)";
-        auditLink = "-";
+        skillCell = `[${displayName}](skills/${skill.relativePath}/SKILL.md) ![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
       }
 
-      const tesslStatus = await getTesslStatus(skill.relativePath);
-
-      output += `| [${displayName}](skills/${skill.relativePath}/SKILL.md) | ${description} | ${badge} | ${auditLink} | ${tesslStatus} |\n`;
+      output += `| ${displayName} _(no tile)_ | ${description} | ${skillCell} | - |\n`;
     }
   }
 
@@ -79,7 +137,7 @@ interface ReadmeSections {
 function isSkillSectionStart(line: string, domainHeaders: string[]): boolean {
   return (
     domainHeaders.some((h) => line.startsWith(`## ${h}`)) ||
-    line.match(/^\| Skill \| Description/) !== null
+    line.match(/^\| (Skill|Tile) \| Description/) !== null
   );
 }
 
@@ -154,12 +212,18 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
     throw new FileNotFoundError(readmePath);
   }
 
+  logger.info("Finding all tiles...");
+  const tiles = await findAllTiles();
+  logger.info(`Found ${tiles.length} tiles`);
+
   logger.info("Finding all skills...");
-  const skills = await findAllSkills();
-  logger.info(`Found ${skills.length} skills`);
+  const allSkills = await findAllSkills();
+
+  const untiledSkills = findUntiledSkills(allSkills, tiles);
+  logger.info(`Found ${untiledSkills.length} untiled skills`);
 
   logger.info("Generating domain tables...");
-  const newTables = await generateDomainTables(skills);
+  const newTables = await generateDomainTables(tiles, untiledSkills);
 
   logger.info("Updating README.md...");
   const content = readFileSync(readmePath, "utf-8");
@@ -177,6 +241,8 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
     await showDryRunDiff(readmePath, newContent);
   } else {
     writeFileSync(readmePath, newContent);
-    logger.success("README.md updated with 12 domain-organized skill tables");
+    logger.success(
+      `README.md updated with ${tiles.length} tiles across domain-organized tables`,
+    );
   }
 }
