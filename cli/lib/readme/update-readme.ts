@@ -44,25 +44,55 @@ function findUntiledSkills(
 }
 
 function formatSummary(summary: string): string {
-  const cleaned = summary.replace(/\|/g, "\\|").replace(/\n/g, " ").trim();
+  const cleaned = summary.replace(/\n/g, " ").trim();
   return cleaned.length > 80 ? `${cleaned.substring(0, 80)}...` : cleaned;
 }
 
-async function buildSkillCell(
-  skillDir: string,
-  skillName: string,
-  auditRelPath: string,
-): Promise<string> {
-  const skillMdLink = `[${skillName}](${skillDir}/SKILL.md)`;
-  const auditInfo = await getLatestAuditInfo(auditRelPath);
+async function generateTileSection(tile: TileEntry): Promise<string> {
+  const tileLink = `[${tile.shortName}](${tile.tileDir})`;
+  const description = formatSummary(tile.summary);
+  const tesslStatus = getTileTessl(tile);
 
+  const meta = tile.isPublic ? ` · ${tesslStatus}` : "";
+  let output = `\n### ${tileLink} — ${description}${meta}\n\n`;
+  output += "| Skill | Rating | Audit |\n";
+  output += "| --- | --- | --- |\n";
+
+  for (const skill of tile.skills) {
+    const skillLink = `[${skill.name}](${skill.skillDir}/SKILL.md)`;
+    const auditInfo = await getLatestAuditInfo(skill.auditRelPath);
+
+    if (auditInfo) {
+      const badge = getBadgeMarkdown(auditInfo.grade);
+      const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
+      output += `| ${skillLink} | ${badge} | ${auditLink} |\n`;
+    } else {
+      output += `| ${skillLink} | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - |\n`;
+    }
+  }
+
+  return output;
+}
+
+async function generateUntiledSkillSection(skill: SkillEntry): Promise<string> {
+  const displayName = getSkillDisplayName(skill.relativePath);
+  const description = parseSkillDescription(`skills/${skill.relativePath}`);
+  const auditInfo = await getLatestAuditInfo(skill.relativePath);
+
+  let output = `\n### ${displayName} _(no tile)_ — ${description}\n\n`;
+  output += "| Skill | Rating | Audit |\n";
+  output += "| --- | --- | --- |\n";
+
+  const skillLink = `[${displayName}](skills/${skill.relativePath}/SKILL.md)`;
   if (auditInfo) {
     const badge = getBadgeMarkdown(auditInfo.grade);
     const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
-    return `${skillMdLink} ${badge} ${auditLink}`;
+    output += `| ${skillLink} | ${badge} | ${auditLink} |\n`;
+  } else {
+    output += `| ${skillLink} | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - |\n`;
   }
 
-  return `${skillMdLink} ![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
+  return output;
 }
 
 async function generateDomainTables(
@@ -91,38 +121,14 @@ async function generateDomainTables(
     }
 
     output += `\n## ${domainInfo.title} (${countLabel})\n\n`;
-    output += `${domainInfo.description}\n\n`;
-    output += "| Tile | Description | Skills | Tessl |\n";
-    output += "| --- | --- | --- | --- |\n";
+    output += `${domainInfo.description}\n`;
 
     for (const tile of domainTiles) {
-      const tileLink = `[${tile.shortName}](${tile.tileDir})`;
-      const description = formatSummary(tile.summary);
-      const tesslStatus = getTileTessl(tile);
-
-      const skillCells = await Promise.all(
-        tile.skills.map((s) => buildSkillCell(s.skillDir, s.name, s.auditRelPath)),
-      );
-      const skillsCell = skillCells.join("<br>");
-
-      output += `| ${tileLink} | ${description} | ${skillsCell} | ${tesslStatus} |\n`;
+      output += await generateTileSection(tile);
     }
 
     for (const skill of domainUntiledSkills) {
-      const displayName = getSkillDisplayName(skill.relativePath);
-      const description = parseSkillDescription(`skills/${skill.relativePath}`);
-      const auditInfo = await getLatestAuditInfo(skill.relativePath);
-
-      let skillCell: string;
-      if (auditInfo) {
-        const badge = getBadgeMarkdown(auditInfo.grade);
-        const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
-        skillCell = `[${displayName}](skills/${skill.relativePath}/SKILL.md) ${badge} ${auditLink}`;
-      } else {
-        skillCell = `[${displayName}](skills/${skill.relativePath}/SKILL.md) ![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
-      }
-
-      output += `| ${displayName} _(no tile)_ | ${description} | ${skillCell} | - |\n`;
+      output += await generateUntiledSkillSection(skill);
     }
   }
 
@@ -135,10 +141,7 @@ interface ReadmeSections {
 }
 
 function isSkillSectionStart(line: string, domainHeaders: string[]): boolean {
-  return (
-    domainHeaders.some((h) => line.startsWith(`## ${h}`)) ||
-    line.match(/^\| (Skill|Tile) \| Description/) !== null
-  );
+  return domainHeaders.some((h) => line.startsWith(`## ${h}`));
 }
 
 function isSkillSectionEnd(line: string, domainHeaders: string[]): boolean {
