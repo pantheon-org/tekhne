@@ -3,17 +3,18 @@
   "dimensions": {
     "knowledgeDelta": 20,
     "mindsetProcedures": 14,
-    "antiPatternQuality": 13,
+    "antiPatternQuality": 15,
     "specificationCompliance": 15,
     "progressiveDisclosure": 15,
     "freedomCalibration": 13,
     "patternRecognition": 10,
-    "practicalUsability": 13
+    "practicalUsability": 13,
+    "evalValidation": 17
   },
-  "total": 113,
-  "maxTotal": 120,
+  "total": 132,
+  "maxTotal": 140,
   "grade": "A",
-  "lines": 94,
+  "lines": 97,
   "hasReferences": true,
   "referenceCount": 22
 }

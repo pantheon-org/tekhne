@@ -12,11 +12,11 @@ Complete scoring framework and threshold interpretation for skill quality assess
 
 | Score Range | Grade | Status | Action Required |
 |-------------|-------|--------|----------------|
-| 108+ | A | Production Ready | Tessl registry eligible |
-| 96-107 | B+ | Good Quality | Minor improvements |
-| 84-95 | B/C+ | Passing | Remediation recommended |
-| 70-83 | C | Below Standard | Major improvements required |
-| <70 | F | Failing | Complete rework needed |
+| 126+ | A | Production Ready | Tessl registry eligible |
+| 112-125 | B/B+ | Good Quality | Minor improvements |
+| 98-111 | C/C+ | Passing | Remediation recommended |
+| 91-97 | D | Below Standard | Major improvements required |
+| <91 | F | Failing | Complete rework needed |
 
 ## Score Interpretation
 
@@ -30,6 +30,7 @@ Complete scoring framework and threshold interpretation for skill quality assess
 | Dimension | Max Points | Priority | Focus Area |
 |-----------|------------|----------|------------|
 | Knowledge Delta | 20 | HIGHEST | Expert-only content |
+| Eval Validation | 20 | HIGHEST | Runtime validation via tessl evals |
 | Mindset + Procedures | 15 | HIGH | Philosophy + workflows |
 | Anti-Pattern Quality | 15 | HIGH | NEVER + WHY + consequences |
 | Practical Usability | 15 | HIGH | Concrete examples |
@@ -38,14 +39,15 @@ Complete scoring framework and threshold interpretation for skill quality assess
 | Freedom Calibration | 15 | MEDIUM | Appropriate rigidity |
 | Pattern Recognition | 10 | LOW | Activation keywords |
 
-## A-Grade Requirements (≥108)
+## A-Grade Requirements (>=126)
 
 ### Critical Success Factors
 
-1. **Knowledge Delta ≥17/20**: Expert content with <10% redundancy
-2. **Anti-Patterns ≥13/15**: Multiple NEVER statements with consequences
-3. **Progressive Disclosure ≥13/15**: Navigation hub + references structure
-4. **Strong Activation**: Comprehensive description with trigger keywords
+1. **Knowledge Delta >=17/20**: Expert content with <10% redundancy
+2. **Eval Validation >=17/20**: Complete evals with >=80% instruction coverage
+3. **Anti-Patterns >=13/15**: Multiple NEVER statements with consequences
+4. **Progressive Disclosure >=13/15**: Navigation hub + references structure
+5. **Strong Activation**: Comprehensive description with trigger keywords
 
 ### Common A-Grade Patterns
 
@@ -62,6 +64,7 @@ Complete scoring framework and threshold interpretation for skill quality assess
 - Enhance description field with activation keywords
 - Create proper references directory structure
 - Add concrete code examples
+- Create eval scenarios using `creating-eval-scenarios` skill
 
 ### High Impact, High Effort
 
@@ -69,6 +72,7 @@ Complete scoring framework and threshold interpretation for skill quality assess
 - Add expert-only content to boost Knowledge Delta
 - Create comprehensive workflow documentation
 - Develop specialized troubleshooting guides
+- Achieve >=80% instruction coverage in evals
 
 ### Medium Priority
 
@@ -79,14 +83,14 @@ Complete scoring framework and threshold interpretation for skill quality assess
 
 ## Score Optimization Strategies
 
-### For 90-105 Range (B/B+ → A)
+### For 105-125 Range (B/B+ -> A)
 
-Focus on the "Big 3": Knowledge Delta, Anti-Patterns, Progressive Disclosure
+Focus on the "Big 4": Knowledge Delta, Eval Validation, Anti-Patterns, Progressive Disclosure
 
-### For 80-90 Range (C+ → B)
+### For 98-104 Range (C/C+ -> B)
 
-Address specification compliance and practical usability first
+Address specification compliance, practical usability, and create eval scenarios first
 
-### For <80 Range (Failing)
+### For <98 Range (Failing)
 
-Complete restructure required - start with navigation hub and expert content
+Complete restructure required - start with navigation hub, expert content, and eval scenarios

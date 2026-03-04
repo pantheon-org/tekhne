@@ -4,7 +4,7 @@ priority: CRITICAL
 source: skill-judge canonical + session experience
 ---
 
-# Skill-Judge Evaluation Framework: 8 Dimensions
+# Skill-Judge Evaluation Framework: 9 Dimensions
 
 Complete evaluation methodology for assessing skill quality using the skill-judge framework. This is the foundation for all quality auditing.
 
@@ -12,9 +12,9 @@ Canonical source reference: `framework-skill-judge-canonical.md`
 
 ## Overview
 
-The skill-judge framework evaluates skills across 8 dimensions totaling 120 points. **Dimension 1 (Knowledge Delta)** is most important - skills must contain expert-only knowledge, not concepts AI assistants already know.
+The skill-judge framework evaluates skills across 9 dimensions totaling 140 points. **Dimension 1 (Knowledge Delta)** and **Dimension 9 (Eval Validation)** carry the highest weight at 20 points each - skills must contain expert-only knowledge AND be validated at runtime via tessl eval scenarios.
 
-**Target Score:** ≥108 points (90%) = A-grade
+**Target Score:** ≥126 points (90%) = A-grade
 
 ## Dimension 1: Knowledge Delta (20 points) ⭐ MOST IMPORTANT
 
@@ -78,7 +78,7 @@ function add(a: number, b: number) { return a + b }
 const add = (a: number, b: number) => a + b
 ```
 
-*Problem: AI assistants already know basic TypeScript syntax*
+Problem: AI assistants already know basic TypeScript syntax.
 
 **✅ High Knowledge Delta (19/20):**
 
@@ -106,7 +106,7 @@ Bad design allows bugs: `{ loading: true, data: user }` is impossible but TypeSc
 Good design: TypeScript prevents impossible states at compile time.
 ```
 
-*Expert pattern AI assistants don't know by default*
+Expert pattern AI assistants don't know by default.
 
 ## Dimension 2: Mindset + Procedures (15 points)
 
@@ -384,7 +384,7 @@ ALWAYS show command output as proof.
 ZERO exceptions to verification protocol.
 ```
 
-*Appropriately rigid for critical verification*
+Appropriately rigid for critical verification.
 
 **❌ Miscalibrated (7/15):**
 
@@ -396,7 +396,7 @@ ALWAYS use const for all variables.
 NEVER use let or var under any circumstances.
 ```
 
-*Too rigid - let has valid use cases*
+Too rigid - let has valid use cases.
 
 ## Dimension 7: Pattern Recognition (10 points)
 
@@ -445,22 +445,109 @@ NEVER use let or var under any circumstances.
    - Scannable headings
    - Code blocks properly formatted
 
-## Summary: The 120-Point Scale
+## Dimension 9: Eval Validation (20 points) -- HIGHEST PRIORITY
 
-| Dimension | Max | Focus |
-|-----------|-----|-------|
-| D1: Knowledge Delta | 20 | Expert knowledge only |
-| D2: Mindset + Procedures | 15 | Philosophy + workflows |
-| D3: Anti-Pattern Quality | 15 | NEVER + WHY + consequences |
-| D4: Specification | 15 | Description field critical |
-| D5: Progressive Disclosure | 15 | Hub + references |
-| D6: Freedom Calibration | 15 | Appropriate rigidity |
-| D7: Pattern Recognition | 10 | Activation keywords |
-| D8: Practical Usability | 15 | Concrete examples |
-| **TOTAL** | **120** | **A-grade = 108+** |
+**Purpose:** Verify the skill has been validated at runtime through tessl eval scenarios, proving agents actually follow its instructions.
+
+**Scoring:**
+
+- **17-20 points:** Complete evals with >=80% instruction coverage, >=3 valid scenarios
+- **13-16 points:** Evals present with partial coverage or incomplete scenarios
+- **7-12 points:** Evals directory exists but missing key files
+- **1-6 points:** Minimal eval structure, no coverage data
+- **0 points:** No evals directory
+
+**Core Principle:** Static quality (D1-D8) is necessary but not sufficient. Runtime validation proves the skill actually changes agent behavior.
+
+### Components
+
+1. **Eval Directory Structure (4 points)**
+   - `evals/` directory exists with proper layout
+   - Follows tessl eval harness conventions
+
+2. **Instruction Inventory (3 points)**
+   - `instructions.json` present and non-empty
+   - Every instruction extracted from SKILL.md
+   - Classified by `why_given`: reminder, new knowledge, preference
+
+3. **Coverage Statistics (6 points)**
+   - `summary.json` with `instructions_coverage` data (3 points)
+   - Coverage percentage >= 80% (3 points)
+
+4. **Valid Scenarios (4 points)**
+   - >= 3 scenarios with complete structure (task.md + criteria.json + capability.txt)
+   - Each criteria.json sums to exactly 100
+
+5. **Criteria Quality (3 points)**
+   - 10+ checklist items per scenario
+   - Binary yes/no criteria traceable to specific instructions
+   - No instruction leakage in task.md
+
+### Relationship to D1 and D3
+
+When `instructions.json` exists, its data enriches other dimensions:
+
+- **D1 (Knowledge Delta):** The `why_given` distribution (new knowledge + preference vs reminders) provides a more accurate expert content ratio than shell heuristics alone.
+- **D3 (Anti-Pattern Quality):** Instructions containing NEVER/ALWAYS/anti-pattern keywords are cross-referenced with scenario coverage for a stronger signal.
+
+### Creating Evals
+
+Use the `creating-eval-scenarios` skill to generate evaluation scenarios:
+
+```bash
+# Ensure skill is packaged as a tessl tile first
+tessl eval run <tile-path>
+tessl eval view-status <status_id> --json
+```
+
+### Examples
+
+**High Eval Validation (19/20):**
+
+```
+skill-name/evals/
+  instructions.json      # 28 instructions extracted
+  summary.json           # 100% coverage, 5 scenarios
+  summary_infeasible.json
+  scenario-0/            # task.md + criteria.json (sum=100) + capability.txt
+  scenario-1/
+  scenario-2/
+  scenario-3/
+  scenario-4/
+```
+
+**Low Eval Validation (4/20):**
+
+```
+skill-name/evals/
+  instructions.json      # Present but only 5 instructions
+  # No summary.json, no scenarios
+```
+
+**Zero Eval Validation (0/20):**
+
+```
+skill-name/
+  SKILL.md               # No evals/ directory at all
+```
+
+## Summary: The 140-Point Scale
+
+| Dimension | Max | Priority | Focus |
+|-----------|-----|----------|-------|
+| D1: Knowledge Delta | 20 | HIGHEST | Expert knowledge only |
+| D2: Mindset + Procedures | 15 | HIGH | Philosophy + workflows |
+| D3: Anti-Pattern Quality | 15 | HIGH | NEVER + WHY + consequences |
+| D4: Specification | 15 | MEDIUM | Description field critical |
+| D5: Progressive Disclosure | 15 | MEDIUM | Hub + references |
+| D6: Freedom Calibration | 15 | MEDIUM | Appropriate rigidity |
+| D7: Pattern Recognition | 10 | LOW | Activation keywords |
+| D8: Practical Usability | 15 | HIGH | Concrete examples |
+| D9: Eval Validation | 20 | HIGHEST | Runtime validation via tessl evals |
+| **TOTAL** | **140** | | **A-grade = 126+** |
 
 ## See Also
 
 - `framework-scoring-rubric.md` - Detailed scoring methodology
 - `framework-quality-standards.md` - A-grade requirements
-- Original skill-judge in `.agents/skills/skill-judge/`
+- `creating-eval-scenarios` skill - Tessl eval scenario generation

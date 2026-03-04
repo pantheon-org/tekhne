@@ -6,7 +6,7 @@ set -e
 
 AUDIT_DIR=""
 SKILL_NAME=""
-TARGET_SCORE="102"
+TARGET_SCORE="119"
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -21,7 +21,7 @@ while [ "$#" -gt 0 ]; do
       ;;
     --help|-h)
       echo "Usage: $0 [--audit-dir <path>] [skill-name] [target-score]"
-      echo "Example: $0 --audit-dir .context/audits/skill-audit/latest/ typescript-advanced 108"
+      echo "Example: $0 --audit-dir .context/audits/skill-audit/latest/ typescript-advanced 126"
       exit 0
       ;;
     -*)
@@ -32,7 +32,7 @@ while [ "$#" -gt 0 ]; do
       if [ -z "$SKILL_NAME" ]; then
         SKILL_NAME="$1"
         shift
-      elif [ -z "$TARGET_SCORE" ] || [ "$TARGET_SCORE" = "102" ]; then
+      elif [ -z "$TARGET_SCORE" ] || [ "$TARGET_SCORE" = "119" ]; then
         TARGET_SCORE="$1"
         shift
       else
@@ -82,16 +82,16 @@ fi
 SCORE=$(printf '%s' "$SKILL_DATA" | sed -n 's/.*"total": *\([0-9]*\).*/\1/p')
 GRADE=$(printf '%s' "$SKILL_DATA" | sed -n 's/.*"grade": *"\([^"]*\)".*/\1/p')
 
-PERCENT=$((SCORE * 100 / 120))
-TARGET_PERCENT=$((TARGET_SCORE * 100 / 120))
+PERCENT=$((SCORE * 100 / 140))
+TARGET_PERCENT=$((TARGET_SCORE * 100 / 140))
 
 case "$TARGET_SCORE" in
-  114) TARGET_GRADE="A+" ;;
-  108) TARGET_GRADE="A" ;;
-  102) TARGET_GRADE="B+" ;;
-  96) TARGET_GRADE="B" ;;
-  90) TARGET_GRADE="C+" ;;
-  84) TARGET_GRADE="C" ;;
+  133) TARGET_GRADE="A+" ;;
+  126) TARGET_GRADE="A" ;;
+  119) TARGET_GRADE="B+" ;;
+  112) TARGET_GRADE="B" ;;
+  105) TARGET_GRADE="C+" ;;
+  98) TARGET_GRADE="C" ;;
   *) TARGET_GRADE="B" ;;
 esac
 
@@ -108,7 +108,7 @@ source_audit: $AUDIT_JSON
 
 | Metric | Current | Target |
 | --- | --- | --- |
-| **Score** | $SCORE/120 ($PERCENT%) | $TARGET_SCORE/120 ($TARGET_PERCENT%) |
+| **Score** | $SCORE/140 ($PERCENT%) | $TARGET_SCORE/140 ($TARGET_PERCENT%) |
 | **Grade** | $GRADE | $TARGET_GRADE |
 | **Priority** | [PRIORITY] | - |
 | **Effort** | [EFFORT] | - |
@@ -161,7 +161,7 @@ bunx markdownlint-cli2 "skills/$SKILL_NAME/**/*.md"
 | Criterion | Measurement |
 | --- | --- |
 | [Dimension] Score | Score >= [target]/[max] |
-| Overall Score | >= $TARGET_SCORE/120 ($TARGET_GRADE) |
+| Overall Score | >= $TARGET_SCORE/140 ($TARGET_GRADE) |
 
 ## Effort Estimate
 
