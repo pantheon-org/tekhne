@@ -8,7 +8,7 @@ on:
       - "skills/**"
 
 concurrency:
-  group: post-merge-${{ github.ref }}
+  group: post-merge-${{ github.event.pull_request.base.ref }}
   cancel-in-progress: false
 
 jobs:
