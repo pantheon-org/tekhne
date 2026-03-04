@@ -1,6 +1,6 @@
 ---
 name: skill-quality-auditor
-description: Audit and improve skill collections with 9-dimension scoring framework (Knowledge Delta, Anti-Patterns, Progressive Disclosure, Eval Validation), duplication detection, remediation planning, CI quality gates, tessl compliance, A-grade optimization, baseline comparison, trend analysis, artifact validation, consistency checking. Use when evaluating skill quality, generating remediation plans, validating report format, skill-judge framework, score thresholds, enforcing repository-wide skill artifact conventions, or when users say 'check my skills', 'review skill files', 'skill audit', 'improve my SKILL.md files', 'find duplicate skills', 'validate skill format', 'quality check my skills', 'A-grade scoring', 'tessl compliance', 'skill assessment', 'quality gates', or 'eval validation'.
+description: Evaluate, score, and remediate agent skill collections using a 9-dimension quality framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation). Performs duplication detection, generates remediation plans with T-shirt sizing, enforces CI quality gates, validates artifact conventions, tracks score trends, and ensures tessl registry compliance. Use when evaluating skill quality, auditing SKILL.md files, scoring agent skills, generating remediation plans, detecting duplicate skills, validating skill format, enforcing quality gates, optimizing for A-grade publication, comparing audit baselines, batch skill assessments, checking tessl compliance, or creating quality dashboards. Triggers: 'check my skills', 'skill audit', 'improve my SKILL.md', 'find duplicate skills', 'quality check', 'A-grade scoring', 'tessl compliance', 'quality gates', 'eval validation', 'score my skills', 'audit all skills', 'remediation plan', 'skill judge', 'dimension scoring'.
 ---
 
 # Skill Quality Auditor
@@ -63,27 +63,27 @@ Results stored in `.context/audits/<skill-name>/latest/`.
 
 See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete WHY/BAD/GOOD failure mode documentation.
 
-## Common Pitfalls
+## Examples
 
-- ALWAYS run `./scripts/evaluate.sh` before publishing; NEVER trust manual review alone
-- ALWAYS check anti-pattern coverage (D3) in production skills; missing gotcha documentation is the most common pitfall
-- NEVER aggregate skills with <20% similarity; see [Duplication Detection](references/duplication-detection-algorithm.md)
+```bash
+./scripts/evaluate.sh infrastructure/terraform-generator --json --store
+# Output: {"grade":"B+","total":122,"dimensions":{...}}
+
+./scripts/batch-audit.sh infrastructure/terraform-generator ci-cd/github-actions-generator
+# Audits multiple skills, stores results in .context/audits/
+
+./scripts/evaluate.sh documentation/markdown-authoring --json --store
+# Score: 98/140 (C+) -> review remediation-plan.md -> fix -> re-audit -> 128/140 (A)
+```
+
+See [Audit Workflow Examples](references/examples-audit-workflows.md) for detailed input/output pairs, baseline comparison, remediation workflow, and CI quality gate configuration.
 
 ## Self-Audit
 
-This skill ALWAYS passes its own evaluator with score >= 120:
-
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agentic-harness/skill-quality-auditor --json
-# Expected: grade "B+" or higher, total >= 120
-```
-
-Interpret output:
-
-```bash
+./scripts/evaluate.sh agentic-harness/skill-quality-auditor --json
+# Expected: grade "A" or higher, total >= 126/140
 # Grade thresholds: A >= 126, B+ >= 119, B >= 112, C+ < 112
-# Dimension range: 0-20 (D1, D9), 0-15 (D2-D8)
-bun cli/index.ts audit status  # Cross-repo compliance dashboard
 ```
 
 ## Reference Map

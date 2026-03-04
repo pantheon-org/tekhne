@@ -10,15 +10,17 @@ source_audit: ".context/audits/agentic-harness/skill-quality-auditor/2026-03-04/
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Score** | 106/120 (88%) | 108/120 (90%) |
+| **Score** | 121/140 (86%) | 126/140 (90%) |
 | **Grade** | B+ | A |
 | **Priority** | Medium | |
 | **Effort** | S | |
 
 **Focus Areas**:
-- D8: Practical Usability (9/15)
+- D4: Specification Compliance (10/15)
+- D5: Progressive Disclosure (11/15)
+- D7: Pattern Recognition (6/10)
 
-**Verdict**: Targeted improvements needed to reach grade A (+2 points).
+**Verdict**: Targeted improvements needed to reach grade A (+5 points).
 
 ---
 
@@ -26,7 +28,9 @@ source_audit: ".context/audits/agentic-harness/skill-quality-auditor/2026-03-04/
 
 | Issue | Dimension | Severity | Impact |
 |-------|-----------|----------|--------|
-| Limited practical examples | D8 (9/15) | High | Agents struggle to apply skill |
+| Weak description field | D4 (10/15) | Medium | Skill discovery suffers |
+| Poor progressive disclosure | D5 (11/15) | High | Skill is too long or lacks refs |
+| Weak pattern recognition | D7 (6/10) | Medium | Skill trigger rate is low |
 
 ---
 
@@ -35,17 +39,15 @@ source_audit: ".context/audits/agentic-harness/skill-quality-auditor/2026-03-04/
 > **Note**: This is an auto-generated template. Review dimension scores and customize based on actual skill content.
 
 
-### Phase 1: Practical Usability - Priority: High
+### Phase 1: Progressive Disclosure - Priority: High
 
-**Target**: Increase D8 from 9/15 to 13/15 (+4 points)
+**Target**: Increase D5 from 11/15 to 13/15 (+2 points)
 
-#### Step 1.1: Add Code Examples
+#### Step 1.1: Create Reference Files
 
-Add executable code blocks with language tags.
+Move detailed content to `references/` directory.
 
-**File**: `skills/agentic-harness/skill-quality-auditor/SKILL.md`
-
-**Action**: Include bash/typescript examples with clear syntax highlighting.
+**Action**: Extract deep-dive content into separate files, keep SKILL.md as navigation hub.
 
 ---
 
@@ -56,7 +58,7 @@ Add executable code blocks with language tags.
 sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agentic-harness/skill-quality-auditor --json --store
 
 # Check target score achieved
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agentic-harness/skill-quality-auditor --json | jq '.total >= 108'
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agentic-harness/skill-quality-auditor --json | jq ".total >= 126"
 ```
 
 ---
@@ -65,9 +67,9 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agentic-harn
 
 | Criterion | Measurement |
 |-----------|-------------|
-| Overall Score | >= 108/120 |
+| Overall Score | >= 126/140 |
 | Grade | >= A |
-| D8: Practical Usability | >= 13/15 |
+| D5: Progressive Disclosure | >= 13/15 |
 
 ---
 
