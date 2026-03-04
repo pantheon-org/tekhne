@@ -121,7 +121,7 @@ jobs:
         run: |
           # Find SKILL.md / AGENTS.md files that were added or modified
           CHANGED=$(git diff --name-only --diff-filter=AM \
-            "origin/${{ github.base_ref }}...${{ github.sha }}" \
+            "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
             -- 'skills/**/SKILL.md' 'skills/**/AGENTS.md' 2>/dev/null || true)
 
           if [ -z "$CHANGED" ]; then
