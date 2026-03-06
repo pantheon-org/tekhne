@@ -30,6 +30,7 @@
     "debug/SKILL.md",
     "debug/references/common_issues.md",
     "debug/references/troubleshooting_workflow.md",
-    "debug/scripts/**"
+    "debug/scripts/**",
+    "evals/**"
   ]
 }
