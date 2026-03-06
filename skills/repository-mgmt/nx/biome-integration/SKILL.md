@@ -86,7 +86,7 @@ Expected: daemon cache is cleared and targets refresh.
 - **WHY**: unnecessary config layering increases maintenance and rule drift.
 - **BAD**: create `biome.json` in every project by default.
 - **GOOD**: use one root config and add nested configs only for migration or real overrides.
-- **BAD**: nested configs everywhere. 
+- **BAD**: nested configs everywhere.
 - **GOOD**: root-first config with explicit exceptions.
 
 ### NEVER run ESLint and Biome on the same files without explicit boundary
@@ -94,7 +94,7 @@ Expected: daemon cache is cleared and targets refresh.
 - **WHY**: dual lint pipelines produce conflicting diagnostics and wasted CI time.
 - **BAD**: keep ESLint glob coverage unchanged after adding Biome.
 - **GOOD**: define migration boundaries so each file set has one active lint authority.
-- **BAD**: same files linted twice. 
+- **BAD**: same files linted twice.
 - **GOOD**: single lint owner per file path.
 
 ### NEVER omit `biome.json` and Biome dependency from Nx cache inputs
@@ -102,7 +102,7 @@ Expected: daemon cache is cleared and targets refresh.
 - **WHY**: cache hits become stale after config/tool version changes.
 - **BAD**: cache only `default` and `^default` inputs.
 - **GOOD**: include `"{workspaceRoot}/biome.json"` and `externalDependencies: ["@biomejs/biome"]`.
-- **BAD**: omit config/dependency inputs. 
+- **BAD**: omit config/dependency inputs.
 - **GOOD**: include config and tool-version inputs.
 
 ### NEVER auto-enable formatter writes in CI verification jobs
@@ -110,7 +110,7 @@ Expected: daemon cache is cleared and targets refresh.
 - **WHY**: write-mode formatting in CI mutates files and obscures validation failures.
 - **BAD**: run `biome format --write` in required CI checks.
 - **GOOD**: use check/lint mode in CI; reserve write-mode for local or dedicated fix jobs.
-- **BAD**: mutating CI verification. 
+- **BAD**: mutating CI verification.
 - **GOOD**: read-only CI checks.
 
 ### NEVER downgrade critical Biome rules to suppress migration noise
@@ -118,7 +118,7 @@ Expected: daemon cache is cleared and targets refresh.
 - **WHY**: suppressing high-signal rules hides real issues and delays stabilization.
 - **BAD**: globally reduce important rules to `off` during migration.
 - **GOOD**: scope temporary exceptions narrowly with documented expiration.
-- **BAD**: blanket rule disablement. 
+- **BAD**: blanket rule disablement.
 - **GOOD**: time-boxed scoped exceptions.
 
 ## Reference Map

@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Template-driven file generation with EJS",
+  "checklist": [
+    {
+      "name": "Generate files API",
+      "description": "Uses generateFiles() from @nx/devkit with proper parameters",
+      "max_score": 25
+    },
+    {
+      "name": "Name transformations",
+      "description": "Template variables include names() transformations (className, propertyName, fileName)",
+      "max_score": 20
+    },
+    {
+      "name": "Template extension stripping",
+      "description": "Template variables include tmpl: '' to strip .template extension",
+      "max_score": 15
+    },
+    {
+      "name": "Dynamic file naming",
+      "description": "Template files use __fileName__ token for dynamic file naming",
+      "max_score": 15
+    },
+    {
+      "name": "EJS syntax",
+      "description": "Templates use EJS syntax for variable substitution (<%= variableName %>)",
+      "max_score": 15
+    },
+    {
+      "name": "Documentation",
+      "description": "TEMPLATE-GUIDE.md explains name transformations and file token replacement",
+      "max_score": 10
+    }
+  ]
+}
