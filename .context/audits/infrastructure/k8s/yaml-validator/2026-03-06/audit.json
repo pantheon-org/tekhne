@@ -1,19 +1,19 @@
 {
   "skill": "infrastructure/k8s/yaml-validator",
   "dimensions": {
-    "knowledgeDelta": 19,
+    "knowledgeDelta": 20,
     "mindsetProcedures": 12,
-    "antiPatternQuality": 11,
+    "antiPatternQuality": 13,
     "specificationCompliance": 15,
     "progressiveDisclosure": 10,
     "freedomCalibration": 15,
     "patternRecognition": 10,
     "practicalUsability": 13,
-    "evalValidation": 0
+    "evalValidation": 17
   },
-  "total": 105,
+  "total": 125,
   "maxTotal": 140,
-  "grade": "C+",
+  "grade": "B+",
   "lines": 380,
   "hasReferences": true,
   "referenceCount": 2

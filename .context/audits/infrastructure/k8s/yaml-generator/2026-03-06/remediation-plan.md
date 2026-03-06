@@ -10,17 +10,15 @@ source_audit: ".context/audits/infrastructure/k8s/yaml-generator/2026-03-06/audi
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Score** | 99/140 (70%) | 119/140 (85%) |
-| **Grade** | C | B+ |
-| **Priority** | High | |
-| **Effort** | M | |
+| **Score** | 118/140 (84%) | 126/140 (90%) |
+| **Grade** | B | A |
+| **Priority** | Medium | |
+| **Effort** | S | |
 
 **Focus Areas**:
-- D3: Anti-Pattern Quality (11/15)
 - D5: Progressive Disclosure (7/15)
-- D9: Eval Validation (0/20)
 
-**Verdict**: Targeted improvements needed to reach grade B+ (+20 points).
+**Verdict**: Targeted improvements needed to reach grade A (+8 points).
 
 ---
 
@@ -28,9 +26,7 @@ source_audit: ".context/audits/infrastructure/k8s/yaml-generator/2026-03-06/audi
 
 | Issue | Dimension | Severity | Impact |
 |-------|-----------|----------|--------|
-| Insufficient anti-patterns | D3 (11/15) | High | Agents repeat common mistakes |
 | Poor progressive disclosure | D5 (7/15) | High | Skill is too long or lacks refs |
-| Missing or incomplete evals | D9 (0/20) | High | Skill not validated at runtime |
 
 ---
 
@@ -39,53 +35,15 @@ source_audit: ".context/audits/infrastructure/k8s/yaml-generator/2026-03-06/audi
 > **Note**: This is an auto-generated template. Review dimension scores and customize based on actual skill content.
 
 
-### Phase 1: Anti-Pattern Quality - Priority: High
-
-**Target**: Increase D3 from 11/15 to 13/15 (+2 points)
-
-#### Step 1.1: Add NEVER/ALWAYS Constraints
-
-Add explicit anti-pattern warnings to prevent common mistakes.
-
-**File**: `skills/infrastructure/k8s/yaml-generator/SKILL.md`
-
-**Action**: Add section with BAD vs GOOD examples.
-
-
-### Phase 2: Progressive Disclosure - Priority: High
+### Phase 1: Progressive Disclosure - Priority: High
 
 **Target**: Increase D5 from 7/15 to 13/15 (+6 points)
 
-#### Step 2.1: Create Reference Files
+#### Step 1.1: Create Reference Files
 
 Move detailed content to `references/` directory.
 
 **Action**: Extract deep-dive content into separate files, keep SKILL.md as navigation hub.
-
-
-### Phase 3: Eval Validation - Priority: High
-
-**Target**: Increase D9 from 0/20 to 17/20 (+17 points)
-
-#### Step 3.1: Create Eval Scenarios
-
-Use the `creating-eval-scenarios` skill to generate evaluation scenarios.
-
-**Action**: Run the eval scenario creation workflow to produce:
-- `evals/instructions.json` - Extract all instructions from SKILL.md
-- `evals/summary.json` - Coverage statistics (target >= 80%)
-- `evals/scenario-N/` - 5 scenarios with task.md, criteria.json, capability.txt
-
-#### Step 3.2: Run Evals
-
-```bash
-tessl eval run <tile-path>
-tessl eval view-status <status_id> --json
-```
-
-#### Step 3.3: Validate Coverage
-
-Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json files sum to 100.
 
 ---
 
@@ -96,7 +54,7 @@ Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json fi
 sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructure/k8s/yaml-generator --json --store
 
 # Check target score achieved
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructure/k8s/yaml-generator --json | jq ".total >= 119"
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructure/k8s/yaml-generator --json | jq ".total >= 126"
 ```
 
 ---
@@ -105,11 +63,9 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructu
 
 | Criterion | Measurement |
 |-----------|-------------|
-| Overall Score | >= 119/140 |
-| Grade | >= B+ |
-| D3: Anti-Pattern Quality | >= 13/15 |
+| Overall Score | >= 126/140 |
+| Grade | >= A |
 | D5: Progressive Disclosure | >= 13/15 |
-| D9: Eval Validation | >= 17/20 |
 
 ---
 
@@ -117,7 +73,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructu
 
 | Phase | Effort | Time |
 |-------|--------|------|
-| Total | M | 2-4 hours |
+| Total | S | 1-2 hours |
 
 ---
 
