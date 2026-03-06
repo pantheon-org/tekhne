@@ -3,7 +3,26 @@ name: k8s-yaml-generator
 description: Comprehensive toolkit for generating, validating, and managing Kubernetes YAML resources. Use this skill when creating Kubernetes manifests (Deployments, Services, ConfigMaps, StatefulSets, etc.), working with Custom Resource Definitions (CRDs), or generating production-ready K8s configurations.
 ---
 
-# K8s Generator
+# K8s YAML Generator
+
+## Generation Mindset
+
+**Mental Model**: Kubernetes YAML generation is about translating application requirements into declarative infrastructure. Think in terms of desired state, not imperative commands.
+
+**Decision Framework**:
+1. **Start with the workload** (Pod, Deployment, StatefulSet)—this defines what runs
+2. **Add access layer** (Service, Ingress)—this defines how it's accessed
+3. **Configure runtime** (ConfigMap, Secret)—this defines how it behaves
+4. **Set constraints** (ResourceQuota, LimitRange, NetworkPolicy)—this defines boundaries
+
+**When to use this skill**:
+- Creating new Kubernetes resources from scratch
+- Converting Docker Compose or other formats to K8s manifests
+- Generating CRD instances (ArgoCD, Istio, Cert-Manager, etc.)
+- Building templates for Helm charts or Kustomize bases
+- Scaffolding multi-resource applications
+
+**Generation philosophy**: Generate correct, complete, validated YAML on first pass. Never output YAML that hasn't been validated.
 
 ## Core Workflow
 
@@ -213,6 +232,124 @@ spec:
   - myapp.example.com
 ```
 
+## Common Anti-Patterns
+
+### NEVER: Generate Without Resource Limits
+
+**BAD**:
+```yaml
+containers:
+- name: app
+  image: myapp:1.0
+  # No resources defined - pods can consume unlimited CPU/memory
+```
+
+**GOOD**:
+```yaml
+containers:
+- name: app
+  image: myapp:1.0
+  resources:
+    requests: { memory: "64Mi", cpu: "250m" }
+    limits:   { memory: "128Mi", cpu: "500m" }
+```
+
+**Why**: Unlimited resources lead to noisy neighbor issues and OOMKilled pods.
+
+### NEVER: Hardcode Secrets in ConfigMaps
+
+**BAD**:
+```yaml
+kind: ConfigMap
+data:
+  DATABASE_PASSWORD: "my-secret-password"  # Visible in etcd
+```
+
+**GOOD**:
+```yaml
+kind: Secret
+type: Opaque
+stringData:
+  DATABASE_PASSWORD: "my-secret-password"  # Base64 encoded, separate RBAC
+```
+
+### NEVER: Use `latest` Tag in Production
+
+**BAD**:
+```yaml
+containers:
+- name: app
+  image: myapp:latest  # Non-deterministic, breaks rollbacks
+```
+
+**GOOD**:
+```yaml
+containers:
+- name: app
+  image: myapp:1.2.3  # Immutable, traceable
+  imagePullPolicy: IfNotPresent
+```
+
+### NEVER: Skip Health Probes
+
+**BAD**:
+```yaml
+containers:
+- name: app
+  image: myapp:1.0
+  # No probes - K8s can't detect failures
+```
+
+**GOOD**:
+```yaml
+containers:
+- name: app
+  image: myapp:1.0
+  livenessProbe:
+    httpGet: { path: /health, port: 8080 }
+    initialDelaySeconds: 30
+  readinessProbe:
+    httpGet: { path: /ready, port: 8080 }
+    initialDelaySeconds: 5
+```
+
+### NEVER: Mismatch Selector Labels
+
+**BAD**:
+```yaml
+# Deployment
+selector:
+  matchLabels: { app: myapp }
+# Service
+selector: { app: my-app }  # Typo breaks routing
+```
+
+**GOOD**:
+```yaml
+# Deployment
+selector:
+  matchLabels: { app: myapp, version: v1 }
+# Service
+selector: { app: myapp }  # Matches all versions
+```
+
+### ALWAYS: Validate Before Delivery
+
+Never output YAML without running it through the validation workflow:
+
+```bash
+# Use yaml-validator from this tile
+tessl_query_library_docs: query: "kubernetes yaml validation kubeconform yamllint"
+```
+
+### ALWAYS: Use Namespaces Explicitly
+
+```yaml
+metadata:
+  name: myapp
+  namespace: production  # Never rely on default namespace
+```
+
 ## Advanced Features
 
 ### Multi-Resource Generation
@@ -228,6 +365,20 @@ spec:
 - Use appropriate API versions for the target K8s version (check deprecations)
 - Example: Ingress moved from `extensions/v1beta1` to `networking.k8s.io/v1` in K8s 1.19+
 
+## Verification Checklist
+
+Before delivering generated YAML, confirm:
+
+- [ ] All required fields are present (metadata.name, metadata.namespace, spec)
+- [ ] API version is correct for target K8s version
+- [ ] Resource requests/limits are defined on all containers
+- [ ] Health probes (liveness/readiness) are configured
+- [ ] Selectors match labels exactly (no typos)
+- [ ] Secrets are in Secret objects, not ConfigMaps
+- [ ] Image tags are specific versions, not `latest`
+- [ ] SecurityContext is set (runAsNonRoot, read-only filesystem where appropriate)
+- [ ] Validation passes with zero errors using k8s-yaml-validator
+
 ## Troubleshooting
 
 | Issue | Solution |
@@ -236,11 +387,19 @@ spec:
 | Validation failures | Read errors carefully; verify field names/types/required fields; re-validate |
 | Wrong API version | Confirm target K8s version; check deprecation status; update `apiVersion`; re-validate |
 
+## Reference Materials
+
+For detailed examples and templates:
+- Standard resource templates: See "Deployment template", "Service template", "ConfigMap template" sections above
+- CRD examples: See "Common CRD Examples" section (ArgoCD, Istio, Cert-Manager)
+- Validation: See `yaml-validator/SKILL.md` in this tile
+- Debugging: See `debug/SKILL.md` in this tile for troubleshooting deployed resources
+
 ## Integration
 
 - **k8s-yaml-validator** (in this tile) — automatic validation of generated resources
-- **k8s-debug** — troubleshooting deployed resources
-- **helm-validator** — validating Helm charts using these resources
+- **k8s-debug** (in this tile) — troubleshooting deployed resources
+- **helm-generator** — generating Helm charts using these resources as templates
 
 ---
 

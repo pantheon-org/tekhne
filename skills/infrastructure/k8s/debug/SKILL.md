@@ -5,6 +5,23 @@ description: Inspect pod logs, analyze resource quotas, trace network policies, 
 
 # Kubernetes Debugging Skill
 
+## Debugging Mindset
+
+**Mental Model**: Kubernetes debugging follows a layered approach—start broad (cluster health), narrow to affected components (pods, services), then drill into specific failures (logs, events, resource constraints).
+
+**Decision Framework**:
+1. **Gather context** before jumping to solutions. Check `kubectl get events` and `describe` resources first.
+2. **Verify assumptions** about selectors, labels, and namespaces—label mismatches are the most common root cause.
+3. **Test hypotheses** systematically: network → resource → configuration → application.
+4. **Document findings** as you go—Kubernetes issues often involve multiple interacting failures.
+
+**When to use this skill**:
+- Pods stuck in Pending, CrashLoopBackOff, ImagePullBackOff, or Error states
+- Services not routing traffic despite healthy pods
+- Resource exhaustion (OOMKilled, CPU throttling)
+- Deployments failing to roll out or stuck in progress
+- Network policies blocking expected traffic
+
 ## Quick Diagnostic Patterns
 
 ### Pod Not Starting
@@ -161,6 +178,96 @@ kubectl uncordon <node-name>
 kubectl get node <node-name>   # Confirm status returns to Ready
 ```
 
+## Common Anti-Patterns
+
+### NEVER: Jump to Solutions Without Context
+
+**BAD**:
+```bash
+# Immediately restarting without investigation
+kubectl rollout restart deployment/app
+```
+
+**GOOD**:
+```bash
+# Gather diagnostic context first
+kubectl describe deployment/app
+kubectl get events --sort-by='.lastTimestamp' | tail -20
+kubectl logs -l app=app --tail=50
+# THEN decide if restart is appropriate
+```
+
+### NEVER: Ignore Namespace Context
+
+**BAD**:
+```bash
+# Assuming default namespace
+kubectl get pods
+kubectl logs my-pod
+```
+
+**GOOD**:
+```bash
+# Always specify namespace explicitly
+kubectl get pods -n production
+kubectl logs my-pod -n production
+# Or use -A to search all namespaces
+kubectl get pods -A | grep my-pod
+```
+
+### NEVER: Force Delete as First Resort
+
+**BAD**:
+```bash
+# Immediate force delete
+kubectl delete pod stuck-pod --force --grace-period=0
+```
+
+**GOOD**:
+```bash
+# Investigate why pod is stuck first
+kubectl describe pod stuck-pod
+kubectl get pod stuck-pod -o yaml | grep -A 10 finalizers
+# Try normal delete first
+kubectl delete pod stuck-pod
+# Wait 60s, watch for termination
+# Force delete only if confirmed stuck
+```
+
+### NEVER: Debug in Production Directly
+
+**BAD**:
+```bash
+# Exec into production pod and make changes
+kubectl exec -it prod-pod -- /bin/bash
+```
+
+**GOOD**:
+```bash
+# Create debug copy for investigation
+kubectl debug prod-pod --copy-to=debug-pod --share-processes
+# Or use ephemeral debug container (K8s 1.23+)
+kubectl debug prod-pod -it --image=nicolaka/netshoot
+```
+
+### ALWAYS: Check Labels and Selectors First
+
+Service connectivity issues are almost always label mismatches:
+
+```bash
+# Verify service selector matches pod labels
+kubectl get svc my-service -o jsonpath='{.spec.selector}'
+kubectl get pods -l app=my-app --show-labels
+kubectl get endpoints my-service  # Should show pod IPs
+```
+
+### ALWAYS: Use --previous Flag for CrashLoopBackOff
+
+```bash
+# Current logs may be empty if container crashed immediately
+kubectl logs failing-pod --previous
+```
+
 ## Advanced Debugging Techniques
 
 ### Debug Containers (Kubernetes 1.23+)
@@ -199,11 +306,37 @@ kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.phase,IP:.
 kubectl get nodes -o custom-columns=NAME:.metadata.name,TAINTS:.spec.taints
 ```
 
+## Verification and Validation
+
+After any debugging intervention:
+
+1. **Confirm the fix**: Don't assume—verify pods are Running and Ready
+   ```bash
+   kubectl get pods -n <namespace> -w
+   kubectl rollout status deployment/<name>
+   ```
+
+2. **Check for side effects**: Ensure fix didn't break other components
+   ```bash
+   kubectl get events --sort-by='.lastTimestamp' | tail -20
+   ```
+
+3. **Test functionality**: Validate the application works end-to-end
+   ```bash
+   kubectl port-forward svc/<service> 8080:80
+   curl http://localhost:8080/healthz
+   ```
+
+4. **Document the root cause**: Add annotations to resources for future reference
+   ```bash
+   kubectl annotate deployment/<name> debug.issue="ImagePullBackOff due to missing secret"
+   ```
+
 ## Reference Documentation
 
 ### Detailed Troubleshooting Guides
 
-Consult `references/troubleshooting_workflow.md` for:
+See [references/troubleshooting_workflow.md](references/troubleshooting_workflow.md) for:
 - Step-by-step workflows for each issue type
 - Decision trees for diagnosis
 - Command sequences for systematic debugging
@@ -211,9 +344,9 @@ Consult `references/troubleshooting_workflow.md` for:
 
 ### Common Issues Database
 
-Consult `references/common_issues.md` for:
-- Detailed explanations of each common issue
-- Symptoms and causes
+See [references/common_issues.md](references/common_issues.md) for:
+- Detailed explanations of each common issue (ImagePullBackOff, CrashLoopBackOff, OOMKilled, etc.)
+- Symptoms and root causes
 - Specific debugging steps
 - Solutions and fixes
 - Prevention strategies

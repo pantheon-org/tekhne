@@ -5,6 +5,25 @@ description: Comprehensive toolkit for validating, linting, and testing Kubernet
 
 # Kubernetes YAML Validator
 
+## Validation Mindset
+
+**Mental Model**: Validation is a layered funnel—syntax → schema → cluster constraints → runtime behavior. Each layer catches different classes of errors.
+
+**Decision Framework**:
+1. **Syntax first**: Fix YAML structure before schema issues (broken YAML can't be validated)
+2. **Schema second**: Verify API compliance before cluster-specific checks
+3. **Cluster third**: Test against real constraints (RBAC, quotas, admission webhooks)
+4. **Runtime last**: Consider how the resource behaves in production
+
+**When to use this skill**:
+- Before applying any YAML to a cluster (development, staging, production)
+- When debugging mysterious kubectl apply failures
+- During CI/CD pipeline execution (catch errors early)
+- When working with unfamiliar CRDs (validation guides learning)
+- After generating YAML with k8s-yaml-generator
+
+**Validation philosophy**: Report all issues, prioritize by severity, suggest fixes but never apply them automatically.
+
 ## Overview
 
 This skill provides a comprehensive validation workflow for Kubernetes YAML resources, combining syntax linting, schema validation, cluster dry-run testing, and intelligent CRD documentation lookup. Validate any Kubernetes manifest with confidence before applying it to the cluster.
@@ -192,6 +211,103 @@ When a YAML file contains multiple resources (separated by `---`):
 
 **Always use file-absolute line numbers** (relative to the start of the entire file) — this matches what yamllint, kubeconform, and kubectl report, and lets users navigate directly to errors in their editor.
 
+## Common Anti-Patterns
+
+### NEVER: Skip Validation Because "It Looks Fine"
+
+**BAD**:
+```bash
+# Directly applying without validation
+kubectl apply -f deployment.yaml
+```
+
+**GOOD**:
+```bash
+# Validate first, apply only after clean report
+yamllint deployment.yaml
+kubeconform deployment.yaml
+kubectl apply --dry-run=server -f deployment.yaml
+# Then apply
+kubectl apply -f deployment.yaml
+```
+
+### NEVER: Fix Only the First Error
+
+**BAD**:
+```bash
+# Fix syntax error on line 10, re-run, fix next error, repeat...
+# This takes 10x longer than collecting all issues upfront
+```
+
+**GOOD**:
+```bash
+# Run full validation workflow once
+# Fix all errors in one pass using the comprehensive report
+# Re-validate to confirm clean
+```
+
+### NEVER: Ignore Warnings
+
+**BAD**:
+```yaml
+# "It's just a warning, ship it"
+apiVersion: extensions/v1beta1  # Deprecated API version
+kind: Deployment
+```
+
+**GOOD**:
+```yaml
+# Warnings indicate future breakage—fix them now
+apiVersion: apps/v1
+kind: Deployment
+```
+
+### NEVER: Validate Against Wrong Kubernetes Version
+
+**BAD**:
+```bash
+# Using default kubeconform schemas (may not match cluster version)
+kubeconform deployment.yaml
+```
+
+**GOOD**:
+```bash
+# Always validate against target cluster version
+kubectl version  # Check cluster version
+kubeconform -kubernetes-version 1.28.0 deployment.yaml
+# Or use server-side dry-run (inherently correct)
+kubectl apply --dry-run=server -f deployment.yaml
+```
+
+### NEVER: Trust Client-Side Validation Alone
+
+**BAD**:
+```bash
+kubectl apply --dry-run=client -f deployment.yaml  # Misses cluster-specific issues
+```
+
+**GOOD**:
+```bash
+# Use server-side dry-run to catch admission webhooks, RBAC, quotas
+kubectl apply --dry-run=server -f deployment.yaml
+```
+
+### ALWAYS: Validate Multi-Resource Files as a Unit
+
+CRD order matters (e.g., namespace before resources in that namespace):
+
+```bash
+# Validate the full file, not individual resources
+kubectl apply --dry-run=server -f all-resources.yaml
+```
+
+### ALWAYS: Check CRD Versions
+
+```bash
+# Verify CRD version matches what's installed in cluster
+kubectl get crd <crd-name> -o jsonpath='{.spec.versions[*].name}'
+```
+
 ## Error Handling Strategies
 
 ### Tool Not Available
@@ -225,6 +341,19 @@ When a YAML file contains multiple resources (separated by `---`):
 - Check for deprecated APIs (e.g., `extensions/v1beta1` → `apps/v1`)
 - For CRDs, ensure the apiVersion matches what's in the cluster
 - Use `kubectl api-versions` to list available API versions
+
+## Verification After Fixes
+
+After the user applies fixes:
+
+1. **Re-run full validation workflow** to ensure clean report
+2. **Verify zero errors** in all stages (syntax, schema, dry-run)
+3. **Check for new warnings** introduced by fixes
+4. **Test deployment** in non-production environment first:
+   ```bash
+   kubectl apply -f <file.yaml> --namespace=dev
+   kubectl get <resource> -n dev -w  # Watch for successful creation
+   ```
 
 ## Resources
 
