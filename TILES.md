@@ -15,7 +15,7 @@ Detailed information for all tiles and skills.
   - [terraform-toolkit](#terraform-toolkit)
   - [dockerfile-toolkit](#dockerfile-toolkit)
   - [terragrunt-toolkit](#terragrunt-toolkit)
-  - [k8s-yaml-toolkit](#k8s-yaml-toolkit)
+  - [k8s-toolkit](#k8s-toolkit)
   - [cfn-behavior-validator](#cfn-behavior-validator)
   - [cfn-template-compare](#cfn-template-compare)
   - [ansible-toolkit](#ansible-toolkit)
@@ -44,9 +44,8 @@ Detailed information for all tiles and skills.
   - [ui-debug-workflow](#ui-debug-workflow)
 - [Software Engineering (1 tile)](#software-engineering-1-tile)
   - [design-principles](#design-principles)
-- [Observability (3 tiles)](#observability-3-tiles)
+- [Observability (2 tiles)](#observability-2-tiles)
   - [logql-generator](#logql-generator)
-  - [k8s-debug](#k8s-debug)
   - [promql-toolkit](#promql-toolkit)
 - [Documentation (5 tiles)](#documentation-5-tiles)
   - [markdown-authoring](#markdown-authoring)
@@ -154,14 +153,15 @@ Complete terragrunt toolkit with generation and validation capabilities
 | [terragrunt-generator](skills/infrastructure/terragrunt/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/terragrunt/generator/2026-03-02/audit.json) | - |
 | [terragrunt-validator](skills/infrastructure/terragrunt/validator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/terragrunt/validator/2026-03-02/audit.json) | - |
 
-### [k8s-yaml-toolkit](skills/infrastructure/k8s-yaml)
+### [k8s-toolkit](skills/infrastructure/k8s)
 
-Complete k8s-yaml toolkit with generation and validation capabilities
+Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster debugging
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [k8s-yaml-generator](skills/infrastructure/k8s-yaml/generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/infrastructure/k8s-yaml/generator/2026-03-02/audit.json) | - |
-| [k8s-yaml-validator](skills/infrastructure/k8s-yaml/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/infrastructure/k8s-yaml/validator/2026-03-02/audit.json) | - |
+| [k8s-yaml-generator](skills/infrastructure/k8s/yaml-generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-06](.context/audits/infrastructure/k8s/yaml-generator/2026-03-06/audit.json) | 5 |
+| [k8s-yaml-validator](skills/infrastructure/k8s/yaml-validator/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-06](.context/audits/infrastructure/k8s/yaml-validator/2026-03-06/audit.json) | 5 |
+| [k8s-debug](skills/infrastructure/k8s/debug/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-06](.context/audits/infrastructure/k8s/debug/2026-03-06/audit.json) | 5 |
 
 ### [cfn-behavior-validator](skills/infrastructure/cfn/behavior-validator)
 
@@ -375,7 +375,7 @@ Strategic architecture, tactical design, and testable code principles (SOLID, Cl
 | [design-patterns](skills/software-engineering/design-principles/design-patterns/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/design-patterns/2026-03-04/audit.json) | - |
 | [testable-design](skills/software-engineering/design-principles/testable-design/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/testable-design/2026-03-04/audit.json) | - |
 
-## Observability (3 tiles)
+## Observability (2 tiles)
 
 Monitoring, logging & debugging
 
@@ -386,14 +386,6 @@ Generate label matchers, line filters, log aggregations, and metric queries in L
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [logql-generator](skills/observability/logql-generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/observability/logql-generator/2026-03-02/audit.json) | - |
-
-### [k8s-debug](skills/observability/k8s-debug)
-
-Comprehensive Kubernetes debugging and troubleshooting toolkit. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, or performing cluster health checks.
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [k8s-debug](skills/observability/k8s-debug/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/observability/k8s-debug/2026-03-02/audit.json) | - |
 
 ### [promql-toolkit](skills/observability/promql)
 

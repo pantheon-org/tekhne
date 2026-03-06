@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses correct ArgoCD API (argoproj.io/v1alpha1), includes all required spec fields (project, source, destination, syncPolicy), adds comments for complex config, and documents CRD generation approach.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct API group",
+      "description": "Uses apiVersion: argoproj.io/v1alpha1",
+      "max_score": 12
+    },
+    {
+      "name": "Correct kind",
+      "description": "Uses kind: Application",
+      "max_score": 10
+    },
+    {
+      "name": "Project field present",
+      "description": "Includes spec.project field (typically 'default')",
+      "max_score": 8
+    },
+    {
+      "name": "Source configuration",
+      "description": "Includes spec.source with repoURL, path, and targetRevision fields",
+      "max_score": 12
+    },
+    {
+      "name": "Destination configuration",
+      "description": "Includes spec.destination with server and namespace fields",
+      "max_score": 12
+    },
+    {
+      "name": "Automated sync",
+      "description": "Includes spec.syncPolicy.automated section",
+      "max_score": 10
+    },
+    {
+      "name": "Prune enabled",
+      "description": "Sets prune: true in syncPolicy.automated",
+      "max_score": 10
+    },
+    {
+      "name": "Self-heal enabled",
+      "description": "Sets selfHeal: true in syncPolicy.automated",
+      "max_score": 10
+    },
+    {
+      "name": "ArgoCD namespace",
+      "description": "Application resource placed in argocd namespace (metadata.namespace)",
+      "max_score": 8
+    },
+    {
+      "name": "Documentation included",
+      "description": "generation-notes.md documents the API version, required fields, or CRD specifics",
+      "max_score": 8
+    }
+  ]
+}

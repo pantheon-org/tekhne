@@ -1,0 +1,9 @@
+{
+  "total_infeasible": 1,
+  "infeasible_scenarios": [
+    {
+      "scenario": "Live CRD schema validation with cluster",
+      "reasoning": "Requires live Kubernetes cluster with specific CRDs installed to test generated manifests. Cannot simulate CRD validation without actual cluster API."
+    }
+  ]
+}

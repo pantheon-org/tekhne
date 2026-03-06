@@ -1,0 +1,38 @@
+{
+  "name": "pantheon-ai/k8s-toolkit",
+  "version": "0.2.0",
+  "private": false,
+  "summary": "Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster debugging",
+  "skills": {
+    "k8s-yaml-generator": {
+      "path": "yaml-generator/SKILL.md",
+      "summary": "Generate production-ready Kubernetes YAML manifests with best practices and CRD support"
+    },
+    "k8s-yaml-validator": {
+      "path": "yaml-validator/SKILL.md",
+      "summary": "Validate, lint, and test Kubernetes YAML resources with comprehensive error reporting"
+    },
+    "k8s-debug": {
+      "path": "debug/SKILL.md",
+      "summary": "Debug Kubernetes clusters, pods, services, and network connectivity issues"
+    }
+  },
+  "files": [
+    "yaml-generator/SKILL.md",
+    "yaml-generator/references/**",
+    "yaml-generator/templates/**",
+    "yaml-generator/scripts/**",
+    "yaml-generator/evals/**",
+    "yaml-validator/SKILL.md",
+    "yaml-validator/references/k8s_best_practices.md",
+    "yaml-validator/references/validation_workflow.md",
+    "yaml-validator/assets/**",
+    "yaml-validator/scripts/**",
+    "yaml-validator/evals/**",
+    "debug/SKILL.md",
+    "debug/references/common_issues.md",
+    "debug/references/troubleshooting_workflow.md",
+    "debug/scripts/**",
+    "debug/evals/**"
+  ]
+}

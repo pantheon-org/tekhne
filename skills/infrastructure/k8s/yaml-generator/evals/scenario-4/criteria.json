@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses correct cert-manager API (cert-manager.io/v1), includes required fields (secretName, issuerRef, dnsNames), uses ClusterIssuer kind, and documents CRD usage.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct API group",
+      "description": "Uses apiVersion: cert-manager.io/v1",
+      "max_score": 15
+    },
+    {
+      "name": "Correct kind",
+      "description": "Uses kind: Certificate",
+      "max_score": 12
+    },
+    {
+      "name": "SecretName field",
+      "description": "Includes spec.secretName: api-tls-secret",
+      "max_score": 12
+    },
+    {
+      "name": "IssuerRef present",
+      "description": "Includes spec.issuerRef section",
+      "max_score": 10
+    },
+    {
+      "name": "ClusterIssuer kind",
+      "description": "issuerRef.kind is ClusterIssuer (not Issuer)",
+      "max_score": 10
+    },
+    {
+      "name": "Issuer name correct",
+      "description": "issuerRef.name is letsencrypt-prod",
+      "max_score": 8
+    },
+    {
+      "name": "DNS names specified",
+      "description": "Includes spec.dnsNames with api.company.com",
+      "max_score": 12
+    },
+    {
+      "name": "Production namespace",
+      "description": "metadata.namespace: production",
+      "max_score": 8
+    },
+    {
+      "name": "Certificate name",
+      "description": "metadata.name: api-tls",
+      "max_score": 6
+    },
+    {
+      "name": "Usage documented",
+      "description": "certificate-usage.md explains Certificate purpose or how to consume the secret",
+      "max_score": 7
+    }
+  ]
+}

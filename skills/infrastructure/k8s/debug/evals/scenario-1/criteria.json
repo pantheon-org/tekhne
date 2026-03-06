@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent identifies label mismatches as the root cause, verifies selectors match pod labels, checks endpoints, and emphasizes that label issues are the most common connectivity problem.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Label mismatch identified",
+      "description": "Documentation identifies that service selector labels don't match pod labels as the root cause",
+      "max_score": 20
+    },
+    {
+      "name": "Selector verification",
+      "description": "Script includes kubectl get svc with -o jsonpath or yaml to extract selector labels",
+      "max_score": 12
+    },
+    {
+      "name": "Pod labels checked",
+      "description": "Script includes kubectl get pods --show-labels or similar to display pod labels",
+      "max_score": 12
+    },
+    {
+      "name": "Endpoints verification",
+      "description": "Uses kubectl get endpoints to verify whether service has associated pod IPs",
+      "max_score": 15
+    },
+    {
+      "name": "Common cause highlighted",
+      "description": "Documentation states that label mismatches are the most common root cause of service connectivity issues",
+      "max_score": 10
+    },
+    {
+      "name": "Systematic workflow",
+      "description": "Script checks in order: service definition → pod labels → endpoints → port matching",
+      "max_score": 10
+    },
+    {
+      "name": "Empty endpoints noted",
+      "description": "Documentation explains that empty endpoints indicate selector mismatch",
+      "max_score": 8
+    },
+    {
+      "name": "Label comparison",
+      "description": "Script or checklist compares service selector against actual pod labels to find mismatch",
+      "max_score": 8
+    },
+    {
+      "name": "No network tools",
+      "description": "Does NOT jump to network debugging tools before verifying label configuration",
+      "max_score": 5
+    }
+  ]
+}

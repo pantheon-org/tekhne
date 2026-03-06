@@ -1,0 +1,13 @@
+{
+  "total_infeasible": 2,
+  "infeasible_scenarios": [
+    {
+      "scenario": "Server-side dry-run validation with admission webhooks",
+      "reasoning": "Requires live Kubernetes cluster with kubectl configured and admission webhooks installed. Cannot simulate server-side validation without actual cluster."
+    },
+    {
+      "scenario": "CRD version compatibility testing against cluster",
+      "reasoning": "Requires live cluster with specific CRD versions installed to test version compatibility. No way to simulate CRD installation state."
+    }
+  ]
+}
