@@ -22,15 +22,17 @@
     "yaml-generator/references/**",
     "yaml-generator/templates/**",
     "yaml-generator/scripts/**",
+    "yaml-generator/evals/**",
     "yaml-validator/SKILL.md",
     "yaml-validator/references/k8s_best_practices.md",
     "yaml-validator/references/validation_workflow.md",
     "yaml-validator/assets/**",
     "yaml-validator/scripts/**",
+    "yaml-validator/evals/**",
     "debug/SKILL.md",
     "debug/references/common_issues.md",
     "debug/references/troubleshooting_workflow.md",
     "debug/scripts/**",
-    "evals/**"
+    "debug/evals/**"
   ]
 }

@@ -1,20 +1,20 @@
 {
   "skill": "infrastructure/k8s/debug",
   "dimensions": {
-    "knowledgeDelta": 15,
-    "mindsetProcedures": 8,
-    "antiPatternQuality": 8,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 12,
+    "antiPatternQuality": 11,
     "specificationCompliance": 15,
     "progressiveDisclosure": 10,
-    "freedomCalibration": 10,
+    "freedomCalibration": 15,
     "patternRecognition": 10,
     "practicalUsability": 15,
     "evalValidation": 0
   },
-  "total": 91,
+  "total": 107,
   "maxTotal": 140,
-  "grade": "D",
-  "lines": 219,
+  "grade": "C+",
+  "lines": 352,
   "hasReferences": true,
   "referenceCount": 2
 }

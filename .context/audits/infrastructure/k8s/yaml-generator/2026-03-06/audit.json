@@ -1,20 +1,20 @@
 {
   "skill": "infrastructure/k8s/yaml-generator",
   "dimensions": {
-    "knowledgeDelta": 17,
-    "mindsetProcedures": 10,
-    "antiPatternQuality": 8,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 12,
+    "antiPatternQuality": 11,
     "specificationCompliance": 14,
-    "progressiveDisclosure": 10,
-    "freedomCalibration": 10,
+    "progressiveDisclosure": 7,
+    "freedomCalibration": 13,
     "patternRecognition": 10,
     "practicalUsability": 13,
     "evalValidation": 0
   },
-  "total": 92,
+  "total": 99,
   "maxTotal": 140,
-  "grade": "D",
-  "lines": 247,
+  "grade": "C",
+  "lines": 406,
   "hasReferences": false,
   "referenceCount": 0
 }

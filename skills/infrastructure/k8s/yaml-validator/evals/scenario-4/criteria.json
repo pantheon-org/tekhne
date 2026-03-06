@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses kubeconform with correct flags (-strict, -summary, -verbose), configures CRD schema locations, and understands schema validation catches type/field errors.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Kubeconform used",
+      "description": "Script uses kubeconform command for schema validation",
+      "max_score": 15
+    },
+    {
+      "name": "Strict mode enabled",
+      "description": "Includes -strict flag to catch additional issues",
+      "max_score": 12
+    },
+    {
+      "name": "CRD schema location",
+      "description": "Configures -schema-location for CRDs catalog (e.g., datreeio/CRDs-catalog)",
+      "max_score": 12
+    },
+    {
+      "name": "Default schema location",
+      "description": "Includes -schema-location default for standard Kubernetes resources",
+      "max_score": 10
+    },
+    {
+      "name": "Summary output",
+      "description": "Uses -summary flag to show validation summary",
+      "max_score": 8
+    },
+    {
+      "name": "Verbose output",
+      "description": "Uses -verbose flag for detailed error information",
+      "max_score": 8
+    },
+    {
+      "name": "Type error detected",
+      "description": "Report identifies memory: 512 as type error (should be string with unit)",
+      "max_score": 12
+    },
+    {
+      "name": "Invalid field detected",
+      "description": "Report identifies storage field as invalid in limits (not a valid resource type)",
+      "max_score": 10
+    },
+    {
+      "name": "Schema vs syntax",
+      "description": "Guide explains that schema validation catches type/field errors that syntax validation misses",
+      "max_score": 8
+    },
+    {
+      "name": "Ignore missing schemas",
+      "description": "Includes -ignore-missing-schemas flag to handle CRDs without schemas gracefully",
+      "max_score": 5
+    }
+  ]
+}

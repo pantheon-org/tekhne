@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses per-container resource commands (kubectl top --containers), understands multi-container diagnostic approach, and checks resource constraints systematically.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Container-level metrics",
+      "description": "Uses kubectl top pod with --containers flag to show per-container resource usage",
+      "max_score": 20
+    },
+    {
+      "name": "Multi-container context",
+      "description": "Documentation acknowledges pod has multiple containers and each needs separate analysis",
+      "max_score": 10
+    },
+    {
+      "name": "Resource limits checked",
+      "description": "Script or report checks resource requests and limits for each container in the manifest",
+      "max_score": 10
+    },
+    {
+      "name": "OOM investigation",
+      "description": "Checks for OOMKilled status or memory-related termination in pod status/events",
+      "max_score": 10
+    },
+    {
+      "name": "Container-specific logs",
+      "description": "Uses kubectl logs -c flag to target specific containers by name",
+      "max_score": 12
+    },
+    {
+      "name": "Namespace specified",
+      "description": "All kubectl commands include -n production namespace flag",
+      "max_score": 8
+    },
+    {
+      "name": "Systematic approach",
+      "description": "Report documents checking: overall pod resources → per-container breakdown → identify culprit",
+      "max_score": 10
+    },
+    {
+      "name": "Resource quota context",
+      "description": "Mentions or checks kubectl describe resourcequota to understand namespace-level constraints",
+      "max_score": 8
+    },
+    {
+      "name": "Specific container ID",
+      "description": "Report identifies which specific container (by name) is causing the resource spike",
+      "max_score": 7
+    },
+    {
+      "name": "Timestamps included",
+      "description": "Uses --timestamps or similar flags to show when resource issues began",
+      "max_score": 5
+    }
+  ]
+}

@@ -10,19 +10,17 @@ source_audit: ".context/audits/infrastructure/k8s/yaml-validator/2026-03-06/audi
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Score** | 92/140 (65%) | 112/140 (80%) |
-| **Grade** | D | B |
-| **Priority** | Critical | |
+| **Score** | 105/140 (75%) | 119/140 (85%) |
+| **Grade** | C+ | B+ |
+| **Priority** | High | |
 | **Effort** | M | |
 
 **Focus Areas**:
-- D2: Mindset + Procedures (10/15)
-- D3: Anti-Pattern Quality (8/15)
+- D3: Anti-Pattern Quality (11/15)
 - D5: Progressive Disclosure (10/15)
-- D6: Freedom Calibration (10/15)
 - D9: Eval Validation (0/20)
 
-**Verdict**: Targeted improvements needed to reach grade B (+20 points).
+**Verdict**: Targeted improvements needed to reach grade B+ (+14 points).
 
 ---
 
@@ -30,10 +28,8 @@ source_audit: ".context/audits/infrastructure/k8s/yaml-validator/2026-03-06/audi
 
 | Issue | Dimension | Severity | Impact |
 |-------|-----------|----------|--------|
-| Missing mindset/procedures | D2 (10/15) | High | Agents lack decision frameworks |
-| Insufficient anti-patterns | D3 (8/15) | High | Agents repeat common mistakes |
+| Insufficient anti-patterns | D3 (11/15) | High | Agents repeat common mistakes |
 | Poor progressive disclosure | D5 (10/15) | High | Skill is too long or lacks refs |
-| Imbalanced constraint language | D6 (10/15) | Medium | Over/under-prescriptive |
 | Missing or incomplete evals | D9 (0/20) | High | Skill not validated at runtime |
 
 ---
@@ -45,7 +41,7 @@ source_audit: ".context/audits/infrastructure/k8s/yaml-validator/2026-03-06/audi
 
 ### Phase 1: Anti-Pattern Quality - Priority: High
 
-**Target**: Increase D3 from 8/15 to 13/15 (+5 points)
+**Target**: Increase D3 from 11/15 to 13/15 (+2 points)
 
 #### Step 1.1: Add NEVER/ALWAYS Constraints
 
@@ -100,7 +96,7 @@ Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json fi
 sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructure/k8s/yaml-validator --json --store
 
 # Check target score achieved
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructure/k8s/yaml-validator --json | jq ".total >= 112"
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructure/k8s/yaml-validator --json | jq ".total >= 119"
 ```
 
 ---
@@ -109,8 +105,8 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructu
 
 | Criterion | Measurement |
 |-----------|-------------|
-| Overall Score | >= 112/140 |
-| Grade | >= B |
+| Overall Score | >= 119/140 |
+| Grade | >= B+ |
 | D3: Anti-Pattern Quality | >= 13/15 |
 | D5: Progressive Disclosure | >= 13/15 |
 | D9: Eval Validation | >= 17/20 |

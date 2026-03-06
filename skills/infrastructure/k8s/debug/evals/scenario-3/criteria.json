@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent investigates before force deleting, tries normal delete first, waits to confirm stuck state, checks finalizers, and validates recovery afterward.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Investigation first",
+      "description": "Script includes kubectl describe or kubectl get pod -o yaml to investigate why pod is stuck",
+      "max_score": 15
+    },
+    {
+      "name": "Finalizers checked",
+      "description": "Uses kubectl get pod -o yaml | grep -A 10 finalizers or similar to check for blocking finalizers",
+      "max_score": 12
+    },
+    {
+      "name": "Normal delete first",
+      "description": "Script attempts kubectl delete pod (without --force) before escalating",
+      "max_score": 15
+    },
+    {
+      "name": "Watch and wait",
+      "description": "Includes kubectl get pod -w or documents waiting 60+ seconds to confirm pod is truly stuck",
+      "max_score": 12
+    },
+    {
+      "name": "Force as last resort",
+      "description": "Documentation explicitly states force delete should only happen after confirming stuck state",
+      "max_score": 15
+    },
+    {
+      "name": "Grace period flag",
+      "description": "Force delete command includes --grace-period=0 flag",
+      "max_score": 8
+    },
+    {
+      "name": "Post-deletion validation",
+      "description": "Script verifies pod is gone with kubectl get pod after force delete",
+      "max_score": 10
+    },
+    {
+      "name": "Deployment status check",
+      "description": "Checks deployment rollout status or new pod creation after removing stuck pod",
+      "max_score": 8
+    },
+    {
+      "name": "No immediate force",
+      "description": "Does NOT use force delete as the first action without investigation",
+      "max_score": 5
+    }
+  ]
+}
