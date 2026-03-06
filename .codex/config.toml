@@ -2,3 +2,7 @@
 type = "stdio"
 command = "tessl"
 args = [ "mcp", "start" ]
+
+[mcp_servers.jcodemunch]
+command = "uvx"
+args = ["jcodemunch-mcp"]

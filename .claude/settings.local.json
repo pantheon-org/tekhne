@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bun tsc:*)",
+      "Bash(bunx tsc:*)",
+      "Bash(tessl skill *)",
+      "Bash(bun cli/index.ts *)",
+      "Bash(ls *.md)",
+      "Bash(cat *.md)",
+      "Bash(git pull:*)",
+      "Bash(gh api:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "tessl"
+  ]
+}

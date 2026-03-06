@@ -4,6 +4,10 @@
       "type": "stdio",
       "command": "tessl",
       "args": ["mcp", "start"]
+    },
+    "jcodemunch": {
+      "command": "uvx",
+      "args": ["jcodemunch-mcp"]
     }
   }
 }
