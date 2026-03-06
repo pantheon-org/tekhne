@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent counts resources correctly, continues validation after finding errors, uses file-absolute line numbers, organizes report by resource, and identifies multiple issues across resources.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Resource count",
+      "description": "Script or report identifies 3 resources in the file",
+      "max_score": 10
+    },
+    {
+      "name": "File-absolute line numbers",
+      "description": "Report uses line numbers relative to file start (not per-resource), e.g., line 25 for Service issue",
+      "max_score": 15
+    },
+    {
+      "name": "All resources validated",
+      "description": "Report covers issues in all 3 resources (ConfigMap, Deployment, Service), not just first one",
+      "max_score": 15
+    },
+    {
+      "name": "Continue on error",
+      "description": "Script validates all resources even after finding issues in early resources",
+      "max_score": 12
+    },
+    {
+      "name": "Secret in ConfigMap",
+      "description": "Report identifies API_KEY as sensitive data in ConfigMap (should be Secret)",
+      "max_score": 10
+    },
+    {
+      "name": "Label mismatch",
+      "description": "Report identifies selector mismatch between Deployment (app: webapp) and pod labels (app: web)",
+      "max_score": 12
+    },
+    {
+      "name": "Latest tag issue",
+      "description": "Report flags nginx:latest as problematic for production",
+      "max_score": 8
+    },
+    {
+      "name": "String port issue",
+      "description": "Report identifies targetPort \"8080\" as string (should be integer)",
+      "max_score": 8
+    },
+    {
+      "name": "Per-resource organization",
+      "description": "Report groups or labels issues by which resource they belong to",
+      "max_score": 7
+    },
+    {
+      "name": "Severity assigned",
+      "description": "Report assigns severity levels (Error/Warning/Info) to at least 2 issues",
+      "max_score": 3
+    }
+  ]
+}

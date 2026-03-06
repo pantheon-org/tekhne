@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent implements layered validation (syntax → schema → cluster), uses yamllint and kubeconform, reports issues without auto-fixing, and documents severity categories.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Layered approach documented",
+      "description": "Report or script explains validation stages: syntax → schema → cluster/other",
+      "max_score": 15
+    },
+    {
+      "name": "Syntax validation",
+      "description": "Script uses yamllint or mentions YAML syntax checking as first stage",
+      "max_score": 12
+    },
+    {
+      "name": "Schema validation",
+      "description": "Script uses kubeconform or mentions schema validation as second stage",
+      "max_score": 12
+    },
+    {
+      "name": "Tool check stage",
+      "description": "Script checks for required tools or mentions tool availability verification",
+      "max_score": 8
+    },
+    {
+      "name": "Severity categories",
+      "description": "Report includes Error/Warning/Info severity levels or similar categorization",
+      "max_score": 10
+    },
+    {
+      "name": "Report-only approach",
+      "description": "Script generates report but does NOT automatically modify the input file",
+      "max_score": 12
+    },
+    {
+      "name": "Sequential execution",
+      "description": "Script runs stages in order: syntax check before schema check",
+      "max_score": 10
+    },
+    {
+      "name": "Continue on failure",
+      "description": "Script or documentation indicates continuing to next stage even if earlier stage fails",
+      "max_score": 10
+    },
+    {
+      "name": "Issue identification",
+      "description": "Report identifies at least 2 actual issues in the provided manifest (e.g., latest tag, missing resources, string port)",
+      "max_score": 8
+    },
+    {
+      "name": "Stage comments",
+      "description": "Script includes comments explaining what each validation stage checks",
+      "max_score": 3
+    }
+  ]
+}

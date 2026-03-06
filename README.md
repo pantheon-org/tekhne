@@ -51,7 +51,7 @@ Infrastructure as Code
 | [terraform-toolkit](TILES.md#terraform-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/terraform-toolkit) | 0.1.0 |
 | [dockerfile-toolkit](TILES.md#dockerfile-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/dockerfile-toolkit) | 0.1.0 |
 | [terragrunt-toolkit](TILES.md#terragrunt-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/terragrunt-toolkit) | 0.1.0 |
-| [k8s-yaml-toolkit](TILES.md#k8s-yaml-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/k8s-yaml-toolkit) | 0.1.0 |
+| [k8s-toolkit](TILES.md#k8s-toolkit) | 3 | [Public](https://tessl.io/registry/skills/pantheon-ai/k8s-toolkit) | 0.2.0 |
 | [cfn-behavior-validator](TILES.md#cfn-behavior-validator) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/cfn-behavior-validator) | 0.1.2 |
 | [cfn-template-compare](TILES.md#cfn-template-compare) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/cfn-template-compare) | 0.2.0 |
 | [ansible-toolkit](TILES.md#ansible-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/ansible-toolkit) | 0.1.0 |
@@ -111,14 +111,13 @@ Software engineering principles
 | --- | --- | --- | --- |
 | [design-principles](TILES.md#design-principles) | 4 | [Public](https://tessl.io/registry/skills/pantheon-ai/design-principles) | 1.0.0 |
 
-## Observability (3 tiles)
+## Observability (2 tiles)
 
 Monitoring, logging & debugging
 
 | Tile | Skills | Published | Version |
 | --- | --- | --- | --- |
 | [logql-generator](TILES.md#logql-generator) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/logql-generator) | 0.1.4 |
-| [k8s-debug](TILES.md#k8s-debug) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/k8s-debug) | 0.1.1 |
 | [promql-toolkit](TILES.md#promql-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/promql-toolkit) | 0.1.0 |
 
 ## Documentation (5 tiles)
@@ -160,4 +159,3 @@ Domain-specific tools
 | [github-copilot-models](TILES.md#github-copilot-models) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/github-copilot-models) | 0.2.0 |
 | [gitlab-api](TILES.md#gitlab-api) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/gitlab-api) | 1.3.0 |
 | [colyseus-multiplayer](TILES.md#colyseus-multiplayer) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/colyseus-multiplayer) | 0.1.1 |
-

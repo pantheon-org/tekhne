@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent includes resource requests/limits, liveness/readiness probes, non-root security context, specific version tags, namespace specification, and recommended label format.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Resource requests defined",
+      "description": "Includes resources.requests with memory and cpu values",
+      "max_score": 10
+    },
+    {
+      "name": "Resource limits defined",
+      "description": "Includes resources.limits with memory and cpu values",
+      "max_score": 10
+    },
+    {
+      "name": "Liveness probe configured",
+      "description": "Includes livenessProbe with httpGet to /health endpoint on port 8080",
+      "max_score": 12
+    },
+    {
+      "name": "Readiness probe configured",
+      "description": "Includes readinessProbe with httpGet to /health endpoint on port 8080",
+      "max_score": 12
+    },
+    {
+      "name": "Non-root security",
+      "description": "Includes securityContext with runAsNonRoot or runAsUser set to non-zero",
+      "max_score": 10
+    },
+    {
+      "name": "Specific version tag",
+      "description": "Uses image payment-app:2.1.0 (NOT :latest)",
+      "max_score": 10
+    },
+    {
+      "name": "Namespace specified",
+      "description": "Includes namespace: payments in metadata",
+      "max_score": 8
+    },
+    {
+      "name": "Recommended labels",
+      "description": "Uses at least 3 of the app.kubernetes.io/* label format (name, instance, version, component, part-of, managed-by)",
+      "max_score": 12
+    },
+    {
+      "name": "Current API version",
+      "description": "Uses apps/v1 for Deployment (not deprecated extensions/v1beta1)",
+      "max_score": 8
+    },
+    {
+      "name": "Probe timing configured",
+      "description": "Includes initialDelaySeconds or periodSeconds on at least one probe",
+      "max_score": 8
+    }
+  ]
+}
