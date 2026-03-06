@@ -292,7 +292,7 @@ evaluate_pattern_recognition() {
 evaluate_practical_usability() {
   score=8
   
-  code_blocks=$(echo "$CONTENT" | grep -c '```' 2>/dev/null || echo 0)
+  code_blocks=$(echo "$CONTENT" | grep -c '```' 2>/dev/null || :)
   code_blocks=$((code_blocks / 2))
   
   if [ "$code_blocks" -gt 5 ]; then

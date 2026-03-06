@@ -15,6 +15,25 @@ metadata:
   last_updated: 2026-01-26
 ---
 
+## When to Use
+
+- User asks for help writing a commit message or needs a commit for staged changes
+- User mentions conventional commits, semantic versioning, or changelog generation
+- PR description or release note follows commit message conventions
+
+## When Not to Use
+
+- Setting up commitlint, husky, or semantic-release tooling → see Team Tooling section
+- Writing general git commands unrelated to message format
+
+## Workflow
+
+1. Identify the change type from the Type Reference table below
+2. Determine scope (optional) — the module, service, or area affected
+3. Write the header: `<type>[optional scope]: <description>` — imperative mood, ≤ 72 characters
+4. Add body if the change needs explanation of *why* (not *what*), separated by a blank line
+5. Add footers for issue references (`Closes: #N`) or breaking changes (`BREAKING CHANGE: <desc>`)
+
 ## Commit Message Format
 
 ```
@@ -97,6 +116,32 @@ fix(auth): resolve token expiration
 docs: update API guide
 feat!: remove deprecated endpoint
 ```
+
+## Anti-Patterns
+
+### NEVER write past-tense or noun-phrase descriptions
+
+- **WHY**: Conventional Commits mandate imperative mood; past tense breaks changelog parsers and violates the spec.
+- **BAD**: `feat(auth): added OAuth2 login` / `feat(auth): OAuth2 login addition`
+- **GOOD**: `feat(auth): add OAuth2 login`
+
+### NEVER omit BREAKING CHANGE footer for breaking changes
+
+- **WHY**: Semantic-release and changelog tools detect MAJOR version bumps from the footer; omitting it silently breaks automated versioning.
+- **BAD**: `refactor: rename all API endpoints` with no footer on a breaking rename.
+- **GOOD**: `refactor!: rename all API endpoints` with `BREAKING CHANGE: /endpoints/* moved to /api/v2/*` in footer.
+
+### NEVER exceed 72 characters on the header line
+
+- **WHY**: Exceeding 72 chars truncates display in `git log`, GitHub PR views, and terminal output; commitlint will fail CI.
+- **BAD**: `feat(user-profile): add support for uploading and cropping avatar images in the settings page`
+- **GOOD**: `feat(user-profile): add avatar upload and crop support`
+
+### NEVER use vague or inconsistent scopes
+
+- **WHY**: Inconsistent scopes make changelog filtering impossible and confuse reviewers about change boundaries.
+- **BAD**: `fix(stuff): resolve issue` alongside `fix(auth): fix token expiry` in the same repo.
+- **GOOD**: Agree on a scope list (module names, service names) and apply it consistently across the team.
 
 ## Team Tooling
 

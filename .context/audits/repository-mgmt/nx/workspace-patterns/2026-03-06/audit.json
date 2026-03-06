@@ -1,0 +1,20 @@
+{
+  "skill": "repository-mgmt/nx/workspace-patterns",
+  "dimensions": {
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "evalValidation": 0
+  },
+  "total": 105,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 178,
+  "hasReferences": true,
+  "referenceCount": 4
+}

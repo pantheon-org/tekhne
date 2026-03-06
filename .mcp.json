@@ -8,6 +8,11 @@
     "jcodemunch": {
       "command": "uvx",
       "args": ["jcodemunch-mcp"]
+    },
+    "graphthulhu": {
+      "command": "graphthulhu",
+      "args": ["--backend", "obsidian", "--vault", "~/Projects/github/pantheon-org/pantheon-vault"],
+      "env": {}
     }
   }
 }

@@ -1,0 +1,20 @@
+{
+  "skill": "documentation/conventional-commits",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "evalValidation": 0
+  },
+  "total": 100,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 154,
+  "hasReferences": false,
+  "referenceCount": 0
+}

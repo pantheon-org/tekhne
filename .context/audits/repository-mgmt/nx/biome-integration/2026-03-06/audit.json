@@ -1,0 +1,20 @@
+{
+  "skill": "repository-mgmt/nx/biome-integration",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "evalValidation": 0
+  },
+  "total": 103,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 135,
+  "hasReferences": true,
+  "referenceCount": 3
+}

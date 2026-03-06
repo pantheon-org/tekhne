@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/extending-nx-plugins",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Create Nx plugins, build custom generators, configure inferred tasks, and write version migrations for Nx workspaces; use when developing organization-specific generators, automating code scaffolding, integrating new build tools via custom executors, or extending an Nx workspace with custom tooling.",
+  "skills": {
+    "extending-nx-plugins": {
+      "path": "SKILL.md"
+    }
+  }
+}

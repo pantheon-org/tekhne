@@ -1,0 +1,20 @@
+{
+  "skill": "repository-mgmt/nx/extending-plugins",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 15,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 0
+  },
+  "total": 101,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 83,
+  "hasReferences": true,
+  "referenceCount": 4
+}

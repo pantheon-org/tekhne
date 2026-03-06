@@ -1,5 +1,6 @@
 .agents/
+.claude/settings.local.json
+.context/investigations
 .vscode/
 node_modules/
 skills-lock.json
-.context/investigations
