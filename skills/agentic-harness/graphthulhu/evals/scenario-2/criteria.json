@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent correctly records an architectural decision and immediately resolves it with the chosen option and rationale using the decisions workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "decision_create called on correct page",
+      "description": "Agent called decision_create with the page set to 'analysis/api-architecture' (the context-richest page)",
+      "max_score": 25
+    },
+    {
+      "name": "Both options recorded",
+      "description": "The decision_create call included both 'Redis (remote cache)' and 'In-process LRU cache' as options",
+      "max_score": 20
+    },
+    {
+      "name": "decision_resolve called immediately",
+      "description": "Agent called decision_resolve without waiting, since the outcome is already known",
+      "max_score": 30
+    },
+    {
+      "name": "Rationale included",
+      "description": "The decision_resolve call included the rationale (multiple replicas / Kubernetes / cache-miss storms)",
+      "max_score": 25
+    }
+  ]
+}

@@ -8,6 +8,11 @@
     "jcodemunch": {
       "command": "uvx",
       "args": ["jcodemunch-mcp"]
+    },
+    "graphthulhu": {
+      "command": "graphthulhu",
+      "args": ["--backend", "obsidian", "--vault", "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.context"],
+      "env": {}
     }
   }
 }

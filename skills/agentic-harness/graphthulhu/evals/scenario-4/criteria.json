@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent correctly handles a user correction by locating the incorrect content, updating it in the vault, and only continuing the next task after the fix is saved.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "search called to locate incorrect content",
+      "description": "Agent called search to find the block containing the incorrect '--force' statement before attempting a fix",
+      "max_score": 20
+    },
+    {
+      "name": "update_block called with correct content",
+      "description": "Agent called update_block replacing the incorrect statement with the corrected version (no --force flag, removed to prevent deletion)",
+      "max_score": 30
+    },
+    {
+      "name": "Did not continue before saving",
+      "description": "Agent did not move on to the rollback review task until confirming the correction was saved",
+      "max_score": 30
+    },
+    {
+      "name": "No verbal-only acknowledgement",
+      "description": "Agent did not merely say 'noted' or 'understood' without making an actual update_block call",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Save investigation findings with namespace and deduplication check

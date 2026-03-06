@@ -3,3 +3,6 @@
 node_modules/
 skills-lock.json
 .context/investigations
+.claude/settings.local.json
+.claude/tooling-audit.md
+.context/.obsidian/

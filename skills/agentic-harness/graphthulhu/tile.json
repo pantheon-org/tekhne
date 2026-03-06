@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/graphthulhu",
+  "version": "0.1.2",
+  "private": false,
+  "summary": "Use and maintain the graphthulhu knowledge graph MCP to store investigations, architectural decisions, plans, and session context in a persistent Obsidian-backed vault; triggers automatically at session start, after analysis or investigations, when recording decisions, and when the user corrects stored knowledge.",
+  "skills": {
+    "graphthulhu": {
+      "path": "SKILL.md"
+    }
+  }
+}

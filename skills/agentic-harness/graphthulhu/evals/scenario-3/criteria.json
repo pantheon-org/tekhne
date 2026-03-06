@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent correctly checks for an existing page before creating a new one, and appends to the existing page rather than creating a duplicate.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Search performed before create",
+      "description": "Agent called search with relevant keywords (database, schema) before attempting to create any page",
+      "max_score": 25
+    },
+    {
+      "name": "Existing page retrieved",
+      "description": "Agent called get_page('analysis/database-schema') after finding it via search to review existing content",
+      "max_score": 20
+    },
+    {
+      "name": "No duplicate page created",
+      "description": "Agent did NOT call create_page — it correctly appended to the existing page instead",
+      "max_score": 30
+    },
+    {
+      "name": "All findings appended",
+      "description": "All three new findings (missing email index, disabled FK constraints, TEXT vs VARCHAR) were added to the existing page",
+      "max_score": 25
+    }
+  ]
+}

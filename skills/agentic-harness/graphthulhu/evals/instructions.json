@@ -1,0 +1,88 @@
+{
+  "instructions": [
+    {
+      "instruction": "Call graph_overview or list_pages at session start to orient before doing any work",
+      "original_snippets": "Session start: orient by calling `graph_overview` or `list_pages` to surface relevant prior context.",
+      "relevant_when": "At the beginning of any session before writing code or analysis",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "After any investigation or analysis, save findings as a page in the vault",
+      "original_snippets": "After any investigation or analysis: save findings as a page in the vault.",
+      "relevant_when": "After completing code analysis, research, or investigation work",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use decision_create for architectural or tooling decisions, recording the question, options, and deadline",
+      "original_snippets": "When a non-trivial architectural or tooling choice arises, call `decision_create` on the page where context is richest.",
+      "relevant_when": "When a significant technology or architecture choice must be made",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use decision_resolve to record the chosen option and rationale when a decision is made",
+      "original_snippets": "When a decision is made, call `decision_resolve` with the chosen option and rationale.",
+      "relevant_when": "After a decision has been made and the choice is clear",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Check for an existing page using search or get_page before creating a new one",
+      "original_snippets": "Check for an existing page with `search` or `get_page`.\nNEVER create a duplicate page without checking first",
+      "relevant_when": "Before calling create_page for any new knowledge page",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use namespace/topic naming for all pages (e.g. analysis/auth-flow, plans/migration-v2, investigations/cache-behaviour)",
+      "original_snippets": "Name pages as `namespace/topic` (e.g. `analysis/auth-flow`, `plans/migration-v2`).\nNEVER use flat page names without a namespace",
+      "relevant_when": "When creating any new page in the knowledge graph",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Link new pages to related pages with link_pages after creating them",
+      "original_snippets": "Link the new page to related pages with `link_pages`.\nLink pages to make knowledge traversable, not isolated.",
+      "relevant_when": "After creating a new page that relates to existing pages",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "When the user corrects stored knowledge, call search to find the incorrect block or page first",
+      "original_snippets": "When the user corrects stored knowledge:\n1. Call `search` to find the incorrect block or page.",
+      "relevant_when": "When the user provides a correction to previously stored information",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Call update_block or delete_page immediately when correcting knowledge — do not continue until the fix is saved",
+      "original_snippets": "Call `update_block` to fix incorrect content, or `delete_page` if the page is wholly wrong.\nDo not continue until the correction is saved — stale memory is worse than no memory.",
+      "relevant_when": "After locating an incorrect block or page that needs correction",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER create a page without first searching for existing content on that topic",
+      "original_snippets": "NEVER create a duplicate page without checking first\nBAD: call `create_page(\"analysis/auth\")` without searching for existing auth analysis pages.\nGOOD: call `search(\"auth\")` and `get_page(\"analysis/auth-flow\")` before deciding to create.",
+      "relevant_when": "Any time create_page is about to be called",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER save speculative or unverified conclusions — verify findings before writing to the vault",
+      "original_snippets": "NEVER write speculative or unverified content\nBAD: save a conclusion drawn from one file without verifying it against other sources.\nGOOD: verify findings, then write with a note on confidence level if appropriate.",
+      "relevant_when": "Before calling create_page or upsert_blocks with analysis conclusions",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER skip corrections when the user provides them — update the vault before continuing",
+      "original_snippets": "NEVER skip corrections when the user provides them\nBAD: acknowledge a correction verbally and move on without updating the vault.\nGOOD: call `update_block` or `delete_page` immediately, then continue.",
+      "relevant_when": "When the user says something previously stored was wrong",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER use flat page names without a namespace prefix",
+      "original_snippets": "NEVER use flat page names without a namespace\nBAD: `create_page(\"migration\")`.\nGOOD: `create_page(\"plans/migration-v2\")`.",
+      "relevant_when": "When naming any new page in the vault",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "NEVER over-document trivial changes — only store findings and decisions that will matter next session",
+      "original_snippets": "NEVER over-document trivial changes\nBAD: create a page for every single file edit.\nGOOD: create pages for findings, decisions, and patterns that will matter next session.\nTrivial one-liner edits with no durable insight.",
+      "relevant_when": "When deciding whether a change warrants a knowledge graph entry",
+      "why_given": "preference"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent correctly orients at session start using graph_overview and search before taking action, and avoids over-documenting trivial session state.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "graph_overview called first",
+      "description": "Agent called graph_overview as the first graphthulhu action before doing anything else",
+      "max_score": 25
+    },
+    {
+      "name": "Relevant search performed",
+      "description": "Agent called search with keywords relevant to the task (e.g. 'caching', 'Redis', 'API') to surface prior context",
+      "max_score": 25
+    },
+    {
+      "name": "Findings summarised",
+      "description": "Agent reported a concise summary of what was found in the knowledge graph (or confirmed nothing relevant exists) before proceeding",
+      "max_score": 25
+    },
+    {
+      "name": "No trivial documentation",
+      "description": "Agent did not create a page or block to document trivial session state (e.g. 'session started', 'user wants to add caching')",
+      "max_score": 25
+    }
+  ]
+}

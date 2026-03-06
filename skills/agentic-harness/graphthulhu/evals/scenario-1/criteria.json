@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent correctly persists investigation findings with deduplication check, correct namespace, verified content only, and page linking.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Deduplication check performed",
+      "description": "Agent called search or get_page to check for an existing page on this topic before calling create_page",
+      "max_score": 20
+    },
+    {
+      "name": "Correct namespace used",
+      "description": "Page name uses a valid namespace prefix (investigations/, analysis/, etc.) — not a flat name like 'auth'",
+      "max_score": 20
+    },
+    {
+      "name": "All three findings stored",
+      "description": "All three specific findings (race condition, HS256/no rotation, rate-limiter ordering) are stored as blocks",
+      "max_score": 20
+    },
+    {
+      "name": "No speculative content",
+      "description": "Agent did not add speculative or unverified content beyond the three stated findings",
+      "max_score": 20
+    },
+    {
+      "name": "Page linked to related pages",
+      "description": "Agent attempted to link the new page to related pages using link_pages",
+      "max_score": 20
+    }
+  ]
+}
