@@ -1,0 +1,41 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluate safe generator implementation with Tree API and boundary validation",
+  "checklist": [
+    {
+      "name": "Tree API usage",
+      "description": "Generator uses tree.write(), generateFiles(), or updateJson() exclusively for filesystem operations. No fs.writeFileSync or direct filesystem writes.",
+      "max_score": 20
+    },
+    {
+      "name": "Schema validation",
+      "description": "Schema includes typed interface (schema.d.ts), required fields marked in schema.json, and validation guards in generator code.",
+      "max_score": 15
+    },
+    {
+      "name": "Read before mutate",
+      "description": "Generator calls readProjectConfiguration() before updateProjectConfiguration() and preserves existing targets/tags.",
+      "max_score": 15
+    },
+    {
+      "name": "Boundary enforcement",
+      "description": "Generator validates project tags/boundaries before cross-scope imports and throws errors for violations.",
+      "max_score": 15
+    },
+    {
+      "name": "Format after generation",
+      "description": "Generator calls formatFiles(tree) after generateFiles() or file writes.",
+      "max_score": 10
+    },
+    {
+      "name": "Existence check",
+      "description": "Generator checks tree.exists() before overwriting files and handles conflicts gracefully.",
+      "max_score": 15
+    },
+    {
+      "name": "No hardcoded paths",
+      "description": "Generator derives paths from readProjectConfiguration().root instead of hardcoding libs/ or apps/ paths.",
+      "max_score": 10
+    }
+  ]
+}

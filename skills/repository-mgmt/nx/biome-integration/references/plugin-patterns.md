@@ -396,13 +396,13 @@ async function createNodesInternal(
 NX_DAEMON=false nx run-many -t my-target
 ```
 
-2. **Reset cache between changes**:
+1. **Reset cache between changes**:
 
 ```bash
 nx reset
 ```
 
-3. **View generated targets**:
+1. **View generated targets**:
 
 ```bash
 nx show project my-project --web

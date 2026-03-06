@@ -1,0 +1,1 @@
+Safe project configuration updates

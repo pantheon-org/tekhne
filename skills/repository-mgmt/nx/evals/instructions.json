@@ -1,0 +1,400 @@
+{
+  "skill_name": "nx-plugin-authoring",
+  "skill_path": "skills/repository-mgmt/nx/nx-plugin-authoring/",
+  "extraction_date": "2026-03-06",
+  "total_instructions": 47,
+  "instructions": [
+    {
+      "id": "I001",
+      "type": "preference",
+      "category": "generators",
+      "text": "Use Tree API exclusively for filesystem operations in generators",
+      "source": "SKILL.md:33",
+      "priority": "high"
+    },
+    {
+      "id": "I002",
+      "type": "preference",
+      "category": "generators",
+      "text": "Use tree.write, generateFiles, updateJson for filesystem edits",
+      "source": "SKILL.md:58",
+      "priority": "high"
+    },
+    {
+      "id": "I003",
+      "type": "preference",
+      "category": "generators",
+      "text": "Define typed schema with required fields",
+      "source": "SKILL.md:59",
+      "priority": "high"
+    },
+    {
+      "id": "I004",
+      "type": "preference",
+      "category": "generators",
+      "text": "Add templates with EJS syntax",
+      "source": "SKILL.md:60",
+      "priority": "medium"
+    },
+    {
+      "id": "I005",
+      "type": "preference",
+      "category": "generators",
+      "text": "Validate with --dry-run before execution",
+      "source": "SKILL.md:61",
+      "priority": "medium"
+    },
+    {
+      "id": "I006",
+      "type": "preference",
+      "category": "executors",
+      "text": "Return { success: boolean } from executor function",
+      "source": "SKILL.md:76",
+      "priority": "high"
+    },
+    {
+      "id": "I007",
+      "type": "preference",
+      "category": "executors",
+      "text": "Use package notation for registration",
+      "source": "SKILL.md:77",
+      "priority": "high"
+    },
+    {
+      "id": "I008",
+      "type": "preference",
+      "category": "executors",
+      "text": "Declare outputs for cache awareness",
+      "source": "SKILL.md:78",
+      "priority": "high"
+    },
+    {
+      "id": "I009",
+      "type": "anti-pattern",
+      "category": "generators",
+      "text": "NEVER modify files outside the Tree API",
+      "source": "SKILL.md:129",
+      "priority": "critical"
+    },
+    {
+      "id": "I010",
+      "type": "anti-pattern",
+      "category": "generators",
+      "text": "NEVER hardcode project paths in generator logic",
+      "source": "SKILL.md:136",
+      "priority": "critical"
+    },
+    {
+      "id": "I011",
+      "type": "anti-pattern",
+      "category": "generators",
+      "text": "NEVER skip schema validation and typed options",
+      "source": "SKILL.md:142",
+      "priority": "critical"
+    },
+    {
+      "id": "I012",
+      "type": "anti-pattern",
+      "category": "generators",
+      "text": "NEVER generate across project boundaries without explicit checks",
+      "source": "SKILL.md:148",
+      "priority": "high"
+    },
+    {
+      "id": "I013",
+      "type": "anti-pattern",
+      "category": "generators",
+      "text": "NEVER mutate project configuration blindly",
+      "source": "SKILL.md:154",
+      "priority": "critical"
+    },
+    {
+      "id": "I014",
+      "type": "anti-pattern",
+      "category": "executors",
+      "text": "NEVER put business logic directly inside executor entrypoints",
+      "source": "SKILL.md:160",
+      "priority": "high"
+    },
+    {
+      "id": "I015",
+      "type": "anti-pattern",
+      "category": "executors",
+      "text": "NEVER use relative executor references in targets",
+      "source": "SKILL.md:166",
+      "priority": "high"
+    },
+    {
+      "id": "I016",
+      "type": "anti-pattern",
+      "category": "executors",
+      "text": "NEVER omit outputs and dependencies semantics for cacheable work",
+      "source": "SKILL.md:172",
+      "priority": "high"
+    },
+    {
+      "id": "I017",
+      "type": "anti-pattern",
+      "category": "executors",
+      "text": "NEVER block executor runs with synchronous file I/O in hot paths",
+      "source": "SKILL.md:178",
+      "priority": "medium"
+    },
+    {
+      "id": "I018",
+      "type": "anti-pattern",
+      "category": "generators",
+      "text": "NEVER skip formatFiles after generating code",
+      "source": "SKILL.md:184",
+      "priority": "medium"
+    },
+    {
+      "id": "I019",
+      "type": "anti-pattern",
+      "category": "generators",
+      "text": "NEVER ignore existing project structure when generating files",
+      "source": "SKILL.md:190",
+      "priority": "high"
+    },
+    {
+      "id": "I020",
+      "type": "anti-pattern",
+      "category": "plugin",
+      "text": "NEVER forget to export generator/executor from plugin index",
+      "source": "SKILL.md:196",
+      "priority": "high"
+    },
+    {
+      "id": "I021",
+      "type": "constraint",
+      "category": "generators",
+      "text": "MUST use Tree API for filesystem edits",
+      "source": "SKILL.md:206",
+      "priority": "critical"
+    },
+    {
+      "id": "I022",
+      "type": "constraint",
+      "category": "generators",
+      "text": "MUST validate generator options via schema and explicit guards",
+      "source": "SKILL.md:207",
+      "priority": "critical"
+    },
+    {
+      "id": "I023",
+      "type": "constraint",
+      "category": "generators",
+      "text": "MUST respect Nx project graph boundaries and existing tags",
+      "source": "SKILL.md:208",
+      "priority": "high"
+    },
+    {
+      "id": "I024",
+      "type": "constraint",
+      "category": "generators",
+      "text": "MUST test with --dry-run before broad rollouts",
+      "source": "SKILL.md:209",
+      "priority": "medium"
+    },
+    {
+      "id": "I025",
+      "type": "constraint",
+      "category": "executors",
+      "text": "MUST return { success: boolean } from executor function",
+      "source": "SKILL.md:213",
+      "priority": "critical"
+    },
+    {
+      "id": "I026",
+      "type": "constraint",
+      "category": "executors",
+      "text": "MUST use package notation for executor references in targets",
+      "source": "SKILL.md:214",
+      "priority": "critical"
+    },
+    {
+      "id": "I027",
+      "type": "constraint",
+      "category": "executors",
+      "text": "MUST declare outputs for cacheable tasks",
+      "source": "SKILL.md:215",
+      "priority": "high"
+    },
+    {
+      "id": "I028",
+      "type": "constraint",
+      "category": "executors",
+      "text": "MUST implement schema validation with required fields",
+      "source": "SKILL.md:216",
+      "priority": "high"
+    },
+    {
+      "id": "I029",
+      "type": "new-knowledge",
+      "category": "generators",
+      "text": "Derive paths from readProjectConfiguration(tree, name).root instead of hardcoding",
+      "source": "SKILL.md:139",
+      "priority": "high"
+    },
+    {
+      "id": "I030",
+      "type": "new-knowledge",
+      "category": "generators",
+      "text": "Read config before update: const config = readProjectConfiguration(tree, name); config.targets.build = {...}; updateProjectConfiguration(tree, name, config);",
+      "source": "SKILL.md:157",
+      "priority": "high"
+    },
+    {
+      "id": "I031",
+      "type": "new-knowledge",
+      "category": "generators",
+      "text": "Check file existence before writing: if (tree.exists(path)) { throw new Error('File already exists'); }",
+      "source": "SKILL.md:193",
+      "priority": "high"
+    },
+    {
+      "id": "I032",
+      "type": "new-knowledge",
+      "category": "executors",
+      "text": "Use async file I/O: await fs.promises.readFile instead of fs.readFileSync",
+      "source": "SKILL.md:181",
+      "priority": "medium"
+    },
+    {
+      "id": "I033",
+      "type": "new-knowledge",
+      "category": "generators",
+      "text": "Call formatFiles(tree) after generateFiles(...)",
+      "source": "SKILL.md:187",
+      "priority": "medium"
+    },
+    {
+      "id": "I034",
+      "type": "new-knowledge",
+      "category": "plugin",
+      "text": "Export in src/index.ts and register in generators.json/executors.json with factory path",
+      "source": "SKILL.md:199",
+      "priority": "high"
+    },
+    {
+      "id": "I035",
+      "type": "preference",
+      "category": "design",
+      "text": "Keep plugins as orchestration tools, not business-logic containers",
+      "source": "SKILL.md:30",
+      "priority": "medium"
+    },
+    {
+      "id": "I036",
+      "type": "preference",
+      "category": "design",
+      "text": "Prefer small, composable generation steps over large mutation passes",
+      "source": "SKILL.md:31",
+      "priority": "medium"
+    },
+    {
+      "id": "I037",
+      "type": "preference",
+      "category": "executors",
+      "text": "Keep executors deterministic and cache-aware",
+      "source": "SKILL.md:32",
+      "priority": "high"
+    },
+    {
+      "id": "I038",
+      "type": "new-knowledge",
+      "category": "generators",
+      "text": "Use names() utility for case transformations: names('my-lib') returns { className, propertyName, constantName, fileName }",
+      "source": "generators-guide.md:223",
+      "priority": "medium"
+    },
+    {
+      "id": "I039",
+      "type": "new-knowledge",
+      "category": "generators",
+      "text": "Use addDependenciesToPackageJson for dependency management",
+      "source": "generators-guide.md:246",
+      "priority": "low"
+    },
+    {
+      "id": "I040",
+      "type": "new-knowledge",
+      "category": "templates",
+      "text": "Include tmpl: '' in template variables to strip .template extension",
+      "source": "template-engine-guide.md:9",
+      "priority": "medium"
+    },
+    {
+      "id": "I041",
+      "type": "new-knowledge",
+      "category": "templates",
+      "text": "File name substitution: __name__ → options.name, __fileName__ → custom values, __directory__ → options.directory",
+      "source": "generators-guide.md:151",
+      "priority": "medium"
+    },
+    {
+      "id": "I042",
+      "type": "preference",
+      "category": "generators",
+      "text": "Compose other generators to reduce duplication",
+      "source": "generators-guide.md:300",
+      "priority": "low"
+    },
+    {
+      "id": "I043",
+      "type": "preference",
+      "category": "executors",
+      "text": "Log clearly - provide actionable output for debugging",
+      "source": "executors-guide.md:344",
+      "priority": "low"
+    },
+    {
+      "id": "I044",
+      "type": "new-knowledge",
+      "category": "executors",
+      "text": "Access ExecutorContext properties: context.root (workspace root), context.projectName, context.targetName, context.projectsConfigurations",
+      "source": "executors-guide.md:42-50",
+      "priority": "high"
+    },
+    {
+      "id": "I045",
+      "type": "new-knowledge",
+      "category": "schema",
+      "text": "Use $default with $source: argv for positional arguments",
+      "source": "generators-guide.md:186",
+      "priority": "medium"
+    },
+    {
+      "id": "I046",
+      "type": "new-knowledge",
+      "category": "schema",
+      "text": "Use x-prompt for interactive prompts when options are missing",
+      "source": "generators-guide.md:190",
+      "priority": "low"
+    },
+    {
+      "id": "I047",
+      "type": "reminder",
+      "category": "testing",
+      "text": "Use createTreeWithEmptyWorkspace() for unit testing generators",
+      "source": "testing-and-troubleshooting.md:15",
+      "priority": "low"
+    }
+  ],
+  "categories": {
+    "generators": 24,
+    "executors": 12,
+    "plugin": 2,
+    "design": 3,
+    "templates": 3,
+    "schema": 2,
+    "testing": 1
+  },
+  "types": {
+    "preference": 12,
+    "anti-pattern": 12,
+    "constraint": 8,
+    "new-knowledge": 14,
+    "reminder": 1
+  }
+}
