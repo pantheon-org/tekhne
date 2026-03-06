@@ -1,0 +1,20 @@
+{
+  "skill": "repository-mgmt/nx/nx-plugin-authoring",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 0
+  },
+  "total": 103,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 239,
+  "hasReferences": true,
+  "referenceCount": 9
+}
