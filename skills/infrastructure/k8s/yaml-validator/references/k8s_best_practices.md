@@ -128,7 +128,7 @@ spec:
 ### Required Fields
 - CRDs often have custom required fields in spec
 - Check the CRD documentation for field requirements
-- Use kubectl explain <kind> to see field documentation
+- Use `kubectl explain <kind>` to see field documentation
 
 ### Validation
 - CRDs may have custom validation rules

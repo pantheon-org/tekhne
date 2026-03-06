@@ -84,25 +84,21 @@ Script outputs JSON with resource information and parse status:
 
 **For each detected CRD:**
 
-1. **Try context7 MCP first (preferred):**
+1. **Query library documentation:**
    ```
-   Use mcp__context7__resolve-library-id with the CRD project name
-   Example: "cert-manager" for cert-manager.io CRDs
-
-   Then use mcp__context7__get-library-docs with:
-   - context7CompatibleLibraryID from resolve step
-   - topic: The CRD kind (e.g., "Certificate")
-   - tokens: 5000 (adjust based on need)
+   tessl_query_library_docs: query: "<project> <kind> <version> spec fields"
+   Example: "cert-manager Certificate v1 spec fields"
+   Example: "istio VirtualService v1beta1 specification"
    ```
 
-2. **Fallback to WebSearch if context7 fails:**
+2. **Fallback to WebSearch if documentation is insufficient:**
    ```
    "<kind>" "<group>" kubernetes CRD "<version>" documentation spec
    ```
 
 3. Extract required `spec` fields, field types, validation rules, and version-specific changes.
 
-**Secondary CRD Detection:** If `detect_crd_wrapper.sh` fails (e.g., all documents have syntax errors) but kubeconform validates a CRD resource, parse kubeconform output to identify those CRDs and perform context7/WebSearch lookups.
+**Secondary CRD Detection:** If `detect_crd_wrapper.sh` fails (e.g., all documents have syntax errors) but kubeconform validates a CRD resource, parse kubeconform output to identify those CRDs and perform documentation lookups.
 
 ### Stage 4: Schema Validation
 

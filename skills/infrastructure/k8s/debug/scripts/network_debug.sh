@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 # Kubernetes Network Debugging Script
 # Helps diagnose network connectivity issues between pods and services
 

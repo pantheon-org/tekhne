@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 # Kubernetes Cluster Health Check Script
 # Performs comprehensive cluster health diagnostics
 

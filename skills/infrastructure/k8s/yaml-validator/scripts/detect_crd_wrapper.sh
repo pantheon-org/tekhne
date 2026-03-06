@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 # Wrapper script for detect_crd.py that handles PyYAML dependency
 # Creates a temporary venv if PyYAML is not available
 

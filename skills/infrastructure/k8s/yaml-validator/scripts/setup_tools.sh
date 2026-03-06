@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 # Check for required validation tools and provide installation instructions
 
 set -e

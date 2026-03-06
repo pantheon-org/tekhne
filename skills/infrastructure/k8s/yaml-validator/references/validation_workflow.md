@@ -127,10 +127,10 @@ Output example:
 
 For each detected CRD:
 
-1. **Use context7 MCP (preferred):**
-   - Resolve library ID: `mcp__context7__resolve-library-id` with the CRD group/project name
-   - Fetch documentation: `mcp__context7__get-library-docs` with the library ID
-   - Focus on the specific version if available
+1. **Query library documentation:**
+   - Use `tessl_query_library_docs` with query: `"<project> <kind> <version> specification"`
+   - Example: `"cert-manager Certificate v1 spec fields and validation"`
+   - Focus on the specific version for compatibility
 
 2. **Fallback to Web Search:**
    - Search query: `"<kind>" "<group>" kubernetes CRD "<version>" documentation`
@@ -172,12 +172,12 @@ Once documentation is found:
                 [CRD?]          [Standard Resource]
                     │             │
                     ↓             ↓
-     ┌──────────────────────┐    │
-     │ 4a. Lookup CRD Docs   │    │
-     │    - context7 MCP     │    │
-     │    - Web search       │    │
-     │    - Version-aware    │    │
-     └──────────────────────┘    │
+      ┌──────────────────────┐    │
+      │ 4a. Lookup CRD Docs   │    │
+      │    - Library docs     │    │
+      │    - Web search       │    │
+      │    - Version-aware    │    │
+      └──────────────────────┘    │
                     │             │
                     └──────┬──────┘
                            ↓

@@ -13,21 +13,21 @@ Gather: resource type, target K8s version, app requirements (replicas, ports, vo
 
 ### 2. Fetch CRD Documentation (if needed)
 
-**Step 2a – Resolve the library ID:**
+Query library documentation for CRD specifications:
 ```
-mcp__context7__resolve-library-id: libraryName: "<project-name>"
-# e.g. "argo-cd", "istio", "cert-manager"
-```
-Select the result with best name match, version compatibility, and benchmark score.
-
-**Step 2b – Fetch docs:**
-```
-mcp__context7__get-library-docs: context7CompatibleLibraryID: "/org/project/version"
-  topic: "<CRD type or feature>"
-  page: 1   # increment up to 10 if context is insufficient; try alternate topic keywords
+tessl_query_library_docs: query: "<project-name> <CRD-kind> <version> specification"
+# e.g. "argo-cd Application v1alpha1 specification"
+# e.g. "istio VirtualService v1beta1 specification"
+# e.g. "cert-manager Certificate v1 specification"
 ```
 
-**Step 2c – Fallback to web search** if Context7 returns insufficient results:
+The query should include:
+- Project/operator name (e.g., "argo-cd", "istio", "cert-manager")
+- CRD kind (e.g., "Application", "Certificate", "VirtualService")
+- API version (e.g., "v1alpha1", "v1", "v1beta1")
+- Context about what you need (e.g., "spec fields", "examples", "configuration")
+
+If documentation is insufficient, fall back to web search:
 ```
 WebSearch: "<CRD-name> <version> spec documentation"
 # e.g. "ArgoCD Application v1alpha1 spec documentation"
@@ -131,10 +131,10 @@ data:
 
 ### 4. Validate Generated YAML
 
-**CRITICAL: Always validate using the devops-skills:k8s-yaml-validator skill immediately after generation.**
+**CRITICAL: Always validate using the k8s-yaml-validator workflow immediately after generation.**
 
 ```
-Skill: devops-skills:k8s-yaml-validator
+See: yaml-validator/SKILL.md (in this tile)
 ```
 
 The validator runs `yamllint` (syntax), `kubeconform` (schema/API compliance), best-practice checks, and optional cluster dry-run. Address all reported errors—fix, re-validate, repeat until clean.
@@ -220,7 +220,7 @@ spec:
 1. Generate each resource following the core workflow
 2. Use consistent labels across all resources
 3. Respect dependency order (e.g., ConfigMaps before Deployments)
-4. Validate each resource individually with devops-skills:k8s-yaml-validator
+4. Validate each resource individually using the k8s-yaml-validator workflow
 5. Combine into a single multi-document YAML with `---` separators if desired
 
 ### Version-Specific Generation
@@ -232,13 +232,13 @@ spec:
 
 | Issue | Solution |
 |---|---|
-| CRD docs not found in Context7 | Try name variations; fall back to WebSearch with version-specific query |
+| CRD docs not found | Try name variations; fall back to WebSearch with version-specific query |
 | Validation failures | Read errors carefully; verify field names/types/required fields; re-validate |
 | Wrong API version | Confirm target K8s version; check deprecation status; update `apiVersion`; re-validate |
 
 ## Integration
 
-- **devops-skills:k8s-yaml-validator** — automatic validation of generated resources
+- **k8s-yaml-validator** (in this tile) — automatic validation of generated resources
 - **k8s-debug** — troubleshooting deployed resources
 - **helm-validator** — validating Helm charts using these resources
 
