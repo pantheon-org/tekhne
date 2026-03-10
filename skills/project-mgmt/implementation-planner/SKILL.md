@@ -14,56 +14,58 @@ description: >
 license: MIT
 compatibility: opencode
 metadata:
-  version: 2.0.0
+  version: 3.0.0
   audience: agents
   workflow: planning, project-management, task-breakdown, restructuring
 ---
 
 # Implementation Planner
 
-## What I do
+## Mental model
 
-**Mode 1 — Create new plan:** Given a PRD or requirements document, produce a
-complete, navigable implementation plan written to `.context/plans/`:
+An implementation plan is a **navigable contract between an agent and a codebase**.
+Each file answers a single question: "What do I need to do next, how do I do it,
+and how do I prove it is done?"
 
+Two failure modes to avoid:
+
+1. **The monolith** — one giant plan.md nobody reads because everything is in one file
+2. **The skeleton** — directories with empty READMEs that give no useful signal
+
+The sweet spot is a tree where every node either navigates (README) or implements
+(task file), and every leaf has a runnable verification command.
+
+## Quick Start
+
+**Mode 1 — Create a new plan from a PRD:**
+
+```sh
+sh scripts/new-plan.sh url-shortener-service
+sh scripts/new-phase.sh url-shortener-service 01 workspace-bootstrap
+sh scripts/new-task.sh url-shortener-service 01 01 initialise-npm-package
+sh scripts/validate-plan.sh url-shortener-service
 ```
-.context/plans/
-  plan-<slug>/
-    README.md                         # root index: goal, all phases, status table
-    phases/
-      phase-01-<slug>/
-        README.md                     # phase overview: goal, gate, tasks summary
-        tasks/
-          task-P01T01-<slug>.md       # task: goal, file, implementation, verification
-          task-P01T02-<slug>.md
-      phase-02-<slug>/
-        README.md
-        tasks/
-          task-P02T01-<slug>.md
-          task-P02T02-<slug>.md
+
+**Mode 2 — Split a monolithic document:**
+
+```sh
+# 1. Create hierarchy manually (steps below) or from JSON:
+sh scripts/generate-structure.sh --plan plan.json
+# 2. Validate before removing source
+sh scripts/validate-structure.sh docs/refactoring/phases
 ```
 
-Each file is self-contained: an agent can work on a single task file without
-reading the rest of the plan.
+## When to use each mode
 
-**Mode 2 — Restructure existing plan:** Given a monolithic planning document or
-flat set of phase files, produce a hierarchical directory structure under
-`docs/refactoring/phases/` (or a path you specify):
-
-```
-docs/refactoring/phases/
-  phase-{number}-{name}/
-    README.md
-    activities/              # OR steps/
-      README.md
-      activity-{number}-{description}/
-        README.md
-        activity-{number}.{sub}-*.md
-```
+| Signal | Mode |
+|---|---|
+| User provides a PRD, spec, or requirements description | Mode 1 |
+| User provides a single large planning document to split | Mode 2 |
+| User provides flat phase files to reorganise | Mode 2 |
+| User says "add a phase" to an existing plan | Mode 1 (additive) |
+| User says "split", "organise", "refactor this plan" | Mode 2 |
 
 ## Trigger phrases
-
-Use this skill when the user says any of the following (or close variants):
 
 **Creating a new plan:**
 - "create an implementation plan"
@@ -85,6 +87,8 @@ Use this skill when the user says any of the following (or close variants):
 - "refactor this planning doc"
 - "split this into separate files"
 
+---
+
 ## Mode 1 — Create New Plan
 
 ### Inputs
@@ -94,6 +98,28 @@ Use this skill when the user says any of the following (or close variants):
 | PRD / spec | A document, inline description, or file path describing what to build |
 | Phase count | Optional — infer from scope if not provided |
 | Output path | Optional — defaults to `.context/plans/` |
+
+### Output structure
+
+```
+.context/plans/
+  plan-<slug>/
+    README.md                         # root index: goal, all phases, status table
+    phases/
+      phase-01-<slug>/
+        README.md                     # phase overview: goal, gate, tasks summary
+        tasks/
+          task-P01T01-<slug>.md       # task: goal, file, implementation, verification
+          task-P01T02-<slug>.md
+      phase-02-<slug>/
+        README.md
+        tasks/
+          task-P02T01-<slug>.md
+          task-P02T02-<slug>.md
+```
+
+Each file is self-contained: an agent can work on a single task file without
+reading the rest of the plan.
 
 ### Step 1 — Read and analyse the requirements
 
@@ -125,7 +151,10 @@ Typical phase progression for a greenfield project:
 Adapt freely — fewer phases for small projects, more for large ones.
 
 > **Ask the user before creating more than 8 phases** — very large plans often
-> benefit from being split into separate planning documents.
+> benefit from being split into separate planning documents. Offer specific
+> consolidation options, e.g. "split into two plans by layer" or "merge phases
+> 5 and 6 into a combined hardening phase". Do not create files before receiving
+> the user's answer.
 
 ### Step 3 — Decompose phases into tasks
 
@@ -134,9 +163,6 @@ Each task must be:
 - Completable in isolation (no hidden cross-task dependencies unless declared)
 - Verifiable with a concrete shell command or observable output
 - Scoped to a single file or a tightly coupled set of files
-
-> **Do not** create tasks that span multiple unrelated files without a declared
-> reason — this makes tasks hard to verify independently.
 
 Use the identifier format `P{phase_number}T{task_number}`, both zero-padded.
 Example: `P02T03` = phase 2, task 3. Use 1-based numbering (`01`, `02`, …) for
@@ -164,10 +190,11 @@ Slugs are lowercase kebab-case summaries of the title. Examples:
 - Task P01T02 "Root package.json" → `task-P01T02-root-package-json.md`
 
 After scaffolding, fill in the generated stub files following the structure
-defined in `references/templates/plan.yaml`, `references/templates/phase.yaml`, and `references/templates/task.yaml`.
+defined in `references/templates/plan.yaml`, `references/templates/phase.yaml`,
+and `references/templates/task.yaml`.
 
-> **Do not** embed implementation detail in `plan.md` — keep it as a navigation
-> index only. Detail belongs in phase and task files.
+> **Do not** embed implementation detail in the root `README.md` — keep it as a
+> navigation index only. Detail belongs in phase and task files.
 
 ### Step 5 — Validate all output files
 
@@ -412,6 +439,197 @@ Prioritise: complete partial splits before starting new ones.
 1. Renumber children to match actual parent
 2. Create missing parent if children are cohesive
 3. Flatten if only 1–2 children (they don't need a parent directory)
+
+---
+
+## Anti-patterns
+
+### Mode 1 anti-patterns
+
+#### Vague verification gates
+
+```markdown
+<!-- BAD: unverifiable -->
+### Gate
+The API works correctly and all tests pass.
+
+<!-- GOOD: runnable, exit-code-based -->
+### Gate
+```sh
+npm test -- --reporter=tap | tap-parser --ok
+curl -sf http://localhost:3000/health | jq -e '.status == "ok"'
+```
+```
+
+**Over-bundled tasks**
+
+```markdown
+<!-- BAD: one task, five unrelated files, no isolation -->
+# P01T03 — Set up project
+Implement src/server.ts, src/routes/users.ts, src/db/migrations/001.sql,
+package.json, and tsconfig.json.
+
+<!-- GOOD: one task, one file, independently verifiable -->
+# P01T03 — Initialise tsconfig.json
+File: tsconfig.json
+Verification: npx tsc --noEmit && echo "ok"
+```
+
+#### Root README with implementation detail
+
+```markdown
+<!-- BAD: implementation steps in the navigation index -->
+# Plan: URL Shortener
+## Phase 1
+Install dependencies with `npm install`. Then create src/index.ts with the
+following content: ...
+
+<!-- GOOD: navigation index only -->
+# Plan: URL Shortener
+| Phase | Goal | Status |
+|---|---|---|
+| [01 — Bootstrap](phases/phase-01-workspace-bootstrap/README.md) | Runnable skeleton | pending |
+```
+
+#### Zero-padded numbering violations
+
+```
+# BAD: breaks alphabetical sort, inconsistent
+task-P1T1-setup.md
+task-P1T10-final.md   ← sorts before P1T2
+
+# GOOD: consistent alphabetical sort
+task-P01T01-setup.md
+task-P01T10-final.md
+```
+
+#### Skipping validate-plan.sh
+
+Never report completion without running `sh scripts/validate-plan.sh <slug>` first.
+Schema violations caught here prevent downstream agents from parsing task files.
+
+### Mode 2 anti-patterns
+
+#### Numeric-only directory names
+
+```
+# BAD: opaque — must open file to understand contents
+phases/1/
+phases/2/
+phases/2/1/
+
+# GOOD: self-documenting
+phases/phase-1-codebase-analysis/
+phases/phase-2-service-extraction-prep/
+```
+
+#### Over-nesting small groups
+
+```
+# BAD: 2 items don't need their own group directory
+phase-3-user-service/
+  activities/
+    group-a-database/
+      activity-3.1-create-schema.md    # only 2 items — flatten!
+      activity-3.2-run-migrations.md
+    group-b-api/
+      activity-3.3-implement-crud.md   # only 1 item — definitely flatten!
+
+# GOOD: flat under activities/ when <3 children
+phase-3-user-service/
+  activities/
+    activity-3.1-create-schema.md
+    activity-3.2-run-migrations.md
+    activity-3.3-implement-crud.md
+```
+
+#### Deleting source before validation
+
+```sh
+# BAD: data loss if hierarchy is invalid
+rm -rf docs/old-plan.md
+sh scripts/validate-structure.sh docs/refactoring/phases  # too late
+
+# GOOD: validate first, delete after
+sh scripts/validate-structure.sh docs/refactoring/phases && rm docs/old-plan.md
+```
+
+---
+
+## Worked examples
+
+### Example: URL Shortener plan (Mode 1)
+
+Given: PRD for a URL shortener with REST API, SQLite storage, and a health check.
+
+**Scope analysis:** 3 natural phases (bootstrap → core logic → API + health).
+
+```sh
+sh scripts/new-plan.sh url-shortener-service
+sh scripts/new-phase.sh url-shortener-service 01 workspace-bootstrap
+sh scripts/new-task.sh url-shortener-service 01 01 initialise-npm-package
+sh scripts/new-task.sh url-shortener-service 01 02 configure-typescript
+sh scripts/new-phase.sh url-shortener-service 02 database-layer
+sh scripts/new-task.sh url-shortener-service 02 01 create-sqlite-schema
+sh scripts/new-task.sh url-shortener-service 02 02 implement-url-repository
+sh scripts/new-phase.sh url-shortener-service 03 http-api
+sh scripts/new-task.sh url-shortener-service 03 01 post-shorten-endpoint
+sh scripts/new-task.sh url-shortener-service 03 02 get-redirect-endpoint
+sh scripts/new-task.sh url-shortener-service 03 03 health-check-endpoint
+sh scripts/validate-plan.sh url-shortener-service
+```
+
+Task `task-P03T01-post-shorten-endpoint.md` verification:
+
+```sh
+npm start &; sleep 1
+curl -sf -X POST http://localhost:3000/shorten \
+  -H 'Content-Type: application/json' \
+  -d '{"url":"https://example.com"}' | jq -e '.code | length == 6'
+kill %1
+```
+
+### Example: Scope exceeds 8 phases
+
+PRD covers auth, ingestion, pipeline, storage, query, viz, multi-tenancy, ops, DX (9 domains).
+
+**Correct response:**
+
+> This plan has 9 natural domains which would require 9+ phases. I recommend one
+> of these approaches before I start creating files:
+>
+> A. Split into two plans: `plan-platform-core` (auth, ingestion, pipeline, storage,
+> query) and `plan-platform-surface` (viz, multi-tenancy, ops, DX)
+>
+> B. Consolidate to 7 phases: merge storage+query into one phase and ops+DX into one
+>
+> Which would you prefer?
+
+### Example: Restructure migration plan (Mode 2)
+
+Source: `docs/migration-plan.md` with 5 numbered sections, ~35 items.
+
+**Scope analysis:** 5 phases, 4–9 items each — within the 3–7 sweet spot for most.
+
+```
+docs/refactoring/phases/
+  phase-1-codebase-analysis/           # 4 items → flat under activities/
+    README.md
+    activities/
+      activity-1.1-dependency-graph.md
+      activity-1.2-bounded-contexts.md
+      activity-1.3-shared-libraries.md
+      activity-1.4-data-ownership.md
+  phase-3-user-service-extraction/     # 9 items → consider grouping
+    README.md
+    activities/
+      group-a-implementation/          # 5 items (3.1–3.5)
+        activity-3.1-copy-domain.md
+        ...
+      group-b-rollout/                 # 4 items (3.6–3.9)
+        activity-3.6-deploy-staging.md
+        ...
+```
 
 ---
 
