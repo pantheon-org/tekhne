@@ -25,9 +25,9 @@
 ## Metadata
 
 - **Skill Path**: skills/project-mgmt/implementation-planner/SKILL.md
-- **Total Lines**: 655
+- **Total Lines**: 618
 - **Has References**: Yes
-- **Reference Count**: 1 files
+- **Reference Count**: 2 files
 
 ---
 

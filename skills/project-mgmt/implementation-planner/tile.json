@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/implementation-planner",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "summary": "Converts a PRD or requirements document into a structured, phased implementation plan with individual phase files and granular per-task files written to .context/plans/. Also restructures existing monolithic planning documents into digestible, hierarchical directory structures. Creates a root plan index summarising all phases, a numbered phase file per phase, and a numbered task file per task inside each phase directory.\n",
   "skills": {
