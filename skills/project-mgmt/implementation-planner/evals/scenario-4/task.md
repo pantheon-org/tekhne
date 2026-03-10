@@ -59,6 +59,14 @@ Build a production-grade multi-tenant analytics platform with the following capa
 - Sandbox environment with sample data
 - CLI tool for data management
 
+## Constraints
+
+- Each of the 9 sections above (Authentication, Data Ingestion, Data Pipeline,
+  Storage, Query Engine, Visualisation, Multi-Tenancy, Operations, Developer
+  Experience) represents a distinct delivery milestone and **must be treated as a
+  separate phase**. Do not merge sections.
+- The stakeholder has confirmed the scope is fixed — no reduction is possible.
+
 ## What to produce
 
 Create a complete implementation plan under `.context/plans/` for this project.

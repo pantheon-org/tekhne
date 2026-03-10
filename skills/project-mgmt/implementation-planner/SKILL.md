@@ -133,9 +133,15 @@ Read the PRD in full. Identify:
 
 **FIRST: count the natural phases before designing anything.**
 
-Scan the PRD and count the distinct delivery milestones. If the count is **9 or
-more**, STOP immediately — do not design phases, do not run any scripts, do not
-create any files. Instead, message the user with the count and 2–3 concrete options:
+Each distinct domain, capability area, or labelled section in the PRD counts as
+one phase unless two sections share a single atomic deliverable that cannot be
+tested independently. When in doubt, count them separately — err on the side of
+a higher count to avoid missing the guardrail.
+
+Scan the PRD, count every distinct section or domain, and record the total.
+If the count is **9 or more**, STOP immediately — do not design phases, do not
+run any scripts, do not create any files. Instead, message the user with the
+count and 2–3 concrete options:
 
 ```
 I've identified N natural phases from the requirements. Before I create any files,
