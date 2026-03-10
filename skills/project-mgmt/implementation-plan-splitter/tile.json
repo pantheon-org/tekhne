@@ -1,8 +1,8 @@
 {
   "name": "pantheon-ai/implementation-plan-splitter",
-  "version": "0.1.1",
+  "version": "2.0.0",
   "private": false,
-  "summary": "Split large implementation plan documents into digestible, hierarchical structures with descriptive names. Use when refactoring monolithic planning docs, organizing phase documentation, or creating contributor-friendly task breakdowns. Triggers: \"split this plan\", \"organize phases\", \"break down implementation docs\", \"create task hierarchy\".\n",
+  "summary": "Merged into implementation-planner. Redirects to the unified skill that handles both creating new plans and restructuring existing monolithic planning docs into hierarchical directory structures.",
   "skills": {
     "implementation-plan-splitter": {
       "path": "SKILL.md"

@@ -1,0 +1,40 @@
+# Template for Phase-level README.md
+# Used at: phase-X-name/README.md
+
+title: "Phase {{number}}: {{name}}"
+description: |
+  Phase-level documentation with objectives and navigation to
+  activities or steps.
+
+sections:
+  - name: "Phase Header"
+    template: |
+      **Phase Name**: {{name}}
+      **Objectives**: {{description}}
+
+  - name: "{{type|title}}"  # "Activities" or "Steps"
+    template: |
+      | {{type_singular|title}} | Description | Output |
+      |----------|-------------|--------|
+      {{#each items}}
+      | [{{number}} {{name}}](./{{type}}/{{type_singular}}-{{number}}-{{kebab name}}/) | {{description}} | Deliverables |
+      {{/each}}
+
+  - name: "Success Criteria"
+    template: |
+      - Criterion 1
+      - Criterion 2
+
+  - name: "Rollback Procedure"
+    template: |
+      ```bash
+      git checkout phase-{{number}}-complete
+      ```
+
+# Template variables:
+# - number: Phase number (e.g., "1", "2.1")
+# - name: Phase name (e.g., "Analysis", "Implementation")
+# - description: Phase description/objectives
+# - type: "activities" or "steps"
+# - type_singular: "activity" or "step"
+# - items: Array of {number, name, description}
