@@ -16,4 +16,17 @@ You need to extend this plan with a new phase covering the **REST API layer**. T
 
 Use Express.js. All handlers must be in separate files under `src/api/`.
 
-Add this as phase 3 to the existing plan. Do not modify or delete the existing phase files.
+Add this as phase 3 to the existing plan.
+
+## Additive-only constraint
+
+The following files already exist and are **read-only** — they MUST NOT be modified,
+renamed, or deleted under any circumstances:
+
+- `phases/phase-01-workspace-bootstrap/` and all files within it
+- `phases/phase-02-data-model/` and all files within it
+
+The root `README.md` may have a new phase-03 entry appended to its phase listing.
+No other edits to the root README are permitted.
+
+Only new files may be created: the phase-03 directory, its README, and its task files.

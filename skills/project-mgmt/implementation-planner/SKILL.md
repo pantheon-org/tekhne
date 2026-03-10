@@ -198,8 +198,15 @@ consistent alphabetical sorting.
 The scripts stamp the correct stubs that `validate-plan.sh` expects. Using `mkdir`
 or writing files from scratch will produce structures that fail validation.
 
+**MUST NOT modify existing files** — all operations are additive only. When
+appending phases to an existing plan, run `new-phase.sh` and `new-task.sh` for
+the new content only. Never edit, rename, or delete files that already exist in
+the plan. Existing phase directories, task files, and the root README must remain
+byte-for-byte identical after the operation, except that the root README may have
+new phase entries appended to its phase listing.
+
 ```sh
-# 1. Create the plan root — MUST run first
+# 1. Create the plan root — MUST run first (skip if plan already exists)
 sh scripts/new-plan.sh <plan-slug>
 
 # 2. Create each phase directory — MUST use this for every phase
@@ -498,6 +505,23 @@ sh scripts/new-phase.sh my-plan 12 ...   ← should have stopped at count=9
 NEVER use `mkdir -p` to build the plan tree. ALWAYS use `new-plan.sh`, `new-phase.sh`,
 and `new-task.sh` — they stamp the correct file stubs and naming conventions that
 `validate-plan.sh` expects.
+
+#### Modifying existing files when appending a new phase
+
+NEVER edit, rename, or delete existing phase directories, task files, or the root
+README's existing phase entries when adding a new phase to a plan. ALWAYS treat
+all pre-existing files as read-only. The only permitted write to the root README
+is appending the new phase entry at the end of the phases list.
+
+```sh
+# BAD: editing an existing task file while adding phase-03
+edit phases/phase-02-data-model/tasks/task-P02T01-schema.md   ← MUST NOT touch
+
+# GOOD: only new files are written
+sh scripts/new-phase.sh my-plan 03 api-layer
+sh scripts/new-task.sh my-plan 03 01 user-endpoints
+# existing phase-01, phase-02 files are untouched
+```
 
 ### Mode 2 anti-patterns
 
