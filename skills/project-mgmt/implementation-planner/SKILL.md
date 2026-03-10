@@ -131,6 +131,30 @@ Read the PRD in full. Identify:
 
 ### Step 2 — Design phases
 
+**FIRST: count the natural phases before designing anything.**
+
+Scan the PRD and count the distinct delivery milestones. If the count is **9 or
+more**, STOP immediately — do not design phases, do not run any scripts, do not
+create any files. Instead, message the user with the count and 2–3 concrete options:
+
+```
+I've identified N natural phases from the requirements. Before I create any files,
+please choose one of these approaches:
+
+A. Split into two plans: plan-<core-slug> (phases 1–5) and plan-<surface-slug> (phases 6–N)
+B. Consolidate to 7 phases by merging [phase X] and [phase Y] into one
+C. Proceed with all N phases in a single plan
+
+Which would you prefer?
+```
+
+Wait for the user's answer before doing anything else. Do **not** silently cap at
+8 and omit scope. Do **not** proceed with any number of phases without the user
+choosing when N ≥ 9.
+
+Once the phase count is confirmed to be ≤ 8 (either naturally or after
+consolidation), continue designing:
+
 Group work into sequential phases where each phase delivers a testable, deployable
 increment. Each phase must have:
 
@@ -150,12 +174,6 @@ Typical phase progression for a greenfield project:
 
 Adapt freely — fewer phases for small projects, more for large ones.
 
-> **If scope analysis yields more than 8 phases, stop and ask the user before
-> creating any files.** Present the phase count and offer 2–3 concrete options,
-> e.g. "split into two plans by layer" or "merge phases 5 and 6 into a combined
-> hardening phase". Wait for the user's answer. Do **not** silently cap at 8 phases
-> or reduce scope without user input — the user must decide.
-
 ### Step 3 — Decompose phases into tasks
 
 Each task must be:
@@ -170,17 +188,18 @@ consistent alphabetical sorting.
 
 ### Step 4 — Scaffold and write output files
 
-Use the scripts in `scripts/` to create the directory structure deterministically,
-then populate the generated README / task files using the templates in `references/templates/`.
+**MUST use the scaffold scripts** — never create directories or files manually.
+The scripts stamp the correct stubs that `validate-plan.sh` expects. Using `mkdir`
+or writing files from scratch will produce structures that fail validation.
 
 ```sh
-# 1. Create the plan root
+# 1. Create the plan root — MUST run first
 sh scripts/new-plan.sh <plan-slug>
 
-# 2. Create each phase directory
+# 2. Create each phase directory — MUST use this for every phase
 sh scripts/new-phase.sh <plan-slug> <phase-number> <phase-slug>
 
-# 3. Create each task file inside its phase
+# 3. Create each task file inside its phase — MUST use this for every task
 sh scripts/new-task.sh <plan-slug> <phase-number> <task-number> <task-slug>
 ```
 
@@ -198,8 +217,7 @@ and `references/templates/task.yaml`.
 
 ### Step 5 — Validate all output files
 
-After writing all files, run the validation script to verify every file conforms
-to its JSON Schema before reporting to the user.
+**MUST run before reporting to the user — no exceptions.**
 
 ```sh
 sh scripts/validate-plan.sh <plan-slug>
@@ -213,10 +231,13 @@ The script checks each file against its schema in `references/schemas/`:
 | `phases/phase-NN-<slug>/README.md` | `references/schemas/phase.schema.json` |
 | `phases/phase-NN-<slug>/tasks/task-*.md` | `references/schemas/task.schema.json` |
 
-If any file fails, fix it and re-run until all checks pass (exit 0) before
-proceeding. Every task file must include a verification section — a task is not
-complete without a provable, runnable check (exit 0 / non-zero, file exists,
-URL returns 200, etc.). Gates must never be vague like "works correctly".
+**If any file fails:** fix the violation and re-run `validate-plan.sh`. Repeat
+until exit 0. Do not report completion until exit 0 is confirmed.
+
+Every task file MUST include a verification section with a concrete, runnable
+shell command. Gates MUST be exit-code-based (exit 0 / non-zero, file exists,
+URL returns 200). Gates MUST NOT use vague language like "works correctly" or
+"tests pass" without specifying the exact command.
 
 ### Step 6 — Report to the user
 
@@ -442,21 +463,28 @@ Schema violations caught here prevent downstream agents from parsing task files.
 
 #### Ignoring the >8-phase guardrail
 
-NEVER silently cap at 8 phases, and NEVER silently create 9+ phases.
-ALWAYS stop before creating any files, report the phase count, and ask with concrete options.
-ALWAYS wait for the user's answer before proceeding.
+When the PRD yields **9 or more** natural phases, the ONLY correct action is to
+stop and ask. There is no other valid path.
+
+NEVER silently cap at 8 phases — omitting scope without telling the user is a bug.
+NEVER silently create 9+ phases — proceeding without the user's choice is a bug.
+ALWAYS count phases as the very first action in Step 2, before designing anything.
+ALWAYS stop and message the user the moment the count reaches 9.
+ALWAYS wait for the user's answer before running any scripts or creating any files.
 
 ```
 # BAD: silently limits plan to 8 phases without telling the user
-sh scripts/new-phase.sh my-plan 08 ...   ← stops here, never asks
+# (agent designs 8 phases, leaves out the 9th domain entirely)
+sh scripts/new-phase.sh my-plan 08 ...   ← should have asked first
 
 # BAD: creates all 12 phases without asking
-sh scripts/new-phase.sh my-plan 12 ...   ← should have stopped at >8
+sh scripts/new-phase.sh my-plan 12 ...   ← should have stopped at count=9
 
-# GOOD: stops before creating files, asks user
-> This plan has 11 natural phases. Before I create any files, which do you prefer?
-> A. Split into plan-core (phases 1–6) and plan-surface (phases 7–11)
-> B. Merge phases 9–11 into a single ops-and-release phase (→ 8 phases total)
+# GOOD: counts first, stops immediately when count ≥ 9, asks before any files
+"I've identified 9 phases. Before I create any files, which do you prefer?
+ A. Split into plan-core (phases 1–5) and plan-surface (phases 6–9)
+ B. Consolidate to 7 phases by merging ops and DX into one
+ C. Proceed with all 9 phases in a single plan"
 ```
 
 #### Manually creating directories without scripts
@@ -557,27 +585,32 @@ kill %1
 
 ### Example: Scope exceeds 8 phases
 
-PRD covers auth, ingestion, pipeline, storage, query, viz, multi-tenancy, ops, DX (9 domains).
+PRD covers auth, ingestion, pipeline, storage, query, viz, multi-tenancy, ops, DX
+(9 domains).
 
-**Scope analysis result:** 9 domains → 9 phases needed → guardrail triggered.
+**Step 2, action 1:** Count natural phases = 9. Count ≥ 9 → guardrail triggered.
 
-**Correct behaviour:** Stop. Do not run any `new-plan.sh` or `new-phase.sh` commands.
-Ask the user first:
+**Correct behaviour:** Stop immediately. Zero scripts run. Zero files created.
+Send this message to the user and wait:
 
-> I've analysed the requirements and identified 9 phases. Before I create any files,
-> please choose one of these approaches:
+> I've counted 9 natural phases from the requirements. I need your input before
+> I create any files:
 >
-> A. Split into two plans: `plan-platform-core` (auth, ingestion, pipeline, storage,
-> query) and `plan-platform-surface` (viz, multi-tenancy, ops, DX)
+> A. Split into two plans: `plan-platform-core` (auth, ingestion, pipeline,
+> storage, query) and `plan-platform-surface` (viz, multi-tenancy, ops, DX)
 >
-> B. Consolidate to 7 phases: merge storage+query into one phase and ops+DX into one
+> B. Consolidate to 7 phases: merge storage+query into one phase and ops+DX
+> into one (→ 7 phases total)
+>
+> C. Proceed with all 9 phases in a single plan
 >
 > Which would you prefer?
 
-**Wrong behaviour (do not do this):**
-- Silently creating only 8 phases and omitting the 9th
-- Proceeding to scaffold files and then mentioning the limitation
-- Asking the question after some files have already been created
+**Wrong behaviour — do not do any of these:**
+- Counting 9 phases but designing only 8 and omitting auth or DX
+- Running `new-plan.sh` before receiving the user's answer
+- Creating some phases then mentioning the limit
+- Asking the question inside a code comment or after file creation
 
 ### Example: Restructure migration plan (Mode 2)
 
