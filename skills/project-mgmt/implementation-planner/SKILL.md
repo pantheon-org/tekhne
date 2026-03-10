@@ -282,12 +282,6 @@ step-1-initial-setup/              # BAD: "initial" becomes misleading later
 step-1-project-bootstrap/          # GOOD: timeless
 ```
 
-**Handling legacy conventions:**
-1. Extract the semantic meaning, not the literal text
-2. Normalise to outcome-based names
-3. Document the mapping for traceability
-4. Keep original numbering for cross-referencing
-
 ### Pre-split verification
 
 Before splitting, confirm:
@@ -355,52 +349,6 @@ sh scripts/validate-structure.sh docs/refactoring/phases
 # Exit 0 = valid, 1 = invalid
 ```
 
-### Automation (Mode 2)
-
-**Generate from JSON plan:**
-
-```sh
-sh scripts/generate-structure.sh --plan plan.json
-sh scripts/generate-structure.sh --example   # show expected JSON format
-```
-
-JSON format:
-
-```json
-{
-  "outputPath": "docs/refactoring/phases",
-  "phases": [{
-    "number": 1,
-    "name": "bootstrap",
-    "description": "...",
-    "type": "activities",
-    "items": [{
-      "number": 1,
-      "name": "setup-toolchain",
-      "description": "...",
-      "subItems": [{
-        "number": 1,
-        "name": "install-deps",
-        "description": "...",
-        "checklist": ["item 1"],
-        "acceptanceCriteria": ["criterion 1"],
-        "status": "pending",
-        "dependencies": []
-      }]
-    }]
-  }]
-}
-```
-
-**Validate existing structure:**
-
-```sh
-sh scripts/validate-structure.sh <phases-dir>
-```
-
-Checks: READMEs present, descriptive names, required sections, valid links,
-proper hierarchy depth, no numeric-only directory names.
-
 ### Validation checklist
 
 Before marking complete:
@@ -413,32 +361,13 @@ Before marking complete:
 - [ ] Old flat files removed
 - [ ] Each leaf file has: title, description, checklist, acceptance criteria, status
 
-### Error recovery
-
-**Phase with 50+ items:**
-1. Split by milestone — create `phase-1a-`, `phase-1b-` prefixes
-2. Extract verticals — create feature-based phases if multiple features are mixed
-3. Promote to phase — if a group of 10+ items is cohesive, give it its own phase
-> Anti-pattern: just adding more nesting. Deep hierarchies with 50 siblings are still unusable.
-
-**Conflicting naming conventions (mixed `step-X.Y` and `activity-X.Y`):**
-1. Choose dominant pattern — whichever has more items, normalise to that
-2. Phase-aware convention — use `steps/` for implementation phases, `activities/` for analysis phases
-3. Document the hybrid — add a README note explaining the dual convention
-
-**Partial split (abandoned mid-work):**
 ```sh
-ls docs/refactoring/phases/*.md                          # flat files still in root
-find docs/refactoring/phases -type d \
-  -exec test ! -f {}/README.md \; -print                # dirs missing READMEs
-git diff HEAD~5 --name-only | grep phases/              # recovery via git
+sh scripts/validate-structure.sh <phases-dir>
+# Exit 0 = valid, 1 = one or more violations (details printed to stdout)
 ```
-Prioritise: complete partial splits before starting new ones.
 
-**Items referencing non-existent parents:**
-1. Renumber children to match actual parent
-2. Create missing parent if children are cohesive
-3. Flatten if only 1–2 children (they don't need a parent directory)
+> For automation (JSON plan generation), error recovery recipes, and legacy naming
+> conventions see [references/mode2-advanced.md](references/mode2-advanced.md).
 
 ---
 
@@ -461,7 +390,7 @@ curl -sf http://localhost:3000/health | jq -e '.status == "ok"'
 ```
 ```
 
-**Over-bundled tasks**
+#### Over-bundled tasks
 
 ```markdown
 <!-- BAD: one task, five unrelated files, no isolation -->
@@ -474,6 +403,8 @@ package.json, and tsconfig.json.
 File: tsconfig.json
 Verification: npx tsc --noEmit && echo "ok"
 ```
+
+ALWAYS: one task = one independently verifiable unit of work.
 
 #### Root README with implementation detail
 
@@ -505,8 +436,20 @@ task-P01T10-final.md
 
 #### Skipping validate-plan.sh
 
-Never report completion without running `sh scripts/validate-plan.sh <slug>` first.
+NEVER report completion without running `sh scripts/validate-plan.sh <slug>` first.
+ALWAYS fix every schema violation and re-run until exit 0 before reporting to the user.
 Schema violations caught here prevent downstream agents from parsing task files.
+
+#### Ignoring the >8-phase guardrail
+
+NEVER silently create 9+ phases. ALWAYS ask the user with concrete consolidation options.
+Creating a 12-phase plan wastes effort if the user wanted two separate plans.
+
+#### Manually creating directories without scripts
+
+NEVER use `mkdir -p` to build the plan tree. ALWAYS use `new-plan.sh`, `new-phase.sh`,
+and `new-task.sh` — they stamp the correct file stubs and naming conventions that
+`validate-plan.sh` expects.
 
 ### Mode 2 anti-patterns
 
@@ -545,6 +488,9 @@ phase-3-user-service/
 
 #### Deleting source before validation
 
+NEVER delete the source document before `validate-structure.sh` exits 0.
+ALWAYS treat the source as the ground truth until the new hierarchy is confirmed valid.
+
 ```sh
 # BAD: data loss if hierarchy is invalid
 rm -rf docs/old-plan.md
@@ -553,6 +499,12 @@ sh scripts/validate-structure.sh docs/refactoring/phases  # too late
 # GOOD: validate first, delete after
 sh scripts/validate-structure.sh docs/refactoring/phases && rm docs/old-plan.md
 ```
+
+#### Mixing Mode 1 and Mode 2 without detection
+
+NEVER apply Mode 2 restructuring to a new PRD, or Mode 1 scaffolding to an existing
+flat document. ALWAYS check the signal table in "When to use each mode" before
+deciding which mode applies.
 
 ---
 
@@ -633,7 +585,17 @@ docs/refactoring/phases/
 
 ---
 
-## File Format Reference
+## Reference
+
+### Deep dives
+
+| Topic | Location |
+|---|---|
+| Mode 2 automation, error recovery, legacy naming | [references/mode2-advanced.md](references/mode2-advanced.md) |
+| Before/after structure transformation example | [references/example-transformation.md](references/example-transformation.md) |
+| File format templates and schemas | below |
+
+### File Format Reference
 
 | Template | Schema | Purpose |
 |---|---|---|
@@ -646,6 +608,7 @@ docs/refactoring/phases/
 | `references/templates/step-file.yaml` | `references/schemas/step-file.schema.json` | Leaf step/activity file (Mode 2) |
 
 See [references/example-transformation.md](references/example-transformation.md) for a before/after structure comparison.
+See [references/mode2-advanced.md](references/mode2-advanced.md) for automation, error recovery, and legacy naming guidance.
 
 ---
 
