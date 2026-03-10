@@ -1,0 +1,76 @@
+{
+  "context": "Agent was asked to add a new phase (REST API layer) to an existing plan at .context/plans/plan-blog-platform/. Evaluate the new phase-03 files only — existing phase-01 and phase-02 must remain unchanged.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "phase-03-directory-created",
+      "description": "A new directory phases/phase-03-<slug>/ was created inside the existing plan (not a new plan root)",
+      "max_score": 6
+    },
+    {
+      "name": "existing-phases-untouched",
+      "description": "phase-01 and phase-02 directories and their contents were not modified, moved, or deleted",
+      "max_score": 8
+    },
+    {
+      "name": "phase-readme-has-gate",
+      "description": "The phase-03 README.md includes a gate section with a concrete pass/fail shell command (not vague language)",
+      "max_score": 10
+    },
+    {
+      "name": "task-count-matches-scope",
+      "description": "The number of task files in phase-03/tasks/ is appropriate for the 6 endpoints described — tasks are not over-bundled (one task per unrelated endpoint or file is ideal)",
+      "max_score": 7
+    },
+    {
+      "name": "task-ids-continue-sequence",
+      "description": "Task identifiers use P03 prefix (e.g. task-P03T01-*.md) with zero-padded 1-based numbering",
+      "max_score": 7
+    },
+    {
+      "name": "task-scoped-to-single-handler",
+      "description": "Each task file covers a single route handler file (or a closely related pair) and does not bundle unrelated endpoints into one task without justification",
+      "max_score": 8
+    },
+    {
+      "name": "task-verification-is-runnable",
+      "description": "Every task file includes a verification section with a specific shell command (e.g. curl -s localhost:3000/posts | jq length, or npm test -- --grep) that exits 0 on success",
+      "max_score": 10
+    },
+    {
+      "name": "no-vague-verification",
+      "description": "No task verification uses phrases like 'the endpoint works', 'tests pass', or 'API responds correctly' without specifying the exact command and expected output",
+      "max_score": 8
+    },
+    {
+      "name": "dependencies-declared",
+      "description": "The phase-03 README.md explicitly declares dependencies on phase-02 (data model) and any specific artefacts needed",
+      "max_score": 7
+    },
+    {
+      "name": "scaffold-scripts-used",
+      "description": "Agent used new-phase.sh and new-task.sh scripts to create the phase and task files rather than creating them manually",
+      "max_score": 8
+    },
+    {
+      "name": "validate-plan-run",
+      "description": "Agent ran validate-plan.sh after adding phase-03 and fixed any issues before completing",
+      "max_score": 8
+    },
+    {
+      "name": "root-readme-updated",
+      "description": "The plan root README.md was updated to include phase-03 in its phase listing (additive — prior phases still listed)",
+      "max_score": 7
+    },
+    {
+      "name": "slug-format-correct",
+      "description": "All new directory names and file slugs use lowercase kebab-case",
+      "max_score": 4
+    },
+    {
+      "name": "completion-summary-reported",
+      "description": "Agent reported a completion summary listing the new phase README and all new task files",
+      "max_score": 2
+    }
+  ]
+}
