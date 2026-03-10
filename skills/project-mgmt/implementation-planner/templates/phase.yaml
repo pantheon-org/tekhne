@@ -1,0 +1,67 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+description: >
+  Phase overview file written to .context/plans/phases/phase-NN-<slug>.md.
+  One file per phase. Describes the phase goal, acceptance gate, dependencies,
+  and an inline summary of every task in the phase.
+output_path: ".context/plans/plan-{plan-slug}/phases/phase-{NN}-{slug}/README.md"
+format: markdown
+structure:
+  h1:
+    description: >
+      Phase number and title — e.g. `# Phase 01 — Workspace Bootstrap`.
+      Number is zero-padded, title is Title Case.
+    required: true
+
+  section_goal:
+    heading: "## Goal"
+    required: true
+    content: >
+      One or two sentences describing what this phase delivers and why it is
+      a natural delivery milestone.
+
+  section_gate:
+    heading: "## Gate"
+    required: true
+    content:
+      description: >
+        Checklist of pass/fail acceptance criteria. Every item MUST be a
+        runnable shell command or a binary observable outcome (file exists,
+        URL returns 200, etc.). Vague criteria like "works correctly" are not
+        allowed.
+      format: "- [ ] <criterion>"
+      example: |
+        - [ ] `npm run build` exits 0
+        - [ ] `npm test` exits 0 with no skipped suites
+        - [ ] `.env.example` exists at repository root
+
+  section_dependencies:
+    heading: "## Dependencies"
+    required: false
+    content: >
+      Bullet list of prior phases, existing files, external services, or ADRs
+      that this phase depends on. Omit section if there are no dependencies.
+
+  section_tasks:
+    heading: "## Tasks"
+    required: true
+    content:
+      description: >
+        One H3 subsection per task in this phase. Each subsection provides a
+        brief description and key implementation notes. Full detail lives in
+        the per-task file.
+      per_task:
+        h3:
+          description: >
+            Task identifier and title — e.g. `### TASK-01-01 — Root package.json`.
+            Identifier format: TASK-{phase_number}-{task_number}, both zero-padded.
+          required: true
+        body:
+          description: >
+            One short paragraph summarising what the task does, followed by a
+            bullet list of key constraints or file paths affected.
+          required: true
+        link:
+          description: >
+            Link to the task file relative to this README — e.g.
+            `[Full detail](tasks/task-P01T01-root-package-json.md)`
+          required: true

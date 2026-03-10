@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "implementation-planner/task",
+  "title": "Task file",
+  "description": "Validates the structure of a task file inside .context/plans/plan-<slug>/phases/phase-NN-<slug>/tasks/task-PNNTnn-<slug>.md.",
+  "type": "object",
+  "required": ["content", "filename"],
+  "properties": {
+    "filename": {
+      "type": "string",
+      "description": "Basename of the task file.",
+      "pattern": "^task-P\\d{2}T\\d{2}-.+\\.md$"
+    },
+    "content": {
+      "type": "string",
+      "description": "Full text content of the task file.",
+      "allOf": [
+        {
+          "description": "H1 must match the task identifier format '# P<NN>T<NN> — <title>'",
+          "pattern": "(?m)^# P\\d{2}T\\d{2} — .+"
+        },
+        {
+          "description": "Must have a '## Phase' section",
+          "pattern": "(?m)^## Phase"
+        },
+        {
+          "description": "Must have a '## Goal' section",
+          "pattern": "(?m)^## Goal"
+        },
+        {
+          "description": "Must have a '## File to create / modify' section",
+          "pattern": "(?m)^## File to create \\/ modify"
+        },
+        {
+          "description": "Must have a '## Implementation' section",
+          "pattern": "(?m)^## Implementation"
+        },
+        {
+          "description": "Must have a '## Verification' section",
+          "pattern": "(?m)^## Verification"
+        },
+        {
+          "description": "Verification section must contain a fenced sh code block",
+          "pattern": "(?s)## Verification[\\s\\S]*?```sh"
+        }
+      ]
+    }
+  }
+}
