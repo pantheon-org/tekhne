@@ -150,11 +150,11 @@ Typical phase progression for a greenfield project:
 
 Adapt freely — fewer phases for small projects, more for large ones.
 
-> **Ask the user before creating more than 8 phases** — very large plans often
-> benefit from being split into separate planning documents. Offer specific
-> consolidation options, e.g. "split into two plans by layer" or "merge phases
-> 5 and 6 into a combined hardening phase". Do not create files before receiving
-> the user's answer.
+> **If scope analysis yields more than 8 phases, stop and ask the user before
+> creating any files.** Present the phase count and offer 2–3 concrete options,
+> e.g. "split into two plans by layer" or "merge phases 5 and 6 into a combined
+> hardening phase". Wait for the user's answer. Do **not** silently cap at 8 phases
+> or reduce scope without user input — the user must decide.
 
 ### Step 3 — Decompose phases into tasks
 
@@ -442,8 +442,22 @@ Schema violations caught here prevent downstream agents from parsing task files.
 
 #### Ignoring the >8-phase guardrail
 
-NEVER silently create 9+ phases. ALWAYS ask the user with concrete consolidation options.
-Creating a 12-phase plan wastes effort if the user wanted two separate plans.
+NEVER silently cap at 8 phases, and NEVER silently create 9+ phases.
+ALWAYS stop before creating any files, report the phase count, and ask with concrete options.
+ALWAYS wait for the user's answer before proceeding.
+
+```
+# BAD: silently limits plan to 8 phases without telling the user
+sh scripts/new-phase.sh my-plan 08 ...   ← stops here, never asks
+
+# BAD: creates all 12 phases without asking
+sh scripts/new-phase.sh my-plan 12 ...   ← should have stopped at >8
+
+# GOOD: stops before creating files, asks user
+> This plan has 11 natural phases. Before I create any files, which do you prefer?
+> A. Split into plan-core (phases 1–6) and plan-surface (phases 7–11)
+> B. Merge phases 9–11 into a single ops-and-release phase (→ 8 phases total)
+```
 
 #### Manually creating directories without scripts
 
@@ -545,10 +559,13 @@ kill %1
 
 PRD covers auth, ingestion, pipeline, storage, query, viz, multi-tenancy, ops, DX (9 domains).
 
-**Correct response:**
+**Scope analysis result:** 9 domains → 9 phases needed → guardrail triggered.
 
-> This plan has 9 natural domains which would require 9+ phases. I recommend one
-> of these approaches before I start creating files:
+**Correct behaviour:** Stop. Do not run any `new-plan.sh` or `new-phase.sh` commands.
+Ask the user first:
+
+> I've analysed the requirements and identified 9 phases. Before I create any files,
+> please choose one of these approaches:
 >
 > A. Split into two plans: `plan-platform-core` (auth, ingestion, pipeline, storage,
 > query) and `plan-platform-surface` (viz, multi-tenancy, ops, DX)
@@ -556,6 +573,11 @@ PRD covers auth, ingestion, pipeline, storage, query, viz, multi-tenancy, ops, D
 > B. Consolidate to 7 phases: merge storage+query into one phase and ops+DX into one
 >
 > Which would you prefer?
+
+**Wrong behaviour (do not do this):**
+- Silently creating only 8 phases and omitting the 9th
+- Proceeding to scaffold files and then mentioning the limitation
+- Asking the question after some files have already been created
 
 ### Example: Restructure migration plan (Mode 2)
 
