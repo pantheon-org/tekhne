@@ -6,7 +6,11 @@ description: >
   .context/plans/. Also restructures existing monolithic planning documents into
   digestible, hierarchical directory structures. Creates a root plan index
   summarising all phases, a numbered phase file per phase, and a numbered task
-  file per task inside each phase directory.
+  file per task inside each phase directory. Use when the user asks to create an
+  implementation plan, break down a PRD, convert requirements to tasks, structure
+  project phases, generate a roadmap, plan a project in sprints, organise task
+  breakdown, split a monolithic planning doc, or decompose a spec into phases and
+  tasks.
 license: MIT
 compatibility: opencode
 metadata:
@@ -69,6 +73,9 @@ Use this skill when the user says any of the following (or close variants):
 - "write a detailed implementation plan"
 - "create tasks from this spec"
 - "decompose this into phases and tasks"
+- "create a project plan / roadmap"
+- "break down tasks" / "task breakdown"
+- "sprint planning"
 
 **Restructuring an existing plan:**
 - "split this plan"
@@ -117,6 +124,9 @@ Typical phase progression for a greenfield project:
 
 Adapt freely — fewer phases for small projects, more for large ones.
 
+> **Ask the user before creating more than 8 phases** — very large plans often
+> benefit from being split into separate planning documents.
+
 ### Step 3 — Decompose phases into tasks
 
 Each task must be:
@@ -125,8 +135,12 @@ Each task must be:
 - Verifiable with a concrete shell command or observable output
 - Scoped to a single file or a tightly coupled set of files
 
+> **Do not** create tasks that span multiple unrelated files without a declared
+> reason — this makes tasks hard to verify independently.
+
 Use the identifier format `P{phase_number}T{task_number}`, both zero-padded.
-Example: `P02T03` = phase 2, task 3.
+Example: `P02T03` = phase 2, task 3. Use 1-based numbering (`01`, `02`, …) for
+consistent alphabetical sorting.
 
 ### Step 4 — Scaffold and write output files
 
@@ -152,6 +166,9 @@ Slugs are lowercase kebab-case summaries of the title. Examples:
 After scaffolding, fill in the generated stub files following the structure
 defined in `references/templates/plan.yaml`, `references/templates/phase.yaml`, and `references/templates/task.yaml`.
 
+> **Do not** embed implementation detail in `plan.md` — keep it as a navigation
+> index only. Detail belongs in phase and task files.
+
 ### Step 5 — Validate all output files
 
 After writing all files, run the validation script to verify every file conforms
@@ -170,7 +187,9 @@ The script checks each file against its schema in `references/schemas/`:
 | `phases/phase-NN-<slug>/tasks/task-*.md` | `references/schemas/task.schema.json` |
 
 If any file fails, fix it and re-run until all checks pass (exit 0) before
-proceeding.
+proceeding. Every task file must include a verification section — a task is not
+complete without a provable, runnable check (exit 0 / non-zero, file exists,
+URL returns 200, etc.). Gates must never be vague like "works correctly".
 
 ### Step 6 — Report to the user
 
@@ -184,14 +203,6 @@ Created implementation plan at .context/plans/plan-<slug>/
   phases/phase-01-workspace-bootstrap/tasks/task-P01T01-*.md
   ...
 ```
-
-### File formats (Mode 1)
-
-| Template | Schema | Purpose |
-|---|---|---|
-| `references/templates/plan.yaml` | `references/schemas/plan.schema.json` | Root index structure |
-| `references/templates/phase.yaml` | `references/schemas/phase.schema.json` | Phase overview structure |
-| `references/templates/task.yaml` | `references/schemas/task.schema.json` | Individual task structure |
 
 ---
 
@@ -278,6 +289,10 @@ docs/refactoring/phases/
 
 Max depth: **4 levels** (phase → activities/steps → group → leaf). Flatten if deeper.
 
+> **Never use numeric-only directory names** (`step-1/`, `activity-2/`) and
+> **never use generic names** (`step-1-stuff/`) — contributors cannot navigate
+> without opening every file.
+
 ### Step 2 — Write leaf file content
 
 Each leaf file must contain: title, description, checklist, acceptance criteria, status.
@@ -305,7 +320,8 @@ Update all README links after restructuring. Verify with `validate-structure.sh`
 
 ### Step 7 — Cleanup and validate
 
-Remove flat source files **only after** validation passes:
+Create the new hierarchy first, validate, then remove the old flat files — never
+delete source before the new structure is confirmed valid.
 
 ```sh
 sh scripts/validate-structure.sh docs/refactoring/phases
@@ -370,17 +386,6 @@ Before marking complete:
 - [ ] Old flat files removed
 - [ ] Each leaf file has: title, description, checklist, acceptance criteria, status
 
-### File formats (Mode 2)
-
-| Template | Schema | Purpose |
-|---|---|---|
-| `references/templates/phase-readme.yaml` | `references/schemas/readme-file.schema.json` | Phase directory README |
-| `references/templates/group-readme.yaml` | `references/schemas/readme-file.schema.json` | Group/intermediate README |
-| `references/templates/intermediate-readme.yaml` | `references/schemas/readme-file.schema.json` | Activities/steps dir README |
-| `references/templates/step-file.yaml` | `references/schemas/step-file.schema.json` | Leaf step/activity file |
-
-See [references/example-transformation.md](references/example-transformation.md) for a before/after structure comparison.
-
 ### Error recovery
 
 **Phase with 50+ items:**
@@ -410,39 +415,19 @@ Prioritise: complete partial splits before starting new ones.
 
 ---
 
-## Anti-patterns
+## File Format Reference
 
-### Mode 1
+| Template | Schema | Purpose |
+|---|---|---|
+| `references/templates/plan.yaml` | `references/schemas/plan.schema.json` | Root index structure (Mode 1) |
+| `references/templates/phase.yaml` | `references/schemas/phase.schema.json` | Phase overview structure (Mode 1) |
+| `references/templates/task.yaml` | `references/schemas/task.schema.json` | Individual task structure (Mode 1) |
+| `references/templates/phase-readme.yaml` | `references/schemas/readme-file.schema.json` | Phase directory README (Mode 2) |
+| `references/templates/group-readme.yaml` | `references/schemas/readme-file.schema.json` | Group/intermediate README (Mode 2) |
+| `references/templates/intermediate-readme.yaml` | `references/schemas/readme-file.schema.json` | Activities/steps dir README (Mode 2) |
+| `references/templates/step-file.yaml` | `references/schemas/step-file.schema.json` | Leaf step/activity file (Mode 2) |
 
-**Do not** create tasks that span multiple unrelated files without a declared
-reason — this makes tasks hard to verify independently.
-
-**Do not** write vague gates like "works correctly". Gates must be runnable
-commands or observable binary outcomes (exit 0 / non-zero, file exists, URL
-returns 200, etc.).
-
-**Do not** embed implementation detail in `plan.md` — keep it as a navigation
-index only. Detail belongs in phase and task files.
-
-**Do not** number phases or tasks starting from 0. Use 1-based numbering (`01`,
-`02`, ...) for consistent alphabetical sorting.
-
-**Do not** skip the verification section in task files. Every task must be
-provably complete.
-
-### Mode 2
-
-**Never use numeric-only directory names** (`step-1/`, `activity-2/`) — contributors
-cannot navigate without opening every file.
-
-**Never mix different parent groups** — `step-2.1` must not live inside `step-1-extract/`.
-
-**Never create structures deeper than 4 levels** — flatten intermediate levels instead.
-
-**Never skip README files** — every directory must explain its purpose.
-
-**Never use generic directory names** (`step-1-stuff/`, `activity-1-things/`) — zero
-information forces users to open files just to understand the context.
+See [references/example-transformation.md](references/example-transformation.md) for a before/after structure comparison.
 
 ---
 
@@ -450,7 +435,3 @@ information forces users to open files just to understand the context.
 
 - Existing `.context/plans/` content is never deleted; new files are additive.
 - If a plan already exists, append new phases rather than overwriting.
-- Ask the user before creating more than 8 phases — very large plans often benefit
-  from being split into separate planning documents.
-- When restructuring, create the new hierarchy first, validate, then remove the old
-  flat files — never delete source before the new structure is confirmed valid.
