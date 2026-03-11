@@ -2,126 +2,147 @@
 name: plain-english
 description: Translates technical content into plain English for non-technical stakeholders by converting jargon into business language, surfacing decisions and impact early, and producing actionable recommendations with clear ownership and timeline. Use when the user asks to simplify technical content, write an executive summary, explain something in layman's terms, rewrite for non-technical audiences, or translate jargon for management or stakeholders. Applies to document types such as technical reports, architecture decision records, incident summaries, risk assessments, and status updates. Distinct from general writing or documentation skills by its focus on audience identification, decision-first structure, and jargon elimination for non-technical readers.
 metadata:
-  version: "1.1.0"
+  version: "1.7.0"
   created: "2026-01-21"
 ---
 
 # Plain English Writing
 
-Navigation hub for converting technical content into decision-ready communication.
+Translates technical content into decision-ready communication for non-technical stakeholders.
 
 ## When to Use
 
-- You need to communicate technical risks to executives or managers.
-- You need non-technical readers to make a decision quickly.
-- You need to rewrite technical updates into action-oriented business language.
+Apply when writing for: executives, business managers, compliance/legal, or cross-functional stakeholders without the requesting team's domain knowledge.
 
 ## When Not to Use
 
-- The audience is purely technical and expects low-level implementation detail.
-- The task is legal drafting that must preserve specialized legal terminology verbatim.
+Skip when writing for engineers or technical specialists. You may optionally apply selective translation for mixed audiences; consider keeping technical depth for peer reviews or developer-facing docs.
+
+## Mindset
+
+Technical writing optimises for **completeness**. Plain-English writing optimises for **decisions**.
+
+Before writing a single word, ask:
+
+> _"What does this person need to decide or do — and what is the minimum information required for that?"_
+
+**The single most reliable fix:** move the recommendation to sentence one. Everything else is secondary.
+
+### Decision Framework
+
+```
+┌─────────────────────────────────────────────┐
+│  OPENING (required)                          │
+│  Problem + Business impact + Action needed   │
+├─────────────────────────────────────────────┤
+│  SUPPORTING CONTEXT (only if needed)         │
+│  Background / Options / Tradeoffs / Timeline │
+├─────────────────────────────────────────────┤
+│  APPENDIX (optional)                         │
+│  Technical detail / Metrics / Implementation │
+└─────────────────────────────────────────────┘
+```
+
+If a reader only reads the opening, they must still know what to do.
+
+---
 
 ## Workflow
 
-1. Step 1: Identify audience.
-Output: explicit audience label (executive, manager, compliance/legal, cross-functional).
-2. Step 2: Define desired outcome.
-Output: one sentence stating what the reader should decide or do.
-3. Step 3: Draft key message first.
-Output: opening paragraph with problem, impact, and required action.
-4. Step 4: Add supporting context only as needed.
-Output: concise background, options, tradeoffs, and timeline.
-5. Step 5: Run anti-pattern and readability checks.
-Output: final copy with clear ownership and no unexplained jargon.
+### Step 1: Identify Audience
 
-## Quick Commands
+**executive** (zero jargon) | **manager** (minimal jargon) | **compliance/legal** (tech translated) | **cross-functional** (inline definitions).
+See [references/constraints-and-fallbacks.md](references/constraints-and-fallbacks.md) for the audience depth guide.
 
-```bash
-# Rough jargon density check
-grep -E "(API|HTTP|SQL|async|callback|microservice|container|k8s)" <file>.md | wc -l
+If unknown: `Audience: unknown. Applying manager-level clarity (fallback).`
+
+### Step 2: Define the Outcome
+
+One sentence — what must the reader decide or do? Write it before drafting.
+
+### Step 3: Draft Key Message First
+
+Opening must contain: **problem + business impact + required action**.
+
+```
+BAD:  [3 paragraphs of background] "...we recommend approving the budget."
+GOOD: "We need your approval for a $50k security fix by Thursday. [Impact follows.]"
 ```
 
-```bash
-# Acronym extraction for glossary review
-grep -oE '\b[A-Z]{2,}\b' <file>.md | sort -u
+### Step 4: Add Supporting Context
+
+Every action item MUST follow:
+
+```
+[Owner] must [specific action] by [concrete deadline].
 ```
 
-```bash
-# Sentence length sanity check (approximate)
-awk -F'.' '{for(i=1;i<=NF;i++) print $i}' <file>.md | awk '{print NF}' | awk '{s+=$1; n+=1} END {if(n>0) print s/n}'
+```
+BAD:  "The database should be optimized."
+GOOD: "Database team (Alex) must optimize query performance by March 15."
 ```
 
-## Verification Checklist
+For acronym-heavy documents, extract all acronyms first:
 
-- [ ] Acronyms are defined on first use.
-- [ ] Opening paragraph contains key decision or recommendation.
-- [ ] Technical terms are translated to plain language.
-- [ ] Action items include clear owner and timeline.
+```bash
+grep -oE '\b[A-Z]{2,}\b' file.md | sort -u
+```
+
+Define each, then draft — rewrite still leads with key message, not the glossary.
+
+### Step 5: Verify
+
+```
+- [ ] Every acronym defined on first use.
+- [ ] Opening paragraph contains the key decision or recommendation.
+- [ ] All technical terms translated — no unexplained jargon.
+- [ ] Every action: [Owner] must [action] by [deadline].
 - [ ] Paragraphs are concise and scannable.
+```
 
-## Constraints vs Flexibility
+---
 
-### Hard Constraints
+## Constraints
 
-- ALWAYS define acronyms on first use.
-- ALWAYS lead with key message for executive audiences.
-- NEVER hide decisions deep in long paragraphs.
-- NEVER use passive voice for required actions when ownership is known.
+**Hard rules:** ALWAYS state audience · ALWAYS define acronyms · ALWAYS lead with key message for executives · NEVER hide decisions · NEVER use passive voice for owned actions · NEVER leave deadlines undefined · NEVER present options without a recommendation.
 
-### Flexible Guidance
+**Fallback paths** (state explicitly at the top of your output before writing):
 
-- Sentence length target can vary by audience depth.
-- Section ordering can adapt to document type.
-- Detail level can increase for technical-adjacent stakeholders.
+| Situation | Prefix |
+|-----------|--------|
+| Unknown audience | `Audience: unknown. Applying manager-level clarity (fallback).` |
+| Unknown terminology | Define inline: `"TLS (the encryption protocol that keeps data private)"` |
+| Conflicting priorities | `Multiple critical issues — leading with risk and deadlines.` |
 
-### Fallback Paths
+Full formats: [references/constraints-and-fallbacks.md](references/constraints-and-fallbacks.md).
 
-- Unknown audience: default to manager-level clarity.
-- Unknown terminology: add glossary terms in-line or at end.
-- Conflicting priorities: lead with risk and decision deadline.
+---
 
 ## Anti-Patterns
 
-### NEVER use jargon without translation
+Full catalogue: [references/anti-patterns.md](references/anti-patterns.md).
 
-- **WHY**: non-technical readers cannot act on unexplained specialist terms.
-- **Consequence**: decision delay and misunderstandings.
-- **BAD**: "The API returns 429 due to upstream throttling."
-- **GOOD**: "The system is receiving too many requests; retry windows are being enforced."
+| # | Anti-pattern | Fix |
+|---|-------------|-----|
+| AP-1 | Jargon without translation | ALWAYS translate or remove every specialist term |
+| AP-2 | Buried key decision | ALWAYS put recommendation in sentence one |
+| AP-3 | Passive action language | NEVER use passive voice; use `[Owner] must [action] by [deadline]` |
+| AP-4 | Assumed technical context | NEVER assume prior knowledge; explain from first principles |
+| AP-5 | Wall of acronyms | ALWAYS define each acronym on first use |
+| AP-6 | Recommendations without deadlines | NEVER leave deadlines undefined; undated = ignored |
+| AP-7 | Options without a recommendation | NEVER present options without stating which you recommend |
+| AP-8 | Skipping audience identification | ALWAYS start with audience and goal |
 
-### NEVER assume prior technical context
-
-- **WHY**: stakeholders have varying domain familiarity.
-- **Consequence**: gaps in understanding and misaligned actions.
-- **BAD**: "Refactor monolith into microservices."
-- **GOOD**: "Break the large application into smaller independent services to reduce release risk and speed delivery."
-
-### NEVER bury the key decision
-
-- **WHY**: time-constrained readers scan the first section only.
-- **Consequence**: critical actions are missed.
-- **BAD**: recommendation appears after multiple background sections.
-- **GOOD**: first paragraph states recommendation and impact.
-
-### NEVER use passive action language for owned tasks
-
-- **WHY**: passive voice obscures accountability.
-- **Consequence**: work stalls because ownership is unclear.
-- **BAD**: "The database should be optimized."
-- **GOOD**: "The database team should optimize query performance by Q2."
-
-### NEVER skip audience identification
-
-- **WHY**: tone and depth must match reader intent.
-- **Consequence**: over-technical or over-simplified communication.
-- **BAD**: draft starts before audience is known.
-- **GOOD**: start with "Audience: compliance managers; goal: approve mitigation plan."
-
-## Quick Reference
-
-- [references/audience-types.md](references/audience-types.md) - audience-specific format and depth guidance
-- [references/jargon-translations.md](references/jargon-translations.md) - common technical-to-plain-language mappings
+---
 
 ## References
 
-- [PlainLanguage.gov](https://www.plainlanguage.gov/)
+| File | Purpose |
+|------|---------|
+| [references/audience-types.md](references/audience-types.md) | Audience format and depth guidance |
+| [references/jargon-translations.md](references/jargon-translations.md) | Technical-to-plain-language mappings |
+| [references/anti-patterns.md](references/anti-patterns.md) | Full anti-pattern catalogue with BAD/GOOD examples |
+| [references/before-after-examples.md](references/before-after-examples.md) | Complete before/after rewrites for 5 document types |
+| [references/constraints-and-fallbacks.md](references/constraints-and-fallbacks.md) | Full constraint rules, fallback formats, audience depth guide |
+
+External: [PlainLanguage.gov](https://www.plainlanguage.gov/)
