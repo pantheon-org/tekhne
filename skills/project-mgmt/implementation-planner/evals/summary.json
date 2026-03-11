@@ -78,5 +78,10 @@
         "Completion summary with file paths"
       ]
     }
-  ]
+  ],
+  "instructions_coverage": {
+    "coverage_percentage": "87.5%",
+    "instructions_covered": 14,
+    "total_instructions": 16
+  }
 }

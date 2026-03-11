@@ -1,134 +1,136 @@
-[
-  {
-    "instruction": "Use Mode 1 to create a new plan: given a PRD or requirements document, produce a complete, navigable implementation plan written to `.context/plans/plan-<slug>/`",
-    "original_snippets": [
-      "Mode 1 — Create new plan: Given a PRD or requirements document, produce a complete, navigable implementation plan written to `.context/plans/`"
-    ],
-    "relevant_when": "User asks to create an implementation plan, break down a PRD, or decompose requirements into phases/tasks",
-    "why_given": "Core mode 1 behaviour — agent must produce the correct directory structure"
-  },
-  {
-    "instruction": "Use Mode 2 to restructure existing plans: given a monolithic document or flat set of phase files, produce a hierarchical directory structure",
-    "original_snippets": [
-      "Mode 2 — Restructure Existing Plans: Use this mode when the source is a monolithic document or flat set of phase files that needs to be reorganised into a navigable hierarchy"
-    ],
-    "relevant_when": "User asks to split, reorganise, or refactor an existing planning document",
-    "why_given": "Core mode 2 behaviour — agent must recognise restructuring trigger and apply correct workflow"
-  },
-  {
-    "instruction": "Root `README.md` is a navigation index only; do not embed implementation detail in it",
-    "original_snippets": [
-      "Do not embed implementation detail in `plan.md` — keep it as a navigation index only. Detail belongs in phase and task files"
-    ],
-    "relevant_when": "Always in Mode 1 when writing the root README",
-    "why_given": "Prevents agents from bloating the root index with task-level content"
-  },
-  {
-    "instruction": "Each phase must have a clear goal statement, a gate (pass/fail acceptance criteria verifiable by running commands), and explicit dependencies",
-    "original_snippets": [
-      "Each phase must have: A clear goal statement; A gate (pass/fail acceptance criteria that can be verified by running commands); Explicit dependencies on prior phases or existing artefacts"
-    ],
-    "relevant_when": "Mode 1: when designing phases",
-    "why_given": "Ensures phases are actionable and testable, not vague milestones"
-  },
-  {
-    "instruction": "Each task must be completable in isolation, verifiable with a concrete shell command or observable output, and scoped to a single file or tightly coupled set of files",
-    "original_snippets": [
-      "Each task must be: Completable in isolation (no hidden cross-task dependencies unless declared); Verifiable with a concrete shell command or observable output; Scoped to a single file or a tightly coupled set of files"
-    ],
-    "relevant_when": "Mode 1: when decomposing phases into tasks",
-    "why_given": "Ensures tasks can be handed to an agent independently"
-  },
-  {
-    "instruction": "Use identifier format `P{phase_number}T{task_number}` with zero-padded, 1-based numbering for consistent alphabetical sorting",
-    "original_snippets": [
-      "Use the identifier format `P{phase_number}T{task_number}`, both zero-padded. Example: `P02T03` = phase 2, task 3. Use 1-based numbering (`01`, `02`, …) for consistent alphabetical sorting"
-    ],
-    "relevant_when": "Mode 1: whenever naming task files",
-    "why_given": "Naming convention must be followed exactly for downstream tooling and sorting"
-  },
-  {
-    "instruction": "Run the scaffold scripts to create the directory structure deterministically: `new-plan.sh`, `new-phase.sh`, `new-task.sh`; then populate generated stubs from templates",
-    "original_snippets": [
-      "Use the scripts in `scripts/` to create the directory structure deterministically, then populate the generated README / task files using the templates in `references/templates/`"
-    ],
-    "relevant_when": "Mode 1 Step 4: scaffolding output files",
-    "why_given": "Scripts ensure consistent structure; agents must not hand-create directories without them"
-  },
-  {
-    "instruction": "Run `validate-plan.sh <plan-slug>` after writing all files; fix any failure and re-run until exit 0 before reporting to the user",
-    "original_snippets": [
-      "After writing all files, run the validation script to verify every file conforms to its JSON Schema before reporting to the user",
-      "If any file fails, fix it and re-run until all checks pass (exit 0) before proceeding"
-    ],
-    "relevant_when": "Mode 1 Step 5: after scaffolding is complete",
-    "why_given": "Mandatory validation gate — agents must not skip this step"
-  },
-  {
-    "instruction": "Every task file must include a verification section — a task is not complete without a provable, runnable check. Gates must never be vague (e.g. 'works correctly')",
-    "original_snippets": [
-      "Every task file must include a verification section — a task is not complete without a provable, runnable check (exit 0 / non-zero, file exists, URL returns 200, etc.). Gates must never be vague like 'works correctly'"
-    ],
-    "relevant_when": "Mode 1: when writing task files",
-    "why_given": "Vague gates are unverifiable; tasks need concrete pass/fail criteria"
-  },
-  {
-    "instruction": "Ask the user before creating more than 8 phases",
-    "original_snippets": [
-      "Ask the user before creating more than 8 phases — very large plans often benefit from being split into separate planning documents"
-    ],
-    "relevant_when": "Mode 1: when scope analysis suggests >8 phases",
-    "why_given": "Prevents runaway plan creation without user confirmation"
-  },
-  {
-    "instruction": "In Mode 2, never use numeric-only directory names or generic names; use descriptive kebab names that survive refactors",
-    "original_snippets": [
-      "Never use numeric-only directory names (`step-1/`, `activity-2/`) and never use generic names (`step-1-stuff/`) — contributors cannot navigate without opening every file"
-    ],
-    "relevant_when": "Mode 2: when naming all directories",
-    "why_given": "Navigability requirement — directories must be self-descriptive"
-  },
-  {
-    "instruction": "In Mode 2, apply flatten vs. subdivide heuristics: 3–7 items per group is the sweet spot; flatten groups with <3 children; subdivide groups with >10 children",
-    "original_snippets": [
-      "Item has <3 children: Flatten",
-      "Item has >10 children: Subdivide",
-      "Rule of thumb: 3–7 items per group is the sweet spot"
-    ],
-    "relevant_when": "Mode 2: when designing directory hierarchy",
-    "why_given": "Structural heuristics that determine usable hierarchy depth"
-  },
-  {
-    "instruction": "In Mode 2, create the new hierarchy first, validate with `validate-structure.sh`, then remove old flat files — never delete source before the new structure is confirmed valid",
-    "original_snippets": [
-      "Create the new hierarchy first, validate, then remove the old flat files — never delete source before the new structure is confirmed valid"
-    ],
-    "relevant_when": "Mode 2 Step 7: cleanup and validate",
-    "why_given": "Safety constraint — data loss prevention"
-  },
-  {
-    "instruction": "Slugs must be lowercase kebab-case summaries of the title",
-    "original_snippets": [
-      "Slugs are lowercase kebab-case summaries of the title. Examples: Plan 'E-commerce Checkout Redesign' → `plan-ecommerce-checkout-redesign`"
-    ],
-    "relevant_when": "Mode 1: when naming all plan/phase/task files and directories",
-    "why_given": "Consistent file naming required for script compatibility and sorting"
-  },
-  {
-    "instruction": "Existing `.context/plans/` content is never deleted; new files are additive. If a plan already exists, append new phases rather than overwriting",
-    "original_snippets": [
-      "Existing `.context/plans/` content is never deleted; new files are additive",
-      "If a plan already exists, append new phases rather than overwriting"
-    ],
-    "relevant_when": "Mode 1: when a plan directory already exists",
-    "why_given": "Prevents accidental data loss on incremental plan additions"
-  },
-  {
-    "instruction": "Report to user a structured summary listing all created files with phase task counts after writing all files",
-    "original_snippets": [
-      "After writing all files, output a summary listing README.md, phases with task counts, and all task files"
-    ],
-    "relevant_when": "Mode 1: always as the final step",
-    "why_given": "Completion reporting pattern — user needs to know what was created"
-  }
-]
+{
+  "instructions": [
+    {
+      "instruction": "Use Mode 1 to create a new plan: given a PRD or requirements document, produce a complete, navigable implementation plan written to `.context/plans/plan-<slug>/`",
+      "original_snippets": [
+        "Mode 1 — Create new plan: Given a PRD or requirements document, produce a complete, navigable implementation plan written to `.context/plans/`"
+      ],
+      "relevant_when": "User asks to create an implementation plan, break down a PRD, or decompose requirements into phases/tasks",
+      "why_given": "Core mode 1 behaviour — agent must produce the correct directory structure"
+    },
+    {
+      "instruction": "Use Mode 2 to restructure existing plans: given a monolithic document or flat set of phase files, produce a hierarchical directory structure",
+      "original_snippets": [
+        "Mode 2 — Restructure Existing Plans: Use this mode when the source is a monolithic document or flat set of phase files that needs to be reorganised into a navigable hierarchy"
+      ],
+      "relevant_when": "User asks to split, reorganise, or refactor an existing planning document",
+      "why_given": "Core mode 2 behaviour — agent must recognise restructuring trigger and apply correct workflow"
+    },
+    {
+      "instruction": "Root `README.md` is a navigation index only; do not embed implementation detail in it",
+      "original_snippets": [
+        "Do not embed implementation detail in `plan.md` — keep it as a navigation index only. Detail belongs in phase and task files"
+      ],
+      "relevant_when": "Always in Mode 1 when writing the root README",
+      "why_given": "Prevents agents from bloating the root index with task-level content"
+    },
+    {
+      "instruction": "Each phase must have a clear goal statement, a gate (pass/fail acceptance criteria verifiable by running commands), and explicit dependencies",
+      "original_snippets": [
+        "Each phase must have: A clear goal statement; A gate (pass/fail acceptance criteria that can be verified by running commands); Explicit dependencies on prior phases or existing artefacts"
+      ],
+      "relevant_when": "Mode 1: when designing phases",
+      "why_given": "Ensures phases are actionable and testable, not vague milestones"
+    },
+    {
+      "instruction": "Each task must be completable in isolation, verifiable with a concrete shell command or observable output, and scoped to a single file or tightly coupled set of files",
+      "original_snippets": [
+        "Each task must be: Completable in isolation (no hidden cross-task dependencies unless declared); Verifiable with a concrete shell command or observable output; Scoped to a single file or a tightly coupled set of files"
+      ],
+      "relevant_when": "Mode 1: when decomposing phases into tasks",
+      "why_given": "Ensures tasks can be handed to an agent independently"
+    },
+    {
+      "instruction": "Use identifier format `P{phase_number}T{task_number}` with zero-padded, 1-based numbering for consistent alphabetical sorting",
+      "original_snippets": [
+        "Use the identifier format `P{phase_number}T{task_number}`, both zero-padded. Example: `P02T03` = phase 2, task 3. Use 1-based numbering (`01`, `02`, …) for consistent alphabetical sorting"
+      ],
+      "relevant_when": "Mode 1: whenever naming task files",
+      "why_given": "Naming convention must be followed exactly for downstream tooling and sorting"
+    },
+    {
+      "instruction": "Run the scaffold scripts to create the directory structure deterministically: `new-plan.sh`, `new-phase.sh`, `new-task.sh`; then populate generated stubs from templates",
+      "original_snippets": [
+        "Use the scripts in `scripts/` to create the directory structure deterministically, then populate the generated README / task files using the templates in `references/templates/`"
+      ],
+      "relevant_when": "Mode 1 Step 4: scaffolding output files",
+      "why_given": "Scripts ensure consistent structure; agents must not hand-create directories without them"
+    },
+    {
+      "instruction": "Run `validate-plan.sh <plan-slug>` after writing all files; fix any failure and re-run until exit 0 before reporting to the user",
+      "original_snippets": [
+        "After writing all files, run the validation script to verify every file conforms to its JSON Schema before reporting to the user",
+        "If any file fails, fix it and re-run until all checks pass (exit 0) before proceeding"
+      ],
+      "relevant_when": "Mode 1 Step 5: after scaffolding is complete",
+      "why_given": "Mandatory validation gate — agents must not skip this step"
+    },
+    {
+      "instruction": "Every task file must include a verification section — a task is not complete without a provable, runnable check. Gates must never be vague (e.g. 'works correctly')",
+      "original_snippets": [
+        "Every task file must include a verification section — a task is not complete without a provable, runnable check (exit 0 / non-zero, file exists, URL returns 200, etc.). Gates must never be vague like 'works correctly'"
+      ],
+      "relevant_when": "Mode 1: when writing task files",
+      "why_given": "Vague gates are unverifiable; tasks need concrete pass/fail criteria"
+    },
+    {
+      "instruction": "Ask the user before creating more than 8 phases",
+      "original_snippets": [
+        "Ask the user before creating more than 8 phases — very large plans often benefit from being split into separate planning documents"
+      ],
+      "relevant_when": "Mode 1: when scope analysis suggests >8 phases",
+      "why_given": "Prevents runaway plan creation without user confirmation"
+    },
+    {
+      "instruction": "In Mode 2, never use numeric-only directory names or generic names; use descriptive kebab names that survive refactors",
+      "original_snippets": [
+        "Never use numeric-only directory names (`step-1/`, `activity-2/`) and never use generic names (`step-1-stuff/`) — contributors cannot navigate without opening every file"
+      ],
+      "relevant_when": "Mode 2: when naming all directories",
+      "why_given": "Navigability requirement — directories must be self-descriptive"
+    },
+    {
+      "instruction": "In Mode 2, apply flatten vs. subdivide heuristics: 3–7 items per group is the sweet spot; flatten groups with <3 children; subdivide groups with >10 children",
+      "original_snippets": [
+        "Item has <3 children: Flatten",
+        "Item has >10 children: Subdivide",
+        "Rule of thumb: 3–7 items per group is the sweet spot"
+      ],
+      "relevant_when": "Mode 2: when designing directory hierarchy",
+      "why_given": "Structural heuristics that determine usable hierarchy depth"
+    },
+    {
+      "instruction": "In Mode 2, create the new hierarchy first, validate with `validate-structure.sh`, then remove old flat files — never delete source before the new structure is confirmed valid",
+      "original_snippets": [
+        "Create the new hierarchy first, validate, then remove the old flat files — never delete source before the new structure is confirmed valid"
+      ],
+      "relevant_when": "Mode 2 Step 7: cleanup and validate",
+      "why_given": "Safety constraint — data loss prevention"
+    },
+    {
+      "instruction": "Slugs must be lowercase kebab-case summaries of the title",
+      "original_snippets": [
+        "Slugs are lowercase kebab-case summaries of the title. Examples: Plan 'E-commerce Checkout Redesign' → `plan-ecommerce-checkout-redesign`"
+      ],
+      "relevant_when": "Mode 1: when naming all plan/phase/task files and directories",
+      "why_given": "Consistent file naming required for script compatibility and sorting"
+    },
+    {
+      "instruction": "Existing `.context/plans/` content is never deleted; new files are additive. If a plan already exists, append new phases rather than overwriting",
+      "original_snippets": [
+        "Existing `.context/plans/` content is never deleted; new files are additive",
+        "If a plan already exists, append new phases rather than overwriting"
+      ],
+      "relevant_when": "Mode 1: when a plan directory already exists",
+      "why_given": "Prevents accidental data loss on incremental plan additions"
+    },
+    {
+      "instruction": "Report to user a structured summary listing all created files with phase task counts after writing all files",
+      "original_snippets": [
+        "After writing all files, output a summary listing README.md, phases with task counts, and all task files"
+      ],
+      "relevant_when": "Mode 1: always as the final step",
+      "why_given": "Completion reporting pattern — user needs to know what was created"
+    }
+  ]
+}

@@ -1,16 +1,6 @@
 ---
 name: implementation-planner
-description: >
-  Converts a PRD or requirements document into a structured, phased implementation
-  plan with individual phase files and granular per-task files written to
-  .context/plans/. Also restructures existing monolithic planning documents into
-  digestible, hierarchical directory structures. Creates a root plan index
-  summarising all phases, a numbered phase file per phase, and a numbered task
-  file per task inside each phase directory. Use when the user asks to create an
-  implementation plan, break down a PRD, convert requirements to tasks, structure
-  project phases, generate a roadmap, plan a project in sprints, organise task
-  breakdown, split a monolithic planning doc, or decompose a spec into phases and
-  tasks.
+description: "Converts a PRD or requirements document into a structured, phased implementation plan with individual phase files and granular per-task files written to .context/plans/. Also restructures existing monolithic planning documents into digestible, hierarchical directory structures. Creates a root plan index summarising all phases, a numbered phase file per phase, and a numbered task file per task inside each phase directory. Use when the user asks to create an implementation plan, break down a PRD, convert requirements to tasks, structure project phases, generate a roadmap, plan a project in sprints, organise task breakdown, split a monolithic planning doc, or decompose a spec into phases and tasks."
 license: MIT
 compatibility: opencode
 metadata:
@@ -86,6 +76,27 @@ sh scripts/validate-structure.sh docs/refactoring/phases
 - "create task hierarchy"
 - "refactor this planning doc"
 - "split this into separate files"
+
+## Recognition examples
+
+These show how to map real user input to the correct mode and expected output:
+
+| User says | Mode | Expected output |
+|---|---|---|
+| "Here's the PRD — create a phased plan" | Mode 1 | `.context/plans/plan-<slug>/` with README, phase READMEs, and task files |
+| "Break this spec into tasks" | Mode 1 | Plan with tasks scoped to individual files + runnable verification commands |
+| "I need a project roadmap for this feature" | Mode 1 | Plan with phases matching delivery milestones, gate criteria per phase |
+| "Here is my big planning doc — split it into files" | Mode 2 | Hierarchical directory under `docs/refactoring/phases/` |
+| "Organise these phase files into a proper structure" | Mode 2 | Phase directories with READMEs, activities grouped, `validate-structure.sh` exits 0 |
+| "Add phase 4 to the existing plan" | Mode 1 (additive) | New `phase-04-<slug>/` directory with tasks; existing files untouched |
+| "The PRD has auth, ingestion, pipeline, storage, query, viz, multi-tenancy, ops, DX" | Mode 1 (guardrail) | STOP — 9 phases detected; message user with A/B/C options; zero files created |
+
+## When not to use
+
+- The user wants a **high-level roadmap only** (no tasks) — use a simple markdown doc instead.
+- The work is a single atomic task (one file change) — a plan directory adds no value.
+- The project has no clear phases (e.g. pure hotfix) — flat task list is sufficient.
+- An existing plan already covers the scope — add phases to it instead of creating a new one.
 
 ---
 
@@ -472,9 +483,12 @@ task-P01T10-final.md
 
 NEVER report completion without running `sh scripts/validate-plan.sh <slug>` first.
 ALWAYS fix every schema violation and re-run until exit 0 before reporting to the user.
-Schema violations caught here prevent downstream agents from parsing task files.
+
+WHY: Schema violations caught here prevent downstream agents from parsing task files correctly. A plan that looks complete but fails validation is unusable.
 
 #### Ignoring the >8-phase guardrail
+
+WHY: Plans with 9+ phases become unmanageable. Splitting or consolidating up-front is far cheaper than restructuring after files exist. Silently capping scope hides requirements from the user — a correctness bug, not a style preference.
 
 When the PRD yields **9 or more** natural phases, the ONLY correct action is to
 stop and ask. There is no other valid path.
@@ -506,7 +520,11 @@ NEVER use `mkdir -p` to build the plan tree. ALWAYS use `new-plan.sh`, `new-phas
 and `new-task.sh` — they stamp the correct file stubs and naming conventions that
 `validate-plan.sh` expects.
 
+WHY: Hand-rolled directories miss required sections, use wrong naming conventions, and fail schema validation. The scripts are the single source of truth for the file contract.
+
 #### Modifying existing files when appending a new phase
+
+WHY: Pre-existing files may be in active use by other agents or humans. Editing them causes conflicts, corrupts in-progress work, and breaks the additive-only contract that makes plans safe to extend incrementally.
 
 NEVER edit, rename, or delete existing phase directories, task files, or the root
 README's existing phase entries when adding a new phase to a plan. ALWAYS treat
