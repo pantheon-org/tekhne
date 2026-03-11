@@ -1,0 +1,11 @@
+{
+  "skill": "plain-english",
+  "infeasible_instructions": [
+    {
+      "id": "I05",
+      "text": "Run anti-pattern and readability checks using the bash quick commands before finalizing.",
+      "reason": "The bash commands in the skill (grep, awk) are file-based CLI utilities that require an actual file on disk. In a conversational eval context there is no persistent file to run these against; the agent must simulate or describe the check rather than execute it. Partially testable by asking the agent to describe what the commands would output.",
+      "partial_test": "Ask agent to describe what a jargon density check would find in a given text."
+    }
+  ]
+}
