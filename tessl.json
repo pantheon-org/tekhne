@@ -10,6 +10,9 @@
     },
     "tessl-labs/skill-review-optimizer": {
       "version": "0.1.1"
+    },
+    "sahildmk/pr-comment-resolver": {
+      "version": "0.3.1"
     }
   }
 }
