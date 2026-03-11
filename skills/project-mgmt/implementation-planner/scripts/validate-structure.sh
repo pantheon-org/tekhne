@@ -2,7 +2,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-SCHEMAS_DIR="${SCRIPT_DIR}/../schemas"
+SCHEMAS_DIR="${SCRIPT_DIR}/../references/schemas"
 
 error_count=0
 warning_count=0
@@ -71,16 +71,10 @@ is_leaf_file() {
 
 has_description() {
     name="$1"
-    case "$name" in
-        phase-[0-9] | phase-[0-9].[0-9]* | \
-        activity-[0-9] | activity-[0-9].[0-9]* | \
-        step-[0-9] | step-[0-9].[0-9]*)
-            return 1
-            ;;
-        *)
-            return 0
-            ;;
-    esac
+    if matches_pattern "$name" '^(phase|activity|step)-[0-9]+(\.[0-9]+)*$'; then
+        return 1
+    fi
+    return 0
 }
 
 parse_markdown_title() {
@@ -197,8 +191,8 @@ parse_status() {
             *)
                 if [ "$in_section" -eq 1 ]; then
                     case "$line" in
-                        *"status:"* | *"Status:"*)
-                            status=$(printf "%s" "$line" | sed -n 's/.*[Ss]tatus:[[:space:]]*\([^[:space:]]*\).*/\1/p')
+                        *"status:"* | *"Status:"* | *"**Current State**:"*)
+                            status=$(printf "%s" "$line" | sed -n 's/.*[Ss]tatus:[[:space:]]*\([^[:space:]]*\).*/\1/p;s/.*\*\*Current State\*\*:[[:space:]]*\([^[:space:]]*\).*/\1/p')
                             if [ -n "$status" ]; then
                                 printf "%s" "$status"
                                 return
@@ -548,8 +542,6 @@ main() {
             exit 0
             ;;
     esac
-    
-    check_jq
     
     root_path="$1"
     printf "Validating structure at: %s\\n" "$root_path"

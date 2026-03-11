@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "implementation-planner/task",
   "title": "Task file",
-  "description": "Validates the structure of a task file inside .context/plans/plan-<slug>/phases/phase-NN-<slug>/tasks/task-PNNTnn-<slug>.md.",
+  "description": "Validates the structure of a task file inside .context/plans/plan-<slug>/phases/phase-NN-<slug>/tasks/task-PNNTNN-<slug>.md.",
   "type": "object",
   "required": ["content", "filename"],
   "properties": {

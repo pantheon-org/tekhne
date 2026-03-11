@@ -9,7 +9,7 @@ PLAN_SLUG="${1:?Usage: validate-plan.sh <plan-slug> [plans-root]}"
 PLANS_ROOT="${2:-.context/plans}"
 PLAN_DIR="${PLANS_ROOT}/plan-${PLAN_SLUG}"
 SKILL_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-SCHEMA_DIR="${SKILL_DIR}/schemas"
+SCHEMA_DIR="${SKILL_DIR}/references/schemas"
 
 if [ ! -d "${PLAN_DIR}" ]; then
   echo "Error: plan directory not found: ${PLAN_DIR}" >&2
@@ -33,7 +33,7 @@ validate_file() {
     return
   fi
 
-  RESULT=$(node - "${FILE}" "${SCHEMA}" <<'NODE'
+  RESULT=$(node - "${FILE}" "${SCHEMA}" <<'NODE' || true
 const fs   = require('fs');
 const path = require('path');
 

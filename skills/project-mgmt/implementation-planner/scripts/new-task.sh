@@ -12,8 +12,6 @@ PN="$(printf '%02d' "${PHASE_NUM}")"
 TN="$(printf '%02d' "${TASK_NUM}")"
 ID="P${PN}T${TN}"
 
-PHASE_DIR=".context/plans/plan-${PLAN_SLUG}/phases/phase-${PN}-"
-
 # Resolve the phase directory — must already exist
 RESOLVED="$(find ".context/plans/plan-${PLAN_SLUG}/phases" -maxdepth 1 -type d -name "phase-${PN}-*" | head -n 1)"
 if [ -z "${RESOLVED}" ]; then
@@ -21,6 +19,7 @@ if [ -z "${RESOLVED}" ]; then
   exit 1
 fi
 
+mkdir -p "${RESOLVED}/tasks"
 TASK_FILE="${RESOLVED}/tasks/task-${ID}-${TASK_SLUG}.md"
 
 cat > "${TASK_FILE}" <<EOF

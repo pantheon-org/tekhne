@@ -52,8 +52,8 @@ structure:
       per_task:
         h3:
           description: >
-            Task identifier and title — e.g. `### TASK-01-01 — Root package.json`.
-            Identifier format: TASK-{phase_number}-{task_number}, both zero-padded.
+            Task identifier and title — e.g. `### P01T01 — Root package.json`.
+            Identifier format: P{NN}T{NN}, both zero-padded (e.g. P01T01).
           required: true
         body:
           description: >

@@ -2,7 +2,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-TEMPLATES_DIR="${SCRIPT_DIR}/../templates"
+TEMPLATES_DIR="${SCRIPT_DIR}/../references/templates"
 
 print_usage() {
     cat << 'EOF'
