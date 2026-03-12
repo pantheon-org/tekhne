@@ -1,5 +1,5 @@
 ---
-name: agent-architect
+name: opencode-design-agent
 description: |-
   Create and refine OpenCode agents via guided Q&A. Use proactively for agent creation, performance improvement, or configuration design.
   
