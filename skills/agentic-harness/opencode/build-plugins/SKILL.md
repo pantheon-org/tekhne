@@ -10,7 +10,7 @@ Re-read this file periodically during plugin development to refresh context and 
 
 ## Quick Start
 
-Plugins live in `.opencode/plugin/<name>/index.ts` (project-scoped) or `~/.config/opencode/plugin/<name>/index.ts` (global).
+Plugins live in `.opencode/plugins/<name>/index.ts` (project-scoped) or `~/.config/opencode/plugins/<name>/index.ts` (global).
 
 ```typescript
 import type { Plugin } from "@opencode-ai/plugin"
@@ -75,7 +75,7 @@ Plugins are **async factory functions** that return hook implementations. They r
 Before creating any plugin, MUST regenerate the API reference to ensure accuracy:
 
 ```bash
-bun run .opencode/skill/create-opencode-plugin/scripts/extract-plugin-api.ts
+bun run .opencode/skill/opencode-build-plugins/scripts/extract-plugin-api.ts
 ```
 
 This generates:
@@ -134,8 +134,8 @@ MUST determine if the user's concept is achievable with available hooks.
 
 | Scope   | Path                                        | Use Case                   |
 | ------- | ------------------------------------------- | -------------------------- |
-| Project | `.opencode/plugin/<name>/index.ts`          | Team-shared, repo-specific |
-| Global  | `~/.config/opencode/plugin/<name>/index.ts` | Personal, all projects     |
+| Project | `.opencode/plugins/<name>/index.ts`          | Team-shared, repo-specific |
+| Global  | `~/.config/opencode/plugins/<name>/index.ts` | Personal, all projects     |
 
 ### Basic Structure
 
@@ -180,7 +180,7 @@ export const MyPlugin: Plugin = async ({ project, client, $, directory, worktree
 For complex plugins, MUST use a modular directory structure:
 
 ```
-.opencode/plugin/my-plugin/
+.opencode/plugins/my-plugin/
 ├── index.ts          # Entry point, exports Plugin
 ├── types.ts          # TypeScript types/interfaces
 ├── utils.ts          # Shared utilities
@@ -358,7 +358,7 @@ export default MyPlugin  // ALWAYS export the plugin
 
 **Good**:
 ```jsonc
-{ "plugin": ["file:///.opencode/plugin/my-plugin/index.ts"] }
+{ "plugin": ["file:///.opencode/plugins/my-plugin/index.ts"] }
 ```
 
 ---

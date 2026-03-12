@@ -18,7 +18,7 @@ Create custom slash commands for repetitive tasks in OpenCode.
 
 ## Quick Start
 
-Create a command file at `.opencode/command/<name>.md`:
+Create a command file at `.opencode/commands/<name>.md`:
 
 ```markdown
 ---
@@ -95,8 +95,8 @@ When to ask: Vague request ("make a command"), or multiple implementation approa
 
 | Scope   | Path                                   |
 | ------- | -------------------------------------- |
-| Project | `.opencode/command/<name>.md`          |
-| Global  | `~/.config/opencode/command/<name>.md` |
+| Project | `.opencode/commands/<name>.md`          |
+| Global  | `~/.config/opencode/commands/<name>.md` |
 
 ## Template Placeholders (CRITICAL)
 
@@ -217,8 +217,8 @@ Given the schema in @prisma/schema.prisma, generate a migration for $ARGUMENTS.
    - Interactive or quick → leave unset
 
 4. **"Project-specific or use everywhere?"**
-   - Project → `.opencode/command/`
-   - Global → `~/.config/opencode/command/`
+   - Project → `.opencode/commands/`
+   - Global → `~/.config/opencode/commands/`
 
 ## Phase 3: Review & Refine
 
@@ -544,9 +544,9 @@ description: Lint then test
 
 ---
 
-### 8. Placing the command file at the project root instead of `.opencode/command/`
+### 8. Placing the command file at the project root instead of `.opencode/commands/`
 
-**WHY:** OpenCode NEVER discovers command files outside `.opencode/command/` or `~/.config/opencode/command/`. NEVER place command files at the project root — they are silently ignored.
+**WHY:** OpenCode NEVER discovers command files outside `.opencode/commands/` or `~/.config/opencode/commands/`. NEVER place command files at the project root — they are silently ignored.
 
 **Bad**:
 ```
@@ -558,7 +558,7 @@ my-project/
 **Good**:
 ```
 my-project/
-  .opencode/command/
+  .opencode/commands/
     test.md        ← Discovered as /test
     review.md      ← Discovered as /review
 ```

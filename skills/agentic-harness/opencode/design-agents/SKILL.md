@@ -16,7 +16,7 @@ Create and refine opencode agents through a guided Q&A process.
 
 ## Quick Start
 
-Create an agent at `.opencode/agent/<name>.md` (project) or `~/.config/opencode/agent/<name>.md` (global):
+Create an agent at `.opencode/agents/<name>.md` (project) or `~/.config/opencode/agents/<name>.md` (global):
 
 ```markdown
 ---
@@ -59,8 +59,8 @@ The goal is to help users create agents that fit their needs, not to dump every 
 
 | Scope | Path |
 |-------|------|
-| Project | `.opencode/agent/<name>.md` |
-| Global | `~/.config/opencode/agent/<name>.md` |
+| Project | `.opencode/agents/<name>.md` |
+| Global | `~/.config/opencode/agents/<name>.md` |
 
 ## Agent File Format
 
@@ -68,7 +68,7 @@ The goal is to help users create agents that fit their needs, not to dump every 
 ---
 description: When to use this agent. Include trigger examples.
 model: anthropic/claude-sonnet-4-20250514  # Optional
-mode: subagent                   # Optional (defaults to undefined/standard)
+mode: subagent                   # Optional: all (default), primary, or subagent
 permission:
   skill: { "*": "deny", "my-skill": "allow" }
   bash: { "*": "ask", "git *": "allow" }
@@ -82,8 +82,9 @@ System prompt in markdown body (second person).
 
 | Mode | Description |
 |------|-------------|
-| `(undefined)` | Standard agent, visible to user and tools (Default) |
-| `subagent` | specialized task tool agent, hidden from main list |
+| `all` | Standard agent, visible to user and tools (Default — same as omitting `mode`) |
+| `primary` | Primary agent only, shown in the main agent list |
+| `subagent` | Specialized task tool agent, hidden from main list |
 
 ## Phase 1: Core Purpose (Required)
 
@@ -130,7 +131,7 @@ This research informs better questions in Phase 2 and produces a more capable ag
 
 3. **"Is this a subagent?"**
    - If yes: set `mode: subagent`
-   - If no: leave `mode` undefined (standard)
+   - If no: omit `mode` (defaults to `all`) or set `mode: primary` if it should only appear in the main agent list
 
 ## Phase 3: Details (Optional—user MAY skip)
 
@@ -379,20 +380,26 @@ permission:
 
 ---
 
-### 6. Using `mode: primary` in agent frontmatter
+### 3. Missing `mode` — defaulting to `all` when `primary` or `subagent` is intended
 
-**WHY:** There is no `primary` mode in OpenCode. The valid values are `subagent` or leaving `mode` undefined (which means standard/visible agent). Using `mode: primary` causes a parse warning and may behave as `undefined` unpredictably.
+**WHY:** Omitting `mode` defaults to `all`, which means the agent is accessible both as a primary agent and as a subagent. If the agent should only appear in the main list (`primary`) or only be invoked by other agents (`subagent`), the mode MUST be set explicitly.
 
-**Bad**:
+| Mode | Behavior |
+|------|----------|
+| `all` (default, omit `mode`) | Visible in main list AND callable as subagent |
+| `primary` | Appears in main agent list only |
+| `subagent` | Hidden from main list, only callable via Task tool |
+
+**Bad** (agent intended as subagent only, but accessible everywhere):
 ```yaml
-mode: primary   # Not a valid mode
+description: Internal code analysis helper.
+# mode omitted → defaults to all, shows up in main list
 ```
 
 **Good**:
 ```yaml
-# Standard agent — omit mode entirely
-# OR
-mode: subagent  # Only valid non-default value
+description: Internal code analysis helper.
+mode: subagent
 ```
 
 ---
@@ -425,7 +432,7 @@ permission:
 ```yaml
 ---
 description: Safe code reviewer.
-mode: primary
+mode: all
 permission:
   edit: "ask"
   bash: "deny"
