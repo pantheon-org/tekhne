@@ -1,18 +1,7 @@
 ---
-name: opencode-sdk-development
+name: opencode-build-tool
 description: |-
   Build custom tools and plugins using the OpenCode SDK packages. Use when creating custom tools, implementing tool schemas, building plugins, managing OpenCode sessions programmatically, using opencode-ai/sdk, using opencode-ai/plugin, creating a tool.ts file, writing an execute handler, tool.schema, ToolContext, createOpencode, plugin hooks, custom auth, integrating with OpenCode programmatically, automating OpenCode from a script, building a CI tool that uses OpenCode, or creating a tool that calls an external API.
-
-  Examples:
-  - user: "Create an OpenCode tool" → define tool schema and execute handler in .opencode/tool/
-  - user: "Build an OpenCode plugin" → implement Plugin interface with hooks object
-  - user: "Use tool.schema" → implement schema-validated arguments with .describe()
-  - user: "Work with OpenCode sessions" → use createOpencode() SDK client
-  - user: "Handle abort signal" → check context.abort in long-running execute
-  - user: "Add a tool that calls my API" → create tool with fetch in execute, return string
-  - user: "Hook into tool execution" → implement tool.execute.before in plugin
-  - user: "Automate OpenCode from a script" → use createOpencodeClient() or createOpencode()
-  - user: "Build a CI tool that runs OpenCode" → createOpencode() + session.prompt() + event streaming
 ---
 
 # OpenCode SDK Development

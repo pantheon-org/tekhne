@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/opencode-design-command",
+  "version": "0.1.0",
+  "private": true,
+  "summary": "Create custom /slash commands for repetitive tasks in OpenCode. Use when user wants to create a command, automate a workflow, make a shortcut, add a slash command, set up automation, create a /test, /review, /deploy, /commit, /fix, or /build command.\n\nExamples:\n- user: \"Make a /test command that runs pytest\" → create command file with test instructions\n- user: \"Add a /review command for PRs\" → design prompt to fetch diff and review\n- user: \"Automate this repetitive task\" → identify pattern, create parameterized command\n- user: \"Make a /deploy command\" → encode build/test/deploy workflow in command\n- user: \"Create a slash command to fix lint errors\" → create /fix-lint command\n- user: \"I want to run my CI checks with a command\" → create /ci command",
+  "skills": {
+    "opencode-design-command": {
+      "path": "SKILL.md"
+    }
+  }
+}

@@ -1,18 +1,7 @@
 ---
-name: create-opencode-plugin
+name: opencode-build-plugin
 description: |-
   Create OpenCode plugins using the opencode-ai/plugin SDK. Use when user wants to build a plugin, extend OpenCode, intercept tool execution, add custom tools, react to events, create a hook, block commands, add custom auth, or add automation to OpenCode. Also use for ".opencode/plugin", "write a plugin", "opencode plugin", "custom tool", "tool hook", "plugin hook", "logging for all tool calls", "restrict what commands the AI can run", "run code when a file is saved", "notify me when a session ends", "validate tool input before execution".
-
-  Examples:
-  - user: "Create a plugin to block dangerous commands" → implement tool.execute.before hook with throw
-  - user: "Add a custom tool for jira" → implement tool key in hooks object
-  - user: "Show toast on file edit" → react to file edit events and display status message
-  - user: "Build a custom auth provider" → implement auth flow for new model provider
-  - user: "Intercept git commits" → add hook to validate commit messages before execution
-  - user: "Add logging for all tool calls" → implement tool.execute.after hook
-  - user: "Restrict what commands the AI can run" → implement tool.execute.before with allowlist logic
-  - user: "Run code when a file is saved" → subscribe to file edit events in event hook
-  - user: "Notify me when a session ends" → react to session completion event
 ---
 
 # Creating OpenCode Plugins

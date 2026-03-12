@@ -1,5 +1,5 @@
 ---
-name: opencode-config
+name: opencode-configure
 description: Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior.
 ---
 
