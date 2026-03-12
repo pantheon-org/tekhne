@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/opencode-design-agents",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "summary": "Create and refine OpenCode agents via guided Q&A. Use proactively for agent creation, performance improvement, or configuration design.\n\nExamples:\n- user: \"Create an agent for code reviews\" → ask about scope, permissions, tools, model preferences, generate AGENTS.md frontmatter\n- user: \"My agent ignores context\" → analyze description clarity, allowed-tools, permissions, suggest improvements\n- user: \"Add a database expert agent\" → gather requirements, set convex-database-expert in subagent_type, configure permissions\n- user: \"Make my agent faster\" → suggest smaller models, reduce allowed-tools, tighten permissions",
   "skills": {
