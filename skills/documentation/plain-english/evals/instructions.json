@@ -1,0 +1,130 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "text": "ALWAYS identify the audience explicitly before drafting (executive, manager, compliance/legal, cross-functional).",
+      "section": "Workflow Step 1",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "text": "ALWAYS define the desired outcome in one sentence stating what the reader should decide or do.",
+      "section": "Workflow Step 2",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "text": "ALWAYS draft the key message first: opening paragraph must contain problem, impact, and required action.",
+      "section": "Workflow Step 3",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "text": "Add supporting context only as needed: background, options, tradeoffs, timeline.",
+      "section": "Workflow Step 4",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "text": "Run anti-pattern and readability checks before finalizing; output must have clear ownership and no unexplained jargon.",
+      "section": "Workflow Step 5",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "text": "ALWAYS define acronyms on first use.",
+      "section": "Constraints - Hard",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "text": "ALWAYS lead with key message for executive audiences.",
+      "section": "Constraints - Hard",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "text": "NEVER hide decisions deep in long paragraphs.",
+      "section": "Constraints - Hard",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "text": "NEVER use passive voice for required actions when ownership is known.",
+      "section": "Constraints - Hard",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "text": "NEVER use jargon without translation for non-technical readers.",
+      "section": "Anti-Patterns",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "text": "NEVER assume prior technical context; explain terms from first principles for stakeholders.",
+      "section": "Anti-Patterns",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "text": "NEVER bury the key decision; recommendation and impact must appear in the first paragraph.",
+      "section": "Anti-Patterns",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "text": "NEVER use passive action language for owned tasks; include clear owner and timeline.",
+      "section": "Anti-Patterns",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "text": "NEVER skip audience identification; start by stating audience and goal.",
+      "section": "Anti-Patterns",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "text": "When audience is unknown, default to manager-level clarity.",
+      "section": "Constraints - Fallback",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "text": "When terminology is unknown, add glossary terms inline or at end.",
+      "section": "Constraints - Fallback",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "text": "When priorities conflict, lead with risk and decision deadline.",
+      "section": "Constraints - Fallback",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "text": "Verification checklist: acronyms defined, opening contains key decision, technical terms translated, action items have owner and timeline, paragraphs are concise and scannable.",
+      "section": "Verification Checklist",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

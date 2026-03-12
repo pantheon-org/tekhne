@@ -1,0 +1,26 @@
+{
+  "context": "Evaluate whether the agent correctly applies the unknown-audience fallback (manager-level clarity) to produce a plain-language status update from engineering notes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Fallback rule applied and stated explicitly",
+      "description": "Response writes 'Audience: unknown. Applying manager-level clarity (fallback).' at the top before writing the document.",
+      "max_score": 25
+    },
+    {
+      "name": "Technical jargon translated",
+      "description": "Terms like N+1 queries, composite index, p99 latency, read replicas, and DBA are translated into plain language.",
+      "max_score": 25
+    },
+    {
+      "name": "Key message leads the update",
+      "description": "Opening states the current status and most important blocker — not a list of technical tasks completed.",
+      "max_score": 25
+    },
+    {
+      "name": "Blocker has named owner and deadline",
+      "description": "The database administrator sign-off blocker uses [Owner] must [action] by [deadline] format with a named owner and specific deadline.",
+      "max_score": 25
+    }
+  ]
+}
