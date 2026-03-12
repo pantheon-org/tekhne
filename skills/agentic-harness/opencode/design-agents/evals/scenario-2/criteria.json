@@ -1,0 +1,26 @@
+{
+  "context": "User wants to fix an underperforming agent with poor triggers and a third-person system prompt.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Description includes specific trigger phrases",
+      "description": "Improved description contains concrete phrases like 'review my code', 'check for bugs', 'find issues', 'LGTM', 'code quality'",
+      "max_score": 35
+    },
+    {
+      "name": "System prompt converted to second person",
+      "description": "System prompt uses 'You check for bugs...' or 'You provide feedback...' — NOT 'The agent should...'",
+      "max_score": 35
+    },
+    {
+      "name": "Description includes examples block",
+      "description": "Description has example user phrases mapped to agent actions",
+      "max_score": 20
+    },
+    {
+      "name": "No unnecessary permission config added",
+      "description": "Does not add redundant `read: allow, write: allow` permissions (defaults are sufficient)",
+      "max_score": 10
+    }
+  ]
+}

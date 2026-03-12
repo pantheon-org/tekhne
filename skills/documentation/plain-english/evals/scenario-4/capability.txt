@@ -1,0 +1,3 @@
+Applies the conflicting-priorities fallback rule to produce an executive briefing that
+leads with risk and decision deadlines for multiple simultaneous critical issues, translates
+security and regulatory jargon, and assigns clear owners and timelines to both items.

@@ -1,0 +1,106 @@
+{
+  "skill": "plain-english",
+  "version": "1.6.0",
+  "total_scenarios": 8,
+  "instructions_coverage": {
+    "coverage_percentage": 94,
+    "covered": [
+      "I01",
+      "I02",
+      "I03",
+      "I04",
+      "I05",
+      "I06",
+      "I07",
+      "I08",
+      "I09",
+      "I10",
+      "I11",
+      "I12",
+      "I13",
+      "I14",
+      "I15",
+      "I16",
+      "I17",
+      "I18"
+    ],
+    "partially_covered": [],
+    "uncovered": []
+  },
+  "scenarios": [
+    {
+      "id": "scenario-0",
+      "title": "Rewrite Incident Summary for Executives",
+      "primary_instructions": ["I01", "I03", "I06", "I07", "I10", "I12", "I14"],
+      "audience": "executive",
+      "document_type": "incident post-mortem"
+    },
+    {
+      "id": "scenario-1",
+      "title": "ADR Summary for Compliance Managers",
+      "primary_instructions": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I06",
+        "I10",
+        "I11",
+        "I12"
+      ],
+      "audience": "compliance/legal",
+      "document_type": "architecture decision record"
+    },
+    {
+      "id": "scenario-2",
+      "title": "Detect and Fix Anti-Patterns in Risk Assessment",
+      "primary_instructions": ["I08", "I09", "I10", "I11", "I12", "I13", "I18"],
+      "audience": "cross-functional",
+      "document_type": "risk assessment"
+    },
+    {
+      "id": "scenario-3",
+      "title": "Status Update for Unknown Audience",
+      "primary_instructions": ["I09", "I10", "I11", "I12", "I13", "I15"],
+      "audience": "unknown (fallback: manager)",
+      "document_type": "status update"
+    },
+    {
+      "id": "scenario-4",
+      "title": "Executive Risk Summary with Conflicting Priorities",
+      "primary_instructions": [
+        "I06",
+        "I07",
+        "I08",
+        "I09",
+        "I10",
+        "I12",
+        "I13",
+        "I17"
+      ],
+      "audience": "executive",
+      "document_type": "risk briefing"
+    },
+    {
+      "id": "scenario-5",
+      "title": "Full Acronym Definition Pass on Board Security Briefing",
+      "primary_instructions": ["I06", "I10", "I11", "I03"],
+      "audience": "board/executive",
+      "document_type": "security quarterly briefing"
+    },
+    {
+      "id": "scenario-6",
+      "title": "Apply Verification Checklist to Draft Document",
+      "primary_instructions": ["I05", "I06", "I09", "I10", "I12", "I13", "I18"],
+      "audience": "manager/VP",
+      "document_type": "status update"
+    },
+    {
+      "id": "scenario-7",
+      "title": "Rewrite with Unknown Terminology Fallback",
+      "primary_instructions": ["I16", "I03", "I09", "I13"],
+      "audience": "finance director",
+      "document_type": "cost report"
+    }
+  ]
+}

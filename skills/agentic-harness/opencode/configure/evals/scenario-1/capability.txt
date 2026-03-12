@@ -1,0 +1,1 @@
+Placing behavioral rules in AGENTS.md vs runtime settings in opencode.json

@@ -1,11 +1,44 @@
 ---
-name: opencode-config
+name: opencode-configure
 description: Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior.
 ---
 
 # OpenCode Configuration
 
 Navigation hub for OpenCode configuration tasks.
+
+## Quick Start
+
+**Add a provider** — create/edit `opencode.json` in your project root:
+
+```json
+{
+  "providers": [
+    {
+      "id": "anthropic",
+      "baseEnv": "ANTHROPIC_API_KEY",
+      "models": [
+        { "id": "claude-sonnet-4-5", "default": true }
+      ]
+    }
+  ]
+}
+```
+
+**Add project instructions** — create `AGENTS.md` in project root:
+
+```markdown
+## Workflow Rules
+- Run `npm test` after every code change.
+- Never modify `package.json` without user confirmation.
+```
+
+**Validate config**:
+```bash
+jq . opencode.json && opencode run "test"
+```
+
+---
 
 ## When to Use
 
@@ -144,6 +177,18 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 - **BAD**: edit-and-commit without test.
 - **GOOD**: run `opencode run "test"` and validate behavior.
 
+### NEVER put AGENTS.md instructions in opencode.json and vice versa
+
+- **WHY**: `opencode.json` is runtime config (providers, permissions, tools). `AGENTS.md` is behavioral guidance for the agent. Mixing them causes ignored instructions or broken config parsing.
+- **BAD**: putting `instructions:` blocks inside `opencode.json`, or adding JSON config snippets inside `AGENTS.md`.
+- **GOOD**: runtime settings → `opencode.json`; workflow rules, constraints, conventions → `AGENTS.md`.
+
+### NEVER use global config for project-specific settings
+
+- **WHY**: global config (`~/.config/opencode/opencode.json`) bleeds into unrelated projects, causing unexpected behavior across your entire environment.
+- **BAD**: adding a project's `npm test` to the global shell allowlist, or setting a project-specific model globally.
+- **GOOD**: put project-specific config in project-root `opencode.json`. Reserve global config for cross-project defaults (personal API keys via `baseEnv`, editor preferences).
+
 ## Quick Reference
 
 | Topic | Reference |
@@ -155,3 +200,9 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 ## References
 
 - [OpenCode Docs](https://opencode.ai/docs/)
+
+## Eval Scenarios
+
+- [Scenario 0: Configure Anthropic provider with env variable](evals/scenario-0/task.md)
+- [Scenario 1: Place behavioral rules in AGENTS.md vs opencode.json](evals/scenario-1/task.md)
+- [Scenario 2: Fix global vs project-level config scope issue](evals/scenario-2/task.md)

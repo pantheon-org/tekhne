@@ -1,0 +1,26 @@
+{
+  "context": "Evaluate whether the agent performs a complete acronym extraction and definition pass, then rewrites an acronym-heavy board briefing with all terms defined inline for a non-technical executive audience.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All acronyms extracted",
+      "description": "Response lists all acronyms present in the document: SOC, PCI-DSS, CISO, GRC, WAF, IDS, DMZ, MTTR, MFA, IAM, SSO, CVE, SLA, CVSS, BCP, DRP, ISO, RBAC, SaaS, SIEM, FTE, RFP, EDR.",
+      "max_score": 25
+    },
+    {
+      "name": "Plain-language definitions provided for all acronyms",
+      "description": "Each extracted acronym has a plain-language definition appropriate for a board-level reader.",
+      "max_score": 25
+    },
+    {
+      "name": "Acronyms defined inline on first use in rewrite",
+      "description": "In the rewritten document, every acronym is spelled out with a definition on first use — none used without explanation.",
+      "max_score": 25
+    },
+    {
+      "name": "Key message and progress lead the rewrite",
+      "description": "Rewritten document opens with a summary of overall security posture and key open items — not a list of technical metrics.",
+      "max_score": 25
+    }
+  ]
+}

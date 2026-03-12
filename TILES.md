@@ -37,7 +37,7 @@ Detailed information for all tiles and skills.
   - [skill-quality-auditor](#skill-quality-auditor)
   - [agents-md](#agents-md)
   - [tessl-publish-public](#tessl-publish-public)
-  - [opencode-config](#opencode-config)
+  - [opencode-toolkit](#opencode-toolkit)
 - [Testing (3 tiles)](#testing-3-tiles)
   - [test-driven-development](#test-driven-development)
   - [bdd-testing](#bdd-testing)
@@ -324,13 +324,17 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 | --- | --- | --- | --- |
 | [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-03](.context/audits/agentic-harness/tessl/publish-public/2026-03-03/audit.json) | 9 |
 
-### [opencode-config](skills/agentic-harness/opencode)
+### [opencode-toolkit](skills/agentic-harness/opencode)
 
-Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior.
+Complete toolkit for configuring and extending OpenCode: agent creation, custom slash commands, configuration management, plugin development, and SDK usage.
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [opencode-config](skills/agentic-harness/opencode/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/opencode/2026-03-02/audit.json) | - |
+| [opencode-design-agents](skills/agentic-harness/opencode/design-agents/SKILL.md) | - | - | 3 |
+| [opencode-design-commands](skills/agentic-harness/opencode/design-commands/SKILL.md) | - | - | 3 |
+| [opencode-configure](skills/agentic-harness/opencode/configure/SKILL.md) | - | - | 3 |
+| [opencode-build-plugins](skills/agentic-harness/opencode/build-plugins/SKILL.md) | - | - | 3 |
+| [opencode-build-tool](skills/agentic-harness/opencode/build-tool/SKILL.md) | - | - | 3 |
 
 ## Testing (3 tiles)
 

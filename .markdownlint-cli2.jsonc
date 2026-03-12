@@ -14,5 +14,35 @@
     "MD047": false,
     "MD060": false
   },
-  "ignore": ["skills/markdown-authoring/references/", ".context/**"]
+  "ignore": [
+    "skills/markdown-authoring/references/",
+    ".context/**",
+    "skills/**/evals/**",
+    "skills/agentic-harness/opencode/build-plugins/references/**",
+    "skills/agentic-harness/opencode/design-agents/references/**",
+    "skills/agentic-harness/opencode/configure/references/**",
+    ".tessl/**"
+  ],
+  "overrides": [
+    {
+      "files": ["skills/agentic-harness/opencode/build-plugins/references/**"],
+      "config": {
+        "MD033": false,
+        "MD026": false,
+        "MD009": false
+      }
+    },
+    {
+      "files": ["skills/agentic-harness/opencode/design-agents/references/**"],
+      "config": {
+        "MD033": false
+      }
+    },
+    {
+      "files": ["skills/agentic-harness/opencode/configure/references/**"],
+      "config": {
+        "MD033": false
+      }
+    }
+  ]
 }

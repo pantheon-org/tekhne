@@ -1,0 +1,31 @@
+{
+  "context": "Evaluate whether the agent correctly applies the verification checklist to a draft document, identifies specific failures, and produces a corrected version.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Checklist applied item by item",
+      "description": "Response explicitly checks each of the 5 verification checklist items: acronyms defined, opening contains key decision, technical terms translated, action items have owner+deadline, paragraphs scannable.",
+      "max_score": 20
+    },
+    {
+      "name": "Specific failures identified with examples",
+      "description": "Each failing checklist item is illustrated with a specific quote from the draft.",
+      "max_score": 20
+    },
+    {
+      "name": "Corrected version leads with key message",
+      "description": "Corrected draft opens with current status, performance gap, and what decision or action is needed for a VP.",
+      "max_score": 20
+    },
+    {
+      "name": "All action items corrected to owner+deadline format",
+      "description": "Corrected draft fixes all 3 passive action items with named owners and deadlines using [Owner] must [action] by [deadline].",
+      "max_score": 20
+    },
+    {
+      "name": "All jargon translated in corrected version",
+      "description": "Corrected draft translates OAuth 2.0, Redis Cluster, IAM, N+1 queries, p95, RBAC into plain language.",
+      "max_score": 20
+    }
+  ]
+}

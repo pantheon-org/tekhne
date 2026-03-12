@@ -1,0 +1,28 @@
+[
+  {
+    "instruction": "Runtime settings (providers, permissions, tools, plugins) go in `opencode.json`. Behavioral guidance (workflow rules, constraints, conventions) goes in `AGENTS.md`. Never mix them.",
+    "original_snippets": [
+      "runtime settings → `opencode.json`; workflow rules, constraints, conventions → `AGENTS.md`"
+    ],
+    "relevant_when": "always",
+    "why_given": "new knowledge"
+  },
+  {
+    "instruction": "Project-specific settings go in project-root `opencode.json`. Reserve global config (`~/.config/opencode/opencode.json`) for cross-project defaults only.",
+    "original_snippets": ["global config bleeds into unrelated projects"],
+    "relevant_when": "when deciding where to place config",
+    "why_given": "reminder"
+  },
+  {
+    "instruction": "Always validate config with `jq . opencode.json` and run `opencode run 'test'` after changes.",
+    "original_snippets": ["run `opencode run \"test\"` and validate behavior"],
+    "relevant_when": "after modifying opencode.json",
+    "why_given": "reminder"
+  },
+  {
+    "instruction": "NEVER put API keys directly in opencode.json. Use `baseEnv` to reference environment variable names.",
+    "original_snippets": ["NEVER put API key values in opencode.json"],
+    "relevant_when": "when configuring providers",
+    "why_given": "reminder"
+  }
+]

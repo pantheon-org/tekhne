@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "skill": "opencode-sdk-development",
+  "coverage_percentage": 85,
+  "instructions_coverage": {
+    "coverage_percentage": "85%",
+    "covered_instructions": 7,
+    "total_instructions": 8
+  },
+  "scenarios_run": 3,
+  "scenarios_passed": 3,
+  "notes": "Covers tool creation, plugin hooks, SDK client automation, and anti-pattern detection"
+}

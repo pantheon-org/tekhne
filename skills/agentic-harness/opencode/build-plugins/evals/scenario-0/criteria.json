@@ -1,0 +1,31 @@
+{
+  "context": "User asks to create a plugin that blocks dangerous bash commands.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses tool.execute.before hook",
+      "description": "Plugin uses the `tool.execute.before` hook to intercept execution",
+      "max_score": 25
+    },
+    {
+      "name": "Throws to block (not returns false)",
+      "description": "Uses `throw new Error(...)` to block execution, NOT `return false`",
+      "max_score": 30
+    },
+    {
+      "name": "Plugin is async factory returning hooks",
+      "description": "Plugin is an async function that returns a hooks object",
+      "max_score": 20
+    },
+    {
+      "name": "Correct import from @opencode-ai/plugin",
+      "description": "Imports `Plugin` type from `@opencode-ai/plugin`",
+      "max_score": 15
+    },
+    {
+      "name": "Async hook handler",
+      "description": "The `tool.execute.before` handler is declared as `async`",
+      "max_score": 10
+    }
+  ]
+}

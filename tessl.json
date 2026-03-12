@@ -2,6 +2,9 @@
   "name": "pantheon-ai/tekhne",
   "mode": "vendored",
   "dependencies": {
+    "tessl/cli-setup": {
+      "version": "0.70.1"
+    },
     "tessl-labs/tessl-skill-eval-scenarios": {
       "version": "0.1.0"
     },

@@ -1,7 +1,16 @@
 skills/*/evals/**
+skills/*/*/evals/**
+skills/*/*/*/evals/**
 evals/**
 skills/**/evals/
 **/*evals*.md
 skills/markdown-authoring/references/
 skills/ansible-validator/assets/test/**
 .context/**
+skills/agentic-harness/opencode/plugins/references/**
+skills/agentic-harness/opencode/agents/references/**
+skills/agentic-harness/opencode/config/references/**
+skills/**/evals/**
+.tessl/**
+.tessl/tiles/**
+.tessl/tiles/tessl/cli-setup/steering/query_library_docs.md

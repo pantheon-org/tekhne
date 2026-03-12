@@ -1,0 +1,31 @@
+{
+  "context": "User wants to create a specialized SQL expert agent with appropriate permissions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Description has concrete trigger phrases",
+      "description": "The `description` field includes specific phrases like 'write a query', 'optimize SQL', 'explain schema', etc.",
+      "max_score": 25
+    },
+    {
+      "name": "System prompt uses second person",
+      "description": "System prompt uses 'You are...' and 'You must...' — NOT 'The agent should...' or 'This assistant...'",
+      "max_score": 25
+    },
+    {
+      "name": "Permission uses ask for unknown bash",
+      "description": "Permission config uses `'*': 'ask'` (not `'*': 'allow'`) for bash commands",
+      "max_score": 25
+    },
+    {
+      "name": "Specific bash commands whitelisted",
+      "description": "Specific safe commands (psql, explain analyze) are allowed, not all commands",
+      "max_score": 15
+    },
+    {
+      "name": "Correct file location noted",
+      "description": "Agent file is placed in `.opencode/agent/sql-expert.md`",
+      "max_score": 10
+    }
+  ]
+}

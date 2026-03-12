@@ -1,0 +1,31 @@
+{
+  "context": "Evaluate whether the agent correctly identifies specific plain-english anti-patterns in a security document and rewrites it for a cross-functional non-technical audience.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Jargon anti-patterns identified",
+      "description": "Response explicitly flags jargon terms (OAuth 2.0, JWT, RS256, Redis, attack surface) as anti-patterns requiring translation.",
+      "max_score": 20
+    },
+    {
+      "name": "Passive voice anti-patterns identified",
+      "description": "Response calls out passive voice in the Risks section ('should be mitigated', 'should be migrated', 'It is recommended') as an anti-pattern.",
+      "max_score": 20
+    },
+    {
+      "name": "Buried decision anti-pattern identified",
+      "description": "Response notes that key risk/decision is buried after background context rather than leading the document.",
+      "max_score": 20
+    },
+    {
+      "name": "Rewrite leads with business impact and decision",
+      "description": "Rewritten document opens with what the risk is and what decision or action is required.",
+      "max_score": 20
+    },
+    {
+      "name": "Risks rewritten with named owners and deadlines",
+      "description": "Each risk item in the rewrite names a responsible team and includes a deadline using [Owner] must [action] by [deadline] format.",
+      "max_score": 20
+    }
+  ]
+}

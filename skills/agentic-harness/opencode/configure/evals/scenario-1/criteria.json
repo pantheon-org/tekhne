@@ -1,0 +1,26 @@
+{
+  "context": "User needs to understand where behavioral rules vs runtime config goes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Rules placed in AGENTS.md",
+      "description": "Workflow rules (test after change, conventional commits, etc.) go in `AGENTS.md`, NOT in `opencode.json`",
+      "max_score": 40
+    },
+    {
+      "name": "Explains the distinction",
+      "description": "Explains that AGENTS.md is for behavioral guidance and opencode.json is for runtime config",
+      "max_score": 25
+    },
+    {
+      "name": "Does not add instructions to opencode.json",
+      "description": "Does not attempt to add workflow rules as JSON fields in opencode.json",
+      "max_score": 20
+    },
+    {
+      "name": "AGENTS.md in project root",
+      "description": "Places AGENTS.md in the project root directory",
+      "max_score": 15
+    }
+  ]
+}

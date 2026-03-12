@@ -1,10 +1,9 @@
 # OpenCode Configuration Schema Reference (Q4 2025)
 
-<instructions>
+## instructions
 This document defines the schema and valid values for `opencode.json`. You MUST adhere strictly to these definitions. You MUST NOT use deprecated model identifiers.
-</instructions>
 
-<critical_warning>
+## critical_warning
 
 ## STRICTLY PROHIBITED MODELS
 
@@ -16,9 +15,8 @@ The following models are DEPRECATED and MUST NOT be used:
 - Meta: `llama-3`, `llama-3.1`
 
 Use current frontier models: **GPT-5.2**, **Claude 4.5**, **Gemini 3**, **GLM-4.7**, **Kimi K2**, **MiniMax M2.1**, **Mistral Large 3**.
-</critical_warning>
 
-<top_level_options>
+## top_level_options
 
 ```jsonc
 {
@@ -56,9 +54,7 @@ Use current frontier models: **GPT-5.2**, **Claude 4.5**, **Gemini 3**, **GLM-4.
 }
 ```
 
-</top_level_options>
-
-<model_configuration>
+## model_configuration
 
 ## model / small_model
 
@@ -98,9 +94,7 @@ Prevent providers from loading even if credentials exist:
 }
 ```
 
-</model_configuration>
-
-<tools_configuration>
+## tools_configuration
 
 Enable/disable tools globally:
 
@@ -133,9 +127,7 @@ Wildcards supported for MCP tools:
 }
 ```
 
-</tools_configuration>
-
-<permissions>
+## permissions
 
 ## Simple Permissions
 
@@ -179,9 +171,7 @@ Wildcards supported for MCP tools:
 }
 ```
 
-</permissions>
-
-<agent_configuration>
+## agent_configuration
 
 Define agents in config:
 
@@ -207,9 +197,7 @@ Define agents in config:
 }
 ```
 
-</agent_configuration>
-
-<commands>
+## commands
 
 Custom slash commands:
 
@@ -228,9 +216,7 @@ Custom slash commands:
 
 Use `$ARGUMENTS` for user input after command.
 
-</commands>
-
-<instructions>
+## instructions
 
 Include additional instruction files:
 
@@ -247,9 +233,7 @@ Include additional instruction files:
 
 Supports glob patterns.
 
-</instructions>
-
-<formatters>
+## formatters
 
 Configure code formatters:
 
@@ -268,9 +252,7 @@ Configure code formatters:
 }
 ```
 
-</formatters>
-
-<mcp_servers>
+## mcp_servers
 
 Configure Model Context Protocol servers:
 
@@ -291,9 +273,7 @@ Configure Model Context Protocol servers:
 }
 ```
 
-</mcp_servers>
-
-<model_variants>
+## model_variants
 
 ## Model Variants (ctrl+t)
 
@@ -333,9 +313,7 @@ Variants allow you to define multiple parameter sets for a single model, cycleab
 | `thinkingLevel`    | Google            | `"low"                                      | "high"` |
 | `include`          | OpenAI/Azure      | `["reasoning.encrypted_content"]`           |
 
-</model_variants>
-
-<variable_substitution>
+## variable_substitution
 
 ## Environment Variables
 
@@ -371,9 +349,7 @@ Variants allow you to define multiple parameter sets for a single model, cycleab
 }
 ```
 
-</variable_substitution>
-
-<misc_options>
+## misc_options
 
 ## TUI Options
 
@@ -396,5 +372,3 @@ Variants allow you to define multiple parameter sets for a single model, cycleab
 - `manual` - Share via `/share` command (default)
 - `auto` - Auto-share new conversations
 - `disabled` - No sharing
-
-</misc_options>

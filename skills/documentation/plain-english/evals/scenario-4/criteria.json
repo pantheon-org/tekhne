@@ -1,0 +1,31 @@
+{
+  "context": "Evaluate whether the agent applies the conflicting-priorities fallback (lead with risk and decision deadline) to produce an executive briefing covering two simultaneous critical security issues.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Conflicting priorities fallback stated explicitly",
+      "description": "Response writes the required prefix 'Multiple critical issues — leading with risk and deadlines.' before writing the document.",
+      "max_score": 20
+    },
+    {
+      "name": "Both issues visible near the opening",
+      "description": "Both the data breach and the security vulnerability appear prominently near the start — neither is buried after extensive background.",
+      "max_score": 20
+    },
+    {
+      "name": "GDPR deadline calculated and surfaced",
+      "description": "The remaining GDPR notification time (54 hours at time of writing) is calculated and prominently stated.",
+      "max_score": 20
+    },
+    {
+      "name": "Technical terms translated and acronyms defined",
+      "description": "CVE, PII, remote code execution, and supply chain vulnerability are explained in plain language with acronyms defined on first use.",
+      "max_score": 20
+    },
+    {
+      "name": "Each issue has owner and deadline",
+      "description": "Both issues name the responsible team using [Owner] must [action] by [deadline] format.",
+      "max_score": 20
+    }
+  ]
+}

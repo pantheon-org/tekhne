@@ -1,0 +1,3 @@
+Applies the unknown-audience fallback rule (manager-level clarity) to convert engineering
+status notes into a plain-language update: translates performance jargon, leads with
+status and blockers, assigns ownership and timelines to next steps.

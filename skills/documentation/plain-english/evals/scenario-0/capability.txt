@@ -1,0 +1,3 @@
+Translates a technical incident post-mortem into executive-ready communication:
+identifies audience, leads with business impact and decision request, eliminates
+unexplained jargon, defines acronyms, and uses active voice with clear ownership.

@@ -91,7 +91,7 @@ Agent framework configurations
 | [skill-quality-auditor](TILES.md#skill-quality-auditor) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/skill-quality-auditor) | 0.1.4 |
 | [agents-md](TILES.md#agents-md) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/agents-md) | 0.1.3 |
 | [tessl-publish-public](TILES.md#tessl-publish-public) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) | 1.0.0 |
-| [opencode-config](TILES.md#opencode-config) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/opencode-config) | 0.1.1 |
+| [opencode-toolkit](TILES.md#opencode-toolkit) | 5 | [Public](https://tessl.io/registry/skills/pantheon-ai/opencode-toolkit) | 0.2.0 |
 
 ## Testing (3 tiles)
 

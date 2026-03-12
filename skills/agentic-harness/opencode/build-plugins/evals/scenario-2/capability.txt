@@ -1,0 +1,1 @@
+Adding a custom tool to a plugin using the tool key and schema validation

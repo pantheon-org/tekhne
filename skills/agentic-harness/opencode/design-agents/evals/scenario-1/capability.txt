@@ -1,0 +1,1 @@
+Configuring skill permissions with wildcard deny and specific allowlist
