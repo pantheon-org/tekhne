@@ -157,7 +157,7 @@ evaluate_anti_pattern_quality() {
 
   INSTR_FILE="$SKILL_DIR/evals/instructions.json"
   if [ -f "$INSTR_FILE" ] && command -v jq >/dev/null 2>&1; then
-    anti_instr=$(jq '[.instructions[] | select(.original_snippets | test("NEVER|ALWAYS|anti-pattern|avoid|do not"; "i"))] | length' "$INSTR_FILE" 2>/dev/null || echo 0)
+    anti_instr=$(jq '[.instructions[] | select((.original_snippets | if type == "array" then join(" ") else . end) | test("NEVER|ALWAYS|anti-pattern|avoid|do not"; "i"))] | length' "$INSTR_FILE" 2>/dev/null || echo 0)
     if [ "$anti_instr" -ge 5 ]; then
       score=$((score + 2))
     elif [ "$anti_instr" -ge 3 ]; then

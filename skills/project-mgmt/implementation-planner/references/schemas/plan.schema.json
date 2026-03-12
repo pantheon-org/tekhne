@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "implementation-planner/plan",
+  "title": "Plan README",
+  "description": "Validates the structure of .context/plans/plan-<slug>/README.md as a plain-text document.",
+  "type": "object",
+  "required": ["content"],
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "Full text content of the README.md file.",
+      "allOf": [
+        {
+          "description": "Must have a top-level H1 matching '# Implementation Plan — <title>'",
+          "pattern": "(?m)^# Implementation Plan — .+"
+        },
+        {
+          "description": "Must have a '## Goal' section",
+          "pattern": "(?m)^## Goal"
+        },
+        {
+          "description": "Must have a '## Phases' section",
+          "pattern": "(?m)^## Phases"
+        },
+        {
+          "description": "Phases section must contain a markdown table header row with #, Phase, Status, Tasks columns",
+          "pattern": "(?m)^\\|\\s*#\\s*\\|\\s*Phase\\s*\\|\\s*Status\\s*\\|\\s*Tasks\\s*\\|"
+        }
+      ]
+    }
+  }
+}

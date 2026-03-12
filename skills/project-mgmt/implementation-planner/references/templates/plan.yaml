@@ -1,0 +1,49 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+description: >
+  Root index file written to .context/plans/plan.md.
+  Summarises the project goal, lists all phases with status, and links to phase files.
+output_path: ".context/plans/plan-{slug}/README.md"
+format: markdown
+structure:
+  h1:
+    description: "Project name — e.g. `# Implementation Plan — <Project Name>`"
+    required: true
+
+  section_goal:
+    heading: "## Goal"
+    required: true
+    content: >
+      One paragraph describing what the project builds, the primary value
+      delivered, and the target users or systems.
+
+  section_phases:
+    heading: "## Phases"
+    required: true
+    content:
+      description: >
+        Markdown table with one row per phase. Columns: phase number (zero-padded),
+        linked phase title, status (Not started | In progress | Complete), task count.
+      columns:
+        - "#"
+        - Phase
+        - Status
+        - Tasks
+      example: |
+        | # | Phase | Status | Tasks |
+        |---|---|---|---|
+        | 01 | [Workspace Bootstrap](phases/phase-01-workspace-bootstrap/README.md) | Not started | 4 |
+        | 02 | [Data Model](phases/phase-02-data-model/README.md) | Not started | 3 |
+
+  section_constraints:
+    heading: "## Constraints"
+    required: false
+    content: >
+      Bullet list of non-negotiable technical, timeline, or resource constraints
+      that apply across all phases.
+
+  section_references:
+    heading: "## References"
+    required: false
+    content: >
+      Bullet list of links to the source PRD, architecture documents, or ADRs
+      that informed this plan.

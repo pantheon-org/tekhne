@@ -1,0 +1,81 @@
+{
+  "context": "Agent was asked to restructure a flat monolithic planning document into a hierarchical directory structure under docs/refactoring/phases/. Evaluate the resulting structure.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "output-under-correct-path",
+      "description": "The restructured hierarchy was created under docs/refactoring/phases/ as specified",
+      "max_score": 5
+    },
+    {
+      "name": "each-phase-has-directory",
+      "description": "Each of the 5 phases from the source document has its own directory inside docs/refactoring/phases/ (e.g. phase-1-analysis/, phase-3-user-service-extraction/)",
+      "max_score": 7
+    },
+    {
+      "name": "no-numeric-only-directory-names",
+      "description": "No directory uses a numeric-only name (e.g. step-1/ or 1.2/ are violations). All directories include a descriptive kebab-case suffix",
+      "max_score": 8
+    },
+    {
+      "name": "no-generic-vague-names",
+      "description": "No directory or file uses a generic or meaningless name like step-1-stuff/, activity-2-initial-setup/, or phase-3-tasks/. Names are outcome-oriented and descriptive",
+      "max_score": 8
+    },
+    {
+      "name": "every-directory-has-readme",
+      "description": "Every non-leaf directory (all phase directories and group/activities directories) contains a README.md explaining its purpose and listing its children",
+      "max_score": 8
+    },
+    {
+      "name": "leaf-files-have-required-sections",
+      "description": "Every leaf step/activity file contains: title, description, checklist, acceptance criteria, and status fields",
+      "max_score": 10
+    },
+    {
+      "name": "flatten-vs-subdivide-heuristics-applied",
+      "description": "Grouping decisions respect the 3–7 items sweet spot: phases with <3 items are flattened or merged; phases with >10 items are subdivided. Phase 3 (9 items) and Phase 4 (7 items) should not be over-split",
+      "max_score": 8
+    },
+    {
+      "name": "numbering-prefix-grouping-respected",
+      "description": "Items with the same prefix stay in the same parent directory (all 3.x items are under the Phase 3 directory; no 3.x item appears under Phase 2)",
+      "max_score": 7
+    },
+    {
+      "name": "source-not-deleted-before-validation",
+      "description": "The agent created the new structure and validated it before removing the original flat source file. If the source file still exists alongside the new structure, that is acceptable",
+      "max_score": 8
+    },
+    {
+      "name": "validate-structure-script-run",
+      "description": "Agent ran validate-structure.sh docs/refactoring/phases after creating the structure",
+      "max_score": 8
+    },
+    {
+      "name": "readme-links-resolve",
+      "description": "README files at phase and group level use relative links that correctly point to their child files/directories",
+      "max_score": 7
+    },
+    {
+      "name": "max-depth-respected",
+      "description": "The hierarchy does not exceed 4 levels of nesting (phase → activities/steps → group → leaf file)",
+      "max_score": 5
+    },
+    {
+      "name": "activities-or-steps-subdirectory",
+      "description": "Each phase directory uses either an activities/ or steps/ subdirectory to organise its children (not a flat dump of files directly in the phase directory)",
+      "max_score": 5
+    },
+    {
+      "name": "readme-minimum-content",
+      "description": "Every README.md contains at least 3 lines of meaningful content (not just a title)",
+      "max_score": 4
+    },
+    {
+      "name": "kebab-case-names",
+      "description": "All directory names and file slugs use lowercase kebab-case with no spaces, underscores, or uppercase letters",
+      "max_score": 2
+    }
+  ]
+}

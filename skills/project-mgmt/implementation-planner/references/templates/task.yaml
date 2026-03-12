@@ -1,0 +1,76 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+description: >
+  Individual task file written to .context/plans/phases/phase-NN/task-NN-NN-<slug>.md.
+  One file per task. Self-contained: an agent can implement the task from this
+  file alone without reading any other plan file.
+output_path: ".context/plans/plan-{plan-slug}/phases/phase-{NN}-{phase-slug}/tasks/task-P{NN}T{NN}-{slug}.md"
+format: markdown
+structure:
+  h1:
+    description: >
+      Task identifier and title — e.g. `# P01T01 — Root package.json`.
+      Identifier format: P{phase_number}T{task_number}, both zero-padded.
+    required: true
+
+  section_phase:
+    heading: "## Phase"
+    required: true
+    content: >
+      Phase number and title matching the parent phase file — e.g.
+      `Phase 01 — Workspace Bootstrap`.
+
+  section_goal:
+    heading: "## Goal"
+    required: true
+    content: >
+      One sentence stating what completing this task produces. Must be
+      concrete and measurable.
+
+  section_file:
+    heading: "## File to create / modify"
+    required: true
+    content:
+      description: >
+        Fenced code block (no language tag) containing the relative path of
+        the file this task creates or modifies. List multiple paths on
+        separate lines if unavoidable, but prefer one file per task.
+      example: |
+        ```
+        packages/api/src/index.ts
+        ```
+
+  section_implementation:
+    heading: "## Implementation"
+    required: true
+    content:
+      description: >
+        Fenced code block with the exact file content or detailed, unambiguous
+        pseudocode. Language tag must match the target file type. Include all
+        imports, configuration keys, and non-obvious decisions inline so the
+        implementing agent does not need to infer anything.
+      example: |
+        ```typescript
+        // exact content here
+        ```
+
+  section_notes:
+    heading: "## Notes"
+    required: false
+    content: >
+      Bullet list of rationale for non-obvious choices, cross-references to
+      related tasks or ADRs, and constraints the implementing agent must
+      respect. Omit section if there is nothing worth noting.
+
+  section_verification:
+    heading: "## Verification"
+    required: true
+    content:
+      description: >
+        Fenced `sh` code block containing one or more shell commands that
+        prove the task is complete. Every command must exit 0 on success.
+        No manual inspection steps are allowed.
+      example: |
+        ```sh
+        node -e "require('./packages/api/src/index.ts')"
+        npx tsc --noEmit
+        ```
