@@ -3,8 +3,8 @@
 ## file_locations
 
 Agent definitions are markdown files in:
-- `.opencode/agent/<name>.md` (project)
-- `~/.config/opencode/agent/<name>.md` (global)
+- `.opencode/agents/<name>.md` (project)
+- `~/.config/opencode/agents/<name>.md` (global)
 
 ## frontmatter_schema
 
@@ -190,7 +190,6 @@ mode: primary
 permission:
   edit: "ask"
   bash: "deny"
-  write: "deny"
   external_directory: "deny"
 ---
 You are a code review specialist...

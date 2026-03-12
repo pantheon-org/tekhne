@@ -18,14 +18,14 @@
     "skills/markdown-authoring/references/",
     ".context/**",
     "skills/**/evals/**",
-    "skills/agentic-harness/opencode/plugins/references/**",
-    "skills/agentic-harness/opencode/agents/references/**",
-    "skills/agentic-harness/opencode/config/references/**",
+    "skills/agentic-harness/opencode/build-plugins/references/**",
+    "skills/agentic-harness/opencode/design-agents/references/**",
+    "skills/agentic-harness/opencode/configure/references/**",
     ".tessl/**"
   ],
   "overrides": [
     {
-      "files": ["skills/agentic-harness/opencode/plugins/references/**"],
+      "files": ["skills/agentic-harness/opencode/build-plugins/references/**"],
       "config": {
         "MD033": false,
         "MD026": false,
@@ -33,13 +33,13 @@
       }
     },
     {
-      "files": ["skills/agentic-harness/opencode/agents/references/**"],
+      "files": ["skills/agentic-harness/opencode/design-agents/references/**"],
       "config": {
         "MD033": false
       }
     },
     {
-      "files": ["skills/agentic-harness/opencode/config/references/**"],
+      "files": ["skills/agentic-harness/opencode/configure/references/**"],
       "config": {
         "MD033": false
       }

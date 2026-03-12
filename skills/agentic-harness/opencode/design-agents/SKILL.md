@@ -436,7 +436,6 @@ mode: all
 permission:
   edit: "ask"
   bash: "deny"
-  write: "deny"
   external_directory: "deny"
 ---
 You are a code review specialist. Analyze code for bugs, security issues,
