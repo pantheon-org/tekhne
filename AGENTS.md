@@ -318,3 +318,7 @@ See README.md for the full list of 41+ supported agents via `npx skills`.
 - Never rewrite generated reports in `.context/` unless part of the task.
 - If you detect unrelated dirty changes, avoid reverting them and continue safely.
 - If repository conventions conflict, prefer explicit user instructions.
+
+## Agent Rules <!-- tessl-managed -->
+
+@.tessl/RULES.md follow the [instructions](.tessl/RULES.md)

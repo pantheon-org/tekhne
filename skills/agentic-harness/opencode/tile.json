@@ -1,11 +1,23 @@
 {
-  "name": "pantheon-ai/opencode-config",
-  "version": "0.1.1",
+  "name": "pantheon-ai/opencode-toolkit",
+  "version": "0.1.0",
   "private": false,
-  "summary": "Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior.",
+  "summary": "Complete toolkit for configuring and extending OpenCode: agent creation, custom slash commands, configuration management, plugin development, and SDK usage.",
   "skills": {
+    "agent-architect": {
+      "path": "agents/SKILL.md"
+    },
+    "command-creator": {
+      "path": "commands/SKILL.md"
+    },
     "opencode-config": {
-      "path": "SKILL.md"
+      "path": "config/SKILL.md"
+    },
+    "create-opencode-plugin": {
+      "path": "plugins/SKILL.md"
+    },
+    "opencode-sdk-development": {
+      "path": "sdk-development/SKILL.md"
     }
   }
 }

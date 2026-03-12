@@ -1,0 +1,31 @@
+{
+  "context": "User wants a fire-and-forget spell check command that produces a single output.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses subtask: true",
+      "description": "Command frontmatter includes `subtask: true` for fire-and-forget behavior",
+      "max_score": 35
+    },
+    {
+      "name": "Has description in frontmatter",
+      "description": "YAML frontmatter contains a `description` field",
+      "max_score": 15
+    },
+    {
+      "name": "Correct file location",
+      "description": "Command is in `.opencode/command/spellcheck.md`",
+      "max_score": 15
+    },
+    {
+      "name": "Does not use $ARGUMENTS unnecessarily",
+      "description": "Does not use argument placeholders since this command takes no arguments",
+      "max_score": 15
+    },
+    {
+      "name": "Clear single-output instruction",
+      "description": "Template instructs the agent to produce one final consolidated report",
+      "max_score": 20
+    }
+  ]
+}
