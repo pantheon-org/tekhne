@@ -4,17 +4,17 @@
   "private": false,
   "summary": "Complete toolkit for configuring and extending OpenCode: agent creation, custom slash commands, configuration management, plugin development, and SDK usage.",
   "skills": {
-    "opencode-design-agent": {
-      "path": "design-agent/SKILL.md"
+    "opencode-design-agents": {
+      "path": "design-agents/SKILL.md"
     },
-    "opencode-design-command": {
-      "path": "design-command/SKILL.md"
+    "opencode-design-commands": {
+      "path": "design-commands/SKILL.md"
     },
     "opencode-configure": {
       "path": "configure/SKILL.md"
     },
-    "opencode-build-plugin": {
-      "path": "build-plugin/SKILL.md"
+    "opencode-build-plugins": {
+      "path": "build-plugins/SKILL.md"
     },
     "opencode-build-tool": {
       "path": "build-tool/SKILL.md"

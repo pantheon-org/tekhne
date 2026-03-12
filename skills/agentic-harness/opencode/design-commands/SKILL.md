@@ -1,5 +1,5 @@
 ---
-name: opencode-design-command
+name: opencode-design-commands
 description: |-
   Create custom /slash commands for repetitive tasks in OpenCode. Use when user wants to create a command, automate a workflow, make a shortcut, add a slash command, set up automation, create a /test, /review, /deploy, /commit, /fix, or /build command.
 
