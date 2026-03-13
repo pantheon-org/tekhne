@@ -2,13 +2,13 @@
 set -euo pipefail
 
 TILES_DIR=".tessl/tiles"
-OPENCODE_SKILLS_DIR=".agents/skills"
+OPENCODE_SKILLS_DIR=".agents/skills/tessl"
 MCP_JSON=".mcp.json"
 OPENCODE_JSON="opencode.json"
 
 for arg in "$@"; do
   case "$arg" in
-    --opencode-skills) OPENCODE_SKILLS_DIR=".opencode/skills" ;;
+    --opencode-skills) OPENCODE_SKILLS_DIR=".opencode/skills/tessl" ;;
   esac
 done
 
@@ -33,14 +33,19 @@ if [ -f "$MCP_JSON" ]; then
   fi
 fi
 
-for tile_json in "$TILES_DIR"/*/*/tile.json; do
+declare -A managed_links=()
+
+while IFS= read -r tile_json; do
   tile_dir="$(dirname "$tile_json")"
 
-  skill_names=$(grep -A1 '"skills"' "$tile_json" | grep -o '"[^"]*":' | grep -v '"skills":' | tr -d '":' | tr -d ' ')
+  tile_name=$(jq -r '.name // ""' "$tile_json" 2>/dev/null || true)
+  tile_slug="${tile_name/\//_}"
+  skill_names=$(jq -r '.skills // {} | keys[]' "$tile_json" 2>/dev/null || true)
 
   for skill_name in $skill_names; do
     target="$(pwd)/$tile_dir"
-    link="$OPENCODE_SKILLS_DIR/tessl__$skill_name"
+    link="$OPENCODE_SKILLS_DIR/${tile_slug}_${skill_name}"
+    managed_links["$link"]=1
 
     if [ -L "$link" ]; then
       existing="$(readlink "$link")"
@@ -59,4 +64,11 @@ for tile_json in "$TILES_DIR"/*/*/tile.json; do
 
     ln -s "$target" "$link"
   done
-done
+done < <(find "$TILES_DIR" -name "tile.json" | sort)
+
+while IFS= read -r stale; do
+  if [ -z "${managed_links["$stale"]+_}" ]; then
+    echo "remove: $stale (stale)"
+    rm "$stale"
+  fi
+done < <(find "$OPENCODE_SKILLS_DIR" -maxdepth 1 -type l -name '*__*')
