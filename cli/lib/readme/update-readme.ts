@@ -370,7 +370,9 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
     domainHeaders,
   );
 
-  const newReadmeContent = `${beforeSkills.join("\n") + summaryTables}\n${afterSkills.join("\n")}`;
+  const newReadmeContent =
+    `${beforeSkills.join("\n") + summaryTables}\n${afterSkills.join("\n")}`.trimEnd() +
+    "\n";
 
   if (options.dryRun) {
     await showDryRunDiff(readmePath, newReadmeContent);

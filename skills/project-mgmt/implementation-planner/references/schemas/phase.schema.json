@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "implementation-planner/phase",
+  "title": "Phase README",
+  "description": "Validates the structure of a phase README.md inside .context/plans/plan-<slug>/phases/phase-NN-<slug>/README.md.",
+  "type": "object",
+  "required": ["content"],
+  "properties": {
+    "content": {
+      "type": "string",
+      "description": "Full text content of the phase README.md file.",
+      "allOf": [
+        {
+          "description": "Must have a top-level H1 matching '# Phase NN — <title>' (zero-padded number)",
+          "pattern": "(?m)^# Phase \\d{2} — .+"
+        },
+        {
+          "description": "Must have a '## Goal' section",
+          "pattern": "(?m)^## Goal"
+        },
+        {
+          "description": "Must have a '## Gate' section",
+          "pattern": "(?m)^## Gate"
+        },
+        {
+          "description": "Gate section must contain at least one checklist item '- [ ]'",
+          "pattern": "(?m)^- \\[ \\]"
+        },
+        {
+          "description": "Must have a '## Tasks' section",
+          "pattern": "(?m)^## Tasks"
+        }
+      ]
+    }
+  }
+}

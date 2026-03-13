@@ -1,0 +1,39 @@
+# Template for Group Directory README.md
+# Used at: phase-X-name/activities/activity-Y-name/README.md or steps/step-Y-name/README.md
+
+title: "{{type_singular|title}} {{number}}: {{name}}"
+description: |
+  Group directory documentation listing all step/activity files
+  and prerequisites.
+
+sections:
+  - name: "Description"
+    template: |
+      This group contains {{sub_items_count}} detailed {{type_singular}}s for {{description}}.
+
+  - name: "Files"
+    template: |
+      {{#if sub_items}}
+      {{#each sub_items}}
+      | [{{number}} {{name}}](./{{type_singular}}-{{number}}-{{kebab name}}.md) | {{description}} |
+      {{/each}}
+      {{else}}
+      No files defined yet.
+      {{/if}}
+
+  - name: "Prerequisites"
+    template: |
+      - Prerequisite 1
+      - Prerequisite 2
+
+  - name: "Status"
+    template: |
+      **Overall Progress**: Not Started
+
+# Template variables:
+# - type_singular: "activity" or "step"
+# - number: Group number (e.g., "1", "2.1")
+# - name: Group name (e.g., "Extract and Refactor")
+# - description: Group description
+# - sub_items_count: Number of sub-items
+# - sub_items: Array of {number, name, description}
