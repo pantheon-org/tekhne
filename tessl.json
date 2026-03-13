@@ -13,6 +13,9 @@
     },
     "tessl-labs/skill-review-optimizer": {
       "version": "0.1.1"
+    },
+    "tessl-labs/review-model-performance": {
+      "version": "0.1.2"
     }
   }
 }

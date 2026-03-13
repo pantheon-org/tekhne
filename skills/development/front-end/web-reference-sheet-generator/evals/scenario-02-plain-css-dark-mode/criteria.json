@@ -1,0 +1,95 @@
+{
+  "criteria": [
+    {
+      "id": "C01",
+      "instruction_id": "I03",
+      "check": "Agent ran grep for -- custom properties and found styles/tokens.css",
+      "points": 4
+    },
+    {
+      "id": "C02",
+      "instruction_id": "I06",
+      "check": "§11 Dark Mode correctly identifies the strategy as 'prefers-color-scheme media query' (not class-based)",
+      "points": 10
+    },
+    {
+      "id": "C03",
+      "instruction_id": "I22",
+      "check": "Dark mode section lists all 5 overridden tokens (--color-text, --color-text-muted, --color-surface, --color-surface-raised, --color-border) with their dark values",
+      "points": 12
+    },
+    {
+      "id": "C04",
+      "instruction_id": "I01",
+      "check": "§8 Motion is populated with --transition-fast (150ms ease) and --transition-base (250ms ease) — not marked TBD",
+      "points": 8
+    },
+    {
+      "id": "C05",
+      "instruction_id": "I01",
+      "check": "§4 Spacing lists all 5 space tokens (--space-1 through --space-16) with correct values",
+      "points": 8
+    },
+    {
+      "id": "C06",
+      "instruction_id": "I07",
+      "check": "§10 Accessibility notes role=\"article\" and aria-labelledby found in card component",
+      "points": 8
+    },
+    {
+      "id": "C07",
+      "instruction_id": "I11",
+      "check": "docs/design/design-reference.md was created",
+      "points": 4
+    },
+    {
+      "id": "C08",
+      "instruction_id": "I14",
+      "check": "Companion SKILL.md was generated under .agents/skills/",
+      "points": 6
+    },
+    {
+      "id": "C09",
+      "instruction_id": "I15",
+      "check": "Companion SKILL.md description names the specific project",
+      "points": 6
+    },
+    {
+      "id": "C10",
+      "instruction_id": "I13",
+      "check": "All 12 sections present in the output",
+      "points": 4
+    },
+    {
+      "id": "C11",
+      "instruction_id": "I17",
+      "check": "Step 8 confirmation block printed with populated section counts",
+      "points": 5
+    },
+    {
+      "id": "C12",
+      "instruction_id": "I19",
+      "check": "styles/tokens.css named as the authoritative token file",
+      "points": 5
+    },
+    {
+      "id": "C13",
+      "instruction_id": "I05",
+      "check": "Agent read component files (button.html, card.html) before generating output",
+      "points": 4
+    },
+    {
+      "id": "C14",
+      "instruction_id": "I08",
+      "check": "Agent populated or referenced skill-output.yaml scratchpad before generating markdown",
+      "points": 6
+    },
+    {
+      "id": "C15",
+      "instruction_id": "I01",
+      "check": "No colour values appear in the output that are not present in tokens.css",
+      "points": 10
+    }
+  ],
+  "total": 100
+}

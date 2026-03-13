@@ -1,0 +1,107 @@
+{
+  "criteria": [
+    {
+      "id": "C01",
+      "instruction_id": "I03",
+      "check": "Agent ran grep for CSS custom properties (--) in src/app.css or equivalent",
+      "points": 4
+    },
+    {
+      "id": "C02",
+      "instruction_id": "I04",
+      "check": "Agent checked for tailwind.config.* file (not found is an acceptable result)",
+      "points": 3
+    },
+    {
+      "id": "C03",
+      "instruction_id": "I05",
+      "check": "Agent read at least 2 component or page files before generating output",
+      "points": 4
+    },
+    {
+      "id": "C04",
+      "instruction_id": "I11",
+      "check": "docs/design/design-reference.md was created",
+      "points": 5
+    },
+    {
+      "id": "C05",
+      "instruction_id": "I12",
+      "check": "No {TOKEN_*} or {PROJECT_NAME} placeholders remain in the generated design-reference.md",
+      "points": 4
+    },
+    {
+      "id": "C06",
+      "instruction_id": "I01",
+      "check": "All 4 colour tokens from @theme appear verbatim with their actual hex values — no invented colours",
+      "points": 8
+    },
+    {
+      "id": "C07",
+      "instruction_id": "I02",
+      "check": "Dark mode section contains 'TBD — not yet defined' (no dark mode was present in codebase)",
+      "points": 8
+    },
+    {
+      "id": "C08",
+      "instruction_id": "I13",
+      "check": "All 12 sections are present in design-reference.md even if some contain only TBD markers",
+      "points": 5
+    },
+    {
+      "id": "C09",
+      "instruction_id": "I14",
+      "check": "Companion SKILL.md was generated under .agents/skills/ (not under docs/)",
+      "points": 8
+    },
+    {
+      "id": "C10",
+      "instruction_id": "I15",
+      "check": "Companion SKILL.md frontmatter description names the specific project, not a generic tool description",
+      "points": 8
+    },
+    {
+      "id": "C11",
+      "instruction_id": "I17",
+      "check": "Step 8 confirmation block was printed listing populated sections with token counts",
+      "points": 7
+    },
+    {
+      "id": "C12",
+      "instruction_id": "I17",
+      "check": "Step 8 confirmation block explicitly lists TBD items (at minimum: dark mode)",
+      "points": 4
+    },
+    {
+      "id": "C13",
+      "instruction_id": "I19",
+      "check": "Reference sheet names src/app.css (or equivalent) as the authoritative token file",
+      "points": 5
+    },
+    {
+      "id": "C14",
+      "instruction_id": "I20",
+      "check": "Agent did not assume Tailwind breakpoints from memory — checked config or CSS",
+      "points": 5
+    },
+    {
+      "id": "C15",
+      "instruction_id": "I18",
+      "check": "Component pattern in §9 uses actual className strings from the codebase, not invented JSX",
+      "points": 5
+    },
+    {
+      "id": "C16",
+      "instruction_id": "I08",
+      "check": "Agent populated or referenced skill-output.yaml before generating markdown (or equivalent scratchpad step)",
+      "points": 7
+    },
+    {
+      "id": "C17",
+      "instruction_id": "I09",
+      "check": "Agent validated or referenced schema validation before generating markdown",
+      "points": 1
+    }
+  ],
+  "total": 100
+}

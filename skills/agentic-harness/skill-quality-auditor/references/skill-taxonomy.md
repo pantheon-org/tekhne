@@ -101,6 +101,7 @@ repository-mgmt/
 - Biome (formatter/linter)
 - Commander.js (CLI framework)
 - Shell scripting tools (scripting/ subdomain)
+- Front-end web development tools (front-end/ subdomain)
 
 **Excludes:**
 - Repository management (use repository-mgmt/ instead)
@@ -109,15 +110,19 @@ repository-mgmt/
 
 **Subdomains:**
 - `scripting/` - Shell scripting and Makefile generation
+- `front-end/` - Front-end web development (design tokens, theming, CSS)
 
 **Structure:** Mix of standalone skills and subdomains
 ```
 development/
 ├── bun-development/
 ├── typescript-advanced/
-└── scripting/
-    ├── bash-script/{generator,validator}
-    └── makefile/{generator,validator}
+├── scripting/
+│   ├── bash-script/{generator,validator}
+│   └── makefile/{generator,validator}
+└── front-end/
+    ├── web-reference-sheet-generator/
+    └── website-theme-porter/
 ```
 
 ---
@@ -372,6 +377,11 @@ Use this flowchart to classify new skills:
 **Placement:** testing/  
 **Rationale:** Testing methodology for UI changes  
 **Alternative considered:** development/ (dev tool) - rejected because primarily about testing, not general development
+
+### web-reference-sheet-generator, website-theme-porter
+**Placement:** development/front-end/  
+**Rationale:** Front-end web development tools for design tokens, theming, and CSS workflows; general development tools not specific to testing, CI/CD, or infrastructure  
+**Alternative considered:** specialized/ - rejected because they serve a broad, well-defined front-end development use case, not a niche domain that doesn't fit anywhere else
 
 ---
 
