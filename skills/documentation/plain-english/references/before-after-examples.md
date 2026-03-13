@@ -22,7 +22,7 @@ Concrete rewrites showing the plain-english workflow in practice.
 > validation — estimated at $30k and two weeks of engineering time. Without this, a similar
 > outage could recur in any future release.
 >
-> **Action required:** Engineering VP (Lisa Torres) needs your approval by end of week
+> **Action required:** Engineering VP (Lisa Torres) must approve the $30k budget by Friday 17:00
 > to begin work in the Q3 sprint.
 
 ---
@@ -54,8 +54,8 @@ Concrete rewrites showing the plain-english workflow in practice.
 > Response time in the test environment dropped from 820ms to 190ms — well within our
 > 200ms target.
 >
-> **Blocker:** Database team (Sarah Lin) must approve the change for production by Wednesday
-> for us to meet the Q2 performance milestone.
+> **Blocker:** Database team (Sarah Lin) must approve the change for production by Wed Mar 15 17:00
+> to meet the Q2 performance milestone.
 >
 > **Next step:** Once approved, the team will profile the checkout payment flow and assess
 > whether additional database capacity is needed.
@@ -108,5 +108,5 @@ Concrete rewrites showing the plain-english workflow in practice.
 > a 4-hour scheduled outage. Engineering (Dan Wu) recommends deploying this Saturday night.
 >
 > **Actions needed from you:**
-> 1. Approve EU customer notification — Legal team needs confirmation by [time].
-> 2. Approve Saturday maintenance window for security patch.
+> 1. Legal team (Maria Kovacs) must receive your approval to send EU customer notifications by [specific deadline — 54 hours from detection].
+> 2. Engineering (Dan Wu) must receive your approval for the Saturday maintenance window by Friday 17:00.
