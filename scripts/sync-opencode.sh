@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
+# Ensure unmatched globs expand to nothing instead of remaining as literals.
 set -euo pipefail
+shopt -s nullglob
+
+# Resolve repo root relative to this script, so it works regardless of CWD.
+REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 TILES_DIR=".tessl/tiles"
 OPENCODE_SKILLS_DIR=".agents/skills"
@@ -14,12 +19,20 @@ done
 
 mkdir -p "$OPENCODE_SKILLS_DIR"
 
+for link in "$OPENCODE_SKILLS_DIR"/*; do
+  if [ -L "$link" ] && [ ! -e "$link" ]; then
+    echo "unlink: $link (broken symlink)"
+    rm "$link"
+  fi
+done
+
 if [ -f "$MCP_JSON" ]; then
   mcp_servers=$(jq '.mcpServers | to_entries | map({key: .key, value: {type: "local", command: ([.value.command] + (.value.args // []))}}) | from_entries' "$MCP_JSON")
 
   if [ -f "$OPENCODE_JSON" ]; then
     existing=$(cat "$OPENCODE_JSON")
   else
+    # shellcheck disable=SC2016
     existing='{"$schema":"https://opencode.ai/config.json"}'
   fi
 
@@ -36,10 +49,8 @@ fi
 for tile_json in "$TILES_DIR"/*/*/tile.json; do
   tile_dir="$(dirname "$tile_json")"
 
-  skill_names=$(grep -A1 '"skills"' "$tile_json" | grep -o '"[^"]*":' | grep -v '"skills":' | tr -d '":' | tr -d ' ')
-
-  for skill_name in $skill_names; do
-    target="$(pwd)/$tile_dir"
+  while IFS= read -r skill_name; do
+    target="$REPO_ROOT/$tile_dir"
     link="$OPENCODE_SKILLS_DIR/tessl__$skill_name"
 
     if [ -L "$link" ]; then
@@ -58,5 +69,5 @@ for tile_json in "$TILES_DIR"/*/*/tile.json; do
     fi
 
     ln -s "$target" "$link"
-  done
+  done < <(jq -r '.skills | keys[]' "$tile_json")
 done
