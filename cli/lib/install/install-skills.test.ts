@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import {
   mkdirSync,
   mkdtempSync,
+  realpathSync,
   rmSync,
   symlinkSync,
   writeFileSync,
@@ -137,16 +138,12 @@ describe(
     });
 
     test("throws CLIError when skills/ directory does not exist", async () => {
-      await expect(findSkills(tmpDir)).rejects.toBeInstanceOf(CLIError);
-
-      try {
-        await findSkills(tmpDir);
-      } catch (err) {
-        expect((err as CLIError).message).toContain(
-          "skills/ directory not found",
-        );
-        expect((err as CLIError).exitCode).toBe(1);
-      }
+      const err = await findSkills(tmpDir).catch((e) => e);
+      expect(err).toBeInstanceOf(CLIError);
+      expect((err as CLIError).message).toContain(
+        "skills/ directory not found",
+      );
+      expect((err as CLIError).exitCode).toBe(1);
     });
 
     test("returns skill paths when SKILL.md files exist", async () => {
@@ -198,6 +195,8 @@ describe("ensureDirectory", () => {
     const dir = join(tmpDir, "new", "nested");
     ensureDirectory(dir, false);
     expect(require("node:fs").existsSync(dir)).toBe(true);
+    // Intermediate parent must also be created (mkdir -p behaviour)
+    expect(require("node:fs").existsSync(join(tmpDir, "new"))).toBe(true);
   });
 
   test("does not create directory in dry-run mode", () => {
@@ -241,9 +240,15 @@ describe("createSymlink", () => {
     const linkDest = require("node:fs").readlinkSync(target);
     // Should be relative, not absolute
     expect(linkDest).not.toMatch(/^\//);
+    // And must resolve to the correct source directory
+    expect(
+      realpathSync.native(
+        resolve(require("node:path").dirname(target), linkDest),
+      ),
+    ).toBe(realpathSync.native(resolve(sourceDir)));
   });
 
-  test("returns false without creating symlink in dry-run mode", () => {
+  test("returns true but does not create symlink in dry-run mode", () => {
     const target = join(tmpDir, "link");
     const result = createSymlink(sourceDir, target, true);
 
@@ -272,10 +277,13 @@ describe("createSymlink", () => {
     expect(result).toBe(true);
 
     const linkDest = require("node:fs").readlinkSync(target);
-    // Resolved destination should point to sourceDir
-    expect(resolve(require("node:path").dirname(target), linkDest)).toBe(
-      resolve(sourceDir),
-    );
+    // Resolved destination should point to sourceDir (use realpathSync to
+    // handle platform-level symlinks such as macOS /tmp → /private/tmp)
+    expect(
+      realpathSync.native(
+        resolve(require("node:path").dirname(target), linkDest),
+      ),
+    ).toBe(realpathSync.native(resolve(sourceDir)));
   });
 
   test("returns false and does not throw when target is a real directory", () => {
@@ -293,39 +301,26 @@ describe("createSymlink", () => {
 
 describe("installSkills", () => {
   test("throws CLIError for unknown agent", async () => {
-    await expect(
-      installSkills({
-        agent: ["unknown-agent"],
-        global: false,
-        dryRun: true,
-        interactive: false,
-      }),
-    ).rejects.toBeInstanceOf(CLIError);
-
-    try {
-      await installSkills({
-        agent: ["unknown-agent"],
-        global: false,
-        dryRun: true,
-        interactive: false,
-      });
-    } catch (err) {
-      expect((err as CLIError).message).toContain("Unknown agent(s)");
-      expect((err as CLIError).exitCode).toBe(1);
-    }
+    const err = await installSkills({
+      agent: ["unknown-agent"],
+      global: false,
+      dryRun: true,
+      interactive: false,
+    }).catch((e) => e);
+    expect(err).toBeInstanceOf(CLIError);
+    expect((err as CLIError).message).toContain("Unknown agent(s)");
+    expect((err as CLIError).exitCode).toBe(1);
   });
 
   test("throws CLIError listing all unknown agents", async () => {
-    try {
-      await installSkills({
-        agent: ["bad1", "bad2"],
-        global: false,
-        dryRun: true,
-        interactive: false,
-      });
-    } catch (err) {
-      expect((err as CLIError).message).toContain("bad1");
-      expect((err as CLIError).message).toContain("bad2");
-    }
+    const err = await installSkills({
+      agent: ["bad1", "bad2"],
+      global: false,
+      dryRun: true,
+      interactive: false,
+    }).catch((e) => e);
+    expect(err).toBeInstanceOf(CLIError);
+    expect((err as CLIError).message).toContain("bad1");
+    expect((err as CLIError).message).toContain("bad2");
   });
 });

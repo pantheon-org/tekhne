@@ -2,6 +2,7 @@ import {
   existsSync,
   mkdirSync,
   readlinkSync,
+  realpathSync,
   symlinkSync,
   unlinkSync,
 } from "node:fs";
@@ -111,7 +112,7 @@ export async function selectSkillsInteractively(
 
   if (selected.length === 0) {
     logger.info("No skills selected. Aborting.");
-    process.exit(0);
+    return [];
   }
 
   return selected;
@@ -136,14 +137,17 @@ export function createSymlink(
   target: string,
   dryRun: boolean,
 ): boolean {
-  const resolvedSource = resolve(source);
+  const resolvedSource = realpathSync.native(resolve(source));
   const relativeSource = relative(dirname(target), resolvedSource);
 
   if (existsSync(target)) {
     try {
       const existing = readlinkSync(target);
-      // Resolve existing (may be relative or absolute) to compare
-      const resolvedExisting = resolve(dirname(target), existing);
+      // Resolve existing (may be relative or absolute) and canonicalize
+      // with realpathSync to handle platform symlinks (e.g. macOS /tmp → /private/tmp)
+      const resolvedExisting = realpathSync.native(
+        resolve(dirname(target), existing),
+      );
 
       if (resolvedExisting === resolvedSource) {
         logger.debug(`Already linked: ${target}`);
@@ -278,6 +282,9 @@ export async function installSkills(options: InstallOptions): Promise<void> {
   // Apply interactive selection (ignored if not TTY)
   if (options.interactive) {
     skills = await selectSkillsInteractively(skills);
+    if (skills.length === 0) {
+      return;
+    }
   }
 
   logger.info(`Found ${skills.length} skills`);
