@@ -39,6 +39,7 @@
     "tessl": "^0.68.0"
   },
   "dependencies": {
+    "@inquirer/checkbox": "^5.1.0",
     "zod": "^4.3.6"
   }
 }
