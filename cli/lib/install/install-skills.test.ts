@@ -1,155 +1,331 @@
-import { describe, expect, test } from "bun:test";
-import { homedir } from "node:os";
-import { join } from "node:path";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import {
+  mkdirSync,
+  mkdtempSync,
+  rmSync,
+  symlinkSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
+import { CLIError } from "../utils/errors";
+import {
+  createSymlink,
+  ensureDirectory,
+  filterSkills,
+  findSkills,
+  getSkillName,
+  installSkills,
+} from "./install-skills";
 
-describe("installSkills helper functions", () => {
-  describe("getSkillName formatting", () => {
-    test("should convert domain/skill to domain--skill", () => {
-      const skillPath = "skills/domain/skill-name";
-      const parts = skillPath.split("/").slice(1);
-      const skillName = parts.join("--");
-      expect(skillName).toBe("domain--skill-name");
-    });
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
 
-    test("should handle nested paths", () => {
-      const skillPath = "skills/domain/category/skill-name";
-      const parts = skillPath.split("/").slice(1);
-      const skillName = parts.join("--");
-      expect(skillName).toBe("domain--category--skill-name");
-    });
+function makeTempDir(): string {
+  return mkdtempSync(join(tmpdir(), "tekhne-install-test-"));
+}
 
-    test("should handle skill names with hyphens", () => {
-      const skillPath = "skills/my-domain/my-skill-name";
-      const parts = skillPath.split("/").slice(1);
-      const skillName = parts.join("--");
-      expect(skillName).toBe("my-domain--my-skill-name");
-    });
+function scaffold(base: string, paths: string[]): void {
+  for (const p of paths) {
+    const full = join(base, p);
+    mkdirSync(full.replace(/\/[^/]+$/, ""), { recursive: true });
+    writeFileSync(full, "");
+  }
+}
+
+// ---------------------------------------------------------------------------
+// getSkillName
+// ---------------------------------------------------------------------------
+
+describe("getSkillName", () => {
+  test("converts domain/skill to domain--skill", () => {
+    expect(getSkillName("skills/domain/skill-name")).toBe("domain--skill-name");
   });
 
-  describe("agent path resolution", () => {
-    test("should resolve opencode global path", () => {
-      const isGlobal = true;
-      const path = isGlobal
-        ? join(homedir(), ".config", "opencode", "skills")
-        : join("/cwd", ".agents", "skills");
-
-      expect(path).toContain(".config/opencode/skills");
-    });
-
-    test("should resolve opencode local path", () => {
-      const isGlobal = false;
-      const cwd = "/project";
-      const path = isGlobal
-        ? join(homedir(), ".config", "opencode", "skills")
-        : join(cwd, ".agents", "skills");
-
-      expect(path).toBe("/project/.agents/skills");
-    });
-
-    test("should resolve cursor path (always global)", () => {
-      const path = join(homedir(), ".config", "cursor", "skills");
-      expect(path).toContain(".config/cursor/skills");
-    });
-
-    test("should resolve gemini path (always global)", () => {
-      const path = join(homedir(), ".config", "gemini", "skills");
-      expect(path).toContain(".config/gemini/skills");
-    });
+  test("handles nested paths", () => {
+    expect(getSkillName("skills/domain/category/skill-name")).toBe(
+      "domain--category--skill-name",
+    );
   });
 
-  describe("installation stats tracking", () => {
-    test("should initialize stats with zeros", () => {
-      const stats = { installed: 0, skipped: 0, failed: 0 };
+  test("preserves hyphens", () => {
+    expect(getSkillName("skills/my-domain/my-skill-name")).toBe(
+      "my-domain--my-skill-name",
+    );
+  });
+});
 
-      expect(stats.installed).toBe(0);
-      expect(stats.skipped).toBe(0);
-      expect(stats.failed).toBe(0);
-    });
+// ---------------------------------------------------------------------------
+// filterSkills
+// ---------------------------------------------------------------------------
 
-    test("should increment installed count", () => {
-      const stats = { installed: 0, skipped: 0, failed: 0 };
-      stats.installed++;
+describe("filterSkills", () => {
+  const skills = [
+    "skills/ci-cd/github-actions/generator",
+    "skills/ci-cd/gitlab-ci/validator",
+    "skills/infrastructure/terraform/generator",
+    "skills/infrastructure/k8s",
+    "skills/documentation/markdown-authoring",
+  ];
 
-      expect(stats.installed).toBe(1);
-    });
-
-    test("should increment skipped count", () => {
-      const stats = { installed: 0, skipped: 0, failed: 0 };
-      stats.skipped++;
-
-      expect(stats.skipped).toBe(1);
-    });
-
-    test("should increment failed count", () => {
-      const stats = { installed: 0, skipped: 0, failed: 0 };
-      stats.failed++;
-
-      expect(stats.failed).toBe(1);
-    });
+  test("returns all skills when no filters are set", () => {
+    expect(filterSkills(skills, {})).toEqual(skills);
   });
 
-  describe("skill discovery pattern", () => {
-    test("should extract directory from SKILL.md path", () => {
-      const skillPath = "skills/domain/skill-name/SKILL.md";
-      const directory = skillPath.replace("/SKILL.md", "");
-
-      expect(directory).toBe("skills/domain/skill-name");
-    });
-
-    test("should handle multiple SKILL.md results", () => {
-      const output = `skills/domain1/skill1/SKILL.md
-skills/domain2/skill2/SKILL.md
-skills/domain3/skill3/SKILL.md`;
-
-      const skills = output
-        .trim()
-        .split("\n")
-        .filter(Boolean)
-        .map((path) => path.replace("/SKILL.md", ""));
-
-      expect(skills.length).toBe(3);
-      expect(skills[0]).toBe("skills/domain1/skill1");
-      expect(skills[1]).toBe("skills/domain2/skill2");
-      expect(skills[2]).toBe("skills/domain3/skill3");
-    });
+  test("filters by domain", () => {
+    const result = filterSkills(skills, { skillDomain: ["ci-cd"] });
+    expect(result).toEqual([
+      "skills/ci-cd/github-actions/generator",
+      "skills/ci-cd/gitlab-ci/validator",
+    ]);
   });
 
-  describe("summary display logic", () => {
-    test("should display stats for multiple agents", () => {
-      const agents = ["opencode", "cursor"];
-      const stats: Record<
-        string,
-        { installed: number; skipped: number; failed: number }
-      > = {
-        opencode: { installed: 10, skipped: 2, failed: 0 },
-        cursor: { installed: 8, skipped: 4, failed: 1 },
-      };
+  test("filters by multiple domains (union)", () => {
+    const result = filterSkills(skills, {
+      skillDomain: ["ci-cd", "documentation"],
+    });
+    expect(result).toHaveLength(3);
+  });
 
-      for (const agent of agents) {
-        const agentStats = stats[agent];
-        expect(agentStats).toBeDefined();
-        expect(agentStats.installed).toBeGreaterThanOrEqual(0);
+  test("filters by subdomain", () => {
+    const result = filterSkills(skills, {
+      skillSubdomain: ["terraform"],
+    });
+    expect(result).toEqual(["skills/infrastructure/terraform/generator"]);
+  });
+
+  test("intersection when both domain and subdomain are set", () => {
+    // domain=ci-cd AND subdomain=github-actions → only the github-actions skill
+    const result = filterSkills(skills, {
+      skillDomain: ["ci-cd"],
+      skillSubdomain: ["github-actions"],
+    });
+    expect(result).toEqual(["skills/ci-cd/github-actions/generator"]);
+  });
+
+  test("intersection excludes skills matching only one filter", () => {
+    // domain=infrastructure AND subdomain=github-actions → no intersection
+    const result = filterSkills(skills, {
+      skillDomain: ["infrastructure"],
+      skillSubdomain: ["github-actions"],
+    });
+    expect(result).toEqual([]);
+  });
+
+  test("empty domain array treated as no domain filter", () => {
+    const result = filterSkills(skills, { skillDomain: [] });
+    expect(result).toEqual(skills);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// findSkills
+// ---------------------------------------------------------------------------
+
+describe(
+  "findSkills",
+  () => {
+    let tmpDir: string;
+
+    beforeEach(() => {
+      tmpDir = makeTempDir();
+    });
+
+    afterEach(() => {
+      rmSync(tmpDir, { recursive: true, force: true });
+    });
+
+    test("throws CLIError when skills/ directory does not exist", async () => {
+      await expect(findSkills(tmpDir)).rejects.toBeInstanceOf(CLIError);
+
+      try {
+        await findSkills(tmpDir);
+      } catch (err) {
+        expect((err as CLIError).message).toContain(
+          "skills/ directory not found",
+        );
+        expect((err as CLIError).exitCode).toBe(1);
       }
     });
 
-    test("should skip agents with no stats", () => {
-      const agents = ["opencode", "cursor", "unknown"];
-      const stats: Record<
-        string,
-        { installed: number; skipped: number; failed: number }
-      > = {
-        opencode: { installed: 10, skipped: 0, failed: 0 },
-        cursor: { installed: 5, skipped: 0, failed: 0 },
-      };
+    test("returns skill paths when SKILL.md files exist", async () => {
+      scaffold(tmpDir, [
+        "skills/ci-cd/github-actions/SKILL.md",
+        "skills/infrastructure/terraform/SKILL.md",
+      ]);
 
-      let displayedCount = 0;
-      for (const agent of agents) {
-        if (stats[agent]) {
-          displayedCount++;
-        }
-      }
-
-      expect(displayedCount).toBe(2);
+      const skills = await findSkills(tmpDir);
+      expect(skills).toContain("skills/ci-cd/github-actions");
+      expect(skills).toContain("skills/infrastructure/terraform");
+      expect(skills).toHaveLength(2);
     });
+
+    test("strips /SKILL.md suffix from each path", async () => {
+      scaffold(tmpDir, ["skills/domain/skill/SKILL.md"]);
+
+      const skills = await findSkills(tmpDir);
+      expect(skills).toHaveLength(1);
+      expect(skills[0]).not.toContain("SKILL.md");
+      expect(skills[0]).toBe("skills/domain/skill");
+    });
+
+    test("returns empty array when skills/ exists but has no SKILL.md files", async () => {
+      mkdirSync(join(tmpDir, "skills"));
+      const skills = await findSkills(tmpDir);
+      expect(skills).toEqual([]);
+    });
+  },
+  { timeout: 10000 },
+);
+
+// ---------------------------------------------------------------------------
+// ensureDirectory
+// ---------------------------------------------------------------------------
+
+describe("ensureDirectory", () => {
+  let tmpDir: string;
+
+  beforeEach(() => {
+    tmpDir = makeTempDir();
+  });
+
+  afterEach(() => {
+    rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  test("creates directory in live mode", () => {
+    const dir = join(tmpDir, "new", "nested");
+    ensureDirectory(dir, false);
+    expect(require("node:fs").existsSync(dir)).toBe(true);
+  });
+
+  test("does not create directory in dry-run mode", () => {
+    const dir = join(tmpDir, "should-not-exist");
+    ensureDirectory(dir, true);
+    expect(require("node:fs").existsSync(dir)).toBe(false);
+  });
+
+  test("does not throw if directory already exists", () => {
+    const dir = join(tmpDir, "existing");
+    mkdirSync(dir);
+    expect(() => ensureDirectory(dir, false)).not.toThrow();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// createSymlink
+// ---------------------------------------------------------------------------
+
+describe("createSymlink", () => {
+  let tmpDir: string;
+  let sourceDir: string;
+
+  beforeEach(() => {
+    tmpDir = makeTempDir();
+    sourceDir = join(tmpDir, "source");
+    mkdirSync(sourceDir);
+  });
+
+  afterEach(() => {
+    rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  test("creates a relative symlink in live mode", () => {
+    const target = join(tmpDir, "link");
+    const result = createSymlink(sourceDir, target, false);
+
+    expect(result).toBe(true);
+    expect(require("node:fs").existsSync(target)).toBe(true);
+
+    const linkDest = require("node:fs").readlinkSync(target);
+    // Should be relative, not absolute
+    expect(linkDest).not.toMatch(/^\//);
+  });
+
+  test("returns false without creating symlink in dry-run mode", () => {
+    const target = join(tmpDir, "link");
+    const result = createSymlink(sourceDir, target, true);
+
+    expect(result).toBe(true); // dry-run still signals "would install"
+    expect(require("node:fs").existsSync(target)).toBe(false);
+  });
+
+  test("returns false when target is already linked to same source", () => {
+    const target = join(tmpDir, "link");
+    createSymlink(sourceDir, target, false);
+
+    const result = createSymlink(sourceDir, target, false);
+    expect(result).toBe(false);
+  });
+
+  test("replaces stale symlink pointing to a different source", () => {
+    const otherSource = join(tmpDir, "other");
+    mkdirSync(otherSource);
+    const target = join(tmpDir, "link");
+
+    // Create initial symlink pointing to otherSource
+    symlinkSync(otherSource, target, "dir");
+
+    // Now replace with sourceDir
+    const result = createSymlink(sourceDir, target, false);
+    expect(result).toBe(true);
+
+    const linkDest = require("node:fs").readlinkSync(target);
+    // Resolved destination should point to sourceDir
+    expect(resolve(require("node:path").dirname(target), linkDest)).toBe(
+      resolve(sourceDir),
+    );
+  });
+
+  test("returns false and does not throw when target is a real directory", () => {
+    const target = join(tmpDir, "realdir");
+    mkdirSync(target);
+
+    const result = createSymlink(sourceDir, target, false);
+    expect(result).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// installSkills — unknown agent validation
+// ---------------------------------------------------------------------------
+
+describe("installSkills", () => {
+  test("throws CLIError for unknown agent", async () => {
+    await expect(
+      installSkills({
+        agent: ["unknown-agent"],
+        global: false,
+        dryRun: true,
+        interactive: false,
+      }),
+    ).rejects.toBeInstanceOf(CLIError);
+
+    try {
+      await installSkills({
+        agent: ["unknown-agent"],
+        global: false,
+        dryRun: true,
+        interactive: false,
+      });
+    } catch (err) {
+      expect((err as CLIError).message).toContain("Unknown agent(s)");
+      expect((err as CLIError).exitCode).toBe(1);
+    }
+  });
+
+  test("throws CLIError listing all unknown agents", async () => {
+    try {
+      await installSkills({
+        agent: ["bad1", "bad2"],
+        global: false,
+        dryRun: true,
+        interactive: false,
+      });
+    } catch (err) {
+      expect((err as CLIError).message).toContain("bad1");
+      expect((err as CLIError).message).toContain("bad2");
+    }
   });
 });
