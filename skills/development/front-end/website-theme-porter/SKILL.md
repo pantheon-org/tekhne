@@ -76,24 +76,7 @@ Can you manually inspect the live site in browser DevTools?
   NO → unblock agent-browser or mcp-playwright access before continuing
 ```
 
-### agent-browser vs mcp-playwright equivalents
-
-When using **mcp-playwright**, replace `agent-browser` CLI commands with the corresponding MCP tool calls:
-
-| agent-browser | mcp-playwright |
-|---|---|
-| `agent-browser open <URL>` | `playwright_browser_navigate(url)` |
-| `agent-browser wait --load networkidle` | `playwright_browser_wait_for(time: 2)` |
-| `agent-browser screenshot --full <path>` | `playwright_browser_take_screenshot(filename, fullPage: true)` |
-| `agent-browser set viewport 375 812` | `playwright_browser_resize(width: 375, height: 812)` |
-| `agent-browser eval '<JS>'` | `playwright_browser_evaluate(function: '() => { <JS> }')` |
-| `agent-browser eval --stdin <<'JS' … JS` | `playwright_browser_evaluate(function: '() => { … }')` |
-| `agent-browser --session source open <URL>` | open a new tab: `playwright_browser_tabs(action: "new")` then `playwright_browser_navigate(url)` |
-| `agent-browser diff url <A> <B>` | screenshot both URLs **without** `filename` — images are returned inline for direct visual comparison |
-
-**Key advantage of mcp-playwright for verification:** `playwright_browser_take_screenshot` returns the image directly into the agent's context when no `filename` is given. This means the agent can visually inspect and reason about the screenshot immediately — no file save, no external diff tool needed. Omit `filename` during verification steps to leverage this capability.
-
----
+For the full command equivalents table, see [`references/extraction.md`](references/extraction.md).
 
 ### Method A — Automated browser extraction (agent-browser or mcp-playwright)
 
@@ -458,11 +441,10 @@ Prioritise in this order:
   ```
 
 - **NEVER copy the source site's actual CSS files or stylesheets into your project.**
-  **Consequence:** Import conflicts, class name collisions, and specificity wars corrupt Tailwind output and make the project unmaintainable. Rebuild every value from scratch using the extracted numbers.
+  Rebuild every value from scratch using the extracted numbers.
 
 - **NEVER use arbitrary Tailwind values (`bg-[#abc]`) for semantic colours.**
-  Arbitrary values bypass the token system.
-  **Consequence:** Future rebrand requires find-and-replace across the entire codebase instead of a single token update.
+  Arbitrary values bypass the token system — use semantic utility classes instead.
 
   ```tsx
   // ❌ BAD — hardcoded, bypasses token system

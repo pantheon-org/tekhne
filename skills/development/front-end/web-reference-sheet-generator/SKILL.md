@@ -41,6 +41,11 @@ plausible fictions.
 See [`references/workflow.md`](references/workflow.md) for the full 8-step generation process:
 
 1. Discover design tokens (grep CSS for `--` custom properties, `@theme` blocks, font imports)
+
+   ```bash
+   grep -r "\-\-" src/ --include="*.css" -h | grep -E "^\s+--" | sort -u
+   grep -r "@theme\|@font-face\|@import" src/ --include="*.css"
+   ```
 2. Inspect existing components (read 3–5 representative files)
 3. Check dark mode implementation
 4. Check accessibility patterns

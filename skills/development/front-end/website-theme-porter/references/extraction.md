@@ -8,6 +8,23 @@ Run via `agent-browser eval --stdin` **or** `playwright_browser_evaluate(functio
 
 ---
 
+## agent-browser vs mcp-playwright Command Equivalents
+
+| agent-browser | mcp-playwright |
+|---|---|
+| `agent-browser open <URL>` | `playwright_browser_navigate(url)` |
+| `agent-browser wait --load networkidle` | `playwright_browser_wait_for(time: 2)` |
+| `agent-browser screenshot --full <path>` | `playwright_browser_take_screenshot(filename, fullPage: true)` |
+| `agent-browser set viewport 375 812` | `playwright_browser_resize(width: 375, height: 812)` |
+| `agent-browser eval '<JS>'` | `playwright_browser_evaluate(function: '() => { <JS> }')` |
+| `agent-browser eval --stdin <<'JS' … JS` | `playwright_browser_evaluate(function: '() => { … }')` |
+| `agent-browser --session source open <URL>` | open a new tab: `playwright_browser_tabs(action: "new")` then `playwright_browser_navigate(url)` |
+| `agent-browser diff url <A> <B>` | screenshot both URLs without `filename` — images are returned inline for direct visual comparison |
+
+Omit `filename` on `playwright_browser_take_screenshot` during verification to leverage inline image context.
+
+---
+
 ## Full Token Dump
 
 Extracts all CSS custom properties from `:root` across all loaded stylesheets:
