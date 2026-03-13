@@ -3,3 +3,5 @@
 node_modules/
 skills-lock.json
 .context/investigations
+**/tessl__*
+.tessl/
