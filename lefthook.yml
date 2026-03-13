@@ -13,10 +13,10 @@ pre-commit:
     skill-artifacts:
       run: ./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh {staged_files}
       stage_fixed: true
-  audit-readme-sync:
-    glob: ".context/audits/*.md"
-    run: bun cli/index.ts readme update && bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md && git add README.md
-    stage_fixed: true
+    readme-sync:
+      glob: "{skills/**,cli/**,.context/audits/**}"
+      run: bun cli/index.ts readme update && bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md TILES.md && git add README.md TILES.md
+      stage_fixed: true
     yamllint:
       glob: "*.{yml,yaml}"
       run: command -v yq >/dev/null 2>&1 && yq eval '.' {staged_files} >/dev/null
