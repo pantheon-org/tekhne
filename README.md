@@ -29,7 +29,7 @@ See [`cli/README.md`](cli/README.md) for complete documentation.
 
 ## Available Skills
 
-## CI/CD (6 tiles)
+## CI/CD (6 tiles, 1 skill)
 
 CI/CD pipelines & deployment automation
 
@@ -41,6 +41,7 @@ CI/CD pipelines & deployment automation
 | [jenkinsfile-toolkit](TILES.md#jenkinsfile-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/jenkinsfile-toolkit) | 0.1.0 |
 | [helm-toolkit](TILES.md#helm-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/helm-toolkit) | 0.1.0 |
 | [github-actions-toolkit](TILES.md#github-actions-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/github-actions-toolkit) | 0.1.0 |
+| [jenkinsfile-jenkins-build-monitor](TILES.md#jenkinsfile-jenkins-build-monitor-no-tile) _(no tile)_ | 1 | - | - |
 
 ## Infrastructure (8 tiles)
 
@@ -66,7 +67,7 @@ Repository & workspace management
 | [nx-biome-integration](TILES.md#nx-biome-integration) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-biome-integration) | 0.1.1 |
 | [nx-bun-integration](TILES.md#nx-bun-integration) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-bun-integration) | 0.1.1 |
 | [nx-workspace-patterns](TILES.md#nx-workspace-patterns) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-workspace-patterns) | 0.1.1 |
-| [nx-plugin-toolkit](TILES.md#nx-plugin-toolkit) | 3 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-plugin-toolkit) | 0.1.0 |
+| [nx-plugin-toolkit](TILES.md#nx-plugin-toolkit) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-plugin-toolkit) | 0.2.0 |
 | [nx-vite-integration](TILES.md#nx-vite-integration) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-vite-integration) | 0.1.1 |
 
 ## Development (6 tiles)
@@ -91,7 +92,7 @@ Agent framework configurations
 | [skill-quality-auditor](TILES.md#skill-quality-auditor) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/skill-quality-auditor) | 0.1.4 |
 | [agents-md](TILES.md#agents-md) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/agents-md) | 0.1.3 |
 | [tessl-publish-public](TILES.md#tessl-publish-public) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) | 1.0.0 |
-| [opencode-toolkit](TILES.md#opencode-toolkit) | 5 | [Public](https://tessl.io/registry/skills/pantheon-ai/opencode-toolkit) | 0.2.0 |
+| [opencode-toolkit](TILES.md#opencode-toolkit) | 5 | [Public](https://tessl.io/registry/skills/pantheon-ai/opencode-toolkit) | 0.1.0 |
 
 ## Testing (3 tiles)
 
@@ -140,15 +141,16 @@ Package & version management
 | --- | --- | --- | --- |
 | [mise-complete](TILES.md#mise-complete) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/mise-complete) | 0.1.1 |
 
-## Project Management (3 tiles)
+## Project Management (4 tiles)
 
 Planning & organization
 
 | Tile | Skills | Published | Version |
 | --- | --- | --- | --- |
+| [implementation-planner](TILES.md#implementation-planner) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/implementation-planner) | 0.4.3 |
 | [create-context-file](TILES.md#create-context-file) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/create-context-file) | 0.2.0 |
 | [moscow-prioritization](TILES.md#moscow-prioritization) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/moscow-prioritization) | 0.1.1 |
-| [implementation-plan-splitter](TILES.md#implementation-plan-splitter) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/implementation-plan-splitter) | 0.1.1 |
+| [implementation-plan-splitter](TILES.md#implementation-plan-splitter) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/implementation-plan-splitter) | 2.0.0 |
 
 ## Specialized (3 tiles)
 

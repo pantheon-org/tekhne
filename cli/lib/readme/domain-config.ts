@@ -65,6 +65,11 @@ export const DOMAINS: DomainInfo[] = [
     title: "Specialized",
     description: "Domain-specific tools",
   },
+  {
+    key: "languages",
+    title: "Languages",
+    description: "Language-specific guidance and patterns",
+  },
 ];
 
 export function getDomainInfo(domainKey: string): DomainInfo | undefined {

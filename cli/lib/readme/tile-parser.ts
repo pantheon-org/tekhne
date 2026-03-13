@@ -33,12 +33,22 @@ export async function findAllTiles(): Promise<TileEntry[]> {
   const output = await $`find skills -name "tile.json" -type f`.text();
   const files = output.trim().split("\n").filter(Boolean);
 
+  // Build a set of all tile directories to detect parent/child relationships.
+  // A child tile is one whose parent directory also contains a tile.json.
+  const tileDirs = new Set(files.map((f) => dirname(f)));
+
   const tiles: TileEntry[] = [];
 
   for (const file of files) {
     try {
       const tileData = await Bun.file(file).json();
       const tileDir = dirname(file);
+
+      // Skip private child tiles: if the parent directory also has a tile.json
+      // AND this tile is private, it is a sub-skill component of a consolidated
+      // parent tile and should not appear as a top-level entry.
+      if (tileDirs.has(dirname(tileDir)) && tileData.private === true) continue;
+
       const tileRelDir = tileDir.replace(/^skills\//, "");
       const domain = tileRelDir.split("/")[0];
 

@@ -4,13 +4,14 @@ Detailed information for all tiles and skills.
 
 ## Contents
 
-- [CI/CD (6 tiles)](#cicd-6-tiles)
+- [CI/CD (6 tiles, 1 skill)](#cicd-6-tiles-1-skill)
   - [azure-pipelines-toolkit](#azure-pipelines-toolkit)
   - [gitlab-ci-toolkit](#gitlab-ci-toolkit)
   - [fluentbit-toolkit](#fluentbit-toolkit)
   - [jenkinsfile-toolkit](#jenkinsfile-toolkit)
   - [helm-toolkit](#helm-toolkit)
   - [github-actions-toolkit](#github-actions-toolkit)
+  - [jenkinsfile-jenkins-build-monitor _(no tile)_](#jenkinsfile-jenkins-build-monitor-no-tile)
 - [Infrastructure (8 tiles)](#infrastructure-8-tiles)
   - [terraform-toolkit](#terraform-toolkit)
   - [dockerfile-toolkit](#dockerfile-toolkit)
@@ -55,7 +56,8 @@ Detailed information for all tiles and skills.
   - [conventional-commits](#conventional-commits)
 - [Package Management (1 tile)](#package-management-1-tile)
   - [mise-complete](#mise-complete)
-- [Project Management (3 tiles)](#project-management-3-tiles)
+- [Project Management (4 tiles)](#project-management-4-tiles)
+  - [implementation-planner](#implementation-planner)
   - [create-context-file](#create-context-file)
   - [moscow-prioritization](#moscow-prioritization)
   - [implementation-plan-splitter](#implementation-plan-splitter)
@@ -64,7 +66,7 @@ Detailed information for all tiles and skills.
   - [gitlab-api](#gitlab-api)
   - [colyseus-multiplayer](#colyseus-multiplayer)
 
-## CI/CD (6 tiles)
+## CI/CD (6 tiles, 1 skill)
 
 CI/CD pipelines & deployment automation
 
@@ -121,6 +123,14 @@ Complete GitHub Actions toolkit with generation and validation capabilities for 
 | --- | --- | --- | --- |
 | [github-actions-generator](skills/ci-cd/github-actions/generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/generator/2026-03-02/audit.json) | - |
 | [github-actions-validator](skills/ci-cd/github-actions/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/validator/2026-03-02/audit.json) | - |
+
+### jenkinsfile-jenkins-build-monitor _(no tile)_
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [jenkinsfile-jenkins-build-monitor](skills/ci-cd/jenkinsfile/jenkins-build-monitor/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | - |
 
 ## Infrastructure (8 tiles)
 
@@ -226,13 +236,11 @@ Configure and optimize Nx monorepo workspaces with deterministic project-graph s
 
 ### [nx-plugin-toolkit](skills/repository-mgmt/nx)
 
-Complete Nx plugin development toolkit: create generators, executors, and extend Nx workspaces
+Complete Nx plugin development toolkit: create custom generators, executors, and extend Nx workspaces with reusable automation
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-generators](skills/repository-mgmt/nx/generators/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/repository-mgmt/nx/generators/2026-03-02/audit.json) | - |
-| [nx-executors](skills/repository-mgmt/nx/executors/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/repository-mgmt/nx/executors/2026-03-02/audit.json) | - |
-| [extending-nx-plugins](skills/repository-mgmt/nx/extending-plugins/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-03](.context/audits/repository-mgmt/nx/extending-plugins/2026-03-03/audit.json) | - |
+| [nx-plugin-authoring](skills/repository-mgmt/nx/nx-plugin-authoring/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-06](.context/audits/repository-mgmt/nx/nx-plugin-authoring/2026-03-06/audit.json) | - |
 
 ### [nx-vite-integration](skills/repository-mgmt/nx/vite-integration)
 
@@ -330,11 +338,11 @@ Complete toolkit for configuring and extending OpenCode: agent creation, custom 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [opencode-design-agents](skills/agentic-harness/opencode/design-agents/SKILL.md) | - | - | 3 |
-| [opencode-design-commands](skills/agentic-harness/opencode/design-commands/SKILL.md) | - | - | 3 |
-| [opencode-configure](skills/agentic-harness/opencode/configure/SKILL.md) | - | - | 3 |
-| [opencode-build-plugins](skills/agentic-harness/opencode/build-plugins/SKILL.md) | - | - | 3 |
-| [opencode-build-tool](skills/agentic-harness/opencode/build-tool/SKILL.md) | - | - | 3 |
+| [opencode-design-agents](skills/agentic-harness/opencode/design-agents/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-design-commands](skills/agentic-harness/opencode/design-commands/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-configure](skills/agentic-harness/opencode/configure/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-build-plugins](skills/agentic-harness/opencode/build-plugins/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-build-tool](skills/agentic-harness/opencode/build-tool/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
 
 ## Testing (3 tiles)
 
@@ -418,7 +426,7 @@ Write technical content in plain English for non-technical stakeholders by trans
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [plain-english](skills/documentation/plain-english/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/documentation/plain-english/2026-03-02/audit.json) | - |
+| [plain-english](skills/documentation/plain-english/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/documentation/plain-english/2026-03-02/audit.json) | 8 |
 
 ### [journal-entry-creator](skills/documentation/journal-entry-creator)
 
@@ -456,9 +464,17 @@ Configure and operate Mise for deterministic developer environments. Use when in
 | --- | --- | --- | --- |
 | [mise-complete](skills/package-mgmt/mise-complete/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/package-mgmt/mise-complete/2026-03-02/audit.json) | - |
 
-## Project Management (3 tiles)
+## Project Management (4 tiles)
 
 Planning & organization
+
+### [implementation-planner](skills/project-mgmt/implementation-planner)
+
+Converts a PRD or requirements document into a structured, phased implementation plan with individual phase files and granular per-task files written to .context/plans/. Also restructures existing monolithic planning documents into digestible, hierarchical directory structures. Creates a root plan index summarising all phases, a numbered phase file per phase, and a numbered task file per task inside each phase directory.
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [implementation-planner](skills/project-mgmt/implementation-planner/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-11](.context/audits/project-mgmt/implementation-planner/2026-03-11/audit.json) | 5 |
 
 ### [create-context-file](skills/project-mgmt/create-context-file)
 
@@ -478,7 +494,7 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 
 ### [implementation-plan-splitter](skills/project-mgmt/implementation-plan-splitter)
 
-Split large implementation plan documents into digestible, hierarchical structures with descriptive names. Use when refactoring monolithic planning docs, organizing phase documentation, or creating contributor-friendly task breakdowns. Triggers: "split this plan", "organize phases", "break down implementation docs", "create task hierarchy".
+Merged into implementation-planner. Redirects to the unified skill that handles both creating new plans and restructuring existing monolithic planning docs into hierarchical directory structures.
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
