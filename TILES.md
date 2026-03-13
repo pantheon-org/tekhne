@@ -11,7 +11,7 @@ Detailed information for all tiles and skills.
   - [jenkinsfile-toolkit](#jenkinsfile-toolkit)
   - [helm-toolkit](#helm-toolkit)
   - [github-actions-toolkit](#github-actions-toolkit)
-
+  - [jenkinsfile-jenkins-build-monitor _(no tile)_](#jenkinsfile-jenkins-build-monitor-no-tile)
 - [Infrastructure (8 tiles)](#infrastructure-8-tiles)
   - [terraform-toolkit](#terraform-toolkit)
   - [dockerfile-toolkit](#dockerfile-toolkit)
@@ -124,13 +124,13 @@ Complete GitHub Actions toolkit with generation and validation capabilities for 
 | [github-actions-generator](skills/ci-cd/github-actions/generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/generator/2026-03-02/audit.json) | - |
 | [github-actions-validator](skills/ci-cd/github-actions/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/validator/2026-03-02/audit.json) | - |
 
+### jenkinsfile-jenkins-build-monitor _(no tile)_
 
+Monitor Jenkins build status across multiple dashboards and identify failed buil...
 
-
-
-
-
-
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [jenkinsfile-jenkins-build-monitor](skills/ci-cd/jenkinsfile/jenkins-build-monitor/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | - |
 
 ## Infrastructure (8 tiles)
 

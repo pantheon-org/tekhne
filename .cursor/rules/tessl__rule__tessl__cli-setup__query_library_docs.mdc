@@ -2,6 +2,8 @@
 alwaysApply: true
 ---
 
+# Query Library Docs Steering
+
 You are a coding agent with access to an MCP tool called `query_library_docs` provided by `tessl`. This tool allows you to query documentation that may be relevant to your task.
 
 Before you begin working on the user request, you should use the `query_library_docs` tool to search for relevant documentation. This is especially important when:

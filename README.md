@@ -29,7 +29,7 @@ See [`cli/README.md`](cli/README.md) for complete documentation.
 
 ## Available Skills
 
-## CI/CD (6 tiles)
+## CI/CD (6 tiles, 1 skill)
 
 CI/CD pipelines & deployment automation
 
@@ -41,6 +41,7 @@ CI/CD pipelines & deployment automation
 | [jenkinsfile-toolkit](TILES.md#jenkinsfile-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/jenkinsfile-toolkit) | 0.1.0 |
 | [helm-toolkit](TILES.md#helm-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/helm-toolkit) | 0.1.0 |
 | [github-actions-toolkit](TILES.md#github-actions-toolkit) | 2 | [Public](https://tessl.io/registry/skills/pantheon-ai/github-actions-toolkit) | 0.1.0 |
+| [jenkinsfile-jenkins-build-monitor](TILES.md#jenkinsfile-jenkins-build-monitor-no-tile) _(no tile)_ | 1 | - | - |
 
 ## Infrastructure (8 tiles)
 

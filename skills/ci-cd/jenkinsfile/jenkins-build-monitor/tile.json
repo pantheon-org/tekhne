@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/jenkins-build-monitor",
+  "version": "0.1.0",
+  "summary": "Monitor Jenkins build status across multiple dashboards and identify failed builds",
+  "private": true,
+  "skills": {
+    "jenkins-build-monitor": {
+      "path": "SKILL.md"
+    }
+  }
+}
