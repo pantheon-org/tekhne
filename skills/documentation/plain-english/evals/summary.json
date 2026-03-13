@@ -1,9 +1,9 @@
 {
   "skill": "plain-english",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "total_scenarios": 8,
   "instructions_coverage": {
-    "coverage_percentage": 94,
+    "coverage_percentage": 100,
     "covered": [
       "I01",
       "I02",
