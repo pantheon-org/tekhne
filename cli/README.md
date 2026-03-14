@@ -129,9 +129,41 @@ Skills are symlinked with namespaced names to avoid collisions:
 - Format: `domain--category--[subcategory--]skill-name`
 - Example: `infrastructure--terraform--generator`
 
-### Tessl Commands
+### Sync Commands
 
-Tessl registry management and publishing.
+Sync OpenCode configuration: clean broken symlinks, sync MCP config, and link Tessl tiles.
+
+```bash
+tekhne sync opencode [options]
+```
+
+Options:
+
+- `--opencode-skills` - Use `.opencode/skills` instead of `.agents/skills`
+- `--dry-run` - Preview changes without modifying filesystem
+
+Examples:
+
+```bash
+# Sync OpenCode configuration
+tekhne sync opencode
+
+# Preview changes
+tekhne sync opencode --dry-run
+
+# Use .opencode/skills directory
+tekhne sync opencode --opencode-skills
+```
+
+The command performs three operations in order:
+
+1. **Clean broken symlinks** — removes dead symlinks from the skills directory
+2. **Sync MCP config** — reads `.mcp.json` and updates `opencode.json` with the `mcp` section in OpenCode format
+3. **Link Tessl tiles** — creates `tessl__<skill_name>` symlinks for all skills defined in `.tessl/tiles/*/*/tile.json`
+
+Replaces `scripts/sync-opencode.sh`.
+
+### Tessl Commands
 
 ```bash
 tekhne tessl manage [skill] [options]
@@ -162,6 +194,7 @@ cli/
 ├── index.ts                   # Entry point
 ├── commands/
 │   ├── audit.ts              # Audit subcommands
+│   ├── sync.ts               # Sync subcommands
 │   └── tessl.ts              # Tessl subcommands
 └── lib/
     ├── audit/
@@ -169,6 +202,8 @@ cli/
     │   ├── audit-all.ts      # Batch audit
     │   ├── audit-status.ts   # Compliance check
     │   └── audit-summary.ts  # Summary report
+    ├── sync/
+    │   └── sync-opencode.ts  # OpenCode sync logic
     ├── tessl/
     │   ├── manage.ts         # Lifecycle management
     │   └── publish-check.ts  # Pre-publish validation
@@ -191,6 +226,7 @@ This CLI replaces the following shell scripts:
 | `tessl-publish-check.sh` | `tekhne tessl publish-check` |
 | `update-readme-ratings.sh` | `tekhne readme update` |
 | `npx skills add ./skills` | `tekhne install` |
+| `sync-opencode.sh` | `tekhne sync opencode` |
 
 ## Examples
 
