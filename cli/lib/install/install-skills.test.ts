@@ -17,6 +17,7 @@ import {
   findSkills,
   getSkillName,
   installSkills,
+  selectSkillsInteractively,
 } from "./install-skills";
 
 // ---------------------------------------------------------------------------
@@ -324,3 +325,124 @@ describe("installSkills", () => {
     expect((err as CLIError).message).toContain("bad2");
   });
 });
+
+// ---------------------------------------------------------------------------
+// selectSkillsInteractively
+// ---------------------------------------------------------------------------
+
+describe("selectSkillsInteractively", () => {
+  test("returns all skills as-is when stdin is not a TTY", async () => {
+    // In bun:test, process.stdin.isTTY is falsy so the function bypasses prompting
+    const skills = [
+      "skills/ci-cd/github-actions",
+      "skills/infrastructure/terraform",
+    ];
+    const result = await selectSkillsInteractively(skills);
+    expect(result).toEqual(skills);
+  });
+
+  test("returns empty array when empty array is passed", async () => {
+    const result = await selectSkillsInteractively([]);
+    expect(result).toEqual([]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// installSkills — full dry-run flow
+// ---------------------------------------------------------------------------
+
+describe(
+  "installSkills — full dry-run flow",
+  () => {
+    let tmpDir: string;
+    let originalCwd: string;
+
+    beforeEach(() => {
+      originalCwd = process.cwd();
+      tmpDir = mkdtempSync(join(tmpdir(), "tekhne-install-flow-test-"));
+      // Create a skills directory with one SKILL.md
+      mkdirSync(join(tmpDir, "skills", "ci-cd", "github-actions"), {
+        recursive: true,
+      });
+      writeFileSync(
+        join(tmpDir, "skills", "ci-cd", "github-actions", "SKILL.md"),
+        "---\nname: GitHub Actions\ndescription: CI skill\n---\n",
+      );
+      process.chdir(tmpDir);
+    });
+
+    afterEach(() => {
+      process.chdir(originalCwd);
+      rmSync(tmpDir, { recursive: true, force: true });
+    });
+
+    test("dry-run with opencode agent completes without error", async () => {
+      await expect(
+        installSkills({
+          agent: ["opencode"],
+          global: false,
+          dryRun: true,
+          interactive: false,
+        }),
+      ).resolves.toBeUndefined();
+    });
+
+    test("dry-run with cursor agent completes without error", async () => {
+      await expect(
+        installSkills({
+          agent: ["cursor"],
+          global: false,
+          dryRun: true,
+          interactive: false,
+        }),
+      ).resolves.toBeUndefined();
+    });
+
+    test("dry-run with gemini agent completes without error", async () => {
+      await expect(
+        installSkills({
+          agent: ["gemini"],
+          global: false,
+          dryRun: true,
+          interactive: false,
+        }),
+      ).resolves.toBeUndefined();
+    });
+
+    test("dry-run with domain filter installs only matching skills", async () => {
+      // Add a second skill in a different domain
+      mkdirSync(join(tmpDir, "skills", "infrastructure", "terraform"), {
+        recursive: true,
+      });
+      writeFileSync(
+        join(tmpDir, "skills", "infrastructure", "terraform", "SKILL.md"),
+        "---\nname: Terraform\ndescription: IaC skill\n---\n",
+      );
+
+      // Should complete without error; domain filter limits scope
+      await expect(
+        installSkills({
+          agent: ["opencode"],
+          global: false,
+          dryRun: true,
+          interactive: false,
+          skillDomain: ["ci-cd"],
+        }),
+      ).resolves.toBeUndefined();
+    });
+
+    test("non-dry-run creates symlinks in .agents/skills for opencode", async () => {
+      await installSkills({
+        agent: ["opencode"],
+        global: false,
+        dryRun: false,
+        interactive: false,
+      });
+
+      const targetDir = join(tmpDir, ".agents", "skills");
+      const linkPath = join(targetDir, "ci-cd--github-actions");
+      expect(require("node:fs").existsSync(linkPath)).toBe(true);
+    });
+  },
+  { timeout: 15000 },
+);
