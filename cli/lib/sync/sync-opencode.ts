@@ -84,7 +84,7 @@ interface OpenCodeJson {
 }
 
 function syncMcpConfig(
-  cwd: string,
+  _cwd: string,
   mcpJsonPath: string,
   opencodeJsonPath: string,
   dryRun: boolean,
@@ -144,7 +144,7 @@ function syncMcpConfig(
     return true;
   }
 
-  writeFileSync(opencodeJsonPath, updatedStr + "\n", "utf8");
+  writeFileSync(opencodeJsonPath, `${updatedStr}\n`, "utf8");
   logger.success(
     `updated: ${opencodeJsonPath} with mcp servers from ${mcpJsonPath}`,
   );
@@ -156,6 +156,58 @@ function syncMcpConfig(
 // ---------------------------------------------------------------------------
 interface TileJson {
   skills: Record<string, unknown>;
+}
+
+type LinkAction = "skip" | "create" | "update";
+
+function processTileSkillLink(
+  skillName: string,
+  target: string,
+  skillsDir: string,
+  dryRun: boolean,
+): LinkAction {
+  const linkPath = join(skillsDir, `tessl__${skillName}`);
+
+  let linkStat: ReturnType<typeof lstatSync> | null = null;
+  try {
+    linkStat = lstatSync(linkPath);
+  } catch {
+    // does not exist — will create below
+  }
+
+  if (linkStat !== null) {
+    if (!linkStat.isSymbolicLink()) {
+      logger.warning(
+        `warning: ${linkPath} exists and is not a symlink, skipping`,
+      );
+      return "skip";
+    }
+
+    const existing = readlinkSync(linkPath);
+    if (existing === target) {
+      logger.debug(`skip: ${linkPath} -> ${target} (already correct)`);
+      return "skip";
+    }
+
+    if (dryRun) {
+      logger.info(`Would update: ${linkPath} -> ${target} (was ${existing})`);
+      return "update";
+    }
+
+    unlinkSync(linkPath);
+    logger.info(`update: ${linkPath} -> ${target} (was ${existing})`);
+    symlinkSync(target, linkPath);
+    return "update";
+  }
+
+  if (dryRun) {
+    logger.info(`Would create: ${linkPath} -> ${target}`);
+    return "create";
+  }
+
+  symlinkSync(target, linkPath);
+  logger.success(`create: ${linkPath} -> ${target}`);
+  return "create";
 }
 
 async function syncTileSymlinks(
@@ -188,52 +240,10 @@ async function syncTileSymlinks(
     const skillNames = Object.keys(tileJson.skills ?? {});
 
     for (const skillName of skillNames) {
-      const linkPath = join(skillsDir, `tessl__${skillName}`);
-
-      let linkStat: ReturnType<typeof lstatSync> | null = null;
-      try {
-        linkStat = lstatSync(linkPath);
-      } catch {
-        // does not exist
-      }
-
-      if (linkStat !== null) {
-        if (linkStat.isSymbolicLink()) {
-          const existing = readlinkSync(linkPath);
-          if (existing === target) {
-            logger.debug(`skip: ${linkPath} -> ${target} (already correct)`);
-            stats.skipped++;
-            continue;
-          }
-          if (dryRun) {
-            logger.info(
-              `Would update: ${linkPath} -> ${target} (was ${existing})`,
-            );
-            stats.updated++;
-            continue;
-          }
-          unlinkSync(linkPath);
-          logger.info(`update: ${linkPath} -> ${target} (was ${existing})`);
-          symlinkSync(target, linkPath);
-          stats.updated++;
-        } else {
-          logger.warning(
-            `warning: ${linkPath} exists and is not a symlink, skipping`,
-          );
-          stats.skipped++;
-        }
-        continue;
-      }
-
-      if (dryRun) {
-        logger.info(`Would create: ${linkPath} -> ${target}`);
-        stats.created++;
-        continue;
-      }
-
-      symlinkSync(target, linkPath);
-      logger.success(`create: ${linkPath} -> ${target}`);
-      stats.created++;
+      const action = processTileSkillLink(skillName, target, skillsDir, dryRun);
+      if (action === "create") stats.created++;
+      else if (action === "update") stats.updated++;
+      else stats.skipped++;
     }
   }
 
