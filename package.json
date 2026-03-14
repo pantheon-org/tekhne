@@ -18,6 +18,8 @@
     "audit:summary": "bun cli/index.ts audit summary",
     "readme:update": "bun cli/index.ts readme update",
     "readme:update:dry-run": "bun cli/index.ts readme update --dry-run",
+    "sync:opencode": "bun cli/index.ts sync opencode",
+    "sync:opencode:dry-run": "bun cli/index.ts sync opencode --dry-run",
     "tessl:manage": "bun cli/index.ts tessl manage",
     "tessl:publish-check": "bun cli/index.ts tessl publish-check",
     "tessl:import": "tessl skill import",
@@ -33,6 +35,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
     "@types/bun": "latest",
+    "@types/js-yaml": "^4.0.9",
     "commander": "^13.0.0",
     "lefthook": "^2.1.1",
     "markdownlint-cli2": "^0.21.0",
@@ -40,6 +43,7 @@
   },
   "dependencies": {
     "@inquirer/checkbox": "^5.1.0",
+    "js-yaml": "^4.1.1",
     "zod": "^4.3.6"
   }
 }

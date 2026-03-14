@@ -16,6 +16,9 @@
     },
     "tessl-labs/review-model-performance": {
       "version": "0.1.2"
+    },
+    "sahildmk/pr-comment-resolver": {
+      "version": "0.3.1"
     }
   }
 }

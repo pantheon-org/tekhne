@@ -1,0 +1,45 @@
+{
+  "instructions": [
+    {
+      "instruction": "Command files go in `.opencode/command/<name>.md` (project) or `~/.config/opencode/command/<name>.md` (global). The filename is the slash command name.",
+      "original_snippets": [
+        "Create a command file at `.opencode/command/<name>.md`"
+      ],
+      "relevant_when": "always",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `$ARGUMENTS` to insert the user-provided arguments into the command template. For positional args use `$1`, `$2`.",
+      "original_snippets": [
+        "For commands that need arguments (e.g. `/review src/api.ts`): `$ARGUMENTS`"
+      ],
+      "relevant_when": "when creating parameterized commands",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `!` prefix for shell command injection (e.g. `!git log --oneline -10`). Use `@` for file content injection.",
+      "original_snippets": [
+        "shell commands: !command",
+        "file references: @filename"
+      ],
+      "relevant_when": "when commands need dynamic runtime context",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER instruct an agent to invoke slash commands — agents cannot type /commands. Use shell commands directly instead.",
+      "original_snippets": [
+        "Agents cannot invoke slash commands. Commands are user-to-agent shortcuts only."
+      ],
+      "relevant_when": "when writing command template instructions",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Only use `subtask: true` for fire-and-forget tasks. Do NOT use it for interactive or multi-step workflows.",
+      "original_snippets": [
+        "Only use `subtask: true` for fire-and-forget tasks that produce a single final output."
+      ],
+      "relevant_when": "when setting command frontmatter",
+      "why_given": "reminder"
+    }
+  ]
+}

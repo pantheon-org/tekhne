@@ -16,8 +16,8 @@ Apply when information is missing. **State the fallback rule explicitly at the t
 | Situation | Rule | Required output prefix |
 |-----------|------|------------------------|
 | Unknown audience | Default to manager-level clarity | `Audience: unknown. Applying manager-level clarity (fallback).` |
-| Unknown terminology | Add inline glossary | Define term immediately after first use in parentheses. |
-| Conflicting priorities | Lead with risk + deadline for each | `Multiple critical issues — applying conflicting-priorities fallback: leading with risk and deadlines.` |
+| Unknown terminology | Add inline glossary | `Unknown terminology detected. Adding inline definitions on first use.` |
+| Conflicting priorities | Lead with risk + deadline for each | `Multiple critical issues — leading with risk and deadlines.` |
 
 ### Unknown Audience
 
