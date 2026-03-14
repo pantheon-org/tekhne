@@ -14,7 +14,7 @@ CI/CD pipelines & deployment automation
 
 ### azure-pipelines-toolkit
 
-Complete azure-pipelines toolkit with generation and validation capabilities.
+Complete azure-pipelines toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -23,7 +23,7 @@ Complete azure-pipelines toolkit with generation and validation capabilities.
 
 ### gitlab-ci-toolkit
 
-Complete GitLab CI/CD toolkit with generation and validation capabilities for pipelines and configurations.
+Complete GitLab CI/CD toolkit with generation and validation capabilities for pipelines and configurations
 
 | Skill | Rating |
 | --- | --- |
@@ -32,7 +32,7 @@ Complete GitLab CI/CD toolkit with generation and validation capabilities for pi
 
 ### fluentbit-toolkit
 
-Complete Fluent Bit toolkit with generation and validation capabilities.
+Complete fluentbit toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -41,7 +41,7 @@ Complete Fluent Bit toolkit with generation and validation capabilities.
 
 ### jenkinsfile-toolkit
 
-Complete Jenkinsfile toolkit with generation and validation capabilities.
+Complete jenkinsfile toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -50,7 +50,7 @@ Complete Jenkinsfile toolkit with generation and validation capabilities.
 
 ### helm-toolkit
 
-Complete Helm toolkit with generation and validation capabilities.
+Complete helm toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -59,7 +59,7 @@ Complete Helm toolkit with generation and validation capabilities.
 
 ### github-actions-toolkit
 
-Complete GitHub Actions toolkit with generation and validation capabilities for workflows, custom actions, and CI/CD configurations.
+Complete GitHub Actions toolkit with generation and validation capabilities for workflows, custom actions, and CI/CD configurations
 
 | Skill | Rating |
 | --- | --- |
@@ -74,7 +74,7 @@ Infrastructure as Code
 
 ### terraform-toolkit
 
-Complete Terraform toolkit with generation and validation capabilities.
+Complete terraform toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -83,7 +83,7 @@ Complete Terraform toolkit with generation and validation capabilities.
 
 ### dockerfile-toolkit
 
-Complete Dockerfile toolkit with generation and validation capabilities.
+Complete dockerfile toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -92,7 +92,7 @@ Complete Dockerfile toolkit with generation and validation capabilities.
 
 ### terragrunt-toolkit
 
-Complete Terragrunt toolkit with generation and validation capabilities.
+Complete terragrunt toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -101,7 +101,7 @@ Complete Terragrunt toolkit with generation and validation capabilities.
 
 ### k8s-toolkit
 
-Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster debugging.
+Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster debugging
 
 | Skill | Rating |
 | --- | --- |
@@ -111,7 +111,7 @@ Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster de
 
 ### cfn-behavior-validator
 
-Creates test stacks, analyzes CloudFormation events, and compares actual vs documented update behavior to validate whether resource property changes trigger replacement or in-place updates.
+Creates test stacks, analyzes CloudFormation events, and compares actual vs documented update behavior to validate whether resource property changes trigger replacement or in-place updates. Use when: a user wants to test if a CFN property change causes resource replacement; when investigating stack update behavior or "Update requires" documentation accuracy; when validating whether a workaround (e.g. hash-based logical IDs) is actually necessary; when questioning UpdateRequiresReplacement behavior for immutable properties; when empirical evidence is needed before an architectural decision involving CDK or CloudFormation stack updates.
 
 | Skill | Rating |
 | --- | --- |
@@ -119,7 +119,7 @@ Creates test stacks, analyzes CloudFormation events, and compares actual vs docu
 
 ### cfn-template-compare
 
-Compares deployed CloudFormation templates with locally synthesized CDK templates to detect drift, validate changes, and ensure consistency before deployment.
+Compares deployed CloudFormation templates with locally synthesized CDK templates to detect drift, validate changes, and ensure consistency before deployment. Use when the user wants to compare CDK output with a deployed stack, check for infrastructure drift, run a pre-deployment validation, audit IAM or security changes, investigate a failing deployment, or perform a 'cdk diff'-style review. Triggered by phrases like 'compare templates', 'check for drift', 'cfn drift', 'stack comparison', 'infrastructure drift detection', 'safe to deploy', or 'what changed in my CDK stack'.
 
 | Skill | Rating |
 | --- | --- |
@@ -127,7 +127,7 @@ Compares deployed CloudFormation templates with locally synthesized CDK template
 
 ### ansible-toolkit
 
-Complete Ansible toolkit with generation and validation capabilities.
+Complete ansible toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -136,7 +136,7 @@ Complete Ansible toolkit with generation and validation capabilities.
 
 ### cdk-nag
 
-Enforce AWS CDK security and compliance controls with cdk-nag.
+Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding rule packs, triaging findings, writing justified suppressions, integrating checks in CI/CD, or preventing insecure infrastructure patterns in CDK stacks.
 
 | Skill | Rating |
 | --- | --- |
@@ -150,7 +150,7 @@ Repository & workspace management
 
 ### nx-biome-integration
 
-Integrate Biome into Nx monorepos with deterministic setup, caching, and migration from ESLint and Prettier.
+Integrate Biome into Nx monorepos with deterministic setup, caching, migration from ESLint and Prettier, and plugin-based inferred tasks; use when adding Biome, replacing ESLint/Prettier, tuning cache inputs, or scaling lint and format workflows across projects.
 
 | Skill | Rating |
 | --- | --- |
@@ -158,7 +158,7 @@ Integrate Biome into Nx monorepos with deterministic setup, caching, and migrati
 
 ### nx-bun-integration
 
-Integrate Bun runtime into Nx monorepos with deterministic plugin setup and cache-aware build/test workflows.
+Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executor configuration, migration from Node.js toolchains, and cache-aware build/test workflows; use when adding the nx-bun plugin, converting projects, or standardizing Bun targets across Nx workspaces.
 
 | Skill | Rating |
 | --- | --- |
@@ -166,7 +166,7 @@ Integrate Bun runtime into Nx monorepos with deterministic plugin setup and cach
 
 ### nx-workspace-patterns
 
-Configure and optimize Nx monorepo workspaces with deterministic project-graph structure and boundary enforcement.
+Configure and optimize Nx monorepo workspaces with deterministic project-graph structure, boundary enforcement, cache-aware pipelines, and affected-command CI workflows; use when designing workspace architecture, tightening dependency rules, or reducing CI cost through Nx task orchestration.
 
 | Skill | Rating |
 | --- | --- |
@@ -174,7 +174,7 @@ Configure and optimize Nx monorepo workspaces with deterministic project-graph s
 
 ### nx-plugin-toolkit
 
-Complete Nx plugin development toolkit: create custom generators, executors, and extend Nx workspaces.
+Complete Nx plugin development toolkit: create custom generators, executors, and extend Nx workspaces with reusable automation
 
 | Skill | Rating |
 | --- | --- |
@@ -182,7 +182,7 @@ Complete Nx plugin development toolkit: create custom generators, executors, and
 
 ### nx-vite-integration
 
-Configure and integrate Vite in Nx monorepos for applications and libraries.
+Configure and integrate Vite in Nx monorepos for applications and libraries. Covers vite.config.ts setup, framework plugins, TypeScript path resolution, asset copying, library mode builds, and Vitest integration.  Use when: adding Vite to an Nx project, migrating from Webpack, configuring Vitest, fixing tsconfig path resolution, or setting up library mode.  Triggers: "add vite", "nx vite", "vite setup", "vite.config.ts", "vitest config", "library mode", "nxViteTsPaths", "copy assets", "vite path aliases", "migrate webpack to vite"  Examples: - user: "Add Vite to this Nx app" -> install plugin and configure vite.config.ts - user: "Vitest is failing in Nx" -> fix test config and cache/coverage paths - user: "Path aliases break in Vite" -> add nxViteTsPaths plugin - user: "Set up Vite for my Nx library" -> configure lib mode + dts + externals
 
 | Skill | Rating |
 | --- | --- |
@@ -196,7 +196,7 @@ Development tooling
 
 ### makefile-toolkit
 
-Complete Makefile toolkit with generation and validation capabilities.
+Complete makefile toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -205,7 +205,7 @@ Complete Makefile toolkit with generation and validation capabilities.
 
 ### bash-script-toolkit
 
-Complete Bash script toolkit with generation and validation capabilities.
+Complete bash-script toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -214,7 +214,7 @@ Complete Bash script toolkit with generation and validation capabilities.
 
 ### commanderjs
 
-Complete Commander.js CLI framework guidance.
+Complete Commander.js CLI framework guidance covering command structure, options, arguments, subcommands, action handlers, version management, and TypeScript integration. Use when: building CLI tools, parsing command-line arguments, implementing subcommands, handling options/flags, creating interactive CLIs, or migrating from other CLI frameworks.  Keywords: Commander.js, CLI, command-line, arguments, options, flags, subcommands, action handlers, version, help text, TypeScript, yargs, meow, program, parseAsync, opts, args, variadic, required options, default values, custom help, error handling
 
 | Skill | Rating |
 | --- | --- |
@@ -222,7 +222,7 @@ Complete Commander.js CLI framework guidance.
 
 ### bun-development
 
-Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management, testing, and security.
+Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management, testing, SQLite, and security; use proactively when setting up Bun projects, replacing Node.js APIs with Bun-native APIs, writing bun test suites, implementing Bun.serve services, using bun:sqlite with prepared statements, configuring workspaces and lockfiles, hardening shell and SQL boundaries, or optimizing Bun performance and migration workflows.
 
 | Skill | Rating |
 | --- | --- |
@@ -230,7 +230,7 @@ Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package managemen
 
 ### biome-complete
 
-Complete Biome toolchain guidance for real repository workflows.
+Complete Biome toolchain guidance for real repository workflows. Use when users ask to configure biome.json, run lint or format commands, migrate from ESLint or Prettier, tune rule severity, fix formatter drift, or replace mixed ESLint+Prettier pipelines with Biome-only workflows.
 
 | Skill | Rating |
 | --- | --- |
@@ -238,7 +238,7 @@ Complete Biome toolchain guidance for real repository workflows.
 
 ### typescript-advanced
 
-Comprehensive TypeScript guidance covering compiler configuration, advanced types, type guards, and strict mode workflows.
+Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type guards, strict mode workflows, and documentation patterns; use when configuring tsconfig, designing complex generics, making illegal states unrepresentable, fixing type errors, or writing testable and maintainable type-safe APIs.
 
 | Skill | Rating |
 | --- | --- |
@@ -250,9 +250,21 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 
 Agent framework configurations
 
+### opencode-toolkit
+
+Complete toolkit for configuring and extending OpenCode: agent creation, custom slash commands, configuration management, plugin development, and SDK usage.
+
+| Skill | Rating |
+| --- | --- |
+| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+
 ### skill-quality-auditor
 
-Audit and improve skill collections with a 9-dimension scoring framework.
+Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds.
 
 | Skill | Rating |
 | --- | --- |
@@ -260,7 +272,7 @@ Audit and improve skill collections with a 9-dimension scoring framework.
 
 ### agents-md
 
-Create and maintain AGENTS.md documentation for simple projects and complex monorepos.
+Create and maintain AGENTS.md documentation for simple projects and complex monorepos with deterministic discovery, scoped instruction files, and low-token navigation patterns; use when generating AGENTS.md, updating agent docs, or standardizing AI-facing project guidance.
 
 | Skill | Rating |
 | --- | --- |
@@ -268,23 +280,11 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 
 ### tessl-publish-public
 
-Ensure Tessl tiles meet all requirements for public registry publishing.
+Ensure Tessl tiles meet all requirements for public registry publishing with comprehensive validation, quality gates, and evaluation scenarios. Use when preparing skills for public Tessl release, validating tile.json configuration, creating evaluation scenarios, enforcing quality thresholds, or checking agent-agnostic compliance. Keywords: tessl, tile, publishing, public-registry, validation, quality-gates, tile.json, evaluation-scenarios, skill-publishing
 
 | Skill | Rating |
 | --- | --- |
 | [tessl-publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
-
-### opencode-toolkit
-
-Complete toolkit for configuring and extending OpenCode.
-
-| Skill | Rating |
-| --- | --- |
-| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | — |
-| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | — |
-| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | — |
-| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | — |
-| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | — |
 
 ---
 
@@ -294,7 +294,7 @@ Testing methodologies & quality
 
 ### test-driven-development
 
-Master TDD with red-green-refactor workflows, test-first feature delivery, and refactoring safety.
+Master Test-Driven Development with deterministic red-green-refactor workflows, test-first feature delivery, bug reproduction through failing tests, behavior-focused assertions, and refactoring safety; use when implementing new functions, changing APIs, fixing regressions, or restructuring code under test.
 
 | Skill | Rating |
 | --- | --- |
@@ -302,7 +302,7 @@ Master TDD with red-green-refactor workflows, test-first feature delivery, and r
 
 ### bdd-testing
 
-Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber.
+Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. Use when defining acceptance scenarios, writing feature files, implementing step definitions, running Three Amigos sessions, or diagnosing BDD test quality issues. Keywords: bdd, gherkin, cucumber, given when then, feature files, step definitions, acceptance criteria, three amigos, example mapping.
 
 | Skill | Rating |
 | --- | --- |
@@ -310,7 +310,7 @@ Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber.
 
 ### ui-debug-workflow
 
-Debug UI changes with a repeatable evidence-first workflow.
+Debug UI changes with a repeatable evidence-first workflow. Use when validating visual regressions, reproducing frontend bugs, comparing baseline vs changed behavior, collecting screenshots/DOM/logs, or producing stakeholder-ready UI debug reports. Keywords: ui bug, visual regression, browser devtools, playwright, screenshot evidence, dom snapshot, frontend debugging.
 
 | Skill | Rating |
 | --- | --- |
@@ -324,7 +324,7 @@ Software engineering principles
 
 ### design-principles
 
-Strategic architecture, tactical design, and testable code principles.
+Strategic architecture, tactical design, and testable code principles (SOLID, Clean Architecture, Design Patterns, Testable Design)
 
 | Skill | Rating |
 | --- | --- |
@@ -341,7 +341,7 @@ Monitoring, logging & debugging
 
 ### logql-generator
 
-Generate LogQL queries for Loki log analysis, dashboards, and alerting.
+Generate label matchers, line filters, log aggregations, and metric queries in LogQL (Loki Query Language) following current standards and conventions. Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki.
 
 | Skill | Rating |
 | --- | --- |
@@ -349,7 +349,7 @@ Generate LogQL queries for Loki log analysis, dashboards, and alerting.
 
 ### promql-toolkit
 
-Complete PromQL toolkit with generation and validation capabilities.
+Complete PromQL toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
@@ -364,7 +364,7 @@ Writing & communication
 
 ### markdown-authoring
 
-Author high-quality Markdown documentation with deterministic structure and lint compliance.
+Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style.
 
 | Skill | Rating |
 | --- | --- |
@@ -372,15 +372,15 @@ Author high-quality Markdown documentation with deterministic structure and lint
 
 ### plain-english
 
-Translate technical content into plain English for non-technical stakeholders.
+Write technical content in plain English for non-technical stakeholders by translating jargon into business language, surfacing decisions and impact early, and producing actionable recommendations with clear ownership and timeline.
 
 | Skill | Rating |
 | --- | --- |
-| [plain-english](/tekhne/skills/documentation/plain-english/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [plain-english](/tekhne/skills/documentation/plain-english/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
 
 ### journal-entry-creator
 
-Create structured journal entries with YAML frontmatter and template-based sections.
+Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports four entry types: general journal entries, troubleshooting sessions, learning notes, and article summaries. Keywords: journal, documentation, troubleshooting, learning, article-summary, YAML frontmatter, template schemas, validation.
 
 | Skill | Rating |
 | --- | --- |
@@ -388,7 +388,7 @@ Create structured journal entries with YAML frontmatter and template-based secti
 
 ### acceptance-criteria
 
-Write clear, testable acceptance criteria for user stories and feature delivery.
+Write clear, testable acceptance criteria for user stories and feature delivery; use when defining done conditions, creating measurable requirements, applying INVEST checks, documenting negative scenarios, and aligning product, engineering, and QA on expected outcomes.
 
 | Skill | Rating |
 | --- | --- |
@@ -396,7 +396,7 @@ Write clear, testable acceptance criteria for user stories and feature delivery.
 
 ### conventional-commits
 
-Generate structured, semantic commit messages following the Conventional Commits specification.
+Skill for creating structured, semantic commit messages following the Conventional Commits specification
 
 | Skill | Rating |
 | --- | --- |
@@ -410,7 +410,7 @@ Package & version management
 
 ### mise-complete
 
-Configure and operate Mise for deterministic developer environments.
+Configure and operate Mise for deterministic developer environments. Use when installing runtime/tool versions, defining reusable tasks, managing layered environment variables, migrating from asdf/nvm/pyenv, or debugging mise.toml behavior in CI and local shells. Keywords: mise, mise.toml, tool versions, tasks, env, asdf migration, setup automation, dev environment.
 
 | Skill | Rating |
 | --- | --- |
@@ -424,7 +424,7 @@ Planning & organization
 
 ### implementation-planner
 
-Convert a PRD or requirements document into a structured, phased implementation plan.
+Converts a PRD or requirements document into a structured, phased implementation plan with individual phase files and granular per-task files written to .context/plans/. Also restructures existing monolithic planning documents into digestible, hierarchical directory structures. Creates a root plan index summarising all phases, a numbered phase file per phase, and a numbered task file per task inside each phase directory.
 
 | Skill | Rating |
 | --- | --- |
@@ -432,7 +432,7 @@ Convert a PRD or requirements document into a structured, phased implementation 
 
 ### create-context-file
 
-Create context files (plans, justifications, scratches) in `.context/` directory with unique three-word IDs.
+Create context files (plans, justifications, scratches) in .context/ directory with unique three-word IDs and frontmatter
 
 | Skill | Rating |
 | --- | --- |
@@ -440,7 +440,7 @@ Create context files (plans, justifications, scratches) in `.context/` directory
 
 ### moscow-prioritization
 
-Prioritize product requirements with the MoSCoW framework.
+Prioritize product requirements with the MoSCoW framework in a deterministic way.  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts,  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints.  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp,  release planning, scope control, stakeholder alignment.
 
 | Skill | Rating |
 | --- | --- |
@@ -448,7 +448,7 @@ Prioritize product requirements with the MoSCoW framework.
 
 ### implementation-plan-splitter
 
-Split large implementation plan documents into digestible, hierarchical structures.
+Merged into implementation-planner. Redirects to the unified skill that handles both creating new plans and restructuring existing monolithic planning docs into hierarchical directory structures.
 
 | Skill | Rating |
 | --- | --- |
@@ -462,7 +462,7 @@ Domain-specific tools
 
 ### github-copilot-models
 
-Query and display available GitHub Copilot AI models with their capabilities, context limits, and features.
+Query and display available GitHub Copilot AI models with their capabilities, context limits, and features. Use when: "what models are available", "show copilot models", "list github models", "check model capabilities", "switch models".  Examples: - user: "What models can I use with GitHub Copilot?" → fetch and display available models - user: "Show me models with vision support" → filter models by capability - user: "Which model has the largest context window?" → compare model specifications - user: "List all GPT-5 models" → filter by model family
 
 | Skill | Rating |
 | --- | --- |
@@ -470,7 +470,7 @@ Query and display available GitHub Copilot AI models with their capabilities, co
 
 ### gitlab-api
 
-Retrieve and analyze GitLab merge request comments and metadata using authenticated API calls.
+Retrieve and analyze GitLab merge request comments and metadata using authenticated API calls
 
 | Skill | Rating |
 | --- | --- |
@@ -478,7 +478,7 @@ Retrieve and analyze GitLab merge request comments and metadata using authentica
 
 ### colyseus-multiplayer
 
-Build authoritative real-time multiplayer servers with Colyseus 0.17+.
+Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, or server-side anti-cheat constraints. Keywords: colyseus, room lifecycle, schema, multiplayer, websocket, matchmaking, onJoin, onLeave, onDrop, allowReconnection.
 
 | Skill | Rating |
 | --- | --- |

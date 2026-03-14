@@ -1,5 +1,6 @@
 import { existsSync } from "node:fs";
-import { join, resolve } from "node:path";
+import { resolve } from "node:path";
+import { load as yamlLoad } from "js-yaml";
 import { ValidationError } from "../utils/errors";
 import { logger } from "../utils/logger";
 
@@ -22,9 +23,13 @@ function extractFrontmatter(content: string): string | null {
 
 /**
  * Validate required fields on an already-parsed frontmatter object.
+ * Uses an explicit null/undefined check rather than falsy to avoid
+ * false positives on empty strings or zero values.
  */
 function checkRequiredFields(filePath: string, parsed: Frontmatter): string[] {
-  const missing = REQUIRED_FIELDS.filter((f) => !parsed[f]);
+  const missing = REQUIRED_FIELDS.filter(
+    (f) => parsed[f] == null || parsed[f] === "",
+  );
   if (missing.length > 0) {
     return [
       `${filePath}: frontmatter missing required fields: ${missing.join(", ")}`,
@@ -34,55 +39,7 @@ function checkRequiredFields(filePath: string, parsed: Frontmatter): string[] {
 }
 
 /**
- * Heuristic validation when js-yaml is not available.
- */
-function validateWithHeuristic(filePath: string, fm: string): string[] {
-  const errors: string[] = [];
-  const descLine =
-    fm.split("\n").find((l) => l.startsWith("description:")) ?? "";
-  const val = descLine.replace(/^description:\s*/, "");
-  if (
-    !val.startsWith('"') &&
-    !val.startsWith("'") &&
-    /[A-Z][a-z]+: /.test(val)
-  ) {
-    errors.push(
-      `${filePath}: description contains unquoted "Key: " pattern — wrap the value in double quotes`,
-    );
-  }
-  for (const field of REQUIRED_FIELDS) {
-    if (!new RegExp(`^${field}:`, "m").test(fm)) {
-      errors.push(`${filePath}: frontmatter missing required field: ${field}`);
-    }
-  }
-  return errors;
-}
-
-/**
- * Parse and validate frontmatter using js-yaml.
- */
-async function validateWithYaml(
-  filePath: string,
-  fm: string,
-  jsyamlPath: string,
-): Promise<string[]> {
-  let parsed: Frontmatter;
-  try {
-    const yaml = await import(jsyamlPath);
-    const load = yaml.load ?? yaml.default?.load;
-    parsed = load(fm) as Frontmatter;
-  } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    return [`${filePath}: invalid YAML frontmatter — ${msg}`];
-  }
-  if (!parsed || typeof parsed !== "object") {
-    return [`${filePath}: frontmatter must be a YAML mapping`];
-  }
-  return checkRequiredFields(filePath, parsed);
-}
-
-/**
- * Validate a single SKILL.md file.
+ * Parse and validate frontmatter for a single file.
  * Returns an array of error messages (empty means valid).
  */
 async function validateFile(filePath: string): Promise<string[]> {
@@ -99,13 +56,19 @@ async function validateFile(filePath: string): Promise<string[]> {
     ];
   }
 
-  const repoRoot = resolve(import.meta.dir, "../../..");
-  const jsyamlPath = join(repoRoot, "docs/node_modules/js-yaml/index.js");
-
-  if (existsSync(jsyamlPath)) {
-    return validateWithYaml(filePath, fm, jsyamlPath);
+  let parsed: Frontmatter;
+  try {
+    parsed = yamlLoad(fm) as Frontmatter;
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return [`${filePath}: invalid YAML frontmatter — ${msg}`];
   }
-  return validateWithHeuristic(filePath, fm);
+
+  if (!parsed || typeof parsed !== "object") {
+    return [`${filePath}: frontmatter must be a YAML mapping`];
+  }
+
+  return checkRequiredFields(filePath, parsed);
 }
 
 /**
@@ -128,16 +91,11 @@ export async function validateSkillFrontmatter(files: string[]): Promise<void> {
     `Validating frontmatter in ${targets.length} SKILL.md file(s)...`,
   );
 
-  const allErrors: string[] = [];
+  const results = await Promise.all(targets.map(validateFile));
+  const allErrors = results.flat();
 
-  for (const file of targets) {
-    const errors = await validateFile(file);
-    if (errors.length > 0) {
-      for (const err of errors) {
-        logger.error(err);
-      }
-      allErrors.push(...errors);
-    }
+  for (const err of allErrors) {
+    logger.error(err);
   }
 
   if (allErrors.length > 0) {

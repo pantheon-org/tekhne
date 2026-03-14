@@ -1,49 +1,49 @@
-# Starlight Starter Kit: Basics
+# Tekhne Docs
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+Documentation site for [Tekhne](https://github.com/pantheon-org/tekhne) — a curated collection of
+reusable agent skills for AI assistants.
 
-```
-bun create astro@latest -- --template starlight
-```
+Built with [Astro Starlight](https://starlight.astro.build) and deployed to GitHub Pages at
+`https://pantheon-org.github.io/tekhne/`.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## How it works
 
-## 🚀 Project Structure
+Skills live under `skills/` in the repository root. The docs site renders them without copying files:
+a symlink at `src/content/docs/skills` points to `../../../../skills`. The symlink is **not tracked in
+git** — it is created automatically at build time by the `prelink` script in `package.json`.
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+## Local development
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+```sh
+# From repository root
+cd docs
+bun install
+bun run dev    # starts dev server at http://localhost:4321/tekhne/
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+`bun run dev` creates the symlink, then starts Astro. On Windows, run Node.js as Administrator or
+enable Developer Mode so that `junction` symlinks can be created without elevated privileges.
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+## Building
 
-Static assets, like favicons, can be placed in the `public/` directory.
+```sh
+bun run build     # outputs to docs/dist/
+bun run preview   # preview the built site locally
+```
 
-## 🧞 Commands
+## Deployment
 
-All commands are run from the root of the project, from a terminal:
+The site is deployed automatically by `.github/workflows/deploy-docs.yml` on every push to `main`
+that changes `docs/**` or `skills/**`.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
+To enable GitHub Pages for the first time, go to **Settings → Pages** and set the source to
+**GitHub Actions**.
 
-## 👀 Want to learn more?
+## Commands
 
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+| Command             | Action                                      |
+| :------------------ | :------------------------------------------ |
+| `bun install`       | Install dependencies                        |
+| `bun run dev`       | Start local dev server at `localhost:4321`  |
+| `bun run build`     | Build production site to `./dist/`          |
+| `bun run preview`   | Preview the build locally before deploying  |

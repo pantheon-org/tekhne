@@ -3,9 +3,10 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
+    "prelink": "node -e \"const{symlinkSync,existsSync,unlinkSync}=require('fs');const t='src/content/docs/skills';if(existsSync(t))unlinkSync(t);symlinkSync('../../../../skills',t,'junction');\"",
+    "dev": "bun run prelink && astro dev",
+    "start": "bun run prelink && astro dev",
+    "build": "bun run prelink && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

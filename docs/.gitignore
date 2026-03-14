@@ -19,3 +19,6 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
+
+# Symlink created by `bun run prelink` (not tracked in git; created at build time)
+src/content/docs/skills
