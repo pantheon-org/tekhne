@@ -4,14 +4,13 @@ Detailed information for all tiles and skills.
 
 ## Contents
 
-- [CI/CD (6 tiles, 1 skill)](#cicd-6-tiles-1-skill)
+- [CI/CD (6 tiles)](#cicd-6-tiles)
   - [azure-pipelines-toolkit](#azure-pipelines-toolkit)
   - [gitlab-ci-toolkit](#gitlab-ci-toolkit)
   - [fluentbit-toolkit](#fluentbit-toolkit)
   - [jenkinsfile-toolkit](#jenkinsfile-toolkit)
   - [helm-toolkit](#helm-toolkit)
   - [github-actions-toolkit](#github-actions-toolkit)
-
 - [Infrastructure (8 tiles)](#infrastructure-8-tiles)
   - [terraform-toolkit](#terraform-toolkit)
   - [dockerfile-toolkit](#dockerfile-toolkit)
@@ -35,10 +34,10 @@ Detailed information for all tiles and skills.
   - [biome-complete](#biome-complete)
   - [typescript-advanced](#typescript-advanced)
 - [Agentic Harness (4 tiles)](#agentic-harness-4-tiles)
+  - [opencode-toolkit](#opencode-toolkit)
   - [skill-quality-auditor](#skill-quality-auditor)
   - [agents-md](#agents-md)
   - [tessl-publish-public](#tessl-publish-public)
-  - [opencode-toolkit](#opencode-toolkit)
 - [Testing (3 tiles)](#testing-3-tiles)
   - [test-driven-development](#test-driven-development)
   - [bdd-testing](#bdd-testing)
@@ -66,7 +65,7 @@ Detailed information for all tiles and skills.
   - [gitlab-api](#gitlab-api)
   - [colyseus-multiplayer](#colyseus-multiplayer)
 
-## CI/CD (6 tiles, 1 skill)
+## CI/CD (6 tiles)
 
 CI/CD pipelines & deployment automation
 
@@ -123,14 +122,6 @@ Complete GitHub Actions toolkit with generation and validation capabilities for 
 | --- | --- | --- | --- |
 | [github-actions-generator](skills/ci-cd/github-actions/generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/generator/2026-03-02/audit.json) | - |
 | [github-actions-validator](skills/ci-cd/github-actions/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/validator/2026-03-02/audit.json) | - |
-
-
-
-
-
-
-
-
 
 ## Infrastructure (8 tiles)
 
@@ -308,6 +299,18 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 
 Agent framework configurations
 
+### [opencode-toolkit](skills/agentic-harness/opencode-toolkit)
+
+Complete toolkit for configuring and extending OpenCode: agent creation, custom slash commands, configuration management, plugin development, and SDK usage.
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [opencode-design-agents](skills/agentic-harness/opencode-toolkit/design-agents/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/design-agents/2026-03-14/audit.json) | 3 |
+| [opencode-design-commands](skills/agentic-harness/opencode-toolkit/design-commands/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/design-commands/2026-03-14/audit.json) | 3 |
+| [opencode-configure](skills/agentic-harness/opencode-toolkit/configure/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/configure/2026-03-14/audit.json) | 3 |
+| [opencode-build-plugins](skills/agentic-harness/opencode-toolkit/build-plugins/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/build-plugins/2026-03-14/audit.json) | 3 |
+| [opencode-build-tool](skills/agentic-harness/opencode-toolkit/build-tool/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/build-tool/2026-03-14/audit.json) | 3 |
+
 ### [skill-quality-auditor](skills/agentic-harness/skill-quality-auditor)
 
 Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds.
@@ -331,18 +334,6 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-03](.context/audits/agentic-harness/tessl/publish-public/2026-03-03/audit.json) | 9 |
-
-### [opencode-toolkit](skills/agentic-harness/opencode-toolkit)
-
-Complete toolkit for configuring and extending OpenCode: agent creation, custom slash commands, configuration management, plugin development, and SDK usage.
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [opencode-design-agents](skills/agentic-harness/opencode-toolkit/design-agents/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-design-commands](skills/agentic-harness/opencode-toolkit/design-commands/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-configure](skills/agentic-harness/opencode-toolkit/configure/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-build-plugins](skills/agentic-harness/opencode-toolkit/build-plugins/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-build-tool](skills/agentic-harness/opencode-toolkit/build-tool/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
 
 ## Testing (3 tiles)
 
@@ -426,7 +417,7 @@ Write technical content in plain English for non-technical stakeholders by trans
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [plain-english](skills/documentation/plain-english/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/documentation/plain-english/2026-03-02/audit.json) | 8 |
+| [plain-english](skills/documentation/plain-english/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-11](.context/audits/documentation/plain-english/2026-03-11/audit.json) | 8 |
 
 ### [journal-entry-creator](skills/documentation/journal-entry-creator)
 
