@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { Command } from "commander";
+import { Command } from "@cliffy/command";
 import { auditCommand } from "./commands/audit";
 import { installCommand } from "./commands/install";
 import { readmeCommand } from "./commands/readme";
@@ -8,18 +8,14 @@ import { syncCommand } from "./commands/sync";
 import { tesslCommand } from "./commands/tessl";
 import { validateCommand } from "./commands/validate";
 
-const program = new Command();
-
-program
+await new Command()
   .name("tekhne")
   .description("Tekhne CLI - Skill management and quality tooling")
-  .version("1.0.0");
-
-program.addCommand(auditCommand);
-program.addCommand(tesslCommand);
-program.addCommand(installCommand);
-program.addCommand(readmeCommand);
-program.addCommand(syncCommand);
-program.addCommand(validateCommand);
-
-program.parse();
+  .version("1.0.0")
+  .command("audit", auditCommand)
+  .command("tessl", tesslCommand)
+  .command("install", installCommand)
+  .command("readme", readmeCommand)
+  .command("sync", syncCommand)
+  .command("validate", validateCommand)
+  .parse(process.argv.slice(2));

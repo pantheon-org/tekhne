@@ -8,7 +8,7 @@ import {
 } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join, relative, resolve } from "node:path";
-import checkbox from "@inquirer/checkbox";
+import { Checkbox } from "@cliffy/prompt";
 import { $ } from "bun";
 import { CLIError } from "../utils/errors";
 import { logger } from "../utils/logger";
@@ -99,15 +99,13 @@ export async function selectSkillsInteractively(
     return skills;
   }
 
-  const choices = skills.map((skillPath) => ({
-    name: getSkillName(skillPath),
-    value: skillPath,
-    checked: true,
-  }));
-
-  const selected = await checkbox({
+  const selected = await Checkbox.prompt({
     message: "Select skills to install (space to toggle, enter to confirm):",
-    choices,
+    options: skills.map((skillPath) => ({
+      name: getSkillName(skillPath),
+      value: skillPath,
+      checked: true,
+    })),
   });
 
   if (selected.length === 0) {
