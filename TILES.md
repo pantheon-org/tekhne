@@ -332,17 +332,17 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 | --- | --- | --- | --- |
 | [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-03](.context/audits/agentic-harness/tessl/publish-public/2026-03-03/audit.json) | 9 |
 
-### [opencode-toolkit](skills/agentic-harness/opencode)
+### [opencode-toolkit](skills/agentic-harness/opencode-toolkit)
 
 Complete toolkit for configuring and extending OpenCode: agent creation, custom slash commands, configuration management, plugin development, and SDK usage.
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [opencode-design-agents](skills/agentic-harness/opencode/design-agents/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-design-commands](skills/agentic-harness/opencode/design-commands/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-configure](skills/agentic-harness/opencode/configure/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-build-plugins](skills/agentic-harness/opencode/build-plugins/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
-| [opencode-build-tool](skills/agentic-harness/opencode/build-tool/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-design-agents](skills/agentic-harness/opencode-toolkit/design-agents/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-design-commands](skills/agentic-harness/opencode-toolkit/design-commands/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-configure](skills/agentic-harness/opencode-toolkit/configure/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-build-plugins](skills/agentic-harness/opencode-toolkit/build-plugins/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [opencode-build-tool](skills/agentic-harness/opencode-toolkit/build-tool/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
 
 ## Testing (3 tiles)
 
