@@ -1,6 +1,6 @@
 ---
 name: opencode-design-commands
-description: "Create custom /slash commands for repetitive tasks in OpenCode. Use when user wants to create a command, automate a workflow, make a shortcut, add a slash command, set up automation, create a /test, /review, /deploy, /commit, /fix, /build, /lint, /spellcheck, /migrate, or /ci command. Also use when writing a command file, configuring command frontmatter, using $ARGUMENTS placeholders, setting agent: plan, using subtask: true, injecting shell output with !cmd, referencing files with @file in a command template, or choosing between a slash command, agent, and skill."
+description: "Create custom /slash commands for repetitive tasks in OpenCode. Use when user wants to create a command, automate a workflow, make a shortcut, add a slash command, set up automation, create a /test, /review, /deploy, /commit, /fix, /build, /lint, /spellcheck, /migrate, or /ci command. Also use when writing a command file, configuring command frontmatter, using $ARGUMENTS placeholders, setting agent: plan, using subtask: true, injecting shell output with !cmd, referencing files with the at-file syntax in a command template, or choosing between a slash command, agent, and skill."
 ---
 
 # Command Creator
@@ -40,7 +40,7 @@ Modes: no `agent:` = default build (read/write); `agent: plan` = read-only; `sub
 
 ## Template Placeholders
 
-`$ARGUMENTS` — all args; `$1`/`$2` — positional; `!cmd` — shell output injection; `@file` — include file content.
+`$ARGUMENTS` — all args; `$1`/`$2` — positional; `!cmd` — shell output injection; `@filename` — include file content.
 
 ```bash
 # Dynamic context injection example
@@ -53,7 +53,7 @@ description: Deploy to staging with context
 agent: plan
 subtask: true
 ---
-Deploy $ARGUMENTS using the steps in @docs/deploy.md.
+Deploy $ARGUMENTS using the steps in docs/deploy.md.
 !git log --oneline -3
 ```
 

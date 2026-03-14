@@ -1,14 +1,6 @@
 ---
 name: opencode-build-tool
-description: |-
-  Build custom tools and plugins using the OpenCode SDK packages. Use when creating custom tools, implementing tool schemas, building plugins, managing OpenCode sessions programmatically, using opencode-ai/sdk, using opencode-ai/plugin, creating a tool.ts file, writing an execute handler, tool.schema, ToolContext, createOpencode, plugin hooks, custom auth, integrating with OpenCode programmatically, automating OpenCode from a script, building a CI tool that uses OpenCode, or creating a tool that calls an external API. Also use for "Zod schema validation", "execute handler", "@opencode-ai/plugin", "@opencode-ai/sdk", "event streaming", "session management", "abort signal", "tool discovery", "auto-discover tool file", "multiple tools per file", "tool factory", "string return type", "tool description LLM sees".
-
-  Examples:
-  - user: "Create a tool that searches our internal API" → tool() with execute handler + abort signal
-  - user: "Build a CI script that runs OpenCode on a prompt" → createOpencode() SDK client
-  - user: "Add a tool with required and optional params" → tool.schema.string() + .optional()
-  - user: "Stream OpenCode events from a script" → SDK client with event streaming
-  - user: "Make my tool cancellable" → propagate abort signal to fetch/child process
+description: "Build custom tools and plugins using the OpenCode SDK packages. Use when creating custom tools, implementing tool schemas, building plugins, managing OpenCode sessions, using opencode-ai/sdk or opencode-ai/plugin, creating a tool.ts file, writing an execute handler, using tool.schema, ToolContext, createOpencode, plugin hooks, custom auth, automating OpenCode from a script, building a CI tool, or integrating external APIs. Keywords: Zod schema, execute handler, event streaming, session management, abort signal, tool discovery, multiple tools per file, tool factory."
 ---
 
 # OpenCode SDK Development
