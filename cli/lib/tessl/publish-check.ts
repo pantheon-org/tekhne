@@ -1,10 +1,10 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { TileSchema } from "../schemas/tile.schema";
+import { exec } from "../utils/exec";
 import { logger } from "../utils/logger";
-import { exec } from "../utils/shell";
 
-function validateTileExists(tilePath: string): boolean {
+const validateTileExists = (tilePath: string): boolean => {
   if (!existsSync(tilePath)) {
     logger.error(`Tile not found: ${tilePath}`);
     return false;
@@ -17,9 +17,9 @@ function validateTileExists(tilePath: string): boolean {
   }
 
   return true;
-}
+};
 
-async function validateSkillFiles(tilePath: string): Promise<boolean> {
+const validateSkillFiles = async (tilePath: string): Promise<boolean> => {
   const tileJsonPath = join(tilePath, "tile.json");
   const rawData = await Bun.file(tileJsonPath).json();
   const tileData = TileSchema.parse(rawData);
@@ -36,9 +36,9 @@ async function validateSkillFiles(tilePath: string): Promise<boolean> {
   }
 
   return allValid;
-}
+};
 
-async function runLintCheck(tilePath: string): Promise<boolean> {
+const runLintCheck = async (tilePath: string): Promise<boolean> => {
   logger.info("Running tessl skill lint...");
   const { exitCode, stdout, stderr } = await exec(
     `tessl skill lint ${tilePath}`,
@@ -58,9 +58,9 @@ async function runLintCheck(tilePath: string): Promise<boolean> {
   }
 
   return true;
-}
+};
 
-async function checkTile(tilePath: string): Promise<boolean> {
+const checkTile = async (tilePath: string): Promise<boolean> => {
   logger.info(`\nChecking ${tilePath}...`);
 
   if (!validateTileExists(tilePath)) {
@@ -71,9 +71,9 @@ async function checkTile(tilePath: string): Promise<boolean> {
   const lintPassed = await runLintCheck(tilePath);
 
   return skillsValid && lintPassed;
-}
+};
 
-export async function tesslPublishCheck(tiles: string[]): Promise<void> {
+export const tesslPublishCheck = async (tiles: string[]): Promise<void> => {
   logger.header("Tessl Publish Pre-check");
 
   const results = await Promise.all(tiles.map((tile) => checkTile(tile)));
@@ -85,4 +85,4 @@ export async function tesslPublishCheck(tiles: string[]): Promise<void> {
   }
 
   logger.success("\nAll checks passed");
-}
+};

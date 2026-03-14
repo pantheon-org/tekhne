@@ -3,14 +3,15 @@ import { join } from "node:path";
 import { $ } from "bun";
 import { FileNotFoundError } from "../utils/errors";
 import { logger } from "../utils/logger";
-import {
-  getAuditLink,
-  getBadgeMarkdown,
-  getLatestAuditInfo,
-} from "./audit-info";
 import { DOMAINS } from "./domain-config";
-import { getSkillDisplayName, parseSkillDescription } from "./skill-parser";
-import { findAllTiles, getTileTessl, type TileEntry } from "./tile-parser";
+import { findAllTiles } from "./find-all-tiles";
+import { getAuditLink } from "./get-audit-link";
+import { getBadgeMarkdown } from "./get-badge-markdown";
+import { getLatestAuditInfo } from "./get-latest-audit-info";
+import { getSkillDisplayName } from "./get-skill-display-name";
+import { getTileTessl } from "./get-tile-tessl";
+import { parseSkillDescription } from "./parse-skill-description";
+import type { TileEntry } from "./tile-types";
 
 const TILES_PATH = "TILES.md";
 const DOCS_TILES_PATH = "docs/src/content/docs/tiles.md";
@@ -24,7 +25,7 @@ interface SkillEntry {
   relativePath: string;
 }
 
-async function findAllSkills(): Promise<SkillEntry[]> {
+const findAllSkills = async (): Promise<SkillEntry[]> => {
   const output = await $`find skills -name "SKILL.md" -type f`.text();
   const files = output.trim().split("\n").filter(Boolean);
 
@@ -33,25 +34,25 @@ async function findAllSkills(): Promise<SkillEntry[]> {
     const domain = relativePath.split("/")[0];
     return { domain, relativePath };
   });
-}
+};
 
-function findUntiledSkills(
+const findUntiledSkills = (
   allSkills: SkillEntry[],
   tiles: TileEntry[],
-): SkillEntry[] {
+): SkillEntry[] => {
   const tiledSkillDirs = new Set(
     tiles.flatMap((t) => t.skills.map((s) => s.skillDir)),
   );
   return allSkills.filter(
     (skill) => !tiledSkillDirs.has(`skills/${skill.relativePath}`),
   );
-}
+};
 
-function formatSummary(summary: string): string {
+const formatSummary = (summary: string): string => {
   return summary.replace(/\n/g, " ").trim();
-}
+};
 
-function getEvalCount(skillDir: string): number {
+const getEvalCount = (skillDir: string): number => {
   let count = 0;
 
   // Convention 1: evals/scenario-N/ subdirectories
@@ -71,9 +72,9 @@ function getEvalCount(skillDir: string): number {
   }
 
   return count;
-}
+};
 
-async function generateTileSection(tile: TileEntry): Promise<string> {
+const generateTileSection = async (tile: TileEntry): Promise<string> => {
   const tileLink = `[${tile.shortName}](${tile.tileDir})`;
   const description = formatSummary(tile.summary);
 
@@ -98,9 +99,11 @@ async function generateTileSection(tile: TileEntry): Promise<string> {
   }
 
   return output;
-}
+};
 
-async function generateUntiledSkillSection(skill: SkillEntry): Promise<string> {
+const generateUntiledSkillSection = async (
+  skill: SkillEntry,
+): Promise<string> => {
   const displayName = getSkillDisplayName(skill.relativePath);
   const description = parseSkillDescription(`skills/${skill.relativePath}`);
   const auditInfo = await getLatestAuditInfo(skill.relativePath);
@@ -122,23 +125,23 @@ async function generateUntiledSkillSection(skill: SkillEntry): Promise<string> {
   }
 
   return output;
-}
+};
 
-function getTileAnchor(shortName: string): string {
+const getTileAnchor = (shortName: string): string => {
   return shortName.toLowerCase().replace(/\s+/g, "-");
-}
+};
 
-function toGitHubAnchor(headingText: string): string {
+const toGitHubAnchor = (headingText: string): string => {
   return headingText
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, "")
     .replace(/\s+/g, "-");
-}
+};
 
-async function generateReadmeSummaryTables(
+const generateReadmeSummaryTables = async (
   tiles: TileEntry[],
   untiledSkills: SkillEntry[],
-): Promise<string> {
+): Promise<string> => {
   let output = "";
 
   for (const domainInfo of DOMAINS) {
@@ -188,7 +191,7 @@ async function generateReadmeSummaryTables(
   }
 
   return output;
-}
+};
 
 interface CatalogDomain {
   heading: string;
@@ -197,10 +200,10 @@ interface CatalogDomain {
   untiledSkills: SkillEntry[];
 }
 
-async function generateCatalogContent(
+const generateCatalogContent = async (
   tiles: TileEntry[],
   untiledSkills: SkillEntry[],
-): Promise<string> {
+): Promise<string> => {
   // Collect active domains first so we can build ToC and sections together
   const activeDomains: CatalogDomain[] = [];
 
@@ -263,28 +266,31 @@ async function generateCatalogContent(
   }
 
   return `# Tile Catalog\n\nDetailed information for all tiles and skills.\n\n${toc}${sections}`;
-}
+};
 
 interface ReadmeSections {
   beforeSkills: string[];
   afterSkills: string[];
 }
 
-function isSkillSectionStart(line: string, domainHeaders: string[]): boolean {
+const isSkillSectionStart = (
+  line: string,
+  domainHeaders: string[],
+): boolean => {
   return domainHeaders.some((h) => line.startsWith(`## ${h}`));
-}
+};
 
-function isSkillSectionEnd(line: string, domainHeaders: string[]): boolean {
+const isSkillSectionEnd = (line: string, domainHeaders: string[]): boolean => {
   return (
     line.startsWith("## ") &&
     !domainHeaders.some((h) => line.startsWith(`## ${h}`))
   );
-}
+};
 
-function parseReadmeSections(
+const parseReadmeSections = (
   lines: string[],
   domainHeaders: string[],
-): ReadmeSections {
+): ReadmeSections => {
   const beforeSkills: string[] = [];
   const afterSkills: string[] = [];
   let inSkillsSection = false;
@@ -314,12 +320,12 @@ function parseReadmeSections(
   }
 
   return { beforeSkills, afterSkills };
-}
+};
 
-async function showDryRunDiff(
+const showDryRunDiff = async (
   readmePath: string,
   newContent: string,
-): Promise<void> {
+): Promise<void> => {
   logger.info("=== DRY RUN - Changes that would be made ===\n");
 
   const tmpFile = "/tmp/readme-new.md";
@@ -336,12 +342,12 @@ async function showDryRunDiff(
   }
 
   logger.info("\nTo apply changes, run without --dry-run");
-}
+};
 
-async function generateDocsTilesPage(
+const generateDocsTilesPage = async (
   tiles: TileEntry[],
   untiledSkills: SkillEntry[],
-): Promise<string> {
+): Promise<string> => {
   const frontmatter = `---
 title: Skill Catalog
 description: All Tekhne tiles and skills organized by domain.
@@ -422,9 +428,9 @@ Detailed information for all tiles and skills organized by domain.
   }
 
   return frontmatter + sections;
-}
+};
 
-export async function updateReadme(options: UpdateOptions): Promise<void> {
+export const updateReadme = async (options: UpdateOptions): Promise<void> => {
   const readmePath = "README.md";
 
   if (!existsSync(readmePath)) {
@@ -478,4 +484,4 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
       `README.md updated with summary tables; ${TILES_PATH} and ${DOCS_TILES_PATH} written`,
     );
   }
-}
+};

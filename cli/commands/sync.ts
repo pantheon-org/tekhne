@@ -1,7 +1,6 @@
 import { Command } from "@cliffy/command";
-import { syncOpencode } from "../lib/sync/sync-opencode";
-import { CLIError } from "../lib/utils/errors";
-import { logger } from "../lib/utils/logger";
+import { syncOpencode } from "../lib/sync";
+import { CLIError, logger } from "../lib/utils";
 
 export const syncCommand = new Command()
   .description("Sync agent configurations and skill symlinks")

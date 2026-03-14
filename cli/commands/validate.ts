@@ -1,7 +1,6 @@
 import { Command } from "@cliffy/command";
-import { CLIError } from "../lib/utils/errors";
-import { logger } from "../lib/utils/logger";
-import { validateSkillFrontmatter } from "../lib/validate/validate-skill-frontmatter";
+import { CLIError, logger } from "../lib/utils";
+import { validateSkillFrontmatter } from "../lib/validate";
 
 export const validateCommand = new Command()
   .description("Validation commands for skill files")

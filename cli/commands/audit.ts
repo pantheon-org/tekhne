@@ -1,10 +1,6 @@
 import { Command } from "@cliffy/command";
-import { auditAll } from "../lib/audit/audit-all";
-import { auditSkill } from "../lib/audit/audit-skill";
-import { auditStatus } from "../lib/audit/audit-status";
-import { auditSummary } from "../lib/audit/audit-summary";
-import { CLIError } from "../lib/utils/errors";
-import { logger } from "../lib/utils/logger";
+import { auditAll, auditSkill, auditStatus, auditSummary } from "../lib/audit";
+import { CLIError, logger } from "../lib/utils";
 
 export const auditCommand = new Command()
   .description("Skill quality audit commands")

@@ -33,3 +33,7 @@ pre-commit:
       glob: "skills/**/SKILL.md"
       run: for f in {staged_files}; do bun run tessl:lint -- "$f"; done
       stage_fixed: true
+    cli-ts-conventions:
+      glob: "cli/**/*.ts"
+      run: bun cli/scripts/validate-ts-conventions.ts {staged_files}
+      stage_fixed: false

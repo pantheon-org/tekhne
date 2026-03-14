@@ -1,10 +1,10 @@
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { AuditFailedError, FileNotFoundError } from "../utils/errors";
+import { exec } from "../utils/exec";
 import { logger } from "../utils/logger";
-import { exec } from "../utils/shell";
 
-export async function auditSkill(skillPath: string): Promise<void> {
+export const auditSkill = async (skillPath: string): Promise<void> => {
   const fullPath = resolve(skillPath);
   const skillFile = join(fullPath, "SKILL.md");
 
@@ -48,4 +48,4 @@ export async function auditSkill(skillPath: string): Promise<void> {
   } else {
     logger.warning("Audit completed but could not read results");
   }
-}
+};

@@ -3,14 +3,14 @@ import { dirname, join } from "node:path";
 import { $ } from "bun";
 import { TileSchema } from "../schemas/tile.schema";
 import { ShellCommandError, ValidationError } from "../utils/errors";
+import { exec } from "../utils/exec";
 import { logger } from "../utils/logger";
-import { exec } from "../utils/shell";
 
 interface ManageOptions {
   workspace: string;
 }
 
-async function importSkill(skillPath: string): Promise<void> {
+const importSkill = async (skillPath: string): Promise<void> => {
   logger.info(`Importing skill: ${skillPath}`);
   const { exitCode, stderr } = await exec(`tessl skill import ${skillPath}`);
   if (exitCode !== 0) {
@@ -21,9 +21,9 @@ async function importSkill(skillPath: string): Promise<void> {
     );
   }
   logger.success("Imported successfully");
-}
+};
 
-async function lintSkill(skillPath: string): Promise<boolean> {
+const lintSkill = async (skillPath: string): Promise<boolean> => {
   logger.info(`Linting skill: ${skillPath}`);
   const { exitCode, stderr } = await exec(`tessl skill lint ${skillPath}`);
   if (exitCode !== 0) {
@@ -32,12 +32,12 @@ async function lintSkill(skillPath: string): Promise<boolean> {
   }
   logger.success("Lint passed");
   return true;
-}
+};
 
-async function reviewSkill(
+const reviewSkill = async (
   skillPath: string,
   _workspace: string,
-): Promise<boolean> {
+): Promise<boolean> => {
   logger.info(`Reviewing skill: ${skillPath}`);
 
   const tileJsonPath = join(skillPath, "tile.json");
@@ -71,12 +71,12 @@ async function reviewSkill(
   }
   logger.success("Review passed");
   return true;
-}
+};
 
-async function isSkillPublished(
+const isSkillPublished = async (
   skillPath: string,
   workspace: string,
-): Promise<boolean> {
+): Promise<boolean> => {
   const tileJsonPath = join(skillPath, "tile.json");
   if (!existsSync(tileJsonPath)) {
     return false;
@@ -88,12 +88,12 @@ async function isSkillPublished(
 
   const { exitCode } = await exec(`tessl search ${workspace}/${tileName}`);
   return exitCode === 0;
-}
+};
 
-async function publishSkill(
+const publishSkill = async (
   skillPath: string,
   workspace: string,
-): Promise<void> {
+): Promise<void> => {
   const published = await isSkillPublished(skillPath, workspace);
   if (published) {
     logger.info("Skill already published");
@@ -112,12 +112,12 @@ async function publishSkill(
     );
   }
   logger.success("Published successfully");
-}
+};
 
-async function processSkill(
+const processSkill = async (
   skillPath: string,
   workspace: string,
-): Promise<void> {
+): Promise<void> => {
   const tileJsonPath = join(skillPath, "tile.json");
 
   if (!existsSync(tileJsonPath)) {
@@ -137,12 +137,12 @@ async function processSkill(
   }
 
   await publishSkill(skillPath, workspace);
-}
+};
 
-export async function tesslManage(
+export const tesslManage = async (
   skill: string | undefined,
   options: ManageOptions,
-): Promise<void> {
+): Promise<void> => {
   if (skill) {
     logger.header(`Managing skill: ${skill}`);
     await processSkill(skill, options.workspace);
@@ -183,4 +183,4 @@ export async function tesslManage(
     logger.error(`Failed: ${failed}`);
     throw new ValidationError(`${failed} skill(s) failed processing`);
   }
-}
+};

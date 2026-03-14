@@ -8,7 +8,7 @@ interface AuditAllOptions {
   force?: boolean;
 }
 
-export async function auditAll(options: AuditAllOptions): Promise<void> {
+export const auditAll = async (options: AuditAllOptions): Promise<void> => {
   if (options.skill) {
     logger.info(`Auditing single skill: ${options.skill}`);
     const { auditSkill } = await import("./audit-skill");
@@ -65,4 +65,4 @@ export async function auditAll(options: AuditAllOptions): Promise<void> {
   if (failed > 0) {
     logger.error(`Failed: ${failed}`);
   }
-}
+};

@@ -1,7 +1,6 @@
 import { Command, EnumType } from "@cliffy/command";
-import { installSkills } from "../lib/install/install-skills";
-import { CLIError } from "../lib/utils/errors";
-import { logger } from "../lib/utils/logger";
+import { installSkills } from "../lib/install";
+import { CLIError, logger } from "../lib/utils";
 
 const AGENTS = ["opencode", "cursor", "gemini", "claude", "codex"] as const;
 type Agent = (typeof AGENTS)[number];

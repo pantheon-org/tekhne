@@ -1,8 +1,6 @@
 import { Command } from "@cliffy/command";
-import { tesslManage } from "../lib/tessl/manage";
-import { tesslPublishCheck } from "../lib/tessl/publish-check";
-import { CLIError } from "../lib/utils/errors";
-import { logger } from "../lib/utils/logger";
+import { tesslManage, tesslPublishCheck } from "../lib/tessl";
+import { CLIError, logger } from "../lib/utils";
 
 export const tesslCommand = new Command()
   .description("Tessl registry management commands")

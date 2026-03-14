@@ -1,35 +1,16 @@
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { $ } from "bun";
+import type { PublishedStatus, TileEntry, TileSkillEntry } from "./tile-types";
 
-export interface TileSkillEntry {
-  name: string; // skill key from tile.json, e.g., "makefile-generator"
-  skillDir: string; // from repo root, e.g., "skills/development/scripting/makefile/generator"
-  auditRelPath: string; // e.g., "development/scripting/makefile/generator"
-}
-
-export type PublishedStatus = "public" | "private" | "unpublished";
-
-export interface TileEntry {
-  tileDir: string; // e.g., "skills/development/scripting/makefile"
-  domain: string; // e.g., "development"
-  shortName: string; // e.g., "makefile-toolkit"
-  fullName: string; // e.g., "pantheon-ai/makefile-toolkit"
-  version: string; // e.g., "0.1.0"
-  summary: string;
-  isPublic: boolean;
-  publishedStatus: PublishedStatus;
-  skills: TileSkillEntry[];
-}
-
-function resolveSkillDir(tileDir: string, skillPath: string): string {
+const resolveSkillDir = (tileDir: string, skillPath: string): string => {
   const withoutSkillMd = skillPath
     .replace(/\/SKILL\.md$/, "")
     .replace(/^SKILL\.md$/, "");
   return withoutSkillMd ? join(tileDir, withoutSkillMd) : tileDir;
-}
+};
 
-export async function findAllTiles(): Promise<TileEntry[]> {
+export const findAllTiles = async (): Promise<TileEntry[]> => {
   const output = await $`find skills -name "tile.json" -type f`.text();
   const files = output.trim().split("\n").filter(Boolean);
 
@@ -96,12 +77,4 @@ export async function findAllTiles(): Promise<TileEntry[]> {
   }
 
   return tiles;
-}
-
-export function getTileTessl(tile: TileEntry): string {
-  if (!tile.isPublic) return "-";
-  if (tile.fullName) {
-    return `[Public](https://tessl.io/registry/skills/${tile.fullName})`;
-  }
-  return "Public";
-}
+};

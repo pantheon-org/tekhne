@@ -31,7 +31,7 @@ const GRADE_RANGES = {
   F: [0, 71],
 } as const;
 
-async function collectAuditData(): Promise<SkillAudit[]> {
+const collectAuditData = async (): Promise<SkillAudit[]> => {
   const auditJsonFiles =
     await $`find .context/audits -name "audit.json" -path "*/latest/*"`.text();
   const files = auditJsonFiles.trim().split("\n").filter(Boolean);
@@ -62,9 +62,9 @@ async function collectAuditData(): Promise<SkillAudit[]> {
   }
 
   return audits;
-}
+};
 
-function calculateStatistics(audits: SkillAudit[]): StatsSummary {
+const calculateStatistics = (audits: SkillAudit[]): StatsSummary => {
   const scores = audits.map((a) => a.score).sort((a, b) => a - b);
   const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
   const medianScore = scores[Math.floor(scores.length / 2)];
@@ -72,9 +72,11 @@ function calculateStatistics(audits: SkillAudit[]): StatsSummary {
   const maxScore = Math.max(...scores);
 
   return { avgScore, medianScore, minScore, maxScore };
-}
+};
 
-function calculateGradeDistribution(audits: SkillAudit[]): GradeDistribution {
+const calculateGradeDistribution = (
+  audits: SkillAudit[],
+): GradeDistribution => {
   const gradeCounts = Object.fromEntries(
     Object.keys(GRADE_RANGES).map((g) => [g, 0]),
   );
@@ -90,11 +92,11 @@ function calculateGradeDistribution(audits: SkillAudit[]): GradeDistribution {
   }
 
   return gradeCounts;
-}
+};
 
-function calculateDimensionAverages(
+const calculateDimensionAverages = (
   audits: SkillAudit[],
-): Record<string, number> {
+): Record<string, number> => {
   const dimensionStats: Record<string, number[]> = {};
 
   for (const audit of audits) {
@@ -110,9 +112,9 @@ function calculateDimensionAverages(
       Math.round(scores.reduce((a, b) => a + b, 0) / scores.length),
     ]),
   );
-}
+};
 
-function displayStatistics(stats: StatsSummary, totalSkills: number): void {
+const displayStatistics = (stats: StatsSummary, totalSkills: number): void => {
   logger.header("Overall Statistics");
   logger.info(`Total skills audited: ${totalSkills}`);
   logger.info(
@@ -120,22 +122,22 @@ function displayStatistics(stats: StatsSummary, totalSkills: number): void {
   );
   logger.info(`Median score: ${stats.medianScore}/120`);
   logger.info(`Range: ${stats.minScore} - ${stats.maxScore}`);
-}
+};
 
-function displayGradeDistribution(
+const displayGradeDistribution = (
   gradeCounts: GradeDistribution,
   totalSkills: number,
-): void {
+): void => {
   logger.header("Grade Distribution");
   for (const [grade, count] of Object.entries(gradeCounts)) {
     const percentage = Math.round((count / totalSkills) * 100);
     logger.info(`${grade}: ${count} (${percentage}%)`);
   }
-}
+};
 
-function displayDimensionalAnalysis(
+const displayDimensionalAnalysis = (
   dimensionAvgs: Record<string, number>,
-): void {
+): void => {
   logger.header("Dimensional Analysis");
   const sortedDims = Object.entries(dimensionAvgs).sort(
     ([, a], [, b]) => a - b,
@@ -146,9 +148,9 @@ function displayDimensionalAnalysis(
     const marker = percentage < 80 ? "⚠" : "✓";
     logger.info(`${marker} ${dim}: ${avg}/15 (${percentage}%)`);
   }
-}
+};
 
-function displayTopSkills(audits: SkillAudit[]): void {
+const displayTopSkills = (audits: SkillAudit[]): void => {
   logger.header("Top 10 Skills");
   audits
     .sort((a, b) => b.score - a.score)
@@ -158,9 +160,9 @@ function displayTopSkills(audits: SkillAudit[]): void {
         `${i + 1}. ${audit.path}: ${audit.score}/120 (${audit.grade})`,
       );
     });
-}
+};
 
-function displayBottomSkills(audits: SkillAudit[]): void {
+const displayBottomSkills = (audits: SkillAudit[]): void => {
   logger.header("Bottom 10 Skills");
   audits
     .sort((a, b) => a.score - b.score)
@@ -170,9 +172,9 @@ function displayBottomSkills(audits: SkillAudit[]): void {
         `${i + 1}. ${audit.path}: ${audit.score}/120 (${audit.grade})`,
       );
     });
-}
+};
 
-export async function auditSummary(): Promise<void> {
+export const auditSummary = async (): Promise<void> => {
   logger.header("Generating Audit Summary");
 
   const audits = await collectAuditData();
@@ -194,4 +196,4 @@ export async function auditSummary(): Promise<void> {
 
   const reportPath = ".context/audits/summary.md";
   logger.info(`\nFull report would be written to: ${reportPath}`);
-}
+};

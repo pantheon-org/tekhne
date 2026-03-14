@@ -6,22 +6,22 @@ interface FrontmatterResult {
   found: boolean;
 }
 
-function extractQuotedValue(value: string): string | null {
+const extractQuotedValue = (value: string): string | null => {
   if (value.startsWith('"') || value.startsWith("'")) {
     const extracted = value.slice(1, -1);
     return extracted.length > 0 ? extracted : null;
   }
   return null;
-}
+};
 
-function isMultilineDescriptionStart(value: string): boolean {
+const isMultilineDescriptionStart = (value: string): boolean => {
   return value.startsWith("|") || value.startsWith(">");
-}
+};
 
-function extractMultilineDescription(
+const extractMultilineDescription = (
   lines: string[],
   startIndex: number,
-): string {
+): string => {
   let description = "";
   for (let i = startIndex; i < lines.length; i++) {
     const line = lines[i];
@@ -34,13 +34,13 @@ function extractMultilineDescription(
     }
   }
   return description;
-}
+};
 
-function parseDescriptionValue(
+const parseDescriptionValue = (
   value: string,
   lines: string[],
   lineIndex: number,
-): string {
+): string => {
   const quoted = extractQuotedValue(value);
   if (quoted !== null) {
     return quoted;
@@ -55,9 +55,9 @@ function parseDescriptionValue(
   }
 
   return value;
-}
+};
 
-function extractFrontmatterDescription(content: string): FrontmatterResult {
+const extractFrontmatterDescription = (content: string): FrontmatterResult => {
   const lines = content.split("\n");
   let inFrontmatter = false;
 
@@ -80,14 +80,14 @@ function extractFrontmatterDescription(content: string): FrontmatterResult {
   }
 
   return { description: "", found: false };
-}
+};
 
-function formatDescription(description: string): string {
+const formatDescription = (description: string): string => {
   const cleaned = description.replace(/\|/g, "\\|");
   return cleaned.length > 80 ? `${cleaned.substring(0, 80)}...` : cleaned;
-}
+};
 
-export function parseSkillDescription(skillPath: string): string {
+export const parseSkillDescription = (skillPath: string): string => {
   const skillFile = join(skillPath, "SKILL.md");
   if (!existsSync(skillFile)) {
     return "-";
@@ -101,15 +101,4 @@ export function parseSkillDescription(skillPath: string): string {
   }
 
   return formatDescription(result.description);
-}
-
-export function getSkillDisplayName(skillRelativePath: string): string {
-  const parts = skillRelativePath.split("/");
-  const pathWithoutDomain = parts.slice(1).join("/");
-
-  if (pathWithoutDomain.includes("/")) {
-    return pathWithoutDomain.replace(/\//g, "-");
-  }
-
-  return pathWithoutDomain;
-}
+};

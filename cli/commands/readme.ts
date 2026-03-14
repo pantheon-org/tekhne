@@ -1,7 +1,6 @@
 import { Command } from "@cliffy/command";
-import { updateReadme } from "../lib/readme/update-readme";
-import { CLIError } from "../lib/utils/errors";
-import { logger } from "../lib/utils/logger";
+import { updateReadme } from "../lib/readme";
+import { CLIError, logger } from "../lib/utils";
 
 export const readmeCommand = new Command()
   .description("README.md maintenance commands")

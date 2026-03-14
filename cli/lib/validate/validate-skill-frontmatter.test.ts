@@ -3,11 +3,9 @@ import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { ValidationError } from "../utils/errors";
-import {
-  checkRequiredFields,
-  extractFrontmatter,
-  validateSkillFrontmatter,
-} from "./validate-skill-frontmatter";
+import { checkRequiredFields } from "./check-required-fields";
+import { extractFrontmatter } from "./extract-frontmatter";
+import { validateSkillFrontmatter } from "./validate-skill-frontmatter";
 
 // ---------------------------------------------------------------------------
 // extractFrontmatter

@@ -10,15 +10,13 @@ import {
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { CLIError } from "../utils/errors";
-import {
-  createSymlink,
-  ensureDirectory,
-  filterSkills,
-  findSkills,
-  getSkillName,
-  installSkills,
-  selectSkillsInteractively,
-} from "./install-skills";
+import { createSymlink } from "./create-symlink";
+import { ensureDirectory } from "./ensure-directory";
+import { filterSkills } from "./filter-skills";
+import { findSkills } from "./find-skills";
+import { getSkillName } from "./get-skill-name";
+import { installSkills } from "./install-skills";
+import { selectSkillsInteractively } from "./select-skills-interactively";
 
 // ---------------------------------------------------------------------------
 // Helpers

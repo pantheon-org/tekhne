@@ -30,7 +30,7 @@ interface SyncStats {
 // ---------------------------------------------------------------------------
 // Step 1: Remove broken symlinks from the skills directory
 // ---------------------------------------------------------------------------
-function cleanBrokenSymlinks(skillsDir: string, dryRun: boolean): number {
+const cleanBrokenSymlinks = (skillsDir: string, dryRun: boolean): number => {
   let removed = 0;
 
   if (!existsSync(skillsDir)) {
@@ -57,7 +57,7 @@ function cleanBrokenSymlinks(skillsDir: string, dryRun: boolean): number {
   }
 
   return removed;
-}
+};
 
 // ---------------------------------------------------------------------------
 // Step 2: Sync .mcp.json → opencode.json mcp section
@@ -83,12 +83,12 @@ interface OpenCodeJson {
   [key: string]: unknown;
 }
 
-function syncMcpConfig(
+const syncMcpConfig = (
   _cwd: string,
   mcpJsonPath: string,
   opencodeJsonPath: string,
   dryRun: boolean,
-): boolean {
+): boolean => {
   if (!existsSync(mcpJsonPath)) {
     return false;
   }
@@ -149,7 +149,7 @@ function syncMcpConfig(
     `updated: ${opencodeJsonPath} with mcp servers from ${mcpJsonPath}`,
   );
   return true;
-}
+};
 
 // ---------------------------------------------------------------------------
 // Step 3: Create/update Tessl tile symlinks
@@ -160,12 +160,12 @@ interface TileJson {
 
 type LinkAction = "skip" | "create" | "update";
 
-function processTileSkillLink(
+const processTileSkillLink = (
   skillName: string,
   target: string,
   skillsDir: string,
   dryRun: boolean,
-): LinkAction {
+): LinkAction => {
   const linkPath = join(skillsDir, `tessl__${skillName}`);
 
   let linkStat: ReturnType<typeof lstatSync> | null = null;
@@ -208,14 +208,14 @@ function processTileSkillLink(
   symlinkSync(target, linkPath);
   logger.success(`create: ${linkPath} -> ${target}`);
   return "create";
-}
+};
 
-async function syncTileSymlinks(
+const syncTileSymlinks = async (
   repoRoot: string,
   tilesDir: string,
   skillsDir: string,
   dryRun: boolean,
-): Promise<{ created: number; updated: number; skipped: number }> {
+): Promise<{ created: number; updated: number; skipped: number }> => {
   const stats = { created: 0, updated: 0, skipped: 0 };
 
   const globber = new Bun.Glob(`${tilesDir}/*/*/tile.json`);
@@ -248,12 +248,12 @@ async function syncTileSymlinks(
   }
 
   return stats;
-}
+};
 
 // ---------------------------------------------------------------------------
 // Public entry point
 // ---------------------------------------------------------------------------
-export async function syncOpencode(options: SyncOptions): Promise<void> {
+export const syncOpencode = async (options: SyncOptions): Promise<void> => {
   const cwd = process.cwd();
   const skillsDir = options.opencodeSkills
     ? join(cwd, ".opencode", "skills")
@@ -326,4 +326,4 @@ export async function syncOpencode(options: SyncOptions): Promise<void> {
   } else {
     logger.success("\nSync complete.");
   }
-}
+};
