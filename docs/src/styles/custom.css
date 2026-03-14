@@ -1,0 +1,94 @@
+/* Tekhne Skills — custom Starlight overrides */
+
+:root {
+  --sl-color-accent-low: #1a2a4a;
+  --sl-color-accent: #3b82f6;
+  --sl-color-accent-high: #93c5fd;
+
+  /* Skill rating badge colors — A+ through F */
+  --badge-a-plus-bg: #16a34a;
+  --badge-a-bg: #22c55e;
+  --badge-a-minus-bg: #4ade80;
+  --badge-b-plus-bg: #84cc16;
+  --badge-b-bg: #a3e635;
+  --badge-b-minus-bg: #d9f99d;
+  --badge-c-plus-bg: #eab308;
+  --badge-c-bg: #f97316;
+  --badge-c-minus-bg: #fb923c;
+  --badge-d-plus-bg: #ef4444;
+  --badge-d-bg: #dc2626;
+  --badge-d-minus-bg: #b91c1c;
+  --badge-f-bg: #7f1d1d;
+  --badge-fg: #fff;
+  --badge-b-minus-fg: #1a2a4a;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #dbeafe;
+  --sl-color-accent: #2563eb;
+  --sl-color-accent-high: #1e40af;
+}
+
+/* Badge styling for skill ratings */
+.skill-badge {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  border-radius: 0.25em;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.skill-badge--a-plus {
+  background: var(--badge-a-plus-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--a {
+  background: var(--badge-a-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--a-minus {
+  background: var(--badge-a-minus-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--b-plus {
+  background: var(--badge-b-plus-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--b {
+  background: var(--badge-b-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--b-minus {
+  background: var(--badge-b-minus-bg);
+  color: var(--badge-b-minus-fg);
+}
+.skill-badge--c-plus {
+  background: var(--badge-c-plus-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--c {
+  background: var(--badge-c-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--c-minus {
+  background: var(--badge-c-minus-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--d-plus {
+  background: var(--badge-d-plus-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--d {
+  background: var(--badge-d-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--d-minus {
+  background: var(--badge-d-minus-bg);
+  color: var(--badge-fg);
+}
+.skill-badge--f {
+  background: var(--badge-f-bg);
+  color: var(--badge-fg);
+}

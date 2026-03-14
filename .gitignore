@@ -6,3 +6,6 @@ skills-lock.json
 **/tessl__*
 .tessl/
 dist/
+docs/node_modules/
+docs/dist/
+docs/.astro/
