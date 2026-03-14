@@ -1,6 +1,6 @@
 ---
 name: skill-quality-auditor
-description: Evaluate, score, and remediate agent skill collections using a 9-dimension quality framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation). Performs duplication detection, generates remediation plans with T-shirt sizing, enforces CI quality gates, validates artifact conventions, tracks score trends, and ensures tessl registry compliance. Use when evaluating skill quality, auditing SKILL.md files, scoring agent skills, generating remediation plans, detecting duplicate skills, validating skill format, enforcing quality gates, optimizing for A-grade publication, comparing audit baselines, batch skill assessments, checking tessl compliance, or creating quality dashboards. Triggers: 'check my skills', 'skill audit', 'improve my SKILL.md', 'find duplicate skills', 'quality check', 'A-grade scoring', 'tessl compliance', 'quality gates', 'eval validation', 'score my skills', 'audit all skills', 'remediation plan', 'skill judge', 'dimension scoring'.
+description: "Evaluate, score, and remediate agent skill collections using a 9-dimension quality framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation). Performs duplication detection, generates remediation plans with T-shirt sizing, enforces CI quality gates, validates artifact conventions, tracks score trends, and ensures tessl registry compliance. Use when evaluating skill quality, auditing SKILL.md files, scoring agent skills, generating remediation plans, detecting duplicate skills, validating skill format, enforcing quality gates, optimizing for A-grade publication, comparing audit baselines, batch skill assessments, or checking tessl compliance. Triggers: 'check my skills', 'skill audit', 'improve my SKILL.md', 'quality check', 'A-grade scoring', 'quality gates', 'eval validation', 'audit all skills', 'remediation plan', 'skill judge', 'dimension scoring'."
 ---
 
 # Skill Quality Auditor
@@ -102,4 +102,4 @@ See [Audit Workflow Examples](references/examples-audit-workflows.md) for detail
 
 **Operations**: [Remediation Planning](references/remediation-planning.md) | [Duplication Detection](references/duplication-detection-algorithm.md) | [Scripts Workflow](references/scripts-audit-workflow.md) | [Tessl Compliance](references/tessl-compliance-framework.md)
 
-**Related Skills**: [creating-eval-scenarios](../../.tessl/tiles/tessl-labs/tessl-skill-eval-scenarios/creating-eval-scenarios/SKILL.md) (D9 eval generation)
+**Related Skills**: creating-eval-scenarios (D9 eval generation)

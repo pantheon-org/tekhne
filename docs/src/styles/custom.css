@@ -1,0 +1,45 @@
+/* Tekhne Skills — custom Starlight overrides */
+
+:root {
+  --sl-color-accent-low: #1a2a4a;
+  --sl-color-accent: #3b82f6;
+  --sl-color-accent-high: #93c5fd;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #dbeafe;
+  --sl-color-accent: #2563eb;
+  --sl-color-accent-high: #1e40af;
+}
+
+/* Badge styling for skill ratings */
+.skill-badge {
+  display: inline-block;
+  padding: 0.15em 0.5em;
+  border-radius: 0.25em;
+  font-size: 0.75em;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.skill-badge--a {
+  background: #22c55e;
+  color: #fff;
+}
+.skill-badge--b-plus {
+  background: #84cc16;
+  color: #fff;
+}
+.skill-badge--b {
+  background: #eab308;
+  color: #fff;
+}
+.skill-badge--c-plus {
+  background: #f97316;
+  color: #fff;
+}
+.skill-badge--c {
+  background: #ef4444;
+  color: #fff;
+}
