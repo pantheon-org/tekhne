@@ -1,0 +1,301 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "design-reference-schema",
+  "title": "Web Design Reference Sheet — Structured Extraction",
+  "description": "Validates the structured data extracted during web-reference-sheet-generator execution before markdown files are written.",
+  "type": "object",
+  "required": [
+    "project",
+    "colours",
+    "typography",
+    "spacing",
+    "layout",
+    "borders",
+    "shadows",
+    "motion",
+    "components",
+    "accessibility",
+    "dark_mode"
+  ],
+  "properties": {
+    "project": {
+      "type": "object",
+      "required": ["name", "slug", "token_file"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "slug": { "type": "string", "pattern": "^[a-z][a-z0-9-]+$" },
+        "tagline": { "type": "string" },
+        "personality": { "type": "string" },
+        "target_market": { "type": "string" },
+        "brand_voice": { "type": "string" },
+        "token_file": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Relative path to master CSS token file"
+        }
+      }
+    },
+    "colours": {
+      "type": "object",
+      "required": ["primary", "semantic"],
+      "properties": {
+        "primary": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["token", "hex", "usage"],
+            "properties": {
+              "token": { "type": "string", "pattern": "^--" },
+              "hex": {
+                "type": "string",
+                "pattern": "^(#[0-9a-fA-F]{3,8}|rgba\\([^)]+\\))$"
+              },
+              "usage": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "semantic": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["token", "hex", "usage"],
+            "properties": {
+              "token": { "type": "string", "pattern": "^--" },
+              "hex": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "dark_mode_overrides": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["token", "light", "dark"],
+            "properties": {
+              "token": { "type": "string", "pattern": "^--" },
+              "light": { "type": "string" },
+              "dark": { "type": "string" }
+            }
+          }
+        },
+        "dark_mode_fixed": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^--" }
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["font_roles", "type_scale"],
+      "properties": {
+        "font_roles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["token", "family", "weights", "usage"],
+            "properties": {
+              "token": { "type": "string", "pattern": "^--font-" },
+              "family": { "type": "string", "minLength": 1 },
+              "weights": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "type_scale": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["element", "size", "weight", "font_token"],
+            "properties": {
+              "element": { "type": "string" },
+              "size": { "type": "string" },
+              "weight": { "type": ["integer", "string"] },
+              "line_height": { "type": ["number", "string"] },
+              "letter_spacing": { "type": "string" },
+              "font_token": { "type": "string", "pattern": "^--font-" }
+            }
+          }
+        }
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "required": ["tokens", "section_rhythm"],
+      "properties": {
+        "tokens": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["token", "value"],
+            "properties": {
+              "token": { "type": "string", "pattern": "^--spacing-" },
+              "value": { "type": "string" },
+              "px": { "type": "number" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "section_rhythm": {
+          "type": "object",
+          "required": ["mobile", "desktop"],
+          "properties": {
+            "mobile": { "type": "string" },
+            "desktop": { "type": "string" }
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "required": ["containers", "breakpoints"],
+      "properties": {
+        "containers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["purpose", "max_width", "padding_x"],
+            "properties": {
+              "purpose": { "type": "string" },
+              "max_width": { "type": "string" },
+              "padding_x": { "type": "string" }
+            }
+          }
+        },
+        "breakpoints": {
+          "type": "object",
+          "properties": {
+            "sm": { "type": "string" },
+            "md": { "type": "string" },
+            "lg": { "type": "string" },
+            "xl": { "type": "string" },
+            "2xl": { "type": "string" }
+          }
+        }
+      }
+    },
+    "borders": {
+      "type": "object",
+      "required": ["radius_scale"],
+      "properties": {
+        "radius_scale": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["use_case", "value", "tailwind_class"],
+            "properties": {
+              "use_case": { "type": "string" },
+              "value": { "type": "string" },
+              "tailwind_class": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "shadows": {
+      "type": "object",
+      "required": ["elevation_scale"],
+      "properties": {
+        "elevation_scale": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["level", "usage"],
+            "properties": {
+              "level": { "type": "string" },
+              "css_value": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "motion": {
+      "type": "object",
+      "required": ["reduced_motion_strategy"],
+      "properties": {
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["property", "duration", "usage"],
+            "properties": {
+              "property": { "type": "string" },
+              "duration": { "type": "string" },
+              "easing": { "type": "string" },
+              "usage": { "type": "string" }
+            }
+          }
+        },
+        "keyframes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "description"],
+            "properties": {
+              "name": { "type": "string" },
+              "duration": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "reduced_motion_strategy": { "type": "string", "minLength": 1 }
+      }
+    },
+    "components": {
+      "type": "object",
+      "required": ["patterns"],
+      "properties": {
+        "patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "html"],
+            "properties": {
+              "name": { "type": "string" },
+              "html": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "required": ["focus_visible_style", "touch_target_min"],
+      "properties": {
+        "focus_visible_style": { "type": "string" },
+        "touch_target_min": { "type": "string" },
+        "reduced_motion": { "type": "string" },
+        "sr_only_utility": { "type": "string" },
+        "landmark_strategy": { "type": "string" },
+        "aria_patterns": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "dark_mode": {
+      "type": "object",
+      "required": ["strategy"],
+      "properties": {
+        "strategy": { "type": "string", "minLength": 1 }
+      }
+    },
+    "anti_patterns": {
+      "type": "object",
+      "properties": {
+        "found": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["file_line", "violation", "fix"],
+            "properties": {
+              "file_line": { "type": "string" },
+              "violation": { "type": "string" },
+              "fix": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

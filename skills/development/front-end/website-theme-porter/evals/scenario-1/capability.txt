@@ -1,0 +1,1 @@
+Hardcoded CSS fallback extraction

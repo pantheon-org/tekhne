@@ -1,0 +1,1 @@
+Generate a complete design reference sheet from a plain CSS project with media-query dark mode, correctly identifying the dark mode strategy, listing all overridden tokens with dark values, populating motion tokens, and extracting accessibility patterns from HTML components.

@@ -26,13 +26,15 @@ Detailed information for all tiles and skills.
   - [nx-workspace-patterns](#nx-workspace-patterns)
   - [nx-plugin-toolkit](#nx-plugin-toolkit)
   - [nx-vite-integration](#nx-vite-integration)
-- [Development (6 tiles)](#development-6-tiles)
+- [Development (8 tiles)](#development-8-tiles)
   - [makefile-toolkit](#makefile-toolkit)
   - [bash-script-toolkit](#bash-script-toolkit)
   - [commanderjs](#commanderjs)
   - [bun-development](#bun-development)
   - [biome-complete](#biome-complete)
   - [typescript-advanced](#typescript-advanced)
+  - [website-theme-porter](#website-theme-porter)
+  - [web-reference-sheet-generator](#web-reference-sheet-generator)
 - [Agentic Harness (4 tiles)](#agentic-harness-4-tiles)
   - [opencode-toolkit](#opencode-toolkit)
   - [skill-quality-auditor](#skill-quality-auditor)
@@ -241,7 +243,7 @@ Configure and integrate Vite in Nx monorepos for applications and libraries. Cov
 | --- | --- | --- | --- |
 | [nx-vite-integration](skills/repository-mgmt/nx/vite-integration/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/repository-mgmt/nx/vite-integration/2026-03-02/audit.json) | - |
 
-## Development (6 tiles)
+## Development (8 tiles)
 
 Development tooling
 
@@ -294,6 +296,22 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [typescript-advanced](skills/development/typescript-advanced/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/development/typescript-advanced/2026-03-02/audit.json) | - |
+
+### [website-theme-porter](skills/development/front-end/website-theme-porter)
+
+Port the visual theme and styling from a live website to a React/Tailwind CSS project. Extracts colours, typography, spacing, and component styles — via agent-browser automation, manual inspection, curl/wget, or direct source reading — writes structured documentation and all artifacts under .context/artifacts/{website}/ with timestamps, applies findings as Tailwind v4 CSS tokens, then verifies by visually diffing the original site against the local or deployed version. Use when cloning a brand, replicating a design system, matching a reference site, migrating visual identity, copying a style guide, or porting a theme from any live URL into a React codebase.
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [website-theme-porter](skills/development/front-end/website-theme-porter/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 5 |
+
+### [web-reference-sheet-generator](skills/development/front-end/web-reference-sheet-generator)
+
+Generate a comprehensive web design reference sheet (docs/design/design-reference.md) and its companion enforcement skill (.agents/skills/{project-slug}/SKILL.md) for any website project. Extracts tokens from CSS files, validates completeness against a JSON schema scratchpad, inspects existing components, and produces a 12-section living document covering colours, typography, spacing, layout, borders, shadows, motion, component patterns, accessibility, dark mode, and Figma sync notes. Use when starting a new project, onboarding a design system, creating a Figma reference sheet, porting design tokens, or auditing existing styles. Triggers on: "create a design reference", "generate a style guide", "document the design tokens", "make a brand reference sheet", "create design docs", "port design tokens", "audit existing styles".
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [web-reference-sheet-generator](skills/development/front-end/web-reference-sheet-generator/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
 
 ## Agentic Harness (4 tiles)
 

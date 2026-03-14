@@ -1,0 +1,13 @@
+{
+  "total_infeasible": 2,
+  "infeasible_scenarios": [
+    {
+      "scenarios": "Never extract from :hover / never use dark mode colours",
+      "reasoning": "Testing these extraction anti-patterns requires the agent to actively run a live browser session and inspect computed styles on a real site. The eval sandbox has no pre-configured live site and no way to observe what colour values getComputedStyle returns. No reliable graded artifact can be produced."
+    },
+    {
+      "scenarios": "Stage 4 visual diff iteration loop (aim for <10% mismatch)",
+      "reasoning": "Stage 4 requires agent-browser diff against a running local dev server and a live target URL. The eval sandbox has no pre-built React project to run and no live site to compare against. The iteration loop cannot be executed or meaningfully graded from output files alone."
+    }
+  ]
+}

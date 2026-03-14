@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent stores all artifacts under .context/artifacts/<slug>/<date>/ and never uses /tmp or docs/ or any other location. Also checks that the extraction method is noted in overview.md.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct base path",
+      "description": "setup.sh defines ARTIFACTS as a path starting with .context/artifacts/",
+      "max_score": 12
+    },
+    {
+      "name": "Slug format",
+      "description": "setup.sh uses a lowercase hyphenated slug (e.g. example-com) as the directory name under .context/artifacts/",
+      "max_score": 8
+    },
+    {
+      "name": "Date subdirectory",
+      "description": "setup.sh includes a YYYY-MM-DD date subdirectory under the slug directory",
+      "max_score": 8
+    },
+    {
+      "name": "No /tmp usage",
+      "description": "setup.sh does NOT save any file to /tmp",
+      "max_score": 10
+    },
+    {
+      "name": "No docs/ usage",
+      "description": "setup.sh does NOT save any file to docs/ or docs/screenshots/",
+      "max_score": 10
+    },
+    {
+      "name": "Screenshots under ARTIFACTS",
+      "description": "All agent-browser screenshot commands in setup.sh use ${ARTIFACTS}/ as the base path",
+      "max_score": 12
+    },
+    {
+      "name": "theme/ subdirectory",
+      "description": "setup.sh creates a theme/ subdirectory inside the ARTIFACTS path",
+      "max_score": 8
+    },
+    {
+      "name": "overview.md location",
+      "description": "overview.md is placed inside .context/artifacts/example-com/2026-03-13/theme/ (not in project root or docs/)",
+      "max_score": 12
+    },
+    {
+      "name": "Extraction method noted",
+      "description": "overview.md contains a field or note identifying which extraction method was used (agent-browser / curl / manual DevTools)",
+      "max_score": 10
+    },
+    {
+      "name": "Source URL noted",
+      "description": "overview.md contains the source URL (https://example.com)",
+      "max_score": 10
+    }
+  ]
+}

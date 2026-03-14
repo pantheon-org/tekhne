@@ -1,0 +1,1 @@
+Generate a design reference sheet from a sparse codebase with no formal design tokens, correctly refraining from inventing values, marking all undiscovered sections as TBD, extracting only the hardcoded hex values present in CSS, and producing both output files without aborting or refusing due to insufficient data.
