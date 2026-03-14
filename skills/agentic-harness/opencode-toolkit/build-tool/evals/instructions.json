@@ -1,41 +1,43 @@
-[
-  {
-    "instruction": "Custom tool files go in `.opencode/tool/` (project) or `~/.config/opencode/tool/` (global). The filename becomes the tool name.",
-    "original_snippets": [
-      "The filename becomes the tool name.",
-      "Tool File Location"
-    ],
-    "relevant_when": "when creating custom tools",
-    "why_given": "new knowledge"
-  },
-  {
-    "instruction": "The `execute` function MUST return a string. Returning objects or non-string values causes runtime errors.",
-    "original_snippets": ["The execute function must return a `string`."],
-    "relevant_when": "when implementing tool execute handlers",
-    "why_given": "reminder"
-  },
-  {
-    "instruction": "Use `@opencode-ai/plugin` for tools (not `@opencode-ai/sdk`). The sdk package is for external client access, not for defining tools.",
-    "original_snippets": [
-      "Tools are defined with `@opencode-ai/plugin`, not `@opencode-ai/sdk`."
-    ],
-    "relevant_when": "always",
-    "why_given": "new knowledge"
-  },
-  {
-    "instruction": "Every schema argument MUST have `.describe()` so the LLM understands what it means.",
-    "original_snippets": [
-      "Without descriptions, the LLM has no context for what each argument means."
-    ],
-    "relevant_when": "when defining tool arguments",
-    "why_given": "reminder"
-  },
-  {
-    "instruction": "Respect the `abort` signal in long-running tools. Check `abort.aborted` and pass the signal to async operations.",
-    "original_snippets": [
-      "Ignoring it leaves dangling processes and resources locked."
-    ],
-    "relevant_when": "when implementing long-running tool operations",
-    "why_given": "preference"
-  }
-]
+{
+  "instructions": [
+    {
+      "instruction": "Custom tool files go in `.opencode/tool/` (project) or `~/.config/opencode/tool/` (global). The filename becomes the tool name.",
+      "original_snippets": [
+        "The filename becomes the tool name.",
+        "Tool File Location"
+      ],
+      "relevant_when": "when creating custom tools",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "The `execute` function MUST return a string. Returning objects or non-string values causes runtime errors.",
+      "original_snippets": ["The execute function must return a `string`."],
+      "relevant_when": "when implementing tool execute handlers",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use `@opencode-ai/plugin` for tools (not `@opencode-ai/sdk`). The sdk package is for external client access, not for defining tools.",
+      "original_snippets": [
+        "Tools are defined with `@opencode-ai/plugin`, not `@opencode-ai/sdk`."
+      ],
+      "relevant_when": "always",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Every schema argument MUST have `.describe()` so the LLM understands what it means.",
+      "original_snippets": [
+        "Without descriptions, the LLM has no context for what each argument means."
+      ],
+      "relevant_when": "when defining tool arguments",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Respect the `abort` signal in long-running tools. Check `abort.aborted` and pass the signal to async operations.",
+      "original_snippets": [
+        "Ignoring it leaves dangling processes and resources locked."
+      ],
+      "relevant_when": "when implementing long-running tool operations",
+      "why_given": "preference"
+    }
+  ]
+}

@@ -185,3 +185,161 @@ return {
 | `tool.execute.before` | `(input, output) => void`      | Mutate output.args |
 | `tool.execute.after`  | `(input, output) => void`      | Mutate output      |
 | `experimental.*`      | `(input, output) => void`      | Mutate output      |
+
+## Implementation Procedure
+
+### Step 1: Verify SDK Reference (REQUIRED)
+
+Before creating any plugin, regenerate the API reference to ensure accuracy:
+
+```bash
+bun run .opencode/skill/opencode-build-plugins/scripts/extract-plugin-api.ts
+```
+
+This generates `references/hooks.md`, `references/events.md`, `references/tool-helper.md`.
+
+### Step 2: Validate Feasibility
+
+**Feasible as plugins:**
+- Intercepting/blocking tool calls
+- Reacting to events (file edits, session completion, etc.)
+- Adding custom tools for the LLM
+- Modifying LLM parameters (temperature, etc.)
+- Custom auth flows for providers
+- Customizing session compaction
+- Displaying status messages (toasts, inline)
+
+**NOT feasible (inform user):**
+- Modifying TUI rendering or layout
+- Adding new built-in tools (requires OC source)
+- Changing core agent behavior/prompts
+- Intercepting assistant responses mid-stream
+- Adding new keybinds or commands
+- Modifying internal file read/write
+- Adding new permission types
+
+**If not feasible**, inform user clearly. Suggest:
+- OC core changes: contribute to `packages/opencode`
+- MCP tools: use MCP server configuration
+- Simple automation: use shell scripts
+
+### Step 3: Design Plugin
+
+Follow modular design principles from [CODING-TS.MD](CODING-TS.MD):
+
+- **Modular structure**: Split complex plugins into multiple focused files
+- **Single purpose**: Each function does ONE thing well
+- **DRY**: Extract common patterns into shared utilities
+- **Small files**: Keep individual files under 150 lines
+- **No monoliths**: MUST NOT put all plugin code in a single `index.ts`
+
+### Step 4: Plugin Structure (Non-Monolithic)
+
+For complex plugins, use a modular directory structure:
+
+```
+.opencode/plugins/my-plugin/
+├── index.ts          # Entry point, exports Plugin
+├── types.ts          # TypeScript types/interfaces
+├── utils.ts          # Shared utilities
+├── hooks/            # Hook implementations
+│   ├── event.ts
+│   └── tool-execute.ts
+└── tools/            # Custom tool definitions
+    └── my-tool.ts
+```
+
+**Example modular index.ts:**
+
+```typescript
+import type { Plugin } from "@opencode-ai/plugin"
+import { eventHooks } from "./hooks/event"
+import { toolHooks } from "./hooks/tool-execute"
+import { customTools } from "./tools"
+
+export const MyPlugin: Plugin = async ({ project, client }) => {
+  return {
+    ...eventHooks({ client }),
+    ...toolHooks({ client }),
+    tool: customTools,
+  }
+}
+```
+
+## Common Plugin Patterns
+
+### Security Guard — Block Dangerous Commands
+
+```typescript
+import type { Plugin } from "@opencode-ai/plugin"
+
+const BLOCKED = ["rm -rf", "git push --force", "DROP TABLE"]
+
+export const SecurityPlugin: Plugin = async () => ({
+  "tool.execute.before": async (input) => {
+    if (input.tool === "bash") {
+      const cmd = input.args?.command ?? ""
+      if (BLOCKED.some((pattern) => cmd.includes(pattern))) {
+        throw new Error(`Blocked dangerous command: ${cmd}`)
+      }
+    }
+  }
+})
+```
+
+### Audit Logger — Log All Tool Calls
+
+```typescript
+import type { Plugin } from "@opencode-ai/plugin"
+import { appendFileSync } from "fs"
+
+export const AuditPlugin: Plugin = async ({ project }) => ({
+  "tool.execute.after": async (input, output) => {
+    const entry = JSON.stringify({
+      ts: new Date().toISOString(),
+      tool: input.tool,
+      args: input.args,
+      success: !output.error
+    })
+    appendFileSync(".opencode/audit.log", entry + "\n")
+  }
+})
+```
+
+### Session Notifier — Toast on Session End
+
+```typescript
+import type { Plugin } from "@opencode-ai/plugin"
+
+export const NotifyPlugin: Plugin = async ({ client }) => ({
+  event: async ({ event }) => {
+    if (event.type === "session.completed") {
+      await client.tui.showToast({
+        message: "Session complete",
+        variant: "success"
+      })
+    }
+  }
+})
+```
+
+### Custom Tool — Expose a New Callable Function
+
+```typescript
+import type { Plugin } from "@opencode-ai/plugin"
+import { tool } from "@opencode-ai/plugin"
+
+const lookupUser = tool({
+  description: "Look up a user by email in the internal directory",
+  args: {
+    email: tool.schema.string().describe("User email address")
+  },
+  async execute({ email }) {
+    const result = await fetch(`https://api.example.com/users?email=${email}`)
+    return JSON.stringify(await result.json())
+  }
+})
+
+export const DirectoryPlugin: Plugin = async () => ({
+  tool: { "lookup-user": lookupUser }
+})

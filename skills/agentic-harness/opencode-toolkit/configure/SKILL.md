@@ -7,6 +7,18 @@ description: Configure OpenCode via opencode.json and AGENTS.md with determinist
 
 Navigation hub for OpenCode configuration tasks.
 
+## Information Architecture
+
+- **Quick Start** — working provider + AGENTS.md in under 2 minutes
+- **When to Use / Scope** — what this skill covers
+- **Mindset** — mental model before diving into config fields
+- **Workflow** — step-by-step approach
+- **Configuration Examples** — copy-paste provider and AGENTS.md templates
+- **Gotchas & Production Caveats** — field quirks and safety constraints
+- **Anti-Patterns** — common mistakes with WHY/BAD/GOOD
+
+---
+
 ## Quick Start
 
 **Add a provider** — create/edit `opencode.json` in your project root:
@@ -188,6 +200,18 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 - **WHY**: global config (`~/.config/opencode/opencode.json`) bleeds into unrelated projects, causing unexpected behavior across your entire environment.
 - **BAD**: adding a project's `npm test` to the global shell allowlist, or setting a project-specific model globally.
 - **GOOD**: put project-specific config in project-root `opencode.json`. Reserve global config for cross-project defaults (personal API keys via `baseEnv`, editor preferences).
+
+### NEVER configure provider `models` with only `default: true` and no ID
+
+- **WHY**: `default: true` without a model `id` field is silently ignored or resolves to provider defaults, which may change between releases.
+- **BAD**: `{ "default": true }` with no `id` key.
+- **GOOD**: always pair `default: true` with a fully-qualified `id`: `{ "id": "claude-sonnet-4-5", "default": true }`.
+
+### NEVER ignore the precedence order when diagnosing config issues
+
+- **WHY**: OpenCode applies config in layers: shell environment > `.env` loader > project `opencode.json` > global `opencode.json`. Debugging config mismatches without knowing this order leads to wasted time.
+- **BAD**: Editing project `opencode.json` to fix an issue caused by a shell env override.
+- **GOOD**: Audit from the top of the precedence chain first (`echo $OPENAI_API_KEY`), then work downward.
 
 ## Quick Reference
 

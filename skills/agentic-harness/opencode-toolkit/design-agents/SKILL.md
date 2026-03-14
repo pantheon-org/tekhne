@@ -1,22 +1,15 @@
 ---
 name: opencode-design-agents
-description: |-
-  Create and refine OpenCode agents via guided Q&A. Use proactively for agent creation, performance improvement, or configuration design.
-  
-  Examples:
-  - user: "Create an agent for code reviews" → ask about scope, permissions, tools, model preferences, generate AGENTS.md frontmatter
-  - user: "My agent ignores context" → analyze description clarity, allowed-tools, permissions, suggest improvements
-  - user: "Add a database expert agent" → gather requirements, set convex-database-expert in subagent_type, configure permissions
-  - user: "Make my agent faster" → suggest smaller models, reduce allowed-tools, tighten permissions
+description: "Create and refine OpenCode agents via guided Q&A. Use when creating an agent file, improving an existing agent, configuring AGENTS.md frontmatter, setting subagent_type, defining allowed-tools, restricting permissions, designing agent routing, writing a system prompt, configuring mode: subagent, setting a permission block, or working with the Task tool delegation pattern. Examples: 'Create an agent for code reviews', 'My agent ignores context', 'Add a database expert subagent', 'Make my agent faster', 'Agent triggers on wrong requests'."
 ---
 
 # Agent Architect
 
-Create and refine opencode agents through a guided Q&A process.
+Create and refine OpenCode agents through a guided Q&A process.
 
 ## Quick Start
 
-Create an agent at `.opencode/agents/<name>.md` (project) or `~/.config/opencode/agents/<name>.md` (global):
+Create `.opencode/agents/<name>.md`:
 
 ```markdown
 ---
@@ -27,464 +20,77 @@ You are an expert code reviewer. Analyze code for bugs, security issues, and per
 Provide specific, actionable feedback with line references.
 ```
 
-For subagents (invoked by other agents via the Task tool), add `mode: subagent`.
-For permission restrictions, add a `permission:` block.
-
-**After creating the file, restart OpenCode** — agents are loaded on startup.
-
----
-
-## Core Approach
-
-**Agent creation is conversational, not transactional.**
-
-- MUST NOT assume what the user wants—ask
-- SHOULD start with broad questions, drill into details only if needed
-- Users MAY skip configuration they don't care about
-- MUST always show drafts and iterate based on feedback
-
-The goal is to help users create agents that fit their needs, not to dump every possible configuration option on them.
-
-## Question Tool
-
-**Syntax:** `header` ≤12 chars, `label` 1-5 words, add "(Recommended)" to default.
-
-**CRITICAL Permission Logic:**
-- You MUST ask the user about permissions explicitly.
-- If user selects "Standard/Default" or "No extra", do NOT list `bash`, `read`, `write`, `edit` permissions. Rely on system defaults.
-- Only add explicit permission blocks for tools when the user requests NON-STANDARD access (e.g., restrictive, or specific allows).
-- **EXCEPTION:** Skills MUST ALWAYS be configured with `"*": "deny"` and explicit allows, regardless of tool permissions.
-
-## Agent Locations
-
-| Scope | Path |
-|-------|------|
-| Project | `.opencode/agents/<name>.md` |
-| Global | `~/.config/opencode/agents/<name>.md` |
-
-## Agent File Format
+For subagents (Task tool only), add `mode: subagent`. For permission restrictions, add a `permission:` block:
 
 ```yaml
 ---
-description: When to use this agent. Include trigger examples.
-model: anthropic/claude-sonnet-4-20250514  # Optional
-mode: subagent                   # Optional: all (default), primary, or subagent
+mode: subagent
 permission:
-  skill: { "*": "deny", "my-skill": "allow" }
-  bash: { "*": "ask", "git *": "allow" }
----
-System prompt in markdown body (second person).
-```
-
-**Full schema:** See `references/opencode-config.md`
-
-## Agent Modes
-
-| Mode | Description |
-|------|-------------|
-| `all` | Standard agent, visible to user and tools (Default — same as omitting `mode`) |
-| `primary` | Primary agent only, shown in the main agent list |
-| `subagent` | Specialized task tool agent, hidden from main list |
-
-## Phase 1: Core Purpose (Required)
-
-Ask these first—they shape everything else:
-
-1. **"What should this agent do?"**
-   - Get the core task/domain
-   - Examples: "review code", "help with deployments", "research topics"
-
-2. **"What should trigger this agent?"**
-   - Specific phrases, contexts, file types
-   - Becomes the `description` field
-
-3. **"What expertise/persona should it have?"**
-   - Tone, boundaries, specialization
-   - Shapes the system prompt
-
-## Phase 1.5: Research the Domain
-
-**MUST NOT assume knowledge is current.** After understanding the broad strokes:
-
-- Search for current best practices in the domain
-- Check for updates to frameworks, tools, or APIs the agent will work with
-- Look up documentation for any unfamiliar technologies mentioned
-- Find examples of how experts approach similar tasks
-
-This research informs better questions in Phase 2 and produces a more capable agent.
-
-**Example:** User wants an agent for "Next.js deployments" → Research current Next.js deployment patterns, Vercel vs self-hosted, App Router vs Pages Router, common pitfalls, etc.
-
-## Phase 2: Capabilities (Ask broadly, then drill down)
-
-1. **"What permissions does this agent need?"** (Use Question Tool)
-   - Options: "Standard (Recommended)", "Read-Only", "Full Access", "Custom"
-   - **Standard**: Do NOT add `bash`, `read`, `write`, `edit` to config. Rely on defaults.
-   - **Read-Only**: Explicitly deny write/edit/bash.
-   - **Full Access**: Allow bash `*` if needed.
-   - **Custom**: Ask specific follow-ups.
-
-2. **"Should this agent use any skills?"**
-   - If yes: "Which ones?"
-   - ALWAYS configure `permission.skill` with `"*": "deny"` and explicit allows.
-   - This applies even if other permissions are standard.
-
-3. **"Is this a subagent?"**
-   - If yes: set `mode: subagent`
-   - If no: omit `mode` (defaults to `all`) or set `mode: primary` if it should only appear in the main agent list
-
-## Phase 3: Details (Optional—user MAY skip)
-
-1. **"Any specific model preference?"** (most users skip)
-2. **"Custom temperature/sampling?"** (most users skip)
-3. **"Maximum steps before stopping?"** (most users skip)
-
-## Phase 4: Review & Refine
-
-1. **Show the draft config and prompt, ask for feedback**
-    - "Here's what I've created. Anything you'd like to change?"
-    - Iterate until user is satisfied
-
-**Key principle:** Start broad, get specific only where the user shows interest. MUST NOT overwhelm with options like `top_p` unless asked.
-
-**Be flexible:** If the user provides lots of info upfront, adapt—MUST NOT rigidly follow the phases. If they say "I want a code review agent that can't run shell commands", you already have answers to multiple questions.
-
-## Recommended Structure
-
- ```markdown
-# Role and Objective
-[Agent purpose and scope]
-
-# Instructions
-- Core behavioral rules
-- What to always/never do
-
-## Sub-instructions (optional)
-More detailed guidance for specific areas.
-
-# Workflow
-1. First, [step]
-2. Then, [step]
-3. Finally, [step]
-
-# Output Format
-Specify exact format expected.
-
-# Examples (optional)
-<examples>
-<example>
-<input>User request</input>
-<output>Expected response</output>
-</example>
-</examples>
-```
-
-## XML Tags (Recommended)
-
-XML tags improve clarity and parseability across all models:
-
-| Tag | Purpose |
-|-----|---------|
-| `<instructions>` | Core behavioral rules |
-| `<context>` | Background information |
-| `<examples>` | Few-shot demonstrations |
-| `<thinking>` | Chain-of-thought reasoning |
-| `<output>` | Final response format |
-
-**Best practices:**
-- Be consistent with tag names throughout
-- Nest tags for hierarchy: `<outer><inner></inner></outer>`
-- Reference tags in instructions: "Using the data in `<context>` tags..."
-
-**Example:**
-```xml
-<instructions>
-1. Analyze the code in <code> tags
-2. List issues in <findings> tags
-3. Suggest fixes in <recommendations> tags
-</instructions>
-```
-
-## Description Field (Critical)
-
-The `description` determines when the agent triggers.
-
-**Primary Agents**: Keep it extremely concise (PRECISELY 3 words). The user selects these manually or via very clear intent.
-**Any Other Agents**: Must be specific and exhaustive to ensure correct routing by the task tool.
-**Template (Any Other Agents)**: `[Role/Action]. Use when [triggers]. Examples: - user: "trigger" -> action`
-
-**Good (Primary)**:
-```
-Code review expert.
-```
-
-**Good (Any Other Agents)**:
-```
-Code review specialist. Use when user says "review this PR", "check my code", 
-"find bugs".
-
-Examples:
-- user: "review" -> check code
-- user: "scan" -> check code
-```
-
-## Prompt Altitude
-
-Find the balance between too rigid and too vague:
-
-| ❌ Too Rigid | ✅ Right Altitude | ❌ Too Vague |
-|-------------|-------------------|-------------|
-| Hardcoded if-else logic | Clear heuristics + flexibility | "Be helpful" |
-| "If X then always Y" | "Generally prefer X, but use judgment" | No guidance |
-
-## Agentic Components
-
-For agents that use tools in a loop, SHOULD include these reminders:
-
-```text
-# Tool Usage
-If unsure about something, use tools to gather information.
-Do NOT guess or make up answers.
-
-# Planning (optional)
-Think step-by-step before each action. Reflect on results before
-proceeding.
-```
-
-## Permission Configuration
-
-Control what agents can access.
-
-### CRITICAL: Avoid Overengineering
-- Do NOT list permissions for standard tools (`read`, `write`, `edit`, `bash`) unless the user explicitly asks for restrictions or non-standard access.
-- Rely on system defaults for most agents.
-- **Skills are the exception**: You MUST always configure `permission.skill` to whitelist specific skills and deny others.
-
-```yaml
-# Standard Agent (minimal config)
-permission:
-  skill:
-    "*": "deny"
-    "my-skill": "allow"
-
-# Restricted Agent (explicit config)
-permission:
-  edit: "ask"
   bash:
-    "*": "deny"
-  skill:
-    "*": "deny"
+    "*": "ask"
+    "npm test": "allow"
+---
 ```
 
-**Full reference:** See `references/opencode-config.md`
+Run `bun run opencode` and type `/agents` to confirm the new agent appears in the list.
 
-## Legacy Configuration
+## Mindset
 
-Agents may occasionally work on legacy projects using outdated frontmatter (e.g., `tools:`, `maxSteps:`). You MUST correct these to the modern `permission:` and `steps:` fields when encountered.
+**An agent is a markdown file with YAML frontmatter.** Three decisions drive every design:
 
-## Agent Enhancement
+| Decision | Why it matters |
+|----------|----------------|
+| **Scope** (`description`) | Controls when the agent triggers — too vague = never fires, too broad = fires on everything |
+| **Mode** (`mode:`) | `all` = visible everywhere; `subagent` = Task-tool only; `primary` = main list only |
+| **Permissions** (`permission:`) | Standard tools need no config; skills ALWAYS need explicit allowlists |
 
-1. **"What's not working well?"** — Get specific symptoms
-2. **"Can you show me an example where it failed?"** — Understand the gap
-3. **"What should it have done instead?"** — Define success
+**When to use**: You need a distinct scope, persona, or permission set that differs from the default.
 
-Then propose targeted fixes:
+**When NOT to use**: Do not create an agent just to run a single command — use a slash command instead. Do not create a subagent when you just need a custom system prompt — use `AGENTS.md`.
 
-| Symptom | Likely Cause | Fix |
-|---------|--------------|-----|
-| Triggers too often | Description too broad | Add specific contexts |
-| Misses triggers | Description too narrow | Add trigger phrases |
-| Wrong outputs | Prompt ambiguous | Add explicit instructions |
-| Executes dangerous commands | Loose bash permissions | Restrict with patterns |
-| Uses wrong skills | No skill restrictions | Configure `permission.skill` |
+## Creation Workflow
 
-MUST show proposed changes and ask for confirmation before applying.
+Ask questions first. Follow phases in [`references/agent-patterns.md`](references/agent-patterns.md):
 
----
+1. **Phase 1 — Core Purpose**: What does it do? What triggers it? What persona?
+2. **Phase 1.5 — Research**: Look up current best practices for the domain.
+3. **Phase 2 — Capabilities**: Permissions, skills, mode (subagent vs primary vs all).
+4. **Phase 3 — Review**: Show draft, iterate until user approves.
 
 ## Anti-Patterns
 
-### 1. Over-permissive bash access
-
-**WHY:** Giving an agent unrestricted `bash: "*": "allow"` lets it run any shell command including destructive ones (`rm -rf`, force-pushes, production deploys). NEVER grant `"*": "allow"` for bash — ALWAYS use explicit allowlists with `"*": "ask"` as the fallback.
-
-**Bad**:
+NEVER use `bash: { "*": "allow" }`. WHY: Allows destructive commands like `rm -rf`. Use `"*": "ask"` plus an explicit allowlist.
 ```yaml
-permission:
-  bash: { "*": "allow" }
-```
-
-**Good**:
-```yaml
+# BAD
 permission:
   bash:
-    "*": "ask"           # Ask for unknown commands
-    "git status": "allow"
-    "git diff": "allow"
+    "*": "allow"
+# GOOD
+permission:
+  bash:
+    "*": "ask"
     "npm test": "allow"
+    "git status": "allow"
 ```
 
----
-
-### 2. Writing a system prompt in third person
-
-**WHY:** Prompts that say "The agent should..." or "This assistant must..." create confusion — the model reads its own system prompt. NEVER write agent prompts in third person — ALWAYS use second person ("You analyze...", "You must...").
-
-**Bad**:
-```
-The agent should analyze code carefully. The assistant must never modify files.
+NEVER write system prompts in third person. WHY: The model reads its own system prompt — third person is confusing and degrades instruction-following.
+```markdown
+# BAD — "The assistant analyzes code..."
+# GOOD — "You analyze code for bugs, security issues, and performance problems."
 ```
 
-**Good**:
-```
-You analyze code carefully. You must never modify files directly.
-```
+NEVER add `permission:` block for standard tools. WHY: It creates noise and can accidentally restrict access to built-in capabilities. Only use `permission:` when you need to restrict or explicitly allow skills.
 
----
-
-### 3. Missing trigger examples in `description`
-
-**WHY:** OpenCode uses the `description` field to route tasks to agents. NEVER use vague descriptions like "A helpful assistant" — they NEVER trigger correctly because they don't match real user phrasing. ALWAYS include concrete trigger examples.
-
-**Bad**:
-```yaml
-description: A helpful assistant for various tasks.
-```
-
-**Good**:
-```yaml
-description: |-
-  Database expert. Use when user says "write a query", "optimize SQL",
-  "explain this schema", "help with migrations".
-  Examples:
-  - user: "query" -> write SQL
-  - user: "migration" -> generate migration
-```
-
----
-
-### 4. Adding explicit permissions for standard tools
-
-**WHY:** Listing `read`, `write`, `edit`, `bash` permissions when only standard access is needed creates unnecessary config noise and can accidentally be more restrictive than the defaults.
-
-**Bad**:
-```yaml
-permission:
-  read: "allow"
-  write: "allow"
-  edit: "allow"
-  bash: "allow"
-```
-
-**Good**: Omit the `permission` block entirely for standard access. Only configure permissions when deviating from defaults (restricting or granting non-standard access).
-
----
-
-### 3. Missing `mode` — defaulting to `all` when `primary` or `subagent` is intended
-
-**WHY:** Omitting `mode` defaults to `all`, which means the agent is accessible both as a primary agent and as a subagent. If the agent should only appear in the main list (`primary`) or only be invoked by other agents (`subagent`), the mode MUST be set explicitly.
-
-| Mode | Behavior |
-|------|----------|
-| `all` (default, omit `mode`) | Visible in main list AND callable as subagent |
-| `primary` | Appears in main agent list only |
-| `subagent` | Hidden from main list, only callable via Task tool |
-
-**Bad** (agent intended as subagent only, but accessible everywhere):
-```yaml
-description: Internal code analysis helper.
-# mode omitted → defaults to all, shows up in main list
-```
-
-**Good**:
-```yaml
-description: Internal code analysis helper.
-mode: subagent
-```
-
----
-
-### 5. Configuring skills without denying `"*"` first
-
-**WHY:** If `"*": "deny"` is omitted from `permission.skill`, all skills are accessible by default. The explicit `"allow"` entries become meaningless because the agent can already access everything.
-
-**Bad**:
-```yaml
-permission:
-  skill:
-    "my-skill": "allow"  # "*" not denied — all skills accessible anyway
-```
-
-**Good**:
-```yaml
-permission:
-  skill:
-    "*": "deny"          # Block all skills first
-    "my-skill": "allow"  # Then whitelist only what's needed
-```
-
----
-
-## Example Agents
-
-### Restricted Code Review Agent
-
-```yaml
----
-description: Safe code reviewer.
-mode: all
-permission:
-  edit: "ask"
-  bash: "deny"
-  external_directory: "deny"
----
-You are a code review specialist. Analyze code for bugs, security issues,
-and improvements. Never modify files directly.
-```
-
-## Deployment Agent (Any Other Agents)
-
-```yaml
----
-description: |-
-  Deployment helper. Use when user says "deploy to staging", "push to prod", 
-  "release version".
-  
-  Examples:
-  - user: "deploy" -> run deployment
-  - user: "release" -> run deployment
-mode: subagent
-permission:
-  bash:
-    "*": "deny"
-    "git *": "allow"
-    "npm run build": "allow"
-    "npm run deploy:*": "ask"
-  skill:
-    "*": "deny"
-    "deploy-checklist": "allow"
----
-You are a deployment specialist...
-```
-
-## Quality Checklist
-
-Before showing the final agent to the user:
-
-- [ ] Asked about core purpose and triggers
-- [ ] Researched the domain (MUST NOT assume knowledge is current)
-- [ ] `description` has concrete trigger examples
-- [ ] `mode` discussed and set appropriately
-- [ ] System prompt uses second person
-- [ ] Asked about tool/permission needs (MUST NOT assume)
-- [ ] Output format is specified if relevant
-- [ ] Showed draft to user and got feedback
-- [ ] User confirmed they're happy with result
+| Anti-Pattern | Fix |
+|---|---|
+| Vague `description` | Add concrete trigger examples |
+| Missing `mode: subagent` on subagents | Set it explicitly |
+| `skill: { "my-skill": "allow" }` without `"*": "deny"` | Deny `"*"` first |
 
 ## References
 
-- [agent-patterns.md](references/agent-patterns.md) - Design patterns and prompt engineering
-- [opencode-config.md](references/opencode-config.md) - Full frontmatter schema, tools, permissions
+- [`references/agent-patterns.md`](references/agent-patterns.md) — Creation phases, patterns, prompt engineering, enhancement/troubleshooting
+- [`references/opencode-config.md`](references/opencode-config.md) — Full frontmatter schema, tools, permissions reference
 
 ## Eval Scenarios
 

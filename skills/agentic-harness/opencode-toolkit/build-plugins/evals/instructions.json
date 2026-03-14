@@ -1,39 +1,41 @@
-[
-  {
-    "instruction": "MUST run `bun run .opencode/skill/create-opencode-plugin/scripts/extract-plugin-api.ts` before creating any plugin to regenerate API references.",
-    "original_snippets": ["Step 1: Verify SDK Reference (REQUIRED)"],
-    "relevant_when": "always",
-    "why_given": "reminder"
-  },
-  {
-    "instruction": "Blocks tool execution via throw in `tool.execute.before`, NOT by returning false.",
-    "original_snippets": [
-      "The `tool.execute.before` hook blocks execution only when it **throws**. Returning `false` or `undefined` allows execution to continue."
-    ],
-    "relevant_when": "when implementing tool execution interception",
-    "why_given": "new knowledge"
-  },
-  {
-    "instruction": "Plugin files MUST stay under 150 lines each. Complex plugins MUST use a modular directory structure with separate files for hooks/, tools/, types.ts, utils.ts.",
-    "original_snippets": [
-      "Modular structure: Split complex plugins into multiple focused files",
-      "Keep individual files under 150 lines"
-    ],
-    "relevant_when": "when implementing complex plugins",
-    "why_given": "reminder"
-  },
-  {
-    "instruction": "Tools are registered via the `tool` key in the returned hooks object, NOT via `client.registerTool()` (which does not exist).",
-    "original_snippets": [
-      "Tools are registered declaratively via the `tool` key in the returned hooks object."
-    ],
-    "relevant_when": "when adding custom tools to a plugin",
-    "why_given": "new knowledge"
-  },
-  {
-    "instruction": "All hook handler functions MUST be `async`. Synchronous handlers cause TypeScript errors.",
-    "original_snippets": ["All hook handlers must be `async`."],
-    "relevant_when": "when implementing any plugin hook",
-    "why_given": "reminder"
-  }
-]
+{
+  "instructions": [
+    {
+      "instruction": "MUST run `bun run .opencode/skill/create-opencode-plugin/scripts/extract-plugin-api.ts` before creating any plugin to regenerate API references.",
+      "original_snippets": ["Step 1: Verify SDK Reference (REQUIRED)"],
+      "relevant_when": "always",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Blocks tool execution via throw in `tool.execute.before`, NOT by returning false.",
+      "original_snippets": [
+        "The `tool.execute.before` hook blocks execution only when it **throws**. Returning `false` or `undefined` allows execution to continue."
+      ],
+      "relevant_when": "when implementing tool execution interception",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Plugin files MUST stay under 150 lines each. Complex plugins MUST use a modular directory structure with separate files for hooks/, tools/, types.ts, utils.ts.",
+      "original_snippets": [
+        "Modular structure: Split complex plugins into multiple focused files",
+        "Keep individual files under 150 lines"
+      ],
+      "relevant_when": "when implementing complex plugins",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Tools are registered via the `tool` key in the returned hooks object, NOT via `client.registerTool()` (which does not exist).",
+      "original_snippets": [
+        "Tools are registered declaratively via the `tool` key in the returned hooks object."
+      ],
+      "relevant_when": "when adding custom tools to a plugin",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "All hook handler functions MUST be `async`. Synchronous handlers cause TypeScript errors.",
+      "original_snippets": ["All hook handlers must be `async`."],
+      "relevant_when": "when implementing any plugin hook",
+      "why_given": "reminder"
+    }
+  ]
+}

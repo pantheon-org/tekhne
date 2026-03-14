@@ -224,3 +224,132 @@ export default tool({
 2. Check `abort.aborted` before starting expensive work
 3. Wrap in try-catch and return error as string
 4. Use specific error messages the AI can act on
+
+## Custom Tool Schema Reference
+
+Use `tool.schema` (Zod) for argument validation:
+
+```typescript
+args: {
+  query: tool.schema.string().describe("Search query"),
+  path: tool.schema.string().optional().describe("File path"),
+  limit: tool.schema.number().min(1).max(100).default(10).describe("Max results"),
+  format: tool.schema.enum(["json", "text"]).describe("Output format"),
+  recursive: tool.schema.boolean().default(false).describe("Search recursively")
+}
+```
+
+## Tool Context
+
+```typescript
+type ToolContext = {
+  sessionID: string      // Current session ID
+  messageID: string      // Current message ID
+  agent: string          // Current agent identifier
+  abort: AbortSignal     // Signal for cancellation
+}
+```
+
+## Plugin Development Reference
+
+```typescript
+import type { Plugin } from "@opencode-ai/plugin"
+
+const plugin: Plugin = async (input) => {
+  const { client, project, directory, worktree, $ } = input
+
+  return {
+    tool: { myTool: tool({ /* definition */ }) },
+    event: async ({ event }) => { /* handle events */ },
+    config: async (config) => { /* modify config */ },
+    "chat.message": async (input, output) => { /* modify messages */ },
+    "tool.execute.before": async (input, output) => { /* pre-processing */ },
+    "tool.execute.after": async (input, output) => { /* post-processing */ }
+  }
+}
+
+export default plugin
+```
+
+## SDK Client Reference
+
+```typescript
+import { createOpencode, createOpencodeClient } from "@opencode-ai/sdk"
+
+// Create both client and server
+const { client, server } = await createOpencode({
+  hostname: "127.0.0.1",
+  port: 4096,
+  timeout: 5000
+})
+
+// Or just the client (when server is already running)
+const client = createOpencodeClient({
+  baseUrl: "http://127.0.0.1:4096"
+})
+```
+
+### Client API Categories
+
+| Category | Methods |
+|----------|---------|
+| `client.session` | list, create, get, delete, prompt, messages, fork, share |
+| `client.project` | list, current |
+| `client.file` | list, read, status |
+| `client.find` | text, files, symbols |
+| `client.tool` | ids, list |
+| `client.event` | subscribe (SSE streaming) |
+| `client.mcp` | status, add |
+| `client.tui` | appendPrompt, submitPrompt, showToast |
+
+### Session Management
+
+```typescript
+const { data: sessions } = await client.session.list()
+const { data: session } = await client.session.create()
+const { data: response } = await client.session.prompt({
+  path: { id: sessionId },
+  body: { parts: [{ type: "text", text: "Your message here" }] }
+})
+```
+
+### Event Streaming
+
+```typescript
+const result = await client.event.subscribe()
+for await (const event of result.events) {
+  console.log("Event:", event.type, event.data)
+}
+```
+
+## Cross-Language Tool
+
+```typescript
+import { tool } from "@opencode-ai/plugin"
+import { $ } from "bun"
+
+export default tool({
+  description: "Run Python analysis script",
+  args: { file: tool.schema.string().describe("File to analyze") },
+  async execute({ file }) {
+    return await $`python3 analyze.py ${file}`.text()
+  }
+})
+```
+
+## Troubleshooting
+
+**Tool not appearing:**
+- Verify file is in `.opencode/tool/` or `~/.config/opencode/tool/` (singular)
+- Check file exports a valid tool definition
+- Restart OpenCode to reload tools
+
+**Schema errors:**
+- Ensure all required args are provided
+- Check type constraints (string vs number)
+- Verify optional fields use `.optional()`
+
+**Execution errors:**
+- Check `execute` returns a string
+- Verify async operations complete
+- Handle errors and return error messages as strings
