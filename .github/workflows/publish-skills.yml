@@ -1,0 +1,76 @@
+name: Publish Skills to Tessl
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+
+permissions:
+  contents: read
+  id-token: write # Required for OIDC token
+
+jobs:
+  detect-tiles:
+    name: Detect Changed Tiles
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.tiles.outputs.matrix }}
+      has-tiles: ${{ steps.tiles.outputs.has-tiles }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 2
+
+      - name: Find changed tile directories
+        id: tiles
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'skills/**' 2>/dev/null || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "has-tiles=false" >> "$GITHUB_OUTPUT"
+            echo 'matrix={"tile":[]}' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # For each changed file, walk up the directory tree to find the nearest tile.json
+          TILE_DIRS=""
+          while IFS= read -r file; do
+            dir="$(dirname "$file")"
+            while [ "$dir" != "." ] && [ "$dir" != "skills" ]; do
+              if [ -f "$dir/tile.json" ]; then
+                TILE_DIRS="${TILE_DIRS}${dir}\n"
+                break
+              fi
+              dir="$(dirname "$dir")"
+            done
+          done <<< "$CHANGED"
+
+          UNIQUE_DIRS=$(printf '%b' "$TILE_DIRS" | sort -u | grep -v '^$' || true)
+
+          if [ -z "$UNIQUE_DIRS" ]; then
+            echo "has-tiles=false" >> "$GITHUB_OUTPUT"
+            echo 'matrix={"tile":[]}' >> "$GITHUB_OUTPUT"
+          else
+            MATRIX=$(printf '%s\n' "$UNIQUE_DIRS" | jq -R . | jq -sc '{tile: .}')
+            echo "has-tiles=true" >> "$GITHUB_OUTPUT"
+            echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+          fi
+
+  publish:
+    name: Publish ${{ matrix.tile }}
+    needs: detect-tiles
+    if: needs.detect-tiles.outputs.has-tiles == 'true'
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.detect-tiles.outputs.matrix) }}
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - uses: tesslio/publish@main
+        with:
+          token: ${{ secrets.TESSL_TOKEN }}
+          path: ${{ matrix.tile }}
+          review: "true"
+          review-threshold: "50"

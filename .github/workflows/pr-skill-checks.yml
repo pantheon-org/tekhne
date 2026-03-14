@@ -22,18 +22,29 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
+      - name: Check for TESSL_TOKEN
+        id: token-check
+        env:
+          TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
+        run: |
+          if [ -n "$TESSL_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
-        if: secrets.TESSL_TOKEN != ''
+        if: steps.token-check.outputs.present == 'true'
         with:
           bun-version: "1.3.10"
 
       - name: Install dependencies
-        if: secrets.TESSL_TOKEN != ''
+        if: steps.token-check.outputs.present == 'true'
         run: bun install
 
       - name: Run tessl skill lint
         id: lint
-        if: secrets.TESSL_TOKEN != ''
+        if: steps.token-check.outputs.present == 'true'
         env:
           TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
         run: |
@@ -92,18 +103,29 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
+      - name: Check for TESSL_TOKEN
+        id: token-check
+        env:
+          TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
+        run: |
+          if [ -n "$TESSL_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
-        if: secrets.TESSL_TOKEN != ''
+        if: steps.token-check.outputs.present == 'true'
         with:
           bun-version: "1.3.10"
 
       - name: Install dependencies
-        if: secrets.TESSL_TOKEN != ''
+        if: steps.token-check.outputs.present == 'true'
         run: bun install
 
       - name: Run tessl skill review
         id: review
-        if: secrets.TESSL_TOKEN != ''
+        if: steps.token-check.outputs.present == 'true'
         env:
           TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
         run: |
