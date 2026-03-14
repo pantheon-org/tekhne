@@ -29,6 +29,10 @@ jobs:
           # Full history not needed; a shallow clone is fine for the build.
           fetch-depth: 1
 
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+
       - uses: oven-sh/setup-bun@ecf28ddc73e819eb6fa29df6b34ef8921c743461 # v2
         with:
           bun-version: "1.3.10"
