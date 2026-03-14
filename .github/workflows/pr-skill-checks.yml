@@ -3,6 +3,7 @@ name: PR Skill Checks
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+    branches: [main]
     paths:
       - "skills/**"
 
@@ -15,7 +16,8 @@ jobs:
   tessl-lint:
     name: Tessl Skill Lint
     # Fork PRs run with a read-only GITHUB_TOKEN; skip entirely to avoid permission errors on comment steps
-    if: github.event.pull_request.head.repo.fork == false
+    # Also skip if the PR is no longer open (e.g. a queued run completing after merge)
+    if: github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -84,7 +86,8 @@ jobs:
   tessl-review:
     name: Tessl Skill Review
     # Fork PRs run with a read-only GITHUB_TOKEN; skip entirely to avoid permission errors on comment steps
-    if: github.event.pull_request.head.repo.fork == false
+    # Also skip if the PR is no longer open (e.g. a queued run completing after merge)
+    if: github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -152,7 +155,7 @@ jobs:
 
   request-eval-scenarios:
     name: Request Eval Scenarios from Copilot
-    if: github.event.pull_request.head.repo.fork == false
+    if: github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
