@@ -13,6 +13,7 @@ import { getSkillDisplayName, parseSkillDescription } from "./skill-parser";
 import { findAllTiles, getTileTessl, type TileEntry } from "./tile-parser";
 
 const TILES_PATH = "TILES.md";
+const DOCS_TILES_PATH = "docs/src/content/docs/tiles.md";
 
 interface UpdateOptions {
   dryRun?: boolean;
@@ -337,6 +338,92 @@ async function showDryRunDiff(
   logger.info("\nTo apply changes, run without --dry-run");
 }
 
+async function generateDocsTilesPage(
+  tiles: TileEntry[],
+  untiledSkills: SkillEntry[],
+): Promise<string> {
+  const frontmatter = `---
+title: Skill Catalog
+description: All Tekhne tiles and skills organized by domain.
+tableOfContents:
+  minHeadingLevel: 2
+  maxHeadingLevel: 3
+---
+
+Detailed information for all tiles and skills organized by domain.
+`;
+
+  let sections = "";
+  let first = true;
+
+  for (const domainInfo of DOMAINS) {
+    const domainTiles = tiles.filter((t) => t.domain === domainInfo.key);
+    const domainUntiledSkills = untiledSkills.filter(
+      (s) => s.domain === domainInfo.key,
+    );
+
+    if (domainTiles.length === 0 && domainUntiledSkills.length === 0) continue;
+
+    const tileCount = domainTiles.length;
+    const skillCount = domainUntiledSkills.length;
+    let countLabel: string;
+    if (tileCount > 0 && skillCount > 0) {
+      countLabel = `${tileCount} tile${tileCount !== 1 ? "s" : ""}, ${skillCount} skill${skillCount !== 1 ? "s" : ""}`;
+    } else if (tileCount > 0) {
+      countLabel = `${tileCount} tile${tileCount !== 1 ? "s" : ""}`;
+    } else {
+      countLabel = `${skillCount} skill${skillCount !== 1 ? "s" : ""}`;
+    }
+
+    if (!first) sections += "\n---\n";
+    first = false;
+
+    sections += `\n## ${domainInfo.title} (${countLabel})\n\n`;
+    sections += `${domainInfo.description}\n`;
+
+    // Tiled skills
+    for (const tile of domainTiles) {
+      sections += `\n### ${tile.shortName}\n\n`;
+      sections += `${formatSummary(tile.summary)}\n\n`;
+      sections += "| Skill | Rating |\n";
+      sections += "| --- | --- |\n";
+
+      for (const skill of tile.skills) {
+        // Build Astro docs URL: /tekhne/skills/<relative-path>/skill/
+        const relPath = skill.skillDir.replace(/^skills\//, "");
+        const docsUrl = `/tekhne/skills/${relPath}/skill/`;
+        const skillLink = `[${skill.name}](${docsUrl})`;
+        const auditInfo = await getLatestAuditInfo(skill.auditRelPath);
+        const badge = auditInfo
+          ? getBadgeMarkdown(auditInfo.grade)
+          : `![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
+        sections += `| ${skillLink} | ${badge} |\n`;
+      }
+    }
+
+    // Untiled skills
+    for (const skill of domainUntiledSkills) {
+      const displayName = getSkillDisplayName(skill.relativePath);
+      const description = parseSkillDescription(`skills/${skill.relativePath}`);
+      const relPath = skill.relativePath;
+      const docsUrl = `/tekhne/skills/${relPath}/skill/`;
+      const skillLink = `[${displayName}](${docsUrl})`;
+      const auditInfo = await getLatestAuditInfo(skill.relativePath);
+      const badge = auditInfo
+        ? getBadgeMarkdown(auditInfo.grade)
+        : `![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
+
+      sections += `\n### ${displayName}\n\n`;
+      sections += `${description}\n\n`;
+      sections += "| Skill | Rating |\n";
+      sections += "| --- | --- |\n";
+      sections += `| ${skillLink} | ${badge} |\n`;
+    }
+  }
+
+  return frontmatter + sections;
+}
+
 export async function updateReadme(options: UpdateOptions): Promise<void> {
   const readmePath = "README.md";
 
@@ -355,9 +442,10 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
   logger.info(`Found ${untiledSkills.length} untiled skills`);
 
   logger.info("Generating content...");
-  const [summaryTables, catalogContent] = await Promise.all([
+  const [summaryTables, catalogContent, docsTilesContent] = await Promise.all([
     generateReadmeSummaryTables(tiles, untiledSkills),
     generateCatalogContent(tiles, untiledSkills),
+    generateDocsTilesPage(tiles, untiledSkills),
   ]);
 
   logger.info("Updating README.md...");
@@ -379,11 +467,15 @@ export async function updateReadme(options: UpdateOptions): Promise<void> {
     logger.info(
       `\n=== DRY RUN - ${TILES_PATH} would be written (${catalogContent.length} chars) ===`,
     );
+    logger.info(
+      `=== DRY RUN - ${DOCS_TILES_PATH} would be written (${docsTilesContent.length} chars) ===`,
+    );
   } else {
     writeFileSync(readmePath, newReadmeContent);
     writeFileSync(TILES_PATH, catalogContent);
+    writeFileSync(DOCS_TILES_PATH, docsTilesContent);
     logger.success(
-      `README.md updated with summary tables; ${TILES_PATH} written with full catalog`,
+      `README.md updated with summary tables; ${TILES_PATH} and ${DOCS_TILES_PATH} written`,
     );
   }
 }
