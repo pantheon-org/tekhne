@@ -4,6 +4,14 @@
   --sl-color-accent-low: #1a2a4a;
   --sl-color-accent: #3b82f6;
   --sl-color-accent-high: #93c5fd;
+
+  /* Skill rating badge colors */
+  --badge-a-bg: #22c55e;
+  --badge-b-plus-bg: #84cc16;
+  --badge-b-bg: #eab308;
+  --badge-c-plus-bg: #f97316;
+  --badge-c-bg: #ef4444;
+  --badge-fg: #fff;
 }
 
 :root[data-theme="light"] {
@@ -24,22 +32,22 @@
 }
 
 .skill-badge--a {
-  background: #22c55e;
-  color: #fff;
+  background: var(--badge-a-bg);
+  color: var(--badge-fg);
 }
 .skill-badge--b-plus {
-  background: #84cc16;
-  color: #fff;
+  background: var(--badge-b-plus-bg);
+  color: var(--badge-fg);
 }
 .skill-badge--b {
-  background: #eab308;
-  color: #fff;
+  background: var(--badge-b-bg);
+  color: var(--badge-fg);
 }
 .skill-badge--c-plus {
-  background: #f97316;
-  color: #fff;
+  background: var(--badge-c-plus-bg);
+  color: var(--badge-fg);
 }
 .skill-badge--c {
-  background: #ef4444;
-  color: #fff;
+  background: var(--badge-c-bg);
+  color: var(--badge-fg);
 }

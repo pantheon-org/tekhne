@@ -14,12 +14,13 @@ function withSkillTitle(schema: z.ZodTypeAny) {
     const entry = data as Record<string, unknown>;
 
     if (!entry.title) {
-      // Try metadata.title, then name, then fall back to empty string
+      // Try metadata.title, then name, then fall back to "Untitled".
+      // Spread to avoid mutating the original input object.
       const metaTitle =
         typeof entry.metadata === "object" && entry.metadata !== null
           ? (entry.metadata as Record<string, unknown>).title
           : undefined;
-      entry.title = metaTitle ?? entry.name ?? "Untitled";
+      return { ...entry, title: metaTitle ?? entry.name ?? "Untitled" };
     }
 
     return entry;

@@ -17,7 +17,9 @@ interface Frontmatter {
  * Returns null if no frontmatter block is found.
  */
 function extractFrontmatter(content: string): string | null {
-  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  // Match opening ---, capture body, then closing --- which may be followed by
+  // a newline or appear at end-of-file (no trailing newline required).
+  const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/);
   return match ? match[1] : null;
 }
 
