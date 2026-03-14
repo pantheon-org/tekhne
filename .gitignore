@@ -3,3 +3,6 @@
 node_modules/
 skills-lock.json
 .context/investigations
+.context/pr-reviews
+**/tessl__*
+.tessl/
