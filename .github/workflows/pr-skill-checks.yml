@@ -81,7 +81,7 @@ jobs:
           combined_output=""
           combined_exit=0
           for tile_dir in $TILE_DIRS; do
-            out=$(tessl skill lint "$tile_dir" 2>&1)
+            out=$(bunx tessl skill lint "$tile_dir" 2>&1)
             code=$?
             combined_output="${combined_output}=== ${tile_dir} ===\n${out}\n"
             [ $code -ne 0 ] && combined_exit=$code
@@ -186,7 +186,7 @@ jobs:
           combined_output=""
           combined_exit=0
           for skill_dir in $SKILL_DIRS; do
-            out=$(tessl skill review "$skill_dir" 2>&1)
+            out=$(bunx tessl skill review "$skill_dir" 2>&1)
             code=$?
             combined_output="${combined_output}=== ${skill_dir} ===\n${out}\n"
             [ $code -ne 0 ] && combined_exit=$code
