@@ -5,3 +5,4 @@ skills-lock.json
 .context/investigations
 **/tessl__*
 .tessl/
+dist/
