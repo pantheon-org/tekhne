@@ -41,7 +41,6 @@
       "properties": {
         "primary": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
             "required": ["token", "hex", "usage"],
@@ -49,7 +48,7 @@
               "token": { "type": "string", "pattern": "^--" },
               "hex": {
                 "type": "string",
-                "pattern": "^#[0-9a-fA-F]{3,8}$|^rgba\\("
+                "pattern": "^(#[0-9a-fA-F]{3,8}|rgba\\([^)]+\\))$"
               },
               "usage": { "type": "string", "minLength": 1 }
             }
@@ -91,7 +90,6 @@
       "properties": {
         "font_roles": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
             "required": ["token", "family", "weights", "usage"],
@@ -105,7 +103,6 @@
         },
         "type_scale": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
             "required": ["element", "size", "weight", "font_token"],
@@ -127,7 +124,6 @@
       "properties": {
         "tokens": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
             "required": ["token", "value"],
@@ -155,7 +151,6 @@
       "properties": {
         "containers": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
             "required": ["purpose", "max_width", "padding_x"],
@@ -252,7 +247,6 @@
       "properties": {
         "patterns": {
           "type": "array",
-          "minItems": 1,
           "items": {
             "type": "object",
             "required": ["name", "html"],
