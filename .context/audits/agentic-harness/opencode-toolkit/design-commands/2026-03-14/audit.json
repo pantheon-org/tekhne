@@ -1,0 +1,20 @@
+{
+  "skill": "agentic-harness/opencode-toolkit/design-commands",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 15,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 17
+  },
+  "total": 127,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 96,
+  "hasReferences": true,
+  "referenceCount": 2
+}
