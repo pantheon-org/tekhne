@@ -1,20 +1,6 @@
-# OpenCode Configuration Schema Reference (Q4 2025)
+# OpenCode Configuration Schema Reference
 
-## instructions
-This document defines the schema and valid values for `opencode.json`. You MUST adhere strictly to these definitions. You MUST NOT use deprecated model identifiers.
-
-## critical_warning
-
-## STRICTLY PROHIBITED MODELS
-
-The following models are DEPRECATED and MUST NOT be used:
-
-- OpenAI: `gpt-4o`, `gpt-4-turbo`, `o1-mini`, `o1-preview`
-- Anthropic: `claude-3-5-sonnet`, `claude-3-opus`
-- Google: `gemini-1.5-pro`, `gemini-2.0-flash`
-- Meta: `llama-3`, `llama-3.1`
-
-Use current frontier models: **GPT-5.2**, **Claude 4.5**, **Gemini 3**, **GLM-4.7**, **Kimi K2**, **MiniMax M2.1**, **Mistral Large 3**.
+This document defines the schema and valid values for `opencode.json`. Run `opencode models` to list models currently available to your installation, or browse the full registry at <https://models.dev/> (API: `curl https://models.dev/api.json`). The `Model ID` field in that registry is the identifier format used in OpenCode config.
 
 ## top_level_options
 
@@ -60,12 +46,12 @@ Use current frontier models: **GPT-5.2**, **Claude 4.5**, **Gemini 3**, **GLM-4.
 
 ```jsonc
 {
-  "model": "anthropic/claude-4-5-sonnet-20250929",
-  "small_model": "anthropic/claude-4-5-haiku-20251015",
+  "model": "anthropic/claude-3-5-sonnet-20241022",
+  "small_model": "anthropic/claude-3-5-haiku-20241022",
 }
 ```
 
-Format: `provider/model-id`. Run `opencode models` to list available models.
+Format: `provider/model-id`. Run `opencode models` to list available models, or look up the `Model ID` field at <https://models.dev/> (machine-readable: `curl https://models.dev/api.json`).
 
 ## provider
 
@@ -181,7 +167,7 @@ Define agents in config:
     "my-agent": {
       "description": "What triggers this agent",
       "mode": "subagent",
-      "model": "anthropic/claude-4-5-sonnet-20250929",
+      "model": "anthropic/claude-3-5-sonnet-20241022",
       "prompt": "System prompt or {file:./prompt.txt}",
       "temperature": 0.3,
       "maxSteps": 25,
@@ -208,7 +194,7 @@ Custom slash commands:
       "template": "Run tests and show failures. $ARGUMENTS",
       "description": "Run test suite",
       "agent": "build",
-      "model": "anthropic/claude-4-5-sonnet-20250929",
+      "model": "anthropic/claude-3-5-sonnet-20241022",
     },
   },
 }
@@ -284,7 +270,7 @@ Variants allow you to define multiple parameter sets for a single model, cycleab
   "provider": {
     "openai": {
       "models": {
-        "gpt-5.2": {
+        "gpt-4o": {
           "variants": {
             "high": {
               "reasoningEffort": "high",
