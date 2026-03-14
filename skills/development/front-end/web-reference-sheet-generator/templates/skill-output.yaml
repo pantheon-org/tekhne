@@ -1,0 +1,91 @@
+# Web Reference Sheet — Structured Extraction Template
+#
+# Fill this template from codebase analysis BEFORE writing any markdown files.
+# Use it as a scratchpad to validate completeness. Every field marked (required)
+# must have a real value — never invent values. Mark unknown fields as: TBD
+#
+# Once complete, render docs/design/design-reference.md and
+# .agents/skills/{project-slug}/SKILL.md from these values.
+
+project:
+  name: TBD                        # (required) Human-readable project name
+  slug: TBD                        # (required) lowercase-hyphenated, e.g. design-reference
+  tagline: TBD                     # Marketing tagline or TBD
+  personality: TBD                 # Brand personality adjectives or TBD
+  target_market: TBD               # Audience description or TBD
+  brand_voice: TBD                 # Tone/voice description or TBD
+  token_file: TBD                  # (required) Path to master CSS token file, e.g. src/index.css
+
+colours:
+  # List every CSS custom property found in :root / @theme
+  # Format: { token: --name, hex: "#xxxxxx", usage: "description" }
+  primary: []
+  semantic: []
+  # Document which tokens change in dark mode
+  dark_mode_overrides: []
+  # Tokens that stay fixed across light/dark
+  dark_mode_fixed: []
+
+typography:
+  # List every font role token found
+  # Format: { token: --font-name, family: "Font Name", weights: "400/700", usage: "description" }
+  font_roles: []
+  # Type scale entries
+  # Format: { element: h1, size: "clamp(...)", weight: 900, line_height: 1.2, letter_spacing: "0.05em", font_token: "--font-display" }
+  type_scale: []
+
+spacing:
+  # Format: { token: "--spacing-sm", value: "0.75rem", px: 12, usage: "description" }
+  tokens: []
+  section_rhythm:
+    mobile: TBD    # e.g. py-20 (80px)
+    desktop: TBD   # e.g. py-28 (112px)
+
+layout:
+  containers:
+    # Format: { purpose: "Navigation", max_width: "1400px", padding_x: "1.5rem" }
+    - purpose: TBD
+      max_width: TBD
+      padding_x: TBD
+  breakpoints:
+    sm: 640px
+    md: 768px
+    lg: 1024px
+    xl: 1280px
+    "2xl": 1536px
+
+borders:
+  # Format: { use_case: "Card border", value: "1px solid ...", tailwind_class: "border border-charcoal/10" }
+  radius_scale: []
+
+shadows:
+  # Format: { level: "Hover/Lift", css_value: "0 8px 32px ...", usage: "Card hover" }
+  elevation_scale: []
+
+motion:
+  # Format: { property: "Color", duration: "200ms", easing: "ease", usage: "Buttons, links" }
+  transitions: []
+  # Format: { name: "gradientShift", duration: "8s", description: "gradient text animation" }
+  keyframes: []
+  reduced_motion_strategy: TBD    # e.g. "Global guard in src/index.css via prefers-reduced-motion"
+
+components:
+  # For each distinct pattern found, add an entry.
+  # Format: { name: "Primary Button", html: "<button class=\"...\">Label</button>" }
+  patterns: []
+
+accessibility:
+  focus_visible_style: TBD        # e.g. "3px solid var(--chartreuse), offset 2px"
+  touch_target_min: TBD           # e.g. "44px"
+  reduced_motion: TBD             # same as motion.reduced_motion_strategy
+  sr_only_utility: TBD            # e.g. ".visually-hidden"
+  landmark_strategy: TBD          # e.g. "<nav aria-label>, <main>, <footer>"
+  aria_patterns: []               # notable aria patterns used, as strings
+
+dark_mode:
+  strategy: TBD                   # e.g. ".dark class on <html> toggled by theme-provider.tsx"
+
+anti_patterns:
+  # Real instances found in codebase that violate token usage.
+  # Format: { file_line: "src/pages/Contact.tsx:42", violation: "Raw hex #c0392b", fix: "var(--error-red)" }
+  found: []

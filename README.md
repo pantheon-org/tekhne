@@ -69,7 +69,7 @@ Repository & workspace management
 | [nx-plugin-toolkit](TILES.md#nx-plugin-toolkit) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-plugin-toolkit) | 0.2.0 |
 | [nx-vite-integration](TILES.md#nx-vite-integration) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/nx-vite-integration) | 0.1.1 |
 
-## Development (6 tiles)
+## Development (8 tiles)
 
 Development tooling
 
@@ -81,6 +81,8 @@ Development tooling
 | [bun-development](TILES.md#bun-development) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/bun-development) | 0.1.1 |
 | [biome-complete](TILES.md#biome-complete) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/biome-complete) | 0.1.1 |
 | [typescript-advanced](TILES.md#typescript-advanced) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/typescript-advanced) | 0.1.1 |
+| [website-theme-porter](TILES.md#website-theme-porter) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/website-theme-porter) | 0.1.0 |
+| [web-reference-sheet-generator](TILES.md#web-reference-sheet-generator) | 1 | [Public](https://tessl.io/registry/skills/pantheon-ai/web-reference-sheet-generator) | 0.1.0 |
 
 ## Agentic Harness (4 tiles)
 

@@ -21,6 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
 
       - name: Check for TESSL_TOKEN
         id: token-check
@@ -49,15 +51,49 @@ jobs:
           TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
         run: |
           set +e
-          output=$(bun run tessl:lint 2>&1)
-          exit_code=$?
+
+          # Find changed SKILL.md files and resolve their nearest tile.json directory
+          CHANGED=$(git diff --name-only --diff-filter=AM \
+            "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
+            -- 'skills/**/SKILL.md' 2>/dev/null || true)
+
+          TILE_DIRS=""
+          for skill_md in $CHANGED; do
+            dir=$(dirname "$skill_md")
+            while [ "$dir" != "." ]; do
+              if [ -f "$dir/tile.json" ]; then
+                TILE_DIRS="$TILE_DIRS $dir"
+                break
+              fi
+              dir=$(dirname "$dir")
+            done
+          done
+
+          TILE_DIRS=$(echo "$TILE_DIRS" | tr ' ' '\n' | sort -u | grep -v '^$' || true)
+
+          if [ -z "$TILE_DIRS" ]; then
+            echo "No tiles to lint — no changed SKILL.md files with a tile.json found."
+            echo "output=No tiles to lint." >> "$GITHUB_OUTPUT"
+            echo "exit_code=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          combined_output=""
+          combined_exit=0
+          for tile_dir in $TILE_DIRS; do
+            out=$(bunx tessl skill lint "$tile_dir" 2>&1)
+            code=$?
+            combined_output="${combined_output}=== ${tile_dir} ===\n${out}\n"
+            [ $code -ne 0 ] && combined_exit=$code
+          done
+
           set -e
           delimiter="$(openssl rand -hex 8)"
           {
             echo "output<<${delimiter}"
-            echo "${output}"
+            printf "%b" "${combined_output}"
             echo "${delimiter}"
-            echo "exit_code=${exit_code}"
+            echo "exit_code=${combined_exit}"
           } >> "$GITHUB_OUTPUT"
 
       - name: Find existing lint comment
@@ -102,6 +138,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
 
       - name: Check for TESSL_TOKEN
         id: token-check
@@ -130,15 +168,37 @@ jobs:
           TESSL_TOKEN: ${{ secrets.TESSL_TOKEN }}
         run: |
           set +e
-          output=$(bun run tessl:review 2>&1)
-          exit_code=$?
+
+          # Find changed SKILL.md files and collect their directories
+          CHANGED=$(git diff --name-only --diff-filter=AM \
+            "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
+            -- 'skills/**/SKILL.md' 2>/dev/null || true)
+
+          SKILL_DIRS=$(echo "$CHANGED" | xargs -I{} dirname {} | sort -u | grep -v '^$' || true)
+
+          if [ -z "$SKILL_DIRS" ]; then
+            echo "No skills to review — no changed SKILL.md files found."
+            echo "output=No skills to review." >> "$GITHUB_OUTPUT"
+            echo "exit_code=0" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          combined_output=""
+          combined_exit=0
+          for skill_dir in $SKILL_DIRS; do
+            out=$(bunx tessl skill review "$skill_dir" 2>&1)
+            code=$?
+            combined_output="${combined_output}=== ${skill_dir} ===\n${out}\n"
+            [ $code -ne 0 ] && combined_exit=$code
+          done
+
           set -e
           delimiter="$(openssl rand -hex 8)"
           {
             echo "output<<${delimiter}"
-            echo "${output}"
+            printf "%b" "${combined_output}"
             echo "${delimiter}"
-            echo "exit_code=${exit_code}"
+            echo "exit_code=${combined_exit}"
           } >> "$GITHUB_OUTPUT"
 
       - name: Find existing review comment

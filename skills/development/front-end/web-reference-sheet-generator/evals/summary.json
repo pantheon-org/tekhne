@@ -1,0 +1,71 @@
+{
+  "skill": "web-reference-sheet-generator",
+  "version": "1.1.0",
+  "instructions_total": 22,
+  "instructions_coverage": {
+    "covered": 20,
+    "uncovered": 2,
+    "coverage_pct": 91,
+    "uncovered_ids": ["I16", "I08"],
+    "notes": "I16 (slug naming convention) and I08 (scratchpad population) are implicitly tested in all scenarios but not as primary criteria checklist items. Coverage is sufficient."
+  },
+  "scenarios": [
+    {
+      "id": "scenario-01-tailwind-v4",
+      "title": "Tailwind v4 project with @theme CSS tokens",
+      "instructions_covered": [
+        "I01",
+        "I02",
+        "I03",
+        "I04",
+        "I05",
+        "I08",
+        "I09",
+        "I11",
+        "I12",
+        "I13",
+        "I14",
+        "I15",
+        "I17",
+        "I18",
+        "I19",
+        "I20"
+      ],
+      "criteria_count": 17,
+      "criteria_sum": 100
+    },
+    {
+      "id": "scenario-02-plain-css-dark-mode",
+      "title": "Plain CSS project with prefers-color-scheme dark mode",
+      "instructions_covered": [
+        "I01",
+        "I03",
+        "I05",
+        "I06",
+        "I07",
+        "I08",
+        "I11",
+        "I13",
+        "I14",
+        "I15",
+        "I17",
+        "I19",
+        "I22"
+      ],
+      "criteria_count": 15,
+      "criteria_sum": 100
+    },
+    {
+      "id": "scenario-03-sparse-codebase",
+      "title": "Sparse codebase with minimal tokens — TBD handling",
+      "instructions_covered": ["I01", "I02", "I13", "I14", "I15", "I17", "I21"],
+      "criteria_count": 13,
+      "criteria_sum": 100
+    }
+  ],
+  "why_given_distribution": {
+    "new_knowledge": 14,
+    "reminder": 4,
+    "preference": 4
+  }
+}

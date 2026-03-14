@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly applies the Token Decision Tree to assign ambiguous colours to the right semantic tokens, uses the correct colour table format, and places files in the correct artifact directory.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct output path",
+      "description": "colours.md is placed inside .context/artifacts/saas-dashboard/2026-03-13/theme/ — not in docs/ or project root",
+      "max_score": 10
+    },
+    {
+      "name": "Colour table format",
+      "description": "colours.md contains a table with Token, Hex, HSL, and Role columns",
+      "max_score": 8
+    },
+    {
+      "name": "Primary = CTA button",
+      "description": "The primary CTA button colour (rgb(99, 102, 241) / #6366F1) is assigned to --primary",
+      "max_score": 12
+    },
+    {
+      "name": "Secondary = secondary button",
+      "description": "The secondary button background (rgb(241, 245, 249)) is assigned to --secondary or --muted (not --primary or --accent)",
+      "max_score": 10
+    },
+    {
+      "name": "Accent = tag/highlight",
+      "description": "The tag background colour (rgb(224, 231, 255)) is assigned to --accent (not --secondary, since it is decorative/highlight only)",
+      "max_score": 10
+    },
+    {
+      "name": "Muted = sidebar",
+      "description": "The sidebar background (rgb(241, 245, 249)) or card bg is assigned to --muted",
+      "max_score": 8
+    },
+    {
+      "name": "Border token",
+      "description": "The input border or card border colour (rgb(203, 213, 225) or rgb(226, 232, 240)) is assigned to --border",
+      "max_score": 10
+    },
+    {
+      "name": "Background token",
+      "description": "The page/body background (rgb(248, 250, 252)) is assigned to --background",
+      "max_score": 10
+    },
+    {
+      "name": "Foreground token",
+      "description": "The body text colour (rgb(15, 23, 42)) is assigned to --foreground",
+      "max_score": 10
+    },
+    {
+      "name": "Tie-breaking documented",
+      "description": "decisions.md explains at least one assignment decision for an ambiguous colour (e.g. why sidebar is --muted vs --secondary, or why tag is --accent vs --secondary)",
+      "max_score": 12
+    }
+  ]
+}

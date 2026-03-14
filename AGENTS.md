@@ -29,7 +29,7 @@ Skills are organized into 12 domains for improved discoverability:
 - **ci-cd/** - CI/CD pipelines (GitHub Actions, GitLab CI, Jenkins, Helm, FluentBit, Azure Pipelines)
 - **infrastructure/** - IaC tools (Terraform, Ansible, K8s, Docker, CFN, AWS CDK)
 - **repository-mgmt/** - Repository management (Nx workspace tools, future: Turborepo, Lerna, Git workflows)
-- **development/** - Dev tooling (Bun, Biome, TypeScript, Commander.js, shell scripting)
+- **development/** - Dev tooling (Bun, Biome, TypeScript, Commander.js, shell scripting, front-end)
 - **agentic-harness/** - Agent framework configs (OpenCode, AGENTS.md, future: Cursor, Claude Desktop)
 - **testing/** - Testing & quality (BDD, TDD, skill auditor, UI debugging)
 - **software-engineering/** - Engineering principles (design patterns, architecture, SOLID, refactoring)

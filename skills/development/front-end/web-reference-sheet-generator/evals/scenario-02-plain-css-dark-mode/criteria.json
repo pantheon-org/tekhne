@@ -1,0 +1,81 @@
+{
+  "context": "Tests whether the agent correctly identifies a prefers-color-scheme dark mode strategy, extracts all overridden tokens, and documents accurate motion and spacing tokens from a plain CSS project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Token discovery",
+      "description": "Agent ran grep for -- custom properties and found styles/tokens.css",
+      "max_score": 4
+    },
+    {
+      "name": "Dark mode strategy",
+      "description": "§11 Dark Mode correctly identifies the strategy as 'prefers-color-scheme media query' (not class-based)",
+      "max_score": 10
+    },
+    {
+      "name": "Dark mode tokens",
+      "description": "Dark mode section lists all 5 overridden tokens (--color-text, --color-text-muted, --color-surface, --color-surface-raised, --color-border) with their dark values",
+      "max_score": 12
+    },
+    {
+      "name": "Motion tokens populated",
+      "description": "§8 Motion is populated with --transition-fast (150ms ease) and --transition-base (250ms ease) — not marked TBD",
+      "max_score": 8
+    },
+    {
+      "name": "Spacing tokens accurate",
+      "description": "§4 Spacing lists all 5 space tokens (--space-1 through --space-16) with correct values",
+      "max_score": 8
+    },
+    {
+      "name": "Accessibility noted",
+      "description": "§10 Accessibility notes role=\"article\" and aria-labelledby found in card component",
+      "max_score": 8
+    },
+    {
+      "name": "Output file created",
+      "description": "docs/design/design-reference.md was created",
+      "max_score": 4
+    },
+    {
+      "name": "Companion SKILL.md location",
+      "description": "Companion SKILL.md was generated under .agents/skills/",
+      "max_score": 6
+    },
+    {
+      "name": "Companion SKILL.md specificity",
+      "description": "Companion SKILL.md description names the specific project",
+      "max_score": 6
+    },
+    {
+      "name": "All 12 sections present",
+      "description": "All 12 sections present in the output",
+      "max_score": 4
+    },
+    {
+      "name": "Confirmation block printed",
+      "description": "Step 8 confirmation block printed with populated section counts",
+      "max_score": 5
+    },
+    {
+      "name": "Authoritative token file named",
+      "description": "styles/tokens.css named as the authoritative token file",
+      "max_score": 5
+    },
+    {
+      "name": "Component inspection",
+      "description": "Agent read component files (button.html, card.html) before generating output",
+      "max_score": 4
+    },
+    {
+      "name": "Scratchpad used",
+      "description": "Agent populated or referenced skill-output.yaml scratchpad before generating markdown",
+      "max_score": 6
+    },
+    {
+      "name": "No invented colours",
+      "description": "No colour values appear in the output that are not present in tokens.css",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly handles a site with no CSS custom properties — switching to computed-only extraction, assigning tokens using the decision tree, documenting colours with hex/HSL/role table format, and noting the design token situation in overview.md.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No-token-system note",
+      "description": "overview.md contains a note indicating that the source site uses hardcoded values and has no CSS custom property design token system",
+      "max_score": 12
+    },
+    {
+      "name": "Extraction method noted",
+      "description": "overview.md explicitly identifies the extraction method used (computed-only / agent-browser / curl / manual)",
+      "max_score": 8
+    },
+    {
+      "name": "Colour table format",
+      "description": "colours.md contains a markdown table with columns: Token, Hex, HSL, Role (or equivalent columns in that order)",
+      "max_score": 10
+    },
+    {
+      "name": "RGB to Hex conversion",
+      "description": "colours.md converts the extracted rgb() values to hex format (e.g. rgb(255,255,255) → #FFFFFF)",
+      "max_score": 10
+    },
+    {
+      "name": "RGB to HSL conversion",
+      "description": "colours.md converts at least one extracted rgb() value to HSL channel format (e.g. 0 0% 100%)",
+      "max_score": 8
+    },
+    {
+      "name": "Primary token assigned",
+      "description": "colours.md assigns the CTA button background colour (rgb(220, 53, 69)) to --primary",
+      "max_score": 12
+    },
+    {
+      "name": "Background token assigned",
+      "description": "colours.md assigns the page background (rgb(255, 255, 255)) to --background",
+      "max_score": 8
+    },
+    {
+      "name": "Foreground token assigned",
+      "description": "colours.md assigns the body text colour (rgb(30, 30, 30)) to --foreground",
+      "max_score": 8
+    },
+    {
+      "name": "Muted token assigned",
+      "description": "colours.md assigns the card background (rgb(245, 245, 245)) to --muted or a custom token like --surface",
+      "max_score": 8
+    },
+    {
+      "name": "Correct artifacts path",
+      "description": "Both output files are placed inside .context/artifacts/legacy-brand-co/2026-03-13/theme/ — not in docs/ or any other location",
+      "max_score": 16
+    }
+  ]
+}
