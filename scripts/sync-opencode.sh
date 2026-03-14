@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 # Ensure unmatched globs expand to nothing instead of remaining as literals.
-shopt -s nullglob
-#!/usr/bin/env bash
-# Ensure unmatched globs expand to nothing instead of remaining as literals.
 set -euo pipefail
 shopt -s nullglob
 
