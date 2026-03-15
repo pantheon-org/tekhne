@@ -11,7 +11,7 @@ export interface SkillAudit {
 
 export const collectAuditData = async (): Promise<SkillAudit[]> => {
   const auditJsonFiles =
-    await $`find .context/audits -name "audit.json" -path "*/latest/*"`.text();
+    await $`find -L .context/audits -name "audit.json" -path "*/latest/*"`.text();
   const files = auditJsonFiles.trim().split("\n").filter(Boolean);
 
   if (files.length === 0) {
