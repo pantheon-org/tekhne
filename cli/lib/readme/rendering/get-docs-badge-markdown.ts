@@ -1,8 +1,6 @@
 import { getBadgeFilename } from "./get-badge-filename";
 
-const DOCS_BADGE_BASE = "/tekhne/.github/badges";
-
 export const getDocsBadgeMarkdown = (grade: string): string => {
-  const filename = getBadgeFilename(grade);
-  return `![${grade}](${DOCS_BADGE_BASE}/${filename}.svg)`;
+  const cssClass = getBadgeFilename(grade).toLowerCase();
+  return `<span class="skill-badge skill-badge--${cssClass}">${grade}</span>`;
 };

@@ -7,7 +7,7 @@ pre-commit:
       stage_fixed: true
     markdownlint:
       glob: "*.md"
-      exclude: ".context/**"
+      exclude: "{.context/**,docs/src/content/docs/tiles.md}"
       run: bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc {staged_files}
       stage_fixed: true
     skill-artifacts:
@@ -15,7 +15,7 @@ pre-commit:
       stage_fixed: true
     readme-sync:
       glob: "{skills/**,cli/**,.context/audits/**}"
-      run: bun cli/index.ts readme update && bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md docs/src/content/docs/tiles.md && git add README.md docs/src/content/docs/tiles.md
+      run: bun cli/index.ts readme update && bunx markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md && git add README.md docs/src/content/docs/tiles.md
       stage_fixed: true
     yamllint:
       glob: "*.{yml,yaml}"
