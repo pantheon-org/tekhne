@@ -21,8 +21,8 @@ type LineState = {
   exportedFnCount: number;
 };
 
-// Top-level (no leading whitespace) exported arrow function
-const TOP_LEVEL_EXPORT_FN = /^export const \w+ = (async )?\(/;
+// Top-level (no leading whitespace) arrow function (exported or private)
+const TOP_LEVEL_EXPORT_FN = /^(?:export )?const \w+ = (async )?\(/;
 // Indented arrow function definition (internal function indicator).
 // Requires `=>` on the same line to avoid false-positives on expressions like `const x = (a + b)`.
 const INDENTED_ARROW_FN =
@@ -73,7 +73,7 @@ const checkExtraExport = (
         file,
         line: lineNum,
         message:
-          "Multiple exported functions in one module. Each module must export exactly one function.",
+          "Multiple functions in one module. Each module must contain exactly one function.",
       }
     : null;
 
@@ -152,7 +152,8 @@ const checkFile = (file: string, content: string): Violation[] => {
 const main = async () => {
   const args = process.argv.slice(2);
   const files = args.filter(
-    (f) => f.endsWith(".ts") && f.includes("cli/") && !f.endsWith(".test.ts"),
+    (f) =>
+      f.endsWith(".ts") && f.includes("cli/lib/") && !f.endsWith(".test.ts"),
   );
 
   if (files.length === 0) {

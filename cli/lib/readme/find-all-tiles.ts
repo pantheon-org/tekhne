@@ -1,14 +1,8 @@
 import { existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { $ } from "bun";
+import { resolveSkillDir } from "./resolve-skill-dir";
 import type { PublishedStatus, TileEntry, TileSkillEntry } from "./tile-types";
-
-const resolveSkillDir = (tileDir: string, skillPath: string): string => {
-  const withoutSkillMd = skillPath
-    .replace(/\/SKILL\.md$/, "")
-    .replace(/^SKILL\.md$/, "");
-  return withoutSkillMd ? join(tileDir, withoutSkillMd) : tileDir;
-};
 
 export const findAllTiles = async (): Promise<TileEntry[]> => {
   const output = await $`find skills -name "tile.json" -type f`.text();
