@@ -11,7 +11,7 @@ Given("I am at the repository root", function (this: CliWorld) {
 When(
   "I run the CLI command {string}",
   function (this: CliWorld, command: string) {
-    const args = command.split(/\s+/);
+    const args = command.split(/\s+/).filter(Boolean);
     this.lastResult = runCli(args, this.repoRoot);
   },
 );
