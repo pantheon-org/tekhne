@@ -1,7 +1,7 @@
 // @ts-check
 
 import { readdirSync, readFileSync } from "node:fs";
-import { dirname, join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import starlight from "@astrojs/starlight";
 import { defineConfig } from "astro/config";
@@ -10,46 +10,97 @@ import matter from "gray-matter";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const skillsRoot = resolve(__dirname, "../skills");
 
+/** Convert a kebab-case directory name to Title Case. */
+const toTitleCase = (str) =>
+  str
+    .split("-")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+
 /**
- * Recursively collect sidebar items from all SKILL.md files under a directory.
- * @param {string} dir
- * @returns {{ label: string, slug: string }[]}
+ * Recursively build a sidebar node for a directory.
+ * - Returns a leaf `{ label, slug }` when the directory contains SKILL.md.
+ * - Returns a group `{ label, items, collapsed }` for intermediate directories.
+ * - Returns null when no SKILL.md files exist anywhere below.
+ *
+ * @param {string} dir  - absolute path to the directory
+ * @returns {{ label: string, slug?: string, items?: unknown[], collapsed?: boolean } | null}
  */
-const collectSkillItems = (dir) => {
-  /** @type {{ label: string, slug: string }[]} */
-  const items = [];
+const buildSidebarNode = (dir) => {
+  /** @type {import("node:fs").Dirent[]} */
   let entries;
   try {
     entries = readdirSync(dir, { withFileTypes: true });
   } catch {
-    return items;
+    return null;
   }
-  for (const entry of entries) {
-    if (entry.isDirectory()) {
-      items.push(...collectSkillItems(join(dir, entry.name)));
-    } else if (entry.name === "SKILL.md") {
-      const fullPath = join(dir, entry.name);
-      const raw = readFileSync(fullPath, "utf-8");
-      const { data } = matter(raw);
-      const label = /** @type {string} */ (
-        data.name ?? data.title ?? "Untitled"
-      );
-      // Slug matches the lowercased URL path: skills/<domain>/…/<tool>/skill
-      const rel = relative(skillsRoot, dir).toLowerCase().replace(/\\/g, "/");
-      items.push({ label, slug: `skills/${rel}/skill` });
-    }
+
+  // Leaf: directory directly contains SKILL.md
+  const hasSkill = entries.some((e) => e.isFile() && e.name === "SKILL.md");
+  if (hasSkill) {
+    const raw = readFileSync(join(dir, "SKILL.md"), "utf-8");
+    const { data } = matter(raw);
+    const label = /** @type {string} */ (
+      data.name ?? data.title ?? toTitleCase(basename(dir))
+    );
+    const rel = relative(skillsRoot, dir).toLowerCase().replace(/\\/g, "/");
+    return { label, slug: `skills/${rel}/skill` };
   }
-  return items;
+
+  // Group: recurse into sub-directories, skipping non-navigable content folders.
+  const skip = new Set([
+    "references",
+    "templates",
+    "scripts",
+    "schemas",
+    "assets",
+    "evals",
+    "checklist",
+    "template",
+  ]);
+  const subDirs = entries.filter(
+    (e) => e.isDirectory() && !e.name.startsWith(".") && !skip.has(e.name),
+  );
+  const items = subDirs
+    .map((e) => buildSidebarNode(join(dir, e.name)))
+    .filter(Boolean);
+
+  if (items.length === 0) return null;
+
+  items.sort((a, b) => (a?.label ?? "").localeCompare(b?.label ?? ""));
+  return { label: toTitleCase(basename(dir)), items, collapsed: true };
 };
 
 /**
- * Build a flat, alphabetically-sorted sidebar group for a domain.
+ * Build a nested, alphabetically-sorted sidebar group for a domain.
  * @param {string} domain  - directory name under skills/ (e.g. "ci-cd")
  * @param {string} label   - human-readable group label
  */
 const buildDomainSidebar = (domain, label) => {
-  const items = collectSkillItems(join(skillsRoot, domain));
-  items.sort((a, b) => a.label.localeCompare(b.label));
+  const domainDir = join(skillsRoot, domain);
+  let entries;
+  try {
+    entries = readdirSync(domainDir, { withFileTypes: true });
+  } catch {
+    return { label, items: [], collapsed: true };
+  }
+
+  const skip = new Set([
+    "references",
+    "templates",
+    "scripts",
+    "schemas",
+    "assets",
+    "evals",
+  ]);
+  const items = entries
+    .filter(
+      (e) => e.isDirectory() && !e.name.startsWith(".") && !skip.has(e.name),
+    )
+    .map((e) => buildSidebarNode(join(domainDir, e.name)))
+    .filter(Boolean);
+
+  items.sort((a, b) => (a?.label ?? "").localeCompare(b?.label ?? ""));
   return { label, items, collapsed: true };
 };
 
