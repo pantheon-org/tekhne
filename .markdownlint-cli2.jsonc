@@ -21,7 +21,9 @@
     "skills/agentic-harness/opencode/build-plugins/references/**",
     "skills/agentic-harness/opencode/design-agents/references/**",
     "skills/agentic-harness/opencode/configure/references/**",
-    ".tessl/**"
+    ".tessl/**",
+    // Generated file — contains intentional inline HTML for badge spans.
+    "docs/src/content/docs/tiles.md"
   ],
   "overrides": [
     {

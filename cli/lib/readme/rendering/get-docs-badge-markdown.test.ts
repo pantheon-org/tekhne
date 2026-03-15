@@ -2,22 +2,20 @@ import { describe, expect, test } from "bun:test";
 import { getDocsBadgeMarkdown } from "./get-docs-badge-markdown";
 
 describe("getDocsBadgeMarkdown", () => {
-  test("returns absolute path badge for a known grade", () => {
+  test("returns a CSS span for a known grade", () => {
     expect(getDocsBadgeMarkdown("A")).toBe(
-      "![A](/tekhne/.github/badges/A.svg)",
+      '<span class="skill-badge skill-badge--a">A</span>',
     );
   });
 
-  test("encodes plus in filename", () => {
+  test("encodes plus as -plus in the CSS class", () => {
     const md = getDocsBadgeMarkdown("B+");
-    expect(md).toContain("![B+]");
-    expect(md).toContain("B-plus.svg");
-    expect(md).toContain("/tekhne/.github/badges/");
+    expect(md).toBe('<span class="skill-badge skill-badge--b-plus">B+</span>');
   });
 
-  test("question mark grade renders as unknown filename", () => {
+  test("question mark grade renders as unknown CSS class", () => {
     expect(getDocsBadgeMarkdown("?")).toBe(
-      "![?](/tekhne/.github/badges/unknown.svg)",
+      '<span class="skill-badge skill-badge--unknown">?</span>',
     );
   });
 });
