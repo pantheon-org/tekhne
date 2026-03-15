@@ -100,6 +100,33 @@ lib/audit/index.ts          → barrel: re-exports both (exempt from this rule)
 
 ---
 
+---
+
+### 7. Directory Organization
+
+Each `lib/` subdirectory groups modules by responsibility layer. Files that belong
+to the same concern live together; cross-layer imports always go through the barrel.
+
+The layer order (lowest → highest dependency) is:
+
+| Layer | Subdirectory | Responsibility |
+|-------|-------------|----------------|
+| 0 | `types/` | Pure type definitions and constants — no imports from this lib |
+| 1 | `parsing/` | Pure string/value parsing — no filesystem I/O |
+| 2 | `discovery/` | Filesystem traversal, metadata reading, tile/skill enumeration |
+| 3 | `sections/` | Boundary detection for structured text documents |
+| 4 | `rendering/` | Markdown builders and output generators |
+
+Rules:
+- A module may only import from the **same layer** or a **lower layer** (never upward).
+- Cross-layer imports use the target subdir's barrel: `import { foo } from "../types"`.
+- Same-layer imports use a relative path: `import { bar } from "./bar"`.
+- When adding a new module, place it in the layer that matches its lowest dependency.
+
+**Enforced by:** Code review.
+
+---
+
 ## Exemptions
 
 | File type | Exempt from |
