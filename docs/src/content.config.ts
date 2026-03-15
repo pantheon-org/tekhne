@@ -31,9 +31,9 @@ export const collections = {
   docs: defineCollection({
     loader: glob({
       base: "src/content/docs",
-      // Only serve top-level doc pages and SKILL.md files.
-      // Excludes references/, templates/, scripts/, schemas/, assets/, AGENTS.md, etc.
-      pattern: ["*.{md,mdx}", "**/SKILL.md"],
+      // Serve top-level doc pages, SKILL.md files, and reference docs.
+      // Excludes templates/, scripts/, schemas/, assets/, AGENTS.md, etc.
+      pattern: ["*.{md,mdx}", "**/SKILL.md", "**/references/*.md"],
     }),
     schema: (ctx) => withSkillTitle(docsSchema()(ctx)),
   }),

@@ -7,6 +7,8 @@
     "tekhne": "./cli/index.ts"
   },
   "scripts": {
+    "docs:build": "cd docs && bun run build",
+    "docs:dev": "cd docs && bun run dev",
     "prepare": "bunx lefthook install",
     "check:biome": "bunx @biomejs/biome check .",
     "check:markdown": "bunx markdownlint-cli2 \"**/*.md\"",
