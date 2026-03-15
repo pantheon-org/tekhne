@@ -2,7 +2,7 @@ import { getLatestAuditInfo, parseSkillDescription } from "../discovery";
 import { formatSummary, getSkillDisplayName } from "../parsing";
 import type { SkillEntry, TileEntry } from "../types";
 import { buildCountLabel } from "./build-count-label";
-import { getBadgeMarkdown } from "./get-badge-markdown";
+import { getDocsBadgeMarkdown } from "./get-docs-badge-markdown";
 
 export const buildDomainDocsSection = async (
   domainInfo: { key: string; title: string; description: string },
@@ -33,8 +33,8 @@ export const buildDomainDocsSection = async (
       const skillLink = `[${skill.name}](${docsUrl})`;
       const auditInfo = await getLatestAuditInfo(skill.auditRelPath);
       const badge = auditInfo
-        ? getBadgeMarkdown(auditInfo.grade)
-        : `![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
+        ? getDocsBadgeMarkdown(auditInfo.grade)
+        : getDocsBadgeMarkdown("?");
       section += `| ${skillLink} | ${badge} |\n`;
     }
   }
@@ -47,8 +47,8 @@ export const buildDomainDocsSection = async (
     const skillLink = `[${displayName}](${docsUrl})`;
     const auditInfo = await getLatestAuditInfo(skill.relativePath);
     const badge = auditInfo
-      ? getBadgeMarkdown(auditInfo.grade)
-      : `![?](https://img.shields.io/badge/Rating-?-lightgrey)`;
+      ? getDocsBadgeMarkdown(auditInfo.grade)
+      : getDocsBadgeMarkdown("?");
 
     section += `\n### ${displayName}\n\n`;
     section += `${description}\n\n`;

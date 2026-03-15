@@ -12,5 +12,6 @@ export * from "./generate-untiled-skill-section";
 export * from "./get-audit-link";
 export * from "./get-badge-filename";
 export * from "./get-badge-markdown";
+export * from "./get-docs-badge-markdown";
 export * from "./make-badge-svg";
 export * from "./write-badge-files";
