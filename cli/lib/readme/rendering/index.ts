@@ -1,5 +1,6 @@
 export * from "./build-count-label";
 export * from "./build-domain-docs-section";
+export * from "./build-readme-catalog-line";
 export * from "./build-skill-docs-row";
 export * from "./generate-docs-tiles-page";
 export * from "./get-audit-link";
