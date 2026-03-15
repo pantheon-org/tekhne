@@ -265,6 +265,7 @@ All TypeScript files under `cli/` must follow these rules. They are enforced by 
 | 4 | **No internal functions** — no arrow/named functions nested inside a function body | `cli/scripts/validate-ts-conventions.ts` |
 | 5 | **Function body ≤ 150 lines** — split into separate files if over limit | `cli/scripts/validate-ts-conventions.ts` |
 | 6 | **One function per module** — each non-barrel `.ts` file exports exactly one arrow function | `cli/scripts/validate-ts-conventions.ts` |
+| 7 | **Directory size guideline** — aim for ≤10 modules per `lib/` subdirectory; if a dir grows beyond that, consider splitting into themed sub-subdirectories each with their own `index.ts` barrel | Code review |
 
 `index.ts` barrels and `*.test.ts` files are exempt from rules 4–6.
 
