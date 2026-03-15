@@ -239,6 +239,6 @@ this.onMessage("startMatch", (client) => {
 
 ## References
 
-- `references/room-lifecycle-and-state.md`
-- `references/message-validation-and-security.md`
-- `references/matchmaking-and-reconnection.md`
+- Matchmaking and Reconnection: [references/room-lifecycle-and-state.md](references/room-lifecycle-and-state.md)
+- Message Validation and Security: [references/message-validation-and-security.md](references/message-validation-and-security.md)
+- Matchmaking and Reconnection: [references/matchmaking-and-reconnection.md](references/matchmaking-and-reconnection.md)
