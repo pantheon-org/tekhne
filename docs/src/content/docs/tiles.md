@@ -18,8 +18,8 @@ Complete azure-pipelines toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [azure-pipelines-generator](/tekhne/skills/ci-cd/azure-pipelines/generator/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
-| [azure-pipelines-validator](/tekhne/skills/ci-cd/azure-pipelines/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [azure-pipelines-generator](/tekhne/skills/ci-cd/azure-pipelines/generator/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
+| [azure-pipelines-validator](/tekhne/skills/ci-cd/azure-pipelines/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### gitlab-ci-toolkit
 
@@ -27,8 +27,8 @@ Complete GitLab CI/CD toolkit with generation and validation capabilities for pi
 
 | Skill | Rating |
 | --- | --- |
-| [gitlab-ci-generator](/tekhne/skills/ci-cd/gitlab-ci/generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [gitlab-ci-validator](/tekhne/skills/ci-cd/gitlab-ci/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [gitlab-ci-generator](/tekhne/skills/ci-cd/gitlab-ci/generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [gitlab-ci-validator](/tekhne/skills/ci-cd/gitlab-ci/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### fluentbit-toolkit
 
@@ -36,8 +36,8 @@ Complete fluentbit toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [fluentbit-generator](/tekhne/skills/ci-cd/fluentbit/generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [fluentbit-generator](/tekhne/skills/ci-cd/fluentbit/generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### jenkinsfile-toolkit
 
@@ -45,8 +45,8 @@ Complete jenkinsfile toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [jenkinsfile-generator](/tekhne/skills/ci-cd/jenkinsfile/generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [jenkinsfile-validator](/tekhne/skills/ci-cd/jenkinsfile/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [jenkinsfile-generator](/tekhne/skills/ci-cd/jenkinsfile/generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [jenkinsfile-validator](/tekhne/skills/ci-cd/jenkinsfile/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### helm-toolkit
 
@@ -54,8 +54,8 @@ Complete helm toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [helm-generator](/tekhne/skills/ci-cd/helm/generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [helm-validator](/tekhne/skills/ci-cd/helm/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [helm-generator](/tekhne/skills/ci-cd/helm/generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [helm-validator](/tekhne/skills/ci-cd/helm/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### github-actions-toolkit
 
@@ -63,8 +63,8 @@ Complete GitHub Actions toolkit with generation and validation capabilities for 
 
 | Skill | Rating |
 | --- | --- |
-| [github-actions-generator](/tekhne/skills/ci-cd/github-actions/generator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
-| [github-actions-validator](/tekhne/skills/ci-cd/github-actions/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [github-actions-generator](/tekhne/skills/ci-cd/github-actions/generator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
+| [github-actions-validator](/tekhne/skills/ci-cd/github-actions/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ---
 
@@ -78,8 +78,8 @@ Complete terraform toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [terraform-generator](/tekhne/skills/infrastructure/terraform/generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [terraform-validator](/tekhne/skills/infrastructure/terraform/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [terraform-generator](/tekhne/skills/infrastructure/terraform/generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [terraform-validator](/tekhne/skills/infrastructure/terraform/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### dockerfile-toolkit
 
@@ -87,8 +87,8 @@ Complete dockerfile toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [dockerfile-generator](/tekhne/skills/infrastructure/dockerfile/generator/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
-| [dockerfile-validator](/tekhne/skills/infrastructure/dockerfile/validator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [dockerfile-generator](/tekhne/skills/infrastructure/dockerfile/generator/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
+| [dockerfile-validator](/tekhne/skills/infrastructure/dockerfile/validator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### terragrunt-toolkit
 
@@ -96,8 +96,8 @@ Complete terragrunt toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [terragrunt-generator](/tekhne/skills/infrastructure/terragrunt/generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [terragrunt-validator](/tekhne/skills/infrastructure/terragrunt/validator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [terragrunt-generator](/tekhne/skills/infrastructure/terragrunt/generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [terragrunt-validator](/tekhne/skills/infrastructure/terragrunt/validator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### k8s-toolkit
 
@@ -105,9 +105,9 @@ Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster de
 
 | Skill | Rating |
 | --- | --- |
-| [k8s-yaml-generator](/tekhne/skills/infrastructure/k8s/yaml-generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [k8s-yaml-validator](/tekhne/skills/infrastructure/k8s/yaml-validator/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
-| [k8s-debug](/tekhne/skills/infrastructure/k8s/debug/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [k8s-yaml-generator](/tekhne/skills/infrastructure/k8s/yaml-generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [k8s-yaml-validator](/tekhne/skills/infrastructure/k8s/yaml-validator/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
+| [k8s-debug](/tekhne/skills/infrastructure/k8s/debug/skill/) | ![A](/tekhne/.github/badges/A.svg) |
 
 ### cfn-behavior-validator
 
@@ -115,7 +115,7 @@ Creates test stacks, analyzes CloudFormation events, and compares actual vs docu
 
 | Skill | Rating |
 | --- | --- |
-| [cfn-behavior-validator](/tekhne/skills/infrastructure/cfn/behavior-validator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [cfn-behavior-validator](/tekhne/skills/infrastructure/cfn/behavior-validator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### cfn-template-compare
 
@@ -123,7 +123,7 @@ Compares deployed CloudFormation templates with locally synthesized CDK template
 
 | Skill | Rating |
 | --- | --- |
-| [cfn-template-compare](/tekhne/skills/infrastructure/cfn/template-compare/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [cfn-template-compare](/tekhne/skills/infrastructure/cfn/template-compare/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### ansible-toolkit
 
@@ -131,8 +131,8 @@ Complete ansible toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [ansible-generator](/tekhne/skills/infrastructure/ansible/generator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
-| [ansible-validator](/tekhne/skills/infrastructure/ansible/validator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [ansible-generator](/tekhne/skills/infrastructure/ansible/generator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
+| [ansible-validator](/tekhne/skills/infrastructure/ansible/validator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### cdk-nag
 
@@ -140,7 +140,7 @@ Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding r
 
 | Skill | Rating |
 | --- | --- |
-| [cdk-nag](/tekhne/skills/infrastructure/aws-cdk/cdk-nag/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [cdk-nag](/tekhne/skills/infrastructure/aws-cdk/cdk-nag/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ---
 
@@ -154,7 +154,7 @@ Integrate Biome into Nx monorepos with deterministic setup, caching, migration f
 
 | Skill | Rating |
 | --- | --- |
-| [nx-biome-integration](/tekhne/skills/repository-mgmt/nx/biome-integration/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [nx-biome-integration](/tekhne/skills/repository-mgmt/nx/biome-integration/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### nx-bun-integration
 
@@ -162,7 +162,7 @@ Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executo
 
 | Skill | Rating |
 | --- | --- |
-| [nx-bun-integration](/tekhne/skills/repository-mgmt/nx/bun-integration/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [nx-bun-integration](/tekhne/skills/repository-mgmt/nx/bun-integration/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### nx-workspace-patterns
 
@@ -170,7 +170,7 @@ Configure and optimize Nx monorepo workspaces with deterministic project-graph s
 
 | Skill | Rating |
 | --- | --- |
-| [nx-workspace-patterns](/tekhne/skills/repository-mgmt/nx/workspace-patterns/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [nx-workspace-patterns](/tekhne/skills/repository-mgmt/nx/workspace-patterns/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### nx-plugin-toolkit
 
@@ -178,7 +178,7 @@ Complete Nx plugin development toolkit: create custom generators, executors, and
 
 | Skill | Rating |
 | --- | --- |
-| [nx-plugin-authoring](/tekhne/skills/repository-mgmt/nx/nx-plugin-authoring/skill/) | ![C](https://img.shields.io/badge/Rating-C-red) |
+| [nx-plugin-authoring](/tekhne/skills/repository-mgmt/nx/nx-plugin-authoring/skill/) | ![C](/tekhne/.github/badges/C.svg) |
 
 ### nx-vite-integration
 
@@ -186,7 +186,7 @@ Configure and integrate Vite in Nx monorepos for applications and libraries. Cov
 
 | Skill | Rating |
 | --- | --- |
-| [nx-vite-integration](/tekhne/skills/repository-mgmt/nx/vite-integration/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [nx-vite-integration](/tekhne/skills/repository-mgmt/nx/vite-integration/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ---
 
@@ -200,8 +200,8 @@ Complete makefile toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [makefile-generator](/tekhne/skills/development/scripting/makefile/generator/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
-| [makefile-validator](/tekhne/skills/development/scripting/makefile/validator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [makefile-generator](/tekhne/skills/development/scripting/makefile/generator/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
+| [makefile-validator](/tekhne/skills/development/scripting/makefile/validator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### bash-script-toolkit
 
@@ -209,8 +209,8 @@ Complete bash-script toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [bash-script-generator](/tekhne/skills/development/scripting/bash-script/generator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
-| [bash-script-validator](/tekhne/skills/development/scripting/bash-script/validator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [bash-script-generator](/tekhne/skills/development/scripting/bash-script/generator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
+| [bash-script-validator](/tekhne/skills/development/scripting/bash-script/validator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### commanderjs
 
@@ -218,7 +218,7 @@ Complete Commander.js CLI framework guidance covering command structure, options
 
 | Skill | Rating |
 | --- | --- |
-| [commanderjs](/tekhne/skills/development/commanderjs/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [commanderjs](/tekhne/skills/development/commanderjs/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### bun-development
 
@@ -226,7 +226,7 @@ Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package managemen
 
 | Skill | Rating |
 | --- | --- |
-| [bun-development](/tekhne/skills/development/bun-development/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [bun-development](/tekhne/skills/development/bun-development/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### biome-complete
 
@@ -234,7 +234,7 @@ Complete Biome toolchain guidance for real repository workflows. Use when users 
 
 | Skill | Rating |
 | --- | --- |
-| [biome-complete](/tekhne/skills/development/biome-complete/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [biome-complete](/tekhne/skills/development/biome-complete/skill/) | ![A](/tekhne/.github/badges/A.svg) |
 
 ### typescript-advanced
 
@@ -242,7 +242,7 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 
 | Skill | Rating |
 | --- | --- |
-| [typescript-advanced](/tekhne/skills/development/typescript-advanced/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [typescript-advanced](/tekhne/skills/development/typescript-advanced/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### website-theme-porter
 
@@ -250,7 +250,7 @@ Port the visual theme and styling from a live website to a React/Tailwind CSS pr
 
 | Skill | Rating |
 | --- | --- |
-| [website-theme-porter](/tekhne/skills/development/front-end/website-theme-porter/skill/) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) |
+| [website-theme-porter](/tekhne/skills/development/front-end/website-theme-porter/skill/) | ![?](/tekhne/.github/badges/unknown.svg) |
 
 ### web-reference-sheet-generator
 
@@ -258,7 +258,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 | Skill | Rating |
 | --- | --- |
-| [web-reference-sheet-generator](/tekhne/skills/development/front-end/web-reference-sheet-generator/skill/) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) |
+| [web-reference-sheet-generator](/tekhne/skills/development/front-end/web-reference-sheet-generator/skill/) | ![?](/tekhne/.github/badges/unknown.svg) |
 
 ---
 
@@ -272,11 +272,11 @@ Complete toolkit for configuring and extending OpenCode: agent creation, custom 
 
 | Skill | Rating |
 | --- | --- |
-| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
-| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
-| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
-| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
-| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | ![A](/tekhne/.github/badges/A.svg) |
+| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | ![A](/tekhne/.github/badges/A.svg) |
+| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | ![A](/tekhne/.github/badges/A.svg) |
+| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | ![A](/tekhne/.github/badges/A.svg) |
+| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | ![A](/tekhne/.github/badges/A.svg) |
 
 ### skill-quality-auditor
 
@@ -284,7 +284,7 @@ Audit and improve skill collections with a 9-dimension scoring framework (Knowle
 
 | Skill | Rating |
 | --- | --- |
-| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | ![A](/tekhne/.github/badges/A.svg) |
 
 ### agents-md
 
@@ -292,7 +292,7 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 
 | Skill | Rating |
 | --- | --- |
-| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | ![A](/tekhne/.github/badges/A.svg) |
 
 ### tessl-publish-public
 
@@ -300,7 +300,7 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 
 | Skill | Rating |
 | --- | --- |
-| [tessl-publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [tessl-publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ---
 
@@ -314,7 +314,7 @@ Master Test-Driven Development with deterministic red-green-refactor workflows, 
 
 | Skill | Rating |
 | --- | --- |
-| [test-driven-development](/tekhne/skills/testing/test-driven-development/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [test-driven-development](/tekhne/skills/testing/test-driven-development/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### bdd-testing
 
@@ -322,7 +322,7 @@ Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. 
 
 | Skill | Rating |
 | --- | --- |
-| [bdd-testing](/tekhne/skills/testing/bdd-testing/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [bdd-testing](/tekhne/skills/testing/bdd-testing/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### ui-debug-workflow
 
@@ -330,7 +330,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 | Skill | Rating |
 | --- | --- |
-| [ui-debug-workflow](/tekhne/skills/testing/ui-debug-workflow/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [ui-debug-workflow](/tekhne/skills/testing/ui-debug-workflow/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ---
 
@@ -344,10 +344,10 @@ Strategic architecture, tactical design, and testable code principles (SOLID, Cl
 
 | Skill | Rating |
 | --- | --- |
-| [solid-principles](/tekhne/skills/software-engineering/design-principles/solid-principles/skill/) | ![C](https://img.shields.io/badge/Rating-C-red) |
-| [clean-architecture](/tekhne/skills/software-engineering/design-principles/clean-architecture/skill/) | ![C](https://img.shields.io/badge/Rating-C-red) |
-| [design-patterns](/tekhne/skills/software-engineering/design-principles/design-patterns/skill/) | ![C](https://img.shields.io/badge/Rating-C-red) |
-| [testable-design](/tekhne/skills/software-engineering/design-principles/testable-design/skill/) | ![C](https://img.shields.io/badge/Rating-C-red) |
+| [solid-principles](/tekhne/skills/software-engineering/design-principles/solid-principles/skill/) | ![C](/tekhne/.github/badges/C.svg) |
+| [clean-architecture](/tekhne/skills/software-engineering/design-principles/clean-architecture/skill/) | ![C](/tekhne/.github/badges/C.svg) |
+| [design-patterns](/tekhne/skills/software-engineering/design-principles/design-patterns/skill/) | ![C](/tekhne/.github/badges/C.svg) |
+| [testable-design](/tekhne/skills/software-engineering/design-principles/testable-design/skill/) | ![C](/tekhne/.github/badges/C.svg) |
 
 ---
 
@@ -361,7 +361,7 @@ Generate label matchers, line filters, log aggregations, and metric queries in L
 
 | Skill | Rating |
 | --- | --- |
-| [logql-generator](/tekhne/skills/observability/logql-generator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [logql-generator](/tekhne/skills/observability/logql-generator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### promql-toolkit
 
@@ -369,8 +369,8 @@ Complete PromQL toolkit with generation and validation capabilities
 
 | Skill | Rating |
 | --- | --- |
-| [promql-generator](/tekhne/skills/observability/promql/generator/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
-| [promql-validator](/tekhne/skills/observability/promql/validator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [promql-generator](/tekhne/skills/observability/promql/generator/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
+| [promql-validator](/tekhne/skills/observability/promql/validator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ---
 
@@ -384,7 +384,7 @@ Author high-quality Markdown documentation with deterministic structure, lint co
 
 | Skill | Rating |
 | --- | --- |
-| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### plain-english
 
@@ -392,7 +392,7 @@ Write technical content in plain English for non-technical stakeholders by trans
 
 | Skill | Rating |
 | --- | --- |
-| [plain-english](/tekhne/skills/documentation/plain-english/skill/) | ![A](https://img.shields.io/badge/Rating-A-green) |
+| [plain-english](/tekhne/skills/documentation/plain-english/skill/) | ![A](/tekhne/.github/badges/A.svg) |
 
 ### journal-entry-creator
 
@@ -400,7 +400,7 @@ Create structured journal entries with YAML frontmatter, template-based sections
 
 | Skill | Rating |
 | --- | --- |
-| [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### acceptance-criteria
 
@@ -408,7 +408,7 @@ Write clear, testable acceptance criteria for user stories and feature delivery;
 
 | Skill | Rating |
 | --- | --- |
-| [acceptance-criteria](/tekhne/skills/documentation/acceptance-criteria/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [acceptance-criteria](/tekhne/skills/documentation/acceptance-criteria/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### conventional-commits
 
@@ -416,7 +416,7 @@ Skill for creating structured, semantic commit messages following the Convention
 
 | Skill | Rating |
 | --- | --- |
-| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ---
 
@@ -430,7 +430,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 | Skill | Rating |
 | --- | --- |
-| [mise-complete](/tekhne/skills/package-mgmt/mise-complete/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [mise-complete](/tekhne/skills/package-mgmt/mise-complete/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ---
 
@@ -444,7 +444,7 @@ Converts a PRD or requirements document into a structured, phased implementation
 
 | Skill | Rating |
 | --- | --- |
-| [implementation-planner](/tekhne/skills/project-mgmt/implementation-planner/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+| [implementation-planner](/tekhne/skills/project-mgmt/implementation-planner/skill/) | ![B+](/tekhne/.github/badges/B-plus.svg) |
 
 ### create-context-file
 
@@ -452,7 +452,7 @@ Create context files (plans, justifications, scratches) in .context/ directory w
 
 | Skill | Rating |
 | --- | --- |
-| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### moscow-prioritization
 
@@ -460,7 +460,7 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 
 | Skill | Rating |
 | --- | --- |
-| [moscow-prioritization](/tekhne/skills/project-mgmt/moscow-prioritization/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [moscow-prioritization](/tekhne/skills/project-mgmt/moscow-prioritization/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### implementation-plan-splitter
 
@@ -468,7 +468,7 @@ Merged into implementation-planner. Redirects to the unified skill that handles 
 
 | Skill | Rating |
 | --- | --- |
-| [implementation-plan-splitter](/tekhne/skills/project-mgmt/implementation-plan-splitter/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [implementation-plan-splitter](/tekhne/skills/project-mgmt/implementation-plan-splitter/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ---
 
@@ -482,7 +482,7 @@ Query and display available GitHub Copilot AI models with their capabilities, co
 
 | Skill | Rating |
 | --- | --- |
-| [github-copilot-models](/tekhne/skills/specialized/github-copilot-models/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [github-copilot-models](/tekhne/skills/specialized/github-copilot-models/skill/) | ![B](/tekhne/.github/badges/B.svg) |
 
 ### gitlab-api
 
@@ -490,7 +490,7 @@ Retrieve and analyze GitLab merge request comments and metadata using authentica
 
 | Skill | Rating |
 | --- | --- |
-| [gitlab-api](/tekhne/skills/specialized/gitlab-api/skill/) | ![C+](https://img.shields.io/badge/Rating-C+-orange) |
+| [gitlab-api](/tekhne/skills/specialized/gitlab-api/skill/) | ![C+](/tekhne/.github/badges/C-plus.svg) |
 
 ### colyseus-multiplayer
 
@@ -498,4 +498,4 @@ Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when 
 
 | Skill | Rating |
 | --- | --- |
-| [colyseus-multiplayer](/tekhne/skills/specialized/colyseus-multiplayer/skill/) | ![B](https://img.shields.io/badge/Rating-B-yellow) |
+| [colyseus-multiplayer](/tekhne/skills/specialized/colyseus-multiplayer/skill/) | ![B](/tekhne/.github/badges/B.svg) |

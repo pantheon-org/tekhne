@@ -77,8 +77,8 @@ Complete azure-pipelines toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [azure-pipelines-generator](skills/ci-cd/azure-pipelines/generator/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/ci-cd/azure-pipelines/generator/2026-03-02/audit.json) | - |
-| [azure-pipelines-validator](skills/ci-cd/azure-pipelines/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/azure-pipelines/validator/2026-03-02/audit.json) | - |
+| [azure-pipelines-generator](skills/ci-cd/azure-pipelines/generator/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/ci-cd/azure-pipelines/generator/2026-03-02/audit.json) | - |
+| [azure-pipelines-validator](skills/ci-cd/azure-pipelines/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/ci-cd/azure-pipelines/validator/2026-03-02/audit.json) | - |
 
 ### [gitlab-ci-toolkit](skills/ci-cd/gitlab-ci)
 
@@ -86,8 +86,8 @@ Complete GitLab CI/CD toolkit with generation and validation capabilities for pi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [gitlab-ci-generator](skills/ci-cd/gitlab-ci/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/ci-cd/gitlab-ci/generator/2026-03-02/audit.json) | - |
-| [gitlab-ci-validator](skills/ci-cd/gitlab-ci/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/gitlab-ci/validator/2026-03-02/audit.json) | - |
+| [gitlab-ci-generator](skills/ci-cd/gitlab-ci/generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/ci-cd/gitlab-ci/generator/2026-03-02/audit.json) | - |
+| [gitlab-ci-validator](skills/ci-cd/gitlab-ci/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/ci-cd/gitlab-ci/validator/2026-03-02/audit.json) | - |
 
 ### [fluentbit-toolkit](skills/ci-cd/fluentbit)
 
@@ -95,8 +95,8 @@ Complete fluentbit toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [fluentbit-generator](skills/ci-cd/fluentbit/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/ci-cd/fluentbit/generator/2026-03-02/audit.json) | - |
-| [fluentbit-validator](skills/ci-cd/fluentbit/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/fluentbit/validator/2026-03-02/audit.json) | - |
+| [fluentbit-generator](skills/ci-cd/fluentbit/generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/ci-cd/fluentbit/generator/2026-03-02/audit.json) | - |
+| [fluentbit-validator](skills/ci-cd/fluentbit/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/ci-cd/fluentbit/validator/2026-03-02/audit.json) | - |
 
 ### [jenkinsfile-toolkit](skills/ci-cd/jenkinsfile)
 
@@ -104,8 +104,8 @@ Complete jenkinsfile toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [jenkinsfile-generator](skills/ci-cd/jenkinsfile/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/ci-cd/jenkinsfile/generator/2026-03-02/audit.json) | - |
-| [jenkinsfile-validator](skills/ci-cd/jenkinsfile/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/jenkinsfile/validator/2026-03-02/audit.json) | - |
+| [jenkinsfile-generator](skills/ci-cd/jenkinsfile/generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/ci-cd/jenkinsfile/generator/2026-03-02/audit.json) | - |
+| [jenkinsfile-validator](skills/ci-cd/jenkinsfile/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/ci-cd/jenkinsfile/validator/2026-03-02/audit.json) | - |
 
 ### [helm-toolkit](skills/ci-cd/helm)
 
@@ -113,8 +113,8 @@ Complete helm toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [helm-generator](skills/ci-cd/helm/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/ci-cd/helm/generator/2026-03-02/audit.json) | - |
-| [helm-validator](skills/ci-cd/helm/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/helm/validator/2026-03-02/audit.json) | - |
+| [helm-generator](skills/ci-cd/helm/generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/ci-cd/helm/generator/2026-03-02/audit.json) | - |
+| [helm-validator](skills/ci-cd/helm/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/ci-cd/helm/validator/2026-03-02/audit.json) | - |
 
 ### [github-actions-toolkit](skills/ci-cd/github-actions)
 
@@ -122,8 +122,8 @@ Complete GitHub Actions toolkit with generation and validation capabilities for 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [github-actions-generator](skills/ci-cd/github-actions/generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/generator/2026-03-02/audit.json) | - |
-| [github-actions-validator](skills/ci-cd/github-actions/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/ci-cd/github-actions/validator/2026-03-02/audit.json) | - |
+| [github-actions-generator](skills/ci-cd/github-actions/generator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/ci-cd/github-actions/generator/2026-03-02/audit.json) | - |
+| [github-actions-validator](skills/ci-cd/github-actions/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/ci-cd/github-actions/validator/2026-03-02/audit.json) | - |
 
 ## Infrastructure (8 tiles)
 
@@ -135,8 +135,8 @@ Complete terraform toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [terraform-generator](skills/infrastructure/terraform/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/terraform/generator/2026-03-02/audit.json) | - |
-| [terraform-validator](skills/infrastructure/terraform/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/infrastructure/terraform/validator/2026-03-02/audit.json) | - |
+| [terraform-generator](skills/infrastructure/terraform/generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/infrastructure/terraform/generator/2026-03-02/audit.json) | - |
+| [terraform-validator](skills/infrastructure/terraform/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/infrastructure/terraform/validator/2026-03-02/audit.json) | - |
 
 ### [dockerfile-toolkit](skills/infrastructure/dockerfile)
 
@@ -144,8 +144,8 @@ Complete dockerfile toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [dockerfile-generator](skills/infrastructure/dockerfile/generator/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/infrastructure/dockerfile/generator/2026-03-02/audit.json) | - |
-| [dockerfile-validator](skills/infrastructure/dockerfile/validator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/dockerfile/validator/2026-03-02/audit.json) | - |
+| [dockerfile-generator](skills/infrastructure/dockerfile/generator/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/infrastructure/dockerfile/generator/2026-03-02/audit.json) | - |
+| [dockerfile-validator](skills/infrastructure/dockerfile/validator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/infrastructure/dockerfile/validator/2026-03-02/audit.json) | - |
 
 ### [terragrunt-toolkit](skills/infrastructure/terragrunt)
 
@@ -153,8 +153,8 @@ Complete terragrunt toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [terragrunt-generator](skills/infrastructure/terragrunt/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/terragrunt/generator/2026-03-02/audit.json) | - |
-| [terragrunt-validator](skills/infrastructure/terragrunt/validator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/terragrunt/validator/2026-03-02/audit.json) | - |
+| [terragrunt-generator](skills/infrastructure/terragrunt/generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/infrastructure/terragrunt/generator/2026-03-02/audit.json) | - |
+| [terragrunt-validator](skills/infrastructure/terragrunt/validator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/infrastructure/terragrunt/validator/2026-03-02/audit.json) | - |
 
 ### [k8s-toolkit](skills/infrastructure/k8s)
 
@@ -162,9 +162,9 @@ Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster de
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [k8s-yaml-generator](skills/infrastructure/k8s/yaml-generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-06](.context/audits/infrastructure/k8s/yaml-generator/2026-03-06/audit.json) | 5 |
-| [k8s-yaml-validator](skills/infrastructure/k8s/yaml-validator/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-06](.context/audits/infrastructure/k8s/yaml-validator/2026-03-06/audit.json) | 5 |
-| [k8s-debug](skills/infrastructure/k8s/debug/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-06](.context/audits/infrastructure/k8s/debug/2026-03-06/audit.json) | 5 |
+| [k8s-yaml-generator](skills/infrastructure/k8s/yaml-generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-06](.context/audits/infrastructure/k8s/yaml-generator/2026-03-06/audit.json) | 5 |
+| [k8s-yaml-validator](skills/infrastructure/k8s/yaml-validator/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-06](.context/audits/infrastructure/k8s/yaml-validator/2026-03-06/audit.json) | 5 |
+| [k8s-debug](skills/infrastructure/k8s/debug/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-06](.context/audits/infrastructure/k8s/debug/2026-03-06/audit.json) | 5 |
 
 ### [cfn-behavior-validator](skills/infrastructure/cfn/behavior-validator)
 
@@ -172,7 +172,7 @@ Creates test stacks, analyzes CloudFormation events, and compares actual vs docu
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [cfn-behavior-validator](skills/infrastructure/cfn/behavior-validator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/cfn/behavior-validator/2026-03-02/audit.json) | 5 |
+| [cfn-behavior-validator](skills/infrastructure/cfn/behavior-validator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/infrastructure/cfn/behavior-validator/2026-03-02/audit.json) | 5 |
 
 ### [cfn-template-compare](skills/infrastructure/cfn/template-compare)
 
@@ -180,7 +180,7 @@ Compares deployed CloudFormation templates with locally synthesized CDK template
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [cfn-template-compare](skills/infrastructure/cfn/template-compare/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-03](.context/audits/infrastructure/cfn/template-compare/2026-03-03/audit.json) | 5 |
+| [cfn-template-compare](skills/infrastructure/cfn/template-compare/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-03](.context/audits/infrastructure/cfn/template-compare/2026-03-03/audit.json) | 5 |
 
 ### [ansible-toolkit](skills/infrastructure/ansible)
 
@@ -188,8 +188,8 @@ Complete ansible toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [ansible-generator](skills/infrastructure/ansible/generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/infrastructure/ansible/generator/2026-03-02/audit.json) | - |
-| [ansible-validator](skills/infrastructure/ansible/validator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/infrastructure/ansible/validator/2026-03-02/audit.json) | - |
+| [ansible-generator](skills/infrastructure/ansible/generator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/infrastructure/ansible/generator/2026-03-02/audit.json) | - |
+| [ansible-validator](skills/infrastructure/ansible/validator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/infrastructure/ansible/validator/2026-03-02/audit.json) | - |
 
 ### [cdk-nag](skills/infrastructure/aws-cdk/cdk-nag)
 
@@ -197,7 +197,7 @@ Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding r
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [cdk-nag](skills/infrastructure/aws-cdk/cdk-nag/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/infrastructure/aws-cdk/cdk-nag/2026-03-02/audit.json) | - |
+| [cdk-nag](skills/infrastructure/aws-cdk/cdk-nag/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/infrastructure/aws-cdk/cdk-nag/2026-03-02/audit.json) | - |
 
 ## Repository Management (5 tiles)
 
@@ -209,7 +209,7 @@ Integrate Biome into Nx monorepos with deterministic setup, caching, migration f
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-biome-integration](skills/repository-mgmt/nx/biome-integration/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/repository-mgmt/nx/biome-integration/2026-03-02/audit.json) | - |
+| [nx-biome-integration](skills/repository-mgmt/nx/biome-integration/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/repository-mgmt/nx/biome-integration/2026-03-02/audit.json) | - |
 
 ### [nx-bun-integration](skills/repository-mgmt/nx/bun-integration)
 
@@ -217,7 +217,7 @@ Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executo
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-bun-integration](skills/repository-mgmt/nx/bun-integration/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/repository-mgmt/nx/bun-integration/2026-03-02/audit.json) | - |
+| [nx-bun-integration](skills/repository-mgmt/nx/bun-integration/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/repository-mgmt/nx/bun-integration/2026-03-02/audit.json) | - |
 
 ### [nx-workspace-patterns](skills/repository-mgmt/nx/workspace-patterns)
 
@@ -225,7 +225,7 @@ Configure and optimize Nx monorepo workspaces with deterministic project-graph s
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-workspace-patterns](skills/repository-mgmt/nx/workspace-patterns/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/repository-mgmt/nx/workspace-patterns/2026-03-02/audit.json) | - |
+| [nx-workspace-patterns](skills/repository-mgmt/nx/workspace-patterns/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/repository-mgmt/nx/workspace-patterns/2026-03-02/audit.json) | - |
 
 ### [nx-plugin-toolkit](skills/repository-mgmt/nx)
 
@@ -233,7 +233,7 @@ Complete Nx plugin development toolkit: create custom generators, executors, and
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-plugin-authoring](skills/repository-mgmt/nx/nx-plugin-authoring/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-06](.context/audits/repository-mgmt/nx/nx-plugin-authoring/2026-03-06/audit.json) | - |
+| [nx-plugin-authoring](skills/repository-mgmt/nx/nx-plugin-authoring/SKILL.md) | ![C](.github/badges/C.svg) | [2026-03-06](.context/audits/repository-mgmt/nx/nx-plugin-authoring/2026-03-06/audit.json) | - |
 
 ### [nx-vite-integration](skills/repository-mgmt/nx/vite-integration)
 
@@ -241,7 +241,7 @@ Configure and integrate Vite in Nx monorepos for applications and libraries. Cov
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-vite-integration](skills/repository-mgmt/nx/vite-integration/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/repository-mgmt/nx/vite-integration/2026-03-02/audit.json) | - |
+| [nx-vite-integration](skills/repository-mgmt/nx/vite-integration/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/repository-mgmt/nx/vite-integration/2026-03-02/audit.json) | - |
 
 ## Development (8 tiles)
 
@@ -253,8 +253,8 @@ Complete makefile toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [makefile-generator](skills/development/scripting/makefile/generator/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/development/scripting/makefile/generator/2026-03-02/audit.json) | - |
-| [makefile-validator](skills/development/scripting/makefile/validator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/development/scripting/makefile/validator/2026-03-02/audit.json) | - |
+| [makefile-generator](skills/development/scripting/makefile/generator/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/development/scripting/makefile/generator/2026-03-02/audit.json) | - |
+| [makefile-validator](skills/development/scripting/makefile/validator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/development/scripting/makefile/validator/2026-03-02/audit.json) | - |
 
 ### [bash-script-toolkit](skills/development/scripting/bash-script)
 
@@ -262,8 +262,8 @@ Complete bash-script toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [bash-script-generator](skills/development/scripting/bash-script/generator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/development/scripting/bash-script/generator/2026-03-02/audit.json) | - |
-| [bash-script-validator](skills/development/scripting/bash-script/validator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/development/scripting/bash-script/validator/2026-03-02/audit.json) | - |
+| [bash-script-generator](skills/development/scripting/bash-script/generator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/development/scripting/bash-script/generator/2026-03-02/audit.json) | - |
+| [bash-script-validator](skills/development/scripting/bash-script/validator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/development/scripting/bash-script/validator/2026-03-02/audit.json) | - |
 
 ### [commanderjs](skills/development/commanderjs)
 
@@ -271,7 +271,7 @@ Complete Commander.js CLI framework guidance covering command structure, options
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [commanderjs](skills/development/commanderjs/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/development/commanderjs/2026-03-02/audit.json) | - |
+| [commanderjs](skills/development/commanderjs/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/development/commanderjs/2026-03-02/audit.json) | - |
 
 ### [bun-development](skills/development/bun-development)
 
@@ -279,7 +279,7 @@ Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package managemen
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [bun-development](skills/development/bun-development/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/development/bun-development/2026-03-02/audit.json) | - |
+| [bun-development](skills/development/bun-development/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/development/bun-development/2026-03-02/audit.json) | - |
 
 ### [biome-complete](skills/development/biome-complete)
 
@@ -287,7 +287,7 @@ Complete Biome toolchain guidance for real repository workflows. Use when users 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [biome-complete](skills/development/biome-complete/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/development/biome-complete/2026-03-02/audit.json) | - |
+| [biome-complete](skills/development/biome-complete/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-02](.context/audits/development/biome-complete/2026-03-02/audit.json) | - |
 
 ### [typescript-advanced](skills/development/typescript-advanced)
 
@@ -295,7 +295,7 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [typescript-advanced](skills/development/typescript-advanced/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/development/typescript-advanced/2026-03-02/audit.json) | - |
+| [typescript-advanced](skills/development/typescript-advanced/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/development/typescript-advanced/2026-03-02/audit.json) | - |
 
 ### [website-theme-porter](skills/development/front-end/website-theme-porter)
 
@@ -303,7 +303,7 @@ Port the visual theme and styling from a live website to a React/Tailwind CSS pr
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [website-theme-porter](skills/development/front-end/website-theme-porter/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 5 |
+| [website-theme-porter](skills/development/front-end/website-theme-porter/SKILL.md) | ![?](.github/badges/unknown.svg) | - | 5 |
 
 ### [web-reference-sheet-generator](skills/development/front-end/web-reference-sheet-generator)
 
@@ -311,7 +311,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [web-reference-sheet-generator](skills/development/front-end/web-reference-sheet-generator/SKILL.md) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | 3 |
+| [web-reference-sheet-generator](skills/development/front-end/web-reference-sheet-generator/SKILL.md) | ![?](.github/badges/unknown.svg) | - | 3 |
 
 ## Agentic Harness (4 tiles)
 
@@ -323,11 +323,11 @@ Complete toolkit for configuring and extending OpenCode: agent creation, custom 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [opencode-design-agents](skills/agentic-harness/opencode-toolkit/design-agents/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/design-agents/2026-03-14/audit.json) | 3 |
-| [opencode-design-commands](skills/agentic-harness/opencode-toolkit/design-commands/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/design-commands/2026-03-14/audit.json) | 3 |
-| [opencode-configure](skills/agentic-harness/opencode-toolkit/configure/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/configure/2026-03-14/audit.json) | 3 |
-| [opencode-build-plugins](skills/agentic-harness/opencode-toolkit/build-plugins/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/build-plugins/2026-03-14/audit.json) | 3 |
-| [opencode-build-tool](skills/agentic-harness/opencode-toolkit/build-tool/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/build-tool/2026-03-14/audit.json) | 3 |
+| [opencode-design-agents](skills/agentic-harness/opencode-toolkit/design-agents/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/design-agents/2026-03-14/audit.json) | 3 |
+| [opencode-design-commands](skills/agentic-harness/opencode-toolkit/design-commands/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/design-commands/2026-03-14/audit.json) | 3 |
+| [opencode-configure](skills/agentic-harness/opencode-toolkit/configure/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/configure/2026-03-14/audit.json) | 3 |
+| [opencode-build-plugins](skills/agentic-harness/opencode-toolkit/build-plugins/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/build-plugins/2026-03-14/audit.json) | 3 |
+| [opencode-build-tool](skills/agentic-harness/opencode-toolkit/build-tool/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-14](.context/audits/agentic-harness/opencode-toolkit/build-tool/2026-03-14/audit.json) | 3 |
 
 ### [skill-quality-auditor](skills/agentic-harness/skill-quality-auditor)
 
@@ -335,7 +335,7 @@ Audit and improve skill collections with a 9-dimension scoring framework (Knowle
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [skill-quality-auditor](skills/agentic-harness/skill-quality-auditor/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-04](.context/audits/agentic-harness/skill-quality-auditor/2026-03-04/audit.json) | 5 |
+| [skill-quality-auditor](skills/agentic-harness/skill-quality-auditor/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-04](.context/audits/agentic-harness/skill-quality-auditor/2026-03-04/audit.json) | 5 |
 
 ### [agents-md](skills/agentic-harness/agents-md)
 
@@ -343,7 +343,7 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [agents-md](skills/agentic-harness/agents-md/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-02](.context/audits/agentic-harness/agents-md/2026-03-02/audit.json) | 5 |
+| [agents-md](skills/agentic-harness/agents-md/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-02](.context/audits/agentic-harness/agents-md/2026-03-02/audit.json) | 5 |
 
 ### [tessl-publish-public](skills/agentic-harness/tessl/publish-public)
 
@@ -351,7 +351,7 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-03](.context/audits/agentic-harness/tessl/publish-public/2026-03-03/audit.json) | 9 |
+| [tessl-publish-public](skills/agentic-harness/tessl/publish-public/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-03](.context/audits/agentic-harness/tessl/publish-public/2026-03-03/audit.json) | 9 |
 
 ## Testing (3 tiles)
 
@@ -363,7 +363,7 @@ Master Test-Driven Development with deterministic red-green-refactor workflows, 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [test-driven-development](skills/testing/test-driven-development/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/testing/test-driven-development/2026-03-02/audit.json) | 5 |
+| [test-driven-development](skills/testing/test-driven-development/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/testing/test-driven-development/2026-03-02/audit.json) | 5 |
 
 ### [bdd-testing](skills/testing/bdd-testing)
 
@@ -371,7 +371,7 @@ Write and maintain Behavior-Driven Development tests with Gherkin and Cucumber. 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [bdd-testing](skills/testing/bdd-testing/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/testing/bdd-testing/2026-03-02/audit.json) | 8 |
+| [bdd-testing](skills/testing/bdd-testing/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/testing/bdd-testing/2026-03-02/audit.json) | 8 |
 
 ### [ui-debug-workflow](skills/testing/ui-debug-workflow)
 
@@ -379,7 +379,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [ui-debug-workflow](skills/testing/ui-debug-workflow/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/testing/ui-debug-workflow/2026-03-02/audit.json) | - |
+| [ui-debug-workflow](skills/testing/ui-debug-workflow/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/testing/ui-debug-workflow/2026-03-02/audit.json) | - |
 
 ## Software Engineering (1 tile)
 
@@ -391,10 +391,10 @@ Strategic architecture, tactical design, and testable code principles (SOLID, Cl
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [solid-principles](skills/software-engineering/design-principles/solid-principles/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/solid-principles/2026-03-04/audit.json) | - |
-| [clean-architecture](skills/software-engineering/design-principles/clean-architecture/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/clean-architecture/2026-03-04/audit.json) | - |
-| [design-patterns](skills/software-engineering/design-principles/design-patterns/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/design-patterns/2026-03-04/audit.json) | - |
-| [testable-design](skills/software-engineering/design-principles/testable-design/SKILL.md) | ![C](https://img.shields.io/badge/Rating-C-red) | [2026-03-04](.context/audits/software-engineering/design-principles/testable-design/2026-03-04/audit.json) | - |
+| [solid-principles](skills/software-engineering/design-principles/solid-principles/SKILL.md) | ![C](.github/badges/C.svg) | [2026-03-04](.context/audits/software-engineering/design-principles/solid-principles/2026-03-04/audit.json) | - |
+| [clean-architecture](skills/software-engineering/design-principles/clean-architecture/SKILL.md) | ![C](.github/badges/C.svg) | [2026-03-04](.context/audits/software-engineering/design-principles/clean-architecture/2026-03-04/audit.json) | - |
+| [design-patterns](skills/software-engineering/design-principles/design-patterns/SKILL.md) | ![C](.github/badges/C.svg) | [2026-03-04](.context/audits/software-engineering/design-principles/design-patterns/2026-03-04/audit.json) | - |
+| [testable-design](skills/software-engineering/design-principles/testable-design/SKILL.md) | ![C](.github/badges/C.svg) | [2026-03-04](.context/audits/software-engineering/design-principles/testable-design/2026-03-04/audit.json) | - |
 
 ## Observability (2 tiles)
 
@@ -406,7 +406,7 @@ Generate label matchers, line filters, log aggregations, and metric queries in L
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [logql-generator](skills/observability/logql-generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/observability/logql-generator/2026-03-02/audit.json) | - |
+| [logql-generator](skills/observability/logql-generator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/observability/logql-generator/2026-03-02/audit.json) | - |
 
 ### [promql-toolkit](skills/observability/promql)
 
@@ -414,8 +414,8 @@ Complete PromQL toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [promql-generator](skills/observability/promql/generator/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/observability/promql/generator/2026-03-02/audit.json) | - |
-| [promql-validator](skills/observability/promql/validator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/observability/promql/validator/2026-03-02/audit.json) | - |
+| [promql-generator](skills/observability/promql/generator/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/observability/promql/generator/2026-03-02/audit.json) | - |
+| [promql-validator](skills/observability/promql/validator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/observability/promql/validator/2026-03-02/audit.json) | - |
 
 ## Documentation (5 tiles)
 
@@ -427,7 +427,7 @@ Author high-quality Markdown documentation with deterministic structure, lint co
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [markdown-authoring](skills/documentation/markdown-authoring/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/documentation/markdown-authoring/2026-03-02/audit.json) | - |
+| [markdown-authoring](skills/documentation/markdown-authoring/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/documentation/markdown-authoring/2026-03-02/audit.json) | - |
 
 ### [plain-english](skills/documentation/plain-english)
 
@@ -435,7 +435,7 @@ Write technical content in plain English for non-technical stakeholders by trans
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [plain-english](skills/documentation/plain-english/SKILL.md) | ![A](https://img.shields.io/badge/Rating-A-green) | [2026-03-11](.context/audits/documentation/plain-english/2026-03-11/audit.json) | 8 |
+| [plain-english](skills/documentation/plain-english/SKILL.md) | ![A](.github/badges/A.svg) | [2026-03-11](.context/audits/documentation/plain-english/2026-03-11/audit.json) | 8 |
 
 ### [journal-entry-creator](skills/documentation/journal-entry-creator)
 
@@ -443,7 +443,7 @@ Create structured journal entries with YAML frontmatter, template-based sections
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [journal-entry-creator](skills/documentation/journal-entry-creator/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-03](.context/audits/documentation/journal-entry-creator/2026-03-03/audit.json) | 5 |
+| [journal-entry-creator](skills/documentation/journal-entry-creator/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-03](.context/audits/documentation/journal-entry-creator/2026-03-03/audit.json) | 5 |
 
 ### [acceptance-criteria](skills/documentation/acceptance-criteria)
 
@@ -451,7 +451,7 @@ Write clear, testable acceptance criteria for user stories and feature delivery;
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [acceptance-criteria](skills/documentation/acceptance-criteria/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/documentation/acceptance-criteria/2026-03-02/audit.json) | 5 |
+| [acceptance-criteria](skills/documentation/acceptance-criteria/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-02](.context/audits/documentation/acceptance-criteria/2026-03-02/audit.json) | 5 |
 
 ### [conventional-commits](skills/documentation/conventional-commits)
 
@@ -459,7 +459,7 @@ Skill for creating structured, semantic commit messages following the Convention
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [conventional-commits](skills/documentation/conventional-commits/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/documentation/conventional-commits/2026-03-02/audit.json) | - |
+| [conventional-commits](skills/documentation/conventional-commits/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/documentation/conventional-commits/2026-03-02/audit.json) | - |
 
 ## Package Management (1 tile)
 
@@ -471,7 +471,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [mise-complete](skills/package-mgmt/mise-complete/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/package-mgmt/mise-complete/2026-03-02/audit.json) | - |
+| [mise-complete](skills/package-mgmt/mise-complete/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/package-mgmt/mise-complete/2026-03-02/audit.json) | - |
 
 ## Project Management (4 tiles)
 
@@ -483,7 +483,7 @@ Converts a PRD or requirements document into a structured, phased implementation
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [implementation-planner](skills/project-mgmt/implementation-planner/SKILL.md) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-11](.context/audits/project-mgmt/implementation-planner/2026-03-11/audit.json) | 5 |
+| [implementation-planner](skills/project-mgmt/implementation-planner/SKILL.md) | ![B+](.github/badges/B-plus.svg) | [2026-03-11](.context/audits/project-mgmt/implementation-planner/2026-03-11/audit.json) | 5 |
 
 ### [create-context-file](skills/project-mgmt/create-context-file)
 
@@ -491,7 +491,7 @@ Create context files (plans, justifications, scratches) in .context/ directory w
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [create-context-file](skills/project-mgmt/create-context-file/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-03](.context/audits/project-mgmt/create-context-file/2026-03-03/audit.json) | - |
+| [create-context-file](skills/project-mgmt/create-context-file/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-03](.context/audits/project-mgmt/create-context-file/2026-03-03/audit.json) | - |
 
 ### [moscow-prioritization](skills/project-mgmt/moscow-prioritization)
 
@@ -499,7 +499,7 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [moscow-prioritization](skills/project-mgmt/moscow-prioritization/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/project-mgmt/moscow-prioritization/2026-03-02/audit.json) | - |
+| [moscow-prioritization](skills/project-mgmt/moscow-prioritization/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/project-mgmt/moscow-prioritization/2026-03-02/audit.json) | - |
 
 ### [implementation-plan-splitter](skills/project-mgmt/implementation-plan-splitter)
 
@@ -507,7 +507,7 @@ Merged into implementation-planner. Redirects to the unified skill that handles 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [implementation-plan-splitter](skills/project-mgmt/implementation-plan-splitter/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/project-mgmt/implementation-plan-splitter/2026-03-02/audit.json) | - |
+| [implementation-plan-splitter](skills/project-mgmt/implementation-plan-splitter/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/project-mgmt/implementation-plan-splitter/2026-03-02/audit.json) | - |
 
 ## Specialized (3 tiles)
 
@@ -519,7 +519,7 @@ Query and display available GitHub Copilot AI models with their capabilities, co
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [github-copilot-models](skills/specialized/github-copilot-models/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-03](.context/audits/specialized/github-copilot-models/2026-03-03/audit.json) | - |
+| [github-copilot-models](skills/specialized/github-copilot-models/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-03](.context/audits/specialized/github-copilot-models/2026-03-03/audit.json) | - |
 
 ### [gitlab-api](skills/specialized/gitlab-api)
 
@@ -527,7 +527,7 @@ Retrieve and analyze GitLab merge request comments and metadata using authentica
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [gitlab-api](skills/specialized/gitlab-api/SKILL.md) | ![C+](https://img.shields.io/badge/Rating-C+-orange) | [2026-03-02](.context/audits/specialized/gitlab-api/2026-03-02/audit.json) | 5 |
+| [gitlab-api](skills/specialized/gitlab-api/SKILL.md) | ![C+](.github/badges/C-plus.svg) | [2026-03-02](.context/audits/specialized/gitlab-api/2026-03-02/audit.json) | 5 |
 
 ### [colyseus-multiplayer](skills/specialized/colyseus-multiplayer)
 
@@ -535,4 +535,4 @@ Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [colyseus-multiplayer](skills/specialized/colyseus-multiplayer/SKILL.md) | ![B](https://img.shields.io/badge/Rating-B-yellow) | [2026-03-02](.context/audits/specialized/colyseus-multiplayer/2026-03-02/audit.json) | - |
+| [colyseus-multiplayer](skills/specialized/colyseus-multiplayer/SKILL.md) | ![B](.github/badges/B.svg) | [2026-03-02](.context/audits/specialized/colyseus-multiplayer/2026-03-02/audit.json) | - |
