@@ -6,6 +6,7 @@ import {
   generateCatalogContent,
   generateDocsTilesPage,
   generateReadmeSummaryTables,
+  writeBadgeFiles,
 } from "./rendering";
 import { parseReadmeSections } from "./sections";
 import { showDryRunDiff } from "./show-dry-run-diff";
@@ -31,6 +32,9 @@ export const updateReadme = async (options: UpdateOptions): Promise<void> => {
 
   const untiledSkills = findUntiledSkills(allSkills, tiles);
   logger.info(`Found ${untiledSkills.length} untiled skills`);
+
+  logger.info("Generating badge SVG files...");
+  writeBadgeFiles();
 
   logger.info("Generating content...");
   const [summaryTables, catalogContent, docsTilesContent] = await Promise.all([

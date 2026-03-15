@@ -28,7 +28,7 @@ export const generateUntiledSkillSection = async (
     const auditLink = getAuditLink(auditInfo.date, auditInfo.path);
     output += `| ${skillLink} | ${badge} | ${auditLink} | ${evalsCell} |\n`;
   } else {
-    output += `| ${skillLink} | ![?](https://img.shields.io/badge/Rating-?-lightgrey) | - | ${evalsCell} |\n`;
+    output += `| ${skillLink} | ${getBadgeMarkdown("?")} | - | ${evalsCell} |\n`;
   }
 
   return output;

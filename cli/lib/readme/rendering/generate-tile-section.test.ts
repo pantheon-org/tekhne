@@ -57,7 +57,7 @@ describe("generateTileSection", () => {
     try {
       const output = await generateTileSection(tile);
       expect(output).toContain("[my-generator]");
-      expect(output).toContain("Rating-?-lightgrey");
+      expect(output).toContain("unknown.svg");
       expect(output).toContain("| - |");
     } finally {
       process.chdir(orig);
@@ -93,7 +93,7 @@ describe("generateTileSection", () => {
     process.chdir(tmp);
     try {
       const output = await generateTileSection(tile);
-      expect(output).toContain("Rating-B+");
+      expect(output).toContain("B-plus.svg");
       expect(output).toContain("2026-03-15");
     } finally {
       process.chdir(orig);

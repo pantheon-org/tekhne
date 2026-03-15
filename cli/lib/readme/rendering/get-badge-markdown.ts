@@ -1,6 +1,8 @@
-import { getGradeColor } from "../parsing";
+import { getBadgeFilename } from "./get-badge-filename";
+
+const BADGE_DIR = ".github/badges";
 
 export const getBadgeMarkdown = (grade: string): string => {
-  const color = getGradeColor(grade);
-  return `![${grade}](https://img.shields.io/badge/Rating-${grade}-${color})`;
+  const filename = getBadgeFilename(grade);
+  return `![${grade}](${BADGE_DIR}/${filename}.svg)`;
 };
