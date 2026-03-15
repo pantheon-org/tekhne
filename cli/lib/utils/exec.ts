@@ -1,8 +1,8 @@
 import { $ } from "bun";
 
-export async function exec(
+export const exec = async (
   command: string,
-): Promise<{ stdout: string; stderr: string; exitCode: number }> {
+): Promise<{ stdout: string; stderr: string; exitCode: number }> => {
   try {
     const proc = await $`sh -c ${command}`.quiet();
     return {
@@ -22,9 +22,4 @@ export async function exec(
       exitCode: err.exitCode || 1,
     };
   }
-}
-
-export async function execOrThrow(command: string): Promise<string> {
-  const proc = await $`sh -c ${command}`;
-  return proc.stdout.toString();
-}
+};

@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { $ } from "bun";
 import { logger } from "../utils/logger";
 
-export async function auditStatus(): Promise<void> {
+export const auditStatus = async (): Promise<void> => {
   logger.header("Audit Status Check");
 
   const skillsOutput = await $`find skills -name "SKILL.md" -type f`.text();
@@ -64,4 +64,4 @@ export async function auditStatus(): Promise<void> {
   const total = compliant + outdated + missing;
   const percentage = Math.round((compliant / total) * 100);
   logger.info(`Compliance rate: ${percentage}%`);
-}
+};

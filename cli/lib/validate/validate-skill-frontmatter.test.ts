@@ -1,8 +1,11 @@
-import { describe, expect, test } from "bun:test";
-import {
-  checkRequiredFields,
-  extractFrontmatter,
-} from "./validate-skill-frontmatter";
+import { afterEach, beforeEach, describe, expect, test } from "bun:test";
+import { mkdirSync, mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { ValidationError } from "../utils/errors";
+import { checkRequiredFields } from "./check-required-fields";
+import { extractFrontmatter } from "./extract-frontmatter";
+import { validateSkillFrontmatter } from "./validate-skill-frontmatter";
 
 // ---------------------------------------------------------------------------
 // extractFrontmatter
@@ -117,5 +120,94 @@ describe("checkRequiredFields", () => {
       someNumber: 42,
     });
     expect(result).toEqual([]);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// validateSkillFrontmatter
+// ---------------------------------------------------------------------------
+
+describe("validateSkillFrontmatter", () => {
+  let tmpDir: string;
+
+  beforeEach(() => {
+    tmpDir = mkdtempSync(join(tmpdir(), "tekhne-validate-test-"));
+  });
+
+  afterEach(() => {
+    rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  test("throws ValidationError when file does not exist", async () => {
+    const missingFile = join(tmpDir, "SKILL.md");
+    await expect(validateSkillFrontmatter([missingFile])).rejects.toThrow(
+      ValidationError,
+    );
+  });
+
+  test("throws ValidationError when file is missing frontmatter delimiters", async () => {
+    const filePath = join(tmpDir, "SKILL.md");
+    await Bun.write(filePath, "# No frontmatter here\nJust some content.\n");
+    await expect(validateSkillFrontmatter([filePath])).rejects.toThrow(
+      ValidationError,
+    );
+  });
+
+  test("throws ValidationError when frontmatter contains invalid YAML", async () => {
+    const filePath = join(tmpDir, "SKILL.md");
+    await Bun.write(filePath, "---\nkey: [unclosed bracket\n---\n# Body\n");
+    await expect(validateSkillFrontmatter([filePath])).rejects.toThrow(
+      ValidationError,
+    );
+  });
+
+  test("throws ValidationError when frontmatter is a YAML list not a mapping", async () => {
+    const filePath = join(tmpDir, "SKILL.md");
+    await Bun.write(filePath, "---\n- item1\n- item2\n---\n# Body\n");
+    await expect(validateSkillFrontmatter([filePath])).rejects.toThrow(
+      ValidationError,
+    );
+  });
+
+  test("throws ValidationError when required fields are missing", async () => {
+    const filePath = join(tmpDir, "SKILL.md");
+    await Bun.write(filePath, "---\nauthor: someone\n---\n# Body\n");
+    await expect(validateSkillFrontmatter([filePath])).rejects.toThrow(
+      ValidationError,
+    );
+  });
+
+  test("resolves without error for a valid SKILL.md", async () => {
+    const filePath = join(tmpDir, "SKILL.md");
+    await Bun.write(
+      filePath,
+      "---\nname: My Skill\ndescription: A description\n---\n# Body\n",
+    );
+    await expect(validateSkillFrontmatter([filePath])).resolves.toBeUndefined();
+  });
+
+  test("non-SKILL.md paths are filtered out and resolves without error", async () => {
+    const filePath = join(tmpDir, "README.md");
+    await Bun.write(filePath, "# README\nNo frontmatter.\n");
+    // README.md is filtered; zero targets triggers a warning but no error
+    await expect(validateSkillFrontmatter([filePath])).resolves.toBeUndefined();
+  });
+
+  test("throws ValidationError when any file fails validation across multiple files", async () => {
+    const validFile = join(tmpDir, "SKILL.md");
+    await Bun.write(
+      validFile,
+      "---\nname: My Skill\ndescription: A description\n---\n# Body\n",
+    );
+
+    // A second SKILL.md in a nested dir that is missing frontmatter
+    const subDir = join(tmpDir, "sub");
+    mkdirSync(subDir);
+    const invalidFile = join(subDir, "SKILL.md");
+    await Bun.write(invalidFile, "# No frontmatter\n");
+
+    await expect(
+      validateSkillFrontmatter([validFile, invalidFile]),
+    ).rejects.toThrow(ValidationError);
   });
 });

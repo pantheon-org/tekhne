@@ -72,6 +72,6 @@ export const DOMAINS: DomainInfo[] = [
   },
 ];
 
-export function getDomainInfo(domainKey: string): DomainInfo | undefined {
+export const getDomainInfo = (domainKey: string): DomainInfo | undefined => {
   return DOMAINS.find((d) => d.key === domainKey);
-}
+};
