@@ -253,6 +253,21 @@ tessl skill publish skills/infrastructure/terraform --public
 
 See `cli/README.md` for detailed usage information.
 
+## CLI TypeScript Conventions
+
+All TypeScript files under `cli/` must follow these rules. They are enforced by pre-commit hooks and Biome. See `cli/CONVENTIONS.md` for full details and examples.
+
+| # | Rule | Enforcer |
+|---|------|----------|
+| 1 | **Arrow functions only** — `const foo = async () =>`, never `function foo()` | `cli/scripts/validate-ts-conventions.ts` |
+| 2 | **Barrel modules** — every `lib/` subdirectory has an `index.ts`; consumers import from it | Code review |
+| 3 | **Collocated tests** — `foo.test.ts` lives beside `foo.ts`, no separate `tests/` dir | Code review |
+| 4 | **No internal functions** — no arrow/named functions nested inside a function body | `cli/scripts/validate-ts-conventions.ts` |
+| 5 | **Function body ≤ 150 lines** — split into separate files if over limit | `cli/scripts/validate-ts-conventions.ts` |
+| 6 | **One function per module** — each non-barrel `.ts` file exports exactly one arrow function | `cli/scripts/validate-ts-conventions.ts` |
+
+`index.ts` barrels and `*.test.ts` files are exempt from rules 4–6.
+
 ## Git Hooks
 
 - Pre-commit uses `lefthook` and runs:
@@ -260,6 +275,7 @@ See `cli/README.md` for detailed usage information.
 - markdownlint on staged `.md` files.
 - YAML parse validation with `yq` when available.
 - Skill artifact conventions for `templates/`, `schemas/`, and `scripts/`.
+- CLI TypeScript convention checks on staged `cli/**/*.ts` files.
 
 Do not bypass hooks unless explicitly requested by the user.
 

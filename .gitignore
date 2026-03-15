@@ -1,11 +1,12 @@
 .agents/
-.vscode/
-node_modules/
-skills-lock.json
+.claude/settings.local.json
 .context/investigations
-**/tessl__*
 .tessl/
+.vscode/
+**/tessl__*
 dist/
 docs/node_modules/
 docs/dist/
 docs/.astro/
+node_modules/
+skills-lock.json

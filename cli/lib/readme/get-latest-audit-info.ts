@@ -7,9 +7,9 @@ interface AuditInfo {
   grade: string;
 }
 
-export async function getLatestAuditInfo(
+export const getLatestAuditInfo = async (
   skillRelativePath: string,
-): Promise<AuditInfo | null> {
+): Promise<AuditInfo | null> => {
   const auditBase = join(".context/audits", skillRelativePath);
 
   if (!existsSync(auditBase)) {
@@ -37,27 +37,4 @@ export async function getLatestAuditInfo(
   }
 
   return null;
-}
-
-export function getGradeColor(grade: string): string {
-  const colorMap: Record<string, string> = {
-    "A+": "brightgreen",
-    A: "green",
-    "B+": "yellowgreen",
-    B: "yellow",
-    "C+": "orange",
-    C: "red",
-    D: "red",
-    F: "purple",
-  };
-  return colorMap[grade] || "lightgrey";
-}
-
-export function getBadgeMarkdown(grade: string): string {
-  const color = getGradeColor(grade);
-  return `![${grade}](https://img.shields.io/badge/Rating-${grade}-${color})`;
-}
-
-export function getAuditLink(date: string, path: string): string {
-  return `[${date}](${path})`;
-}
+};

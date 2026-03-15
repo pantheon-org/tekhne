@@ -1,9 +1,9 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
-export async function getTesslStatus(
+export const getTesslStatus = async (
   skillRelativePath: string,
-): Promise<string> {
+): Promise<string> => {
   const tileJsonPath = join("skills", skillRelativePath, "tile.json");
 
   if (!existsSync(tileJsonPath)) {
@@ -25,4 +25,4 @@ export async function getTesslStatus(
   } catch {
     return "Configured";
   }
-}
+};

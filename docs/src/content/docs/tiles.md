@@ -190,7 +190,7 @@ Configure and integrate Vite in Nx monorepos for applications and libraries. Cov
 
 ---
 
-## Development (6 tiles)
+## Development (8 tiles)
 
 Development tooling
 
@@ -243,6 +243,22 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 | Skill | Rating |
 | --- | --- |
 | [typescript-advanced](/tekhne/skills/development/typescript-advanced/skill/) | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) |
+
+### website-theme-porter
+
+Port the visual theme and styling from a live website to a React/Tailwind CSS project. Extracts colours, typography, spacing, and component styles — via agent-browser automation, manual inspection, curl/wget, or direct source reading — writes structured documentation and all artifacts under .context/artifacts/{website}/ with timestamps, applies findings as Tailwind v4 CSS tokens, then verifies by visually diffing the original site against the local or deployed version. Use when cloning a brand, replicating a design system, matching a reference site, migrating visual identity, copying a style guide, or porting a theme from any live URL into a React codebase.
+
+| Skill | Rating |
+| --- | --- |
+| [website-theme-porter](/tekhne/skills/development/front-end/website-theme-porter/skill/) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) |
+
+### web-reference-sheet-generator
+
+Generate a comprehensive web design reference sheet (docs/design/design-reference.md) and its companion enforcement skill (.agents/skills/{project-slug}/SKILL.md) for any website project. Extracts tokens from CSS files, validates completeness against a JSON schema scratchpad, inspects existing components, and produces a 12-section living document covering colours, typography, spacing, layout, borders, shadows, motion, component patterns, accessibility, dark mode, and Figma sync notes. Use when starting a new project, onboarding a design system, creating a Figma reference sheet, porting design tokens, or auditing existing styles. Triggers on: "create a design reference", "generate a style guide", "document the design tokens", "make a brand reference sheet", "create design docs", "port design tokens", "audit existing styles".
+
+| Skill | Rating |
+| --- | --- |
+| [web-reference-sheet-generator](/tekhne/skills/development/front-end/web-reference-sheet-generator/skill/) | ![?](https://img.shields.io/badge/Rating-?-lightgrey) |
 
 ---
 

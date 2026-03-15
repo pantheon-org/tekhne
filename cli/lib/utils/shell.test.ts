@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { exec, execOrThrow } from "./shell";
+import { exec } from "./exec";
+import { execOrThrow } from "./exec-or-throw";
 
 describe("shell utilities", () => {
   describe("exec", () => {
