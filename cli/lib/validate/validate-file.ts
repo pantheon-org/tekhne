@@ -25,7 +25,7 @@ export const validateFile = async (filePath: string): Promise<string[]> => {
     return [`${filePath}: invalid YAML frontmatter — ${msg}`];
   }
 
-  if (!parsed || typeof parsed !== "object") {
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
     return [`${filePath}: frontmatter must be a YAML mapping`];
   }
 

@@ -8,6 +8,7 @@
         "@cliffy/command": "npm:@jsr/cliffy__command",
         "@cliffy/prompt": "npm:@jsr/cliffy__prompt",
         "js-yaml": "^4.1.1",
+        "xdg-basedir": "^5.1.0",
         "zod": "^4.3.6",
       },
       "devDependencies": {
@@ -274,6 +275,8 @@
     "undici-types": ["undici-types@7.18.2", "https://npm.jsr.io/undici-types/-/undici-types-7.18.2.tgz", {}, "sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w=="],
 
     "unicorn-magic": ["unicorn-magic@0.4.0", "https://npm.jsr.io/unicorn-magic/-/unicorn-magic-0.4.0.tgz", {}, "sha512-wH590V9VNgYH9g3lH9wWjTrUoKsjLF6sGLjhR4sH1LWpLmCOH0Zf7PukhDA8BiS7KHe4oPNkcTHqYkj7SOGUOw=="],
+
+    "xdg-basedir": ["xdg-basedir@5.1.0", "", {}, "sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ=="],
 
     "zod": ["zod@4.3.6", "https://npm.jsr.io/zod/-/zod-4.3.6.tgz", {}, "sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg=="],
   }
