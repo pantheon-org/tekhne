@@ -1,16 +1,16 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { FileNotFoundError } from "../utils/errors";
 import { logger } from "../utils/logger";
-import { DOMAINS } from "./domain-config";
-import { findAllSkills } from "./find-all-skills";
-import { findAllTiles } from "./find-all-tiles";
-import { findUntiledSkills } from "./find-untiled-skills";
-import { generateCatalogContent } from "./generate-catalog-content";
-import { generateDocsTilesPage } from "./generate-docs-tiles-page";
-import { generateReadmeSummaryTables } from "./generate-readme-summary-tables";
-import { parseReadmeSections } from "./parse-readme-sections";
-import type { UpdateOptions } from "./readme-types";
+import { findAllSkills, findAllTiles, findUntiledSkills } from "./discovery";
+import {
+  generateCatalogContent,
+  generateDocsTilesPage,
+  generateReadmeSummaryTables,
+} from "./rendering";
+import { parseReadmeSections } from "./sections";
 import { showDryRunDiff } from "./show-dry-run-diff";
+import type { UpdateOptions } from "./types";
+import { DOMAINS } from "./types";
 
 const TILES_PATH = "TILES.md";
 const DOCS_TILES_PATH = "docs/src/content/docs/tiles.md";
