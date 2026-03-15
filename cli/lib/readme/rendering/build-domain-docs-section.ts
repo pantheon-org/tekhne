@@ -1,8 +1,12 @@
-import { getLatestAuditInfo, parseSkillDescription } from "../discovery";
+import {
+  getEvalCount,
+  getTileTessl,
+  parseSkillDescription,
+} from "../discovery";
 import { formatSummary, getSkillDisplayName } from "../parsing";
 import type { SkillEntry, TileEntry } from "../types";
 import { buildCountLabel } from "./build-count-label";
-import { getDocsBadgeMarkdown } from "./get-docs-badge-markdown";
+import { buildSkillDocsRow } from "./build-skill-docs-row";
 
 export const buildDomainDocsSection = async (
   domainInfo: { key: string; title: string; description: string },
@@ -24,18 +28,25 @@ export const buildDomainDocsSection = async (
   for (const tile of domainTiles) {
     section += `\n### ${tile.shortName}\n\n`;
     section += `${formatSummary(tile.summary)}\n\n`;
-    section += "| Skill | Rating |\n";
-    section += "| --- | --- |\n";
+
+    const publishedCell = getTileTessl(tile);
+    const versionCell = tile.version || "-";
+    section += `**Published:** ${publishedCell} | **Version:** ${versionCell}\n\n`;
+
+    section += "| Skill | Rating | Audit | Evals |\n";
+    section += "| --- | --- | --- | --- |\n";
 
     for (const skill of tile.skills) {
       const relPath = skill.skillDir.replace(/^skills\//, "");
       const docsUrl = `/tekhne/skills/${relPath}/skill/`;
       const skillLink = `[${skill.name}](${docsUrl})`;
-      const auditInfo = await getLatestAuditInfo(skill.auditRelPath);
-      const badge = auditInfo
-        ? getDocsBadgeMarkdown(auditInfo.grade)
-        : getDocsBadgeMarkdown("?");
-      section += `| ${skillLink} | ${badge} |\n`;
+      const evalCount = getEvalCount(skill.skillDir);
+      const evalsCell = evalCount > 0 ? String(evalCount) : "-";
+      section += await buildSkillDocsRow({
+        skillLink,
+        auditRelPath: skill.auditRelPath,
+        evalsCell,
+      });
     }
   }
 
@@ -45,16 +56,18 @@ export const buildDomainDocsSection = async (
     const relPath = skill.relativePath;
     const docsUrl = `/tekhne/skills/${relPath}/skill/`;
     const skillLink = `[${displayName}](${docsUrl})`;
-    const auditInfo = await getLatestAuditInfo(skill.relativePath);
-    const badge = auditInfo
-      ? getDocsBadgeMarkdown(auditInfo.grade)
-      : getDocsBadgeMarkdown("?");
+    const evalCount = getEvalCount(`skills/${skill.relativePath}`);
+    const evalsCell = evalCount > 0 ? String(evalCount) : "-";
 
     section += `\n### ${displayName}\n\n`;
     section += `${description}\n\n`;
-    section += "| Skill | Rating |\n";
-    section += "| --- | --- |\n";
-    section += `| ${skillLink} | ${badge} |\n`;
+    section += "| Skill | Rating | Audit | Evals |\n";
+    section += "| --- | --- | --- | --- |\n";
+    section += await buildSkillDocsRow({
+      skillLink,
+      auditRelPath: skill.relativePath,
+      evalsCell,
+    });
   }
 
   return section;
