@@ -10,4 +10,7 @@ export * from "./generate-readme-summary-tables";
 export * from "./generate-tile-section";
 export * from "./generate-untiled-skill-section";
 export * from "./get-audit-link";
+export * from "./get-badge-filename";
 export * from "./get-badge-markdown";
+export * from "./make-badge-svg";
+export * from "./write-badge-files";

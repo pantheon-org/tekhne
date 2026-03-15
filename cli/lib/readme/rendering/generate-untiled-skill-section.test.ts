@@ -28,7 +28,7 @@ describe("generateUntiledSkillSection", () => {
     try {
       const output = await generateUntiledSkillSection(skill);
       expect(output).toContain("### my-skill _(no tile)_");
-      expect(output).toContain("Rating-?-lightgrey");
+      expect(output).toContain("unknown.svg");
       expect(output).toContain("| - |"); // no audit link, no evals
     } finally {
       process.chdir(orig);
@@ -59,7 +59,7 @@ describe("generateUntiledSkillSection", () => {
     process.chdir(tmp);
     try {
       const output = await generateUntiledSkillSection(skill);
-      expect(output).toContain("Rating-A-green");
+      expect(output).toContain("A.svg");
       expect(output).toContain("2026-03-15");
     } finally {
       process.chdir(orig);
