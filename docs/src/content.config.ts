@@ -1,6 +1,6 @@
 import { defineCollection, z } from "astro:content";
-import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
+import { glob } from "astro/loaders";
 
 /**
  * Starlight requires a `title` field. SKILL.md files use `name` (and
@@ -29,7 +29,12 @@ function withSkillTitle(schema: z.ZodTypeAny) {
 
 export const collections = {
   docs: defineCollection({
-    loader: docsLoader(),
+    loader: glob({
+      base: "src/content/docs",
+      // Only serve top-level doc pages and SKILL.md files.
+      // Excludes references/, templates/, scripts/, schemas/, assets/, AGENTS.md, etc.
+      pattern: ["*.{md,mdx}", "**/SKILL.md"],
+    }),
     schema: (ctx) => withSkillTitle(docsSchema()(ctx)),
   }),
 };
