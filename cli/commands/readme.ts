@@ -3,11 +3,11 @@ import { updateReadme } from "../lib/readme";
 import { CLIError, logger } from "../lib/utils";
 
 export const readmeCommand = new Command()
-  .description("README.md maintenance commands")
+  .description("Docs catalog maintenance commands")
   .command(
     "update",
     new Command()
-      .description("Update skill tables in README.md")
+      .description("Update skill catalog in docs/src/content/docs/tiles.md")
       .option("--dry-run", "Show changes without applying")
       .action(async (options) => {
         try {
