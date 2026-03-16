@@ -7,6 +7,13 @@ description: Interact with Obsidian vaults using the Obsidian CLI to read, creat
 
 Use the `obsidian` CLI to interact with a running Obsidian instance. Requires Obsidian to be open.
 
+## Mindset
+
+The CLI is a thin bridge between the shell and a live Obsidian process — it sends commands to the running app rather than manipulating files directly. This means Obsidian's own logic (link resolution, template expansion, plugin hooks) runs as normal, making CLI operations safer and more consistent than direct file writes.
+
+**When to apply:** Reading, creating, or searching notes from an agent workflow; interacting with daily notes or tasks programmatically; or developing and debugging Obsidian plugins from the command line.
+**When NOT to apply:** Obsidian is not open, the vault is remote or network-mounted, or the operation requires browser-level interaction not exposed by the CLI.
+
 ## Command reference
 
 Run `obsidian help` to see all available commands. This is always up to date. Full docs: [help.obsidian.md/cli](https://help.obsidian.md/cli)

@@ -1,20 +1,20 @@
 {
   "skill": "documentation/obsidian/obsidian-bases",
   "dimensions": {
-    "knowledgeDelta": 16,
-    "mindsetProcedures": 10,
-    "antiPatternQuality": 8,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 13,
     "specificationCompliance": 15,
     "progressiveDisclosure": 10,
-    "freedomCalibration": 12,
+    "freedomCalibration": 15,
     "patternRecognition": 10,
     "practicalUsability": 12,
-    "evalValidation": 0
+    "evalValidation": 10
   },
-  "total": 93,
+  "total": 120,
   "maxTotal": 140,
-  "grade": "D",
-  "lines": 497,
+  "grade": "B+",
+  "lines": 634,
   "hasReferences": true,
   "referenceCount": 1,
   "referenceSectionCompliant": true

@@ -9,6 +9,22 @@ Use Defuddle CLI to extract clean readable content from web pages. Prefer over W
 
 If not installed: `npm install -g defuddle`
 
+## Mindset
+
+Defuddle is a server-side HTML stripper, not a browser. Think of it as getting the printed article without the magazine wrapper — it fetches raw HTML and removes boilerplate, always faster and cheaper than WebFetch for standard pages.
+
+**When to apply:** Any standard HTTP page — documentation, articles, blog posts, wikis.
+**When NOT to apply:** SPAs requiring JavaScript, login-gated pages, JSON API endpoints, or pages behind auth redirects.
+
+When in doubt, try defuddle first; if the output is empty or navigation-only, fall back to WebFetch.
+
+## Quick Start
+
+1. Confirm the URL is a standard web page (not a SPA or auth-required page)
+2. Run `defuddle parse <url> --md` to extract clean markdown
+3. If output is empty or only navigation text, fall back to WebFetch
+4. Save output with `-o file.md` when persistence is needed
+
 ## When to Use
 
 Use this decision framework before fetching any URL:
@@ -57,16 +73,15 @@ defuddle parse <url> -p domain
 
 ## Common Mistakes
 
+See [ANTI-PATTERNS.md](references/ANTI-PATTERNS.md) for full explanations of each mistake.
+
 ### 1. Using WebFetch when defuddle is available
 
-**NEVER** use WebFetch for standard web pages when defuddle is available. WebFetch returns the full raw HTML including navigation menus, sidebars, footers, and ads. This wastes tokens and produces noisy content.
-
-**WHY:** Raw HTML pages commonly contain 5-10x more tokens than the extracted article content, inflating cost and degrading response quality.
+**NEVER** use WebFetch for standard web pages when defuddle is available. Raw HTML commonly contains 5-10x more tokens than the extracted content.
 
 BAD:
 
 ```bash
-# WebFetch returns thousands of tokens of navigation clutter
 WebFetch("https://docs.example.com/guide")
 ```
 
@@ -78,14 +93,11 @@ defuddle parse https://docs.example.com/guide --md
 
 ### 2. Omitting the `--md` flag
 
-**NEVER** call `defuddle parse` without the `--md` flag when readable content is the goal. Without `--md`, defuddle returns raw HTML, which is much harder to read and costs more tokens than markdown.
-
-**WHY:** HTML output retains tags, attributes, and inline styles that the agent must parse mentally, wasting context window space and increasing error risk.
+**NEVER** call `defuddle parse` without `--md` when readable content is the goal. Without it, defuddle returns raw HTML — tag-heavy and token-wasteful.
 
 BAD:
 
 ```bash
-# Returns HTML — hard to read, token-heavy
 defuddle parse https://example.com/article
 ```
 
@@ -95,36 +107,29 @@ GOOD:
 defuddle parse https://example.com/article --md
 ```
 
-### 3. Using `-p` metadata extraction when full content is needed
+### 3. Using `-p` when full content is needed
 
-**NEVER** use the `-p` flag when the user wants page body content. The `-p` flag returns a single metadata property. Using it when the user wants the page content silently discards the body text.
-
-**WHY:** The body of the article is not included in the output at all, so the agent will respond with only a title or description while the user expects the full article.
+**NEVER** use `-p` when the user wants the page body. It returns one metadata property and silently discards the entire body text.
 
 BAD:
 
 ```bash
-# Returns only the title string, not the article content
 defuddle parse https://example.com/article -p title
 ```
 
 GOOD:
 
 ```bash
-# Returns full article in markdown
 defuddle parse https://example.com/article --md
 ```
 
-### 4. Using shell redirection instead of the `-o` flag
+### 4. Using shell redirection instead of `-o`
 
-**NEVER** use shell redirection (`>`) to save defuddle output to a file. Shell redirection bypasses defuddle's file-writing logic and can corrupt output encoding. Always use the `-o` flag to save output to a file.
-
-**WHY:** Redirection can introduce encoding mismatches (especially on non-UTF-8 terminals) and may strip BOM or metadata that defuddle writes through its own file path.
+**NEVER** use `>` to save output — it can corrupt encoding on non-UTF-8 terminals. Always use `-o`.
 
 BAD:
 
 ```bash
-# Redirection may corrupt encoding or strip metadata
 defuddle parse https://example.com/article --md > output.md
 ```
 

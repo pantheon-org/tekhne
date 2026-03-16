@@ -5,6 +5,15 @@ description: Create and edit Obsidian Bases (.base files) with views, filters, f
 
 # Obsidian Bases Skill
 
+## Mindset
+
+Obsidian Bases is a YAML-driven query layer over vault notes. Think of `.base` files as live database views, not static tables — they compute and filter in real time against note frontmatter. The key discipline: define your data model in note properties first, then build views on top of it.
+
+**When to apply:** Creating dynamic views of vault notes by tag, folder, or property; building task trackers, reading lists, or dashboards; or when the user asks for table, cards, or list views in Obsidian.
+**When NOT to apply:** One-off note organisation, static Markdown tables, or displaying content that does not come from frontmatter properties.
+
+Consider starting with a simple filter and single table view, then optionally adding formulas and multiple views once the data model is validated.
+
 ## Workflow
 
 1. **Create the file**: Create a `.base` file in the vault with valid YAML content
@@ -615,66 +624,6 @@ Embed in Markdown files:
 - Use single quotes for formulas containing double quotes: `'if(done, "Yes", "No")'`
 - Use double quotes for simple strings: `"My View Name"`
 - Escape nested quotes properly in complex expressions
-
-## Troubleshooting
-
-### YAML Syntax Errors
-
-**Unquoted special characters**: Strings containing `:`, `{`, `}`, `[`, `]`, `,`, `&`, `*`, `#`, `?`, `|`, `-`, `<`, `>`, `=`, `!`, `%`, `@`, `` ` `` must be quoted.
-
-```yaml
-# WRONG - colon in unquoted string
-displayName: Status: Active
-
-# CORRECT
-displayName: "Status: Active"
-```
-
-**Mismatched quotes in formulas**: When a formula contains double quotes, wrap the entire formula in single quotes.
-
-```yaml
-# WRONG - double quotes inside double quotes
-formulas:
-  label: "if(done, "Yes", "No")"
-
-# CORRECT - single quotes wrapping double quotes
-formulas:
-  label: 'if(done, "Yes", "No")'
-```
-
-### Common Formula Errors
-
-**Duration math without field access**: Subtracting dates returns a Duration, not a number. Always access `.days`, `.hours`, etc.
-
-```yaml
-# WRONG - Duration is not a number
-"(now() - file.ctime).round(0)"
-
-# CORRECT - access .days first, then round
-"(now() - file.ctime).days.round(0)"
-```
-
-**Missing null checks**: Properties may not exist on all notes. Use `if()` to guard.
-
-```yaml
-# WRONG - crashes if due_date is empty
-"(date(due_date) - today()).days"
-
-# CORRECT - guard with if()
-'if(due_date, (date(due_date) - today()).days, "")'
-```
-
-**Referencing undefined formulas**: Ensure every `formula.X` in `order` or `properties` has a matching entry in `formulas`.
-
-```yaml
-# This will fail silently if 'total' is not defined in formulas
-order:
-  - formula.total
-
-# Fix: define it
-formulas:
-  total: "price * quantity"
-```
 
 ## References
 

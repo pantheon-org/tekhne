@@ -5,6 +5,13 @@ description: Create and edit JSON Canvas files (.canvas) with nodes, edges, grou
 
 # JSON Canvas Skill
 
+## Mindset
+
+JSON Canvas is a minimal open standard: nodes positioned on an infinite grid, connected by edges. The entire spec fits in two arrays. Design with this simplicity in mind — when a layout feels complex, it is usually a positioning or ID-management problem, not a schema problem.
+
+**When to apply:** Creating or editing `.canvas` files, building visual mind maps or flowcharts in Obsidian, or generating canvas files programmatically.
+**When NOT to apply:** The user wants a Markdown note, a database view (use Bases), or a diagram format that outputs to image/PDF — JSON Canvas is a live interactive format, not a rendering target.
+
 ## File Structure
 
 A canvas file (`.canvas`) contains two top-level arrays following the [JSON Canvas Spec 1.0](https://jsoncanvas.org/spec/1.0/):
@@ -72,85 +79,14 @@ Nodes are objects placed on the canvas. Array order determines z-index: first no
 | `height` | Yes | integer | Height in pixels |
 | `color` | No | canvasColor | Preset `"1"`-`"6"` or hex (e.g., `"#FF0000"`) |
 
-### Text Nodes
+| Type | Extra Required Field | Notes |
+|------|---------------------|-------|
+| `text` | `text` (string) | Markdown content; use `\n` for newlines, NEVER `\\n` |
+| `file` | `file` (path) | Optional `subpath` for heading/block anchor |
+| `link` | `url` (string) | External URL |
+| `group` | none | Optional `label`, `background`, `backgroundStyle` |
 
-| Attribute | Required | Type | Description |
-|-----------|----------|------|-------------|
-| `text` | Yes | string | Plain text with Markdown syntax |
-
-```json
-{
-  "id": "6f0ad84f44ce9c17",
-  "type": "text",
-  "x": 0,
-  "y": 0,
-  "width": 400,
-  "height": 200,
-  "text": "# Hello World\n\nThis is **Markdown** content."
-}
-```
-
-**Newline pitfall**: Use `\n` for line breaks in JSON strings. Do **not** use the literal `\\n` -- Obsidian renders that as the characters `\` and `n`.
-
-### File Nodes
-
-| Attribute | Required | Type | Description |
-|-----------|----------|------|-------------|
-| `file` | Yes | string | Path to file within the system |
-| `subpath` | No | string | Link to heading or block (starts with `#`) |
-
-```json
-{
-  "id": "a1b2c3d4e5f67890",
-  "type": "file",
-  "x": 500,
-  "y": 0,
-  "width": 400,
-  "height": 300,
-  "file": "Attachments/diagram.png"
-}
-```
-
-### Link Nodes
-
-| Attribute | Required | Type | Description |
-|-----------|----------|------|-------------|
-| `url` | Yes | string | External URL |
-
-```json
-{
-  "id": "c3d4e5f678901234",
-  "type": "link",
-  "x": 1000,
-  "y": 0,
-  "width": 400,
-  "height": 200,
-  "url": "https://obsidian.md"
-}
-```
-
-### Group Nodes
-
-Groups are visual containers for organizing other nodes. Position child nodes inside the group's bounds.
-
-| Attribute | Required | Type | Description |
-|-----------|----------|------|-------------|
-| `label` | No | string | Text label for the group |
-| `background` | No | string | Path to background image |
-| `backgroundStyle` | No | string | `cover`, `ratio`, or `repeat` |
-
-```json
-{
-  "id": "d4e5f6789012345a",
-  "type": "group",
-  "x": -50,
-  "y": -50,
-  "width": 1000,
-  "height": 600,
-  "label": "Project Overview",
-  "color": "4"
-}
-```
+See [NODE-REFERENCE.md](references/NODE-REFERENCE.md) for full attribute tables and JSON examples for each type.
 
 ## Edges
 
@@ -240,197 +176,16 @@ See [references/EXAMPLES.md](references/EXAMPLES.md) for full canvas examples in
 
 ## Common Mistakes
 
-### 1. Using literal newlines instead of `\n` escape in JSON strings
+**NEVER** embed literal newlines in JSON string values — use `\n`. **NEVER** use `\\n` — it renders as literal backslash-n on screen.
+**NEVER** reuse the same `id` across nodes or edges — duplicates silently overwrite each other with no error.
+**NEVER** reference a `fromNode`/`toNode` ID that does not exist in `nodes` — the edge renders invisibly.
+**NEVER** place child nodes outside the group's coordinate bounds — they appear as free-floating items.
+**NEVER** set `fromEnd`/`toEnd` to anything other than `"none"` or `"arrow"` — other values are silently discarded.
+**NEVER** supply a bare integer for `color` — the `canvasColor` type requires a quoted string (`"1"`, not `1`).
 
-**NEVER** embed literal newline characters or double-escaped `\\n` sequences inside JSON string values. JSON strings must use the escape sequence `\n` for line breaks. A literal newline character inside a JSON string is invalid JSON. Additionally, do not write `\\n` (two characters: backslash + n) — Obsidian renders that as the characters `\` and `n` on screen.
+**WHY:** JSON Canvas validation errors are silent — corrupted files and dangling references produce no error messages, making bad state invisible until the canvas is manually inspected.
 
-**WHY:** Literal newlines produce unparseable JSON that silently corrupts the canvas file, while `\\n` renders as visible backslash-n characters on screen instead of the intended line break.
-
-**Bad** — literal newline (invalid JSON):
-
-```json
-{
-  "id": "6f0ad84f44ce9c17",
-  "type": "text",
-  "text": "Line one
-Line two"
-}
-```
-
-**Bad** — double-escaped (renders as literal `\n` on screen):
-
-```json
-{
-  "id": "6f0ad84f44ce9c17",
-  "type": "text",
-  "text": "Line one\\nLine two"
-}
-```
-
-**Good** — single JSON escape:
-
-```json
-{
-  "id": "6f0ad84f44ce9c17",
-  "type": "text",
-  "text": "Line one\nLine two"
-}
-```
-
-### 2. Reusing the same ID for multiple nodes or edges
-
-**NEVER** reuse the same `id` value for more than one node or edge in a canvas file. Every `id` must be unique across all nodes and edges. Duplicates cause silent rendering failures where one element overwrites another.
-
-**WHY:** Duplicate IDs cause one element to silently overwrite another, resulting in missing nodes or edges with no error reported by Obsidian.
-
-**Bad**:
-
-```json
-{
-  "nodes": [
-    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Node A" },
-    { "id": "aabbccdd11223344", "type": "text", "x": 300, "y": 0, "width": 200, "height": 100, "text": "Node B" }
-  ]
-}
-```
-
-**Good** — each ID is a distinct 16-char hex value:
-
-```json
-{
-  "nodes": [
-    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Node A" },
-    { "id": "11223344aabbccdd", "type": "text", "x": 300, "y": 0, "width": 200, "height": 100, "text": "Node B" }
-  ]
-}
-```
-
-### 3. Creating edges that reference non-existent node IDs
-
-**NEVER** set `fromNode` or `toNode` to an ID that does not exist in the `nodes` array. If either value points to a missing node, the edge silently fails to render. Always validate references after creating or editing edges.
-
-**WHY:** Dangling edge references produce invisible edges with no error, making it impossible to diagnose missing connections just by viewing the canvas.
-
-**Bad** — `toNode` references a missing ID:
-
-```json
-{
-  "nodes": [
-    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Start" }
-  ],
-  "edges": [
-    { "id": "edge000000000001", "fromNode": "aabbccdd11223344", "toNode": "doesnotexist1234" }
-  ]
-}
-```
-
-**Good** — `toNode` resolves to an existing node:
-
-```json
-{
-  "nodes": [
-    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Start" },
-    { "id": "11223344aabbccdd", "type": "text", "x": 300, "y": 0, "width": 200, "height": 100, "text": "End" }
-  ],
-  "edges": [
-    { "id": "edge000000000001", "fromNode": "aabbccdd11223344", "toNode": "11223344aabbccdd" }
-  ]
-}
-```
-
-### 4. Placing child nodes outside group bounds
-
-**NEVER** place a child node at coordinates that fall outside the group's `x`/`y`/`width`/`height` rectangle. Child nodes positioned outside that boundary still render on the canvas but no longer appear visually inside the group. Always confirm child coordinates fall within the group boundary.
-
-**WHY:** Nodes outside the group bounds appear as free-floating canvas items, breaking the visual grouping and confusing readers about which elements belong together.
-
-**Bad** — child node at x=1200 is outside the group that ends at x=1000 (x=200, width=800):
-
-```json
-{
-  "nodes": [
-    { "id": "group00000000001", "type": "group", "x": 200, "y": 100, "width": 800, "height": 500, "label": "My Group" },
-    { "id": "child00000000001", "type": "text", "x": 1200, "y": 150, "width": 200, "height": 80, "text": "Orphaned child" }
-  ]
-}
-```
-
-**Good** — child node fits inside group bounds (x=200..1000, y=100..600):
-
-```json
-{
-  "nodes": [
-    { "id": "group00000000001", "type": "group", "x": 200, "y": 100, "width": 800, "height": 500, "label": "My Group" },
-    { "id": "child00000000001", "type": "text", "x": 250, "y": 150, "width": 200, "height": 80, "text": "Inside group" }
-  ]
-}
-```
-
-### 5. Setting `fromEnd`/`toEnd` to unsupported values
-
-**NEVER** set `fromEnd` or `toEnd` to any value other than `"none"` or `"arrow"`. Any other string (e.g., `"circle"`, `"diamond"`, `"true"`) is silently ignored or breaks rendering.
-
-**WHY:** Unsupported end-marker values are either silently discarded or cause the edge to render incorrectly, with no validation error to indicate which value was rejected.
-
-**Bad**:
-
-```json
-{
-  "id": "edge000000000001",
-  "fromNode": "aabbccdd11223344",
-  "toNode": "11223344aabbccdd",
-  "fromEnd": "circle",
-  "toEnd": "diamond"
-}
-```
-
-**Good**:
-
-```json
-{
-  "id": "edge000000000001",
-  "fromNode": "aabbccdd11223344",
-  "toNode": "11223344aabbccdd",
-  "fromEnd": "none",
-  "toEnd": "arrow"
-}
-```
-
-### 6. Using integer color values instead of string color values
-
-**NEVER** supply a bare integer for the `color` field. The `color` field is typed as `canvasColor`, which is always a JSON string. Using a bare integer causes a type mismatch that some canvas implementations reject.
-
-**WHY:** Canvas implementations that enforce strict typing will reject the file or ignore the color entirely when an integer is provided instead of a quoted string.
-
-**Bad** — integer value:
-
-```json
-{
-  "id": "aabbccdd11223344",
-  "type": "text",
-  "x": 0,
-  "y": 0,
-  "width": 200,
-  "height": 100,
-  "text": "Warning",
-  "color": 1
-}
-```
-
-**Good** — string value:
-
-```json
-{
-  "id": "aabbccdd11223344",
-  "type": "text",
-  "x": 0,
-  "y": 0,
-  "width": 200,
-  "height": 100,
-  "text": "Warning",
-  "color": "1"
-}
-```
+See [COMMON-MISTAKES.md](references/COMMON-MISTAKES.md) for full Bad/Good JSON examples.
 
 ## References
 

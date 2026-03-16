@@ -10,20 +10,16 @@ source_audit: ".context/audits/documentation/obsidian/defuddle/2026-03-16/audit.
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Score** | 87/140 (62%) | 112/140 (80%) |
-| **Grade** | F | B |
-| **Priority** | Critical | |
-| **Effort** | L | |
+| **Score** | 119/140 (85%) | 126/140 (90%) |
+| **Grade** | B+ | A |
+| **Priority** | Medium | |
+| **Effort** | S | |
 
 **Focus Areas**:
-- D1: Knowledge Delta (14/20)
-- D2: Mindset + Procedures (8/15)
-- D3: Anti-Pattern Quality (8/15)
-- D6: Freedom Calibration (10/15)
-- D8: Practical Usability (11/15)
-- D9: Eval Validation (0/20)
+- D3: Anti-Pattern Quality (11/15)
+- D9: Eval Validation (10/20)
 
-**Verdict**: Targeted improvements needed to reach grade B (+25 points).
+**Verdict**: Targeted improvements needed to reach grade A (+7 points).
 
 ---
 
@@ -31,12 +27,8 @@ source_audit: ".context/audits/documentation/obsidian/defuddle/2026-03-16/audit.
 
 | Issue | Dimension | Severity | Impact |
 |-------|-----------|----------|--------|
-| Low knowledge delta signals | D1 (14/20) | High | Skill may duplicate basic docs |
-| Missing mindset/procedures | D2 (8/15) | High | Agents lack decision frameworks |
-| Insufficient anti-patterns | D3 (8/15) | High | Agents repeat common mistakes |
-| Imbalanced constraint language | D6 (10/15) | Medium | Over/under-prescriptive |
-| Limited practical examples | D8 (11/15) | High | Agents struggle to apply skill |
-| Missing or incomplete evals | D9 (0/20) | High | Skill not validated at runtime |
+| Insufficient anti-patterns | D3 (11/15) | High | Agents repeat common mistakes |
+| Missing or incomplete evals | D9 (10/20) | High | Skill not validated at runtime |
 
 ---
 
@@ -47,7 +39,7 @@ source_audit: ".context/audits/documentation/obsidian/defuddle/2026-03-16/audit.
 
 ### Phase 1: Anti-Pattern Quality - Priority: High
 
-**Target**: Increase D3 from 8/15 to 13/15 (+5 points)
+**Target**: Increase D3 from 11/15 to 13/15 (+2 points)
 
 #### Step 1.1: Add NEVER/ALWAYS Constraints
 
@@ -58,24 +50,11 @@ Add explicit anti-pattern warnings to prevent common mistakes.
 **Action**: Add section with BAD vs GOOD examples.
 
 
-### Phase 2: Practical Usability - Priority: High
+### Phase 2: Eval Validation - Priority: High
 
-**Target**: Increase D8 from 11/15 to 13/15 (+2 points)
+**Target**: Increase D9 from 10/20 to 17/20 (+7 points)
 
-#### Step 2.1: Add Code Examples
-
-Add executable code blocks with language tags.
-
-**File**: `skills/documentation/obsidian/defuddle/SKILL.md`
-
-**Action**: Include bash/typescript examples with clear syntax highlighting.
-
-
-### Phase 3: Eval Validation - Priority: High
-
-**Target**: Increase D9 from 0/20 to 17/20 (+17 points)
-
-#### Step 3.1: Create Eval Scenarios
+#### Step 2.1: Create Eval Scenarios
 
 Use the `creating-eval-scenarios` skill to generate evaluation scenarios.
 
@@ -84,14 +63,14 @@ Use the `creating-eval-scenarios` skill to generate evaluation scenarios.
 - `evals/summary.json` - Coverage statistics (target >= 80%)
 - `evals/scenario-N/` - 5 scenarios with task.md, criteria.json, capability.txt
 
-#### Step 3.2: Run Evals
+#### Step 2.2: Run Evals
 
 ```bash
 tessl eval run <tile-path>
 tessl eval view-status <status_id> --json
 ```
 
-#### Step 3.3: Validate Coverage
+#### Step 2.3: Validate Coverage
 
 Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json files sum to 100.
 
@@ -104,7 +83,7 @@ Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json fi
 sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/obsidian/defuddle --json --store
 
 # Check target score achieved
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/obsidian/defuddle --json | jq ".total >= 112"
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/obsidian/defuddle --json | jq ".total >= 126"
 ```
 
 ---
@@ -113,10 +92,9 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentatio
 
 | Criterion | Measurement |
 |-----------|-------------|
-| Overall Score | >= 112/140 |
-| Grade | >= B |
+| Overall Score | >= 126/140 |
+| Grade | >= A |
 | D3: Anti-Pattern Quality | >= 13/15 |
-| D8: Practical Usability | >= 13/15 |
 | D9: Eval Validation | >= 17/20 |
 
 ---
@@ -125,7 +103,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentatio
 
 | Phase | Effort | Time |
 |-------|--------|------|
-| Total | L | 4-8 hours |
+| Total | S | 1-2 hours |
 
 ---
 

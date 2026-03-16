@@ -10,19 +10,15 @@ source_audit: ".context/audits/documentation/obsidian/obsidian-cli/2026-03-16/au
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Score** | 90/140 (64%) | 112/140 (80%) |
-| **Grade** | F | B |
-| **Priority** | Critical | |
-| **Effort** | L | |
+| **Score** | 123/140 (87%) | 126/140 (90%) |
+| **Grade** | B+ | A |
+| **Priority** | Medium | |
+| **Effort** | S | |
 
 **Focus Areas**:
-- D1: Knowledge Delta (14/20)
-- D2: Mindset + Procedures (10/15)
-- D3: Anti-Pattern Quality (8/15)
-- D6: Freedom Calibration (10/15)
-- D9: Eval Validation (0/20)
+- D9: Eval Validation (13/20)
 
-**Verdict**: Targeted improvements needed to reach grade B (+22 points).
+**Verdict**: Targeted improvements needed to reach grade A (+3 points).
 
 ---
 
@@ -30,11 +26,7 @@ source_audit: ".context/audits/documentation/obsidian/obsidian-cli/2026-03-16/au
 
 | Issue | Dimension | Severity | Impact |
 |-------|-----------|----------|--------|
-| Low knowledge delta signals | D1 (14/20) | High | Skill may duplicate basic docs |
-| Missing mindset/procedures | D2 (10/15) | High | Agents lack decision frameworks |
-| Insufficient anti-patterns | D3 (8/15) | High | Agents repeat common mistakes |
-| Imbalanced constraint language | D6 (10/15) | Medium | Over/under-prescriptive |
-| Missing or incomplete evals | D9 (0/20) | High | Skill not validated at runtime |
+| Missing or incomplete evals | D9 (13/20) | High | Skill not validated at runtime |
 
 ---
 
@@ -43,24 +35,11 @@ source_audit: ".context/audits/documentation/obsidian/obsidian-cli/2026-03-16/au
 > **Note**: This is an auto-generated template. Review dimension scores and customize based on actual skill content.
 
 
-### Phase 1: Anti-Pattern Quality - Priority: High
+### Phase 1: Eval Validation - Priority: High
 
-**Target**: Increase D3 from 8/15 to 13/15 (+5 points)
+**Target**: Increase D9 from 13/20 to 17/20 (+4 points)
 
-#### Step 1.1: Add NEVER/ALWAYS Constraints
-
-Add explicit anti-pattern warnings to prevent common mistakes.
-
-**File**: `skills/documentation/obsidian/obsidian-cli/SKILL.md`
-
-**Action**: Add section with BAD vs GOOD examples.
-
-
-### Phase 2: Eval Validation - Priority: High
-
-**Target**: Increase D9 from 0/20 to 17/20 (+17 points)
-
-#### Step 2.1: Create Eval Scenarios
+#### Step 1.1: Create Eval Scenarios
 
 Use the `creating-eval-scenarios` skill to generate evaluation scenarios.
 
@@ -69,14 +48,14 @@ Use the `creating-eval-scenarios` skill to generate evaluation scenarios.
 - `evals/summary.json` - Coverage statistics (target >= 80%)
 - `evals/scenario-N/` - 5 scenarios with task.md, criteria.json, capability.txt
 
-#### Step 2.2: Run Evals
+#### Step 1.2: Run Evals
 
 ```bash
 tessl eval run <tile-path>
 tessl eval view-status <status_id> --json
 ```
 
-#### Step 2.3: Validate Coverage
+#### Step 1.3: Validate Coverage
 
 Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json files sum to 100.
 
@@ -89,7 +68,7 @@ Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json fi
 sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/obsidian/obsidian-cli --json --store
 
 # Check target score achieved
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/obsidian/obsidian-cli --json | jq ".total >= 112"
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/obsidian/obsidian-cli --json | jq ".total >= 126"
 ```
 
 ---
@@ -98,9 +77,8 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentatio
 
 | Criterion | Measurement |
 |-----------|-------------|
-| Overall Score | >= 112/140 |
-| Grade | >= B |
-| D3: Anti-Pattern Quality | >= 13/15 |
+| Overall Score | >= 126/140 |
+| Grade | >= A |
 | D9: Eval Validation | >= 17/20 |
 
 ---
@@ -109,7 +87,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentatio
 
 | Phase | Effort | Time |
 |-------|--------|------|
-| Total | L | 4-8 hours |
+| Total | S | 1-2 hours |
 
 ---
 

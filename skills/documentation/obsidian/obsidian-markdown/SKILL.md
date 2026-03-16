@@ -7,6 +7,13 @@ description: Create and edit Obsidian Flavored Markdown with wikilinks, embeds, 
 
 Create and edit valid Obsidian Flavored Markdown. Obsidian extends CommonMark and GFM with wikilinks, embeds, callouts, properties, comments, and other syntax. This skill covers only Obsidian-specific extensions -- standard Markdown (headings, bold, italic, lists, quotes, code blocks, tables) is assumed knowledge.
 
+## Mindset
+
+Obsidian's core principle: use vault-native syntax (wikilinks, embeds, callouts) for anything that lives inside the vault, and standard Markdown only for external references or content that must render outside Obsidian.
+
+**When to apply:** Working with `.md` files in an Obsidian vault, creating notes with wikilinks, using callouts, defining frontmatter properties, or embedding content from other notes.
+**When NOT to apply:** Plain Markdown files outside a vault, GitHub READMEs, or documentation sites — Obsidian-specific syntax renders as raw text outside Obsidian.
+
 ## Workflow: Creating an Obsidian Note
 
 1. **Add frontmatter** with properties (title, tags, aliases) at the top of the file. See [PROPERTIES.md](references/PROPERTIES.md) for all property types.
@@ -154,144 +161,20 @@ Inline footnote.^[This is inline.]
 
 ## Complete Example
 
-````markdown
----
-title: Project Alpha
-date: 2024-01-15
-tags:
-  - project
-  - active
-status: in-progress
----
-
-# Project Alpha
-
-This project aims to [[improve workflow]] using modern techniques.
-
-> [!important] Key Deadline
-> The first milestone is due on ==January 30th==.
-
-## Tasks
-
-- [x] Initial planning
-- [ ] Development phase
-  - [ ] Backend implementation
-  - [ ] Frontend design
-
-## Notes
-
-The algorithm uses $O(n \log n)$ sorting. See [[Algorithm Notes#Sorting]] for details.
-
-![[Architecture Diagram.png|600]]
-
-Reviewed in [[Meeting Notes 2024-01-10#Decisions]].
-````
+See [EXAMPLES.md](references/EXAMPLES.md) for a full annotated note combining all Obsidian-specific syntax.
 
 ## Common Mistakes
 
-### 1. Using Markdown links for internal vault notes
+**NEVER** use standard Markdown links (`[text](file.md)`) for notes inside the vault — renames silently break them. Use `[[wikilinks]]` instead.
+**NEVER** wrap external URLs in `[[...]]` wikilink syntax — creates unresolvable vault references instead of hyperlinks.
+**NEVER** place block IDs on the same line as list items or quotes — they require a separate trailing line after the block.
+**NEVER** embed full notes with `![[Note]]` when only a section is relevant — use `![[Note#Heading]]`.
+**NEVER** include spaces in tag names — a space terminates the tag and the rest becomes unindexed plain text.
+**NEVER** place YAML frontmatter anywhere except the very first line of the file.
 
-**NEVER** use standard Markdown links for notes inside the vault. Obsidian will not update them on rename, and they may break if the file moves.
+**WHY:** Obsidian-specific syntax fails silently — broken wikilinks, unindexed tags, and ignored properties produce no errors but corrupt the vault graph invisibly.
 
-**WHY:** Markdown links bypass Obsidian's link graph entirely, so renamed or moved notes silently break without any warning in the UI.
-
-```markdown
-<!-- BAD -->
-[Meeting Notes](meeting-notes.md)
-
-<!-- GOOD -->
-[[Meeting Notes]]
-```
-
-Use `[[wikilinks]]` for all notes within the vault. Reserve `[text](url)` for external URLs only.
-
-### 2. Using wikilink syntax for external URLs
-
-**NEVER** wrap an external URL in `[[...]]` wikilink syntax. Obsidian resolves wikilinks against vault notes and will create a broken internal link instead of a hyperlink.
-
-**WHY:** The URL becomes an unresolvable note reference in the graph, producing a dead link that cannot be opened in a browser.
-
-```markdown
-<!-- BAD -->
-[[https://obsidian.md]]
-
-<!-- GOOD -->
-[Obsidian](https://obsidian.md)
-```
-
-### 3. Placing block IDs inline on list items
-
-**NEVER** place a block ID on the same line as a list item or quote block. Obsidian requires block IDs for lists and quote blocks to appear on a **separate line** after the block, or the ID will not be recognised.
-
-**WHY:** An inline block ID on a list item is parsed as plain text, so any `[[Note#^block-id]]` link targeting it will silently fail to resolve.
-
-```markdown
-<!-- BAD -->
-- First item ^item-one
-- Second item ^item-two
-
-<!-- GOOD -->
-- First item
-- Second item
-
-^list-block-id
-```
-
-### 4. Embedding an entire note when only a section is needed
-
-**NEVER** embed a full note with `![[Note]]` when only a specific section is relevant. This pulls in every heading and paragraph of the target note, flooding the reading view with unwanted content.
-
-**WHY:** Embedding an entire large note makes the host note hard to read and causes unnecessary re-rendering whenever any part of the source note changes.
-
-```markdown
-<!-- BAD -->
-![[Architecture Diagram]]
-
-<!-- GOOD -->
-![[Architecture Diagram#Overview]]
-```
-
-### 5. Using spaces in tags
-
-**NEVER** include spaces in tag names. A space terminates the tag; the rest of the text becomes plain content and is not indexed.
-
-**WHY:** The partial tag appears in search results under the wrong name, and the trailing words are indexed as free text rather than as part of the tag hierarchy.
-
-```markdown
-<!-- BAD -->
-#project alpha
-#my tag
-
-<!-- GOOD -->
-#project-alpha
-#my-tag
-```
-
-### 6. Placing frontmatter after content
-
-**NEVER** place YAML frontmatter anywhere other than the very start of the file. It must appear before any headings, text, or blank lines. Frontmatter placed anywhere else is treated as a fenced code block and the properties are ignored.
-
-**WHY:** Obsidian only parses the opening `---` block as properties; a misplaced block renders as a visible code fence and all defined properties are lost.
-
-```markdown
-<!-- BAD -->
-# My Note
-
----
-title: My Note
-tags:
-  - project
----
-
-<!-- GOOD -->
----
-title: My Note
-tags:
-  - project
----
-
-# My Note
-```
+See [COMMON-MISTAKES.md](references/COMMON-MISTAKES.md) for full BAD/GOOD examples.
 
 ## References
 
