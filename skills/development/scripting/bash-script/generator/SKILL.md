@@ -262,6 +262,38 @@ After every script, provide:
 - references/script-patterns.md (argument parsing)
 ```
 
+## Anti-Patterns
+
+### NEVER start a bash script without `set -euo pipefail`
+
+- **WHY**: Without these flags, errors are silently ignored: `-e` causes exit on error, `-u` errors on unset variables, `-o pipefail` catches pipeline failures.
+- **BAD**: `#!/usr/bin/env bash` with no error flags and silent failures.
+- **GOOD**: `#!/usr/bin/env bash` followed immediately by `set -euo pipefail` as the first two lines of every script.
+
+### NEVER use unquoted variable expansions in command arguments
+
+- **WHY**: Word splitting and glob expansion on unquoted `$VAR` cause subtle bugs when values contain spaces or special characters.
+- **BAD**: `cp $SOURCE $DEST`
+- **GOOD**: `cp "$SOURCE" "$DEST"`
+
+### NEVER use `ls | grep` to filter files
+
+- **WHY**: `ls` output is not reliably parseable; it is locale-dependent and breaks on filenames with special characters.
+- **BAD**: `ls *.log | grep error`
+- **GOOD**: `for f in *.log; do grep error "$f"; done` or `find . -name "*.log" -exec grep error {} +`
+
+### NEVER hardcode absolute paths for tools like `python`, `node`, or `bash`
+
+- **WHY**: Paths differ across operating systems and distributions, making scripts non-portable.
+- **BAD**: `#!/usr/bin/python3` or `/usr/local/bin/node script.js`
+- **GOOD**: Use `#!/usr/bin/env python3`, rely on PATH for `node script.js`, or guard with `command -v python3 || { echo "python3 required"; exit 1; }`.
+
+### NEVER use `eval` to execute dynamically constructed commands
+
+- **WHY**: `eval` enables code injection when any part of the command comes from user input or external data.
+- **BAD**: `eval "rm -rf $USER_INPUT"`
+- **GOOD**: Use arrays for command construction: `cmd=(rm -rf "$USER_INPUT"); "${cmd[@]}"`
+
 ## References
 
 **Internal references (offline, load as context):**

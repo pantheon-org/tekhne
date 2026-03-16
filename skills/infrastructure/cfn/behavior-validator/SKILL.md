@@ -78,6 +78,32 @@ Update the code: implement or remove the workaround and add a comment citing thi
 - `aws-cdk` — General AWS CDK development
 - `terraform-validator` — Similar testing for Terraform
 
+## Anti-Patterns
+
+### NEVER assume UPDATE_REQUIRES_REPLACEMENT from documentation without testing
+
+- **WHY**: AWS documentation for resource property behavior is sometimes incorrect or lags behind API changes; only testing against an actual stack confirms actual replacement behavior.
+- **BAD**: Trust the CloudFormation docs that say a property change is "No interruption" and skip testing.
+- **GOOD**: Create a test stack and apply the change to observe actual behavior via stack events.
+
+### NEVER test behavior-changing updates on production stacks
+
+- **WHY**: Replacement validation creates and deletes resources; testing on production risks unintended downtime or data loss.
+- **BAD**: Test property change behavior directly on a prod stack to "save time".
+- **GOOD**: Use a dedicated test stack in a non-production account with realistic (but non-sensitive) configuration.
+
+### NEVER ignore `UPDATE_ROLLBACK_FAILED` stack status
+
+- **WHY**: A stack in this state cannot be updated or deleted without manual intervention; document the recovery procedure whenever behavior testing triggers a rollback.
+- **BAD**: Treat `UPDATE_ROLLBACK_FAILED` as a transient error and retry.
+- **GOOD**: Use `continue-update-rollback` with skipped resources, or manually resolve the failed resource before retrying.
+
+### NEVER compare template drift without accounting for CDK synthesizer metadata
+
+- **WHY**: CDK-synthesized templates include `aws:cdk:path` metadata and synthesizer version fields that differ between environments but are not functional differences; filter these before comparing.
+- **BAD**: Flag every metadata field difference as drift.
+- **GOOD**: Normalize templates by stripping CDK-specific metadata keys before comparison.
+
 ## References
 
 | Script | Location | Purpose |

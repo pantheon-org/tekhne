@@ -331,6 +331,32 @@ For multi-Dockerfile projects: find all `Dockerfile*` files, validate each seque
 - Regularly update base images for security patches
 - Integrate validation into CI/CD pipelines
 
+## Anti-Patterns
+
+### NEVER skip Hadolint because the image builds successfully
+
+- **WHY**: A Dockerfile that builds can still violate security, layer caching, and size best practices; hadolint catches these before they reach production.
+- **BAD**: Skip linting if `docker build` exits 0.
+- **GOOD**: Run `hadolint Dockerfile` in CI as a required check; treat W rules as warnings and DL rules as errors.
+
+### NEVER ignore `DL3008` (unpinned apt packages)
+
+- **WHY**: Unpinned packages produce non-reproducible images; the same Dockerfile built a month apart may install different package versions with different security postures.
+- **BAD**: `RUN apt-get install -y curl`
+- **GOOD**: `RUN apt-get install -y curl=7.88.1-*` or use a digest-pinned base image with pre-installed versions.
+
+### NEVER validate a Dockerfile without also scanning the built image
+
+- **WHY**: Static analysis misses runtime vulnerabilities introduced by base images and installed packages; image scanning (Trivy, Grype) is complementary.
+- **BAD**: Pass hadolint and ship the image without scanning it.
+- **GOOD**: Run `trivy image myapp:latest` after build in the CI pipeline.
+
+### NEVER treat `--no-cache` as a security measure
+
+- **WHY**: `--no-cache` prevents layer caching during the current build but does not remove vulnerabilities in the base image or installed packages; image scanning is still required.
+- **BAD**: Rely on `--no-cache` to ensure a "fresh" secure image.
+- **GOOD**: Use `--no-cache` for reproducibility in CI; pair with image scanning for security assurance.
+
 ## References
 
 **Internal:**

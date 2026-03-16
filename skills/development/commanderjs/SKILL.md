@@ -164,6 +164,38 @@ program.addCommand(buildCommand);
 ✗ Don't forget to version your CLI
 ✗ Don't make all options required (use sensible defaults)
 
+## Anti-Patterns
+
+### NEVER access `process.argv` directly when Commander.js is available
+
+- **WHY**: Commander.js handles argument parsing, validation, and help generation; bypassing it for any argument creates inconsistency in error handling and help output.
+- **BAD**: `const url = process.argv[2]` alongside Commander.js commands.
+- **GOOD**: Define all arguments as Commander.js options or arguments: `program.argument('<url>', 'Target URL')`.
+
+### NEVER use `.action()` callback without handling errors
+
+- **WHY**: Unhandled rejections in async action callbacks crash the process without helpful error messages.
+- **BAD**: `program.command('fetch').action(async (opts) => { await riskyOp(); })`
+- **GOOD**: Wrap in try/catch and call `program.error(err.message)` for Commander-formatted error output.
+
+### NEVER add `.parseAsync()` without `await`
+
+- **WHY**: Commander.js v8+ requires `await program.parseAsync()` for async actions; without await, the process exits before async actions complete.
+- **BAD**: `program.parseAsync(process.argv)` without await.
+- **GOOD**: `await program.parseAsync(process.argv)` inside an async IIFE or main function.
+
+### NEVER define commands with positional arguments and options that share ambiguous prefixes
+
+- **WHY**: Commander.js can misparse `--option` values as positional arguments when options are not consumed before positional parsing.
+- **BAD**: `program.argument('<file>').option('--format <fmt>')` with ambiguous ordering in usage examples.
+- **GOOD**: Always place options before positional arguments in usage examples and validate input explicitly.
+
+### NEVER use `program.opts()` to read option values inside a subcommand
+
+- **WHY**: Each subcommand has its own option scope; reading `program.opts()` in a subcommand returns the parent options, not the subcommand options.
+- **BAD**: Reading `program.opts().verbose` inside a `program.command('deploy').action()`.
+- **GOOD**: Use `command.opts()` (the action's first argument when using `.action((opts) =>)`) to access subcommand-specific options.
+
 ## References
 
 - [Commander.js GitHub Repository](https://github.com/tj/commander.js)
