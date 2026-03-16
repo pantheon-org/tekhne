@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/obsidian/obsidian-cli",
+  "dimensions": {
+    "knowledgeDelta": 14,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "evalValidation": 0
+  },
+  "total": 90,
+  "maxTotal": 140,
+  "grade": "F",
+  "lines": 107,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false
+}

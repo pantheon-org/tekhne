@@ -510,11 +510,11 @@ Skills for working with Obsidian vaults and related formats: Obsidian Flavored M
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [obsidian-markdown](/tekhne/skills/documentation/obsidian/obsidian-markdown/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
-| [obsidian-cli](/tekhne/skills/documentation/obsidian/obsidian-cli/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
-| [json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
-| [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
-| [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [obsidian-markdown](/tekhne/skills/documentation/obsidian/obsidian-markdown/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-03-16 | - |
+| [obsidian-cli](/tekhne/skills/documentation/obsidian/obsidian-cli/skill/) | <span class="skill-badge skill-badge--f">F</span> | 2026-03-16 | - |
+| [json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-03-16 | - |
+| [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--f">F</span> | 2026-03-16 | - |
+| [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-03-16 | - |
 
 ---
 

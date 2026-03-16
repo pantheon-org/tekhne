@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/obsidian/json-canvas",
+  "dimensions": {
+    "knowledgeDelta": 14,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "evalValidation": 0
+  },
+  "total": 92,
+  "maxTotal": 140,
+  "grade": "D",
+  "lines": 247,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}

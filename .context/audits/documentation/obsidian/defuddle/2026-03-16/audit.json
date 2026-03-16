@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/obsidian/defuddle",
+  "dimensions": {
+    "knowledgeDelta": 14,
+    "mindsetProcedures": 8,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "evalValidation": 0
+  },
+  "total": 87,
+  "maxTotal": 140,
+  "grade": "F",
+  "lines": 41,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false
+}
