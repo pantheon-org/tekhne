@@ -1,9 +1,11 @@
+import type { AgentType } from "../types";
+import { agents } from "../types";
 import { CLIError } from "../utils/errors";
 import { logger } from "../utils/logger";
 import { displaySummary } from "./display-summary";
 import { filterSkills } from "./filter-skills";
 import { findSkills } from "./find-skills";
-import { AGENT_PATHS, installSkillsForAgent } from "./install-skills-for-agent";
+import { installSkillsForAgent } from "./install-skills-for-agent";
 import { selectSkillsInteractively } from "./select-skills-interactively";
 
 export interface InstallOptions {
@@ -19,10 +21,10 @@ export const installSkills = async (options: InstallOptions): Promise<void> => {
   const cwd = process.cwd();
 
   // Validate agents upfront before doing any work
-  const unknownAgents = options.agent.filter((a) => !AGENT_PATHS[a]);
+  const unknownAgents = options.agent.filter((a) => !agents[a as AgentType]);
   if (unknownAgents.length > 0) {
     throw new CLIError(
-      `Unknown agent(s): ${unknownAgents.join(", ")}. Valid agents: ${Object.keys(AGENT_PATHS).join(", ")}`,
+      `Unknown agent(s): ${unknownAgents.join(", ")}. Valid agents: ${Object.keys(agents).join(", ")}`,
       1,
     );
   }
@@ -54,8 +56,8 @@ export const installSkills = async (options: InstallOptions): Promise<void> => {
 
   logger.info(`Found ${skills.length} skills`);
 
-  const agents = options.agent;
-  logger.info(`Target agents: ${agents.join(", ")}`);
+  const selectedAgents = options.agent;
+  logger.info(`Target agents: ${selectedAgents.join(", ")}`);
   logger.info(`Mode: ${options.global ? "global" : "local"}`);
 
   const stats: Record<
@@ -63,9 +65,9 @@ export const installSkills = async (options: InstallOptions): Promise<void> => {
     { installed: number; skipped: number; failed: number }
   > = {};
 
-  for (const agent of agents) {
+  for (const agent of selectedAgents) {
     stats[agent] = installSkillsForAgent(agent, skills, cwd, options);
   }
 
-  displaySummary(agents, stats, options.dryRun);
+  displaySummary(selectedAgents, stats, options.dryRun);
 };

@@ -28,7 +28,8 @@
     "tessl:lint": "tessl skill lint",
     "tessl:publish": "tessl skill publish",
     "tessl:review": "tessl skill review",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "bun test cli/",
+    "test:integration": "cucumber-js"
   },
   "keywords": [],
   "author": "",
@@ -36,11 +37,13 @@
   "type": "commonjs",
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
+    "@cucumber/cucumber": "^11.0.0",
     "@types/bun": "latest",
     "@types/js-yaml": "^4.0.9",
     "lefthook": "^2.1.1",
     "markdownlint-cli2": "^0.21.0",
-    "tessl": "^0.68.0"
+    "tessl": "^0.68.0",
+    "tsx": "^4.0.0"
   },
   "dependencies": {
     "@cliffy/command": "npm:@jsr/cliffy__command",

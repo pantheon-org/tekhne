@@ -1,8 +1,7 @@
 import { z } from "zod";
 
 export const TileSkillSchema = z.object({
-  name: z.string().min(1),
-  description: z.string().min(1),
+  path: z.string().min(1),
 });
 
 export const TileSchema = z.object({
@@ -13,7 +12,7 @@ export const TileSchema = z.object({
   version: z.string().regex(/^\d+\.\d+\.\d+$/, "Version must be semver"),
   private: z.boolean().optional(),
   summary: z.string().min(1),
-  skills: z.array(TileSkillSchema).optional(),
+  skills: z.record(z.string(), TileSkillSchema).optional(),
 });
 
 export type TileData = z.infer<typeof TileSchema>;

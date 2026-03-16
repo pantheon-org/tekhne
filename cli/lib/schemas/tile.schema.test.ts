@@ -4,14 +4,12 @@ import { TileSchema, TileSkillSchema } from "./tile.schema";
 describe("TileSkillSchema", () => {
   test("parses valid skill", () => {
     expect(() =>
-      TileSkillSchema.parse({ name: "my-skill", description: "Does things" }),
+      TileSkillSchema.parse({ path: "my-skill/SKILL.md" }),
     ).not.toThrow();
   });
 
-  test("rejects empty name", () => {
-    expect(() =>
-      TileSkillSchema.parse({ name: "", description: "x" }),
-    ).toThrow();
+  test("rejects missing path", () => {
+    expect(() => TileSkillSchema.parse({ path: "" })).toThrow();
   });
 });
 

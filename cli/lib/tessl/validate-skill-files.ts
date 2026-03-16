@@ -9,14 +9,16 @@ export const validateSkillFiles = async (
   const tileJsonPath = join(tilePath, "tile.json");
   const rawData = await Bun.file(tileJsonPath).json();
   const tileData = TileSchema.parse(rawData);
-  const skillsList = tileData.skills || [];
+  const skillsMap = tileData.skills ?? {};
 
   let allValid = true;
 
-  for (const skill of skillsList) {
-    const skillMdPath = join(tilePath, skill.name, "SKILL.md");
+  for (const [skillName, skillInfo] of Object.entries(skillsMap)) {
+    const skillMdPath = join(tilePath, skillInfo.path);
     if (!existsSync(skillMdPath)) {
-      logger.error(`Missing SKILL.md for skill: ${skill.name}`);
+      logger.error(
+        `Missing SKILL.md for skill "${skillName}": ${skillInfo.path}`,
+      );
       allValid = false;
     }
   }
