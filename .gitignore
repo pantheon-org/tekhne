@@ -1,7 +1,8 @@
 .agents/
 .claude/
 .codex/
-.context/investigations
+.context/investigations/
+.context/pr-reviews/
 .cursor/
 .gemini/
 .github/
