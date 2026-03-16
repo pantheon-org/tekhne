@@ -37,3 +37,10 @@ pre-commit:
       glob: "cli/**/*.ts"
       run: bun cli/scripts/validate-ts-conventions.ts {staged_files}
       stage_fixed: false
+
+pre-push:
+  commands:
+    unit-tests:
+      run: bun test
+    integration-tests:
+      run: bunx cucumber-js

@@ -14,10 +14,7 @@ afterEach(() => {
   rmSync(tmp, { recursive: true, force: true });
 });
 
-const writeTile = (
-  dir: string,
-  skills: { name: string; description: string }[],
-) => {
+const writeTile = (dir: string, skills: Record<string, { path: string }>) => {
   writeFileSync(
     join(dir, "tile.json"),
     JSON.stringify({
@@ -31,7 +28,7 @@ const writeTile = (
 
 describe("validateSkillFiles", () => {
   test("returns true when no skills listed", async () => {
-    writeTile(tmp, []);
+    writeTile(tmp, {});
     expect(await validateSkillFiles(tmp)).toBe(true);
   });
 
@@ -39,12 +36,12 @@ describe("validateSkillFiles", () => {
     const skillDir = join(tmp, "my-skill");
     mkdirSync(skillDir);
     writeFileSync(join(skillDir, "SKILL.md"), "---\nname: x\n---\n");
-    writeTile(tmp, [{ name: "my-skill", description: "desc" }]);
+    writeTile(tmp, { "my-skill": { path: "my-skill/SKILL.md" } });
     expect(await validateSkillFiles(tmp)).toBe(true);
   });
 
   test("returns false when a skill SKILL.md is missing", async () => {
-    writeTile(tmp, [{ name: "missing-skill", description: "desc" }]);
+    writeTile(tmp, { "missing-skill": { path: "missing-skill/SKILL.md" } });
     expect(await validateSkillFiles(tmp)).toBe(false);
   });
 });
