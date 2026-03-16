@@ -269,6 +269,13 @@ WHY: False positives waste hours debugging phantom issues
     - Domain terms that trigger skill
     - Example: "BDD, Gherkin, Given-When-Then, Cucumber"
 
+8. **References Section Format (bonus: +1 point)**
+    - See the References Section Standard below.
+    - **+1 point:** heading is exactly `## References`, it is the last H2 in SKILL.md, all items are bullet-list markdown links, every link has a `— description` label
+    - **0 points:** section missing when references exist, wrong heading name (e.g. `## Resources`, `## Quick Reference`), bare URLs, or plain-text file paths without links
+    - **Omission without penalty:** skills with no `references/` directory and no external resources may omit the section entirely
+    - **WHY:** 36% of skills use no References section and 6 different heading variants are in use, making automated detection and audits non-deterministic
+
 ### Examples
 
 **✅ Excellent Specification Compliance (15/15):**
@@ -310,6 +317,59 @@ For Cursor users, see `.claude/docs/file.md`
 ```
 
 *Problems: weak description, harness-specific paths (.opencode/, .claude/), agent-specific references*
+
+### References Section Standard
+
+Every SKILL.md that has references or external resources MUST end with a `## References` section in the following format:
+
+```markdown
+## References
+
+**Internal:**
+
+- [Display Name](references/file.md) — one-line description of the file's content
+
+**External:**
+
+- [Official Docs Title](https://example.com) — why this resource is relevant
+```
+
+**Rules:**
+
+| Rule | Requirement |
+|---|---|
+| Heading | Exactly `## References` — no variants |
+| Position | Last H2 section in the file |
+| Format | Bullet list with markdown links only — no bare URLs, no bare paths |
+| Labels | Every link MUST be followed by `— description` |
+| Grouping | `references/` files listed first under `**Internal:**`; external URLs under `**External:**` |
+| Flat list | Acceptable when no `references/` directory exists and links are all external |
+| Omission | Allowed only when the skill has nothing to reference (no penalty) |
+
+**❌ Non-compliant (0 bonus points):**
+
+```markdown
+## Resources
+
+- references/file.md
+- https://example.com/docs
+```
+
+Problems: wrong heading (`## Resources`), bare path instead of link, bare URL without label.
+
+**✅ Compliant (+1 bonus point):**
+
+```markdown
+## References
+
+**Internal:**
+
+- [Error Patterns](references/error-patterns.md) — common failure modes and remediation steps
+
+**External:**
+
+- [Official CLI Docs](https://example.com/cli) — authoritative command reference
+```
 
 ## Dimension 5: Progressive Disclosure (15 points)
 

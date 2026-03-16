@@ -13,7 +13,7 @@ report_template_markdown: |
 
   | Metric | Value |
   | --- | --- |
-  | **Total Score** | [score]/120 ([percent]%) |
+  | **Total Score** | [score]/140 ([percent]%) |
   | **Grade** | [grade] |
   | **Pattern** | [pattern] |
   | **Knowledge Ratio** | E:A:R = [ratio] |
@@ -33,6 +33,7 @@ report_template_markdown: |
   | D6: Freedom Calibration | [n] | 15 | [notes] |
   | D7: Pattern Recognition | [n] | 10 | [notes] |
   | D8: Practical Usability | [n] | 15 | [notes] |
+  | D9: Eval Validation | [n] | 20 | [notes] |
 
   ---
 
@@ -116,6 +117,17 @@ report_template_markdown: |
 
   - [weakness]
 
+  **References Section Check** (D4 bonus +1):
+
+  | Check | Result |
+  | --- | --- |
+  | Heading is exactly `## References` | yes \| no |
+  | Section is the last H2 in SKILL.md | yes \| no |
+  | All items are bullet-list markdown links | yes \| no |
+  | Every link has a ` — description` label | yes \| no |
+  | **Compliant** | yes \| no |
+  | **Bonus score awarded** | 0 \| 1 |
+
   ### D5: Progressive Disclosure
 
   **Assessment**: [analysis]
@@ -153,6 +165,18 @@ report_template_markdown: |
   - [weakness]
 
   ### D8: Practical Usability
+
+  **Assessment**: [analysis]
+
+  **Strengths**:
+
+  - [strength]
+
+  **Weaknesses**:
+
+  - [weakness]
+
+  ### D9: Eval Validation
 
   **Assessment**: [analysis]
 

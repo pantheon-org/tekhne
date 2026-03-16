@@ -9,7 +9,8 @@
     "required_h2_groups",
     "required_h2_order",
     "required_dimension_labels",
-    "required_commands"
+    "required_commands",
+    "references_section_compliance"
   ],
   "properties": {
     "required_title_prefix": {
@@ -64,7 +65,7 @@
     },
     "required_dimension_labels": {
       "type": "array",
-      "minItems": 8,
+      "minItems": 9,
       "items": { "type": "string" }
     },
     "required_commands": {
@@ -76,6 +77,50 @@
       "type": "array",
       "minItems": 0,
       "items": { "type": "string" }
+    },
+    "references_section_compliance": {
+      "type": "object",
+      "description": "D4 bonus check: validates that SKILL.md ends with a correctly formatted ## References section",
+      "required": [
+        "heading_correct",
+        "is_last_section",
+        "uses_bullet_links",
+        "has_descriptive_labels",
+        "compliant",
+        "score"
+      ],
+      "properties": {
+        "heading_correct": {
+          "type": "boolean",
+          "description": "Heading is exactly '## References' (not Resources, Quick Reference, etc.)"
+        },
+        "is_last_section": {
+          "type": "boolean",
+          "description": "## References is the last H2 section in SKILL.md"
+        },
+        "uses_bullet_links": {
+          "type": "boolean",
+          "description": "All reference items are bullet-list markdown links, not bare URLs or plain paths"
+        },
+        "has_descriptive_labels": {
+          "type": "boolean",
+          "description": "Every markdown link is followed by a ' — description' label"
+        },
+        "compliant": {
+          "type": "boolean",
+          "description": "Overall pass: all four checks above are true"
+        },
+        "score": {
+          "type": "integer",
+          "enum": [0, 1],
+          "description": "Bonus points awarded: 1 if compliant, 0 otherwise"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional explanation of non-compliance"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

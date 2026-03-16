@@ -87,6 +87,13 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 - No agent-specific references (Claude Code, Cursor Agent, etc.): 1 point
 - Relative paths from skill directory (`scripts/`, `references/`): 1 point
 
+**Bonus Points (each independent, up to +2 total):**
+
+- Script Language Portability: +1 (Python/TS/JS scripts present in `scripts/`)
+- References Section Format: +1 (heading exactly `## References`, last H2, bullet markdown links with `— label` descriptions)
+  - 0 if: wrong heading name, bare URLs, plain-text paths, or section missing when references exist
+  - Omission allowed without penalty when skill has nothing to reference
+
 ### D5: Progressive Disclosure (15 points)
 
 | Score | Criteria |

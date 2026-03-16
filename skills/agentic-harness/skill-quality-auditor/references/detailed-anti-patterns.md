@@ -68,6 +68,15 @@ Critical failure modes to avoid when evaluating and improving skill quality.
 - **IMPACT**: agents activate the skill in wrong contexts (low precision), content becomes generic instead of expert-level (hurts D1 Knowledge Delta), and the skill resists the Navigation Hub pattern because there is no clear "hub" when the skill tries to be everything.
 - **DETECTION**: description contains multiple "and"/"or" connectors suggesting unrelated tasks; skill covers >2 distinct workflows; description >300 characters to capture all sub-topics.
 
+### NEVER use non-standard heading names for the References section
+
+- **WHY**: inconsistent headings (`## Resources`, `## Quick Reference`, `## Bundled Resources`, `## Reference Documentation`, `## Helper Scripts`) prevent automated detection and make audits non-deterministic. The only accepted heading is `## References`.
+- **BAD**: `## Resources`, `## Quick Reference`, `## Bundled Resources`, `## Reference Documentation`, `## Helper Scripts`, `## See Also`.
+- **GOOD**: `## References` — always, everywhere, without exception.
+- **ALSO BAD**: bare file paths (`references/file.md`) or bare URLs (`https://example.com`) without markdown links; missing `— description` labels on links; placing the section anywhere other than the last H2 position.
+- **IMPACT**: 36% of current skills have no References section and the remaining 64% use 6 different heading variants, creating audit noise, breaking grep-based detection, and signalling low specification compliance (D4 penalty).
+- **DETECTION**: check last H2 heading in SKILL.md — if not `## References` (or absent when links exist), award 0 for the D4 References Section Format bonus.
+
 ## Impact Analysis
 
 Each anti-pattern leads to specific failure modes:
@@ -79,3 +88,4 @@ Each anti-pattern leads to specific failure modes:
 - **Subjective scoring**: Inconsistent quality gates across evaluations
 - **Structure violations**: Poor maintainability and discoverability
 - **Kitchen-sink scope**: Low activation precision, generic content, maintenance fragility
+- **Non-standard References section**: Audit noise, grep-detection failures, D4 bonus not awarded

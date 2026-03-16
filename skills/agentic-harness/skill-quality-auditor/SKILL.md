@@ -61,6 +61,7 @@ Results stored in `.context/audits/<full-skill-path>/latest/` — the path mirro
 - NEVER mention specific agent names in skill instructions
 - NEVER create kitchen-sink skills that cover multiple unrelated tasks
 - NEVER bypass skill-quality-auditor in favor of tessl review alone
+- NEVER use a non-standard heading instead of `## References` (use exact heading; see D4 bonus criterion)
 
 See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete WHY/BAD/GOOD failure mode documentation.
 
