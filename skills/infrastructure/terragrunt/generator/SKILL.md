@@ -445,6 +445,38 @@ For troubleshooting guidance, see [`references/troubleshooting.md`](references/t
 - Feature flag validation errors
 - Child module env.hcl resolution issues
 
+## Anti-Patterns
+
+### NEVER use `path_relative_to_include()` as a module source path
+
+- **WHY**: This function returns a path relative to the INCLUDING file, not the included root file; using it as a module source creates path resolution failures that vary by directory depth.
+- **BAD**: `source = "..//${path_relative_to_include()}"` in a child module's `terraform.source`.
+- **GOOD**: Use `get_parent_terragrunt_dir()` or construct explicit relative paths from the root `terragrunt.hcl` location.
+
+### NEVER duplicate backend configuration in every unit's `terragrunt.hcl`
+
+- **WHY**: Copy-pasted `remote_state {}` blocks drift across units over time, creating inconsistent state key schemes and locking configurations that are difficult to audit.
+- **BAD**: A full `remote_state { backend = "s3" ... }` block repeated in every leaf module.
+- **GOOD**: Define remote state once in the root `root.hcl` and inherit it in every unit via `include "root" { path = find_in_parent_folders("root.hcl") }`.
+
+### NEVER ignore `dependency` output mismatches between plan and apply
+
+- **WHY**: When a `dependency.outputs` reference is evaluated and the dependency has not been applied, Terragrunt substitutes `mock_outputs` silently; if mock types differ from actual output types, the apply will fail with a type error.
+- **BAD**: Leave `mock_outputs` blocks with placeholder types and dismiss `mock_outputs` substitution warnings during `terragrunt plan`.
+- **GOOD**: Define `mock_outputs` whose types exactly match the actual dependency outputs, and use `mock_outputs_allowed_terraform_commands = ["validate", "plan"]` to limit substitution scope.
+
+### NEVER run `terragrunt run --all apply` without awareness of external dependency scope
+
+- **WHY**: By default, units outside the current directory tree are excluded from `run --all` operations, which can produce partial applies that leave infrastructure in an inconsistent state.
+- **BAD**: Run `terragrunt run --all apply` from a subdirectory expecting all transitive dependencies to be included automatically.
+- **GOOD**: Run from the repository root or pass `--terragrunt-include-external-dependencies` explicitly to ensure the full dependency graph is evaluated.
+
+### NEVER use the same `terragrunt.hcl` for both `dev` and `prod` environments without environment-level variable overrides
+
+- **WHY**: Sharing configuration without environment isolation causes prod deployments to silently inherit dev defaults (instance sizes, replica counts, retention policies).
+- **BAD**: A single `terragrunt.hcl` with no `inputs` block differentiation between environments.
+- **GOOD**: Use environment-level `env.hcl` files with `inputs = { environment = "prod", instance_type = "m5.xlarge" }` overrides that layer on top of shared defaults from the root configuration.
+
 ## References
 
 ### Templates — Read Before Generating

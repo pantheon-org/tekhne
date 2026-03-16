@@ -608,6 +608,32 @@ For detailed guidance on interpreting validation output, success/warning/error i
 
 For advanced topics including custom validation rules, security policies, and dependency graph analysis, see `references/advanced_usage.md`.
 
+## Anti-Patterns
+
+### NEVER validate only the current unit in isolation
+
+- **WHY**: Terragrunt dependency chains mean a unit may validate cleanly on its own but fail when its dependencies have incompatible outputs or missing inputs; isolated validation misses integration errors.
+- **BAD**: Run `terragrunt validate` in a single leaf unit directory and treat a clean result as full validation.
+- **GOOD**: Use `terragrunt run --all validate` from the relevant parent directory to validate all units in the dependency graph together.
+
+### NEVER skip `--terragrunt-log-level debug` when diagnosing HCL function errors
+
+- **WHY**: HCL function evaluation errors produce cryptic messages at default log levels; debug mode shows the evaluated function calls and helps pinpoint the exact source of the failure.
+- **BAD**: Attempt to debug `path_relative_to_include()` or `find_in_parent_folders()` errors using the default log level output.
+- **GOOD**: Add `--terragrunt-log-level debug` (or set `TG_LOG=debug`) to get the full HCL evaluation trace and locate the offending expression.
+
+### NEVER accept `terragrunt validate` passing as equivalent to `terraform validate`
+
+- **WHY**: Terragrunt's validate wraps Terraform validate but may not catch all HCL parsing errors in `terragrunt.hcl` includes; the two tools validate different layers of the configuration stack.
+- **BAD**: Skip `terraform validate` and rely solely on `terragrunt validate` as the complete validation signal.
+- **GOOD**: Run `terragrunt validate` for Terragrunt-level HCL and input checks, then run `terraform validate` (or `terragrunt init && terragrunt validate`) for Terraform provider schema validation.
+
+### NEVER ignore `dependency` mock output warnings in plan output
+
+- **WHY**: Mock output substitution warnings signal that the plan result is based on placeholder values; if mock types differ from actual outputs, the plan is unreliable and the apply will fail.
+- **BAD**: Dismiss `mock_outputs` substitution warnings in `terragrunt plan` output as expected and harmless.
+- **GOOD**: Verify that mock output types exactly match actual dependency outputs after the dependency has been applied at least once; update mocks if types change.
+
 ## References
 
 ### Scripts
