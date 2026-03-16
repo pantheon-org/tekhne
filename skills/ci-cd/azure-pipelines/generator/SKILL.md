@@ -277,6 +277,38 @@ For a complete end-to-end workflow example (Understanding → Reading → Lookup
 
 ---
 
+## Anti-Patterns
+
+### NEVER use `latest` for task version pins
+
+- **WHY**: ADO task versions introduce breaking changes across major versions. Using `@latest` or an unpinned reference creates non-deterministic builds where a task update can silently break your pipeline overnight.
+- **BAD**: `- task: UseNode@latest`
+- **GOOD**: `- task: UseNode@0` with a pinned `versionSpec` input (e.g., `versionSpec: '20.x'`).
+
+### NEVER store secrets in pipeline YAML variables
+
+- **WHY**: YAML variables are committed to source control and visible in pipeline run logs, exposing credentials to anyone with repository read access or pipeline view permissions.
+- **BAD**: `variables: API_KEY: 'abc123'`
+- **GOOD**: Use Azure Key Vault task or pipeline variable groups with the "secret" flag enabled in the ADO UI.
+
+### NEVER omit `displayName:` on tasks and steps
+
+- **WHY**: Pipelines without display names produce cryptic logs like `Task 1 of 12` that are impossible to interpret when diagnosing a failure, especially in multi-stage pipelines.
+- **BAD**: `- script: npm ci` with no `displayName`.
+- **GOOD**: `- script: npm ci\n  displayName: 'Install dependencies'`
+
+### NEVER use `trigger: none` on templates used as main pipelines
+
+- **WHY**: `trigger: none` disables all automatic triggers, meaning the pipeline never runs on code push. This is appropriate only for templates called by other pipelines, not for CI entry-point pipelines.
+- **BAD**: `trigger: none` on a pipeline intended to run on every commit.
+- **GOOD**: Configure explicit branch includes — `trigger: branches: include: [main, develop]`.
+
+### NEVER define all logic inline in a single flat YAML
+
+- **WHY**: Single-file pipelines exceeding a few hundred lines become unmaintainable, impossible to test in isolation, and prone to merge conflicts when multiple teams update them simultaneously.
+- **BAD**: A 400-line `azure-pipelines.yml` with all stages, jobs, and scripts inlined.
+- **GOOD**: Extract stage and job logic into separate `templates/*.yml` files and reference them with `- template: templates/build.yml`.
+
 ## Troubleshooting
 
 ### If devops-skills:azure-pipelines-validator reports errors

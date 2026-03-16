@@ -200,6 +200,32 @@ This validator is automatically invoked by the fluentbit-generator skill after g
 4. Re-validate until all checks pass
 5. Deploy with confidence
 
+## Anti-Patterns
+
+### NEVER validate config syntax without checking tag routing
+
+- **WHY**: A configuration that parses without errors can still drop all logs silently if no OUTPUT `Match` pattern covers the tags produced by the INPUTs. Syntax validation alone gives false confidence.
+- **BAD**: Confirm `fluent-bit --dry-run` passes and ship the configuration to production.
+- **GOOD**: Trace every INPUT tag through all FILTER and OUTPUT `Match` patterns to confirm that no logs fall through without a destination.
+
+### NEVER skip TLS certificate validation in output plugins
+
+- **WHY**: `tls.verify Off` is convenient for local testing but is frequently forgotten when promoting a config to production, leaving log data in transit exposed to interception or man-in-the-middle attacks.
+- **BAD**: `tls.verify Off` present in a production output plugin targeting an external log aggregator.
+- **GOOD**: `tls.verify On` with `tls.ca_file /etc/ssl/certs/ca-certificates.crt` (or the appropriate CA bundle for your environment).
+
+### NEVER use the same buffer path for multiple Fluent Bit instances
+
+- **WHY**: Overlapping `storage.path` directories corrupt the backpressure state database, causing one instance to consume or delete the other's buffered records and resulting in duplicate or lost log delivery.
+- **BAD**: Two Fluent Bit daemonsets sharing `/var/log/flb-storage/` as their storage path.
+- **GOOD**: Assign a distinct `storage.path` value to each Fluent Bit instance (e.g., `/var/log/flb-storage-app/` and `/var/log/flb-storage-infra/`).
+
+### NEVER ignore pipeline tag connection warnings
+
+- **WHY**: An INPUT tag that no OUTPUT `Match` pattern covers causes Fluent Bit to silently drop those records. This is the most common root cause of "missing logs" production incidents and is invisible without explicit tag validation.
+- **BAD**: Dismiss unmatched tag warnings from the validator as noise and proceed with deployment.
+- **GOOD**: Treat any unmatched tag as a P1 configuration error — every INPUT tag must be covered by at least one OUTPUT `Match` pattern before the config is considered valid.
+
 ## References
 
 ### scripts/

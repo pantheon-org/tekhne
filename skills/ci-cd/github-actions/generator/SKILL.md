@@ -228,6 +228,38 @@ deploy:
 6. **Fix** any errors
 7. **Present** validated result
 
+## Anti-Patterns
+
+### NEVER use `@latest` or branch-based action references
+
+- **WHY**: Mutable references allow the action to change silently between runs, enabling supply chain attacks where a compromised upstream injects malicious code into your workflow.
+- **BAD**: `uses: actions/checkout@main`
+- **GOOD**: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`
+
+### NEVER use `secrets: inherit` in reusable workflows without justification
+
+- **WHY**: `secrets: inherit` exposes every secret from the caller to the callee even when only one is needed, violating the principle of least privilege and widening the blast radius of a compromised workflow.
+- **BAD**: `secrets: inherit`
+- **GOOD**: Declare only required secrets explicitly — `secrets: deploy-token: required: true`
+
+### NEVER omit `permissions:` at the job or workflow level
+
+- **WHY**: `GITHUB_TOKEN` defaults to write permissions in older repositories. Omitting `permissions:` means every job can push commits, create releases, or modify issues unintentionally.
+- **BAD**: A workflow with no `permissions:` block at all.
+- **GOOD**: Set `permissions: contents: read` as the workflow default and override per-job only where write access is genuinely required.
+
+### NEVER set `fail-fast: false` by default in matrix builds
+
+- **WHY**: `fail-fast: false` causes the entire matrix to keep running after the first failure, wasting runner minutes and delaying feedback. It should be an intentional choice, not a default.
+- **BAD**: `strategy: fail-fast: false` added to every matrix without explanation.
+- **GOOD**: Omit `fail-fast` to use the default `true`, or add an explicit comment explaining why all combinations must complete.
+
+### NEVER use `pull_request_target` with `actions/checkout` checking out PR code
+
+- **WHY**: `pull_request_target` runs with write permissions and access to secrets. Combining it with a checkout of untrusted PR code enables attackers to exfiltrate secrets or tamper with your repository.
+- **BAD**: `on: pull_request_target` combined with `uses: actions/checkout@... with: ref: ${{ github.event.pull_request.head.sha }}`
+- **GOOD**: Use `pull_request` for untrusted code, or carefully scope and audit any `pull_request_target` workflow before adding a checkout step.
+
 ## References
 
 ### Reference Documents

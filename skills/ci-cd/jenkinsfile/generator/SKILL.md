@@ -297,6 +297,38 @@ python3 scripts/generate_shared_library.py --name my-library --package com.examp
 
 **Covered plugins:** Git, Docker, Kubernetes, Credentials, JUnit, Slack, SonarQube, OWASP Dependency-Check, Email, AWS, Azure, HTTP Request, Microsoft Teams, Nexus, Artifactory, GitHub
 
+## Anti-Patterns
+
+### NEVER use Scripted Pipeline for new work
+
+- **WHY**: Declarative Pipeline syntax is the current standard with better tooling, cleaner validation, and Blue Ocean compatibility; Scripted Pipeline should only be used to maintain existing files.
+- **BAD**: New pipelines starting with `node { ... }`.
+- **GOOD**: Start with `pipeline { agent any stages { ... } }` Declarative syntax.
+
+### NEVER store credentials as plain text pipeline parameters
+
+- **WHY**: Pipeline parameters are logged and visible in the Jenkins UI; credentials must go through the Jenkins Credentials Store.
+- **BAD**: `parameters { string(name: 'API_KEY', ...) }`
+- **GOOD**: `withCredentials([string(credentialsId: 'api-key-prod', variable: 'API_KEY')]) { ... }`
+
+### NEVER run all stages on a heavyweight executor without parallelism
+
+- **WHY**: Sequential stages on a single executor waste build time; extract independent stages into `parallel { }` blocks.
+- **BAD**: Lint, unit-test, integration-test, and SAST in sequential stages.
+- **GOOD**: Wrap independent stages in `parallel { stage('Lint') { ... } stage('Unit Test') { ... } }`.
+
+### NEVER omit `post { always { cleanWs() } }`
+
+- **WHY**: Without workspace cleanup, Jenkins agents fill disk with build artifacts from previous runs, causing disk-full build failures.
+- **BAD**: No `post` block in the pipeline.
+- **GOOD**: `post { always { cleanWs() } }` in every Declarative pipeline.
+
+### NEVER call `sh` with inline secret variable expansion
+
+- **WHY**: Shell substitution expands secrets into the command string where they appear in build logs and process lists.
+- **BAD**: `sh "curl -H 'Authorization: Bearer ${API_KEY}'"`
+- **GOOD**: `withCredentials([...]) { sh 'curl -H "Authorization: Bearer $API_KEY"' }` (single quotes prevent Groovy expansion; the credential is still available via the environment).
+
 ## References
 
 ```groovy

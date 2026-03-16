@@ -15,6 +15,12 @@ metadata:
   last_updated: 2026-01-26
 ---
 
+## Mindset
+
+Conventional Commits exist to make commit history machine-readable. The type prefix is a contract: `feat` triggers a MINOR version bump, `fix` triggers PATCH, and `!` or `BREAKING CHANGE:` triggers MAJOR. Every commit is a semantic event, not just a description of code changes.
+
+Write the header for the person reviewing a CHANGELOG six months from now, not for yourself today. The body explains *why* — the code already shows *what*.
+
 ## Commit Message Format
 
 ```
@@ -89,14 +95,37 @@ Benchmark (1000 req/s sustained):
 - After:  50ms avg, 200ms p99
 ```
 
-## Examples
+## Anti-Patterns
 
-```
-feat: add user export
-fix(auth): resolve token expiration
-docs: update API guide
-feat!: remove deprecated endpoint
-```
+### NEVER use past tense in the description
+
+- **WHY**: The header completes the sentence "If applied, this commit will…" — past tense breaks that contract and reads as a changelog entry, not a commit instruction.
+- **BAD**: `fix(auth): fixed token expiration bug`
+- **GOOD**: `fix(auth): prevent token expiration on refresh`
+
+### NEVER use `chore` as a catch-all
+
+- **WHY**: `chore` is for maintenance tasks not covered by other types (e.g., bumping lock files). Using it for features, refactors, or docs hides semantic meaning from changelog generators.
+- **BAD**: `chore: update auth module`, `chore: fix login bug`
+- **GOOD**: `refactor(auth): extract token refresh logic`, `fix(auth): resolve null pointer on logout`
+
+### NEVER exceed 72 characters in the header
+
+- **WHY**: Git log, GitHub PR titles, and most CI tools truncate at 72 characters. Longer headers break tooling and lose critical context.
+- **BAD**: `feat(checkout): add new payment processing integration with Stripe for recurring subscriptions`
+- **GOOD**: `feat(checkout): add Stripe recurring subscription support`
+
+### NEVER omit `BREAKING CHANGE:` footer when the API surface changes
+
+- **WHY**: The `!` suffix alone is not sufficient for all tooling. `BREAKING CHANGE:` in the footer carries the migration description that changelog generators parse for release notes.
+- **BAD**: `feat!: remove /v1 endpoints` (no footer)
+- **GOOD**: `feat!: remove /v1 endpoints` + footer `BREAKING CHANGE: /v1/* routes deleted; migrate to /api/v2/*`
+
+### NEVER put implementation details in the header
+
+- **WHY**: The header is the commit summary visible in `git log --oneline`. Implementation details belong in the body.
+- **BAD**: `fix(db): change SQL query from SELECT * to SELECT id,name in getUserById`
+- **GOOD**: `fix(db): reduce getUserById query to required columns` (details in body)
 
 ## Team Tooling
 
@@ -104,6 +133,6 @@ For automated commit validation (commitlint + husky), CI enforcement (GitHub Act
 
 ## References
 
-- [Conventional Commits Specification](https://www.conventionalcommits.org/)
-- [Semantic Versioning](https://semver.org/)
-- [commitlint Documentation](https://commitlint.js.org/)
+- [Conventional Commits Specification](https://www.conventionalcommits.org/) — canonical spec defining types, scopes, breaking changes, and CHANGELOG generation
+- [Semantic Versioning](https://semver.org/) — versioning contract that Conventional Commits maps to (MAJOR/MINOR/PATCH)
+- [commitlint Documentation](https://commitlint.js.org/) — automated commit message validation for CI and pre-commit hooks

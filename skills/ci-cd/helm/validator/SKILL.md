@@ -227,6 +227,32 @@ xattr -cr /path/to/chart/            # remove all recursively
 - Set `kubeVersion` constraint in Chart.yaml when needed
 - Target specific K8s version with `--kube-version` in helm template / kubeconform
 
+## Anti-Patterns
+
+### NEVER treat `helm lint` passing as sufficient validation
+
+- **WHY**: `helm lint` only checks chart structure and basic YAML syntax; it does not validate rendered Kubernetes manifests against the API schema.
+- **BAD**: Ship a chart after `helm lint` passes with no manifest validation.
+- **GOOD**: Run `helm template | kubeval` or `helm template | kubeconform` to validate rendered output.
+
+### NEVER skip `--set` overrides when linting complex charts
+
+- **WHY**: Linting with only default values misses validation errors that only surface when required values are provided.
+- **BAD**: `helm lint ./chart` with no value overrides.
+- **GOOD**: `helm lint ./chart --set image.tag=v1.0 --set ingress.enabled=true` to exercise non-default code paths.
+
+### NEVER ignore `helm diff` output before `helm upgrade`
+
+- **WHY**: Upgrading without reviewing the diff can silently delete resources (e.g., removing a service selector key).
+- **BAD**: Run `helm upgrade` directly in CI without diffing.
+- **GOOD**: Run `helm diff upgrade myapp ./chart` and fail the pipeline if destructive changes are detected.
+
+### NEVER validate charts without checking sub-chart dependencies
+
+- **WHY**: `helm dependency update` failure silently falls back to cached or missing sub-charts, producing incorrect renders.
+- **BAD**: Run `helm template ./chart` without first running `helm dependency update`.
+- **GOOD**: Always run `helm dependency update && helm template` in sequence.
+
 ## References
 
 ### scripts/

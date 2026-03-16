@@ -171,6 +171,38 @@ See `references/crd_patterns.md` for complete examples. Ship CRDs in `crds/` dir
 
 After generating charts, invoke **devops-skills:helm-validator** to ensure quality.
 
+## Anti-Patterns
+
+### NEVER hardcode image tags in `values.yaml`
+
+- **WHY**: Pinning to `:latest` or a hard-coded version in the chart prevents version overrides at deploy time.
+- **BAD**: `image: repository: myapp tag: latest`
+- **GOOD**: `image: repository: myapp tag: ""` with `appVersion` as the default, overridden via `--set image.tag=v1.2.3`.
+
+### NEVER omit `resources:` limits and requests on containers
+
+- **WHY**: Containers without resource constraints are evicted unpredictably under node pressure and cannot be scheduled by the Kubernetes cluster autoscaler.
+- **BAD**: No `resources:` block in the container spec template.
+- **GOOD**: Set both `requests` and `limits` for CPU and memory, with documented tuning guidance in `values.yaml`.
+
+### NEVER use `helm upgrade --install` without `--atomic` in CI/CD
+
+- **WHY**: Without `--atomic`, a failed upgrade leaves the release in a broken state that blocks future upgrades and requires manual `helm rollback`.
+- **BAD**: `helm upgrade --install myapp ./chart`
+- **GOOD**: `helm upgrade --install --atomic --timeout 5m myapp ./chart`
+
+### NEVER place environment-specific values inside the chart's default `values.yaml`
+
+- **WHY**: Mixing production values into the chart couples the chart to one environment.
+- **BAD**: Production database URLs in `values.yaml`.
+- **GOOD**: Use a layered values approach: `values.yaml` for defaults, `values-prod.yaml` for overrides, `-f values-prod.yaml` at deploy time.
+
+### NEVER skip `helm template` + `kubeval`/`kubeconform` validation
+
+- **WHY**: A chart that renders without error can still produce invalid Kubernetes manifests.
+- **BAD**: Only run `helm lint` before deploying.
+- **GOOD**: `helm template . | kubeval --strict --ignore-missing-schemas` to validate rendered manifests against the Kubernetes API schema.
+
 ## References
 
 ### Scripts
