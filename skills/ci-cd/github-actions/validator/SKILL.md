@@ -301,16 +301,6 @@ jobs:
 - **BAD**: Leave `actions/checkout@v2` in place after the validator warns it is outdated.
 - **GOOD**: Update to the current SHA-pinned version from `references/action_versions.md`.
 
-## References
-
-- [Best Practices](references/best-practices.md) — security standards, performance patterns, and naming conventions for GitHub Actions
-- [Common Actions](references/common-actions.md) — verified action versions with SHA pins and required inputs/outputs
-- [Common Errors](references/common_errors.md) — actionlint error patterns with explanations and fixes
-- [Runners](references/runners.md) — runner labels, availability, and hardware specs
-- [Action Versions](references/action_versions.md) — current version table for popular actions
-- [act Usage](references/act_usage.md) — local workflow testing with act, limitations and workarounds
-- [actionlint Usage](references/actionlint_usage.md) — configuration and custom rule examples
-
 ## Summary
 
 1. **Setup**: Install tools with `install_tools.sh`
@@ -320,4 +310,13 @@ jobs:
 5. **Search**: Use web search to verify unknown actions
 6. **Commit**: Push validated workflows with confidence
 
-For detailed information, consult the appropriate reference file in `references/`.
+## References
+
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| actionlint error patterns with explanations and fixes | [Common Errors](references/common_errors.md) | Diagnosing a specific actionlint error message |
+| Runner labels, availability, and hardware specs | [Runners](references/runners.md) | Choosing or validating a `runs-on` label |
+| Current version table for popular actions with SHA pins | [Action Versions](references/action_versions.md) | Updating a deprecated or unpinned action reference |
+| Local workflow testing with act, limitations and workarounds | [act Usage](references/act_usage.md) | Running workflows locally before pushing |
+| actionlint configuration and custom rule examples | [actionlint Usage](references/actionlint_usage.md) | Configuring actionlint or adding custom ignore rules |
+| Modern GHA features: job summaries, environments, containers | [Modern Features](references/modern_features.md) | Validating workflows that use newer GitHub Actions APIs |
