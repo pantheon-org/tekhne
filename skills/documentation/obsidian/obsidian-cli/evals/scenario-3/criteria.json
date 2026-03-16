@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent follows the correct plugin develop/test cycle: reload with plugin:reload, check errors with dev:errors, verify visually with dev:screenshot or dev:dom, and inspect console output with dev:console.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Reloads plugin with plugin:reload",
+      "description": "Uses obsidian plugin:reload id=my-task-tracker to pick up the code changes",
+      "max_score": 30
+    },
+    {
+      "name": "Checks errors with dev:errors",
+      "description": "Runs obsidian dev:errors to detect any errors thrown during plugin load",
+      "max_score": 25
+    },
+    {
+      "name": "Verifies visually with dev:screenshot or dev:dom",
+      "description": "Captures a screenshot with dev:screenshot or inspects a DOM element with dev:dom to confirm the UI rendered correctly",
+      "max_score": 25
+    },
+    {
+      "name": "Checks console output with dev:console",
+      "description": "Uses obsidian dev:console to inspect console logs for unexpected warnings or errors",
+      "max_score": 20
+    }
+  ]
+}

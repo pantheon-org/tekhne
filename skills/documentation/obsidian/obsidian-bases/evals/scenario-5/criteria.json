@@ -1,0 +1,46 @@
+{
+  "context": "Evaluate a generated daily-notes-index.base file. The base must filter by folder, define both formulas correctly before referencing them in the view, sort descending, and respect the 50-note limit.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "file.inFolder filter used for Daily Notes folder",
+      "description": "The global filters include file.inFolder(\"Daily Notes\") or an equivalent path-based filter to restrict notes to that folder.",
+      "max_score": 15
+    },
+    {
+      "name": "day_of_week formula defined in formulas section",
+      "description": "A formula (any name) for day of week is defined under the top-level formulas key before it is referenced in the view.",
+      "max_score": 10
+    },
+    {
+      "name": "day_of_week formula uses .format() with a weekday pattern",
+      "description": "The formula parses file.basename as a date and calls .format(\"dddd\") (or an equivalent weekday format pattern) to produce the full weekday name.",
+      "max_score": 20
+    },
+    {
+      "name": "word_estimate formula uses file.size",
+      "description": "A formula for word count estimate is defined and uses file.size divided by 5 (or a close approximation), rounded to an integer.",
+      "max_score": 15
+    },
+    {
+      "name": "All formula.X references have matching formulas definitions",
+      "description": "Every formula.X that appears in the view's order list has a corresponding key defined under the top-level formulas section. No dangling references.",
+      "max_score": 15
+    },
+    {
+      "name": "View sorted descending by file basename",
+      "description": "The view includes a sort or order configuration that sorts by file.basename (or file.name) in descending direction so newest dates appear first.",
+      "max_score": 10
+    },
+    {
+      "name": "Limit of 50 applied to the view",
+      "description": "The view includes limit: 50 (or equivalent) to restrict output to the 50 most recent notes.",
+      "max_score": 5
+    },
+    {
+      "name": "Valid YAML structure",
+      "description": "The output is syntactically valid YAML. All special characters in strings are quoted. Indentation is consistent.",
+      "max_score": 10
+    }
+  ]
+}

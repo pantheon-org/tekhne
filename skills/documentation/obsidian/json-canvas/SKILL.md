@@ -238,6 +238,200 @@ If validation fails, check for duplicate IDs, dangling edge references, or malfo
 
 See [references/EXAMPLES.md](references/EXAMPLES.md) for full canvas examples including mind maps, project boards, research canvases, and flowcharts.
 
+## Common Mistakes
+
+### 1. Using literal newlines instead of `\n` escape in JSON strings
+
+**NEVER** embed literal newline characters or double-escaped `\\n` sequences inside JSON string values. JSON strings must use the escape sequence `\n` for line breaks. A literal newline character inside a JSON string is invalid JSON. Additionally, do not write `\\n` (two characters: backslash + n) — Obsidian renders that as the characters `\` and `n` on screen.
+
+**WHY:** Literal newlines produce unparseable JSON that silently corrupts the canvas file, while `\\n` renders as visible backslash-n characters on screen instead of the intended line break.
+
+**Bad** — literal newline (invalid JSON):
+
+```json
+{
+  "id": "6f0ad84f44ce9c17",
+  "type": "text",
+  "text": "Line one
+Line two"
+}
+```
+
+**Bad** — double-escaped (renders as literal `\n` on screen):
+
+```json
+{
+  "id": "6f0ad84f44ce9c17",
+  "type": "text",
+  "text": "Line one\\nLine two"
+}
+```
+
+**Good** — single JSON escape:
+
+```json
+{
+  "id": "6f0ad84f44ce9c17",
+  "type": "text",
+  "text": "Line one\nLine two"
+}
+```
+
+### 2. Reusing the same ID for multiple nodes or edges
+
+**NEVER** reuse the same `id` value for more than one node or edge in a canvas file. Every `id` must be unique across all nodes and edges. Duplicates cause silent rendering failures where one element overwrites another.
+
+**WHY:** Duplicate IDs cause one element to silently overwrite another, resulting in missing nodes or edges with no error reported by Obsidian.
+
+**Bad**:
+
+```json
+{
+  "nodes": [
+    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Node A" },
+    { "id": "aabbccdd11223344", "type": "text", "x": 300, "y": 0, "width": 200, "height": 100, "text": "Node B" }
+  ]
+}
+```
+
+**Good** — each ID is a distinct 16-char hex value:
+
+```json
+{
+  "nodes": [
+    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Node A" },
+    { "id": "11223344aabbccdd", "type": "text", "x": 300, "y": 0, "width": 200, "height": 100, "text": "Node B" }
+  ]
+}
+```
+
+### 3. Creating edges that reference non-existent node IDs
+
+**NEVER** set `fromNode` or `toNode` to an ID that does not exist in the `nodes` array. If either value points to a missing node, the edge silently fails to render. Always validate references after creating or editing edges.
+
+**WHY:** Dangling edge references produce invisible edges with no error, making it impossible to diagnose missing connections just by viewing the canvas.
+
+**Bad** — `toNode` references a missing ID:
+
+```json
+{
+  "nodes": [
+    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Start" }
+  ],
+  "edges": [
+    { "id": "edge000000000001", "fromNode": "aabbccdd11223344", "toNode": "doesnotexist1234" }
+  ]
+}
+```
+
+**Good** — `toNode` resolves to an existing node:
+
+```json
+{
+  "nodes": [
+    { "id": "aabbccdd11223344", "type": "text", "x": 0, "y": 0, "width": 200, "height": 100, "text": "Start" },
+    { "id": "11223344aabbccdd", "type": "text", "x": 300, "y": 0, "width": 200, "height": 100, "text": "End" }
+  ],
+  "edges": [
+    { "id": "edge000000000001", "fromNode": "aabbccdd11223344", "toNode": "11223344aabbccdd" }
+  ]
+}
+```
+
+### 4. Placing child nodes outside group bounds
+
+**NEVER** place a child node at coordinates that fall outside the group's `x`/`y`/`width`/`height` rectangle. Child nodes positioned outside that boundary still render on the canvas but no longer appear visually inside the group. Always confirm child coordinates fall within the group boundary.
+
+**WHY:** Nodes outside the group bounds appear as free-floating canvas items, breaking the visual grouping and confusing readers about which elements belong together.
+
+**Bad** — child node at x=1200 is outside the group that ends at x=1000 (x=200, width=800):
+
+```json
+{
+  "nodes": [
+    { "id": "group00000000001", "type": "group", "x": 200, "y": 100, "width": 800, "height": 500, "label": "My Group" },
+    { "id": "child00000000001", "type": "text", "x": 1200, "y": 150, "width": 200, "height": 80, "text": "Orphaned child" }
+  ]
+}
+```
+
+**Good** — child node fits inside group bounds (x=200..1000, y=100..600):
+
+```json
+{
+  "nodes": [
+    { "id": "group00000000001", "type": "group", "x": 200, "y": 100, "width": 800, "height": 500, "label": "My Group" },
+    { "id": "child00000000001", "type": "text", "x": 250, "y": 150, "width": 200, "height": 80, "text": "Inside group" }
+  ]
+}
+```
+
+### 5. Setting `fromEnd`/`toEnd` to unsupported values
+
+**NEVER** set `fromEnd` or `toEnd` to any value other than `"none"` or `"arrow"`. Any other string (e.g., `"circle"`, `"diamond"`, `"true"`) is silently ignored or breaks rendering.
+
+**WHY:** Unsupported end-marker values are either silently discarded or cause the edge to render incorrectly, with no validation error to indicate which value was rejected.
+
+**Bad**:
+
+```json
+{
+  "id": "edge000000000001",
+  "fromNode": "aabbccdd11223344",
+  "toNode": "11223344aabbccdd",
+  "fromEnd": "circle",
+  "toEnd": "diamond"
+}
+```
+
+**Good**:
+
+```json
+{
+  "id": "edge000000000001",
+  "fromNode": "aabbccdd11223344",
+  "toNode": "11223344aabbccdd",
+  "fromEnd": "none",
+  "toEnd": "arrow"
+}
+```
+
+### 6. Using integer color values instead of string color values
+
+**NEVER** supply a bare integer for the `color` field. The `color` field is typed as `canvasColor`, which is always a JSON string. Using a bare integer causes a type mismatch that some canvas implementations reject.
+
+**WHY:** Canvas implementations that enforce strict typing will reject the file or ignore the color entirely when an integer is provided instead of a quoted string.
+
+**Bad** — integer value:
+
+```json
+{
+  "id": "aabbccdd11223344",
+  "type": "text",
+  "x": 0,
+  "y": 0,
+  "width": 200,
+  "height": 100,
+  "text": "Warning",
+  "color": 1
+}
+```
+
+**Good** — string value:
+
+```json
+{
+  "id": "aabbccdd11223344",
+  "type": "text",
+  "x": 0,
+  "y": 0,
+  "width": 200,
+  "height": 100,
+  "text": "Warning",
+  "color": "1"
+}
+```
+
 ## References
 
 - [JSON Canvas Spec 1.0](https://jsoncanvas.org/spec/1.0/)

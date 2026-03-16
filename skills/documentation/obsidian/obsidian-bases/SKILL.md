@@ -411,6 +411,194 @@ views:
       - file.mtime
 ```
 
+## Common Mistakes
+
+These are workflow- and design-level anti-patterns that cause silent failures or runtime
+errors in Obsidian Bases. Each is distinct from the YAML syntax issues covered in
+Troubleshooting.
+
+### Anti-Pattern 1: Accessing formula properties without null guards
+
+**NEVER** call property-dependent functions such as `date(due_date)` without first
+checking that the property exists. Calling `date(due_date)` when `due_date` is empty
+throws a runtime error and the whole formula column goes blank.
+
+**WHY:** Obsidian Bases evaluates formulas against every note in scope. A single note
+with a missing property causes the entire formula column to blank out silently for all
+rows, making data appear lost when it is simply unguarded.
+
+```yaml
+# BAD - crashes when due_date is missing
+formulas:
+  days_until_due: "(date(due_date) - today()).days"
+```
+
+```yaml
+# GOOD - guard with if() before accessing the property
+formulas:
+  days_until_due: 'if(due_date, (date(due_date) - today()).days, "")'
+```
+
+Always wrap property-dependent expressions in `if(property, ..., fallback)`.
+
+### Anti-Pattern 2: Calling .round() directly on a Duration result
+
+**NEVER** call `.round()`, `.floor()`, or `.ceil()` directly on the result of a date
+subtraction. Date subtraction returns a **Duration**, not a Number, and Duration does
+not expose those methods. Calling them directly causes an error.
+
+```yaml
+# BAD - Duration is not a Number; .round() is undefined on it
+formulas:
+  age: "(now() - file.ctime).round(0)"
+```
+
+```yaml
+# GOOD - extract a numeric field first, then round
+formulas:
+  age: "(now() - file.ctime).days.round(0)"
+```
+
+Access `.days`, `.hours`, `.minutes`, etc. before applying any Number methods.
+
+**WHY:** Duration and Number are distinct types. Skipping the field accessor means you
+are calling a Number method on an object that does not have it, causing a formula error
+that suppresses output for the entire column.
+
+### Anti-Pattern 3: Referencing formula.X without defining X in formulas
+
+**NEVER** reference `formula.X` in `order` or `properties` without a matching key in
+the `formulas` block. If `formula.priority` appears in `order` or `properties` but
+`priority` is not listed under `formulas`, Obsidian silently drops the column.
+No error is shown.
+
+```yaml
+# BAD - formula.priority referenced but never defined
+views:
+  - type: table
+    order:
+      - formula.priority
+```
+
+```yaml
+# GOOD - define the formula before referencing it
+formulas:
+  priority: 'if(priority == 1, "High", if(priority == 2, "Medium", "Low"))'
+
+views:
+  - type: table
+    order:
+      - formula.priority
+```
+
+Always verify every `formula.X` reference has a matching key in `formulas`.
+
+**WHY:** Obsidian does not raise an error for undefined formula references — it simply
+omits the column. The silent failure makes it easy to spend time debugging data
+visibility when the root cause is a missing `formulas` entry.
+
+### Anti-Pattern 4: Using unquoted strings that contain special YAML characters
+
+**NEVER** leave strings unquoted when they contain characters that YAML treats as
+structural syntax. Characters like `:`, `{`, `}`, `[`, `]`, and `#` are meaningful in
+YAML. An unquoted value containing them causes a parse error and the entire base fails
+to load.
+
+```yaml
+# BAD - the colon inside the value breaks YAML parsing
+properties:
+  status:
+    displayName: Status: Active
+```
+
+```yaml
+# GOOD - wrap in double quotes
+properties:
+  status:
+    displayName: "Status: Active"
+```
+
+Any string that contains `:`, `{`, `}`, `[`, `]`, `,`, `&`, `*`, `#`, `?`, `|`, `-`,
+`<`, `>`, `=`, `!`, `%`, `@`, or a backtick must be quoted.
+
+**WHY:** A YAML parse error prevents the entire `.base` file from loading at all.
+Obsidian shows a generic error with no indication of which line is at fault, making
+unquoted special characters one of the hardest classes of mistake to diagnose quickly.
+
+### Anti-Pattern 5: Applying global filters when you only want per-view filtering
+
+**NEVER** place status- or state-specific conditions in the top-level `filters` block
+when your base contains views that need to show different subsets of those notes.
+A `filters` block at the top level applies to **all views**. If you want one view to
+show active items and another to show archived ones, a global filter that excludes
+archived notes will silently remove them from every view.
+
+```yaml
+# BAD - global filter prevents the "Archived" view from ever showing archived notes
+filters: 'file.hasTag("project")'
+
+views:
+  - type: table
+    name: "Active"
+    filters: 'status == "active"'
+  - type: table
+    name: "Archived"
+    filters: 'status == "archived"'   # never shows anything — global filter already excluded them
+```
+
+```yaml
+# GOOD - global filter contains only the invariant scope; per-view filters handle the rest
+filters: 'file.hasTag("project")'
+
+views:
+  - type: table
+    name: "Active"
+    filters: 'status == "active"'
+  - type: table
+    name: "Archived"
+    # remove global archive-exclusion or add the archive tag to the global filter scope
+    filters: 'status == "archived"'
+```
+
+Move status-specific conditions to view-level `filters`. Keep global `filters` only for
+properties that are truly shared across all views (e.g., folder or tag scope).
+
+**WHY:** Global filters act as an invisible pre-filter that view-level filters cannot
+override. Notes excluded at the global level never reach any view, so a view that looks
+correct in isolation will still silently suppress those records.
+
+### Anti-Pattern 6: Using file.name when file.basename is needed for display
+
+**NEVER** use `file.name` as a display column in table or cards views when you want
+clean note titles. `file.name` includes the file extension (e.g., `My Note.md`).
+`file.basename` returns only the title without the extension (e.g., `My Note`).
+Displaying `file.name` in a table or cards view looks cluttered.
+
+```yaml
+# BAD - shows "Book Title.md" instead of "Book Title"
+views:
+  - type: cards
+    order:
+      - file.name
+      - author
+```
+
+```yaml
+# GOOD - shows "Book Title"
+views:
+  - type: cards
+    order:
+      - file.basename
+      - author
+```
+
+Use `file.name` only when the extension itself is meaningful (e.g., comparing `.md` vs
+`.canvas` files). For all display purposes, prefer `file.basename`.
+
+**WHY:** Every Obsidian note has the `.md` extension, so `file.name` in a display
+column produces uniformly cluttered output (`Title.md`, `Title.md`, ...) with no
+benefit. The extension adds visual noise without conveying information.
+
 ## Embedding Bases
 
 Embed in Markdown files:

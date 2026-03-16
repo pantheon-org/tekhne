@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent uses the obsidian read command with the file= parameter (wikilink-style resolution) instead of the path= parameter when the exact vault path is unknown.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses obsidian read command",
+      "description": "The agent invokes the obsidian CLI with the read subcommand",
+      "max_score": 30
+    },
+    {
+      "name": "Uses file= parameter",
+      "description": "The agent uses file= to target the note by name (wikilink-style), not path=",
+      "max_score": 35
+    },
+    {
+      "name": "Note name is quoted",
+      "description": "The note name value is quoted because it contains spaces: file=\"Meeting Notes 2024-01-15\"",
+      "max_score": 25
+    },
+    {
+      "name": "Does not use path= parameter",
+      "description": "The agent does not use path= since the exact vault-root path is not known",
+      "max_score": 10
+    }
+  ]
+}

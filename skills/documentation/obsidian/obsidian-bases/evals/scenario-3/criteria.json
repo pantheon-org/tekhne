@@ -1,0 +1,46 @@
+{
+  "context": "Evaluate a generated reading-list.base file. The base must use a cards view, define a guarded reading-time formula, group by status, and include a stats table view.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Book tag filter present",
+      "description": "The global filters include file.hasTag(\"book\") to scope the base to book-tagged notes.",
+      "max_score": 10
+    },
+    {
+      "name": "Cards view used",
+      "description": "The primary view has type: cards, not type: table or type: list.",
+      "max_score": 15
+    },
+    {
+      "name": "reading_time formula defined in formulas section",
+      "description": "A formula (any name) that computes estimated reading time from pages is defined under the top-level formulas key.",
+      "max_score": 10
+    },
+    {
+      "name": "reading_time formula guards against missing pages",
+      "description": "The formula wraps the pages arithmetic in if(pages, ..., \"\") or equivalent to handle notes without a pages property.",
+      "max_score": 20
+    },
+    {
+      "name": "Cards view groups by status",
+      "description": "The cards view includes a groupBy clause that groups by the status property.",
+      "max_score": 15
+    },
+    {
+      "name": "file.basename used in order (not file.name)",
+      "description": "The order list in both views uses file.basename rather than file.name for displaying note titles.",
+      "max_score": 10
+    },
+    {
+      "name": "Stats table view present with Sum summary",
+      "description": "A second view of type table named \"Stats\" (or similar) is present, includes the reading-time formula in its order list, and applies a Sum summary to the pages column.",
+      "max_score": 10
+    },
+    {
+      "name": "Valid YAML structure",
+      "description": "The output is syntactically valid YAML. All special characters in strings are quoted. Indentation is consistent.",
+      "max_score": 10
+    }
+  ]
+}
