@@ -1,0 +1,52 @@
+{
+  "instructions": [
+    {
+      "instruction": "Initialize Biome with bunx @biomejs/biome init, then customize biome.json — never commit default config without reviewing formatter width, linter domains, and VCS ignores",
+      "original_snippets": "Initialize config if missing: bunx @biomejs/biome init...NEVER skip biome.json customization after init...Define formatter width, linter domains, and VCS ignores explicitly.",
+      "relevant_when": "adding Biome to a project for the first time",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run bunx @biomejs/biome check . to surface all diagnostics, then bunx @biomejs/biome check . --write to apply safe autofixes",
+      "original_snippets": "Run checks and capture results: bunx @biomejs/biome check ....Apply safe autofixes: bunx @biomejs/biome check . --write",
+      "relevant_when": "running Biome checks on a repository",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "In CI, use bunx @biomejs/biome check . --error-on-warnings to fail on both errors and warnings",
+      "original_snippets": "Verify commands pass in local and CI contexts: bunx @biomejs/biome check . --error-on-warnings...Exit code 0 indicates success.",
+      "relevant_when": "adding Biome to a CI pipeline",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "NEVER run Biome and ESLint on the same files — route TS linting and formatting through Biome only",
+      "original_snippets": "NEVER run Biome and ESLint on the same files...Route TS linting and formatting through Biome only.",
+      "relevant_when": "migrating from ESLint or setting up Biome alongside existing ESLint config",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER run Prettier and Biome formatter on the same files — keep only biome format . --write for supported files",
+      "original_snippets": "NEVER run Prettier and Biome formatter on the same files...Keep only biome format . --write for supported files.",
+      "relevant_when": "migrating from Prettier or setting up Biome alongside existing Prettier config",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER blanket-ignore diagnostics to get green CI — add narrow suppressions with a reason and follow-up ticket",
+      "original_snippets": "NEVER blanket-ignore diagnostics to get green CI...Add narrow suppressions with a reason and follow-up ticket.",
+      "relevant_when": "silencing Biome warnings or errors in code",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "If biome check fails after migration, isolate conflicting rules by temporarily disabling rule groups in biome.json, then re-enable one group at a time",
+      "original_snippets": "Error Recovery: If biome check fails after migration, isolate conflicting rules by temporarily disabling rule groups in biome.json linter section, then re-enable one group at a time to identify the source.",
+      "relevant_when": "troubleshooting biome check failures after ESLint/Prettier migration",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Confirm scope before starting: migration, config, lint, format, or CI — then follow the deterministic workflow step-by-step",
+      "original_snippets": "Confirm scope: migration, config, lint, format, or CI.",
+      "relevant_when": "any Biome task — establish scope first",
+      "why_given": "preference"
+    }
+  ]
+}

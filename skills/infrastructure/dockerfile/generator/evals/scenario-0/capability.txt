@@ -1,0 +1,1 @@
+Multi-stage build, non-root user, pinned tags

@@ -1,0 +1,1 @@
+Produce a correct vite.config.ts for a React app in an Nx monorepo with nxViteTsPaths and workspace-relative paths

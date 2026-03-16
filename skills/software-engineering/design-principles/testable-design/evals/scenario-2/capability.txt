@@ -1,0 +1,1 @@
+Refactor concrete dependency to injected interface

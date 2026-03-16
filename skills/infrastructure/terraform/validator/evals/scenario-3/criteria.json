@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent validates from the root configuration that calls the module rather than from inside the module directory in isolation, and whether the report documents this choice explicitly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Root as entry point",
+      "description": "The validation_report.md documents running terraform commands from the `root/` directory (not `modules/network/`)",
+      "max_score": 18
+    },
+    {
+      "name": "Module isolation anti-pattern noted",
+      "description": "The report explicitly mentions that validating inside the module directory in isolation is insufficient or risky",
+      "max_score": 12
+    },
+    {
+      "name": "terraform init from root",
+      "description": "The report shows `terraform init` run from the root configuration directory",
+      "max_score": 10
+    },
+    {
+      "name": "terraform validate from root",
+      "description": "The report shows `terraform validate` run from the root configuration directory",
+      "max_score": 12
+    },
+    {
+      "name": "tfvars used",
+      "description": "The report documents using the terraform.tfvars file or providing variable values when validating/planning",
+      "max_score": 8
+    },
+    {
+      "name": "terraform fmt run",
+      "description": "The report shows `terraform fmt` was run",
+      "max_score": 6
+    },
+    {
+      "name": "extract_tf_info_wrapper run",
+      "description": "The report documents running `bash scripts/extract_tf_info_wrapper.sh` on the configuration",
+      "max_score": 10
+    },
+    {
+      "name": "Security scan run",
+      "description": "The report documents running the checkov wrapper script",
+      "max_score": 8
+    },
+    {
+      "name": "Variables declared with types",
+      "description": "The report notes whether all variables in both root and module have type declarations (assessing variables.tf quality)",
+      "max_score": 8
+    },
+    {
+      "name": "Overall health assessment",
+      "description": "The report concludes with a pass/fail or summary assessment of the configuration's validation status",
+      "max_score": 8
+    }
+  ]
+}

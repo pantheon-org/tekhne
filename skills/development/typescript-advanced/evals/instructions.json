@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "instruction": "When asked to help with TypeScript, always avoid `any` as a default type. Use constrained generics or explicit union types instead.",
+      "relevant_when": "User provides code containing `any` annotations or asks how to type an unknown value.",
+      "why_given": "The skill explicitly prohibits `any` as an escape hatch because it disables type checking and hides design bugs."
+    },
+    {
+      "instruction": "Never suggest `as` type assertions to silence type errors. Instead, narrow the type with a runtime guard (e.g., `typeof`, `instanceof`, or a custom type predicate) before assigning.",
+      "relevant_when": "User encounters 'Type X is not assignable to type Y' or asks how to cast a value.",
+      "why_given": "The skill documents `as` assertions as an anti-pattern that bypasses compiler safety without runtime guarantees."
+    },
+    {
+      "instruction": "Never recommend disabling strict mode (`strict: false`) or adding `@ts-ignore` to fix compile errors. Instead, fix the underlying type model.",
+      "relevant_when": "User asks how to suppress or ignore a TypeScript error.",
+      "why_given": "The skill states that strict mode surfaces real defects early and that disabling it or using `@ts-ignore` is prohibited."
+    },
+    {
+      "instruction": "When configuring TypeScript, always start from `strict: true` in tsconfig.json and enable additional checks (`noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`) rather than disabling defaults.",
+      "relevant_when": "User asks to set up or update tsconfig.json.",
+      "why_given": "The skill classifies compiler configuration as CRITICAL priority and establishes strict mode as the essential foundation."
+    },
+    {
+      "instruction": "When suggesting type fixes, verify the result compiles clean by running `npx tsc --noEmit` after each change before proceeding to the next step.",
+      "relevant_when": "User is iteratively fixing type errors or refactoring types.",
+      "why_given": "The skill's navigation workflow mandates running `npx tsc --noEmit` after each phase to confirm zero errors before proceeding."
+    },
+    {
+      "instruction": "Use discriminated unions to make illegal states unrepresentable instead of optional properties that allow impossible combinations.",
+      "relevant_when": "User is modeling state that has mutually exclusive variants (e.g., loading/success/error).",
+      "why_given": "Making illegal states unrepresentable is listed as a core best practice and part of the type-first development workflow."
+    },
+    {
+      "instruction": "When runtime validation is needed, implement it with Zod schemas rather than manual property checks, so that the inferred static type and runtime check remain in sync.",
+      "relevant_when": "User needs to validate data from an external source (API response, user input, config file).",
+      "why_given": "The skill lists 'implementing runtime validation with Zod' as a primary use case."
+    }
+  ]
+}

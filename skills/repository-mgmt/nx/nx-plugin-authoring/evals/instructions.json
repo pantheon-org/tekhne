@@ -1,0 +1,58 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use the Tree API exclusively for filesystem operations in generators — never use fs.writeFileSync or direct filesystem writes that bypass dry-run",
+      "original_snippets": "Use Tree API exclusively for filesystem operations in generators. BAD: writeFileSync('libs/my-lib/src/index.ts', content). GOOD: tree.write('libs/my-lib/src/index.ts', content).",
+      "relevant_when": "implementing a generator that creates or modifies files",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Derive project paths from readProjectConfiguration(tree, name).root — never hardcode paths like 'libs/my-lib'",
+      "original_snippets": "NEVER hardcode project paths in generator logic. BAD: fixed 'libs/my-lib/...' writes. GOOD: derive paths from readProjectConfiguration(tree, name).root.",
+      "relevant_when": "writing any file path in a generator",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Define typed schema.json with required fields, types, defaults, and descriptions — never use schema: any",
+      "original_snippets": "NEVER skip schema validation and typed options. BAD: schema: any and no guardrails. GOOD: typed schema.json with required fields, types, defaults, descriptions.",
+      "relevant_when": "creating a new generator or executor",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Read then mutate then update project configuration — never overwrite the full project.json blindly",
+      "original_snippets": "NEVER mutate project configuration blindly. BAD: overwrite full project.json. GOOD: const config = readProjectConfiguration(tree, name); config.targets.build = {...}; updateProjectConfiguration(tree, name, config);",
+      "relevant_when": "modifying project targets or configuration in a generator",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Executors must return { success: boolean } and use package notation for executor references in targets",
+      "original_snippets": "MUST return { success: boolean } from executor function. MUST use package notation for executor references. BAD: '../../tools/executors:task'. GOOD: '@scope/tools:task'.",
+      "relevant_when": "implementing an executor function or registering it in project.json",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Declare outputs in target configuration for cacheable tasks — never rely on implicit file writes without output declarations",
+      "original_snippets": "NEVER omit outputs and dependencies semantics for cacheable work. BAD: no outputs declared, implicit file writes. GOOD: declare outputs in target config: 'outputs': ['{options.outputPath}'].",
+      "relevant_when": "registering an executor target that produces build artifacts",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Call formatFiles(tree) after generateFiles() to ensure generated code has consistent formatting",
+      "original_snippets": "NEVER skip formatFiles after generating code. BAD: generateFiles() without calling formatFiles(tree). GOOD: await generateFiles(...); await formatFiles(tree);",
+      "relevant_when": "generating source files in a generator",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Check tree.exists(path) before writing to avoid overwriting existing files",
+      "original_snippets": "NEVER ignore existing project structure when generating files. BAD: tree.write(path, content) without checking tree.exists(path). GOOD: if (tree.exists(path)) { throw new Error('File already exists'); }",
+      "relevant_when": "writing files in a generator that might already exist",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Export generator and executor functions from src/index.ts and register them in generators.json/executors.json",
+      "original_snippets": "NEVER forget to export generator/executor from plugin index. BAD: generator implemented but missing from src/index.ts and generators.json. GOOD: export in src/index.ts and register in generators.json with factory path.",
+      "relevant_when": "completing a generator or executor implementation",
+      "why_given": "preference"
+    }
+  ]
+}

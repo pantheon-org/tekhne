@@ -1,0 +1,142 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run `bash scripts/extract_tf_info_wrapper.sh <path>` as the first step of validation",
+      "original_snippets": "| 1 | Run `bash scripts/extract_tf_info_wrapper.sh <path>` | Required |",
+      "relevant_when": "Any Terraform validation task",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Perform Context7 lookup for all providers (explicit and implicit); use WebSearch as fallback if Context7 fails",
+      "original_snippets": "| 2 | Context7 lookup for all providers (explicit and implicit); WebSearch fallback if not found | Required |",
+      "relevant_when": "Any Terraform validation task involving provider usage",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Read `references/security_checklist.md` before running security scans",
+      "original_snippets": "| 3 | Read `references/security_checklist.md` | Required |\n...Steps 3–4 (reading reference files) must be completed **before** running security scans.",
+      "relevant_when": "Any Terraform validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Read `references/best_practices.md` before running security scans",
+      "original_snippets": "| 4 | Read `references/best_practices.md` | Required |\n...Steps 3–4 (reading reference files) must be completed **before** running security scans.",
+      "relevant_when": "Any Terraform validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run `terraform fmt` as part of validation",
+      "original_snippets": "| 5 | Run `terraform fmt` | Required |",
+      "relevant_when": "Any Terraform validation task",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Run `tflint` (or note as skipped if unavailable)",
+      "original_snippets": "| 6 | Run `tflint` (or note as skipped if unavailable) | Recommended |",
+      "relevant_when": "Any Terraform validation task",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Run `terraform init` if not already initialized before `terraform validate`",
+      "original_snippets": "| 7 | Run `terraform init` (if not initialized) | Required |",
+      "relevant_when": "Any Terraform validation task",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Run `terraform validate` after init",
+      "original_snippets": "| 8 | Run `terraform validate` | Required |",
+      "relevant_when": "Any Terraform validation task",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Run `bash scripts/run_checkov.sh <path>` for security scanning, not checkov directly",
+      "original_snippets": "| 9 | Run `bash scripts/run_checkov.sh <path>` | Required |\n...Use these wrapper scripts instead of calling tools directly",
+      "relevant_when": "Security scanning of Terraform code",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Cross-reference security findings with sections from `security_checklist.md`",
+      "original_snippets": "| 10 | Cross-reference findings with `security_checklist.md` sections | Required |",
+      "relevant_when": "When Checkov/Trivy security findings are reported",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Generate a report citing reference files",
+      "original_snippets": "| 11 | Generate report citing reference files | Required |",
+      "relevant_when": "After completing all validation steps",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Detect implicit providers from resource type prefixes (e.g., 'random' from 'random_id') in addition to explicit providers",
+      "original_snippets": "3. Detect implicit providers from resource type prefixes:\n   - Extract prefix (e.g., \"random\" from \"random_id\")\n   - Common implicit: random, null, local, tls, time, archive, http, external",
+      "relevant_when": "Terraform configurations using utility/helper providers without explicit provider blocks",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use WebSearch directly for HashiCorp utility providers (random, null, local, time, tls, archive, external, http) instead of Context7",
+      "original_snippets": "**Note:** HashiCorp utility providers (random, null, local, time, tls, archive, external, http) are often not indexed in Context7 — use WebSearch directly for these.",
+      "relevant_when": "When validating configs using utility providers like random, null, local",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Read `references/common_errors.md` when errors occur during validation",
+      "original_snippets": "| When errors occur | `references/common_errors.md` | Error database with causes and solutions |",
+      "relevant_when": "When terraform validate or other tools produce errors",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Read `references/advanced_features.md` when Terraform >= 1.10 is detected or configuration uses ephemeral/action blocks",
+      "original_snippets": "| If Terraform >= 1.10 | `references/advanced_features.md` | Ephemeral values (1.10+), Actions (1.14+), List Resources (1.14+) |",
+      "relevant_when": "Terraform 1.10+ configurations using ephemeral blocks",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Security reports must follow the template: Check ID, Finding, Resource with file:line, Severity, Reference to security_checklist.md section, Remediation Pattern, Recommended Fix",
+      "original_snippets": "### Report Template for Security Findings\n\n```markdown\n### Security Issue: [Check ID]\n\n**Finding:** [Description from checkov]\n**Resource:** [Resource name and file:line]\n**Severity:** [HIGH/MEDIUM/LOW]\n\n**Reference:** security_checklist.md - \"[Section Name]\"...",
+      "relevant_when": "When reporting security findings from Checkov/Trivy scans",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "When a tool is missing, inform user, provide installation command, ask if they want it installed, install if yes, note as skipped if no",
+      "original_snippets": "1. Inform user what is missing and why it's needed\n2. Provide the installation command\n3. Ask: \"Would you like me to install [tool] and continue?\"\n4. If yes: run installation and rerun the validation step\n5. If no: note as skipped in report, continue with available tools",
+      "relevant_when": "When tflint, checkov, or other optional tools are not installed",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Always run terraform init -backend=false && terraform validate before tflint; never skip terraform validate before tflint",
+      "original_snippets": "NEVER skip `terraform validate` before `tflint`\n...GOOD: Always run `terraform init -backend=false && terraform validate` first, then `tflint --recursive`.",
+      "relevant_when": "Validation workflow involving both terraform validate and tflint",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never treat tflint warnings for missing variable declarations as non-critical; always declare every variable in variables.tf with type and description",
+      "original_snippets": "NEVER ignore `tflint` warnings for missing variable declarations\n...GOOD: Declare every variable in `variables.tf` with type and description; run `terraform validate` to confirm no undeclared references remain.",
+      "relevant_when": "When tflint reports terraform_required_variables warnings",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Route HIGH and CRITICAL Checkov findings to human review; never automate approval/denial solely on Checkov exit code",
+      "original_snippets": "NEVER use Checkov or `tfsec` results as the sole security gate\n...GOOD: Use Checkov to automatically block known-bad patterns; route HIGH and CRITICAL findings to a human review step before merging.",
+      "relevant_when": "When setting up automated security gates in CI/CD",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate from the root configuration that calls modules, not from inside module directories in isolation",
+      "original_snippets": "NEVER validate modules in isolation without testing from the calling root configuration\n...GOOD: Validate from the root configuration that calls the module using realistic variable values (e.g., via a `terraform.tfvars` fixture).",
+      "relevant_when": "Validating Terraform module code",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `bash scripts/install_checkov.sh install` to install Checkov if missing, then rerun security scan",
+      "original_snippets": "**If checkov is missing:** Ask to install via `bash scripts/install_checkov.sh install`, then rerun security scan.",
+      "relevant_when": "When Checkov is not installed and security scanning is needed",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `extract_tf_info_wrapper.sh` wrapper instead of `extract_tf_info.py` directly (wrapper auto-handles python-hcl2 via temporary venv)",
+      "original_snippets": "| `extract_tf_info_wrapper.sh` | Parse Terraform files for providers/modules (auto-handles python-hcl2 via temporary venv) | `bash scripts/extract_tf_info_wrapper.sh <path>` |\n...| `extract_tf_info.py` | Core parser (requires python-hcl2) | Use wrapper instead |",
+      "relevant_when": "When parsing Terraform files for provider/module info",
+      "why_given": "new knowledge"
+    }
+  ]
+}

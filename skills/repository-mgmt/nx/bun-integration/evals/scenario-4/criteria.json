@@ -1,0 +1,31 @@
+{
+  "context": "Agent must produce a migration checklist that covers the key anti-patterns and workflow steps from the nx-bun-integration skill, including lockfile cleanup, single package manager discipline, cache reset, phased validation, and production build verification.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Lockfile removal steps covered",
+      "description": "The checklist explicitly names package-lock.json (and/or yarn.lock) as files to remove when switching to Bun.",
+      "max_score": 20
+    },
+    {
+      "name": "Single package manager discipline stated",
+      "description": "The checklist states that npm install or yarn must not be used after migrating to Bun; only Bun should be used for installs.",
+      "max_score": 20
+    },
+    {
+      "name": "nx reset step included",
+      "description": "The checklist includes running `nx reset` after executor/plugin changes to clear stale Nx cache.",
+      "max_score": 20
+    },
+    {
+      "name": "Phased validation on one project before rollout",
+      "description": "The checklist requires validating build, test, and serve on a single pilot project before rolling out to all projects.",
+      "max_score": 20
+    },
+    {
+      "name": "Non-hot production build verification mentioned",
+      "description": "The checklist notes that hot or watch mode alone is insufficient and that a non-hot production-oriented run must be verified.",
+      "max_score": 20
+    }
+  ]
+}

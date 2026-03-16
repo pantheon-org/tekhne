@@ -1,0 +1,1 @@
+Docker build pipeline, image tagging with SHA, no hardcoded secrets

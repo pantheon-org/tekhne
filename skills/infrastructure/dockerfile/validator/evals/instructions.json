@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "instruction": "Always read the Dockerfile first using the Read tool before running or recommending any validation commands.",
+      "relevant_when": "Any Dockerfile validation request.",
+      "why_given": "The Mandatory Workflow section specifies 'Read the Dockerfile first — Use the Read tool to examine the Dockerfile before running validation' as step 1 of pre-validation."
+    },
+    {
+      "instruction": "Run the four-stage validation in order: [1/4] hadolint syntax, [2/4] Checkov security scan, [3/4] custom best practices checks, [4/4] optimization analysis.",
+      "relevant_when": "Validating any Dockerfile using the dockerfile-validate.sh script.",
+      "why_given": "The skill defines a fixed 4-stage pipeline and labels each stage numerically; the ordering matters because syntax issues should be resolved before security scanning."
+    },
+    {
+      "instruction": "Summarise findings by severity: Critical (security vulnerabilities, hardcoded secrets), High (missing USER, HEALTHCHECK, :latest tags), Medium (layer optimization, version pinning), Low (style, informational).",
+      "relevant_when": "Post-validation step when presenting results to the user.",
+      "why_given": "The Mandatory Workflow post-validation section specifies exactly this four-tier severity categorisation."
+    },
+    {
+      "instruction": "Cache cleanup (rm -rf /var/lib/apt/lists/* or apk --no-cache) MUST occur in the same RUN layer as the package installation, not in a separate RUN command.",
+      "relevant_when": "Dockerfile uses apt-get, apt, or apk to install packages.",
+      "why_given": "The Non-Obvious Checks table states 'Cache Cleanup: Must happen in the same RUN layer as the install; a separate RUN rm -rf creates a new layer that does not reduce size'."
+    },
+    {
+      "instruction": "COPY dependency manifests (package.json, requirements.txt, go.mod) before copying source code so that dependency installation is cached separately from source changes.",
+      "relevant_when": "Dockerfile installs application dependencies from a manifest file.",
+      "why_given": "The Layer Ordering entry in the Non-Obvious Checks table and the Build Cache Efficiency section both require COPY of dependency files before source code."
+    },
+    {
+      "instruction": "Never treat a successful docker build as validation. Always run hadolint as a required check even when the build exits 0.",
+      "relevant_when": "User reports the image builds successfully and asks whether validation is needed.",
+      "why_given": "The Anti-Patterns section states 'NEVER skip Hadolint because the image builds successfully' with explicit BAD/GOOD examples."
+    },
+    {
+      "instruction": "After proposing fixes, ask the user whether they want the fixes applied before modifying any Dockerfile.",
+      "relevant_when": "Fixes are ready to propose to the user.",
+      "why_given": "The Mandatory Workflow step 3 states 'Offer to apply fixes — Ask the user if they want fixes applied, then apply if approved'."
+    }
+  ]
+}

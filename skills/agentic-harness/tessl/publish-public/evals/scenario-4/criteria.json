@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent writes a summary following Tessl conventions: keywords embedded inline with 'Keywords: ...' label (not a separate array), includes a 'Use when...' trigger phrase, appropriate length, and starts with an action verb. The naive approach would list keywords in a separate JSON array or write a vague one-sentence description.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Keywords embedded inline",
+      "description": "Summary string contains keywords embedded inline (e.g., 'Keywords: aws, cost-explorer, billing...') — not stored in a separate JSON field",
+      "max_score": 25
+    },
+    {
+      "name": "Keywords label present",
+      "description": "Summary text contains 'Keywords:' followed by comma-separated terms within the summary string itself",
+      "max_score": 15
+    },
+    {
+      "name": "Use when trigger phrase",
+      "description": "Summary contains a 'Use when' phrase describing the trigger conditions for using the skill",
+      "max_score": 20
+    },
+    {
+      "name": "Summary length 150-300 chars",
+      "description": "Summary string is between 150 and 300 characters long",
+      "max_score": 20
+    },
+    {
+      "name": "Starts with action verb",
+      "description": "Summary begins with an action verb (e.g., 'Analyze', 'Identify', 'Optimize', 'Detect')",
+      "max_score": 10
+    },
+    {
+      "name": "No trailing period",
+      "description": "Summary string does NOT end with a period",
+      "max_score": 10
+    }
+  ]
+}

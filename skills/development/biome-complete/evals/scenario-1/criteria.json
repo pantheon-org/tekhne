@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent fully removes ESLint and Prettier from the toolchain (not just adds Biome alongside them), updates CI scripts to use Biome's --error-on-warnings, and produces a properly configured biome.json that replaces both tools.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "ESLint removed from scripts",
+      "description": "package.json scripts no longer contain eslint commands — Biome commands replace them",
+      "max_score": 15
+    },
+    {
+      "name": "Prettier removed from scripts",
+      "description": "package.json scripts no longer contain prettier commands — Biome commands replace them",
+      "max_score": 15
+    },
+    {
+      "name": "Biome scripts added",
+      "description": "package.json includes biome check and biome check --write (or equivalent) as lint and format scripts",
+      "max_score": 15
+    },
+    {
+      "name": "CI script uses --error-on-warnings",
+      "description": "The CI-targeted script in package.json uses bunx @biomejs/biome check . --error-on-warnings",
+      "max_score": 15
+    },
+    {
+      "name": "ESLint/Prettier devDeps removed",
+      "description": "devDependencies in package.json no longer include eslint, prettier, or their associated plugins",
+      "max_score": 10
+    },
+    {
+      "name": "biome.json linter configured",
+      "description": "biome.json has a linter section with at least one explicit rule enabled (not empty default)",
+      "max_score": 15
+    },
+    {
+      "name": "MIGRATION.md notes removal",
+      "description": "MIGRATION.md explicitly states that ESLint and Prettier have been removed and replaced with Biome",
+      "max_score": 15
+    }
+  ]
+}

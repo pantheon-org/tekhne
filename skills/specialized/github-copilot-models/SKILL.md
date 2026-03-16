@@ -191,3 +191,9 @@ Common issues:
 - **401 / "Invalid token"** — Re-authenticate with `opencode auth add github-copilot`.
 - **Models not showing in OpenCode** — OpenCode's registry may be stale; use the script to query the API directly.
 - **Model unavailable at runtime** — Check `policy.state` (`"enabled"` required) and the `preview` flag in the API response; preview models may have restricted availability depending on your subscription.
+
+## References
+
+- [GitHub Copilot Models API](https://api.githubcopilot.com/models) — live endpoint for querying available models and their capabilities
+- [OpenCode Authentication Docs](https://opencode.ai/docs/providers) — provider setup and `auth.json` format for credential management
+- [GitHub Copilot Subscription Plans](https://docs.github.com/en/copilot/about-github-copilot/subscription-plans-for-github-copilot) — model availability by tier and preview access policy

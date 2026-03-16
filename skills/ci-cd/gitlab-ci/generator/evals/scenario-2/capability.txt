@@ -1,0 +1,1 @@
+Environment declarations, resource_group, manual approval for production

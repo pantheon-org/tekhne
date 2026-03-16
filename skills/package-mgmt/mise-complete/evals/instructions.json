@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Always pin tool versions to exact releases in `mise.toml`. Never use floating versions like `latest`, `lts`, or version ranges in shared/team configurations.",
+      "relevant_when": "User asks to add a tool to mise.toml or set up a new project.",
+      "why_given": "The skill prohibits floating tool versions because they cause machine-to-machine drift and build failures across team members."
+    },
+    {
+      "instruction": "Never embed secrets, API tokens, or credentials in committed `mise.toml` files. Load secrets from external sources (environment files, secret managers) instead.",
+      "relevant_when": "User asks to configure environment variables in mise.toml that might include sensitive values.",
+      "why_given": "The skill's anti-patterns section explicitly prohibits hardcoding secrets in mise.toml because version control is not a secret store."
+    },
+    {
+      "instruction": "Define tasks as self-contained commands with explicit paths. Tasks must not rely on implicit shell state such as prior `cd` commands or manually exported environment variables.",
+      "relevant_when": "User asks to define or review a Mise task.",
+      "why_given": "The skill prohibits tasks that rely on implicit shell state because hidden state makes task outcomes non-deterministic across terminals and CI."
+    },
+    {
+      "instruction": "When setting up Mise in a project that already uses another tool manager (nvm, asdf, pyenv), migrate ownership of each tool to Mise and remove overlapping activation to prevent PATH conflicts.",
+      "relevant_when": "User has an existing tool manager installed and wants to adopt Mise.",
+      "why_given": "The skill prohibits mixing multiple tool managers as active authority because overlapping managers conflict on PATH and version resolution."
+    },
+    {
+      "instruction": "After defining or updating mise.toml, validate the configuration by running `mise install && mise doctor`. If `mise install` fails, run `mise doctor` to diagnose path or plugin issues before retrying.",
+      "relevant_when": "User has just created or modified mise.toml and asks what to do next.",
+      "why_given": "The skill's deterministic workflow step 5 mandates running `mise install && mise doctor` as the validation step."
+    },
+    {
+      "instruction": "Keep one canonical `mise.toml` per project scope. Do not create multiple competing configuration files for the same directory.",
+      "relevant_when": "User is setting up Mise configuration for a project.",
+      "why_given": "The skill's first core principle is to keep one canonical mise.toml per project scope."
+    }
+  ]
+}

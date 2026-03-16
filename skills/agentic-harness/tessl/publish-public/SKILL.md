@@ -278,15 +278,6 @@ See `references/anti-patterns.md` for detailed examples. Summary:
 
 ## References
 
-| Task | Command |
-|------|---------|
-| Check publication readiness | `sh scripts/check-publication-readiness.sh skills/<domain>/<skill>` |
-| Run quality audit | `sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill> --json --store` |
-| View audit results | `cat .context/audits/<domain>/<skill>/latest/analysis.md` |
-| Create eval scenario | `touch skills/<domain>/<skill>/evaluation-scenarios/scenario-01.md` |
-| Verify private flag | `jq '.private' skills/<domain>/<skill>/tile.json` |
-| Set private to false | `jq '.private = false' skills/<domain>/<skill>/tile.json > tmp.json && mv tmp.json skills/<domain>/<skill>/tile.json` |
-| Run Tessl review | `tessl skill review skills/<domain>/<skill>` |
-| Optimize Tessl score | `tessl skill review skills/<domain>/<skill> --optimize` |
-| Publish to public registry | `tessl skill publish skills/<domain>/<skill> --public` |
-| Verify publication | `tessl search <skill-name>` |
+- [Tile JSON Schema](references/tile-json-schema.md) — complete field documentation, validation rules, and examples for tile.json
+- [Public Publication Requirements](references/public-publication-requirements.md) — detailed checklist of all gates, compliance rules, and registry acceptance criteria
+- [Tessl Registry Documentation](https://tessl.io) — official registry specs, publication policies, and versioning requirements

@@ -1,0 +1,136 @@
+{
+  "instructions": [
+    {
+      "instruction": "After generating any complete pipeline file, validate it using the `devops-skills:azure-pipelines-validator` skill, fix any reported issues, and re-validate before presenting to the user",
+      "original_snippets": "After generating any **complete** pipeline file, always validate it using the `devops-skills:azure-pipelines-validator` skill, fix any reported issues, and re-validate before presenting to the user.",
+      "relevant_when": "When generating a complete pipeline YAML file",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never hardcode secrets; use service connections; mark variables as secret in ADO",
+      "original_snippets": "**Security:** Never hardcode secrets; use service connections; mark variables as secret in ADO",
+      "relevant_when": "When pipelines require credentials, API keys, or passwords",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Pin vmImage to specific version (e.g., ubuntu-22.04) not ubuntu-latest",
+      "original_snippets": "vmImage: `ubuntu-22.04` not `ubuntu-latest`",
+      "relevant_when": "Any pipeline using a hosted agent pool",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Pin tasks to major version number (e.g., Docker@2 not Docker); @0 is correct for GoTool@0, NodeTool@0, KubernetesManifest@0",
+      "original_snippets": "Tasks: `Docker@2` not `Docker` (pin to major version; @0 is correct for `GoTool@0`, `NodeTool@0`, `KubernetesManifest@0`)",
+      "relevant_when": "Any pipeline using ADO tasks",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use Cache@2 for all package managers",
+      "original_snippets": "**Performance:** Use `Cache@2` for all package managers; use `dependsOn` for parallelism; set artifact expiration; shallow clone when full history is unnecessary",
+      "relevant_when": "Pipelines with package manager steps (npm, pip, go, maven, etc.)",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use dependsOn for parallelism between stages/jobs",
+      "original_snippets": "use `dependsOn` for parallelism",
+      "relevant_when": "Multi-stage or multi-job pipelines",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Stage and Job names use PascalCase (e.g., BuildAndTest, DeployProduction)",
+      "original_snippets": "Stages/Jobs: PascalCase (`BuildAndTest`, `DeployProduction`)",
+      "relevant_when": "Any pipeline with stages or jobs",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "displayName values use Sentence case (e.g., 'Build application', 'Run tests')",
+      "original_snippets": "`displayName`: Sentence case (`'Build application'`, `'Run tests'`)",
+      "relevant_when": "Any pipeline step or task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Every task and step must have a displayName",
+      "original_snippets": "NEVER omit `displayName:` on tasks and steps\n...BAD: `- script: npm ci` with no `displayName`.\nGOOD: `- script: npm ci\\n  displayName: 'Install dependencies'`",
+      "relevant_when": "Any pipeline step or task",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use stages for complex pipelines; deployment jobs for environment tracking; templates for reusable logic; variable groups for environment-specific config",
+      "original_snippets": "**Organization:** Use stages for complex pipelines; deployment jobs for environment tracking; templates for reusable logic; variable groups for environment-specific config",
+      "relevant_when": "Complex multi-environment pipelines",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Set timeoutInMinutes; use condition: succeededOrFailed() for test publishing; continueOnError for non-critical steps",
+      "original_snippets": "**Error handling:** Set `timeoutInMinutes`; use `condition: succeededOrFailed()` for test publishing; `continueOnError` for non-critical steps",
+      "relevant_when": "Pipelines with test publishing and multi-step jobs",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Always publish test results with PublishTestResults@2 and code coverage with PublishCodeCoverageResults@1",
+      "original_snippets": "**Testing:** Always publish test results (`PublishTestResults@2`) and code coverage (`PublishCodeCoverageResults@1`)",
+      "relevant_when": "Pipelines that run automated tests",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Tag Docker images with $(Build.BuildId) as primary; also push with latest; deploy/pull using only the specific $(tag), never :latest in production",
+      "original_snippets": "> **Tagging rule:** Push with `$(tag)` AND `latest`; deploy/pull using only the specific `$(tag)` — never `:latest` in production deployments.",
+      "relevant_when": "Docker build and push pipelines",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "For Go: use GoTool@0 (only @0 is correct), cache Go modules at $(GOPATH)/pkg/mod using go.sum as key, run go vet ./... before tests, use -race -coverprofile flags, build with CGO_ENABLED=0 for containers",
+      "original_snippets": "- Use `GoTool@0` (only major version available — @0 is correct)\n- Cache Go modules at `$(GOPATH)/pkg/mod` using `go.sum` as key\n- Run `go vet ./...` before tests; use `-race -coverprofile` flags for test coverage\n- Build with `CGO_ENABLED=0` for container images",
+      "relevant_when": "Go/Golang application pipelines",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use ${{ parameters.name }} syntax for template parameters",
+      "original_snippets": "Use `${{ parameters.name }}` syntax; generate both template and consuming pipeline.",
+      "relevant_when": "Template-based pipelines",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never use @latest or unpinned task references",
+      "original_snippets": "NEVER use `latest` for task version pins\n...BAD: `- task: UseNode@latest`\nGOOD: `- task: UseNode@0`",
+      "relevant_when": "Any pipeline with task references",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never store secrets in pipeline YAML variables (visible in source control and logs); use Azure Key Vault task or variable groups with secret flag",
+      "original_snippets": "NEVER store secrets in pipeline YAML variables\n...BAD: `variables: API_KEY: 'abc123'`\nGOOD: Use Azure Key Vault task or pipeline variable groups with the \"secret\" flag enabled",
+      "relevant_when": "Pipelines requiring authentication credentials or API keys",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never use trigger: none on main/entry-point pipelines; use explicit branch includes",
+      "original_snippets": "NEVER use `trigger: none` on templates used as main pipelines\n...GOOD: Configure explicit branch includes — `trigger: branches: include: [main, develop]`.",
+      "relevant_when": "CI pipelines intended to trigger on code push",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Extract stage/job logic into separate templates/*.yml files for complex pipelines; never define all logic inline in a single flat YAML",
+      "original_snippets": "NEVER define all logic inline in a single flat YAML\n...GOOD: Extract stage and job logic into separate `templates/*.yml` files",
+      "relevant_when": "Complex pipelines with many stages/steps",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use deployment jobs (not regular jobs) for environment tracking in multi-stage CD pipelines",
+      "original_snippets": "Use deployment jobs for environment tracking; publish artifacts between stages.",
+      "relevant_when": "Multi-stage CI/CD pipelines with deployment stages",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Variables use camelCase or snake_case (be consistent)",
+      "original_snippets": "Variables: camelCase or snake_case (be consistent)",
+      "relevant_when": "Any pipeline with variables",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For matrix testing, use strategy.matrix with maxParallel",
+      "original_snippets": "strategy:\n  matrix:\n    node18:\n      nodeVersion: '18.x'\n    ...\n  maxParallel: 3",
+      "relevant_when": "Pipelines testing across multiple runtime versions",
+      "why_given": "preference"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "context": "Evaluate a bun:test test suite for correct API usage, coverage of validation cases, and proper mocking",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "bun:test imports used exclusively",
+      "description": "The test file imports describe, it, expect, and mock (or spyOn) from 'bun:test'; no Jest, Vitest, or Mocha imports",
+      "max_score": 15
+    },
+    {
+      "name": "Happy path test present",
+      "description": "At least one test verifies that loadConfig returns a correctly typed AppConfig when given a valid config; asserts port, logLevel, and databaseUrl values",
+      "max_score": 20
+    },
+    {
+      "name": "File not found error tested",
+      "description": "A test verifies that loadConfig throws an error matching 'Config file not found' when the file does not exist; uses expect(...).rejects or try/catch with expect",
+      "max_score": 15
+    },
+    {
+      "name": "All three validation failure cases tested",
+      "description": "Separate tests cover: invalid port type, invalid logLevel value, and missing/empty databaseUrl; each asserts the correct error message",
+      "max_score": 25
+    },
+    {
+      "name": "Bun.file mocked to avoid real filesystem access",
+      "description": "The test file uses mock() or spyOn() to intercept Bun.file calls and return controlled test doubles; tests do not read actual files from disk",
+      "max_score": 15
+    },
+    {
+      "name": "describe/it structure used",
+      "description": "Tests are organized with describe blocks and it test cases; test names are descriptive",
+      "max_score": 10
+    }
+  ]
+}

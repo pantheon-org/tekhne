@@ -1,0 +1,36 @@
+{
+  "context": "Agent must replace a four-branch if/else chain with the Strategy pattern, producing a shared interface and per-strategy implementations",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "IShippingStrategy interface produced",
+      "description": "IShippingStrategy.ts exists and exports an interface with a calculate method taking weightKg and distanceKm returning number",
+      "max_score": 15
+    },
+    {
+      "name": "Four strategy implementations produced",
+      "description": "StandardShipping.ts, ExpressShipping.ts, OvernightShipping.ts, and EconomyShipping.ts each exist and implement IShippingStrategy",
+      "max_score": 20
+    },
+    {
+      "name": "Calculation formulas preserved in implementations",
+      "description": "Each implementation contains the same arithmetic formula as the corresponding branch in the original code",
+      "max_score": 15
+    },
+    {
+      "name": "Refactored ShippingCalculator contains no arithmetic",
+      "description": "ShippingCalculator.ts delegates to the injected strategy and contains no +, *, or numeric literals",
+      "max_score": 25
+    },
+    {
+      "name": "pattern-analysis.md states problem and win condition",
+      "description": "pattern-analysis.md describes the if/else chain as the problem and states that new shipping methods can now be added without editing ShippingCalculator",
+      "max_score": 15
+    },
+    {
+      "name": "pattern-analysis.md acknowledges cost",
+      "description": "pattern-analysis.md mentions the added complexity (one interface + four classes) as the cost of the pattern",
+      "max_score": 10
+    }
+  ]
+}

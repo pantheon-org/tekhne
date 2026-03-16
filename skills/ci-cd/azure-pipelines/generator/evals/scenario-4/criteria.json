@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent extracts shared logic into a template file using correct parameter syntax, fixes the ubuntu-latest vmImage, adds displayName to all steps, adds caching, and uses the template from the main pipeline with the correct reference syntax.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Template file created",
+      "description": "A file `templates/build-service.yml` (or similar path) exists and contains reusable step or job definitions",
+      "max_score": 10
+    },
+    {
+      "name": "Parameter syntax correct",
+      "description": "The template uses `${{ parameters.name }}` syntax for parameter references (not $(parameters.name) or other forms)",
+      "max_score": 10
+    },
+    {
+      "name": "Template referenced from main",
+      "description": "The main `azure-pipelines.yml` references the template using `- template:` syntax for all four services",
+      "max_score": 10
+    },
+    {
+      "name": "Pinned vmImage",
+      "description": "The vmImage is changed from `ubuntu-latest` to a specific version (e.g., ubuntu-22.04)",
+      "max_score": 10
+    },
+    {
+      "name": "Cache@2 in template",
+      "description": "The build template includes a Cache@2 task for npm packages",
+      "max_score": 10
+    },
+    {
+      "name": "displayName on all steps",
+      "description": "Every task and script step in both the template and main pipeline has a displayName property",
+      "max_score": 10
+    },
+    {
+      "name": "PublishTestResults with succeededOrFailed",
+      "description": "The PublishTestResults@2 task in the template has `condition: succeededOrFailed()`",
+      "max_score": 8
+    },
+    {
+      "name": "No @latest task usage",
+      "description": "No task in any generated file uses @latest version",
+      "max_score": 8
+    },
+    {
+      "name": "Parameters for nodeVersion",
+      "description": "The template defines a parameter for the Node.js version (so each service can specify 18.x or 20.x)",
+      "max_score": 8
+    },
+    {
+      "name": "Parameters for artifactName",
+      "description": "The template defines a parameter for the artifact name (so api-drop, worker-drop, etc. are set per-service)",
+      "max_score": 8
+    },
+    {
+      "name": "Explicit trigger preserved",
+      "description": "The main pipeline retains the explicit trigger with main and develop branch includes",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "context": "Agent completes all four validator checklists against a mostly well-formed Terragrunt project and produces a structured report with correct pass/fail assessments.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Configuration Pattern Checklist completed",
+      "description": "Agent assesses all five Configuration Pattern items. Named include (pass), root file naming (pass - root.hcl), env.hcl naming (pass), find_in_parent_folders with explicit filename (pass), read_terragrunt_config usage (pass).",
+      "max_score": 20
+    },
+    {
+      "name": "Dependency Management Checklist completed",
+      "description": "Agent assesses all four Dependency Management items. mock_outputs present (pass), mock_outputs_allowed_terraform_commands present (pass), relative config_path (pass), circular dep check requires dag graph (noted).",
+      "max_score": 20
+    },
+    {
+      "name": "Security Checklist completed with correct findings",
+      "description": "Agent correctly identifies: encrypt=true present (pass), DynamoDB locking present (pass), no hardcoded credentials (pass - uses assume_role), no obvious sensitive variable issues (pass). Terragrunt version constraint present (pass).",
+      "max_score": 20
+    },
+    {
+      "name": "DRY Principle Checklist completed",
+      "description": "Agent assesses: generate block present (pass), version constraints present (pass), shared locals in env.hcl (pass). Agent may note that vpc_security_group_ids is empty which could be a real-world issue.",
+      "max_score": 15
+    },
+    {
+      "name": "Summary table present",
+      "description": "Report includes a summary table showing pass/fail counts for each of the four checklists.",
+      "max_score": 10
+    },
+    {
+      "name": "Validation commands listed",
+      "description": "Report lists at least: terragrunt hcl fmt --check, terragrunt dag graph, and terragrunt run --all validate as the next commands to run.",
+      "max_score": 15
+    }
+  ]
+}

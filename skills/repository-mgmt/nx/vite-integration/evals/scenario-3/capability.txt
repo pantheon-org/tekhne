@@ -1,0 +1,1 @@
+Configure Vitest in vite.config.ts with workspace-root-relative cache and coverage paths

@@ -1,0 +1,1 @@
+Legacy Makefile conversion: mbake format + PHONY + re-validate

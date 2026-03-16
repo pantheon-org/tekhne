@@ -1,0 +1,1 @@
+Security: hardcoded credentials; unsafe variable expansion

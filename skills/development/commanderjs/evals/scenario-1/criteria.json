@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent defines TypeScript interfaces for options, passes complete typed options objects to service functions rather than individual properties, and uses addCommand() with exported Command instances.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "TypeScript interface for deploy options",
+      "description": "A TypeScript interface (or type alias) is defined for the deploy command's options (covering env, branch, dryRun or equivalent)",
+      "max_score": 12
+    },
+    {
+      "name": "TypeScript interface for rollback options",
+      "description": "A TypeScript interface (or type alias) is defined for the rollback command's options (covering steps, force or equivalent)",
+      "max_score": 12
+    },
+    {
+      "name": "Complete options object passed to deploy service",
+      "description": "The deploy action handler passes the entire options object to its service function, NOT individual properties (e.g. deployService(service, options) not deployService(service, options.env, options.branch))",
+      "max_score": 16
+    },
+    {
+      "name": "Complete options object passed to rollback service",
+      "description": "The rollback action handler passes the entire options object to its service function, NOT individual properties",
+      "max_score": 14
+    },
+    {
+      "name": "Service function signature accepts typed object",
+      "description": "The deploy or rollback service function signature accepts the options as a typed parameter (e.g. options: DeployOptions), not as individual string/boolean parameters",
+      "max_score": 14
+    },
+    {
+      "name": "addCommand() used",
+      "description": "The main program uses .addCommand() to attach the deploy and rollback subcommands",
+      "max_score": 10
+    },
+    {
+      "name": "kebab-case option flags",
+      "description": "Multi-word options use kebab-case in their flag definition (e.g. --dry-run not --dryRun)",
+      "max_score": 10
+    },
+    {
+      "name": "parseAsync with await",
+      "description": "The entry point calls await program.parseAsync(process.argv)",
+      "max_score": 12
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "total_infeasible": 2,
+  "infeasible_scenarios": [
+    {
+      "scenarios": "promql-validator-invocation",
+      "reasoning": "The skill's Stage 6 requires invoking 'devops-skills:promql-validator' which connects to a live Prometheus instance or uses local tooling (promtool) to validate query syntax and best practices. The validation output (structured syntax/best-practices/explanation report) is only observable through tool side-effects and cannot be verified from static files left in the workspace."
+    },
+    {
+      "scenarios": "interactive-planning-workflow",
+      "reasoning": "Stages 1-4 of the skill require interactive back-and-forth with the user via AskUserQuestion: gathering requirements, presenting a plain-English query plan, and awaiting confirmation before generating. The eval harness has no interactive user session, so the agent cannot complete the planning loop as specified. Whether the agent followed the multi-step planning workflow cannot be graded from final workspace files alone."
+    }
+  ]
+}

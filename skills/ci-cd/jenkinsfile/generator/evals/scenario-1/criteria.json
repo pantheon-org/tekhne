@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent uses parallel stages for independent quality gates, adds parallelsAlwaysFailFast() in pipeline options, includes cleanWs() in a post always block, and follows Declarative pipeline conventions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Parallel block used",
+      "description": "Jenkinsfile contains a parallel { } block wrapping at least 2 concurrent stages",
+      "max_score": 14
+    },
+    {
+      "name": "parallelsAlwaysFailFast in options",
+      "description": "Jenkinsfile options block includes parallelsAlwaysFailFast() — NOT just a per-block failFast true inside the parallel stage",
+      "max_score": 14
+    },
+    {
+      "name": "cleanWs in post always",
+      "description": "Jenkinsfile post block contains always { cleanWs() } or always { deleteDir() }",
+      "max_score": 12
+    },
+    {
+      "name": "At least 3 parallel stages",
+      "description": "The parallel block contains at least 3 named child stages",
+      "max_score": 8
+    },
+    {
+      "name": "Sequential stage after parallel",
+      "description": "A build or push stage appears as a separate sequential stage AFTER the parallel block",
+      "max_score": 8
+    },
+    {
+      "name": "Declarative syntax",
+      "description": "Jenkinsfile uses Declarative syntax starting with 'pipeline {' not Scripted 'node {'",
+      "max_score": 8
+    },
+    {
+      "name": "post success artifacts",
+      "description": "Jenkinsfile post block includes a success { } condition with archiveArtifacts or notification step",
+      "max_score": 8
+    },
+    {
+      "name": "post failure notification",
+      "description": "Jenkinsfile post block includes a failure { } condition (e.g., slack, email notification)",
+      "max_score": 8
+    },
+    {
+      "name": "timeout in options",
+      "description": "Jenkinsfile options block includes timeout()",
+      "max_score": 8
+    },
+    {
+      "name": "buildDiscarder in options",
+      "description": "Jenkinsfile options block includes buildDiscarder(logRotator(...))",
+      "max_score": 8
+    },
+    {
+      "name": "No credential params",
+      "description": "Jenkinsfile does NOT use parameters block to pass secrets or credentials",
+      "max_score": 4
+    }
+  ]
+}

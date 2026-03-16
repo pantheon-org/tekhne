@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run comprehensive validation using all stages: `python3 scripts/validate_config.py --file <config-file> --check all`",
+      "relevant_when": "Any Fluent Bit configuration validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Always check tag routing: trace every INPUT tag through FILTER Match patterns and OUTPUT Match patterns to verify no logs are silently dropped",
+      "relevant_when": "Any Fluent Bit config that contains FILTER or OUTPUT sections",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "An INPUT tag that no OUTPUT Match pattern covers causes silent log loss — treat any unmatched tag as a P1 configuration error",
+      "relevant_when": "When tag consistency check reports an unmatched INPUT tag",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never skip TLS certificate validation in output plugins; tls.verify Off in production is a security defect",
+      "relevant_when": "When an OUTPUT plugin uses TLS and tls.verify Off is present",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Replace all hardcoded credentials (HTTP_User, HTTP_Passwd, API tokens) with ${ENV_VAR} references",
+      "relevant_when": "When a config contains plaintext credential values in INPUT, FILTER, or OUTPUT sections",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Set Mem_Buf_Limit on all tail INPUT plugins to prevent OOM-kill during log bursts",
+      "relevant_when": "When a tail INPUT is missing a Mem_Buf_Limit setting",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Categorize validation findings by severity: Errors (must fix), Warnings (should fix), Info (consider), Best Practices (recommended)",
+      "relevant_when": "When presenting validation results to the user",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "After proposing fixes, get user approval before applying them, then re-run validation to confirm all issues are resolved",
+      "relevant_when": "When a validation produces findings that require file edits",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Each Fluent Bit instance must use a unique storage.path; shared storage paths corrupt backpressure state across multiple instances",
+      "relevant_when": "When a config includes a storage.path setting or when validating multiple config files for the same environment",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Provide a structured completion summary listing fixed issues, per-check pass/fail status, and the overall validation result",
+      "relevant_when": "After completing a full validation and fix cycle",
+      "why_given": "preference"
+    }
+  ]
+}

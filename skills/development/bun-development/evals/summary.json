@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Replace Node.js fs calls with Bun-native file I/O APIs",
+      "feasible": true,
+      "reason": "Code transformation is a static task; the produced file can be verified by inspecting which APIs are used."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Refactor raw SQL string interpolation to use prepared statements",
+      "feasible": true,
+      "reason": "SQL pattern transformation is deterministic and verifiable by code inspection without running the database."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Implement a Bun.serve HTTP server following Bun-native patterns",
+      "feasible": true,
+      "reason": "The produced server code can be evaluated against Bun.serve API patterns without network access."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Write a bun test suite using correct matcher and mocking APIs",
+      "feasible": true,
+      "reason": "Test file structure and API usage are verifiable by static inspection of the produced code."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Identify and fix shell command injection in Bun subprocess code",
+      "feasible": true,
+      "reason": "Security anti-pattern detection and code rewriting are static tasks fully verifiable from the produced output."
+    }
+  ]
+}

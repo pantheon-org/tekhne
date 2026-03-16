@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run the 10-stage validation workflow in order: tool check, chart structure, helm lint, template rendering, YAML syntax, CRD detection, schema validation, cluster dry-run, security best practices, and final report.",
+      "relevant_when": "User asks to validate or audit a Helm chart.",
+      "why_given": "The skill defines a strict sequential 10-stage workflow; skipping or reordering stages misses distinct categories of issues."
+    },
+    {
+      "instruction": "This skill is READ-ONLY. Propose all improvements in the Stage 10 final report but do NOT modify any chart files.",
+      "relevant_when": "Issues are found during any validation stage.",
+      "why_given": "The SKILL.md explicitly states 'This is a READ-ONLY validator' and all proposed changes are listed for the user to apply manually."
+    },
+    {
+      "instruction": "Produce a validation summary table in Stage 10 covering all 9 stages with status (passed/warning/error) and a count of issues for each stage.",
+      "relevant_when": "Stage 10 final report is generated.",
+      "why_given": "Stage 10 mandates a specific table format with per-stage status and issue counts before listing proposed changes."
+    },
+    {
+      "instruction": "For every CRD detected, look up its documentation using the context7 MCP tool (preferred) or WebSearch as a fallback, then extract required fields, validation rules, and version-specific deprecations.",
+      "relevant_when": "Stage 6 detects CRDs in chart crds/ or rendered output.",
+      "why_given": "The skill requires documentation lookup for every detected CRD to enable accurate schema and field validation."
+    },
+    {
+      "instruction": "Security checks in Stage 9 are MANDATORY and must cover: runAsNonRoot, runAsUser, fsGroup (pod), allowPrivilegeEscalation:false, readOnlyRootFilesystem, capabilities.drop:[ALL] (container), resource limits/requests, no :latest tags, and liveness/readiness probes.",
+      "relevant_when": "Chart contains Deployment, StatefulSet, DaemonSet, or Pod templates.",
+      "why_given": "Stage 9 is explicitly labelled MANDATORY and lists exactly these checks; omitting any check produces an incomplete security audit."
+    },
+    {
+      "instruction": "Never treat a passing helm lint as sufficient validation. Always render templates and run kubeconform schema validation against the rendered manifests.",
+      "relevant_when": "Any Helm chart validation request.",
+      "why_given": "The Anti-Patterns section states that helm lint only checks chart structure and basic YAML syntax, not rendered manifest schemas."
+    },
+    {
+      "instruction": "Always run helm dependency update before helm template when the chart has sub-chart dependencies declared in Chart.yaml.",
+      "relevant_when": "Chart.yaml contains a dependencies list.",
+      "why_given": "The Anti-Patterns section warns that skipping helm dependency update causes incorrect renders from cached or missing sub-charts."
+    }
+  ]
+}

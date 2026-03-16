@@ -1,0 +1,46 @@
+{
+  "context": "Tests matchmaking metadata configuration in onCreate, server-enforced turn-order constraints in message handlers, and correct Schema design. Also checks that reconnection timeouts match the skill's recommended range for ranked mode (10-15 seconds).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Metadata set in onCreate",
+      "description": "onCreate calls this.setMetadata() (or equivalent) with mode and region values from the options parameter",
+      "max_score": 15
+    },
+    {
+      "name": "Metadata from options",
+      "description": "Metadata values are derived from the onCreate options object — not hardcoded constants",
+      "max_score": 10
+    },
+    {
+      "name": "Schema fields decorated",
+      "description": "DuelPlayer fields (score, hand size, etc.) use @type decorator — no plain class properties for gameplay-critical values",
+      "max_score": 12
+    },
+    {
+      "name": "MapSchema for players",
+      "description": "DuelState uses MapSchema<DuelPlayer> for the players collection, keyed by sessionId",
+      "max_score": 10
+    },
+    {
+      "name": "Turn order tracked",
+      "description": "Room tracks whose turn it is — either via a currentTurn field in state or an internal server variable",
+      "max_score": 12
+    },
+    {
+      "name": "Turn order enforced",
+      "description": "playCard handler checks whether it is the sending client's turn and returns early / ignores the message if not",
+      "max_score": 18
+    },
+    {
+      "name": "Ranked reconnection timeout",
+      "description": "If reconnection is implemented, timeout is in the 10-15 second range (appropriate for ranked mode)",
+      "max_score": 13
+    },
+    {
+      "name": "All hooks present",
+      "description": "Room implements onCreate, onJoin, onLeave, and onDispose",
+      "max_score": 10
+    }
+  ]
+}

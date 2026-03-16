@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent correctly identifies the high-cardinality risk, explains when the pattern is acceptable, and provides both a filtered alternative and a recording rule.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "High-cardinality risk is identified and explained",
+      "description": "The report states that the query has no label filters and explains that this causes fan-out across all series for the metric (referencing the `path`, `status_code`, and multi-service context).",
+      "max_score": 25
+    },
+    {
+      "name": "Nuanced acceptability analysis provided",
+      "description": "The report explains that `sum()` aggregation produces a single scalar result, so the query is acceptable IF the cluster can handle the fan-out — it does not simply label the query as 'bad'.",
+      "max_score": 20
+    },
+    {
+      "name": "Filtered per-service alternative is provided",
+      "description": "The report includes a query that adds a `job=` or `service=` label filter to restrict the query to a single service.",
+      "max_score": 20
+    },
+    {
+      "name": "Recording rule definition is provided",
+      "description": "The report includes a YAML recording rule definition that pre-aggregates the total request rate, reducing per-query scan cost.",
+      "max_score": 20
+    },
+    {
+      "name": "Semantic and syntactic correctness confirmed",
+      "description": "The report confirms that the query is syntactically valid and semantically correct for computing total request rate (counter metric with `rate()` and `sum()`).",
+      "max_score": 15
+    }
+  ]
+}

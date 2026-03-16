@@ -1,0 +1,1 @@
+Produce a plain-English explanation of a multi-function PromQL query including output labels and result structure

@@ -149,9 +149,9 @@ Expected result: only `myBucket` is exempted from `AwsSolutions-S1`; all other r
 
 ## References
 
-- `references/implementation-guide.md`
-- `references/rule-packs.md`
-- `references/suppression-guide.md`
-- `references/troubleshooting.md`
-- `references/rule-evolution.md`
-- `references/integration-patterns.md`
+- [Implementation Guide](references/implementation-guide.md) — full setup walkthrough, rule pack selection, and stack-level vs construct-level application
+- [Rule Packs](references/rule-packs.md) — AwsSolutionsChecks, NIST 800-53, HIPAA, PCI-DSS: what each enforces and when to use it
+- [Suppression Guide](references/suppression-guide.md) — addResourceSuppressions vs addStackSuppressions, rationale templates, and audit-friendly patterns
+- [Troubleshooting](references/troubleshooting.md) — common synth failures, false positives, and rule ID lookup
+- [Rule Evolution](references/rule-evolution.md) — tracking deprecated rules, new rules in version upgrades, and migration paths
+- [Integration Patterns](references/integration-patterns.md) — CI/CD wiring, pre-commit hooks, and multi-account enforcement strategies

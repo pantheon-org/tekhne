@@ -1,0 +1,41 @@
+{
+  "context": "Agent runs all four validation stages on a Java Dockerfile and produces a complete severity-categorised report with fix proposals and correct post-validation user interaction.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Hardcoded DB_PASSWORD identified as Critical",
+      "description": "Agent identifies ENV DB_PASSWORD=secret123 as a Critical security finding and proposes using BuildKit secrets or runtime environment injection instead.",
+      "max_score": 20
+    },
+    {
+      "name": "Missing USER identified as High",
+      "description": "Agent flags the absence of a USER directive, classifies it as High severity, and proposes adding a non-root user before CMD.",
+      "max_score": 15
+    },
+    {
+      "name": "openjdk:17 untagged or deprecated base image flagged",
+      "description": "Agent flags that openjdk:17 without a patch version tag (e.g., 17-jdk-slim) is imprecise and recommends a pinned minimal variant.",
+      "max_score": 15
+    },
+    {
+      "name": "Missing .dockerignore flagged",
+      "description": "Agent flags the absence of .dockerignore and lists recommended patterns to include (node_modules, .git, .env, *.log, target/ for Java).",
+      "max_score": 15
+    },
+    {
+      "name": "Multi-stage build opportunity identified",
+      "description": "Agent notes that a pre-built JAR is copied in (COPY target/app.jar) which is already a build artefact, and assesses whether an additional build stage is relevant.",
+      "max_score": 10
+    },
+    {
+      "name": "Severity table present",
+      "description": "Report includes a table showing finding counts per severity tier (Critical, High, Medium, Low).",
+      "max_score": 10
+    },
+    {
+      "name": "User asked before applying fixes",
+      "description": "Report ends with a statement that no files were modified and a question asking the user whether to apply the proposed fixes.",
+      "max_score": 15
+    }
+  ]
+}

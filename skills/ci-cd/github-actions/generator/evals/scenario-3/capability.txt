@@ -1,0 +1,1 @@
+Script injection prevention and pull_request_target safety

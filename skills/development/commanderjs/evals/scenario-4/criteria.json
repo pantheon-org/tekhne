@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent uses exitOverride() in test setup to prevent process.exit during tests, uses choices() for enum option validation, uses parseAsync with await, defines a TypeScript interface for options, and uses kebab-case flag names.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "exitOverride() in test setup",
+      "description": "The test setup (or test program factory) calls program.exitOverride() so that Commander throws instead of calling process.exit during tests",
+      "max_score": 18
+    },
+    {
+      "name": "choices() for format option",
+      "description": "The --format option uses .choices() or new Option(...).choices([...]) to enforce the pdf/csv/html constraint",
+      "max_score": 14
+    },
+    {
+      "name": "Invalid format test",
+      "description": "At least one test verifies that an invalid --format value causes an error (either a thrown exception or a rejected promise)",
+      "max_score": 14
+    },
+    {
+      "name": "parseAsync with await in tests",
+      "description": "In cli.test.ts, all calls to parseAsync are awaited (not fire-and-forget)",
+      "max_score": 12
+    },
+    {
+      "name": "TypeScript interface for options",
+      "description": "A TypeScript interface or type is defined for the generate command's options in cli.ts",
+      "max_score": 10
+    },
+    {
+      "name": "kebab-case flags",
+      "description": "Multi-word options use kebab-case in their flag definition in cli.ts (--output-dir not --outputDir)",
+      "max_score": 10
+    },
+    {
+      "name": "Defaults test",
+      "description": "At least one test invokes the command without optional arguments and asserts that defaults are applied",
+      "max_score": 10
+    },
+    {
+      "name": "try/catch in action handler",
+      "description": "The action handler in cli.ts wraps its logic in a try/catch block",
+      "max_score": 8
+    },
+    {
+      "name": "Typed options to service",
+      "description": "The action handler passes the complete options object to the service function, not individual properties",
+      "max_score": 4
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "context": "Tests that the agent detects deprecated only:/except: keywords and recommends rules: migration, missing cache for node_modules, missing artifact expiration, and unpinned :latest image tags, then produces a corrected pipeline with a structured best-practices report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Deprecated only: keyword detected",
+      "description": "best-practices-report.md (or equivalent) flags the use of `only:` in multiple jobs as deprecated in favour of `rules:`",
+      "max_score": 15
+    },
+    {
+      "name": "Deprecated except: keyword detected",
+      "description": "best-practices-report.md flags the use of `except:` in test_unit as deprecated",
+      "max_score": 10
+    },
+    {
+      "name": "Missing cache for node_modules detected",
+      "description": "best-practices-report.md flags the absence of a cache configuration for node_modules in the install_deps or downstream jobs",
+      "max_score": 15
+    },
+    {
+      "name": "Missing artifact expiration detected",
+      "description": "best-practices-report.md flags that one or more artifact blocks are missing an `expire_in` setting",
+      "max_score": 10
+    },
+    {
+      "name": "Unpinned :latest image tags detected",
+      "description": "best-practices-report.md flags the `node:latest`, `cypress/base:latest`, and `alpine:latest` image references as unpinned",
+      "max_score": 10
+    },
+    {
+      "name": "only:/except: migrated to rules: in output",
+      "description": "In the corrected .gitlab-ci.yml, at least the jobs that previously used `only:` or `except:` now use `rules:` syntax instead",
+      "max_score": 15
+    },
+    {
+      "name": "cache: added for node_modules in output",
+      "description": "In the corrected .gitlab-ci.yml, at least one job (install_deps or a shared default) includes a `cache:` configuration for node_modules keyed on package-lock.json",
+      "max_score": 10
+    },
+    {
+      "name": "expire_in added to artifact blocks in output",
+      "description": "In the corrected .gitlab-ci.yml, artifact blocks that were missing expire_in now have an expiration value set",
+      "max_score": 10
+    },
+    {
+      "name": "Category assigned to each finding",
+      "description": "best-practices-report.md assigns a category (deprecation, performance, or reliability) to each finding",
+      "max_score": 5
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Determine when a context file is NOT the right tool and recommend the correct alternative

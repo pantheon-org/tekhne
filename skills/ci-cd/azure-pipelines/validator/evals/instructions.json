@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run full validation using the orchestrator script: `bash scripts/validate_azure_pipelines.sh <pipeline-file>`",
+      "relevant_when": "Any Azure Pipelines validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Always run all four validation layers in order: YAML lint, syntax validation, best practices, security scan",
+      "relevant_when": "When starting a new pipeline validation workflow",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Fix YAML lint errors before any other layer — Azure Pipelines YAML is whitespace-significant and indentation errors can silently restructure the pipeline",
+      "relevant_when": "When yamllint reports warnings such as trailing spaces or wrong indentation",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Treat MEDIUM and HIGH security findings as merge blockers; do not approve merges until they are resolved",
+      "relevant_when": "When security scan reports MEDIUM or HIGH severity findings",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run --strict only after fixing all critical errors and warnings on a pipeline; never apply --strict to a brand-new pipeline as the first validation step",
+      "relevant_when": "When considering whether to enable strict mode on a pipeline",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always run security scan (`--security-only`) before merging pipeline changes — syntax passing does not imply security passing",
+      "relevant_when": "When a pipeline change is being prepared for merge",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate every template file referenced in the pipeline, not only the main azure-pipelines.yml entry point",
+      "relevant_when": "When a pipeline uses `template:` references to other YAML files",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Pin all container images to specific versions or SHA digests; never accept `:latest` tags",
+      "relevant_when": "When a pipeline defines container resources or uses container images in jobs",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report security findings with rule code, severity, line number, and a specific remediation step",
+      "relevant_when": "When presenting security scan results to the user",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "When encountering rule codes in brackets (e.g., [missing-displayname]), consult references/azure-pipelines-reference.md for rule details and correct fixes",
+      "relevant_when": "When validation output includes bracketed rule codes",
+      "why_given": "reminder"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "total_infeasible": 1,
+  "infeasible_scenarios": [
+    {
+      "scenarios": "terraform-apply-validation",
+      "reasoning": "Running 'terraform validate', 'terraform plan', or 'terraform apply' against real AWS or Azure cloud accounts requires active credentials and a provisioned account. These commands cannot be executed in the eval harness without real cloud access, so scenarios that require verifying generated HCL through actual Terraform execution are infeasible."
+    }
+  ]
+}

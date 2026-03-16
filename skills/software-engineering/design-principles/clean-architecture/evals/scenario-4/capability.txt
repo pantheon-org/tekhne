@@ -1,0 +1,1 @@
+Resolve circular dependency by inverting dependency

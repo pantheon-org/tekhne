@@ -1,0 +1,41 @@
+{
+  "context": "Agent must produce a .eslintrc.json with @nx/enforce-module-boundaries depConstraints encoding all five boundary rules for a two-dimensional tag taxonomy.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "@nx/enforce-module-boundaries rule configured",
+      "description": "The overrides array contains an entry with @nx/enforce-module-boundaries set to \"error\".",
+      "max_score": 10
+    },
+    {
+      "name": "enforceBuildableLibDependency: true and allow: []",
+      "description": "The rule options have enforceBuildableLibDependency set to true and allow set to [].",
+      "max_score": 10
+    },
+    {
+      "name": "scope:web constraint present and correct",
+      "description": "depConstraints contains an entry with sourceTag \"scope:web\" that onlyDependOnLibsWithTags [\"scope:web\", \"scope:shared\"].",
+      "max_score": 15
+    },
+    {
+      "name": "scope:api constraint present and correct",
+      "description": "depConstraints contains an entry with sourceTag \"scope:api\" that onlyDependOnLibsWithTags [\"scope:api\", \"scope:shared\"].",
+      "max_score": 15
+    },
+    {
+      "name": "type:feature constraint present and correct",
+      "description": "depConstraints contains an entry for type:feature that allows type:feature, type:ui, type:data-access, and type:util.",
+      "max_score": 20
+    },
+    {
+      "name": "type:ui constraint present and correct",
+      "description": "depConstraints contains an entry for type:ui that only allows type:ui and type:util.",
+      "max_score": 15
+    },
+    {
+      "name": "type:util constraint present as dependency sink",
+      "description": "depConstraints contains an entry for type:util with an empty or explicitly restrictive onlyDependOnLibsWithTags (no upstream allowed).",
+      "max_score": 15
+    }
+  ]
+}

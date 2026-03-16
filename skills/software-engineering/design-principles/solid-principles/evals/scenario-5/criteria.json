@@ -1,0 +1,36 @@
+{
+  "context": "Agent must introduce an interface at the boundary between a high-level module and a low-level module and invert the dependency direction",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "INotifier interface produced",
+      "description": "INotifier.ts exists and exports an interface with a notify method (or equivalent) returning Promise<void>",
+      "max_score": 20
+    },
+    {
+      "name": "EmailNotifier implements INotifier",
+      "description": "The updated EmailNotifier.ts declares 'implements INotifier' in its class signature",
+      "max_score": 15
+    },
+    {
+      "name": "OrderProcessor accepts INotifier via constructor",
+      "description": "The refactored OrderProcessor.ts has a constructor parameter typed to INotifier",
+      "max_score": 25
+    },
+    {
+      "name": "OrderProcessor does not import EmailNotifier",
+      "description": "OrderProcessor.ts contains no import of EmailNotifier anywhere",
+      "max_score": 20
+    },
+    {
+      "name": "dip-analysis.md explains the violation",
+      "description": "dip-analysis.md identifies that OrderProcessor (high-level) depended on EmailNotifier (low-level concrete), violating DIP",
+      "max_score": 10
+    },
+    {
+      "name": "dip-analysis.md explains the fix",
+      "description": "dip-analysis.md explains that both modules now depend on the INotifier abstraction, with EmailNotifier implementing it and OrderProcessor consuming it",
+      "max_score": 10
+    }
+  ]
+}

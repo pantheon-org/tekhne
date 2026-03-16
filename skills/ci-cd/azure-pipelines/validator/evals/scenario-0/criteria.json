@@ -1,0 +1,51 @@
+{
+  "context": "Tests that the agent detects hardcoded AWS credentials and Azure subscription ID in variables, a :latest container tag, and an SSL bypass (curl -k), then produces a corrected pipeline and a structured security report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Hardcoded AWS_ACCESS_KEY_ID detected",
+      "description": "security-report.md (or equivalent) flags the AWS_ACCESS_KEY_ID variable value as a hardcoded credential finding",
+      "max_score": 15
+    },
+    {
+      "name": "Hardcoded AWS_SECRET_ACCESS_KEY detected",
+      "description": "security-report.md flags the AWS_SECRET_ACCESS_KEY variable value as a hardcoded credential finding",
+      "max_score": 15
+    },
+    {
+      "name": "Container :latest tag detected",
+      "description": "security-report.md flags node:latest as an unpinned container image",
+      "max_score": 15
+    },
+    {
+      "name": "SSL bypass (curl -k) detected",
+      "description": "security-report.md flags the curl -k flag as a TLS/SSL verification bypass",
+      "max_score": 10
+    },
+    {
+      "name": "Credentials replaced with variable group or secret references",
+      "description": "In the corrected azure-pipelines.yml, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are replaced with $(VAR_NAME) references or removed from the variables block — no literal key values remain",
+      "max_score": 15
+    },
+    {
+      "name": "Container image pinned",
+      "description": "In the corrected azure-pipelines.yml, the container image reference no longer uses :latest — it specifies a concrete version tag or SHA digest",
+      "max_score": 10
+    },
+    {
+      "name": "SSL bypass remediated",
+      "description": "In the corrected azure-pipelines.yml, -k is removed from the curl command (or the step is updated to use TLS verification)",
+      "max_score": 10
+    },
+    {
+      "name": "Severity levels assigned",
+      "description": "security-report.md assigns a severity level (HIGH, MEDIUM, or INFO) to each finding",
+      "max_score": 5
+    },
+    {
+      "name": "Risk explanation provided",
+      "description": "security-report.md includes a brief explanation of the risk for at least two of the findings (e.g., key exposure, unpinned images, MITM)",
+      "max_score": 5
+    }
+  ]
+}

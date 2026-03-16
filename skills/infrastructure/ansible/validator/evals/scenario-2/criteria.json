@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent runs ansible-lint BEFORE molecule tests (not instead of them), automatically triggers molecule via test_role.sh when molecule/ is detected, and handles molecule environment failures gracefully while continuing validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "ansible-lint run before molecule",
+      "description": "The validation_report.md shows ansible-lint was run before molecule tests",
+      "max_score": 12
+    },
+    {
+      "name": "molecule not a substitute for ansible-lint",
+      "description": "The report does NOT skip ansible-lint in favor of only molecule testing",
+      "max_score": 10
+    },
+    {
+      "name": "molecule/ detected",
+      "description": "The report explicitly notes that a molecule/ directory was detected in the role",
+      "max_score": 8
+    },
+    {
+      "name": "test_role.sh used",
+      "description": "The report documents running `bash scripts/test_role.sh` (or the equivalent wrapper) for molecule testing",
+      "max_score": 10
+    },
+    {
+      "name": "Environment blocker handling",
+      "description": "If molecule could not run (Docker not available), the report documents the specific blocker and continues with other steps rather than failing the overall validation",
+      "max_score": 10
+    },
+    {
+      "name": "yamllint run",
+      "description": "The report documents running yamllint",
+      "max_score": 6
+    },
+    {
+      "name": "ansible-lint findings reported",
+      "description": "The report includes ansible-lint output or a finding count (even if zero)",
+      "max_score": 8
+    },
+    {
+      "name": "Security scan run",
+      "description": "The report documents running `bash scripts/validate_role_security.sh` (not the playbook security script)",
+      "max_score": 10
+    },
+    {
+      "name": "FQCN check run",
+      "description": "The report documents running `bash scripts/check_fqcn.sh` to check for non-FQCN usage",
+      "max_score": 8
+    },
+    {
+      "name": "Role FQCN usage acknowledged",
+      "description": "The report acknowledges that the role uses FQCN module names (ansible.builtin.*) which is correct",
+      "max_score": 8
+    },
+    {
+      "name": "Final recommendation",
+      "description": "The report ends with a clear go/no-go recommendation for accepting the role",
+      "max_score": 10
+    }
+  ]
+}

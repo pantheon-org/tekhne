@@ -1,0 +1,1 @@
+Identify unquoted variables and word-splitting risks in a bash script and produce corrected code

@@ -129,7 +129,7 @@ Expected result: non-zero exit when warnings or errors exist.
 
 ## References
 
-- `references/config-biome-json.md`
-- `references/linting-rule-categories.md`
-- `references/formatter-options.md`
-- `references/migration-eslint-prettier.md`
+- [Config: biome.json](references/config-biome-json.md) — full biome.json schema, formatter width, linter domains, and VCS ignore patterns
+- [Linting Rule Categories](references/linting-rule-categories.md) — all rule groups, severity levels, and category-level enable/disable patterns
+- [Formatter Options](references/formatter-options.md) — indent style, line width, quote style, and language-specific overrides
+- [Migration: ESLint & Prettier](references/migration-eslint-prettier.md) — step-by-step migration guide, rule mapping, and conflict resolution

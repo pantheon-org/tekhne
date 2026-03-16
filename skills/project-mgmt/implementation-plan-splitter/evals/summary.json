@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Design a correct hierarchical directory structure from a flat monolithic plan",
+      "feasible": true,
+      "reason": "The agent can produce a directory tree design from a described flat plan without executing shell commands."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Apply flatten vs subdivide heuristics to groups at the boundary of the 3-7 rule",
+      "feasible": true,
+      "reason": "The agent can evaluate group sizes and apply the decision table to produce a recommendation document."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Identify anti-patterns in a proposed directory restructure",
+      "feasible": true,
+      "reason": "The agent can review a proposed structure and flag violations of naming conventions, over-nesting, and premature deletion."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Write correct README content for phase and activity directories",
+      "feasible": true,
+      "reason": "The agent can produce properly structured README files for non-leaf directories based on the template requirements."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Redirect a splitter request to implementation-planner Mode 2 with correct guidance",
+      "feasible": true,
+      "reason": "The agent can recognize the redirect from the stub SKILL.md and provide the correct mode and commands from implementation-planner."
+    }
+  ]
+}

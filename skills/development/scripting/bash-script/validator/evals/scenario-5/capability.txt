@@ -1,0 +1,1 @@
+Correctly reject a global ShellCheck suppression and replace it with targeted per-line suppressions

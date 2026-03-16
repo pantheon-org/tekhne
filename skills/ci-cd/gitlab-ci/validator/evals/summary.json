@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-0",
+      "capability": "Security scan: detect hardcoded secrets, insecure script patterns, and SSL bypass",
+      "feasible": true,
+      "reason": "Agent reads .gitlab-ci.yml from task input and produces a security report — no pipeline execution required"
+    },
+    {
+      "id": "scenario-1",
+      "capability": "Syntax validation: stage references, job definitions, dependency graph (needs), deprecated keywords",
+      "feasible": true,
+      "reason": "Agent inspects static YAML structure and schema compliance — entirely text-based analysis"
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Best practices: cache usage, artifact expiration, only/except migration to rules, image pinning",
+      "feasible": true,
+      "reason": "Agent reviews pipeline for best-practice patterns and produces actionable suggestions from static analysis"
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Include file validation: detecting errors in locally included template files",
+      "feasible": true,
+      "reason": "Agent reads multiple YAML files provided inline and validates include targets — no external access required"
+    },
+    {
+      "id": "scenario-4",
+      "capability": "DAG optimization: identifying sequential pipeline bottlenecks and recommending needs-based parallelism",
+      "feasible": true,
+      "reason": "Agent analyzes job dependency structure from static YAML and recommends DAG improvements"
+    }
+  ]
+}
