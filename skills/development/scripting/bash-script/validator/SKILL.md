@@ -83,22 +83,6 @@ if [ ! -f "$file" ]; then  # Properly quoted
 causing unexpected behavior with filenames containing spaces or special characters.
 ```
 
-## Reference Documentation
-
-### Core References
-
-- **bash-reference.md** — Bash-specific features, parameter expansion, arrays, control structures, functions, best practices, common pitfalls
-- **shell-reference.md** — POSIX sh compliance, portable constructs, differences from bash, POSIX utilities
-- **shellcheck-reference.md** — ShellCheck error codes explained, severity levels, configuration options, CI/CD integration
-- **common-mistakes.md** — 25+ common shell scripting mistakes with real-world examples and correct solutions
-
-### Tool References
-
-- **grep-reference.md** — BRE/ERE patterns, common grep patterns, performance tips
-- **awk-reference.md** — Field processing, pattern matching, arrays, log analysis, CSV/text processing
-- **sed-reference.md** — Substitution patterns, address ranges, in-place editing, common one-liners
-- **regex-reference.md** — BRE vs ERE, POSIX character classes, metacharacters, common patterns
-
 ## Example Scripts
 
 Located in `assets/` directory:
@@ -115,20 +99,20 @@ Located in `assets/` directory:
 
 ### ShellCheck Installation Options
 
-**Option 1: System-wide (Recommended)**
+**Option 1:** System-wide (Recommended)
 ```bash
 brew install shellcheck        # macOS
 apt-get install shellcheck     # Ubuntu/Debian
 dnf install shellcheck         # Fedora
 ```
 
-**Option 2: Automatic via Wrapper (Python required)**
+**Option 2:** Automatic via Wrapper (Python required)
 ```bash
 ./scripts/shellcheck_wrapper.sh --cache script.sh
 # Clears cache: ./scripts/shellcheck_wrapper.sh --clear-cache
 ```
 
-**Option 3: Manual Python install**
+**Option 3:** Manual Python install
 ```bash
 pip3 install shellcheck-py
 ```
@@ -166,8 +150,47 @@ bash-script-validator/
 └── assets/             # good-bash.sh, bad-bash.sh, good-shell.sh, bad-shell.sh
 ```
 
-## Resources
+## Anti-Patterns
 
+### NEVER rely only on ShellCheck for validation
+
+- **WHY**: ShellCheck catches syntax and safety issues statically but does not execute the script; runtime errors like missing files, wrong permissions, and incorrect exit codes only surface during actual execution with real inputs.
+- **BAD**: Pass ShellCheck with zero warnings and ship the script without running it against representative inputs in a real or sandboxed environment.
+- **GOOD**: Run ShellCheck first (fast, catches most issues), then test in a container or sandboxed environment with representative inputs to catch runtime failures.
+
+### NEVER disable ShellCheck rules globally with a file-level directive
+
+- **WHY**: A global `# shellcheck disable=SCxxxx` at the top of a file defeats the purpose of linting and silently hides real issues in code added later, long after the original suppression rationale is forgotten.
+- **BAD**: `# shellcheck disable=SC2086` at the top of the file to silence all quoting warnings across every line in the script.
+- **GOOD**: Add per-line suppressions only where the behavior is intentional and documented: `# shellcheck disable=SC2086 # word splitting intentional here`.
+
+### NEVER treat POSIX sh and bash scripts identically
+
+- **WHY**: POSIX sh does not support arrays, `[[ ]]`, `$(())` arithmetic, or many bash extensions; scripts marked `#!/bin/sh` will fail with bash-only syntax on some systems (Alpine Linux, minimal containers, many CI runners).
+- **BAD**: Use `#!/bin/sh` as the shebang but write bash-specific syntax like `declare -A` or `[[ -n $var ]]` — the script will fail silently or with cryptic errors on non-bash sh implementations.
+- **GOOD**: Use `#!/usr/bin/env bash` for scripts that require bash features; use `#!/bin/sh` only for scripts that are tested with strict POSIX compliance using `shellcheck --shell=sh`.
+
+### NEVER use `exit 0` or `|| true` to suppress error propagation
+
+- **WHY**: Explicitly returning 0 from a function or subshell that encountered an error hides failures from the caller, breaks `set -e` propagation, and makes debugging silent failures much harder.
+- **BAD**: `validate() { run_check || true; return 0; }` — the function always succeeds even when `run_check` fails, so callers cannot detect the failure.
+- **GOOD**: Return meaningful exit codes and let `set -e` propagate failures: `validate() { run_check; }` — if `run_check` fails, `validate` fails, and the caller can act on the exit code.
+
+## References
+
+### Core References
+
+- **bash-reference.md** — Bash-specific features, parameter expansion, arrays, control structures, functions, best practices, common pitfalls
+- **shell-reference.md** — POSIX sh compliance, portable constructs, differences from bash, POSIX utilities
+- **shellcheck-reference.md** — ShellCheck error codes explained, severity levels, configuration options, CI/CD integration
+- **common-mistakes.md** — 25+ common shell scripting mistakes with real-world examples and correct solutions
+
+### Tool References
+
+- **grep-reference.md** — BRE/ERE patterns, common grep patterns, performance tips
+- **awk-reference.md** — Field processing, pattern matching, arrays, log analysis, CSV/text processing
+- **sed-reference.md** — Substitution patterns, address ranges, in-place editing, common one-liners
+- **regex-reference.md** — BRE vs ERE, POSIX character classes, metacharacters, common patterns
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/)
 - [POSIX Shell Specification](https://pubs.opengroup.org/onlinepubs/9699919799/)
 - [ShellCheck](https://www.shellcheck.net/)

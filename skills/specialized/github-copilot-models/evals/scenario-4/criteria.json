@@ -1,0 +1,36 @@
+{
+  "context": "Tests troubleshooting workflow: querying the live API (not OpenCode's registry) to check model status, verifying auth, noting that OpenCode's registry can be stale, and discovering an enabled replacement model.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "API query for status check",
+      "description": "diagnose.sh queries the GitHub Copilot API directly (via fetch-models.sh or curl) to check the target model's status — not relying on 'opencode models' output",
+      "max_score": 20
+    },
+    {
+      "name": "policy.state checked",
+      "description": "Script inspects policy.state for gpt-4-legacy or the equivalent field that shows whether the model is active",
+      "max_score": 20
+    },
+    {
+      "name": "Auth verification step",
+      "description": "Script includes a step to verify auth token validity (checks ~/.local/share/opencode/auth.json or runs re-auth command)",
+      "max_score": 15
+    },
+    {
+      "name": "Registry staleness noted",
+      "description": "incident-report.md or diagnose.sh explicitly states that OpenCode's model list may be stale and should not be trusted as definitive",
+      "max_score": 15
+    },
+    {
+      "name": "Replacement model found",
+      "description": "Script discovers and outputs at least one alternative enabled model as a suggested replacement",
+      "max_score": 15
+    },
+    {
+      "name": "Root cause in report",
+      "description": "incident-report.md identifies the root cause as model policy change (disabled/deprecated) rather than a generic 'unknown error'",
+      "max_score": 15
+    }
+  ]
+}

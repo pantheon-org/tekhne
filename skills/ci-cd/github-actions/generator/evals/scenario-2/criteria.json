@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent generates a correct reusable workflow with typed inputs, explicit (not inherited) secrets, and mapped outputs. Criteria map to skill instructions on reusable workflows, secrets handling, and permissions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "workflow_call trigger present",
+      "description": "The reusable workflow file contains `workflow_call:` as a trigger under `on:`",
+      "max_score": 10
+    },
+    {
+      "name": "Typed inputs defined",
+      "description": "The `workflow_call` block defines at least one input with an explicit `type:` field (e.g., `type: string`)",
+      "max_score": 12
+    },
+    {
+      "name": "No secrets inherit",
+      "description": "The caller workflow does NOT use `secrets: inherit` — secrets are passed explicitly by name",
+      "max_score": 15
+    },
+    {
+      "name": "Explicit secret declaration",
+      "description": "The reusable workflow declares the deploy token (or equivalent secret) under `secrets:` in the `workflow_call` block with `required: true` or `required: false`",
+      "max_score": 12
+    },
+    {
+      "name": "Output mapped from job output",
+      "description": "The reusable workflow's `workflow_call` block includes an `outputs:` section whose value references a job output (e.g., `${{ jobs.<job>.outputs.<key> }}`)",
+      "max_score": 12
+    },
+    {
+      "name": "Top-level permissions block",
+      "description": "The reusable workflow file includes a `permissions:` block",
+      "max_score": 10
+    },
+    {
+      "name": "SHA-pinned actions",
+      "description": "Every `uses:` step in both files references actions via full SHA, not branch or tag alone",
+      "max_score": 12
+    },
+    {
+      "name": "Caller passes secret by name",
+      "description": "The calling workflow passes the secret to the reusable workflow using `secrets:` with a named key (not `secrets: inherit`)",
+      "max_score": 10
+    },
+    {
+      "name": "Caller workflow uses `uses:` syntax",
+      "description": "The caller workflow invokes the reusable workflow using the `uses:` key under a job (not duplicating steps inline)",
+      "max_score": 7
+    }
+  ]
+}

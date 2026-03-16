@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent applies the rule group isolation strategy from the skill: temporarily disable rule groups in biome.json linter section, then re-enable one group at a time to identify the source of failures.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Isolation strategy described",
+      "description": "TRIAGE.md explains the approach of temporarily disabling rule groups to identify which group causes failures",
+      "max_score": 20
+    },
+    {
+      "name": "Example biome.json shows group-level disabling",
+      "description": "TRIAGE.md includes a biome.json example that sets specific rule groups (e.g., suspicious, correctness, style) to off or warn — not just recommended: false",
+      "max_score": 25
+    },
+    {
+      "name": "Re-enable one at a time approach explained",
+      "description": "TRIAGE.md describes re-enabling one rule group at a time and running biome check after each change to isolate the failing group",
+      "max_score": 25
+    },
+    {
+      "name": "Outcome action described",
+      "description": "TRIAGE.md explains what to do once the offending group is found (fix violations, add targeted suppressions, or configure specific rules within that group)",
+      "max_score": 15
+    },
+    {
+      "name": "No blanket suppression recommended",
+      "description": "TRIAGE.md does not suggest disabling all linting or using blanket suppressions as the solution",
+      "max_score": 15
+    }
+  ]
+}

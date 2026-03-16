@@ -1,0 +1,36 @@
+{
+  "context": "Tests that the agent identifies the misplaced displayName on the UnitTest job (indented as a step sibling rather than a job property) and the extra-indented steps block in BuildApp, explains what each issue causes at parse time, and produces a corrected pipeline.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Misplaced displayName on UnitTest detected",
+      "description": "lint-report.md (or equivalent) identifies that the `displayName: 'Run unit tests'` line appears at step indentation level rather than job level, meaning it is parsed as a step property or causes ambiguity rather than setting the job display name",
+      "max_score": 25
+    },
+    {
+      "name": "Over-indented steps in BuildApp detected",
+      "description": "lint-report.md identifies that the steps under BuildApp have extra leading spaces (3 spaces before `-` instead of 2), which may cause them to be misinterpreted or fail YAML parsing",
+      "max_score": 20
+    },
+    {
+      "name": "Structural impact explained for misplaced displayName",
+      "description": "lint-report.md explains what the YAML parser interprets for the misplaced displayName (e.g., it becomes an orphaned key, it is ignored, or it is parsed as a step-level attribute) versus the intended job-level display name",
+      "max_score": 15
+    },
+    {
+      "name": "Structural impact explained for over-indentation",
+      "description": "lint-report.md explains the impact of the extra indentation on the steps block (e.g., parser error, steps not belonging to the job)",
+      "max_score": 15
+    },
+    {
+      "name": "displayName moved to correct job level in output",
+      "description": "In the corrected azure-pipelines.yml, `displayName: 'Run unit tests'` appears at the job level (same indentation as `steps:`) for the UnitTest job",
+      "max_score": 15
+    },
+    {
+      "name": "BuildApp steps indentation corrected in output",
+      "description": "In the corrected azure-pipelines.yml, the steps under BuildApp use consistent 2-space indentation for the `-` list marker (matching the rest of the file)",
+      "max_score": 10
+    }
+  ]
+}

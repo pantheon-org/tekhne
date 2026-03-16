@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent corrects multiple anti-patterns present in the original Dockerfile: splitting RUN layers, using ADD instead of COPY, running as root, floating base tags, and not cleaning apt caches. The rewritten Dockerfile should combine apt commands, use COPY, and clean up in the same layer.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "RUN commands combined",
+      "description": "apt-get update, apt-get install, and cache cleanup (rm -rf /var/lib/apt/lists/*) are chained in a single RUN instruction using &&, rather than separate RUN instructions",
+      "max_score": 18
+    },
+    {
+      "name": "Cache cleaned in same layer",
+      "description": "The apt cache cleanup (rm -rf /var/lib/apt/lists/* or equivalent) is inside the SAME RUN instruction as apt-get install, not a separate RUN",
+      "max_score": 12
+    },
+    {
+      "name": "COPY used not ADD",
+      "description": "Dockerfile uses COPY for all file copy operations; ADD is NOT present for plain file/directory copying",
+      "max_score": 15
+    },
+    {
+      "name": "Pinned base image tag",
+      "description": "FROM uses a specific Python version tag (e.g., python:3.11-slim) and NOT :latest",
+      "max_score": 10
+    },
+    {
+      "name": "Minimal base image",
+      "description": "Final image uses python:X.X-slim, python:X.X-alpine, or distroless rather than the full python:X.X image",
+      "max_score": 10
+    },
+    {
+      "name": "Non-root user",
+      "description": "A non-root user is created and USER instruction is set before CMD/ENTRYPOINT",
+      "max_score": 12
+    },
+    {
+      "name": "Dependency files copied first",
+      "description": "COPY of requirements.txt appears BEFORE the pip install RUN instruction",
+      "max_score": 8
+    },
+    {
+      "name": "Exec-form CMD",
+      "description": "CMD uses JSON array syntax rather than bare shell string form",
+      "max_score": 8
+    },
+    {
+      "name": ".dockerignore with Python entries",
+      "description": ".dockerignore is present and contains at least one Python-specific entry such as __pycache__/, *.pyc, or .venv/",
+      "max_score": 7
+    }
+  ]
+}

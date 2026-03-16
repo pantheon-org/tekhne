@@ -1,0 +1,1 @@
+DRY config with extends/anchors, caching strategy, no duplicate before_script

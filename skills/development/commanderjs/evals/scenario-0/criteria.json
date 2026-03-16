@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent uses parseAsync (not parse) with await, wraps async action handlers in try/catch for error handling, and uses Commander.js arguments rather than accessing process.argv directly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "parseAsync used",
+      "description": "The entry point calls program.parseAsync() (not program.parse())",
+      "max_score": 18
+    },
+    {
+      "name": "await on parseAsync",
+      "description": "The call to parseAsync is preceded by 'await'",
+      "max_score": 16
+    },
+    {
+      "name": "No direct process.argv access",
+      "description": "The code does NOT directly read process.argv[2] or similar indices to extract argument values; all arguments go through Commander.js .argument() declarations",
+      "max_score": 14
+    },
+    {
+      "name": "try/catch in action handler",
+      "description": "The async action handler wraps its logic in a try/catch block",
+      "max_score": 14
+    },
+    {
+      "name": "Error handling with exit code",
+      "description": "The catch block exits with a non-zero code (e.g. process.exit(1)) or calls program.error()",
+      "max_score": 12
+    },
+    {
+      "name": "Async action handler",
+      "description": "The action handler is declared as async (async (args, options) => { ... })",
+      "max_score": 10
+    },
+    {
+      "name": "Required argument declared",
+      "description": "The input file is declared as a required argument using .argument('<input>', ...) with angle brackets",
+      "max_score": 8
+    },
+    {
+      "name": "Optional argument declared",
+      "description": "The output file is declared as an optional argument using .argument('[output]', ...) with square brackets",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "instruction": "Every validation MUST follow these 5 steps: (1) Run validation script, (2) For each error consult reference file, (3) Quote fix to user, (4) Verify public actions, (5) Provide complete summary",
+      "original_snippets": "**Every validation MUST follow these steps. Skipping any step is non-compliant.**\n### Step 1: Run Validation Script\n### Step 2: For EACH Error - Consult Reference File\n### Step 3: Quote the Fix to User\n### Step 4: Verify Public Actions\n### Step 5: Provide Complete Summary",
+      "relevant_when": "Any GitHub Actions workflow validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run the validation script: `bash scripts/validate_workflow.sh <workflow-file-or-directory>`",
+      "original_snippets": "### Step 1: Run Validation Script\n```bash\ncd .claude/skills/github-actions-validator\nbash scripts/validate_workflow.sh <workflow-file-or-directory>\n```",
+      "relevant_when": "Starting a workflow validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For EACH error, read the appropriate reference file using the Error-to-Reference Mapping table, find the matching error pattern, and extract the fix/solution",
+      "original_snippets": "When actionlint or act reports ANY error, you MUST:\n1. **Read the appropriate reference file** (see mapping below)\n2. **Find the matching error pattern**\n3. **Extract the fix/solution**",
+      "relevant_when": "When actionlint or act reports errors in a workflow",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For each error, provide: (1) error message, (2) explanation from reference file, (3) fix code quoted from reference file, (4) corrected code applied to user's workflow",
+      "original_snippets": "For each error, provide:\n1. **Error message** (from script output)\n2. **Explanation** (from reference file)\n3. **Fix code** (quoted from reference file)\n4. **Corrected code** (applied to user's workflow)",
+      "relevant_when": "Presenting fixes after validation errors are found",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For public actions, first check `references/action_versions.md` for known actions and versions before web searching",
+      "original_snippets": "For any public actions (`uses: owner/action@version`):\n1. **First check `references/action_versions.md`** for known actions and versions\n2. **Use web search** for unknown actions",
+      "relevant_when": "When a workflow uses public actions from the GitHub marketplace",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use web search for unknown actions: search format `\"[action-name] [version] github action documentation\"`",
+      "original_snippets": "2. **Use web search** for unknown actions: `\"[action-name] [version] github action documentation\"`",
+      "relevant_when": "When a workflow uses public actions not listed in action_versions.md",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Check for deprecation warnings on public actions; never accept deprecation warnings as harmless",
+      "original_snippets": "### NEVER accept deprecation warnings as harmless\n- **WHY**: Deprecated action major versions ... may receive no security patches.\n- **BAD**: Leave `actions/checkout@v2` in place after the validator warns it is outdated.\n- **GOOD**: Update to the current SHA-pinned version from `references/action_versions.md`.",
+      "relevant_when": "When a workflow uses older versions of public actions (e.g., @v2, @v3)",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use SHA pinning for actions in production workflows (e.g., `actions/checkout@1af3b93...` instead of @v3)",
+      "original_snippets": "- uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0\n...\n- Use SHA pinning for all actions in production workflows",
+      "relevant_when": "Any production workflow that uses public GitHub Actions",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never ignore script injection warnings from actionlint — pass untrusted input through environment variables",
+      "original_snippets": "### NEVER ignore script injection warnings from actionlint\n...\n**GOOD**: Pass untrusted input through environment variables — `env: PR_TITLE: ${{ github.event.pull_request.title }}` — then reference `\"$PR_TITLE\"` in the `run:` step.",
+      "relevant_when": "When a workflow run step interpolates github.event.* values directly into shell commands",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never skip lint-only mode when Docker is unavailable — use `--lint-only` flag",
+      "original_snippets": "### NEVER skip lint-only mode when Docker is unavailable\n- **GOOD**: Run `--lint-only` mode which covers syntax, schema, and security checks without requiring a container runtime.",
+      "relevant_when": "When Docker is not available and the agent needs to validate a workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When a workflow uses `workflow_call` or `matrix`, validate both the caller and callee — never validate in isolation",
+      "original_snippets": "### NEVER validate a workflow file in isolation when it uses `workflow_call` or `matrix`\n...\n**GOOD**: Validate both the caller and callee; note any warnings that require runtime context that static analysis cannot resolve.",
+      "relevant_when": "When a workflow contains workflow_call triggers or matrix strategies",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `--lint-only` flag for fastest validation without Docker",
+      "original_snippets": "# Lint-only (fastest, no Docker required)\nbash scripts/validate_workflow.sh --lint-only .github/workflows/ci.yml",
+      "relevant_when": "When Docker is not available or only syntax/security checks are needed",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Provide a final summary table listing all errors found, their type, and the fix applied",
+      "original_snippets": "### Step 5: Summary\n| Error | Type | Fix Applied |\n|-------|------|-------------|",
+      "relevant_when": "After completing a full workflow validation",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Verify required inputs match for public actions and check for deprecation warnings",
+      "original_snippets": "3. **Verify required inputs match**\n4. **Check for deprecation warnings**",
+      "relevant_when": "Any workflow that uses public GitHub Actions with specific input requirements",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Run `bash scripts/install_tools.sh` first to install act and actionlint if tools are not found",
+      "original_snippets": "### Initial Setup\n```bash\nbash scripts/install_tools.sh  # Installs act and actionlint to scripts/.tools/\n```\n...\n| \"Tools not found\" | Run `bash scripts/install_tools.sh` |",
+      "relevant_when": "First use in a new environment where actionlint/act may not be installed",
+      "why_given": "reminder"
+    }
+  ]
+}

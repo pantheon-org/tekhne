@@ -238,7 +238,39 @@ See `references/best-practices.md` for the full set of security, performance, re
 
 ---
 
-## Resources
+## Anti-Patterns
+
+### NEVER use `only: [master]` or `only: [main]`
+
+- **WHY**: `only`/`except` are deprecated in GitLab 15+; `rules` is the current approach and offers more expressive conditions.
+- **BAD**: `only: - main`
+- **GOOD**: `rules: - if: '$CI_COMMIT_BRANCH == "main"'`
+
+### NEVER deploy to production without an environment and approval gate
+
+- **WHY**: Deploying directly without a GitLab environment loses deployment tracking, approval workflows, and rollback history.
+- **BAD**: A deployment job with no `environment:` key.
+- **GOOD**: `environment: name: production url: https://example.com` combined with `when: manual` for production jobs.
+
+### NEVER hardcode runner tags for every job
+
+- **WHY**: Hardcoding forces all jobs onto specific runners even when generic runners would work, reducing parallelism.
+- **BAD**: `tags: [kubernetes, production]` on lint and unit test jobs.
+- **GOOD**: Add runner tags only to jobs that genuinely require specific capabilities (GPU, privileged mode, specific OS).
+
+### NEVER define duplicate `before_script` blocks in every job
+
+- **WHY**: Repetitive `before_script` creates maintenance debt; use YAML anchors or `extends` to share setup.
+- **BAD**: Identical `before_script: [npm ci]` in every job.
+- **GOOD**: Define a `.node_setup` hidden job with `before_script: [npm ci]` and use `extends: .node_setup` in dependent jobs.
+
+### NEVER omit `expire_in` on artifacts
+
+- **WHY**: Artifacts without an expiration date are retained indefinitely, consuming storage quota and slowing artifact listing in the GitLab UI.
+- **BAD**: `artifacts: paths: [dist/]` with no `expire_in`.
+- **GOOD**: `artifacts: paths: [dist/] expire_in: 7 days`
+
+## References
 
 ### Reference Files
 - `references/best-practices.md` — Security, performance, pipeline design, anti-patterns

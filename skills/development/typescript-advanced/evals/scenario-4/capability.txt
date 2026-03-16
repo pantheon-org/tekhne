@@ -1,0 +1,1 @@
+Replace unchecked `as` assertions with safe runtime type narrowing guards

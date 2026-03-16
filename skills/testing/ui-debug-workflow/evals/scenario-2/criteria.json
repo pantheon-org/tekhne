@@ -1,0 +1,31 @@
+{
+  "context": "Agent produces correct script invocations for a two-run evidence capture session with identical conditions enforcement.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct baseline capture command",
+      "description": "evidence-capture-plan.md contains a capture-evidence.sh invocation with 'baseline' label and a named output directory (e.g. ./baseline).",
+      "max_score": 20
+    },
+    {
+      "name": "Correct changed capture command",
+      "description": "evidence-capture-plan.md contains a capture-evidence.sh invocation with 'changed' label referencing http://localhost:4200 and a separate output directory.",
+      "max_score": 20
+    },
+    {
+      "name": "Correct compare command",
+      "description": "evidence-capture-plan.md contains a compare-evidence.sh invocation referencing both output directories and producing a comparison output file.",
+      "max_score": 20
+    },
+    {
+      "name": "Identical conditions checklist",
+      "description": "The document lists at least 4 conditions that must match between runs: URL, viewport size, seed data, and build mode.",
+      "max_score": 25
+    },
+    {
+      "name": "Unexpected differences handling",
+      "description": "The document describes the 3-step response to unexpected comparison differences: verify conditions, check for flaky elements, re-capture both runs.",
+      "max_score": 15
+    }
+  ]
+}

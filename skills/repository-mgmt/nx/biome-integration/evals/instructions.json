@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Create a root biome.json with formatter and linter enabled, using the recommended ruleset and 2-space indentation.",
+      "relevant_when": "Setting up Biome from scratch in an Nx workspace.",
+      "why_given": "The skill teaches a root-first config strategy and specifies the baseline shape of biome.json."
+    },
+    {
+      "instruction": "Add biome-lint and biome-format targetDefaults to nx.json that include the root biome.json and the @biomejs/biome external dependency as cache inputs.",
+      "relevant_when": "Configuring Nx caching for Biome targets.",
+      "why_given": "The skill explicitly warns that omitting config and dependency inputs causes stale cache hits."
+    },
+    {
+      "instruction": "Add biome-lint and biome-format targets directly to a project's project.json, using the npx @biomejs/biome command with the project root as the path argument.",
+      "relevant_when": "Wiring explicit per-project Biome targets instead of relying on a plugin.",
+      "why_given": "The skill covers explicit project target configuration before describing the plugin-inference approach."
+    },
+    {
+      "instruction": "Use scoped overrides in biome.json to apply narrowly scoped rule relaxations for a legacy directory, instead of globally disabling rules.",
+      "relevant_when": "Migrating a repository that has a legacy directory with many existing violations.",
+      "why_given": "The skill prohibits blanket rule disablement and models the scoped-override pattern as the correct alternative."
+    },
+    {
+      "instruction": "When writing CI verification steps that include Biome checks, use check/lint mode rather than --write mode so that CI is read-only.",
+      "relevant_when": "Producing CI configuration files (e.g. GitHub Actions workflow) that run Biome.",
+      "why_given": "The skill explicitly prohibits write-mode formatting in CI verification jobs."
+    }
+  ]
+}

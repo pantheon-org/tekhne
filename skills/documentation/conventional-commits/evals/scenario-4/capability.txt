@@ -1,0 +1,1 @@
+Scope usage and avoiding chore as catch-all

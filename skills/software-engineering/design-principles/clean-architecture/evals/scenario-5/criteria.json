@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent applies YAGNI to architectural decisions — advising against full hexagonal architecture for a 2-developer internal tool with 3 routes, while explaining what trigger would justify it later.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Full hexagonal architecture not recommended at this stage",
+      "description": "ADVICE.md recommends against implementing full hexagonal architecture immediately for a 2-person, 3-route internal tool",
+      "max_score": 30
+    },
+    {
+      "name": "Cost-vs-benefit reasoning provided",
+      "description": "ADVICE.md explains why the boundary cost outweighs the benefit at this scale (small team, simple domain, no complex testing requirements yet)",
+      "max_score": 20
+    },
+    {
+      "name": "Appropriate current structure recommended",
+      "description": "ADVICE.md suggests a simpler, pragmatic structure appropriate for the current stage (e.g., basic service layer, simple folder structure)",
+      "max_score": 20
+    },
+    {
+      "name": "Trigger for future boundary introduction identified",
+      "description": "ADVICE.md names a concrete trigger that would justify adding proper layer boundaries (e.g., needing to swap database, adding a second client, team growth, complex domain logic)",
+      "max_score": 15
+    },
+    {
+      "name": "YAGNI principle referenced or applied",
+      "description": "ADVICE.md applies the principle of solving the current need and refactoring when the trigger appears — not designing for imagined future requirements",
+      "max_score": 15
+    }
+  ]
+}

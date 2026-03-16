@@ -1,0 +1,1 @@
+Fix generator that overwrites existing files without checking tree.exists

@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use `AskUserQuestion` if image repository/tag, service port, resource limits, probe endpoints, scaling requirements, workload type, or storage requirements are missing or ambiguous.",
+      "original_snippets": "REQUIRED: Use `AskUserQuestion` if any of these are missing or ambiguous... Do NOT assume values for critical settings. Ask first, then proceed.",
+      "relevant_when": "When generating a Helm chart and one or more critical settings are not provided in the request",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use `bash scripts/generate_chart_structure.sh <chart-name> <output-directory> [options]` to scaffold chart structure.",
+      "original_snippets": "Use the scaffolding script:\nbash scripts/generate_chart_structure.sh <chart-name> <output-directory> [options]",
+      "relevant_when": "When creating a new Helm chart from scratch",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Pass only the repository name without tag to `--image` (e.g., `redis` not `redis:7-alpine`).",
+      "original_snippets": "--image <repo> - Image repository (default: nginx). Note: Pass only the repository name without tag (e.g., `redis` not `redis:7-alpine`)",
+      "relevant_when": "When calling the generate_chart_structure.sh script with an image argument",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Customize port names for non-HTTP services (e.g., `redis`, `mysql`, `grpc`) — the script uses `http` as the default port name.",
+      "original_snippets": "The script uses `http` as the default port name in templates. Customize port names for non-HTTP services (e.g., `redis`, `mysql`, `grpc`)",
+      "relevant_when": "When generating charts for non-HTTP services",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `bash scripts/generate_standard_helpers.sh <chart-name> <chart-directory>` or the `assets/_helpers-template.tpl` to generate standard helpers.",
+      "original_snippets": "Use the helpers script or `assets/_helpers-template.tpl`:\nbash scripts/generate_standard_helpers.sh <chart-name> <chart-directory>",
+      "relevant_when": "When creating a new chart and setting up _helpers.tpl",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Read reference files `references/resource_templates.md`, `references/helm_template_functions.md`, and `references/crd_patterns.md` at template generation time before generating templates.",
+      "original_snippets": "You MUST use the `Read` tool to load these reference files at this stage, even if you read them earlier... Do NOT skip this step. Template quality depends on having current reference patterns loaded.",
+      "relevant_when": "When generating any Kubernetes resource templates for a Helm chart",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Use helpers for names and labels: `{{ include \"mychart.fullname\" . }}` for name and `{{- include \"mychart.labels\" . | nindent 4 }}` for labels in all templates.",
+      "original_snippets": "Key patterns (MUST include in all templates):\n# Use helpers for names and labels\nmetadata:\n  name: {{ include \"mychart.fullname\" . }}\n  labels: {{- include \"mychart.labels\" . | nindent 4 }}",
+      "relevant_when": "When generating any Kubernetes resource YAML template",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use conditional sections with `with` for optional values like nodeSelector: `{{- with .Values.nodeSelector }}nodeSelector: {{- toYaml . | nindent 2 }}{{- end }}`.",
+      "original_snippets": "# Conditional sections with 'with'\n{{- with .Values.nodeSelector }}\nnodeSelector: {{- toYaml . | nindent 2 }}\n{{- end }}",
+      "relevant_when": "When generating Deployment, StatefulSet, DaemonSet templates with optional scheduling fields",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Include checksum annotation in Deployments/StatefulSets/DaemonSets to trigger restarts on ConfigMap/Secret changes: `checksum/config: {{ include (print $.Template.BasePath \"/configmap.yaml\") . | sha256sum }}`.",
+      "original_snippets": "# Checksum annotation (REQUIRED for Deployments/StatefulSets/DaemonSets to trigger restarts on config changes)\nannotations:\n  checksum/config: {{ include (print $.Template.BasePath \"/configmap.yaml\") . | sha256sum }}",
+      "relevant_when": "When generating Deployment, StatefulSet, or DaemonSet templates that use ConfigMaps or Secrets",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Group related settings logically in values.yaml, document every value with `# --` comments, provide sensible defaults, and include security contexts, resource limits, and probes.",
+      "original_snippets": "Structure guidelines:\n- Group related settings logically\n- Document every value with `# --` comments\n- Provide sensible defaults\n- Include security contexts, resource limits, probes",
+      "relevant_when": "When creating values.yaml for a Helm chart",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Do NOT hardcode image tags in `values.yaml`; use an empty tag `\"\"` with `appVersion` as the default, overrideable via `--set image.tag=v1.2.3`.",
+      "original_snippets": "NEVER hardcode image tags in `values.yaml`... BAD: image: repository: myapp tag: latest... GOOD: image: repository: myapp tag: \"\" with `appVersion` as the default, overridden via `--set image.tag=v1.2.3`.",
+      "relevant_when": "When defining image settings in values.yaml",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always set both `requests` and `limits` for CPU and memory in the container spec; never omit the `resources:` block.",
+      "original_snippets": "NEVER omit `resources:` limits and requests on containers... BAD: No `resources:` block in the container spec template. GOOD: Set both `requests` and `limits` for CPU and memory, with documented tuning guidance in `values.yaml`.",
+      "relevant_when": "When generating any container spec in Deployment, StatefulSet, DaemonSet, Job, or CronJob templates",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `helm upgrade --install --atomic --timeout 5m` in CI/CD pipelines; never use `helm upgrade --install` without `--atomic`.",
+      "original_snippets": "NEVER use `helm upgrade --install` without `--atomic` in CI/CD... BAD: `helm upgrade --install myapp ./chart`... GOOD: `helm upgrade --install --atomic --timeout 5m myapp ./chart`",
+      "relevant_when": "When generating CI/CD pipeline scripts or deployment scripts that invoke helm upgrade",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use a layered values approach: `values.yaml` for defaults, environment-specific `values-prod.yaml` for overrides; never place environment-specific values inside the chart's default `values.yaml`.",
+      "original_snippets": "NEVER place environment-specific values inside the chart's default `values.yaml`... GOOD: Use a layered values approach: `values.yaml` for defaults, `values-prod.yaml` for overrides, `-f values-prod.yaml` at deploy time.",
+      "relevant_when": "When designing chart values structure for multi-environment deployments",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run `helm template . | kubeval --strict --ignore-missing-schemas` (or kubeconform) after `helm lint` to validate rendered manifests; never rely solely on `helm lint`.",
+      "original_snippets": "NEVER skip `helm template` + `kubeval`/`kubeconform` validation... BAD: Only run `helm lint` before deploying. GOOD: `helm template . | kubeval --strict --ignore-missing-schemas` to validate rendered manifests.",
+      "relevant_when": "When documenting or scripting the chart validation workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Ship CRDs in the `crds/` directory (not templated); template CR instances in `templates/`.",
+      "original_snippets": "Ship CRDs in `crds/` directory (not templated); template CR instances in `templates/`.",
+      "relevant_when": "When creating Helm charts that bundle Custom Resource Definitions",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When converting raw Kubernetes manifests to Helm: parameterize names using helpers, extract values, apply label/conditional patterns, use `toYaml` for complex objects, and create `_helpers.tpl` with standard helpers.",
+      "original_snippets": "Converting Manifests to Helm:\n1. Parameterize names (use helpers) and extract values\n2. Apply label/conditional patterns, use `toYaml` for complex objects\n3. Create `_helpers.tpl` with standard helpers\n4. Validate with devops-skills:helm-validator",
+      "relevant_when": "When migrating existing raw Kubernetes YAML manifests into a Helm chart",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "After generating charts, invoke `devops-skills:helm-validator` to ensure quality (helm lint, template render, schema checks, dry-run).",
+      "original_snippets": "After generating charts, invoke devops-skills:helm-validator to ensure quality.",
+      "relevant_when": "After completing chart generation",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use `required` to enforce required values, `default` for fallback values, `quote` for strings, `include` to use helpers, `toYaml` to convert complex objects, `tpl` to render values as templates, and `nindent` for newline + indent.",
+      "original_snippets": "Template Functions Quick Reference... required, default, quote, include, toYaml, tpl, nindent",
+      "relevant_when": "When writing Helm template expressions",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use templates with checksum annotations conditionally enabled via `.Values.configMap.enabled` and `.Values.secret.enabled`.",
+      "original_snippets": "Templates include checksum annotations for ConfigMap/Secret changes (conditionally enabled via `.Values.configMap.enabled` and `.Values.secret.enabled`)",
+      "relevant_when": "When generating templates that reference ConfigMaps or Secrets",
+      "why_given": "particular preference"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Create a correct mise.toml with pinned tools, tasks, and scoped environment variables for a new project

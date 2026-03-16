@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent fixes all markdownlint violations in the supplied document without suppressing rules or altering content meaning.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Heading levels are sequential with no skips",
+      "description": "The corrected file has no heading level jumps: H1 is followed by H2, H2 by H3, etc. There is no H1→H3 or H2→H4 skip.",
+      "max_score": 25
+    },
+    {
+      "name": "All fenced code blocks have explicit language tags",
+      "description": "Every triple-backtick fence in the output file includes a language identifier (e.g., `bash`, `yaml`). No untagged fences remain.",
+      "max_score": 25
+    },
+    {
+      "name": "List markers are consistent throughout",
+      "description": "All bullet list items use the same marker character. No mixing of `-`, `*`, and `+` within the document.",
+      "max_score": 20
+    },
+    {
+      "name": "No markdownlint disable comments or suppressions added",
+      "description": "The output contains no `<!-- markdownlint-disable -->`, `<!-- markdownlint-disable-line -->`, or `<!-- markdownlint-disable-next-line -->` comments.",
+      "max_score": 15
+    },
+    {
+      "name": "Document content and meaning unchanged",
+      "description": "All original sections, code samples, and table content are preserved. No text was deleted or reworded to avoid fixing the structural issues.",
+      "max_score": 15
+    }
+  ]
+}

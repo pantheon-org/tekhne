@@ -1,0 +1,1 @@
+Security checklist: state encryption, locking, and hardcoded credentials

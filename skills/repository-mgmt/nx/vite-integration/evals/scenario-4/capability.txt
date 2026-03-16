@@ -1,0 +1,1 @@
+Identify and correct anti-patterns in a broken vite.config.ts for an Nx project

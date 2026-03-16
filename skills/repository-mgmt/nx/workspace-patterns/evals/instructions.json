@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Assign consistent tags to every Nx project using a stable vocabulary such as scope:* and type:* combinations.",
+      "relevant_when": "Designing or auditing project configuration in an Nx monorepo.",
+      "why_given": "The skill lists consistent tagging as a hard constraint and warns that boundary rules are only as strong as tag consistency."
+    },
+    {
+      "instruction": "Configure targetDefaults in nx.json with explicit dependsOn chains for build, test, and lint. Do not rely on implicit task ordering.",
+      "relevant_when": "Setting up or updating nx.json for a workspace with multiple projects.",
+      "why_given": "The skill requires explicit dependsOn for build/test/lint and warns that implicit ordering can hide bugs."
+    },
+    {
+      "instruction": "Configure @nx/enforce-module-boundaries in .eslintrc.json with depConstraints that encode the tag-based dependency rules.",
+      "relevant_when": "Enforcing dependency boundaries between projects in an Nx workspace.",
+      "why_given": "The skill provides the depConstraints pattern as the primary mechanism for boundary enforcement."
+    },
+    {
+      "instruction": "Use nx affected with explicit --base and --head flags in CI pipelines instead of nx run-many --all.",
+      "relevant_when": "Defining CI workflows for an Nx monorepo.",
+      "why_given": "The skill explicitly prohibits run-many --all as the default CI path and requires affected commands with explicit base/head."
+    },
+    {
+      "instruction": "Declare explicit outputs and named inputs for build, test, and lint targets; do not enable cache without specifying what is cached.",
+      "relevant_when": "Configuring Nx caching for workspace targets.",
+      "why_given": "The skill warns that cache enabled with no stable inputs/outputs causes stale hits or unnecessary misses."
+    }
+  ]
+}

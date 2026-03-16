@@ -1,0 +1,1 @@
+DAG optimization: identifying sequential bottlenecks and applying needs-based parallelism

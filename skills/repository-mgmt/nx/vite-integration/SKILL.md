@@ -23,15 +23,25 @@ description: |
 
 Configure Vite as the build tool in Nx workspaces with predictable, cache-friendly defaults.
 
-## Quick Reference
+## Mindset
 
-| Topic | Reference |
-| --- | --- |
-| Vite Config Patterns | [references/vite-config-patterns.md](references/vite-config-patterns.md) |
-| Nx Vite Plugins | [references/nx-vite-plugin-reference.md](references/nx-vite-plugin-reference.md) |
-| Library Mode | [references/library-mode-guide.md](references/library-mode-guide.md) |
-| Vitest Integration | [references/vitest-integration.md](references/vitest-integration.md) |
-| Troubleshooting | [references/troubleshooting.md](references/troubleshooting.md) |
+Nx and Vite each have their own opinions about project structure. The integration works by making Vite defer to Nx for path resolution and task orchestration while Nx defers to Vite for bundling. The critical bridge is `nxViteTsPaths()` — without it, workspace path aliases silently resolve to nothing and builds fail with cryptic module-not-found errors.
+
+Think in two layers: **workspace-level** (Nx executor targets, cache dirs, project boundaries) and **build-level** (Vite plugins, rollup options, output formats). Workspace-level decisions live in `project.json`; build-level decisions live in `vite.config.ts`. Keep them separate and each layer becomes predictable.
+
+Library mode differs meaningfully from app mode: apps bundle everything together, libraries externalize peer deps to avoid duplication in consumers. The distinction determines whether `rollupOptions.external` and `vite-plugin-dts` are needed.
+
+## When to Use
+
+| Scenario | Use This Skill |
+|---|---|
+| Adding Vite to an existing Nx app or lib | Yes |
+| Migrating from Webpack or CRA to Vite inside Nx | Yes |
+| Setting up Vitest alongside an existing Vite config | Yes |
+| Fixing `@org/lib` path aliases failing in Vite builds | Yes |
+| Configuring library mode (`build.lib`) with DTS output | Yes |
+| Setting up a standalone Vite project (no Nx) | No — use Vite docs directly |
+| Adding a non-Vite bundler (esbuild standalone, Rollup) | No — this skill is Nx + Vite specific |
 
 ## Workflow
 
@@ -253,3 +263,11 @@ bunx nx run <project>:test
 bunx @biomejs/biome check skills/nx-vite-integration/
 bunx markdownlint-cli2 "skills/nx-vite-integration/**/*.md"
 ```
+
+## References
+
+- [Vite Config Patterns](references/vite-config-patterns.md) — vite.config.ts options, plugin setup, and resolver configuration for Nx projects
+- [Nx Vite Plugins](references/nx-vite-plugin-reference.md) — `@nx/vite` executor options, inferred task configuration, and caching setup
+- [Library Mode](references/library-mode-guide.md) — `build.lib` configuration, entry point patterns, and DTS generation
+- [Vitest Integration](references/vitest-integration.md) — Vitest configuration, coverage providers, and Nx test executor setup
+- [Troubleshooting](references/troubleshooting.md) — common Vite + Nx errors, path resolution failures, and DTS issues

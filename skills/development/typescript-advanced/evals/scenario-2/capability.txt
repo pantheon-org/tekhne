@@ -1,0 +1,1 @@
+Model mutually exclusive state with discriminated unions to eliminate impossible combinations

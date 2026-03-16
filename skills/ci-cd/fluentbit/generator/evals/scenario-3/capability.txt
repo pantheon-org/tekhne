@@ -1,0 +1,1 @@
+Parser selection: json/logfmt over regexp; filter ordering

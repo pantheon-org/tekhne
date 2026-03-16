@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent replaces the hardcoded 'libs/' prefix with a path derived from readProjectConfiguration(tree, projectName).root.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "readProjectConfiguration used to get project root",
+      "description": "generator.ts calls readProjectConfiguration(tree, schema.projectName) and uses the returned .root property to build the changelog path",
+      "max_score": 45
+    },
+    {
+      "name": "Hardcoded libs/ prefix removed",
+      "description": "generator.ts does not have a hardcoded 'libs/' string in the file path — path is dynamic based on project config",
+      "max_score": 25
+    },
+    {
+      "name": "tree.exists check preserved",
+      "description": "generator.ts still checks tree.exists before writing to avoid overwriting an existing CHANGELOG.md",
+      "max_score": 15
+    },
+    {
+      "name": "formatFiles still called",
+      "description": "generator.ts still calls formatFiles(tree) after writing the file",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests that the agent sets the three critical tail-input safety fields (Mem_Buf_Limit, DB for position tracking, and Exclude_Path to avoid log loops) when generating a Kubernetes container log collection config forwarding to Elasticsearch.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Mem_Buf_Limit set",
+      "description": "The tail INPUT plugin includes a Mem_Buf_Limit setting (any value)",
+      "max_score": 15
+    },
+    {
+      "name": "DB path set",
+      "description": "The tail INPUT plugin includes a DB setting pointing to a file path for position tracking across restarts",
+      "max_score": 15
+    },
+    {
+      "name": "Exclude_Path set",
+      "description": "The tail INPUT plugin includes an Exclude_Path that excludes fluent-bit's own container log files (pattern contains 'fluent-bit')",
+      "max_score": 15
+    },
+    {
+      "name": "TLS enabled",
+      "description": "The Elasticsearch OUTPUT plugin has tls set to On",
+      "max_score": 10
+    },
+    {
+      "name": "tls.verify On",
+      "description": "The Elasticsearch OUTPUT plugin has tls.verify set to On, OR tls.verify Off is present with an inline comment explaining why",
+      "max_score": 10
+    },
+    {
+      "name": "Retry_Limit on output",
+      "description": "The OUTPUT plugin includes a Retry_Limit value (numeric, not False)",
+      "max_score": 10
+    },
+    {
+      "name": "No hardcoded credentials",
+      "description": "No plaintext passwords, API keys, or tokens appear as literal values in the config file — only ${ENV_VAR} references or no credentials at all",
+      "max_score": 10
+    },
+    {
+      "name": "HTTP_Server enabled",
+      "description": "The SERVICE section includes HTTP_Server On",
+      "max_score": 10
+    },
+    {
+      "name": "Customization notes",
+      "description": "The notes.md (or equivalent) flags at least one parameter that the team must customize (e.g., cluster name, Elasticsearch host, index prefix)",
+      "max_score": 3
+    },
+    {
+      "name": "Daemon Off",
+      "description": "The SERVICE section sets Daemon to Off",
+      "max_score": 2
+    }
+  ]
+}

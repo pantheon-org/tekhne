@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Select the correct file type (plan/justification/scratch) for a given request",
+      "feasible": true,
+      "reason": "The agent can read a request description and classify it using the type selection guide without any runtime execution."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Produce a correctly formatted context file with valid frontmatter and specific slug",
+      "feasible": true,
+      "reason": "The agent can write a file with correct ISO 8601 date, formatted title, and specific slug without running the script."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Identify and correct anti-patterns in proposed context file usage",
+      "feasible": true,
+      "reason": "The agent can review a described usage and flag violations of the skill's anti-pattern rules."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Determine when a context file is NOT the right tool and explain the correct alternative",
+      "feasible": true,
+      "reason": "The agent can evaluate a request against the 'Do NOT use for' section and recommend the correct tool."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Apply the decision rule to choose between plan, justification, and scratch for ambiguous requests",
+      "feasible": true,
+      "reason": "The agent can apply the 'reference later / temporary / guides execution' decision rule to ambiguous user requests."
+    }
+  ]
+}

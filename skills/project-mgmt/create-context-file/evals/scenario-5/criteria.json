@@ -1,0 +1,31 @@
+{
+  "context": "Agent decomposes a multi-need developer statement into three correctly typed context files using the explicit decision rule.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Three distinct needs identified",
+      "description": "decision-breakdown.md identifies three separate needs: investigation/research, decision rationale, and implementation steps.",
+      "max_score": 20
+    },
+    {
+      "name": "Research mapped to scratch",
+      "description": "decision-breakdown.md maps the investigation phase (temporary research) to a scratch file.",
+      "max_score": 20
+    },
+    {
+      "name": "Decision rationale mapped to justification",
+      "description": "decision-breakdown.md maps the 'remember why' need to a justification file with 'keep indefinitely' lifecycle.",
+      "max_score": 20
+    },
+    {
+      "name": "Implementation steps mapped to plan",
+      "description": "decision-breakdown.md maps the implementation tracking need to a plan file with 'delete after task complete' lifecycle.",
+      "max_score": 20
+    },
+    {
+      "name": "Specific slugs and lifecycle expectations provided",
+      "description": "Each of the three files has a specific task-tied slug (not generic) and an explicit lifecycle statement (when to delete or keep).",
+      "max_score": 20
+    }
+  ]
+}

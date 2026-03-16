@@ -1,0 +1,36 @@
+{
+  "context": "Evaluate whether the agent applies the skill's structured four-part response format correctly for a multi-issue script",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Four-part format applied to every issue",
+      "description": "For each issue the agent reports, the response includes all four parts: (a) problematic code snippet, (b) issue explanation with ShellCheck code where applicable, (c) corrected code, (d) explanation of why the fix is better",
+      "max_score": 30
+    },
+    {
+      "name": "Unquoted variables identified",
+      "description": "Agent identifies unquoted $CONFIG in grep, cut subshells, and the [ ] comparison; unquoted $LOG_FILE in the redirect; and unquoted $key/$value in export",
+      "max_score": 20
+    },
+    {
+      "name": "== in [ ] identified",
+      "description": "Agent identifies that [ $CONFIG == \"\" ] uses == which is not POSIX-compliant in [ ]; suggests = instead, and quotes the variable",
+      "max_score": 10
+    },
+    {
+      "name": "Useless use of cat or piping anti-pattern flagged",
+      "description": "Agent identifies that grep ... | while read line with unquoted $line is unsafe; suggests IFS= read -r line and quoting; alternatively flags the useless-use-of-cat/pipe pattern if grep -r is unnecessary",
+      "max_score": 15
+    },
+    {
+      "name": "export key=value injection risk flagged",
+      "description": "Agent identifies that export $key=$value can overwrite critical environment variables if CONFIG is attacker-controlled and recommends validation or a safer approach",
+      "max_score": 10
+    },
+    {
+      "name": "Summary section with counts and verdict",
+      "description": "Response ends with a summary section listing error count, warning count, info count, and a clear PASSED or FAILED verdict",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Hadolint syntax validation and rule classification",
+      "feasible": true,
+      "reason": "Agent can analyse a provided Dockerfile for DL-prefixed hadolint rule violations entirely from file content."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Security scan: hardcoded secrets, missing USER, and port exposure",
+      "feasible": true,
+      "reason": "Agent can detect hardcoded credentials, missing USER directive, and exposed sensitive ports from Dockerfile content without executing Checkov."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Layer ordering and cache efficiency best practices audit",
+      "feasible": true,
+      "reason": "Agent can evaluate COPY ordering, cache cleanup placement, and combined RUN commands from static Dockerfile analysis."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Multi-stage build optimisation recommendation",
+      "feasible": true,
+      "reason": "Agent can identify opportunities to introduce multi-stage builds and distroless images from examining a single-stage Dockerfile."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Severity-categorised findings report with fix proposals",
+      "feasible": true,
+      "reason": "Agent can produce a complete four-tier severity report with before/after code blocks from static analysis of a provided Dockerfile."
+    }
+  ]
+}

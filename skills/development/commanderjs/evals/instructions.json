@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "instruction": "Always use parseAsync() for async action handlers (not parse())",
+      "original_snippets": "Use `parseAsync()` for async action handlers...NEVER add `.parseAsync()` without `await`...Commander.js v8+ requires `await program.parseAsync()` for async actions; without await, the process exits before async actions complete.",
+      "relevant_when": "Building any CLI with async operations (file I/O, network requests, etc.)",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always await program.parseAsync() — never call it without await",
+      "original_snippets": "NEVER add `.parseAsync()` without `await`...BAD: `program.parseAsync(process.argv)` without await. GOOD: `await program.parseAsync(process.argv)` inside an async IIFE or main function.",
+      "relevant_when": "Finishing any CLI entry point file",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always pass the complete typed options object to services, never individual properties",
+      "original_snippets": "ALWAYS pass complete typed options objects to services (never individual properties)...NEVER pass individual option properties to services (pass complete typed object)...DON'T pass options piecemeal (e.g., service(opts.a, opts.b, opts.c))",
+      "relevant_when": "Calling any service or business logic function from an action handler",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Define TypeScript interfaces for all options (e.g. BuildOptions, DeployOptions)",
+      "original_snippets": "Define TypeScript interfaces for all options (e.g., `BuildOptions`, `DeployOptions`)...Always pass typed options objects to downstream services. Never access options piecemeal.",
+      "relevant_when": "Writing TypeScript CLI commands with options",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Export commands as Command instances from subcommand modules",
+      "original_snippets": "Export commands as Command instances from subcommand modules...Export Command instances from subcommand modules",
+      "relevant_when": "Building a multi-command CLI with subcommands",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use .addCommand() to attach subcommands to the parent Command",
+      "original_snippets": "Use `.addCommand()` to attach subcommands to parent Command",
+      "relevant_when": "Assembling a CLI with multiple subcommands in the main entry point",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Create barrel exports for commands in commands/index.ts",
+      "original_snippets": "Create barrel exports for commands (commands/index.ts)...Create barrel exports in `commands/index.ts`",
+      "relevant_when": "Building a modular multi-command CLI",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use kebab-case for option names in CLI flags (not camelCase)",
+      "original_snippets": "Use kebab-case for option names...DON'T use camelCase in CLI flags (use kebab-case)...Consistent Naming: kebab-case for flags: --output-dir not --outputDir",
+      "relevant_when": "Defining options with multi-word names",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Wrap action handlers in try/catch and call program.error() for Commander-formatted error output",
+      "original_snippets": "NEVER use `.action()` callback without handling errors...Wrap in try/catch and call `program.error(err.message)` for Commander-formatted error output.",
+      "relevant_when": "Writing any action handler that performs async or risky operations",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never access process.argv directly when Commander.js is available; define all arguments as Commander.js options or arguments",
+      "original_snippets": "NEVER access `process.argv` directly when Commander.js is available...Commander.js handles argument parsing, validation, and help generation; bypassing it for any argument creates inconsistency in error handling and help output.",
+      "relevant_when": "Any code that needs to read CLI input",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never use program.opts() inside a subcommand's action to read that subcommand's options; use the action's options parameter instead",
+      "original_snippets": "NEVER use `program.opts()` to read option values inside a subcommand...Each subcommand has its own option scope; reading `program.opts()` in a subcommand returns the parent options, not the subcommand options.",
+      "relevant_when": "Writing action handlers for subcommands that have their own options",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Load version from package.json rather than hardcoding it",
+      "original_snippets": "Always load version from package.json to keep it synchronized...Always load version from package.json to maintain single source of truth...Avoid - requires manual updates: program.version('1.2.3');",
+      "relevant_when": "Setting up the CLI program version",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use .exitOverride() for testing to throw instead of calling process.exit",
+      "original_snippets": "Use `.exitOverride()` for testing...For testing, override default exit behavior: program.exitOverride();",
+      "relevant_when": "Writing tests for a Commander.js CLI",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Provide sensible defaults for optional options",
+      "original_snippets": "Provide sensible defaults for optional options...Don't make all options required (use sensible defaults)...Sensible Defaults: Provide defaults for optional options when sensible",
+      "relevant_when": "Defining CLI options",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Provide clear descriptions for all commands and options",
+      "original_snippets": "Provide clear descriptions for all commands/options",
+      "relevant_when": "Defining any command or option",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use .requiredOption() for options that must be provided rather than validating in action handlers",
+      "original_snippets": "Use `requiredOption` instead of validating in action handlers",
+      "relevant_when": "Defining options that are mandatory",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use choices() for options with a fixed set of valid values",
+      "original_snippets": "Use `choices()` for enum values",
+      "relevant_when": "Defining options that accept only specific values (e.g. log levels, environments)",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Don't use global state in action handlers; use closures or pass state",
+      "original_snippets": "Don't use global state in action handlers...Avoid Global State: use closures or pass state",
+      "relevant_when": "Writing action handlers that need shared configuration or context",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Organize modular CLIs with types/, services/, and commands/ directories following the types→services→commands architecture",
+      "original_snippets": "types/ → Define option interfaces; services/ → Business logic (receives typed options); commands/ → Commander wiring (passes typed options to services)...Directory Structure with Service Layer",
+      "relevant_when": "Building a substantial multi-command CLI application",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Specify option argument types explicitly using <required> vs [optional] angle/square bracket syntax",
+      "original_snippets": "Don't forget to specify option argument types (`<required>` vs `[optional]`)",
+      "relevant_when": "Defining options that take values",
+      "why_given": "reminder"
+    }
+  ]
+}

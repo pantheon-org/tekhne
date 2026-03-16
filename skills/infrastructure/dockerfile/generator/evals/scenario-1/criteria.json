@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent correctly orders Dockerfile instructions to maximise layer caching for npm dependencies. The critical pattern is COPY package*.json before RUN npm ci, followed by COPY . . for application code.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Dependency files copied first",
+      "description": "COPY of package.json and/or package-lock.json appears BEFORE the npm install/ci RUN instruction in the Dockerfile",
+      "max_score": 20
+    },
+    {
+      "name": "App code copied after install",
+      "description": "COPY . . (or equivalent broad copy of source code) appears AFTER the npm install/ci RUN instruction",
+      "max_score": 15
+    },
+    {
+      "name": "Pinned base image tag",
+      "description": "FROM uses a specific Node.js version tag (e.g., node:20-alpine) and NOT :latest",
+      "max_score": 10
+    },
+    {
+      "name": "Non-root user",
+      "description": "A non-root user is created and the USER instruction appears before CMD/ENTRYPOINT",
+      "max_score": 12
+    },
+    {
+      "name": "COPY used instead of ADD",
+      "description": "Dockerfile uses COPY for all file-copy operations; ADD is NOT used for plain file copying",
+      "max_score": 12
+    },
+    {
+      "name": ".dockerignore excludes node_modules",
+      "description": ".dockerignore file is present and contains a node_modules/ entry",
+      "max_score": 12
+    },
+    {
+      "name": ".dockerignore excludes secrets",
+      "description": ".dockerignore contains entries for .env and/or .env.* to prevent secret leaks",
+      "max_score": 8
+    },
+    {
+      "name": "Absolute WORKDIR",
+      "description": "WORKDIR is set to an absolute path",
+      "max_score": 6
+    },
+    {
+      "name": "Exec-form CMD",
+      "description": "CMD uses JSON array syntax rather than shell string form",
+      "max_score": 5
+    }
+  ]
+}

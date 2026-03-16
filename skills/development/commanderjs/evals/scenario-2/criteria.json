@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent creates a modular command structure with each subcommand in its own file, uses a barrel export in commands/index.ts, uses addCommand() in the main program, defines TypeScript interfaces for options, and loads version from package.json.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Separate file per command",
+      "description": "Each of the three subcommands (publish, deprecate, info) is defined in its own dedicated file (e.g. commands/publish.ts, commands/deprecate.ts, commands/info.ts)",
+      "max_score": 14
+    },
+    {
+      "name": "Barrel export in commands/index.ts",
+      "description": "A commands/index.ts barrel file exists that re-exports all three command instances",
+      "max_score": 12
+    },
+    {
+      "name": "Commands exported as Command instances",
+      "description": "Each command file exports its Command instance as a named export (not inline-defined in the main program)",
+      "max_score": 12
+    },
+    {
+      "name": "addCommand() in main program",
+      "description": "The main entry point uses .addCommand() to attach each subcommand (not program.command() inline)",
+      "max_score": 10
+    },
+    {
+      "name": "TypeScript interfaces defined",
+      "description": "At least two of the three subcommands have a dedicated TypeScript interface or type for their options",
+      "max_score": 12
+    },
+    {
+      "name": "choices() for format option",
+      "description": "The 'info' command's --format option uses .choices() or .addOption(new Option(...).choices([...])) to constrain to 'json' and 'table'",
+      "max_score": 10
+    },
+    {
+      "name": "requiredOption for reason",
+      "description": "The 'deprecate' command's --reason option is declared with .requiredOption() rather than .option() with manual validation",
+      "max_score": 10
+    },
+    {
+      "name": "kebab-case flags",
+      "description": "All multi-word option flags use kebab-case (e.g. --dry-run not --dryRun)",
+      "max_score": 8
+    },
+    {
+      "name": "parseAsync with await",
+      "description": "The main entry point calls await program.parseAsync(process.argv)",
+      "max_score": 8
+    },
+    {
+      "name": "Version from package.json",
+      "description": "The program version is loaded from package.json (via import or readFileSync) rather than a hardcoded string literal",
+      "max_score": 4
+    }
+  ]
+}

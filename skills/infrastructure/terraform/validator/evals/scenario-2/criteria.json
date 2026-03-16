@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly identifies both explicit and implicit providers from resource type prefixes, and whether it uses WebSearch (not Context7) for HashiCorp utility providers like random, tls, local, and null.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Explicit provider identified",
+      "description": "The provider_lookup_report.md identifies the `aws` provider as an explicit provider",
+      "max_score": 6
+    },
+    {
+      "name": "Implicit providers identified",
+      "description": "The provider_lookup_report.md identifies at least 3 implicit providers from resource prefixes (random, tls, local, null)",
+      "max_score": 14
+    },
+    {
+      "name": "Prefix extraction documented",
+      "description": "The report shows the logic of extracting provider names from resource type prefixes (e.g., 'random' from 'random_id', 'tls' from 'tls_private_key')",
+      "max_score": 10
+    },
+    {
+      "name": "WebSearch for utility providers",
+      "description": "The report documents using WebSearch (not Context7) for at least one utility provider (random, tls, local, or null)",
+      "max_score": 14
+    },
+    {
+      "name": "Context7 attempted for aws",
+      "description": "The report documents attempting Context7 lookup for the aws provider",
+      "max_score": 8
+    },
+    {
+      "name": "extract_tf_info_wrapper used",
+      "description": "The validation_report.md documents running `bash scripts/extract_tf_info_wrapper.sh` as a step",
+      "max_score": 10
+    },
+    {
+      "name": "Provider docs content included",
+      "description": "The provider_lookup_report.md includes at least some actual documentation content or usage notes (not just a list of provider names)",
+      "max_score": 10
+    },
+    {
+      "name": "terraform fmt run",
+      "description": "The validation_report.md shows `terraform fmt` was run",
+      "max_score": 8
+    },
+    {
+      "name": "terraform validate run",
+      "description": "The validation_report.md shows `terraform validate` was run (after init)",
+      "max_score": 8
+    },
+    {
+      "name": "Security scan run",
+      "description": "The validation_report.md documents a security scan using the checkov wrapper script",
+      "max_score": 12
+    }
+  ]
+}

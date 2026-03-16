@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Identify unquoted variables and word-splitting risks in a bash script and produce corrected code",
+      "feasible": true,
+      "reason": "Agent analyzes provided script text and produces corrected code; no execution required."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Detect bashisms in a POSIX sh script and convert them to portable equivalents",
+      "feasible": true,
+      "reason": "POSIX compliance analysis and code transformation are purely textual tasks."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Identify security vulnerabilities (eval injection, unquoted rm -rf) and produce a secure rewrite",
+      "feasible": true,
+      "reason": "Security anti-pattern detection is a static analysis task; output is verified by inspection."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Apply the structured four-part response format when reporting multiple validation issues",
+      "feasible": true,
+      "reason": "The response format is verifiable from the text the agent produces."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Correctly reject a global ShellCheck suppression and replace it with targeted per-line suppressions",
+      "feasible": true,
+      "reason": "The agent produces a modified script file whose suppression directives can be verified by inspection."
+    }
+  ]
+}

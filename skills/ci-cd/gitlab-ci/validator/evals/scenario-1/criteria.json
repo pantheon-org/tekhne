@@ -1,0 +1,36 @@
+{
+  "context": "Tests that the agent detects the invalid stage reference (lint uses stage: validate which is not declared), the circular/forward needs dependency (unit_tests needs integration_tests which runs in the same stage after it), and produces a corrected pipeline with a structured report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Undeclared stage detected",
+      "description": "syntax-report.md (or equivalent) flags that the `lint` job references stage `validate`, which is not declared in the top-level `stages:` list",
+      "max_score": 25
+    },
+    {
+      "name": "Invalid needs dependency detected",
+      "description": "syntax-report.md flags that `unit_tests` has `needs: integration_tests` but both jobs are in the same stage — this creates an invalid forward/circular dependency since needs must reference jobs in earlier stages or jobs without stage ordering issues",
+      "max_score": 20
+    },
+    {
+      "name": "Undeclared stage corrected in output",
+      "description": "In the corrected .gitlab-ci.yml, the `lint` job either references a declared stage (e.g., `test`) or a new stage (e.g., `validate`) has been added to the top-level `stages:` list",
+      "max_score": 20
+    },
+    {
+      "name": "Invalid needs dependency corrected in output",
+      "description": "In the corrected .gitlab-ci.yml, the `needs: integration_tests` entry is removed from `unit_tests` or the dependency structure is reorganized so it is valid",
+      "max_score": 15
+    },
+    {
+      "name": "Job name provided for each error",
+      "description": "syntax-report.md identifies the job name where each error occurs (not just a line number)",
+      "max_score": 10
+    },
+    {
+      "name": "Violation type explained",
+      "description": "syntax-report.md explains the type of violation (e.g., undeclared stage reference, invalid DAG dependency) and not just that an error exists",
+      "max_score": 10
+    }
+  ]
+}

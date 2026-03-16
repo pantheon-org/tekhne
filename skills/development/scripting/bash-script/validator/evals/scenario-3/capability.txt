@@ -1,0 +1,1 @@
+Identify security vulnerabilities (eval injection, unquoted rm -rf) and produce a secure rewrite

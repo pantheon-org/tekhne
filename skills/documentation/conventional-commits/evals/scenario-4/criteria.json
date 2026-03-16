@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent selects semantically precise types across a mixed set of changes, avoids using 'chore' as a catch-all for build/refactor/style changes, uses scopes appropriately, and follows header formatting rules.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "feat for MFA",
+      "description": "Change #1 (multi-factor authentication) uses 'feat' type",
+      "max_score": 10
+    },
+    {
+      "name": "build for tooling updates",
+      "description": "Change #2 (eslint/prettier upgrade) uses 'build' or 'style' type, NOT 'chore'",
+      "max_score": 12
+    },
+    {
+      "name": "fix for session bug",
+      "description": "Change #3 (session cookie security) uses 'fix' type",
+      "max_score": 10
+    },
+    {
+      "name": "docs for README",
+      "description": "Change #4 (README update) uses 'docs' type",
+      "max_score": 10
+    },
+    {
+      "name": "Appropriate type for script",
+      "description": "Change #5 (migrate:rollback script) uses a semantically precise type such as 'build', 'feat', or 'chore' — if 'chore', there is no better-fitting type that applies",
+      "max_score": 8
+    },
+    {
+      "name": "Imperative mood all five",
+      "description": "All five headers use imperative mood ('add', 'upgrade', 'fix', 'update') not past tense",
+      "max_score": 14
+    },
+    {
+      "name": "Header ≤ 72 chars all five",
+      "description": "All five headers are 72 characters or fewer",
+      "max_score": 12
+    },
+    {
+      "name": "No trailing periods",
+      "description": "None of the five headers end with a period",
+      "max_score": 8
+    },
+    {
+      "name": "Lowercase descriptions",
+      "description": "All five description portions begin with a lowercase letter",
+      "max_score": 8
+    },
+    {
+      "name": "No implementation details in headers",
+      "description": "None of the five headers include specific implementation details (e.g. specific package version numbers, specific file names)",
+      "max_score": 8
+    }
+  ]
+}

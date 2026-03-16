@@ -89,6 +89,32 @@ Script location: `.agents/skills/gitlab-api/scripts/get_mr_comments.sh` (~80 lin
 - Confirm URL format: `https://gitlab.com/group/project/-/merge_requests/ID`
 - Check token has access to the project
 
+## Anti-Patterns
+
+### NEVER hardcode personal access tokens in scripts
+
+- **WHY**: PATs stored in source code are exposed in git history even after removal and create a permanent security risk.
+- **BAD**: `GITLAB_TOKEN="glpat-xxxx"` inline in a script committed to version control.
+- **GOOD**: Read from environment variables (`$GITLAB_TOKEN`) or a secrets manager; document the required scope in README.
+
+### NEVER paginate GitLab API results by hardcoding `?per_page=100` without loop handling
+
+- **WHY**: The API may have fewer results than the page size, or more results than one page; both cases require checking the `X-Next-Page` response header.
+- **BAD**: `curl .../merge_requests?per_page=100` assuming this returns all MRs.
+- **GOOD**: Loop until `X-Next-Page` is empty: check the header in each response and fetch the next page.
+
+### NEVER call the GitLab API without respecting rate limits
+
+- **WHY**: The API enforces rate limits (typically 2000 req/min for REST); bulk operations without backoff will receive `429 Too Many Requests` responses.
+- **BAD**: Parallel bulk API calls without retry logic.
+- **GOOD**: Check for `429` status codes and implement exponential backoff; use the `Retry-After` header when provided.
+
+### NEVER use the `v3` API endpoint
+
+- **WHY**: GitLab removed API v3 in GitLab 11.0; all integrations must use `v4`.
+- **BAD**: `https://gitlab.com/api/v3/projects/...`
+- **GOOD**: `https://gitlab.com/api/v4/projects/...`
+
 ## Critical Pitfalls
 
 - Check System field to exclude bot messages

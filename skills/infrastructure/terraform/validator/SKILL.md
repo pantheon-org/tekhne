@@ -77,53 +77,6 @@ Read these files at the specified points in the workflow:
 | When errors occur | `references/common_errors.md` | Error database with causes and solutions |
 | If Terraform >= 1.10 | `references/advanced_features.md` | Ephemeral values (1.10+), Actions (1.14+), List Resources (1.14+) |
 
-## Quick Reference Commands
-
-### Format and Lint
-
-```bash
-# Check formatting (dry-run)
-terraform fmt -check -recursive .
-
-# Apply formatting
-terraform fmt -recursive .
-
-# Run tflint
-tflint --init              # Install plugins
-tflint --recursive         # Lint all modules
-tflint --format compact    # Compact output
-```
-
-### Validate Configuration
-
-```bash
-terraform init             # Downloads providers and modules
-terraform validate         # Validate syntax
-terraform validate -json   # JSON output
-```
-
-### Security Scanning
-
-```bash
-# Use the wrapper script
-bash scripts/run_checkov.sh ./terraform
-
-# With specific options
-bash scripts/run_checkov.sh -f json ./terraform
-bash scripts/run_checkov.sh --compact ./terraform
-```
-
-### Dry-Run Testing
-
-```bash
-terraform plan                               # Generate execution plan
-terraform plan -out=tfplan                   # Save plan to file
-terraform plan -var-file="production.tfvars" # Plan with var file
-terraform plan -target=aws_instance.example  # Plan specific resource
-```
-
-**Plan output symbols:** `+` create · `-` destroy · `~` modify · `-/+` replace
-
 ## Security Finding Reports
 
 When reporting security findings from Checkov/Trivy scans, cross-reference specific sections from `security_checklist.md`. The security checklist contains:
@@ -217,3 +170,76 @@ Read `references/advanced_features.md` when:
 - **k8s-yaml-validator** — For Terraform Kubernetes provider validation
 - **helm-validator** — When Terraform manages Helm releases
 - **k8s-debug** — For debugging infrastructure provisioned by Terraform
+
+## Anti-Patterns
+
+### NEVER skip `terraform validate` before `tflint`
+
+- **WHY**: `terraform validate` checks provider schema compliance and catches type errors that tflint rules cannot detect; without it, tflint may produce misleading or incomplete output.
+- **BAD**: Run only `tflint --recursive` and treat a clean result as validation complete.
+- **GOOD**: Always run `terraform init -backend=false && terraform validate` first, then `tflint --recursive`.
+
+### NEVER ignore `tflint` warnings for missing variable declarations
+
+- **WHY**: Undeclared variables are silently treated as null by Terraform, masking misconfiguration that only surfaces as a runtime error at apply time.
+- **BAD**: Dismiss `terraform_required_variables` warnings from tflint as non-critical.
+- **GOOD**: Declare every variable in `variables.tf` with type and description; run `terraform validate` to confirm no undeclared references remain.
+
+### NEVER use Checkov or `tfsec` results as the sole security gate
+
+- **WHY**: These tools flag known-bad rule violations but cannot reason about your organization's specific threat model; automated exit codes alone are insufficient for high-severity findings.
+- **BAD**: Automate all security approval or denial decisions solely on Checkov exit code with no human review.
+- **GOOD**: Use Checkov to automatically block known-bad patterns; route HIGH and CRITICAL findings to a human review step before merging.
+
+### NEVER validate modules in isolation without testing from the calling root configuration
+
+- **WHY**: A module that validates cleanly in isolation can still fail when integrated with incompatible variable types or missing required inputs from the root.
+- **BAD**: Run `terraform validate` inside `modules/network/` independently and skip root-level testing.
+- **GOOD**: Validate from the root configuration that calls the module using realistic variable values (e.g., via a `terraform.tfvars` fixture).
+
+## References
+
+### Format and Lint
+
+```bash
+# Check formatting (dry-run)
+terraform fmt -check -recursive .
+
+# Apply formatting
+terraform fmt -recursive .
+
+# Run tflint
+tflint --init              # Install plugins
+tflint --recursive         # Lint all modules
+tflint --format compact    # Compact output
+```
+
+### Validate Configuration
+
+```bash
+terraform init             # Downloads providers and modules
+terraform validate         # Validate syntax
+terraform validate -json   # JSON output
+```
+
+### Security Scanning
+
+```bash
+# Use the wrapper script
+bash scripts/run_checkov.sh ./terraform
+
+# With specific options
+bash scripts/run_checkov.sh -f json ./terraform
+bash scripts/run_checkov.sh --compact ./terraform
+```
+
+### Dry-Run Testing
+
+```bash
+terraform plan                               # Generate execution plan
+terraform plan -out=tfplan                   # Save plan to file
+terraform plan -var-file="production.tfvars" # Plan with var file
+terraform plan -target=aws_instance.example  # Plan specific resource
+```
+
+**Plan output symbols:** `+` create · `-` destroy · `~` modify · `-/+` replace

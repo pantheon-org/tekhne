@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent presents query construction incrementally (step-by-step mode), follows the correct filter ordering in each step, and provides usage instructions and customization notes as required by Stage 5a and Stage 6 of the skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Incremental steps present",
+      "description": "The document shows at least 3 distinct intermediate queries, each building on the previous step (stream selector → line filter → parser → label filter)",
+      "max_score": 20
+    },
+    {
+      "name": "Line filter before parser in steps",
+      "description": "The step that adds a line filter (|= \"error\" or similar) appears BEFORE the step that adds the json parser",
+      "max_score": 15
+    },
+    {
+      "name": "Each step explained",
+      "description": "Each intermediate step is accompanied by a plain-English explanation of what it adds and why",
+      "max_score": 12
+    },
+    {
+      "name": "line_format used for output",
+      "description": "The final query uses line_format or label_format to surface the error_type and message fields prominently",
+      "max_score": 15
+    },
+    {
+      "name": "Filter ordering correct in final query",
+      "description": "In the final query, line filter comes before json parser, and label filters (level, component) come after the parser",
+      "max_score": 15
+    },
+    {
+      "name": "Two usage methods provided",
+      "description": "The document mentions at least two ways to run the query (e.g. Grafana Explore UI and logcli, or HTTP API)",
+      "max_score": 10
+    },
+    {
+      "name": "Customization notes present",
+      "description": "The document identifies at least one label or value to change when moving from staging to production",
+      "max_score": 8
+    },
+    {
+      "name": "Specific stream selector",
+      "description": "The final query stream selector includes at least two label matchers",
+      "max_score": 5
+    }
+  ]
+}

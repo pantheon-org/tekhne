@@ -277,7 +277,39 @@ When delivering a configuration:
 | Bandwidth | Enable `compression gzip` on network outputs |
 | Structured logs | Prefer JSON app logs; use `Merge_Log On` in K8s filter |
 
-## Resources
+## Anti-Patterns
+
+### NEVER use `Match *` on all output plugins simultaneously
+
+- **WHY**: Broadcasting all logs to every output creates duplicate records in each destination, generates unexpected ingestion costs, and leaks logs intended for one system (e.g., a debug sink) into another (e.g., a billed SaaS platform).
+- **BAD**: Three separate output plugins all configured with `Match *`.
+- **GOOD**: Use distinct tag namespaces (`kube.*`, `app.*`, `system.*`) and route each namespace to its intended destination with a specific `Match` pattern.
+
+### NEVER omit `Mem_Buf_Limit` on INPUT plugins
+
+- **WHY**: Without a memory buffer limit, backpressure from a slow or unavailable output causes the input buffer to grow without bound, leading to OOM kills of the Fluent Bit process and log loss.
+- **BAD**: `[INPUT] Name tail Tag app.*` with no `Mem_Buf_Limit` setting.
+- **GOOD**: Add `Mem_Buf_Limit 50MB` to every tail input (adjust the value based on measured log volume).
+
+### NEVER use `Retry_Limit False` in outputs without monitoring
+
+- **WHY**: Infinite retries mask persistent delivery failures. Retry buffers accumulate on disk, eventually exhausting storage and causing Fluent Bit to drop new logs to protect itself.
+- **BAD**: `Retry_Limit False` in an output plugin with no alerting on delivery failure metrics.
+- **GOOD**: Set `Retry_Limit 5` and monitor for delivery failures using Fluent Bit's built-in Prometheus metrics (`/api/v1/metrics`).
+
+### NEVER parse structured logs with a regexp parser when `json` or `logfmt` parsers apply
+
+- **WHY**: Regexp parsers are fragile — they break when log format details change — and CPU-intensive compared to native parsers. Using them for standard formats sacrifices correctness and performance for no benefit.
+- **BAD**: `Parser regex_json` configured to extract fields from JSON-formatted log lines.
+- **GOOD**: `Parser json` — simpler, faster, and guaranteed to handle all valid JSON log output correctly.
+
+### NEVER store sensitive values directly in `fluent-bit.conf`
+
+- **WHY**: Configuration files are routinely committed to source control, copied into container images, and displayed in support tickets. Inline credentials are then exposed to anyone who can read the file.
+- **BAD**: `HTTP_Passwd secretpassword` written directly in the config file.
+- **GOOD**: Reference environment variables — `HTTP_Passwd ${LOKI_PASSWORD}` — and inject the value at runtime via Kubernetes secrets or a secrets manager.
+
+## References
 
 | Resource | Purpose |
 |---|---|

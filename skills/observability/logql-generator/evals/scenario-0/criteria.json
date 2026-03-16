@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent applies correct filter ordering (line filter before parser) and selects the most appropriate parser for a semi-structured nginx access log. Both the log-filter query and metric query should demonstrate these principles.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Line filter before parser",
+      "description": "The 5xx log-filter query places a line filter (e.g. |= \"50\" or |~ \"5[0-9]{2}\") BEFORE the parser stage — not after it",
+      "max_score": 20
+    },
+    {
+      "name": "Pattern parser used",
+      "description": "Uses the pattern parser (| pattern \"...\") to extract fields from the nginx access log format rather than regexp or json",
+      "max_score": 20
+    },
+    {
+      "name": "Specific stream selector",
+      "description": "Stream selector includes at least two label matchers (e.g. job and namespace, or job and cluster) rather than a single broad label",
+      "max_score": 10
+    },
+    {
+      "name": "Status code via label filter",
+      "description": "After parsing, the status code is filtered via a label filter (e.g. status >= 500) rather than only relying on the line filter",
+      "max_score": 10
+    },
+    {
+      "name": "rate() for metric query",
+      "description": "The metric (rate) query uses rate() not count_over_time()",
+      "max_score": 15
+    },
+    {
+      "name": "sum by method grouping",
+      "description": "The metric query aggregates using sum by (method) or equivalent grouping on the extracted HTTP method label",
+      "max_score": 10
+    },
+    {
+      "name": "Customization notes present",
+      "description": "The output document includes notes identifying which labels or values to change (e.g. namespace, cluster, time window)",
+      "max_score": 8
+    },
+    {
+      "name": "Query explanations present",
+      "description": "Each query is accompanied by a plain-English explanation of what it returns and how to interpret results",
+      "max_score": 7
+    }
+  ]
+}

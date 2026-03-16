@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent creates deployment jobs with explicit environment declarations, resource_group to prevent concurrent deployments, manual approval gates for upper environments, and rules-based branch conditions rather than only/except.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "environment block on deploy jobs",
+      "description": "Each deployment job (development, staging, production) includes an `environment:` key with at least a `name:` field",
+      "max_score": 12
+    },
+    {
+      "name": "environment name lowercase",
+      "description": "Environment `name:` values are lowercase (development, staging, production — not Development, PRODUCTION)",
+      "max_score": 8
+    },
+    {
+      "name": "resource_group on deploy jobs",
+      "description": "At least the staging and production deployment jobs include a `resource_group:` key to prevent concurrent runs",
+      "max_score": 12
+    },
+    {
+      "name": "when: manual for production",
+      "description": "The production deployment job has `when: manual` (or equivalent in a rules condition)",
+      "max_score": 12
+    },
+    {
+      "name": "Production restricted to main branch",
+      "description": "The production deployment job has a `rules:` condition that limits it to runs on the `main` branch",
+      "max_score": 10
+    },
+    {
+      "name": "No only/except",
+      "description": "The YAML does NOT use `only:` or `except:` keywords",
+      "max_score": 10
+    },
+    {
+      "name": "Image pinned",
+      "description": "All `image:` values specify a version other than `:latest`",
+      "max_score": 8
+    },
+    {
+      "name": "No hardcoded secrets",
+      "description": "The YAML does NOT contain hardcoded tokens, passwords, or API keys",
+      "max_score": 10
+    },
+    {
+      "name": "Kebab-case job names",
+      "description": "Deployment job names use kebab-case (e.g. deploy-production, deploy-staging)",
+      "max_score": 8
+    },
+    {
+      "name": "timeout on deploy jobs",
+      "description": "Deployment jobs include a `timeout:` field",
+      "max_score": 10
+    }
+  ]
+}

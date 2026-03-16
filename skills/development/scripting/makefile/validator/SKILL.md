@@ -68,7 +68,7 @@ Info:     1
 ### Scenario 1: Pre-commit Validation
 
 ```bash
-bash .claude/skills/makefile-validator/scripts/validate_makefile.sh Makefile
+bash scripts/validate_makefile.sh Makefile
 ```
 
 ### Scenario 2: Formatting Consistency
@@ -81,7 +81,7 @@ mbake format --diff Makefile
 mbake format Makefile
 
 # Re-validate
-bash .claude/skills/makefile-validator/scripts/validate_makefile.sh Makefile
+bash scripts/validate_makefile.sh Makefile
 ```
 
 ### Scenario 3: Converting Legacy Makefiles
@@ -108,7 +108,7 @@ The validator automatically checks for hardcoded credentials, unsafe variable ex
 
 ## Integration with Development Workflow
 
-For pre-commit hooks, CI/CD pipelines (e.g. GitHub Actions), and self-validating Makefile targets, use the validation script at `.claude/skills/makefile-validator/scripts/validate_makefile.sh` and match on files named `Makefile`, `makefile`, or `*.mk`. The script's exit codes (0/1/2) map cleanly to pass/warn/fail states for any automation context. See `references/bake-tool.md` for CI/CD configuration details.
+For pre-commit hooks, CI/CD pipelines (e.g. GitHub Actions), and self-validating Makefile targets, use the validation script at `scripts/validate_makefile.sh` and match on files named `Makefile`, `makefile`, or `*.mk`. The script's exit codes (0/1/2) map cleanly to pass/warn/fail states for any automation context. See `references/bake-tool.md` for CI/CD configuration details.
 
 ## Installation Requirements
 
@@ -146,15 +146,53 @@ makefile-validator/
     └── bad-makefile.mk         # Anti-patterns example
 ```
 
+## Anti-Patterns
+
+### NEVER use spaces instead of tabs for recipe indentation
+
+- **WHY**: GNU Make requires a hard tab character to start recipe lines. Spaces silently produce `missing separator` errors that are notoriously confusing.
+- **BAD**: two spaces then `echo "building"` (spaces instead of tab)
+- **GOOD**: `\techo "building"` (hard tab — `\t`)
+- **DETECTION**: `scripts/validate_makefile.sh` catches this; run `make -n` to surface the error.
+
+### NEVER omit `.PHONY` for non-file targets
+
+- **WHY**: Without `.PHONY`, if a file named `clean` or `test` exists, Make will silently skip the target because it considers it up-to-date.
+- **BAD**: `clean:` with no `.PHONY` declaration
+- **GOOD**: `.PHONY: clean test build all` declared at the top
+
+### NEVER use bare `$(shell ...)` calls in recipe variables without quoting
+
+- **WHY**: Unquoted shell variable expansion in `rm`, `sudo`, or `curl` commands enables command injection when variable values contain spaces or special characters.
+- **BAD**: `rm -rf $(DIR)` when `DIR` can be user-controlled
+- **GOOD**: `rm -rf "$(DIR)"` or validate that `DIR` does not contain path separators
+
+### NEVER use recursive `make` with a bare `make` command
+
+- **WHY**: Bare `make` in a recipe does not inherit the jobserver flags passed by the parent make, breaking parallel builds and potentially starting a separate build chain with different settings.
+- **BAD**: `make -C subdir`
+- **GOOD**: `$(MAKE) -C subdir`
+
+### NEVER export all variables globally with `.EXPORT_ALL_VARIABLES`
+
+- **WHY**: Every variable in scope (including secrets loaded from `.env` files) gets exported to every sub-process, creating credential leakage risk.
+- **BAD**: `.EXPORT_ALL_VARIABLES:` at top of Makefile
+- **GOOD**: Use explicit `export VAR` only for variables that need sub-process visibility
+
 ## Known Limitations
 
 mbake doesn't recognize some valid GNU Make special targets (`.DELETE_ON_ERROR`, `.SUFFIXES`, `.ONESHELL`, `.POSIX`) — the validator filters these false positives and surfaces them as informational messages. The `mbake format --check` vs `mbake format` output may also differ; this is a known upstream issue. See `references/bake-tool.md` for full details including mbake configuration (`~/.bake.toml`) and format-disable comments.
 
-## Resources
+## References
 
-- [GNU Make Manual](https://www.gnu.org/software/make/manual/)
-- [mbake GitHub](https://github.com/EbodShojaei/bake) / [PyPI](https://pypi.org/project/mbake/)
-- [checkmake GitHub](https://github.com/checkmake/checkmake)
-- [Makefile Best Practices](references/best-practices.md)
-- [Common Makefile Mistakes](references/common-mistakes.md)
-- [mbake Tool Reference](references/bake-tool.md)
+**Internal:**
+
+- [Makefile Best Practices](references/best-practices.md) — idiomatic target patterns, variable scoping, and build organization guidelines
+- [Common Makefile Mistakes](references/common-mistakes.md) — detailed explanations of errors caught by the validator with fixes
+- [mbake Tool Reference](references/bake-tool.md) — mbake configuration, CI/CD integration, and format-disable comments
+
+**External:**
+
+- [GNU Make Manual](https://www.gnu.org/software/make/manual/) — canonical reference for GNU make syntax, special targets, and built-in variables
+- [mbake GitHub](https://github.com/EbodShojaei/bake) — source and issue tracker for the mbake formatter
+- [checkmake GitHub](https://github.com/checkmake/checkmake) — optional linter for `.PHONY` and rule declaration checks

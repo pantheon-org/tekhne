@@ -20,8 +20,8 @@ Complete azure-pipelines toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [azure-pipelines-generator](/tekhne/skills/ci-cd/azure-pipelines/generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
-| [azure-pipelines-validator](/tekhne/skills/ci-cd/azure-pipelines/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [azure-pipelines-generator](/tekhne/skills/ci-cd/azure-pipelines/generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
+| [azure-pipelines-validator](/tekhne/skills/ci-cd/azure-pipelines/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### gitlab-ci-toolkit
 
@@ -31,8 +31,8 @@ Complete GitLab CI/CD toolkit with generation and validation capabilities for pi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [gitlab-ci-generator](/tekhne/skills/ci-cd/gitlab-ci/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
-| [gitlab-ci-validator](/tekhne/skills/ci-cd/gitlab-ci/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [gitlab-ci-generator](/tekhne/skills/ci-cd/gitlab-ci/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [gitlab-ci-validator](/tekhne/skills/ci-cd/gitlab-ci/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### fluentbit-toolkit
 
@@ -42,8 +42,8 @@ Complete fluentbit toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [fluentbit-generator](/tekhne/skills/ci-cd/fluentbit/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
-| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [fluentbit-generator](/tekhne/skills/ci-cd/fluentbit/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### jenkinsfile-toolkit
 
@@ -53,8 +53,8 @@ Complete jenkinsfile toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [jenkinsfile-generator](/tekhne/skills/ci-cd/jenkinsfile/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
-| [jenkinsfile-validator](/tekhne/skills/ci-cd/jenkinsfile/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [jenkinsfile-generator](/tekhne/skills/ci-cd/jenkinsfile/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [jenkinsfile-validator](/tekhne/skills/ci-cd/jenkinsfile/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### helm-toolkit
 
@@ -64,8 +64,8 @@ Complete helm toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [helm-generator](/tekhne/skills/ci-cd/helm/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
-| [helm-validator](/tekhne/skills/ci-cd/helm/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [helm-generator](/tekhne/skills/ci-cd/helm/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [helm-validator](/tekhne/skills/ci-cd/helm/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### github-actions-toolkit
 
@@ -75,8 +75,8 @@ Complete GitHub Actions toolkit with generation and validation capabilities for 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [github-actions-generator](/tekhne/skills/ci-cd/github-actions/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
-| [github-actions-validator](/tekhne/skills/ci-cd/github-actions/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [github-actions-generator](/tekhne/skills/ci-cd/github-actions/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [github-actions-validator](/tekhne/skills/ci-cd/github-actions/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ---
 
@@ -92,8 +92,8 @@ Complete terraform toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [terraform-generator](/tekhne/skills/infrastructure/terraform/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
-| [terraform-validator](/tekhne/skills/infrastructure/terraform/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [terraform-generator](/tekhne/skills/infrastructure/terraform/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [terraform-validator](/tekhne/skills/infrastructure/terraform/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### dockerfile-toolkit
 
@@ -103,8 +103,8 @@ Complete dockerfile toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [dockerfile-generator](/tekhne/skills/infrastructure/dockerfile/generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
-| [dockerfile-validator](/tekhne/skills/infrastructure/dockerfile/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [dockerfile-generator](/tekhne/skills/infrastructure/dockerfile/generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
+| [dockerfile-validator](/tekhne/skills/infrastructure/dockerfile/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
 
 ### terragrunt-toolkit
 
@@ -114,8 +114,8 @@ Complete terragrunt toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [terragrunt-generator](/tekhne/skills/infrastructure/terragrunt/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
-| [terragrunt-validator](/tekhne/skills/infrastructure/terragrunt/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [terragrunt-generator](/tekhne/skills/infrastructure/terragrunt/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [terragrunt-validator](/tekhne/skills/infrastructure/terragrunt/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
 
 ### k8s-toolkit
 
@@ -157,8 +157,8 @@ Complete ansible toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [ansible-generator](/tekhne/skills/infrastructure/ansible/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
-| [ansible-validator](/tekhne/skills/infrastructure/ansible/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [ansible-generator](/tekhne/skills/infrastructure/ansible/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [ansible-validator](/tekhne/skills/infrastructure/ansible/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
 
 ### cdk-nag
 
@@ -168,7 +168,7 @@ Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding r
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [cdk-nag](/tekhne/skills/infrastructure/aws-cdk/cdk-nag/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [cdk-nag](/tekhne/skills/infrastructure/aws-cdk/cdk-nag/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
 
 ---
 
@@ -184,7 +184,7 @@ Integrate Biome into Nx monorepos with deterministic setup, caching, migration f
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-biome-integration](/tekhne/skills/repository-mgmt/nx/biome-integration/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [nx-biome-integration](/tekhne/skills/repository-mgmt/nx/biome-integration/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 4 |
 
 ### nx-bun-integration
 
@@ -194,7 +194,7 @@ Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executo
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-bun-integration](/tekhne/skills/repository-mgmt/nx/bun-integration/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [nx-bun-integration](/tekhne/skills/repository-mgmt/nx/bun-integration/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 4 |
 
 ### nx-workspace-patterns
 
@@ -204,7 +204,7 @@ Configure and optimize Nx monorepo workspaces with deterministic project-graph s
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-workspace-patterns](/tekhne/skills/repository-mgmt/nx/workspace-patterns/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [nx-workspace-patterns](/tekhne/skills/repository-mgmt/nx/workspace-patterns/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 4 |
 
 ### nx-plugin-toolkit
 
@@ -214,7 +214,7 @@ Complete Nx plugin development toolkit: create custom generators, executors, and
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-plugin-authoring](/tekhne/skills/repository-mgmt/nx/nx-plugin-authoring/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-06 | - |
+| [nx-plugin-authoring](/tekhne/skills/repository-mgmt/nx/nx-plugin-authoring/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-06 | 5 |
 
 ### nx-vite-integration
 
@@ -224,7 +224,7 @@ Configure and integrate Vite in Nx monorepos for applications and libraries. Cov
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-vite-integration](/tekhne/skills/repository-mgmt/nx/vite-integration/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [nx-vite-integration](/tekhne/skills/repository-mgmt/nx/vite-integration/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
 
 ---
 
@@ -240,8 +240,8 @@ Complete makefile toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [makefile-generator](/tekhne/skills/development/scripting/makefile/generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
-| [makefile-validator](/tekhne/skills/development/scripting/makefile/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [makefile-generator](/tekhne/skills/development/scripting/makefile/generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
+| [makefile-validator](/tekhne/skills/development/scripting/makefile/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### bash-script-toolkit
 
@@ -251,8 +251,8 @@ Complete bash-script toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [bash-script-generator](/tekhne/skills/development/scripting/bash-script/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
-| [bash-script-validator](/tekhne/skills/development/scripting/bash-script/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [bash-script-generator](/tekhne/skills/development/scripting/bash-script/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [bash-script-validator](/tekhne/skills/development/scripting/bash-script/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
 
 ### commanderjs
 
@@ -262,7 +262,7 @@ Complete Commander.js CLI framework guidance covering command structure, options
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [commanderjs](/tekhne/skills/development/commanderjs/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [commanderjs](/tekhne/skills/development/commanderjs/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### bun-development
 
@@ -272,7 +272,7 @@ Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package managemen
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [bun-development](/tekhne/skills/development/bun-development/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [bun-development](/tekhne/skills/development/bun-development/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
 
 ### biome-complete
 
@@ -282,7 +282,7 @@ Complete Biome toolchain guidance for real repository workflows. Use when users 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [biome-complete](/tekhne/skills/development/biome-complete/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-02 | - |
+| [biome-complete](/tekhne/skills/development/biome-complete/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-02 | 5 |
 
 ### typescript-advanced
 
@@ -292,7 +292,7 @@ Comprehensive TypeScript guidance covering compiler configuration, advanced type
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [typescript-advanced](/tekhne/skills/development/typescript-advanced/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [typescript-advanced](/tekhne/skills/development/typescript-advanced/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
 
 ### website-theme-porter
 
@@ -362,7 +362,7 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [tessl-publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-03 | 9 |
+| [tessl-publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-03 | 14 |
 
 ---
 
@@ -398,7 +398,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [ui-debug-workflow](/tekhne/skills/testing/ui-debug-workflow/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [ui-debug-workflow](/tekhne/skills/testing/ui-debug-workflow/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
 
 ---
 
@@ -414,10 +414,10 @@ Strategic architecture, tactical design, and testable code principles (SOLID, Cl
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [solid-principles](/tekhne/skills/software-engineering/design-principles/solid-principles/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | - |
-| [clean-architecture](/tekhne/skills/software-engineering/design-principles/clean-architecture/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | - |
-| [design-patterns](/tekhne/skills/software-engineering/design-principles/design-patterns/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | - |
-| [testable-design](/tekhne/skills/software-engineering/design-principles/testable-design/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | - |
+| [solid-principles](/tekhne/skills/software-engineering/design-principles/solid-principles/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
+| [clean-architecture](/tekhne/skills/software-engineering/design-principles/clean-architecture/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
+| [design-patterns](/tekhne/skills/software-engineering/design-principles/design-patterns/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
+| [testable-design](/tekhne/skills/software-engineering/design-principles/testable-design/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
 
 ---
 
@@ -433,7 +433,7 @@ Generate label matchers, line filters, log aggregations, and metric queries in L
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [logql-generator](/tekhne/skills/observability/logql-generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [logql-generator](/tekhne/skills/observability/logql-generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ### promql-toolkit
 
@@ -443,8 +443,8 @@ Complete PromQL toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [promql-generator](/tekhne/skills/observability/promql/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
-| [promql-validator](/tekhne/skills/observability/promql/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [promql-generator](/tekhne/skills/observability/promql/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [promql-validator](/tekhne/skills/observability/promql/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 4 |
 
 ---
 
@@ -460,7 +460,7 @@ Author high-quality Markdown documentation with deterministic structure, lint co
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | - |
+| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 4 |
 
 ### plain-english
 
@@ -500,7 +500,7 @@ Skill for creating structured, semantic commit messages following the Convention
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | - |
+| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
 ---
 
@@ -516,7 +516,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [mise-complete](/tekhne/skills/package-mgmt/mise-complete/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [mise-complete](/tekhne/skills/package-mgmt/mise-complete/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 4 |
 
 ---
 
@@ -542,7 +542,7 @@ Create context files (plans, justifications, scratches) in .context/ directory w
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | - |
+| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
 
 ### moscow-prioritization
 
@@ -552,7 +552,7 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [moscow-prioritization](/tekhne/skills/project-mgmt/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [moscow-prioritization](/tekhne/skills/project-mgmt/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
 
 ### implementation-plan-splitter
 
@@ -578,7 +578,7 @@ Query and display available GitHub Copilot AI models with their capabilities, co
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [github-copilot-models](/tekhne/skills/specialized/github-copilot-models/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | - |
+| [github-copilot-models](/tekhne/skills/specialized/github-copilot-models/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
 
 ### gitlab-api
 
@@ -598,4 +598,4 @@ Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [colyseus-multiplayer](/tekhne/skills/specialized/colyseus-multiplayer/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
+| [colyseus-multiplayer](/tekhne/skills/specialized/colyseus-multiplayer/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |

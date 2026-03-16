@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses the modern `rules` syntax instead of `only`/`except`, pins Docker images to specific versions, sets expire_in on all artifacts, and avoids hardcoded credentials. This is a foundational pipeline scenario covering the most critical anti-patterns.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No only/except used",
+      "description": "The generated YAML does NOT contain `only:` or `except:` keys anywhere",
+      "max_score": 15
+    },
+    {
+      "name": "rules used for branch conditions",
+      "description": "The deploy (or equivalent) job uses a `rules:` block with an `if:` condition referencing `$CI_COMMIT_BRANCH`",
+      "max_score": 12
+    },
+    {
+      "name": "Image pinned to version",
+      "description": "All `image:` declarations (default or per-job) specify a version tag that is NOT `:latest` (e.g. node:20-alpine, node:20.11-alpine3.19)",
+      "max_score": 12
+    },
+    {
+      "name": "expire_in on all artifacts",
+      "description": "Every `artifacts:` block that contains `paths:` also contains an `expire_in:` field",
+      "max_score": 12
+    },
+    {
+      "name": "No hardcoded secrets",
+      "description": "The YAML does NOT contain any hardcoded token, password, or API key strings — credentials referenced only via CI variables (e.g. $DEPLOY_TOKEN)",
+      "max_score": 10
+    },
+    {
+      "name": "Kebab-case job names",
+      "description": "All job names use kebab-case (e.g. build-app, run-tests, deploy-staging) not snake_case or PascalCase",
+      "max_score": 8
+    },
+    {
+      "name": "UPPER_SNAKE_CASE variables",
+      "description": "Any pipeline-level `variables:` blocks use UPPER_SNAKE_CASE keys",
+      "max_score": 8
+    },
+    {
+      "name": "timeout set on jobs",
+      "description": "At least one job or the `default:` block includes a `timeout:` field",
+      "max_score": 8
+    },
+    {
+      "name": "Specific artifact paths",
+      "description": "Artifact `paths:` list specific directories (e.g. dist/, coverage/) rather than a wildcard like ./**",
+      "max_score": 8
+    },
+    {
+      "name": "Stages declared",
+      "description": "The pipeline declares a `stages:` list with at least build, test, and deploy (or equivalents)",
+      "max_score": 7
+    }
+  ]
+}

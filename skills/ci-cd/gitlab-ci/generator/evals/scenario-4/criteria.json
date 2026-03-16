@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses $CI_COMMIT_SHORT_SHA for image tagging, avoids hardcoded credentials in favour of GitLab predefined registry variables, pins the Docker image to a specific version, and uses rules rather than only/except to restrict the push to main.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "CI_COMMIT_SHORT_SHA for tag",
+      "description": "The image tag uses `$CI_COMMIT_SHORT_SHA` (or `$CI_COMMIT_SHA`) to produce a unique, commit-traceable tag",
+      "max_score": 15
+    },
+    {
+      "name": "No hardcoded credentials",
+      "description": "The YAML does NOT contain literal registry URLs with embedded usernames/passwords or hardcoded token strings",
+      "max_score": 12
+    },
+    {
+      "name": "Registry variables used for auth",
+      "description": "Docker login uses GitLab's predefined registry variables: $CI_REGISTRY, $CI_REGISTRY_USER, $CI_REGISTRY_PASSWORD",
+      "max_score": 12
+    },
+    {
+      "name": "Docker image pinned",
+      "description": "The `image:` for the Docker build job is pinned to a specific version (e.g. docker:24-dind or docker:24.0) — NOT docker:latest",
+      "max_score": 10
+    },
+    {
+      "name": "No only/except",
+      "description": "The YAML does NOT use `only:` or `except:`",
+      "max_score": 10
+    },
+    {
+      "name": "rules restricts to main",
+      "description": "The build/push job has a `rules:` condition limiting it to runs on the `main` branch (or equivalent)",
+      "max_score": 10
+    },
+    {
+      "name": "CI_REGISTRY_IMAGE used",
+      "description": "The image name references `$CI_REGISTRY_IMAGE` (or a variable derived from it) rather than a hardcoded registry path",
+      "max_score": 10
+    },
+    {
+      "name": "timeout set",
+      "description": "The Docker build job includes a `timeout:` field",
+      "max_score": 8
+    },
+    {
+      "name": "retry configured",
+      "description": "The build or push job has a `retry:` block to handle transient registry failures",
+      "max_score": 8
+    },
+    {
+      "name": "expire_in on artifacts if present",
+      "description": "If any `artifacts:` block with `paths:` is present, it includes `expire_in:`",
+      "max_score": 5
+    }
+  ]
+}

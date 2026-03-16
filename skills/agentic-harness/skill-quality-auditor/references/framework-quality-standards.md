@@ -87,6 +87,7 @@ Requirements for achieving A-grade (≥126/140) on skill-judge evaluation. Use t
 - [ ] No harness-specific paths (`.opencode/`, `.claude/`, `.cursor/`)
 - [ ] No agent-specific references (Claude Code, Cursor Agent, etc.)
 - [ ] Uses relative paths (`scripts/`, `references/`, `templates/`)
+- [ ] `## References` is last H2, uses `Topic | Reference | When to Use` table format
 
 ### D5: Progressive Disclosure (≥13/15)
 

@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent authors a correctly structured README following the skill's heading hierarchy, code fence, and list consistency rules.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Document structure matches required section order",
+      "description": "The README contains H2 sections for Overview, Installation, Usage, Commands, Configuration, and Contributing, in that order.",
+      "max_score": 20
+    },
+    {
+      "name": "Heading levels are sequential with no skips",
+      "description": "There are no heading level jumps in the document. Every H3 appears under an H2 parent, and no H4 appears without an H3 parent.",
+      "max_score": 20
+    },
+    {
+      "name": "All code blocks have explicit language tags",
+      "description": "Every fenced code block in the document has a language tag. Shell commands use `bash`, config examples use `yaml` or `json`.",
+      "max_score": 20
+    },
+    {
+      "name": "List markers are consistent throughout",
+      "description": "All bullet list items use the same marker style. No mixing of `-`, `*`, and `+` within or across lists.",
+      "max_score": 15
+    },
+    {
+      "name": "Commands section includes a formatted table",
+      "description": "The Commands section contains a Markdown table with columns for command name, syntax, and description. The table is properly formatted with aligned pipe characters.",
+      "max_score": 25
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "context": "Tests that the agent uses distinct tag namespaces and specific Match patterns to route each log source to its intended destination, rather than using Match * on all outputs simultaneously.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Distinct tag namespaces",
+      "description": "The two INPUT plugins use different Tag values (e.g., app.* and kube.*) rather than the same tag on both",
+      "max_score": 20
+    },
+    {
+      "name": "No shared Match *",
+      "description": "The Loki OUTPUT and S3 OUTPUT do NOT both use Match * — at least one has a specific match pattern",
+      "max_score": 20
+    },
+    {
+      "name": "Scoped Match patterns",
+      "description": "Each OUTPUT's Match value corresponds to only the tag namespace of its intended INPUT source",
+      "max_score": 15
+    },
+    {
+      "name": "Routing documented",
+      "description": "routing.md (or equivalent) maps each INPUT to its corresponding OUTPUT(s) by tag",
+      "max_score": 10
+    },
+    {
+      "name": "Retry_Limit on both outputs",
+      "description": "Both the Loki OUTPUT and S3 OUTPUT include a numeric Retry_Limit setting",
+      "max_score": 10
+    },
+    {
+      "name": "Mem_Buf_Limit on inputs",
+      "description": "Both tail INPUT plugins include Mem_Buf_Limit",
+      "max_score": 10
+    },
+    {
+      "name": "S3 compression",
+      "description": "The S3 OUTPUT includes compression gzip",
+      "max_score": 5
+    },
+    {
+      "name": "storage.total_limit_size",
+      "description": "At least one OUTPUT includes storage.total_limit_size",
+      "max_score": 5
+    },
+    {
+      "name": "Exclude_Path on container input",
+      "description": "The tail INPUT watching /var/log/containers/ includes an Exclude_Path that filters out fluent-bit's own logs",
+      "max_score": 5
+    }
+  ]
+}

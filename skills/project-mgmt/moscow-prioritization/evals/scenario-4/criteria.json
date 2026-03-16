@@ -1,0 +1,31 @@
+{
+  "context": "Agent produces a complete decision log for a completed MoSCoW workshop with all required columns and metadata.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Header with release metadata",
+      "description": "decision-log.md contains a header with release name (v2.0), release date (2026-05-01), and log creation date (2026-03-16).",
+      "max_score": 15
+    },
+    {
+      "name": "All six decisions present in table",
+      "description": "The table contains all six requirements with their correct categories (push notifications Must, offline mode Should, biometric Should, animated onboarding Could, two Won'ts).",
+      "max_score": 25
+    },
+    {
+      "name": "Rationale and risk columns populated",
+      "description": "Every row has non-empty business rationale and risk-if-omitted content (not 'N/A' or blank).",
+      "max_score": 25
+    },
+    {
+      "name": "Won't items have review dates",
+      "description": "Both Won't items (Apple Watch, landscape) have explicit review dates matching the provided dates (v3.0 / 2026-Q4 and 2026-08-01).",
+      "max_score": 20
+    },
+    {
+      "name": "Summary counts at bottom",
+      "description": "decision-log.md ends with a summary line stating the count per tier (Must: 1, Should: 2, Could: 1, Won't: 2).",
+      "max_score": 15
+    }
+  ]
+}

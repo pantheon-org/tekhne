@@ -1,0 +1,36 @@
+{
+  "context": "Evaluate the agent's ability to replace Node.js fs calls with Bun-native file I/O APIs correctly",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No node:fs imports in output",
+      "description": "The produced module contains no import from 'node:fs' or require('fs'); all file operations use Bun APIs",
+      "max_score": 15
+    },
+    {
+      "name": "readFileSync replaced with Bun.file().text()",
+      "description": "All readFileSync calls are replaced with await Bun.file(path).text() or equivalent Bun.file() API; async/await is used correctly",
+      "max_score": 25
+    },
+    {
+      "name": "writeFileSync replaced with Bun.write()",
+      "description": "All writeFileSync calls are replaced with await Bun.write(path, content)",
+      "max_score": 20
+    },
+    {
+      "name": "existsSync handled correctly",
+      "description": "existsSync is either replaced with a try/catch around Bun.file().text(), or the agent uses Bun.file(path).exists() (if available in the version) or an appropriate Bun-native alternative; reasoning is explained",
+      "max_score": 20
+    },
+    {
+      "name": "Each substitution explained",
+      "description": "Agent explains each API substitution and states why the Bun-native API is preferred (e.g., lazy loading, no Node.js shims, performance)",
+      "max_score": 10
+    },
+    {
+      "name": "Async signatures updated where needed",
+      "description": "loadConfig is updated to be async since it now uses await; all exported function signatures reflect async/await changes correctly",
+      "max_score": 10
+    }
+  ]
+}

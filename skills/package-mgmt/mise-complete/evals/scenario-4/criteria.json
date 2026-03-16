@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent defines self-contained, deterministic Mise tasks that mirror npm script behavior without relying on implicit shell state or hardcoded environment values.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Node.js 22.4.0 pinned in [tools]",
+      "description": "mise.toml has [tools] section with node = \"22.4.0\" (exact version, not latest or range)",
+      "max_score": 15
+    },
+    {
+      "name": "All 4 tasks defined",
+      "description": "mise.toml defines tasks for build, test, lint, and clean — all four scripts are present",
+      "max_score": 25
+    },
+    {
+      "name": "Task commands match npm script behavior",
+      "description": "Each task run command matches the original npm script (tsc, jest, eslint, rm -rf) — not wrapped in npm run",
+      "max_score": 25
+    },
+    {
+      "name": "Tasks are self-contained",
+      "description": "No task relies on a prior cd command or unexported environment variable; commands work from the project root",
+      "max_score": 20
+    },
+    {
+      "name": "No secrets in [env]",
+      "description": "The mise.toml does not contain API keys, tokens, or credentials in the [env] section",
+      "max_score": 15
+    }
+  ]
+}

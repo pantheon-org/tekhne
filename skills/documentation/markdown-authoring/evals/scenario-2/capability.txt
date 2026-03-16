@@ -1,0 +1,1 @@
+Author a well-structured README from scratch following heading hierarchy and code fence rules

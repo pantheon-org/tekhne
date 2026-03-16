@@ -1,0 +1,1 @@
+Apply YAGNI: avoid premature architectural boundaries

@@ -1,0 +1,1 @@
+Checksum annotations & configmap/secret wiring

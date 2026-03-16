@@ -1,0 +1,36 @@
+{
+  "context": "Tests the plugin documentation lookup workflow: agent should detect the unknown grafanaAnnotate step, check common_plugins.md as the first lookup step, then escalate to Context7 MCP or WebSearch, and produce a research document with parameters and security notes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Main script invoked",
+      "description": "validation-report.md mentions invoking or attempting bash scripts/validate_jenkinsfile.sh",
+      "max_score": 15
+    },
+    {
+      "name": "Unknown step flagged",
+      "description": "validation-report.md identifies grafanaAnnotate as an unrecognized step with its line number",
+      "max_score": 15
+    },
+    {
+      "name": "common_plugins.md checked first",
+      "description": "plugin-research.md or validation process mentions checking references/common_plugins.md as the first step before external search",
+      "max_score": 20
+    },
+    {
+      "name": "External lookup attempted",
+      "description": "Agent uses Context7 MCP or WebSearch to research the plugin after it's not found locally",
+      "max_score": 15
+    },
+    {
+      "name": "Plugin parameters documented",
+      "description": "plugin-research.md includes at least the required parameters for grafanaAnnotate (apiUrl, tags, text or similar)",
+      "max_score": 20
+    },
+    {
+      "name": "Security considerations noted",
+      "description": "plugin-research.md includes security considerations (e.g., API key/token protection, network access implications)",
+      "max_score": 15
+    }
+  ]
+}

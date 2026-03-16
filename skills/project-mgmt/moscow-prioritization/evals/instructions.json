@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Always confirm release constraints (date, budget, team size) before categorizing any requirements.",
+      "relevant_when": "Starting a MoSCoW prioritization session or categorizing requirements for a release.",
+      "why_given": "Categories are invalid without timeline and capacity context; plans built without constraints collapse during execution."
+    },
+    {
+      "instruction": "Apply the failure-focused test for every Must candidate: ask 'Does the release fail without this item?' — if not, it is at most Should.",
+      "relevant_when": "Assigning the Must category to a requirement.",
+      "why_given": "Stakeholder preference is not the same as release-critical need; inflated Must lists block true essentials."
+    },
+    {
+      "instruction": "Validate that Must items do not exceed 60% of total estimated effort. If Must exceeds 60%, rebalance or escalate to stakeholders.",
+      "relevant_when": "After completing initial categorization, before finalizing the priority table.",
+      "why_given": "Must work exceeding 60% of effort makes delivery failure likely; the 60% threshold is the skill's formal validation gate."
+    },
+    {
+      "instruction": "Always include explicit Won't items with a revisit date; never leave the backlog open-ended.",
+      "relevant_when": "Finalizing a MoSCoW priority table.",
+      "why_given": "Missing Won't items invite silent scope creep and cause the team to repeatedly reopen settled decisions."
+    },
+    {
+      "instruction": "Record rationale (business outcome and risk) for every category assignment, not just the item and its tier.",
+      "relevant_when": "Publishing or documenting a MoSCoW decision table.",
+      "why_given": "Unjustified categories cannot be defended in reviews and get re-litigated repeatedly."
+    }
+  ]
+}

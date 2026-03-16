@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent applies no_log to sensitive tasks, keeps secrets out of plaintext group_vars, uses quoted octal permissions, and avoids shell/command for user management. Maps to the secrets management, no_log, and file permissions instructions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "no_log on password tasks",
+      "description": "Every task that references a password variable (pg_readonly_password, pg_writer_password, pg_admin_password) has `no_log: true`",
+      "max_score": 20
+    },
+    {
+      "name": "No plaintext secrets in vars.yml",
+      "description": "The `group_vars/postgres_servers/vars.yml` file does NOT contain any password or secret values — only non-sensitive configuration",
+      "max_score": 15
+    },
+    {
+      "name": "Vault file uses vault references",
+      "description": "The `group_vars/postgres_servers/vault.yml` file uses `!vault |` prefixes or otherwise indicates vault-encrypted values (not plaintext passwords)",
+      "max_score": 15
+    },
+    {
+      "name": "Quoted octal file permissions",
+      "description": "The pg_hba.conf deployment task uses a quoted octal mode string (e.g., `'0640'`)",
+      "max_score": 10
+    },
+    {
+      "name": "FQCN modules used",
+      "description": "All module references use FQCN (e.g., `ansible.builtin.template`, `ansible.builtin.user` or community module FQCN)",
+      "max_score": 12
+    },
+    {
+      "name": "All tasks have name field",
+      "description": "Every task in the playbook has a `name:` field",
+      "max_score": 10
+    },
+    {
+      "name": "Boolean true/false syntax",
+      "description": "All boolean values use `true` or `false`, not `yes` or `no`",
+      "max_score": 8
+    },
+    {
+      "name": "No shell/command for user creation",
+      "description": "Database user creation does NOT use `ansible.builtin.shell` or `ansible.builtin.command` when a dedicated module (ansible.builtin.user, community.postgresql.*) is appropriate",
+      "max_score": 10
+    }
+  ]
+}

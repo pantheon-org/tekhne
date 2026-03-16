@@ -443,7 +443,48 @@ Always consider version compatibility:
 
 > **Version feature matrix and modern Terraform features (1.8+):** See `references/modern_features.md` for the full feature matrix, ephemeral resources, write-only arguments, actions blocks, import blocks with `for_each`, list resources, and query command examples.
 
-## Resources
+## Notes
+
+- Always run devops-skills:terraform-validator after generation
+- Web search is essential for custom providers/modules
+- Follow the principle of least surprise in configurations
+- Make configurations readable and maintainable
+- Include helpful comments and documentation
+- Generate realistic examples in terraform.tfvars when helpful
+
+## Anti-Patterns
+
+### NEVER mix input variable defaults with environment-specific values in the same `variables.tf`
+
+- **WHY**: Variables with environment-specific defaults break reuse across workspaces; every workspace that sources the module inherits the wrong default silently.
+- **BAD**: `default = "us-east-1"` on a `region` variable in a shared module.
+- **GOOD**: Omit `default` on environment-specific variables; pass values via `.tfvars` files or environment variables (`TF_VAR_region`).
+
+### NEVER use `count` to manage resources that differ only by configuration
+
+- **WHY**: `count` creates indexed resources (e.g., `aws_instance.web[0]`) that break when items are removed from the middle of a list, forcing unwanted destroys and recreates.
+- **BAD**: `count = length(var.instance_names)` combined with `var.instance_names[count.index]` for named resources.
+- **GOOD**: Use `for_each` with a map or set to create named resources (e.g., `for_each = toset(var.instance_names)`) that survive insertions and deletions.
+
+### NEVER store Terraform state in a local backend for team or CI use
+
+- **WHY**: Local state cannot be shared, locked, or versioned; concurrent applies corrupt it and there is no recovery path.
+- **BAD**: No `backend {}` block (defaults to local state in `terraform.tfstate`).
+- **GOOD**: Configure `backend "s3" {}` (or equivalent) with a `dynamodb_table` argument for state locking.
+
+### NEVER hardcode provider credentials or region in `.tf` files
+
+- **WHY**: Credentials in source control are a security incident; hardcoded regions prevent cross-region reuse and require code changes for every deployment.
+- **BAD**: `provider "aws" { region = "us-east-1" access_key = "AKIA..." secret_key = "..." }`.
+- **GOOD**: Configure credentials via environment variables (`AWS_REGION`, `AWS_ACCESS_KEY_ID`) or IAM instance/execution roles; set region via `var.aws_region`.
+
+### NEVER use `terraform apply` without a saved plan in CI/CD
+
+- **WHY**: Running `apply` without a saved plan allows Terraform to pick up state changes that occurred between plan and apply, producing a different result than reviewed.
+- **BAD**: `terraform apply -auto-approve` as a single pipeline step.
+- **GOOD**: `terraform plan -out=tfplan` then `terraform apply tfplan` as two separate, sequential pipeline steps.
+
+## References
 
 ### references/
 
@@ -463,12 +504,3 @@ Template files for common setups:
 - `minimal-project/` - Minimal Terraform project template
 - `aws-web-app/` - AWS web application infrastructure template
 - `multi-env/` - Multi-environment configuration template
-
-## Notes
-
-- Always run devops-skills:terraform-validator after generation
-- Web search is essential for custom providers/modules
-- Follow the principle of least surprise in configurations
-- Make configurations readable and maintainable
-- Include helpful comments and documentation
-- Generate realistic examples in terraform.tfvars when helpful

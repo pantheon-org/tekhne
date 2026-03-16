@@ -1,0 +1,1 @@
+File organization and variable declarations

@@ -31,7 +31,7 @@ pre-commit:
       stage_fixed: true
     tessl-lint:
       glob: "skills/**/SKILL.md"
-      run: for f in {staged_files}; do bun run tessl:lint -- "$f"; done
+      run: for f in {staged_files}; do dir=$(dirname "$f"); if [ -f "$dir/tile.json" ]; then bun run tessl:lint -- "$f" || exit 1; fi; done
       stage_fixed: true
     cli-ts-conventions:
       glob: "cli/**/*.ts"

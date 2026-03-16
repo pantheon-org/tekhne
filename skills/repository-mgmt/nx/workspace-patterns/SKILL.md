@@ -162,7 +162,7 @@ rg -n "@nx/enforce-module-boundaries|depConstraints" .
 - **BAD**: cache enabled but no stable inputs/outputs.
 - **GOOD**: declare outputs and relevant named inputs per target.
 
-## Quick Reference
+## References
 
 | Topic | Reference |
 | --- | --- |
@@ -170,8 +170,6 @@ rg -n "@nx/enforce-module-boundaries|depConstraints" .
 | Caching and optimization | [references/caching-strategies.md](references/caching-strategies.md) |
 | Boundaries and tags | [references/project-boundaries.md](references/project-boundaries.md) |
 | Affected commands and CI | [references/affected-commands.md](references/affected-commands.md) |
-
-## References
 
 - [Nx Documentation](https://nx.dev/getting-started/intro)
 - [Module Boundaries](https://nx.dev/core-features/enforce-module-boundaries)

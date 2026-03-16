@@ -1,0 +1,1 @@
+Detect bashisms in a POSIX sh script and convert them to portable equivalents

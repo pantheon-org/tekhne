@@ -1,0 +1,1 @@
+Error handling with block/rescue and avoiding ignore_errors

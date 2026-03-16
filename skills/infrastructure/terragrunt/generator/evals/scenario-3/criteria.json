@@ -1,0 +1,36 @@
+{
+  "context": "Agent generates all seven files for a two-environment, two-module Pattern A Terragrunt infrastructure with correct DRY patterns and environment isolation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Directory tree shown before files",
+      "description": "Agent presents the complete directory tree (infrastructure/ with root.hcl, dev/, prod/ subdirectories) before showing file contents.",
+      "max_score": 10
+    },
+    {
+      "name": "root.hcl is environment-agnostic",
+      "description": "root.hcl does not reference env.hcl, does not hard-code dev or prod, and uses path_relative_to_include() for the state key.",
+      "max_score": 20
+    },
+    {
+      "name": "env.hcl files contain environment-specific values",
+      "description": "dev/env.hcl has environment=dev, vpc_cidr=10.0.0.0/16, instance_type=t3.small. prod/env.hcl has environment=prod, vpc_cidr=10.1.0.0/16, instance_type=m5.large.",
+      "max_score": 15
+    },
+    {
+      "name": "Child modules read env.hcl via read_terragrunt_config",
+      "description": "All four child terragrunt.hcl files include a locals block reading env.hcl and use local.env.locals.* for environment-specific values.",
+      "max_score": 20
+    },
+    {
+      "name": "app dependency on vpc has mock_outputs",
+      "description": "Both app/terragrunt.hcl files (dev and prod) have a dependency on ../vpc with at least one mock_output and mock_outputs_allowed_terraform_commands.",
+      "max_score": 20
+    },
+    {
+      "name": "prod/app has prevent_destroy=true",
+      "description": "infrastructure/prod/app/terragrunt.hcl includes prevent_destroy = true. dev/app does not require it.",
+      "max_score": 15
+    }
+  ]
+}

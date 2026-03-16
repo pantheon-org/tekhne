@@ -195,7 +195,7 @@ nx graph
 rg -n "@Entity|@Injectable|@Component" src/domain
 ```
 
-## Quick Reference
+## References
 
 **Dependencies:** [inward-only](references/dep-inward-only.md) · [acyclic](references/dep-acyclic-dependencies.md) · [data crossing boundaries](references/dep-data-crossing-boundaries.md) · [no framework imports](references/dep-no-framework-imports.md)
 
@@ -210,9 +210,6 @@ rg -n "@Entity|@Injectable|@Component" src/domain
 **Adapters:** [gateway abstraction](references/adapt-gateway-abstraction.md) · [thin controller](references/adapt-controller-thin.md) · [mapper translation](references/adapt-mapper-translation.md) · [presenter formats](references/adapt-presenter-formats.md)
 
 **Frameworks:** [DI at edge](references/frame-di-container-edge.md) · [domain purity](references/frame-domain-purity.md) · [ORM in infrastructure](references/frame-orm-in-infrastructure.md) · [web in infrastructure](references/frame-web-in-infrastructure.md)
-
-## References
-
 - [Clean Architecture (Uncle Bob)](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
 - [Hexagonal Architecture (Alistair Cockburn)](https://alistair.cockburn.us/hexagonal-architecture/)
 - [Screaming Architecture](https://blog.cleancoder.com/uncle-bob/2011/09/30/Screaming-Architecture.html)

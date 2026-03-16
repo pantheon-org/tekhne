@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent generates a complete role structure with role-prefixed variables, OS-specific var files loaded via include_vars, dnf for RHEL, handlers for service restart, and tags. Maps to role structure, variable naming, dnf preference, and OS-specific var instructions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Role variable prefix",
+      "description": "All custom variables are prefixed with `redis_` (e.g., `redis_port`, `redis_max_memory`, `redis_bind`) — no unprefixed variable names like `port` or `max_memory`",
+      "max_score": 15
+    },
+    {
+      "name": "include_vars for OS-specific",
+      "description": "The tasks include a step using `ansible.builtin.include_vars` (or equivalent) to load OS-specific variable files, and separate `vars/Debian.yml` and `vars/RedHat.yml` files exist",
+      "max_score": 12
+    },
+    {
+      "name": "dnf for RHEL, apt for Debian",
+      "description": "RHEL/CentOS package installation uses `ansible.builtin.dnf` (not `ansible.builtin.yum`), and Debian/Ubuntu uses `ansible.builtin.apt`",
+      "max_score": 12
+    },
+    {
+      "name": "Complete role directory files",
+      "description": "The output includes at least: `tasks/main.yml`, `handlers/main.yml`, `defaults/main.yml`, `vars/main.yml`, and `meta/main.yml`",
+      "max_score": 10
+    },
+    {
+      "name": "Service restart via handler",
+      "description": "Config file deployment uses `notify:` to trigger a Redis restart handler rather than a direct restart task",
+      "max_score": 12
+    },
+    {
+      "name": "FQCN modules used",
+      "description": "All module references in task files use FQCN",
+      "max_score": 10
+    },
+    {
+      "name": "All tasks have name field",
+      "description": "Every task has a `name:` field",
+      "max_score": 8
+    },
+    {
+      "name": "Tags on tasks",
+      "description": "Tasks include `tags:` fields using appropriate categories (e.g., `install`, `configure`)",
+      "max_score": 8
+    },
+    {
+      "name": "Defaults file has overridable vars",
+      "description": "`defaults/main.yml` contains the redis port and max memory variables with default values (so they can be overridden by callers)",
+      "max_score": 8
+    },
+    {
+      "name": "Boolean true/false syntax",
+      "description": "All boolean values use `true` or `false`, not `yes` or `no`",
+      "max_score": 5
+    }
+  ]
+}

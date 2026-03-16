@@ -355,7 +355,33 @@ After the user applies fixes:
    kubectl get <resource> -n dev -w  # Watch for successful creation
    ```
 
-## Resources
+## Anti-Patterns
+
+### NEVER use only `kubectl apply --dry-run=client` for validation
+
+- **WHY**: Client-side dry run only checks schema syntax locally; it does not contact the API server and misses server-side admission webhook rejections, quota violations, and custom resource validation.
+- **BAD**: `kubectl apply --dry-run=client -f manifest.yaml` as the sole validation step.
+- **GOOD**: Run `kubectl apply --dry-run=server -f manifest.yaml` to include server-side validation against the real API server.
+
+### NEVER skip namespace-specific validation when resources use ClusterRole or PodSecurityAdmission
+
+- **WHY**: Cluster-level policies differ by namespace; a manifest that validates in one namespace may be rejected in another due to different PodSecurity admission levels or RBAC configurations.
+- **BAD**: Validate in the `default` namespace and deploy to a hardened production namespace without re-validating.
+- **GOOD**: Validate against the target namespace explicitly: `kubectl apply --dry-run=server --namespace=production -f manifest.yaml`.
+
+### NEVER treat kubeconform/kubeval "unknown fields" warnings as acceptable for CRDs
+
+- **WHY**: These warnings mean the schema is not available and validation of those fields was skipped entirely; unknown CRD fields can still cause runtime failures even when kubeconform exits 0.
+- **BAD**: Ignore `--strict` mode warnings for custom resources and ship the manifest assuming it is valid.
+- **GOOD**: Provide the CRD schema file with `--schema-location` so custom resource fields are validated: `kubeconform --schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' --strict manifest.yaml`.
+
+### NEVER validate manifests without also running a policy checker
+
+- **WHY**: kubeconform validates schema but not best practices; Polaris or kube-score flags missing resource limits, missing liveness/readiness probes, privilege escalation, and host-path mounts that schema validation cannot detect.
+- **BAD**: Pass kubeconform with zero errors and ship the manifest without policy scanning.
+- **GOOD**: Run both kubeconform (schema) and Polaris or kube-score (policy) in the validation pipeline before applying to any cluster.
+
+## References
 
 ### scripts/
 

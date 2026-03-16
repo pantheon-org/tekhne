@@ -688,6 +688,34 @@ docs/refactoring/phases/
 
 ---
 
+## Anti-Patterns
+
+### NEVER generate a plan without first reading the full requirements document
+
+- **WHY**: Partial context produces plans with missing dependencies, incorrect phase ordering, and tasks that contradict the actual requirements — errors that are expensive to fix after scaffolding files exist.
+- **BAD**: Skim the first section of the requirements and begin generating phase files before understanding the full scope and constraints.
+- **GOOD**: Read the complete requirements document before designing any phases; ask clarifying questions for ambiguous acceptance criteria before running any scripts.
+
+### NEVER create tasks too large to verify independently
+
+- **WHY**: Tasks that span multiple days or produce multiple unrelated artifacts cannot be meaningfully reviewed, tested in isolation, or handed off to another agent; they become the primary source of plan ambiguity.
+- **BAD**: "Phase 2 Task 3: Implement the entire authentication system" — no single verifiable output, no clear scope boundary, impossible to confirm done.
+- **GOOD**: "Phase 2 Task 3: Implement JWT token issuance endpoint with unit tests" — one endpoint, one test suite, one PR, one runnable verification command.
+
+### NEVER mix technical implementation tasks with cross-cutting concerns in the same phase
+
+- **WHY**: Accessibility, performance, and security requirements affect multiple features; mixing them into feature phases makes them easy to skip, defers them to "later" that never comes, and obscures coverage gaps in review.
+- **BAD**: Scatter "add input validation" and "check for XSS" across individual feature tasks where they are easily overlooked during implementation.
+- **GOOD**: Dedicate a dedicated hardening phase or explicit cross-cutting tasks for security, performance validation, and accessibility review with their own gates.
+
+### NEVER estimate effort without identifying risks and dependencies
+
+- **WHY**: Estimates without risk analysis are systematically optimistic; downstream dependencies and integration risks are the most common source of schedule overruns and are only visible when explicitly listed.
+- **BAD**: Generate a plan with effort estimates per phase and no section identifying external blockers, integration complexity, or uncertainty factors.
+- **GOOD**: Include a dependencies and risks section in each phase README that identifies external blockers, integration complexity, and uncertainty factors alongside the effort estimate.
+
+---
+
 ## Reference
 
 ### Deep dives

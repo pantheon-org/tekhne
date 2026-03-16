@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent produces a script with structured leveled logging (info/warn/error with timestamps to stderr) and input validation via regex before using user-supplied data in system calls. The presence of the sample CSV gives the agent concrete test data.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Leveled log functions",
+      "description": "Script defines separate logging functions for at least three levels (e.g. log_info, log_warn, log_error or equivalents)",
+      "max_score": 10
+    },
+    {
+      "name": "Timestamps in logs",
+      "description": "Log messages include a timestamp using `date` (e.g. `date '+%Y-%m-%d %H:%M:%S'`)",
+      "max_score": 8
+    },
+    {
+      "name": "Logs written to stderr",
+      "description": "All logging functions write to stderr (>&2), not stdout",
+      "max_score": 8
+    },
+    {
+      "name": "Level prefix in messages",
+      "description": "Log messages include a level label such as [INFO], [WARN], or [ERROR] in the output",
+      "max_score": 8
+    },
+    {
+      "name": "Username regex validation",
+      "description": "Script validates each username against a restrictive regex pattern (e.g. ^[a-zA-Z0-9_-]+$ or similar) before using it in system commands",
+      "max_score": 12
+    },
+    {
+      "name": "Bad username rejected",
+      "description": "Script rejects or skips usernames containing special characters like `;` and logs a warning or error for them",
+      "max_score": 10
+    },
+    {
+      "name": "Quoted variable expansions",
+      "description": "Variables derived from CSV fields are quoted when used in commands (e.g. \"${username}\" not $username)",
+      "max_score": 8
+    },
+    {
+      "name": "Strict mode present",
+      "description": "Script includes `set -euo pipefail`",
+      "max_score": 8
+    },
+    {
+      "name": "Dry-run support",
+      "description": "Script implements a dry-run mode (flag or variable) that logs intended actions without executing them",
+      "max_score": 10
+    },
+    {
+      "name": "check_command or equivalent",
+      "description": "Script verifies required commands are available (e.g. useradd, awk) before processing the CSV",
+      "max_score": 8
+    },
+    {
+      "name": "Env shebang",
+      "description": "Shebang uses `#!/usr/bin/env bash`",
+      "max_score": 10
+    }
+  ]
+}

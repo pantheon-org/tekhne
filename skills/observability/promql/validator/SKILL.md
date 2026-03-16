@@ -5,14 +5,6 @@ description: Comprehensive toolkit for validating, optimizing, and understanding
 
 # PromQL Validator
 
-## Reference Materials
-
-- [Best Practices Guide](references/best_practices.md) - Comprehensive PromQL best practices
-- [Anti-Patterns Reference](references/anti_patterns.md) - Detailed anti-pattern explanations
-- [Good Query Examples](assets/good_queries.promql) - Well-written query patterns
-- [Bad Query Examples](assets/bad_queries.promql) - Common mistakes with corrections
-- [Optimization Examples](assets/optimization_examples.promql) - Before/after optimizations
-
 ## Workflow
 
 This skill uses a **two-phase interactive workflow**: Phase 1 (Steps 1-4) presents validation results and asks clarifying questions, then **stops and waits** for user response before proceeding to Phase 2 (Steps 5-7) for tailored recommendations.
@@ -112,6 +104,32 @@ Give the user control:
 
 **Claude**: [provides refined query or alternatives]
 
+## Anti-Patterns
+
+### NEVER accept "syntactically valid" as "production-ready"
+
+- **WHY**: A query can parse without errors but produce wildly wrong results. Syntax validation only confirms the query can be evaluated; semantic validation confirms it measures what you intend.
+- **BAD**: Stop after `validate_syntax.py` returns success
+- **GOOD**: Complete all 7 workflow steps, including intent comparison (Step 5) and optimization review (Step 6)
+
+### NEVER ignore high-cardinality warnings for dashboard queries
+
+- **WHY**: A query missing label filters may work in development against a small data set but create fan-out to thousands of series in production, causing dashboard timeouts.
+- **BAD**: Dismiss the high-cardinality warning with "it works fine locally"
+- **GOOD**: Add `job=`, `namespace=`, or `service=` label filters before merging
+
+### NEVER validate a query without understanding its metric type
+
+- **WHY**: Using `rate()` on a gauge or `avg()` on a histogram quantile produces results that are syntactically valid but statistically wrong. Metric type must be confirmed before the query pattern is evaluated.
+- **BAD**: Validate and optimize purely by pattern-matching without confirming counter vs gauge
+- **GOOD**: Step 4 explicitly asks: "Is this a counter, gauge, histogram, or summary?" before recommending changes
+
+### NEVER skip the `for` clause check on alert expressions
+
+- **WHY**: An alert expression without a `for` clause fires on a single evaluation, causing alert storms from transient spikes. The validator must flag missing `for` on all alerting rules.
+- **BAD**: Accept `expr: error_rate > 0.05` as complete for an alerting rule
+- **GOOD**: Flag absence of `for` and suggest a minimum `for: 2m` to reduce false positives
+
 ## Known Limitations
 
 ### Metric Type Detection
@@ -134,3 +152,11 @@ The skill uses two main Python scripts:
 2. **check_best_practices.py**: Semantic and performance analysis
 
 Both scripts output JSON for programmatic parsing and human-readable messages for display.
+
+## References
+
+- [Best Practices Guide](references/best_practices.md) — comprehensive PromQL best practices covering cardinality, function selection, and alerting rule design
+- [Anti-Patterns Reference](references/anti_patterns.md) — detailed anti-pattern explanations with root causes and correct alternatives
+- [Good Query Examples](assets/good_queries.promql) — well-written query patterns to reference when suggesting corrections
+- [Bad Query Examples](assets/bad_queries.promql) — common mistakes with corrections; cite these when showing users what to avoid
+- [Optimization Examples](assets/optimization_examples.promql) — before/after optimization comparisons for performance improvements

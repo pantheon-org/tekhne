@@ -1,0 +1,1 @@
+Produce a correct root biome.json baseline for an Nx workspace
