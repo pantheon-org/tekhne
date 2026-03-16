@@ -130,6 +130,9 @@ export default defineConfig({
         baseUrl: "https://github.com/pantheon-org/tekhne/edit/main/docs/",
       },
       customCss: ["./src/styles/custom.css"],
+      components: {
+        PageTitle: "./src/components/SkillPageTitle.astro",
+      },
       sidebar: [
         {
           label: "Overview",
@@ -147,6 +150,13 @@ export default defineConfig({
         buildDomainSidebar("software-engineering", "Software Engineering"),
         buildDomainSidebar("specialized", "Specialized"),
         buildDomainSidebar("testing", "Testing"),
+        {
+          label: "References",
+          items: [
+            { label: "tessl.io", link: "https://tessl.io/registry" },
+            { label: "vercel skills", link: "https://skills.sh/" },
+          ],
+        },
       ],
     }),
   ],
