@@ -1,0 +1,21 @@
+{
+  "context": "Agent was asked to add block IDs to a list of sprint tasks so individual items can be referenced from other notes, and to demonstrate the reference syntax.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Block IDs on separate lines after list",
+      "description": "The block ID(s) appear on a separate line after the list block, not appended inline to a list item (e.g. '- Item ^id' is incorrect; the ID must be on its own line after the list)",
+      "max_score": 35
+    },
+    {
+      "name": "Block ID format is valid",
+      "description": "Block IDs use only letters, numbers, and hyphens (e.g. ^auth-task, ^ci-cd-task) — no spaces or special characters",
+      "max_score": 30
+    },
+    {
+      "name": "Block reference syntax demonstrated",
+      "description": "The example reference uses [[sprint-tasks#^block-id]] or [[sprint-tasks-updated#^block-id]] syntax (note name + #^ + block ID inside wikilink)",
+      "max_score": 35
+    }
+  ]
+}
