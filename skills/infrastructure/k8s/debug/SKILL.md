@@ -332,6 +332,32 @@ After any debugging intervention:
    kubectl annotate deployment/<name> debug.issue="ImagePullBackOff due to missing secret"
    ```
 
+## Anti-Patterns
+
+### NEVER exec into a running production pod before checking logs
+
+- **WHY**: Interactive exec changes the live state and may affect running workloads; logs and describe output are safe to read without impact and usually contain the root cause.
+- **BAD**: Immediately running `kubectl exec -it pod-name -- bash` on a production pod for any issue.
+- **GOOD**: Start with `kubectl logs pod-name --previous` and `kubectl describe pod pod-name` to gather context before considering exec.
+
+### NEVER delete and recreate pods to fix issues without understanding the cause
+
+- **WHY**: Blindly recycling pods hides the root cause and may leave a resource in a broken state for the next incident.
+- **BAD**: `kubectl delete pod pod-name` as a first troubleshooting step.
+- **GOOD**: Diagnose with logs and events first; identify whether the issue is a crash loop, OOM kill, config error, or node failure before taking corrective action.
+
+### NEVER use `kubectl get pods` without `-n` or `--all-namespaces` in multi-tenant clusters
+
+- **WHY**: Missing pods often means you are looking in the wrong namespace; always specify scope explicitly to avoid false negatives.
+- **BAD**: `kubectl get pods` returning "No resources found" and assuming the workload does not exist.
+- **GOOD**: `kubectl get pods -n <namespace>` or `kubectl get pods -A | grep <app>`
+
+### NEVER port-forward to a single pod as a proxy for full service testing
+
+- **WHY**: Port-forwarding targets one pod; issues may be pod-specific or service-routing-specific and require testing both paths independently.
+- **BAD**: Testing all application behavior via `kubectl port-forward pod/name 8080:80` and assuming the result represents the service.
+- **GOOD**: Use pod port-forward to isolate pod-specific behavior; use `kubectl port-forward svc/<name>` to test service routing separately.
+
 ## References
 
 ### Detailed Troubleshooting Guides
