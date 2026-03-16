@@ -1,0 +1,31 @@
+{
+  "context": "Agent identifies all four anti-pattern violations in a proposed context file creation plan and provides corrected alternatives.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Skipping pre-creation check identified",
+      "description": "antipattern-review.md flags the failure to check existing .context/ structure before creating the file.",
+      "max_score": 15
+    },
+    {
+      "name": "Generic slug identified",
+      "description": "antipattern-review.md flags 'notes' as a generic slug that risks collisions and violates the naming rule.",
+      "max_score": 20
+    },
+    {
+      "name": "Mixed content types identified",
+      "description": "antipattern-review.md identifies that the proposal mixes justification (GraphQL rationale), scratch (schema exploration), and plan (migration steps) in one file.",
+      "max_score": 25
+    },
+    {
+      "name": "Missing frontmatter identified",
+      "description": "antipattern-review.md flags the proposal to skip frontmatter as a violation of the ISO 8601 date requirement.",
+      "max_score": 15
+    },
+    {
+      "name": "Corrected plan provided",
+      "description": "antipattern-review.md ends with a corrected creation plan: three separate files with specific slugs, correct types, frontmatter, and a pre-creation ls check.",
+      "max_score": 25
+    }
+  ]
+}

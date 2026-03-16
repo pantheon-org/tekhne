@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Always add an explicit language tag to every fenced code block. Never leave triple backticks without a language identifier.",
+      "relevant_when": "User asks to write or review Markdown containing code samples.",
+      "why_given": "The skill explicitly prohibits fenced code blocks without language tags because untyped blocks reduce readability and tooling support."
+    },
+    {
+      "instruction": "Never jump heading levels. Heading levels must increase by exactly one step at a time (e.g., H2 → H3, not H2 → H4).",
+      "relevant_when": "User is authoring or reviewing a Markdown document with nested sections.",
+      "why_given": "The skill lists skipping heading levels as an anti-pattern that breaks document hierarchy and accessibility."
+    },
+    {
+      "instruction": "Keep list marker style consistent within a document. Do not mix `-`, `*`, and `+` markers in the same list or across lists in the same file.",
+      "relevant_when": "User is creating or editing a document that contains bullet lists.",
+      "why_given": "The skill prohibits mixing inconsistent list and table styles because style drift increases diff noise and hurts readability."
+    },
+    {
+      "instruction": "When a markdownlint violation occurs, fix the source content or apply a narrow, justified inline exception. Never disable broad rules globally to make lint pass.",
+      "relevant_when": "User encounters a markdownlint failure and asks how to fix it.",
+      "why_given": "The skill's deterministic workflow mandates fixing source content rather than suppressing rules, and the anti-patterns section explicitly prohibits global rule disabling."
+    },
+    {
+      "instruction": "Follow the deterministic workflow: (1) identify document type, (2) apply template and section order, (3) write content, (4) run markdownlint and fix all violations, (5) validate CI integration.",
+      "relevant_when": "User asks to create a new Markdown document from scratch.",
+      "why_given": "The skill defines this exact five-step workflow as the required process for producing lint-clean documentation."
+    }
+  ]
+}

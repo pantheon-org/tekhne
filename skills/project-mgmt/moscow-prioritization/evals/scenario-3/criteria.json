@@ -1,0 +1,31 @@
+{
+  "context": "Agent identifies all four anti-pattern violations in a provided priority table and produces a corrected version.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Preference-as-Must anti-pattern identified",
+      "description": "table-review.md flags 'Dark mode (executive request)' as a stakeholder preference incorrectly categorized as Must.",
+      "max_score": 20
+    },
+    {
+      "name": "Missing Won't anti-pattern identified",
+      "description": "table-review.md identifies the absence of any Won't items and notes it enables silent scope creep.",
+      "max_score": 20
+    },
+    {
+      "name": "Missing constraint check anti-pattern identified",
+      "description": "table-review.md flags the PM's admission that constraints (release date, capacity) were not confirmed before categorizing.",
+      "max_score": 20
+    },
+    {
+      "name": "Missing rationale anti-pattern identified",
+      "description": "table-review.md flags the lack of rationale columns as a violation (unjustified categories are re-litigated).",
+      "max_score": 15
+    },
+    {
+      "name": "Corrected table produced",
+      "description": "table-review.md includes a corrected table with: dark mode moved from Must, at least one explicit Won't with revisit date, and a rationale column populated.",
+      "max_score": 25
+    }
+  ]
+}

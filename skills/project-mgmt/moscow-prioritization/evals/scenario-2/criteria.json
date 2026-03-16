@@ -1,0 +1,31 @@
+{
+  "context": "Agent identifies a Must effort violation, challenges each Must item with the failure-focused test, and proposes rebalancing.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Violation identified with percentage",
+      "description": "rebalancing-plan.md explicitly states the current Must percentage (68.75%) and identifies it as exceeding the 60% cap.",
+      "max_score": 20
+    },
+    {
+      "name": "Failure-focused test applied",
+      "description": "rebalancing-plan.md applies the 'release fails without this?' test to at least 3 of the 5 Must items.",
+      "max_score": 25
+    },
+    {
+      "name": "Specific Must-to-Should moves proposed",
+      "description": "rebalancing-plan.md proposes at least one specific Must item to move to Should, with a justification that references the failure test outcome.",
+      "max_score": 25
+    },
+    {
+      "name": "Recalculated percentage shown",
+      "description": "rebalancing-plan.md shows the Must effort percentage after the proposed moves, confirming it is at or below 60%.",
+      "max_score": 20
+    },
+    {
+      "name": "Escalation path mentioned",
+      "description": "rebalancing-plan.md mentions the escalation option (scope split, timeline extension, or capacity increase) if rebalancing cannot achieve 60%.",
+      "max_score": 10
+    }
+  ]
+}

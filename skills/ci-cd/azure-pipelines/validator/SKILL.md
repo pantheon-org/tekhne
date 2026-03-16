@@ -136,7 +136,33 @@ pip3 install PyYAML yamllint
 | `Permission denied` | `chmod +x scripts/*.sh scripts/*.py` |
 | Unexpected validation errors | Check `references/azure-pipelines-reference.md` or [Microsoft Learn](https://learn.microsoft.com/en-us/azure/devops/pipelines/) |
 
-## References and Examples
+## Anti-Patterns
+
+### NEVER skip validation on template files
+
+- **WHY**: Templates called from the main pipeline can contain schema violations, missing parameters, or invalid task references that only surface at runtime. Validating only the entry-point file leaves template errors undetected until the pipeline actually runs.
+- **BAD**: Validate only `azure-pipelines.yml` and skip all files under `templates/*.yml`.
+- **GOOD**: Run the validator on every `.yml` file in the pipeline directory, including all templates.
+
+### NEVER treat YAML lint warnings as informational
+
+- **WHY**: Azure Pipelines YAML is whitespace-significant. Indentation errors and trailing spaces can silently restructure the pipeline — turning a step into a job property, or merging two separate blocks — without any obvious parse error.
+- **BAD**: Ignore `yamllint` warnings such as "trailing spaces" or "wrong indentation" because the pipeline appears to run.
+- **GOOD**: Fix all YAML formatting issues before submitting; a clean `yamllint` pass is a prerequisite for a trustworthy pipeline.
+
+### NEVER use the strict mode flag on an unreviewed pipeline
+
+- **WHY**: `--strict` fails on all warnings, which is the correct setting for a CI gate. Applied to a brand-new pipeline with dozens of warnings, it produces so much noise that engineers discard the output entirely and disable validation rather than fix the root causes.
+- **BAD**: Run `--strict` on a new pipeline, see 30 warnings, and remove validation from the workflow because "it's too noisy."
+- **GOOD**: Run without `--strict` first, fix critical errors, then warnings, then graduate to strict mode as a CI gate.
+
+### NEVER skip security scanning before merging pipeline changes
+
+- **WHY**: A passing syntax validation does not imply a secure pipeline. Security scanning catches hardcoded credentials, injection vectors, and insecure patterns that syntax checks are not designed to detect.
+- **BAD**: Merge a pipeline change after syntax validation passes with no security check.
+- **GOOD**: Always run `--security` as part of the validation workflow, treating `MEDIUM` and `HIGH` findings as merge blockers.
+
+## References
 
 - `references/azure-pipelines-reference.md` — full YAML syntax reference and rule definitions
 - `assets/examples/basic-pipeline.yml` — simple CI pipeline

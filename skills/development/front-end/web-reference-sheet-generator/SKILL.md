@@ -92,6 +92,32 @@ See [`references/workflow.md`](references/workflow.md) for the full 8-step gener
 
 ---
 
+## Anti-Patterns
+
+### NEVER invent or infer design tokens that don't exist in source code
+
+- **WHY**: Invented values create false documentation. Developers trust the reference sheet and may use wrong tokens, causing design inconsistencies that are hard to trace.
+- **BAD**: Inferring `--space-4: 1rem` because it seems reasonable, or expanding one brand color into a full 9-shade palette.
+- **GOOD**: Document only the values explicitly found in CSS files; mark missing sections as `TBD — not yet defined`.
+
+### NEVER generate the reference sheet before reading actual CSS/config files
+
+- **WHY**: Even well-known frameworks have project-level overrides. Reading source files is the only way to capture what is real, not what is typical.
+- **BAD**: Assuming Tailwind breakpoints are `sm/md/lg/xl` without checking `tailwind.config.ts`.
+- **GOOD**: Run grep on config/CSS to confirm actual breakpoint values before documenting them.
+
+### NEVER leave sections empty without a TBD marker
+
+- **WHY**: Blank sections are invisible gaps that appear complete; `TBD — not yet defined` is an actionable signal that appears in the confirmation block and makes gaps impossible to miss.
+- **BAD**: `## Dark Mode\n\n` (empty heading that looks like the section was intentionally left blank).
+- **GOOD**: `## Dark Mode\n\nTBD — not yet defined`.
+
+### NEVER use non-copy-pasteable code examples in the reference sheet
+
+- **WHY**: A reference sheet that requires editing before use wastes developer time and introduces errors. Examples that don't match actual code erode trust in the document.
+- **BAD**: `<Button variant="primary" />` when that component doesn't exist yet.
+- **GOOD**: Actual HTML/JSX copied from source files that renders as-is.
+
 ## Rules
 
 ### Never invent design values

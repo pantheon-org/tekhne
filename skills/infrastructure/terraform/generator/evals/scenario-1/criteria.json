@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent uses for_each (not count) for the multi-region resources, configures a remote backend with state locking, and avoids local state for a team workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "for_each used for SQS queues",
+      "description": "The aws_sqs_queue resources use for_each = toset(...) or for_each over a map — NOT count = length(...)",
+      "max_score": 20
+    },
+    {
+      "name": "for_each used for SNS topics",
+      "description": "The aws_sns_topic resources also use for_each — NOT count",
+      "max_score": 15
+    },
+    {
+      "name": "Remote backend configured",
+      "description": "A backend block is present (e.g. backend \"s3\" {}) — the configuration does NOT rely on local state",
+      "max_score": 20
+    },
+    {
+      "name": "State locking configured",
+      "description": "The S3 backend (or equivalent remote backend) includes a dynamodb_table argument for state locking",
+      "max_score": 15
+    },
+    {
+      "name": "No count with index access",
+      "description": "The configuration does NOT use count.index combined with a list variable to generate resource names",
+      "max_score": 10
+    },
+    {
+      "name": "File organization correct",
+      "description": "Generated files include at minimum: main.tf, variables.tf, outputs.tf, versions.tf",
+      "max_score": 8
+    },
+    {
+      "name": "Extensibility supported",
+      "description": "Adding a fourth region requires only adding to a variable/map — not adding a new resource block",
+      "max_score": 7
+    },
+    {
+      "name": "Usage instructions included",
+      "description": "Response includes next steps covering at least terraform init, plan, and apply",
+      "max_score": 5
+    }
+  ]
+}

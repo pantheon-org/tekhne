@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent queries the API to verify model availability before hardcoding it in config, reads auth from the correct path, checks policy.state rather than assuming availability, and uses the recommended per-command test before setting a project default.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "API query in validation script",
+      "description": "validate-model.sh fetches models from the GitHub Copilot API (via fetch-models.sh or direct curl) — not from opencode models or a hardcoded list",
+      "max_score": 20
+    },
+    {
+      "name": "policy.state check",
+      "description": "Script verifies the target model has policy.state == 'enabled' before proceeding",
+      "max_score": 20
+    },
+    {
+      "name": "Auth from correct path",
+      "description": "Script reads auth token from ~/.local/share/opencode/auth.json",
+      "max_score": 15
+    },
+    {
+      "name": "Exits on unavailable model",
+      "description": "Script exits with a non-zero code or error message if model is not found or not enabled",
+      "max_score": 15
+    },
+    {
+      "name": "Per-command test step",
+      "description": "validate-model.sh or instructions include a per-command test (e.g. opencode run --model ... 'test prompt') before setting the project default",
+      "max_score": 15
+    },
+    {
+      "name": "opencode.json defaultModel",
+      "description": "opencode.json contains a 'defaultModel' key set to the target model ID",
+      "max_score": 15
+    }
+  ]
+}

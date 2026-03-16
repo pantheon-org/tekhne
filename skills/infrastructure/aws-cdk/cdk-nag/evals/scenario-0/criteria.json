@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent uses Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true })) correctly — applied to the whole app before synth, not per-stack, and with verbose mode enabled.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Aspects.of(app).add used",
+      "description": "bin/app.ts uses Aspects.of(app).add(...) to apply the rule pack at the app level",
+      "max_score": 30
+    },
+    {
+      "name": "AwsSolutionsChecks instantiated with verbose: true",
+      "description": "The rule pack is instantiated as new AwsSolutionsChecks({ verbose: true })",
+      "max_score": 25
+    },
+    {
+      "name": "Applied before app.synth()",
+      "description": "The Aspects.of(app).add call appears before app.synth() in the file",
+      "max_score": 15
+    },
+    {
+      "name": "Install command in SETUP.md",
+      "description": "SETUP.md includes npm install --save-dev cdk-nag or equivalent install command",
+      "max_score": 15
+    },
+    {
+      "name": "Synth command in SETUP.md",
+      "description": "SETUP.md includes npx cdk synth as the command to surface findings",
+      "max_score": 15
+    }
+  ]
+}

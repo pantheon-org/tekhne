@@ -1,0 +1,31 @@
+{
+  "context": "Agent maps described capture-evidence.sh failure to the skill's troubleshooting guidance and produces correct remediation commands.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chromium not installed root cause identified",
+      "description": "capture-fix-plan.md identifies the missing Chromium executable as one root cause.",
+      "max_score": 20
+    },
+    {
+      "name": "Port conflict root cause identified",
+      "description": "capture-fix-plan.md identifies the port 3000 conflict as a second root cause.",
+      "max_score": 15
+    },
+    {
+      "name": "Chromium install command provided",
+      "description": "capture-fix-plan.md includes 'npx playwright install chromium' as the fix for the missing executable.",
+      "max_score": 25
+    },
+    {
+      "name": "Port verification command provided",
+      "description": "capture-fix-plan.md includes a command to check port occupancy (e.g. lsof -i :3000) before re-running the script.",
+      "max_score": 20
+    },
+    {
+      "name": "Corrected capture command provided",
+      "description": "capture-fix-plan.md includes the full corrected capture-evidence.sh command to run after all fixes are applied.",
+      "max_score": 20
+    }
+  ]
+}

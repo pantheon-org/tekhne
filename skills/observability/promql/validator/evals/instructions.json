@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Never stop validation after syntax checking alone. A syntactically valid PromQL query must also be evaluated for semantic correctness: metric type compatibility, label cardinality, and intent alignment.",
+      "relevant_when": "User submits a PromQL query for review or asks if it is correct.",
+      "why_given": "The skill explicitly prohibits treating 'syntactically valid' as 'production-ready' and requires completing all 7 workflow steps."
+    },
+    {
+      "instruction": "Always ask the user to confirm the metric type (counter, gauge, histogram, or summary) before recommending query patterns or optimizations. Do not assume from the metric name alone.",
+      "relevant_when": "User asks to optimize or validate a PromQL query involving a metric whose type is not explicitly stated.",
+      "why_given": "The skill prohibits validating a query without understanding its metric type because using `rate()` on a gauge or `avg()` on a histogram quantile produces statistically wrong results."
+    },
+    {
+      "instruction": "Flag any alerting rule expression that lacks a `for` clause, and suggest a minimum `for: 2m` to reduce false positives from transient spikes.",
+      "relevant_when": "User provides an alerting rule or YAML containing `expr:` without a `for:` field.",
+      "why_given": "The skill states that missing `for` clauses cause alert storms and that the validator must flag this on all alerting rules."
+    },
+    {
+      "instruction": "Warn about high-cardinality risk when a query references a metric without any label selectors (`job=`, `namespace=`, `service=`, etc.), and suggest adding appropriate filters.",
+      "relevant_when": "User submits a query with no label matchers on a potentially high-cardinality metric.",
+      "why_given": "The skill prohibits ignoring high-cardinality warnings because unlabelled queries can create fan-out to thousands of series in production."
+    },
+    {
+      "instruction": "When suggesting corrections, cite the relevant example from the skill's reference assets (good_queries.promql, bad_queries.promql, optimization_examples.promql) using the format: `file_path (lines X-Y)` with the relevant snippet quoted.",
+      "relevant_when": "Agent is recommending a corrected or optimized query pattern.",
+      "why_given": "The skill mandates citing reference examples in a specific format to ground suggestions in verified patterns."
+    },
+    {
+      "instruction": "Follow the two-phase workflow: complete Steps 1–4 (validate syntax, check best practices, explain query, ask clarifying questions), then stop and wait for the user's response before proceeding to Steps 5–7 (compare intent vs implementation, offer optimizations, let user refine).",
+      "relevant_when": "User provides a PromQL query to validate in a conversational context.",
+      "why_given": "The skill defines an explicit interactive two-phase workflow with a mandatory stop-and-wait checkpoint after Step 4."
+    }
+  ]
+}

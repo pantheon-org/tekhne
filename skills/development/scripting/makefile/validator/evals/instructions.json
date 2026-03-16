@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "instruction": "Validate a Makefile using `bash scripts/validate_makefile.sh Makefile`",
+      "original_snippets": "### Basic Validation\n```bash\nbash scripts/validate_makefile.sh Makefile\n```",
+      "relevant_when": "Any Makefile validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use GNU make `-n --dry-run` for syntax validation; catches errors with line numbers",
+      "original_snippets": "- **Syntax**: GNU make `-n --dry-run` validation; catches errors with line numbers",
+      "relevant_when": "Checking a Makefile for syntax errors",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use mbake for tab indentation validation and formatting",
+      "original_snippets": "- **Formatting**: mbake tab indentation, variable assignment consistency, trailing whitespace, line continuations\n...\n[MBAKE VALIDATION]\n✓ mbake validation passed",
+      "relevant_when": "Checking Makefile formatting",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never use spaces instead of tabs for recipe indentation — GNU Make requires hard tab characters",
+      "original_snippets": "### NEVER use spaces instead of tabs for recipe indentation\n- **WHY**: GNU Make requires a hard tab character to start recipe lines. Spaces silently produce `missing separator` errors.\n- **DETECTION**: `scripts/validate_makefile.sh` catches this; run `make -n` to surface the error.",
+      "relevant_when": "Any Makefile with recipe lines",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never omit `.PHONY` for non-file targets (clean, test, build, all, etc.)",
+      "original_snippets": "### NEVER omit `.PHONY` for non-file targets\n- **WHY**: Without `.PHONY`, if a file named `clean` or `test` exists, Make will silently skip the target.\n- **GOOD**: `.PHONY: clean test build all` declared at the top",
+      "relevant_when": "Any Makefile with targets that don't produce output files",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never use bare `$(shell ...)` calls or unquoted variable expansion in `rm`/`sudo`/`curl`/`wget` — unsafe variable expansion enables command injection",
+      "original_snippets": "### NEVER use bare `$(shell ...)` calls in recipe variables without quoting\n- **WHY**: Unquoted shell variable expansion in `rm`, `sudo`, or `curl` commands enables command injection when variable values contain spaces or special characters.\n- **BAD**: `rm -rf $(DIR)` when `DIR` can be user-controlled\n- **GOOD**: `rm -rf \"$(DIR)\"` or validate that `DIR` does not contain path separators",
+      "relevant_when": "Any Makefile recipe that uses rm, sudo, curl, wget with variable expansion",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never use bare `make` for recursive calls — always use `$(MAKE)`",
+      "original_snippets": "### NEVER use recursive `make` with a bare `make` command\n- **WHY**: Bare `make` in a recipe does not inherit the jobserver flags passed by the parent make, breaking parallel builds.\n- **BAD**: `make -C subdir`\n- **GOOD**: `$(MAKE) -C subdir`",
+      "relevant_when": "Any Makefile with recursive sub-directory builds",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never use `.EXPORT_ALL_VARIABLES` globally — use explicit `export VAR` only for variables that need sub-process visibility",
+      "original_snippets": "### NEVER export all variables globally with `.EXPORT_ALL_VARIABLES`\n- **WHY**: Every variable in scope (including secrets loaded from `.env` files) gets exported to every sub-process, creating credential leakage risk.\n- **BAD**: `.EXPORT_ALL_VARIABLES:` at top of Makefile\n- **GOOD**: Use explicit `export VAR` only for variables that need sub-process visibility",
+      "relevant_when": "Any Makefile that exports variables to sub-processes",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Check for hardcoded credentials in Makefile (the validator automatically checks for these)",
+      "original_snippets": "- **Security**: hardcoded credentials, unsafe variable expansion in `rm`/`sudo`/`curl`/`wget`, command injection, `.EXPORT_ALL_VARIABLES` leakage\n...\nThe validator automatically checks for hardcoded credentials",
+      "relevant_when": "Security audit of a Makefile",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `mbake format --diff Makefile` to preview formatting changes before applying",
+      "original_snippets": "# Preview changes\nmbake format --diff Makefile\n\n# Apply formatting\nmbake format Makefile",
+      "relevant_when": "Fixing Makefile formatting issues",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For legacy Makefile conversion: validate, fix critical errors, apply mbake format, add .PHONY with --auto-insert-phony-declarations, re-validate",
+      "original_snippets": "### Scenario 3: Converting Legacy Makefiles\n```bash\n# 1. Validate current state\nbash scripts/validate_makefile.sh legacy.mk\n\n# 2. Fix critical errors (tabs, syntax), then apply formatting\nmbake format legacy.mk\n\n# 3. Add .PHONY declarations\nmbake format --auto-insert-phony-declarations legacy.mk\n\n# 4. Re-validate\nbash scripts/validate_makefile.sh legacy.mk\n```",
+      "relevant_when": "Modernizing or converting a legacy Makefile",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "mbake is automatically installed in an isolated venv per invocation — no manual installation required",
+      "original_snippets": "**mbake** is automatically installed in an isolated venv per invocation and cleaned up on exit — no manual installation required.",
+      "relevant_when": "Setting up to run mbake for the first time",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "mbake may false-positive on valid GNU Make special targets (.DELETE_ON_ERROR, .SUFFIXES, .ONESHELL, .POSIX) — the validator filters these",
+      "original_snippets": "mbake doesn't recognize some valid GNU Make special targets (`.DELETE_ON_ERROR`, `.SUFFIXES`, `.ONESHELL`, `.POSIX`) — the validator filters these false positives and surfaces them as informational messages.",
+      "relevant_when": "When validating Makefiles that use GNU Make special targets",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `.DELETE_ON_ERROR` as a best practice to clean up partial output files",
+      "original_snippets": "- **Best practices**: `.DELETE_ON_ERROR`, `.PHONY` declarations, `$(MAKE)` for recursive calls, `.ONESHELL` error handling",
+      "relevant_when": "Makefiles where targets generate output files",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Reference `references/best-practices.md` and `references/common-mistakes.md` for detailed explanations",
+      "original_snippets": "See `references/best-practices.md`, `references/common-mistakes.md`, and `references/bake-tool.md` for detailed explanations.\n...\nReference `references/common-mistakes.md` for detailed explanations and fixes.",
+      "relevant_when": "When explaining Makefile issues or providing remediation guidance",
+      "why_given": "preference"
+    }
+  ]
+}

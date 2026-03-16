@@ -1,0 +1,24 @@
+{
+  "instructions": [
+    {
+      "instruction": "Configure @nx-bun/nx executor targets (build, serve, test) in a project.json using the correct executor identifiers and declare outputs for cacheable targets.",
+      "relevant_when": "Adding or converting a project to use Bun executors in an Nx workspace.",
+      "why_given": "The skill specifies the exact executor names (@nx-bun/nx:build, @nx-bun/nx:run, @nx-bun/nx:test) and requires outputs to be declared for cache reliability."
+    },
+    {
+      "instruction": "Never configure both Jest and @nx-bun/nx:test on the same test files; split test ownership by project and decommission the old test target.",
+      "relevant_when": "Converting an existing project that has a Jest test target to use the Bun test runner.",
+      "why_given": "The skill prohibits dual test ownership as it creates inconsistent results and CI noise."
+    },
+    {
+      "instruction": "Set cache: true on build and test targets and declare outputs referencing {options.outputPath} or a workspace-relative coverage path.",
+      "relevant_when": "Ensuring Nx can cache Bun build and test results.",
+      "why_given": "The skill explicitly states that skipping cache metadata reduces cache hit reliability."
+    },
+    {
+      "instruction": "After converting a project to Bun, remove any leftover npm or yarn lockfiles for the migrated scope to prevent resolver drift.",
+      "relevant_when": "Migrating a project from Node.js/npm to Bun runtime.",
+      "why_given": "The skill warns that mixed lockfiles and resolvers cause non-reproducible installs."
+    }
+  ]
+}

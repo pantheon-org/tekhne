@@ -213,20 +213,17 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 - **BAD**: Editing project `opencode.json` to fix an issue caused by a shell env override.
 - **GOOD**: Audit from the top of the precedence chain first (`echo $OPENAI_API_KEY`), then work downward.
 
-## Quick Reference
-
-| Topic | Reference |
-| --- | --- |
-| Provider setup and model mapping | [references/provider-configuration.md](references/provider-configuration.md) |
-| Permission structure and patterns | [references/permission-schema.md](references/permission-schema.md) |
-| Full config field reference | [references/config-schema.md](references/config-schema.md) |
-
-## References
-
-- [OpenCode Docs](https://opencode.ai/docs/)
-
 ## Eval Scenarios
 
 - [Scenario 0: Configure Anthropic provider with env variable](evals/scenario-0/task.md)
 - [Scenario 1: Place behavioral rules in AGENTS.md vs opencode.json](evals/scenario-1/task.md)
 - [Scenario 2: Fix global vs project-level config scope issue](evals/scenario-2/task.md)
+
+## References
+
+- [OpenCode Docs](https://opencode.ai/docs/)
+| Topic | Reference |
+| --- | --- |
+| Provider setup and model mapping | [references/provider-configuration.md](references/provider-configuration.md) |
+| Permission structure and patterns | [references/permission-schema.md](references/permission-schema.md) |
+| Full config field reference | [references/config-schema.md](references/config-schema.md) |

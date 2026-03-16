@@ -400,7 +400,7 @@ Prioritise in this order:
 5. **Shadows** — none, subtle, card, elevated
 6. **Component patterns** — button variants, card borders, nav height, footer layout
 
-## NEVER Do This
+## Anti-Patterns
 
 - **NEVER wrap HSL values in `hsl()` inside `@theme inline`.**
   In Tailwind v4, `--color-primary: hsl(174 90% 31%)` inside `@theme inline` will

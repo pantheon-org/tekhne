@@ -379,7 +379,49 @@ Use order-only prerequisites (`|`) for large projects with many targets.
 - Use `@` prefix for quiet commands
 - Test with `make -n` first
 
-## Helper Scripts (Optional)
+## Documentation
+
+Detailed guides in `references/`:
+- **makefile-structure.md** - Organization, layout, includes
+- **variables-guide.md** - Assignment operators, automatic variables
+- **targets-guide.md** - Standard targets, .PHONY, prerequisites
+- **patterns-guide.md** - Pattern rules, dependencies
+- **optimization-guide.md** - Parallel builds, caching
+- **security-guide.md** - Safe expansion, credential handling
+
+## Anti-Patterns
+
+### NEVER declare phony targets without `.PHONY`
+
+- **WHY**: If a file named `clean` or `test` exists in the directory, Make treats the target as up-to-date and silently skips it.
+- **BAD**: `clean:\n\trm -rf dist/` without `.PHONY: clean`
+- **GOOD**: Declare all non-file targets in `.PHONY: clean test build install` at the top of the Makefile.
+
+### NEVER use `make` recursively instead of `$(MAKE)`
+
+- **WHY**: Bare `make` in a recipe does not inherit the parent's `-j` jobserver, `-n` dry-run, or `-k` keep-going flags, causing inconsistent behavior in parallel and CI builds.
+- **BAD**: `dist:\n\tmake -C subdir all`
+- **GOOD**: `dist:\n\t$(MAKE) -C subdir all`
+
+### NEVER rely on shell environment variables in recipes without declaring them as Make variables
+
+- **WHY**: Recipe shells are non-interactive and may not inherit all environment variables; undeclared variables expand to empty strings silently.
+- **BAD**: `deploy:\n\techo "Deploying to $$ENVIRONMENT"` expecting `ENVIRONMENT` from the shell environment without a fallback.
+- **GOOD**: Declare `ENVIRONMENT ?= staging` at the top, then use `$(ENVIRONMENT)` in recipes.
+
+### NEVER use implicit rules for critical build targets
+
+- **WHY**: Implicit rules are order-dependent and hard to debug; explicit rules make the build graph transparent and reproducible.
+- **BAD**: Relying on the built-in `%.o: %.c` implicit rule without declaring it explicitly for project sources.
+- **GOOD**: Define explicit pattern rules or list all build targets explicitly.
+
+### NEVER put multi-line logic in recipe shells without `.ONESHELL` or explicit line continuations
+
+- **WHY**: Each recipe line runs in a separate shell; `cd` in one line does not affect the next.
+- **BAD**: `deploy:\n\tcd dist\n\tnpm publish` (`cd` has no effect on the second line).
+- **GOOD**: Chain commands with `&&` in a single line: `cd dist && npm publish`, or add `.ONESHELL:` at the top.
+
+## References
 
 These scripts are **optional convenience tools** for quick template generation.
 
@@ -420,19 +462,6 @@ bash scripts/add_standard_targets.sh Makefile install uninstall help
 ```
 
 **Note:** Manual generation following the Stage 3 patterns produces equivalent results but allows for more customization.
-
-## Documentation
-
-Detailed guides in `references/`:
-- **makefile-structure.md** - Organization, layout, includes
-- **variables-guide.md** - Assignment operators, automatic variables
-- **targets-guide.md** - Standard targets, .PHONY, prerequisites
-- **patterns-guide.md** - Pattern rules, dependencies
-- **optimization-guide.md** - Parallel builds, caching
-- **security-guide.md** - Safe expansion, credential handling
-
-## Resources
-
 - [GNU Make Manual](https://www.gnu.org/software/make/manual/)
 - [GNU Coding Standards](https://www.gnu.org/prep/standards/standards.html)
 - [Makefile Conventions](https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html)

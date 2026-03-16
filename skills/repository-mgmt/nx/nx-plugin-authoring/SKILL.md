@@ -230,7 +230,7 @@ rg -n "generateFiles|updateJson|readProjectConfiguration" plugins tools
 | custom template not provided | Generate minimal boilerplate |
 | executor outputs not declared | No cache, always re-run |
 
-## Quick Reference
+## References
 
 ### Getting Started
 
@@ -263,8 +263,6 @@ rg -n "generateFiles|updateJson|readProjectConfiguration" plugins tools
 | Schema design patterns | [references/schema-design-patterns.md](references/schema-design-patterns.md) |
 | Utility helpers | [knowledge-base/utilities.md](knowledge-base/utilities.md) |
 | Testing and troubleshooting | [references/testing-and-troubleshooting.md](references/testing-and-troubleshooting.md) |
-
-## References
 
 - [Nx Plugin Development](https://nx.dev/extending-nx/intro)
 - [Nx Devkit API](https://nx.dev/reference/devkit)

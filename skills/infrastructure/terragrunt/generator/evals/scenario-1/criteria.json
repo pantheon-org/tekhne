@@ -1,0 +1,36 @@
+{
+  "context": "Agent generates a Pattern A environment-agnostic root.hcl with S3 remote state, DynamoDB locking, encrypted state, IAM role assumption, version constraints, and modern errors block.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Architecture Pattern Selection checklist output",
+      "description": "Agent outputs the mandatory checklist before writing any files, identifying Pattern A, environment-agnostic root scope, env.hcl location in each environment directory, and child module access pattern.",
+      "max_score": 15
+    },
+    {
+      "name": "Environment-agnostic root: no env.hcl read",
+      "description": "Generated root.hcl does NOT contain read_terragrunt_config(find_in_parent_folders(\"env.hcl\")) or any reference to env.hcl at the root level.",
+      "max_score": 20
+    },
+    {
+      "name": "Remote state with encrypt=true and DynamoDB locking",
+      "description": "remote_state block includes encrypt = true, the correct bucket name, dynamodb_table = \"data-platform-tfstate-lock\", and uses path_relative_to_include() for the state key.",
+      "max_score": 20
+    },
+    {
+      "name": "Provider with assume_role in generate block",
+      "description": "generate block produces a provider.aws block using assume_role with the specified role ARN rather than hardcoded access_key/secret_key.",
+      "max_score": 20
+    },
+    {
+      "name": "errors block used instead of retryable_errors",
+      "description": "Generated file uses an errors { retry { ... } } block for transient error handling, not the deprecated retryable_errors attribute.",
+      "max_score": 15
+    },
+    {
+      "name": "Version constraints present",
+      "description": "Generated file includes terraform_version_constraint and terragrunt_version_constraint with the specified versions.",
+      "max_score": 10
+    }
+  ]
+}

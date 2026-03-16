@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use `rules` instead of deprecated `only`/`except` for job conditions",
+      "original_snippets": "NEVER use `only: [master]` or `only: [main]`... `only`/`except` are deprecated in GitLab 15+; `rules` is the current approach... BAD: `only: - main`... GOOD: `rules: - if: '$CI_COMMIT_BRANCH == \"main\"'`",
+      "relevant_when": "Any job that should conditionally run based on branch, tag, or pipeline type",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Pin Docker images to specific versions — never use :latest",
+      "original_snippets": "Pin Docker images to specific versions (never `:latest`)... BAD: `image: node:latest`... GOOD: `image: node:20.11-alpine3.19`",
+      "relevant_when": "Any job or default block that specifies a Docker image",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use `needs` keyword for DAG optimization to allow jobs to run as soon as their direct dependencies complete rather than waiting for the whole stage",
+      "original_snippets": "`needs` keyword for DAG optimization... Without needs: runs sequentially (slow)... With needs: runs in parallel (fast)",
+      "relevant_when": "Pipelines with multiple jobs in the same or different stages that have specific inter-job dependencies",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always set `expire_in` on artifacts — never omit it",
+      "original_snippets": "NEVER omit `expire_in` on artifacts... Artifacts without an expiration date are retained indefinitely... BAD: `artifacts: paths: [dist/]` with no `expire_in`... GOOD: `artifacts: paths: [dist/] expire_in: 7 days`",
+      "relevant_when": "Any job that produces artifacts",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never hardcode secrets or credentials in .gitlab-ci.yml — use CI/CD variables",
+      "original_snippets": "Masked variables for secrets; never hardcode credentials... BAD: `deploy --token abc123xyz`... GOOD: `deploy --token $DEPLOY_TOKEN`",
+      "relevant_when": "Any job that connects to external services, APIs, registries, or deployment targets",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Declare explicit `environment` block (name and url) for all deployment jobs",
+      "original_snippets": "NEVER deploy to production without an environment and approval gate... A deployment job with no `environment:` key... GOOD: `environment: name: production url: https://example.com`",
+      "relevant_when": "Jobs that deploy to any environment (staging, production, review apps)",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `resource_group` to prevent concurrent deployments to the same environment",
+      "original_snippets": "`resource_group` for deployment jobs... Missing Resource Groups for Deployments — concurrent deployments possible",
+      "relevant_when": "Deployment jobs where parallel runs would cause race conditions",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Set explicit `timeout` on ALL jobs (10–30 minutes typically)",
+      "original_snippets": "**Explicit `timeout` on ALL jobs** (10–30 minutes typically)... Set appropriate timeouts to prevent jobs from hanging",
+      "relevant_when": "Every job in any pipeline",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use `retry` for flaky operations such as network calls, external APIs, and deployments",
+      "original_snippets": "`retry` for flaky operations (network, external APIs)... Configure retry for flaky operations to improve reliability",
+      "relevant_when": "Jobs that perform network operations, external API calls, or deployments",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use `extends` (preferred) or YAML anchors for DRY configuration — avoid duplicate `before_script` blocks in every job",
+      "original_snippets": "NEVER define duplicate `before_script` blocks in every job... GOOD: Define a `.node_setup` hidden job with `before_script: [npm ci]` and use `extends: .node_setup` in dependent jobs... Use `extends` for inheritance (preferred over YAML anchors)",
+      "relevant_when": "Pipelines with multiple jobs sharing common setup (image, cache, before_script)",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Do NOT hardcode runner tags for every job — add tags only to jobs that genuinely require specific runner capabilities",
+      "original_snippets": "NEVER hardcode runner tags for every job... Hardcoding forces all jobs onto specific runners even when generic runners would work... BAD: `tags: [kubernetes, production]` on lint and unit test jobs.",
+      "relevant_when": "Pipelines where some but not all jobs need specialized runners",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Configure caching for dependencies (npm, pip, maven, etc.) with appropriate cache key and pull/pull-push policy",
+      "original_snippets": "Caching for dependencies (npm, pip, maven, etc.)... Use appropriate cache keys (branch, commit, files)... Set `policy: pull` for jobs that only read cache... Set `policy: pull-push` for jobs that update cache",
+      "relevant_when": "Pipelines that install dependencies before build/test steps",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use `when: manual` and require a manual approval gate for production deployment jobs",
+      "original_snippets": "Require manual approval for production deployments... `when: manual` for production jobs... Protected environments for production",
+      "relevant_when": "Any job deploying to a production environment",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use kebab-case for job and stage names; use UPPER_SNAKE_CASE for variables; use lowercase for environment names",
+      "original_snippets": "Semantic stage and job names (kebab-case)... Use UPPER_SNAKE_CASE for variables... Use lowercase for environment names",
+      "relevant_when": "Writing any .gitlab-ci.yml configuration",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Set `interruptible: true` on test/build jobs so a newer pipeline can cancel them",
+      "original_snippets": "`interruptible: true` for test jobs... Mark test jobs as interruptible to save resources",
+      "relevant_when": "Build and test jobs in any pipeline",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use specific artifact paths (not ./**) and exclude sensitive file patterns with the `exclude` key",
+      "original_snippets": "Be explicit about artifact paths... Use `exclude` to prevent sensitive files... BAD: `artifacts: paths: [./**]`... GOOD: specific paths with `exclude: [\"**/*.env\", \"**/*.pem\"]`",
+      "relevant_when": "Any job that produces artifacts",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `$CI_COMMIT_SHORT_SHA` for image tagging to ensure unique, traceable image versions",
+      "original_snippets": "image tagging strategy (`$CI_COMMIT_SHORT_SHA`)",
+      "relevant_when": "Docker build pipelines that push images to a registry",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Output a Reference Analysis confirmation block (Pipeline Pattern, Best Practices, Security Guidelines, Template Foundation) before generating the pipeline",
+      "original_snippets": "After reading references, output this confirmation before proceeding:\n## Reference Analysis Complete\n**Pipeline Pattern Identified:**...\n**Best Practices to Apply:**...\n**Security Guidelines:**...\n**Template Foundation:**...",
+      "relevant_when": "At the start of any complete pipeline generation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Avoid `curl | bash` patterns in CI scripts; download and verify scripts before executing",
+      "original_snippets": "Never pipe curl directly to bash... Validate downloaded scripts... DANGEROUS: `curl https://install.sh | bash`... SECURE: download, verify sha256, then run",
+      "relevant_when": "Jobs that download and execute external installation scripts",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate every complete pipeline using `devops-skills:gitlab-ci-validator` before presenting to the user",
+      "original_snippets": "Every complete pipeline MUST be validated before presenting to the user... invoke `devops-skills:gitlab-ci-validator`... Fix CRITICAL/HIGH issues and re-validate until clear",
+      "relevant_when": "After generating any complete .gitlab-ci.yml",
+      "why_given": "preference"
+    }
+  ]
+}

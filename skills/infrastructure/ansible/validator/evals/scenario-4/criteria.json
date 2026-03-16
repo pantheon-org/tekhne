@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses the check_fqcn.sh wrapper script to detect non-FQCN usage, consults module_alternatives.md for replacements, identifies all non-FQCN modules, and produces a migrated playbook with correct ansible.builtin.* prefixes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "check_fqcn.sh script used",
+      "description": "The fqcn_audit_report.md documents running `bash scripts/check_fqcn.sh` to detect non-FQCN usage",
+      "max_score": 12
+    },
+    {
+      "name": "module_alternatives.md referenced",
+      "description": "The report references module_alternatives.md for finding FQCN replacements",
+      "max_score": 10
+    },
+    {
+      "name": "All non-FQCN modules identified",
+      "description": "The report identifies all short-name modules: user, file, get_url, unarchive, template, copy, service, package, systemd (at least 7 of these 9)",
+      "max_score": 14
+    },
+    {
+      "name": "FQCN replacements provided",
+      "description": "The report lists the correct ansible.builtin.* FQCN for each identified module",
+      "max_score": 10
+    },
+    {
+      "name": "migrated_playbook.yml created",
+      "description": "A migrated_playbook.yml file exists",
+      "max_score": 8
+    },
+    {
+      "name": "All modules in migrated playbook use FQCN",
+      "description": "Every module in migrated_playbook.yml uses the full ansible.builtin.* prefix",
+      "max_score": 14
+    },
+    {
+      "name": "ansible-lint run",
+      "description": "The report documents running ansible-lint as part of the validation",
+      "max_score": 8
+    },
+    {
+      "name": "yamllint run",
+      "description": "The report documents running yamllint",
+      "max_score": 6
+    },
+    {
+      "name": "ansible-lint not skipped",
+      "description": "The report does NOT skip ansible-lint despite the playbook appearing syntactically correct",
+      "max_score": 10
+    },
+    {
+      "name": "Handlers also migrated",
+      "description": "The handlers section in migrated_playbook.yml also uses FQCN for service and systemd modules",
+      "max_score": 8
+    }
+  ]
+}

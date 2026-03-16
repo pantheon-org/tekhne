@@ -1,0 +1,9 @@
+{
+  "total_infeasible": 1,
+  "infeasible_scenarios": [
+    {
+      "scenarios": "picker-only flag usage",
+      "reasoning": "Testing the --picker-only flag in isolation requires live GitHub Copilot API credentials and the fetch-models.sh script to be executable in the sandbox, and the distinction from standard model listing is too narrow to build a meaningful standalone scenario around."
+    }
+  ]
+}

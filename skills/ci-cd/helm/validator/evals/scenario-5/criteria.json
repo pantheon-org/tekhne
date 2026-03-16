@@ -1,0 +1,36 @@
+{
+  "context": "Agent produces a complete, correctly structured Stage 10 Final Report for the monitoring-stack chart using data from all nine prior stages.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Validation summary table",
+      "description": "Report includes a table with a row for each of the 9 stages, using status icons (pass/warning/skipped) and issue counts that match the provided stage results.",
+      "max_score": 20
+    },
+    {
+      "name": "Categorised issue list",
+      "description": "Issues are correctly split into Errors (must fix), Warnings (should fix), and Info categories. The missing securityContext, missing probes, and missing memory limits appear as Warnings. Missing .helmignore and NOTES.txt appear as Warnings or Info.",
+      "max_score": 20
+    },
+    {
+      "name": "Proposed changes with before/after blocks",
+      "description": "At least two proposed changes include a file reference, a before code block, and an after code block.",
+      "max_score": 20
+    },
+    {
+      "name": "Automation opportunities listed",
+      "description": "Report mentions at least one automation helper such as scripts/generate_helpers.sh for _helpers.tpl or copying assets/.helmignore for the missing .helmignore.",
+      "max_score": 15
+    },
+    {
+      "name": "Final summary block present",
+      "description": "Report ends with a summary block containing the chart name (monitoring-stack), overall status, total error/warning/info counts, and at least one next step.",
+      "max_score": 15
+    },
+    {
+      "name": "Read-only posture maintained throughout",
+      "description": "Report proposes all changes but explicitly states that no files were modified and the user should apply or use helm-generator to apply fixes.",
+      "max_score": 10
+    }
+  ]
+}

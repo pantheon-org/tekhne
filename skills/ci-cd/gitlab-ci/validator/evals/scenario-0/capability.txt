@@ -1,0 +1,1 @@
+Security scan: hardcoded credentials, curl-pipe-to-bash, and TLS verification bypass

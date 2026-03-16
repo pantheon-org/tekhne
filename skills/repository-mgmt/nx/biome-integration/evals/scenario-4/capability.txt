@@ -1,0 +1,1 @@
+Apply scoped rule overrides instead of global disablement during migration

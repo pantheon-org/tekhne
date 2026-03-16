@@ -1,0 +1,46 @@
+{
+  "context": "Tests server-authoritative message handling: Zod payload validation, delta-based movement with server-side clamping, server-computed score (never from client), and rate-limiting for high-frequency move messages. A naive implementation would apply client-supplied coordinates and scores directly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Payload schema validation",
+      "description": "Move handler validates the incoming payload with Zod (or equivalent schema validation) before using any fields",
+      "max_score": 12
+    },
+    {
+      "name": "Early return on invalid",
+      "description": "Handler returns early (or skips mutation) if payload validation fails",
+      "max_score": 8
+    },
+    {
+      "name": "Delta movement not absolute",
+      "description": "Move handler accepts dx/dy deltas and adds them to current position — does NOT assign client-provided absolute x/y directly",
+      "max_score": 12
+    },
+    {
+      "name": "Server-side clamping",
+      "description": "Movement delta is clamped with a max bound on the server (e.g. Math.max/Math.min or equivalent)",
+      "max_score": 15
+    },
+    {
+      "name": "Server-computed score",
+      "description": "collectCoin handler increments score using server-side logic — does NOT read a score value from the client payload",
+      "max_score": 15
+    },
+    {
+      "name": "Player lookup guard",
+      "description": "Both handlers look up the player by client.sessionId and return early if not found",
+      "max_score": 8
+    },
+    {
+      "name": "Rate limiting",
+      "description": "Move handler includes rate-limiting logic (e.g. timestamp check, cooldown) to reject messages sent too frequently",
+      "max_score": 15
+    },
+    {
+      "name": "Schema fields decorated",
+      "description": "Player x, y, and score fields use @type decorator",
+      "max_score": 15
+    }
+  ]
+}

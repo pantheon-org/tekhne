@@ -1,0 +1,1 @@
+Pattern A root.hcl generation with correct environment-agnostic design

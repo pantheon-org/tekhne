@@ -1,0 +1,46 @@
+{
+  "context": "Agent must produce a project.json with correctly structured @nx-bun/nx executor targets for build, serve, and test, including cache declarations.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct project metadata",
+      "description": "project.json has name \"api\", root \"apps/backend\", and projectType \"application\".",
+      "max_score": 5
+    },
+    {
+      "name": "build target uses @nx-bun/nx:build",
+      "description": "targets.build.executor is exactly \"@nx-bun/nx:build\".",
+      "max_score": 15
+    },
+    {
+      "name": "build target has outputs referencing {options.outputPath}",
+      "description": "targets.build.outputs contains \"{options.outputPath}\".",
+      "max_score": 15
+    },
+    {
+      "name": "build target has cache: true",
+      "description": "targets.build.cache is true.",
+      "max_score": 10
+    },
+    {
+      "name": "serve target uses @nx-bun/nx:run",
+      "description": "targets.serve.executor is exactly \"@nx-bun/nx:run\".",
+      "max_score": 15
+    },
+    {
+      "name": "test target uses @nx-bun/nx:test",
+      "description": "targets.test.executor is exactly \"@nx-bun/nx:test\".",
+      "max_score": 15
+    },
+    {
+      "name": "test target has workspace-relative coverage output",
+      "description": "targets.test.outputs contains a path with {workspaceRoot}/coverage (not a project-relative ./coverage path).",
+      "max_score": 15
+    },
+    {
+      "name": "test target has cache: true",
+      "description": "targets.test.cache is true.",
+      "max_score": 10
+    }
+  ]
+}

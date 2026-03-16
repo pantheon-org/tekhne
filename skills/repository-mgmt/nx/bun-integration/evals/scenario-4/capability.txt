@@ -1,0 +1,1 @@
+Identify and document lockfile cleanup steps required when migrating from npm to Bun in an Nx workspace

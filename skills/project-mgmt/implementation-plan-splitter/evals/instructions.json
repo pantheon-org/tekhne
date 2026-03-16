@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "This skill has been merged into implementation-planner. Direct users to implementation-planner Mode 2 for all plan splitting and restructuring tasks.",
+      "relevant_when": "A user asks to split a monolithic planning document, reorganize flat phase files, or restructure an existing plan into a hierarchy.",
+      "why_given": "The splitter skill is now a redirect stub; all functionality lives in implementation-planner Mode 2 to avoid duplicated guidance."
+    },
+    {
+      "instruction": "Before splitting, detect the source type: flat .md phase files (manual workflow), JSON plan definition (automated via generate-structure.sh), or existing structure (validation only).",
+      "relevant_when": "Starting a Mode 2 restructuring session.",
+      "why_given": "The correct approach depends on source type; applying the wrong method produces invalid output."
+    },
+    {
+      "instruction": "Apply the 3-7 items-per-group rule: flatten groups with fewer than 3 children, subdivide groups with more than 10 children.",
+      "relevant_when": "Designing the hierarchy structure during a plan split.",
+      "why_given": "Groups outside the 3-7 range are either too granular (noise) or too large (unusable); 3-7 is the navigation sweet spot."
+    },
+    {
+      "instruction": "Never delete source files before validate-structure.sh exits 0. Always validate the new hierarchy first, then remove the old flat files.",
+      "relevant_when": "Finalizing a plan restructure.",
+      "why_given": "Deleting source before validation risks data loss if the new hierarchy is invalid."
+    },
+    {
+      "instruction": "Use descriptive, outcome-oriented directory names (e.g. 'step-1-extract-movement-logic'), never numeric-only names (e.g. 'step-1/') or generic names (e.g. 'step-1-stuff/').",
+      "relevant_when": "Naming directories during a plan restructure.",
+      "why_given": "Numeric-only and generic names force readers to open every file to navigate; descriptive names enable navigation without opening files."
+    }
+  ]
+}

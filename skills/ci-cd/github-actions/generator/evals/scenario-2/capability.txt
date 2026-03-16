@@ -1,0 +1,1 @@
+Reusable workflow with explicit secrets and typed inputs

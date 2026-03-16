@@ -298,7 +298,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - **BAD**: filename `2025-02-24-*.md`, frontmatter `date: 2025-02-25`, H1 `March 1, 2025`.
 - **GOOD**: all three match exactly - `2025-02-24` in filename, `date: 2025-02-24` in frontmatter, `February 24, 2025` in H1.
 
-## Bundled Resources
+## References
 
 ### Template Schemas (template/)
 

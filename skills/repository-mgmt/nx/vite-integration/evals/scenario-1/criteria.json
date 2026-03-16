@@ -1,0 +1,36 @@
+{
+  "context": "Agent must produce a vite.config.ts for a React Nx app with the correct plugin setup, workspace-relative paths, and server configuration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "nxViteTsPaths imported and included in plugins",
+      "description": "The config imports nxViteTsPaths from @nx/vite/plugins/nx-tsconfig-paths.plugin and calls nxViteTsPaths() in the plugins array.",
+      "max_score": 25
+    },
+    {
+      "name": "react() plugin included",
+      "description": "The config imports react from @vitejs/plugin-react and calls react() in the plugins array.",
+      "max_score": 15
+    },
+    {
+      "name": "root: __dirname set",
+      "description": "The config sets root: __dirname at the top-level of defineConfig.",
+      "max_score": 15
+    },
+    {
+      "name": "cacheDir uses workspace-relative path",
+      "description": "cacheDir is set to \"../../node_modules/.vite/apps/web-app\" (not a project-relative path).",
+      "max_score": 15
+    },
+    {
+      "name": "build.outDir uses workspace-relative path",
+      "description": "build.outDir is set to \"../../dist/apps/web-app\".",
+      "max_score": 15
+    },
+    {
+      "name": "server and preview ports configured",
+      "description": "server.port is 4200 and preview.port is 4300.",
+      "max_score": 15
+    }
+  ]
+}

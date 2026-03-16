@@ -425,6 +425,38 @@ This skill works well in combination with:
 - **k8s-generator** - Generate Kubernetes deployments for the container
 - **helm-generator** - Create Helm charts with the container image
 
+## Anti-Patterns
+
+### NEVER use `latest` as the base image tag
+
+- **WHY**: `FROM node:latest` resolves to a different image on each build, producing non-reproducible images and silently pulling in breaking changes or vulnerabilities.
+- **BAD**: `FROM node:latest`
+- **GOOD**: `FROM node:20.18-alpine3.20` (specific version and variant)
+
+### NEVER split related package installation across multiple `RUN` layers
+
+- **WHY**: Each `RUN` creates a new layer; separate `apt-get update` and `apt-get install` layers can leak stale package lists and cache files into the image, increasing size unnecessarily.
+- **BAD**: `RUN apt-get update\nRUN apt-get install -y curl\nRUN rm -rf /var/lib/apt/lists/*`
+- **GOOD**: `RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*`
+
+### NEVER run containers as root
+
+- **WHY**: Running as the default root user allows any exploited process full container access; always create a non-root user for application processes.
+- **BAD**: No `USER` instruction (defaults to root)
+- **GOOD**: `RUN addgroup -S appgroup && adduser -S appuser -G appgroup` followed by `USER appuser`
+
+### NEVER copy the entire build context before installing dependencies
+
+- **WHY**: Copying all files before `npm install` or `pip install` busts the layer cache on every code change, making builds slower than necessary.
+- **BAD**: `COPY . .` followed by `RUN npm ci`
+- **GOOD**: `COPY package*.json ./` then `RUN npm ci` then `COPY . .` — dependency layer is cached until package.json changes
+
+### NEVER use `ADD` when `COPY` is sufficient
+
+- **WHY**: `ADD` has implicit behaviors (auto-extracting tarballs, fetching URLs) that make Dockerfiles harder to reason about; `COPY` is explicit and predictable.
+- **BAD**: `ADD app.tar.gz /app/`
+- **GOOD**: `COPY app.tar.gz /app/` and explicitly extract if needed: `RUN tar -xzf /app/app.tar.gz -C /app/`
+
 ## Notes
 
 - **Always use multi-stage builds** for compiled languages

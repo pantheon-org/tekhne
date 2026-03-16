@@ -1,0 +1,10 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-infeasible-1",
+      "capability": "Run `mise install && mise doctor` to verify the generated mise.toml works correctly",
+      "feasible": false,
+      "reason": "Requires executing Mise CLI commands in a live shell environment with internet access to download tool versions. This cannot be verified from file output alone."
+    }
+  ]
+}

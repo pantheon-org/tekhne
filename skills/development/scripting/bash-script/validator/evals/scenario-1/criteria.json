@@ -1,0 +1,31 @@
+{
+  "context": "Evaluate the agent's ability to identify quoting and word-splitting issues in a bash script using the validator workflow",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Unquoted $SOURCE and $DEST identified",
+      "description": "Agent identifies that $SOURCE and $DEST are used unquoted in conditions, cp, and mkdir commands, references SC2086 or equivalent, and explains word-splitting risk with filenames containing spaces",
+      "max_score": 20
+    },
+    {
+      "name": "$(ls $BACKUP_DIR) anti-pattern identified",
+      "description": "Agent identifies that for file in $(ls ...) is unreliable (SC2045 or equivalent) because ls output is word-split and glob-expanded; suggests glob expansion instead (for file in \"$BACKUP_DIR\"/*)",
+      "max_score": 20
+    },
+    {
+      "name": "Four-part issue format used",
+      "description": "For each issue the agent shows: (a) the problematic code, (b) the issue explanation with ShellCheck code, (c) the corrected code, (d) why the fix is better",
+      "max_score": 20
+    },
+    {
+      "name": "Corrected script produced",
+      "description": "Agent produces a complete corrected script where all identified issues are fixed: variables quoted, $(ls ...) replaced with glob, and $SOURCE/$DEST consistently quoted",
+      "max_score": 25
+    },
+    {
+      "name": "Validation result stated",
+      "description": "Agent states a clear PASSED or FAILED result with error and warning counts matching the issues found",
+      "max_score": 15
+    }
+  ]
+}

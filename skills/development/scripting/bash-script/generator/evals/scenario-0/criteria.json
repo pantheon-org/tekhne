@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent generates a backup script with the canonical bash safety idioms: env-based shebang, strict mode flags, IFS setting, trap-based cleanup, and error helper functions. The script should never leave partial output on failure.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Env shebang",
+      "description": "Shebang line uses `#!/usr/bin/env bash` (not a hardcoded path like #!/bin/bash or #!/usr/bin/bash)",
+      "max_score": 8
+    },
+    {
+      "name": "Strict mode set",
+      "description": "Script contains `set -euo pipefail` (all three flags present together or individually)",
+      "max_score": 12
+    },
+    {
+      "name": "IFS override",
+      "description": "Script sets `IFS=$'\\n\\t'` after the strict mode line",
+      "max_score": 8
+    },
+    {
+      "name": "Trap cleanup registered",
+      "description": "Script registers a trap on EXIT (and ideally ERR, INT, TERM) that calls a cleanup function",
+      "max_score": 12
+    },
+    {
+      "name": "Cleanup removes partial file",
+      "description": "The cleanup/trap handler removes any in-progress or partial output file so failed runs do not leave corrupt backups",
+      "max_score": 10
+    },
+    {
+      "name": "die() or equivalent helper",
+      "description": "Script defines a `die` (or equivalent named) function that prints to stderr and exits non-zero",
+      "max_score": 8
+    },
+    {
+      "name": "check_command used",
+      "description": "Script verifies that required external commands (e.g. pg_dump, gzip) exist before use, using `command -v` or equivalent",
+      "max_score": 10
+    },
+    {
+      "name": "readonly for constants",
+      "description": "Script uses `readonly` for at least one script-level constant (e.g. SCRIPT_DIR, SCRIPT_NAME, or a config value)",
+      "max_score": 8
+    },
+    {
+      "name": "Logging to stderr",
+      "description": "Status/progress messages are written to stderr (>&2), not stdout",
+      "max_score": 8
+    },
+    {
+      "name": "Timestamped log messages",
+      "description": "Log/status messages include a timestamp (e.g. using `date`)",
+      "max_score": 8
+    },
+    {
+      "name": "No hardcoded credentials",
+      "description": "Script does NOT contain hardcoded passwords, connection strings, or tokens — relies on environment variables or external config",
+      "max_score": 8
+    }
+  ]
+}

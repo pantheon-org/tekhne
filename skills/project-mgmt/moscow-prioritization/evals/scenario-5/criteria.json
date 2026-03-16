@@ -1,0 +1,31 @@
+{
+  "context": "Agent applies the failure-focused Must test to two contested features and produces an arbitration recommendation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Failure-focused test question stated",
+      "description": "conflict-resolution.md explicitly states the failure-focused test question ('Does the release fail without this?') before applying it.",
+      "max_score": 15
+    },
+    {
+      "name": "Feature A correctly resolved as Must or Should with evidence",
+      "description": "conflict-resolution.md applies the test to Feature A and references the 40% abandonment rate as the deciding evidence (Must is defensible given conversion impact).",
+      "max_score": 25
+    },
+    {
+      "name": "Feature B correctly resolved as Could or Should (not Must)",
+      "description": "conflict-resolution.md applies the test to Feature B and concludes that brand feel / UX polish does not constitute release failure, placing it in Could or Should.",
+      "max_score": 25
+    },
+    {
+      "name": "Stakeholder communication language provided",
+      "description": "conflict-resolution.md includes specific language or talking points for explaining each decision to the affected stakeholder (Marketing VP and UX lead).",
+      "max_score": 20
+    },
+    {
+      "name": "Anti-pattern rule cited",
+      "description": "conflict-resolution.md explicitly references the skill rule that stakeholder preference is not the same as release-critical need when addressing Feature B.",
+      "max_score": 15
+    }
+  ]
+}

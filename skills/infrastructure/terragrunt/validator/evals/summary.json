@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Configuration pattern checklist verification",
+      "feasible": true,
+      "reason": "Agent can evaluate provided HCL file contents against the four checklist items (include blocks, named includes, root file naming, environment configs) without running any tools."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Dependency management and mock_outputs audit",
+      "feasible": true,
+      "reason": "Agent can identify missing mock_outputs and incorrect mock_outputs_allowed_terraform_commands from provided HCL file contents."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Security checklist: state encryption, locking, and hardcoded credentials",
+      "feasible": true,
+      "reason": "Agent can audit provided HCL for missing encrypt=true, missing DynamoDB locking, and hardcoded credential patterns without executing any tools."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Deprecated syntax and Terragrunt 0.93+ migration issues",
+      "feasible": true,
+      "reason": "Agent can identify deprecated commands, attributes, and naming conventions from provided HCL content and recommend modern replacements."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Full validation report with all four checklists completed",
+      "feasible": true,
+      "reason": "Agent can produce a comprehensive validation report with pass/fail status for all checklist items from a set of provided HCL files."
+    }
+  ]
+}

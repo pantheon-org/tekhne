@@ -207,21 +207,6 @@ evaluate_specification_compliance() {
     score=$((score + 1))
   fi
 
-  # Script portability bonus: reward Python/TS/JS scripts for complex logic (+1)
-  SCRIPTS_DIR="$SKILL_DIR/scripts"
-  if [ -d "$SCRIPTS_DIR" ]; then
-    has_polyglot=0
-    for sf in "$SCRIPTS_DIR"/*.py "$SCRIPTS_DIR"/*.ts "$SCRIPTS_DIR"/*.js; do
-      if [ -f "$sf" ]; then
-        has_polyglot=1
-        break
-      fi
-    done
-    if [ "$has_polyglot" -eq 1 ]; then
-      score=$((score + 1))
-    fi
-  fi
-
   # Self-containment check: penalize references to files outside the skill directory
   # Strip fenced code blocks before checking (content inside ``` is examples, not deps)
   non_code_content=$(echo "$CONTENT" | awk '/^```/{skip=!skip; next} !skip{print}')
@@ -241,8 +226,34 @@ evaluate_specification_compliance() {
     score=$((score - 1))
   fi
 
+  # Cap base score at 15 before applying bonuses
   if [ "$score" -gt 15 ]; then score=15; fi
   if [ "$score" -lt 0 ]; then score=0; fi
+
+  # --- Bonuses (each +1, applied after base cap, max combined +2) ---
+  bonus=0
+
+  # Script portability bonus: reward Python/TS/JS scripts for complex logic (+1)
+  SCRIPTS_DIR="$SKILL_DIR/scripts"
+  if [ -d "$SCRIPTS_DIR" ]; then
+    for sf in "$SCRIPTS_DIR"/*.py "$SCRIPTS_DIR"/*.ts "$SCRIPTS_DIR"/*.js; do
+      if [ -f "$sf" ]; then
+        bonus=$((bonus + 1))
+        break
+      fi
+    done
+  fi
+
+  # References Section Format bonus: ## References must be last H2, bullet links with labels (+1)
+  last_h2=$(echo "$CONTENT" | grep "^## " | tail -1 | sed 's/^## //')
+  if [ "$last_h2" = "References" ]; then
+    if echo "$CONTENT" | grep -qE "^\- \[.+\]\(.+\)"; then
+      bonus=$((bonus + 1))
+    fi
+  fi
+
+  score=$((score + bonus))
+  if [ "$score" -gt 17 ]; then score=17; fi
   echo "$score"
 }
 
@@ -430,6 +441,7 @@ generate_analysis_md() {
 - **Total Lines**: $LINES
 - **Has References**: $([ "$HAS_REFS" -eq 1 ] && echo "Yes" || echo "No")
 - **Reference Count**: $REF_COUNT files
+- **References Section Compliant**: $([ "$REFS_SECTION_COMPLIANT" = "true" ] && echo "Yes (D4 +1 bonus awarded)" || echo "No (D4 bonus not awarded)")
 
 ---
 
@@ -689,6 +701,13 @@ D8=$(evaluate_practical_usability)
 D9=$(evaluate_eval_validation)
 
 TOTAL=$((D1 + D2 + D3 + D4 + D5 + D6 + D7 + D8 + D9))
+
+# Compute references section compliance for reporting (independent of D4 scoring path)
+REFS_SECTION_COMPLIANT="false"
+last_h2=$(echo "$CONTENT" | grep "^## " | tail -1 | sed 's/^## //')
+if [ "$last_h2" = "References" ] && echo "$CONTENT" | grep -qE "^\- \[.+\]\(.+\)"; then
+  REFS_SECTION_COMPLIANT="true"
+fi
 GRADE=$(calculate_grade "$TOTAL")
 
 JSON_OUTPUT_STRING=$(cat <<EOF
@@ -710,7 +729,8 @@ JSON_OUTPUT_STRING=$(cat <<EOF
   "grade": "$GRADE",
   "lines": $LINES,
   "hasReferences": $([ "$HAS_REFS" -eq 1 ] && echo "true" || echo "false"),
-  "referenceCount": $REF_COUNT
+  "referenceCount": $REF_COUNT,
+  "referenceSectionCompliant": $REFS_SECTION_COMPLIANT
 }
 EOF
 )
@@ -770,5 +790,6 @@ Grade: $GRADE
 Metadata:
   Lines: $LINES
   References: $REF_COUNT files
+  References Section: $([ "$REFS_SECTION_COMPLIANT" = "true" ] && echo "compliant (+1 D4 bonus)" || echo "non-compliant (0 D4 bonus)")
 EOF
 fi

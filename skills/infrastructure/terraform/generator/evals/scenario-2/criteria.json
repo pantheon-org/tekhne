@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent applies prevent_destroy = true on critical resources (KMS key, RDS, S3 bucket), includes the abort_incomplete_multipart_upload rule in the S3 lifecycle configuration, and enables encryption on the RDS instance.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "KMS key prevent_destroy",
+      "description": "The aws_kms_key resource has lifecycle { prevent_destroy = true }",
+      "max_score": 15
+    },
+    {
+      "name": "RDS instance prevent_destroy",
+      "description": "The aws_db_instance resource has lifecycle { prevent_destroy = true }",
+      "max_score": 15
+    },
+    {
+      "name": "S3 bucket prevent_destroy",
+      "description": "The aws_s3_bucket resource has lifecycle { prevent_destroy = true }",
+      "max_score": 15
+    },
+    {
+      "name": "abort_incomplete_multipart_upload rule",
+      "description": "The S3 lifecycle configuration includes a rule with abort_incomplete_multipart_upload { days_after_initiation = 7 }",
+      "max_score": 20
+    },
+    {
+      "name": "RDS storage_encrypted",
+      "description": "The aws_db_instance resource has storage_encrypted = true",
+      "max_score": 10
+    },
+    {
+      "name": "S3 encryption configured",
+      "description": "The S3 bucket has server-side encryption configured (aws_s3_bucket_server_side_encryption_configuration or equivalent)",
+      "max_score": 8
+    },
+    {
+      "name": "File organization correct",
+      "description": "Generated files include at minimum: main.tf, variables.tf, outputs.tf, versions.tf",
+      "max_score": 7
+    },
+    {
+      "name": "Usage instructions included",
+      "description": "Response includes next steps for terraform init, plan, apply and security reminders",
+      "max_score": 5
+    },
+    {
+      "name": "No sensitive values hardcoded",
+      "description": "No passwords, keys or other sensitive strings are hardcoded — they use variables or are generated",
+      "max_score": 5
+    }
+  ]
+}

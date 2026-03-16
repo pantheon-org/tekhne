@@ -1,0 +1,1 @@
+YAML lint: indentation errors and misplaced keys that silently restructure pipeline blocks

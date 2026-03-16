@@ -1,0 +1,49 @@
+{
+  "instructions": [
+    {
+      "instruction": "Generate a Makefile using the Modern GNU Make header (SHELL := bash, .ONESHELL:, .SHELLFLAGS := -eu -o pipefail -c, .DELETE_ON_ERROR:, .SUFFIXES:, MAKEFLAGS += --warn-undefined-variables, MAKEFLAGS += --no-builtin-rules) unless the user explicitly requests POSIX-compatible output.",
+      "relevant_when": "Creating any new Makefile",
+      "why_given": "Modern header ensures safe shell execution, reproducible builds, and early error detection."
+    },
+    {
+      "instruction": "Declare all non-file targets in a single .PHONY line at the top of the Makefile. Never omit .PHONY for targets like clean, test, all, install, help.",
+      "relevant_when": "Generating any target that does not produce a file artifact",
+      "why_given": "Without .PHONY, a file named 'clean' or 'test' silently prevents the target from running."
+    },
+    {
+      "instruction": "Use ?= for user-overridable variables (CC, CFLAGS, PREFIX, DESTDIR) and := for project-computed variables (SOURCES, OBJECTS).",
+      "relevant_when": "Declaring variables in any Makefile",
+      "why_given": "?= allows callers to override without editing the file; := prevents repeated shell expansion."
+    },
+    {
+      "instruction": "Use $(MAKE) not bare make for recursive sub-directory calls so that -j, -n, and -k flags are inherited by sub-makes.",
+      "relevant_when": "Generating any target that calls make recursively",
+      "why_given": "Bare make does not forward parent jobserver or dry-run flags, causing inconsistent parallel and CI builds."
+    },
+    {
+      "instruction": "Add order-only prerequisites (| $(BUILDDIR)) for build directory creation in large projects instead of inline mkdir -p in every recipe.",
+      "relevant_when": "Generating C/C++ or multi-output projects with a dedicated build directory",
+      "why_given": "Order-only prerequisites prevent spurious rebuilds when directory timestamps change."
+    },
+    {
+      "instruction": "Add error handling (|| { echo ...; exit 1; }) and .NOTPARALLEL declarations for Docker build, push, and deploy targets.",
+      "relevant_when": "Generating Makefiles that include Docker or deployment targets",
+      "why_given": "Docker operations are stateful and race-prone; missing error handling silently passes failed pushes."
+    },
+    {
+      "instruction": "Never hardcode credentials, tokens, or registry passwords in the Makefile. Use environment variables or external secret files.",
+      "relevant_when": "Any target that authenticates to a remote service (Docker registry, package registry, cloud provider)",
+      "why_given": "Credentials in Makefiles are committed to version control and exposed in build logs."
+    },
+    {
+      "instruction": "Use tabs for recipe indentation, never spaces. The Makefile spec requires tab characters; spaces cause 'missing separator' errors.",
+      "relevant_when": "Writing any recipe body",
+      "why_given": "Make parses recipe lines by the presence of a literal tab character."
+    },
+    {
+      "instruction": "Document targets with ## comments (double-hash) immediately above each target so the help target can extract them with grep or awk.",
+      "relevant_when": "Adding a help target to the Makefile",
+      "why_given": "Self-documenting Makefiles reduce onboarding friction and match GNU Coding Standards."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "When identifying SRP violations, describe each violation as: 'SRP violation: <class> handles <concern 1> and <concern 2>. Refactor: Extract <NewClass>. Validation: <how to confirm each class has one reason to change>.'",
+      "relevant_when": "Reviewing a class for single responsibility violations",
+      "why_given": "Step 1 of the workflow defines this exact output format for SRP analysis"
+    },
+    {
+      "instruction": "For OCP violations, identify where adding new features requires editing stable existing code. The fix must introduce an abstraction (interface or abstract class) so that new behavior can be added by extension, not modification.",
+      "relevant_when": "Evaluating whether a class is open for extension and closed for modification",
+      "why_given": "Step 2 defines OCP violations as places where 'new features require editing existing code' and prescribes abstraction/polymorphism as the fix"
+    },
+    {
+      "instruction": "For LSP violations, check if subtypes strengthen preconditions or weaken postconditions, or if clients need instanceof checks before using a type. The fix must ensure subtypes honour the same contract as the base type.",
+      "relevant_when": "Reviewing inheritance hierarchies for substitutability",
+      "why_given": "Step 3 defines LSP violation signals: strengthened preconditions, weakened postconditions, or type-checking at call sites"
+    },
+    {
+      "instruction": "For ISP violations, split interfaces by client role — each interface must only contain methods actually called by its clients. Do not create single-method interfaces for methods that are always used together.",
+      "relevant_when": "Evaluating whether an interface forces clients to depend on methods they do not use",
+      "why_given": "Step 4 prescribes splitting interfaces by client needs; the anti-pattern explicitly warns against single-method interface explosion"
+    },
+    {
+      "instruction": "For DIP violations, introduce an interface at the module boundary. The high-level module must depend on the interface; the low-level module must implement it. The DI container or factory provides the concrete implementation.",
+      "relevant_when": "Detecting and fixing direct concrete coupling between modules",
+      "why_given": "Step 5 defines DIP fix as: introduce interface, invert dependency, inject via container"
+    },
+    {
+      "instruction": "Apply SOLID principles only where the design is causing pain (tight coupling, frequent change, difficulty testing). Do not introduce abstractions preemptively where no change pressure exists.",
+      "relevant_when": "Deciding whether to apply a SOLID refactor to simple or stable code",
+      "why_given": "Anti-pattern: NEVER apply SOLID as a mechanical checklist — apply only where design causes pain"
+    }
+  ]
+}

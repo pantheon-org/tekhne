@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent generates security scanning workflows with the correct permission scopes for CodeQL and SBOM attestations, uses the correct action versions, and avoids overly broad permissions. Criteria map to the security scanning and permissions instructions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "security-events write permission",
+      "description": "The CodeQL workflow grants `security-events: write` permission (required for uploading SARIF results)",
+      "max_score": 14
+    },
+    {
+      "name": "id-token write for attestation",
+      "description": "The container build/attestation workflow grants `id-token: write` permission",
+      "max_score": 12
+    },
+    {
+      "name": "attestations write for attestation",
+      "description": "The container build/attestation workflow grants `attestations: write` permission",
+      "max_score": 12
+    },
+    {
+      "name": "dependency-review-action used",
+      "description": "A workflow step references `actions/dependency-review-action` (any SHA or tag)",
+      "max_score": 12
+    },
+    {
+      "name": "Dependency review on pull_request",
+      "description": "The dependency review step is triggered by (or only runs on) `pull_request` events",
+      "max_score": 10
+    },
+    {
+      "name": "SHA-pinned actions",
+      "description": "All `uses:` steps reference actions with a full 40-character SHA (not tag or branch)",
+      "max_score": 10
+    },
+    {
+      "name": "No write-all permissions",
+      "description": "No workflow uses `permissions: write-all` — permissions are scoped to specific needs",
+      "max_score": 12
+    },
+    {
+      "name": "Maven caching enabled",
+      "description": "The Java/Maven build step uses a setup-java action with `cache: 'maven'` or an explicit `actions/cache` step for Maven dependencies",
+      "max_score": 9
+    },
+    {
+      "name": "Concurrency block present",
+      "description": "At least one generated workflow contains a `concurrency:` block",
+      "max_score": 9
+    }
+  ]
+}

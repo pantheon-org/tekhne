@@ -1,0 +1,1 @@
+HEALTHCHECK, exec-form CMD, EXPOSE, .dockerignore

@@ -32,14 +32,14 @@ Navigation hub for writing measurable, test-ready acceptance criteria.
 **Starting Point (Vague Requirement):**
 > "Users should be able to reset their password easily."
 
-**Step 1: Capture Intent**
+**Step 1:** Capture Intent
 - User outcome: User regains account access after forgetting password.
 - Business intent: Reduce support tickets; maintain security.
 
-**Step 2: Select Format**
+**Step 2:** Select Format
 Choose Given/When/Then (Gherkin) for clarity.
 
-**Step 3: Draft Must-Pass Criteria**
+**Step 3:** Draft Must-Pass Criteria
 ```gherkin
 Given a user is on the login page
 When they click "Forgot Password"
@@ -57,7 +57,7 @@ Then the password is updated
 And they are redirected to login within 2 seconds
 ```
 
-**Step 4: Add Negative & Boundary Scenarios**
+**Step 4:** Add Negative & Boundary Scenarios
 ```gherkin
 Given a user enters an unregistered email
 When they click "Send Reset Link"
@@ -72,7 +72,7 @@ When they click "Update Password"
 Then validation error appears: "Password must be 8+ chars with uppercase and number"
 ```
 
-**Step 5: Validation Checklist**
+**Step 5:** Validation Checklist
 - ✓ All criteria are measurable (pass/fail).
 - ✓ Happy path (valid email → reset → new password) covered.
 - ✓ Failure paths (invalid email, expired link, weak password) covered.
@@ -149,7 +149,7 @@ BAD: criteria written without stakeholder validation. GOOD: confirm criteria wit
 - [ ] Scope boundaries are explicit.
 - [ ] Criteria are understandable by product + QA.
 
-## Quick Reference
+## References
 
 | Topic | Reference |
 | --- | --- |
@@ -158,7 +158,5 @@ BAD: criteria written without stakeholder validation. GOOD: confirm criteria wit
 | Pattern selection | [references/patterns-by-type.md](references/patterns-by-type.md) |
 | Scenario examples | [references/examples.md](references/examples.md) |
 | Reusable templates | [references/templates.md](references/templates.md) |
-
-## References
 
 - [Gherkin Reference](https://cucumber.io/docs/gherkin/)

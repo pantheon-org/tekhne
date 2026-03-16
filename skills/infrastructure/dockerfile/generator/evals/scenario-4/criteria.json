@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent includes the BuildKit syntax directive, generates an Optimization Metrics table with image size estimates, and produces a Next Steps checklist. The task explicitly asks for a decision document, making these normally implicit outputs highly visible and gradeable.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Syntax directive present",
+      "description": "Dockerfile starts with or contains '# syntax=docker/dockerfile:1' (or a versioned variant)",
+      "max_score": 12
+    },
+    {
+      "name": "Image size estimate provided",
+      "description": "The decision document (or Dockerfile comments) includes an estimated image size in MB and compares it to a full Node.js image size",
+      "max_score": 12
+    },
+    {
+      "name": "Cache layer explanation",
+      "description": "The decision document describes which layers are cache hits on code-only changes vs. dependency changes",
+      "max_score": 12
+    },
+    {
+      "name": "Next steps checklist",
+      "description": "The decision document includes a bulleted or checkbox list of next steps before production (e.g., local build test, CI pipeline, vulnerability scanning)",
+      "max_score": 12
+    },
+    {
+      "name": "Security summary",
+      "description": "The decision document includes at least two of: non-root user, minimal base image, no hardcoded secrets — as security properties",
+      "max_score": 10
+    },
+    {
+      "name": "Multi-stage build",
+      "description": "Dockerfile uses multiple FROM stages (deps/builder/runner or similar) for the Next.js build",
+      "max_score": 10
+    },
+    {
+      "name": "Pinned base image tags",
+      "description": "All FROM instructions use specific version tags and NOT :latest",
+      "max_score": 8
+    },
+    {
+      "name": "Non-root user in Dockerfile",
+      "description": "Dockerfile creates a non-root user and includes a USER instruction before CMD",
+      "max_score": 10
+    },
+    {
+      "name": ".dockerignore excludes Next.js build output",
+      "description": ".dockerignore is present and contains at least .next/ or node_modules/ to prevent build artifacts from leaking into build context",
+      "max_score": 7
+    },
+    {
+      "name": "Dependency layer caching order",
+      "description": "package.json/package-lock.json is COPYed before COPY . . in the build stage",
+      "max_score": 7
+    }
+  ]
+}

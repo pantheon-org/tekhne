@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly selects commit types, uses imperative mood, keeps headers concise, avoids chore as a catch-all, and follows basic header formatting rules across a batch of commit message corrections.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "feat for new feature",
+      "description": "The corrected message for the new export endpoint uses 'feat' type (not 'chore', 'build', or another type)",
+      "max_score": 12
+    },
+    {
+      "name": "fix for bug correction",
+      "description": "The corrected message for the null pointer crash uses 'fix' type (not 'chore')",
+      "max_score": 12
+    },
+    {
+      "name": "test for test addition",
+      "description": "The corrected message for the test coverage update uses 'test' type",
+      "max_score": 10
+    },
+    {
+      "name": "ci for pipeline update",
+      "description": "The corrected message for the CI pipeline changes uses 'ci' type",
+      "max_score": 10
+    },
+    {
+      "name": "refactor for restructuring",
+      "description": "The corrected message for the authentication module restructuring uses 'refactor' type",
+      "max_score": 10
+    },
+    {
+      "name": "Imperative mood",
+      "description": "All corrected headers use imperative mood (e.g. 'add', 'fix', 'extract') rather than past tense ('added', 'fixed', 'updated')",
+      "max_score": 14
+    },
+    {
+      "name": "No trailing period",
+      "description": "None of the corrected headers end with a period",
+      "max_score": 8
+    },
+    {
+      "name": "Header ≤ 72 chars",
+      "description": "All corrected headers (type + scope + description) are 72 characters or fewer",
+      "max_score": 12
+    },
+    {
+      "name": "Lowercase description",
+      "description": "All corrected description portions are lowercase (the text after the colon and space)",
+      "max_score": 8
+    },
+    {
+      "name": "No chore misuse flagged",
+      "description": "The explanation for message #2 identifies that 'chore' was used incorrectly (it was a bug fix, not maintenance)",
+      "max_score": 4
+    }
+  ]
+}

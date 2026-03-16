@@ -1,0 +1,1 @@
+Chart structure and helm lint validation with missing recommended files

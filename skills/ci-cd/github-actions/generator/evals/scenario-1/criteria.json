@@ -1,0 +1,51 @@
+{
+  "context": "Tests matrix build generation with correct fail-fast behaviour, SHA-pinned actions, artifact upload conventions, and job dependency chaining. Maps to skill instructions on matrix strategy, artifact sharing, and action versioning.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "SHA-pinned actions",
+      "description": "Every `uses:` step references a full 40-character SHA (not a tag or branch name)",
+      "max_score": 12
+    },
+    {
+      "name": "No explicit fail-fast false",
+      "description": "The matrix strategy does NOT include `fail-fast: false` without an accompanying explanatory comment — the default (true) or an intentional override with comment is acceptable",
+      "max_score": 15
+    },
+    {
+      "name": "Matrix covers OS and Python version",
+      "description": "The matrix definition includes at least two operating systems AND at least two Python version values",
+      "max_score": 10
+    },
+    {
+      "name": "Top-level permissions block",
+      "description": "The workflow contains a top-level `permissions:` block (not absent entirely)",
+      "max_score": 10
+    },
+    {
+      "name": "Artifact named with SHA",
+      "description": "The `actions/upload-artifact` step names the artifact using `${{ github.sha }}` or equivalent unique run identifier",
+      "max_score": 12
+    },
+    {
+      "name": "Upload artifact v4",
+      "description": "Uses `actions/upload-artifact@` with a version that is v4 or newer (not v1, v2, or v3)",
+      "max_score": 10
+    },
+    {
+      "name": "Build job depends on test job",
+      "description": "The build/artifact job has a `needs:` field referencing the matrix test job, so it only runs after all matrix tests pass",
+      "max_score": 12
+    },
+    {
+      "name": "Concurrency block present",
+      "description": "The workflow includes a `concurrency:` block with `cancel-in-progress: true`",
+      "max_score": 10
+    },
+    {
+      "name": "Job timeout set",
+      "description": "At least one job has a `timeout-minutes:` field",
+      "max_score": 9
+    }
+  ]
+}

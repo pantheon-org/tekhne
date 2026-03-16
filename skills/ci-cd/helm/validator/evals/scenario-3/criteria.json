@@ -1,0 +1,31 @@
+{
+  "context": "Agent correctly distinguishes CRD usage from native Kubernetes resources, describes the mandatory documentation lookup workflow, and flags known missing fields.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "CRD correctly identified",
+      "description": "Agent identifies the Certificate resource (cert-manager.io/v1) as a CRD and the Deployment as a native Kubernetes resource.",
+      "max_score": 20
+    },
+    {
+      "name": "Documentation lookup process described",
+      "description": "Agent describes using context7 MCP (mcp__context7__resolve-library-id then mcp__context7__get-library-docs) as the preferred approach, with WebSearch as the stated fallback.",
+      "max_score": 25
+    },
+    {
+      "name": "Correct context7 query parameters stated",
+      "description": "Agent mentions resolving the library ID with a query like 'cert-manager' and fetching docs with a topic such as 'Certificate spec'.",
+      "max_score": 20
+    },
+    {
+      "name": "Missing or optional fields identified",
+      "description": "Agent identifies at least one field that is commonly required or strongly recommended for cert-manager Certificates (e.g., duration, renewBefore, or usages) that is absent from the provided spec.",
+      "max_score": 20
+    },
+    {
+      "name": "kubeconform schema gap explained",
+      "description": "Agent explains that kubeconform will report 'No schema found' for CRDs because they are not in the default Kubernetes schema and that the CRDs-catalog or manual validation via Stage 6 docs is required.",
+      "max_score": 15
+    }
+  ]
+}

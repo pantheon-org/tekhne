@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses helper templates for names and labels, applies conditional with blocks for optional scheduling fields, uses correct port naming for non-HTTP services, and sets resource limits.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Helper for name",
+      "description": "statefulset.yaml and service.yaml use {{ include \"<chart>.fullname\" . }} (or equivalent named template) for the resource name, not hardcoded strings",
+      "max_score": 12
+    },
+    {
+      "name": "Helper for labels",
+      "description": "At least one template file uses {{- include \"<chart>.labels\" . | nindent N }} (or equivalent) rather than manually duplicated label key-value pairs",
+      "max_score": 12
+    },
+    {
+      "name": "Helpers tpl defined",
+      "description": "_helpers.tpl exists and defines at least one named template using {{- define \"...\" -}} syntax",
+      "max_score": 8
+    },
+    {
+      "name": "Non-HTTP port name",
+      "description": "The service or statefulset port definition uses a name other than 'http' (e.g., 'redis', 'tcp-redis', or 'client') — not 'http'",
+      "max_score": 12
+    },
+    {
+      "name": "Conditional nodeSelector",
+      "description": "statefulset.yaml wraps the nodeSelector block in a {{- with .Values.nodeSelector }} ... {{- end }} conditional (only rendered when non-empty)",
+      "max_score": 10
+    },
+    {
+      "name": "Conditional tolerations",
+      "description": "statefulset.yaml wraps the tolerations block in a {{- with .Values.tolerations }} or equivalent conditional",
+      "max_score": 8
+    },
+    {
+      "name": "toYaml for complex objects",
+      "description": "At least one optional block (nodeSelector, tolerations, or affinity) uses toYaml to render the value rather than manually templating each field",
+      "max_score": 8
+    },
+    {
+      "name": "Resources block present",
+      "description": "The statefulset template includes a resources: block (or values.yaml defines resources with at least cpu/memory entries)",
+      "max_score": 10
+    },
+    {
+      "name": "No hardcoded image tag",
+      "description": "values.yaml image tag is empty string or uses .Chart.AppVersion as fallback, NOT a literal pinned version or 'latest'",
+      "max_score": 10
+    },
+    {
+      "name": "nindent used",
+      "description": "At least one template uses the nindent function (rather than indent) to handle newline + indentation when including helpers",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Flag a missing `for` clause in an alerting rule and produce a corrected version

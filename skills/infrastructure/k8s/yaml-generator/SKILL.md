@@ -387,14 +387,6 @@ Before delivering generated YAML, confirm:
 | Validation failures | Read errors carefully; verify field names/types/required fields; re-validate |
 | Wrong API version | Confirm target K8s version; check deprecation status; update `apiVersion`; re-validate |
 
-## Reference Materials
-
-For detailed examples and templates:
-- Standard resource templates: See "Deployment template", "Service template", "ConfigMap template" sections above
-- CRD examples: See "Common CRD Examples" section (ArgoCD, Istio, Cert-Manager)
-- Validation: See `yaml-validator/SKILL.md` in this tile
-- Debugging: See `debug/SKILL.md` in this tile for troubleshooting deployed resources
-
 ## Integration
 
 - **k8s-yaml-validator** (in this tile) — automatic validation of generated resources
@@ -404,3 +396,43 @@ For detailed examples and templates:
 ---
 
 **Workflow summary:** Understand → Fetch CRD Docs (if needed) → Generate → Validate → Deliver
+
+## Anti-Patterns
+
+### NEVER omit `resources:` limits and requests from container specs
+
+- **WHY**: Containers without resource constraints are evicted under node pressure, cannot be autoscaled predictably, and fail Kubernetes best-practice audits (Polaris, kube-score).
+- **BAD**: A container spec with no `resources:` block.
+- **GOOD**: Set `requests` for scheduling and `limits` for protection: `resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: 500m, memory: 512Mi}}`
+
+### NEVER use `latest` as the image tag in Kubernetes manifests
+
+- **WHY**: `imagePullPolicy: Always` with `:latest` makes every pod start non-deterministic; `imagePullPolicy: IfNotPresent` with `:latest` uses a stale local image silently.
+- **BAD**: `image: myapp:latest`
+- **GOOD**: `image: myapp:v1.2.3` with a specific, immutable tag and `imagePullPolicy: IfNotPresent`
+
+### NEVER expose sensitive configuration as plain environment variables
+
+- **WHY**: Config mounted from a literal `env` value appears in pod descriptions, process listings, and logs; it bypasses Kubernetes RBAC for Secret objects.
+- **BAD**: `env: [{name: DB_PASSWORD, value: "mysecret"}]`
+- **GOOD**: `env: [{name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: db-secret, key: password}}}]`
+
+### NEVER create Deployments without liveness and readiness probes
+
+- **WHY**: Without probes, Kubernetes cannot detect unhealthy pods and continues routing traffic to them even when the application is broken or deadlocked.
+- **BAD**: A Deployment spec with no `livenessProbe` or `readinessProbe`.
+- **GOOD**: Add `readinessProbe` to control traffic routing and `livenessProbe` to trigger pod restarts on deadlocks.
+
+### NEVER inline secret values in CI pipeline commands using heredocs
+
+- **WHY**: Heredoc content containing environment variable expansions appears in CI logs and shell history, leaking secrets.
+- **BAD**: `kubectl apply -f - <<EOF\nenv:\n  value: $SECRET\nEOF`
+- **GOOD**: Use Kubernetes Secrets, Sealed Secrets, or external-secrets-operator; reference secrets by name rather than inlining values in pipeline commands.
+
+## References
+
+For detailed examples and templates:
+- Standard resource templates: See "Deployment template", "Service template", "ConfigMap template" sections above
+- CRD examples: See "Common CRD Examples" section (ArgoCD, Istio, Cert-Manager)
+- Validation: See `yaml-validator/SKILL.md` in this tile
+- Debugging: See `debug/SKILL.md` in this tile for troubleshooting deployed resources

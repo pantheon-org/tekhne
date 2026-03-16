@@ -263,37 +263,6 @@ When tools are not installed, the script auto-installs them temporarily. If auto
 | Hardcoded secrets detected | Use BuildKit secrets: `docker build --secret id=api_key,src=api_key.txt` instead of `ENV API_KEY=secret123` |
 | Slow builds | Optimize layer caching (COPY package files first), use `.dockerignore`, enable BuildKit (`export DOCKER_BUILDKIT=1`), use multi-stage builds |
 
-## Resources
-
-### scripts/
-
-#### dockerfile-validate.sh
-
-- Single self-contained validation script
-- Auto-installs hadolint and Checkov if needed
-- Runs all 4 validation stages (syntax, security, best practices, optimization)
-- Auto-cleanup on exit
-- Usage: `bash scripts/dockerfile-validate.sh [Dockerfile]`
-
-### assets/
-
-| File | Purpose |
-|------|---------|
-| `good-example.Dockerfile` | Best practices and optimal structure |
-| `bad-example.Dockerfile` | Common mistakes and anti-patterns |
-| `security-issues.Dockerfile` | Intentional security vulnerabilities for testing |
-| `python-optimized.Dockerfile` | Python-specific optimizations and multi-stage build |
-| `golang-distroless.Dockerfile` | Minimal Go application using distroless base image |
-| `.dockerignore.example` | Example .dockerignore for build context optimization |
-
-### references/
-
-| File | Contents |
-|------|---------|
-| `docker_best_practices.md` | Official Docker best practices; full hadolint DL/SC rule listings |
-| `optimization_guide.md` | Layer optimization and image size reduction techniques |
-| `security_checklist.md` | Container security best practices; full CKV_DOCKER_* check listings |
-
 ## Mandatory Workflow
 
 **Follow these steps in order for every validation request:**
@@ -362,7 +331,66 @@ For multi-Dockerfile projects: find all `Dockerfile*` files, validate each seque
 - Regularly update base images for security patches
 - Integrate validation into CI/CD pipelines
 
-## Sources
+## Anti-Patterns
+
+### NEVER skip Hadolint because the image builds successfully
+
+- **WHY**: A Dockerfile that builds can still violate security, layer caching, and size best practices; hadolint catches these before they reach production.
+- **BAD**: Skip linting if `docker build` exits 0.
+- **GOOD**: Run `hadolint Dockerfile` in CI as a required check; treat W rules as warnings and DL rules as errors.
+
+### NEVER ignore `DL3008` (unpinned apt packages)
+
+- **WHY**: Unpinned packages produce non-reproducible images; the same Dockerfile built a month apart may install different package versions with different security postures.
+- **BAD**: `RUN apt-get install -y curl`
+- **GOOD**: `RUN apt-get install -y curl=7.88.1-*` or use a digest-pinned base image with pre-installed versions.
+
+### NEVER validate a Dockerfile without also scanning the built image
+
+- **WHY**: Static analysis misses runtime vulnerabilities introduced by base images and installed packages; image scanning (Trivy, Grype) is complementary.
+- **BAD**: Pass hadolint and ship the image without scanning it.
+- **GOOD**: Run `trivy image myapp:latest` after build in the CI pipeline.
+
+### NEVER treat `--no-cache` as a security measure
+
+- **WHY**: `--no-cache` prevents layer caching during the current build but does not remove vulnerabilities in the base image or installed packages; image scanning is still required.
+- **BAD**: Rely on `--no-cache` to ensure a "fresh" secure image.
+- **GOOD**: Use `--no-cache` for reproducibility in CI; pair with image scanning for security assurance.
+
+## References
+
+**Internal:**
+
+### scripts/
+
+#### dockerfile-validate.sh
+
+- Single self-contained validation script
+- Auto-installs hadolint and Checkov if needed
+- Runs all 4 validation stages (syntax, security, best practices, optimization)
+- Auto-cleanup on exit
+- Usage: `bash scripts/dockerfile-validate.sh [Dockerfile]`
+
+### assets/
+
+| File | Purpose |
+|------|---------|
+| `good-example.Dockerfile` | Best practices and optimal structure |
+| `bad-example.Dockerfile` | Common mistakes and anti-patterns |
+| `security-issues.Dockerfile` | Intentional security vulnerabilities for testing |
+| `python-optimized.Dockerfile` | Python-specific optimizations and multi-stage build |
+| `golang-distroless.Dockerfile` | Minimal Go application using distroless base image |
+| `.dockerignore.example` | Example .dockerignore for build context optimization |
+
+### references/
+
+| File | Contents |
+|------|---------|
+| `docker_best_practices.md` | Official Docker best practices; full hadolint DL/SC rule listings |
+| `optimization_guide.md` | Layer optimization and image size reduction techniques |
+| `security_checklist.md` | Container security best practices; full CKV_DOCKER_* check listings |
+
+**External:**
 
 **Official Docker Documentation:**
 - [Docker Best Practices](https://docs.docker.com/build/building/best-practices/)

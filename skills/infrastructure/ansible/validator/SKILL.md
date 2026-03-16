@@ -204,18 +204,6 @@ Consult `references/common_errors.md` first. Quick reference:
 
 All validation scripts auto-install required tools in a temporary venv if not available system-wide.
 
-## References
-
-| File | Purpose |
-|---|---|
-| `references/security_checklist.md` | Security vulnerabilities checklist |
-| `references/best_practices.md` | Ansible coding standards |
-| `references/common_errors.md` | Common errors and solutions |
-| `references/module_alternatives.md` | Deprecated module → FQCN migration guide |
-| `assets/.yamllint` | Pre-configured yamllint rules |
-| `assets/.ansible-lint` | Pre-configured ansible-lint configuration |
-| `assets/molecule.yml.template` | Molecule configuration template |
-
 ## Integration with Other Skills
 
 - **k8s-yaml-validator** — when Ansible manages Kubernetes resources
@@ -227,3 +215,41 @@ All validation scripts auto-install required tools in a temporary venv if not av
 - Validation order: YAML syntax → Ansible syntax → Lint → Security scan → Secrets scan → Check mode → Molecule tests
 - Use Ansible Vault for all sensitive data; never commit unencrypted secrets
 - Pin collection versions in `requirements.yml`; test before upgrading
+
+## Anti-Patterns
+
+### NEVER skip `ansible-lint` because the playbook "works"
+
+- **WHY**: A playbook can execute successfully while violating idempotency, security, and style rules that cause failures after re-runs or in different environments; lint catches these issues before they reach production.
+- **BAD**: Run the playbook in staging, observe it completing without errors, and skip linting before merging.
+- **GOOD**: Run `ansible-lint` in CI before every merge and treat any rule violation as a build failure.
+
+### NEVER run `--check` mode without `--diff`
+
+- **WHY**: `--check` reports what would change but without `--diff` you cannot see the actual content of the change; the combination is required for a meaningful dry-run review.
+- **BAD**: `ansible-playbook --check site.yml` with no visibility into what file contents would be modified.
+- **GOOD**: `ansible-playbook --check --diff site.yml` to see both change detection and exact content diffs.
+
+### NEVER use `molecule test` as a substitute for `ansible-lint`
+
+- **WHY**: Molecule tests idempotency and functional correctness via actual execution but does not catch code quality issues, deprecated modules, or style violations that lint detects statically.
+- **BAD**: Skip `ansible-lint` and rely only on Molecule passing to consider a role ready for review.
+- **GOOD**: Run `ansible-lint` first (fast, catches obvious errors), then Molecule (slower, catches runtime and idempotency errors) — both gates are required.
+
+### NEVER ignore `no-changed-when` lint warnings
+
+- **WHY**: Tasks using `command` or `shell` without `changed_when` always report `changed` even when nothing changed, breaking idempotency checks, change auditing, and handler triggering logic.
+- **BAD**: Dismiss `no-changed-when` as a style warning on a `command` task that only reads system state.
+- **GOOD**: Add `changed_when: false` for genuinely read-only commands, or add an explicit `changed_when` condition that reflects actual state changes (e.g., `changed_when: result.rc == 0`).
+
+## References
+
+| File | Purpose |
+|---|---|
+| `references/security_checklist.md` | Security vulnerabilities checklist |
+| `references/best_practices.md` | Ansible coding standards |
+| `references/common_errors.md` | Common errors and solutions |
+| `references/module_alternatives.md` | Deprecated module → FQCN migration guide |
+| `assets/.yamllint` | Pre-configured yamllint rules |
+| `assets/.ansible-lint` | Pre-configured ansible-lint configuration |
+| `assets/molecule.yml.template` | Molecule configuration template |

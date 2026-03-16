@@ -87,13 +87,13 @@ NEVER add `permission:` block for standard tools. WHY: It creates noise and can 
 | Missing `mode: subagent` on subagents | Set it explicitly |
 | `skill: { "my-skill": "allow" }` without `"*": "deny"` | Deny `"*"` first |
 
-## References
-
-- [`references/agent-patterns.md`](references/agent-patterns.md) — Creation phases, patterns, prompt engineering, enhancement/troubleshooting
-- [`references/opencode-config.md`](references/opencode-config.md) — Full frontmatter schema, tools, permissions reference
-
 ## Eval Scenarios
 
 - [Scenario 0: Create specialized agent with permissions](evals/scenario-0/task.md)
 - [Scenario 1: Configure skill permission allowlist](evals/scenario-1/task.md)
 - [Scenario 2: Fix broken agent triggers and system prompt](evals/scenario-2/task.md)
+
+## References
+
+- [`references/agent-patterns.md`](references/agent-patterns.md) — Creation phases, patterns, prompt engineering, enhancement/troubleshooting
+- [`references/opencode-config.md`](references/opencode-config.md) — Full frontmatter schema, tools, permissions reference

@@ -1,0 +1,36 @@
+{
+  "context": "Agent must identify all testability blockers in a service with four distinct untestable constructs and produce a structured written analysis",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Concrete DB instantiation identified",
+      "description": "analysis.md includes a blocker entry for `new Pool(...)` or the PostgreSQL connection being instantiated inside the class",
+      "max_score": 20
+    },
+    {
+      "name": "Concrete Stripe instantiation identified",
+      "description": "analysis.md includes a blocker entry for `new Stripe(...)` being instantiated inside the class",
+      "max_score": 20
+    },
+    {
+      "name": "Side effect: email sending identified",
+      "description": "analysis.md includes a blocker entry for the direct call to `sendEmail` as a hard-coded side effect",
+      "max_score": 15
+    },
+    {
+      "name": "Side effect: filesystem write identified",
+      "description": "analysis.md includes a blocker entry for `fs.writeFileSync` as a hard-coded side effect",
+      "max_score": 15
+    },
+    {
+      "name": "Correct structured format used",
+      "description": "Each blocker uses the three-line format: 'Testability blocker: / Problem: / Refactor:'",
+      "max_score": 15
+    },
+    {
+      "name": "Refactor recommendation names interface injection",
+      "description": "At least two of the Refactor lines recommend injecting an interface or abstract type rather than just 'use a mock'",
+      "max_score": 15
+    }
+  ]
+}

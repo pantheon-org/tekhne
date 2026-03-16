@@ -1,0 +1,1 @@
+Task version pinning and displayName on all steps

@@ -1,0 +1,41 @@
+{
+  "context": "Agent must produce project.json files with correct scope and type tags for 7 projects, following the vocabulary constraints of the nx-workspace-patterns skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Application projects tagged with type:app",
+      "description": "web-app, admin-app, and api-server project.json files each have \"type:app\" in their tags array.",
+      "max_score": 15
+    },
+    {
+      "name": "App scope tags correct",
+      "description": "web-app and admin-app have \"scope:web\"; api-server has \"scope:api\".",
+      "max_score": 15
+    },
+    {
+      "name": "web-auth-feature tagged correctly",
+      "description": "web-auth-feature project.json has tags [\"scope:web\", \"type:feature\"] (or equivalent correct combination).",
+      "max_score": 15
+    },
+    {
+      "name": "shared-ui-components tagged correctly",
+      "description": "shared-ui-components project.json has tags [\"scope:shared\", \"type:ui\"].",
+      "max_score": 15
+    },
+    {
+      "name": "api-user-data-access tagged correctly",
+      "description": "api-user-data-access project.json has tags [\"scope:api\", \"type:data-access\"].",
+      "max_score": 15
+    },
+    {
+      "name": "shared-utils tagged correctly",
+      "description": "shared-utils project.json has tags [\"scope:shared\", \"type:util\"].",
+      "max_score": 15
+    },
+    {
+      "name": "All project.json files are structurally valid",
+      "description": "All 7 files have name, root, projectType, tags, and targets fields. Tags use only vocabulary from the defined taxonomy.",
+      "max_score": 10
+    }
+  ]
+}

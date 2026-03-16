@@ -1,0 +1,36 @@
+{
+  "context": "Evaluate a Bun.serve HTTP server implementation for correct API patterns and Bun-native usage",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Bun.serve() used as the server primitive",
+      "description": "The file uses Bun.serve({ fetch(req) { ... } }) as the entry point; no import from 'node:http', Express, Hono, or other frameworks",
+      "max_score": 20
+    },
+    {
+      "name": "PORT from environment variable",
+      "description": "The server port uses process.env.PORT or Bun.env.PORT with a fallback of 3000; port is not hardcoded",
+      "max_score": 10
+    },
+    {
+      "name": "All four routes implemented",
+      "description": "GET /tasks, POST /tasks, GET /tasks/:id, and DELETE /tasks/:id are all handled with appropriate HTTP status codes (200, 201, 404)",
+      "max_score": 30
+    },
+    {
+      "name": "POST body parsed correctly",
+      "description": "POST /tasks parses the JSON body using await req.json() (Bun-native Request API); does not use body-parser or stream concatenation",
+      "max_score": 15
+    },
+    {
+      "name": "404 fallback handler",
+      "description": "Any unmatched route returns a Response with status 404 and a JSON body { error: 'not found' } or similar",
+      "max_score": 10
+    },
+    {
+      "name": "TypeScript types used",
+      "description": "The file uses TypeScript; task data structure has typed fields (at minimum title: string, done: boolean, id); no use of any as a shortcut for task shape",
+      "max_score": 15
+    }
+  ]
+}

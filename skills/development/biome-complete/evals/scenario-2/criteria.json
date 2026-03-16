@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent knows to use --error-on-warnings for CI (not the local dev check command), and places the lint step before tests in the workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "--error-on-warnings flag used",
+      "description": "The Biome step in ci.yml uses bunx @biomejs/biome check . --error-on-warnings (not just biome check . without the flag)",
+      "max_score": 40
+    },
+    {
+      "name": "Biome step runs before test step",
+      "description": "The lint/check step appears before the bun test step in the job steps list",
+      "max_score": 20
+    },
+    {
+      "name": "Uses bunx to invoke Biome",
+      "description": "The command uses bunx @biomejs/biome (not npx biome or a global biome binary assumption)",
+      "max_score": 20
+    },
+    {
+      "name": "bun install step present before Biome",
+      "description": "bun install runs before the Biome step so the package is available",
+      "max_score": 20
+    }
+  ]
+}

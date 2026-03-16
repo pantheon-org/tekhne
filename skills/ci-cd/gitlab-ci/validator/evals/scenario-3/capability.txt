@@ -1,0 +1,1 @@
+Include file validation: detecting stage reference errors in locally included template files

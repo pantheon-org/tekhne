@@ -1,0 +1,46 @@
+{
+  "context": "Tests that the agent detects hardcoded HTTP_Passwd in the Elasticsearch OUTPUT, hardcoded AWS credentials in the S3 OUTPUT, and tls.verify Off in the Elasticsearch OUTPUT, then produces a corrected config using ${ENV_VAR} references and restores TLS verification.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Hardcoded HTTP_Passwd detected",
+      "description": "security-report.md (or equivalent) flags the plaintext password in the Elasticsearch OUTPUT HTTP_Passwd field as a hardcoded credential",
+      "max_score": 15
+    },
+    {
+      "name": "Hardcoded AWS credentials detected",
+      "description": "security-report.md flags both AWS_Access_Key_ID and AWS_Secret_Access_Key in the S3 OUTPUT as hardcoded credentials",
+      "max_score": 15
+    },
+    {
+      "name": "tls.verify Off detected",
+      "description": "security-report.md flags `tls.verify Off` in the Elasticsearch OUTPUT as a TLS certificate verification bypass",
+      "max_score": 15
+    },
+    {
+      "name": "HTTP_Passwd replaced with env var reference",
+      "description": "In the corrected fluent-bit.conf, HTTP_Passwd uses a ${ENV_VAR} reference (e.g., ${ES_PASSWORD}) instead of the plaintext value",
+      "max_score": 15
+    },
+    {
+      "name": "AWS credentials replaced with env var references",
+      "description": "In the corrected fluent-bit.conf, AWS_Access_Key_ID and AWS_Secret_Access_Key use ${ENV_VAR} references instead of literal values",
+      "max_score": 15
+    },
+    {
+      "name": "tls.verify corrected",
+      "description": "In the corrected fluent-bit.conf, tls.verify is set to On in the Elasticsearch OUTPUT",
+      "max_score": 10
+    },
+    {
+      "name": "Severity assigned to each finding",
+      "description": "security-report.md assigns a severity (HIGH, MEDIUM, or INFO) to each finding",
+      "max_score": 10
+    },
+    {
+      "name": "Risk explanation for each finding",
+      "description": "security-report.md provides a brief explanation of the risk for each finding (e.g., credential exposure in version control, MITM vulnerability)",
+      "max_score": 5
+    }
+  ]
+}

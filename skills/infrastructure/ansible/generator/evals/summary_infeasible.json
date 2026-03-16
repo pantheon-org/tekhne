@@ -1,0 +1,13 @@
+{
+  "total_infeasible": 2,
+  "infeasible_scenarios": [
+    {
+      "scenarios": "dynamic-inventory-cloud",
+      "reasoning": "A scenario testing dynamic inventory generation (e.g., `amazon.aws.aws_ec2` or `azure.azcollection.azure_rm` plugins) requires live cloud credentials, real EC2 or Azure resource groups, and the ability to run `ansible-inventory` against the cloud API. None of these can be provided without real API keys and a running cloud environment, making the scenario infeasible under eval constraints."
+    },
+    {
+      "scenarios": "ansible-vault-encrypt-verify",
+      "reasoning": "Validating that variables are correctly Ansible Vault-encrypted (as opposed to just labelled with vault placeholders) requires running `ansible-vault decrypt` with the vault password, which involves interactive input or vault password files that cannot be provided in the eval harness. A static file grader cannot distinguish a real encrypted vault string from a fake placeholder."
+    }
+  ]
+}

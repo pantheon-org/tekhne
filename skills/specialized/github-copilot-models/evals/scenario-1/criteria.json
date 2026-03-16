@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent reads policy.state to exclude unavailable models, uses the capabilities.limits.max_context_window_tokens field (not model names) for context window comparisons, and applies category tags for task-type matching. Includes a trap: gpt-4-legacy has vision but is disabled; o3-ultra has large context but is preview.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Excludes disabled model",
+      "description": "Report does NOT recommend gpt-4-legacy for the screenshot task (policy.state is 'disabled')",
+      "max_score": 20
+    },
+    {
+      "name": "Flags preview limitation",
+      "description": "Report notes that o3-ultra has restricted availability or should be verified before use (policy.state is 'preview')",
+      "max_score": 15
+    },
+    {
+      "name": "Context from capabilities field",
+      "description": "Context window sizes cited in the report match the capabilities.limits.max_context_window_tokens values from the JSON — not guessed from model name",
+      "max_score": 20
+    },
+    {
+      "name": "Vision capability checked",
+      "description": "Screenshot task recommendation is based on capabilities.supports.vision === true (not assumed from model name)",
+      "max_score": 20
+    },
+    {
+      "name": "Fast tag for docstrings",
+      "description": "Quick docstring task recommendation references a model tagged 'fast' (claude-haiku-4-5 or gpt-5-turbo)",
+      "max_score": 15
+    },
+    {
+      "name": "Enabled-only for production",
+      "description": "All models recommended for production pipeline use have policy.state === 'enabled'",
+      "max_score": 10
+    }
+  ]
+}

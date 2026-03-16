@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "instruction": "Always run syntax validation first before best practices or security checks; fix all syntax errors before proceeding to later layers",
+      "relevant_when": "Any GitLab CI/CD validation task",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Run full validation using: `bash scripts/validate_gitlab_ci.sh .gitlab-ci.yml`",
+      "relevant_when": "Starting a new GitLab CI validation workflow",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Migrate deprecated `only`/`except` keywords to `rules:` syntax; treat deprecation warnings as errors that must be fixed",
+      "relevant_when": "When a .gitlab-ci.yml uses only: or except: job keywords",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate all local include targets referenced by the pipeline, not only the main .gitlab-ci.yml file",
+      "relevant_when": "When a .gitlab-ci.yml uses include:local or include:file directives",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Fix all critical and high-severity security issues immediately; do not defer security findings",
+      "relevant_when": "When security scan reports critical or high-severity issues",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never run --strict as the first validation step on an unfamiliar pipeline; establish a baseline first by running without --strict",
+      "relevant_when": "When considering whether to enable strict mode",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `needs:` for DAG-based parallelism instead of sequential stage ordering when jobs are independent",
+      "relevant_when": "When best practices check identifies sequential job execution that could be parallelized",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Pin Docker image versions; never accept unpinned images (e.g., node:latest) in job definitions",
+      "relevant_when": "When a job definition uses a Docker image without a specific version tag",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report security findings with severity level, job name, line reference, and a specific remediation step",
+      "relevant_when": "When presenting security scan results",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use `rules:` syntax for conditional job execution; always check that stage references in jobs match declared stages",
+      "relevant_when": "When validating job stage references and conditional execution logic",
+      "why_given": "reminder"
+    }
+  ]
+}

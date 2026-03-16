@@ -1,6 +1,13 @@
 .agents/
-.claude/settings.local.json
-.context/investigations
+.claude/
+.codex/
+.context/investigations/
+.context/pr-reviews/
+.cursor/
+.gemini/
+.github/
+!.github/workflows/*.yml
+.opencode/
 .tessl/
 .vscode/
 **/tessl__*

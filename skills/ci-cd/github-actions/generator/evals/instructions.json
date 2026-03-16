@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "instruction": "Pin all action references to a full 40-character SHA with a version comment",
+      "original_snippets": "- uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0 ... NEVER use `@latest` or branch-based action references",
+      "relevant_when": "Whenever any `uses:` step references a third-party or GitHub action",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Set a top-level `permissions:` block defaulting to `contents: read` and override per-job only where write access is genuinely required",
+      "original_snippets": "NEVER omit `permissions:` at the job or workflow level ... Set `permissions: contents: read` as the workflow default",
+      "relevant_when": "Every workflow that is generated",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Add a `concurrency:` block to cancel in-progress runs when a new commit is pushed",
+      "original_snippets": "concurrency:\n  group: ${{ github.workflow }}-${{ github.ref }}\n  cancel-in-progress: true",
+      "relevant_when": "CI workflows triggered by push or pull_request",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Never use `secrets: inherit` in reusable workflows; declare only the required secrets explicitly",
+      "original_snippets": "NEVER use `secrets: inherit` in reusable workflows without justification ... Declare only required secrets explicitly",
+      "relevant_when": "When authoring or calling reusable workflows with `workflow_call`",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use typed inputs and explicit outputs in reusable `workflow_call` workflows",
+      "original_snippets": "on:\n  workflow_call:\n    inputs:\n      environment:\n        required: true\n        type: string\n    secrets:\n      deploy-token:\n        required: true\n    outputs:\n      result:\n        value: ${{ jobs.build.outputs.result }}",
+      "relevant_when": "When generating reusable workflows",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Enable dependency caching for the language ecosystem using either setup-action built-in caching or `actions/cache@v4`",
+      "original_snippets": "cache: 'npm' ... actions/cache v4.2.0+ is required (v4.3.0 latest). The cache service was rewritten",
+      "relevant_when": "CI workflows that install language dependencies (Node, Python, Java, Ruby, .NET)",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Add `timeout-minutes` at the job level (and optionally at the step level) to prevent hung jobs",
+      "original_snippets": "timeout-minutes: 30  # Prevent hung jobs",
+      "relevant_when": "Any workflow with a build, test, or deploy job",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use environment variables instead of direct `${{ }}` interpolation of untrusted or user-supplied inputs in `run:` steps to prevent script injection",
+      "original_snippets": "BEST: Always use environment variables for untrusted input ... ❌ BAD: Direct interpolation of user input (vulnerable to injection)",
+      "relevant_when": "Any workflow step that uses `run:` and references `github.event.*` or user-supplied inputs",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never use `pull_request_target` combined with `actions/checkout` checking out PR head code",
+      "original_snippets": "NEVER use `pull_request_target` with `actions/checkout` checking out PR code ... BAD: `on: pull_request_target` combined with `uses: actions/checkout@... with: ref: ${{ github.event.pull_request.head.sha }}`",
+      "relevant_when": "When generating workflows that run on PRs from forks, or that use `pull_request_target`",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Do not set `fail-fast: false` by default in matrix builds; omit it to use the default `true`, or add an explicit comment if intentional",
+      "original_snippets": "NEVER set `fail-fast: false` by default in matrix builds ... Omit `fail-fast` to use the default `true`, or add an explicit comment",
+      "relevant_when": "When generating matrix strategies",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use descriptive semantic names for workflows, jobs, and steps; workflow files must use lowercase-hyphen naming",
+      "original_snippets": "Descriptive names, lowercase-hyphen files ... name: CI Pipeline ... test-node: ... Install dependencies",
+      "relevant_when": "Every workflow generated",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Add cleanup steps with `if: always()` for resources that must be torn down regardless of success or failure",
+      "original_snippets": "- name: Cleanup\n    if: always()\n    run: docker-compose down",
+      "relevant_when": "Workflows that start external services, containers, or test environments",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "For security scanning workflows, set `permissions: security-events: write` for CodeQL and `id-token: write` plus `attestations: write` for SBOM attestations",
+      "original_snippets": "permissions:\n  contents: read\n  security-events: write  # For CodeQL\n  id-token: write         # For attestations\n  attestations: write",
+      "relevant_when": "When generating security scanning or SBOM attestation workflows",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `workflow_run` instead of `pull_request_target` when post-CI processing (e.g., coverage upload, commenting) needs secrets and must run after an external PR's CI completes",
+      "original_snippets": "Safer than `pull_request_target` for external PRs: Runs with workflow file from target branch ... Use `workflow_run` instead of `pull_request_target` when possible",
+      "relevant_when": "When generating workflows that need to react to fork PR CI results while retaining access to secrets",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `actions/upload-artifact@v4` / `actions/download-artifact@v4` (not older versions) and name artifacts with `${{ github.sha }}` for uniqueness",
+      "original_snippets": "- uses: actions/upload-artifact@v4\n  with:\n    name: build-${{ github.sha }}\n    path: dist/",
+      "relevant_when": "Multi-job workflows that share build outputs between jobs",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use ChatOps `issue_comment` trigger with author-association permission checks before executing any sensitive operations",
+      "original_snippets": "contains(fromJSON('[\"OWNER\", \"MEMBER\", \"COLLABORATOR\"]'), github.event.comment.author_association) ... Never: Execute arbitrary code from comments ... Never: Trust external PR authors for sensitive operations",
+      "relevant_when": "When generating ChatOps or comment-triggered workflows",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use `repository_dispatch` trigger for external system integrations; always validate `client_payload` fields and use allowlists for critical fields",
+      "original_snippets": "Always validate `client_payload` fields ... Sanitize user input to prevent injection ... Use allowlists for critical fields",
+      "relevant_when": "When generating workflows triggered from external systems or APIs",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Prefer `actions/setup-*` built-in caching (`cache: 'npm'`) over manual `actions/cache` where available",
+      "original_snippets": "NPM/Node.js with Built-in Caching:\n- uses: actions/setup-node@v6\n  with:\n    node-version: '24'\n    cache: 'npm'",
+      "relevant_when": "Workflows that set up Node, Java, .NET, or other runtimes that have setup actions with built-in caching",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use `mask` (`echo \"::add-mask::$SECRET\"`) for any secret value used inline in a `run:` step",
+      "original_snippets": "echo \"::add-mask::$API_KEY\"\n./deploy.sh",
+      "relevant_when": "Workflows that access secrets in shell `run:` steps",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "For dependency review, use `actions/dependency-review-action@v4` triggered on `pull_request`",
+      "original_snippets": "Dependency Review: `actions/dependency-review-action@v4`",
+      "relevant_when": "When adding dependency scanning or security review to a PR workflow",
+      "why_given": "new knowledge"
+    }
+  ]
+}

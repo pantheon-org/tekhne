@@ -1,0 +1,1 @@
+Write a stakeholder-ready UI debug report from provided artifacts

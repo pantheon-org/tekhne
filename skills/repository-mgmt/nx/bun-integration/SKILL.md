@@ -111,7 +111,7 @@ Expected: only changed projects execute with Nx scheduling.
 - Migration can leave stale lockfiles; remove obsolete lockfiles as part of a controlled cutover.
 - Nx daemon/cache can mask executor changes; use `nx reset` after plugin updates.
 
-## Quick Reference
+## References
 
 | Topic | Reference |
 | --- | --- |
@@ -119,8 +119,6 @@ Expected: only changed projects execute with Nx scheduling.
 | Nx executor and caching configuration | [references/nx-executor-configuration.md](references/nx-executor-configuration.md) |
 | Node.js to Bun migration checklist | [references/migration-from-node.md](references/migration-from-node.md) |
 | Bun testing in Nx | [references/testing-with-bun.md](references/testing-with-bun.md) |
-
-## References
 
 - [nx-bun Plugin Docs](https://jordan-hall.github.io/nx-bun/)
 - [nx-bun GitHub](https://github.com/jordan-hall/nx-bun)

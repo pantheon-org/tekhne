@@ -1,0 +1,1 @@
+Implement a generator using Tree API instead of direct fs writes

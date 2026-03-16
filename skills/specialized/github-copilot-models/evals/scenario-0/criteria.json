@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent queries models via the fetch-models.sh script (not OpenCode's registry), filters by policy.state for active models, and uses the actual capabilities API field for context window size rather than inferring from model names.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses fetch-models.sh",
+      "description": "Script invokes the fetch-models.sh skill script (or equivalent direct API query) — not 'opencode models' or OpenCode's built-in model listing",
+      "max_score": 20
+    },
+    {
+      "name": "JSON flag used",
+      "description": "Script passes --json flag (or equivalent) to get structured output suitable for jq parsing",
+      "max_score": 10
+    },
+    {
+      "name": "Filters by policy.state",
+      "description": "Script filters models using .policy.state == 'enabled' (or equivalent) — not just listing all models",
+      "max_score": 25
+    },
+    {
+      "name": "Uses context window field",
+      "description": "Script reads .capabilities.limits.max_context_window_tokens (or equivalent nested path) to check context size — not parsing the model name/ID string",
+      "max_score": 25
+    },
+    {
+      "name": "Output format correct",
+      "description": "Script outputs model-id and context window size per qualifying model",
+      "max_score": 10
+    },
+    {
+      "name": "Threshold applied",
+      "description": "Script filters for context window >= 100000 tokens",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "context": "Verify that the agent correctly identifies and tags all untagged code fences with appropriate language identifiers without altering any other content.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All six code blocks have a language tag",
+      "description": "Every fenced code block in the output file starts with a language identifier. No bare triple-backtick fences remain.",
+      "max_score": 30
+    },
+    {
+      "name": "Language tags are accurate for each block's content",
+      "description": "Shell scripts are tagged `bash`, SQL queries are tagged `sql`, TOML config is tagged `toml`, and YAML config is tagged `yaml`. No wrong or generic tags (e.g., `text`) are used where a specific tag is correct.",
+      "max_score": 35
+    },
+    {
+      "name": "No other content changes made",
+      "description": "The document structure, headings, prose, and code content are identical to the input. Only the fence opening lines differ.",
+      "max_score": 20
+    },
+    {
+      "name": "No markdownlint suppressions added",
+      "description": "The output contains no markdownlint disable comments of any kind.",
+      "max_score": 15
+    }
+  ]
+}

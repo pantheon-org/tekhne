@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent uses rate() instead of count_over_time() for alerting thresholds, applies the or vector(0) pattern to prevent no-data gaps, and correctly builds the error ratio expression.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "rate() for absolute alert",
+      "description": "The high-error-rate alert expression uses rate() not count_over_time()",
+      "max_score": 20
+    },
+    {
+      "name": "vector(0) fallback",
+      "description": "The high error rate expression uses '... or vector(0)' to ensure the metric evaluates to 0 when no errors are present",
+      "max_score": 20
+    },
+    {
+      "name": "Error ratio uses rate()",
+      "description": "The error ratio expression divides rate() of errors by rate() of all events (not count_over_time on either side)",
+      "max_score": 15
+    },
+    {
+      "name": "Line filter before parser",
+      "description": "Both expressions place a line filter (e.g. |= \"error\") before the json parser stage",
+      "max_score": 12
+    },
+    {
+      "name": "Threshold set correctly",
+      "description": "The high error rate alert uses a threshold of > 2 (not > 100 or another count-based value) consistent with per-second rate semantics",
+      "max_score": 10
+    },
+    {
+      "name": "Error ratio threshold 5%",
+      "description": "The error ratio expression compares against 0.05 (5%) not 5 or another non-fractional value",
+      "max_score": 10
+    },
+    {
+      "name": "count_over_time failure explained",
+      "description": "The output document contains a sentence or note explaining that count_over_time breaks when the time range changes (raw count vs rate semantics)",
+      "max_score": 8
+    },
+    {
+      "name": "Expressions labelled",
+      "description": "The output document clearly labels which expression is the absolute rate alert and which is the ratio alert",
+      "max_score": 5
+    }
+  ]
+}

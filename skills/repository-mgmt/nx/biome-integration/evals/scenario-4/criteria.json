@@ -1,0 +1,31 @@
+{
+  "context": "Agent must add a scoped override to biome.json for a legacy directory without touching root-level rule configuration, following the anti-pattern guidance in the nx-biome-integration skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Root formatter config unchanged",
+      "description": "Root-level formatter settings (enabled, indentStyle, indentWidth) remain exactly as in the starting file.",
+      "max_score": 15
+    },
+    {
+      "name": "Root linter config unchanged",
+      "description": "Root-level linter.enabled and linter.rules.recommended remain as in the starting file. No rules are disabled at root level.",
+      "max_score": 20
+    },
+    {
+      "name": "overrides array present",
+      "description": "The output biome.json contains an overrides array with at least one entry.",
+      "max_score": 15
+    },
+    {
+      "name": "Override includes correct path pattern",
+      "description": "The override entry's includes field targets apps/legacy-portal (e.g. \"apps/legacy-portal/**\").",
+      "max_score": 25
+    },
+    {
+      "name": "Override disables noNonNullAssertion only within the scoped override",
+      "description": "The override entry sets linter.rules.style.noNonNullAssertion to \"off\". This rule is NOT set at the root linter.rules level.",
+      "max_score": 25
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "context": "Tests that the agent validates both the caller and callee workflow files (not just one in isolation), documents results for each file separately, notes cross-file dependencies, and acknowledges the limitations of static analysis for runtime context.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Both files validated",
+      "description": "validation-report.md contains a section covering the callee (test-template.yml) AND a section covering the caller (service-ci.yml) — not just one",
+      "max_score": 20
+    },
+    {
+      "name": "Callee analysis present",
+      "description": "The report includes analysis of test-template.yml's workflow_call inputs, jobs, and steps",
+      "max_score": 10
+    },
+    {
+      "name": "Caller analysis present",
+      "description": "The report includes analysis of service-ci.yml's uses: reference and with:/secrets: blocks",
+      "max_score": 10
+    },
+    {
+      "name": "Input compatibility checked",
+      "description": "The report notes whether the caller's with: inputs match the callee's declared inputs (node-version, run-coverage)",
+      "max_score": 15
+    },
+    {
+      "name": "Static analysis limits acknowledged",
+      "description": "The report notes at least one limitation where static analysis cannot fully verify runtime behavior (e.g., secret availability, input type coercion, or matrix context)",
+      "max_score": 15
+    },
+    {
+      "name": "No isolation-only approach",
+      "description": "The agent does NOT report only on one of the two files and declare the validation complete",
+      "max_score": 15
+    },
+    {
+      "name": "Cross-file issues section",
+      "description": "The report includes a section or mention of cross-file or caller-callee relationship concerns",
+      "max_score": 15
+    }
+  ]
+}

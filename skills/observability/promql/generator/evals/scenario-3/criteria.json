@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent uses the level:metric:operations naming convention for recording rules and correctly identifies and remedies the high-cardinality label anti-pattern in the sum by (user_id) query.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recording rule naming convention",
+      "description": "All three recording rules use the level:metric:operations naming format (e.g., job:http_requests:rate5m) — NOT arbitrary names",
+      "max_score": 20
+    },
+    {
+      "name": "Three recording rules present",
+      "description": "recording_rules.yaml contains exactly three 'record:' entries covering request rate, error rate, and latency",
+      "max_score": 10
+    },
+    {
+      "name": "Valid YAML recording rule format",
+      "description": "The file uses valid Prometheus recording rule YAML with 'record:' and 'expr:' keys (and optionally 'labels:')",
+      "max_score": 8
+    },
+    {
+      "name": "High-cardinality label identified",
+      "description": "cardinality_analysis.md explicitly identifies user_id as a high-cardinality label and explains it produces too many series",
+      "max_score": 18
+    },
+    {
+      "name": "Safer alternative query provided",
+      "description": "cardinality_analysis.md provides a safer alternative query that does NOT group by user_id (e.g., groups by job, status_code, or other low-cardinality labels)",
+      "max_score": 15
+    },
+    {
+      "name": "by() on all recording rule exprs",
+      "description": "All three recording rule expressions include an explicit by() clause in any aggregation",
+      "max_score": 12
+    },
+    {
+      "name": "Latency rule uses histogram_quantile",
+      "description": "The latency recording rule expression uses histogram_quantile(0.95, ...) with sum by (job, le)",
+      "max_score": 10
+    },
+    {
+      "name": "Label filter in error rate rule",
+      "description": "The error rate recording rule expression includes a status_code label filter to select 5xx errors",
+      "max_score": 7
+    }
+  ]
+}

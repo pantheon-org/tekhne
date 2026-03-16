@@ -1,0 +1,1 @@
+Configure @nx/enforce-module-boundaries depConstraints for a given tag taxonomy

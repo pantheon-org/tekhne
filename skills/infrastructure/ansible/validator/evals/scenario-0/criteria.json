@@ -1,0 +1,66 @@
+{
+  "context": "Tests whether the agent follows the correct ordered validation workflow: yamllint first, then syntax-check, then ansible-lint, then security and secrets scanning, using wrapper scripts throughout, and reading reference files when issues are found.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "yamllint run first",
+      "description": "The report documents yamllint being run before ansible-playbook --syntax-check",
+      "max_score": 8
+    },
+    {
+      "name": "ansible syntax-check run",
+      "description": "The report documents running `ansible-playbook --syntax-check`",
+      "max_score": 8
+    },
+    {
+      "name": "ansible-lint run",
+      "description": "The report documents running `ansible-lint`",
+      "max_score": 8
+    },
+    {
+      "name": "check_fqcn script used",
+      "description": "The report documents running `bash scripts/check_fqcn.sh` (or equivalent FQCN check)",
+      "max_score": 8
+    },
+    {
+      "name": "Security scan with wrapper",
+      "description": "The report documents running `bash scripts/validate_playbook_security.sh` for security scanning",
+      "max_score": 10
+    },
+    {
+      "name": "Secrets scan run",
+      "description": "The report documents running `bash scripts/scan_secrets.sh`",
+      "max_score": 8
+    },
+    {
+      "name": "validate_certs issue found",
+      "description": "The report identifies the `validate_certs: false` setting as a security issue",
+      "max_score": 10
+    },
+    {
+      "name": "no-changed-when issue found",
+      "description": "The report identifies that the `command` tasks (systemctl status, tool --version) are missing `changed_when`",
+      "max_score": 10
+    },
+    {
+      "name": "missing mode on template",
+      "description": "The report notes that the template task is missing a `mode:` attribute",
+      "max_score": 8
+    },
+    {
+      "name": "Reference file cited",
+      "description": "The report references at least one of the skill reference files (common_errors.md, best_practices.md, or security_checklist.md) in connection with a finding",
+      "max_score": 8
+    },
+    {
+      "name": "Overall summary present",
+      "description": "The report includes a final pass/fail or summary section",
+      "max_score": 6
+    },
+    {
+      "name": "Correct step ordering",
+      "description": "The report shows YAML syntax check occurring before lint, and lint before security scan (correct ordering)",
+      "max_score": 8
+    }
+  ]
+}

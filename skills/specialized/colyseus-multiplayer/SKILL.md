@@ -239,6 +239,6 @@ this.onMessage("startMatch", (client) => {
 
 ## References
 
-- Matchmaking and Reconnection: [references/room-lifecycle-and-state.md](references/room-lifecycle-and-state.md)
-- Message Validation and Security: [references/message-validation-and-security.md](references/message-validation-and-security.md)
-- Matchmaking and Reconnection: [references/matchmaking-and-reconnection.md](references/matchmaking-and-reconnection.md)
+- [Room Lifecycle and State](references/room-lifecycle-and-state.md) — Schema setup, lifecycle hooks, state synchronization
+- [Message Validation and Security](references/message-validation-and-security.md) — Server-side payload validation, anti-cheat patterns
+- [Matchmaking and Reconnection](references/matchmaking-and-reconnection.md) — `allowReconnection`, metadata filters, lobby patterns

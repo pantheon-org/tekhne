@@ -1,0 +1,1 @@
+Identify and fix 'Object is possibly undefined' errors using safe null-narrowing patterns

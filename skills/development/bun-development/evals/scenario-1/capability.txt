@@ -1,0 +1,1 @@
+Replace Node.js fs calls with Bun-native file I/O APIs

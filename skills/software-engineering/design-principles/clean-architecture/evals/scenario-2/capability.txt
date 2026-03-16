@@ -1,0 +1,1 @@
+Design a use case with explicit input/output ports

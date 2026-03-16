@@ -1,0 +1,1 @@
+Security audit: hardcoded credentials and tls.verify Off in production output plugins

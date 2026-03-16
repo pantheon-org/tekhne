@@ -116,15 +116,6 @@ Look up documentation when you encounter:
 
 See [references/common_plugins.md](references/common_plugins.md) for documentation on commonly used plugins.
 
-## Reference Documentation
-
-- [Declarative Syntax](references/declarative_syntax.md): Complete Declarative Pipeline syntax reference
-- [Scripted Syntax](references/scripted_syntax.md): Complete Scripted Pipeline syntax reference
-- [Best Practices](references/best_practices.md): Jenkins pipeline best practices and patterns
-- [Common Plugins](references/common_plugins.md): Documentation for frequently used Jenkins plugins
-- [Validation Rules](references/validation_rules.md): Detailed validation rules, error reporting format, and examples
-- [Troubleshooting](references/troubleshooting.md): Common issues, debug mode, and limitations
-
 ## Claude's Workflow
 
 When a user provides a Jenkinsfile for validation:
@@ -150,7 +141,44 @@ When a user provides a Jenkinsfile for validation:
 
 5. **Provide inline fix suggestions** when errors are found (include corrected code snippets directly in the response)
 
-## External References
+## Anti-Patterns
+
+### NEVER validate only the Jenkinsfile without checking Shared Library calls
+
+- **WHY**: Pipeline files that reference shared library steps pass basic validation but fail at runtime when the library step has changed signature.
+- **BAD**: Validate `Jenkinsfile` in isolation when it calls `@Library('my-lib') import com.example.Build`.
+- **GOOD**: Note all `@Library` calls and cross-reference the library version being loaded.
+
+### NEVER skip Declarative Linter validation for Declarative pipelines
+
+- **WHY**: The Jenkins Declarative Linter catches structural errors that generic YAML/Groovy checks miss, such as missing `steps` blocks or invalid directive placement.
+- **BAD**: Rely only on Groovy syntax checking for Declarative pipelines.
+- **GOOD**: Submit the Jenkinsfile to `http://<jenkins>/pipeline-model-converter/validate` or use the CLI linter.
+
+### NEVER accept a "no errors" result from a linter as a green-light to deploy
+
+- **WHY**: Linters cannot execute the pipeline; validate that `sh` steps, credentials references, and environment variables exist in the target Jenkins environment.
+- **BAD**: Merge pipeline changes based only on linter results.
+- **GOOD**: Run the pipeline against a staging branch with a dry-run or canary job before merging to main.
+
+### NEVER leave `retry(n)` in production pipelines without understanding why it was added
+
+- **WHY**: Retry masks flaky steps and increases build time; investigate the root cause instead.
+- **BAD**: Add `retry(3)` to a flaky test stage and close the ticket.
+- **GOOD**: Investigate why the step is flaky, fix the root cause, and remove the retry.
+
+## References
+
+**Internal:**
+
+- [Declarative Syntax](references/declarative_syntax.md): Complete Declarative Pipeline syntax reference
+- [Scripted Syntax](references/scripted_syntax.md): Complete Scripted Pipeline syntax reference
+- [Best Practices](references/best_practices.md): Jenkins pipeline best practices and patterns
+- [Common Plugins](references/common_plugins.md): Documentation for frequently used Jenkins plugins
+- [Validation Rules](references/validation_rules.md): Detailed validation rules, error reporting format, and examples
+- [Troubleshooting](references/troubleshooting.md): Common issues, debug mode, and limitations
+
+**External:**
 
 - Official Jenkins Pipeline Syntax: <https://www.jenkins.io/doc/book/pipeline/syntax/>
 - Pipeline Development Tools: <https://www.jenkins.io/doc/book/pipeline/development/>

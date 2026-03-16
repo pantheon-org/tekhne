@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent identifies Datadog as a custom provider requiring documentation lookup, avoids hardcoding credentials in provider blocks, sets correct provider version constraints, and documents the plan-then-apply CI/CD workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Datadog provider version constraint",
+      "description": "The Datadog provider uses a version constraint (e.g. ~> 3.0) in the required_providers block",
+      "max_score": 12
+    },
+    {
+      "name": "No hardcoded AWS credentials",
+      "description": "The AWS provider block does NOT contain access_key or secret_key attributes with literal string values",
+      "max_score": 15
+    },
+    {
+      "name": "No hardcoded Datadog credentials",
+      "description": "The Datadog provider block does NOT contain api_key or app_key as literal string values — they use variables or environment variable references",
+      "max_score": 15
+    },
+    {
+      "name": "AWS region via variable",
+      "description": "The AWS provider region attribute uses var.aws_region or a variable reference, NOT a hardcoded string",
+      "max_score": 12
+    },
+    {
+      "name": "plan-out workflow documented",
+      "description": "The output includes documentation that shows 'terraform plan -out=tfplan' followed by 'terraform apply tfplan' as two separate steps",
+      "max_score": 18
+    },
+    {
+      "name": "Terraform version constraint present",
+      "description": "The terraform block includes required_version with both a lower and upper bound",
+      "max_score": 8
+    },
+    {
+      "name": "File organization correct",
+      "description": "Generated files include at minimum: main.tf, variables.tf, outputs.tf, versions.tf",
+      "max_score": 8
+    },
+    {
+      "name": "Sensitive variables marked",
+      "description": "Variables that hold credentials (api_key, app_key) have sensitive = true",
+      "max_score": 7
+    },
+    {
+      "name": "Variable descriptions present",
+      "description": "All variable declarations include a description attribute",
+      "max_score": 5
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent produces a well-structured CLI script with getopts argument parsing, a usage() function with examples, and proper handling of invalid and missing-argument cases. The evaluation focuses on argument-handling mechanics over business logic.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "getopts used",
+      "description": "Argument parsing is implemented using the `getopts` built-in (not manual $1/$2 shifting or getopt)",
+      "max_score": 12
+    },
+    {
+      "name": "Invalid option handler",
+      "description": "The getopts case statement includes a `\\?)` branch that prints an error to stderr and exits non-zero",
+      "max_score": 10
+    },
+    {
+      "name": "Missing-argument handler",
+      "description": "The getopts case statement includes a `:)` branch (or equivalent) that detects options given without their required argument and exits non-zero with a message",
+      "max_score": 10
+    },
+    {
+      "name": "shift after getopts",
+      "description": "Script calls `shift $((OPTIND - 1))` after the getopts loop to advance past parsed options",
+      "max_score": 8
+    },
+    {
+      "name": "usage() function present",
+      "description": "Script defines a `usage` (or `help`) function that prints a usage block",
+      "max_score": 10
+    },
+    {
+      "name": "Usage includes examples",
+      "description": "The usage/help text contains at least one concrete example invocation",
+      "max_score": 8
+    },
+    {
+      "name": "usage() called from -h",
+      "description": "The -h (or --help equivalent) option calls the usage function and exits 0",
+      "max_score": 8
+    },
+    {
+      "name": "Required arg validation",
+      "description": "Script checks that the required service name argument is non-empty after parsing, and exits with an error if missing",
+      "max_score": 10
+    },
+    {
+      "name": "Strict mode present",
+      "description": "Script includes `set -euo pipefail`",
+      "max_score": 8
+    },
+    {
+      "name": "Env shebang",
+      "description": "Shebang uses `#!/usr/bin/env bash` (not a hardcoded interpreter path)",
+      "max_score": 8
+    },
+    {
+      "name": "Errors to stderr",
+      "description": "Error messages (invalid option, missing argument) are written to stderr (>&2)",
+      "max_score": 8
+    }
+  ]
+}

@@ -251,7 +251,39 @@ When validation fails due to missing collections, rewrite using builtins:
 
 ---
 
-## Resources
+## Anti-Patterns
+
+### NEVER use `gather_facts: true` by default for large inventories
+
+- **WHY**: Fact gathering adds 2-5 seconds per host at connection time; for playbooks targeting hundreds of hosts this significantly increases total runtime for plays that do not need facts.
+- **BAD**: Relying on the default `gather_facts` behaviour in every play, including utility plays that never reference `ansible_*` variables.
+- **GOOD**: Set `gather_facts: false` globally in `ansible.cfg` and enable it per-play only when facts are actually needed (conditionals, templates using `ansible_os_family`, etc.).
+
+### NEVER store secrets in `group_vars/` plaintext files
+
+- **WHY**: Any plaintext password or API key committed to `group_vars/` is permanently exposed in source control history, even after deletion.
+- **BAD**: `ansible_become_password: mypassword` in `group_vars/all.yml` committed to the repository.
+- **GOOD**: Use Ansible Vault (`ansible-vault encrypt_string`) or an external secrets manager (HashiCorp Vault, AWS Secrets Manager) and reference values via lookup plugins.
+
+### NEVER use the `shell` or `command` module when a dedicated module exists
+
+- **WHY**: `shell` and `command` bypass idempotency guarantees, built-in error handling, and change detection that dedicated modules provide; they also resist linting and security scanning.
+- **BAD**: `ansible.builtin.shell: pip install requests` instead of using the `pip` module.
+- **GOOD**: `ansible.builtin.pip: name: requests state: present` — use the purpose-built module so Ansible can detect and report actual state changes.
+
+### NEVER write tasks without `name:` fields
+
+- **WHY**: Unnamed tasks produce unreadable playbook output and make debugging nearly impossible when a play contains many tasks; they also fail `ansible-lint` name rules.
+- **BAD**: `- apt: name=nginx state=present` with no `name:` field.
+- **GOOD**: Always prefix every task with a descriptive `name:`, e.g., `- name: Install nginx web server`.
+
+### NEVER use `ignore_errors: true` as a general exception handler
+
+- **WHY**: `ignore_errors: true` silently swallows all failures and lets the playbook continue in a potentially broken state, masking errors that affect downstream tasks.
+- **BAD**: `ignore_errors: true` on a package installation task where failure means the service cannot start.
+- **GOOD**: Use `failed_when` with specific conditions to define expected failure states, or use `block/rescue/always` for structured error handling with recovery logic.
+
+## References
 
 ### References (read at generation start)
 

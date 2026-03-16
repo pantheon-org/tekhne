@@ -1,0 +1,36 @@
+{
+  "context": "Evaluate the agent's ability to identify SQL injection risks and refactor to prepared statements using bun:sqlite",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All four interpolated queries identified as vulnerable",
+      "description": "Agent identifies findUserByEmail, getUserPosts, searchProducts, and deleteOldSessions as using string interpolation with user-controlled input; getAdminUsers correctly identified as safe (no interpolation)",
+      "max_score": 20
+    },
+    {
+      "name": "Injection example provided for at least one query",
+      "description": "Agent provides a concrete example of an input that would exploit at least one query (e.g., email = \"' OR '1'='1\" for findUserByEmail)",
+      "max_score": 15
+    },
+    {
+      "name": "db.prepare() used for all four refactored queries",
+      "description": "All four vulnerable queries use db.prepare(sql) with ? placeholders and pass values as arguments to .all() or .run()",
+      "max_score": 25
+    },
+    {
+      "name": "LIKE pattern with bound parameter",
+      "description": "searchProducts uses a prepared statement where the LIKE wildcard pattern is constructed safely (e.g., the % characters are included in the bound value: db.prepare('... LIKE ?').all('%' + term + '%'))",
+      "max_score": 20
+    },
+    {
+      "name": "getAdminUsers left unchanged",
+      "description": "Agent does not modify getAdminUsers since it contains no interpolated user input; or if modified, explains why as a style choice only",
+      "max_score": 10
+    },
+    {
+      "name": "No interpolation in produced module",
+      "description": "The produced module contains no template literal interpolation inside any query string passed to db.query() or db.prepare()",
+      "max_score": 10
+    }
+  ]
+}

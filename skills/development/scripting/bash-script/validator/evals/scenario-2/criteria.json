@@ -1,0 +1,36 @@
+{
+  "context": "Evaluate the agent's ability to identify bashisms in a POSIX sh script and produce a portable replacement",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "declare -a identified as bashism",
+      "description": "Agent identifies that declare -a is bash-specific and not available in POSIX sh; explains that POSIX sh has no arrays",
+      "max_score": 15
+    },
+    {
+      "name": "local identified as bashism",
+      "description": "Agent identifies that local is a bash extension (not in POSIX sh spec) and suggests removing it or restructuring the function",
+      "max_score": 10
+    },
+    {
+      "name": "[[ ]] identified as bashism",
+      "description": "Agent identifies that [[ $? -eq 0 ]] and [[ ${#FAILED_TESTS[@]} -gt 0 ]] use bash double-bracket syntax and replaces them with [ ] or equivalent POSIX constructs",
+      "max_score": 20
+    },
+    {
+      "name": "Array operations replaced with POSIX alternative",
+      "description": "Agent replaces FAILED_TESTS+=(...) and ${FAILED_TESTS[@]} array operations with a POSIX-compatible alternative (e.g., space-separated string, temp file, or counter-only approach)",
+      "max_score": 25
+    },
+    {
+      "name": "Corrected POSIX sh script produced",
+      "description": "Agent produces a complete corrected script that uses only POSIX sh features; the shebang remains #!/bin/sh",
+      "max_score": 20
+    },
+    {
+      "name": "Each change explained",
+      "description": "Agent provides an explanation for each substitution made, referencing why the original construct fails on dash/POSIX sh",
+      "max_score": 10
+    }
+  ]
+}

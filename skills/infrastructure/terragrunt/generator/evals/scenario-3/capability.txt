@@ -1,0 +1,1 @@
+Multi-environment directory structure generation (Pattern A)

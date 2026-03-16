@@ -1,0 +1,32 @@
+{
+  "total_instructions": 9,
+  "feasible_scenarios": 5,
+  "coverage_percentage": 90,
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Implement a generator using Tree API instead of direct fs writes",
+      "instructions_covered": [1, 3, 7]
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Fix hardcoded paths to use readProjectConfiguration",
+      "instructions_covered": [2, 7, 8]
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Write a cache-aware executor with outputs declaration",
+      "instructions_covered": [5, 6]
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Fix generator that overwrites existing files without checking tree.exists",
+      "instructions_covered": [8, 2]
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Register generator in generators.json and export from index.ts",
+      "instructions_covered": [9]
+    }
+  ]
+}

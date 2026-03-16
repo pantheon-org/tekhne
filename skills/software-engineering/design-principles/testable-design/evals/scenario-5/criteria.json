@@ -1,0 +1,36 @@
+{
+  "context": "Agent must produce a test coverage plan that correctly assigns test types to each architectural layer per the testable design principles",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Entities assigned unit tests with no dependencies",
+      "description": "The plan specifies unit tests for Order and OrderItem with no mocks, stubs, or fakes — pure function input/output testing",
+      "max_score": 20
+    },
+    {
+      "name": "Use cases assigned unit tests with mocked ports",
+      "description": "CreateOrderUseCase and CancelOrderUseCase are assigned unit tests that use mocks or stubs for IOrderRepository and IPaymentGateway",
+      "max_score": 20
+    },
+    {
+      "name": "Adapters assigned integration tests",
+      "description": "PostgresOrderRepository and StripePaymentGateway are assigned integration tests (not unit tests), with explicit mention of real or fake infrastructure",
+      "max_score": 20
+    },
+    {
+      "name": "Controller assigned integration test",
+      "description": "HttpOrderController is assigned an integration test (not a unit test), with the use case either real or faked",
+      "max_score": 15
+    },
+    {
+      "name": "At least one end-to-end test described",
+      "description": "The plan includes at least one end-to-end scenario covering a complete workflow from HTTP request to database",
+      "max_score": 10
+    },
+    {
+      "name": "Boundary summary table present",
+      "description": "A markdown table with columns Layer, Component, Test Type, and Dependencies Used is present and covers all listed components",
+      "max_score": 15
+    }
+  ]
+}

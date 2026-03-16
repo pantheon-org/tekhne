@@ -1,0 +1,28 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Fix markdownlint violations in a document with multiple rule failures",
+      "feasible": true,
+      "reason": "Agent can produce a corrected Markdown file with all violations resolved without suppressing rules globally."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Author a well-structured README from scratch following the skill's document-type template and heading hierarchy rules",
+      "feasible": true,
+      "reason": "Agent can produce a complete README.md file that follows proper heading sequence and has typed code fences."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Add explicit language tags to all untagged fenced code blocks in an existing document",
+      "feasible": true,
+      "reason": "Agent can locate every untagged fence in a supplied document and add appropriate language identifiers."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Write a markdownlint config file that enforces the skill's style rules",
+      "feasible": true,
+      "reason": "Agent can produce a `.markdownlint.json` configuration that encodes the anti-patterns from the skill as enforced rules."
+    }
+  ]
+}

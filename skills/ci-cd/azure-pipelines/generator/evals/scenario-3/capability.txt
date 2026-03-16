@@ -1,0 +1,1 @@
+Go-specific pipeline conventions

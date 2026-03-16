@@ -1,0 +1,1 @@
+Typed options passed as objects to services

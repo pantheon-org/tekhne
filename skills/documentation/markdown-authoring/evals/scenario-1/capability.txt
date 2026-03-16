@@ -1,0 +1,1 @@
+Fix markdownlint violations in a document with multiple rule failures

@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Pattern A root.hcl generation with correct environment-agnostic design",
+      "feasible": true,
+      "reason": "Agent can generate a root.hcl file following Pattern A constraints and output the architecture checklist without requiring tool execution."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Child module generation with dependency blocks and correct mock_outputs",
+      "feasible": true,
+      "reason": "Agent can produce a terragrunt.hcl child module with dependency blocks, mock_outputs, and mock_outputs_allowed_terraform_commands from a text description of requirements."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Multi-environment directory structure generation (Pattern A)",
+      "feasible": true,
+      "reason": "Agent can design and output a complete multi-environment directory structure with root.hcl, env.hcl files, and child modules following Pattern A conventions."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Feature flags and exclude block generation with deprecated syntax avoidance",
+      "feasible": true,
+      "reason": "Agent can generate feature blocks with static defaults and exclude blocks replacing deprecated skip attribute from a requirements description."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Complete infrastructure scaffold with presentation requirements",
+      "feasible": true,
+      "reason": "Agent can produce all generated files plus the five required presentation sections (directory tree, file table, usage instructions, env notes, next steps)."
+    }
+  ]
+}

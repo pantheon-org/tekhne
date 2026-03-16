@@ -281,6 +281,38 @@ For comprehensive function and parser documentation, see `references/function_re
 sum(rate({app="api"} | json | level="error" [5m])) or vector(0) > 10
 ```
 
+## Anti-Patterns
+
+### NEVER use a broad stream selector without label filters
+
+- **WHY**: `{job="app"}` on high-volume streams reads all log lines before any filtering, causing massive I/O and query timeouts in production Loki.
+- **BAD**: `{job="app"} | json | level="error"`
+- **GOOD**: `{job="app", namespace="prod"} |= "error" | json | level="error"` — line filter before parser reduces data volume
+
+### NEVER place parsers before line filters
+
+- **WHY**: Parsers (json, logfmt, regexp) are CPU-intensive. Placing a fast line filter (`|=`, `!=`, `|~`) before the parser pre-filters data and reduces parsing overhead by up to 10x.
+- **BAD**: `{app="api"} | json | level="error"`
+- **GOOD**: `{app="api"} |= "error" | json | level="error"`
+
+### NEVER use regexp when logfmt or json applies
+
+- **WHY**: Parser performance order is: pattern > logfmt > json > regexp. Regexp is 5-20x slower than structured parsers and breaks on format changes.
+- **BAD**: `{app="api"} | regexp "level=(?P<level>[^ ]+)"`
+- **GOOD**: `{app="api"} | logfmt` (if logs are logfmt-formatted)
+
+### NEVER put high-cardinality values in stream selectors
+
+- **WHY**: Loki indexes stream selectors. High-cardinality labels (user_id, trace_id, request_id) in stream selectors create millions of streams, causing index bloat and degraded query performance.
+- **BAD**: `{user_id="12345", app="api"} | json`
+- **GOOD**: `{app="api"} | trace_id="abc123" | json` — use structured metadata for high-cardinality values (Loki 3.x)
+
+### NEVER use `count_over_time` when `rate` is needed for alerting
+
+- **WHY**: `count_over_time` returns a raw count, not a rate. Alert thresholds set on raw counts break when the time range changes. Use `rate()` for stable per-second thresholds.
+- **BAD**: `count_over_time({app="api"} | json | level="error" [5m]) > 100`
+- **GOOD**: `rate({app="api"} | json | level="error" [5m]) > 2` (2 errors/second)
+
 ## Error Handling
 
 | Issue | Solution |
@@ -289,12 +321,6 @@ sum(rate({app="api"} | json | level="error" [5m])) or vector(0) > 10
 | Query slow | Use specific selectors, filter before parsing, reduce time range |
 | Parse errors | Verify log format matches parser, test JSON validity |
 | High cardinality | Use line filters not label filters for unique values, aggregate |
-
-## Resources
-
-- **assets/common_queries.logql**: Comprehensive query examples
-- **references/best_practices.md**: 39+ LogQL best practices, performance optimization, anti-patterns
-- **references/function_reference.md**: Quick function and parser reference tables
 
 ## Guidelines
 
@@ -313,3 +339,9 @@ sum(rate({app="api"} | json | level="error" [5m])) or vector(0) > 10
 - **Loki 3.6+**: Horizontally scalable compactor, Loki UI as Grafana plugin
 
 > **Deprecations**: Promtail (use Alloy), BoltDB store (use TSDB with v13 schema)
+
+## References
+
+- [Common Queries](assets/common_queries.logql) — comprehensive query examples covering filtering, parsing, metrics, alerting, and Loki 3.x patterns
+- [Best Practices](references/best_practices.md) — 39+ LogQL best practices, performance optimization, and anti-patterns
+- [Function Reference](references/function_reference.md) — quick reference tables for all LogQL functions and parsers

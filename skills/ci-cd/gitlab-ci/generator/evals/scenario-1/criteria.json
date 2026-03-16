@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses `needs` for DAG optimization to decouple frontend and backend job chains, sets `timeout` on jobs, configures `retry` for flaky operations, and marks test/build jobs as `interruptible: true`.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "needs used for DAG",
+      "description": "At least one test or downstream job uses a `needs:` list that references only its own component's build job (not all build jobs)",
+      "max_score": 15
+    },
+    {
+      "name": "Frontend and backend chains decoupled",
+      "description": "Frontend test/deploy jobs reference frontend build in `needs:`, and backend test/deploy jobs reference backend build in `needs:` — not cross-component",
+      "max_score": 12
+    },
+    {
+      "name": "timeout on jobs",
+      "description": "At least two jobs (or the default block) include a `timeout:` field with a value in minutes",
+      "max_score": 10
+    },
+    {
+      "name": "retry configured",
+      "description": "At least one job (or the default block) includes a `retry:` configuration",
+      "max_score": 10
+    },
+    {
+      "name": "interruptible: true on build/test jobs",
+      "description": "At least one build or test job has `interruptible: true` (or it is set in the `default:` block)",
+      "max_score": 12
+    },
+    {
+      "name": "Image pinned",
+      "description": "All `image:` values specify a version other than `:latest`",
+      "max_score": 10
+    },
+    {
+      "name": "No only/except",
+      "description": "The YAML does NOT use `only:` or `except:` keywords",
+      "max_score": 10
+    },
+    {
+      "name": "expire_in on artifacts",
+      "description": "Any `artifacts:` block with `paths:` includes `expire_in:`",
+      "max_score": 8
+    },
+    {
+      "name": "Kebab-case job names",
+      "description": "Job names use kebab-case",
+      "max_score": 7
+    },
+    {
+      "name": "Stages declared",
+      "description": "A `stages:` key is present listing the pipeline stages",
+      "max_score": 6
+    }
+  ]
+}

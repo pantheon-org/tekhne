@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "When asked to identify testability problems in code, list each blocker in the format: 'Testability blocker: <description>. Problem: <why untestable>. Refactor: <recommended fix>.'",
+      "relevant_when": "Reviewing existing code for testability issues",
+      "why_given": "The skill defines a structured output format for identifying testability blockers in Step 1 of its workflow"
+    },
+    {
+      "instruction": "Refactor concrete dependency instantiation inside constructors by injecting an interface instead. The class must accept the dependency as a constructor parameter typed to an interface.",
+      "relevant_when": "Applying dependency injection to hard-coded concrete dependencies",
+      "why_given": "Step 2 of the workflow prescribes constructor injection with interface types as the primary DI pattern"
+    },
+    {
+      "instruction": "Apply the Humble Object pattern by separating infrastructure-touching code (controllers, presenters) from pure business logic (use cases, entities). The humble object must have minimal logic; all business rules go in the testable object.",
+      "relevant_when": "Isolating side effects from business logic",
+      "why_given": "Step 3 prescribes the Humble Object pattern for separating side effects; the skill explicitly shows HttpController as humble and CreateOrderUseCase as testable"
+    },
+    {
+      "instruction": "Choose the correct test double type: use a Stub for queries that return fixed data, a Mock for commands where you need to verify the call was made, and a Fake for lightweight in-memory implementations of full interfaces.",
+      "relevant_when": "Designing test doubles for dependencies",
+      "why_given": "Step 4 defines the three test double types and their specific use cases"
+    },
+    {
+      "instruction": "Verify test coverage at each architectural boundary: entities must be unit tested with no dependencies, use cases must be unit tested with mocked ports, adapters must be integration tested, and controllers must be integration tested.",
+      "relevant_when": "Assessing or designing a test coverage strategy for a layered system",
+      "why_given": "Step 5 prescribes the four boundary-level coverage requirements as a checklist"
+    },
+    {
+      "instruction": "Never use real infrastructure (databases, HTTP, file system) in unit tests. Unit tests must only use mocks, stubs, or fakes.",
+      "relevant_when": "Writing or reviewing unit tests that interact with infrastructure",
+      "why_given": "Anti-pattern: NEVER use real infrastructure in unit tests"
+    }
+  ]
+}

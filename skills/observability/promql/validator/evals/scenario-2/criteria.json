@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent flags the missing `for` clause, explains the alert storm risk, and produces a corrected alerting rule.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Missing `for` clause is explicitly identified",
+      "description": "The review report explicitly states that the alerting rule lacks a `for` clause.",
+      "max_score": 20
+    },
+    {
+      "name": "Alert storm risk is explained",
+      "description": "The report explains that without `for`, the alert fires on a single evaluation cycle, which causes false positives from transient spikes.",
+      "max_score": 20
+    },
+    {
+      "name": "`for` duration recommendation is reasonable",
+      "description": "The report recommends a `for` duration of at least 2m (the skill's stated minimum), with a brief explanation of the sensitivity/stability trade-off.",
+      "max_score": 20
+    },
+    {
+      "name": "Corrected YAML includes `for` clause",
+      "description": "The `alert-corrected.yaml` file contains a `for:` field with a duration of 2m or greater added to the rule.",
+      "max_score": 25
+    },
+    {
+      "name": "All other rule fields are preserved unchanged",
+      "description": "The corrected YAML preserves the `expr`, `labels`, and `annotations` fields exactly as in the input, with no other modifications.",
+      "max_score": 15
+    }
+  ]
+}

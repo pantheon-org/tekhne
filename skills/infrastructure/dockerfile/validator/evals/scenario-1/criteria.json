@@ -1,0 +1,31 @@
+{
+  "context": "Agent identifies hadolint rule violations in a Dockerfile that uses an untagged base image, splits RUN commands, and uses unpinned packages.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "DL3006: untagged base image",
+      "description": "Agent flags 'FROM ubuntu' (no tag) as a violation of DL3006 (always tag the version of an image explicitly) at line 1.",
+      "max_score": 20
+    },
+    {
+      "name": "DL3008: unpinned apt packages",
+      "description": "Agent flags the apt-get install commands as violating DL3008 (pin versions in apt-get install) for curl, git, wget, and python3.",
+      "max_score": 20
+    },
+    {
+      "name": "DL3009 or DL3027: apt-get cache not cleaned",
+      "description": "Agent identifies that apt-get update and install are not followed by 'rm -rf /var/lib/apt/lists/*' in the same RUN layer (DL3009 or DL3027).",
+      "max_score": 20
+    },
+    {
+      "name": "Multiple separate RUN commands flagged",
+      "description": "Agent notes that splitting apt-get install across two RUN commands (lines 3 and 4) creates unnecessary layers and recommends combining them.",
+      "max_score": 20
+    },
+    {
+      "name": "Severity ordering and read-only posture",
+      "description": "Agent lists findings ordered by severity (errors before warnings before info/style) and does not modify the Dockerfile.",
+      "max_score": 20
+    }
+  ]
+}

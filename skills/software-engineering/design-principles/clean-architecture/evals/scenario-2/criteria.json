@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent correctly separates the use case from presentation logic (HTTP req/res), defines typed input/output interfaces, and depends on repository/email abstractions rather than concrete implementations.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Input port interface defined",
+      "description": "register-user.ts defines a typed input interface (e.g., RegisterUserInput) with email, password, and name — no req/res objects",
+      "max_score": 20
+    },
+    {
+      "name": "Output port interface defined",
+      "description": "register-user.ts defines a typed output interface (e.g., RegisterUserOutput) with userId and email — no HTTP response formatting",
+      "max_score": 20
+    },
+    {
+      "name": "Use case depends on repository interface",
+      "description": "register-user.ts receives a user repository through an interface (IUserRepository or similar), not the concrete UserRepository class",
+      "max_score": 20
+    },
+    {
+      "name": "No HTTP/Express imports in use case",
+      "description": "register-user.ts has no imports from express and no req or res parameters — HTTP concerns are removed",
+      "max_score": 20
+    },
+    {
+      "name": "DESIGN.md explains layer placement",
+      "description": "DESIGN.md identifies at least: use case in application layer, repository interface in application layer, HTTP adapter in adapter layer",
+      "max_score": 20
+    }
+  ]
+}

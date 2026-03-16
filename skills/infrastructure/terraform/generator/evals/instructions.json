@@ -1,0 +1,160 @@
+{
+  "instructions": [
+    {
+      "instruction": "Work through steps in order: Understand Requirements, Check for Custom Providers/Modules, Consult Reference Files, Generate Configuration, Validate, Provide Usage Instructions. Do not skip any step.",
+      "original_snippets": "Work through these steps in order. Do not skip any step.",
+      "relevant_when": "Whenever generating any Terraform configuration",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "For custom/third-party providers (e.g., datadog/datadog, mongodb/mongodbatlas), use WebSearch with format '[provider/module name] terraform [version] documentation [specific resource]' to find documentation.",
+      "original_snippets": "**Custom/third-party providers/modules** (require documentation lookup):\n...\nUse WebSearch to find version-specific documentation:\nSearch query format: \"[provider/module name] terraform [version] documentation [specific resource]\"\nExample: \"datadog terraform provider v3.30 monitor resource documentation\"",
+      "relevant_when": "When generating configuration for non-HashiCorp providers or community modules",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Standard HashiCorp providers (aws, azurerm, google, kubernetes) do not require documentation lookup before use.",
+      "original_snippets": "**Standard providers** (no lookup needed):\n- hashicorp/aws, hashicorp/azurerm, hashicorp/google, hashicorp/kubernetes, other official HashiCorp providers",
+      "relevant_when": "When generating configuration using only official HashiCorp providers",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Always read references/terraform_best_practices.md before generating configuration (contains required patterns).",
+      "original_snippets": "| `terraform_best_practices.md` | Always - contains required patterns |",
+      "relevant_when": "Before generating any Terraform configuration",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Use the prescribed file organization: main.tf, variables.tf, outputs.tf, versions.tf, and optionally terraform.tfvars and backend.tf.",
+      "original_snippets": "terraform-project/\n├── main.tf           # Primary resource definitions\n├── variables.tf      # Input variable declarations\n├── outputs.tf        # Output value declarations\n├── versions.tf       # Provider version constraints\n├── terraform.tfvars  # Variable values (optional, for examples)\n└── backend.tf        # Backend configuration (optional)",
+      "relevant_when": "Whenever generating a Terraform project",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Set required_version to '>= 1.10, < 2.0' for modern features by default; use '>= 1.14, < 2.0' for latest features.",
+      "original_snippets": "Use `required_version` constraint with both lower and upper bounds\n- Default to `>= 1.10, < 2.0` for modern features (ephemeral resources, write-only)\n- Use `>= 1.14, < 2.0` for latest features (actions, query command)",
+      "relevant_when": "When writing the versions.tf / terraform block",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Use provider version constraints with '~>' for minor flexibility and pin major versions. AWS: ~> 6.0, Azure: ~> 4.0, GCP: ~> 7.0, Kubernetes: ~> 2.23.",
+      "original_snippets": "- AWS: `~> 6.0` (latest: v6.23.0)\n- Azure: `~> 4.0` (latest: v4.54.0)\n- GCP: `~> 7.0` (latest: v7.12.0)\n- Kubernetes: `~> 2.23`\n- Use `~>` for minor version flexibility, pin major versions",
+      "relevant_when": "When declaring providers in versions.tf or terraform block",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Use descriptive snake_case names for resources; include resource type in the name when helpful.",
+      "original_snippets": "**Resource Naming:** Use descriptive snake_case names; include resource type in name when helpful.\n```hcl\nresource \"aws_instance\" \"web_server\" { ... }\n```",
+      "relevant_when": "When naming any Terraform resource",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "All variables must include description and type; add validation blocks for constrained values.",
+      "original_snippets": "variable \"instance_type\" {\n  description = \"EC2 instance type for web servers\"\n  type        = string\n  default     = \"t3.micro\"\n\n  validation {\n    condition     = contains([\"t3.micro\", \"t3.small\", \"t3.medium\"], var.instance_type)\n    error_message = \"Instance type must be t3.micro, t3.small, or t3.medium.\"\n  }\n}",
+      "relevant_when": "When declaring input variables",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "All output values must include a description attribute.",
+      "original_snippets": "output \"instance_public_ip\" {\n  description = \"Public IP address of the web server\"\n  value       = aws_instance.web_server.public_ip\n}",
+      "relevant_when": "When declaring output values",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Always use data sources for dynamic infrastructure values (AMIs, current region, account ID, AZs) instead of hardcoding.",
+      "original_snippets": "Always use data sources for dynamic infrastructure values instead of hardcoding:\n| Current region | `data \"aws_region\" \"current\" {}` |\n| Current account | `data \"aws_caller_identity\" \"current\" {}` |\n| Available AZs | `data \"aws_availability_zones\" \"available\" {}` |\n| Latest AMI | `data \"aws_ami\" \"...\"` | With `most_recent = true` and filters",
+      "relevant_when": "When referencing AWS region, account ID, AZs, or AMI IDs",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use locals for computed values and common tags.",
+      "original_snippets": "**Use locals for Computed Values:**\n```hcl\nlocals {\n  common_tags = {\n    Environment = var.environment\n    ManagedBy   = \"Terraform\"\n    Project     = var.project_name\n  }\n}\n```",
+      "relevant_when": "When generating configurations with repeated values or computed expressions",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Add lifecycle { prevent_destroy = true } on critical resources: KMS keys, RDS databases, S3 buckets with data, DynamoDB tables, ElastiCache clusters, Secrets Manager secrets.",
+      "original_snippets": "**Resources that must have `prevent_destroy = true`:**\n- KMS keys (`aws_kms_key`)\n- RDS databases (`aws_db_instance`, `aws_rds_cluster`)\n- S3 buckets containing data\n- DynamoDB tables with data\n- ElastiCache clusters\n- Secrets Manager secrets",
+      "relevant_when": "When generating critical stateful resources that could cause data loss if destroyed",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When creating S3 buckets with lifecycle configurations, always include an abort_incomplete_multipart_upload rule with days_after_initiation = 7.",
+      "original_snippets": "# Abort incomplete multipart uploads to prevent storage costs (Checkov CKV_AWS_300)\nrule {\n  id     = \"abort-incomplete-uploads\"\n  status = \"Enabled\"\n  ...\n  abort_incomplete_multipart_upload {\n    days_after_initiation = 7\n  }\n}",
+      "relevant_when": "When creating AWS S3 buckets with lifecycle configurations",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use for_each with a map or set for resources that differ by configuration, not count with index.",
+      "original_snippets": "NEVER use `count` to manage resources that differ only by configuration\n- **WHY**: `count` creates indexed resources that break when items are removed from the middle of a list\n- **BAD**: `count = length(var.instance_names)` combined with `var.instance_names[count.index]`\n- **GOOD**: Use `for_each` with a map or set",
+      "relevant_when": "When creating multiple similar resources parameterized by a list or map",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never store Terraform state in a local backend for team or CI use. Configure a remote backend (e.g., S3 with dynamodb_table for state locking).",
+      "original_snippets": "NEVER store Terraform state in a local backend for team or CI use\n- **WHY**: Local state cannot be shared, locked, or versioned\n- **BAD**: No `backend {}` block (defaults to local state in `terraform.tfstate`)\n- **GOOD**: Configure `backend \"s3\" {}` (or equivalent) with a `dynamodb_table` argument for state locking",
+      "relevant_when": "When generating Terraform for team or CI/CD environments",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never hardcode provider credentials or region in .tf files. Configure credentials via environment variables or IAM roles; set region via var.aws_region.",
+      "original_snippets": "NEVER hardcode provider credentials or region in `.tf` files\n- **BAD**: `provider \"aws\" { region = \"us-east-1\" access_key = \"AKIA...\" secret_key = \"...\" }`\n- **GOOD**: Configure credentials via environment variables (`AWS_REGION`, `AWS_ACCESS_KEY_ID`) or IAM instance/execution roles; set region via `var.aws_region`",
+      "relevant_when": "When configuring any cloud provider block",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Omit default values on environment-specific variables in shared modules; pass values via .tfvars or environment variables.",
+      "original_snippets": "NEVER mix input variable defaults with environment-specific values in the same `variables.tf`\n- **BAD**: `default = \"us-east-1\"` on a `region` variable in a shared module\n- **GOOD**: Omit `default` on environment-specific variables; pass values via `.tfvars` files or environment variables (`TF_VAR_region`)",
+      "relevant_when": "When creating shared/reusable Terraform modules",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "After generating files, invoke the devops-skills:terraform-validator skill. Do not proceed to providing usage instructions until all checks pass.",
+      "original_snippets": "After generating Terraform files, validate them using the devops-skills:terraform-validator skill:\n```\nInvoke: Skill(devops-skills:terraform-validator)\n```\n...\nIf validation fails, fix the issues and re-run the validator. Do NOT proceed to Step 5 until all checks pass.",
+      "relevant_when": "After every Terraform generation task",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "After successful validation, provide usage instructions including: generated files table, next steps (init, plan, apply), customization notes, and security reminders.",
+      "original_snippets": "After successful generation and validation with all checks passing, provide the user with:\n## Generated Files\n...\n## Next Steps\n1. Review and customize `terraform.tfvars`\n2. Initialize Terraform: `terraform init`\n3. Review the execution plan: `terraform plan`\n4. Apply the configuration: `terraform apply`",
+      "relevant_when": "After generating and validating any Terraform configuration",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Never use 'terraform apply' without a saved plan in CI/CD. Use 'terraform plan -out=tfplan' then 'terraform apply tfplan' as two sequential steps.",
+      "original_snippets": "NEVER use `terraform apply` without a saved plan in CI/CD\n- **BAD**: `terraform apply -auto-approve` as a single pipeline step\n- **GOOD**: `terraform plan -out=tfplan` then `terraform apply tfplan` as two separate, sequential pipeline steps",
+      "relevant_when": "When generating CI/CD pipeline scripts or documenting Terraform workflow steps",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always pin module versions when using modules from the registry.",
+      "original_snippets": "module \"vpc\" {\n  source  = \"terraform-aws-modules/vpc/aws\"\n  version = \"5.0.0\"\n  ...\n}\n...\nAlways pin module versions, review module documentation for compatibility, test updates in non-production first.",
+      "relevant_when": "When using Terraform Registry modules",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Use dynamic blocks for repeated configuration patterns (e.g., security group ingress rules).",
+      "original_snippets": "**Dynamic Blocks for Repeated Configuration:**\n```hcl\nresource \"aws_security_group\" \"example\" {\n  dynamic \"ingress\" {\n    for_each = var.ingress_rules\n    content { ... }\n  }\n}\n```",
+      "relevant_when": "When generating resources with variable numbers of repeated nested blocks",
+      "why_given": "particular preference"
+    },
+    {
+      "instruction": "Never hardcode sensitive values (passwords, keys); use variables and mark them sensitive = true.",
+      "original_snippets": "**Security Best Practices:**\n- Never hardcode sensitive values (use variables)\n...\n- Enable encryption by default\n- Use secure backend configurations",
+      "relevant_when": "When generating resources that require passwords, API keys, or secrets",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Implement least-privilege IAM policies; enable encryption by default on relevant resources.",
+      "original_snippets": "- Implement least-privilege IAM policies\n- Enable encryption by default",
+      "relevant_when": "When generating IAM policies, RDS, S3, KMS, or other security-sensitive resources",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Add comments explaining complex logic, document why certain values are used, and include examples in variable descriptions.",
+      "original_snippets": "**Comments and Documentation:** Add comments explaining complex logic, document why certain values are used, and include examples in variable descriptions.",
+      "relevant_when": "When generating any Terraform configuration with non-obvious logic",
+      "why_given": "particular preference"
+    }
+  ]
+}

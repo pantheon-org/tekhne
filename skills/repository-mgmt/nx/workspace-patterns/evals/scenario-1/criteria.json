@@ -1,0 +1,41 @@
+{
+  "context": "Agent must produce nx.json targetDefaults with explicit dependsOn, named inputs, and cache settings for build, test, and lint as required by the nx-workspace-patterns skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "build.dependsOn is [\"^build\"]",
+      "description": "targetDefaults.build.dependsOn is exactly [\"^build\"].",
+      "max_score": 15
+    },
+    {
+      "name": "build.inputs includes production and ^production",
+      "description": "targetDefaults.build.inputs contains both \"production\" and \"^production\".",
+      "max_score": 10
+    },
+    {
+      "name": "test.dependsOn is [\"build\"]",
+      "description": "targetDefaults.test.dependsOn is exactly [\"build\"].",
+      "max_score": 15
+    },
+    {
+      "name": "test.inputs includes default, ^production, and jest preset",
+      "description": "targetDefaults.test.inputs contains \"default\", \"^production\", and \"{workspaceRoot}/jest.preset.js\".",
+      "max_score": 15
+    },
+    {
+      "name": "lint.inputs includes default and .eslintrc.json",
+      "description": "targetDefaults.lint.inputs contains \"default\" and \"{workspaceRoot}/.eslintrc.json\".",
+      "max_score": 15
+    },
+    {
+      "name": "cache: true on all three targets",
+      "description": "targetDefaults.build.cache, targetDefaults.test.cache, and targetDefaults.lint.cache are all true.",
+      "max_score": 20
+    },
+    {
+      "name": "Schema and version present",
+      "description": "nx.json has a $schema field and version: 2.",
+      "max_score": 10
+    }
+  ]
+}

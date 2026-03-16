@@ -1,0 +1,46 @@
+{
+  "context": "Tests that the agent designs a CI integration using the validation script and explains exit codes (0/1/2), the checks performed (syntax, formatting, security, .PHONY), and produces a local validation target.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Validation script referenced",
+      "description": "The GitHub Actions workflow or setup-guide.md references bash scripts/validate_makefile.sh (or the validation script) as the validation tool",
+      "max_score": 15
+    },
+    {
+      "name": "Exit codes documented",
+      "description": "setup-guide.md documents the three exit codes: 0 (no issues), 1 (warnings), 2 (errors) — or equivalent pass/warn/fail semantics",
+      "max_score": 15
+    },
+    {
+      "name": "CI workflow triggers on Makefile changes",
+      "description": "The GitHub Actions workflow is triggered on pull_request and includes a paths filter for Makefile or *.mk files",
+      "max_score": 10
+    },
+    {
+      "name": "Checks explained",
+      "description": "setup-guide.md lists at least three categories of issues the validation catches (e.g., tab indentation, .PHONY, hardcoded credentials, syntax errors)",
+      "max_score": 15
+    },
+    {
+      "name": "Self-validating Makefile target",
+      "description": "Makefile.snippet includes a 'validate' or 'lint' target that runs the validation script",
+      "max_score": 10
+    },
+    {
+      "name": "Validate target is .PHONY",
+      "description": "The validate/lint target in Makefile.snippet is declared in .PHONY",
+      "max_score": 10
+    },
+    {
+      "name": "Local run instructions",
+      "description": "setup-guide.md explains how to run validation locally (the command to use)",
+      "max_score": 10
+    },
+    {
+      "name": "Input Makefile issues noted",
+      "description": "The setup-guide.md or workflow output notes issues in the provided example-bad-makefile.mk (spaces, missing .PHONY, bare make call)",
+      "max_score": 15
+    }
+  ]
+}

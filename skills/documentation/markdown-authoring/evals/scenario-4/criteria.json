@@ -1,0 +1,36 @@
+{
+  "context": "Verify that the agent produces a valid markdownlint config that encodes the skill's anti-patterns as enforced rules, with explanatory notes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "`\"default\": true` is set",
+      "description": "The `.markdownlint.json` file contains `\"default\": true` so all standard rules are enabled unless explicitly overridden.",
+      "max_score": 15
+    },
+    {
+      "name": "Fenced code language rule is configured",
+      "description": "The config includes a setting for rule MD040 (or equivalent) that requires language tags on fenced code blocks.",
+      "max_score": 20
+    },
+    {
+      "name": "Heading level sequence rule is configured",
+      "description": "The config includes a setting for rule MD001 (or equivalent) that enforces sequential heading levels with no skips.",
+      "max_score": 20
+    },
+    {
+      "name": "List marker consistency rule is configured",
+      "description": "The config includes a setting for rule MD004 (or equivalent) that enforces a single list marker style.",
+      "max_score": 20
+    },
+    {
+      "name": "No rules are globally disabled",
+      "description": "No rule is set to `false` in the config. All configured rules are either enabled (`true`) or given a specific option value.",
+      "max_score": 10
+    },
+    {
+      "name": "Notes file explains each configured rule",
+      "description": "The `markdownlint-notes.md` file includes one entry per configured rule explaining its purpose and which anti-pattern it prevents.",
+      "max_score": 15
+    }
+  ]
+}

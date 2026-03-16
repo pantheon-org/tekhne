@@ -1,0 +1,41 @@
+{
+  "context": "Tests that the agent identifies lint_code, lint_types, sast_scan, and dependency_scan as jobs that only depend on the build job (not on the full stage sequence) and recommends needs: to allow them to start immediately after build rather than waiting for all prior stages to complete.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "lint jobs parallelism opportunity identified",
+      "description": "dag-optimization-report.md (or equivalent) identifies that lint_code and lint_types only depend on the build job and can run in parallel with each other immediately after build completes",
+      "max_score": 15
+    },
+    {
+      "name": "security jobs parallelism opportunity identified",
+      "description": "dag-optimization-report.md identifies that sast_scan and/or dependency_scan are independent of the test stage results and can run in parallel with (or immediately after) the lint/test jobs rather than waiting for the full test stage",
+      "max_score": 15
+    },
+    {
+      "name": "needs: added to lint jobs in output",
+      "description": "In the optimized .gitlab-ci.yml, lint_code and lint_types have `needs: [build]` (or equivalent) so they start immediately after build instead of waiting for the lint stage gating",
+      "max_score": 15
+    },
+    {
+      "name": "needs: added to security or package jobs in output",
+      "description": "In the optimized .gitlab-ci.yml, at least one of sast_scan, dependency_scan, or package has a `needs:` clause that allows it to start before later stages would normally allow",
+      "max_score": 15
+    },
+    {
+      "name": "Critical path improvement quantified",
+      "description": "dag-optimization-report.md includes a before/after comparison of critical path length (e.g., number of sequential blocking stages reduced from 6 to a smaller number)",
+      "max_score": 15
+    },
+    {
+      "name": "needs: mechanism explained",
+      "description": "dag-optimization-report.md explains how `needs:` bypasses stage ordering and enables DAG-based execution",
+      "max_score": 15
+    },
+    {
+      "name": "No invalid needs: dependencies introduced",
+      "description": "In the optimized .gitlab-ci.yml, no job has a `needs:` reference to a job in a later stage (which would be invalid)",
+      "max_score": 10
+    }
+  ]
+}

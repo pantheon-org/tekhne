@@ -1,0 +1,1 @@
+Diagnose a failed capture-evidence.sh run using troubleshooting guidance

@@ -275,6 +275,32 @@ jobs:
 - Use SHA pinning for all actions in production workflows
 - Always pass untrusted input through environment variables
 
+## Anti-Patterns
+
+### NEVER skip lint-only mode when Docker is unavailable
+
+- **WHY**: Skipping validation entirely because Docker is not installed leaves syntax errors, schema violations, and security issues undetected. `actionlint` catches the majority of real errors without Docker.
+- **BAD**: Skip all validation when Docker is not installed.
+- **GOOD**: Run `--lint-only` mode which covers syntax, schema, and security checks without requiring a container runtime.
+
+### NEVER ignore script injection warnings from actionlint
+
+- **WHY**: Script injection warnings flag real attack vectors. Untrusted `github.event.*` values interpolated directly into shell commands allow a pull request author to execute arbitrary code in your workflow.
+- **BAD**: Dismiss `SC2086` or script injection warnings as low priority and merge anyway.
+- **GOOD**: Pass untrusted input through environment variables — `env: PR_TITLE: ${{ github.event.pull_request.title }}` — then reference `"$PR_TITLE"` in the `run:` step.
+
+### NEVER validate a workflow file in isolation when it uses `workflow_call` or `matrix`
+
+- **WHY**: Reusable workflows and matrix strategies depend on caller-provided inputs and context that cannot be resolved by validating the file alone. Skipping caller validation misses entire classes of type and expression errors.
+- **BAD**: Validate only the reusable workflow file without also validating the calling workflow.
+- **GOOD**: Validate both the caller and callee; note any warnings that require runtime context that static analysis cannot resolve.
+
+### NEVER accept deprecation warnings as harmless
+
+- **WHY**: Deprecated action major versions (e.g., `@v2` when `@v4` is current) may receive no security patches. A known vulnerability in a deprecated version is an open door into your CI environment.
+- **BAD**: Leave `actions/checkout@v2` in place after the validator warns it is outdated.
+- **GOOD**: Update to the current SHA-pinned version from `references/action_versions.md`.
+
 ## Summary
 
 1. **Setup**: Install tools with `install_tools.sh`
@@ -284,4 +310,13 @@ jobs:
 5. **Search**: Use web search to verify unknown actions
 6. **Commit**: Push validated workflows with confidence
 
-For detailed information, consult the appropriate reference file in `references/`.
+## References
+
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| actionlint error patterns with explanations and fixes | [Common Errors](references/common_errors.md) | Diagnosing a specific actionlint error message |
+| Runner labels, availability, and hardware specs | [Runners](references/runners.md) | Choosing or validating a `runs-on` label |
+| Current version table for popular actions with SHA pins | [Action Versions](references/action_versions.md) | Updating a deprecated or unpinned action reference |
+| Local workflow testing with act, limitations and workarounds | [act Usage](references/act_usage.md) | Running workflows locally before pushing |
+| actionlint configuration and custom rule examples | [actionlint Usage](references/actionlint_usage.md) | Configuring actionlint or adding custom ignore rules |
+| Modern GHA features: job summaries, environments, containers | [Modern Features](references/modern_features.md) | Validating workflows that use newer GitHub Actions APIs |

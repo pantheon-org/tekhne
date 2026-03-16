@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent identifies no-changed-when issues correctly, produces a fixed playbook with proper changed_when annotations, and documents the correct dry-run command (--check --diff together, not just --check).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All no-changed-when tasks identified",
+      "description": "The audit_report.md identifies at least 4 of the 6 command/shell tasks as having no-changed-when issues",
+      "max_score": 12
+    },
+    {
+      "name": "Why it matters explained",
+      "description": "The report explains why missing changed_when breaks idempotency (always reports changed, breaks handler triggering or change auditing)",
+      "max_score": 10
+    },
+    {
+      "name": "Read-only tasks get changed_when: false",
+      "description": "In fixed_playbook.yml, tasks that only read state (check if config exists, get version, check disk, verify running, pgrep) have `changed_when: false`",
+      "max_score": 14
+    },
+    {
+      "name": "State-changing tasks get explicit changed_when",
+      "description": "In fixed_playbook.yml, tasks that may actually change state (migrate, reload-config) have an explicit `changed_when` condition rather than just `changed_when: false`",
+      "max_score": 10
+    },
+    {
+      "name": "Dry-run uses --check --diff",
+      "description": "The audit_report.md shows the dry-run command as `ansible-playbook --check --diff ...` (both flags present)",
+      "max_score": 14
+    },
+    {
+      "name": "No --check without --diff",
+      "description": "The report does NOT show `--check` used without `--diff` (the anti-pattern is avoided)",
+      "max_score": 10
+    },
+    {
+      "name": "missing mode on file task noted",
+      "description": "The audit identifies that the file task creating /opt/myapp is missing a `mode:` attribute",
+      "max_score": 8
+    },
+    {
+      "name": "mode added in fixed playbook",
+      "description": "The fixed_playbook.yml adds a `mode:` attribute to the file task",
+      "max_score": 8
+    },
+    {
+      "name": "ansible-lint run documented",
+      "description": "The audit_report.md documents running ansible-lint as part of the audit process",
+      "max_score": 8
+    },
+    {
+      "name": "yamllint run documented",
+      "description": "The audit_report.md documents running yamllint",
+      "max_score": 6
+    }
+  ]
+}

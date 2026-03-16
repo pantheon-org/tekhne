@@ -9,7 +9,8 @@
     "required_h2_groups",
     "required_h2_order",
     "required_dimension_labels",
-    "required_commands"
+    "required_commands",
+    "references_section_compliance"
   ],
   "properties": {
     "required_title_prefix": {
@@ -64,7 +65,7 @@
     },
     "required_dimension_labels": {
       "type": "array",
-      "minItems": 8,
+      "minItems": 9,
       "items": { "type": "string" }
     },
     "required_commands": {
@@ -76,6 +77,55 @@
       "type": "array",
       "minItems": 0,
       "items": { "type": "string" }
+    },
+    "references_section_compliance": {
+      "type": "object",
+      "description": "D4 bonus check: validates that SKILL.md ends with a correctly formatted ## References section using the Topic|Reference|When to Use table standard",
+      "required": [
+        "heading_correct",
+        "is_last_section",
+        "uses_table_format",
+        "has_required_columns",
+        "reference_column_has_links",
+        "compliant",
+        "score"
+      ],
+      "properties": {
+        "heading_correct": {
+          "type": "boolean",
+          "description": "Heading is exactly '## References' (not Resources, Quick Reference, See Also, etc.)"
+        },
+        "is_last_section": {
+          "type": "boolean",
+          "description": "## References is the last H2 section in SKILL.md"
+        },
+        "uses_table_format": {
+          "type": "boolean",
+          "description": "Content uses a Markdown table (pipe-delimited) rather than a bullet list"
+        },
+        "has_required_columns": {
+          "type": "boolean",
+          "description": "Table header contains all three required columns: Topic, Reference, and When to Use (case-insensitive)"
+        },
+        "reference_column_has_links": {
+          "type": "boolean",
+          "description": "Every non-header cell in the Reference column contains a markdown link [text](url), not a bare URL or plain path"
+        },
+        "compliant": {
+          "type": "boolean",
+          "description": "Overall pass: all five checks above are true"
+        },
+        "score": {
+          "type": "integer",
+          "enum": [0, 1],
+          "description": "Bonus points awarded: 1 if compliant, 0 otherwise"
+        },
+        "notes": {
+          "type": "string",
+          "description": "Optional explanation of non-compliance, listing which checks failed"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "additionalProperties": false

@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent identifies and removes all harness-specific tool references (Cursor @codebase/@workspace, Claude Code /compact, opencode model switch) and replaces them with universal tools (Read, Edit, Bash, Grep, Glob). A naive agent might miss the anti-patterns section or leave some references.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Cursor references flagged",
+      "description": "compliance-report.md identifies the Cursor-specific references (@codebase and/or @workspace) as compatibility violations",
+      "max_score": 15
+    },
+    {
+      "name": "Claude Code reference flagged",
+      "description": "compliance-report.md identifies the Claude Code-specific reference (/compact command) as a compatibility violation",
+      "max_score": 15
+    },
+    {
+      "name": "opencode reference flagged",
+      "description": "compliance-report.md identifies the opencode-specific command (model switch) as a compatibility violation",
+      "max_score": 15
+    },
+    {
+      "name": "Harness refs removed from fixed skill",
+      "description": "SKILL-fixed.md does NOT contain any of: @codebase, @workspace, /compact, 'opencode model switch', 'Cursor', 'Claude Code'",
+      "max_score": 20
+    },
+    {
+      "name": "Universal tools in workflow",
+      "description": "SKILL-fixed.md workflow uses only universal tools (Read, Edit, Bash, Grep, Glob) — no agent-specific commands",
+      "max_score": 20
+    },
+    {
+      "name": "Anti-patterns section cleaned",
+      "description": "SKILL-fixed.md anti-patterns section does not contain any harness-specific tool references",
+      "max_score": 15
+    }
+  ]
+}

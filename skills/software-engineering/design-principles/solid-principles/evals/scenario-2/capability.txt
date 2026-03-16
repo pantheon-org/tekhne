@@ -1,0 +1,1 @@
+Apply OCP by introducing abstraction to eliminate modification of stable code

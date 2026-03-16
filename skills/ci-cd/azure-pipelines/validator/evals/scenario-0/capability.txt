@@ -1,0 +1,1 @@
+Security scan: detect hardcoded credentials, :latest container tags, and SSL bypass patterns

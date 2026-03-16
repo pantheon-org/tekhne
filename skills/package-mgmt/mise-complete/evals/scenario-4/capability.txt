@@ -1,0 +1,1 @@
+Define deterministic CI-safe Mise tasks that replace npm scripts

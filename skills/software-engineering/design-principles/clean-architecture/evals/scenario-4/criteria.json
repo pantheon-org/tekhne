@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent breaks the circular dependency by introducing an interface/abstraction or reorganizing responsibilities, rather than just suppressing the error.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Circular import eliminated",
+      "description": "The refactored code has no import cycle: neither module directly imports the other",
+      "max_score": 30
+    },
+    {
+      "name": "Interface or event-based decoupling used",
+      "description": "The solution introduces an interface (e.g., IPaymentHistoryProvider) or event/callback mechanism rather than keeping direct class coupling",
+      "max_score": 25
+    },
+    {
+      "name": "REFACTOR.md identifies root cause",
+      "description": "REFACTOR.md explains that the cycle arose because two modules depend on each other's concrete classes",
+      "max_score": 15
+    },
+    {
+      "name": "REFACTOR.md explains resolution approach",
+      "description": "REFACTOR.md describes the chosen approach (interface extraction, dependency inversion, shared contract module, or event decoupling)",
+      "max_score": 15
+    },
+    {
+      "name": "Both services remain functional",
+      "description": "PaymentService can still trigger payment confirmation and NotificationService can still access payment history (behavior preserved)",
+      "max_score": 15
+    }
+  ]
+}

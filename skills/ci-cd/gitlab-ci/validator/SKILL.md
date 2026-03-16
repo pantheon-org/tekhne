@@ -143,7 +143,33 @@ def _check_custom_rule(self):
 - **PyYAML**: `pip3 install PyYAML`
 - **Bash**: For the orchestrator script
 
-## Documentation & Examples
+## Anti-Patterns
+
+### NEVER skip syntax validation before running `gitlab-ci-local`
+
+- **WHY**: Local execution without pre-validation produces obscure runtime errors; resolve schema and syntax errors first to get actionable output.
+- **BAD**: Run `gitlab-ci-local` on an untested config and debug runtime failures.
+- **GOOD**: Run `bash scripts/validate_gitlab_ci.sh --syntax-only .gitlab-ci.yml` first; proceed to local testing only after syntax passes.
+
+### NEVER ignore `only`/`except` deprecation warnings
+
+- **WHY**: Pipelines using deprecated keywords will break when GitLab removes them; treat these as errors, not warnings.
+- **BAD**: Leave `only: [main]` after the validator flags it as deprecated.
+- **GOOD**: Migrate to `rules:` syntax during the same fix session.
+
+### NEVER validate the pipeline file without also checking all referenced `include:` targets
+
+- **WHY**: A valid base file with an invalid include template causes mysterious pipeline failures at queue time.
+- **BAD**: Validate only `.gitlab-ci.yml` and skip `templates/*.yml` includes.
+- **GOOD**: Validate all local include files as well; the validator checks `include:local` paths automatically.
+
+### NEVER run `--strict` as the first validation step on an unfamiliar pipeline
+
+- **WHY**: Strict mode fails on warnings and produces noise that obscures real errors; establish a baseline first.
+- **BAD**: Run `--strict` on an inherited pipeline and skip the output because it has 50 warnings.
+- **GOOD**: Run without `--strict` first; fix errors and critical warnings, then enable strict mode as a CI gate.
+
+## References
 
 - `docs/gitlab-ci-reference.md` — Complete GitLab CI/CD YAML syntax reference
 - `docs/best-practices.md` — Detailed best practices guide

@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-0",
+      "capability": "Security scan: detect hardcoded credentials and container :latest tags",
+      "feasible": true,
+      "reason": "Agent reads pipeline YAML from task input and produces a validation report — no runtime pipeline execution required"
+    },
+    {
+      "id": "scenario-1",
+      "capability": "Syntax validation: required fields, stage/job/step hierarchy, task format",
+      "feasible": true,
+      "reason": "Agent inspects static YAML structure and reports schema violations — no external API calls required"
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Best practices: display names, task version pinning, caching, timeouts",
+      "feasible": true,
+      "reason": "Agent reviews pipeline YAML for best-practice patterns and produces actionable suggestions — entirely static analysis"
+    },
+    {
+      "id": "scenario-3",
+      "capability": "YAML lint: whitespace-significant formatting issues that silently restructure pipeline blocks",
+      "feasible": true,
+      "reason": "Agent identifies indentation and trailing-space errors in raw YAML text — no tooling execution required"
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Template validation: detecting violations in referenced template files, not only the entry point",
+      "feasible": true,
+      "reason": "Agent reads multiple YAML files provided inline and validates each template — no external file system access required"
+    }
+  ]
+}

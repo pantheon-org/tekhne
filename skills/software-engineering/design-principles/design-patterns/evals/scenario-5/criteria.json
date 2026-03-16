@@ -1,0 +1,31 @@
+{
+  "context": "Agent must correctly identify that no pattern is warranted for a single-method, single-implementation class and articulate the anti-premature-pattern principle",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Problem statement describes no concrete problem",
+      "description": "The Problem Statement section correctly notes there is no current conditional logic, coupling problem, or varying algorithm — the code is a simple calculation",
+      "max_score": 20
+    },
+    {
+      "name": "Win condition correctly evaluated as unmet",
+      "description": "The Pattern Fit Assessment explicitly states the Strategy win condition (eliminating if/else selection between algorithms) is not met because only one implementation exists",
+      "max_score": 25
+    },
+    {
+      "name": "Recommendation is to defer",
+      "description": "The Recommendation section recommends NOT applying the Strategy pattern now",
+      "max_score": 20
+    },
+    {
+      "name": "Anti-preemptive principle referenced",
+      "description": "The recommendation references the principle of not applying patterns for imagined future needs (YAGNI, or equivalent statement about waiting for concrete need)",
+      "max_score": 15
+    },
+    {
+      "name": "Trigger condition is concrete and correct",
+      "description": "The Trigger Condition describes a concrete code event (e.g., 'when a second tax type with a different formula must be added and selected conditionally') that would justify the pattern",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "context": "Evaluate the agent's ability to reject global ShellCheck suppressions and apply targeted per-line suppressions correctly",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Global suppression anti-pattern explained",
+      "description": "Agent explains that a file-level # shellcheck disable= hides all future instances of that error and the original rationale is lost when new code is added, referencing the skill anti-pattern",
+      "max_score": 20
+    },
+    {
+      "name": "Intentional vs accidental word splitting distinguished",
+      "description": "Agent correctly identifies that for f in $FILES_TO_PROCESS is the intentional case and that $f in cp, chmod, $WORKSPACE, and $(find $WORKSPACE ...) are unintentional quoting gaps",
+      "max_score": 25
+    },
+    {
+      "name": "Global directive removed in corrected script",
+      "description": "The corrected script does not contain a file-level # shellcheck disable= directive",
+      "max_score": 15
+    },
+    {
+      "name": "Per-line suppression with reason comment added",
+      "description": "The corrected script adds # shellcheck disable=SC2086 # word splitting intentional: FILES_TO_PROCESS is a space-separated list (or equivalent) only on the for f in $FILES_TO_PROCESS line",
+      "max_score": 20
+    },
+    {
+      "name": "All other variables quoted in corrected script",
+      "description": "In the corrected script, $f, $WORKSPACE, $WORKSPACE/processed/$f, and $WORKSPACE/tmp are all quoted; $(find \"$WORKSPACE\" ...) uses quoted argument",
+      "max_score": 20
+    }
+  ]
+}

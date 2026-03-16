@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses matrix with axes for multi-dimensional builds, adds parallelsAlwaysFailFast() in pipeline options for fail-fast behavior, includes standard pipeline options, and uses cleanWs in post.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "matrix block used",
+      "description": "Jenkinsfile contains a matrix { } block (not just multiple separate parallel stages)",
+      "max_score": 14
+    },
+    {
+      "name": "axes defined",
+      "description": "The matrix block contains an axes { } block with at least 2 axis definitions (e.g., JDK version and OS/platform)",
+      "max_score": 12
+    },
+    {
+      "name": "Two axes dimensions",
+      "description": "One axis covers JDK or Java versions (3 values) and another covers operating systems or platforms (2 values)",
+      "max_score": 10
+    },
+    {
+      "name": "parallelsAlwaysFailFast in options",
+      "description": "Jenkinsfile options block includes parallelsAlwaysFailFast() to enable fail-fast across all matrix combinations",
+      "max_score": 14
+    },
+    {
+      "name": "cleanWs in post",
+      "description": "Jenkinsfile post block includes always { cleanWs() } or equivalent",
+      "max_score": 8
+    },
+    {
+      "name": "buildDiscarder in options",
+      "description": "Jenkinsfile options block includes buildDiscarder(logRotator(...))",
+      "max_score": 8
+    },
+    {
+      "name": "disableConcurrentBuilds",
+      "description": "Jenkinsfile options block includes disableConcurrentBuilds()",
+      "max_score": 8
+    },
+    {
+      "name": "timeout in options",
+      "description": "Jenkinsfile options block includes timeout()",
+      "max_score": 8
+    },
+    {
+      "name": "Declarative syntax",
+      "description": "Jenkinsfile uses Declarative pipeline syntax (pipeline { ... }), NOT Scripted (node { ... })",
+      "max_score": 8
+    },
+    {
+      "name": "Stage after matrix",
+      "description": "A separate sequential stage exists after the matrix block (e.g., publish test results)",
+      "max_score": 10
+    }
+  ]
+}

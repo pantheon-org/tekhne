@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent uses histogram_quantile() with sum by (le) for percentile calculations, and avoids the anti-pattern of avg() on pre-aggregated quantile labels from summary metrics.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "histogram_quantile used",
+      "description": "All three latency queries use histogram_quantile() — not avg(), not direct quantile label selectors",
+      "max_score": 20
+    },
+    {
+      "name": "sum by (le) preserved",
+      "description": "Each histogram_quantile() call wraps a sum by (le) (...) expression to preserve the le bucket label",
+      "max_score": 20
+    },
+    {
+      "name": "rate() on _bucket",
+      "description": "The inner expression applies rate() to the _bucket metric (e.g., payment_request_duration_seconds_bucket) rather than the raw counter",
+      "max_score": 15
+    },
+    {
+      "name": "No avg(quantile) anti-pattern",
+      "description": "The file does NOT contain avg(...{quantile=...}) or any query that averages across pre-aggregated quantile labels",
+      "max_score": 15
+    },
+    {
+      "name": "job label filter present",
+      "description": "At least one query includes {job=\"payment-api\"} or equivalent label filter",
+      "max_score": 10
+    },
+    {
+      "name": "payment_method in by() clause",
+      "description": "At least one query includes payment_method in a by() clause or preserves it via the aggregation structure",
+      "max_score": 10
+    },
+    {
+      "name": "Three quantile values produced",
+      "description": "Queries for all three percentiles are present: 0.5 (P50), 0.95 (P95), and 0.99 (P99)",
+      "max_score": 10
+    }
+  ]
+}

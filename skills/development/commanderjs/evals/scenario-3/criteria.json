@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent identifies and fixes the program.opts() anti-pattern inside subcommand actions (should use the action's own options parameter), fixes the missing await on parseAsync, and understands subcommand option scope.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Removes program.opts() from upload action",
+      "description": "In the fixed upload command, program.opts() is NOT used to read upload-specific options; the action's own options parameter is used instead",
+      "max_score": 20
+    },
+    {
+      "name": "Removes program.opts() from list action",
+      "description": "In the fixed list command, program.opts() is NOT used to read list-specific options; the action's own options parameter is used instead",
+      "max_score": 18
+    },
+    {
+      "name": "Action parameter used for options",
+      "description": "Both fixed action handlers receive options as an action parameter (e.g. .action((bucket, file, options) => {...})) and read from that object",
+      "max_score": 16
+    },
+    {
+      "name": "await on parseAsync",
+      "description": "The fixed cli-fixed.ts calls await program.parseAsync(...) (the original was missing the await)",
+      "max_score": 14
+    },
+    {
+      "name": "Explanation identifies program.opts() bug",
+      "description": "The explanation.md identifies that reading program.opts() inside a subcommand returns the parent program options, not the subcommand's options",
+      "max_score": 16
+    },
+    {
+      "name": "Explanation identifies missing await",
+      "description": "The explanation.md identifies that parseAsync was called without await, causing the process to exit before async actions complete",
+      "max_score": 10
+    },
+    {
+      "name": "try/catch added",
+      "description": "The fixed code wraps async action logic in try/catch (the original had no error handling)",
+      "max_score": 6
+    }
+  ]
+}

@@ -7,20 +7,6 @@ description: Generates production-ready GitHub Actions workflows, custom actions
 
 Generate production-ready GitHub Actions workflows and custom actions following current best practices, security standards, and naming conventions. All generated resources are automatically validated using the devops-skills:github-actions-validator skill.
 
-## Quick Reference
-
-| Capability | When to Use | Reference |
-|------------|-------------|-----------|
-| Workflows | CI/CD, automation, testing | `references/best-practices.md` |
-| Composite Actions | Reusable step combinations | `references/custom-actions.md` |
-| Docker Actions | Custom environments/tools | `references/custom-actions.md` |
-| JavaScript Actions | API interactions, complex logic | `references/custom-actions.md` |
-| Reusable Workflows | Shared patterns across repos | `references/advanced-triggers.md` |
-| Security Scanning | Dependency review, SBOM | `references/best-practices.md` |
-| Modern Features | Summaries, environments | `references/modern-features.md` |
-
----
-
 ## Core Capabilities
 
 ### 1. Generate Workflows
@@ -196,30 +182,6 @@ See `references/best-practices.md` for complete guidelines.
 
 ---
 
-## Resources
-
-### Reference Documents
-
-| Document | Content | When to Use |
-|----------|---------|-------------|
-| `references/best-practices.md` | Security, performance, patterns | Every workflow |
-| `references/common-actions.md` | Action versions, inputs, outputs | Public action usage |
-| `references/expressions-and-contexts.md` | `${{ }}` syntax, contexts, functions | Complex conditionals |
-| `references/advanced-triggers.md` | workflow_run, dispatch, ChatOps | Workflow orchestration |
-| `references/custom-actions.md` | Metadata, structure, versioning | Custom action creation |
-| `references/modern-features.md` | Summaries, environments, containers | Enhanced workflows |
-
-### Templates
-
-| Template | Location |
-|----------|----------|
-| Basic Workflow | `assets/templates/workflow/basic_workflow.yml` |
-| Composite Action | `assets/templates/action/composite/action.yml` |
-| Docker Action | `assets/templates/action/docker/` |
-| JavaScript Action | `assets/templates/action/javascript/` |
-
----
-
 ## Common Patterns
 
 ### Matrix Testing
@@ -265,3 +227,71 @@ deploy:
 5. **Validate** with devops-skills:github-actions-validator
 6. **Fix** any errors
 7. **Present** validated result
+
+## Anti-Patterns
+
+### NEVER use `@latest` or branch-based action references
+
+- **WHY**: Mutable references allow the action to change silently between runs, enabling supply chain attacks where a compromised upstream injects malicious code into your workflow.
+- **BAD**: `uses: actions/checkout@main`
+- **GOOD**: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`
+
+### NEVER use `secrets: inherit` in reusable workflows without justification
+
+- **WHY**: `secrets: inherit` exposes every secret from the caller to the callee even when only one is needed, violating the principle of least privilege and widening the blast radius of a compromised workflow.
+- **BAD**: `secrets: inherit`
+- **GOOD**: Declare only required secrets explicitly — `secrets: deploy-token: required: true`
+
+### NEVER omit `permissions:` at the job or workflow level
+
+- **WHY**: `GITHUB_TOKEN` defaults to write permissions in older repositories. Omitting `permissions:` means every job can push commits, create releases, or modify issues unintentionally.
+- **BAD**: A workflow with no `permissions:` block at all.
+- **GOOD**: Set `permissions: contents: read` as the workflow default and override per-job only where write access is genuinely required.
+
+### NEVER set `fail-fast: false` by default in matrix builds
+
+- **WHY**: `fail-fast: false` causes the entire matrix to keep running after the first failure, wasting runner minutes and delaying feedback. It should be an intentional choice, not a default.
+- **BAD**: `strategy: fail-fast: false` added to every matrix without explanation.
+- **GOOD**: Omit `fail-fast` to use the default `true`, or add an explicit comment explaining why all combinations must complete.
+
+### NEVER use `pull_request_target` with `actions/checkout` checking out PR code
+
+- **WHY**: `pull_request_target` runs with write permissions and access to secrets. Combining it with a checkout of untrusted PR code enables attackers to exfiltrate secrets or tamper with your repository.
+- **BAD**: `on: pull_request_target` combined with `uses: actions/checkout@... with: ref: ${{ github.event.pull_request.head.sha }}`
+- **GOOD**: Use `pull_request` for untrusted code, or carefully scope and audit any `pull_request_target` workflow before adding a checkout step.
+
+## References
+
+### Reference Documents
+
+| Document | Content | When to Use |
+|----------|---------|-------------|
+| `references/best-practices.md` | Security, performance, patterns | Every workflow |
+| `references/common-actions.md` | Action versions, inputs, outputs | Public action usage |
+| `references/expressions-and-contexts.md` | `${{ }}` syntax, contexts, functions | Complex conditionals |
+| `references/advanced-triggers.md` | workflow_run, dispatch, ChatOps | Workflow orchestration |
+| `references/custom-actions.md` | Metadata, structure, versioning | Custom action creation |
+| `references/modern-features.md` | Summaries, environments, containers | Enhanced workflows |
+
+### Templates
+
+| Template | Location |
+|----------|----------|
+| Basic Workflow | `assets/templates/workflow/basic_workflow.yml` |
+| Composite Action | `assets/templates/action/composite/action.yml` |
+| Docker Action | `assets/templates/action/docker/` |
+| JavaScript Action | `assets/templates/action/javascript/` |
+
+---
+
+| Capability | When to Use | Reference |
+|------------|-------------|-----------|
+| Workflows | CI/CD, automation, testing | `references/best-practices.md` |
+| Composite Actions | Reusable step combinations | `references/custom-actions.md` |
+| Docker Actions | Custom environments/tools | `references/custom-actions.md` |
+| JavaScript Actions | API interactions, complex logic | `references/custom-actions.md` |
+| Reusable Workflows | Shared patterns across repos | `references/advanced-triggers.md` |
+| Security Scanning | Dependency review, SBOM | `references/best-practices.md` |
+| Modern Features | Summaries, environments | `references/modern-features.md` |
+
+---

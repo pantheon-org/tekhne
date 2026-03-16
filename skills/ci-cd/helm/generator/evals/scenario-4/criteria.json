@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly migrates raw manifests to Helm by parameterising names with helpers, extracting values, applying label patterns, using toYaml for complex objects, setting resource limits, avoiding hardcoded image tags, and documenting a proper validation workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Helper used for name",
+      "description": "The Helm deployment template uses {{ include \"<chart>.fullname\" . }} or equivalent helper for the resource name — NOT the hardcoded string 'notification-service'",
+      "max_score": 12
+    },
+    {
+      "name": "Standard labels helper",
+      "description": "At least one template uses {{ include \"<chart>.labels\" . }} or equivalent named template for labels, rather than manually listing app: label only",
+      "max_score": 10
+    },
+    {
+      "name": "Helpers tpl exists",
+      "description": "_helpers.tpl exists and defines at least a fullname and labels named template",
+      "max_score": 8
+    },
+    {
+      "name": "No hardcoded image tag",
+      "description": "values.yaml image tag is empty string or uses appVersion as fallback — NOT 'v3.0.1' or 'latest'",
+      "max_score": 12
+    },
+    {
+      "name": "Secret extracted to values",
+      "description": "The SMTP_PASSWORD or equivalent secret value is NOT hardcoded in the template; it is either moved to a values.yaml key or referenced via a Kubernetes Secret",
+      "max_score": 10
+    },
+    {
+      "name": "Resources block added",
+      "description": "The Helm deployment template includes a resources: block that was absent in the original raw manifest",
+      "max_score": 10
+    },
+    {
+      "name": "validate.sh has helm template",
+      "description": "validate.sh contains a 'helm template' command (not just helm lint)",
+      "max_score": 10
+    },
+    {
+      "name": "validate.sh has kubeval or kubeconform",
+      "description": "validate.sh pipes helm template output to kubeval or kubeconform for schema validation",
+      "max_score": 10
+    },
+    {
+      "name": "toYaml or nindent used",
+      "description": "At least one template uses toYaml or nindent when rendering a complex value (labels, annotations, env, or similar)",
+      "max_score": 8
+    },
+    {
+      "name": "Values extracted",
+      "description": "At least replica count and image repository are extracted into values.yaml as configurable keys rather than hardcoded in the template",
+      "max_score": 10
+    }
+  ]
+}

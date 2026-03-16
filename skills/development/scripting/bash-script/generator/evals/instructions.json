@@ -1,0 +1,130 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use #!/usr/bin/env bash as the shebang line (not #!/bin/bash or hardcoded paths)",
+      "original_snippets": "NEVER hardcode absolute paths for tools like `python`, `node`, or `bash`... BAD: `#!/usr/bin/python3`... GOOD: Use `#!/usr/bin/env python3`",
+      "relevant_when": "Writing any bash or shell script file",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always include `set -euo pipefail` immediately after the shebang and header comment",
+      "original_snippets": "NEVER start a bash script without `set -euo pipefail`... WITHOUT these flags, errors are silently ignored: `-e` causes exit on error, `-u` errors on unset variables, `-o pipefail` catches pipeline failures.",
+      "relevant_when": "Writing any bash script",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Set IFS=$'\\n\\t' after set -euo pipefail",
+      "original_snippets": "set -euo pipefail\nIFS=$'\\n\\t'",
+      "relevant_when": "Writing bash scripts that process text or iterate over data",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Define SCRIPT_DIR and SCRIPT_NAME as readonly constants using BASH_SOURCE[0]",
+      "original_snippets": "readonly SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"\nreadonly SCRIPT_NAME=\"$(basename \"${BASH_SOURCE[0]}\")\"\n",
+      "relevant_when": "Writing scripts that reference their own path or need self-referential metadata",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Implement a cleanup() function and register it with: trap cleanup EXIT ERR INT TERM",
+      "original_snippets": "cleanup() {\n    local exit_code=$?\n    # Remove temp files, release locks, etc.\n    exit \"${exit_code}\"\n}\ntrap cleanup EXIT ERR INT TERM",
+      "relevant_when": "Writing scripts that create temp files, acquire locks, or need graceful shutdown",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Always quote all variable expansions: use \"${var}\" not $var",
+      "original_snippets": "NEVER use unquoted variable expansions... WHY: Word splitting and glob expansion... BAD: `cp $SOURCE $DEST`... GOOD: `cp \"$SOURCE\" \"$DEST\"`",
+      "relevant_when": "Writing any script that uses variables, especially in command arguments",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use getopts for argument parsing with -h (help), proper option handling for missing arguments (:), and invalid options (\\?)",
+      "original_snippets": "parse_args() {\n    while getopts \":hvf:o:d\" opt; do\n        case ${opt} in\n            h) usage; exit 0 ;;\n            ...\n            \\?) echo \"Invalid option: -${OPTARG}\" >&2; usage; exit 1 ;;\n            :)  echo \"Option -${OPTARG} requires an argument\" >&2; usage; exit 1 ;;\n        esac\n    done\n    shift $((OPTIND - 1))\n}",
+      "relevant_when": "Writing CLI scripts that accept command-line options",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Implement leveled logging functions: log_info, log_warn, log_error, log_fatal — all writing to stderr with timestamp and level prefix",
+      "original_snippets": "log_info()  { echo \"[INFO]  $(date '+%Y-%m-%d %H:%M:%S') - $*\" >&2; }\nlog_warn()  { echo \"[WARN]  $(date '+%Y-%m-%d %H:%M:%S') - $*\" >&2; }\nlog_error() { echo \"[ERROR] $(date '+%Y-%m-%d %H:%M:%S') - $*\" >&2; }\nlog_fatal() { echo \"[FATAL] $(date '+%Y-%m-%d %H:%M:%S') - $*\" >&2; exit 1; }",
+      "relevant_when": "Writing any script that needs to emit status messages",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Implement die(), check_command(), and validate_file() error handling helpers",
+      "original_snippets": "die()           { log_error \"$@\"; exit 1; }\ncheck_command() { command -v \"$1\" &>/dev/null || die \"Required command '$1' not found.\"; }\nvalidate_file() { [[ -f \"$1\" ]] || die \"File not found: $1\"; [[ -r \"$1\" ]] || die \"File not readable: $1\"; }",
+      "relevant_when": "Writing scripts that depend on external tools or file inputs",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use readonly for constants and uppercase names; use lowercase for local variables",
+      "original_snippets": "readonly MAX_RETRIES=3\nreadonly CONFIG_FILE=\"/etc/myapp/config.conf\"\n...\nlocal counter=0\nlocal temp_file=\"\"",
+      "relevant_when": "Defining variables that should not change or that are script-wide configuration",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Structure the main() function to call parse_args, then check_command for each dependency, validate inputs, and run business logic",
+      "original_snippets": "main() {\n    parse_args \"$@\"\n    check_command \"grep\"\n    check_command \"awk\"\n    [[ -n \"${INPUT_FILE:-}\" ]] || die \"Input file not specified. Use -f option.\"\n    validate_file \"${INPUT_FILE}\"\n    log_info \"Starting processing...\"\n    ...\n}\nmain \"$@\"",
+      "relevant_when": "Writing any non-trivial script with dependencies and input requirements",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Validate user inputs with regex patterns: [[ \"${val}\" =~ ^[a-zA-Z0-9/_.-]+$ ]] || die \"Invalid\"",
+      "original_snippets": "Validate inputs: `[[ \"${val}\" =~ ^[a-zA-Z0-9/_.-]+$ ]] || die \"Invalid\"`",
+      "relevant_when": "Writing scripts that accept user-supplied strings used in commands or file paths",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never use eval with user input; use case statements or arrays instead",
+      "original_snippets": "NEVER use `eval` to execute dynamically constructed commands... eval enables code injection... BAD: `eval \"rm -rf $USER_INPUT\"`... GOOD: Use arrays: `cmd=(rm -rf \"$USER_INPUT\"); \"${cmd[@]}\"`",
+      "relevant_when": "Writing scripts that dynamically construct and execute commands from external input",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Avoid useless cat: use grep pattern file directly, not cat file | grep pattern",
+      "original_snippets": "Avoid useless `cat`: `grep pattern file` not `cat file | grep pattern`",
+      "relevant_when": "Writing scripts with text processing pipelines",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Use single-pass awk for multiple metrics: awk '/ERROR/{e++} /WARN/{w++} END{print e,w}' log",
+      "original_snippets": "Single-pass awk: `awk '/ERROR/{e++} /WARN/{w++} END{print e,w}' log`",
+      "relevant_when": "Writing scripts that analyze log files or extract multiple statistics from text",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Do not use ls | grep to filter files; use find or glob patterns instead",
+      "original_snippets": "NEVER use `ls | grep` to filter files... ls output is not reliably parseable... BAD: `ls *.log | grep error`... GOOD: `for f in *.log; do grep error \"$f\"; done` or `find . -name \"*.log\" -exec grep error {} +`",
+      "relevant_when": "Writing scripts that need to filter or iterate over files matching a pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Include Google Style Guide docblock comments for each function (Globals, Arguments, Outputs, Returns)",
+      "original_snippets": "#######################################\n# Brief description of function\n# Globals:\n#   VARIABLE_NAME\n# Arguments:\n#   $1 - Description\n# Outputs:\n#   Writes results to stdout\n# Returns:\n#   0 if successful, non-zero on error\n#######################################",
+      "relevant_when": "Writing scripts intended for production use or team sharing",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Write a usage() function that documents all options and provides examples, referenced from -h handler",
+      "original_snippets": "usage() {\n    cat << EOF\nUsage: ${SCRIPT_NAME} [OPTIONS] [ARGUMENTS]\n...\nExamples:\n    ${SCRIPT_NAME} -f input.txt -o output.txt\nEOF\n}",
+      "relevant_when": "Writing any CLI tool script",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Select grep for pattern matching/filtering, awk for structured data and calculations, sed for substitutions/stream editing",
+      "original_snippets": "Tool selection: **grep** (pattern matching/filtering), **awk** (structured data, calculations), **sed** (substitutions, stream editing), **find** (filesystem), **curl/wget** (HTTP)",
+      "relevant_when": "Writing text processing scripts",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For POSIX portability: avoid bash arrays, [[ ]], $BASH_SOURCE; test with sh -n script.sh",
+      "original_snippets": "Portability (POSIX sh): Avoid bash arrays, `[[ ]]`, `$BASH_SOURCE`; test with `sh -n script.sh`",
+      "relevant_when": "Writing scripts intended to run on minimal systems or non-bash shells",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Provide a Post-Generation Summary after every script (File, Architecture, Tool Selection, Key Features, Customization Points, Usage, Validation Status, Documentation References)",
+      "original_snippets": "## Post-Generation Summary (REQUIRED)\nAfter every script, provide:\n**File:** path/to/script.sh\n**Architecture:** ...\n**Tool Selection:** ...\n**Validation Status:** ...",
+      "relevant_when": "After generating any bash script",
+      "why_given": "preference"
+    }
+  ]
+}

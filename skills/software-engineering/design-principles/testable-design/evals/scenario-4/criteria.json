@@ -1,0 +1,36 @@
+{
+  "context": "Agent must produce all three canonical test double types (Stub, Mock, Fake) that correctly implement the given repository interface",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All three classes implement IProductRepository",
+      "description": "StubProductRepository, MockProductRepository, and InMemoryProductRepository each have 'implements IProductRepository' in their class declaration",
+      "max_score": 15
+    },
+    {
+      "name": "Stub returns fixed data",
+      "description": "StubProductRepository.findById returns a hardcoded Product object (not null, not dynamic) regardless of the id argument",
+      "max_score": 15
+    },
+    {
+      "name": "Mock records save call",
+      "description": "MockProductRepository has a property (savedProduct or equivalent) that is set to the product argument when save is called, and starts as null",
+      "max_score": 20
+    },
+    {
+      "name": "Fake uses a Map for storage",
+      "description": "InMemoryProductRepository stores products in a Map<string, Product> and all three methods (findById, save, findAll) operate against that map",
+      "max_score": 20
+    },
+    {
+      "name": "Fake findAll returns all stored products",
+      "description": "InMemoryProductRepository.findAll returns Array.from of the map's values (or equivalent), not a hardcoded array",
+      "max_score": 15
+    },
+    {
+      "name": "Types are correct",
+      "description": "findById return types are Promise<Product | null>, save returns Promise<void>, and findAll returns Promise<Product[]> across all three implementations",
+      "max_score": 15
+    }
+  ]
+}

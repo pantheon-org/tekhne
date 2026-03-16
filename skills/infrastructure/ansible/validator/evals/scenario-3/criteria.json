@@ -1,0 +1,61 @@
+{
+  "context": "Tests whether the agent uses the security wrapper scripts for scanning, detects hardcoded credentials and validate_certs: false, reads the security_checklist.md reference, and produces findings with proper remediation guidance.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Security scan wrapper used",
+      "description": "The report documents running `bash scripts/validate_playbook_security.sh` for Checkov scanning",
+      "max_score": 10
+    },
+    {
+      "name": "Secrets scan run",
+      "description": "The report documents running `bash scripts/scan_secrets.sh` to detect hardcoded credentials",
+      "max_score": 10
+    },
+    {
+      "name": "Hardcoded passwords found",
+      "description": "The report identifies the hardcoded mysql_root_password and mysql_app_password variables as security issues",
+      "max_score": 12
+    },
+    {
+      "name": "Password in backup script found",
+      "description": "The report identifies that the backup script embeds a password directly in a shell script as a security issue",
+      "max_score": 10
+    },
+    {
+      "name": "validate_certs: false found",
+      "description": "The report identifies the `validate_certs: false` in the get_url task as a security issue",
+      "max_score": 10
+    },
+    {
+      "name": "Ansible Vault remediation suggested",
+      "description": "The report suggests Ansible Vault or environment variables as the correct remediation for hardcoded secrets",
+      "max_score": 10
+    },
+    {
+      "name": "security_checklist.md referenced",
+      "description": "The report references the security_checklist.md reference file in connection with findings",
+      "max_score": 8
+    },
+    {
+      "name": "Severity labels on findings",
+      "description": "Each security finding has a severity label (HIGH, MEDIUM, or LOW)",
+      "max_score": 8
+    },
+    {
+      "name": "Overall risk assessment",
+      "description": "The report includes an overall risk assessment (high/medium/low) at the end",
+      "max_score": 8
+    },
+    {
+      "name": "missing mode on template",
+      "description": "The report notes that the template task for my.cnf is missing a `mode:` attribute",
+      "max_score": 8
+    },
+    {
+      "name": "mysql_bind_address: 0.0.0.0 flagged",
+      "description": "The report flags the mysql_bind_address set to 0.0.0.0 (binding to all interfaces) as a security concern",
+      "max_score": 6
+    }
+  ]
+}

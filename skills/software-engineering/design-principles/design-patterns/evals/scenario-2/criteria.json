@@ -1,0 +1,36 @@
+{
+  "context": "Agent must produce an adapter that correctly translates between the domain ILogger interface and the LegacyLogger API",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "LegacyLoggerAdapter implements ILogger",
+      "description": "LegacyLoggerAdapter.ts declares 'implements ILogger' and has info, warn, and error methods",
+      "max_score": 20
+    },
+    {
+      "name": "info maps to LegacyLogger.log with INFO level",
+      "description": "The info method calls this.legacy.log('INFO', message, ...) or equivalent",
+      "max_score": 15
+    },
+    {
+      "name": "warn maps to LegacyLogger.log with WARN level",
+      "description": "The warn method calls this.legacy.log('WARN', message, ...) or equivalent",
+      "max_score": 15
+    },
+    {
+      "name": "error maps to LegacyLogger.logError",
+      "description": "The error method calls this.legacy.logError(message, error, ...) rather than this.legacy.log with ERROR level",
+      "max_score": 20
+    },
+    {
+      "name": "LegacyLogger accepted via constructor",
+      "description": "LegacyLoggerAdapter accepts a LegacyLogger instance as a constructor parameter (not instantiated inside the adapter)",
+      "max_score": 15
+    },
+    {
+      "name": "adapter-analysis.md correctly explains the pattern choice",
+      "description": "adapter-analysis.md identifies the interface mismatch as the problem and explains the adapter preserves domain interface semantics without changing behavior",
+      "max_score": 15
+    }
+  ]
+}

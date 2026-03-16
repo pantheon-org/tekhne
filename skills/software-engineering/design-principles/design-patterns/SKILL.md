@@ -272,7 +272,7 @@ rg -n "import.*from.*external|import.*sdk" src
 rg -n "addEventListener|on\(|emit\(|dispatch\(" src
 ```
 
-## Quick Reference
+## References
 
 ### Pattern Categories
 
@@ -293,9 +293,6 @@ rg -n "addEventListener|on\(|emit\(|dispatch\(" src
 - Main component: [references/bound-main-component.md](references/bound-main-component.md)
 - Common closure: [references/comp-common-closure.md](references/comp-common-closure.md)
 - Reuse-release equivalence: [references/comp-reuse-release-equivalence.md](references/comp-reuse-release-equivalence.md)
-
-## References
-
 - [Design Patterns (Gang of Four)](https://en.wikipedia.org/wiki/Design_Patterns)
 - [Refactoring Guru Design Patterns](https://refactoring.guru/design-patterns)
 - [Martin Fowler Catalog](https://martinfowler.com/eaaCatalog/)

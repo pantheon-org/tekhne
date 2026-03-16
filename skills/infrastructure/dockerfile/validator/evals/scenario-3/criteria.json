@@ -1,0 +1,31 @@
+{
+  "context": "Agent audits a Python Dockerfile for layer ordering, cache efficiency, and cache cleanup placement issues.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "COPY ordering cache bust identified",
+      "description": "Agent identifies that 'COPY . /app' before 'RUN pip install -r requirements.txt' causes the pip install cache to be invalidated on every source code change, and proposes copying requirements.txt first.",
+      "max_score": 25
+    },
+    {
+      "name": "Separate cache cleanup layer explained",
+      "description": "Agent correctly explains that 'RUN rm -rf /var/lib/apt/lists/*' in a separate RUN instruction creates a new layer and does not reduce the size of the layer where apt-get ran; the cleanup must be in the same RUN layer.",
+      "max_score": 25
+    },
+    {
+      "name": "Split pip install identified",
+      "description": "Agent identifies that running pip install twice (once for requirements.txt, once for gunicorn) creates unnecessary layers and recommends combining into one RUN or adding gunicorn to requirements.txt.",
+      "max_score": 20
+    },
+    {
+      "name": "USER placement assessed correctly",
+      "description": "Agent notes the USER directive is present (good) but placed after all COPY and RUN instructions, which is the correct position for a non-root runtime user.",
+      "max_score": 15
+    },
+    {
+      "name": "Corrected code snippet provided",
+      "description": "Agent provides at least one corrected code block combining apt-get update, install, and cache cleanup in a single RUN layer.",
+      "max_score": 15
+    }
+  ]
+}

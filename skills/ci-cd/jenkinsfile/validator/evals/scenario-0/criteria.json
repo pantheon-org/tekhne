@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent uses the main validation script, detects the hardcoded credential on the correct line and provides a corrected version (using credentials binding), flags the unexplained retry, includes severity labels, and avoids declaring the pipeline deployment-ready without environment-specific verification.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Main script invoked",
+      "description": "Report mentions invoking or attempting bash scripts/validate_jenkinsfile.sh — not a sub-script or ad-hoc manual check only",
+      "max_score": 15
+    },
+    {
+      "name": "Hardcoded credential flagged",
+      "description": "Report identifies DB_PASSWORD = 'hunter2' as a hardcoded credential issue, referencing the line number in the environment block",
+      "max_score": 20
+    },
+    {
+      "name": "Credential fix provided",
+      "description": "Report includes an inline corrected code snippet replacing the hardcoded password with a credentials() binding or withCredentials() block",
+      "max_score": 20
+    },
+    {
+      "name": "retry flagged",
+      "description": "Report flags retry(3) on the Test stage as a concern — the root cause of test flakiness should be investigated",
+      "max_score": 15
+    },
+    {
+      "name": "Severity labels included",
+      "description": "Each reported issue includes a severity label (e.g., HIGH, WARNING, ERROR, CRITICAL) or equivalent classification",
+      "max_score": 10
+    },
+    {
+      "name": "Deployment caution noted",
+      "description": "Report notes that validation passing does NOT confirm deployment readiness — environment variables, credentials, and external dependencies must be verified in the target Jenkins environment",
+      "max_score": 10
+    },
+    {
+      "name": "Root cause investigation for retry",
+      "description": "Report suggests investigating the root cause of test failures rather than accepting retry as a long-term fix",
+      "max_score": 10
+    }
+  ]
+}

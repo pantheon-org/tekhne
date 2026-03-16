@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent uses the 'fix' type for bug fixes, references issues using the correct 'Token: value' footer format, uses imperative mood, and keeps headers within the 72-character limit.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "fix type on all three",
+      "description": "All three commit messages use the 'fix' type",
+      "max_score": 12
+    },
+    {
+      "name": "Issue references present",
+      "description": "All three commit messages include a footer that references the relevant issue number (#301, #178, #412)",
+      "max_score": 16
+    },
+    {
+      "name": "Footer token:value format",
+      "description": "Issue references use 'Token: value' format (e.g. 'Closes: #301' or 'Fixes: #301'), not inline mentions in the header or body",
+      "max_score": 14
+    },
+    {
+      "name": "Blank line before footer",
+      "description": "Each commit message with a footer has exactly one blank line separating the body (or header) from the footer",
+      "max_score": 10
+    },
+    {
+      "name": "Imperative mood all three",
+      "description": "All three headers use imperative mood (e.g. 'prevent', 'invalidate', 'return') not past tense ('fixed', 'prevented')",
+      "max_score": 14
+    },
+    {
+      "name": "Header ≤ 72 chars all three",
+      "description": "All three header lines are 72 characters or fewer",
+      "max_score": 10
+    },
+    {
+      "name": "Lowercase descriptions",
+      "description": "All three description portions (after the colon and space) begin with a lowercase letter",
+      "max_score": 8
+    },
+    {
+      "name": "No trailing periods",
+      "description": "None of the three headers end with a period",
+      "max_score": 8
+    },
+    {
+      "name": "No implementation details in header",
+      "description": "None of the three headers mention specific implementation details (e.g. '300ms debounce', 'HTTP 422 status code') — those belong in the body",
+      "max_score": 8
+    }
+  ]
+}

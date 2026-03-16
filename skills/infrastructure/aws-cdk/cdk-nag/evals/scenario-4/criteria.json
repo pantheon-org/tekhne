@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent prefers fixing the resource over suppressing. AwsSolutions-S2 (SSL enforcement) is fixable via enforceSSL: true on the Bucket construct — there is no justification for suppression here.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Suppression rejected as wrong approach",
+      "description": "The response explains that suppressing is wrong because the fix is simple and the vague reason 'will fix later' leaves real risk open",
+      "max_score": 20
+    },
+    {
+      "name": "enforceSSL: true added to the Bucket",
+      "description": "lib/app-stack.ts sets enforceSSL: true in the Bucket constructor props",
+      "max_score": 40
+    },
+    {
+      "name": "Existing Bucket properties preserved",
+      "description": "lib/app-stack.ts retains blockPublicAccess: BlockPublicAccess.BLOCK_ALL and versioned: true from the original",
+      "max_score": 20
+    },
+    {
+      "name": "Fix-first principle stated",
+      "description": "The explanation references the principle of preferring to fix insecure resources over suppressing findings",
+      "max_score": 20
+    }
+  ]
+}

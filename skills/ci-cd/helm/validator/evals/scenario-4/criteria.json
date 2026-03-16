@@ -1,0 +1,31 @@
+{
+  "context": "Agent diagnoses multiple template rendering errors in a Helm configmap template and proposes correct fixes without modifying any files.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "template vs include issue identified",
+      "description": "Agent explains that 'template' cannot be used in pipelines (does not return a value) and recommends replacing it with 'include'.",
+      "max_score": 20
+    },
+    {
+      "name": "indent vs nindent issue identified",
+      "description": "Agent identifies that 'indent' requires a string input but 'include' returns interface{}; recommends using 'nindent' which adds a leading newline and handles the type correctly.",
+      "max_score": 20
+    },
+    {
+      "name": "JSON string quoting issue identified",
+      "description": "Agent identifies that .Values.environment in JSON context needs to be quoted (using the 'quote' function or wrapped in double quotes) to produce valid JSON.",
+      "max_score": 20
+    },
+    {
+      "name": "required with empty string behaviour explained",
+      "description": "Agent identifies that 'required' passes when the value is set to an empty string '' because the value is not nil; explains the user needs to provide a non-empty value or use a different validation approach.",
+      "max_score": 20
+    },
+    {
+      "name": "Source template fix rationale",
+      "description": "Agent explains that YAML/template errors must be fixed in the source template, not the rendered output, because helm template regenerates the output each time.",
+      "max_score": 20
+    }
+  ]
+}

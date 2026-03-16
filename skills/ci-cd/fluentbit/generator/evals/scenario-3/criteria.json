@@ -1,0 +1,51 @@
+{
+  "context": "Tests that the agent selects json parser for the JSON service, logfmt for the logfmt service (not regexp for either), and uses a regexp parser only for the legacy service that genuinely requires it. Also checks that filter ordering is correct (parsers before grep filter).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "JSON service uses json parser",
+      "description": "The payment service input or filter uses Parser json (not a regexp parser variant)",
+      "max_score": 15
+    },
+    {
+      "name": "Logfmt service uses logfmt parser",
+      "description": "The auth service input or filter uses Parser logfmt (not a regexp parser variant)",
+      "max_score": 15
+    },
+    {
+      "name": "Regexp only for legacy",
+      "description": "A regexp/regex parser is used only for the legacy billing service, not for the payment or auth services",
+      "max_score": 10
+    },
+    {
+      "name": "Parser choice explained",
+      "description": "design-notes.md (or equivalent) explicitly states why json/logfmt parsers were chosen for the structured services",
+      "max_score": 10
+    },
+    {
+      "name": "Parse filters before grep",
+      "description": "In fluent-bit.conf, FILTER sections for parsing (parser filter) appear before the FILTER section for level filtering (grep filter)",
+      "max_score": 15
+    },
+    {
+      "name": "Level filtering present",
+      "description": "A grep or equivalent FILTER retains only error/warn/warning level events",
+      "max_score": 10
+    },
+    {
+      "name": "TLS on OTEL output",
+      "description": "The opentelemetry OUTPUT includes tls On",
+      "max_score": 10
+    },
+    {
+      "name": "Retry_Limit on output",
+      "description": "The opentelemetry OUTPUT includes a numeric Retry_Limit",
+      "max_score": 8
+    },
+    {
+      "name": "Mem_Buf_Limit on inputs",
+      "description": "Tail INPUT plugins include Mem_Buf_Limit",
+      "max_score": 7
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Generate a correct C project Makefile with modern header, automatic dependency tracking, and standard targets",
+      "feasible": true,
+      "reason": "Output is a static file that can be evaluated against structural and syntactic rules without execution."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Generate a Go project Makefile with version embedding via ldflags and Docker build/push targets",
+      "feasible": true,
+      "reason": "Output is a static file; Docker and Go patterns are fully specified in the skill and verifiable by inspection."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Generate a Python project Makefile for a package with virtual-env, test, lint, and dist targets",
+      "feasible": true,
+      "reason": "Python Makefile patterns are self-contained and the output can be verified against skill rules without running Python."
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Identify and correct multiple anti-patterns in an existing flawed Makefile",
+      "feasible": true,
+      "reason": "The agent produces a corrected Makefile and explanation; correctness is verifiable by inspection."
+    },
+    {
+      "id": "scenario-5",
+      "capability": "Generate a multi-directory C++ project Makefile using $(MAKE) for recursive sub-makes and order-only prerequisites",
+      "feasible": true,
+      "reason": "Structural patterns (order-only prerequisites, $(MAKE) usage) are deterministically verifiable in the output file."
+    }
+  ]
+}

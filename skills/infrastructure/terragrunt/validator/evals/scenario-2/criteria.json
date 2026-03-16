@@ -1,0 +1,31 @@
+{
+  "context": "Agent audits a Terragrunt RDS module dependency block for missing mock_outputs, missing mock_outputs_allowed_terraform_commands, and absolute path usage.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Missing mock_outputs on vpc dependency identified",
+      "description": "Agent identifies that the 'vpc' dependency block has no mock_outputs defined and marks this as FAIL, explaining that terragrunt plan will fail if vpc has not yet been applied.",
+      "max_score": 25
+    },
+    {
+      "name": "Missing mock_outputs_allowed_terraform_commands identified",
+      "description": "Agent identifies that neither dependency block specifies mock_outputs_allowed_terraform_commands and recommends adding it with [\"validate\", \"plan\", \"destroy\"] or similar.",
+      "max_score": 25
+    },
+    {
+      "name": "Absolute config_path on vpc dependency flagged",
+      "description": "Agent identifies that config_path = \"/infrastructure/prod/vpc\" is an absolute path and recommends using a relative path like \"../vpc\".",
+      "max_score": 25
+    },
+    {
+      "name": "Circular dependency check limitation explained",
+      "description": "Agent states that circular dependency detection requires running 'terragrunt dag graph' and cannot be definitively confirmed from static file analysis alone.",
+      "max_score": 15
+    },
+    {
+      "name": "Corrected HCL snippets provided",
+      "description": "Agent provides corrected HCL for the vpc dependency block including mock_outputs, mock_outputs_allowed_terraform_commands, and a relative config_path.",
+      "max_score": 10
+    }
+  ]
+}
