@@ -44,7 +44,8 @@
     "D5: Progressive Disclosure",
     "D6: Freedom Calibration",
     "D7: Pattern Recognition",
-    "D8: Practical Usability"
+    "D8: Practical Usability",
+    "D9: Eval Validation"
   ],
   "required_commands": [],
   "recommended_commands": [
