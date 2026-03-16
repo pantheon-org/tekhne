@@ -277,7 +277,7 @@ When delivering a configuration:
 | Bandwidth | Enable `compression gzip` on network outputs |
 | Structured logs | Prefer JSON app logs; use `Merge_Log On` in K8s filter |
 
-## Resources
+## References
 
 | Resource | Purpose |
 |---|---|

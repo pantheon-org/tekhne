@@ -101,4 +101,4 @@ Use create-context-file when:
 - **BAD**: manually edit file to remove frontmatter or use `date: Jan 13th` (invalid).
 - **GOOD**: script-generated frontmatter with `date: 2026-01-13` (ISO 8601) always included.
 
-## Bundled Resources
+## References

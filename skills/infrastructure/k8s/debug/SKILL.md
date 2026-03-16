@@ -332,7 +332,7 @@ After any debugging intervention:
    kubectl annotate deployment/<name> debug.issue="ImagePullBackOff due to missing secret"
    ```
 
-## Reference Documentation
+## References
 
 ### Detailed Troubleshooting Guides
 

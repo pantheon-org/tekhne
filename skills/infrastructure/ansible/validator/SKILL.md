@@ -204,18 +204,6 @@ Consult `references/common_errors.md` first. Quick reference:
 
 All validation scripts auto-install required tools in a temporary venv if not available system-wide.
 
-## References
-
-| File | Purpose |
-|---|---|
-| `references/security_checklist.md` | Security vulnerabilities checklist |
-| `references/best_practices.md` | Ansible coding standards |
-| `references/common_errors.md` | Common errors and solutions |
-| `references/module_alternatives.md` | Deprecated module → FQCN migration guide |
-| `assets/.yamllint` | Pre-configured yamllint rules |
-| `assets/.ansible-lint` | Pre-configured ansible-lint configuration |
-| `assets/molecule.yml.template` | Molecule configuration template |
-
 ## Integration with Other Skills
 
 - **k8s-yaml-validator** — when Ansible manages Kubernetes resources
@@ -227,3 +215,15 @@ All validation scripts auto-install required tools in a temporary venv if not av
 - Validation order: YAML syntax → Ansible syntax → Lint → Security scan → Secrets scan → Check mode → Molecule tests
 - Use Ansible Vault for all sensitive data; never commit unencrypted secrets
 - Pin collection versions in `requirements.yml`; test before upgrading
+
+## References
+
+| File | Purpose |
+|---|---|
+| `references/security_checklist.md` | Security vulnerabilities checklist |
+| `references/best_practices.md` | Ansible coding standards |
+| `references/common_errors.md` | Common errors and solutions |
+| `references/module_alternatives.md` | Deprecated module → FQCN migration guide |
+| `assets/.yamllint` | Pre-configured yamllint rules |
+| `assets/.ansible-lint` | Pre-configured ansible-lint configuration |
+| `assets/molecule.yml.template` | Molecule configuration template |

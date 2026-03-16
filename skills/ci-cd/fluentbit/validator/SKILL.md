@@ -200,7 +200,7 @@ This validator is automatically invoked by the fluentbit-generator skill after g
 4. Re-validate until all checks pass
 5. Deploy with confidence
 
-## Resources
+## References
 
 ### scripts/
 

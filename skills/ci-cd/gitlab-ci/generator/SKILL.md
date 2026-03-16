@@ -238,7 +238,7 @@ See `references/best-practices.md` for the full set of security, performance, re
 
 ---
 
-## Resources
+## References
 
 ### Reference Files
 - `references/best-practices.md` — Security, performance, pipeline design, anti-patterns

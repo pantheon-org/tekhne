@@ -227,7 +227,7 @@ xattr -cr /path/to/chart/            # remove all recursively
 - Set `kubeVersion` constraint in Chart.yaml when needed
 - Target specific K8s version with `--kube-version` in helm template / kubeconform
 
-## Resources
+## References
 
 ### scripts/
 - `setup_tools.sh`: Check/install required tools

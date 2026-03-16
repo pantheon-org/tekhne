@@ -167,7 +167,11 @@ See `references/crd_patterns.md` for complete examples. Ship CRDs in `crds/` dir
 | Indentation issues | Use `nindent` consistently |
 | CRD validation fails | Verify apiVersion, check docs for required fields |
 
-## Resources
+## Post-Generation Validation
+
+After generating charts, invoke **devops-skills:helm-validator** to ensure quality.
+
+## References
 
 ### Scripts
 
@@ -190,7 +194,3 @@ See `references/crd_patterns.md` for complete examples. Ship CRDs in `crds/` dir
 |------|---------|
 | `assets/_helpers-template.tpl` | Standard helpers template |
 | `assets/values-schema-template.json` | JSON Schema for values validation |
-
-## Post-Generation Validation
-
-After generating charts, invoke **devops-skills:helm-validator** to ensure quality.

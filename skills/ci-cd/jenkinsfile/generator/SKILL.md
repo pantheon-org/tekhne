@@ -7,42 +7,6 @@ description: Generates Jenkinsfiles with stages, agents, parallel builds, post-b
 
 Generate production-ready Jenkinsfiles following best practices. All generated files are validated using devops-skills:jenkinsfile-validator skill.
 
-## Quick Reference
-
-```groovy
-// Minimal Declarative Pipeline
-pipeline {
-    agent any
-    stages {
-        stage('Build') { steps { sh 'make' } }
-        stage('Test') { steps { sh 'make test' } }
-    }
-}
-
-// Error-tolerant stage
-stage('Flaky Tests') {
-    steps {
-        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-            sh 'run-flaky-tests.sh'
-        }
-    }
-}
-
-// Conditional deployment with approval
-stage('Deploy') {
-    when { branch 'main'; beforeAgent true }
-    input { message 'Deploy to production?' }
-    steps { sh './deploy.sh' }
-}
-```
-
-| Option | Purpose |
-|--------|---------|
-| `timeout(time: 1, unit: 'HOURS')` | Prevent hung builds |
-| `buildDiscarder(logRotator(numToKeepStr: '10'))` | Manage disk space |
-| `disableConcurrentBuilds()` | Prevent race conditions |
-| `catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')` | Continue on error |
-
 ## Core Capabilities
 
 ### 1. Declarative Pipelines (RECOMMENDED)
@@ -334,6 +298,40 @@ python3 scripts/generate_shared_library.py --name my-library --package com.examp
 **Covered plugins:** Git, Docker, Kubernetes, Credentials, JUnit, Slack, SonarQube, OWASP Dependency-Check, Email, AWS, Azure, HTTP Request, Microsoft Teams, Nexus, Artifactory, GitHub
 
 ## References
+
+```groovy
+// Minimal Declarative Pipeline
+pipeline {
+    agent any
+    stages {
+        stage('Build') { steps { sh 'make' } }
+        stage('Test') { steps { sh 'make test' } }
+    }
+}
+
+// Error-tolerant stage
+stage('Flaky Tests') {
+    steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+            sh 'run-flaky-tests.sh'
+        }
+    }
+}
+
+// Conditional deployment with approval
+stage('Deploy') {
+    when { branch 'main'; beforeAgent true }
+    input { message 'Deploy to production?' }
+    steps { sh './deploy.sh' }
+}
+```
+
+| Option | Purpose |
+|--------|---------|
+| `timeout(time: 1, unit: 'HOURS')` | Prevent hung builds |
+| `buildDiscarder(logRotator(numToKeepStr: '10'))` | Manage disk space |
+| `disableConcurrentBuilds()` | Prevent race conditions |
+| `catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')` | Continue on error |
 
 - `references/best_practices.md` - Performance, security, reliability patterns
 - `references/common_plugins.md` - Git, Docker, K8s, credentials, notifications

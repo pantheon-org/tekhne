@@ -116,15 +116,6 @@ Look up documentation when you encounter:
 
 See [references/common_plugins.md](references/common_plugins.md) for documentation on commonly used plugins.
 
-## Reference Documentation
-
-- [Declarative Syntax](references/declarative_syntax.md): Complete Declarative Pipeline syntax reference
-- [Scripted Syntax](references/scripted_syntax.md): Complete Scripted Pipeline syntax reference
-- [Best Practices](references/best_practices.md): Jenkins pipeline best practices and patterns
-- [Common Plugins](references/common_plugins.md): Documentation for frequently used Jenkins plugins
-- [Validation Rules](references/validation_rules.md): Detailed validation rules, error reporting format, and examples
-- [Troubleshooting](references/troubleshooting.md): Common issues, debug mode, and limitations
-
 ## Claude's Workflow
 
 When a user provides a Jenkinsfile for validation:
@@ -150,7 +141,18 @@ When a user provides a Jenkinsfile for validation:
 
 5. **Provide inline fix suggestions** when errors are found (include corrected code snippets directly in the response)
 
-## External References
+## References
+
+**Internal:**
+
+- [Declarative Syntax](references/declarative_syntax.md): Complete Declarative Pipeline syntax reference
+- [Scripted Syntax](references/scripted_syntax.md): Complete Scripted Pipeline syntax reference
+- [Best Practices](references/best_practices.md): Jenkins pipeline best practices and patterns
+- [Common Plugins](references/common_plugins.md): Documentation for frequently used Jenkins plugins
+- [Validation Rules](references/validation_rules.md): Detailed validation rules, error reporting format, and examples
+- [Troubleshooting](references/troubleshooting.md): Common issues, debug mode, and limitations
+
+**External:**
 
 - Official Jenkins Pipeline Syntax: <https://www.jenkins.io/doc/book/pipeline/syntax/>
 - Pipeline Development Tools: <https://www.jenkins.io/doc/book/pipeline/development/>

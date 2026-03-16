@@ -387,14 +387,6 @@ Before delivering generated YAML, confirm:
 | Validation failures | Read errors carefully; verify field names/types/required fields; re-validate |
 | Wrong API version | Confirm target K8s version; check deprecation status; update `apiVersion`; re-validate |
 
-## Reference Materials
-
-For detailed examples and templates:
-- Standard resource templates: See "Deployment template", "Service template", "ConfigMap template" sections above
-- CRD examples: See "Common CRD Examples" section (ArgoCD, Istio, Cert-Manager)
-- Validation: See `yaml-validator/SKILL.md` in this tile
-- Debugging: See `debug/SKILL.md` in this tile for troubleshooting deployed resources
-
 ## Integration
 
 - **k8s-yaml-validator** (in this tile) — automatic validation of generated resources
@@ -404,3 +396,11 @@ For detailed examples and templates:
 ---
 
 **Workflow summary:** Understand → Fetch CRD Docs (if needed) → Generate → Validate → Deliver
+
+## References
+
+For detailed examples and templates:
+- Standard resource templates: See "Deployment template", "Service template", "ConfigMap template" sections above
+- CRD examples: See "Common CRD Examples" section (ArgoCD, Istio, Cert-Manager)
+- Validation: See `yaml-validator/SKILL.md` in this tile
+- Debugging: See `debug/SKILL.md` in this tile for troubleshooting deployed resources

@@ -23,16 +23,6 @@ description: |
 
 Configure Vite as the build tool in Nx workspaces with predictable, cache-friendly defaults.
 
-## Quick Reference
-
-| Topic | Reference |
-| --- | --- |
-| Vite Config Patterns | [references/vite-config-patterns.md](references/vite-config-patterns.md) |
-| Nx Vite Plugins | [references/nx-vite-plugin-reference.md](references/nx-vite-plugin-reference.md) |
-| Library Mode | [references/library-mode-guide.md](references/library-mode-guide.md) |
-| Vitest Integration | [references/vitest-integration.md](references/vitest-integration.md) |
-| Troubleshooting | [references/troubleshooting.md](references/troubleshooting.md) |
-
 ## Workflow
 
 ### Step 1: Install Dependencies
@@ -253,3 +243,13 @@ bunx nx run <project>:test
 bunx @biomejs/biome check skills/nx-vite-integration/
 bunx markdownlint-cli2 "skills/nx-vite-integration/**/*.md"
 ```
+
+## References
+
+| Topic | Reference |
+| --- | --- |
+| Vite Config Patterns | [references/vite-config-patterns.md](references/vite-config-patterns.md) |
+| Nx Vite Plugins | [references/nx-vite-plugin-reference.md](references/nx-vite-plugin-reference.md) |
+| Library Mode | [references/library-mode-guide.md](references/library-mode-guide.md) |
+| Vitest Integration | [references/vitest-integration.md](references/vitest-integration.md) |
+| Troubleshooting | [references/troubleshooting.md](references/troubleshooting.md) |

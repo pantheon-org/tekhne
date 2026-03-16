@@ -150,7 +150,7 @@ makefile-validator/
 
 mbake doesn't recognize some valid GNU Make special targets (`.DELETE_ON_ERROR`, `.SUFFIXES`, `.ONESHELL`, `.POSIX`) — the validator filters these false positives and surfaces them as informational messages. The `mbake format --check` vs `mbake format` output may also differ; this is a known upstream issue. See `references/bake-tool.md` for full details including mbake configuration (`~/.bake.toml`) and format-disable comments.
 
-## Resources
+## References
 
 - [GNU Make Manual](https://www.gnu.org/software/make/manual/)
 - [mbake GitHub](https://github.com/EbodShojaei/bake) / [PyPI](https://pypi.org/project/mbake/)

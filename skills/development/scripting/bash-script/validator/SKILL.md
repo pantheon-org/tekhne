@@ -83,22 +83,6 @@ if [ ! -f "$file" ]; then  # Properly quoted
 causing unexpected behavior with filenames containing spaces or special characters.
 ```
 
-## Reference Documentation
-
-### Core References
-
-- **bash-reference.md** — Bash-specific features, parameter expansion, arrays, control structures, functions, best practices, common pitfalls
-- **shell-reference.md** — POSIX sh compliance, portable constructs, differences from bash, POSIX utilities
-- **shellcheck-reference.md** — ShellCheck error codes explained, severity levels, configuration options, CI/CD integration
-- **common-mistakes.md** — 25+ common shell scripting mistakes with real-world examples and correct solutions
-
-### Tool References
-
-- **grep-reference.md** — BRE/ERE patterns, common grep patterns, performance tips
-- **awk-reference.md** — Field processing, pattern matching, arrays, log analysis, CSV/text processing
-- **sed-reference.md** — Substitution patterns, address ranges, in-place editing, common one-liners
-- **regex-reference.md** — BRE vs ERE, POSIX character classes, metacharacters, common patterns
-
 ## Example Scripts
 
 Located in `assets/` directory:
@@ -115,20 +99,20 @@ Located in `assets/` directory:
 
 ### ShellCheck Installation Options
 
-**Option 1: System-wide (Recommended)**
+**Option 1:** System-wide (Recommended)
 ```bash
 brew install shellcheck        # macOS
 apt-get install shellcheck     # Ubuntu/Debian
 dnf install shellcheck         # Fedora
 ```
 
-**Option 2: Automatic via Wrapper (Python required)**
+**Option 2:** Automatic via Wrapper (Python required)
 ```bash
 ./scripts/shellcheck_wrapper.sh --cache script.sh
 # Clears cache: ./scripts/shellcheck_wrapper.sh --clear-cache
 ```
 
-**Option 3: Manual Python install**
+**Option 3:** Manual Python install
 ```bash
 pip3 install shellcheck-py
 ```
@@ -166,8 +150,21 @@ bash-script-validator/
 └── assets/             # good-bash.sh, bad-bash.sh, good-shell.sh, bad-shell.sh
 ```
 
-## Resources
+## References
 
+### Core References
+
+- **bash-reference.md** — Bash-specific features, parameter expansion, arrays, control structures, functions, best practices, common pitfalls
+- **shell-reference.md** — POSIX sh compliance, portable constructs, differences from bash, POSIX utilities
+- **shellcheck-reference.md** — ShellCheck error codes explained, severity levels, configuration options, CI/CD integration
+- **common-mistakes.md** — 25+ common shell scripting mistakes with real-world examples and correct solutions
+
+### Tool References
+
+- **grep-reference.md** — BRE/ERE patterns, common grep patterns, performance tips
+- **awk-reference.md** — Field processing, pattern matching, arrays, log analysis, CSV/text processing
+- **sed-reference.md** — Substitution patterns, address ranges, in-place editing, common one-liners
+- **regex-reference.md** — BRE vs ERE, POSIX character classes, metacharacters, common patterns
 - [GNU Bash Manual](https://www.gnu.org/software/bash/manual/)
 - [POSIX Shell Specification](https://pubs.opengroup.org/onlinepubs/9699919799/)
 - [ShellCheck](https://www.shellcheck.net/)

@@ -355,7 +355,7 @@ After the user applies fixes:
    kubectl get <resource> -n dev -w  # Watch for successful creation
    ```
 
-## Resources
+## References
 
 ### scripts/
 

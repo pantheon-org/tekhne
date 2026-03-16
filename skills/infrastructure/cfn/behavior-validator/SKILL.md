@@ -72,15 +72,6 @@ aws cloudformation describe-stack-events \
 
 Update the code: implement or remove the workaround and add a comment citing this test.
 
-## Helper Scripts
-
-| Script | Location | Purpose |
-|---|---|---|
-| `watch-cfn-events.sh` | `./scripts/watch-cfn-events.sh` | Stream CFN events in real-time during deployment |
-| `compare-resources.sh` | `./scripts/compare-resources.sh` | Diff resource properties before and after deployment |
-
-See `EXAMPLES.md` in this skill directory for a full walkthrough of an SNS email subscription endpoint change test.
-
 ## Related Skills
 
 - `cfn-template-compare` — Compare deployed vs local templates
@@ -89,6 +80,12 @@ See `EXAMPLES.md` in this skill directory for a full walkthrough of an SNS email
 
 ## References
 
+| Script | Location | Purpose |
+|---|---|---|
+| `watch-cfn-events.sh` | `./scripts/watch-cfn-events.sh` | Stream CFN events in real-time during deployment |
+| `compare-resources.sh` | `./scripts/compare-resources.sh` | Diff resource properties before and after deployment |
+
+See `EXAMPLES.md` in this skill directory for a full walkthrough of an SNS email subscription endpoint change test.
 - [CloudFormation Update Behaviors](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html)
 - [CloudFormation Resource Reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-template-resource-type-ref.html)
 - [AWS CDK Best Practices](https://docs.aws.amazon.com/cdk/v2/guide/best-practices.html)

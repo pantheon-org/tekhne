@@ -7,20 +7,6 @@ description: Generates production-ready GitHub Actions workflows, custom actions
 
 Generate production-ready GitHub Actions workflows and custom actions following current best practices, security standards, and naming conventions. All generated resources are automatically validated using the devops-skills:github-actions-validator skill.
 
-## Quick Reference
-
-| Capability | When to Use | Reference |
-|------------|-------------|-----------|
-| Workflows | CI/CD, automation, testing | `references/best-practices.md` |
-| Composite Actions | Reusable step combinations | `references/custom-actions.md` |
-| Docker Actions | Custom environments/tools | `references/custom-actions.md` |
-| JavaScript Actions | API interactions, complex logic | `references/custom-actions.md` |
-| Reusable Workflows | Shared patterns across repos | `references/advanced-triggers.md` |
-| Security Scanning | Dependency review, SBOM | `references/best-practices.md` |
-| Modern Features | Summaries, environments | `references/modern-features.md` |
-
----
-
 ## Core Capabilities
 
 ### 1. Generate Workflows
@@ -196,30 +182,6 @@ See `references/best-practices.md` for complete guidelines.
 
 ---
 
-## Resources
-
-### Reference Documents
-
-| Document | Content | When to Use |
-|----------|---------|-------------|
-| `references/best-practices.md` | Security, performance, patterns | Every workflow |
-| `references/common-actions.md` | Action versions, inputs, outputs | Public action usage |
-| `references/expressions-and-contexts.md` | `${{ }}` syntax, contexts, functions | Complex conditionals |
-| `references/advanced-triggers.md` | workflow_run, dispatch, ChatOps | Workflow orchestration |
-| `references/custom-actions.md` | Metadata, structure, versioning | Custom action creation |
-| `references/modern-features.md` | Summaries, environments, containers | Enhanced workflows |
-
-### Templates
-
-| Template | Location |
-|----------|----------|
-| Basic Workflow | `assets/templates/workflow/basic_workflow.yml` |
-| Composite Action | `assets/templates/action/composite/action.yml` |
-| Docker Action | `assets/templates/action/docker/` |
-| JavaScript Action | `assets/templates/action/javascript/` |
-
----
-
 ## Common Patterns
 
 ### Matrix Testing
@@ -265,3 +227,39 @@ deploy:
 5. **Validate** with devops-skills:github-actions-validator
 6. **Fix** any errors
 7. **Present** validated result
+
+## References
+
+### Reference Documents
+
+| Document | Content | When to Use |
+|----------|---------|-------------|
+| `references/best-practices.md` | Security, performance, patterns | Every workflow |
+| `references/common-actions.md` | Action versions, inputs, outputs | Public action usage |
+| `references/expressions-and-contexts.md` | `${{ }}` syntax, contexts, functions | Complex conditionals |
+| `references/advanced-triggers.md` | workflow_run, dispatch, ChatOps | Workflow orchestration |
+| `references/custom-actions.md` | Metadata, structure, versioning | Custom action creation |
+| `references/modern-features.md` | Summaries, environments, containers | Enhanced workflows |
+
+### Templates
+
+| Template | Location |
+|----------|----------|
+| Basic Workflow | `assets/templates/workflow/basic_workflow.yml` |
+| Composite Action | `assets/templates/action/composite/action.yml` |
+| Docker Action | `assets/templates/action/docker/` |
+| JavaScript Action | `assets/templates/action/javascript/` |
+
+---
+
+| Capability | When to Use | Reference |
+|------------|-------------|-----------|
+| Workflows | CI/CD, automation, testing | `references/best-practices.md` |
+| Composite Actions | Reusable step combinations | `references/custom-actions.md` |
+| Docker Actions | Custom environments/tools | `references/custom-actions.md` |
+| JavaScript Actions | API interactions, complex logic | `references/custom-actions.md` |
+| Reusable Workflows | Shared patterns across repos | `references/advanced-triggers.md` |
+| Security Scanning | Dependency review, SBOM | `references/best-practices.md` |
+| Modern Features | Summaries, environments | `references/modern-features.md` |
+
+---

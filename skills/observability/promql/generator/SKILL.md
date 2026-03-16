@@ -152,7 +152,7 @@ for: 10m
 
 ---
 
-## Resources
+## References
 
 ### references/
 - **`promql_functions.md`** — All PromQL functions with examples. Read for specific function questions.

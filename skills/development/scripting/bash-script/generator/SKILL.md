@@ -262,7 +262,7 @@ After every script, provide:
 - references/script-patterns.md (argument parsing)
 ```
 
-## Resources
+## References
 
 **Internal references (offline, load as context):**
 - `references/bash-scripting-guide.md` — strict mode, functions, arrays, parameter expansion

@@ -168,17 +168,6 @@ expect(result).toBeDefined();
 await expect(promise).resolves.toBeDefined();
 ```
 
-## Quick Reference
-
-| Topic | Reference |
-| --- | --- |
-| Red-Green-Refactor cycle | [references/cycle-write-test-first.md](references/cycle-write-test-first.md) |
-| Verify failing tests first | [references/cycle-verify-test-fails-first.md](references/cycle-verify-test-fails-first.md) |
-| AAA and behavior-first design | [references/design-aaa-pattern.md](references/design-aaa-pattern.md) |
-| Avoid implementation-detail tests | [references/design-test-behavior-not-implementation.md](references/design-test-behavior-not-implementation.md) |
-| Isolation and dependency injection | [references/isolate-use-dependency-injection.md](references/isolate-use-dependency-injection.md) |
-| Flakiness and speed | [references/perf-fix-flaky-tests.md](references/perf-fix-flaky-tests.md) |
-
 ## Verification
 
 ```bash
@@ -192,6 +181,15 @@ bunx markdownlint-cli2 "skills/test-driven-development/**/*.md"
 ```
 
 ## References
+
+| Topic | Reference |
+| --- | --- |
+| Red-Green-Refactor cycle | [references/cycle-write-test-first.md](references/cycle-write-test-first.md) |
+| Verify failing tests first | [references/cycle-verify-test-fails-first.md](references/cycle-verify-test-fails-first.md) |
+| AAA and behavior-first design | [references/design-aaa-pattern.md](references/design-aaa-pattern.md) |
+| Avoid implementation-detail tests | [references/design-test-behavior-not-implementation.md](references/design-test-behavior-not-implementation.md) |
+| Isolation and dependency injection | [references/isolate-use-dependency-injection.md](references/isolate-use-dependency-injection.md) |
+| Flakiness and speed | [references/perf-fix-flaky-tests.md](references/perf-fix-flaky-tests.md) |
 
 - [Kent Beck - Test Driven Development](https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530)
 - [Testing Implementation Details (Kent C. Dodds)](https://kentcdodds.com/blog/testing-implementation-details)

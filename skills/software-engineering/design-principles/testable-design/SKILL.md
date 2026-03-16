@@ -223,7 +223,7 @@ rg -n "fetch\(|axios\.|fs\.|process\.env" src/domain src/application
 npm run test:coverage
 ```
 
-## Quick Reference
+## References
 
 ### Testable Design Files
 
@@ -237,9 +237,6 @@ npm run test:coverage
 For dependency inversion (DIP), see solid-principles.  
 For boundary design, see clean-architecture.  
 For Humble Object pattern, see design-patterns.
-
-## References
-
 - [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com/)
 - [Working Effectively with Legacy Code (Michael Feathers)](https://www.oreilly.com/library/view/working-effectively-with/0131177052/)
 - [Test-Driven Development by Example (Kent Beck)](https://www.oreilly.com/library/view/test-driven-development/0321146530/)

@@ -290,12 +290,6 @@ sum(rate({app="api"} | json | level="error" [5m])) or vector(0) > 10
 | Parse errors | Verify log format matches parser, test JSON validity |
 | High cardinality | Use line filters not label filters for unique values, aggregate |
 
-## Resources
-
-- **assets/common_queries.logql**: Comprehensive query examples
-- **references/best_practices.md**: 39+ LogQL best practices, performance optimization, anti-patterns
-- **references/function_reference.md**: Quick function and parser reference tables
-
 ## Guidelines
 
 1. **Always plan interactively** - Present plain-English plan before generating
@@ -313,3 +307,9 @@ sum(rate({app="api"} | json | level="error" [5m])) or vector(0) > 10
 - **Loki 3.6+**: Horizontally scalable compactor, Loki UI as Grafana plugin
 
 > **Deprecations**: Promtail (use Alloy), BoltDB store (use TSDB with v13 schema)
+
+## References
+
+- **assets/common_queries.logql**: Comprehensive query examples
+- **references/best_practices.md**: 39+ LogQL best practices, performance optimization, anti-patterns
+- **references/function_reference.md**: Quick function and parser reference tables

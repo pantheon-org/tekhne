@@ -79,7 +79,14 @@ BAD: copy/paste identical conventions in every file. GOOD: keep universal rules 
 WHY: broken commands erode trust and block contributors.
 BAD: include hypothetical commands. GOOD: include only validated copy-paste commands.
 
-## Quick Reference
+## Verification
+
+```bash
+bunx markdownlint-cli2 "**/AGENTS.md" "skills/agents-md/**/*.md"
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agents-md --json
+```
+
+## References
 
 | Topic | Reference |
 | --- | --- |
@@ -90,10 +97,3 @@ BAD: include hypothetical commands. GOOD: include only validated copy-paste comm
 | Database package template | [references/database-template.md](references/database-template.md) |
 | Testing package template | [references/testing-template.md](references/testing-template.md) |
 | Troubleshooting | [references/troubleshooting.md](references/troubleshooting.md) |
-
-## Verification
-
-```bash
-bunx markdownlint-cli2 "**/AGENTS.md" "skills/agents-md/**/*.md"
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agents-md --json
-```

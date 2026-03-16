@@ -5,14 +5,6 @@ description: Comprehensive toolkit for validating, optimizing, and understanding
 
 # PromQL Validator
 
-## Reference Materials
-
-- [Best Practices Guide](references/best_practices.md) - Comprehensive PromQL best practices
-- [Anti-Patterns Reference](references/anti_patterns.md) - Detailed anti-pattern explanations
-- [Good Query Examples](assets/good_queries.promql) - Well-written query patterns
-- [Bad Query Examples](assets/bad_queries.promql) - Common mistakes with corrections
-- [Optimization Examples](assets/optimization_examples.promql) - Before/after optimizations
-
 ## Workflow
 
 This skill uses a **two-phase interactive workflow**: Phase 1 (Steps 1-4) presents validation results and asks clarifying questions, then **stops and waits** for user response before proceeding to Phase 2 (Steps 5-7) for tailored recommendations.
@@ -134,3 +126,11 @@ The skill uses two main Python scripts:
 2. **check_best_practices.py**: Semantic and performance analysis
 
 Both scripts output JSON for programmatic parsing and human-readable messages for display.
+
+## References
+
+- [Best Practices Guide](references/best_practices.md) - Comprehensive PromQL best practices
+- [Anti-Patterns Reference](references/anti_patterns.md) - Detailed anti-pattern explanations
+- [Good Query Examples](assets/good_queries.promql) - Well-written query patterns
+- [Bad Query Examples](assets/bad_queries.promql) - Common mistakes with corrections
+- [Optimization Examples](assets/optimization_examples.promql) - Before/after optimizations

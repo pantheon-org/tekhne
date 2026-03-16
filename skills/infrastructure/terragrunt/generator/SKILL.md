@@ -436,7 +436,16 @@ Reference `../devops-skills:terragrunt-validator/references/best_practices.md` f
 | `--terragrunt-*` flags | Unprefixed flags | [CLI Reference](https://terragrunt.gruntwork.io/docs/reference/cli-options/) |
 | `TERRAGRUNT_*` env vars | `TG_*` env vars | [CLI Reference](https://terragrunt.gruntwork.io/docs/reference/cli-options/) |
 
-## Resources
+## Common Issues
+
+For troubleshooting guidance, see [`references/troubleshooting.md`](references/troubleshooting.md), which covers:
+
+- Root.hcl cannot find env.hcl errors
+- Provider conflicts with registry modules
+- Feature flag validation errors
+- Child module env.hcl resolution issues
+
+## References
 
 ### Templates — Read Before Generating
 
@@ -464,12 +473,3 @@ Reference `../devops-skills:terragrunt-validator/references/best_practices.md` f
 - [Feature Flags](https://terragrunt.gruntwork.io/docs/features/feature-flags/)
 - [Engine](https://terragrunt.gruntwork.io/docs/features/engine/)
 - [Migration Guides](https://terragrunt.gruntwork.io/docs/migrate/)
-
-## Common Issues
-
-For troubleshooting guidance, see [`references/troubleshooting.md`](references/troubleshooting.md), which covers:
-
-- Root.hcl cannot find env.hcl errors
-- Provider conflicts with registry modules
-- Feature flag validation errors
-- Child module env.hcl resolution issues

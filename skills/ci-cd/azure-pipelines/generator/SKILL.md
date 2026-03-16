@@ -277,7 +277,26 @@ For a complete end-to-end workflow example (Understanding → Reading → Lookup
 
 ---
 
-## Resources
+## Troubleshooting
+
+### If devops-skills:azure-pipelines-validator reports errors
+
+| Error type | Resolution |
+|-----------|-----------|
+| Syntax errors | Fix YAML indentation or structure |
+| Task version errors | Ensure format is `TaskName@version` |
+| Pool/vmImage errors | Use specific versions, not `latest` |
+| Stage/Job errors | Verify stages → jobs → steps hierarchy |
+| Security warnings | Remove hardcoded secrets; avoid `:latest` in deployments |
+
+### If task documentation is not found
+
+1. Try alternative search queries
+2. Check [Microsoft Learn task reference](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/)
+3. Check [azure-pipelines-tasks on GitHub](https://github.com/microsoft/azure-pipelines-tasks)
+4. Ask the user for specific version requirements
+
+## References
 
 ### Documentation (load as needed)
 
@@ -304,22 +323,3 @@ For a complete end-to-end workflow example (Understanding → Reading → Lookup
 | `assets/examples/templates/deploy-template.yml` | Reusable deployment templates |
 
 ---
-
-## Troubleshooting
-
-### If devops-skills:azure-pipelines-validator reports errors
-
-| Error type | Resolution |
-|-----------|-----------|
-| Syntax errors | Fix YAML indentation or structure |
-| Task version errors | Ensure format is `TaskName@version` |
-| Pool/vmImage errors | Use specific versions, not `latest` |
-| Stage/Job errors | Verify stages → jobs → steps hierarchy |
-| Security warnings | Remove hardcoded secrets; avoid `:latest` in deployments |
-
-### If task documentation is not found
-
-1. Try alternative search queries
-2. Check [Microsoft Learn task reference](https://learn.microsoft.com/azure/devops/pipelines/tasks/reference/)
-3. Check [azure-pipelines-tasks on GitHub](https://github.com/microsoft/azure-pipelines-tasks)
-4. Ask the user for specific version requirements

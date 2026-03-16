@@ -135,13 +135,10 @@ rg -n "instanceof|typeof.*==|switch.*type" src
 rg -n "new [A-Z].*Repository\(|new [A-Z].*Service\(" src
 ```
 
-## Quick Reference
+## References
 
 SOLID principles are tactical class-level design rules. For architectural decisions (boundaries, modules, dependencies), use the clean-architecture skill.
 
 For detailed SOLID guidance, see the software-design-principles hub (references/detailed-examples.md, references/anti-patterns-and-frameworks.md).
-
-## References
-
 - [Martin Fowler on SOLID](https://martinfowler.com/bliki/BeckDesignRules.html)
 - [Uncle Bob SOLID Papers](https://fi.ort.edu.uy/innovaportal/file/2032/1/design_principles.pdf)

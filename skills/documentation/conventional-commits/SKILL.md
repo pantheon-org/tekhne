@@ -89,7 +89,7 @@ Benchmark (1000 req/s sustained):
 - After:  50ms avg, 200ms p99
 ```
 
-## Quick Reference
+## Examples
 
 ```
 feat: add user export
@@ -102,7 +102,7 @@ feat!: remove deprecated endpoint
 
 For automated commit validation (commitlint + husky), CI enforcement (GitHub Actions), and CHANGELOG/release automation (conventional-changelog, semantic-release), see the [Conventional Commits tooling guide](https://www.conventionalcommits.org/) and [commitlint documentation](https://commitlint.js.org/).
 
-## Related Resources
+## References
 
 - [Conventional Commits Specification](https://www.conventionalcommits.org/)
 - [Semantic Versioning](https://semver.org/)

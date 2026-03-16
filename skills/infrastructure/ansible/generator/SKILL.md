@@ -251,7 +251,7 @@ When validation fails due to missing collections, rewrite using builtins:
 
 ---
 
-## Resources
+## References
 
 ### References (read at generation start)
 

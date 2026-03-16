@@ -379,7 +379,17 @@ Use order-only prerequisites (`|`) for large projects with many targets.
 - Use `@` prefix for quiet commands
 - Test with `make -n` first
 
-## Helper Scripts (Optional)
+## Documentation
+
+Detailed guides in `references/`:
+- **makefile-structure.md** - Organization, layout, includes
+- **variables-guide.md** - Assignment operators, automatic variables
+- **targets-guide.md** - Standard targets, .PHONY, prerequisites
+- **patterns-guide.md** - Pattern rules, dependencies
+- **optimization-guide.md** - Parallel builds, caching
+- **security-guide.md** - Safe expansion, credential handling
+
+## References
 
 These scripts are **optional convenience tools** for quick template generation.
 
@@ -420,19 +430,6 @@ bash scripts/add_standard_targets.sh Makefile install uninstall help
 ```
 
 **Note:** Manual generation following the Stage 3 patterns produces equivalent results but allows for more customization.
-
-## Documentation
-
-Detailed guides in `references/`:
-- **makefile-structure.md** - Organization, layout, includes
-- **variables-guide.md** - Assignment operators, automatic variables
-- **targets-guide.md** - Standard targets, .PHONY, prerequisites
-- **patterns-guide.md** - Pattern rules, dependencies
-- **optimization-guide.md** - Parallel builds, caching
-- **security-guide.md** - Safe expansion, credential handling
-
-## Resources
-
 - [GNU Make Manual](https://www.gnu.org/software/make/manual/)
 - [GNU Coding Standards](https://www.gnu.org/prep/standards/standards.html)
 - [Makefile Conventions](https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html)

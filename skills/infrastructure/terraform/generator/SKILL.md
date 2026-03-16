@@ -443,7 +443,16 @@ Always consider version compatibility:
 
 > **Version feature matrix and modern Terraform features (1.8+):** See `references/modern_features.md` for the full feature matrix, ephemeral resources, write-only arguments, actions blocks, import blocks with `for_each`, list resources, and query command examples.
 
-## Resources
+## Notes
+
+- Always run devops-skills:terraform-validator after generation
+- Web search is essential for custom providers/modules
+- Follow the principle of least surprise in configurations
+- Make configurations readable and maintainable
+- Include helpful comments and documentation
+- Generate realistic examples in terraform.tfvars when helpful
+
+## References
 
 ### references/
 
@@ -463,12 +472,3 @@ Template files for common setups:
 - `minimal-project/` - Minimal Terraform project template
 - `aws-web-app/` - AWS web application infrastructure template
 - `multi-env/` - Multi-environment configuration template
-
-## Notes
-
-- Always run devops-skills:terraform-validator after generation
-- Web search is essential for custom providers/modules
-- Follow the principle of least surprise in configurations
-- Make configurations readable and maintainable
-- Include helpful comments and documentation
-- Generate realistic examples in terraform.tfvars when helpful
