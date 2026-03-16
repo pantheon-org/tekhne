@@ -69,6 +69,33 @@ const rewriteReferenceLinks = (content) =>
   );
 
 /**
+ * For SKILL.md files:
+ *   1. Extracts the first H1 heading text and stores it as `metadata.displayTitle`
+ *      so the custom SkillPageTitle component can render it as the canonical heading.
+ *   2. Strips that H1 from the markdown content to avoid a duplicate h1 on the page.
+ */
+const processSkillContent = (raw) => {
+  const parsed = matter(raw);
+
+  // Match the first H1 at the start of the content (possibly after blank lines)
+  const h1Match = parsed.content.match(/^\s*# ([^\n]+)/);
+  if (!h1Match) return raw; // no leading H1 — leave unchanged
+
+  const displayTitle = h1Match[1].trim();
+
+  // Strip the H1 line (and a single following blank line if present)
+  const strippedContent = parsed.content.replace(/^\s*# [^\n]+\n(\n)?/, "");
+
+  // Merge displayTitle into metadata (preserving any existing metadata fields)
+  const newData = {
+    ...parsed.data,
+    metadata: { ...(parsed.data.metadata || {}), displayTitle },
+  };
+
+  return matter.stringify(strippedContent, newData);
+};
+
+/**
  * Ensure a reference file has `title` and `sidebar.hidden: true` frontmatter,
  * which Starlight requires for rendering.  Source files are never modified.
  */
@@ -125,9 +152,9 @@ const copyDir = (src, dest) => {
         copyDir(srcPath, destPath);
       }
     } else if (entry.isFile() && entry.name === "SKILL.md") {
-      // Skill entry point: copy with reference link rewriting
+      // Skill entry point: rewrite reference links, extract displayTitle, strip H1
       const raw = readFileSync(srcPath, "utf-8");
-      writeFileSync(destPath, rewriteReferenceLinks(raw));
+      writeFileSync(destPath, processSkillContent(rewriteReferenceLinks(raw)));
     }
     // All other files are intentionally skipped.
   }
