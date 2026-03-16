@@ -90,8 +90,8 @@ Detailed scoring methodology for the skill-judge framework. Use this to understa
 **Bonus Points (each independent, up to +2 total):**
 
 - Script Language Portability: +1 (Python/TS/JS scripts present in `scripts/`)
-- References Section Format: +1 (heading exactly `## References`, last H2, bullet markdown links with `— label` descriptions)
-  - 0 if: wrong heading name, bare URLs, plain-text paths, or section missing when references exist
+- References Section Format: +1 (heading exactly `## References`, last H2, Markdown table with `Topic | Reference | When to Use` columns, Reference column cells are markdown links)
+  - 0 if: wrong heading name, bullet list instead of table, bare URLs, plain-text paths, missing required columns, or section missing when references exist
   - Omission allowed without penalty when skill has nothing to reference
 
 ### D5: Progressive Disclosure (15 points)

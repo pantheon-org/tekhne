@@ -80,35 +80,40 @@
     },
     "references_section_compliance": {
       "type": "object",
-      "description": "D4 bonus check: validates that SKILL.md ends with a correctly formatted ## References section",
+      "description": "D4 bonus check: validates that SKILL.md ends with a correctly formatted ## References section using the Topic|Reference|When to Use table standard",
       "required": [
         "heading_correct",
         "is_last_section",
-        "uses_bullet_links",
-        "has_descriptive_labels",
+        "uses_table_format",
+        "has_required_columns",
+        "reference_column_has_links",
         "compliant",
         "score"
       ],
       "properties": {
         "heading_correct": {
           "type": "boolean",
-          "description": "Heading is exactly '## References' (not Resources, Quick Reference, etc.)"
+          "description": "Heading is exactly '## References' (not Resources, Quick Reference, See Also, etc.)"
         },
         "is_last_section": {
           "type": "boolean",
           "description": "## References is the last H2 section in SKILL.md"
         },
-        "uses_bullet_links": {
+        "uses_table_format": {
           "type": "boolean",
-          "description": "All reference items are bullet-list markdown links, not bare URLs or plain paths"
+          "description": "Content uses a Markdown table (pipe-delimited) rather than a bullet list"
         },
-        "has_descriptive_labels": {
+        "has_required_columns": {
           "type": "boolean",
-          "description": "Every markdown link is followed by a ' — description' label"
+          "description": "Table header contains all three required columns: Topic, Reference, and When to Use (case-insensitive)"
+        },
+        "reference_column_has_links": {
+          "type": "boolean",
+          "description": "Every non-header cell in the Reference column contains a markdown link [text](url), not a bare URL or plain path"
         },
         "compliant": {
           "type": "boolean",
-          "description": "Overall pass: all four checks above are true"
+          "description": "Overall pass: all five checks above are true"
         },
         "score": {
           "type": "integer",
@@ -117,7 +122,7 @@
         },
         "notes": {
           "type": "string",
-          "description": "Optional explanation of non-compliance"
+          "description": "Optional explanation of non-compliance, listing which checks failed"
         }
       },
       "additionalProperties": false

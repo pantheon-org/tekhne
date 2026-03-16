@@ -95,12 +95,25 @@ See [Audit Workflow Examples](references/examples-audit-workflows.md) for detail
 # Grade thresholds: A >= 126, B+ >= 119, B >= 112, C+ < 112
 ```
 
-## Reference Map
+## References
 
-**Critical**: [Quality Thresholds](references/quality-thresholds-scoring.md) | [Anti-Patterns](references/detailed-anti-patterns.md)
+### Framework
 
-**Framework**: [Dimensions](references/framework-skill-judge-dimensions.md) | [Scoring Rubric](references/framework-scoring-rubric.md) | [Quality Standards](references/framework-quality-standards.md) | [Pattern Recognition](references/advanced-pattern-recognition.md)
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| 9-dimension scoring breakdown, per-dimension criteria, and bonus rules | [Dimensions](references/framework-skill-judge-dimensions.md) | Evaluating any skill dimension or understanding the rubric |
+| Score thresholds, grade bands, and A-grade targets | [Scoring Rubric](references/framework-scoring-rubric.md) | Calculating a total score or assigning a grade |
+| A-grade checklist per dimension, red flags, and verification commands | [Quality Standards](references/framework-quality-standards.md) | Targeting A-grade or reviewing what is blocking it |
+| Trigger pattern density, keyword analysis, and activation signal scoring | [Pattern Recognition](references/advanced-pattern-recognition.md) | Scoring D7 or improving description keywords |
+| Canonical SKILL.md structure including the References table standard | [SKILL Template](references/skill-template.md) | Authoring a new skill or refactoring an existing one |
 
-**Operations**: [Remediation Planning](references/remediation-planning.md) | [Duplication Detection](references/duplication-detection-algorithm.md) | [Scripts Workflow](references/scripts-audit-workflow.md) | [Tessl Compliance](references/tessl-compliance-framework.md)
+### Operations
 
-**Related Skills**: creating-eval-scenarios (D9 eval generation)
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Grade thresholds, CI gate configuration, and batch pass/fail logic | [Quality Thresholds](references/quality-thresholds-scoring.md) | Setting up CI quality gates or batch audits |
+| NEVER/WHY/BAD/GOOD failure modes for every dimension | [Anti-Patterns](references/detailed-anti-patterns.md) | Explaining why a skill scored low or writing remediation guidance |
+| T-shirt sizing, remediation roadmaps, and score delta estimation | [Remediation Planning](references/remediation-planning.md) | Writing a remediation plan for a C/D-grade skill |
+| Similarity heuristics, deduplication workflow, and aggregation guidance | [Duplication Detection](references/duplication-detection-algorithm.md) | Detecting skill overlap or planning aggregations |
+| evaluate.sh, batch-audit.sh, audit-skills.sh usage and output formats | [Scripts Workflow](references/scripts-audit-workflow.md) | Running audits from the command line |
+| Registry publication gates and tessl-specific compliance checks | [Tessl Compliance](references/tessl-compliance-framework.md) | Preparing a skill for public registry submission |

@@ -271,10 +271,10 @@ WHY: False positives waste hours debugging phantom issues
 
 8. **References Section Format (bonus: +1 point)**
     - See the References Section Standard below.
-    - **+1 point:** heading is exactly `## References`, it is the last H2 in SKILL.md, all items are bullet-list markdown links, every link has a `— description` label
-    - **0 points:** section missing when references exist, wrong heading name (e.g. `## Resources`, `## Quick Reference`), bare URLs, or plain-text file paths without links
+    - **+1 point:** heading is exactly `## References`, it is the last H2 in SKILL.md, content is a Markdown table with `Topic | Reference | When to Use` columns, every `Reference` cell is a markdown link
+    - **0 points:** section missing when references exist, wrong heading name (e.g. `## Resources`, `## Quick Reference`), bullet list instead of table, bare URLs, plain-text paths, or missing required columns
     - **Omission without penalty:** skills with no `references/` directory and no external resources may omit the section entirely
-    - **WHY:** 36% of skills use no References section and 6 different heading variants are in use, making automated detection and audits non-deterministic
+    - **WHY:** A 3-column table forces authors to articulate what a reference covers and when an agent should load it — making references actionable rather than decorative
 
 ### Examples
 
@@ -320,30 +320,47 @@ For Cursor users, see `.claude/docs/file.md`
 
 ### References Section Standard
 
-Every SKILL.md that has references or external resources MUST end with a `## References` section in the following format:
+Every SKILL.md that has references or external resources MUST end with a `## References` section using a **3-column Markdown table** with columns `Topic`, `Reference`, and `When to Use`:
 
 ```markdown
 ## References
 
-**Internal:**
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Security patterns, caching, and trigger configuration | [Best Practices](references/best-practices.md) | Every time you generate a workflow |
+| Pinned action versions and input/output specs | [Common Actions](references/common-actions.md) | When using any public action |
+| Official workflow syntax and expression reference | [GitHub Actions Docs](https://docs.github.com/en/actions) | For syntax lookup |
+```
 
-- [Display Name](references/file.md) — one-line description of the file's content
+Sub-sections (H3 headings) are allowed to group rows by theme when a skill has many references:
 
-**External:**
+```markdown
+## References
 
-- [Official Docs Title](https://example.com) — why this resource is relevant
+### Generators
+
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Tree API patterns for file operations | [Tree API Reference](references/tree-api-reference.md) | Any generator that reads or writes files |
+
+### Executors
+
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| ExecutorContext fields and lifecycle | [Executor Context API](references/executor-context-api.md) | Building a custom executor |
 ```
 
 **Rules:**
 
 | Rule | Requirement |
-|---|---|
-| Heading | Exactly `## References` — no variants |
+| --- | --- |
+| Heading | Exactly `## References` — no variants (`## Resources`, `## See Also`, etc.) |
 | Position | Last H2 section in the file |
-| Format | Bullet list with markdown links only — no bare URLs, no bare paths |
-| Labels | Every link MUST be followed by `— description` |
-| Grouping | `references/` files listed first under `**Internal:**`; external URLs under `**External:**` |
-| Flat list | Acceptable when no `references/` directory exists and links are all external |
+| Format | Markdown table with `Topic \| Reference \| When to Use` columns — no bullet lists, no bare URLs |
+| Reference column | Every cell in the `Reference` column MUST be a markdown link `[text](url)` |
+| Topic column | One-line description of what the referenced file or resource covers |
+| When to Use column | Concrete scenario that tells the agent when to load or consult the reference |
+| Sub-sections | Optional H3 headings are allowed to group rows by theme |
 | Omission | Allowed only when the skill has nothing to reference (no penalty) |
 
 **❌ Non-compliant (0 bonus points):**
@@ -355,20 +372,25 @@ Every SKILL.md that has references or external resources MUST end with a `## Ref
 - https://example.com/docs
 ```
 
-Problems: wrong heading (`## Resources`), bare path instead of link, bare URL without label.
+Problems: wrong heading (`## Resources`), bullet list instead of table, bare path and bare URL.
+
+```markdown
+## References
+
+- [Error Patterns](references/error-patterns.md) — common failure modes
+```
+
+Problems: bullet list format — table with Topic/Reference/When to Use is required.
 
 **✅ Compliant (+1 bonus point):**
 
 ```markdown
 ## References
 
-**Internal:**
-
-- [Error Patterns](references/error-patterns.md) — common failure modes and remediation steps
-
-**External:**
-
-- [Official CLI Docs](https://example.com/cli) — authoritative command reference
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Common failure modes and remediation steps | [Error Patterns](references/error-patterns.md) | When diagnosing unexpected output or synth failures |
+| Authoritative command and flag reference | [Official CLI Docs](https://example.com/cli) | For exact flag syntax lookup |
 ```
 
 ## Dimension 5: Progressive Disclosure (15 points)
