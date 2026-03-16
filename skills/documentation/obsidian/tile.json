@@ -1,0 +1,23 @@
+{
+  "name": "pantheon-ai/obsidian-toolkit",
+  "version": "0.1.0",
+  "summary": "Skills for working with Obsidian vaults and related formats: Obsidian Flavored Markdown, JSON Canvas files, the Obsidian CLI, and Defuddle for clean web content extraction.",
+  "private": false,
+  "skills": {
+    "obsidian-markdown": {
+      "path": "obsidian-markdown/SKILL.md"
+    },
+    "obsidian-cli": {
+      "path": "obsidian-cli/SKILL.md"
+    },
+    "json-canvas": {
+      "path": "json-canvas/SKILL.md"
+    },
+    "defuddle": {
+      "path": "defuddle/SKILL.md"
+    },
+    "obsidian-bases": {
+      "path": "obsidian-bases/SKILL.md"
+    }
+  }
+}
