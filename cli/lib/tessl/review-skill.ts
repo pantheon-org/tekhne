@@ -14,18 +14,21 @@ export const reviewSkill = async (
   if (existsSync(tileJsonPath)) {
     const rawData = await Bun.file(tileJsonPath).json();
     const tileData = TileSchema.parse(rawData);
-    const skills = tileData.skills || [];
+    const skillEntries = Object.entries(tileData.skills ?? {});
 
-    if (skills.length > 1) {
-      logger.info(`Multi-skill tile detected (${skills.length} skills)`);
-      for (const skill of skills) {
-        const skillDir = join(skillPath, skill.name);
-        logger.info(`Reviewing skill: ${skill.name}`);
+    if (skillEntries.length > 1) {
+      logger.info(`Multi-skill tile detected (${skillEntries.length} skills)`);
+      for (const [skillName, skillInfo] of skillEntries) {
+        const skillDir = join(
+          skillPath,
+          skillInfo.path.replace(/\/SKILL\.md$/, ""),
+        );
+        logger.info(`Reviewing skill: ${skillName}`);
         const { exitCode, stderr } = await exec(
           `tessl skill review ${skillDir}`,
         );
         if (exitCode !== 0) {
-          logger.error(`Review failed for ${skill.name}: ${stderr}`);
+          logger.error(`Review failed for ${skillName}: ${stderr}`);
           return false;
         }
       }

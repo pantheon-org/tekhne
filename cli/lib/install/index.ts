@@ -6,4 +6,5 @@ export * from "./find-skills";
 export * from "./get-skill-name";
 export * from "./install-skills";
 export * from "./install-skills-for-agent";
+export * from "./resolve-target-dir";
 export * from "./select-skills-interactively";
