@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "instruction": "ALWAYS prefer defuddle over WebFetch for standard web pages such as articles, blog posts, and documentation pages.",
+      "relevant_when": "User provides a URL to a standard publicly accessible web page and asks the agent to read, summarize, or analyze its content.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "ALWAYS use the --md flag when running defuddle parse to receive markdown output instead of raw HTML.",
+      "relevant_when": "Any time defuddle parse is invoked and the output will be read or processed by the agent or user.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use the -o flag to save defuddle output to a file; NEVER use shell redirection (>) to write output.",
+      "relevant_when": "User asks the agent to save or persist the extracted content to a local file.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use -p <field> (e.g. -p title, -p description) only when the user explicitly needs metadata, not full page content.",
+      "relevant_when": "User asks for the title, description, or domain of a page rather than its full text.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Fall back to WebFetch or inform the user when the target URL is login-gated or requires authentication, because defuddle fetches without credentials.",
+      "relevant_when": "User provides a URL that is behind a login wall, authentication redirect, or requires session cookies.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Fall back to WebFetch or inform the user when the page is a JavaScript-heavy SPA whose content is rendered client-side, because defuddle cannot execute JavaScript.",
+      "relevant_when": "User provides a URL that is known to be a React/Vue/Angular SPA where content is injected by JavaScript after page load.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "If defuddle output is empty or contains only navigation text, fall back to WebFetch and inform the user.",
+      "relevant_when": "defuddle parse returns an empty body or content that looks like a site-nav skeleton rather than article prose.",
+      "why_given": "new knowledge"
+    }
+  ]
+}

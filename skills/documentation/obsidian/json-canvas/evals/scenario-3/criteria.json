@@ -1,0 +1,26 @@
+{
+  "context": "Tests the ability to diagnose and repair a broken canvas file with a duplicate node ID and a dangling edge reference.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Duplicate ID resolved",
+      "description": "The two nodes that shared the id deadbeefdeadbeef now have distinct IDs",
+      "max_score": 30
+    },
+    {
+      "name": "Dangling edge fixed",
+      "description": "The edge that referenced toNode 9999999999999999 has been removed or updated to point to a valid node ID",
+      "max_score": 30
+    },
+    {
+      "name": "All IDs unique",
+      "description": "Every id value across nodes and edges in the output is unique — no duplicates remain",
+      "max_score": 20
+    },
+    {
+      "name": "Valid JSON output",
+      "description": "The corrected canvas content is syntactically valid JSON with no parse errors",
+      "max_score": 20
+    }
+  ]
+}

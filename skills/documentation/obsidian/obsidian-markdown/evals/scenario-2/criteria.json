@@ -1,0 +1,26 @@
+{
+  "context": "Agent was given a broken Obsidian note with misplaced frontmatter, a tag with a space, Markdown links used for internal notes, and a wikilink wrapping an external URL. The agent must fix all issues.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Frontmatter moved to top",
+      "description": "The YAML frontmatter block (---) appears before the # Weekly Sync heading and before any body content",
+      "max_score": 25
+    },
+    {
+      "name": "Tag space removed",
+      "description": "The tag 'project alpha' is replaced with a valid tag that has no space, such as #project-alpha or project-alpha in the frontmatter list",
+      "max_score": 25
+    },
+    {
+      "name": "Internal note links converted to wikilinks",
+      "description": "All references to internal notes (Meeting Notes, Design Team, Architecture Overview) use [[...]] wikilink syntax, not [text](file.md) Markdown links",
+      "max_score": 25
+    },
+    {
+      "name": "External URL uses Markdown link syntax",
+      "description": "The company portal URL uses [text](https://...) syntax, not [[https://...]] wikilink syntax",
+      "max_score": 25
+    }
+  ]
+}

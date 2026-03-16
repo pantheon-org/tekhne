@@ -1,0 +1,26 @@
+{
+  "context": "Tests whether the agent uses the obsidian create command with the silent flag to prevent the file from opening, quotes the note name correctly, and encodes newlines in the content string.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses obsidian create command",
+      "description": "The agent invokes the obsidian CLI with the create subcommand",
+      "max_score": 20
+    },
+    {
+      "name": "Includes silent flag",
+      "description": "The command includes the silent flag so Obsidian does not open the note in the editor",
+      "max_score": 35
+    },
+    {
+      "name": "Note name is quoted",
+      "description": "The name= parameter value is quoted because it contains a space: name=\"Project Alpha\"",
+      "max_score": 25
+    },
+    {
+      "name": "Content encodes newlines",
+      "description": "The content parameter uses \\n to represent newlines within the single-line CLI parameter value",
+      "max_score": 20
+    }
+  ]
+}

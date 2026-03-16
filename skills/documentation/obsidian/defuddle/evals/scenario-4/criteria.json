@@ -1,0 +1,21 @@
+{
+  "context": "Agent was given a URL that is clearly a login-gated application dashboard (app.example.com/dashboard). defuddle cannot authenticate or access session-protected pages. The agent should recognize this limitation and either fall back to WebFetch with an explanation, or inform the user that the page requires authentication and cannot be read by the agent.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Did not blindly run defuddle on the auth-gated URL",
+      "description": "The agent did not run defuddle parse https://app.example.com/dashboard as if it were a public page without acknowledging the authentication concern.",
+      "max_score": 40
+    },
+    {
+      "name": "Recognized the page likely requires authentication",
+      "description": "The agent's response or response.md explicitly acknowledges that the URL appears to be a login-protected page that cannot be fetched without credentials.",
+      "max_score": 35
+    },
+    {
+      "name": "Provided an appropriate fallback or explanation",
+      "description": "The agent either offered to try WebFetch as a fallback, explained the limitation clearly, or asked the user to provide the content directly — rather than silently failing.",
+      "max_score": 25
+    }
+  ]
+}

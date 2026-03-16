@@ -1,0 +1,26 @@
+{
+  "context": "Agent was asked to create a collapsed, important-type callout with a custom title 'Key Deadline' and highlighted date text inside it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Callout uses 'important' type",
+      "description": "The callout opening line uses [!important] (e.g. > [!important]- or > [!important]+)",
+      "max_score": 25
+    },
+    {
+      "name": "Callout is collapsed by default",
+      "description": "The callout opening line includes a minus sign after the type bracket: > [!important]- (not + and not missing the symbol entirely)",
+      "max_score": 30
+    },
+    {
+      "name": "Custom title on the opening line",
+      "description": "The text 'Key Deadline' appears on the same line as the callout type declaration (e.g. > [!important]- Key Deadline)",
+      "max_score": 25
+    },
+    {
+      "name": "Highlighted date uses == syntax",
+      "description": "The date or relevant text inside the callout body is wrapped in ==...== highlight syntax (e.g. ==April 15th==)",
+      "max_score": 20
+    }
+  ]
+}

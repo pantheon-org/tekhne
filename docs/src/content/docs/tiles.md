@@ -448,7 +448,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (5 tiles)
+## Documentation (6 tiles)
 
 Writing & communication
 
@@ -501,6 +501,20 @@ Skill for creating structured, semantic commit messages following the Convention
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+
+### obsidian-toolkit
+
+Skills for working with Obsidian vaults and related formats: Obsidian Flavored Markdown, JSON Canvas files, the Obsidian CLI, and Defuddle for clean web content extraction.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/obsidian-toolkit) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [obsidian-markdown](/tekhne/skills/documentation/obsidian/obsidian-markdown/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
+| [obsidian-cli](/tekhne/skills/documentation/obsidian/obsidian-cli/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
+| [json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
+| [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
+| [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 5 |
 
 ---
 

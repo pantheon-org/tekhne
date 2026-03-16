@@ -1,0 +1,49 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use wikilinks ([[Note Name]]) for all internal vault note links, not standard Markdown links",
+      "relevant_when": "Creating or editing an Obsidian note that references another note in the same vault",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use standard Markdown link syntax ([text](url)) for external URLs, never wikilink syntax",
+      "relevant_when": "Adding a hyperlink to an external website in an Obsidian note",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Place YAML frontmatter at the very start of the file before any other content",
+      "relevant_when": "Creating an Obsidian note with properties such as title, tags, or aliases",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Place block IDs for list and quote blocks on a separate line after the block, not inline on a list item",
+      "relevant_when": "Adding a block ID to a list or quote block so it can be referenced from another note",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use ![[Note#Heading]] to embed a specific section rather than ![[Note]] to embed the entire note",
+      "relevant_when": "Embedding content from another note when only a portion of that note is relevant",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use only recognised callout types: note, tip, warning, info, example, quote, bug, danger, success, failure, question, abstract, todo",
+      "relevant_when": "Adding a callout block to an Obsidian note",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Tags cannot contain spaces; use hyphens or underscores to separate words in a tag",
+      "relevant_when": "Adding inline tags or frontmatter tags to an Obsidian note",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use ==text== syntax to highlight text in Obsidian",
+      "relevant_when": "Highlighting important text within note content",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use > [!type]- to create a callout that is collapsed by default, and > [!type]+ for one that is expanded",
+      "relevant_when": "Creating a foldable callout block in an Obsidian note",
+      "why_given": "new knowledge"
+    }
+  ]
+}
