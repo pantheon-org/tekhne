@@ -1,42 +1,44 @@
 import { describe, expect, test } from "bun:test";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { AGENT_PATHS, ALWAYS_GLOBAL_AGENTS } from "./install-skills-for-agent";
+import { configHome } from "../types/agents";
+import { resolveTargetDir } from "./resolve-target-dir";
 
-describe("AGENT_PATHS", () => {
-  test("opencode with isGlobal=false uses cwd/.agents/skills", () => {
-    expect(AGENT_PATHS.opencode(false, "/project")).toBe(
+describe("resolveTargetDir", () => {
+  test("opencode local uses cwd/.agents/skills", () => {
+    expect(resolveTargetDir("opencode", false, "/project")).toBe(
       "/project/.agents/skills",
     );
   });
 
-  test("opencode with isGlobal=true uses ~/.config/opencode/skills", () => {
-    expect(AGENT_PATHS.opencode(true, "/project")).toBe(
-      join(homedir(), ".config", "opencode", "skills"),
+  test("opencode global uses xdg config opencode/skills", () => {
+    const expected = join(configHome, "opencode/skills");
+    expect(resolveTargetDir("opencode", true, "/project")).toBe(expected);
+  });
+
+  test("cursor local uses cwd/.agents/skills", () => {
+    expect(resolveTargetDir("cursor", false, "/project")).toBe(
+      "/project/.agents/skills",
     );
   });
 
-  test("cursor always uses global path regardless of isGlobal flag", () => {
-    const globalPath = join(homedir(), ".config", "cursor", "skills");
-    expect(AGENT_PATHS.cursor(false, "/project")).toBe(globalPath);
-    expect(AGENT_PATHS.cursor(true, "/project")).toBe(globalPath);
+  test("cursor global uses home/.cursor/skills", () => {
+    expect(resolveTargetDir("cursor", true, "/project")).toBe(
+      join(homedir(), ".cursor/skills"),
+    );
   });
 
-  test("claude always uses global path", () => {
-    const expected = join(homedir(), ".config", "claude", "skills");
-    expect(AGENT_PATHS.claude(false, "/project")).toBe(expected);
-    expect(AGENT_PATHS.claude(true, "/project")).toBe(expected);
+  test("claude-code local uses cwd/.claude/skills", () => {
+    expect(resolveTargetDir("claude-code", false, "/project")).toBe(
+      "/project/.claude/skills",
+    );
   });
 
-  test("gemini always uses global path", () => {
-    const expected = join(homedir(), ".config", "gemini", "skills");
-    expect(AGENT_PATHS.gemini(false, "/project")).toBe(expected);
-    expect(AGENT_PATHS.gemini(true, "/project")).toBe(expected);
-  });
-
-  test("all always-global agents are in ALWAYS_GLOBAL_AGENTS set", () => {
-    for (const agent of ALWAYS_GLOBAL_AGENTS) {
-      expect(AGENT_PATHS[agent]).toBeDefined();
-    }
+  test("codex global uses codexHome/skills", () => {
+    const codexHome =
+      process.env.CODEX_HOME?.trim() ?? join(homedir(), ".codex");
+    expect(resolveTargetDir("codex", true, "/project")).toBe(
+      join(codexHome, "skills"),
+    );
   });
 });

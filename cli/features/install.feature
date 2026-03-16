@@ -58,11 +58,11 @@ Feature: Install command
       |          | local  | .agents/skills      |
       | --global | global | .config/opencode/skills |
 
-  Scenario: Global flag has no effect for agents that are always global
+  Scenario: Global flag for cursor targets the cursor-specific config directory
     Given I am at the repository root
     When I run the CLI command "install --dry-run --global --agent cursor"
     Then the exit code should be 0
-    And the output should contain "--global has no effect for cursor"
+    And the output should contain ".cursor/skills"
 
   Scenario: An unknown agent name is rejected by the CLI parser
     Given I am at the repository root

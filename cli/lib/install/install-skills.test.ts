@@ -18,10 +18,7 @@ import { filterSkills } from "./filter-skills";
 import { findSkills } from "./find-skills";
 import { getSkillName } from "./get-skill-name";
 import { installSkills } from "./install-skills";
-import {
-  ALWAYS_GLOBAL_AGENTS,
-  installSkillsForAgent,
-} from "./install-skills-for-agent";
+import { installSkillsForAgent } from "./install-skills-for-agent";
 import { selectSkillsInteractively } from "./select-skills-interactively";
 
 // ---------------------------------------------------------------------------
@@ -431,10 +428,10 @@ describe(
       ).resolves.toBeUndefined();
     });
 
-    test("dry-run with gemini agent completes without error", async () => {
+    test("dry-run with gemini-cli agent completes without error", async () => {
       await expect(
         installSkills({
-          agent: ["gemini"],
+          agent: ["gemini-cli"],
           global: false,
           dryRun: true,
           interactive: false,
@@ -477,8 +474,7 @@ describe(
       expect(require("node:fs").existsSync(linkPath)).toBe(true);
     });
 
-    test("global flag with always-global agent (cursor) completes without error", async () => {
-      // cursor is in ALWAYS_GLOBAL_AGENTS; --global has no effect but should not throw
+    test("global flag with cursor agent completes without error", async () => {
       await expect(
         installSkills({
           agent: ["cursor"],
@@ -507,22 +503,13 @@ describe("installSkillsForAgent", () => {
     rmSync(tmpDir, { recursive: true, force: true });
   });
 
-  test("ALWAYS_GLOBAL_AGENTS contains cursor, gemini, claude, codex", () => {
-    expect(ALWAYS_GLOBAL_AGENTS.has("cursor")).toBe(true);
-    expect(ALWAYS_GLOBAL_AGENTS.has("gemini")).toBe(true);
-    expect(ALWAYS_GLOBAL_AGENTS.has("claude")).toBe(true);
-    expect(ALWAYS_GLOBAL_AGENTS.has("codex")).toBe(true);
-    expect(ALWAYS_GLOBAL_AGENTS.has("opencode")).toBe(false);
-  });
-
-  test("logs warning when --global is passed for an always-global agent", () => {
-    // Calling with global: true for cursor triggers the warning branch (line 52-54)
+  test("installSkillsForAgent with cursor and no skills returns zero stats", () => {
     const stats = installSkillsForAgent("cursor", [], tmpDir, {
+      agent: ["cursor"],
       global: true,
       dryRun: true,
       interactive: false,
     });
-    // No skills to process, stats should be zeros
     expect(stats.installed).toBe(0);
     expect(stats.skipped).toBe(0);
     expect(stats.failed).toBe(0);
@@ -548,7 +535,7 @@ describe("installSkillsForAgent", () => {
       "opencode",
       ["skills/nonexistent/skill"],
       tmpDir,
-      { global: false, dryRun: false, interactive: false },
+      { agent: ["opencode"], global: false, dryRun: false, interactive: false },
     );
     // Restore permissions before assertions
     require("node:fs").chmodSync(readonlyTarget, 0o755);
@@ -572,7 +559,7 @@ describe("installSkillsForAgent", () => {
       "opencode",
       ["skills/ci-cd/github-actions"],
       tmpDir,
-      { global: false, dryRun: false, interactive: false },
+      { agent: ["opencode"], global: false, dryRun: false, interactive: false },
     );
     expect(stats.skipped).toBe(1);
     expect(stats.failed).toBe(0);
@@ -588,7 +575,7 @@ describe("installSkillsForAgent", () => {
       "opencode",
       ["skills/ci-cd/github-actions"],
       tmpDir,
-      { global: false, dryRun: true, interactive: false },
+      { agent: ["opencode"], global: false, dryRun: true, interactive: false },
     );
     // dry-run createSymlink returns true → installed++
     expect(stats.installed).toBe(1);

@@ -1,11 +1,10 @@
 import { Command, EnumType } from "@cliffy/command";
 import { installSkills } from "../lib/install";
+import type { AgentType } from "../lib/types";
+import { agents } from "../lib/types";
 import { CLIError, logger } from "../lib/utils";
 
-const AGENTS = ["opencode", "cursor", "gemini", "claude", "codex"] as const;
-type Agent = (typeof AGENTS)[number];
-
-const agentType = new EnumType(AGENTS);
+const agentType = new EnumType(Object.keys(agents) as AgentType[]);
 
 export const installCommand = new Command()
   .description("Install skills to local agent directories")
@@ -13,7 +12,7 @@ export const installCommand = new Command()
   .option(
     "-a, --agent <agents...:agent>",
     "Specific agents to install for. Note: only opencode supports local installs; all other agents always install to ~/.config/",
-    { default: ["opencode"] as Agent[] },
+    { default: ["opencode"] as AgentType[] },
   )
   .option(
     "-g, --global",
