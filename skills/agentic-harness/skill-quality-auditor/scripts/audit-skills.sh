@@ -6,7 +6,7 @@
 set -e
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" >/dev/null 2>&1 && pwd)
-PROJECT_ROOT=$(cd "$SCRIPT_DIR/../../.." >/dev/null 2>&1 && pwd)
+PROJECT_ROOT=$(cd "$SCRIPT_DIR/../../../.." >/dev/null 2>&1 && pwd)
 EVALUATE_SCRIPT="$SCRIPT_DIR/evaluate.sh"
 
 AUDIT_DATE=$(date +%Y-%m-%d)
@@ -85,7 +85,7 @@ collect_skills() {
     [ -d "$root" ] || continue
     find "$root" -type f -name "SKILL.md" -not -path "*/.deprecated/*" -not -path "*/node_modules/*" 2>/dev/null |
       while IFS= read -r skill_md; do
-        skill_name=$(basename "$(dirname "$skill_md")")
+        skill_name=$(dirname "$skill_md" | sed "s|^$root/||")
         printf '%s\n' "$skill_name"
       done
   done | sort -u > "$skills_file"
