@@ -361,8 +361,25 @@ describe("installSkills", () => {
 // ---------------------------------------------------------------------------
 
 describe("selectSkillsInteractively", () => {
+  const originalIsTTY = process.stdin.isTTY;
+
+  beforeEach(() => {
+    Object.defineProperty(process.stdin, "isTTY", {
+      value: false,
+      configurable: true,
+      writable: true,
+    });
+  });
+
+  afterEach(() => {
+    Object.defineProperty(process.stdin, "isTTY", {
+      value: originalIsTTY,
+      configurable: true,
+      writable: true,
+    });
+  });
+
   test("returns all skills as-is when stdin is not a TTY", async () => {
-    // In bun:test, process.stdin.isTTY is falsy so the function bypasses prompting
     const skills = [
       "skills/ci-cd/github-actions",
       "skills/infrastructure/terraform",

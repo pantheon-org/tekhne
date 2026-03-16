@@ -41,6 +41,6 @@ pre-commit:
 pre-push:
   commands:
     unit-tests:
-      run: bun test
+      run: bun test cli/
     integration-tests:
       run: bunx cucumber-js

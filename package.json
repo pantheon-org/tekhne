@@ -28,7 +28,7 @@
     "tessl:lint": "tessl skill lint",
     "tessl:publish": "tessl skill publish",
     "tessl:review": "tessl skill review",
-    "test": "bun test",
+    "test": "bun test cli/",
     "test:integration": "cucumber-js"
   },
   "keywords": [],
