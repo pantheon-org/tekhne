@@ -1,4 +1,5 @@
 export * from "./create-symlink";
+export * from "./dedup-agents-by-target";
 export * from "./display-summary";
 export * from "./ensure-directory";
 export * from "./filter-skills";

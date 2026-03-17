@@ -2,6 +2,7 @@ import type { AgentType } from "../types";
 import { agents } from "../types";
 import { CLIError } from "../utils/errors";
 import { logger } from "../utils/logger";
+import { dedupAgentsByTarget } from "./dedup-agents-by-target";
 import { displaySummary } from "./display-summary";
 import { filterSkills } from "./filter-skills";
 import { findSkills } from "./find-skills";
@@ -56,7 +57,11 @@ export const installSkills = async (options: InstallOptions): Promise<void> => {
 
   logger.info(`Found ${skills.length} skills`);
 
-  const selectedAgents = options.agent;
+  const selectedAgents = dedupAgentsByTarget(
+    options.agent,
+    options.global,
+    cwd,
+  );
   logger.info(`Target agents: ${selectedAgents.join(", ")}`);
   logger.info(`Mode: ${options.global ? "global" : "local"}`);
 
