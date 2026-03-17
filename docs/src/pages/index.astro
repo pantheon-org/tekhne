@@ -1,0 +1,138 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+---
+
+<DocsLayout title="Tekhne Skills" description="A curated collection of reusable agent skills for AI assistants. Browse by domain, install in seconds, and extend any AI coding assistant.">
+  <div class="hero">
+    <h1>Tekhne Skills</h1>
+    <p class="tagline">Reusable agent skills for every AI assistant.</p>
+    <div class="hero-actions">
+      <a href={`${import.meta.env.BASE_URL}/tiles/`} class="btn btn-primary">Browse All Skills</a>
+      <a href="https://github.com/pantheon-org/tekhne" class="btn btn-secondary">GitHub</a>
+    </div>
+  </div>
+
+  <section class="features">
+    <h2>What are agent skills?</h2>
+    <p>Agent skills are modular instruction packages that extend the capabilities of AI assistants. Drop a skill into your agent configuration and it immediately gains domain-specific knowledge, workflows, and best practices.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h3>70+ skills</h3>
+        <p>Covering CI/CD, infrastructure, development tooling, testing, architecture, and more.</p>
+      </div>
+      <div class="card">
+        <h3>Multi-harness</h3>
+        <p>Works with OpenCode, Cursor, GitHub Copilot, Claude, Gemini, and 40+ AI assistants.</p>
+      </div>
+      <div class="card">
+        <h3>Open source</h3>
+        <p>Every skill is a plain Markdown file you can read, fork, and improve.</p>
+      </div>
+      <div class="card">
+        <h3>Quality-graded</h3>
+        <p>Skills are audited on a 9-dimension framework and published to the Tessl registry.</p>
+      </div>
+    </div>
+  </section>
+</DocsLayout>
+
+<style>
+  .hero {
+    padding: 3rem 0 2rem;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: var(--tk-color-white);
+  }
+
+  .tagline {
+    font-size: 1.125rem;
+    color: var(--tk-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .btn-primary {
+    background: var(--tk-accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--tk-accent-hover);
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--tk-border);
+    color: var(--tk-text);
+  }
+
+  .btn-secondary:hover {
+    background: var(--tk-bg-hover);
+    text-decoration: none;
+  }
+
+  .features {
+    padding: 2rem 0;
+  }
+
+  .features h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--tk-color-white);
+  }
+
+  .features > p {
+    color: var(--tk-text-muted);
+    margin-bottom: 2rem;
+    max-width: 60ch;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .card {
+    background: var(--tk-bg-surface);
+    border: 1px solid var(--tk-border);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--tk-color-white);
+  }
+
+  .card p {
+    font-size: 0.875rem;
+    color: var(--tk-text-muted);
+    margin: 0;
+  }
+</style>

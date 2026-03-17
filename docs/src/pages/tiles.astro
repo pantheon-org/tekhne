@@ -1,0 +1,153 @@
+---
+import { getCollection } from "astro:content";
+import DocsLayout from "../layouts/DocsLayout.astro";
+import FilterChips from "../components/FilterChips.astro";
+import SkillCard from "../components/SkillCard.astro";
+
+const allDocs = await getCollection("docs");
+const skillEntries = allDocs.filter((e) => e.id.endsWith("/skill"));
+
+const toTitleCase = (s: string) =>
+  s.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
+
+interface SkillCardData {
+  href: string;
+  title: string;
+  description: string | undefined;
+  grade: string | undefined;
+  domain: string;
+  evalCount: number | undefined;
+  auditDate: string | undefined;
+}
+
+const cards: SkillCardData[] = skillEntries.map((entry) => {
+  const data = entry.data as Record<string, unknown>;
+  const metadata = (data.metadata as Record<string, unknown>) || {};
+  const skillAudit = data.skillAudit as Record<string, unknown> | undefined;
+  const skillAudits = data.skillAudits as Array<Record<string, unknown>> | undefined;
+  const skillEvals = data.skillEvals as unknown[] | undefined;
+  const grade = skillAudit?.grade as string | undefined
+    ?? metadata.grade as string | undefined;
+  const auditDate = (skillAudit?.date ?? skillAudit?.auditDate) as string | undefined
+    ?? (skillAudits?.[0]?.date ?? skillAudits?.[0]?.auditDate) as string | undefined;
+  const evalCount = skillEvals?.length;
+  const parts = entry.id.split("/");
+  const skillsIdx = parts.indexOf("skills");
+  const domain = skillsIdx >= 0 ? (parts[skillsIdx + 1] ?? "unknown") : "unknown";
+  const skillPath = skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
+  const href = import.meta.env.BASE_URL + "/skills/" + skillPath.replace(/\/skill$/, "/skill/") + "/";
+  return {
+    href,
+    title: entry.data.title,
+    description: data.description as string | undefined,
+    grade,
+    domain,
+    evalCount,
+    auditDate,
+  };
+});
+
+const domainMap = new Map<string, SkillCardData[]>();
+for (const card of cards) {
+  if (!domainMap.has(card.domain)) domainMap.set(card.domain, []);
+  domainMap.get(card.domain)!.push(card);
+}
+const domains = [...domainMap.keys()].sort();
+for (const domainCards of domainMap.values()) {
+  domainCards.sort((a, b) => a.title.localeCompare(b.title));
+}
+
+const grades = ["A", "B+", "B", "C"];
+---
+
+<DocsLayout title="Skill Catalog" description="All Tekhne tiles and skills organized by domain.">
+  <h1>Skill Catalog</h1>
+  <p class="subtitle">All skills organized by domain.</p>
+
+  <div class="filters">
+    <FilterChips label="Domain" values={domains} filterAttr="domain" />
+    <FilterChips label="Grade" values={grades} filterAttr="grade" />
+  </div>
+
+  {domains.map((domain) => (
+    <section class="domain-section" data-domain-section={domain}>
+      <h2>
+        {toTitleCase(domain)}
+        <span class="domain-count" data-domain-count={domain}>{domainMap.get(domain)!.length}</span>
+      </h2>
+      <div class="skill-cards">
+        {domainMap.get(domain)!.map((card) => (
+          <SkillCard
+            href={card.href}
+            title={card.title}
+            description={card.description}
+            domain={card.domain}
+            grade={card.grade}
+            evalCount={card.evalCount}
+            auditDate={card.auditDate}
+          />
+        ))}
+      </div>
+    </section>
+  ))}
+</DocsLayout>
+
+<style>
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--tk-color-white);
+  }
+
+  .subtitle {
+    color: var(--tk-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+    padding: 0.75rem 1rem;
+    background: var(--tk-bg-surface);
+    border: 1px solid var(--tk-border);
+    border-radius: 0.5rem;
+  }
+
+  .domain-section {
+    margin-bottom: 2.5rem;
+  }
+
+  .domain-section h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--tk-color-white);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--tk-border);
+  }
+
+  .domain-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.5em;
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-gray-2);
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.1em 0.5em;
+  }
+
+  .skill-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.75rem;
+  }
+</style>

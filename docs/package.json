@@ -7,11 +7,12 @@
     "dev": "bun run prelink && astro dev",
     "start": "bun run prelink && astro dev",
     "build": "bun run prelink && astro build",
+    "postbuild": "npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.38.1",
+    "@astrojs/mdx": "^5.0.1",
     "astro": "^6.0.1",
     "gray-matter": "^4.0.3",
     "sharp": "^0.34.2"

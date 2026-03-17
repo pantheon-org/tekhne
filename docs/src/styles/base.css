@@ -1,0 +1,45 @@
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--tk-bg);
+  color: var(--tk-text);
+  font-family:
+    "Atkinson Hyperlegible", ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--tk-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--tk-link-hover);
+  text-decoration: underline;
+}
+
+code,
+pre {
+  font-family: var(--tk-font-mono);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}

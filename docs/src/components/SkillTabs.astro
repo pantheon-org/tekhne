@@ -1,0 +1,565 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
+const isSkillPage = (entry.id as string).endsWith("/skill");
+
+const data = entry.data as Record<string, any>;
+
+type RefMeta = { slug: string; title: string };
+const skillRefsMeta: RefMeta[] = data.skillRefs ?? [];
+
+type DimensionScores = Record<string, number>;
+type AuditData = {
+  skill?: string;
+  date?: string;
+  auditDate?: string;
+  dimensions?: DimensionScores;
+  total?: number;
+  totalScore?: number;
+  maxTotal?: number;
+  grade?: string;
+  lines?: number;
+  fileSize?: number;
+  hasReferences?: boolean;
+  referenceCount?: number;
+};
+
+type EvalScenario = {
+  id: string;
+  capability?: string;
+  feasible?: boolean;
+  reason?: string;
+};
+
+const skillAudit: AuditData | null = data.skillAudit ?? null;
+const skillAudits: AuditData[] = data.skillAudits ?? [];
+const skillEvals: EvalScenario[] = data.skillEvals ?? [];
+
+const idParts = (entry.id as string).split("/");
+const skillSlugParts = idParts.slice(0, -1);
+const refIdPrefix = `${skillSlugParts.join("/")}/references/`;
+
+type RenderedRef = { slug: string; title: string; Content: any };
+let renderedRefs: RenderedRef[] = [];
+
+if (isSkillPage && skillRefsMeta.length > 0) {
+  const allDocs = await getCollection("docs");
+  const refEntries = allDocs.filter((e) => e.id.startsWith(refIdPrefix));
+
+  renderedRefs = await Promise.all(
+    skillRefsMeta.map(async (meta) => {
+      const docEntry = refEntries.find(
+        (e) => e.id === `${refIdPrefix}${meta.slug}.md`,
+      );
+      if (!docEntry)
+        return { slug: meta.slug, title: meta.title, Content: null };
+      const { Content } = await render(docEntry);
+      return { slug: meta.slug, title: meta.title, Content };
+    }),
+  );
+}
+
+const DIMENSION_LABELS: Record<string, string> = {
+  knowledgeDelta: "Knowledge Delta",
+  mindsetProcedures: "Mindset & Procedures",
+  antiPatternQuality: "Anti-Pattern Quality",
+  specificationCompliance: "Specification Compliance",
+  progressiveDisclosure: "Progressive Disclosure",
+  freedomCalibration: "Freedom Calibration",
+  patternRecognition: "Pattern Recognition",
+  practicalUsability: "Practical Usability",
+  evalValidation: "Eval Validation",
+};
+
+const DIMENSION_MAX = 16;
+
+const gradeClass = (grade?: string) =>
+  grade
+    ? `skill-badge--${grade
+        .toLowerCase()
+        .replace("+", "-plus")
+        .replace(/([a-z])-$/, "$1-minus")}`
+    : "skill-badge--unknown";
+
+const latestGrade = skillAudit?.grade;
+const auditCount = skillAudits.length;
+const evalsCount = skillEvals.length;
+const refsCount = renderedRefs.length;
+
+const getAuditTotal = (a: AuditData) => a.total ?? a.totalScore;
+const getAuditMax = (a: AuditData) => a.maxTotal ?? 120;
+const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
+---
+
+{
+  isSkillPage ? (
+    <div class="sk-tabs" id="sk-tabs">
+      <nav class="sk-tabs__nav" role="tablist" aria-label="Skill sections">
+        <button
+          class="sk-tabs__btn sk-tabs__btn--active"
+          role="tab"
+          data-tab="skill"
+          aria-selected="true"
+          aria-controls="sk-panel-skill"
+        >
+          Skill
+        </button>
+
+        <button
+          class="sk-tabs__btn"
+          role="tab"
+          data-tab="audit"
+          aria-selected="false"
+          aria-controls="sk-panel-audit"
+        >
+          Audit
+          {latestGrade && (
+            <span class:list={["skill-badge", gradeClass(latestGrade)]}>
+              {latestGrade}
+            </span>
+          )}
+          {auditCount > 0 && (
+            <span class="sk-tabs__count">{auditCount}</span>
+          )}
+        </button>
+
+        <button
+          class="sk-tabs__btn"
+          role="tab"
+          data-tab="evals"
+          aria-selected="false"
+          aria-controls="sk-panel-evals"
+        >
+          Evals
+          {evalsCount > 0 && (
+            <span class="sk-tabs__count">{evalsCount}</span>
+          )}
+        </button>
+
+        {refsCount > 0 && (
+          <button
+            class="sk-tabs__btn"
+            role="tab"
+            data-tab="refs"
+            aria-selected="false"
+            aria-controls="sk-panel-refs"
+          >
+            References
+            <span class="sk-tabs__count">{refsCount}</span>
+          </button>
+        )}
+      </nav>
+
+      <div
+        id="sk-panel-skill"
+        class="sk-tabs__panel sk-tabs__panel--active"
+        role="tabpanel"
+        data-panel="skill"
+      >
+        <slot />
+      </div>
+
+      <div
+        id="sk-panel-audit"
+        class="sk-tabs__panel"
+        role="tabpanel"
+        data-panel="audit"
+        hidden
+      >
+        {skillAudits.length > 0 ? (
+          <>
+            {skillAudits.map((snapshot, i) => (
+              <div
+                class:list={["sk-audit", i === 0 && "sk-audit--active"]}
+                data-audit-panel={String(i)}
+                hidden={i !== 0}
+              >
+                <div class="sk-audit__summary">
+                  <div class="sk-audit__score">
+                    <span class="sk-audit__score-value">
+                      {getAuditTotal(snapshot) ?? "–"}
+                    </span>
+                    <span class="sk-audit__score-max">
+                      / {getAuditMax(snapshot)}
+                    </span>
+                  </div>
+                  {snapshot.grade && (
+                    <span class:list={["skill-badge", "sk-audit__grade", gradeClass(snapshot.grade)]}>
+                      {snapshot.grade}
+                    </span>
+                  )}
+                </div>
+
+                {snapshot.dimensions && (
+                  <div class="sk-audit__dimensions">
+                    {Object.entries(snapshot.dimensions).map(
+                      ([key, score]: [string, number]) => {
+                        const pct = Math.round((score / DIMENSION_MAX) * 100);
+                        return (
+                          <div class="sk-dim">
+                            <div class="sk-dim__header">
+                              <span class="sk-dim__label">
+                                {DIMENSION_LABELS[key] ?? key}
+                              </span>
+                              <span class="sk-dim__score">
+                                {score}/{DIMENSION_MAX}
+                              </span>
+                            </div>
+                            <div class="sk-dim__bar-track">
+                              <div
+                                class="sk-dim__bar-fill"
+                                style={`width: ${Math.min(pct, 100)}%`}
+                                data-pct={pct}
+                              />
+                            </div>
+                          </div>
+                        );
+                      },
+                    )}
+                  </div>
+                )}
+
+                {(snapshot.lines !== undefined || snapshot.fileSize !== undefined) && (
+                  <p class="sk-audit__meta">
+                    {snapshot.lines !== undefined && `${snapshot.lines} lines`}
+                    {snapshot.fileSize !== undefined && `${snapshot.fileSize} lines`}
+                    {snapshot.referenceCount !== undefined &&
+                      ` · ${snapshot.referenceCount} reference${snapshot.referenceCount !== 1 ? "s" : ""}`}
+                  </p>
+                )}
+              </div>
+            ))}
+          </>
+        ) : skillAudit ? (
+          <div class="sk-audit sk-audit--active">
+            <div class="sk-audit__summary">
+              <div class="sk-audit__score">
+                <span class="sk-audit__score-value">
+                  {skillAudit.total ?? "–"}
+                </span>
+                <span class="sk-audit__score-max">
+                  / {skillAudit.maxTotal ?? 120}
+                </span>
+              </div>
+              {skillAudit.grade && (
+                <span class:list={["skill-badge", "sk-audit__grade", gradeClass(skillAudit.grade)]}>
+                  {skillAudit.grade}
+                </span>
+              )}
+            </div>
+
+            {skillAudit.dimensions && (
+              <div class="sk-audit__dimensions">
+                {Object.entries(skillAudit.dimensions).map(
+                  ([key, score]: [string, number]) => {
+                    const pct = Math.round((score / DIMENSION_MAX) * 100);
+                    return (
+                      <div class="sk-dim">
+                        <div class="sk-dim__header">
+                          <span class="sk-dim__label">
+                            {DIMENSION_LABELS[key] ?? key}
+                          </span>
+                          <span class="sk-dim__score">
+                            {score}/{DIMENSION_MAX}
+                          </span>
+                        </div>
+                        <div class="sk-dim__bar-track">
+                          <div
+                            class="sk-dim__bar-fill"
+                            style={`width: ${Math.min(pct, 100)}%`}
+                            data-pct={pct}
+                          />
+                        </div>
+                      </div>
+                    );
+                  },
+                )}
+              </div>
+            )}
+
+            {skillAudit.lines !== undefined && (
+              <p class="sk-audit__meta">
+                {skillAudit.lines} lines
+                {skillAudit.referenceCount !== undefined &&
+                  ` · ${skillAudit.referenceCount} reference${skillAudit.referenceCount !== 1 ? "s" : ""}`}
+              </p>
+            )}
+          </div>
+        ) : (
+          <p class="sk-empty">No audit data available.</p>
+        )}
+      </div>
+
+      <div
+        id="sk-panel-evals"
+        class="sk-tabs__panel"
+        role="tabpanel"
+        data-panel="evals"
+        hidden
+      >
+        {skillEvals.length > 0 ? (
+          <>
+            {skillEvals.map((scenario, i) => (
+              <div
+                class:list={["sk-evals__doc", i === 0 && "sk-evals__doc--active"]}
+                data-eval-panel={String(i)}
+                hidden={i !== 0}
+              >
+                {scenario.capability && (
+                  <p class="sk-evals__capability">{scenario.capability}</p>
+                )}
+                {scenario.reason && (
+                  <p class="sk-evals__reason">{scenario.reason}</p>
+                )}
+              </div>
+            ))}
+          </>
+        ) : (
+          <p class="sk-empty">No eval scenarios available.</p>
+        )}
+      </div>
+
+      {renderedRefs.length > 0 && (
+        <div
+          id="sk-panel-refs"
+          class="sk-tabs__panel"
+          role="tabpanel"
+          data-panel="refs"
+          hidden
+        >
+          {renderedRefs.map((ref, i) =>
+            ref.Content ? (
+              <div
+                class:list={["sk-refs__doc", "tk-markdown-content", i === 0 && "sk-refs__doc--active"]}
+                data-ref-doc={ref.slug}
+                hidden={i !== 0}
+              >
+                <ref.Content />
+              </div>
+            ) : null,
+          )}
+        </div>
+      )}
+    </div>
+  ) : (
+    <slot />
+  )
+}
+
+<script>
+  const TABS = ["skill", "audit", "evals", "refs"];
+
+  const activateTab = (name: string) => {
+    const tabs = document.getElementById("sk-tabs");
+    if (!tabs) return;
+    tabs.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((b) => {
+      const active = b.dataset.tab === name;
+      b.classList.toggle("sk-tabs__btn--active", active);
+      b.setAttribute("aria-selected", String(active));
+    });
+    tabs.querySelectorAll<HTMLElement>("[data-panel]").forEach((p) => {
+      const active = p.dataset.panel === name;
+      p.classList.toggle("sk-tabs__panel--active", active);
+      p.hidden = !active;
+    });
+    document.dispatchEvent(new CustomEvent("sk-tab-change", { detail: { tab: name } }));
+  };
+
+  const initialTab = new URLSearchParams(location.search).get("tab");
+  if (initialTab && TABS.includes(initialTab)) {
+    activateTab(initialTab);
+  } else {
+    activateTab(TABS[0]);
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tab = btn.dataset.tab;
+      if (!tab) return;
+      history.replaceState(null, "", `?tab=${tab}`);
+      activateTab(tab);
+    });
+  });
+</script>
+
+<style>
+  .sk-tabs__nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid var(--tk-border);
+    margin-bottom: 1.5rem;
+  }
+
+  .sk-tabs__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--tk-color-gray-2);
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+
+  .sk-tabs__btn:hover {
+    color: var(--tk-color-white);
+  }
+
+  .sk-tabs__btn--active {
+    color: var(--tk-color-white);
+    border-bottom-color: var(--tk-color-accent);
+    font-weight: 600;
+  }
+
+  .sk-tabs__count {
+    display: inline-block;
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-gray-2);
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 0.1em 0.5em;
+  }
+
+  .sk-tabs__panel {
+    display: none;
+  }
+
+  .sk-tabs__panel--active {
+    display: block;
+  }
+
+  .sk-audit {
+    display: none;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .sk-audit--active {
+    display: flex;
+  }
+
+  .sk-audit__summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sk-audit__score {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+  }
+
+  .sk-audit__score-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--tk-color-white);
+  }
+
+  .sk-audit__score-max {
+    font-size: 0.875rem;
+    color: var(--tk-color-gray-3);
+  }
+
+  .sk-audit__grade {
+    font-size: 1rem !important;
+    padding: 0.25em 0.75em !important;
+  }
+
+  .sk-audit__dimensions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sk-dim__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .sk-dim__label {
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-2);
+  }
+
+  .sk-dim__score {
+    font-size: 0.75rem;
+    font-family: var(--tk-font-mono);
+    color: var(--tk-color-gray-3);
+  }
+
+  .sk-dim__bar-track {
+    height: 6px;
+    background: var(--tk-color-gray-5);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .sk-dim__bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: var(--tk-color-accent);
+    transition: width 0.4s ease;
+  }
+
+  .sk-audit__meta {
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-3);
+    margin: 0;
+  }
+
+  .sk-evals__doc {
+    display: none;
+  }
+
+  .sk-evals__doc--active {
+    display: block;
+  }
+
+  .sk-evals__capability {
+    font-size: 0.875rem;
+    color: var(--tk-color-white);
+    font-weight: 500;
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+  }
+
+  .sk-evals__reason {
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-2);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .sk-refs__doc {
+    display: none;
+  }
+
+  .sk-refs__doc--active {
+    display: block;
+  }
+
+  .sk-empty {
+    color: var(--tk-color-gray-3);
+    font-size: 0.875rem;
+    font-style: italic;
+    margin: 0;
+  }
+</style>

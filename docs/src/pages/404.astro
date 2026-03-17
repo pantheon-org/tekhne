@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page Not Found">
+  <main class="not-found">
+    <h1>404 — Page Not Found</h1>
+    <p>The page you requested doesn't exist.</p>
+    <a href="/tekhne/">Go to the documentation home</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  h1 {
+    color: var(--tk-color-white);
+  }
+
+  p {
+    color: var(--tk-text-muted);
+  }
+
+  a {
+    color: var(--tk-link);
+  }
+
+  a:hover {
+    color: var(--tk-link-hover);
+  }
+</style>

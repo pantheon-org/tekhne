@@ -1,0 +1,80 @@
+---
+interface Props {
+  label: string;
+  values: string[];
+  filterAttr: string;
+}
+const { label, values, filterAttr } = Astro.props;
+---
+
+<div class="filter-group" data-filter-attr={filterAttr}>
+  <span class="filter-label">{label}:</span>
+  <button class="chip active" data-value="all">All</button>
+  {values.map((v) => (
+    <button class="chip" data-value={v}>{v}</button>
+  ))}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".filter-group").forEach((group) => {
+    const attr = group.dataset.filterAttr;
+    if (!attr) return;
+    group.querySelectorAll<HTMLButtonElement>(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        group.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        const value = chip.dataset.value;
+        document.querySelectorAll<HTMLElement>("[data-tile-card]").forEach((card) => {
+          const match = value === "all" || (card.dataset as Record<string, string>)[attr] === value;
+          card.hidden = !match;
+        });
+        document.querySelectorAll<HTMLElement>("[data-domain-count]").forEach((badge) => {
+          const domain = badge.dataset.domainCount;
+          const visible = document.querySelectorAll(
+            `[data-tile-card][data-domain="${domain}"]:not([hidden])`
+          ).length;
+          badge.textContent = String(visible);
+        });
+      });
+    });
+  });
+</script>
+
+<style>
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    font-size: 0.8rem;
+    color: var(--tk-text-muted);
+    white-space: nowrap;
+  }
+
+  .chip {
+    padding: 0.2em 0.7em;
+    border-radius: 9999px;
+    border: 1px solid var(--tk-border);
+    background: var(--tk-bg-surface);
+    color: var(--tk-text-muted);
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    font-family: inherit;
+  }
+
+  .chip:hover {
+    border-color: var(--tk-accent);
+    color: var(--tk-text);
+  }
+
+  .chip.active {
+    background: var(--tk-accent);
+    border-color: var(--tk-accent);
+    color: var(--tk-color-white);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,91 @@
+/* Dark theme (default) */
+[data-theme="dark"] {
+  --tk-bg: #09090b;
+  --tk-bg-surface: #18181b;
+  --tk-bg-hover: #27272a;
+  --tk-border: #3f3f46;
+  --tk-text: #f4f4f5;
+  --tk-text-muted: #a1a1aa;
+  --tk-accent: #22c55e;
+  --tk-accent-hover: #16a34a;
+  --tk-code-bg: #18181b;
+  --tk-link: #4ade80;
+  --tk-link-hover: #86efac;
+  --tk-color-white: #fafafa;
+  --tk-color-gray-1: #e4e4e7;
+  --tk-color-gray-2: #a1a1aa;
+  --tk-color-gray-3: #71717a;
+  --tk-color-gray-4: #3f3f46;
+  --tk-color-gray-5: #27272a;
+  --tk-color-accent-low: #052e16;
+  --tk-color-accent: #22c55e;
+  --tk-color-accent-high: #4ade80;
+  --tk-font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
+  --tk-color-green: #22c55e;
+  --tk-color-orange: #f97316;
+
+  /* Badge colors */
+  --badge-a-plus-bg: #16a34a;
+  --badge-a-bg: #22c55e;
+  --badge-a-minus-bg: #4ade80;
+  --badge-b-plus-bg: #84cc16;
+  --badge-b-bg: #a3e635;
+  --badge-b-minus-bg: #d9f99d;
+  --badge-c-plus-bg: #eab308;
+  --badge-c-bg: #f97316;
+  --badge-c-minus-bg: #fb923c;
+  --badge-d-plus-bg: #ef4444;
+  --badge-d-bg: #dc2626;
+  --badge-d-minus-bg: #b91c1c;
+  --badge-f-bg: #7f1d1d;
+  --badge-fg: #fff;
+  --badge-b-minus-fg: #052e16;
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --tk-bg: #ffffff;
+  --tk-bg-surface: #f4f4f5;
+  --tk-bg-hover: #e4e4e7;
+  --tk-border: #d4d4d8;
+  --tk-text: #18181b;
+  --tk-text-muted: #71717a;
+  --tk-accent: #16a34a;
+  --tk-accent-hover: #15803d;
+  --tk-code-bg: #f4f4f5;
+  --tk-link: #16a34a;
+  --tk-link-hover: #15803d;
+  --tk-color-white: #09090b;
+  --tk-color-gray-1: #18181b;
+  --tk-color-gray-2: #3f3f46;
+  --tk-color-gray-3: #52525b;
+  --tk-color-gray-4: #a1a1aa;
+  --tk-color-gray-5: #d4d4d8;
+  --tk-color-accent-low: #dcfce7;
+  --tk-color-accent: #16a34a;
+  --tk-color-accent-high: #166534;
+  --tk-font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    monospace;
+  --tk-color-green: #16a34a;
+  --tk-color-orange: #ea580c;
+
+  /* Badge colors */
+  --badge-a-plus-bg: #166534;
+  --badge-a-bg: #16a34a;
+  --badge-a-minus-bg: #15803d;
+  --badge-b-plus-bg: #4d7c0f;
+  --badge-b-bg: #65a30d;
+  --badge-b-minus-bg: #84cc16;
+  --badge-c-plus-bg: #a16207;
+  --badge-c-bg: #c2410c;
+  --badge-c-minus-bg: #ea580c;
+  --badge-d-plus-bg: #dc2626;
+  --badge-d-bg: #b91c1c;
+  --badge-d-minus-bg: #991b1b;
+  --badge-f-bg: #7f1d1d;
+  --badge-fg: #fff;
+  --badge-b-minus-fg: #14532d;
+}

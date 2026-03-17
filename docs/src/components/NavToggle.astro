@@ -1,0 +1,77 @@
+---
+---
+
+<button
+  id="nav-toggle"
+  aria-label="Open navigation"
+  aria-expanded="false"
+  aria-controls="left-nav"
+>
+  <span aria-hidden="true">&#9776;</span>
+</button>
+<div id="nav-backdrop" aria-hidden="true"></div>
+
+<script>
+  const btn = document.getElementById("nav-toggle") as HTMLButtonElement | null;
+  const nav = document.getElementById("left-nav");
+  const backdrop = document.getElementById("nav-backdrop");
+
+  const open = () => {
+    document.body.classList.add("nav-open");
+    btn?.setAttribute("aria-expanded", "true");
+    btn?.setAttribute("aria-label", "Close navigation");
+    const firstLink = nav?.querySelector<HTMLAnchorElement>("a");
+    firstLink?.focus();
+  };
+
+  const close = () => {
+    document.body.classList.remove("nav-open");
+    btn?.setAttribute("aria-expanded", "false");
+    btn?.setAttribute("aria-label", "Open navigation");
+    btn?.focus();
+  };
+
+  if (btn && nav) {
+    btn.addEventListener("click", () => {
+      document.body.classList.contains("nav-open") ? close() : open();
+    });
+
+    backdrop?.addEventListener("click", close);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && document.body.classList.contains("nav-open")) {
+        close();
+      }
+    });
+  }
+</script>
+
+<style>
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--tk-text);
+    font-size: 1.25rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  #nav-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9;
+  }
+
+  @media (min-width: 769px) {
+    button { display: none; }
+    #nav-backdrop { display: none !important; }
+  }
+
+  @media (max-width: 768px) {
+    :global(body.nav-open) #nav-backdrop {
+      display: block;
+    }
+  }
+</style>
