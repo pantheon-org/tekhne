@@ -1,0 +1,1 @@
+Knows the complete Tailwind integration setup for Starlight including the mandatory compatibility package and correct CSS layer order.

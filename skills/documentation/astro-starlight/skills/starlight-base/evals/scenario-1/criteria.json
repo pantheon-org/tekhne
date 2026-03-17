@@ -1,0 +1,19 @@
+{
+  "checklist": [
+    {
+      "id": "scaffold-command",
+      "description": "Uses `npm create astro@latest -- --template starlight` (or pnpm/yarn equivalent) to scaffold",
+      "max_score": 40
+    },
+    {
+      "id": "dev-server",
+      "description": "Includes `npm run dev` (or equivalent) to start the dev server",
+      "max_score": 30
+    },
+    {
+      "id": "no-manual-install",
+      "description": "Does NOT instruct manual `npm install @astrojs/starlight` + config editing (template handles it)",
+      "max_score": 30
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "skill": "starlight-custom-component",
+  "instructions_coverage": {
+    "total_instructions": 12,
+    "covered_by_scenarios": 10,
+    "coverage_percentage": "83%"
+  },
+  "scenarios": 3,
+  "valid_scenarios": 3
+}
