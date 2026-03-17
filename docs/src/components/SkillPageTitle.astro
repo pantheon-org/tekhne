@@ -44,8 +44,11 @@ const gradeClass = grade
   isSkillPage ? (
     <div class="sk-header">
       {grade && (
-        <div class:list={["sk-grade", "skill-badge", gradeClass]}>
-          {grade}
+        <div class:list={["sk-grade", gradeClass]}>
+          <svg class="sk-grade__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+            <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor"/>
+          </svg>
+          <span class="sk-grade__text">{grade}</span>
         </div>
       )}
 
@@ -103,17 +106,50 @@ const gradeClass = grade
   }
 
   .sk-grade {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     width: 4rem;
-    height: 4rem;
-    border-radius: 0.5rem;
-    font-size: 1.75rem;
+    height: 4.5rem;
+    align-self: center;
+  }
+
+  .sk-grade__shield {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .sk-grade__text {
+    position: relative;
+    z-index: 1;
+    font-size: 1.5rem;
     font-weight: 700;
     line-height: 1;
+    color: var(--badge-fg, #fff);
   }
+
+  .skill-badge--b-minus .sk-grade__text {
+    color: var(--badge-b-minus-fg);
+  }
+
+  .sk-grade.skill-badge--a-plus { color: var(--badge-a-plus-bg); }
+  .sk-grade.skill-badge--a      { color: var(--badge-a-bg); }
+  .sk-grade.skill-badge--a-minus { color: var(--badge-a-minus-bg); }
+  .sk-grade.skill-badge--b-plus { color: var(--badge-b-plus-bg); }
+  .sk-grade.skill-badge--b      { color: var(--badge-b-bg); }
+  .sk-grade.skill-badge--b-minus { color: var(--badge-b-minus-bg); }
+  .sk-grade.skill-badge--c-plus { color: var(--badge-c-plus-bg); }
+  .sk-grade.skill-badge--c      { color: var(--badge-c-bg); }
+  .sk-grade.skill-badge--c-minus { color: var(--badge-c-minus-bg); }
+  .sk-grade.skill-badge--d-plus { color: var(--badge-d-plus-bg); }
+  .sk-grade.skill-badge--d      { color: var(--badge-d-bg); }
+  .sk-grade.skill-badge--d-minus { color: var(--badge-d-minus-bg); }
+  .sk-grade.skill-badge--f      { color: var(--badge-f-bg); }
+  .sk-grade.skill-badge--unknown { color: #6b7280; }
 
   .sk-header__body {
     flex: 1;
