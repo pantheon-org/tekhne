@@ -1,0 +1,268 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
+const isSkillPage = (entry.id as string).endsWith("/skill");
+
+const data = entry.data as Record<string, any>;
+
+type RefMeta = { slug: string; title: string };
+const skillRefsMeta: RefMeta[] = data.skillRefs ?? [];
+
+type AuditData = {
+  date?: string;
+  auditDate?: string;
+  grade?: string;
+  total?: number;
+  totalScore?: number;
+};
+
+type EvalScenario = {
+  id: string;
+  feasible?: boolean;
+};
+
+const skillAudits: AuditData[] = data.skillAudits ?? [];
+const skillEvals: EvalScenario[] = data.skillEvals ?? [];
+
+const gradeClass = (grade?: string) =>
+  grade
+    ? `skill-badge--${grade
+        .toLowerCase()
+        .replace("+", "-plus")
+        .replace(/([a-z])-$/, "$1-minus")}`
+    : "skill-badge--unknown";
+
+const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
+---
+
+{
+  isSkillPage ? (
+    <div class="sk-sidebar" id="sk-sidebar">
+      <div class="sk-sidebar__section" data-sidebar-section="audit" hidden>
+        <h2 class="sk-sidebar__heading">Audits</h2>
+        {skillAudits.length > 0 ? (
+          <div class="sk-sidebar__list" aria-label="Audit dates">
+            {skillAudits.map((snapshot, i) => (
+              <button
+                class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
+                data-audit={String(i)}
+              >
+                <span class="sk-sidebar__date">{getAuditDate(snapshot) ?? "Unknown"}</span>
+                {snapshot.grade && (
+                  <span class:list={["skill-badge", "sk-sidebar__grade", gradeClass(snapshot.grade)]}>
+                    {snapshot.grade}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p class="sk-sidebar__empty">No audits yet.</p>
+        )}
+      </div>
+
+      <div class="sk-sidebar__section" data-sidebar-section="evals" hidden>
+        <h2 class="sk-sidebar__heading">Eval Scenarios</h2>
+        {skillEvals.length > 0 ? (
+          <div class="sk-sidebar__list" aria-label="Eval scenarios">
+            {skillEvals.map((scenario, i) => (
+              <button
+                class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
+                data-eval={String(i)}
+              >
+                <span class="sk-sidebar__id">{scenario.id}</span>
+                {scenario.feasible !== undefined && (
+                  <span
+                    class:list={[
+                      "sk-sidebar__feasible",
+                      scenario.feasible ? "sk-sidebar__feasible--yes" : "sk-sidebar__feasible--no",
+                    ]}
+                  >
+                    {scenario.feasible ? "feasible" : "infeasible"}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <p class="sk-sidebar__empty">No eval scenarios.</p>
+        )}
+      </div>
+
+      {skillRefsMeta.length > 0 && (
+        <div class="sk-sidebar__section" data-sidebar-section="refs" hidden>
+          <h2 class="sk-sidebar__heading">References</h2>
+          <div class="sk-sidebar__list" aria-label="Reference documents">
+            {skillRefsMeta.map((ref, i) => (
+              <button
+                class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
+                data-ref={ref.slug}
+              >
+                {ref.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  ) : null
+}
+
+<script>
+  const sidebar = document.getElementById("sk-sidebar");
+  const tabs = document.getElementById("sk-tabs");
+
+  if (sidebar && tabs) {
+    const showSection = (name: string) => {
+      sidebar.querySelectorAll<HTMLElement>("[data-sidebar-section]").forEach((s) => {
+        s.hidden = s.dataset.sidebarSection !== name;
+      });
+    };
+
+    document.addEventListener("sk-tab-change", (e) => {
+      const tab = (e as CustomEvent<string>).detail;
+      showSection(tab);
+    });
+
+    sidebar.addEventListener("click", (e) => {
+      const auditBtn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-audit]");
+      if (auditBtn) {
+        const target = auditBtn.dataset.audit;
+        sidebar.querySelectorAll<HTMLButtonElement>("[data-audit]").forEach((b) => {
+          b.classList.toggle("sk-sidebar__btn--active", b.dataset.audit === target);
+        });
+        tabs.querySelectorAll<HTMLElement>("[data-audit-panel]").forEach((p) => {
+          const active = p.dataset.auditPanel === target;
+          p.classList.toggle("sk-audit--active", active);
+          p.hidden = !active;
+        });
+        return;
+      }
+
+      const evalBtn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-eval]");
+      if (evalBtn) {
+        const target = evalBtn.dataset.eval;
+        sidebar.querySelectorAll<HTMLButtonElement>("[data-eval]").forEach((b) => {
+          b.classList.toggle("sk-sidebar__btn--active", b.dataset.eval === target);
+        });
+        tabs.querySelectorAll<HTMLElement>("[data-eval-panel]").forEach((p) => {
+          const active = p.dataset.evalPanel === target;
+          p.classList.toggle("sk-evals__doc--active", active);
+          p.hidden = !active;
+        });
+        return;
+      }
+
+      const refBtn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-ref]");
+      if (refBtn) {
+        const target = refBtn.dataset.ref;
+        sidebar.querySelectorAll<HTMLButtonElement>("[data-ref]").forEach((b) => {
+          b.classList.toggle("sk-sidebar__btn--active", b.dataset.ref === target);
+        });
+        tabs.querySelectorAll<HTMLElement>("[data-ref-doc]").forEach((p) => {
+          const active = p.dataset.refDoc === target;
+          p.classList.toggle("sk-refs__doc--active", active);
+          p.hidden = !active;
+        });
+      }
+    });
+  }
+</script>
+
+<style>
+  .sk-sidebar {
+    overflow-y: auto;
+  }
+
+  .sk-sidebar__heading {
+    color: var(--tk-color-white);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .sk-sidebar__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .sk-sidebar__btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.4rem 0.5rem;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-family: inherit;
+    color: var(--tk-color-gray-3);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    overflow-wrap: anywhere;
+  }
+
+  .sk-sidebar__btn:hover {
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-white);
+  }
+
+  .sk-sidebar__btn--active {
+    background: var(--tk-color-gray-5);
+    border-color: var(--tk-border);
+    color: var(--tk-color-white);
+    font-weight: 500;
+  }
+
+  .sk-sidebar__date {
+    font-family: var(--tk-font-mono);
+    font-size: 0.7rem;
+  }
+
+  .sk-sidebar__grade {
+    font-size: 0.65rem !important;
+    padding: 0.1em 0.4em !important;
+    flex-shrink: 0;
+  }
+
+  .sk-sidebar__id {
+    font-family: var(--tk-font-mono);
+    font-size: 0.65rem;
+    line-height: 1.3;
+    word-break: break-all;
+  }
+
+  .sk-sidebar__feasible {
+    font-size: 0.6rem;
+    border-radius: 9999px;
+    padding: 0.1em 0.45em;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .sk-sidebar__feasible--yes {
+    background: color-mix(in srgb, var(--tk-color-green) 15%, transparent);
+    color: var(--tk-color-green);
+  }
+
+  .sk-sidebar__feasible--no {
+    background: color-mix(in srgb, var(--tk-color-orange) 15%, transparent);
+    color: var(--tk-color-orange);
+  }
+
+  .sk-sidebar__empty {
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-3);
+    font-style: italic;
+    margin: 0;
+  }
+</style>

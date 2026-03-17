@@ -1,0 +1,168 @@
+---
+import { getCollection } from "astro:content";
+
+const entries = await getCollection("docs");
+const currentPath = Astro.url.pathname;
+
+interface NavItem {
+  label: string;
+  href: string;
+  active: boolean;
+}
+
+interface NavGroup {
+  domain: string;
+  slug: string;
+  items: NavItem[];
+}
+
+const groups: NavGroup[] = [];
+const domainMap = new Map<string, NavItem[]>();
+
+for (const entry of entries) {
+  if (!entry.id.endsWith("/skill")) continue;
+  const parts = entry.id.split("/");
+  const domain = parts[1] ?? "unknown";
+  const href = `${import.meta.env.BASE_URL}/skills/${entry.id.replace(/^skills\//, "").replace(/\/skill$/, "/skill/")}`;
+  const active = currentPath === href || currentPath.startsWith(href.replace(/\/$/, "") + "/");
+  if (!domainMap.has(domain)) domainMap.set(domain, []);
+  domainMap.get(domain)!.push({ label: entry.data.title, href, active });
+}
+
+for (const [domain, items] of domainMap) {
+  items.sort((a, b) => a.label.localeCompare(b.label));
+  groups.push({ domain, slug: domain.replace(/\s+/g, "-").toLowerCase(), items });
+}
+groups.sort((a, b) => a.domain.localeCompare(b.domain));
+---
+
+<nav id="left-nav" aria-label="Skill navigation">
+  {groups.map((group) => {
+    const hasActive = group.items.some((i) => i.active);
+    return (
+      <details
+        data-domain={group.slug}
+        open={hasActive || undefined}
+      >
+        <summary
+          data-nav-group={group.slug}
+          tabindex="0"
+        >
+          {group.domain}
+        </summary>
+        <ul data-nav-group-content={group.slug}>
+          {group.items.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={item.active ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    );
+  })}
+</nav>
+
+<script>
+  const KEY = (domain: string) => `tk-nav-${domain}`;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.querySelectorAll<HTMLDetailsElement>("details[data-domain]").forEach((el) => {
+      const domain = el.dataset.domain!;
+      const stored = localStorage.getItem(KEY(domain));
+      const hasActive = el.querySelector("[aria-current='page']");
+      if (!hasActive && stored !== null) {
+        el.open = stored === "true";
+      }
+    });
+
+    const active = document.querySelector("[aria-current='page']");
+    if (active) {
+      const parentDetails = active.closest("details");
+      if (parentDetails) parentDetails.open = true;
+    }
+  });
+
+  document.querySelectorAll<HTMLDetailsElement>("details[data-domain]").forEach((el) => {
+    el.addEventListener("toggle", () => {
+      if (!el.querySelector("[aria-current='page']")) {
+        localStorage.setItem(KEY(el.dataset.domain!), String(el.open));
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>("summary[data-nav-group]").forEach((summary) => {
+    summary.addEventListener("keydown", (e: KeyboardEvent) => {
+      if (e.key === " ") {
+        e.preventDefault();
+        (summary.parentElement as HTMLDetailsElement).open = !(summary.parentElement as HTMLDetailsElement).open;
+      }
+    });
+  });
+</script>
+
+<style>
+  nav {
+    border-right: 1px solid var(--tk-border);
+    padding: 1rem 0;
+    overflow-y: auto;
+    background: var(--tk-bg-surface);
+  }
+
+  @media (max-width: 768px) {
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 16rem;
+      transform: translateX(-100%);
+      transition: transform 200ms ease;
+      z-index: 10;
+    }
+
+    :global(body.nav-open) nav {
+      transform: translateX(0);
+    }
+  }
+
+  details > summary {
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--tk-text-muted);
+    list-style: none;
+  }
+
+  details > summary::-webkit-details-marker { display: none; }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  a {
+    display: block;
+    padding: 0.3rem 1rem 0.3rem 1.5rem;
+    font-size: 0.875rem;
+    color: var(--tk-text);
+  }
+
+  a:hover {
+    background: var(--tk-bg-hover);
+    text-decoration: none;
+  }
+
+  a[aria-current="page"] {
+    color: var(--tk-accent);
+    background: var(--tk-bg-hover);
+    font-weight: 500;
+  }
+</style>

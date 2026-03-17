@@ -1,0 +1,159 @@
+---
+import { getCollection, render } from "astro:content";
+import SkillLayout from "../../layouts/SkillLayout.astro";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import SkillTabs from "../../components/SkillTabs.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("docs");
+  return entries
+    .filter((entry) => entry.id.startsWith("skills/"))
+    .map((entry) => {
+      const slug = entry.id.replace(/^skills\//, "").replace(/\.(md|mdx)$/, "");
+      return {
+        params: { slug },
+        props: { entry },
+      };
+    });
+}
+
+const { entry } = Astro.props;
+const isSkillPage = entry.id.endsWith("/skill");
+const { Content } = await render(entry);
+
+const editBase = "https://github.com/pantheon-org/tekhne/edit/main/docs/";
+const editUrl = `${editBase}src/content/docs/${entry.id}`;
+
+const base = import.meta.env.BASE_URL;
+const parts = entry.id.replace(/^skills\//, "").split("/");
+const breadcrumbs = !isSkillPage && parts.length > 2
+  ? [
+      { label: "Skills", href: `${base}/skills/` },
+      {
+        label: parts.slice(0, -2).join(" / "),
+        href: `${base}/skills/${parts.slice(0, -1).join("/").replace(/\/[^/]+$/, "/skill/")}`,
+      },
+      { label: entry.data.title },
+    ]
+  : undefined;
+---
+
+{isSkillPage ? (
+  <SkillLayout entry={entry}>
+    <SkillTabs entry={entry}>
+      <Content />
+    </SkillTabs>
+    <div class="edit-link">
+      <a href={editUrl} target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a>
+    </div>
+  </SkillLayout>
+) : (
+  <DocsLayout title={entry.data.title} description={entry.data.description}>
+    {breadcrumbs && <Breadcrumb crumbs={breadcrumbs} />}
+    <article class="tk-markdown-content" data-pagefind-body data-pagefind-filter="type:reference">
+      <Content />
+    </article>
+    <div class="edit-link">
+      <a href={editUrl} target="_blank" rel="noopener noreferrer">Edit this page on GitHub</a>
+    </div>
+  </DocsLayout>
+)}
+
+<style>
+  .edit-link {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--tk-border);
+  }
+
+  .edit-link a {
+    font-size: 0.8rem;
+    color: var(--tk-text-muted);
+  }
+
+  .edit-link a:hover {
+    color: var(--tk-link);
+  }
+
+  .tk-markdown-content :global(h1),
+  .tk-markdown-content :global(h2),
+  .tk-markdown-content :global(h3),
+  .tk-markdown-content :global(h4),
+  .tk-markdown-content :global(h5),
+  .tk-markdown-content :global(h6) {
+    color: var(--tk-color-white);
+    font-weight: 600;
+    line-height: 1.3;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .tk-markdown-content :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .tk-markdown-content :global(code) {
+    background: var(--tk-code-bg);
+    padding: 0.15em 0.4em;
+    border-radius: 0.25em;
+    font-size: 0.875em;
+  }
+
+  .tk-markdown-content :global(pre) {
+    background: var(--tk-code-bg);
+    border: 1px solid var(--tk-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+
+  .tk-markdown-content :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  .tk-markdown-content :global(ul),
+  .tk-markdown-content :global(ol) {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tk-markdown-content :global(li) {
+    margin-bottom: 0.25rem;
+  }
+
+  .tk-markdown-content :global(blockquote) {
+    border-left: 3px solid var(--tk-accent);
+    padding-left: 1rem;
+    margin-left: 0;
+    color: var(--tk-text-muted);
+  }
+
+  .tk-markdown-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .tk-markdown-content :global(th),
+  .tk-markdown-content :global(td) {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--tk-border);
+    text-align: left;
+  }
+
+  .tk-markdown-content :global(th) {
+    background: var(--tk-bg-surface);
+    font-weight: 600;
+    color: var(--tk-color-white);
+  }
+
+  .tk-markdown-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--tk-border);
+    margin: 1.5rem 0;
+  }
+</style>
