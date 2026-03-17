@@ -46,10 +46,22 @@ const filename = path.basename(filePath);
 
 const failures = [];
 
+// Convert Python-style inline flags (?m) / (?s) to JS RegExp flags
+function makeRegExp(pattern) {
+  let flags = '';
+  let p = pattern;
+  const inlineFlags = p.match(/^\(\?([msi]+)\)/);
+  if (inlineFlags) {
+    flags = inlineFlags[1].replace('i', 'i').replace(/[^msi]/g, '');
+    p = p.slice(inlineFlags[0].length);
+  }
+  return new RegExp(p, flags);
+}
+
 // Validate content patterns
 const contentAllOf = schema.properties.content.allOf || [];
 for (const rule of contentAllOf) {
-  const re = new RegExp(rule.pattern);
+  const re = makeRegExp(rule.pattern);
   if (!re.test(content)) {
     failures.push(rule.description || `pattern not matched: ${rule.pattern}`);
   }
@@ -57,7 +69,7 @@ for (const rule of contentAllOf) {
 
 // Validate filename pattern (task schema only)
 if (schema.properties.filename && schema.properties.filename.pattern) {
-  const re = new RegExp(schema.properties.filename.pattern);
+  const re = makeRegExp(schema.properties.filename.pattern);
   if (!re.test(filename)) {
     failures.push(`filename does not match pattern ${schema.properties.filename.pattern}`);
   }
