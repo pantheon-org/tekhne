@@ -14,6 +14,7 @@ export interface UninstallOptions {
   global: boolean;
   dryRun: boolean;
   interactive?: boolean;
+  filter?: string;
 }
 
 export const uninstallSkills = async (

@@ -27,6 +27,10 @@ export const uninstallCommand = new Command()
     "Interactively select which skills to uninstall (ignored when stdin is not a TTY)",
     { default: false },
   )
+  .option(
+    "-f, --filter <pattern:string>",
+    "Fuzzy match against skill names to uninstall only matching skills",
+  )
   .action(async (options) => {
     try {
       await uninstallSkills({
@@ -34,6 +38,7 @@ export const uninstallCommand = new Command()
         global: options.global,
         dryRun: options.dryRun,
         interactive: options.interactive,
+        filter: options.filter,
       });
       process.exit(0);
     } catch (error) {

@@ -2,6 +2,7 @@ import { rmSync, unlinkSync } from "node:fs";
 import type { AgentType } from "../types";
 import { logger } from "../utils/logger";
 import { findInstalledSkills } from "./find-installed-skills";
+import { fuzzyMatchSkill } from "./fuzzy-match-skill";
 import { resolveTargetDir } from "./resolve-target-dir";
 import type { UninstallOptions } from "./uninstall-skills";
 
@@ -25,9 +26,12 @@ export const uninstallSkillsForAgent = (
   logger.info(`Target directory: ${targetDir}`);
 
   const allInstalled = findInstalledSkills(targetDir, cwd);
-  const installed = selectedNames
-    ? allInstalled.filter((s) => selectedNames.has(s.name))
-    : allInstalled;
+  const installed = allInstalled.filter((s) => {
+    if (selectedNames && !selectedNames.has(s.name)) return false;
+    if (options.filter && !fuzzyMatchSkill(s.name, options.filter))
+      return false;
+    return true;
+  });
 
   if (installed.length === 0) {
     logger.info("No project-owned skills found");
