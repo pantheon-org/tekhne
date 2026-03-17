@@ -1,0 +1,17 @@
+{
+  "name": "pantheon-ai/astro-starlight",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Skills for setting up and customizing Astro Starlight documentation sites, covering project setup, custom theming, and component overrides.",
+  "skills": {
+    "starlight-base": {
+      "path": "skills/starlight-base/SKILL.md"
+    },
+    "starlight-theme": {
+      "path": "skills/starlight-theme/SKILL.md"
+    },
+    "starlight-custom-component": {
+      "path": "skills/starlight-custom-component/SKILL.md"
+    }
+  }
+}

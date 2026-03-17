@@ -448,7 +448,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (6 tiles)
+## Documentation (7 tiles)
 
 Writing & communication
 
@@ -471,6 +471,18 @@ Write technical content in plain English for non-technical stakeholders by trans
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [plain-english](/tekhne/skills/documentation/plain-english/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-11 | 8 |
+
+### astro-starlight
+
+Skills for setting up and customizing Astro Starlight documentation sites, covering project setup, custom theming, and component overrides.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/astro-starlight) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [starlight-base](/tekhne/skills/documentation/astro-starlight/skills/starlight-base/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [starlight-theme](/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [starlight-custom-component](/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
 
 ### journal-entry-creator
 
