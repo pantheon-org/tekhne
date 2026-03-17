@@ -134,6 +134,15 @@ const gradeClass = grade
     font-weight: 700;
     line-height: 1;
     color: var(--badge-fg, #fff);
+    text-shadow:
+      0 0 1px #27272a,
+      0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+
+  .sk-grade--na .sk-grade__text {
+    color: var(--tk-text);
+    font-size: 1rem;
+    text-shadow: none;
   }
 
   .skill-badge--b-minus .sk-grade__text {
@@ -155,10 +164,6 @@ const gradeClass = grade
   .sk-grade.skill-badge--f      { color: var(--badge-f-bg); }
   .sk-grade.skill-badge--unknown { color: #6b7280; }
 
-  .sk-grade--na .sk-grade__text {
-    color: var(--tk-text);
-    font-size: 1rem;
-  }
 
   .sk-header__body {
     flex: 1;
