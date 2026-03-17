@@ -57,12 +57,12 @@ export const installSkills = async (options: InstallOptions): Promise<void> => {
 
   logger.info(`Found ${skills.length} skills`);
 
+  logger.info(`Target agents: ${options.agent.join(", ")}`);
   const selectedAgents = dedupAgentsByTarget(
     options.agent,
     options.global,
     cwd,
   );
-  logger.info(`Target agents: ${selectedAgents.join(", ")}`);
   logger.info(`Mode: ${options.global ? "global" : "local"}`);
 
   const stats: Record<
