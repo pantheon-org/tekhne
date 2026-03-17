@@ -19,7 +19,7 @@ Starlight's built-in UI can be extended or replaced by registering your own Astr
 - Simple color or font changes — use `starlight-theme` instead
 - Adding documentation content (pages, sidebars) — use `starlight-base` instead
 
-## Mental Model
+## Mindset
 
 **Starlight's UI is a set of named slots. You swap slot implementations, not DOM nodes.**
 
@@ -83,39 +83,14 @@ const isHomepage = Astro.locals.starlightRoute.id === '';
 
 See [overrides-reference.md](./references/overrides-reference.md) for the full `starlightRoute` property table.
 
-## Complete Example: Conditional Banner
-
-```astro
----
-// src/components/HeaderWithBanner.astro
-import Default from '@astrojs/starlight/components/Header.astro';
-const showBanner = Astro.locals.starlightRoute.id.startsWith('guides/');
----
-{showBanner && (
-  <div class="guide-banner">These guides are for version 2.x</div>
-)}
-<Default><slot /></Default>
-
-<style>
-  .guide-banner {
-    background: var(--sl-color-accent);
-    color: var(--sl-color-white);
-    padding: 0.5rem 1rem;
-    text-align: center;
-  }
-</style>
-```
-
 ## Anti-Patterns
 
 ### NEVER register a component path with a leading slash
 
-**WHY:** Paths in `components: {}` are relative to the project root, not absolute.
+**WHY:** Paths in `components: {}` are relative to the project root. **Consequence:** Build error — component not found.
 
 **BAD:** `Footer: '/src/components/CustomFooter.astro'`
 **GOOD:** `Footer: './src/components/CustomFooter.astro'`
-
-**Consequence:** Build error — component not found.
 
 ### NEVER omit `<slot />` when wrapping a built-in component
 
@@ -146,21 +121,24 @@ const showBanner = Astro.locals.starlightRoute.id.startsWith('guides/');
 
 ### NEVER forget to transfer named slots on layout components
 
-**WHY:** `PageFrame` and `TwoColumnContent` expose named slots. Omitting them silently drops content.
+**WHY:** `PageFrame` and `TwoColumnContent` expose named slots. Omitting them silently drops content. **Consequence:** Right sidebar disappears from all pages.
 
-**BAD:** Wrap `TwoColumnContent` with only a default `<slot />`.
-**GOOD:** Add `<slot name="right-sidebar" slot="right-sidebar" />` explicitly.
+**BAD:** Wrap with only `<Default><slot /></Default>`
 
-**Consequence:** Right sidebar disappears from all pages.
+**GOOD:**
+```astro
+<Default>
+  <slot />
+  <slot name="right-sidebar" slot="right-sidebar" />
+</Default>
+```
 
 ### NEVER import component internals not listed in the Overrides Reference
 
-**WHY:** Only listed components are stable public API. Others may change in minor releases.
+**WHY:** Only listed components are stable public API. Others may change without notice. **Consequence:** Imports break on minor version bumps.
 
 **BAD:** Import an internal component not in the official reference.
 **GOOD:** Override only components from [the official list](https://starlight.astro.build/reference/overrides/).
-
-**Consequence:** Imports break on Starlight minor version bumps.
 
 ## References
 

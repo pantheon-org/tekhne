@@ -19,7 +19,7 @@ Starlight is a full-featured documentation theme built on [Astro](https://astro.
 - Custom theming with CSS variables or Tailwind — use `starlight-theme` instead
 - Overriding built-in Starlight components — use `starlight-custom-component` instead
 
-## Mental Model
+## Mindset
 
 **Starlight = Astro integration + file-based routing + content collections.**
 
@@ -38,20 +38,6 @@ To add Starlight to an existing Astro project:
 
 ```bash
 npx astro add starlight
-```
-
-## Project Structure
-
-```
-my-docs/
-├── astro.config.mjs       # Starlight integration config
-├── src/
-│   ├── assets/            # Images, logos
-│   ├── content/docs/      # All documentation pages (.md / .mdx)
-│   │   ├── index.md       # Homepage (route: /)
-│   │   └── guides/example.md   # Route: /guides/example/
-│   └── styles/            # Optional custom CSS
-└── public/                # Static assets served as-is
 ```
 
 ## Core Configuration
@@ -100,60 +86,57 @@ description: A short description for SEO.
 Content goes here.
 ```
 
-Use `template: splash` for full-width landing pages. Use `draft: true` to exclude a page from production builds.
+Use `template: splash` for landing pages, `draft: true` to exclude from builds:
 
-## Keeping Up to Date
-
-```bash
-npx @astrojs/upgrade
+```md
+---
+title: Home
+template: splash
+hero:
+  tagline: Welcome to my docs
+---
 ```
 
 ## Anti-Patterns
 
 ### NEVER add content outside `src/content/docs/`
 
-**WHY:** Starlight's routing only picks up files inside `src/content/docs/`. Files elsewhere will not become pages.
+**WHY:** Starlight's routing only picks up files inside `src/content/docs/`. **Consequence:** Pages silently won't appear.
 
 **BAD:** Create `.md` in `src/pages/`.
 **GOOD:** Create `.md` in `src/content/docs/`.
 
-**Consequence:** Pages silently won't appear.
-
 ### NEVER use `src` inside `logo` alongside `light`/`dark`
 
-**WHY:** Mutually exclusive options. `src` is for a single logo; `light`/`dark` are for variants.
+**WHY:** Mutually exclusive. `src` is for a single logo; `light`/`dark` are for variants. **Consequence:** Config error.
 
-**BAD:** `logo: { src: './logo.svg', light: './light.svg', dark: './dark.svg' }`
-**GOOD:** Use either `src` alone or `light` + `dark` together.
+**BAD:** `logo: { src: './logo.svg', light: './light.svg' }`
 
-**Consequence:** Configuration error or unexpected rendering.
+**GOOD:**
+```js
+logo: { light: './src/assets/light-logo.svg', dark: './src/assets/dark-logo.svg' }
+```
 
 ### NEVER hard-code sidebar slugs with leading slashes or file extensions
 
-**WHY:** Slugs map to paths under `src/content/docs/` — no leading slash, no `.md` extension.
+**WHY:** Slugs map to paths under `src/content/docs/` — no leading slash, no `.md` extension. **Consequence:** Sidebar links 404.
 
 **BAD:** `slug: '/guides/setup.md'`
 **GOOD:** `slug: 'guides/setup'`
 
-**Consequence:** Sidebar links 404.
-
 ### NEVER set `site` inside `starlight({})` for sitemap
 
-**WHY:** Sitemap generation requires `site` at the `defineConfig` level.
+**WHY:** Sitemap generation requires `site` at the `defineConfig` level. **Consequence:** Sitemap not generated.
 
 **BAD:** `starlight({ site: 'https://...' })`
 **GOOD:** `defineConfig({ site: 'https://...' })`
 
-**Consequence:** Sitemap not generated.
-
 ### NEVER mix `autogenerate` with `items` in the same sidebar group
 
-**WHY:** A group uses either `items` or `autogenerate`, not both.
+**WHY:** A group uses either `items` or `autogenerate`, not both. **Consequence:** Build error.
 
 **BAD:** `{ label: 'Guides', items: [...], autogenerate: { directory: 'guides' } }`
 **GOOD:** Choose one approach per group.
-
-**Consequence:** Build error.
 
 ## References
 

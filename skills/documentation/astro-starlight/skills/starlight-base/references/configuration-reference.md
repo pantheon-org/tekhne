@@ -53,3 +53,23 @@ Full list from [Starlight Icons Reference](https://starlight.astro.build/referen
 |--------|-------------|
 | `site` | Canonical URL — required for sitemap generation |
 | `base` | Base path for deployment to a subdirectory |
+
+## Project Structure
+
+```
+my-docs/
+├── astro.config.mjs       # Starlight integration config
+├── src/
+│   ├── assets/            # Images, logos
+│   ├── content/docs/      # All documentation pages (.md / .mdx)
+│   │   ├── index.md       # Homepage (route: /)
+│   │   └── guides/example.md   # Route: /guides/example/
+│   └── styles/            # Optional custom CSS
+└── public/                # Static assets served as-is
+```
+
+## Upgrading
+
+```bash
+npx @astrojs/upgrade
+```
