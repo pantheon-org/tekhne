@@ -71,6 +71,34 @@ const rewriteReferenceLinks = (content) =>
   );
 
 /**
+ * Walk up the directory tree from skillSrcDir to find the nearest tile.json.
+ * Returns { publishedUrl, version } or null if not found.
+ * @param {string} skillSrcDir
+ */
+const loadTileMetadata = (skillSrcDir) => {
+  let dir = skillSrcDir;
+  const root = skillsRoot;
+  while (dir.startsWith(root)) {
+    const tilePath = join(dir, "tile.json");
+    if (existsSync(tilePath)) {
+      try {
+        const data = JSON.parse(readFileSync(tilePath, "utf-8"));
+        return {
+          publishedUrl: data.publishedUrl ?? null,
+          version: data.version ?? null,
+        };
+      } catch {
+        return null;
+      }
+    }
+    const parent = dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  return null;
+};
+
+/**
  * For SKILL.md files:
  *   1. Extracts the first H1 heading text and stores it as `metadata.displayTitle`
  *      so the custom SkillPageTitle component can render it as the canonical heading.
@@ -99,6 +127,7 @@ const processSkillContent = (raw, skillSrcDir, skillRelPath) => {
   const skillAudit = skillRelPath ? loadAuditData(skillRelPath) : null;
   const skillAudits = skillRelPath ? loadAllAuditSnapshots(skillRelPath) : [];
   const skillEvals = skillSrcDir ? loadEvalsData(skillSrcDir) : [];
+  const tileMeta = skillSrcDir ? loadTileMetadata(skillSrcDir) : null;
 
   // Merge displayTitle into metadata (preserving any existing metadata fields)
   const newData = {
@@ -108,6 +137,10 @@ const processSkillContent = (raw, skillSrcDir, skillRelPath) => {
     ...(skillAudit ? { skillAudit } : {}),
     ...(skillAudits.length > 0 ? { skillAudits } : {}),
     ...(skillEvals.length > 0 ? { skillEvals } : {}),
+    ...(tileMeta?.publishedUrl
+      ? { tilePublishedUrl: tileMeta.publishedUrl }
+      : {}),
+    ...(tileMeta?.version ? { tileVersion: tileMeta.version } : {}),
   };
 
   return matter.stringify(strippedContent, newData);

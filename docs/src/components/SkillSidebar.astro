@@ -1,22 +1,13 @@
 ---
-/**
- * SkillSidebar — custom right-sidebar component.
- *
- * On skill pages: renders picker lists (Audits, Evals, References) that are
- * synchronized with the active tab in SkillTabs. The sidebar section shown
- * changes when the user switches tabs via a `sk-tab-change` custom event.
- *
- * On all other pages: delegates to the default Starlight behaviour
- * (TableOfContents).
- */
+import type { CollectionEntry } from "astro:content";
 
-import TableOfContents from "virtual:starlight/components/TableOfContents";
-import MobileTableOfContents from "virtual:starlight/components/MobileTableOfContents";
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
 
-const { entry } = Astro.locals.starlightRoute;
+const { entry } = Astro.props;
 const isSkillPage = (entry.id as string).endsWith("/skill");
 
-// biome-ignore lint/suspicious/noExplicitAny: Starlight entry data is not typed for custom fields
 const data = entry.data as Record<string, any>;
 
 type RefMeta = { slug: string; title: string };
@@ -51,98 +42,75 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 
 {
   isSkillPage ? (
-    <>
-      <div class="lg:sl-hidden">
-        <MobileTableOfContents />
-      </div>
-      <div class="right-sidebar-panel sl-hidden lg:sl-block sk-sidebar" id="sk-sidebar">
-        {/* Audit list — shown when audit tab is active */}
-        <div class="sk-sidebar__section" data-sidebar-section="audit" hidden>
-          <h2 class="sk-sidebar__heading">Audits</h2>
-          {skillAudits.length > 0 ? (
-            <div class="sk-sidebar__list" aria-label="Audit dates">
-              {skillAudits.map((snapshot, i) => (
-                <button
-                  class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
-                  data-audit={String(i)}
-                >
-                  <span class="sk-sidebar__date">{getAuditDate(snapshot) ?? "Unknown"}</span>
-                  {snapshot.grade && (
-                    <span class:list={["skill-badge", "sk-sidebar__grade", gradeClass(snapshot.grade)]}>
-                      {snapshot.grade}
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <p class="sk-sidebar__empty">No audits yet.</p>
-          )}
-        </div>
-
-        {/* Evals list — shown when evals tab is active */}
-        <div class="sk-sidebar__section" data-sidebar-section="evals" hidden>
-          <h2 class="sk-sidebar__heading">Eval Scenarios</h2>
-          {skillEvals.length > 0 ? (
-            <div class="sk-sidebar__list" aria-label="Eval scenarios">
-              {skillEvals.map((scenario, i) => (
-                <button
-                  class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
-                  data-eval={String(i)}
-                >
-                  <span class="sk-sidebar__id">{scenario.id}</span>
-                  {scenario.feasible !== undefined && (
-                    <span
-                      class:list={[
-                        "sk-sidebar__feasible",
-                        scenario.feasible ? "sk-sidebar__feasible--yes" : "sk-sidebar__feasible--no",
-                      ]}
-                    >
-                      {scenario.feasible ? "feasible" : "infeasible"}
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <p class="sk-sidebar__empty">No eval scenarios.</p>
-          )}
-        </div>
-
-        {/* Refs list — shown when refs tab is active */}
-        {skillRefsMeta.length > 0 && (
-          <div class="sk-sidebar__section" data-sidebar-section="refs" hidden>
-            <h2 class="sk-sidebar__heading">References</h2>
-            <div class="sk-sidebar__list" aria-label="Reference documents">
-              {skillRefsMeta.map((ref, i) => (
-                <button
-                  class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
-                  data-ref={ref.slug}
-                >
-                  {ref.title}
-                </button>
-              ))}
-            </div>
+    <div class="sk-sidebar" id="sk-sidebar">
+      <div class="sk-sidebar__section" data-sidebar-section="audit" hidden>
+        <h2 class="sk-sidebar__heading">Audits</h2>
+        {skillAudits.length > 0 ? (
+          <div class="sk-sidebar__list" aria-label="Audit dates">
+            {skillAudits.map((snapshot, i) => (
+              <button
+                class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
+                data-audit={String(i)}
+              >
+                <span class="sk-sidebar__date">{getAuditDate(snapshot) ?? "Unknown"}</span>
+                {snapshot.grade && (
+                  <span class:list={["skill-badge", "sk-sidebar__grade", gradeClass(snapshot.grade)]}>
+                    {snapshot.grade}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
+        ) : (
+          <p class="sk-sidebar__empty">No audits yet.</p>
         )}
       </div>
-    </>
-  ) : (
-    <>
-      {Astro.locals.starlightRoute.toc && (
-        <>
-          <div class="lg:sl-hidden">
-            <MobileTableOfContents />
+
+      <div class="sk-sidebar__section" data-sidebar-section="evals" hidden>
+        <h2 class="sk-sidebar__heading">Eval Scenarios</h2>
+        {skillEvals.length > 0 ? (
+          <div class="sk-sidebar__list" aria-label="Eval scenarios">
+            {skillEvals.map((scenario, i) => (
+              <button
+                class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
+                data-eval={String(i)}
+              >
+                <span class="sk-sidebar__id">{scenario.id}</span>
+                {scenario.feasible !== undefined && (
+                  <span
+                    class:list={[
+                      "sk-sidebar__feasible",
+                      scenario.feasible ? "sk-sidebar__feasible--yes" : "sk-sidebar__feasible--no",
+                    ]}
+                  >
+                    {scenario.feasible ? "feasible" : "infeasible"}
+                  </span>
+                )}
+              </button>
+            ))}
           </div>
-          <div class="right-sidebar-panel sl-hidden lg:sl-block">
-            <div class="sl-container">
-              <TableOfContents />
-            </div>
+        ) : (
+          <p class="sk-sidebar__empty">No eval scenarios.</p>
+        )}
+      </div>
+
+      {skillRefsMeta.length > 0 && (
+        <div class="sk-sidebar__section" data-sidebar-section="refs" hidden>
+          <h2 class="sk-sidebar__heading">References</h2>
+          <div class="sk-sidebar__list" aria-label="Reference documents">
+            {skillRefsMeta.map((ref, i) => (
+              <button
+                class:list={["sk-sidebar__btn", i === 0 && "sk-sidebar__btn--active"]}
+                data-ref={ref.slug}
+              >
+                {ref.title}
+              </button>
+            ))}
           </div>
-        </>
+        </div>
       )}
-    </>
-  )
+    </div>
+  ) : null
 }
 
 <script>
@@ -207,24 +175,14 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 </script>
 
 <style>
-  @layer starlight.core {
-    .right-sidebar-panel {
-      padding: 1rem var(--sl-sidebar-pad-x);
-    }
-    .sl-container {
-      width: calc(var(--sl-sidebar-width) - 2 * var(--sl-sidebar-pad-x));
-    }
-  }
-
   .sk-sidebar {
     overflow-y: auto;
   }
 
   .sk-sidebar__heading {
-    color: var(--sl-color-white);
-    font-size: var(--sl-text-h5);
+    color: var(--tk-color-white);
+    font-size: 0.875rem;
     font-weight: 600;
-    line-height: var(--sl-line-height-headings);
     margin-bottom: 0.5rem;
   }
 
@@ -246,27 +204,27 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     border: 1px solid transparent;
     border-radius: 0.3rem;
     cursor: pointer;
-    font-size: var(--sl-text-xs);
+    font-size: 0.75rem;
     font-family: inherit;
-    color: var(--sl-color-gray-3);
+    color: var(--tk-color-gray-3);
     transition: background 0.12s, color 0.12s, border-color 0.12s;
     overflow-wrap: anywhere;
   }
 
   .sk-sidebar__btn:hover {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-white);
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-white);
   }
 
   .sk-sidebar__btn--active {
-    background: var(--sl-color-gray-5);
-    border-color: var(--sl-color-hairline-medium);
-    color: var(--sl-color-white);
+    background: var(--tk-color-gray-5);
+    border-color: var(--tk-border);
+    color: var(--tk-color-white);
     font-weight: 500;
   }
 
   .sk-sidebar__date {
-    font-family: var(--sl-font-mono);
+    font-family: var(--tk-font-mono);
     font-size: 0.7rem;
   }
 
@@ -277,7 +235,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   }
 
   .sk-sidebar__id {
-    font-family: var(--sl-font-mono);
+    font-family: var(--tk-font-mono);
     font-size: 0.65rem;
     line-height: 1.3;
     word-break: break-all;
@@ -292,18 +250,18 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   }
 
   .sk-sidebar__feasible--yes {
-    background: color-mix(in srgb, var(--sl-color-green) 15%, transparent);
-    color: var(--sl-color-green);
+    background: color-mix(in srgb, var(--tk-color-green) 15%, transparent);
+    color: var(--tk-color-green);
   }
 
   .sk-sidebar__feasible--no {
-    background: color-mix(in srgb, var(--sl-color-orange) 15%, transparent);
-    color: var(--sl-color-orange);
+    background: color-mix(in srgb, var(--tk-color-orange) 15%, transparent);
+    color: var(--tk-color-orange);
   }
 
   .sk-sidebar__empty {
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-3);
     font-style: italic;
     margin: 0;
   }

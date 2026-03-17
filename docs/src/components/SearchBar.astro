@@ -1,0 +1,90 @@
+---
+---
+
+<div class="search-wrapper">
+  <div id="search" class="search-bar"></div>
+  <div class="search-filter">
+    <button id="filter-all" class="chip active">All</button>
+    <button id="filter-skills" class="chip">Skills only</button>
+  </div>
+</div>
+
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+<script is:inline>
+  var pf;
+  window.addEventListener("DOMContentLoaded", function () {
+    if (typeof window.PagefindUI === "undefined") return;
+    pf = new window.PagefindUI({ element: "#search", showSubResults: true });
+
+    function setActive(id) {
+      document.querySelectorAll(".search-filter .chip").forEach(function (c) {
+        c.classList.toggle("active", c.id === "filter-" + id);
+      });
+    }
+
+    document.getElementById("filter-all").addEventListener("click", function () {
+      pf.triggerSearch("", {});
+      setActive("all");
+    });
+
+    document.getElementById("filter-skills").addEventListener("click", function () {
+      pf.triggerSearch("", { filters: { type: "skill" } });
+      setActive("skills");
+    });
+  });
+</script>
+
+<style>
+  .search-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+    max-width: 24rem;
+  }
+
+  .search-bar :global(.pagefind-ui) {
+    --pagefind-ui-scale: 0.8;
+    --pagefind-ui-primary: var(--tk-accent);
+    --pagefind-ui-text: var(--tk-text);
+    --pagefind-ui-background: var(--tk-bg-surface);
+    --pagefind-ui-border: var(--tk-border);
+    --pagefind-ui-border-radius: 0.375rem;
+    --pagefind-ui-font: inherit;
+  }
+
+  .search-filter {
+    display: none;
+    gap: 0.4rem;
+  }
+
+  :global(.pagefind-ui) ~ .search-filter,
+  .search-filter:has(~ :global(.pagefind-ui)) {
+    display: flex;
+  }
+
+  .chip {
+    padding: 0.15em 0.6em;
+    border-radius: 9999px;
+    border: 1px solid var(--tk-border);
+    background: var(--tk-bg-surface);
+    color: var(--tk-text-muted);
+    font-size: 0.72rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    font-family: inherit;
+  }
+
+  .chip:hover {
+    border-color: var(--tk-accent);
+    color: var(--tk-text);
+  }
+
+  .chip.active {
+    background: var(--tk-accent);
+    border-color: var(--tk-accent);
+    color: var(--tk-color-white);
+    font-weight: 600;
+  }
+</style>

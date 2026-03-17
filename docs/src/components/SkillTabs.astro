@@ -1,23 +1,14 @@
 ---
-/**
- * SkillTabs — wraps skill page content in a four-tab layout.
- *
- * Tabs:
- *   Skill      — the rendered SKILL.md content (default slot)
- *   Audit      — list of dated audit snapshots, each showing a scorecard
- *   Evals      — list of eval scenarios from evals/summary.json
- *   References — list picker for inline rendered reference docs
- *
- * Only rendered on skill pages (entry ID ends with /skill).
- * On other pages the default slot is rendered as-is.
- */
-
+import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 
-const { entry } = Astro.locals.starlightRoute;
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
 const isSkillPage = (entry.id as string).endsWith("/skill");
 
-// biome-ignore lint/suspicious/noExplicitAny: Starlight entry data is not typed for custom fields
 const data = entry.data as Record<string, any>;
 
 type RefMeta = { slug: string; title: string };
@@ -50,13 +41,10 @@ const skillAudit: AuditData | null = data.skillAudit ?? null;
 const skillAudits: AuditData[] = data.skillAudits ?? [];
 const skillEvals: EvalScenario[] = data.skillEvals ?? [];
 
-// Entry IDs look like "skills/documentation/markdown-authoring/SKILL.mdx"
 const idParts = (entry.id as string).split("/");
-const skillSlugParts = idParts.slice(0, -1); // drop "SKILL.mdx"
+const skillSlugParts = idParts.slice(0, -1);
 const refIdPrefix = `${skillSlugParts.join("/")}/references/`;
 
-// Fetch and render all reference entries for this skill at build time.
-// biome-ignore lint/suspicious/noExplicitAny: Astro component render type is not typed
 type RenderedRef = { slug: string; title: string; Content: any };
 let renderedRefs: RenderedRef[] = [];
 
@@ -168,7 +156,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         )}
       </nav>
 
-      {/* Skill content panel */}
       <div
         id="sk-panel-skill"
         class="sk-tabs__panel sk-tabs__panel--active"
@@ -178,7 +165,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         <slot />
       </div>
 
-      {/* Audit panel — scorecard detail (list in right sidebar) */}
       <div
         id="sk-panel-audit"
         class="sk-tabs__panel"
@@ -310,7 +296,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         )}
       </div>
 
-      {/* Evals panel — scenario detail (list in right sidebar) */}
       <div
         id="sk-panel-evals"
         class="sk-tabs__panel"
@@ -340,7 +325,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         )}
       </div>
 
-      {/* References panel — inline rendered content (list in right sidebar) */}
       {renderedRefs.length > 0 && (
         <div
           id="sk-panel-refs"
@@ -352,7 +336,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
           {renderedRefs.map((ref, i) =>
             ref.Content ? (
               <div
-                class:list={["sk-refs__doc", "sl-markdown-content", i === 0 && "sk-refs__doc--active"]}
+                class:list={["sk-refs__doc", "tk-markdown-content", i === 0 && "sk-refs__doc--active"]}
                 data-ref-doc={ref.slug}
                 hidden={i !== 0}
               >
@@ -369,39 +353,47 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 }
 
 <script>
-  const tabs = document.getElementById("sk-tabs");
-  if (tabs) {
-    tabs.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-tab]");
-      if (!btn) return;
-      const target = btn.dataset.tab;
+  const TABS = ["skill", "audit", "evals", "refs"];
 
-      tabs.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((b) => {
-        const active = b.dataset.tab === target;
-        b.classList.toggle("sk-tabs__btn--active", active);
-        b.setAttribute("aria-selected", String(active));
-      });
-      tabs.querySelectorAll<HTMLElement>("[data-panel]").forEach((p) => {
-        const active = p.dataset.panel === target;
-        p.classList.toggle("sk-tabs__panel--active", active);
-        p.hidden = !active;
-      });
-
-      document.dispatchEvent(
-        new CustomEvent("sk-tab-change", { detail: target }),
-      );
+  const activateTab = (name: string) => {
+    const tabs = document.getElementById("sk-tabs");
+    if (!tabs) return;
+    tabs.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((b) => {
+      const active = b.dataset.tab === name;
+      b.classList.toggle("sk-tabs__btn--active", active);
+      b.setAttribute("aria-selected", String(active));
     });
+    tabs.querySelectorAll<HTMLElement>("[data-panel]").forEach((p) => {
+      const active = p.dataset.panel === name;
+      p.classList.toggle("sk-tabs__panel--active", active);
+      p.hidden = !active;
+    });
+    document.dispatchEvent(new CustomEvent("sk-tab-change", { detail: { tab: name } }));
+  };
+
+  const initialTab = new URLSearchParams(location.search).get("tab");
+  if (initialTab && TABS.includes(initialTab)) {
+    activateTab(initialTab);
+  } else {
+    activateTab(TABS[0]);
   }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const tab = btn.dataset.tab;
+      if (!tab) return;
+      history.replaceState(null, "", `?tab=${tab}`);
+      activateTab(tab);
+    });
+  });
 </script>
 
 <style>
-  /* ── Tab nav ─────────────────────────────────────────────── */
-
   .sk-tabs__nav {
     display: flex;
     align-items: center;
     gap: 0;
-    border-bottom: 1px solid var(--sl-color-hairline-medium);
+    border-bottom: 1px solid var(--tk-border);
     margin-bottom: 1.5rem;
   }
 
@@ -415,34 +407,32 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
     cursor: pointer;
-    font-size: var(--sl-text-sm);
+    font-size: 0.875rem;
     font-family: inherit;
-    color: var(--sl-color-gray-2);
+    color: var(--tk-color-gray-2);
     transition: color 0.15s, border-color 0.15s;
     white-space: nowrap;
   }
 
   .sk-tabs__btn:hover {
-    color: var(--sl-color-white);
+    color: var(--tk-color-white);
   }
 
   .sk-tabs__btn--active {
-    color: var(--sl-color-white);
-    border-bottom-color: var(--sl-color-accent);
+    color: var(--tk-color-white);
+    border-bottom-color: var(--tk-color-accent);
     font-weight: 600;
   }
 
   .sk-tabs__count {
     display: inline-block;
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-gray-2);
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-gray-2);
     border-radius: 9999px;
     font-size: 0.68rem;
     font-weight: 500;
     padding: 0.1em 0.5em;
   }
-
-  /* ── Panels ─────────────────────────────────────────────── */
 
   .sk-tabs__panel {
     display: none;
@@ -451,8 +441,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   .sk-tabs__panel--active {
     display: block;
   }
-
-  /* ── Audit scorecard ────────────────────────────────────── */
 
   .sk-audit {
     display: none;
@@ -480,12 +468,12 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     font-size: 2.5rem;
     font-weight: 700;
     line-height: 1;
-    color: var(--sl-color-white);
+    color: var(--tk-color-white);
   }
 
   .sk-audit__score-max {
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-gray-3);
+    font-size: 0.875rem;
+    color: var(--tk-color-gray-3);
   }
 
   .sk-audit__grade {
@@ -507,19 +495,19 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   }
 
   .sk-dim__label {
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-2);
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-2);
   }
 
   .sk-dim__score {
-    font-size: var(--sl-text-xs);
-    font-family: var(--sl-font-mono);
-    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    font-family: var(--tk-font-mono);
+    color: var(--tk-color-gray-3);
   }
 
   .sk-dim__bar-track {
     height: 6px;
-    background: var(--sl-color-gray-5);
+    background: var(--tk-color-gray-5);
     border-radius: 9999px;
     overflow: hidden;
   }
@@ -527,17 +515,15 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   .sk-dim__bar-fill {
     height: 100%;
     border-radius: 9999px;
-    background: var(--sl-color-accent);
+    background: var(--tk-color-accent);
     transition: width 0.4s ease;
   }
 
   .sk-audit__meta {
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-3);
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-3);
     margin: 0;
   }
-
-  /* ── Evals panel ────────────────────────────────────────── */
 
   .sk-evals__doc {
     display: none;
@@ -548,21 +534,19 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   }
 
   .sk-evals__capability {
-    font-size: var(--sl-text-sm);
-    color: var(--sl-color-white);
+    font-size: 0.875rem;
+    color: var(--tk-color-white);
     font-weight: 500;
     margin: 0 0 0.75rem;
     line-height: 1.5;
   }
 
   .sk-evals__reason {
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-2);
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-2);
     margin: 0;
     line-height: 1.6;
   }
-
-  /* ── References panel ──────────────────────────────────── */
 
   .sk-refs__doc {
     display: none;
@@ -572,11 +556,9 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     display: block;
   }
 
-  /* ── Empty state ────────────────────────────────────────── */
-
   .sk-empty {
-    color: var(--sl-color-gray-3);
-    font-size: var(--sl-text-sm);
+    color: var(--tk-color-gray-3);
+    font-size: 0.875rem;
     font-style: italic;
     margin: 0;
   }

@@ -1,17 +1,6 @@
 import { defineCollection, z } from "astro:content";
-import { docsSchema } from "@astrojs/starlight/schema";
 import { glob } from "astro/loaders";
 
-/**
- * Starlight requires a `title` field. SKILL.md files use `name` (and
- * optionally `metadata.title` / `metadata.displayTitle`) instead.
- *
- * This preprocessor derives `title` from the best available source:
- *   1. metadata.displayTitle — H1 text extracted by prelink.mjs (most readable)
- *   2. metadata.title        — explicit override in frontmatter
- *   3. name                  — kebab-case skill name
- *   4. "Untitled"            — last resort
- */
 function withSkillTitle(schema: z.ZodTypeAny) {
   return z.preprocess((data) => {
     if (typeof data !== "object" || data === null) return data;
@@ -66,7 +55,6 @@ const skillEvalScenarioSchema = z.object({
   reason: z.string().optional(),
 });
 
-/** Extra frontmatter fields used by SKILL.md files. */
 const skillExtraSchema = z.object({
   name: z.string().optional(),
   description: z.string().optional(),
@@ -79,22 +67,34 @@ const skillExtraSchema = z.object({
       tags: z.array(z.string()).optional(),
       category: z.string().optional(),
     })
-    .passthrough() // allow any additional metadata fields
+    .passthrough()
     .optional(),
   skillRefs: z.array(skillRefSchema).optional(),
   skillAudit: skillAuditSchema.optional(),
   skillAudits: z.array(skillAuditSnapshotSchema).optional(),
   skillEvals: z.array(skillEvalScenarioSchema).optional(),
+  tilePublishedUrl: z.string().optional(),
+  tileVersion: z.string().optional(),
+  sidebar: z
+    .object({
+      label: z.string().optional(),
+      order: z.number().optional(),
+      hidden: z.boolean().optional(),
+    })
+    .optional(),
+});
+
+const docsBaseSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
 });
 
 export const collections = {
   docs: defineCollection({
     loader: glob({
       base: "src/content/docs",
-      // Serve top-level doc pages, SKILL.md files, and reference docs.
-      // Excludes templates/, scripts/, schemas/, assets/, AGENTS.md, etc.
       pattern: ["*.{md,mdx}", "**/SKILL.mdx", "**/references/*.md"],
     }),
-    schema: (ctx) => withSkillTitle(docsSchema()(ctx).merge(skillExtraSchema)),
+    schema: withSkillTitle(docsBaseSchema.merge(skillExtraSchema)),
   }),
 };

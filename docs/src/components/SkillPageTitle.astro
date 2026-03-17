@@ -1,25 +1,18 @@
 ---
-/**
- * SkillPageTitle — overrides Starlight's default PageTitle.
- *
- * On skill pages (entry ID ends with /skill): renders a tessl.io-style
- * metadata header card showing the skill name, description, domain badge,
- * version, install command, grade, and tags.
- *
- * On all other pages: delegates to the default Starlight PageTitle.
- */
-import Default from "@astrojs/starlight/components/PageTitle.astro";
-// Starlight 0.38+ uses "_top" as the page title anchor ID
+import type { CollectionEntry } from "astro:content";
+
 const PAGE_TITLE_ID = "_top";
 
-const { entry } = Astro.locals.starlightRoute;
+interface Props {
+  entry: CollectionEntry<"docs">;
+}
+
+const { entry } = Astro.props;
 const isSkillPage = (entry.id as string).endsWith("/skill");
 
-// ── Data extraction ───────────────────────────────────────────────────────────
 const data = entry.data as Record<string, any>;
 const metadata = (data.metadata as Record<string, any>) || {};
 
-// Prefer the H1 text extracted by prelink over the kebab-case `name` field
 const displayTitle: string =
   metadata.displayTitle || data.name || data.title || "Untitled";
 
@@ -28,18 +21,14 @@ const version: string | undefined = metadata.version;
 const grade: string | undefined = metadata.grade;
 const tags: string[] = metadata.tags ?? [];
 
-// ── Domain + install command ──────────────────────────────────────────────────
-// Entry IDs look like "skills/ci-cd/github-actions/generator/SKILL.md"
 const idParts = (entry.id as string).split("/");
 const skillsIdx = idParts.indexOf("skills");
 const domain: string | undefined =
   skillsIdx >= 0 ? idParts[skillsIdx + 1] : undefined;
 
-// All path segments between skills/ and SKILL.md, joined with "--"
 const installSlug =
   skillsIdx >= 0 ? idParts.slice(skillsIdx + 1, -1).join("--") : "";
 
-// ── Grade CSS class ───────────────────────────────────────────────────────────
 const gradeClass = grade
   ? `skill-badge--${grade
       .toLowerCase()
@@ -51,7 +40,6 @@ const gradeClass = grade
 {
   isSkillPage ? (
     <div class="sk-header">
-      {/* Top badge row */}
       <div class="sk-header__badges">
         {domain && (
           <span class="sk-badge sk-domain">
@@ -68,15 +56,12 @@ const gradeClass = grade
         )}
       </div>
 
-      {/* Title */}
       <h1 id={PAGE_TITLE_ID} class="sk-title">
         {displayTitle}
       </h1>
 
-      {/* Description */}
       {description && <p class="sk-desc">{description}</p>}
 
-      {/* Install command */}
       {installSlug && (
         <div class="sk-install">
           <span class="sk-install__label">Install</span>
@@ -86,7 +71,6 @@ const gradeClass = grade
         </div>
       )}
 
-      {/* Tags */}
       {tags.length > 0 && (
         <div class="sk-tags">
           {tags.map((tag: string) => (
@@ -96,17 +80,15 @@ const gradeClass = grade
       )}
     </div>
   ) : (
-    <Default />
+    <h1 id={PAGE_TITLE_ID}>{entry.data.title}</h1>
   )
 }
 
 <style>
-  /* ── Skill page header card ─────────────────────────────────────────── */
-
   .sk-header {
-    border: 1px solid var(--sl-color-hairline-medium);
+    border: 1px solid var(--tk-border);
     border-radius: 0.5rem;
-    background: var(--sl-color-bg-sidebar);
+    background: var(--tk-bg-surface);
     padding: 1.5rem;
     margin-bottom: 1.75rem;
   }
@@ -121,32 +103,29 @@ const gradeClass = grade
 
   .sk-title {
     margin: 0 0 0.75rem;
-    font-size: var(--sl-text-3xl);
+    font-size: 1.875rem;
     font-weight: 600;
     line-height: 1.2;
-    color: var(--sl-color-white);
+    color: var(--tk-color-white);
   }
 
   .sk-desc {
-    color: var(--sl-color-gray-2);
-    font-size: var(--sl-text-sm);
+    color: var(--tk-color-gray-2);
+    font-size: 0.875rem;
     line-height: 1.65;
     margin: 0 0 1.25rem;
-    /* Limit to 4 lines on narrow screens */
     display: -webkit-box;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
-  /* ── Install command block ──────────────────────────────────────────── */
-
   .sk-install {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    background: var(--sl-color-bg);
-    border: 1px solid var(--sl-color-hairline-medium);
+    background: var(--tk-bg);
+    border: 1px solid var(--tk-border);
     border-radius: 0.375rem;
     padding: 0.5rem 0.875rem;
     overflow-x: auto;
@@ -157,21 +136,19 @@ const gradeClass = grade
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.07em;
-    color: var(--sl-color-gray-3);
+    color: var(--tk-color-gray-3);
     flex-shrink: 0;
   }
 
   .sk-install__cmd {
-    font-family: var(--sl-font-mono);
-    font-size: var(--sl-text-xs);
-    color: var(--sl-color-gray-1);
+    font-family: var(--tk-font-mono);
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-1);
     background: none;
     padding: 0;
     border: none;
     white-space: nowrap;
   }
-
-  /* ── Shared badge base ──────────────────────────────────────────────── */
 
   .sk-badge {
     display: inline-block;
@@ -182,18 +159,16 @@ const gradeClass = grade
   }
 
   .sk-domain {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-gray-2);
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-gray-2);
     text-transform: capitalize;
   }
 
   .sk-version {
-    background: var(--sl-color-accent-low);
-    color: var(--sl-color-accent-high);
-    font-family: var(--sl-font-mono);
+    background: var(--tk-color-accent-low);
+    color: var(--tk-color-accent-high);
+    font-family: var(--tk-font-mono);
   }
-
-  /* ── Tags row ───────────────────────────────────────────────────────── */
 
   .sk-tags {
     display: flex;
@@ -203,8 +178,8 @@ const gradeClass = grade
   }
 
   .sk-tag {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-gray-3);
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-gray-3);
     border-radius: 9999px;
     padding: 0.15em 0.65em;
     font-size: 0.7rem;
