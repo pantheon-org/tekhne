@@ -18,7 +18,10 @@ const displayTitle: string =
 
 const description: string | undefined = data.description;
 const version: string | undefined = metadata.version;
-const grade: string | undefined = metadata.grade;
+const skillAudit = (data.skillAudit as Record<string, any>) || {};
+const skillAudits: any[] = data.skillAudits ?? [];
+const latestAudit = skillAudits[0] ?? skillAudit;
+const grade: string | undefined = metadata.grade ?? latestAudit.grade;
 const tags: string[] = metadata.tags ?? [];
 
 const idParts = (entry.id as string).split("/");
