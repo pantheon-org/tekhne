@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/astro-starlight/skills/starlight-custom-component",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 14,
+    "evalValidation": 17
+  },
+  "total": 121,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 268,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}
