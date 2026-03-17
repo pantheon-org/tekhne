@@ -59,7 +59,7 @@ export const collections = {
       base: "src/content/docs",
       // Serve top-level doc pages, SKILL.md files, and reference docs.
       // Excludes templates/, scripts/, schemas/, assets/, AGENTS.md, etc.
-      pattern: ["*.{md,mdx}", "**/SKILL.md", "**/references/*.md"],
+      pattern: ["*.{md,mdx}", "**/SKILL.mdx", "**/references/*.md"],
     }),
     schema: (ctx) => withSkillTitle(docsSchema()(ctx).merge(skillExtraSchema)),
   }),

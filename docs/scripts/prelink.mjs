@@ -96,6 +96,54 @@ const processSkillContent = (raw) => {
 };
 
 /**
+ * Escape `<` characters in flowing text that MDX would misinterpret as JSX.
+ *
+ * MDX parses `<letter…>`, `</…>`, `<digit…>`, `<https://…>` etc. as JSX
+ * or namespaced elements. SKILL.md files use angle brackets for placeholders
+ * (`<TARGET_URL>`), URL autolinks (`<https://…>`), and comparison operators
+ * (`<80%`) — none of which are valid MDX JSX syntax.
+ *
+ * Strategy: escape ALL `<` outside of fenced code blocks and inline code spans.
+ * SKILL.md files do not use raw HTML in flowing text, so this is safe.
+ */
+const escapeMdxText = (raw) => {
+  const parsed = matter(raw);
+  let inFence = false;
+
+  const escapeLineAngles = (line) => {
+    // Walk character-by-character; skip content inside inline backtick spans
+    let out = "";
+    let inCode = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === "`") {
+        inCode = !inCode;
+        out += ch;
+      } else if (!inCode && ch === "<") {
+        out += "&lt;";
+      } else {
+        out += ch;
+      }
+    }
+    return out;
+  };
+
+  const escaped = parsed.content
+    .split("\n")
+    .map((line) => {
+      if (/^```/.test(line)) {
+        inFence = !inFence;
+        return line;
+      }
+      if (inFence) return line;
+      return escapeLineAngles(line);
+    })
+    .join("\n");
+
+  return matter.stringify(escaped, parsed.data);
+};
+
+/**
  * Ensure a reference file has `title` and `sidebar.hidden: true` frontmatter,
  * which Starlight requires for rendering.  Source files are never modified.
  */
@@ -152,9 +200,13 @@ const copyDir = (src, dest) => {
         copyDir(srcPath, destPath);
       }
     } else if (entry.isFile() && entry.name === "SKILL.md") {
-      // Skill entry point: rewrite reference links, extract displayTitle, strip H1
+      // Skill entry point: rewrite reference links, extract displayTitle, strip H1.
+      // Written as SKILL.mdx so Astro treats it as MDX (enables JSX/component use).
       const raw = readFileSync(srcPath, "utf-8");
-      writeFileSync(destPath, processSkillContent(rewriteReferenceLinks(raw)));
+      writeFileSync(
+        join(dest, "SKILL.mdx"),
+        escapeMdxText(processSkillContent(rewriteReferenceLinks(raw))),
+      );
     }
     // All other files are intentionally skipped.
   }
