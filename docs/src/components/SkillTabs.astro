@@ -78,6 +78,18 @@ const DIMENSION_LABELS: Record<string, string> = {
   evalValidation: "Eval Validation",
 };
 
+const DIMENSION_DESC: Record<string, string> = {
+  knowledgeDelta: "Unique, non-obvious knowledge the agent couldn't derive on its own.",
+  mindsetProcedures: "Concrete step-by-step procedures and decision trees guiding the agent.",
+  antiPatternQuality: "Explicit anti-patterns and failure modes the agent must avoid.",
+  specificationCompliance: "Accuracy and completeness against the target tool's official spec.",
+  progressiveDisclosure: "Layered detail — quick answers first, deep references when needed.",
+  freedomCalibration: "Appropriate constraints: neither over-restricting nor under-guiding.",
+  patternRecognition: "Named, reusable patterns the agent can recognise and apply.",
+  practicalUsability: "Real-world examples, templates, and scripts ready to use.",
+  evalValidation: "Coverage by evaluation scenarios that verify the skill's effectiveness.",
+};
+
 const DIMENSION_MAX = 16;
 
 const gradeClass = (grade?: string) =>
@@ -211,6 +223,9 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                                 {score}/{DIMENSION_MAX}
                               </span>
                             </div>
+                            {DIMENSION_DESC[key] && (
+                              <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
+                            )}
                             <div class="sk-dim__bar-track">
                               <div
                                 class="sk-dim__bar-fill"
@@ -269,6 +284,9 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                             {score}/{DIMENSION_MAX}
                           </span>
                         </div>
+                        {DIMENSION_DESC[key] && (
+                          <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
+                        )}
                         <div class="sk-dim__bar-track">
                           <div
                             class="sk-dim__bar-fill"
@@ -503,6 +521,13 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     font-size: 0.75rem;
     font-family: var(--tk-font-mono);
     color: var(--tk-color-gray-3);
+  }
+
+  .sk-dim__desc {
+    font-size: 0.7rem;
+    color: var(--tk-color-gray-3);
+    margin: 0 0 0.4rem;
+    line-height: 1.5;
   }
 
   .sk-dim__bar-track {
