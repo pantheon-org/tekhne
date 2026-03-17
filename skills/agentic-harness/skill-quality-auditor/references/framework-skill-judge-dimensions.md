@@ -399,14 +399,14 @@ Problems: bullet list format — table with Topic/Reference/When to Use is requi
 
 **Scoring:**
 
-- **13-15 points:** Navigation hub + references/ + categories
+- **13-15 points:** Navigation hub + references/ + categories + lazy-load guidance
 - **10-12 points:** Some organization, could improve
 - **7-9 points:** Everything frontloaded, >300 lines
 - **0-6 points:** No structure, >500 lines
 
 ### Components
 
-1. **Navigation Hub Approach (8 points)**
+1. **Navigation Hub Approach (5 points)**
    - SKILL.md is <100 lines
    - Overview + when-to-use + reference guide
    - NOT full content
@@ -421,14 +421,66 @@ Problems: bullet list format — table with Topic/Reference/When to Use is requi
    - Files organized by prefix (principles-, patterns-, etc.)
    - Priority labels (CRITICAL, HIGH, MEDIUM, LOW)
 
+4. **Lazy Loading Guidance (3 points)** ⭐ REQUIRED
+   - References table includes a concrete "When to Use" column that tells agents exactly which task triggers loading each reference
+   - AGENTS.md (or equivalent navigation file) explicitly instructs agents to load only the minimum references needed for the current task — not all references upfront
+   - Each reference entry states a specific, actionable condition (e.g. "When diagnosing a D3 failure", "Only when preparing a CI gate") rather than a generic description
+   - **WHY:** Without explicit lazy-load guidance, agents default to loading all references eagerly, wasting context on irrelevant content and degrading performance
+   - **IMPACT:** Skills without lazy-load guidance consume 3-10x more context than necessary, reducing the agent's effective working memory
+
+### Lazy Loading Anti-Patterns
+
+❌ **NEVER list references without "When to Use" conditions**
+
+```markdown
+## References
+- references/dimensions.md
+- references/scoring.md
+- references/anti-patterns.md
+```
+
+This forces agents to load everything or guess what to load.
+
+❌ **NEVER use vague "When to Use" entries**
+
+```markdown
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Scoring | [Scoring Rubric](references/scoring.md) | For scoring |
+| Anti-patterns | [Anti-Patterns](references/anti-patterns.md) | For anti-patterns |
+```
+
+"For scoring" is not actionable — it does not tell the agent when NOT to load the file.
+
+✅ **Explicit lazy-load conditions:**
+
+```markdown
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Per-dimension criteria and bonus rules | [Dimensions](references/dimensions.md) | Evaluating any individual dimension or understanding the rubric |
+| Score thresholds and grade bands | [Scoring Rubric](references/scoring.md) | Calculating a total score or assigning a grade — skip if only auditing structure |
+| NEVER/WHY/BAD/GOOD failure modes | [Anti-Patterns](references/anti-patterns.md) | Explaining why a dimension scored low or writing remediation guidance |
+```
+
+✅ **AGENTS.md with explicit lazy-load instruction:**
+
+```markdown
+## Usage Instructions
+
+1. Read SKILL.md — navigation hub only
+2. Identify your task from the task categories below
+3. Load ONLY the references listed for that task
+4. Do NOT pre-load all references
+```
+
 ### Example
 
 **✅ Excellent Progressive Disclosure (15/15):**
 
 ```
 bdd-testing/
-├── SKILL.md (64 lines - navigation hub)
-├── AGENTS.md (reference guide)
+├── SKILL.md (64 lines - navigation hub with actionable "When to Use" per reference)
+├── AGENTS.md (explicit: "load only references needed for current task")
 └── references/
     ├── principles-three-amigos.md (CRITICAL, 250 lines)
     ├── gherkin-syntax.md (HIGH, 180 lines)
@@ -440,6 +492,18 @@ bdd-testing/
 ```
 bdd-testing/
 └── SKILL.md (1,800 lines - everything frontloaded)
+```
+
+**❌ Missing Lazy Loading (10/15 — loses 3 points):**
+
+```
+bdd-testing/
+├── SKILL.md (80 lines - good hub, but references table has no "When to Use" column)
+├── AGENTS.md (says "load all references before starting")
+└── references/
+    ├── principles-three-amigos.md
+    ├── gherkin-syntax.md
+    └── practices-tags.md
 ```
 
 ## Dimension 6: Freedom Calibration (15 points)
@@ -635,7 +699,7 @@ skill-name/
 | D2: Mindset + Procedures | 15 | HIGH | Philosophy + workflows |
 | D3: Anti-Pattern Quality | 15 | HIGH | NEVER + WHY + consequences |
 | D4: Specification | 15 | MEDIUM | Description field critical |
-| D5: Progressive Disclosure | 15 | MEDIUM | Hub + references |
+| D5: Progressive Disclosure | 15 | MEDIUM | Hub + references + lazy-load guidance |
 | D6: Freedom Calibration | 15 | MEDIUM | Appropriate rigidity |
 | D7: Pattern Recognition | 10 | LOW | Activation keywords |
 | D8: Practical Usability | 15 | HIGH | Concrete examples |
