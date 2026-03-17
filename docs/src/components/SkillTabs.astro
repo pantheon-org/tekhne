@@ -225,26 +225,24 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                         const dimMax = DIMENSION_MAX[key] ?? 15;
                         const pct = Math.round((score / dimMax) * 100);
                         return (
-                          <div class="sk-dim">
-                            <div class="sk-dim__header">
-                              <span class="sk-dim__label">
-                                {DIMENSION_LABELS[key] ?? key}
-                              </span>
-                               <span class="sk-dim__score">
-                                 {score}/{dimMax}
+                           <div class="sk-dim">
+                             <div class="sk-dim__header">
+                               <span class="sk-dim__label">
+                                 {DIMENSION_LABELS[key] ?? key}
                                </span>
-                            </div>
-                            {DIMENSION_DESC[key] && (
-                              <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
-                            )}
-                            <div class="sk-dim__bar-track">
-                              <div
-                                class="sk-dim__bar-fill"
-                                style={`width: ${Math.min(pct, 100)}%`}
-                                data-pct={pct}
-                              />
-                            </div>
-                          </div>
+                                <span class="sk-dim__score">
+                                  {score}/{dimMax}
+                                </span>
+                             </div>
+                             {DIMENSION_DESC[key] && (
+                               <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
+                             )}
+                             <div class="sk-dim__segments" data-score={score} data-max={dimMax} data-pct={pct}>
+                               {Array.from({ length: dimMax }).map((_, i) => (
+                                 <div class:list={["sk-dim__seg", i < score && "sk-dim__seg--filled"]} />
+                               ))}
+                             </div>
+                           </div>
                         );
                       },
                     )}
@@ -299,13 +297,11 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                         {DIMENSION_DESC[key] && (
                           <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
                         )}
-                        <div class="sk-dim__bar-track">
-                          <div
-                            class="sk-dim__bar-fill"
-                            style={`width: ${Math.min(pct, 100)}%`}
-                            data-pct={pct}
-                          />
-                        </div>
+                         <div class="sk-dim__segments" data-score={score} data-max={dimMax} data-pct={pct}>
+                           {Array.from({ length: dimMax }).map((_, i) => (
+                             <div class:list={["sk-dim__seg", i < score && "sk-dim__seg--filled"]} />
+                           ))}
+                         </div>
                       </div>
                     );
                   },
@@ -383,11 +379,14 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 }
 
 <script>
-  document.querySelectorAll<HTMLElement>(".sk-dim__bar-fill").forEach((bar) => {
-    const pct = Number(bar.dataset.pct ?? 0);
+  document.querySelectorAll<HTMLElement>(".sk-dim__segments").forEach((seg) => {
+    const pct = Number(seg.dataset.pct ?? 0);
     const remapped = Math.max(0, (pct - 40) / 60);
     const hue = Math.round(remapped * 120);
-    bar.style.setProperty("--bar-color", `hsl(${hue} 85% 42%)`);
+    const color = `hsl(${hue} 85% 42%)`;
+    seg.querySelectorAll<HTMLElement>(".sk-dim__seg--filled").forEach((s) => {
+      s.style.setProperty("--seg-color", color);
+    });
   });
 
   const TABS = ["skill", "audit", "evals", "refs"];
@@ -549,18 +548,20 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     line-height: 1.5;
   }
 
-  .sk-dim__bar-track {
-    height: 6px;
-    background: var(--tk-color-gray-5);
-    border-radius: 9999px;
-    overflow: hidden;
+  .sk-dim__segments {
+    display: flex;
+    gap: 3px;
   }
 
-  .sk-dim__bar-fill {
-    height: 100%;
-    border-radius: 9999px;
-    background: var(--bar-color, var(--tk-color-accent));
-    transition: width 0.4s ease;
+  .sk-dim__seg {
+    flex: 1;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--tk-color-gray-5);
+  }
+
+  .sk-dim__seg--filled {
+    background: var(--seg-color, var(--tk-color-accent));
   }
 
   .sk-audit__meta {
