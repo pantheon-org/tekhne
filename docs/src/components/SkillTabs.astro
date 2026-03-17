@@ -384,9 +384,12 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 
 <script>
   document.querySelectorAll<HTMLElement>(".sk-dim__bar-fill").forEach((bar) => {
-    const pct = Number(bar.dataset.pct ?? 0);
-    const hue = Math.round(pct * 1.2);
-    bar.style.setProperty("--bar-color", `hsl(${hue} 80% 45%)`);
+    const pct = Number(bar.dataset.pct ?? 0) / 100;
+    const curved = Math.pow(pct, 0.6);
+    const hue = Math.round(curved * 120);
+    const sat = Math.round(70 + curved * 20);
+    const lit = Math.round(38 + curved * 10);
+    bar.style.setProperty("--bar-color", `hsl(${hue} ${sat}% ${lit}%)`);
   });
 
   const TABS = ["skill", "audit", "evals", "refs"];
