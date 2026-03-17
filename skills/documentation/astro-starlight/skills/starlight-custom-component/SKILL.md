@@ -5,52 +5,33 @@ description: Create and override Astro Starlight UI components. Use when replaci
 
 # Starlight Custom Components
 
-Starlight's built-in UI can be extended or completely replaced by registering your own Astro components. This is the right approach when CSS customization is not enough, or when you need behavioral changes.
+Starlight's built-in UI can be extended or replaced by registering your own Astro components. Use this when CSS is not enough or you need behavioral changes.
 
 ## When to Use
 
-- Changing the appearance of a Starlight UI element that cannot be adjusted with CSS alone
+- Changing a Starlight UI element that CSS alone cannot address
 - Adding new UI alongside an existing Starlight element (e.g., a banner above the header)
-- Replacing a built-in component with entirely different markup or behavior
+- Replacing a built-in component with different markup or behavior
 - Conditionally rendering different UI on specific pages
 
 ## When Not to Use
 
 - Simple color or font changes — use `starlight-theme` instead
-- Adding documentation content (pages, sidebars, asides) — use `starlight-base` instead
+- Adding documentation content (pages, sidebars) — use `starlight-base` instead
 
 ## Mental Model
 
 **Starlight's UI is a set of named slots. You swap slot implementations, not DOM nodes.**
 
-Three things to internalize:
-
-1. **Named slots, not selectors.** Overriding a component means providing a `.astro` file that replaces a specific slot. You register the replacement in `astro.config.mjs` under `components: {}`. There is no CSS selector involved; you're replacing the entire component rendering.
-
-2. **Wrap, don't replace when possible.** If you only need to add something alongside the original, import the default component and render it inside your override. This avoids duplicating Starlight's internal markup and keeps you compatible with future Starlight updates.
-
-3. **Page data lives in `Astro.locals`, not props.** Override components do not receive page data as Astro props. All route metadata (title, description, sidebar, TOC) is available via `Astro.locals.starlightRoute`.
+1. **Named slots, not selectors.** You register a replacement `.astro` file for a named component slot in `astro.config.mjs`. No CSS selector is involved — you replace the entire component rendering.
+2. **Wrap, don't replace.** Import the default component and render it inside your override to add behavior without duplicating Starlight's markup. This keeps you compatible with future Starlight updates.
+3. **Page data lives in `Astro.locals`, not props.** All route metadata is available via `Astro.locals.starlightRoute`. See [overrides-reference.md](./references/overrides-reference.md) for all available properties.
 
 ## Step-by-Step: Override a Component
 
-### Step 1 — Identify the component to override
+**Step 1 — Identify the slot name** from the [Overrides Reference](https://starlight.astro.build/reference/overrides/). Common ones: `Header`, `Footer`, `PageTitle`, `Sidebar`, `TableOfContents`, `Hero`, `Pagination`. Use the [Overrides Map](https://starlight-overrides-map.netlify.app/) to visually locate UI areas.
 
-Find the component name in the [Overrides Reference](https://starlight.astro.build/reference/overrides/). Common ones:
-
-| Component | Renders |
-|-----------|---------|
-| `Header` | Top navigation bar |
-| `Footer` | Page footer |
-| `PageTitle` | The `<h1>` page title |
-| `SocialIcons` | Social link icons in the header |
-| `Sidebar` | Left sidebar navigation |
-| `TableOfContents` | Right-side TOC |
-| `Hero` | Landing page hero section |
-| `Pagination` | Previous/Next page links |
-
-Use the [Starlight Overrides Map](https://starlight-overrides-map.netlify.app/) to visually identify which component covers a given area of the UI.
-
-### Step 2 — Create the Astro component
+**Step 2 — Create the component:**
 
 ```astro
 ---
@@ -61,29 +42,17 @@ Use the [Starlight Overrides Map](https://starlight-overrides-map.netlify.app/) 
 </footer>
 ```
 
-### Step 3 — Register the override in `astro.config.mjs`
+**Step 3 — Register in `astro.config.mjs`:**
 
 ```js
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
-
-export default defineConfig({
-  integrations: [
-    starlight({
-      title: 'My Docs',
-      components: {
-        Footer: './src/components/CustomFooter.astro',
-      },
-    }),
-  ],
-});
+starlight({
+  components: {
+    Footer: './src/components/CustomFooter.astro',
+  },
+})
 ```
 
-The key must exactly match the component name from the Overrides Reference. The value is the path relative to the project root.
-
 ## Wrapping a Built-in Component
-
-Import the default component and render it inside your override to extend rather than replace it. Always include `<slot />` so Starlight can pass child content through.
 
 ```astro
 ---
@@ -94,15 +63,9 @@ import Default from '@astrojs/starlight/components/SocialIcons.astro';
 <Default><slot /></Default>
 ```
 
-### Transferring named slots
-
-Some layout components use named slots (`PageFrame`, `TwoColumnContent`). You must transfer them explicitly or their content is silently dropped:
+For layout components with named slots (`PageFrame`, `TwoColumnContent`), transfer them explicitly:
 
 ```astro
----
-// src/components/CustomContent.astro
-import Default from '@astrojs/starlight/components/TwoColumnContent.astro';
----
 <Default>
   <slot />
   <slot name="right-sidebar" slot="right-sidebar" />
@@ -111,63 +74,25 @@ import Default from '@astrojs/starlight/components/TwoColumnContent.astro';
 
 ## Accessing Page Data
 
-All page metadata is available via `Astro.locals.starlightRoute`.
-
 ```astro
 ---
-// src/components/CustomTitle.astro
 const { title, description } = Astro.locals.starlightRoute.entry.data;
----
-<h1 id="_top">{title}</h1>
-{description && <p class="subtitle">{description}</p>}
-```
-
-Common properties on `starlightRoute`:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| `id` | `string` | Page slug (empty string for homepage) |
-| `entry.data.title` | `string` | Page title from frontmatter |
-| `entry.data.description` | `string \| undefined` | Page description |
-| `entry.data.template` | `'doc' \| 'splash'` | Page layout template |
-| `sidebar` | `SidebarEntry[]` | Full sidebar tree |
-| `toc` | `TocEntry[] \| undefined` | Table of contents entries |
-
-See the full [Route Data Reference](https://starlight.astro.build/reference/route-data/) for all available properties.
-
-## Conditional Overrides
-
-Apply different UI on specific pages by inspecting `starlightRoute`:
-
-```astro
----
-// src/components/ConditionalBanner.astro
-import Default from '@astrojs/starlight/components/Header.astro';
-
 const isHomepage = Astro.locals.starlightRoute.id === '';
 ---
-{isHomepage && (
-  <div class="announcement-banner">
-    New version available!
-  </div>
-)}
-<Default><slot /></Default>
 ```
 
-## Complete Example: Custom Header with Section Banner
+See [overrides-reference.md](./references/overrides-reference.md) for the full `starlightRoute` property table.
+
+## Complete Example: Conditional Banner
 
 ```astro
 ---
 // src/components/HeaderWithBanner.astro
 import Default from '@astrojs/starlight/components/Header.astro';
-
-const { id } = Astro.locals.starlightRoute;
-const showBanner = id.startsWith('guides/');
+const showBanner = Astro.locals.starlightRoute.id.startsWith('guides/');
 ---
 {showBanner && (
-  <div class="guide-banner">
-    These guides are for version 2.x
-  </div>
+  <div class="guide-banner">These guides are for version 2.x</div>
 )}
 <Default><slot /></Default>
 
@@ -177,92 +102,70 @@ const showBanner = id.startsWith('guides/');
     color: var(--sl-color-white);
     padding: 0.5rem 1rem;
     text-align: center;
-    font-size: var(--sl-text-sm);
   }
 </style>
-```
-
-Register in config:
-
-```js
-components: {
-  Header: './src/components/HeaderWithBanner.astro',
-},
-```
-
-## TypeScript Typing for `starlightRoute`
-
-Import the type from Starlight to get autocompletion:
-
-```astro
----
-import type { StarlightRouteData } from '@astrojs/starlight/types';
-
-const route = Astro.locals.starlightRoute as StarlightRouteData;
-const { title } = route.entry.data;
----
 ```
 
 ## Anti-Patterns
 
 ### NEVER register a component path with a leading slash
 
-**WHY:** Paths in the `components` config are relative to the project root, not absolute filesystem paths.
+**WHY:** Paths in `components: {}` are relative to the project root, not absolute.
 
 **BAD:** `Footer: '/src/components/CustomFooter.astro'`
 **GOOD:** `Footer: './src/components/CustomFooter.astro'`
 
-**Consequence:** Starlight fails to find the component and throws a build error.
+**Consequence:** Build error — component not found.
 
 ### NEVER omit `<slot />` when wrapping a built-in component
 
-**WHY:** Without `<slot />`, child content passed to the built-in component is silently discarded.
+**WHY:** Without `<slot />`, child content is silently discarded.
 
 **BAD:** `<Default />` (no slot)
 **GOOD:** `<Default><slot /></Default>`
 
-**Consequence:** Content nested inside the component (e.g., sidebar links) disappears from the rendered output.
+**Consequence:** Sidebar links and other nested content disappear.
 
 ### NEVER access page data via `Astro.props` in override components
 
-**WHY:** Override components do not receive page data as props. The data is only available via `Astro.locals`.
+**WHY:** Override components do not receive page data as props — only via `Astro.locals`.
 
-**BAD:** `const { title } = Astro.props;` — `title` is `undefined`
+**BAD:** `const { title } = Astro.props;` — always `undefined`
 **GOOD:** `const { title } = Astro.locals.starlightRoute.entry.data;`
 
-**Consequence:** All page metadata is `undefined`, causing blank UI or errors.
+**Consequence:** All page metadata is `undefined`.
 
-### NEVER rely on the component file name to determine which slot it overrides
+### NEVER rely on file name to determine which slot is overridden
 
-**WHY:** The key in `components: {}` determines which slot is overridden, not the file name.
+**WHY:** Only the key in `components: {}` determines the slot, not the file name.
 
-**BAD:** Assume that naming your file `Footer.astro` automatically overrides the Footer slot.
-**GOOD:** Explicitly set `Footer: './src/components/MyFooter.astro'` in the config.
+**BAD:** Naming a file `Footer.astro` without registering it in config.
+**GOOD:** `Footer: './src/components/MyFooter.astro'` in config.
 
-**Consequence:** The default component renders unchanged; your file is never loaded.
+**Consequence:** Default component renders unchanged.
 
 ### NEVER forget to transfer named slots on layout components
 
-**WHY:** `PageFrame` and `TwoColumnContent` expose named slots. Wrapping without transferring them silently drops the named slot content.
+**WHY:** `PageFrame` and `TwoColumnContent` expose named slots. Omitting them silently drops content.
 
 **BAD:** Wrap `TwoColumnContent` with only a default `<slot />`.
-**GOOD:** Transfer all named slots: `<slot name="right-sidebar" slot="right-sidebar" />`.
+**GOOD:** Add `<slot name="right-sidebar" slot="right-sidebar" />` explicitly.
 
-**Consequence:** The right sidebar disappears from all pages using that layout.
+**Consequence:** Right sidebar disappears from all pages.
 
-### NEVER import component internals not exported from `@astrojs/starlight/components`
+### NEVER import component internals not listed in the Overrides Reference
 
-**WHY:** Starlight's internal component structure can change between releases. Only components listed in the Overrides Reference are stable public API.
+**WHY:** Only listed components are stable public API. Others may change in minor releases.
 
-**BAD:** `import Breadcrumb from '@astrojs/starlight/components/Breadcrumb.astro'` if not in the reference.
-**GOOD:** Override only components listed in the [Overrides Reference](https://starlight.astro.build/reference/overrides/).
+**BAD:** Import an internal component not in the official reference.
+**GOOD:** Override only components from [the official list](https://starlight.astro.build/reference/overrides/).
 
 **Consequence:** Imports break on Starlight minor version bumps.
 
 ## References
 
+- [Overrides Reference](./references/overrides-reference.md)
 - [Overriding Components Guide](https://starlight.astro.build/guides/overriding-components/)
-- [Overrides Reference](https://starlight.astro.build/reference/overrides/)
 - [Route Data Reference](https://starlight.astro.build/reference/route-data/)
 - [Starlight Overrides Map (interactive)](https://starlight-overrides-map.netlify.app/)
 - [Astro Components — Slots](https://docs.astro.build/en/basics/astro-components/#slots)

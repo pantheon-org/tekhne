@@ -5,13 +5,13 @@ description: Create and apply custom themes to an Astro Starlight documentation 
 
 # Starlight Theming
 
-Starlight exposes its entire visual design through CSS custom properties. You can override any variable to change colors, typography, and layout — with or without Tailwind.
+Starlight exposes its entire visual design through CSS custom properties. Override any variable to change colors, typography, and layout — with or without Tailwind.
 
 ## When to Use
 
 - Changing the color palette (accent color, grays, backgrounds)
 - Swapping fonts or adjusting text sizes
-- Applying a consistent brand identity across the docs site
+- Applying a consistent brand identity
 - Integrating Tailwind CSS into a Starlight project
 
 ## When Not to Use
@@ -23,109 +23,45 @@ Starlight exposes its entire visual design through CSS custom properties. You ca
 
 **Starlight styles live in CSS cascade layers. Unlayered CSS always wins.**
 
-Three concepts to internalize before touching styles:
+1. **CSS custom properties are the API.** Set `--sl-*` variables on `:root` to change every element that reads them. See [css-variables-reference.md](./references/css-variables-reference.md) for the full list.
+2. **Cascade layers determine priority.** Any CSS you add without an `@layer` block is unlayered and automatically takes precedence over Starlight's named layers.
+3. **Tailwind requires different wiring.** The `@astrojs/starlight-tailwind` compatibility package must be imported before Tailwind's own CSS or Starlight's styles break.
 
-1. **CSS custom properties are the API.** Starlight exposes ~100 CSS variables (`--sl-*`) for every visual aspect. Changing a variable changes every UI element that reads it. You don't target selectors; you set variables.
+## Approach 1: Custom CSS File
 
-2. **Cascade layers determine priority.** Starlight's styles are in a named `starlight` layer. Any CSS you add without an `@layer` block is unlayered and automatically takes precedence. This means simple overrides rarely need `!important`.
-
-3. **Tailwind and plain CSS require different wiring.** Both approaches work, but they conflict if mixed incorrectly. Choose one per project. The `@astrojs/starlight-tailwind` compatibility package is required to prevent Tailwind's Preflight reset from breaking Starlight's base styles.
-
-## Approach 1: Custom CSS File (recommended for most projects)
-
-### Step 1 — Create the CSS file
+**Step 1 — Create the file:**
 
 ```css
 /* src/styles/custom.css */
 :root {
-  /* Accent color — used for links, active nav items, buttons */
   --sl-color-accent-low: #1a1a4e;
   --sl-color-accent: #3d52d5;
   --sl-color-accent-high: #b4bffe;
-
-  /* Typography */
   --sl-font: 'Inter', sans-serif;
-  --sl-font-mono: 'JetBrains Mono', monospace;
-  --sl-text-5xl: 3.5rem;
-
-  /* Layout */
   --sl-content-width: 50rem;
-}
-```
-
-All available variables are documented in [`props.css` on GitHub](https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css). Read it to understand every variable name before writing overrides.
-
-### Step 2 — Register in `astro.config.mjs`
-
-```js
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
-
-export default defineConfig({
-  integrations: [
-    starlight({
-      title: 'My Docs',
-      customCss: [
-        './src/styles/custom.css',
-      ],
-    }),
-  ],
-});
-```
-
-### Light and dark mode variants
-
-Starlight sets `data-theme="dark"` on `<html>` in dark mode. Target it explicitly:
-
-```css
-:root[data-theme='light'] {
-  --sl-color-bg: #ffffff;
-  --sl-color-text: #111827;
 }
 
 :root[data-theme='dark'] {
   --sl-color-bg: #0f172a;
-  --sl-color-text: #e2e8f0;
 }
 ```
 
-### Cascade layer ordering (advanced)
+**Step 2 — Register in `astro.config.mjs`:**
 
-If you use `@layer` in your CSS, define the order explicitly so your overrides win:
-
-```css
-@layer my-reset, starlight, my-overrides;
+```js
+starlight({
+  customCss: ['./src/styles/custom.css'],
+})
 ```
-
-Styles in `my-overrides` take precedence over all of Starlight's layers.
 
 ## Approach 2: Tailwind CSS Integration
 
-Use this approach when the project already uses Tailwind or you want design tokens from a Tailwind theme.
-
-### New project with Tailwind
-
-```bash
-npm create astro@latest -- --template starlight/tailwind
-```
-
-### Add Tailwind to an existing Starlight project
-
-**Step 1 — Install Tailwind:**
-
 ```bash
 npx astro add tailwind
-```
-
-**Step 2 — Install the Starlight compatibility package:**
-
-```bash
 npm install @astrojs/starlight-tailwind
 ```
 
-The compatibility package maps Tailwind theme variables to Starlight's CSS custom properties and configures the `dark:` variant to match Starlight's `data-theme="dark"` mechanism.
-
-**Step 3 — Replace `src/styles/global.css`:**
+Replace `src/styles/global.css` with:
 
 ```css
 @layer base, starlight, theme, components, utilities;
@@ -133,172 +69,100 @@ The compatibility package maps Tailwind theme variables to Starlight's CSS custo
 @import '@astrojs/starlight-tailwind';
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
+
+@theme {
+  --font-sans: 'Inter';
+  --color-accent-500: var(--color-indigo-500);
+  /* Map full accent and gray scales — see references for complete example */
+}
 ```
 
-The layer order is critical. `@astrojs/starlight-tailwind` must come before Tailwind's own imports.
-
-**Step 4 — Update `astro.config.mjs`:**
+Update `astro.config.mjs`:
 
 ```js
-import { defineConfig } from 'astro/config';
-import starlight from '@astrojs/starlight';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  integrations: [
-    starlight({
-      title: 'Docs with Tailwind',
-      customCss: [
-        './src/styles/global.css',
-      ],
-    }),
-  ],
+  integrations: [starlight({ customCss: ['./src/styles/global.css'] })],
   vite: { plugins: [tailwindcss()] },
 });
 ```
 
-### Customizing Starlight via Tailwind theme
-
-Starlight reads `--color-accent-*` and `--color-gray-*` from your Tailwind `@theme` block:
-
-```css
-/* src/styles/global.css */
-@theme {
-  --font-sans: 'Inter';
-  --font-mono: 'JetBrains Mono';
-
-  /* Accent color scale — Indigo is closest to Starlight's defaults */
-  --color-accent-50: var(--color-indigo-50);
-  --color-accent-100: var(--color-indigo-100);
-  --color-accent-200: var(--color-indigo-200);
-  --color-accent-300: var(--color-indigo-300);
-  --color-accent-400: var(--color-indigo-400);
-  --color-accent-500: var(--color-indigo-500);
-  --color-accent-600: var(--color-indigo-600);
-  --color-accent-700: var(--color-indigo-700);
-  --color-accent-800: var(--color-indigo-800);
-  --color-accent-900: var(--color-indigo-900);
-  --color-accent-950: var(--color-indigo-950);
-
-  /* Gray scale — Zinc is closest to Starlight's defaults */
-  --color-gray-50: var(--color-zinc-50);
-  --color-gray-100: var(--color-zinc-100);
-  --color-gray-200: var(--color-zinc-200);
-  --color-gray-300: var(--color-zinc-300);
-  --color-gray-400: var(--color-zinc-400);
-  --color-gray-500: var(--color-zinc-500);
-  --color-gray-600: var(--color-zinc-600);
-  --color-gray-700: var(--color-zinc-700);
-  --color-gray-800: var(--color-zinc-800);
-  --color-gray-900: var(--color-zinc-900);
-  --color-gray-950: var(--color-zinc-950);
-}
-```
+See [css-variables-reference.md](./references/css-variables-reference.md) for the full Tailwind `@theme` color scale mapping.
 
 ## Custom Fonts
 
-### Option A: Fontsource (recommended — zero build config)
+**Fontsource (recommended):**
 
 ```bash
 npm install @fontsource/inter
 ```
 
 ```js
-// astro.config.mjs
-customCss: [
-  '@fontsource/inter/400.css',
-  '@fontsource/inter/600.css',
-],
+customCss: ['@fontsource/inter/400.css', '@fontsource/inter/600.css'],
 ```
 
 ```css
-/* src/styles/custom.css */
-:root {
-  --sl-font: 'Inter', sans-serif;
-}
+:root { --sl-font: 'Inter', sans-serif; }
 ```
 
-### Option B: Local font files
-
-```css
-/* src/fonts/font-face.css */
-@font-face {
-  font-family: 'Custom Font';
-  src: url('./CustomFont.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-```
-
-Register and apply:
-
-```js
-customCss: ['./src/fonts/font-face.css'],
-```
-
-```css
-:root {
-  --sl-font: 'Custom Font', sans-serif;
-}
-```
+**Local files:** Use `@font-face` with `font-display: swap` and register via `customCss`.
 
 ## Color Theme Editor
 
-Use the interactive [Starlight color theme editor](https://starlight.astro.build/guides/css-and-tailwind/#theming) to generate CSS or Tailwind variables for any color palette without manual color math. Copy the output directly into your custom CSS or Tailwind `@theme` block.
+Use the [Starlight color theme editor](https://starlight.astro.build/guides/css-and-tailwind/#theming) to generate accent/gray palettes without manual color math.
 
 ## Anti-Patterns
 
-### NEVER override Starlight styles without registering in `customCss`
+### NEVER override Starlight styles without the `customCss` array
 
-**WHY:** Global `<style>` tags or CSS files not listed in `customCss` are not included in the Starlight build.
+**WHY:** CSS files not registered in `customCss` are excluded from the Starlight build.
 
-**BAD:** Add a `<style>` block in a layout component to change global colors.
-**GOOD:** Register a CSS file in the `customCss` array in `astro.config.mjs`.
+**BAD:** Add a `<style>` block in a layout component.
+**GOOD:** Register a CSS file in `customCss` in `astro.config.mjs`.
 
-**Consequence:** Styles are silently ignored — the site looks unchanged.
+**Consequence:** Styles are silently ignored.
 
 ### NEVER add raw Tailwind imports without the compatibility layer
 
-**WHY:** Tailwind's default Preflight reset conflicts with Starlight's base styles. The `@astrojs/starlight-tailwind` import reconciles both.
+**WHY:** Tailwind's Preflight reset conflicts with Starlight's base styles.
 
-**BAD:** Import `tailwindcss` directly without importing `@astrojs/starlight-tailwind` first.
-**GOOD:** Layer order: `@import '@astrojs/starlight-tailwind'` before Tailwind's own imports.
+**BAD:** Import `tailwindcss` without importing `@astrojs/starlight-tailwind` first.
+**GOOD:** `@import '@astrojs/starlight-tailwind'` before Tailwind imports.
 
-**Consequence:** Visual regressions in Starlight's UI, broken dark mode toggle behavior.
+**Consequence:** Visual regressions, broken dark mode toggle.
 
 ### NEVER use `.dark` class selectors for dark mode
 
-**WHY:** Starlight manages dark mode via `data-theme="dark"` on `<html>`, not Tailwind's `.dark` class. The compatibility package configures Tailwind's `dark:` variant accordingly, but raw `.dark` selectors will never match.
+**WHY:** Starlight uses `data-theme="dark"` on `<html>`, not a `.dark` class.
 
-**BAD:** Write `.dark:bg-gray-900` expecting it to react to Starlight's dark mode toggle.
-**GOOD:** Install the compatibility package and use Tailwind's `dark:` variants normally, or target `[data-theme='dark']` in plain CSS.
+**BAD:** `.dark:bg-gray-900` (never matches)
+**GOOD:** Install `@astrojs/starlight-tailwind` and use `dark:` variants normally.
 
 **Consequence:** Dark mode styles never activate.
 
 ### NEVER mix `--sl-*` variables with Tailwind `@theme` overrides
 
-**WHY:** The two systems map to each other through `@astrojs/starlight-tailwind`. Setting both `--sl-color-accent` in CSS and `--color-accent-500` in `@theme` produces conflicting sources of truth that override each other unpredictably.
+**WHY:** The two systems map to each other through `@astrojs/starlight-tailwind`. Setting both creates conflicting sources of truth.
 
-**BAD:** Set `--sl-color-accent` in a CSS file while also defining `--color-accent-*` in `@theme`.
-**GOOD:** Choose one approach (plain CSS variables or Tailwind theme values) and apply all overrides through that approach only.
+**BAD:** Set `--sl-color-accent` in CSS while also defining `--color-accent-*` in `@theme`.
+**GOOD:** Choose one approach and apply all overrides through it.
 
-**Consequence:** Colors appear differently in light vs. dark mode or only partially apply.
+**Consequence:** Colors partially apply or behave differently in light vs. dark mode.
 
 ### NEVER forget `font-display: swap` in custom `@font-face`
 
-**WHY:** Without `font-display: swap`, browsers may block rendering until the custom font downloads. Starlight sites are often documentation — slow initial render hurts usability significantly.
+**WHY:** Without it, browsers may block rendering until the font downloads.
 
-**BAD:** `@font-face { font-family: 'Custom'; src: url('...'); }`
-**GOOD:** Add `font-display: swap;` to every `@font-face` rule.
+**BAD:** `@font-face { font-family: 'X'; src: url('...'); }`
+**GOOD:** Add `font-display: swap;` to every `@font-face`.
 
 **Consequence:** Flash of invisible text (FOIT) on slower connections.
 
 ## References
 
+- [CSS Variables Reference](./references/css-variables-reference.md)
 - [CSS & Styling Guide](https://starlight.astro.build/guides/css-and-tailwind/)
-- [Customizing Starlight](https://starlight.astro.build/guides/customization/)
 - [Starlight CSS variables (props.css)](https://github.com/withastro/starlight/blob/main/packages/starlight/style/props.css)
 - [Color Theme Editor](https://starlight.astro.build/guides/css-and-tailwind/#theming)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs/theme)
 - [Fontsource](https://fontsource.org/)

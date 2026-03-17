@@ -1,19 +1,93 @@
 {
   "skill": "starlight-base",
   "instructions": [
-    "Use `npm create astro@latest -- --template starlight` to scaffold a new Starlight project",
-    "Use `npx astro add starlight` to add Starlight to an existing Astro project",
-    "All Starlight options live inside `starlight({})` in `astro.config.mjs`",
-    "Content pages must be placed under `src/content/docs/`",
-    "File paths under `src/content/docs/` map 1:1 to URL routes",
-    "Sidebar `slug` values must not have leading slashes or file extensions",
-    "Use `items` for explicit sidebar entries and `autogenerate` for directory-based entries",
-    "Never mix `items` and `autogenerate` in the same sidebar group",
-    "Set `site` URL at `defineConfig` level (not inside `starlight({})`) for sitemap generation",
-    "Use `replacesTitle: true` on `logo` when the logo image already includes the site name",
-    "Use `logo.light` and `logo.dark` for separate light/dark logo variants (mutually exclusive with `logo.src`)",
-    "Use `draft: true` in frontmatter to exclude pages from production builds",
-    "Use `template: splash` for full-width landing pages without sidebars",
-    "Run `npx @astrojs/upgrade` to keep Starlight up to date"
+    {
+      "id": "scaffold-template",
+      "text": "Use `npm create astro@latest -- --template starlight` to scaffold a new Starlight project",
+      "why_given": "new knowledge",
+      "original_snippets": ["npm create astro@latest -- --template starlight"]
+    },
+    {
+      "id": "add-to-existing",
+      "text": "Use `npx astro add starlight` to add Starlight to an existing Astro project",
+      "why_given": "new knowledge",
+      "original_snippets": ["npx astro add starlight"]
+    },
+    {
+      "id": "one-config-object",
+      "text": "All Starlight options live inside `starlight({})` in `astro.config.mjs`",
+      "why_given": "new knowledge",
+      "original_snippets": ["starlight({})"]
+    },
+    {
+      "id": "content-location",
+      "text": "Content pages must be placed under `src/content/docs/`",
+      "why_given": "new knowledge",
+      "original_snippets": ["src/content/docs/"]
+    },
+    {
+      "id": "file-path-routing",
+      "text": "File paths under `src/content/docs/` map 1:1 to URL routes",
+      "why_given": "new knowledge",
+      "original_snippets": ["File path = URL route"]
+    },
+    {
+      "id": "slug-format",
+      "text": "Sidebar `slug` values must not have leading slashes or file extensions",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER hard-code sidebar slugs with leading slashes"
+      ]
+    },
+    {
+      "id": "sidebar-items-vs-autogenerate",
+      "text": "Use `items` for explicit sidebar entries and `autogenerate` for directory-based entries — never mix both in the same group",
+      "why_given": "new knowledge",
+      "original_snippets": ["NEVER mix `autogenerate` with `items`"]
+    },
+    {
+      "id": "site-at-defineconfig",
+      "text": "Set `site` URL at `defineConfig` level (not inside `starlight({})`) for sitemap generation",
+      "why_given": "new knowledge",
+      "original_snippets": ["NEVER set `site` inside `starlight({})`"]
+    },
+    {
+      "id": "logo-variants-exclusive",
+      "text": "Use either `logo.src` alone or `logo.light` + `logo.dark` together — they are mutually exclusive",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER use `src` inside `logo` alongside `light`/`dark`"
+      ]
+    },
+    {
+      "id": "replacesTitle",
+      "text": "Set `replacesTitle: true` on `logo` when the logo image already includes the site name",
+      "why_given": "preference",
+      "original_snippets": ["replacesTitle: true"]
+    },
+    {
+      "id": "draft-pages",
+      "text": "Use `draft: true` in frontmatter to exclude pages from production builds",
+      "why_given": "new knowledge",
+      "original_snippets": ["draft: true"]
+    },
+    {
+      "id": "splash-template",
+      "text": "Use `template: splash` for full-width landing pages without sidebars",
+      "why_given": "new knowledge",
+      "original_snippets": ["template: splash"]
+    },
+    {
+      "id": "upgrade-command",
+      "text": "Run `npx @astrojs/upgrade` to keep Starlight up to date",
+      "why_given": "new knowledge",
+      "original_snippets": ["npx @astrojs/upgrade"]
+    },
+    {
+      "id": "sidebar-routing-independent",
+      "text": "Sidebar entries and page routing are independent — a page can exist without a sidebar entry and vice versa",
+      "why_given": "new knowledge",
+      "original_snippets": ["Sidebar and routing are independent"]
+    }
   ]
 }
