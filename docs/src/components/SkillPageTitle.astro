@@ -43,14 +43,18 @@ const gradeClass = grade
 {
   isSkillPage ? (
     <div class="sk-header">
-      {grade && (
-        <div class:list={["sk-grade", gradeClass]}>
+      <div class:list={["sk-grade", grade ? gradeClass : "sk-grade--na"]}>
+        {grade ? (
           <svg class="sk-grade__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
             <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor"/>
           </svg>
-          <span class="sk-grade__text">{grade}</span>
-        </div>
-      )}
+        ) : (
+          <svg class="sk-grade__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+            <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="var(--tk-bg)" stroke="var(--tk-color-white)" stroke-width="1.5"/>
+          </svg>
+        )}
+        <span class="sk-grade__text">{grade ?? "N/A"}</span>
+      </div>
 
       <div class="sk-header__body">
         <div class="sk-header__badges">
@@ -150,6 +154,11 @@ const gradeClass = grade
   .sk-grade.skill-badge--d-minus { color: var(--badge-d-minus-bg); }
   .sk-grade.skill-badge--f      { color: var(--badge-f-bg); }
   .sk-grade.skill-badge--unknown { color: #6b7280; }
+
+  .sk-grade--na .sk-grade__text {
+    color: var(--tk-color-white);
+    font-size: 1rem;
+  }
 
   .sk-header__body {
     flex: 1;
