@@ -86,12 +86,12 @@ const gradeClass = grade
           <div class="sk-install" data-install={installSlug}>
             <div class="sk-install__tabs">
               {tessInstallCmd && (
-                <button class="sk-install__tab sk-install__tab--active" data-tab="tessl">npx tessl</button>
+                <button class="sk-install__tab sk-install__tab--active" data-install-tab="tessl">npx tessl</button>
               )}
-              <button class:list={["sk-install__tab", !tessInstallCmd && "sk-install__tab--active"]} data-tab="skills">npx skills</button>
+              <button class:list={["sk-install__tab", !tessInstallCmd && "sk-install__tab--active"]} data-install-tab="skills">npx skills</button>
             </div>
             {tessInstallCmd && (
-              <div class="sk-install__panel sk-install__panel--active" data-panel="tessl">
+              <div class="sk-install__panel sk-install__panel--active" data-install-panel="tessl">
                 <code class="sk-install__cmd">{tessInstallCmd}</code>
                 <button
                   class="sk-install__copy"
@@ -103,7 +103,7 @@ const gradeClass = grade
                 </button>
               </div>
             )}
-            <div class:list={["sk-install__panel", !tessInstallCmd && "sk-install__panel--active"]} data-panel="skills">
+            <div class:list={["sk-install__panel", !tessInstallCmd && "sk-install__panel--active"]} data-install-panel="skills">
               <code class="sk-install__cmd">npx skills add github:pantheon-org/tekhne --skill {installSlug}</code>
               <button
                 class="sk-install__copy"
@@ -350,12 +350,12 @@ const gradeClass = grade
   document.querySelectorAll<HTMLElement>(".sk-install").forEach((block) => {
     block.querySelectorAll<HTMLButtonElement>(".sk-install__tab").forEach((tab) => {
       tab.addEventListener("click", () => {
-        const target = tab.dataset.tab;
+        const target = tab.dataset.installTab;
         block.querySelectorAll<HTMLButtonElement>(".sk-install__tab").forEach((t) => {
           t.classList.toggle("sk-install__tab--active", t === tab);
         });
         block.querySelectorAll<HTMLElement>(".sk-install__panel").forEach((panel) => {
-          panel.classList.toggle("sk-install__panel--active", panel.dataset.panel === target);
+          panel.classList.toggle("sk-install__panel--active", panel.dataset.installPanel === target);
         });
       });
     });
