@@ -1,0 +1,81 @@
+{
+  "skill": "starlight-custom-component",
+  "instructions": [
+    {
+      "id": "register-in-components",
+      "text": "Register component overrides in `components: {}` inside `starlight({})` in `astro.config.mjs`",
+      "why_given": "new knowledge",
+      "original_snippets": ["components: { Footer: '...' }"]
+    },
+    {
+      "id": "exact-component-key",
+      "text": "Use the exact component name from the Overrides Reference as the key in `components: {}`",
+      "why_given": "new knowledge",
+      "original_snippets": ["NEVER rely on file name to determine which slot"]
+    },
+    {
+      "id": "relative-path",
+      "text": "Component paths must use relative format starting with `./` — no leading slash",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER register a component path with a leading slash"
+      ]
+    },
+    {
+      "id": "import-default",
+      "text": "Import the default component from `@astrojs/starlight/components/<Name>.astro` to wrap rather than replace",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "import Default from '@astrojs/starlight/components/Header.astro'"
+      ]
+    },
+    {
+      "id": "slot-required",
+      "text": "Always include `<slot />` inside `<Default>` when wrapping a built-in component",
+      "why_given": "new knowledge",
+      "original_snippets": ["NEVER omit `<slot />` when wrapping"]
+    },
+    {
+      "id": "named-slots",
+      "text": "Transfer named slots explicitly on layout components (PageFrame, TwoColumnContent)",
+      "why_given": "new knowledge",
+      "original_snippets": ["NEVER forget to transfer named slots"]
+    },
+    {
+      "id": "use-locals",
+      "text": "Access page data via `Astro.locals.starlightRoute`, not via `Astro.props`",
+      "why_given": "new knowledge",
+      "original_snippets": ["NEVER access page data via `Astro.props`"]
+    },
+    {
+      "id": "title-access",
+      "text": "Use `Astro.locals.starlightRoute.entry.data.title` for the page title",
+      "why_given": "new knowledge",
+      "original_snippets": ["Astro.locals.starlightRoute.entry.data"]
+    },
+    {
+      "id": "id-for-page-check",
+      "text": "Use `Astro.locals.starlightRoute.id` to check the current page slug; homepage has `id === ''`",
+      "why_given": "new knowledge",
+      "original_snippets": ["Astro.locals.starlightRoute.id === ''"]
+    },
+    {
+      "id": "public-api-only",
+      "text": "NEVER import or override components not listed in the official Overrides Reference",
+      "why_given": "new knowledge",
+      "original_snippets": ["NEVER import component internals not listed"]
+    },
+    {
+      "id": "wrap-dont-replace",
+      "text": "Prefer wrapping (importing Default and rendering it) over full replacement for forward compatibility",
+      "why_given": "preference",
+      "original_snippets": ["Wrap, don't replace"]
+    },
+    {
+      "id": "named-slots-silent",
+      "text": "Omitting named slot transfers on layout components silently drops content — no error is thrown",
+      "why_given": "new knowledge",
+      "original_snippets": ["silently drops content"]
+    }
+  ]
+}

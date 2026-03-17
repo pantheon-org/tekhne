@@ -1,0 +1,19 @@
+{
+  "checklist": [
+    {
+      "id": "identifies-leading-slash",
+      "description": "Identifies the leading slash (`/`) as an error",
+      "max_score": 30
+    },
+    {
+      "id": "identifies-extension",
+      "description": "Identifies the `.md` extension as an error",
+      "max_score": 30
+    },
+    {
+      "id": "correct-fix",
+      "description": "Provides corrected slug: `'guides/setup'` (no slash, no extension)",
+      "max_score": 40
+    }
+  ]
+}

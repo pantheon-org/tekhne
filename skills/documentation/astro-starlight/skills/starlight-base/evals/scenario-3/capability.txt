@@ -1,0 +1,1 @@
+Diagnoses the common slug format mistake and provides the correct format.

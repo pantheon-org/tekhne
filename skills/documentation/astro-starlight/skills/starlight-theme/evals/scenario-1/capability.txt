@@ -1,0 +1,1 @@
+Knows the correct mechanism to apply global color overrides via CSS custom properties and customCss registration.
