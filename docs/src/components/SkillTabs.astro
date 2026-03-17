@@ -122,11 +122,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         >
           <Icon name="lucide:activity" size={14} aria-hidden="true" />
           Audit
-          {latestGrade && (
-            <span class:list={["skill-badge", gradeClass(latestGrade)]}>
-              {latestGrade}
-            </span>
-          )}
           {auditCount > 0 && (
             <span class="sk-tabs__count">{auditCount}</span>
           )}
