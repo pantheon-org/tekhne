@@ -1,4 +1,4 @@
-# P03T03 — replace-sl-utility-classes
+# P03T03 — Replace Starlight utility classes
 
 ## Phase
 
@@ -6,47 +6,55 @@ Phase 03 — CSS Token Migration
 
 ## Goal
 
-Replace every Starlight utility class (`.sl-*`, `.not-content`, etc.) used in Astro component `class=` attributes or CSS rules with either plain semantic class names or inline styles, eliminating all runtime dependency on Starlight's stylesheet.
+Replace all `sl-hidden`, `lg:sl-block`, and other Starlight utility class
+references with plain CSS media queries so that no Starlight-specific class names
+remain in the source.
 
 ## File to create / modify
 
 ```
-docs/src/components/*.astro
-docs/src/layouts/*.astro
-docs/src/pages/*.astro
+src/components/*.astro   (any that use Starlight utility classes)
+src/styles/custom.css    (if utility classes referenced here)
 ```
 
 ## Implementation
-
-Identify all `.sl-*` class usages:
-
-```sh
-grep -rn --include="*.astro" -E 'class="[^"]*sl-|sl-[a-z-]+ ' docs/src/
-```
 
 Common replacements:
 
 | Starlight class | Replacement |
 |---|---|
-| `sl-flex` | `style="display:flex"` or custom `.flex` in base.css |
-| `sl-hidden` | `style="display:none"` or `hidden` attribute |
-| `not-content` | Remove (Starlight uses this to exclude from prose styling; our base.css doesn't have `.content` scoping) |
-| `sl-sidebar-item` | Replace with semantic `.nav-item` class defined in LeftNav |
-| `sl-badge` | Replace with `.badge` class defined in base.css |
+| `sl-hidden` | `display: none` inline or dedicate a `.visually-hidden` utility |
+| `lg:sl-block` | `@media (min-width: 72rem) { display: block; }` in `<style>` |
+| `lg:sl-flex` | `@media (min-width: 72rem) { display: flex; }` |
+| `sl-sr-only` | `.sr-only { position: absolute; width: 1px; … }` in `base.css` |
 
-For each occurrence: read the component, understand the Starlight class's visual intent, apply the equivalent using our own classes or inline styles.
+Steps:
+
+1. Find all usages:
+
+```sh
+grep -rn "sl-hidden\|sl-block\|lg:sl-\|sl-sr-only\|sl-flex" src/ \
+  --include="*.astro" --include="*.css"
+```
+
+2. For each hit, replace the class with an equivalent `<style>` rule or an
+   inline style, following the table above.
+
+3. If `sr-only` (screen-reader-only) utilities are needed in more than one
+   component, add a shared `.sr-only` rule to `base.css` instead of duplicating
+   it per component.
 
 ## Notes
 
-- `.not-content` is a Starlight escape hatch; after removing Starlight's global styles it has no effect and can be safely deleted.
-- Do not introduce new utility class proliferation — prefer adding a small named class to the component's `<style>` block.
-- If a Starlight class does not have a natural equivalent, add the CSS rule to `base.css` under a semantic name.
+- Breakpoint for Starlight's `lg:` prefix is `72rem` — confirm from Starlight
+  source before replacing.
 
 ## Verification
 
 ```sh
-cd docs
-grep -rn --include="*.astro" -E 'class="[^"]*\bsl-|\bsl-[a-z-]+' src/ \
-  && echo "FAIL: .sl-* classes remain" || echo "ok"
-bunx astro check 2>&1 | grep -E "(error|Error)" | head -10
+grep -rn "sl-hidden\|lg:sl-\|sl-sr-only" src/ --include="*.astro" --include="*.css" \
+  && echo "FAIL: utility classes remain" && exit 1 \
+  || echo "ok"
+bunx astro build 2>&1 | grep -i "error" | grep -v "^$" | wc -l \
+  | xargs -I{} test {} -eq 0 && echo "build ok"
 ```

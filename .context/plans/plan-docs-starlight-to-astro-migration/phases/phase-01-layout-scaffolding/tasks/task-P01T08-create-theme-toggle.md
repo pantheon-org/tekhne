@@ -1,4 +1,4 @@
-# P01T08 — Create `ThemeToggle.astro`
+# P01T08 — Create `src/components/ThemeToggle.astro`
 
 ## Phase
 
@@ -6,7 +6,8 @@ Phase 01 — Layout Scaffolding
 
 ## Goal
 
-Create `docs/src/components/ThemeToggle.astro` — a sun/moon icon button that toggles `data-theme` on `<html>` and persists the choice to `localStorage`.
+Create `docs/src/components/ThemeToggle.astro` — a sun/moon icon button that
+toggles `data-theme` on `<html>` and persists the choice in `localStorage`.
 
 ## File to create / modify
 
@@ -18,69 +19,63 @@ docs/src/components/ThemeToggle.astro
 
 ```astro
 ---
-// No server-side props needed; all state is client-side
 ---
 
 <button
   id="theme-toggle"
   aria-label="Toggle theme"
-  class="theme-toggle"
-  type="button"
+  title="Toggle theme"
 >
-  <span class="icon icon-dark" aria-hidden="true">🌙</span>
-  <span class="icon icon-light" aria-hidden="true">☀️</span>
+  <span class="icon-sun" aria-hidden="true">&#9728;</span>
+  <span class="icon-moon" aria-hidden="true">&#9790;</span>
 </button>
 
 <script>
   const btn = document.getElementById("theme-toggle");
+  const html = document.documentElement;
+
+  const apply = (theme: string) => {
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("tk-theme", theme);
+  };
+
   if (btn) {
     btn.addEventListener("click", () => {
-      const html = document.documentElement;
-      const current = html.getAttribute("data-theme") ?? "dark";
-      const next = current === "dark" ? "light" : "dark";
-      html.setAttribute("data-theme", next);
-      localStorage.setItem("tk-theme", next);
+      apply(html.getAttribute("data-theme") === "dark" ? "light" : "dark");
     });
   }
 </script>
 
 <style>
-  .theme-toggle {
+  button {
     background: none;
     border: 1px solid var(--tk-border);
-    border-radius: 6px;
-    padding: 0.3rem 0.5rem;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.5rem;
     cursor: pointer;
     color: var(--tk-text);
+    font-size: 1rem;
     line-height: 1;
   }
 
-  .theme-toggle:hover {
-    background: var(--tk-bg-subtle);
+  button:hover {
+    background: var(--tk-bg-hover);
   }
 
-  .icon-light {
-    display: none;
-  }
-
-  [data-theme="light"] .icon-dark {
-    display: none;
-  }
-
-  [data-theme="light"] .icon-light {
-    display: inline;
-  }
+  [data-theme="dark"] .icon-sun  { display: none; }
+  [data-theme="light"] .icon-moon { display: none; }
 </style>
 ```
 
 ## Notes
 
-- The `localStorage` key `"tk-theme"` must match the key read in the `BaseLayout` FOUT-prevention inline script.
-- Replace emoji icons with SVG in Phase 4 if desired; the logic is identical.
+- The initial `data-theme` is set by the inline script in `BaseLayout.astro` before first paint — this component just toggles it.
+- Uses Unicode sun/moon glyphs; replace with SVG icons if a design system is added later.
 
 ## Verification
 
 ```sh
-test -f docs/src/components/ThemeToggle.astro
-grep 'tk-theme' docs/src/components/ThemeToggle.astro
+test -f docs/src/components/ThemeToggle.astro && echo ok
+grep "localStorage" docs/src/components/ThemeToggle.astro
+grep "data-theme" docs/src/components/ThemeToggle.astro
 ```

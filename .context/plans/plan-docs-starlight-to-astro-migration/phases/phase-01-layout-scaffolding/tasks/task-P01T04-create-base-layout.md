@@ -1,4 +1,4 @@
-# P01T04 — Create `BaseLayout.astro`
+# P01T04 — Create `src/layouts/BaseLayout.astro`
 
 ## Phase
 
@@ -6,7 +6,8 @@ Phase 01 — Layout Scaffolding
 
 ## Goal
 
-Create `docs/src/layouts/BaseLayout.astro` as the HTML shell for all pages, with FOUT-prevention inline script, stylesheet imports via Astro asset handling, and named slots for `header` and default content.
+Create `docs/src/layouts/BaseLayout.astro` — the HTML shell with theme-init
+script, CSS imports, slots, and Vite-safe asset paths.
 
 ## File to create / modify
 
@@ -25,31 +26,32 @@ interface Props {
   title: string;
   description?: string;
 }
+
 const { title, description = "Tekhne — Agent skill library" } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} | Tekhne</title>
     <link rel="stylesheet" href={tokensUrl} />
     <link rel="stylesheet" href={baseUrl} />
-    <!-- Flash-of-wrong-theme prevention: runs synchronously before first paint -->
+    <!-- Inline theme-init: must run before any CSS renders to prevent FOUT -->
     <script is:inline>
       (function () {
-        var stored = localStorage.getItem("tk-theme");
-        var preferred = stored
-          || (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
-        document.documentElement.setAttribute("data-theme", preferred);
+        const stored = localStorage.getItem("tk-theme");
+        const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+        document.documentElement.setAttribute("data-theme", stored || preferred);
       })();
     </script>
   </head>
   <body>
-    <header>
-      <slot name="header" />
-    </header>
+    <slot name="header" />
     <slot />
   </body>
 </html>
@@ -57,15 +59,14 @@ const { title, description = "Tekhne — Agent skill library" } = Astro.props;
 
 ## Notes
 
-- Use `?url` suffix (Vite asset import) to resolve stylesheet hrefs through Vite's asset pipeline; this ensures the `base: "/tekhne"` prefix is applied correctly. Do **not** hardcode `/tekhne/styles/...` paths.
-- The inline `<script is:inline>` runs synchronously before any CSS is parsed, preventing flash of wrong theme.
-- The script reads `localStorage.getItem("tk-theme")` first; falls back to `prefers-color-scheme`.
+- Use `?url` Vite import suffix so paths go through Vite asset handling and respect `base: "/tekhne"` in `astro.config.mjs`.
+- `is:inline` on the theme-init script prevents Astro from hoisting it — it must execute synchronously before the first CSS render.
+- The `header` named slot is filled by `DocsLayout` / `SkillLayout` to inject the site header.
 
 ## Verification
 
 ```sh
-test -f docs/src/layouts/BaseLayout.astro
-grep 'is:inline' docs/src/layouts/BaseLayout.astro
-grep '?url' docs/src/layouts/BaseLayout.astro
-cd docs && bun run build
+grep "is:inline" docs/src/layouts/BaseLayout.astro
+grep "data-theme" docs/src/layouts/BaseLayout.astro
+grep "?url" docs/src/layouts/BaseLayout.astro
 ```

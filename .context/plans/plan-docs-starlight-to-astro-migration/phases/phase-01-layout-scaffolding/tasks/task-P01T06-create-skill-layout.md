@@ -1,4 +1,4 @@
-# P01T06 — Create `SkillLayout.astro`
+# P01T06 — Create `src/layouts/SkillLayout.astro`
 
 ## Phase
 
@@ -6,7 +6,8 @@ Phase 01 — Layout Scaffolding
 
 ## Goal
 
-Create `docs/src/layouts/SkillLayout.astro` as a three-column layout (`LeftNav` + content + right sidebar) for skill pages and their reference sub-pages, with an `entry` prop passed through to child components.
+Create `docs/src/layouts/SkillLayout.astro` — a three-column layout (LeftNav +
+content + right sidebar) for skill pages and reference sub-pages.
 
 ## File to create / modify
 
@@ -24,82 +25,71 @@ import LeftNav from "../components/LeftNav.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import NavToggle from "../components/NavToggle.astro";
 import SkillPageTitle from "../components/SkillPageTitle.astro";
-import SkillTabs from "../components/SkillTabs.astro";
 import SkillSidebar from "../components/SkillSidebar.astro";
 
 interface Props {
   entry: CollectionEntry<"docs">;
 }
+
 const { entry } = Astro.props;
 ---
-<BaseLayout title={entry.data.title}>
-  <Fragment slot="header">
-    <nav class="site-header">
-      <NavToggle />
-      <a href={import.meta.env.BASE_URL} class="site-title">Tekhne</a>
-      <ThemeToggle />
-    </nav>
-  </Fragment>
 
-  <div class="skill-layout">
-    <LeftNav currentPath={Astro.url.pathname} />
-    <main class="skill-content" data-pagefind-body data-pagefind-meta="type:skill">
+<BaseLayout title={entry.data.title}>
+  <header slot="header">
+    <NavToggle />
+    <a href={`${import.meta.env.BASE_URL}/`}>Tekhne</a>
+    <ThemeToggle />
+  </header>
+  <div class="layout">
+    <LeftNav />
+    <main data-pagefind-body data-pagefind-meta="type:skill">
       <SkillPageTitle entry={entry} />
-      <SkillTabs entry={entry}>
-        <slot />
-      </SkillTabs>
+      <slot />
     </main>
-    <aside class="skill-sidebar">
+    <aside class="right-sidebar">
       <SkillSidebar entry={entry} />
     </aside>
   </div>
 </BaseLayout>
 
 <style>
-  .site-header {
+  header {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.75rem 1.5rem;
-    background: var(--tk-bg-surface);
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
     border-bottom: 1px solid var(--tk-border);
+    background: var(--tk-bg-surface);
   }
 
-  .site-title {
-    font-weight: 600;
-    text-decoration: none;
-    color: var(--tk-text);
-    margin-right: auto;
-  }
-
-  .skill-layout {
+  .layout {
     display: grid;
-    grid-template-columns: 260px 1fr 220px;
+    grid-template-columns: 16rem 1fr 14rem;
     min-height: calc(100vh - 3.5rem);
   }
 
-  .skill-content {
+  main {
     padding: 2rem;
-    overflow-x: hidden;
+    overflow: auto;
   }
 
-  .skill-sidebar {
+  .right-sidebar {
     border-left: 1px solid var(--tk-border);
     padding: 1.5rem 1rem;
-    overflow-y: auto;
+    overflow: auto;
   }
 
   @media (max-width: 1024px) {
-    .skill-layout {
-      grid-template-columns: 260px 1fr;
+    .layout {
+      grid-template-columns: 16rem 1fr;
     }
-    .skill-sidebar {
+    .right-sidebar {
       display: none;
     }
   }
 
   @media (max-width: 768px) {
-    .skill-layout {
+    .layout {
       grid-template-columns: 1fr;
     }
   }
@@ -108,12 +98,13 @@ const { entry } = Astro.props;
 
 ## Notes
 
-- The `entry` prop flows through to `SkillPageTitle`, `SkillTabs`, and `SkillSidebar` — all three must accept `entry: CollectionEntry<"docs">` as a prop (done in Phase 2 P02T02).
-- `data-pagefind-meta="type:skill"` on `<main>` enables Pagefind skill filtering (Phase 4).
+- `SkillPageTitle` and `SkillSidebar` still consume `Astro.locals.starlightRoute` until Phase 2 task P02T02 refactors them. This layout passes `entry` as a prop — the components will be updated in Phase 2 to accept it.
+- `data-pagefind-meta="type:skill"` added here; Phase 4 (P04T04) wires the actual Pagefind integration.
 
 ## Verification
 
 ```sh
-test -f docs/src/layouts/SkillLayout.astro
-grep 'CollectionEntry' docs/src/layouts/SkillLayout.astro
+test -f docs/src/layouts/SkillLayout.astro && echo ok
+grep "SkillSidebar" docs/src/layouts/SkillLayout.astro
+grep "three-column\|grid-template-columns: 16rem" docs/src/layouts/SkillLayout.astro
 ```

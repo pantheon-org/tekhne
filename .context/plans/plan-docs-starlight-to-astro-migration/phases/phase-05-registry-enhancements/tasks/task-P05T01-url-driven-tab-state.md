@@ -1,4 +1,4 @@
-# P05T01 — url-driven-tab-state
+# P05T01 — URL-driven tab state
 
 ## Phase
 
@@ -6,74 +6,64 @@ Phase 05 — Registry Enhancements
 
 ## Goal
 
-Add URL-driven tab/section state to skill pages so that the active tab (e.g. Overview, References, Examples) is reflected in the URL hash and is bookmarkable and shareable.
+On skill page tab clicks, update the URL with `?tab=skill|audit|evals|refs`
+via `history.replaceState`, and on page load read the `?tab` param to activate
+the correct tab and dispatch a `sk-tab-change` event.
 
 ## File to create / modify
 
 ```
-docs/src/components/TabGroup.astro   (CREATE)
-docs/src/layouts/SkillLayout.astro   (integrate TabGroup if applicable)
+src/components/SkillTabs.astro
 ```
 
 ## Implementation
 
-Create a `TabGroup.astro` component that reads the initial tab from `location.hash` and updates the hash on tab change:
+Add to the `<script>` block in `SkillTabs.astro`:
 
-```astro
----
-interface Props {
-  tabs: Array<{ id: string; label: string }>;
+```js
+const TABS = ["skill", "audit", "evals", "refs"];
+
+function activateTab(name) {
+  TABS.forEach((t) => {
+    const btn = document.querySelector(`[data-tab="${t}"]`);
+    const panel = document.getElementById(`tab-panel-${t}`);
+    if (!btn || !panel) return;
+    const active = t === name;
+    btn.setAttribute("aria-selected", String(active));
+    panel.hidden = !active;
+  });
+  document.dispatchEvent(new CustomEvent("sk-tab-change", { detail: { tab: name } }));
 }
-const { tabs } = Astro.props;
----
-<div class="tab-group">
-  <ul role="tablist" class="tab-list">
-    {tabs.map((tab) => (
-      <li role="presentation">
-        <button
-          id={`tab-${tab.id}`}
-          role="tab"
-          aria-controls={`panel-${tab.id}`}
-          class="tab-btn"
-          data-tab={tab.id}
-        >
-          {tab.label}
-        </button>
-      </li>
-    ))}
-  </ul>
-  <slot />
-</div>
 
-<script>
-const tabs = document.querySelectorAll<HTMLButtonElement>("[role=tab]");
-const panels = document.querySelectorAll<HTMLElement>("[role=tabpanel]");
+// Activate from URL on load
+const initialTab = new URLSearchParams(location.search).get("tab");
+if (initialTab && TABS.includes(initialTab)) {
+  activateTab(initialTab);
+} else {
+  activateTab(TABS[0]);
+}
 
-const activate = (id: string) => {
-  tabs.forEach((t) => t.setAttribute("aria-selected", t.dataset.tab === id ? "true" : "false"));
-  panels.forEach((p) => { p.hidden = p.id !== `panel-${id}`; });
-  history.replaceState(null, "", `#${id}`);
-};
-
-tabs.forEach((t) => t.addEventListener("click", () => activate(t.dataset.tab!)));
-
-const initial = location.hash.slice(1);
-const validIds = Array.from(tabs).map((t) => t.dataset.tab!);
-activate(validIds.includes(initial) ? initial : validIds[0]);
-</script>
+// On click, update URL and activate
+document.querySelectorAll("[data-tab]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const tab = btn.dataset.tab;
+    history.replaceState(null, "", `?tab=${tab}`);
+    activateTab(tab);
+  });
+});
 ```
 
 ## Notes
 
-- `history.replaceState` (not `pushState`) avoids polluting browser history with tab changes.
-- The initial hash read must happen client-side only; Astro SSG renders with no hash awareness.
-- If skill pages do not currently use tabs, this component can be deferred until tab-based content is introduced. The task still creates the component for future use.
-- Keyboard navigation: arrow keys should move focus between tabs per ARIA authoring practices (add `keydown` handler for ArrowLeft/ArrowRight).
+- Use `replaceState` (not `pushState`) to avoid polluting the browser history
+  for tab switches on the same page.
+- Tabs must use `role="tab"`, `aria-selected`, and `aria-controls` for
+  accessibility.
 
 ## Verification
 
 ```sh
-cd docs
-[ -f src/components/TabGroup.astro ] && echo "TabGroup.astro exists" || echo "FAIL"
-bunx astro check 2>&1 | grep -E "(error|Error)" | head -10
+bunx astro build 2>&1 | grep -i "error" | grep -v "^$" | wc -l \
+  | xargs -I{} test {} -eq 0 && echo "build ok"
+grep "replaceState\|sk-tab-change" src/components/SkillTabs.astro && echo "URL state present"
 ```

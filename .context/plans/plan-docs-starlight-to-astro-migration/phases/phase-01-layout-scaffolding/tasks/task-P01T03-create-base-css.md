@@ -1,4 +1,4 @@
-# P01T03 — Create `base.css`
+# P01T03 — Create `src/styles/base.css`
 
 ## Phase
 
@@ -6,7 +6,8 @@ Phase 01 — Layout Scaffolding
 
 ## Goal
 
-Create `docs/src/styles/base.css` with a CSS reset, base typography defaults, and body background wired to `--tk-*` tokens.
+Create `docs/src/styles/base.css` with a CSS reset, base typography, and body
+background wired to `--tk-*` tokens.
 
 ## File to create / modify
 
@@ -29,49 +30,42 @@ html {
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background-color: var(--tk-bg);
   color: var(--tk-text);
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.6;
   min-height: 100vh;
 }
 
 a {
   color: var(--tk-link);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 a:hover {
-  color: var(--tk-accent-hover);
+  color: var(--tk-link-hover);
+  text-decoration: underline;
+}
+
+code, pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 img, svg {
   display: block;
   max-width: 100%;
 }
-
-code, pre {
-  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
-  font-size: 0.875em;
-}
-
-pre {
-  background: var(--tk-code-bg);
-  border: 1px solid var(--tk-border);
-  border-radius: 6px;
-  overflow-x: auto;
-  padding: 1rem;
-}
 ```
 
 ## Notes
 
-- Keep this file minimal; component-specific styles belong in component `<style>` blocks.
-- Do not import `tokens.css` from here — `BaseLayout.astro` will import both in order.
+- This file contains no component-specific rules — those live in component `<style>` blocks.
+- Imported by `BaseLayout.astro` after `tokens.css`.
 
 ## Verification
 
 ```sh
-test -f docs/src/styles/base.css
-grep 'var(--tk-bg)' docs/src/styles/base.css
+test -f docs/src/styles/base.css && echo ok
 ```

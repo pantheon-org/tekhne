@@ -1,4 +1,4 @@
-# P05T02 — tiles-page-filters
+# P05T02 — Tiles page filters
 
 ## Phase
 
@@ -6,97 +6,77 @@ Phase 05 — Registry Enhancements
 
 ## Goal
 
-Add client-side domain and grade filter controls to `tiles.astro` so users can narrow the skill catalogue without a page reload, with filter state persisted in the URL query string.
+Add client-side domain filter chips and grade filter chips to the tiles index
+page, with a skill count badge per domain group that updates as filters change.
 
 ## File to create / modify
 
 ```
-docs/src/pages/tiles.astro
+src/pages/docs/tiles/index.astro
+src/components/FilterChips.astro   (new)
 ```
 
 ## Implementation
 
-Add a filter bar above the domain groups, and a client-side script that shows/hides `.skill-card` elements based on selected filters:
+### 1. FilterChips.astro
 
 ```astro
 ---
-// (existing getCollection / grouping logic from P02T04)
-const grades = ["A", "B+", "B", "C"];
+interface Props {
+  label: string;
+  values: string[];
+  filterAttr: string;
+}
+const { label, values, filterAttr } = Astro.props;
 ---
-<!-- Filter bar -->
-<div class="filter-bar" id="filter-bar">
-  <label for="filter-domain">Domain</label>
-  <select id="filter-domain">
-    <option value="">All domains</option>
-    {domains.map((d) => <option value={d}>{d}</option>)}
-  </select>
 
-  <fieldset class="grade-filters">
-    <legend>Grade</legend>
-    {grades.map((g) => (
-      <label>
-        <input type="checkbox" name="grade" value={g} checked />
-        {g}
-      </label>
-    ))}
-  </fieldset>
+<div class="filter-group" data-filter-attr={filterAttr}>
+  <span class="filter-label">{label}</span>
+  <button class="chip active" data-value="all">All</button>
+  {values.map((v) => (
+    <button class="chip" data-value={v}>{v}</button>
+  ))}
 </div>
 
 <script>
-const domainSelect = document.getElementById("filter-domain") as HTMLSelectElement;
-const gradeInputs = document.querySelectorAll<HTMLInputElement>("input[name=grade]");
-const cards = document.querySelectorAll<HTMLElement>(".skill-card");
-const sections = document.querySelectorAll<HTMLElement>(".domain-group");
-
-const applyFilters = () => {
-  const domain = domainSelect.value;
-  const grades = new Set(
-    Array.from(gradeInputs).filter((i) => i.checked).map((i) => i.value)
-  );
-  sections.forEach((section) => {
-    const sectionDomain = section.dataset.domain ?? "";
-    let visible = 0;
-    section.querySelectorAll<HTMLElement>(".skill-card").forEach((card) => {
-      const show = (!domain || sectionDomain === domain) &&
-                   (!card.dataset.grade || grades.has(card.dataset.grade));
-      card.hidden = !show;
-      if (show) visible++;
+  document.querySelectorAll(".filter-group").forEach((group) => {
+    const attr = group.dataset.filterAttr;
+    group.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        group.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        const value = chip.dataset.value;
+        document.querySelectorAll("[data-tile-card]").forEach((card) => {
+          const match = value === "all" || card.dataset[attr] === value;
+          card.hidden = !match;
+        });
+        // update counts
+        document.querySelectorAll("[data-domain-count]").forEach((badge) => {
+          const domain = badge.dataset.domainCount;
+          const visible = document.querySelectorAll(
+            `[data-tile-card][data-domain="${domain}"]:not([hidden])`
+          ).length;
+          badge.textContent = String(visible);
+        });
+      });
     });
-    section.hidden = visible === 0;
   });
-  const params = new URLSearchParams();
-  if (domain) params.set("domain", domain);
-  const activeGrades = Array.from(grades).sort();
-  if (activeGrades.length < 4) params.set("grades", activeGrades.join(","));
-  history.replaceState(null, "", `?${params.toString()}` || location.pathname);
-};
-
-// Restore from URL
-const params = new URLSearchParams(location.search);
-if (params.has("domain")) domainSelect.value = params.get("domain")!;
-if (params.has("grades")) {
-  const active = new Set(params.get("grades")!.split(","));
-  gradeInputs.forEach((i) => { i.checked = active.has(i.value); });
-}
-
-domainSelect.addEventListener("change", applyFilters);
-gradeInputs.forEach((i) => i.addEventListener("change", applyFilters));
-applyFilters();
 </script>
 ```
 
-Add `data-domain` to each `.domain-group` and `data-grade` to each `.skill-card` in the Astro template.
+### 2. Wire into tiles index page
 
-## Notes
-
-- This is purely client-side filtering with no server round-trip — all skill cards are rendered in the initial HTML and toggled via `hidden`.
-- URL state uses `history.replaceState` for shareability without polluting history.
-- Grade checkbox defaults to all-checked; the filter only hides cards when specific grades are deselected.
+In `src/pages/docs/tiles/index.astro`:
+- Derive unique `domains` and `grades` from the tiles collection.
+- Render `<FilterChips label="Domain" values={domains} filterAttr="domain" />`.
+- Render `<FilterChips label="Grade" values={grades} filterAttr="grade" />`.
+- Add `data-tile-card`, `data-domain`, and `data-grade` attributes to each card.
 
 ## Verification
 
 ```sh
-cd docs
-bunx astro check 2>&1 | grep -E "(error|Error)" | head -10
-grep "filter-bar\|filter-domain\|applyFilters" src/pages/tiles.astro && echo "filters present" || echo "FAIL"
+bunx astro build 2>&1 | grep -i "error" | grep -v "^$" | wc -l \
+  | xargs -I{} test {} -eq 0 && echo "build ok"
+test -f src/components/FilterChips.astro && echo "FilterChips component exists"
+grep "data-tile-card" src/pages/docs/tiles/index.astro && echo "card attrs present"
 ```
