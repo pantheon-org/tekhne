@@ -15,5 +15,6 @@ export * from "./resolve-hard-copy-source";
 export * from "./resolve-symlink-source";
 export * from "./resolve-target-dir";
 export * from "./select-skills-interactively";
+export * from "./select-skills-to-uninstall-interactively";
 export * from "./uninstall-skills";
 export * from "./uninstall-skills-for-agent";
