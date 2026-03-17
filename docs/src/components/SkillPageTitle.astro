@@ -75,10 +75,15 @@ const gradeClass = grade
 
         {installSlug && (
           <div class="sk-install">
-            <span class="sk-install__label">Install</span>
-            <code class="sk-install__cmd">
-              npx skills add github:pantheon-org/tekhne --skill {installSlug}
-            </code>
+            <pre class="sk-install__pre"><code class="sk-install__cmd">npx skills add github:pantheon-org/tekhne --skill {installSlug}</code></pre>
+            <button
+              class="sk-install__copy"
+              type="button"
+              aria-label="Copy install command"
+              data-copy={`npx skills add github:pantheon-org/tekhne --skill ${installSlug}`}
+            >
+              <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            </button>
           </div>
         )}
 
@@ -200,31 +205,49 @@ const gradeClass = grade
   .sk-install {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
     background: var(--tk-bg);
     border: 1px solid var(--tk-border);
-    border-radius: 0.375rem;
-    padding: 0.5rem 0.875rem;
-    overflow-x: auto;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
 
-  .sk-install__label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--tk-color-gray-3);
-    flex-shrink: 0;
+  .sk-install__pre {
+    flex: 1;
+    margin: 0;
+    padding: 0.625rem 1rem;
+    overflow-x: auto;
+    background: none;
+    border: none;
+    border-radius: 0;
   }
 
   .sk-install__cmd {
     font-family: var(--tk-font-mono);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: var(--tk-color-gray-1);
     background: none;
-    padding: 0;
-    border: none;
     white-space: nowrap;
+  }
+
+  .sk-install__copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 100%;
+    min-height: 2.5rem;
+    background: none;
+    border: none;
+    border-left: 1px solid var(--tk-border);
+    color: var(--tk-color-gray-3);
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .sk-install__copy:hover {
+    color: var(--tk-color-white);
+    background: var(--tk-bg-hover);
   }
 
   .sk-badge {
@@ -262,3 +285,21 @@ const gradeClass = grade
     font-size: 0.7rem;
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".sk-install__copy").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const text = btn.dataset.copy;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const svg = btn.querySelector("svg");
+        if (svg) {
+          svg.innerHTML = '<polyline points="20 6 9 17 4 12"/>';
+          setTimeout(() => {
+            svg.innerHTML = '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>';
+          }, 1500);
+        }
+      });
+    });
+  });
+</script>
