@@ -1,0 +1,10 @@
+{
+  "skill": "starlight-theme",
+  "instructions_coverage": {
+    "total_instructions": 12,
+    "covered_by_scenarios": 9,
+    "coverage_percentage": "75%"
+  },
+  "scenarios": 3,
+  "valid_scenarios": 3
+}

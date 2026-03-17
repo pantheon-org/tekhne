@@ -1,0 +1,19 @@
+{
+  "skill": "starlight-base",
+  "instructions": [
+    "Use `npm create astro@latest -- --template starlight` to scaffold a new Starlight project",
+    "Use `npx astro add starlight` to add Starlight to an existing Astro project",
+    "All Starlight options live inside `starlight({})` in `astro.config.mjs`",
+    "Content pages must be placed under `src/content/docs/`",
+    "File paths under `src/content/docs/` map 1:1 to URL routes",
+    "Sidebar `slug` values must not have leading slashes or file extensions",
+    "Use `items` for explicit sidebar entries and `autogenerate` for directory-based entries",
+    "Never mix `items` and `autogenerate` in the same sidebar group",
+    "Set `site` URL at `defineConfig` level (not inside `starlight({})`) for sitemap generation",
+    "Use `replacesTitle: true` on `logo` when the logo image already includes the site name",
+    "Use `logo.light` and `logo.dark` for separate light/dark logo variants (mutually exclusive with `logo.src`)",
+    "Use `draft: true` in frontmatter to exclude pages from production builds",
+    "Use `template: splash` for full-width landing pages without sidebars",
+    "Run `npx @astrojs/upgrade` to keep Starlight up to date"
+  ]
+}

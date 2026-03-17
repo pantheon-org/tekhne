@@ -1,0 +1,17 @@
+{
+  "skill": "starlight-custom-component",
+  "instructions": [
+    "Register component overrides in `components: {}` inside `starlight({})` in `astro.config.mjs`",
+    "Use the exact component name from the Overrides Reference as the key in `components: {}`",
+    "Component paths must use relative format starting with `./` (no leading slash)",
+    "Import the default component from `@astrojs/starlight/components/<Name>.astro` to wrap instead of replace",
+    "Always include `<slot />` inside `<Default>` when wrapping a built-in component",
+    "Transfer named slots explicitly on layout components (PageFrame, TwoColumnContent)",
+    "Access page data via `Astro.locals.starlightRoute`, not via `Astro.props`",
+    "Use `Astro.locals.starlightRoute.entry.data.title` for the page title",
+    "Use `Astro.locals.starlightRoute.id` to check the current page slug",
+    "The homepage has `id === ''` (empty string)",
+    "Only override components listed in the official Overrides Reference",
+    "Component file name does not determine which slot is overridden — only the config key matters"
+  ]
+}

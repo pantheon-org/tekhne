@@ -1,0 +1,19 @@
+{
+  "checklist": [
+    {
+      "id": "identifies-cause",
+      "description": "Explains that override components do not receive page data as Astro props",
+      "max_score": 40
+    },
+    {
+      "id": "correct-fix",
+      "description": "Provides correct fix: `const { title } = Astro.locals.starlightRoute.entry.data`",
+      "max_score": 50
+    },
+    {
+      "id": "no-workaround",
+      "description": "Does NOT suggest workarounds like adding a prop manually or using slots to pass data",
+      "max_score": 10
+    }
+  ]
+}

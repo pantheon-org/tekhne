@@ -480,9 +480,9 @@ Skills for setting up and customizing Astro Starlight documentation sites, cover
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [starlight-base](/tekhne/skills/documentation/astro-starlight/skills/starlight-base/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
-| [starlight-theme](/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
-| [starlight-custom-component](/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [starlight-base](/tekhne/skills/documentation/astro-starlight/skills/starlight-base/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-17 | 3 |
+| [starlight-theme](/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-17 | 3 |
+| [starlight-custom-component](/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-17 | 3 |
 
 ### journal-entry-creator
 
