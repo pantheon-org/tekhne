@@ -383,6 +383,12 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 }
 
 <script>
+  document.querySelectorAll<HTMLElement>(".sk-dim__bar-fill").forEach((bar) => {
+    const pct = Number(bar.dataset.pct ?? 0);
+    const hue = Math.round(pct * 1.2);
+    bar.style.setProperty("--bar-color", `hsl(${hue} 80% 45%)`);
+  });
+
   const TABS = ["skill", "audit", "evals", "refs"];
 
   const activateTab = (name: string) => {
@@ -552,7 +558,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   .sk-dim__bar-fill {
     height: 100%;
     border-radius: 9999px;
-    background: var(--tk-color-accent);
+    background: var(--bar-color, var(--tk-color-accent));
     transition: width 0.4s ease;
   }
 
