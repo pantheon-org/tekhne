@@ -211,11 +211,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                       / {getAuditMax(snapshot)}
                     </span>
                   </div>
-                  {snapshot.grade && (
-                    <span class:list={["skill-badge", "sk-audit__grade", gradeClass(snapshot.grade)]}>
-                      {snapshot.grade}
-                    </span>
-                  )}
+
                 </div>
 
                 {snapshot.dimensions && (
@@ -271,11 +267,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                   / {skillAudit.maxTotal ?? 120}
                 </span>
               </div>
-              {skillAudit.grade && (
-                <span class:list={["skill-badge", "sk-audit__grade", gradeClass(skillAudit.grade)]}>
-                  {skillAudit.grade}
-                </span>
-              )}
+
             </div>
 
             {skillAudit.dimensions && (
