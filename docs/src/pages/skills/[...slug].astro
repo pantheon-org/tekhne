@@ -19,7 +19,8 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const isSkillPage = entry.id.endsWith("/skill");
+const isSkillPage =
+  entry.id.endsWith("/skill") || entry.id.endsWith("/SKILL.mdx");
 const { Content } = await render(entry);
 
 const editBase = "https://github.com/pantheon-org/tekhne/edit/main/docs/";
