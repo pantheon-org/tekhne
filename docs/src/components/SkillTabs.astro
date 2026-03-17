@@ -322,22 +322,26 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         hidden
       >
         {skillEvals.length > 0 ? (
-          <>
+          <div class="sk-evals">
             {skillEvals.map((scenario, i) => (
-              <div
-                class:list={["sk-evals__doc", i === 0 && "sk-evals__doc--active"]}
-                data-eval-panel={String(i)}
-                hidden={i !== 0}
-              >
+              <div class="sk-eval-card">
+                <div class="sk-eval-card__header">
+                  <span class="sk-eval-card__index">#{i + 1}</span>
+                  {scenario.feasible !== undefined && (
+                    <span class:list={["sk-eval-card__badge", scenario.feasible ? "sk-eval-card__badge--feasible" : "sk-eval-card__badge--infeasible"]}>
+                      {scenario.feasible ? "Feasible" : "Infeasible"}
+                    </span>
+                  )}
+                </div>
                 {scenario.capability && (
-                  <p class="sk-evals__capability">{scenario.capability}</p>
+                  <p class="sk-eval-card__capability">{scenario.capability}</p>
                 )}
                 {scenario.reason && (
-                  <p class="sk-evals__reason">{scenario.reason}</p>
+                  <p class="sk-eval-card__reason">{scenario.reason}</p>
                 )}
               </div>
             ))}
-          </>
+          </div>
         ) : (
           <p class="sk-empty">No eval scenarios available.</p>
         )}
@@ -562,27 +566,66 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     margin: 0;
   }
 
-  .sk-evals__doc {
-    display: none;
+  .sk-evals {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .sk-evals__doc--active {
-    display: block;
+  .sk-eval-card {
+    border: 1px solid var(--tk-border);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--tk-bg-surface);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .sk-evals__capability {
-    font-size: 0.875rem;
-    color: var(--tk-color-white);
+  .sk-eval-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .sk-eval-card__index {
+    font-size: 0.75rem;
+    font-family: var(--tk-font-mono);
+    color: var(--tk-color-gray-3);
+  }
+
+  .sk-eval-card__badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15em 0.6em;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .sk-eval-card__badge--feasible {
+    background: hsl(120 60% 20%);
+    color: hsl(120 70% 65%);
+  }
+
+  .sk-eval-card__badge--infeasible {
+    background: hsl(0 60% 20%);
+    color: hsl(0 70% 65%);
+  }
+
+  .sk-eval-card__capability {
+    font-size: 0.9375rem;
+    color: var(--tk-color-gray-1);
     font-weight: 500;
-    margin: 0 0 0.75rem;
+    margin: 0;
     line-height: 1.5;
   }
 
-  .sk-evals__reason {
-    font-size: 0.75rem;
-    color: var(--tk-color-gray-2);
+  .sk-eval-card__reason {
+    font-size: 0.875rem;
+    color: var(--tk-color-gray-3);
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.65;
   }
 
   .sk-refs__doc {
