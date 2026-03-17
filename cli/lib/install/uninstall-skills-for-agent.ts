@@ -15,6 +15,7 @@ export const uninstallSkillsForAgent = (
   agent: string,
   cwd: string,
   options: UninstallOptions,
+  selectedNames?: Set<string>,
 ): AgentStats => {
   const stats: AgentStats = { removed: 0, skipped: 0, failed: 0 };
 
@@ -23,7 +24,10 @@ export const uninstallSkillsForAgent = (
   const targetDir = resolveTargetDir(agent as AgentType, options.global, cwd);
   logger.info(`Target directory: ${targetDir}`);
 
-  const installed = findInstalledSkills(targetDir, cwd);
+  const allInstalled = findInstalledSkills(targetDir, cwd);
+  const installed = selectedNames
+    ? allInstalled.filter((s) => selectedNames.has(s.name))
+    : allInstalled;
 
   if (installed.length === 0) {
     logger.info("No project-owned skills found");

@@ -4,12 +4,16 @@ import { CLIError } from "../utils/errors";
 import { logger } from "../utils/logger";
 import { dedupAgentsByTarget } from "./dedup-agents-by-target";
 import { displayUninstallSummary } from "./display-uninstall-summary";
+import { findInstalledSkills } from "./find-installed-skills";
+import { resolveTargetDir } from "./resolve-target-dir";
+import { selectSkillsToUninstallInteractively } from "./select-skills-to-uninstall-interactively";
 import { uninstallSkillsForAgent } from "./uninstall-skills-for-agent";
 
 export interface UninstallOptions {
   agent: string[];
   global: boolean;
   dryRun: boolean;
+  interactive?: boolean;
 }
 
 export const uninstallSkills = async (
@@ -39,13 +43,36 @@ export const uninstallSkills = async (
   logger.info(`Target agents: ${selectedAgents.join(", ")}`);
   logger.info(`Mode: ${options.global ? "global" : "local"}`);
 
+  let selectedNames: Set<string> | undefined;
+
+  if (options.interactive) {
+    const allInstalled = selectedAgents.flatMap((agent) => {
+      const targetDir = resolveTargetDir(
+        agent as AgentType,
+        options.global,
+        cwd,
+      );
+      return findInstalledSkills(targetDir, cwd);
+    });
+
+    const uniqueInstalled = [
+      ...new Map(allInstalled.map((s) => [s.name, s])).values(),
+    ];
+
+    const chosen = await selectSkillsToUninstallInteractively(uniqueInstalled);
+    if (chosen.length === 0) {
+      return;
+    }
+    selectedNames = new Set(chosen.map((s) => s.name));
+  }
+
   const stats: Record<
     string,
     { removed: number; skipped: number; failed: number }
   > = {};
 
   for (const agent of selectedAgents) {
-    stats[agent] = uninstallSkillsForAgent(agent, cwd, options);
+    stats[agent] = uninstallSkillsForAgent(agent, cwd, options, selectedNames);
   }
 
   displayUninstallSummary(selectedAgents, stats, options.dryRun);

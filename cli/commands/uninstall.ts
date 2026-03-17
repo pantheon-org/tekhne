@@ -22,12 +22,18 @@ export const uninstallCommand = new Command()
   .option("--dry-run", "Show what would be removed without making changes", {
     default: false,
   })
+  .option(
+    "-i, --interactive",
+    "Interactively select which skills to uninstall (ignored when stdin is not a TTY)",
+    { default: false },
+  )
   .action(async (options) => {
     try {
       await uninstallSkills({
         agent: options.agent,
         global: options.global,
         dryRun: options.dryRun,
+        interactive: options.interactive,
       });
     } catch (error) {
       if (error instanceof CLIError) {
