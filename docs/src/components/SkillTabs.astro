@@ -79,18 +79,28 @@ const DIMENSION_LABELS: Record<string, string> = {
 };
 
 const DIMENSION_DESC: Record<string, string> = {
-  knowledgeDelta: "Unique, non-obvious knowledge the agent couldn't derive on its own.",
-  mindsetProcedures: "Concrete step-by-step procedures and decision trees guiding the agent.",
-  antiPatternQuality: "Explicit anti-patterns and failure modes the agent must avoid.",
-  specificationCompliance: "Accuracy and completeness against the target tool's official spec.",
-  progressiveDisclosure: "Layered detail — quick answers first, deep references when needed.",
-  freedomCalibration: "Appropriate constraints: neither over-restricting nor under-guiding.",
-  patternRecognition: "Named, reusable patterns the agent can recognise and apply.",
-  practicalUsability: "Real-world examples, templates, and scripts ready to use.",
-  evalValidation: "Coverage by evaluation scenarios that verify the skill's effectiveness.",
+  knowledgeDelta: "Expert-only knowledge the AI couldn't derive on its own — domain-specific patterns, production gotchas, decision frameworks, and non-obvious tool behaviour. High scores mean <5% redundancy with what the model already knows.",
+  mindsetProcedures: "A clear philosophy plus numbered step-by-step workflows with explicit entry/exit points. Should answer: what is the core principle, how to execute it, and when (and when not) to apply it.",
+  antiPatternQuality: "Explicit NEVER/WHY/consequence triplets with side-by-side bad/good examples. Generic warnings score low — concrete failure modes with real impact (security, correctness, performance) score high.",
+  specificationCompliance: "Proper frontmatter, single-task focus, activation keywords, and cross-harness portability. Skills must work across 40+ agentic harnesses without hardcoded paths or agent-specific references.",
+  progressiveDisclosure: "SKILL.md as a <100-line navigation hub pointing to focused references/ files. Content should be lazy-loaded on demand, not front-loaded. Includes actionable 'When to Use' conditions per reference.",
+  freedomCalibration: "Appropriate rigidity for the skill type: strict rules for critical/security skills, balanced steps for process skills, flexible options for tool skills. Mismatched calibration (too rigid or too loose) reduces score.",
+  patternRecognition: "Rich activation keywords and trigger scenarios in the description so the skill fires when needed. Best descriptions read like an exhaustive list of the tasks and concepts that should invoke this skill.",
+  practicalUsability: "Copy-paste-ready code, complete runnable examples, real file paths and commands. Pseudocode and abstract descriptions score low — concrete, executable content scores high.",
+  evalValidation: "Runtime validation via tessl eval scenarios proving the skill actually changes agent behaviour. Requires evals/ directory, instructions.json, ≥3 scenarios, and ≥80% instruction coverage in summary.json.",
 };
 
-const DIMENSION_MAX = 16;
+const DIMENSION_MAX: Record<string, number> = {
+  knowledgeDelta: 20,
+  mindsetProcedures: 15,
+  antiPatternQuality: 15,
+  specificationCompliance: 15,
+  progressiveDisclosure: 15,
+  freedomCalibration: 15,
+  patternRecognition: 10,
+  practicalUsability: 15,
+  evalValidation: 20,
+};
 
 const gradeClass = (grade?: string) =>
   grade
@@ -212,16 +222,17 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                   <div class="sk-audit__dimensions">
                     {Object.entries(snapshot.dimensions).map(
                       ([key, score]: [string, number]) => {
-                        const pct = Math.round((score / DIMENSION_MAX) * 100);
+                        const dimMax = DIMENSION_MAX[key] ?? 15;
+                        const pct = Math.round((score / dimMax) * 100);
                         return (
                           <div class="sk-dim">
                             <div class="sk-dim__header">
                               <span class="sk-dim__label">
                                 {DIMENSION_LABELS[key] ?? key}
                               </span>
-                              <span class="sk-dim__score">
-                                {score}/{DIMENSION_MAX}
-                              </span>
+                               <span class="sk-dim__score">
+                                 {score}/{dimMax}
+                               </span>
                             </div>
                             {DIMENSION_DESC[key] && (
                               <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
@@ -272,18 +283,19 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
             {skillAudit.dimensions && (
               <div class="sk-audit__dimensions">
                 {Object.entries(skillAudit.dimensions).map(
-                  ([key, score]: [string, number]) => {
-                    const pct = Math.round((score / DIMENSION_MAX) * 100);
-                    return (
-                      <div class="sk-dim">
-                        <div class="sk-dim__header">
-                          <span class="sk-dim__label">
-                            {DIMENSION_LABELS[key] ?? key}
-                          </span>
-                          <span class="sk-dim__score">
-                            {score}/{DIMENSION_MAX}
-                          </span>
-                        </div>
+                   ([key, score]: [string, number]) => {
+                     const dimMax = DIMENSION_MAX[key] ?? 15;
+                     const pct = Math.round((score / dimMax) * 100);
+                     return (
+                       <div class="sk-dim">
+                         <div class="sk-dim__header">
+                           <span class="sk-dim__label">
+                             {DIMENSION_LABELS[key] ?? key}
+                           </span>
+                           <span class="sk-dim__score">
+                             {score}/{dimMax}
+                           </span>
+                         </div>
                         {DIMENSION_DESC[key] && (
                           <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
                         )}
