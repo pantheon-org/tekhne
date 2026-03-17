@@ -1,11 +1,12 @@
 ---
 /**
- * SkillTabs — wraps skill page content in a three-tab layout.
+ * SkillTabs — wraps skill page content in a four-tab layout.
  *
  * Tabs:
  *   Skill      — the rendered SKILL.md content (default slot)
- *   References — inline rendered reference docs (no navigation away)
- *   Audit      — quality scorecard from .context/audits/
+ *   Audit      — list of dated audit snapshots, each showing a scorecard
+ *   Evals      — list of eval scenarios from evals/summary.json
+ *   References — list picker for inline rendered reference docs
  *
  * Only rendered on skill pages (entry ID ends with /skill).
  * On other pages the default slot is rendered as-is.
@@ -16,6 +17,7 @@ import { getCollection, render } from "astro:content";
 const { entry } = Astro.locals.starlightRoute;
 const isSkillPage = (entry.id as string).endsWith("/skill");
 
+// biome-ignore lint/suspicious/noExplicitAny: Starlight entry data is not typed for custom fields
 const data = entry.data as Record<string, any>;
 
 type RefMeta = { slug: string; title: string };
@@ -24,38 +26,51 @@ const skillRefsMeta: RefMeta[] = data.skillRefs ?? [];
 type DimensionScores = Record<string, number>;
 type AuditData = {
   skill?: string;
+  date?: string;
+  auditDate?: string;
   dimensions?: DimensionScores;
   total?: number;
+  totalScore?: number;
   maxTotal?: number;
   grade?: string;
   lines?: number;
+  fileSize?: number;
   hasReferences?: boolean;
   referenceCount?: number;
 };
+
+type EvalScenario = {
+  id: string;
+  capability?: string;
+  feasible?: boolean;
+  reason?: string;
+};
+
 const skillAudit: AuditData | null = data.skillAudit ?? null;
+const skillAudits: AuditData[] = data.skillAudits ?? [];
+const skillEvals: EvalScenario[] = data.skillEvals ?? [];
 
 // Entry IDs look like "skills/documentation/markdown-authoring/SKILL.mdx"
 const idParts = (entry.id as string).split("/");
 const skillSlugParts = idParts.slice(0, -1); // drop "SKILL.mdx"
-// e.g. "skills/documentation/markdown-authoring/references/"
-const refIdPrefix = skillSlugParts.join("/") + "/references/";
+const refIdPrefix = `${skillSlugParts.join("/")}/references/`;
 
 // Fetch and render all reference entries for this skill at build time.
+// biome-ignore lint/suspicious/noExplicitAny: Astro component render type is not typed
 type RenderedRef = { slug: string; title: string; Content: any };
 let renderedRefs: RenderedRef[] = [];
 
 if (isSkillPage && skillRefsMeta.length > 0) {
   const allDocs = await getCollection("docs");
-  const refEntries = allDocs.filter((e) =>
-    e.id.startsWith(refIdPrefix),
-  );
+  const refEntries = allDocs.filter((e) => e.id.startsWith(refIdPrefix));
 
   renderedRefs = await Promise.all(
     skillRefsMeta.map(async (meta) => {
-      const docEntry = refEntries.find((e) =>
-        e.id === `${refIdPrefix}${meta.slug}.md`,
+      const docEntry = refEntries.find(
+        (e) => e.id === `${refIdPrefix}${meta.slug}.md`,
       );
-      if (!docEntry) return { slug: meta.slug, title: meta.title, Content: null };
+      if (!docEntry)
+        return { slug: meta.slug, title: meta.title, Content: null };
       const { Content } = await render(docEntry);
       return { slug: meta.slug, title: meta.title, Content };
     }),
@@ -76,12 +91,22 @@ const DIMENSION_LABELS: Record<string, string> = {
 
 const DIMENSION_MAX = 16;
 
-const gradeClass = skillAudit?.grade
-  ? `skill-badge--${skillAudit.grade
-      .toLowerCase()
-      .replace("+", "-plus")
-      .replace(/([a-z])-$/, "$1-minus")}`
-  : "skill-badge--unknown";
+const gradeClass = (grade?: string) =>
+  grade
+    ? `skill-badge--${grade
+        .toLowerCase()
+        .replace("+", "-plus")
+        .replace(/([a-z])-$/, "$1-minus")}`
+    : "skill-badge--unknown";
+
+const latestGrade = skillAudit?.grade;
+const auditCount = skillAudits.length;
+const evalsCount = skillEvals.length;
+const refsCount = renderedRefs.length;
+
+const getAuditTotal = (a: AuditData) => a.total ?? a.totalScore;
+const getAuditMax = (a: AuditData) => a.maxTotal ?? 120;
+const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 ---
 
 {
@@ -97,7 +122,39 @@ const gradeClass = skillAudit?.grade
         >
           Skill
         </button>
-        {renderedRefs.length > 0 && (
+
+        <button
+          class="sk-tabs__btn"
+          role="tab"
+          data-tab="audit"
+          aria-selected="false"
+          aria-controls="sk-panel-audit"
+        >
+          Audit
+          {latestGrade && (
+            <span class:list={["skill-badge", gradeClass(latestGrade)]}>
+              {latestGrade}
+            </span>
+          )}
+          {auditCount > 0 && (
+            <span class="sk-tabs__count">{auditCount}</span>
+          )}
+        </button>
+
+        <button
+          class="sk-tabs__btn"
+          role="tab"
+          data-tab="evals"
+          aria-selected="false"
+          aria-controls="sk-panel-evals"
+        >
+          Evals
+          {evalsCount > 0 && (
+            <span class="sk-tabs__count">{evalsCount}</span>
+          )}
+        </button>
+
+        {refsCount > 0 && (
           <button
             class="sk-tabs__btn"
             role="tab"
@@ -106,23 +163,7 @@ const gradeClass = skillAudit?.grade
             aria-controls="sk-panel-refs"
           >
             References
-            <span class="sk-tabs__count">{renderedRefs.length}</span>
-          </button>
-        )}
-        {skillAudit && (
-          <button
-            class="sk-tabs__btn"
-            role="tab"
-            data-tab="audit"
-            aria-selected="false"
-            aria-controls="sk-panel-audit"
-          >
-            Audit
-            {skillAudit.grade && (
-              <span class:list={["skill-badge", gradeClass]}>
-                {skillAudit.grade}
-              </span>
-            )}
+            <span class="sk-tabs__count">{refsCount}</span>
           </button>
         )}
       </nav>
@@ -137,56 +178,98 @@ const gradeClass = skillAudit?.grade
         <slot />
       </div>
 
-      {/* References panel — inline rendered content */}
-      {renderedRefs.length > 0 && (
-        <div
-          id="sk-panel-refs"
-          class="sk-tabs__panel"
-          role="tabpanel"
-          data-panel="refs"
-          hidden
-        >
-          <div class="sk-refs">
-            {/* Reference picker */}
-            <nav class="sk-refs__nav" aria-label="Reference documents">
-              {renderedRefs.map((ref, i) => (
+      {/* Audit panel — list of dated snapshots */}
+      <div
+        id="sk-panel-audit"
+        class="sk-tabs__panel"
+        role="tabpanel"
+        data-panel="audit"
+        hidden
+      >
+        {skillAudits.length > 0 ? (
+          <div class="sk-audit-list">
+            <div class="sk-audit-list__nav" aria-label="Audit dates">
+              {skillAudits.map((snapshot, i) => (
                 <button
-                  class:list={["sk-refs__btn", i === 0 && "sk-refs__btn--active"]}
-                  data-ref={ref.slug}
+                  class:list={["sk-audit-list__btn", i === 0 && "sk-audit-list__btn--active"]}
+                  data-audit={String(i)}
                 >
-                  {ref.title}
+                  <span class="sk-audit-list__date">{getAuditDate(snapshot) ?? "Unknown"}</span>
+                  {snapshot.grade && (
+                    <span class:list={["skill-badge", "sk-audit-list__grade", gradeClass(snapshot.grade)]}>
+                      {snapshot.grade}
+                    </span>
+                  )}
                 </button>
               ))}
-            </nav>
+            </div>
 
-            {/* Reference content panels */}
-            <div class="sk-refs__content">
-              {renderedRefs.map((ref, i) =>
-                ref.Content ? (
-                  <div
-                    class:list={["sk-refs__doc", "sl-markdown-content", i === 0 && "sk-refs__doc--active"]}
-                    data-ref-doc={ref.slug}
-                    hidden={i !== 0}
-                  >
-                    <ref.Content />
+            <div class="sk-audit-list__content">
+              {skillAudits.map((snapshot, i) => (
+                <div
+                  class:list={["sk-audit", i === 0 && "sk-audit--active"]}
+                  data-audit-panel={String(i)}
+                  hidden={i !== 0}
+                >
+                  <div class="sk-audit__summary">
+                    <div class="sk-audit__score">
+                      <span class="sk-audit__score-value">
+                        {getAuditTotal(snapshot) ?? "–"}
+                      </span>
+                      <span class="sk-audit__score-max">
+                        / {getAuditMax(snapshot)}
+                      </span>
+                    </div>
+                    {snapshot.grade && (
+                      <span class:list={["skill-badge", "sk-audit__grade", gradeClass(snapshot.grade)]}>
+                        {snapshot.grade}
+                      </span>
+                    )}
                   </div>
-                ) : null,
-              )}
+
+                  {snapshot.dimensions && (
+                    <div class="sk-audit__dimensions">
+                      {Object.entries(snapshot.dimensions).map(
+                        ([key, score]: [string, number]) => {
+                          const pct = Math.round((score / DIMENSION_MAX) * 100);
+                          return (
+                            <div class="sk-dim">
+                              <div class="sk-dim__header">
+                                <span class="sk-dim__label">
+                                  {DIMENSION_LABELS[key] ?? key}
+                                </span>
+                                <span class="sk-dim__score">
+                                  {score}/{DIMENSION_MAX}
+                                </span>
+                              </div>
+                              <div class="sk-dim__bar-track">
+                                <div
+                                  class="sk-dim__bar-fill"
+                                  style={`width: ${Math.min(pct, 100)}%`}
+                                  data-pct={pct}
+                                />
+                              </div>
+                            </div>
+                          );
+                        },
+                      )}
+                    </div>
+                  )}
+
+                  {(snapshot.lines !== undefined || snapshot.fileSize !== undefined) && (
+                    <p class="sk-audit__meta">
+                      {snapshot.lines !== undefined && `${snapshot.lines} lines`}
+                      {snapshot.fileSize !== undefined && `${snapshot.fileSize} lines`}
+                      {snapshot.referenceCount !== undefined &&
+                        ` · ${snapshot.referenceCount} reference${snapshot.referenceCount !== 1 ? "s" : ""}`}
+                    </p>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      )}
-
-      {/* Audit panel */}
-      {skillAudit && (
-        <div
-          id="sk-panel-audit"
-          class="sk-tabs__panel"
-          role="tabpanel"
-          data-panel="audit"
-          hidden
-        >
-          <div class="sk-audit">
+        ) : skillAudit ? (
+          <div class="sk-audit sk-audit--active">
             <div class="sk-audit__summary">
               <div class="sk-audit__score">
                 <span class="sk-audit__score-value">
@@ -197,7 +280,7 @@ const gradeClass = skillAudit?.grade
                 </span>
               </div>
               {skillAudit.grade && (
-                <span class:list={["skill-badge", "sk-audit__grade", gradeClass]}>
+                <span class:list={["skill-badge", "sk-audit__grade", gradeClass(skillAudit.grade)]}>
                   {skillAudit.grade}
                 </span>
               )}
@@ -240,6 +323,94 @@ const gradeClass = skillAudit?.grade
               </p>
             )}
           </div>
+        ) : (
+          <p class="sk-empty">No audit data available.</p>
+        )}
+      </div>
+
+      {/* Evals panel */}
+      <div
+        id="sk-panel-evals"
+        class="sk-tabs__panel"
+        role="tabpanel"
+        data-panel="evals"
+        hidden
+      >
+        {skillEvals.length > 0 ? (
+          <div class="sk-evals">
+            <div class="sk-evals__nav" aria-label="Eval scenarios">
+              {skillEvals.map((scenario, i) => (
+                <button
+                  class:list={["sk-evals__btn", i === 0 && "sk-evals__btn--active"]}
+                  data-eval={String(i)}
+                >
+                  <span class="sk-evals__id">{scenario.id}</span>
+                  {scenario.feasible !== undefined && (
+                    <span class:list={["sk-evals__feasible", scenario.feasible ? "sk-evals__feasible--yes" : "sk-evals__feasible--no"]}>
+                      {scenario.feasible ? "feasible" : "infeasible"}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            <div class="sk-evals__content">
+              {skillEvals.map((scenario, i) => (
+                <div
+                  class:list={["sk-evals__doc", i === 0 && "sk-evals__doc--active"]}
+                  data-eval-panel={String(i)}
+                  hidden={i !== 0}
+                >
+                  {scenario.capability && (
+                    <p class="sk-evals__capability">{scenario.capability}</p>
+                  )}
+                  {scenario.reason && (
+                    <p class="sk-evals__reason">{scenario.reason}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <p class="sk-empty">No eval scenarios available.</p>
+        )}
+      </div>
+
+      {/* References panel — inline rendered content */}
+      {renderedRefs.length > 0 && (
+        <div
+          id="sk-panel-refs"
+          class="sk-tabs__panel"
+          role="tabpanel"
+          data-panel="refs"
+          hidden
+        >
+          <div class="sk-refs">
+            <nav class="sk-refs__nav" aria-label="Reference documents">
+              {renderedRefs.map((ref, i) => (
+                <button
+                  class:list={["sk-refs__btn", i === 0 && "sk-refs__btn--active"]}
+                  data-ref={ref.slug}
+                >
+                  {ref.title}
+                </button>
+              ))}
+            </nav>
+
+            <div class="sk-refs__content">
+              {renderedRefs.map((ref, i) =>
+                ref.Content ? (
+                  <div
+                    class:list={["sk-refs__doc", "sl-markdown-content", i === 0 && "sk-refs__doc--active"]}
+                    data-ref-doc={ref.slug}
+                    hidden={i !== 0}
+                  >
+                    <ref.Content />
+                  </div>
+                ) : null,
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -251,7 +422,6 @@ const gradeClass = skillAudit?.grade
 <script>
   const tabs = document.getElementById("sk-tabs");
   if (tabs) {
-    // Tab switching
     tabs.addEventListener("click", (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-tab]");
       if (!btn) return;
@@ -269,7 +439,6 @@ const gradeClass = skillAudit?.grade
       });
     });
 
-    // Reference picker switching
     tabs.addEventListener("click", (e) => {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-ref]");
       if (!btn) return;
@@ -281,6 +450,38 @@ const gradeClass = skillAudit?.grade
       tabs.querySelectorAll<HTMLElement>("[data-ref-doc]").forEach((p) => {
         const active = p.dataset.refDoc === target;
         p.classList.toggle("sk-refs__doc--active", active);
+        p.hidden = !active;
+      });
+    });
+
+    tabs.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-audit]");
+      if (!btn || btn.hasAttribute("data-tab")) return;
+      const target = btn.dataset.audit;
+
+      tabs.querySelectorAll<HTMLButtonElement>("[data-audit]").forEach((b) => {
+        if (!b.hasAttribute("data-tab"))
+          b.classList.toggle("sk-audit-list__btn--active", b.dataset.audit === target);
+      });
+      tabs.querySelectorAll<HTMLElement>("[data-audit-panel]").forEach((p) => {
+        const active = p.dataset.auditPanel === target;
+        p.classList.toggle("sk-audit--active", active);
+        p.hidden = !active;
+      });
+    });
+
+    tabs.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-eval]");
+      if (!btn || btn.hasAttribute("data-tab")) return;
+      const target = btn.dataset.eval;
+
+      tabs.querySelectorAll<HTMLButtonElement>("[data-eval]").forEach((b) => {
+        if (!b.hasAttribute("data-tab"))
+          b.classList.toggle("sk-evals__btn--active", b.dataset.eval === target);
+      });
+      tabs.querySelectorAll<HTMLElement>("[data-eval-panel]").forEach((p) => {
+        const active = p.dataset.evalPanel === target;
+        p.classList.toggle("sk-evals__doc--active", active);
         p.hidden = !active;
       });
     });
@@ -345,22 +546,26 @@ const gradeClass = skillAudit?.grade
     display: block;
   }
 
-  /* ── References layout ──────────────────────────────────── */
+  /* ── Shared sidebar list layout ─────────────────────────── */
 
-  .sk-refs {
+  .sk-audit-list,
+  .sk-evals {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 180px 1fr;
     gap: 1.5rem;
     align-items: start;
   }
 
   @media (max-width: 640px) {
-    .sk-refs {
+    .sk-audit-list,
+    .sk-evals {
       grid-template-columns: 1fr;
     }
   }
 
-  .sk-refs__nav {
+  /* ── Audit snapshot list ────────────────────────────────── */
+
+  .sk-audit-list__nav {
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
@@ -368,8 +573,11 @@ const gradeClass = skillAudit?.grade
     top: var(--sl-nav-height, 3.5rem);
   }
 
-  .sk-refs__btn {
-    display: block;
+  .sk-audit-list__btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
     width: 100%;
     text-align: left;
     padding: 0.45rem 0.75rem;
@@ -381,40 +589,44 @@ const gradeClass = skillAudit?.grade
     font-family: inherit;
     color: var(--sl-color-gray-2);
     transition: background 0.12s, color 0.12s, border-color 0.12s;
-    white-space: normal;
-    line-height: 1.4;
   }
 
-  .sk-refs__btn:hover {
+  .sk-audit-list__btn:hover {
     background: var(--sl-color-gray-5);
     color: var(--sl-color-white);
   }
 
-  .sk-refs__btn--active {
+  .sk-audit-list__btn--active {
     background: var(--sl-color-gray-5);
     border-color: var(--sl-color-hairline-medium);
     color: var(--sl-color-white);
     font-weight: 500;
   }
 
-  .sk-refs__content {
+  .sk-audit-list__date {
+    font-family: var(--sl-font-mono);
+    font-size: 0.7rem;
+  }
+
+  .sk-audit-list__grade {
+    font-size: 0.65rem !important;
+    padding: 0.1em 0.4em !important;
+  }
+
+  .sk-audit-list__content {
     min-width: 0;
-  }
-
-  .sk-refs__doc {
-    display: none;
-  }
-
-  .sk-refs__doc--active {
-    display: block;
   }
 
   /* ── Audit scorecard ────────────────────────────────────── */
 
   .sk-audit {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 1.25rem;
+  }
+
+  .sk-audit--active {
+    display: flex;
   }
 
   .sk-audit__summary {
@@ -487,6 +699,169 @@ const gradeClass = skillAudit?.grade
   .sk-audit__meta {
     font-size: var(--sl-text-xs);
     color: var(--sl-color-gray-3);
+    margin: 0;
+  }
+
+  /* ── Evals panel ────────────────────────────────────────── */
+
+  .sk-evals__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    position: sticky;
+    top: var(--sl-nav-height, 3.5rem);
+  }
+
+  .sk-evals__btn {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.2rem;
+    width: 100%;
+    text-align: left;
+    padding: 0.45rem 0.75rem;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: var(--sl-text-xs);
+    font-family: inherit;
+    color: var(--sl-color-gray-2);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+  }
+
+  .sk-evals__btn:hover {
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-white);
+  }
+
+  .sk-evals__btn--active {
+    background: var(--sl-color-gray-5);
+    border-color: var(--sl-color-hairline-medium);
+    color: var(--sl-color-white);
+    font-weight: 500;
+  }
+
+  .sk-evals__id {
+    font-family: var(--sl-font-mono);
+    font-size: 0.7rem;
+    line-height: 1.3;
+  }
+
+  .sk-evals__feasible {
+    font-size: 0.65rem;
+    border-radius: 9999px;
+    padding: 0.1em 0.5em;
+    font-weight: 500;
+  }
+
+  .sk-evals__feasible--yes {
+    background: color-mix(in srgb, var(--sl-color-green) 15%, transparent);
+    color: var(--sl-color-green);
+  }
+
+  .sk-evals__feasible--no {
+    background: color-mix(in srgb, var(--sl-color-orange) 15%, transparent);
+    color: var(--sl-color-orange);
+  }
+
+  .sk-evals__content {
+    min-width: 0;
+  }
+
+  .sk-evals__doc {
+    display: none;
+  }
+
+  .sk-evals__doc--active {
+    display: block;
+  }
+
+  .sk-evals__capability {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-white);
+    font-weight: 500;
+    margin: 0 0 0.75rem;
+    line-height: 1.5;
+  }
+
+  .sk-evals__reason {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-2);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ── References layout ──────────────────────────────────── */
+
+  .sk-refs {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .sk-refs {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sk-refs__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    position: sticky;
+    top: var(--sl-nav-height, 3.5rem);
+  }
+
+  .sk-refs__btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.45rem 0.75rem;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: var(--sl-text-xs);
+    font-family: inherit;
+    color: var(--sl-color-gray-2);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .sk-refs__btn:hover {
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-white);
+  }
+
+  .sk-refs__btn--active {
+    background: var(--sl-color-gray-5);
+    border-color: var(--sl-color-hairline-medium);
+    color: var(--sl-color-white);
+    font-weight: 500;
+  }
+
+  .sk-refs__content {
+    min-width: 0;
+  }
+
+  .sk-refs__doc {
+    display: none;
+  }
+
+  .sk-refs__doc--active {
+    display: block;
+  }
+
+  /* ── Empty state ────────────────────────────────────────── */
+
+  .sk-empty {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
+    font-style: italic;
     margin: 0;
   }
 </style>

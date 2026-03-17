@@ -52,6 +52,20 @@ const skillAuditSchema = z.object({
   referenceCount: z.number().optional(),
 });
 
+const skillAuditSnapshotSchema = skillAuditSchema.extend({
+  date: z.string().optional(),
+  auditDate: z.string().optional(),
+  totalScore: z.number().optional(),
+  fileSize: z.number().optional(),
+});
+
+const skillEvalScenarioSchema = z.object({
+  id: z.string(),
+  capability: z.string().optional(),
+  feasible: z.boolean().optional(),
+  reason: z.string().optional(),
+});
+
 /** Extra frontmatter fields used by SKILL.md files. */
 const skillExtraSchema = z.object({
   name: z.string().optional(),
@@ -69,6 +83,8 @@ const skillExtraSchema = z.object({
     .optional(),
   skillRefs: z.array(skillRefSchema).optional(),
   skillAudit: skillAuditSchema.optional(),
+  skillAudits: z.array(skillAuditSnapshotSchema).optional(),
+  skillEvals: z.array(skillEvalScenarioSchema).optional(),
 });
 
 export const collections = {

@@ -97,6 +97,8 @@ const processSkillContent = (raw, skillSrcDir, skillRelPath) => {
     ? buildReferencesList(skillSrcDir, skillRelPath)
     : [];
   const skillAudit = skillRelPath ? loadAuditData(skillRelPath) : null;
+  const skillAudits = skillRelPath ? loadAllAuditSnapshots(skillRelPath) : [];
+  const skillEvals = skillSrcDir ? loadEvalsData(skillSrcDir) : [];
 
   // Merge displayTitle into metadata (preserving any existing metadata fields)
   const newData = {
@@ -104,6 +106,8 @@ const processSkillContent = (raw, skillSrcDir, skillRelPath) => {
     metadata: { ...(parsed.data.metadata || {}), displayTitle },
     ...(skillRefs.length > 0 ? { skillRefs } : {}),
     ...(skillAudit ? { skillAudit } : {}),
+    ...(skillAudits.length > 0 ? { skillAudits } : {}),
+    ...(skillEvals.length > 0 ? { skillEvals } : {}),
   };
 
   return matter.stringify(strippedContent, newData);
@@ -182,6 +186,40 @@ const buildReferencesList = (skillSrcDir, skillRelPath) => {
 };
 
 /**
+ * Load all audit snapshots for a skill from .context/audits/<domain>/<skill>/.
+ * Returns an array of { date, ...auditData } objects sorted by date descending,
+ * or an empty array if none exist.
+ * @param {string} skillRelPath - e.g. "documentation/markdown-authoring"
+ */
+const loadAllAuditSnapshots = (skillRelPath) => {
+  const auditSkillDir = join(auditsRoot, skillRelPath);
+  if (!existsSync(auditSkillDir)) return [];
+
+  const snapshots = [];
+  let entries;
+  try {
+    entries = readdirSync(auditSkillDir, { withFileTypes: true });
+  } catch {
+    return [];
+  }
+
+  for (const entry of entries) {
+    if (!entry.isDirectory() || entry.name === "latest") continue;
+    const auditPath = join(auditSkillDir, entry.name, "audit.json");
+    if (!existsSync(auditPath)) continue;
+    try {
+      const data = JSON.parse(readFileSync(auditPath, "utf-8"));
+      snapshots.push({ date: entry.name, ...data });
+    } catch {
+      // skip malformed audit files
+    }
+  }
+
+  snapshots.sort((a, b) => b.date.localeCompare(a.date));
+  return snapshots;
+};
+
+/**
  * Load audit data for a skill from .context/audits/<domain>/<skill>/latest/audit.json.
  * Returns the parsed JSON object, or null if not found.
  * @param {string} skillRelPath - e.g. "documentation/markdown-authoring"
@@ -193,6 +231,31 @@ const loadAuditData = (skillRelPath) => {
     return JSON.parse(readFileSync(auditPath, "utf-8"));
   } catch {
     return null;
+  }
+};
+
+/**
+ * Load evals data for a skill from skills/<domain>/<skill>/evals/.
+ * Returns an array of { id, capability, feasible } objects from summary.json,
+ * or an empty array if evals don't exist.
+ * @param {string} skillSrcDir - absolute path to the skill's source directory
+ */
+const loadEvalsData = (skillSrcDir) => {
+  const evalsDir = join(skillSrcDir, "evals");
+  if (!existsSync(evalsDir)) return [];
+
+  const summaryPath = join(evalsDir, "summary.json");
+  if (!existsSync(summaryPath)) return [];
+
+  try {
+    const data = JSON.parse(readFileSync(summaryPath, "utf-8"));
+    if (!Array.isArray(data.scenarios)) return [];
+    return data.scenarios.map((s) => ({
+      ...s,
+      id: s.id ?? s.scenario_id ?? "unknown",
+    }));
+  } catch {
+    return [];
   }
 };
 
