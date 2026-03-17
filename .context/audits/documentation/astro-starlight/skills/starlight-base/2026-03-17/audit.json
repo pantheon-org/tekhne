@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/astro-starlight/skills/starlight-base",
+  "dimensions": {
+    "knowledgeDelta": 14,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 14
+  },
+  "total": 116,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 370,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}
