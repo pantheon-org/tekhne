@@ -45,6 +45,7 @@ export const installCommand = new Command()
         skillSubdomain: options.skillSubdomain,
         interactive: options.interactive,
       });
+      process.exit(0);
     } catch (error) {
       if (error instanceof CLIError) {
         logger.error(error.message);

@@ -13,6 +13,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { CLIError } from "../utils/errors";
 import { createSymlink } from "./create-symlink";
+import { dedupAgentsByTarget } from "./dedup-agents-by-target";
 import { ensureDirectory } from "./ensure-directory";
 import { filterSkills } from "./filter-skills";
 import { findSkills } from "./find-skills";
@@ -56,6 +57,47 @@ describe("getSkillName", () => {
     expect(getSkillName("skills/my-domain/my-skill-name")).toBe(
       "my-domain--my-skill-name",
     );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// dedupAgentsByTarget
+// ---------------------------------------------------------------------------
+
+describe("dedupAgentsByTarget", () => {
+  test("keeps unique agents when all target dirs differ", () => {
+    const result = dedupAgentsByTarget(
+      ["opencode", "claude-code"],
+      false,
+      "/project",
+    );
+    expect(result).toEqual(["opencode", "claude-code"]);
+  });
+
+  test("removes second agent when both resolve to same local target dir", () => {
+    // amp and cursor both use .agents/skills locally
+    const result = dedupAgentsByTarget(["amp", "cursor"], false, "/project");
+    expect(result).toEqual(["amp"]);
+  });
+
+  test("preserves order and keeps first occurrence", () => {
+    // cursor, amp, opencode — cursor and amp share .agents/skills; opencode too
+    const result = dedupAgentsByTarget(
+      ["cursor", "amp", "opencode"],
+      false,
+      "/project",
+    );
+    expect(result).toEqual(["cursor"]);
+  });
+
+  test("returns empty array for empty input", () => {
+    expect(dedupAgentsByTarget([], false, "/project")).toEqual([]);
+  });
+
+  test("keeps single agent unchanged", () => {
+    expect(dedupAgentsByTarget(["opencode"], false, "/project")).toEqual([
+      "opencode",
+    ]);
   });
 });
 
