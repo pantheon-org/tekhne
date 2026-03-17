@@ -2,8 +2,8 @@
   "skill": "starlight-base",
   "instructions_coverage": {
     "total_instructions": 14,
-    "covered_by_scenarios": 10,
-    "coverage_percentage": "71%"
+    "covered_by_scenarios": 12,
+    "coverage_percentage": "85%"
   },
   "scenarios": 3,
   "valid_scenarios": 3
