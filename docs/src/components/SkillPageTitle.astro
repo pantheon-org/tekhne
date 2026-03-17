@@ -205,7 +205,7 @@ const gradeClass = grade
   .sk-install {
     display: flex;
     align-items: stretch;
-    background: var(--tk-bg);
+    background: var(--tk-bg-hover);
     border: 1px solid var(--tk-border);
     border-radius: 0.5rem;
     overflow: hidden;
@@ -217,7 +217,7 @@ const gradeClass = grade
     padding: 0.7rem 1rem;
     font-family: var(--tk-font-mono);
     font-size: 0.8rem;
-    color: var(--tk-color-gray-1);
+    color: var(--tk-color-white);
     background: none;
     white-space: nowrap;
     overflow-x: auto;
@@ -232,14 +232,14 @@ const gradeClass = grade
     background: none;
     border: none;
     border-left: 1px solid var(--tk-border);
-    color: var(--tk-color-gray-3);
+    color: var(--tk-text-muted);
     cursor: pointer;
     transition: color 0.12s, background 0.12s;
   }
 
   .sk-install__copy:hover {
     color: var(--tk-color-white);
-    background: var(--tk-bg-hover);
+    background: var(--tk-border);
   }
 
   .sk-badge {
