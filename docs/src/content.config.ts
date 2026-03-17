@@ -75,6 +75,7 @@ const skillExtraSchema = z.object({
   skillEvals: z.array(skillEvalScenarioSchema).optional(),
   tilePublishedUrl: z.string().optional(),
   tileVersion: z.string().optional(),
+  tileName: z.string().optional(),
   sidebar: z
     .object({
       label: z.string().optional(),

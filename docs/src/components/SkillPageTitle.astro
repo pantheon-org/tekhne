@@ -32,6 +32,15 @@ const domain: string | undefined =
 const installSlug =
   skillsIdx >= 0 ? idParts.slice(skillsIdx + 1, -1).join("--") : "";
 
+const skillName: string | undefined = data.name;
+const tileName: string | undefined =
+  data.tileName ?? (skillName ? `pantheon-ai/${skillName}` : undefined);
+const tessInstallCmd = tileName
+  ? skillName && tileName !== `pantheon-ai/${skillName}`
+    ? `npx tessl install ${tileName} --skill ${skillName}`
+    : `npx tessl install ${tileName}`
+  : undefined;
+
 const gradeClass = grade
   ? `skill-badge--${grade
       .toLowerCase()
@@ -74,16 +83,37 @@ const gradeClass = grade
         {description && <p class="sk-desc">{description}</p>}
 
         {installSlug && (
-          <div class="sk-install">
-            <code class="sk-install__cmd">npx skills add github:pantheon-org/tekhne --skill {installSlug}</code>
-            <button
-              class="sk-install__copy"
-              type="button"
-              aria-label="Copy install command"
-              data-copy={`npx skills add github:pantheon-org/tekhne --skill ${installSlug}`}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-            </button>
+          <div class="sk-install" data-install={installSlug}>
+            <div class="sk-install__tabs">
+              {tessInstallCmd && (
+                <button class="sk-install__tab sk-install__tab--active" data-tab="tessl">npx tessl</button>
+              )}
+              <button class:list={["sk-install__tab", !tessInstallCmd && "sk-install__tab--active"]} data-tab="skills">npx skills</button>
+            </div>
+            {tessInstallCmd && (
+              <div class="sk-install__panel sk-install__panel--active" data-panel="tessl">
+                <code class="sk-install__cmd">{tessInstallCmd}</code>
+                <button
+                  class="sk-install__copy"
+                  type="button"
+                  aria-label="Copy install command"
+                  data-copy={tessInstallCmd}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                </button>
+              </div>
+            )}
+            <div class:list={["sk-install__panel", !tessInstallCmd && "sk-install__panel--active"]} data-panel="skills">
+              <code class="sk-install__cmd">npx skills add github:pantheon-org/tekhne --skill {installSlug}</code>
+              <button
+                class="sk-install__copy"
+                type="button"
+                aria-label="Copy install command"
+                data-copy={`npx skills add github:pantheon-org/tekhne --skill ${installSlug}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              </button>
+            </div>
           </div>
         )}
 
@@ -203,12 +233,50 @@ const gradeClass = grade
   }
 
   .sk-install {
-    display: flex;
-    align-items: stretch;
-    background: var(--tk-bg-hover);
     border: 1px solid var(--tk-border);
     border-radius: 0.5rem;
     overflow: hidden;
+  }
+
+  .sk-install__tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid var(--tk-border);
+    background: var(--tk-bg-surface);
+    padding: 0 0.5rem;
+  }
+
+  .sk-install__tab {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--tk-text-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.12s, border-color 0.12s;
+  }
+
+  .sk-install__tab:hover {
+    color: var(--tk-color-white);
+  }
+
+  .sk-install__tab--active {
+    color: var(--tk-color-white);
+    border-bottom-color: var(--tk-color-accent, #818cf8);
+  }
+
+  .sk-install__panel {
+    display: none;
+    align-items: stretch;
+    background: var(--tk-bg-hover);
+  }
+
+  .sk-install__panel--active {
+    display: flex;
   }
 
   .sk-install__cmd {
@@ -279,6 +347,20 @@ const gradeClass = grade
 </style>
 
 <script>
+  document.querySelectorAll<HTMLElement>(".sk-install").forEach((block) => {
+    block.querySelectorAll<HTMLButtonElement>(".sk-install__tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.tab;
+        block.querySelectorAll<HTMLButtonElement>(".sk-install__tab").forEach((t) => {
+          t.classList.toggle("sk-install__tab--active", t === tab);
+        });
+        block.querySelectorAll<HTMLElement>(".sk-install__panel").forEach((panel) => {
+          panel.classList.toggle("sk-install__panel--active", panel.dataset.panel === target);
+        });
+      });
+    });
+  });
+
   document.querySelectorAll<HTMLButtonElement>(".sk-install__copy").forEach((btn) => {
     btn.addEventListener("click", () => {
       const text = btn.dataset.copy;
