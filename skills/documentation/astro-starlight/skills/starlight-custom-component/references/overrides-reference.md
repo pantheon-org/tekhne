@@ -76,3 +76,26 @@ Default components are importable from:
 ```js
 import Default from '@astrojs/starlight/components/<ComponentName>.astro';
 ```
+
+## Complete Example: Conditional Banner
+
+```astro
+---
+// src/components/HeaderWithBanner.astro
+import Default from '@astrojs/starlight/components/Header.astro';
+const showBanner = Astro.locals.starlightRoute.id.startsWith('guides/');
+---
+{showBanner && (
+  <div class="guide-banner">These guides are for version 2.x</div>
+)}
+<Default><slot /></Default>
+
+<style>
+  .guide-banner {
+    background: var(--sl-color-accent);
+    color: var(--sl-color-white);
+    padding: 0.5rem 1rem;
+    text-align: center;
+  }
+</style>
+```

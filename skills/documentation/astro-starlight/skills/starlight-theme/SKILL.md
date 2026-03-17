@@ -19,7 +19,7 @@ Starlight exposes its entire visual design through CSS custom properties. Overri
 - Replacing entire UI sections (header, footer, sidebar) — use `starlight-custom-component` instead
 - Per-page layout changes without global theming intent
 
-## Mental Model
+## Mindset
 
 **Starlight styles live in CSS cascade layers. Unlayered CSS always wins.**
 
@@ -90,28 +90,6 @@ export default defineConfig({
 
 See [css-variables-reference.md](./references/css-variables-reference.md) for the full Tailwind `@theme` color scale mapping.
 
-## Custom Fonts
-
-**Fontsource (recommended):**
-
-```bash
-npm install @fontsource/inter
-```
-
-```js
-customCss: ['@fontsource/inter/400.css', '@fontsource/inter/600.css'],
-```
-
-```css
-:root { --sl-font: 'Inter', sans-serif; }
-```
-
-**Local files:** Use `@font-face` with `font-display: swap` and register via `customCss`.
-
-## Color Theme Editor
-
-Use the [Starlight color theme editor](https://starlight.astro.build/guides/css-and-tailwind/#theming) to generate accent/gray palettes without manual color math.
-
 ## Anti-Patterns
 
 ### NEVER override Starlight styles without the `customCss` array
@@ -125,21 +103,23 @@ Use the [Starlight color theme editor](https://starlight.astro.build/guides/css-
 
 ### NEVER add raw Tailwind imports without the compatibility layer
 
-**WHY:** Tailwind's Preflight reset conflicts with Starlight's base styles.
+**WHY:** Tailwind's Preflight reset conflicts with Starlight's base styles. **Consequence:** Visual regressions, broken dark mode toggle.
 
-**BAD:** Import `tailwindcss` without importing `@astrojs/starlight-tailwind` first.
+**BAD:** Import `tailwindcss` without `@astrojs/starlight-tailwind` first.
 **GOOD:** `@import '@astrojs/starlight-tailwind'` before Tailwind imports.
-
-**Consequence:** Visual regressions, broken dark mode toggle.
 
 ### NEVER use `.dark` class selectors for dark mode
 
-**WHY:** Starlight uses `data-theme="dark"` on `<html>`, not a `.dark` class.
+**WHY:** Starlight uses `data-theme="dark"` on `<html>`, not a `.dark` class. **Consequence:** Dark mode styles never activate.
 
-**BAD:** `.dark:bg-gray-900` (never matches)
-**GOOD:** Install `@astrojs/starlight-tailwind` and use `dark:` variants normally.
+**BAD:** `.dark:bg-gray-900` (never matches in Starlight)
 
-**Consequence:** Dark mode styles never activate.
+**GOOD** (plain CSS):
+```css
+:root[data-theme='dark'] { --sl-color-bg: #0f172a; }
+```
+
+Use `dark:` Tailwind variants only after installing `@astrojs/starlight-tailwind`.
 
 ### NEVER mix `--sl-*` variables with Tailwind `@theme` overrides
 

@@ -74,3 +74,25 @@ When using `@astrojs/starlight-tailwind`, these Tailwind tokens map to Starlight
 | `--color-gray-*` | `--sl-color-gray-*` |
 | `--font-sans` | `--sl-font` |
 | `--font-mono` | `--sl-font-mono` |
+
+## Custom Fonts
+
+**Fontsource (recommended):**
+
+```bash
+npm install @fontsource/inter
+```
+
+```js
+customCss: ['@fontsource/inter/400.css', '@fontsource/inter/600.css'],
+```
+
+```css
+:root { --sl-font: 'Inter', sans-serif; }
+```
+
+**Local files:** Use `@font-face` with `font-display: swap` and register via `customCss`.
+
+## Color Theme Editor
+
+Use the [Starlight color theme editor](https://starlight.astro.build/guides/css-and-tailwind/#theming) to generate accent/gray palettes without manual color math.
