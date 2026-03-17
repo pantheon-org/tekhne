@@ -68,6 +68,14 @@ if (isSkillPage && skillRefsMeta.length > 0) {
       return { slug: meta.slug, title: meta.title, Content };
     }),
   );
+
+  renderedRefs.sort((a, b) => {
+    const aIsReadme = a.slug.toLowerCase() === "readme";
+    const bIsReadme = b.slug.toLowerCase() === "readme";
+    if (aIsReadme && !bIsReadme) return -1;
+    if (!aIsReadme && bIsReadme) return 1;
+    return 0;
+  });
 }
 
 const DIMENSION_LABELS: Record<string, string> = {
@@ -450,6 +458,30 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
       if (slug) activateRef(slug);
     });
   });
+
+  const panel = document.getElementById("sk-panel-refs");
+  if (panel) {
+    const knownSlugs = new Set(
+      Array.from(panel.querySelectorAll<HTMLElement>("[data-ref-doc]")).map(
+        (d) => d.dataset.refDoc!,
+      ),
+    );
+    panel.addEventListener("click", (e) => {
+      const anchor = (e.target as Element).closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href") ?? "";
+      const filename = href.replace(/^.*\//, "").replace(/\.md$/, "");
+      const slug = knownSlugs.has(filename)
+        ? filename
+        : knownSlugs.has(filename.toLowerCase())
+          ? filename.toLowerCase()
+          : null;
+      if (slug) {
+        e.preventDefault();
+        activateRef(slug);
+      }
+    });
+  }
 </script>
 
 <style>
