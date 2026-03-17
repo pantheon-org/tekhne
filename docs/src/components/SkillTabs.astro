@@ -385,7 +385,8 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 <script>
   document.querySelectorAll<HTMLElement>(".sk-dim__bar-fill").forEach((bar) => {
     const pct = Number(bar.dataset.pct ?? 0);
-    const hue = Math.round(pct * 1.2);
+    const remapped = Math.max(0, (pct - 40) / 60);
+    const hue = Math.round(remapped * 120);
     bar.style.setProperty("--bar-color", `hsl(${hue} 85% 42%)`);
   });
 
