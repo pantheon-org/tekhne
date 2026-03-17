@@ -43,44 +43,47 @@ const gradeClass = grade
 {
   isSkillPage ? (
     <div class="sk-header">
-      <div class="sk-header__badges">
-        {domain && (
-          <span class="sk-badge sk-domain">
-            {domain.replace(/-/g, "\u00A0")}
-          </span>
+      {grade && (
+        <div class:list={["sk-grade", "skill-badge", gradeClass]}>
+          {grade}
+        </div>
+      )}
+
+      <div class="sk-header__body">
+        <div class="sk-header__badges">
+          {domain && (
+            <span class="sk-badge sk-domain">
+              {domain.replace(/-/g, "\u00A0")}
+            </span>
+          )}
+          {version && (
+            <span class="sk-badge sk-version">v{version}</span>
+          )}
+        </div>
+
+        <h1 id={PAGE_TITLE_ID} class="sk-title">
+          {displayTitle}
+        </h1>
+
+        {description && <p class="sk-desc">{description}</p>}
+
+        {installSlug && (
+          <div class="sk-install">
+            <span class="sk-install__label">Install</span>
+            <code class="sk-install__cmd">
+              npx skills add github:pantheon-org/tekhne --skill {installSlug}
+            </code>
+          </div>
         )}
-        {version && (
-          <span class="sk-badge sk-version">v{version}</span>
-        )}
-        {grade && (
-          <span class:list={["sk-badge", "skill-badge", gradeClass]}>
-            {grade}
-          </span>
+
+        {tags.length > 0 && (
+          <div class="sk-tags">
+            {tags.map((tag: string) => (
+              <span class="sk-tag">{tag}</span>
+            ))}
+          </div>
         )}
       </div>
-
-      <h1 id={PAGE_TITLE_ID} class="sk-title">
-        {displayTitle}
-      </h1>
-
-      {description && <p class="sk-desc">{description}</p>}
-
-      {installSlug && (
-        <div class="sk-install">
-          <span class="sk-install__label">Install</span>
-          <code class="sk-install__cmd">
-            npx skills add github:pantheon-org/tekhne --skill {installSlug}
-          </code>
-        </div>
-      )}
-
-      {tags.length > 0 && (
-        <div class="sk-tags">
-          {tags.map((tag: string) => (
-            <span class="sk-tag">{tag}</span>
-          ))}
-        </div>
-      )}
     </div>
   ) : (
     <h1 id={PAGE_TITLE_ID}>{entry.data.title}</h1>
@@ -89,11 +92,32 @@ const gradeClass = grade
 
 <style>
   .sk-header {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
     border: 1px solid var(--tk-border);
     border-radius: 0.5rem;
     background: var(--tk-bg-surface);
     padding: 1.5rem;
     margin-bottom: 1.75rem;
+  }
+
+  .sk-grade {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .sk-header__body {
+    flex: 1;
+    min-width: 0;
   }
 
   .sk-header__badges {
