@@ -1,4 +1,4 @@
-# P04T07 — create-404-page
+# P04T07 — Create `src/pages/404.astro`
 
 ## Phase
 
@@ -6,12 +6,13 @@ Phase 04 — Polish and Feature Parity
 
 ## Goal
 
-Create `docs/src/pages/404.astro` as a custom not-found page that uses `BaseLayout`, shows a helpful message, and provides a link back to the home page and the skill catalogue.
+Create a custom 404 page using `BaseLayout` so unmatched routes render a branded
+error page instead of the host's default.
 
 ## File to create / modify
 
 ```
-docs/src/pages/404.astro   (CREATE)
+src/pages/404.astro   (new)
 ```
 
 ## Implementation
@@ -19,31 +20,40 @@ docs/src/pages/404.astro   (CREATE)
 ```astro
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
-<BaseLayout title="Page Not Found — Tekhne">
-  <main class="error-page">
-    <h1>404</h1>
-    <p>The page you are looking for does not exist or has moved.</p>
-    <nav class="error-links">
-      <a href={`${BASE}/`}>Go to home</a>
-      <a href={`${BASE}/tiles`}>Browse skills</a>
-    </nav>
+
+<BaseLayout title="Page Not Found">
+  <main class="not-found">
+    <h1>404 — Page Not Found</h1>
+    <p>The page you requested doesn't exist.</p>
+    <a href="/tekhne/docs/">Go to the documentation home</a>
   </main>
 </BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    gap: var(--tk-space-4);
+    text-align: center;
+  }
+</style>
 ```
 
 ## Notes
 
-- Astro serves `404.astro` automatically for unmatched routes when deploying to static hosts that support custom 404 pages (GitHub Pages, Netlify, Vercel).
-- For GitHub Pages with `base: "/tekhne"`, the 404 page is served at `/tekhne/404.html`. Some redirects from old Starlight URLs may land here; consider adding a client-side redirect script if the URL pattern allows inference of the correct destination.
-- Keep the 404 page minimal — no LeftNav (navigation context is lost anyway); just a clear message and two action links.
+- Astro automatically serves `src/pages/404.astro` for unmatched routes in SSG
+  mode; no additional config is needed.
+- The link points to `/tekhne/docs/` (with the base path prefix).
 
 ## Verification
 
 ```sh
-cd docs
-[ -f src/pages/404.astro ] && echo "404.astro exists" || echo "FAIL"
-bunx astro build 2>&1 | grep -E "(error|Error)" | head -10
-[ -f dist/404.html ] && echo "404.html in build output" || echo "FAIL: 404.html missing from dist"
+test -f src/pages/404.astro && echo "404 page exists"
+bunx astro build 2>&1 | grep -i "error" | grep -v "^$" | wc -l \
+  | xargs -I{} test {} -eq 0 && echo "build ok"
+test -f dist/tekhne/404.html && echo "404.html generated in dist"
 ```

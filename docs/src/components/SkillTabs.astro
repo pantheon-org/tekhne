@@ -178,7 +178,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         <slot />
       </div>
 
-      {/* Audit panel — list of dated snapshots */}
+      {/* Audit panel — scorecard detail (list in right sidebar) */}
       <div
         id="sk-panel-audit"
         class="sk-tabs__panel"
@@ -187,87 +187,69 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         hidden
       >
         {skillAudits.length > 0 ? (
-          <div class="sk-audit-list">
-            <div class="sk-audit-list__nav" aria-label="Audit dates">
-              {skillAudits.map((snapshot, i) => (
-                <button
-                  class:list={["sk-audit-list__btn", i === 0 && "sk-audit-list__btn--active"]}
-                  data-audit={String(i)}
-                >
-                  <span class="sk-audit-list__date">{getAuditDate(snapshot) ?? "Unknown"}</span>
+          <>
+            {skillAudits.map((snapshot, i) => (
+              <div
+                class:list={["sk-audit", i === 0 && "sk-audit--active"]}
+                data-audit-panel={String(i)}
+                hidden={i !== 0}
+              >
+                <div class="sk-audit__summary">
+                  <div class="sk-audit__score">
+                    <span class="sk-audit__score-value">
+                      {getAuditTotal(snapshot) ?? "–"}
+                    </span>
+                    <span class="sk-audit__score-max">
+                      / {getAuditMax(snapshot)}
+                    </span>
+                  </div>
                   {snapshot.grade && (
-                    <span class:list={["skill-badge", "sk-audit-list__grade", gradeClass(snapshot.grade)]}>
+                    <span class:list={["skill-badge", "sk-audit__grade", gradeClass(snapshot.grade)]}>
                       {snapshot.grade}
                     </span>
                   )}
-                </button>
-              ))}
-            </div>
+                </div>
 
-            <div class="sk-audit-list__content">
-              {skillAudits.map((snapshot, i) => (
-                <div
-                  class:list={["sk-audit", i === 0 && "sk-audit--active"]}
-                  data-audit-panel={String(i)}
-                  hidden={i !== 0}
-                >
-                  <div class="sk-audit__summary">
-                    <div class="sk-audit__score">
-                      <span class="sk-audit__score-value">
-                        {getAuditTotal(snapshot) ?? "–"}
-                      </span>
-                      <span class="sk-audit__score-max">
-                        / {getAuditMax(snapshot)}
-                      </span>
-                    </div>
-                    {snapshot.grade && (
-                      <span class:list={["skill-badge", "sk-audit__grade", gradeClass(snapshot.grade)]}>
-                        {snapshot.grade}
-                      </span>
+                {snapshot.dimensions && (
+                  <div class="sk-audit__dimensions">
+                    {Object.entries(snapshot.dimensions).map(
+                      ([key, score]: [string, number]) => {
+                        const pct = Math.round((score / DIMENSION_MAX) * 100);
+                        return (
+                          <div class="sk-dim">
+                            <div class="sk-dim__header">
+                              <span class="sk-dim__label">
+                                {DIMENSION_LABELS[key] ?? key}
+                              </span>
+                              <span class="sk-dim__score">
+                                {score}/{DIMENSION_MAX}
+                              </span>
+                            </div>
+                            <div class="sk-dim__bar-track">
+                              <div
+                                class="sk-dim__bar-fill"
+                                style={`width: ${Math.min(pct, 100)}%`}
+                                data-pct={pct}
+                              />
+                            </div>
+                          </div>
+                        );
+                      },
                     )}
                   </div>
+                )}
 
-                  {snapshot.dimensions && (
-                    <div class="sk-audit__dimensions">
-                      {Object.entries(snapshot.dimensions).map(
-                        ([key, score]: [string, number]) => {
-                          const pct = Math.round((score / DIMENSION_MAX) * 100);
-                          return (
-                            <div class="sk-dim">
-                              <div class="sk-dim__header">
-                                <span class="sk-dim__label">
-                                  {DIMENSION_LABELS[key] ?? key}
-                                </span>
-                                <span class="sk-dim__score">
-                                  {score}/{DIMENSION_MAX}
-                                </span>
-                              </div>
-                              <div class="sk-dim__bar-track">
-                                <div
-                                  class="sk-dim__bar-fill"
-                                  style={`width: ${Math.min(pct, 100)}%`}
-                                  data-pct={pct}
-                                />
-                              </div>
-                            </div>
-                          );
-                        },
-                      )}
-                    </div>
-                  )}
-
-                  {(snapshot.lines !== undefined || snapshot.fileSize !== undefined) && (
-                    <p class="sk-audit__meta">
-                      {snapshot.lines !== undefined && `${snapshot.lines} lines`}
-                      {snapshot.fileSize !== undefined && `${snapshot.fileSize} lines`}
-                      {snapshot.referenceCount !== undefined &&
-                        ` · ${snapshot.referenceCount} reference${snapshot.referenceCount !== 1 ? "s" : ""}`}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+                {(snapshot.lines !== undefined || snapshot.fileSize !== undefined) && (
+                  <p class="sk-audit__meta">
+                    {snapshot.lines !== undefined && `${snapshot.lines} lines`}
+                    {snapshot.fileSize !== undefined && `${snapshot.fileSize} lines`}
+                    {snapshot.referenceCount !== undefined &&
+                      ` · ${snapshot.referenceCount} reference${snapshot.referenceCount !== 1 ? "s" : ""}`}
+                  </p>
+                )}
+              </div>
+            ))}
+          </>
         ) : skillAudit ? (
           <div class="sk-audit sk-audit--active">
             <div class="sk-audit__summary">
@@ -328,7 +310,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         )}
       </div>
 
-      {/* Evals panel */}
+      {/* Evals panel — scenario detail (list in right sidebar) */}
       <div
         id="sk-panel-evals"
         class="sk-tabs__panel"
@@ -337,46 +319,28 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         hidden
       >
         {skillEvals.length > 0 ? (
-          <div class="sk-evals">
-            <div class="sk-evals__nav" aria-label="Eval scenarios">
-              {skillEvals.map((scenario, i) => (
-                <button
-                  class:list={["sk-evals__btn", i === 0 && "sk-evals__btn--active"]}
-                  data-eval={String(i)}
-                >
-                  <span class="sk-evals__id">{scenario.id}</span>
-                  {scenario.feasible !== undefined && (
-                    <span class:list={["sk-evals__feasible", scenario.feasible ? "sk-evals__feasible--yes" : "sk-evals__feasible--no"]}>
-                      {scenario.feasible ? "feasible" : "infeasible"}
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
-
-            <div class="sk-evals__content">
-              {skillEvals.map((scenario, i) => (
-                <div
-                  class:list={["sk-evals__doc", i === 0 && "sk-evals__doc--active"]}
-                  data-eval-panel={String(i)}
-                  hidden={i !== 0}
-                >
-                  {scenario.capability && (
-                    <p class="sk-evals__capability">{scenario.capability}</p>
-                  )}
-                  {scenario.reason && (
-                    <p class="sk-evals__reason">{scenario.reason}</p>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+          <>
+            {skillEvals.map((scenario, i) => (
+              <div
+                class:list={["sk-evals__doc", i === 0 && "sk-evals__doc--active"]}
+                data-eval-panel={String(i)}
+                hidden={i !== 0}
+              >
+                {scenario.capability && (
+                  <p class="sk-evals__capability">{scenario.capability}</p>
+                )}
+                {scenario.reason && (
+                  <p class="sk-evals__reason">{scenario.reason}</p>
+                )}
+              </div>
+            ))}
+          </>
         ) : (
           <p class="sk-empty">No eval scenarios available.</p>
         )}
       </div>
 
-      {/* References panel — inline rendered content */}
+      {/* References panel — inline rendered content (list in right sidebar) */}
       {renderedRefs.length > 0 && (
         <div
           id="sk-panel-refs"
@@ -385,32 +349,17 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
           data-panel="refs"
           hidden
         >
-          <div class="sk-refs">
-            <nav class="sk-refs__nav" aria-label="Reference documents">
-              {renderedRefs.map((ref, i) => (
-                <button
-                  class:list={["sk-refs__btn", i === 0 && "sk-refs__btn--active"]}
-                  data-ref={ref.slug}
-                >
-                  {ref.title}
-                </button>
-              ))}
-            </nav>
-
-            <div class="sk-refs__content">
-              {renderedRefs.map((ref, i) =>
-                ref.Content ? (
-                  <div
-                    class:list={["sk-refs__doc", "sl-markdown-content", i === 0 && "sk-refs__doc--active"]}
-                    data-ref-doc={ref.slug}
-                    hidden={i !== 0}
-                  >
-                    <ref.Content />
-                  </div>
-                ) : null,
-              )}
-            </div>
-          </div>
+          {renderedRefs.map((ref, i) =>
+            ref.Content ? (
+              <div
+                class:list={["sk-refs__doc", "sl-markdown-content", i === 0 && "sk-refs__doc--active"]}
+                data-ref-doc={ref.slug}
+                hidden={i !== 0}
+              >
+                <ref.Content />
+              </div>
+            ) : null,
+          )}
         </div>
       )}
     </div>
@@ -437,53 +386,10 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         p.classList.toggle("sk-tabs__panel--active", active);
         p.hidden = !active;
       });
-    });
 
-    tabs.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-ref]");
-      if (!btn) return;
-      const target = btn.dataset.ref;
-
-      tabs.querySelectorAll<HTMLButtonElement>("[data-ref]").forEach((b) => {
-        b.classList.toggle("sk-refs__btn--active", b.dataset.ref === target);
-      });
-      tabs.querySelectorAll<HTMLElement>("[data-ref-doc]").forEach((p) => {
-        const active = p.dataset.refDoc === target;
-        p.classList.toggle("sk-refs__doc--active", active);
-        p.hidden = !active;
-      });
-    });
-
-    tabs.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-audit]");
-      if (!btn || btn.hasAttribute("data-tab")) return;
-      const target = btn.dataset.audit;
-
-      tabs.querySelectorAll<HTMLButtonElement>("[data-audit]").forEach((b) => {
-        if (!b.hasAttribute("data-tab"))
-          b.classList.toggle("sk-audit-list__btn--active", b.dataset.audit === target);
-      });
-      tabs.querySelectorAll<HTMLElement>("[data-audit-panel]").forEach((p) => {
-        const active = p.dataset.auditPanel === target;
-        p.classList.toggle("sk-audit--active", active);
-        p.hidden = !active;
-      });
-    });
-
-    tabs.addEventListener("click", (e) => {
-      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-eval]");
-      if (!btn || btn.hasAttribute("data-tab")) return;
-      const target = btn.dataset.eval;
-
-      tabs.querySelectorAll<HTMLButtonElement>("[data-eval]").forEach((b) => {
-        if (!b.hasAttribute("data-tab"))
-          b.classList.toggle("sk-evals__btn--active", b.dataset.eval === target);
-      });
-      tabs.querySelectorAll<HTMLElement>("[data-eval-panel]").forEach((p) => {
-        const active = p.dataset.evalPanel === target;
-        p.classList.toggle("sk-evals__doc--active", active);
-        p.hidden = !active;
-      });
+      document.dispatchEvent(
+        new CustomEvent("sk-tab-change", { detail: target }),
+      );
     });
   }
 </script>
@@ -544,77 +450,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 
   .sk-tabs__panel--active {
     display: block;
-  }
-
-  /* ── Shared sidebar list layout ─────────────────────────── */
-
-  .sk-audit-list,
-  .sk-evals {
-    display: grid;
-    grid-template-columns: 180px 1fr;
-    gap: 1.5rem;
-    align-items: start;
-  }
-
-  @media (max-width: 640px) {
-    .sk-audit-list,
-    .sk-evals {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  /* ── Audit snapshot list ────────────────────────────────── */
-
-  .sk-audit-list__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    position: sticky;
-    top: var(--sl-nav-height, 3.5rem);
-  }
-
-  .sk-audit-list__btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.5rem;
-    width: 100%;
-    text-align: left;
-    padding: 0.45rem 0.75rem;
-    background: none;
-    border: 1px solid transparent;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    font-size: var(--sl-text-xs);
-    font-family: inherit;
-    color: var(--sl-color-gray-2);
-    transition: background 0.12s, color 0.12s, border-color 0.12s;
-  }
-
-  .sk-audit-list__btn:hover {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-  }
-
-  .sk-audit-list__btn--active {
-    background: var(--sl-color-gray-5);
-    border-color: var(--sl-color-hairline-medium);
-    color: var(--sl-color-white);
-    font-weight: 500;
-  }
-
-  .sk-audit-list__date {
-    font-family: var(--sl-font-mono);
-    font-size: 0.7rem;
-  }
-
-  .sk-audit-list__grade {
-    font-size: 0.65rem !important;
-    padding: 0.1em 0.4em !important;
-  }
-
-  .sk-audit-list__content {
-    min-width: 0;
   }
 
   /* ── Audit scorecard ────────────────────────────────────── */
@@ -704,71 +539,6 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 
   /* ── Evals panel ────────────────────────────────────────── */
 
-  .sk-evals__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    position: sticky;
-    top: var(--sl-nav-height, 3.5rem);
-  }
-
-  .sk-evals__btn {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 0.2rem;
-    width: 100%;
-    text-align: left;
-    padding: 0.45rem 0.75rem;
-    background: none;
-    border: 1px solid transparent;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    font-size: var(--sl-text-xs);
-    font-family: inherit;
-    color: var(--sl-color-gray-2);
-    transition: background 0.12s, color 0.12s, border-color 0.12s;
-  }
-
-  .sk-evals__btn:hover {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-  }
-
-  .sk-evals__btn--active {
-    background: var(--sl-color-gray-5);
-    border-color: var(--sl-color-hairline-medium);
-    color: var(--sl-color-white);
-    font-weight: 500;
-  }
-
-  .sk-evals__id {
-    font-family: var(--sl-font-mono);
-    font-size: 0.7rem;
-    line-height: 1.3;
-  }
-
-  .sk-evals__feasible {
-    font-size: 0.65rem;
-    border-radius: 9999px;
-    padding: 0.1em 0.5em;
-    font-weight: 500;
-  }
-
-  .sk-evals__feasible--yes {
-    background: color-mix(in srgb, var(--sl-color-green) 15%, transparent);
-    color: var(--sl-color-green);
-  }
-
-  .sk-evals__feasible--no {
-    background: color-mix(in srgb, var(--sl-color-orange) 15%, transparent);
-    color: var(--sl-color-orange);
-  }
-
-  .sk-evals__content {
-    min-width: 0;
-  }
-
   .sk-evals__doc {
     display: none;
   }
@@ -792,61 +562,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     line-height: 1.6;
   }
 
-  /* ── References layout ──────────────────────────────────── */
-
-  .sk-refs {
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 1.5rem;
-    align-items: start;
-  }
-
-  @media (max-width: 640px) {
-    .sk-refs {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .sk-refs__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 0.125rem;
-    position: sticky;
-    top: var(--sl-nav-height, 3.5rem);
-  }
-
-  .sk-refs__btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 0.45rem 0.75rem;
-    background: none;
-    border: 1px solid transparent;
-    border-radius: 0.375rem;
-    cursor: pointer;
-    font-size: var(--sl-text-xs);
-    font-family: inherit;
-    color: var(--sl-color-gray-2);
-    transition: background 0.12s, color 0.12s, border-color 0.12s;
-    white-space: normal;
-    line-height: 1.4;
-  }
-
-  .sk-refs__btn:hover {
-    background: var(--sl-color-gray-5);
-    color: var(--sl-color-white);
-  }
-
-  .sk-refs__btn--active {
-    background: var(--sl-color-gray-5);
-    border-color: var(--sl-color-hairline-medium);
-    color: var(--sl-color-white);
-    font-weight: 500;
-  }
-
-  .sk-refs__content {
-    min-width: 0;
-  }
+  /* ── References panel ──────────────────────────────────── */
 
   .sk-refs__doc {
     display: none;

@@ -1,4 +1,4 @@
-# P01T10 — Prototype Slug Mapping
+# P01T10 — Prototype slug mapping
 
 ## Phase
 
@@ -6,7 +6,9 @@ Phase 01 — Layout Scaffolding
 
 ## Goal
 
-Produce a dry-run script that reads all `docs` collection entry IDs and prints the computed `[...slug]` route values, confirming no collisions or missing pages across all 537 entries before the Phase 2 cutover.
+Write a dry-run script that reads all `docs` collection entry IDs and prints the
+computed `[...slug]` values, confirming no collisions or missing pages before the
+Phase 2 cutover.
 
 ## File to create / modify
 
@@ -16,67 +18,62 @@ docs/scripts/check-slugs.mjs
 
 ## Implementation
 
-```js
+```javascript
 #!/usr/bin/env node
-// Dry-run: prints computed slug for every docs collection entry.
-// Run before Phase 2 cutover to confirm no collisions.
-import { readdir, readFile } from "node:fs/promises";
-import { join, relative } from "node:path";
+// Dry-run: reads the preprocessed content directory and lists all slug mappings.
+// Run AFTER prelink.mjs has copied skills/ → docs/src/content/docs/skills/
 
-const SKILLS_SRC = new URL("../../skills", import.meta.url).pathname;
-const CONTENT_OUT = new URL("../src/content/docs/skills", import.meta.url).pathname;
+import { readdir } from "node:fs/promises";
+import { join } from "node:path";
 
-async function walk(dir) {
+const ROOT = new URL("../src/content/docs/", import.meta.url).pathname;
+
+async function walk(dir, base = "") {
   const entries = await readdir(dir, { withFileTypes: true });
-  const files = [];
+  const results = [];
   for (const e of entries) {
-    const full = join(dir, e.name);
-    if (e.isDirectory()) files.push(...(await walk(full)));
-    else files.push(full);
+    const rel = base ? `${base}/${e.name}` : e.name;
+    if (e.isDirectory()) {
+      results.push(...await walk(join(dir, e.name), rel));
+    } else if (e.name.endsWith(".md") || e.name.endsWith(".mdx")) {
+      // Strip extension to get collection ID
+      const id = rel.replace(/\.(md|mdx)$/, "");
+      // [...slug] strips leading "skills/" prefix
+      const slug = id.replace(/^skills\//, "");
+      results.push({ id, slug });
+    }
   }
-  return files;
+  return results;
 }
 
-const all = await walk(CONTENT_OUT);
-const mdFiles = all.filter((f) => f.endsWith(".md") || f.endsWith(".mdx"));
+const pages = await walk(ROOT);
+const slugs = pages.map((p) => p.slug);
+const unique = new Set(slugs);
 
-const slugs = mdFiles.map((f) => {
-  // Collection ID: path relative to content/docs, no extension
-  const id = relative(CONTENT_OUT, f).replace(/\.(md|mdx)$/, "");
-  // Route slug: strip leading "skills/" prefix used by getStaticPaths
-  const routeSlug = id.replace(/^skills\//, "");
-  return { id, routeSlug };
-});
-
-// Detect duplicates
-const seen = new Map();
-let hasDupe = false;
-for (const { id, routeSlug } of slugs) {
-  if (seen.has(routeSlug)) {
-    console.error(`COLLISION: ${routeSlug} — from "${id}" and "${seen.get(routeSlug)}"`);
-    hasDupe = true;
+console.log(`Total pages: ${pages.length}`);
+console.log(`Unique slugs: ${unique.size}`);
+if (unique.size !== pages.length) {
+  console.error("COLLISION DETECTED:");
+  const seen = new Map();
+  for (const p of pages) {
+    if (seen.has(p.slug)) {
+      console.error(`  ${p.slug} (${p.id} vs ${seen.get(p.slug)})`);
+    }
+    seen.set(p.slug, p.id);
   }
-  seen.set(routeSlug, id);
-}
-
-console.log(`Total entries: ${slugs.length}`);
-if (hasDupe) {
   process.exit(1);
-} else {
-  console.log("No collisions. Safe to proceed with Phase 2 cutover.");
 }
+console.log("No collisions.");
 ```
 
 ## Notes
 
-- Run `bun run prelink` first so `docs/src/content/docs/skills/` is populated before this script executes.
-- The script must exit 0 before starting Phase 2; a non-zero exit means slug collisions exist and must be resolved first.
-- Collection IDs produced by Astro's glob loader have **no file extension** (e.g. `skills/infrastructure/terraform/generator/skill`) — strip only the leading `skills/` prefix for the route.
+- Run this script **after** `prelink.mjs` has populated `docs/src/content/docs/skills/`.
+- The expected count of 537 should be verified against the actual output; update the gate in Phase 1 README if it differs.
+- This script is throwaway — delete it after Phase 2 cutover is confirmed.
 
 ## Verification
 
 ```sh
-cd docs
-node scripts/check-slugs.mjs
-echo "Exit code: $?"
+cd docs && node scripts/check-slugs.mjs
 ```

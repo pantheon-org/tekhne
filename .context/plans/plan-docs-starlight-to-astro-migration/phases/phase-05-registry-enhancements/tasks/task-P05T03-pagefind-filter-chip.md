@@ -1,4 +1,4 @@
-# P05T03 — pagefind-filter-chip
+# P05T03 — Pagefind filter chip
 
 ## Phase
 
@@ -6,62 +6,67 @@ Phase 05 — Registry Enhancements
 
 ## Goal
 
-Add Pagefind filter metadata (`data-pagefind-filter`) to skill pages so search results can be filtered by domain and grade, then expose those filters as chips in the `Search.astro` component UI.
+Add a filter chip to `SearchBar.astro` that toggles the Pagefind UI between
+showing all results and showing only skill pages (`type:skill`).
 
 ## File to create / modify
 
 ```
-docs/src/layouts/SkillLayout.astro   (add data-pagefind-filter attributes)
-docs/src/components/Search.astro     (add filter chip UI)
+src/components/SearchBar.astro
 ```
 
 ## Implementation
 
-**SkillLayout.astro** — add filter metadata to the content wrapper:
+Extend `SearchBar.astro` to add a filter chip and pass the active filter to the
+Pagefind UI `filters` option:
 
 ```astro
-<article
-  data-pagefind-body
-  data-pagefind-filter={`domain:${entry.data.domain ?? "other"}`}
-  data-pagefind-meta={`grade:${entry.data.grade ?? ""}`}
->
-  <slot />
-</article>
-```
-
-**Search.astro** — extend the Pagefind UI to show domain filter chips. The Pagefind JS API allows filtering:
-
-```astro
-<div id="search-container">
-  <div id="search-filters" class="filter-chips">
-    <!-- populated by JS after pagefind initialises -->
+---
+---
+<div class="search-wrapper">
+  <div id="search" class="search-bar"></div>
+  <div class="search-filter">
+    <button id="filter-all" class="chip active">All</button>
+    <button id="filter-skills" class="chip">Skills only</button>
   </div>
-  <div id="pagefind-ui"></div>
 </div>
 
-<script>
-import("/pagefind/pagefind-ui.js").then(({ PagefindUI }) => {
-  new PagefindUI({
-    element: "#pagefind-ui",
-    showSubResults: true,
-    filters: true,
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script src="/pagefind/pagefind-ui.js" is:inline></script>
+<script is:inline>
+  let pf;
+  window.addEventListener("DOMContentLoaded", () => {
+    pf = new PagefindUI({ element: "#search", showSubResults: true });
+
+    document.getElementById("filter-all").addEventListener("click", () => {
+      pf.triggerSearch("", {});
+      setActive("all");
+    });
+
+    document.getElementById("filter-skills").addEventListener("click", () => {
+      pf.triggerSearch("", { filters: { type: "skill" } });
+      setActive("skills");
+    });
+
+    function setActive(id) {
+      document.querySelectorAll(".search-filter .chip").forEach((c) =>
+        c.classList.toggle("active", c.id === `filter-${id}`)
+      );
+    }
   });
-});
 </script>
 ```
 
 ## Notes
 
-- `data-pagefind-filter` is a Pagefind v1 attribute that enables faceted filtering. The format is `"key:value"`.
-- Multiple filters on the same element are supported by using separate `data-pagefind-filter` attributes or a JSON array value.
-- Pagefind filter UI is built into `PagefindUI` when `filters: true` is passed; custom chip rendering is optional.
-- Test with `bunx astro build && bunx pagefind --site dist` — the index must be rebuilt to reflect new filter metadata.
+- Pagefind filters require the `data-pagefind-meta` attributes added in P04T04.
+- The Pagefind JS bundle is only present after `bun run build` — the filter
+  chip is hidden via CSS in dev mode if `pagefind-ui.js` does not load.
 
 ## Verification
 
 ```sh
-cd docs
-bunx astro build 2>&1 | tail -5
-grep "data-pagefind-filter" src/layouts/SkillLayout.astro && echo "filter metadata present" || echo "FAIL"
-[ -d dist/pagefind ] && echo "pagefind index present" || echo "FAIL: run build first"
+bunx astro build && npx pagefind --source dist 2>&1 | tail -3
+test -f dist/pagefind/pagefind.js && echo "index present"
+grep "filter-skills\|type.*skill" src/components/SearchBar.astro && echo "filter chip present"
 ```

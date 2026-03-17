@@ -2,68 +2,72 @@
 
 ## Goal
 
-Verify and complete every UX detail needed to match (or exceed) the current
-Starlight site before merging to main: left nav persistence, mobile overlay,
-theme toggle, Pagefind search, edit-on-GitHub links, breadcrumbs, and 404.
+Reach full feature parity with the current Starlight site: left nav UX, mobile
+responsiveness, theme toggle wiring, Pagefind search, per-page edit links,
+breadcrumbs for reference sub-pages, and a 404 page.
 
 ## Gate
 
-- [ ] `cd docs && bun run build` exits 0
-- [ ] Left nav domain group state survives full page navigation (verified manually)
-- [ ] Active ancestor group is force-expanded on load (verified manually)
-- [ ] Hamburger overlay opens and closes; focus trap active while open (verified manually)
-- [ ] Right sidebar collapses below mobile breakpoint (verified manually)
-- [ ] Theme toggle changes theme; system preference respected on cold load; no FOUT (verified manually in both system dark and light modes)
-- [ ] Pagefind index built; search returns results with `type:skill` metadata tags
-- [ ] Edit-on-GitHub link present and correct on a skill page and a reference sub-page
-- [ ] Breadcrumb present on a reference sub-page
-- [ ] `404.astro` returns HTTP 404 (GitHub Pages config)
+- [ ] `bun run build` exits 0
+- [ ] Left nav group state persists across page navigations (manual verification)
+- [ ] Active ancestor domain auto-expands on deep links (manual verification)
+- [ ] Hamburger overlay opens/closes on mobile viewport (manual verification)
+- [ ] Theme toggle switches correctly; no flash on first load in both system-dark and system-light modes (manual verification)
+- [ ] Pagefind search returns results (run `bun run build` then `npx pagefind --source docs/dist` and verify output)
+- [ ] Edit-on-GitHub link appears on each page pointing to correct source file
+- [ ] Breadcrumb renders on reference sub-pages
+- [ ] `docs/src/pages/404.astro` exists
 
 ## Dependencies
 
-- Phase 02 complete: all routes wired, build passes
-- Phase 03 complete: no `--sl-*` references
+- Phase 03 complete (no `--sl-*` or Starlight utility class references)
 
 ## Tasks
 
-### P04T01 — Verify left nav UX
+### P04T01 — Left nav UX
 
-Confirm `localStorage` persistence, active ancestor auto-expansion, and keyboard accessibility (Enter/Space on group toggles).
+Verify `localStorage` persistence across navigations; active ancestor
+auto-expansion; keyboard accessibility (Enter/Space on group toggles).
 
-[Full detail](tasks/task-P04T01-verify-left-nav-ux.md)
+[Full detail](tasks/task-P04T01-left-nav-ux.md)
 
-### P04T02 — Verify mobile nav
+### P04T02 — Mobile responsiveness
 
-Confirm hamburger overlay opens/closes `LeftNav`; focus trap in nav overlay; right sidebar collapses below breakpoint.
+Hamburger overlay opens/closes `LeftNav`. Focus trap in nav overlay. Right
+sidebar collapses below breakpoint.
 
-[Full detail](tasks/task-P04T02-verify-mobile-nav.md)
+[Full detail](tasks/task-P04T02-mobile-responsiveness.md)
 
-### P04T03 — Wire `ThemeToggle` into `BaseLayout`
+### P04T03 — Theme toggle wiring
 
-Add `ThemeToggle` to the header slot in `BaseLayout.astro` and verify flash-prevention inline script fires before first paint.
+Wire `ThemeToggle` into `BaseLayout` header. Verify flash-prevention script
+fires before paint in both system dark and light modes.
 
-[Full detail](tasks/task-P04T03-wire-theme-toggle.md)
+[Full detail](tasks/task-P04T03-theme-toggle-wiring.md)
 
-### P04T04 — Configure Pagefind
+### P04T04 — Pagefind integration
 
-Add `data-pagefind-meta="type:skill"` and `type:reference` attributes to layout wrappers; create `SearchBar.astro` with Pagefind UI.
+Add `data-pagefind-meta="type:skill"` to skill page wrapper in `SkillLayout`.
+Add `data-pagefind-meta="type:reference"` to reference pages. Create
+`SearchBar.astro` with Pagefind UI.
 
-[Full detail](tasks/task-P04T04-configure-pagefind.md)
+[Full detail](tasks/task-P04T04-pagefind-integration.md)
 
-### P04T05 — Add edit-on-GitHub link
+### P04T05 — Edit-on-GitHub link
 
-Derive GitHub file URL from `entry.id` and render an edit link on every skill and reference page.
+Add per-page edit-on-GitHub link using `entry.id` to construct the GitHub
+file URL.
 
-[Full detail](tasks/task-P04T05-add-edit-on-github-link.md)
+[Full detail](tasks/task-P04T05-edit-on-github-link.md)
 
-### P04T06 — Add breadcrumb for reference sub-pages
+### P04T06 — Breadcrumb for reference sub-pages
 
-Render "Skill name → Reference title" breadcrumb on reference sub-pages using `entry.id` segments.
+Render breadcrumb (skill name → reference title) on reference sub-pages.
 
-[Full detail](tasks/task-P04T06-add-breadcrumb.md)
+[Full detail](tasks/task-P04T06-breadcrumb-reference-pages.md)
 
-### P04T07 — Create `404.astro`
+### P04T07 — Create `src/pages/404.astro`
 
-404 page using `BaseLayout` with a helpful message and a home link.
+404 page using `BaseLayout`.
 
 [Full detail](tasks/task-P04T07-create-404-page.md)

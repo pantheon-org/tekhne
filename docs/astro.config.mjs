@@ -133,6 +133,7 @@ export default defineConfig({
       components: {
         PageTitle: "./src/components/SkillPageTitle.astro",
         MarkdownContent: "./src/components/SkillTabs.astro",
+        PageSidebar: "./src/components/SkillSidebar.astro",
       },
       sidebar: [
         {

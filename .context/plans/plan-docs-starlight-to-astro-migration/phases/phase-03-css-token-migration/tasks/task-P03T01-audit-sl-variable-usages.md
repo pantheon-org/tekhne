@@ -1,4 +1,4 @@
-# P03T01 — audit-sl-variable-usages
+# P03T01 — Audit `--sl-*` variable usages
 
 ## Phase
 
@@ -6,49 +6,51 @@ Phase 03 — CSS Token Migration
 
 ## Goal
 
-Produce a complete inventory of every `--sl-*` CSS custom property and Starlight utility class used across all CSS and Astro component files, saved to `.context/plans/plan-docs-starlight-to-astro-migration/sl-audit.txt`, so Phase 3 replacements are exhaustive.
+Produce a mapping table of every `--sl-*` custom property used in the codebase
+and its `--tk-*` replacement, written to
+`.context/plans/plan-docs-starlight-to-astro-migration/sl-token-map.md`.
 
 ## File to create / modify
 
 ```
-.context/plans/plan-docs-starlight-to-astro-migration/sl-audit.txt  (CREATE)
+.context/plans/plan-docs-starlight-to-astro-migration/sl-token-map.md  (new)
 ```
 
 ## Implementation
 
-```sh
-# Run from repo root
-grep -rn --include="*.css" --include="*.astro" \
-  -E "(--sl-[a-z-]+|\.sl-[a-z-]+)" \
-  docs/src/ \
-  > .context/plans/plan-docs-starlight-to-astro-migration/sl-audit.txt
+1. List all `--sl-*` references:
 
-echo "--- UNIQUE VARIABLE NAMES ---" >> .context/plans/plan-docs-starlight-to-astro-migration/sl-audit.txt
-grep -oh --include="*.css" --include="*.astro" \
-  -rE "(--sl-[a-z-]+)" \
-  docs/src/ \
-  | sort -u >> .context/plans/plan-docs-starlight-to-astro-migration/sl-audit.txt
+```sh
+grep -rn -- "--sl-" src/ --include="*.astro" --include="*.css" --include="*.ts" \
+  | grep -oP -- "--sl-[\w-]+" | sort -u
 ```
 
-Review the output file. For each `--sl-*` variable, identify the semantic equivalent in `tokens.css` (`--tk-*`). Document the mapping in the audit file as comments.
+2. For each unique variable, map it to the closest `--tk-*` token defined in
+   `src/styles/tokens.css`.
+
+3. Write the mapping table:
+
+```markdown
+| Starlight var | Purpose | --tk-* replacement |
+|---|---|---|
+| --sl-color-text | Body text | --tk-color-text |
+| --sl-color-bg | Page background | --tk-color-bg |
+| --sl-color-accent | Brand accent | --tk-color-accent |
+```
+
+4. Flag any variable with no `--tk-*` counterpart with a `⚠ MISSING` note —
+   those tokens must be added to `tokens.css` before P03T02 can proceed.
 
 ## Notes
 
-- This task is preparatory — it produces the mapping table that P03T02 uses to perform replacements safely.
-- Common Starlight variables and their `--tk-*` equivalents:
-  - `--sl-color-bg` → `--tk-bg`
-  - `--sl-color-text` → `--tk-text`
-  - `--sl-color-accent` → `--tk-accent`
-  - `--sl-color-accent-high` → `--tk-accent-high`
-  - `--sl-color-gray-*` → `--tk-gray-*` (if defined) or raw zinc values
-  - `--sl-font` → `--tk-font-sans`
-  - `--sl-font-mono` → `--tk-font-mono`
-  - `--sl-text-*` → raw `font-size` values from base.css
-- Variables not mapped in `tokens.css` must be added to `tokens.css` before P03T02 runs.
+- This task is read-only; no source files are modified.
+- The mapping table is consumed by P03T02 and P03T03.
 
 ## Verification
 
 ```sh
-[ -s .context/plans/plan-docs-starlight-to-astro-migration/sl-audit.txt ] && echo "audit file exists and non-empty" || echo "FAIL: audit file missing or empty"
-wc -l .context/plans/plan-docs-starlight-to-astro-migration/sl-audit.txt
+test -f .context/plans/plan-docs-starlight-to-astro-migration/sl-token-map.md \
+  && echo "mapping table exists"
+grep -c "|" .context/plans/plan-docs-starlight-to-astro-migration/sl-token-map.md \
+  | xargs -I{} test {} -gt 3 && echo "table has rows"
 ```

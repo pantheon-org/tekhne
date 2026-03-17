@@ -1,4 +1,4 @@
-# P01T07 — Create `LeftNav.astro`
+# P01T07 — Create `src/components/LeftNav.astro`
 
 ## Phase
 
@@ -6,7 +6,9 @@ Phase 01 — Layout Scaffolding
 
 ## Goal
 
-Create `docs/src/components/LeftNav.astro` that server-renders a domain-grouped skill tree from the `docs` collection, with `localStorage`-persisted collapsed/expanded state per domain group and force-expansion of the active page's ancestor.
+Create `docs/src/components/LeftNav.astro` — a server-side-rendered domain-grouped
+skill navigation tree with client-side localStorage persistence and active-link
+highlighting.
 
 ## File to create / modify
 
@@ -20,72 +22,67 @@ docs/src/components/LeftNav.astro
 ---
 import { getCollection } from "astro:content";
 
-interface Props {
-  currentPath: string;
-}
-const { currentPath } = Astro.props;
-
 const entries = await getCollection("docs");
+const currentPath = Astro.url.pathname;
 
-type NavNode = {
+interface NavItem {
+  label: string;
+  href: string;
+  active: boolean;
+}
+
+interface NavGroup {
   domain: string;
   slug: string;
-  title: string;
-  href: string;
-};
+  items: NavItem[];
+}
 
-const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const groups: NavGroup[] = [];
+const domainMap = new Map<string, NavItem[]>();
 
-const nodes: NavNode[] = entries
-  .filter((e) => e.id.endsWith("/skill"))
-  .map((e) => {
-    const parts = e.id.split("/");
-    const domain = parts[1] ?? "other";
-    const slug = e.id.replace(/^skills\//, "").replace(/\/skill$/, "");
-    return {
-      domain,
-      slug,
-      title: e.data.title,
-      href: `${base}/skills/${slug}/`,
-    };
-  })
-  .sort((a, b) => a.title.localeCompare(b.title));
+for (const entry of entries) {
+  if (!entry.id.endsWith("/skill")) continue;
+  const parts = entry.id.split("/");
+  const domain = parts[1] ?? "unknown";
+  const href = `${import.meta.env.BASE_URL}/${entry.id.replace(/^skills\//, "")}`;
+  const active = currentPath.startsWith(href);
+  if (!domainMap.has(domain)) domainMap.set(domain, []);
+  domainMap.get(domain)!.push({ label: entry.data.title, href, active });
+}
 
-const domains = [...new Set(nodes.map((n) => n.domain))].sort();
-
-const grouped = Object.fromEntries(
-  domains.map((d) => [d, nodes.filter((n) => n.domain === d)])
-);
+for (const [domain, items] of domainMap) {
+  groups.push({ domain, slug: domain.replace(/\s+/g, "-").toLowerCase(), items });
+}
+groups.sort((a, b) => a.domain.localeCompare(b.domain));
 ---
 
-<nav class="left-nav" id="left-nav" aria-label="Skill navigation">
-  {domains.map((domain) => {
-    const items = grouped[domain];
-    const isActive = items.some((item) => currentPath.startsWith(item.href));
+<nav id="left-nav" aria-label="Skill navigation">
+  {groups.map((group) => {
+    const hasActive = group.items.some((i) => i.active);
     return (
-      <div class="nav-group" data-domain={domain}>
-        <button
-          class="nav-group-toggle"
-          aria-expanded={isActive ? "true" : "false"}
-          data-domain-key={`tk-nav-${domain}`}
+      <details
+        data-domain={group.slug}
+        open={hasActive || undefined}
+      >
+        <summary
+          tabindex="0"
+          role="button"
         >
-          <span class="nav-group-label">{domain}</span>
-          <span class="nav-chevron" aria-hidden="true">▾</span>
-        </button>
-        <ul class="nav-group-items">
-          {items.map((item) => (
+          {group.domain}
+        </summary>
+        <ul>
+          {group.items.map((item) => (
             <li>
               <a
                 href={item.href}
-                class={`nav-link${currentPath.startsWith(item.href) ? " nav-link--active" : ""}`}
-                aria-current={currentPath.startsWith(item.href) ? "page" : undefined}
+                aria-current={item.active ? "page" : undefined}
               >
-                {item.title}
+                {item.label}
               </a>
             </li>
           ))}
         </ul>
-      </div>
+      </details>
     );
   })}
 </nav>
@@ -93,28 +90,18 @@ const grouped = Object.fromEntries(
 <script>
   const nav = document.getElementById("left-nav");
   if (nav) {
-    nav.querySelectorAll<HTMLButtonElement>(".nav-group-toggle").forEach((btn) => {
-      const key = btn.dataset.domainKey!;
-      const group = btn.closest(".nav-group")!;
-      const list = group.querySelector<HTMLElement>(".nav-group-items")!;
-      const isActive = group.querySelector(".nav-link--active") !== null;
-
+    nav.querySelectorAll("details[data-domain]").forEach((details) => {
+      const el = details as HTMLDetailsElement;
+      const key = `tk-nav-${el.dataset.domain}`;
       const stored = localStorage.getItem(key);
-      const expanded = isActive || stored === "true";
-      btn.setAttribute("aria-expanded", String(expanded));
-      list.style.display = expanded ? "" : "none";
-
-      btn.addEventListener("click", () => {
-        const next = btn.getAttribute("aria-expanded") !== "true";
-        btn.setAttribute("aria-expanded", String(next));
-        list.style.display = next ? "" : "none";
-        localStorage.setItem(key, String(next));
-      });
-
-      btn.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          btn.click();
+      // Force-open if active page is inside; otherwise restore stored state
+      const hasActive = el.querySelector("[aria-current='page']");
+      if (!hasActive && stored !== null) {
+        el.open = stored === "true";
+      }
+      el.addEventListener("toggle", () => {
+        if (!el.querySelector("[aria-current='page']")) {
+          localStorage.setItem(key, String(el.open));
         }
       });
     });
@@ -122,56 +109,46 @@ const grouped = Object.fromEntries(
 </script>
 
 <style>
-  .left-nav {
+  nav {
     border-right: 1px solid var(--tk-border);
     padding: 1rem 0;
     overflow-y: auto;
     background: var(--tk-bg-surface);
   }
 
-  .nav-group-toggle {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  details > summary {
     padding: 0.4rem 1rem;
-    background: none;
-    border: none;
     cursor: pointer;
-    color: var(--tk-text-muted);
-    font-size: 0.75rem;
     font-weight: 600;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    gap: 0.5rem;
+    color: var(--tk-text-muted);
+    list-style: none;
   }
 
-  .nav-group-label {
-    flex: 1;
-    text-align: left;
-  }
+  details > summary::-webkit-details-marker { display: none; }
 
-  .nav-group-items {
+  ul {
     list-style: none;
     padding: 0;
   }
 
-  .nav-link {
+  a {
     display: block;
     padding: 0.3rem 1rem 0.3rem 1.5rem;
-    color: var(--tk-text-muted);
-    text-decoration: none;
     font-size: 0.875rem;
-    border-left: 2px solid transparent;
-  }
-
-  .nav-link:hover {
     color: var(--tk-text);
-    background: var(--tk-bg-subtle);
   }
 
-  .nav-link--active {
+  a:hover {
+    background: var(--tk-bg-hover);
+    text-decoration: none;
+  }
+
+  a[aria-current="page"] {
     color: var(--tk-accent);
-    border-left-color: var(--tk-accent);
+    background: var(--tk-bg-hover);
     font-weight: 500;
   }
 </style>
@@ -179,14 +156,15 @@ const grouped = Object.fromEntries(
 
 ## Notes
 
-- Port `buildSidebarNode` / `buildDomainSidebar` logic from `astro.config.mjs` rather than reimplementing from scratch.
-- Active ancestors are always force-expanded regardless of stored `localStorage` state (see `isActive` check in script).
-- The `currentPath` prop is `Astro.url.pathname` from the parent layout — do not read `window.location` server-side.
+- Ports `buildSidebarNode` / `buildDomainSidebar` logic from `astro.config.mjs` into a component.
+- Uses native `<details>`/`<summary>` for collapse state — no JS required for the initial open/closed render.
+- Active ancestor is force-opened server-side via the `hasActive` check, ensuring correct SSR output.
+- `localStorage` key per domain slug: `tk-nav-<slug>`.
 
 ## Verification
 
 ```sh
-test -f docs/src/components/LeftNav.astro
-grep 'localStorage' docs/src/components/LeftNav.astro
-grep 'aria-expanded' docs/src/components/LeftNav.astro
+test -f docs/src/components/LeftNav.astro && echo ok
+grep "aria-current" docs/src/components/LeftNav.astro
+grep "localStorage" docs/src/components/LeftNav.astro
 ```

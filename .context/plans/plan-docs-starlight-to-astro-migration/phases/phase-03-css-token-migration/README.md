@@ -2,52 +2,55 @@
 
 ## Goal
 
-Eliminate all `--sl-*` Starlight variable references and `sl-` utility classes from
-custom components, replacing them with `--tk-*` tokens from `tokens.css`. After
-this phase the codebase has zero Starlight CSS coupling.
+Replace all `--sl-*` Starlight variable references and `sl-` utility class usages
+in custom components with `--tk-*` tokens defined in `tokens.css`, and remove
+`src/styles/custom.css` entirely.
 
 ## Gate
 
-- [ ] `grep -r "\-\-sl-" docs/src/components` returns no results
-- [ ] `grep -r " sl-" docs/src/components` returns no results (class usage)
-- [ ] `grep -r "sl-hidden\|lg:sl-block\|md:sl-flex" docs/src` returns no results
+- [ ] `grep -r "\-\-sl-" docs/src --include="*.astro" --include="*.css"` returns empty
+- [ ] `grep -r "sl-hidden\|sl-block\|lg:sl-" docs/src --include="*.astro"` returns empty
+- [ ] `bun run build` exits 0
 - [ ] `docs/src/styles/custom.css` does not exist
-- [ ] `cd docs && bun run build` exits 0
-- [ ] Manual visual check: dark and light themes render correctly in browser
 
 ## Dependencies
 
-- Phase 02 complete: Starlight removed, `--tk-*` tokens defined in `tokens.css`
-- `docs/src/styles/tokens.css` contains a complete token set for both themes
+- Phase 02 complete (Starlight removed, all routes on new layout system)
 
 ## Tasks
 
-### P03T01 — Audit `--sl-*` usages
+### P03T01 — Audit `--sl-*` variable usages
 
-Enumerate every `--sl-*` reference in `SkillTabs.astro`, `SkillSidebar.astro`, and `SkillPageTitle.astro`. Produce a mapping table: `--sl-X` → `--tk-Y`.
+List all `--sl-*` references across `SkillTabs.astro`, `SkillSidebar.astro`,
+`SkillPageTitle.astro`, and `custom.css`. Produce a mapping table to corresponding
+`--tk-*` tokens.
 
 [Full detail](tasks/task-P03T01-audit-sl-variable-usages.md)
 
-### P03T02 — Replace `--sl-*` variables
+### P03T02 — Replace `--sl-*` vars in custom components
 
-Apply the mapping table: replace each `--sl-*` reference with the corresponding `--tk-*` token.
+Apply the mapping from P03T01. Replace each `--sl-*` reference with the
+corresponding `--tk-*` token in all three custom components.
 
-[Full detail](tasks/task-P03T02-replace-sl-variables.md)
+[Full detail](tasks/task-P03T02-replace-sl-vars-in-components.md)
 
-### P03T03 — Replace `sl-` utility classes
+### P03T03 — Replace Starlight utility classes
 
-Replace `sl-hidden`, `lg:sl-block`, and similar Starlight utility classes with plain CSS media queries or scoped `<style>` rules.
+Replace `sl-hidden`, `lg:sl-block`, and similar Starlight utility classes with
+plain CSS media queries in component `<style>` blocks.
 
 [Full detail](tasks/task-P03T03-replace-sl-utility-classes.md)
 
-### P03T04 — Delete `custom.css`
+### P03T04 — Delete `src/styles/custom.css`
 
-Merge any surviving rules from `src/styles/custom.css` into `tokens.css` or relevant component `<style>` blocks, then delete `custom.css`.
+Merge any surviving rules into `tokens.css` or relevant component `<style>`
+blocks, then delete `custom.css`.
 
 [Full detail](tasks/task-P03T04-delete-custom-css.md)
 
-### P03T05 — Verify theme rendering
+### P03T05 — Verify dark and light themes
 
-Manual and build-level verification that both dark and light themes render correctly for all three custom components.
+Visually verify all custom components render correctly in both `[data-theme="dark"]`
+and `[data-theme="light"]` modes.
 
-[Full detail](tasks/task-P03T05-verify-theme-rendering.md)
+[Full detail](tasks/task-P03T05-verify-dark-light-themes.md)

@@ -1,4 +1,4 @@
-# P01T09 — Create `NavToggle.astro`
+# P01T09 — Create `src/components/NavToggle.astro`
 
 ## Phase
 
@@ -6,7 +6,8 @@ Phase 01 — Layout Scaffolding
 
 ## Goal
 
-Create `docs/src/components/NavToggle.astro` — a hamburger button that opens and closes the `LeftNav` overlay on mobile viewports.
+Create `docs/src/components/NavToggle.astro` — a hamburger button that toggles
+the `LeftNav` overlay on mobile viewports.
 
 ## File to create / modify
 
@@ -18,85 +19,66 @@ docs/src/components/NavToggle.astro
 
 ```astro
 ---
-// No server-side state needed
 ---
 
 <button
   id="nav-toggle"
-  class="nav-toggle"
   aria-label="Open navigation"
   aria-expanded="false"
   aria-controls="left-nav"
-  type="button"
 >
-  <span class="bar"></span>
-  <span class="bar"></span>
-  <span class="bar"></span>
+  <span aria-hidden="true">&#9776;</span>
 </button>
 
 <script>
-  const toggle = document.getElementById("nav-toggle");
+  const btn = document.getElementById("nav-toggle") as HTMLButtonElement | null;
   const nav = document.getElementById("left-nav");
 
-  if (toggle && nav) {
-    toggle.addEventListener("click", () => {
-      const open = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!open));
-      nav.classList.toggle("nav-open", !open);
-      toggle.setAttribute("aria-label", !open ? "Close navigation" : "Open navigation");
-      if (!open) {
-        nav.focus();
-      }
+  if (btn && nav) {
+    btn.addEventListener("click", () => {
+      const open = nav.getAttribute("data-open") === "true";
+      nav.setAttribute("data-open", String(!open));
+      btn.setAttribute("aria-expanded", String(!open));
+      btn.setAttribute("aria-label", open ? "Open navigation" : "Close navigation");
     });
 
-    nav.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        toggle.setAttribute("aria-expanded", "false");
-        nav.classList.remove("nav-open");
-        toggle.setAttribute("aria-label", "Open navigation");
-        toggle.focus();
+    // Close on outside click
+    document.addEventListener("click", (e) => {
+      if (!nav.contains(e.target as Node) && !btn.contains(e.target as Node)) {
+        nav.setAttribute("data-open", "false");
+        btn.setAttribute("aria-expanded", "false");
+        btn.setAttribute("aria-label", "Open navigation");
       }
     });
   }
 </script>
 
 <style>
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 1.5rem;
-    height: 1.25rem;
+  button {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 0;
+    color: var(--tk-text);
+    font-size: 1.25rem;
+    padding: 0.25rem 0.5rem;
   }
 
-  .bar {
-    display: block;
-    height: 2px;
-    background: var(--tk-text);
-    border-radius: 2px;
-  }
-
-  @media (max-width: 768px) {
-    .nav-toggle {
-      display: flex;
-    }
+  @media (min-width: 769px) {
+    button { display: none; }
   }
 </style>
 ```
 
 ## Notes
 
-- The `aria-controls="left-nav"` attribute links this button to `LeftNav`'s `id="left-nav"`.
-- Full focus trap inside the nav overlay is implemented in Phase 4 (P04T02).
-- On desktop the button is hidden via `display: none`.
+- Only visible below 769px (mobile breakpoint).
+- The `LeftNav` component must add CSS rules to show/hide itself based on `[data-open="true"]` on `#left-nav` — wired in Phase 4 (P04T02) mobile pass.
+- Focus trap inside the nav overlay is implemented in Phase 4 (P04T02).
 
 ## Verification
 
 ```sh
-test -f docs/src/components/NavToggle.astro
-grep 'aria-expanded' docs/src/components/NavToggle.astro
+test -f docs/src/components/NavToggle.astro && echo ok
+grep "aria-expanded" docs/src/components/NavToggle.astro
+grep "aria-controls" docs/src/components/NavToggle.astro
 ```
