@@ -35,6 +35,7 @@ export const uninstallCommand = new Command()
         dryRun: options.dryRun,
         interactive: options.interactive,
       });
+      process.exit(0);
     } catch (error) {
       if (error instanceof CLIError) {
         logger.error(error.message);
