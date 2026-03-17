@@ -44,15 +44,14 @@ const gradeClass = grade
   isSkillPage ? (
     <div class="sk-header">
       <div class:list={["sk-grade", grade ? gradeClass : "sk-grade--na"]}>
-        {grade ? (
-          <svg class="sk-grade__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
-            <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor"/>
-          </svg>
-        ) : (
-          <svg class="sk-grade__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
-            <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="var(--tk-bg)" stroke="var(--tk-color-white)" stroke-width="1.5"/>
-          </svg>
-        )}
+        <svg class="sk-grade__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+          <path
+            d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+            fill={grade ? "currentColor" : "var(--tk-bg)"}
+            stroke={grade ? "var(--tk-border)" : "var(--tk-color-white)"}
+            stroke-width="0.75"
+          />
+        </svg>
         <span class="sk-grade__text">{grade ?? "N/A"}</span>
       </div>
 
