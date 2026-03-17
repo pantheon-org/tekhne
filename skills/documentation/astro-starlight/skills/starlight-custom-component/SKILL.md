@@ -21,9 +21,15 @@ Starlight's built-in UI can be extended or completely replaced by registering yo
 
 ## Mental Model
 
-Starlight's UI is divided into named component slots. You provide a replacement `.astro` file for any slot, and Starlight uses it instead of its default. You can also import and render the original component inside your replacement to wrap (rather than fully replace) it.
+**Starlight's UI is a set of named slots. You swap slot implementations, not DOM nodes.**
 
-The current page's data is always available via `Astro.locals.starlightRoute`.
+Three things to internalize:
+
+1. **Named slots, not selectors.** Overriding a component means providing a `.astro` file that replaces a specific slot. You register the replacement in `astro.config.mjs` under `components: {}`. There is no CSS selector involved; you're replacing the entire component rendering.
+
+2. **Wrap, don't replace when possible.** If you only need to add something alongside the original, import the default component and render it inside your override. This avoids duplicating Starlight's internal markup and keeps you compatible with future Starlight updates.
+
+3. **Page data lives in `Astro.locals`, not props.** Override components do not receive page data as Astro props. All route metadata (title, description, sidebar, TOC) is available via `Astro.locals.starlightRoute`.
 
 ## Step-by-Step: Override a Component
 
@@ -73,11 +79,11 @@ export default defineConfig({
 });
 ```
 
-The key must match the exact component name from the Overrides Reference. The value is the path to your `.astro` file relative to the project root.
+The key must exactly match the component name from the Overrides Reference. The value is the path relative to the project root.
 
 ## Wrapping a Built-in Component
 
-Import the default component and render it alongside your additions. Always include a `<slot />` so child content is passed through correctly.
+Import the default component and render it inside your override to extend rather than replace it. Always include `<slot />` so Starlight can pass child content through.
 
 ```astro
 ---
@@ -90,7 +96,7 @@ import Default from '@astrojs/starlight/components/SocialIcons.astro';
 
 ### Transferring named slots
 
-Some components like `PageFrame` and `TwoColumnContent` use named slots. Transfer them explicitly:
+Some layout components use named slots (`PageFrame`, `TwoColumnContent`). You must transfer them explicitly or their content is silently dropped:
 
 ```astro
 ---
@@ -131,7 +137,7 @@ See the full [Route Data Reference](https://starlight.astro.build/reference/rout
 
 ## Conditional Overrides
 
-Apply custom UI on specific pages by checking `starlightRoute`:
+Apply different UI on specific pages by inspecting `starlightRoute`:
 
 ```astro
 ---
@@ -148,7 +154,7 @@ const isHomepage = Astro.locals.starlightRoute.id === '';
 <Default><slot /></Default>
 ```
 
-## Complete Example: Custom Header with Banner
+## Complete Example: Custom Header with Section Banner
 
 ```astro
 ---
@@ -184,11 +190,24 @@ components: {
 },
 ```
 
+## TypeScript Typing for `starlightRoute`
+
+Import the type from Starlight to get autocompletion:
+
+```astro
+---
+import type { StarlightRouteData } from '@astrojs/starlight/types';
+
+const route = Astro.locals.starlightRoute as StarlightRouteData;
+const { title } = route.entry.data;
+---
+```
+
 ## Anti-Patterns
 
 ### NEVER register a component path with a leading slash
 
-**WHY:** Paths in the `components` config are relative to the project root, not absolute.
+**WHY:** Paths in the `components` config are relative to the project root, not absolute filesystem paths.
 
 **BAD:** `Footer: '/src/components/CustomFooter.astro'`
 **GOOD:** `Footer: './src/components/CustomFooter.astro'`
@@ -204,32 +223,41 @@ components: {
 
 **Consequence:** Content nested inside the component (e.g., sidebar links) disappears from the rendered output.
 
-### NEVER access page data via props — use `Astro.locals.starlightRoute`
+### NEVER access page data via `Astro.props` in override components
 
 **WHY:** Override components do not receive page data as props. The data is only available via `Astro.locals`.
 
-**BAD:** `const { title } = Astro.props;`
+**BAD:** `const { title } = Astro.props;` — `title` is `undefined`
 **GOOD:** `const { title } = Astro.locals.starlightRoute.entry.data;`
 
-**Consequence:** `title` (and all other page data) is `undefined`.
+**Consequence:** All page metadata is `undefined`, causing blank UI or errors.
 
-### NEVER use the component `name` from Overrides Reference as the file name
+### NEVER rely on the component file name to determine which slot it overrides
 
-**WHY:** The file name of your `.astro` component is irrelevant; only the key in `components: {}` determines which slot is overridden.
+**WHY:** The key in `components: {}` determines which slot is overridden, not the file name.
 
 **BAD:** Assume that naming your file `Footer.astro` automatically overrides the Footer slot.
 **GOOD:** Explicitly set `Footer: './src/components/MyFooter.astro'` in the config.
 
-**Consequence:** Default component renders unchanged.
+**Consequence:** The default component renders unchanged; your file is never loaded.
 
 ### NEVER forget to transfer named slots on layout components
 
-**WHY:** `PageFrame` and `TwoColumnContent` expose named slots. If you wrap these and omit the named slot transfers, the content of those named slots (like the right sidebar) is lost.
+**WHY:** `PageFrame` and `TwoColumnContent` expose named slots. Wrapping without transferring them silently drops the named slot content.
 
 **BAD:** Wrap `TwoColumnContent` with only a default `<slot />`.
 **GOOD:** Transfer all named slots: `<slot name="right-sidebar" slot="right-sidebar" />`.
 
 **Consequence:** The right sidebar disappears from all pages using that layout.
+
+### NEVER import component internals not exported from `@astrojs/starlight/components`
+
+**WHY:** Starlight's internal component structure can change between releases. Only components listed in the Overrides Reference are stable public API.
+
+**BAD:** `import Breadcrumb from '@astrojs/starlight/components/Breadcrumb.astro'` if not in the reference.
+**GOOD:** Override only components listed in the [Overrides Reference](https://starlight.astro.build/reference/overrides/).
+
+**Consequence:** Imports break on Starlight minor version bumps.
 
 ## References
 

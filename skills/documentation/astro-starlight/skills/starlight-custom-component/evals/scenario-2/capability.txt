@@ -1,0 +1,1 @@
+Knows how to access page frontmatter data from override components using `Astro.locals.starlightRoute`.

@@ -1,0 +1,1 @@
+Knows the wrapping pattern for extending built-in components and correctly registers the override in config.

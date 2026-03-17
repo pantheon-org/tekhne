@@ -1,0 +1,1 @@
+Diagnoses the common props-vs-locals mistake and provides the correct `Astro.locals.starlightRoute` data access pattern.

@@ -5,7 +5,7 @@ description: Set up a new Astro Starlight documentation site from scratch. Use w
 
 # Starlight Base Setup
 
-Starlight is a full-featured documentation theme built on the [Astro](https://astro.build) framework. This skill guides agents through creating and configuring a Starlight documentation site.
+Starlight is a full-featured documentation theme built on the [Astro](https://astro.build) framework. It ships with routing, search, dark mode, i18n, and accessibility out of the box — so you configure features rather than build them.
 
 ## When to Use
 
@@ -21,41 +21,43 @@ Starlight is a full-featured documentation theme built on the [Astro](https://as
 
 ## Mental Model
 
-Starlight wraps Astro as an integration. The configuration lives in `astro.config.mjs` inside the `starlight({})` call. Content pages are Markdown or MDX files under `src/content/docs/`. File paths map directly to URL routes.
+**Starlight = Astro integration + file-based routing + content collections.**
+
+Three things to internalize:
+
+1. **One integration, one config object.** All Starlight options live inside `starlight({})` in `astro.config.mjs`. There is no separate config file.
+
+2. **Files are pages.** Every `.md` or `.mdx` file under `src/content/docs/` becomes a page. The file path maps 1:1 to the URL route. Moving or renaming a file changes its URL.
+
+3. **Sidebar and routing are independent.** You can have a page with no sidebar entry (it's accessible by URL but unlisted), or a sidebar entry pointing to any slug. They are not coupled automatically unless you use `autogenerate`.
 
 ## Quick Start
 
-### New project (recommended)
+### New project
 
 ```bash
 npm create astro@latest -- --template starlight
-```
-
-```bash
+# or
 pnpm create astro --template starlight
-```
-
-```bash
+# or
 yarn create astro --template starlight
 ```
 
 This scaffolds a project with all required files and configuration.
 
-### Start the development server
-
 ```bash
 npm run dev
 ```
 
-Open the URL printed in your terminal to preview the site. Changes are reflected instantly.
+Open the URL printed in your terminal. Changes are reflected instantly.
 
-### Add Starlight to an existing Astro project
+### Add to an existing Astro project
 
 ```bash
 npx astro add starlight
 ```
 
-This installs `@astrojs/starlight` and adds it to `astro.config.mjs`.
+This installs `@astrojs/starlight` and updates `astro.config.mjs` automatically.
 
 ## Project Structure
 
@@ -66,9 +68,9 @@ my-docs/
 │   ├── assets/            # Images, logos
 │   ├── content/
 │   │   └── docs/          # All documentation pages (.md / .mdx)
-│   │       ├── index.md   # Homepage
+│   │       ├── index.md   # Homepage (route: /)
 │   │       └── guides/
-│   │           └── example.md
+│   │           └── example.md   # Route: /guides/example/
 │   └── styles/            # Optional custom CSS
 └── public/                # Static assets served as-is
 ```
@@ -94,16 +96,15 @@ export default defineConfig({
 
 ### Logo
 
+Use a single image for all modes:
+
 ```js
-starlight({
-  title: 'My Docs',
-  logo: {
-    src: './src/assets/logo.svg',
-  },
-});
+logo: {
+  src: './src/assets/logo.svg',
+},
 ```
 
-For separate light/dark variants:
+Use separate light/dark variants:
 
 ```js
 logo: {
@@ -112,7 +113,14 @@ logo: {
 },
 ```
 
-Set `replacesTitle: true` if the logo already includes the site name (hides the title text while keeping it accessible).
+Set `replacesTitle: true` when the logo already includes the site name. This hides the visible title text while keeping it in the DOM for screen readers.
+
+```js
+logo: {
+  src: './src/assets/logo-with-text.svg',
+  replacesTitle: true,
+},
+```
 
 ### Social links
 
@@ -123,9 +131,11 @@ social: [
 ],
 ```
 
-Available icons: `github`, `gitlab`, `discord`, `twitter`, `mastodon`, `linkedin`, `youtube`, `rss`, and more — see the [Icons Reference](https://starlight.astro.build/reference/icons/).
+Available icons: `github`, `gitlab`, `discord`, `twitter`, `mastodon`, `linkedin`, `youtube`, `rss`, and more. See the [Icons Reference](https://starlight.astro.build/reference/icons/).
 
 ### Sidebar navigation
+
+Starlight supports two sidebar entry types — explicit items and auto-generated directories:
 
 ```js
 sidebar: [
@@ -143,9 +153,19 @@ sidebar: [
 ],
 ```
 
-- `items`: explicit list of links.
-- `autogenerate`: automatically builds entries from a directory.
-- `slug` maps to the file path under `src/content/docs/` (without extension).
+- `items`: explicit list. Use when you need custom ordering or labeling.
+- `autogenerate`: builds entries automatically from a directory. Use when you want the sidebar to stay in sync with the file system.
+- `slug` values are file paths under `src/content/docs/` — no leading slash, no extension.
+
+### Collapsed groups
+
+```js
+{
+  label: 'Advanced',
+  collapsed: true,
+  items: [ /* ... */ ],
+},
+```
 
 ### Edit links
 
@@ -155,22 +175,26 @@ editLink: {
 },
 ```
 
-Appends an "Edit page" link to every page footer.
+Appends an "Edit page" link to every page footer, pointing to the source file on GitHub.
 
 ### Sitemap
 
+The `site` option belongs on `defineConfig`, not inside `starlight({})`:
+
 ```js
-// In defineConfig (not inside starlight):
-site: 'https://mydocs.example.com',
+export default defineConfig({
+  site: 'https://mydocs.example.com',
+  integrations: [starlight({ title: 'My Docs' })],
+});
 ```
 
-Starlight generates a sitemap automatically when `site` is set.
+Starlight generates `sitemap-index.xml` and `sitemap-0.xml` automatically when `site` is set.
 
-## Adding Content Pages
+## Content Pages
 
 Create `.md` or `.mdx` files under `src/content/docs/`. Each file becomes a page.
 
-### Page frontmatter
+### Minimal frontmatter
 
 ```md
 ---
@@ -178,14 +202,14 @@ title: My Page Title
 description: A short description for SEO and social sharing.
 ---
 
-# My Page Title
-
 Content goes here.
 ```
 
-### Splash (landing) layout
+`title` is required. `description` is used in `<meta>` tags and OpenGraph cards.
 
-Use `template: splash` for a full-width landing page without sidebars:
+### Landing page layout
+
+Use `template: splash` for a full-width hero page without sidebars:
 
 ```md
 ---
@@ -198,12 +222,16 @@ hero:
     - text: Get Started
       link: /guides/getting-started/
       icon: right-arrow
+    - text: GitHub
+      link: https://github.com/my-org/repo
+      icon: external
+      variant: minimal
 ---
 ```
 
 ### Table of contents control
 
-Disable per-page:
+Disable TOC on a specific page:
 
 ```md
 ---
@@ -220,13 +248,70 @@ starlight({
 });
 ```
 
+### Draft pages
+
+Mark a page as a draft to exclude it from production builds:
+
+```md
+---
+title: Unreleased Feature
+draft: true
+---
+```
+
+Draft pages are still accessible in development but are omitted from the production build and sitemap.
+
+## Advanced Configuration
+
+### Custom 404 page
+
+Create `src/content/docs/404.md` with `template: splash` to add a branded 404 page:
+
+```md
+---
+title: Page Not Found
+template: splash
+---
+
+The page you were looking for doesn't exist.
+```
+
+### Head injection
+
+Add global `<meta>`, `<link>`, or `<script>` tags:
+
+```js
+starlight({
+  head: [
+    {
+      tag: 'meta',
+      attrs: { name: 'google-site-verification', content: 'TOKEN' },
+    },
+    {
+      tag: 'script',
+      attrs: { src: 'https://analytics.example.com/script.js', defer: true },
+    },
+  ],
+});
+```
+
+### Favicon
+
+```js
+starlight({
+  favicon: '/favicon.ico',
+});
+```
+
+Place `favicon.ico` in the `public/` directory.
+
 ## Keeping Starlight Up to Date
 
 ```bash
 npx @astrojs/upgrade
 ```
 
-Run this regularly — Starlight is actively developed and releases frequently.
+Run this regularly. Starlight is actively developed with frequent releases.
 
 ## Anti-Patterns
 
@@ -241,16 +326,16 @@ Run this regularly — Starlight is actively developed and releases frequently.
 
 ### NEVER use `src` inside `logo` alongside `light`/`dark`
 
-**WHY:** The two options are mutually exclusive. `light` and `dark` are for variant logos; `src` is for a single logo.
+**WHY:** The two options are mutually exclusive. `light` and `dark` are for variant logos; `src` is for a single logo. Providing both causes a configuration error.
 
-**BAD:** Set both `src` and `light`/`dark` on the `logo` option.
+**BAD:** `logo: { src: './logo.svg', light: './light.svg', dark: './dark.svg' }`
 **GOOD:** Use either `src` alone or `light` + `dark` together.
 
 **Consequence:** Configuration errors or unexpected rendering.
 
 ### NEVER hard-code sidebar slugs with leading slashes or file extensions
 
-**WHY:** Sidebar `slug` values must match the file path relative to `src/content/docs/` — no leading slash, no `.md` extension.
+**WHY:** Sidebar `slug` values must match the file path relative to `src/content/docs/` without a leading slash or extension.
 
 **BAD:** `slug: '/guides/setup.md'`
 **GOOD:** `slug: 'guides/setup'`
@@ -259,12 +344,21 @@ Run this regularly — Starlight is actively developed and releases frequently.
 
 ### NEVER skip setting `site` when you need a sitemap
 
-**WHY:** Starlight's sitemap generation requires the canonical `site` URL set at the `defineConfig` level.
+**WHY:** Starlight's sitemap generation requires the canonical `site` URL set at the `defineConfig` level, not inside `starlight({})`.
 
-**BAD:** Set `site` inside `starlight({})`.
-**GOOD:** Set `site` directly inside `defineConfig({})`.
+**BAD:** `starlight({ site: 'https://...' })`
+**GOOD:** `defineConfig({ site: 'https://...' })`
 
 **Consequence:** Sitemap is not generated.
+
+### NEVER mix `autogenerate` with manual `items` in the same group
+
+**WHY:** A sidebar group can use either `items` or `autogenerate`, not both. Providing both causes Starlight to throw a configuration error.
+
+**BAD:** `{ label: 'Guides', items: [...], autogenerate: { directory: 'guides' } }`
+**GOOD:** Choose one approach per group.
+
+**Consequence:** Build error and no sidebar rendered.
 
 ## References
 

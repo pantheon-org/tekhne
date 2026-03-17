@@ -1,0 +1,17 @@
+{
+  "skill": "starlight-theme",
+  "instructions": [
+    "Create a CSS file and register it in the `customCss` array in `astro.config.mjs`",
+    "Override CSS custom properties (--sl-*) on `:root` to change colors and typography",
+    "Use `:root[data-theme='dark']` and `:root[data-theme='light']` for light/dark variants",
+    "Never use `.dark` class selectors — Starlight uses `data-theme='dark'` attribute",
+    "Install `@astrojs/starlight-tailwind` when using Tailwind with Starlight",
+    "Import `@astrojs/starlight-tailwind` before Tailwind's own CSS imports",
+    "Layer order must be: `@astrojs/starlight-tailwind`, then `tailwindcss/theme.css`, then `tailwindcss/utilities.css`",
+    "Use `@theme` block to map Tailwind color tokens to Starlight's `--color-accent-*` and `--color-gray-*` variables",
+    "Never mix --sl-* CSS variables with Tailwind @theme overrides for the same property",
+    "Always include `font-display: swap` in custom @font-face rules",
+    "Use Fontsource for zero-config font loading: install package and add to `customCss`",
+    "Use the Starlight color theme editor to generate accent/gray palettes"
+  ]
+}
