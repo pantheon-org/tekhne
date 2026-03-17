@@ -21,8 +21,8 @@
   --tk-color-accent: #22c55e;
   --tk-color-accent-high: #4ade80;
   --tk-font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    monospace;
+    "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", monospace;
   --tk-color-green: #22c55e;
   --tk-color-orange: #f97316;
 
@@ -67,8 +67,8 @@
   --tk-color-accent: #16a34a;
   --tk-color-accent-high: #166534;
   --tk-font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
-    monospace;
+    "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", monospace;
   --tk-color-green: #16a34a;
   --tk-color-orange: #ea580c;
 
