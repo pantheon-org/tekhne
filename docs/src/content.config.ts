@@ -36,6 +36,22 @@ function withSkillTitle(schema: z.ZodTypeAny) {
   }, schema);
 }
 
+const skillRefSchema = z.object({
+  slug: z.string(),
+  title: z.string(),
+});
+
+const skillAuditSchema = z.object({
+  skill: z.string().optional(),
+  dimensions: z.record(z.string(), z.number()).optional(),
+  total: z.number().optional(),
+  maxTotal: z.number().optional(),
+  grade: z.string().optional(),
+  lines: z.number().optional(),
+  hasReferences: z.boolean().optional(),
+  referenceCount: z.number().optional(),
+});
+
 /** Extra frontmatter fields used by SKILL.md files. */
 const skillExtraSchema = z.object({
   name: z.string().optional(),
@@ -51,6 +67,8 @@ const skillExtraSchema = z.object({
     })
     .passthrough() // allow any additional metadata fields
     .optional(),
+  skillRefs: z.array(skillRefSchema).optional(),
+  skillAudit: skillAuditSchema.optional(),
 });
 
 export const collections = {

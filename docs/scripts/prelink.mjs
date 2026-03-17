@@ -20,6 +20,7 @@
  */
 
 import {
+  existsSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -33,6 +34,7 @@ import matter from "gray-matter";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const skillsRoot = resolve(__dirname, "../../skills");
 const destRoot = resolve(__dirname, "../src/content/docs/skills");
+const auditsRoot = resolve(__dirname, "../../.context/audits");
 
 /** Directories inside a skill that contain non-renderable content. */
 const SKIP_DIRS = new Set([
@@ -73,8 +75,13 @@ const rewriteReferenceLinks = (content) =>
  *   1. Extracts the first H1 heading text and stores it as `metadata.displayTitle`
  *      so the custom SkillPageTitle component can render it as the canonical heading.
  *   2. Strips that H1 from the markdown content to avoid a duplicate h1 on the page.
+ *   3. Embeds `skillRefs` (reference list) and `skillAudit` (audit data) into frontmatter.
+ *
+ * @param {string} raw - raw SKILL.md content
+ * @param {string} skillSrcDir - absolute path to the skill source directory
+ * @param {string} skillRelPath - relative path from skills root, e.g. "documentation/markdown-authoring"
  */
-const processSkillContent = (raw) => {
+const processSkillContent = (raw, skillSrcDir, skillRelPath) => {
   const parsed = matter(raw);
 
   // Match the first H1 at the start of the content (possibly after blank lines)
@@ -86,10 +93,17 @@ const processSkillContent = (raw) => {
   // Strip the H1 line (and a single following blank line if present)
   const strippedContent = parsed.content.replace(/^\s*# [^\n]+\n(\n)?/, "");
 
+  const skillRefs = skillSrcDir
+    ? buildReferencesList(skillSrcDir, skillRelPath)
+    : [];
+  const skillAudit = skillRelPath ? loadAuditData(skillRelPath) : null;
+
   // Merge displayTitle into metadata (preserving any existing metadata fields)
   const newData = {
     ...parsed.data,
     metadata: { ...(parsed.data.metadata || {}), displayTitle },
+    ...(skillRefs.length > 0 ? { skillRefs } : {}),
+    ...(skillAudit ? { skillAudit } : {}),
   };
 
   return matter.stringify(strippedContent, newData);
@@ -141,6 +155,45 @@ const escapeMdxText = (raw) => {
     .join("\n");
 
   return matter.stringify(escaped, parsed.data);
+};
+
+/**
+ * Build a list of reference entries for a skill directory.
+ * Returns an array of { slug, title } objects, or an empty array if none exist.
+ * @param {string} skillSrcDir - absolute path to the skill's source directory
+ * @param {string} skillRelPath - e.g. "documentation/markdown-authoring"
+ */
+const buildReferencesList = (skillSrcDir, skillRelPath) => {
+  const refsDir = join(skillSrcDir, "references");
+  if (!existsSync(refsDir)) return [];
+
+  const refs = [];
+  for (const ref of readdirSync(refsDir, { withFileTypes: true })) {
+    if (!ref.isFile() || !ref.name.endsWith(".md")) continue;
+    const raw = readFileSync(join(refsDir, ref.name), "utf-8");
+    const parsed = matter(raw);
+    const baseName = ref.name.replace(/\.md$/, "");
+    const title =
+      parsed.data.title ?? extractH1(parsed.content) ?? toTitleCase(baseName);
+    refs.push({ slug: baseName, title });
+  }
+  refs.sort((a, b) => a.slug.localeCompare(b.slug));
+  return refs;
+};
+
+/**
+ * Load audit data for a skill from .context/audits/<domain>/<skill>/latest/audit.json.
+ * Returns the parsed JSON object, or null if not found.
+ * @param {string} skillRelPath - e.g. "documentation/markdown-authoring"
+ */
+const loadAuditData = (skillRelPath) => {
+  const auditPath = join(auditsRoot, skillRelPath, "latest", "audit.json");
+  if (!existsSync(auditPath)) return null;
+  try {
+    return JSON.parse(readFileSync(auditPath, "utf-8"));
+  } catch {
+    return null;
+  }
 };
 
 /**
@@ -203,9 +256,14 @@ const copyDir = (src, dest) => {
       // Skill entry point: rewrite reference links, extract displayTitle, strip H1.
       // Written as SKILL.mdx so Astro treats it as MDX (enables JSX/component use).
       const raw = readFileSync(srcPath, "utf-8");
+      const skillRelPath = src.startsWith(skillsRoot)
+        ? src.slice(skillsRoot.length + 1).replace(/\\/g, "/")
+        : undefined;
       writeFileSync(
         join(dest, "SKILL.mdx"),
-        escapeMdxText(processSkillContent(rewriteReferenceLinks(raw))),
+        escapeMdxText(
+          processSkillContent(rewriteReferenceLinks(raw), src, skillRelPath),
+        ),
       );
     }
     // All other files are intentionally skipped.

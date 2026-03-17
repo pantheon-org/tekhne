@@ -132,6 +132,7 @@ export default defineConfig({
       customCss: ["./src/styles/custom.css"],
       components: {
         PageTitle: "./src/components/SkillPageTitle.astro",
+        MarkdownContent: "./src/components/SkillTabs.astro",
       },
       sidebar: [
         {

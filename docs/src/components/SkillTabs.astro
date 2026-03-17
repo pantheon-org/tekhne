@@ -1,0 +1,492 @@
+---
+/**
+ * SkillTabs — wraps skill page content in a three-tab layout.
+ *
+ * Tabs:
+ *   Skill      — the rendered SKILL.md content (default slot)
+ *   References — inline rendered reference docs (no navigation away)
+ *   Audit      — quality scorecard from .context/audits/
+ *
+ * Only rendered on skill pages (entry ID ends with /skill).
+ * On other pages the default slot is rendered as-is.
+ */
+
+import { getCollection, render } from "astro:content";
+
+const { entry } = Astro.locals.starlightRoute;
+const isSkillPage = (entry.id as string).endsWith("/skill");
+
+const data = entry.data as Record<string, any>;
+
+type RefMeta = { slug: string; title: string };
+const skillRefsMeta: RefMeta[] = data.skillRefs ?? [];
+
+type DimensionScores = Record<string, number>;
+type AuditData = {
+  skill?: string;
+  dimensions?: DimensionScores;
+  total?: number;
+  maxTotal?: number;
+  grade?: string;
+  lines?: number;
+  hasReferences?: boolean;
+  referenceCount?: number;
+};
+const skillAudit: AuditData | null = data.skillAudit ?? null;
+
+// Entry IDs look like "skills/documentation/markdown-authoring/SKILL.mdx"
+const idParts = (entry.id as string).split("/");
+const skillSlugParts = idParts.slice(0, -1); // drop "SKILL.mdx"
+// e.g. "skills/documentation/markdown-authoring/references/"
+const refIdPrefix = skillSlugParts.join("/") + "/references/";
+
+// Fetch and render all reference entries for this skill at build time.
+type RenderedRef = { slug: string; title: string; Content: any };
+let renderedRefs: RenderedRef[] = [];
+
+if (isSkillPage && skillRefsMeta.length > 0) {
+  const allDocs = await getCollection("docs");
+  const refEntries = allDocs.filter((e) =>
+    e.id.startsWith(refIdPrefix),
+  );
+
+  renderedRefs = await Promise.all(
+    skillRefsMeta.map(async (meta) => {
+      const docEntry = refEntries.find((e) =>
+        e.id === `${refIdPrefix}${meta.slug}.md`,
+      );
+      if (!docEntry) return { slug: meta.slug, title: meta.title, Content: null };
+      const { Content } = await render(docEntry);
+      return { slug: meta.slug, title: meta.title, Content };
+    }),
+  );
+}
+
+const DIMENSION_LABELS: Record<string, string> = {
+  knowledgeDelta: "Knowledge Delta",
+  mindsetProcedures: "Mindset & Procedures",
+  antiPatternQuality: "Anti-Pattern Quality",
+  specificationCompliance: "Specification Compliance",
+  progressiveDisclosure: "Progressive Disclosure",
+  freedomCalibration: "Freedom Calibration",
+  patternRecognition: "Pattern Recognition",
+  practicalUsability: "Practical Usability",
+  evalValidation: "Eval Validation",
+};
+
+const DIMENSION_MAX = 16;
+
+const gradeClass = skillAudit?.grade
+  ? `skill-badge--${skillAudit.grade
+      .toLowerCase()
+      .replace("+", "-plus")
+      .replace(/([a-z])-$/, "$1-minus")}`
+  : "skill-badge--unknown";
+---
+
+{
+  isSkillPage ? (
+    <div class="sk-tabs" id="sk-tabs">
+      <nav class="sk-tabs__nav" role="tablist" aria-label="Skill sections">
+        <button
+          class="sk-tabs__btn sk-tabs__btn--active"
+          role="tab"
+          data-tab="skill"
+          aria-selected="true"
+          aria-controls="sk-panel-skill"
+        >
+          Skill
+        </button>
+        {renderedRefs.length > 0 && (
+          <button
+            class="sk-tabs__btn"
+            role="tab"
+            data-tab="refs"
+            aria-selected="false"
+            aria-controls="sk-panel-refs"
+          >
+            References
+            <span class="sk-tabs__count">{renderedRefs.length}</span>
+          </button>
+        )}
+        {skillAudit && (
+          <button
+            class="sk-tabs__btn"
+            role="tab"
+            data-tab="audit"
+            aria-selected="false"
+            aria-controls="sk-panel-audit"
+          >
+            Audit
+            {skillAudit.grade && (
+              <span class:list={["skill-badge", gradeClass]}>
+                {skillAudit.grade}
+              </span>
+            )}
+          </button>
+        )}
+      </nav>
+
+      {/* Skill content panel */}
+      <div
+        id="sk-panel-skill"
+        class="sk-tabs__panel sk-tabs__panel--active"
+        role="tabpanel"
+        data-panel="skill"
+      >
+        <slot />
+      </div>
+
+      {/* References panel — inline rendered content */}
+      {renderedRefs.length > 0 && (
+        <div
+          id="sk-panel-refs"
+          class="sk-tabs__panel"
+          role="tabpanel"
+          data-panel="refs"
+          hidden
+        >
+          <div class="sk-refs">
+            {/* Reference picker */}
+            <nav class="sk-refs__nav" aria-label="Reference documents">
+              {renderedRefs.map((ref, i) => (
+                <button
+                  class:list={["sk-refs__btn", i === 0 && "sk-refs__btn--active"]}
+                  data-ref={ref.slug}
+                >
+                  {ref.title}
+                </button>
+              ))}
+            </nav>
+
+            {/* Reference content panels */}
+            <div class="sk-refs__content">
+              {renderedRefs.map((ref, i) =>
+                ref.Content ? (
+                  <div
+                    class:list={["sk-refs__doc", "sl-markdown-content", i === 0 && "sk-refs__doc--active"]}
+                    data-ref-doc={ref.slug}
+                    hidden={i !== 0}
+                  >
+                    <ref.Content />
+                  </div>
+                ) : null,
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Audit panel */}
+      {skillAudit && (
+        <div
+          id="sk-panel-audit"
+          class="sk-tabs__panel"
+          role="tabpanel"
+          data-panel="audit"
+          hidden
+        >
+          <div class="sk-audit">
+            <div class="sk-audit__summary">
+              <div class="sk-audit__score">
+                <span class="sk-audit__score-value">
+                  {skillAudit.total ?? "–"}
+                </span>
+                <span class="sk-audit__score-max">
+                  / {skillAudit.maxTotal ?? 120}
+                </span>
+              </div>
+              {skillAudit.grade && (
+                <span class:list={["skill-badge", "sk-audit__grade", gradeClass]}>
+                  {skillAudit.grade}
+                </span>
+              )}
+            </div>
+
+            {skillAudit.dimensions && (
+              <div class="sk-audit__dimensions">
+                {Object.entries(skillAudit.dimensions).map(
+                  ([key, score]: [string, number]) => {
+                    const pct = Math.round((score / DIMENSION_MAX) * 100);
+                    return (
+                      <div class="sk-dim">
+                        <div class="sk-dim__header">
+                          <span class="sk-dim__label">
+                            {DIMENSION_LABELS[key] ?? key}
+                          </span>
+                          <span class="sk-dim__score">
+                            {score}/{DIMENSION_MAX}
+                          </span>
+                        </div>
+                        <div class="sk-dim__bar-track">
+                          <div
+                            class="sk-dim__bar-fill"
+                            style={`width: ${Math.min(pct, 100)}%`}
+                            data-pct={pct}
+                          />
+                        </div>
+                      </div>
+                    );
+                  },
+                )}
+              </div>
+            )}
+
+            {skillAudit.lines !== undefined && (
+              <p class="sk-audit__meta">
+                {skillAudit.lines} lines
+                {skillAudit.referenceCount !== undefined &&
+                  ` · ${skillAudit.referenceCount} reference${skillAudit.referenceCount !== 1 ? "s" : ""}`}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  ) : (
+    <slot />
+  )
+}
+
+<script>
+  const tabs = document.getElementById("sk-tabs");
+  if (tabs) {
+    // Tab switching
+    tabs.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-tab]");
+      if (!btn) return;
+      const target = btn.dataset.tab;
+
+      tabs.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((b) => {
+        const active = b.dataset.tab === target;
+        b.classList.toggle("sk-tabs__btn--active", active);
+        b.setAttribute("aria-selected", String(active));
+      });
+      tabs.querySelectorAll<HTMLElement>("[data-panel]").forEach((p) => {
+        const active = p.dataset.panel === target;
+        p.classList.toggle("sk-tabs__panel--active", active);
+        p.hidden = !active;
+      });
+    });
+
+    // Reference picker switching
+    tabs.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-ref]");
+      if (!btn) return;
+      const target = btn.dataset.ref;
+
+      tabs.querySelectorAll<HTMLButtonElement>("[data-ref]").forEach((b) => {
+        b.classList.toggle("sk-refs__btn--active", b.dataset.ref === target);
+      });
+      tabs.querySelectorAll<HTMLElement>("[data-ref-doc]").forEach((p) => {
+        const active = p.dataset.refDoc === target;
+        p.classList.toggle("sk-refs__doc--active", active);
+        p.hidden = !active;
+      });
+    });
+  }
+</script>
+
+<style>
+  /* ── Tab nav ─────────────────────────────────────────────── */
+
+  .sk-tabs__nav {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid var(--sl-color-hairline-medium);
+    margin-bottom: 1.5rem;
+  }
+
+  .sk-tabs__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    font-size: var(--sl-text-sm);
+    font-family: inherit;
+    color: var(--sl-color-gray-2);
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+
+  .sk-tabs__btn:hover {
+    color: var(--sl-color-white);
+  }
+
+  .sk-tabs__btn--active {
+    color: var(--sl-color-white);
+    border-bottom-color: var(--sl-color-accent);
+    font-weight: 600;
+  }
+
+  .sk-tabs__count {
+    display: inline-block;
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-gray-2);
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 500;
+    padding: 0.1em 0.5em;
+  }
+
+  /* ── Panels ─────────────────────────────────────────────── */
+
+  .sk-tabs__panel {
+    display: none;
+  }
+
+  .sk-tabs__panel--active {
+    display: block;
+  }
+
+  /* ── References layout ──────────────────────────────────── */
+
+  .sk-refs {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 640px) {
+    .sk-refs {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sk-refs__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    position: sticky;
+    top: var(--sl-nav-height, 3.5rem);
+  }
+
+  .sk-refs__btn {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 0.45rem 0.75rem;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    font-size: var(--sl-text-xs);
+    font-family: inherit;
+    color: var(--sl-color-gray-2);
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  .sk-refs__btn:hover {
+    background: var(--sl-color-gray-5);
+    color: var(--sl-color-white);
+  }
+
+  .sk-refs__btn--active {
+    background: var(--sl-color-gray-5);
+    border-color: var(--sl-color-hairline-medium);
+    color: var(--sl-color-white);
+    font-weight: 500;
+  }
+
+  .sk-refs__content {
+    min-width: 0;
+  }
+
+  .sk-refs__doc {
+    display: none;
+  }
+
+  .sk-refs__doc--active {
+    display: block;
+  }
+
+  /* ── Audit scorecard ────────────────────────────────────── */
+
+  .sk-audit {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .sk-audit__summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sk-audit__score {
+    display: flex;
+    align-items: baseline;
+    gap: 0.2rem;
+  }
+
+  .sk-audit__score-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--sl-color-white);
+  }
+
+  .sk-audit__score-max {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+  }
+
+  .sk-audit__grade {
+    font-size: 1rem !important;
+    padding: 0.25em 0.75em !important;
+  }
+
+  .sk-audit__dimensions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sk-dim__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .sk-dim__label {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-2);
+  }
+
+  .sk-dim__score {
+    font-size: var(--sl-text-xs);
+    font-family: var(--sl-font-mono);
+    color: var(--sl-color-gray-3);
+  }
+
+  .sk-dim__bar-track {
+    height: 6px;
+    background: var(--sl-color-gray-5);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+
+  .sk-dim__bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    background: var(--sl-color-accent);
+    transition: width 0.4s ease;
+  }
+
+  .sk-audit__meta {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    margin: 0;
+  }
+</style>
