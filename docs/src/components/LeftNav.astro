@@ -19,6 +19,7 @@ interface TileGroup {
   tileSlug: string;
   tileLabel: string;
   tileLandingHref: string;
+  tileIsActive: boolean;
   hasActive: boolean;
   items: NavItem[];
 }
@@ -43,7 +44,7 @@ for (const entry of entries) {
   const parts = entry.id.split("/");
   const skillsIdx = parts.indexOf("skills");
   const skillPath = skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
-  const href = `${base}/skills/${skillPath.replace(/\/skill$/, "/skill/")}/`;
+  const href = `${base}/skills/${skillPath.replace(/\/skill$/, "/skill/")}`.replace(/\/+$/, "/");
   const active = currentPath === href || currentPath.startsWith(`${href.replace(/\/$/, "")}/`);
 
   const meta = (data.metadata as Record<string, unknown>) ?? {};
@@ -63,14 +64,17 @@ for (const tile of publicTiles) {
   if (!items || items.length === 0) continue;
   items.sort((a, b) => a.label.localeCompare(b.label));
   const tileLabel = tile.name.replace(/^[^/]+\//, "").replace(/-/g, " ");
-  const hasActive = items.some((i) => i.active);
+  const tileLandingHref = `${base}/tiles/${tile.slug}/`;
+  const tileIsActive = currentPath === tileLandingHref || currentPath.startsWith(`${tileLandingHref.replace(/\/$/, "")}/`);
+  const hasActive = tileIsActive || items.some((i) => i.active);
   const domain = tile.tilePath.split("/")[0] ?? "other";
 
   if (!domainMap.has(domain)) domainMap.set(domain, []);
   domainMap.get(domain)!.push({
     tileSlug: tile.slug,
     tileLabel,
-    tileLandingHref: `${base}/tiles/${tile.slug}/`,
+    tileLandingHref,
+    tileIsActive,
     hasActive,
     items,
   });
@@ -107,6 +111,7 @@ domainGroups.sort((a, b) => a.domain.localeCompare(b.domain));
               <a
                 href={tg.tileLandingHref}
                 class:list={["tile-link", tg.hasActive && "tile-link--active"]}
+                aria-current={tg.tileIsActive ? "page" : undefined}
                 onclick="event.stopPropagation()"
               >
                 {tg.tileLabel}
