@@ -200,8 +200,6 @@ const base = import.meta.env.BASE_URL;
   .hero-wrap {
     position: relative;
     overflow: hidden;
-    /* break out of main's 2rem padding to reach content edges */
-    margin: -2rem -2rem 0;
     padding: 5rem 2rem 4rem;
     text-align: center;
   }
@@ -325,8 +323,6 @@ const base = import.meta.env.BASE_URL;
     justify-content: center;
     gap: 2rem;
     flex-wrap: wrap;
-    /* break out of main's padding to match hero edges */
-    margin: 0 -2rem;
     padding: 1rem 2rem;
     border-top: 1px solid var(--tk-border);
     border-bottom: 1px solid var(--tk-border);
@@ -368,7 +364,7 @@ const base = import.meta.env.BASE_URL;
   .lp-section {
     max-width: 900px;
     margin: 0 auto;
-    padding: 3rem 0;
+    padding: 3rem 2rem;
   }
 
   .section-label {
@@ -397,8 +393,6 @@ const base = import.meta.env.BASE_URL;
   .divider {
     border: none;
     border-top: 1px solid var(--tk-border);
-    margin-left: -2rem;
-    margin-right: -2rem;
   }
 
   /* ── Terminal ── */

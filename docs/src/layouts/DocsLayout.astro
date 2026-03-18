@@ -57,6 +57,11 @@ const { title, description, sidebar = true } = Astro.props;
     overflow: auto;
   }
 
+  .layout--no-sidebar main {
+    padding: 0;
+    overflow: visible;
+  }
+
   @media (max-width: 768px) {
     .layout {
       grid-template-columns: 1fr;
