@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent applies the 8-dimension skill-judge evaluation framework, correctly identifies knowledge delta issues, and provides proper scoring with A-grade targets.",
+  "context": "Tests whether the agent applies the 8-dimension quality evaluation framework, correctly identifies knowledge delta issues, and provides proper scoring with A-grade targets.",
   "type": "weighted_checklist",
   "checklist": [
     {

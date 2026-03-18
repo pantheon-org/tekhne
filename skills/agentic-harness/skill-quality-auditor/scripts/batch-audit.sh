@@ -19,7 +19,7 @@ echo ""
 for skill in "$@"; do
   echo "Processing: $skill"
   
-  if ./scripts/audit-skill.sh "$skill"; then
+  if ./scripts/audit-per-skill.sh "$skill"; then
     success_count=$((success_count + 1))
     echo "  ✅ Success ($success_count/$total_count)"
   else

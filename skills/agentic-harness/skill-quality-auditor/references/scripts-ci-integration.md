@@ -46,7 +46,7 @@ jobs:
         run: bun install
 
       - name: Make scripts executable
-        run: chmod +x skills/agentic-harness/skill-quality-auditor/scripts/*.sh
+        run: chmod +x ./scripts/*.sh
 
       - name: Evaluate changed skills
         id: evaluate
@@ -122,9 +122,9 @@ jobs:
 
       - name: Run full audit
         run: |
-          chmod +x skills/agentic-harness/skill-quality-auditor/scripts/*.sh
-          skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh
-          skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh
+          chmod +x ./scripts/*.sh
+          ./scripts/audit-skills.sh
+          ./scripts/detect-duplication.sh
 
       - name: Create issue if critical issues found
         run: |
@@ -158,7 +158,7 @@ skill-quality:
       changes:
         - skills/**/SKILL.md
   script:
-    - chmod +x skills/agentic-harness/skill-quality-auditor/scripts/*.sh
+    - chmod +x ./scripts/*.sh
     - |
       for file in $(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA $CI_COMMIT_SHA | grep "skills/.*/SKILL.md"); do
         skill_name=$(basename $(dirname $file))
@@ -166,7 +166,7 @@ skill-quality:
         sh scripts/evaluate.sh "$skill_name" --json
         cd ../..
       done
-    - skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh
+    - ./scripts/detect-duplication.sh
   artifacts:
     paths:
       - .context/analysis/
@@ -182,9 +182,9 @@ weekly-skill-audit:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
-    - chmod +x skills/agentic-harness/skill-quality-auditor/scripts/*.sh
-    - skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh
-    - skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh
+    - chmod +x ./scripts/*.sh
+    - ./scripts/audit-skills.sh
+    - ./scripts/detect-duplication.sh
   artifacts:
     paths:
       - .context/analysis/
@@ -219,7 +219,7 @@ pipeline {
       }
       steps {
         sh '''
-          chmod +x skills/agentic-harness/skill-quality-auditor/scripts/*.sh
+          chmod +x ./scripts/*.sh
           
           for file in $(git diff --name-only origin/main HEAD | grep "skills/.*/SKILL.md"); do
             skill_name=$(basename $(dirname $file))
@@ -233,7 +233,7 @@ pipeline {
     
     stage('Duplication Check') {
       steps {
-        sh 'skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh'
+        sh './scripts/detect-duplication.sh'
       }
     }
   }

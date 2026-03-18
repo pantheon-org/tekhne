@@ -12,9 +12,9 @@ Use this guide when:
 
 ## Prerequisites
 
-1. **Completed Audit**: Run `sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json`
+1. **Completed Audit**: Run `sh ./scripts/evaluate.sh <skill-name> --json`
 2. **Audit Report**: Location should be `.context/audits/<skill-name>-audit-YYYY-MM-DD.md`
-3. **Template**: Load `skills/agentic-harness/skill-quality-auditor/templates/remediation-plan-template.yaml`
+3. **Template**: Load `templates/remediation-plan-template.yaml`
 
 ## Standard Remediation Plan Format
 
@@ -177,7 +177,7 @@ description: |
 After implementing remediation:
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
+sh ./scripts/evaluate.sh <skill-name> --json
 bunx markdownlint-cli2 "skills/<skill-name>/**/*.md"
 ```
 
@@ -185,6 +185,6 @@ Compare new score against target in plan.
 
 ## Related References
 
-- `framework-skill-judge-dimensions.md` - Understanding the 8 dimensions
+- `framework-dimensions.md` - Understanding the 8 dimensions
 - `framework-scoring-rubric.md` - How scores are calculated
 - `aggregation-pattern.md` - For larger consolidation efforts

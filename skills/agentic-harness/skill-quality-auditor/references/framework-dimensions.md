@@ -1,18 +1,18 @@
 ---
 category: framework
 priority: CRITICAL
-source: skill-judge canonical + session experience
+source: quality framework + session experience
 ---
 
 # Skill-Judge Evaluation Framework: 9 Dimensions
 
-Complete evaluation methodology for assessing skill quality using the skill-judge framework. This is the foundation for all quality auditing.
+Complete evaluation methodology for assessing skill quality using the 9-dimension quality framework. This is the foundation for all quality auditing.
 
-Canonical source reference: `framework-skill-judge-canonical.md`
+Canonical source reference: `framework-dimensions.md`
 
 ## Overview
 
-The skill-judge framework evaluates skills across 9 dimensions totaling 140 points. **Dimension 1 (Knowledge Delta)** and **Dimension 9 (Eval Validation)** carry the highest weight at 20 points each - skills must contain expert-only knowledge AND be validated at runtime via tessl eval scenarios.
+The 9-dimension quality framework evaluates skills across 9 dimensions totaling 140 points. **Dimension 1 (Knowledge Delta)** and **Dimension 9 (Eval Validation)** carry the highest weight at 20 points each - skills must contain expert-only knowledge AND be validated at runtime via tessl eval scenarios.
 
 **Target Score:** ≥126 points (90%) = A-grade
 
@@ -246,11 +246,22 @@ WHY: False positives waste hours debugging phantom issues
     - **WHY:** Skills must work across 40+ agentic harnesses without modification
     - **IMPACT:** Harness-specific paths break skill discovery when synced to other agents
 
-4. **Self-Containment (penalties: up to -4 points) ⭐ CRITICAL**
+4. **Self-Containment (penalties: up to -12 points) ⭐ CRITICAL**
+
+    *SKILL.md penalties (checked outside fenced code blocks):*
     - **No parent-escaping paths (-2 points):** SKILL.md must not use `../` references outside fenced code blocks. Skills are installed to arbitrary locations; parent paths break when the skill is not in its original repo.
     - **No absolute repo paths (-1 point):** SKILL.md must not reference `skills/X/Y/Z` or other hardcoded repository paths outside fenced code blocks. Cross-skill dependencies should use skill names, not file paths.
     - **No repo-root directory references (-1 point):** SKILL.md must not reference `.context/`, `.agents/`, or other repo-root directories outside fenced code blocks.
-    - **WHY:** Skills must be fully self-contained. When installed via `tessl install` or `npx skills add`, they land in arbitrary directories. Any reference to files outside the skill's own directory tree will break.
+
+    *scripts/ penalties (-1 per file with violation, cap -2 per category):*
+    - **No absolute repo paths in scripts (-2 max):** Each script file referencing `skills/X/Y/Z` paths loses 1 point (capped at -2 total).
+    - **No repo-root directory references in scripts (-2 max):** Each script file referencing `.context/` or `.agents/` paths loses 1 point (capped at -2 total).
+
+    *references/ penalties (-1 per file with violation, cap -2 per category):*
+    - **No absolute repo paths in references (-2 max):** Each reference file referencing `skills/X/Y/Z` paths loses 1 point (capped at -2 total).
+    - **No repo-root directory references in references (-2 max):** Each reference file referencing `.context/` or `.agents/` paths loses 1 point (capped at -2 total).
+
+    - **WHY:** Skills must be fully self-contained. When installed via `tessl install` or `npx skills add`, they land in arbitrary directories. Any reference to files outside the skill's own directory tree will break — whether in SKILL.md, scripts, or reference files.
     - **IMPACT:** Non-self-contained skills fail silently when installed outside their authoring repo.
 
 5. **Script Language Portability (bonus: +1 point)**

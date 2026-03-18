@@ -50,8 +50,8 @@
     },
     {
       "instruction": "Use 8-dimension evaluation framework with Knowledge Delta as most important (20 points)",
-      "original_snippets": "The skill-judge framework evaluates skills across 8 dimensions totaling 120 points. **Dimension 1 (Knowledge Delta)** is most important",
-      "relevant_when": "when evaluating skill quality using skill-judge framework",
+      "original_snippets": "The 9-dimension quality framework evaluates skills across 8 dimensions totaling 120 points. **Dimension 1 (Knowledge Delta)** is most important",
+      "relevant_when": "when evaluating skill quality using 9-dimension quality framework",
       "why_given": "new knowledge"
     },
     {

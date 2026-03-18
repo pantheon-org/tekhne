@@ -42,7 +42,7 @@ skill-name/
 
 ### Three Components
 
-**1. SKILL.md (Navigation Hub)**
+#### SKILL.md (Navigation Hub)
 
 - 60-90 lines maximum
 - Overview (2-3 sentences)
@@ -51,7 +51,7 @@ skill-name/
 - Progressive disclosure instructions
 - External references
 
-**2. AGENTS.md (Reference Guide)**
+#### AGENTS.md (Reference Guide)
 
 - Skill structure overview
 - Usage workflow
@@ -60,7 +60,7 @@ skill-name/
 - File count summary
 - Navigation best practices
 
-**3. references/ (Expert Content)**
+#### references/ (Expert Content)
 
 - One file per focused topic
 - Organized by category prefix (e.g., `principles-`, `patterns-`)
@@ -234,7 +234,7 @@ For each reference file:
 mkdir -p .agents/skills/.deprecated
 
 # Move consolidated skills
-mv .agents/skills/original-skill .agents/skills/.deprecated/
+mv skills/original-skill .agents/skills/.deprecated/
 
 # Create README explaining consolidation
 cat > .agents/skills/.deprecated/README.md <<EOF
@@ -451,7 +451,7 @@ Don't aggregate if:
 2. Verify no duplication creeping in
 3. Review priority assignments
 4. Check if any reference files should be split/merged
-5. Re-run skill-judge evaluation
+5. Re-run quality evaluation
 
 ---
 
