@@ -97,9 +97,17 @@ const tileDomain = tile.tilePath.split("/")[0] ?? "";
           <div class="skill-entry__top">
             <span class="skill-entry__name">{skill.title}</span>
             {skill.grade && (
-              <span class:list={["skill-badge", "skill-entry__grade", gradeClass(skill.grade)]}>
-                {skill.grade}
-              </span>
+              <div class:list={["skill-entry__grade", gradeClass(skill.grade)]}>
+                <svg class="skill-entry__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path
+                    d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor"
+                    stroke="var(--tk-border)"
+                    stroke-width="0.75"
+                  />
+                </svg>
+                <span class="skill-entry__grade-text">{skill.grade}</span>
+              </div>
             )}
           </div>
           {skill.description && (
@@ -285,18 +293,18 @@ const tileDomain = tile.tilePath.split("/")[0] ?? "";
 
   .tile-skills__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1rem;
   }
 
   .skill-entry {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.6rem;
     background: var(--tk-bg-surface);
     border: 1px solid var(--tk-border);
     border-radius: 0.5rem;
-    padding: 1rem;
+    padding: 1.25rem;
     text-decoration: none;
     transition: border-color 0.15s, background 0.15s;
   }
@@ -315,18 +323,58 @@ const tileDomain = tile.tilePath.split("/")[0] ?? "";
 
   .skill-entry__name {
     font-weight: 600;
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: var(--tk-color-white);
   }
 
   .skill-entry__grade {
-    font-size: 0.65rem !important;
-    padding: 0.1em 0.4em !important;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    width: 2rem;
+    height: 2.25rem;
   }
 
+  .skill-entry__shield {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .skill-entry__grade-text {
+    position: relative;
+    z-index: 1;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--badge-fg, #fff);
+    text-shadow: 0 0 1px #27272a, 0 1px 2px rgba(0,0,0,0.4);
+  }
+
+  .skill-entry__grade.skill-badge--b-minus .skill-entry__grade-text {
+    color: var(--badge-b-minus-fg);
+  }
+
+  .skill-entry__grade.skill-badge--a-plus  { color: var(--badge-a-plus-bg); }
+  .skill-entry__grade.skill-badge--a       { color: var(--badge-a-bg); }
+  .skill-entry__grade.skill-badge--a-minus { color: var(--badge-a-minus-bg); }
+  .skill-entry__grade.skill-badge--b-plus  { color: var(--badge-b-plus-bg); }
+  .skill-entry__grade.skill-badge--b       { color: var(--badge-b-bg); }
+  .skill-entry__grade.skill-badge--b-minus { color: var(--badge-b-minus-bg); }
+  .skill-entry__grade.skill-badge--c-plus  { color: var(--badge-c-plus-bg); }
+  .skill-entry__grade.skill-badge--c       { color: var(--badge-c-bg); }
+  .skill-entry__grade.skill-badge--c-minus { color: var(--badge-c-minus-bg); }
+  .skill-entry__grade.skill-badge--d-plus  { color: var(--badge-d-plus-bg); }
+  .skill-entry__grade.skill-badge--d       { color: var(--badge-d-bg); }
+  .skill-entry__grade.skill-badge--d-minus { color: var(--badge-d-minus-bg); }
+  .skill-entry__grade.skill-badge--f       { color: var(--badge-f-bg); }
+  .skill-entry__grade.skill-badge--unknown { color: #6b7280; }
+
   .skill-entry__desc {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     color: var(--tk-text-muted);
     margin: 0;
     display: -webkit-box;
