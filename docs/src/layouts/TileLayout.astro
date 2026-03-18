@@ -1,30 +1,21 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { TileData } from "../lib/tiles";
 import BaseLayout from "./BaseLayout.astro";
 import LeftNav from "../components/LeftNav.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import NavToggle from "../components/NavToggle.astro";
 import SearchBar from "../components/SearchBar.astro";
-import SkillPageTitle from "../components/SkillPageTitle.astro";
-import SkillSidebar from "../components/SkillSidebar.astro";
-import Breadcrumb from "../components/Breadcrumb.astro";
 import SiteLogo from "../components/SiteLogo.astro";
 import GitHubLink from "../components/GitHubLink.astro";
 
-interface Crumb {
-  label: string;
-  href?: string;
-}
-
 interface Props {
-  entry: CollectionEntry<"docs">;
-  breadcrumbs?: Crumb[];
+  tile: TileData;
 }
 
-const { entry, breadcrumbs } = Astro.props;
+const { tile } = Astro.props;
 ---
 
-<BaseLayout title={entry.data.title}>
+<BaseLayout title={tile.name} description={tile.summary}>
   <header slot="header">
     <NavToggle />
     <SiteLogo />
@@ -34,14 +25,10 @@ const { entry, breadcrumbs } = Astro.props;
   </header>
   <div class="layout">
     <LeftNav />
-    <main data-pagefind-body data-pagefind-filter="type:skill">
-      {breadcrumbs && breadcrumbs.length > 1 && <Breadcrumb crumbs={breadcrumbs} />}
-      <SkillPageTitle entry={entry} />
+    <main>
       <slot />
     </main>
-    <aside class="right-sidebar">
-      <SkillSidebar entry={entry} />
-    </aside>
+    <aside class="right-sidebar"></aside>
   </div>
 </BaseLayout>
 

@@ -1,47 +1,171 @@
 ---
 ---
 
-<button
-  id="theme-toggle"
-  aria-label="Toggle theme"
-  title="Toggle theme"
->
-  <span class="icon-sun" aria-hidden="true">&#9728;</span>
-  <span class="icon-moon" aria-hidden="true">&#9790;</span>
-</button>
+<template id="theme-icons">
+  <svg class="light" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+    <circle cx="8" cy="8" r="3"/>
+    <line x1="8" y1="1" x2="8" y2="3"/>
+    <line x1="8" y1="13" x2="8" y2="15"/>
+    <line x1="1" y1="8" x2="3" y2="8"/>
+    <line x1="13" y1="8" x2="15" y2="8"/>
+    <line x1="3.5" y1="3.5" x2="4.9" y2="4.9"/>
+    <line x1="11.1" y1="11.1" x2="12.5" y2="12.5"/>
+    <line x1="12.5" y1="3.5" x2="11.1" y2="4.9"/>
+    <line x1="4.9" y1="11.1" x2="3.5" y2="12.5"/>
+  </svg>
+  <svg class="dark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+    <path d="M13.5 10.5A6 6 0 0 1 5.5 2.5a6 6 0 1 0 8 8z"/>
+  </svg>
+  <svg class="auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <rect x="1" y="3" width="14" height="9" rx="1"/>
+    <line x1="5" y1="14" x2="11" y2="14"/>
+    <line x1="8" y1="12" x2="8" y2="14"/>
+  </svg>
+</template>
+
+<tk-theme-select>
+  <label class="theme-select">
+    <span class="sr-only">Select theme</span>
+    <svg class="theme-select__icon theme-select__label-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="1" y="3" width="14" height="9" rx="1"/>
+      <line x1="5" y1="14" x2="11" y2="14"/>
+      <line x1="8" y1="12" x2="8" y2="14"/>
+    </svg>
+    <select autocomplete="off">
+      <option value="dark">Dark</option>
+      <option value="light">Light</option>
+      <option value="auto" selected>Auto</option>
+    </select>
+    <svg class="theme-select__icon theme-select__caret" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M4.5 6L8 9.5 11.5 6"/>
+    </svg>
+  </label>
+</tk-theme-select>
 
 <script>
-  const btn = document.getElementById("theme-toggle");
-  const html = document.documentElement;
+  type Theme = "auto" | "dark" | "light";
+  const storageKey = "tk-theme";
 
-  const apply = (theme: string) => {
-    html.setAttribute("data-theme", theme);
-    localStorage.setItem("tk-theme", theme);
+  const parseTheme = (v: unknown): Theme =>
+    v === "auto" || v === "dark" || v === "light" ? v : "auto";
+
+  const loadTheme = (): Theme =>
+    parseTheme(typeof localStorage !== "undefined" && localStorage.getItem(storageKey));
+
+  const storeTheme = (theme: Theme) => {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(storageKey, theme === "auto" ? "" : theme);
+    }
   };
 
-  if (btn) {
-    btn.addEventListener("click", () => {
-      apply(html.getAttribute("data-theme") === "dark" ? "light" : "dark");
+  const getSystem = (): Theme =>
+    matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+
+  const updatePickers = (theme: Theme) => {
+    document.querySelectorAll("tk-theme-select").forEach((el) => {
+      const sel = el.querySelector("select");
+      if (sel) sel.value = theme;
+      const tmpl = document.querySelector<HTMLTemplateElement>("#theme-icons");
+      const newIcon = tmpl?.content.querySelector<SVGElement>("." + theme);
+      if (newIcon) {
+        const labelIcon = el.querySelector<SVGElement>(".theme-select__label-icon");
+        if (labelIcon) labelIcon.replaceChildren(...Array.from(newIcon.cloneNode(true).childNodes));
+      }
     });
+  };
+
+  const onThemeChange = (theme: Theme) => {
+    updatePickers(theme);
+    document.documentElement.setAttribute("data-theme", theme === "auto" ? getSystem() : theme);
+    storeTheme(theme);
+  };
+
+  matchMedia("(prefers-color-scheme: light)").addEventListener("change", () => {
+    if (loadTheme() === "auto") onThemeChange("auto");
+  });
+
+  class TkThemeSelect extends HTMLElement {
+    constructor() {
+      super();
+      onThemeChange(loadTheme());
+      this.querySelector("select")?.addEventListener("change", (e) => {
+        if (e.currentTarget instanceof HTMLSelectElement) {
+          onThemeChange(parseTheme(e.currentTarget.value));
+        }
+      });
+    }
   }
+  customElements.define("tk-theme-select", TkThemeSelect);
 </script>
 
 <style>
-  button {
-    background: none;
-    border: 1px solid var(--tk-border);
-    border-radius: 0.375rem;
-    padding: 0.25rem 0.5rem;
+
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+  }
+
+  .theme-select {
+    --icon-size: 0.875rem;
+    --caret-size: 1rem;
+    --pad: 0.375rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: var(--tk-text-muted);
     cursor: pointer;
-    color: var(--tk-text);
-    font-size: 1rem;
-    line-height: 1;
   }
 
-  button:hover {
-    background: var(--tk-bg-hover);
+  .theme-select:hover {
+    color: var(--tk-color-white);
   }
 
-  [data-theme="dark"] .icon-sun  { display: none; }
-  [data-theme="light"] .icon-moon { display: none; }
+  .theme-select__icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+  .theme-select__label-icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
+    inset-inline-start: 0;
+  }
+
+  .theme-select__caret {
+    width: var(--caret-size);
+    height: var(--caret-size);
+    inset-inline-end: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+
+  select {
+    border: 0;
+    padding-block: 0.375rem;
+    padding-inline:
+      calc(var(--icon-size) + var(--pad) + 0.25rem)
+      calc(var(--caret-size) + var(--pad) + 0.25rem);
+    margin-inline: calc(var(--pad) * -1);
+    width: calc(5.5rem + var(--pad) * 2);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    appearance: none;
+    font-size: 0.8125rem;
+    font-family: inherit;
+  }
+
+  option {
+    background: var(--tk-bg-surface);
+    color: var(--tk-color-gray-1);
+  }
 </style>

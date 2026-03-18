@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { buildSkillToTileMap } from "../lib/tiles";
 
 const PAGE_TITLE_ID = "_top";
 
@@ -18,7 +19,10 @@ const displayTitle: string =
 
 const description: string | undefined = data.description;
 const version: string | undefined = metadata.version;
-const grade: string | undefined = metadata.grade;
+const skillAudit = (data.skillAudit as Record<string, any>) || {};
+const skillAudits: any[] = data.skillAudits ?? [];
+const latestAudit = skillAudits[0] ?? skillAudit;
+const grade: string | undefined = metadata.grade ?? latestAudit.grade;
 const tags: string[] = metadata.tags ?? [];
 
 const idParts = (entry.id as string).split("/");
@@ -28,6 +32,24 @@ const domain: string | undefined =
 
 const installSlug =
   skillsIdx >= 0 ? idParts.slice(skillsIdx + 1, -1).join("--") : "";
+
+const skillName: string | undefined = data.name;
+
+const base = import.meta.env.BASE_URL;
+const skillToTile = buildSkillToTileMap();
+const tileForSkill = skillName ? skillToTile.get(skillName) : undefined;
+const tileHref = tileForSkill ? `${base}/tiles/${tileForSkill.slug}/` : undefined;
+const tileLabel = tileForSkill
+  ? tileForSkill.name.replace(/^[^/]+\//, "").replace(/-/g, "\u00A0")
+  : undefined;
+
+const tileName: string | undefined =
+  data.tileName ?? (skillName ? `pantheon-ai/${skillName}` : undefined);
+const tessInstallCmd = tileName
+  ? skillName && tileName !== `pantheon-ai/${skillName}`
+    ? `npx tessl install ${tileName} --skill ${skillName}`
+    : `npx tessl install ${tileName}`
+  : undefined;
 
 const gradeClass = grade
   ? `skill-badge--${grade
@@ -40,44 +62,84 @@ const gradeClass = grade
 {
   isSkillPage ? (
     <div class="sk-header">
-      <div class="sk-header__badges">
-        {domain && (
-          <span class="sk-badge sk-domain">
-            {domain.replace(/-/g, "\u00A0")}
-          </span>
-        )}
-        {version && (
-          <span class="sk-badge sk-version">v{version}</span>
-        )}
-        {grade && (
-          <span class:list={["sk-badge", "skill-badge", gradeClass]}>
-            {grade}
-          </span>
-        )}
+      <div class:list={["sk-grade", grade ? gradeClass : "sk-grade--na"]}>
+        <svg class="sk-grade__shield" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+          <path
+            d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+            fill={grade ? "currentColor" : "var(--tk-bg)"}
+            stroke={grade ? "var(--tk-border)" : "var(--tk-color-white)"}
+            stroke-width="0.75"
+          />
+        </svg>
+        <span class="sk-grade__text">{grade ?? "N/A"}</span>
       </div>
 
-      <h1 id={PAGE_TITLE_ID} class="sk-title">
-        {displayTitle}
-      </h1>
-
-      {description && <p class="sk-desc">{description}</p>}
-
-      {installSlug && (
-        <div class="sk-install">
-          <span class="sk-install__label">Install</span>
-          <code class="sk-install__cmd">
-            npx skills add github:pantheon-org/tekhne --skill {installSlug}
-          </code>
+      <div class="sk-header__body">
+        <div class="sk-header__badges">
+          {domain && (
+            <span class="sk-badge sk-domain">
+              {domain.replace(/-/g, "\u00A0")}
+            </span>
+          )}
+          {tileLabel && (
+            tileHref
+              ? <a class="sk-badge sk-tile" href={tileHref}>{tileLabel}</a>
+              : <span class="sk-badge sk-tile">{tileLabel}</span>
+          )}
+          {version && (
+            <span class="sk-badge sk-version">v{version}</span>
+          )}
         </div>
-      )}
 
-      {tags.length > 0 && (
-        <div class="sk-tags">
-          {tags.map((tag: string) => (
-            <span class="sk-tag">{tag}</span>
-          ))}
-        </div>
-      )}
+        <h1 id={PAGE_TITLE_ID} class="sk-title">
+          {displayTitle}
+        </h1>
+
+        {description && <p class="sk-desc">{description}</p>}
+
+        {installSlug && (
+          <div class="sk-install" data-install={installSlug}>
+            <div class="sk-install__tabs">
+              {tessInstallCmd && (
+                <button class="sk-install__tab sk-install__tab--active" data-install-tab="tessl">npx tessl</button>
+              )}
+              <button class:list={["sk-install__tab", !tessInstallCmd && "sk-install__tab--active"]} data-install-tab="skills">npx skills</button>
+            </div>
+            {tessInstallCmd && (
+              <div class="sk-install__panel sk-install__panel--active" data-install-panel="tessl">
+                <code class="sk-install__cmd">{tessInstallCmd}</code>
+                <button
+                  class="sk-install__copy"
+                  type="button"
+                  aria-label="Copy install command"
+                  data-copy={tessInstallCmd}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                </button>
+              </div>
+            )}
+            <div class:list={["sk-install__panel", !tessInstallCmd && "sk-install__panel--active"]} data-install-panel="skills">
+              <code class="sk-install__cmd">npx skills add github:pantheon-org/tekhne --skill {installSlug}</code>
+              <button
+                class="sk-install__copy"
+                type="button"
+                aria-label="Copy install command"
+                data-copy={`npx skills add github:pantheon-org/tekhne --skill ${installSlug}`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              </button>
+            </div>
+          </div>
+        )}
+
+        {tags.length > 0 && (
+          <div class="sk-tags">
+            {tags.map((tag: string) => (
+              <span class="sk-tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   ) : (
     <h1 id={PAGE_TITLE_ID}>{entry.data.title}</h1>
@@ -86,11 +148,76 @@ const gradeClass = grade
 
 <style>
   .sk-header {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
     border: 1px solid var(--tk-border);
     border-radius: 0.5rem;
     background: var(--tk-bg-surface);
-    padding: 1.5rem;
+    padding: 1.5rem 2rem;
     margin-bottom: 1.75rem;
+  }
+
+  .sk-grade {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 5.5rem;
+    height: 6.25rem;
+    align-self: center;
+    margin: 0 0.5rem;
+  }
+
+  .sk-grade__shield {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .sk-grade__text {
+    position: relative;
+    z-index: 1;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--badge-fg, #fff);
+    text-shadow:
+      0 0 1px #27272a,
+      0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+
+  .sk-grade--na .sk-grade__text {
+    color: var(--tk-text);
+    font-size: 1rem;
+    text-shadow: none;
+  }
+
+  .skill-badge--b-minus .sk-grade__text {
+    color: var(--badge-b-minus-fg);
+  }
+
+  .sk-grade.skill-badge--a-plus { color: var(--badge-a-plus-bg); }
+  .sk-grade.skill-badge--a      { color: var(--badge-a-bg); }
+  .sk-grade.skill-badge--a-minus { color: var(--badge-a-minus-bg); }
+  .sk-grade.skill-badge--b-plus { color: var(--badge-b-plus-bg); }
+  .sk-grade.skill-badge--b      { color: var(--badge-b-bg); }
+  .sk-grade.skill-badge--b-minus { color: var(--badge-b-minus-bg); }
+  .sk-grade.skill-badge--c-plus { color: var(--badge-c-plus-bg); }
+  .sk-grade.skill-badge--c      { color: var(--badge-c-bg); }
+  .sk-grade.skill-badge--c-minus { color: var(--badge-c-minus-bg); }
+  .sk-grade.skill-badge--d-plus { color: var(--badge-d-plus-bg); }
+  .sk-grade.skill-badge--d      { color: var(--badge-d-bg); }
+  .sk-grade.skill-badge--d-minus { color: var(--badge-d-minus-bg); }
+  .sk-grade.skill-badge--f      { color: var(--badge-f-bg); }
+  .sk-grade.skill-badge--unknown { color: #6b7280; }
+
+
+  .sk-header__body {
+    flex: 1;
+    min-width: 0;
   }
 
   .sk-header__badges {
@@ -121,33 +248,81 @@ const gradeClass = grade
   }
 
   .sk-install {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: var(--tk-bg);
     border: 1px solid var(--tk-border);
-    border-radius: 0.375rem;
-    padding: 0.5rem 0.875rem;
-    overflow-x: auto;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
 
-  .sk-install__label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--tk-color-gray-3);
-    flex-shrink: 0;
+  .sk-install__tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border-bottom: 1px solid var(--tk-border);
+    background: var(--tk-bg-surface);
+    padding: 0 0.5rem;
+  }
+
+  .sk-install__tab {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--tk-text-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.12s, border-color 0.12s;
+  }
+
+  .sk-install__tab:hover {
+    color: var(--tk-color-white);
+  }
+
+  .sk-install__tab--active {
+    color: var(--tk-color-white);
+    border-bottom-color: var(--tk-color-accent, #818cf8);
+  }
+
+  .sk-install__panel {
+    display: none;
+    align-items: stretch;
+    background: var(--tk-bg-hover);
+  }
+
+  .sk-install__panel--active {
+    display: flex;
   }
 
   .sk-install__cmd {
+    flex: 1;
+    display: block;
+    padding: 0.7rem 1rem;
     font-family: var(--tk-font-mono);
-    font-size: 0.75rem;
-    color: var(--tk-color-gray-1);
+    font-size: 0.8rem;
+    color: var(--tk-text-muted);
     background: none;
-    padding: 0;
-    border: none;
     white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  .sk-install__copy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0 0.875rem;
+    background: none;
+    border: none;
+    border-left: 1px solid var(--tk-border);
+    color: var(--tk-text-muted);
+    cursor: pointer;
+    transition: color 0.12s, background 0.12s;
+  }
+
+  .sk-install__copy:hover {
+    color: var(--tk-color-white);
+    background: var(--tk-border);
   }
 
   .sk-badge {
@@ -162,6 +337,17 @@ const gradeClass = grade
     background: var(--tk-color-gray-5);
     color: var(--tk-color-gray-2);
     text-transform: capitalize;
+  }
+
+  .sk-tile {
+    background: var(--tk-color-accent-low);
+    color: var(--tk-link);
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+
+  a.sk-tile:hover {
+    text-decoration: underline;
   }
 
   .sk-version {
@@ -185,3 +371,35 @@ const gradeClass = grade
     font-size: 0.7rem;
   }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".sk-install").forEach((block) => {
+    block.querySelectorAll<HTMLButtonElement>(".sk-install__tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const target = tab.dataset.installTab;
+        block.querySelectorAll<HTMLButtonElement>(".sk-install__tab").forEach((t) => {
+          t.classList.toggle("sk-install__tab--active", t === tab);
+        });
+        block.querySelectorAll<HTMLElement>(".sk-install__panel").forEach((panel) => {
+          panel.classList.toggle("sk-install__panel--active", panel.dataset.installPanel === target);
+        });
+      });
+    });
+  });
+
+  document.querySelectorAll<HTMLButtonElement>(".sk-install__copy").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const text = btn.dataset.copy;
+      if (!text) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const svg = btn.querySelector("svg");
+        if (svg) {
+          svg.innerHTML = '<polyline points="20 6 9 17 4 12"/>';
+          setTimeout(() => {
+            svg.innerHTML = '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>';
+          }, 1500);
+        }
+      });
+    });
+  });
+</script>

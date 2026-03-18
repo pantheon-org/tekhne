@@ -1,0 +1,111 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { TileData } from "../lib/tiles";
+
+interface SkillLink {
+  key: string;
+  title: string;
+  grade: string | undefined;
+  href: string;
+}
+
+interface Props {
+  tile: TileData;
+  skillEntries: CollectionEntry<"docs">[];
+}
+
+const { tile, skillEntries } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const gradeClass = (grade?: string) =>
+  grade
+    ? `skill-badge--${grade.toLowerCase().replace("+", "-plus").replace(/([a-z])-$/, "$1-minus")}`
+    : "skill-badge--unknown";
+
+const skillLinks: SkillLink[] = Object.keys(tile.skills).map((key) => {
+  const entry = skillEntries.find((e) => {
+    const d = e.data as Record<string, unknown>;
+    return d.name === key;
+  });
+  if (!entry) return { key, title: key, grade: undefined, href: "#" };
+  const d = entry.data as Record<string, unknown>;
+  const meta = (d.metadata as Record<string, unknown>) ?? {};
+  const title = (meta.displayTitle as string | undefined) ?? (d.name as string | undefined) ?? key;
+  const audit = (d.skillAudit as Record<string, unknown>) ?? {};
+  const grade = (meta.grade as string | undefined) ?? (audit.grade as string | undefined);
+  const parts = entry.id.split("/");
+  const skillsIdx = parts.indexOf("skills");
+  const skillPath = skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
+  const href = `${base}/skills/${skillPath.replace(/\/skill$/, "/skill/")}/`;
+  return { key, title, grade, href };
+});
+---
+
+<div class="tile-sidebar">
+  <h2 class="tile-sidebar__heading">Skills</h2>
+  <div class="tile-sidebar__list">
+    {skillLinks.map((skill) => (
+      <a href={skill.href} class="tile-sidebar__item">
+        <span class="tile-sidebar__name">{skill.title}</span>
+        {skill.grade && (
+          <span class:list={["skill-badge", "tile-sidebar__grade", gradeClass(skill.grade)]}>
+            {skill.grade}
+          </span>
+        )}
+      </a>
+    ))}
+  </div>
+</div>
+
+<style>
+  .tile-sidebar {
+    overflow-y: auto;
+  }
+
+  .tile-sidebar__heading {
+    color: var(--tk-color-white);
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .tile-sidebar__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .tile-sidebar__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--tk-color-gray-3);
+    text-decoration: none;
+    transition: background 0.12s, color 0.12s, border-color 0.12s;
+    overflow-wrap: anywhere;
+  }
+
+  .tile-sidebar__item:hover {
+    background: var(--tk-color-gray-5);
+    color: var(--tk-color-white);
+    border-color: var(--tk-border);
+  }
+
+  .tile-sidebar__name {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tile-sidebar__grade {
+    font-size: 0.65rem !important;
+    padding: 0.1em 0.4em !important;
+    flex-shrink: 0;
+  }
+</style>

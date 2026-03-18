@@ -16,8 +16,11 @@
   const nav = document.getElementById("left-nav");
   const backdrop = document.getElementById("nav-backdrop");
 
+  const NAV_KEY = "nav-open";
+
   const open = () => {
     document.body.classList.add("nav-open");
+    sessionStorage.setItem(NAV_KEY, "1");
     btn?.setAttribute("aria-expanded", "true");
     btn?.setAttribute("aria-label", "Close navigation");
     const firstLink = nav?.querySelector<HTMLAnchorElement>("a");
@@ -26,10 +29,17 @@
 
   const close = () => {
     document.body.classList.remove("nav-open");
+    sessionStorage.removeItem(NAV_KEY);
     btn?.setAttribute("aria-expanded", "false");
     btn?.setAttribute("aria-label", "Open navigation");
     btn?.focus();
   };
+
+  if (sessionStorage.getItem(NAV_KEY)) {
+    document.body.classList.add("nav-open");
+    btn?.setAttribute("aria-expanded", "true");
+    btn?.setAttribute("aria-label", "Close navigation");
+  }
 
   if (btn && nav) {
     btn.addEventListener("click", () => {

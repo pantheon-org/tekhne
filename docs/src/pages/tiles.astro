@@ -1,82 +1,119 @@
 ---
 import { getCollection } from "astro:content";
-import DocsLayout from "../layouts/DocsLayout.astro";
-import FilterChips from "../components/FilterChips.astro";
 import SkillCard from "../components/SkillCard.astro";
+import DocsLayout from "../layouts/DocsLayout.astro";
+import { buildSkillToTileMap, loadPublicTiles } from "../lib/tiles";
 
 const allDocs = await getCollection("docs");
-const skillEntries = allDocs.filter((e) => e.id.endsWith("/skill"));
-
-const toTitleCase = (s: string) =>
-  s.split("-").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
-
-interface SkillCardData {
-  href: string;
-  title: string;
-  description: string | undefined;
-  grade: string | undefined;
-  domain: string;
-  evalCount: number | undefined;
-  auditDate: string | undefined;
-}
-
-const cards: SkillCardData[] = skillEntries.map((entry) => {
-  const data = entry.data as Record<string, unknown>;
-  const metadata = (data.metadata as Record<string, unknown>) || {};
-  const skillAudit = data.skillAudit as Record<string, unknown> | undefined;
-  const skillAudits = data.skillAudits as Array<Record<string, unknown>> | undefined;
-  const skillEvals = data.skillEvals as unknown[] | undefined;
-  const grade = skillAudit?.grade as string | undefined
-    ?? metadata.grade as string | undefined;
-  const auditDate = (skillAudit?.date ?? skillAudit?.auditDate) as string | undefined
-    ?? (skillAudits?.[0]?.date ?? skillAudits?.[0]?.auditDate) as string | undefined;
-  const evalCount = skillEvals?.length;
-  const parts = entry.id.split("/");
-  const skillsIdx = parts.indexOf("skills");
-  const domain = skillsIdx >= 0 ? (parts[skillsIdx + 1] ?? "unknown") : "unknown";
-  const skillPath = skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
-  const href = import.meta.env.BASE_URL + "/skills/" + skillPath.replace(/\/skill$/, "/skill/") + "/";
-  return {
-    href,
-    title: entry.data.title,
-    description: data.description as string | undefined,
-    grade,
-    domain,
-    evalCount,
-    auditDate,
-  };
+const skillEntries = allDocs.filter((e) => {
+  const id = e.id as string;
+  return id.endsWith("/skill") || id.endsWith("/SKILL.mdx");
 });
 
-const domainMap = new Map<string, SkillCardData[]>();
-for (const card of cards) {
-  if (!domainMap.has(card.domain)) domainMap.set(card.domain, []);
-  domainMap.get(card.domain)!.push(card);
-}
-const domains = [...domainMap.keys()].sort();
-for (const domainCards of domainMap.values()) {
-  domainCards.sort((a, b) => a.title.localeCompare(b.title));
+const base = import.meta.env.BASE_URL;
+const publicTiles = loadPublicTiles();
+const _skillToTile = buildSkillToTileMap();
+
+interface TileCardData {
+  tileSlug: string;
+  tileName: string;
+  tileHref: string;
+  skillCount: number;
+  version: string;
+  skills: Array<{
+    href: string;
+    title: string;
+    description: string | undefined;
+    grade: string | undefined;
+    domain: string;
+    evalCount: number | undefined;
+    auditDate: string | undefined;
+  }>;
 }
 
-const grades = ["A", "B+", "B", "C"];
+const tileCards: TileCardData[] = publicTiles
+  .map((tile) => {
+    const skills = Object.keys(tile.skills)
+      .map((key) => {
+        const entry = skillEntries.find((e) => {
+          const d = e.data as Record<string, unknown>;
+          return d.name === key;
+        });
+        if (!entry) return null;
+        const data = entry.data as Record<string, unknown>;
+        const metadata = (data.metadata as Record<string, unknown>) ?? {};
+        const skillAudit = data.skillAudit as
+          | Record<string, unknown>
+          | undefined;
+        const skillAudits = data.skillAudits as
+          | Array<Record<string, unknown>>
+          | undefined;
+        const skillEvals = data.skillEvals as unknown[] | undefined;
+        const grade =
+          (skillAudit?.grade as string | undefined) ??
+          (metadata.grade as string | undefined);
+        const auditDate =
+          ((skillAudit?.date ?? skillAudit?.auditDate) as string | undefined) ??
+          ((skillAudits?.[0]?.date ?? skillAudits?.[0]?.auditDate) as
+            | string
+            | undefined);
+        const evalCount = skillEvals?.length;
+        const parts = entry.id.split("/");
+        const skillsIdx = parts.indexOf("skills");
+        const domain =
+          skillsIdx >= 0 ? (parts[skillsIdx + 1] ?? "unknown") : "unknown";
+        const skillPath =
+          skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
+        const href = `${base}/skills/${skillPath.replace(/\/skill$/, "/skill/")}/`;
+        const meta = (data.metadata as Record<string, unknown>) ?? {};
+        const title =
+          (meta.displayTitle as string | undefined) ??
+          (data.name as string | undefined) ??
+          entry.data.title;
+        return {
+          href,
+          title,
+          description: data.description as string | undefined,
+          grade,
+          domain,
+          evalCount,
+          auditDate,
+        };
+      })
+      .filter(Boolean) as TileCardData["skills"];
+
+    const tileLabelRaw = tile.name.replace(/^[^/]+\//, "");
+    const tileName = tileLabelRaw.replace(/-/g, " ");
+
+    return {
+      tileSlug: tile.slug,
+      tileName,
+      tileHref: `${base}/tiles/${tile.slug}/`,
+      skillCount: skills.length,
+      version: tile.version,
+      skills,
+    };
+  })
+  .filter((t) => t.skills.length > 0);
+
+tileCards.sort((a, b) => a.tileName.localeCompare(b.tileName));
 ---
 
-<DocsLayout title="Skill Catalog" description="All Tekhne tiles and skills organized by domain.">
-  <h1>Skill Catalog</h1>
-  <p class="subtitle">All skills organized by domain.</p>
+<DocsLayout title="Tile Catalog" description="All Tekhne tiles and skills organized by tile.">
+  <h1>Tile Catalog</h1>
+  <p class="subtitle">{tileCards.length} tiles available</p>
 
-  <div class="filters">
-    <FilterChips label="Domain" values={domains} filterAttr="domain" />
-    <FilterChips label="Grade" values={grades} filterAttr="grade" />
-  </div>
-
-  {domains.map((domain) => (
-    <section class="domain-section" data-domain-section={domain}>
+  {tileCards.map((tile) => (
+    <section class="tile-section">
       <h2>
-        {toTitleCase(domain)}
-        <span class="domain-count" data-domain-count={domain}>{domainMap.get(domain)!.length}</span>
+        <a href={tile.tileHref} class="tile-heading-link">{tile.tileName}</a>
+        <span class="tile-meta">
+          <span class="tile-version">v{tile.version}</span>
+          <span class="tile-count">{tile.skillCount} skill{tile.skillCount !== 1 ? "s" : ""}</span>
+        </span>
       </h2>
       <div class="skill-cards">
-        {domainMap.get(domain)!.map((card) => (
+        {tile.skills.map((card) => (
           <SkillCard
             href={card.href}
             title={card.title}
@@ -102,37 +139,53 @@ const grades = ["A", "B+", "B", "C"];
 
   .subtitle {
     color: var(--tk-text-muted);
-    margin-bottom: 1.25rem;
-  }
-
-  .filters {
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
     margin-bottom: 2rem;
-    padding: 0.75rem 1rem;
-    background: var(--tk-bg-surface);
-    border: 1px solid var(--tk-border);
-    border-radius: 0.5rem;
   }
 
-  .domain-section {
+  .tile-section {
     margin-bottom: 2.5rem;
   }
 
-  .domain-section h2 {
+  .tile-section h2 {
     display: flex;
     align-items: center;
     gap: 0.6rem;
     font-size: 1.25rem;
     font-weight: 600;
-    color: var(--tk-color-white);
     margin-bottom: 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--tk-border);
   }
 
-  .domain-count {
+  .tile-heading-link {
+    color: var(--tk-color-white);
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+
+  .tile-heading-link:hover {
+    color: var(--tk-accent);
+    text-decoration: underline;
+  }
+
+  .tile-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-left: auto;
+  }
+
+  .tile-version {
+    font-size: 0.7rem;
+    font-family: var(--tk-font-mono);
+    background: var(--tk-color-accent-low);
+    color: var(--tk-color-accent-high);
+    border-radius: 0.375rem;
+    padding: 0.2em 0.5em;
+    font-weight: 500;
+  }
+
+  .tile-count {
     display: inline-flex;
     align-items: center;
     justify-content: center;
