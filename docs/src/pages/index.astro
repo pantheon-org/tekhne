@@ -1,59 +1,280 @@
 ---
 import DocsLayout from "../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <DocsLayout title="Tekhne Skills" description="A curated collection of reusable agent skills for AI assistants. Browse by domain, install in seconds, and extend any AI coding assistant.">
-  <div class="hero">
-    <h1>Tekhne Skills</h1>
-    <p class="tagline">Reusable agent skills for every AI assistant.</p>
-    <div class="hero-actions">
-      <a href={`${import.meta.env.BASE_URL}/tiles/`} class="btn btn-primary">Browse All Skills</a>
-      <a href="https://github.com/pantheon-org/tekhne" class="btn btn-secondary">GitHub</a>
-    </div>
-  </div>
-
-  <section class="features">
-    <h2>What are agent skills?</h2>
-    <p>Agent skills are modular instruction packages that extend the capabilities of AI assistants. Drop a skill into your agent configuration and it immediately gains domain-specific knowledge, workflows, and best practices.</p>
-
-    <div class="card-grid">
-      <div class="card">
-        <h3>70+ skills</h3>
-        <p>Covering CI/CD, infrastructure, development tooling, testing, architecture, and more.</p>
-      </div>
-      <div class="card">
-        <h3>Multi-harness</h3>
-        <p>Works with OpenCode, Cursor, GitHub Copilot, Claude, Gemini, and 40+ AI assistants.</p>
-      </div>
-      <div class="card">
-        <h3>Open source</h3>
-        <p>Every skill is a plain Markdown file you can read, fork, and improve.</p>
-      </div>
-      <div class="card">
-        <h3>Quality-graded</h3>
-        <p>Skills are audited on a 9-dimension framework and published to the Tessl registry.</p>
+  <!-- Hero -->
+  <section class="hero-wrap">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Open Source · Quality-graded</div>
+      <h1 class="hero-title">
+        Extend any AI assistant<br />
+        <span class="gradient">in minutes</span>
+      </h1>
+      <p class="hero-sub">
+        Modular, quality-graded skills for Claude, Cursor, OpenCode, Copilot,
+        and 40+ other AI agents. Drop a skill in — get domain expertise instantly.
+      </p>
+      <div class="hero-actions">
+        <a href={`${base}/tiles/`} class="btn btn-primary">Browse All Skills</a>
+        <a href="https://github.com/pantheon-org/tekhne" class="btn btn-secondary">View on GitHub</a>
       </div>
     </div>
   </section>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-value">70<span class="accent">+</span></span>
+      <span class="stat-label">Skills</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">12</span>
+      <span class="stat-label">Domains</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">40<span class="accent">+</span></span>
+      <span class="stat-label">Agents supported</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">A</span>
+      <span class="stat-label">Quality threshold</span>
+    </div>
+  </div>
+
+  <!-- Install -->
+  <div class="lp-section">
+    <div class="section-label">Get started</div>
+    <h2 class="section-title">Install in 30 seconds</h2>
+    <p class="section-desc">Skills are plain Markdown — add them to any agent configuration with one command.</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="term-comment"># Install all skills into your project</span></div>
+        <div><span class="term-prompt">$ </span><span class="term-cmd">bunx skills add ./skills --all</span></div>
+        <div><span class="term-out">✓ Installed 70 skills across 12 domains</span></div>
+        <br />
+        <div><span class="term-comment"># Or install a single skill</span></div>
+        <div><span class="term-prompt">$ </span><span class="term-cmd">bun cli/index.ts install ci-cd/github-actions-generator</span></div>
+        <div><span class="term-out">✓ ci-cd/github-actions-generator  A+</span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Domain grid -->
+  <div class="lp-section">
+    <div class="section-label">Browse</div>
+    <h2 class="section-title">Explore by domain</h2>
+    <p class="section-desc">Every skill lives in one of 12 focused domains. Click a domain to see all skills.</p>
+
+    <div class="domain-grid">
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">⚙️</span>
+        <div class="domain-info">
+          <div class="domain-name">CI/CD</div>
+          <div class="domain-count">14 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">🏗️</span>
+        <div class="domain-info">
+          <div class="domain-name">Infrastructure</div>
+          <div class="domain-count">13 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">💻</span>
+        <div class="domain-info">
+          <div class="domain-name">Development</div>
+          <div class="domain-count">10 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">🤖</span>
+        <div class="domain-info">
+          <div class="domain-name">Agentic Harness</div>
+          <div class="domain-count">9 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">🧪</span>
+        <div class="domain-info">
+          <div class="domain-name">Testing</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">📐</span>
+        <div class="domain-info">
+          <div class="domain-name">Software Engineering</div>
+          <div class="domain-count">4 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">📊</span>
+        <div class="domain-info">
+          <div class="domain-name">Observability</div>
+          <div class="domain-count">4 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">📝</span>
+        <div class="domain-info">
+          <div class="domain-name">Documentation</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">📦</span>
+        <div class="domain-info">
+          <div class="domain-name">Repository Mgmt</div>
+          <div class="domain-count">6 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">📋</span>
+        <div class="domain-info">
+          <div class="domain-name">Project Mgmt</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">🔧</span>
+        <div class="domain-info">
+          <div class="domain-name">Package Mgmt</div>
+          <div class="domain-count">2 skills</div>
+        </div>
+      </a>
+      <a href={`${base}/tiles/`} class="domain-card">
+        <span class="domain-icon">🔬</span>
+        <div class="domain-info">
+          <div class="domain-name">Specialized</div>
+          <div class="domain-count">3 skills</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- How it works -->
+  <div class="lp-section">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">From zero to expert agent in three steps</h2>
+    <p class="section-desc">Skills are plain Markdown — no binaries, no lock-in.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Step 01</div>
+        <h3>Browse &amp; pick</h3>
+        <p>Find the skill that matches your workflow — CI/CD pipelines, Terraform, BDD testing, and more.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 02</div>
+        <h3>Install</h3>
+        <p>One CLI command drops the skill into your agent config. Works with OpenCode, Cursor, Claude, and 40+ others.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 03</div>
+        <h3>Extend or fork</h3>
+        <p>Every skill is a Markdown file. Read it, fork it, submit improvements back — no special tooling required.</p>
+      </div>
+    </div>
+  </div>
 </DocsLayout>
 
 <style>
-  .hero {
-    padding: 3rem 0 2rem;
+  /* ── Hero ── */
+  .hero-wrap {
+    position: relative;
+    overflow: hidden;
+    /* break out of main's 2rem padding to reach content edges */
+    margin: -2rem -2rem 0;
+    padding: 5rem 2rem 4rem;
     text-align: center;
   }
 
-  .hero h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: var(--tk-color-white);
+  .hero-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, var(--tk-color-accent-low) 0%, transparent 70%);
+    pointer-events: none;
   }
 
-  .tagline {
-    font-size: 1.125rem;
-    color: var(--tk-text-muted);
+  .hero-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--tk-border) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tk-accent);
+    border: 1px solid #166534;
+    background: var(--tk-color-accent-low);
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
     margin-bottom: 1.5rem;
+  }
+
+  .hero-eyebrow::before {
+    content: "◆";
+    font-size: 0.6em;
+  }
+
+  .hero-title {
+    font-size: clamp(2.25rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--tk-color-white);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-title .gradient {
+    background: linear-gradient(135deg, #86efac 0%, #22c55e 50%, #16a34a 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.125rem;
+    color: var(--tk-text);
+    max-width: 52ch;
+    margin: 1rem auto 2rem;
+    line-height: 1.7;
   }
 
   .hero-actions {
@@ -65,74 +286,241 @@ import DocsLayout from "../layouts/DocsLayout.astro";
 
   .btn {
     display: inline-block;
-    padding: 0.625rem 1.25rem;
+    padding: 0.625rem 1.5rem;
     border-radius: 0.375rem;
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 0.9375rem;
     text-decoration: none;
-    transition: background 0.15s;
+    transition: all 0.15s;
   }
 
   .btn-primary {
     background: var(--tk-accent);
     color: #fff;
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.25);
   }
 
   .btn-primary:hover {
     background: var(--tk-accent-hover);
     text-decoration: none;
     color: #fff;
+    box-shadow: 0 0 28px rgba(34, 197, 94, 0.35);
   }
 
   .btn-secondary {
     border: 1px solid var(--tk-border);
     color: var(--tk-text);
+    background: rgba(255, 255, 255, 0.03);
   }
 
   .btn-secondary:hover {
-    background: var(--tk-bg-hover);
+    border-color: var(--tk-text);
+    color: var(--tk-color-white);
     text-decoration: none;
   }
 
-  .features {
-    padding: 2rem 0;
+  /* ── Stats bar ── */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    /* break out of main's padding to match hero edges */
+    margin: 0 -2rem;
+    padding: 1rem 2rem;
+    border-top: 1px solid var(--tk-border);
+    border-bottom: 1px solid var(--tk-border);
   }
 
-  .features h2 {
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  .stat-value {
     font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+    font-weight: 700;
     color: var(--tk-color-white);
+    letter-spacing: -0.02em;
   }
 
-  .features > p {
+  .stat-value .accent {
+    color: var(--tk-accent);
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--tk-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .stat-sep {
+    width: 1px;
+    background: var(--tk-border);
+    align-self: stretch;
+    margin: 0.25rem 0;
+  }
+
+  /* ── Sections ── */
+  .lp-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 0;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tk-accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--tk-color-white);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section-desc {
     color: var(--tk-text-muted);
     margin-bottom: 2rem;
     max-width: 60ch;
   }
 
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1rem;
+  .divider {
+    border: none;
+    border-top: 1px solid var(--tk-border);
+    margin-left: -2rem;
+    margin-right: -2rem;
   }
 
-  .card {
+  /* ── Terminal ── */
+  .terminal {
     background: var(--tk-bg-surface);
     border: 1px solid var(--tk-border);
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.625rem 1rem;
+    border-bottom: 1px solid var(--tk-border);
+    background: var(--tk-bg-hover);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ef4444; }
+  .dot-yellow { background: #eab308; }
+  .dot-green { background: #22c55e; }
+
+  .terminal-body {
+    padding: 1.25rem 1.5rem;
+    font-family: var(--tk-font-mono);
+    font-size: 0.875rem;
+    line-height: 2;
+  }
+
+  .term-prompt { color: var(--tk-text-muted); user-select: none; }
+  .term-cmd { color: var(--tk-color-white); }
+  .term-comment { color: var(--tk-text-muted); }
+  .term-out { color: var(--tk-accent); }
+
+  /* ── Domain grid ── */
+  .domain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .domain-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--tk-bg-surface);
+    border: 1px solid var(--tk-border);
+    border-radius: 0.625rem;
+    padding: 0.875rem 1rem;
+    transition: border-color 0.15s, background 0.15s;
+    text-decoration: none;
+  }
+
+  .domain-card:hover {
+    border-color: #166534;
+    background: #0a1a10;
+    text-decoration: none;
+  }
+
+  .domain-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
+  }
+
+  .domain-info { min-width: 0; }
+
+  .domain-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--tk-color-white);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .domain-count {
+    font-size: 0.6875rem;
+    color: var(--tk-text-muted);
+  }
+
+  /* ── Steps ── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .step {
+    background: var(--tk-bg-surface);
+    border: 1px solid var(--tk-border);
+    border-radius: 0.625rem;
     padding: 1.25rem;
   }
 
-  .card h3 {
-    font-size: 1rem;
-    font-weight: 600;
+  .step-num {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--tk-accent);
+    text-transform: uppercase;
     margin-bottom: 0.5rem;
-    color: var(--tk-color-white);
   }
 
-  .card p {
-    font-size: 0.875rem;
+  .step h3 {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--tk-color-white);
+    margin-bottom: 0.375rem;
+  }
+
+  .step p {
+    font-size: 0.8125rem;
     color: var(--tk-text-muted);
-    margin: 0;
+    line-height: 1.55;
   }
 </style>
