@@ -25,5 +25,5 @@ Done criteria:
 Re-check:
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
+sh ./scripts/evaluate.sh <skill-name> --json
 ```

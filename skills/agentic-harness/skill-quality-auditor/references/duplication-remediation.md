@@ -146,7 +146,7 @@ done
 
 # Run skill-judge evaluation
 find skills -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | while read -r skill_name; do
-  sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh "$skill_name" --json >/dev/null
+  sh ./scripts/evaluate.sh "$skill_name" --json >/dev/null
 done
 ```
 

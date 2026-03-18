@@ -13,7 +13,7 @@ check_templates_file() {
   case "$file" in
     *.yaml|*.yml) ;;
     *)
-      error "$file is in templates/ but is not a YAML file (.yaml/.yml)."
+      error "$file is in assets/templates/ but is not a YAML file (.yaml/.yml)."
       return
       ;;
   esac
@@ -31,7 +31,7 @@ check_schemas_file() {
   case "$file" in
     *.schema.json) ;;
     *)
-      error "$file is in schemas/ but does not use the .schema.json extension."
+      error "$file is in assets/schemas/ but does not use the .schema.json extension."
       return
       ;;
   esac
@@ -129,10 +129,10 @@ check_file() {
   file=$1
 
   case "$file" in
-    skills/*/templates/*)
+    skills/*/assets/templates/*)
       check_templates_file "$file"
       ;;
-    skills/*/schemas/*)
+    skills/*/assets/schemas/*)
       check_schemas_file "$file"
       ;;
     skills/*/scripts/*)
@@ -149,7 +149,7 @@ if [ "$#" -gt 0 ]; then
 else
   tmp_files=$(mktemp)
   trap 'rm -f "$tmp_files"' EXIT INT TERM
-  find skills -type f \( -path 'skills/*/templates/*' -o -path 'skills/*/schemas/*' -o -path 'skills/*/scripts/*' \) > "$tmp_files"
+  find skills -type f \( -path 'skills/*/assets/templates/*' -o -path 'skills/*/assets/schemas/*' -o -path 'skills/*/scripts/*' \) > "$tmp_files"
   while IFS= read -r file; do
     check_file "$file"
   done < "$tmp_files"

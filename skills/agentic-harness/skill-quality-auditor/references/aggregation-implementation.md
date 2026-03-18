@@ -41,7 +41,7 @@ ls -1 .agents/skills/ | grep "^bdd-"
 # Look for >20% similarity pairs
 
 # Measure sizes
-wc -l .agents/skills/bdd-*/SKILL.md
+wc -l skills/bdd-*/SKILL.md
 # Identify oversized skills (>500 lines)
 ```
 
@@ -106,7 +106,7 @@ DECISION: AGGREGATE ✅
 
 ### Step 3: Create Navigation Hub (SKILL.md)
 
-**Target: 60-100 lines**
+Target: 60-100 lines
 
 **Template:**
 
@@ -425,7 +425,7 @@ These skills have been consolidated into aggregation skills using the Navigation
 - bdd-scenarios
 - cucumber-best-practices
 
-See `.agents/skills/bdd-testing/` for consolidated content.
+See `skills/bdd-testing/` for consolidated content.
 
 ## Why Deprecated
 
@@ -448,7 +448,7 @@ ls -1 .agents/skills/ | grep -v "^\." | wc -l
 ls -1 .agents/skills/.deprecated/ | wc -l
 
 # Verify aggregation exists
-test -f .agents/skills/bdd-testing/SKILL.md && echo "✅ Aggregation created"
+test -f skills/bdd-testing/SKILL.md && echo "✅ Aggregation created"
 ```
 
 ## Verification Checklist
@@ -498,7 +498,7 @@ From session 2026-02-10:
 | mise-complete | 3 | 1,404 | 59 | 95.8% |
 | biome-complete | 2 | 1,065 | 59 | 94.5% |
 
-**Average: 96.4% size reduction, A+ grades (93.2/120)**
+Average: 96.4% size reduction, A+ grades (93.2/120)
 
 ## See Also
 

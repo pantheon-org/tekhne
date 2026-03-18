@@ -41,7 +41,7 @@ if [ "$STORE_MODE" -eq 1 ]; then
 fi
 
 find_skill_path() {
-  for path in "skills/$1/SKILL.md" ".agents/skills/$1/SKILL.md"; do
+  for path in "skills/$1/SKILL.md" "skills/$1/SKILL.md"; do
     if [ -f "$path" ]; then
       echo "$path"
       return 0
@@ -202,8 +202,8 @@ evaluate_specification_compliance() {
     score=$((score + 1))
   fi
   
-  # Check for relative paths from skill directory (scripts/, references/, templates/)
-  if echo "$CONTENT" | grep -qE '(scripts|references|templates)/[a-zA-Z0-9_-]+'; then
+  # Check for relative paths from skill directory (scripts/, references/, assets/)
+  if echo "$CONTENT" | grep -qE '(scripts|references|assets)/[a-zA-Z0-9_-]+'; then
     score=$((score + 1))
   fi
 
@@ -224,6 +224,58 @@ evaluate_specification_compliance() {
   # Penalty: references to repo-root dirs like .context/, .agents/ (-1)
   if echo "$non_code_content" | grep -qE '\.(context|agents)/'; then
     score=$((score - 1))
+  fi
+
+  # Penalty: absolute repo paths in scripts/ files (-1 per file, cap -2)
+  if [ -d "$SKILL_DIR/scripts" ]; then
+    scripts_abs_penalty=0
+    for sf in "$SKILL_DIR/scripts"/*; do
+      [ -f "$sf" ] || continue
+      if grep -qE 'skills/[a-z][a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+' "$sf" 2>/dev/null; then
+        scripts_abs_penalty=$((scripts_abs_penalty + 1))
+        [ "$scripts_abs_penalty" -ge 2 ] && break
+      fi
+    done
+    score=$((score - scripts_abs_penalty))
+  fi
+
+  # Penalty: repo-root dir references in scripts/ files (-1 per file, cap -2)
+  if [ -d "$SKILL_DIR/scripts" ]; then
+    scripts_root_penalty=0
+    for sf in "$SKILL_DIR/scripts"/*; do
+      [ -f "$sf" ] || continue
+      if grep -qE '\.(context|agents)/' "$sf" 2>/dev/null; then
+        scripts_root_penalty=$((scripts_root_penalty + 1))
+        [ "$scripts_root_penalty" -ge 2 ] && break
+      fi
+    done
+    score=$((score - scripts_root_penalty))
+  fi
+
+  # Penalty: absolute repo paths in references/ files (-1 per file, cap -2)
+  if [ -d "$SKILL_DIR/references" ]; then
+    refs_abs_penalty=0
+    for rf in "$SKILL_DIR/references"/*; do
+      [ -f "$rf" ] || continue
+      if grep -qE 'skills/[a-z][a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+' "$rf" 2>/dev/null; then
+        refs_abs_penalty=$((refs_abs_penalty + 1))
+        [ "$refs_abs_penalty" -ge 2 ] && break
+      fi
+    done
+    score=$((score - refs_abs_penalty))
+  fi
+
+  # Penalty: repo-root dir references in references/ files (-1 per file, cap -2)
+  if [ -d "$SKILL_DIR/references" ]; then
+    refs_root_penalty=0
+    for rf in "$SKILL_DIR/references"/*; do
+      [ -f "$rf" ] || continue
+      if grep -qE '\.(context|agents)/' "$rf" 2>/dev/null; then
+        refs_root_penalty=$((refs_root_penalty + 1))
+        [ "$refs_root_penalty" -ge 2 ] && break
+      fi
+    done
+    score=$((score - refs_root_penalty))
   fi
 
   # Cap base score at 15 before applying bonuses
@@ -637,10 +689,10 @@ PHASE9
 
 \`\`\`bash
 # Re-run evaluation
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json --store
+./scripts/evaluate.sh $SKILL_NAME --json --store
 
 # Check target score achieved
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json | jq ".total >= $target_score"
+./scripts/evaluate.sh $SKILL_NAME --json | jq ".total >= $target_score"
 \`\`\`
 
 ---

@@ -32,38 +32,38 @@ This report combines **three advanced pattern recognition algorithms** to provid
 EOF
 
 echo "📊 Running Enhanced Duplication Detection..."
-if [ -x "skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication-enhanced.sh" ]; then
+if [ -x "./scripts/detect-duplication-enhanced.sh" ]; then
     # Run enhanced duplication detection
-    ./skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication-enhanced.sh "$SKILLS_DIR" > "$TMP_DIR/duplication-report.md" 2>/dev/null || {
+    ./scripts/detect-duplication-enhanced.sh "$SKILLS_DIR" > "$TMP_DIR/duplication-report.md" 2>/dev/null || {
         echo "Warning: Enhanced duplication detection failed, using basic version"
-        [ -x "skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh" ] && \
-            ./skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh "$SKILLS_DIR" > "$TMP_DIR/duplication-report.md"
+        [ -x "./scripts/detect-duplication.sh" ] && \
+            ./scripts/detect-duplication.sh "$SKILLS_DIR" > "$TMP_DIR/duplication-report.md"
     }
 else
     echo "Warning: Enhanced duplication detection script not found"
-    echo "## Duplication Analysis\n\n❌ Enhanced duplication script not available\n" > "$TMP_DIR/duplication-report.md"
+    printf '## Duplication Analysis\n\n❌ Enhanced duplication script not available\n' > "$TMP_DIR/duplication-report.md"
 fi
 
 echo "🧠 Running Semantic Similarity Analysis..."
-if [ -x "skills/agentic-harness/skill-quality-auditor/scripts/semantic-analysis.sh" ]; then
-    ./skills/agentic-harness/skill-quality-auditor/scripts/semantic-analysis.sh "$SKILLS_DIR" > "$TMP_DIR/semantic-report.md" 2>/dev/null || {
+if [ -x "./scripts/semantic-analysis.sh" ]; then
+    ./scripts/semantic-analysis.sh "$SKILLS_DIR" > "$TMP_DIR/semantic-report.md" 2>/dev/null || {
         echo "Warning: Semantic analysis failed"
-        echo "## Semantic Analysis\n\n❌ Semantic analysis script failed\n" > "$TMP_DIR/semantic-report.md"
+        printf '## Semantic Analysis\n\n❌ Semantic analysis script failed\n' > "$TMP_DIR/semantic-report.md"
     }
 else
     echo "Warning: Semantic analysis script not found"
-    echo "## Semantic Analysis\n\n❌ Semantic analysis script not available\n" > "$TMP_DIR/semantic-report.md"
+    printf '## Semantic Analysis\n\n❌ Semantic analysis script not available\n' > "$TMP_DIR/semantic-report.md"
 fi
 
 echo "🤖 Running ML Quality Prediction..."
-if [ -x "skills/agentic-harness/skill-quality-auditor/scripts/ml-pattern-detection.sh" ]; then
-    ./skills/agentic-harness/skill-quality-auditor/scripts/ml-pattern-detection.sh "$SKILLS_DIR" > "$TMP_DIR/ml-report.md" 2>/dev/null || {
+if [ -x "./scripts/ml-pattern-detection.sh" ]; then
+    ./scripts/ml-pattern-detection.sh "$SKILLS_DIR" > "$TMP_DIR/ml-report.md" 2>/dev/null || {
         echo "Warning: ML pattern detection failed"
-        echo "## ML Quality Analysis\n\n❌ ML pattern detection script failed\n" > "$TMP_DIR/ml-report.md"
+        printf '## ML Quality Analysis\n\n❌ ML pattern detection script failed\n' > "$TMP_DIR/ml-report.md"
     }
 else
     echo "Warning: ML pattern detection script not found"
-    echo "## ML Quality Analysis\n\n❌ ML pattern detection script not available\n" > "$TMP_DIR/ml-report.md"
+    printf '## ML Quality Analysis\n\n❌ ML pattern detection script not available\n' > "$TMP_DIR/ml-report.md"
 fi
 
 echo "📋 Consolidating Analysis Results..."
@@ -113,6 +113,7 @@ else
 fi
 
 # Add consolidated summary to final report
+# shellcheck disable=SC2129
 cat >> "$FINAL_REPORT" << EOF
 ## 📈 Consolidated Metrics
 
@@ -214,16 +215,16 @@ $(
 
 \`\`\`bash
 # Run complete analysis pipeline
-./skills/agentic-harness/skill-quality-auditor/scripts/pattern-recognition-pipeline.sh skills/
+./scripts/pattern-recognition-pipeline.sh skills/
 
 # Address critical duplications
-./skills/agentic-harness/skill-quality-auditor/scripts/generate-remediation-plan.sh --critical-only
+./scripts/generate-remediation-plan.sh --critical-only
 
 # ML-guided improvement for low-scoring skills  
-./skills/agentic-harness/skill-quality-auditor/scripts/auto-improve-quality.sh --ml-threshold=70
+./scripts/auto-improve-quality.sh --ml-threshold=70
 
 # Schedule regular monitoring
-echo "0 9 * * Mon ./skills/agentic-harness/skill-quality-auditor/scripts/pattern-recognition-pipeline.sh skills/" >> cron.txt
+echo "0 9 * * Mon ./scripts/pattern-recognition-pipeline.sh skills/" >> cron.txt
 \`\`\`
 
 ## 📚 References

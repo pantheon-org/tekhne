@@ -6,9 +6,9 @@ source: tessl registry requirements + session experience
 
 # Tessl Registry Compliance Framework
 
-Supplementary validation checks for skills intended for [Tessl](https://tessl.io/) registry submission. These checks extend the core 8-dimension framework with agent-agnostic and performance-focused evaluations.
+Supplementary validation checks for skills intended for [Tessl](https://tessl.io/) registry submission. These checks extend the core 9-dimension framework with agent-agnostic and performance-focused evaluations.
 
-**Use after:** Core 8-dimension evaluation (≥108 points required)
+**Use after:** Core 9-dimension evaluation (≥126 points required)
 **Target:** 100% tessl compliance for registry acceptance
 
 ## Overview
@@ -214,7 +214,7 @@ Avoid assuming specific agent capabilities:
 
 When preparing skills for Tessl submission:
 
-1. **Run core evaluation first:** Achieve A-grade (≥108 points)
+1. **Run core evaluation first:** Achieve A-grade (≥126 points)
 2. **Apply tessl validations:** Use checks in this framework
 3. **Fix compatibility issues:** Remove agent-specific dependencies
 4. **Add performance metrics:** Quantify effectiveness improvements
@@ -226,10 +226,10 @@ Integration with existing skill-quality-auditor workflow:
 
 ```bash
 # Standard evaluation first
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
+sh ./scripts/evaluate.sh <skill-name> --json
 
 # Then apply tessl compliance checks
-sh skills/agentic-harness/skill-quality-auditor/scripts/tessl-compliance-check.sh <skill-name>
+sh ./scripts/tessl-compliance-check.sh <skill-name>
 ```
 
 ### Automated Validation
@@ -257,17 +257,17 @@ grep -E "[0-9]+(%|x|times|\s(seconds|minutes|hours)|reduction|improvement)" skil
 
 ## Integration with Core Framework
 
-This framework supplements, not replaces, the 8-dimension evaluation:
+This framework supplements, not replaces, the 9-dimension evaluation:
 
 | Check Type | When to Apply | Pass Criteria |
 |------------|---------------|---------------|
-| **Core 8-Dimension** | Always | ≥108 points (A-grade) |
+| **Core 9-Dimension** | Always | ≥126 points (A-grade) |
 | **Agent-Agnostic** | Tessl submission | No agent-specific deps |
 | **Performance Metrics** | Tessl submission | Quantified effectiveness |
 | **Cross-Platform** | Tessl submission | Universal compatibility |
 
 ## See Also
 
-- `framework-skill-judge-dimensions.md` - Core 8-dimension framework
+- `framework-skill-judge-dimensions.md` - Core 9-dimension framework
 - `framework-quality-standards.md` - A-grade requirements
 - [Tessl Registry](https://tessl.io/registry) - Performance-evaluated skills

@@ -4,9 +4,9 @@ This skill provides automated quality evaluation and maintenance for your skill 
 
 ## Overview
 
-**Total Files**: 15 reference files + 3 scripts + 2 templates  
-**Categories**: 7 (Framework, Duplication, Aggregation, Remediation, Scripts, Reporting, Advanced)  
-**Pattern**: Navigation Hub (SKILL.md) + Expert References  
+**Total Files**: 25 reference files + 17 scripts + 2 templates + 2 schemas + 1 requirements spec
+**Categories**: 7 (Framework, Duplication, Aggregation, Remediation, Scripts, Reporting, Advanced)
+**Pattern**: Navigation Hub (SKILL.md) + Expert References
 **Origin**: Consolidates skill-quality-auditor + skill-aggregation-pattern + skill-judge
 
 ## Usage Instructions
@@ -29,6 +29,12 @@ Core evaluation methodology based on skill-judge:
 | `framework-skill-judge-dimensions.md` | 9-dimension evaluation criteria | ~510 | Evaluating any skill |
 | `framework-scoring-rubric.md` | Detailed scoring methodology | ~280 | Understanding scores |
 | `framework-quality-standards.md` | A-grade requirements | ~220 | Setting quality goals |
+| `scoring-rubric.md` | Concise scoring reference | ~120 | Quick score lookup |
+| `skill-template.md` | Canonical SKILL.md structure template | ~80 | Authoring or refactoring a skill |
+| `quality-thresholds-scoring.md` | CI gate thresholds and grade bands | ~150 | Configuring CI quality gates |
+| `detailed-anti-patterns.md` | NEVER/WHY/BAD/GOOD failure modes | ~300 | Explaining low scores or writing remediation guidance |
+| `dimension-analysis-template.md` | Per-dimension analysis scaffold | ~100 | Structuring a dimension-by-dimension audit |
+| `skill-taxonomy.md` | Domain classification criteria | ~120 | Categorising skills or detecting misclassification |
 
 **Load first**: framework-skill-judge-dimensions.md (load canonical source when checking framework fidelity)
 
@@ -40,6 +46,7 @@ Find and remediate redundant content:
 |------|---------|-------|--------------|
 | `duplication-detection-algorithm.md` | Similarity detection (>20%) | ~320 | Finding duplicates |
 | `duplication-remediation.md` | Fix strategies | ~240 | Consolidating content |
+| `advanced-pattern-recognition.md` | Trigger pattern density and keyword analysis | ~200 | Scoring D7 or improving description keywords |
 
 **Key metric**: >20% similarity = aggregation candidate
 
@@ -61,17 +68,17 @@ Create actionable improvement plans from audit results:
 | File | Purpose | Lines | When to Read |
 |------|---------|-------|--------------|
 | `remediation-planning.md` | Plan creation guide | ~300 | Creating remediation plans |
-| `templates/remediation-plan-template.yaml` | Plan template | ~110 | Formatting plans |
-| `schemas/remediation-plan.schema.json` | JSON Schema | ~250 | Validating plans |
+| `assets/templates/remediation-plan-template.yaml` | Plan template | ~110 | Formatting plans |
+| `assets/schemas/remediation-plan.schema.json` | JSON Schema for plan validation | ~250 | Validating plans |
 
 **Usage**:
 
 ```bash
 # Generate plan from audit
-sh scripts/generate-remediation-plan.sh <skill-name> [target-score]
+./scripts/generate-remediation-plan.sh <skill-name> [target-score]
 
 # Validate plan against schema
-sh scripts/validate-remediation-plan.sh .context/plans/<skill>-remediation-plan.md
+./scripts/validate-remediation-plan.sh .context/plans/<skill>-remediation-plan.md
 ```
 
 **Output**: `.context/plans/<skill-name>-remediation-plan.md`
@@ -84,6 +91,7 @@ Automation tools for quality enforcement:
 |------|---------|-------|--------------|
 | `scripts-audit-workflow.md` | Complete audit process | ~280 | Running full audit |
 | `scripts-ci-integration.md` | GitHub Actions, GitLab CI | ~310 | Setting up automation |
+| `examples-audit-workflows.md` | Input/output pairs and workflow examples | ~200 | Learning by example |
 
 **Executable scripts**: See `scripts/` directory
 
@@ -106,43 +114,72 @@ Optional features for power users:
 |------|---------|-------|--------------|
 | `advanced-trends-analysis.md` | Historical tracking | ~310 | Monitoring changes |
 | `advanced-custom-metrics.md` | Domain-specific evaluation | ~270 | Custom frameworks |
+| `tessl-compliance-framework.md` | Tessl registry compliance checks | ~280 | Preparing for public registry submission |
 
 **Use when**: Standard metrics insufficient
 
 ## Complete File Listing
 
 ```text
-.agents/skills/agentic-harness/skill-quality-auditor/
-├── SKILL.md                                    # Navigation hub
-├── AGENTS.md                                   # This file
-├── templates/
-│   ├── review-report-template.yaml             # Audit report format
-│   └── remediation-plan-template.yaml           # Remediation plan format
-├── schemas/
-│   └── remediation-plan.schema.json            # JSON Schema for plan validation
+skills/agentic-harness/skill-quality-auditor/
+├── SKILL.md                                          # Navigation hub
+├── AGENTS.md                                         # This file
+├── tile.json                                         # Tessl tile manifest
+├── evals/                                            # Tessl eval scenarios
+├── assets/
+│   ├── templates/
+│   │   ├── review-report-template.yaml               # Audit report format
+│   │   └── remediation-plan-template.yaml            # Remediation plan format
+│   ├── schemas/
+│   │   ├── review-report.schema.json                 # JSON Schema for review reports
+│   │   └── remediation-plan.schema.json              # JSON Schema for plan validation
+│   └── requirements/
+│       └── review-report.requirements.json           # Custom validation spec for reports
 ├── references/
-│   ├── framework-skill-judge-dimensions.md     # CRITICAL
-│   ├── framework-skill-judge-canonical.md      # CRITICAL
-│   ├── framework-scoring-rubric.md             # CRITICAL
-│   ├── framework-quality-standards.md           # CRITICAL
-│   ├── duplication-detection-algorithm.md       # HIGH
-│   ├── duplication-remediation.md               # HIGH
-│   ├── aggregation-pattern.md                   # HIGH
-│   ├── aggregation-implementation.md            # HIGH
-│   ├── remediation-planning.md                  # HIGH
-│   ├── scripts-audit-workflow.md               # MEDIUM
-│   ├── scripts-ci-integration.md               # MEDIUM
-│   ├── reporting-analysis.md                    # MEDIUM
-│   ├── reporting-dashboards.md                  # MEDIUM
-│   ├── advanced-trends-analysis.md              # LOW
-│   └── advanced-custom-metrics.md               # LOW
+│   ├── framework-skill-judge-dimensions.md           # CRITICAL
+│   ├── framework-skill-judge-canonical.md            # CRITICAL
+│   ├── framework-scoring-rubric.md                   # CRITICAL
+│   ├── framework-quality-standards.md                # CRITICAL
+│   ├── scoring-rubric.md                             # CRITICAL
+│   ├── skill-template.md                             # CRITICAL
+│   ├── quality-thresholds-scoring.md                 # HIGH
+│   ├── detailed-anti-patterns.md                     # HIGH
+│   ├── dimension-analysis-template.md                # HIGH
+│   ├── skill-taxonomy.md                             # HIGH
+│   ├── duplication-detection-algorithm.md            # HIGH
+│   ├── duplication-remediation.md                    # HIGH
+│   ├── aggregation-pattern.md                        # HIGH
+│   ├── aggregation-implementation.md                 # HIGH
+│   ├── remediation-planning.md                       # HIGH
+│   ├── advanced-pattern-recognition.md               # MEDIUM
+│   ├── scripts-audit-workflow.md                     # MEDIUM
+│   ├── scripts-ci-integration.md                     # MEDIUM
+│   ├── examples-audit-workflows.md                   # MEDIUM
+│   ├── reporting-analysis.md                         # MEDIUM
+│   ├── reporting-dashboards.md                       # MEDIUM
+│   ├── tessl-compliance-framework.md                 # LOW
+│   ├── advanced-trends-analysis.md                   # LOW
+│   └── advanced-custom-metrics.md                    # LOW
 └── scripts/
-    ├── audit-skills.sh                         # Full audit
-    ├── detect-duplication.sh                   # Duplication finder
-    ├── generate-remediation-plan.sh            # Remediation plan generator
-    └── validate-remediation-plan.sh            # Plan schema validator
+    ├── evaluate.sh                                   # Primary evaluator
+    ├── audit-skills.sh                               # Full collection audit
+    ├── audit-per-skill.sh                            # Per-skill audit runner
+    ├── batch-audit.sh                                # Batch multiple skills
+    ├── detect-duplication.sh                         # Duplication finder
+    ├── detect-duplication-enhanced.sh                # Enhanced duplication detection
+    ├── generate-remediation-plan.sh                  # Remediation plan generator
+    ├── validate-remediation-plan.sh                  # Plan schema validator
+    ├── validate-review-format.sh                     # Review report validator
+    ├── validate-skill-artifacts.sh                   # Artifact convention validator
+    ├── check-consistency.sh                          # Consistency checker
+    ├── tessl-compliance-check.sh                     # Tessl registry compliance
+    ├── pattern-recognition-pipeline.sh              # Pattern analysis pipeline
+    ├── ml-pattern-detection.sh                       # ML-based pattern detection
+    ├── semantic-analysis.sh                          # Semantic content analysis
+    ├── plan-aggregation.sh                           # Aggregation planner
+    └── prune-audits.sh                               # Audit output cleanup
 
-Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
+Total: 25 references + 17 scripts + 2 templates + 2 schemas + 1 requirements spec
 ```
 
 ## Navigation Workflow
@@ -157,7 +194,7 @@ Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
 
 ### For Duplication Detection
 
-1. Run `scripts/detect-duplication.sh`
+1. Run `./scripts/detect-duplication.sh`
 2. Review generated report
 3. Load `duplication-remediation.md` for fixes
 4. Load `aggregation-pattern.md` if >20% similarity
@@ -171,9 +208,9 @@ Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
 
 ### For Remediation Planning
 
-1. Run `sh scripts/evaluate.sh <skill-name> --json`
+1. Run `./scripts/evaluate.sh <skill-name> --json`
 2. Load `remediation-planning.md` for guidance
-3. Use `templates/remediation-plan-template.yaml`
+3. Use `assets/templates/remediation-plan-template.yaml`
 4. Save plan to `.context/plans/<skill-name>-remediation-plan.md`
 
 ### For Eval Validation (D9)
@@ -182,7 +219,7 @@ Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
 2. If missing, use `creating-eval-scenarios` skill to generate scenarios
 3. Run `tessl eval run <tile-path>` to execute evals
 4. Verify `summary.json` shows `coverage_percentage >= 80`
-5. Re-run `sh scripts/evaluate.sh <skill-name> --json` to confirm D9 score
+5. Re-run `./scripts/evaluate.sh <skill-name> --json` to confirm D9 score
 
 ### For Automation Setup
 
@@ -196,11 +233,11 @@ Total: 22 files (15 references + 4 scripts + 2 templates + 1 schema)
 After using this skill, you should have:
 
 - All skills evaluated with 9-dimension scores
-- ✅ Duplication report showing <5% redundancy
-- ✅ Remediation plans for all skills below target grade
-- ✅ Aggregation candidates identified with ROI
-- ✅ Quality dashboard tracking metrics
-- ✅ CI/CD quality gates enforcing A-grade minimum
+- Duplication report showing <5% redundancy
+- Remediation plans for all skills below target grade
+- Aggregation candidates identified with ROI
+- Quality dashboard tracking metrics
+- CI/CD quality gates enforcing A-grade minimum
 
 ## See Also
 

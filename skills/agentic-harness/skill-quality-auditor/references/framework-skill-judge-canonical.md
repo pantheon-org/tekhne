@@ -10,7 +10,7 @@ This file integrates the canonical `skill-judge` framework into `skill-quality-a
 
 ## Source
 
-- Upstream snapshot path: `../deadalus/.agents/skills/skill-judge/SKILL.md`
+- Upstream snapshot path: `../deadalus/skills/skill-judge/SKILL.md`
 - Upstream skill name: `skill-judge`
 - Upstream purpose: evaluate skill design quality against official specifications and best practices.
 

@@ -11,20 +11,20 @@ Navigation hub for evaluating, maintaining, and improving skill quality with 9-d
 
 ```bash
 # Evaluate single skill — pass full path from skills/ root, preserving all directory levels
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain/skill-name> --json
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain/subdomain/skill-name> --json
+./scripts/evaluate.sh <domain/skill-name> --json
+./scripts/evaluate.sh <domain/subdomain/skill-name> --json
 
 # Batch audit multiple skills
-sh skills/agentic-harness/skill-quality-auditor/scripts/batch-audit.sh <skill1> <skill2> [skill3...]
+./scripts/batch-audit.sh <skill1> <skill2> [skill3...]
 
 # Audit all skills
-sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh
+./scripts/audit-skills.sh
 
 # Emergency triage (PR context)
-sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only
+./scripts/audit-skills.sh --pr-changes-only
 ```
 
-Results stored in `.context/audits/<full-skill-path>/latest/` — the path mirrors `skills/<full-skill-path>/SKILL.md` exactly, including every directory level.
+Results stored in `audits/<full-skill-path>/latest/` — the path mirrors `skills/<full-skill-path>/SKILL.md` exactly, including every directory level.
 
 ## When to Use
 
@@ -72,15 +72,15 @@ See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete 
 # 2-level skill (domain/skill-name)
 ./scripts/evaluate.sh infrastructure/terraform-generator --json --store
 # Output: {"grade":"B+","total":122,"dimensions":{...}}
-# Stored: .context/audits/infrastructure/terraform-generator/<date>/
+# Stored: audits/infrastructure/terraform-generator/<date>/
 
 # 3-level skill (domain/subdomain/skill-name)
 ./scripts/evaluate.sh software-engineering/design-principles/clean-architecture --json --store
 # Output: {"grade":"C","total":101,"dimensions":{...}}
-# Stored: .context/audits/software-engineering/design-principles/clean-architecture/<date>/
+# Stored: audits/software-engineering/design-principles/clean-architecture/<date>/
 
 ./scripts/batch-audit.sh infrastructure/terraform-generator ci-cd/github-actions-generator
-# Audits multiple skills, stores results in .context/audits/
+# Audits multiple skills, stores results in audits/
 
 ./scripts/evaluate.sh documentation/markdown-authoring --json --store
 # Score: 98/140 (C+) -> review remediation-plan.md -> fix -> re-audit -> 128/140 (A)

@@ -3,9 +3,10 @@
 set -e
 
 DEFAULT_REPORT=".context/audits/skill-quality-auditor-review.md"
-DEFAULT_TEMPLATE="skills/agentic-harness/skill-quality-auditor/templates/review-report-template.yaml"
-DEFAULT_SCHEMA="skills/agentic-harness/skill-quality-auditor/schemas/review-report.schema.json"
-DEFAULT_REQUIREMENTS="skills/agentic-harness/skill-quality-auditor/references/review-report.requirements.json"
+SKILL_DIR="$(dirname "$0")/.."
+DEFAULT_TEMPLATE="$SKILL_DIR/assets/templates/review-report-template.yaml"
+DEFAULT_SCHEMA="$SKILL_DIR/assets/schemas/review-report.schema.json"
+DEFAULT_REQUIREMENTS="$SKILL_DIR/assets/requirements/review-report.requirements.json"
 
 strict_recommended=0
 report_arg=""

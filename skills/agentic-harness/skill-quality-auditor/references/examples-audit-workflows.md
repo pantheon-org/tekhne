@@ -3,7 +3,7 @@
 ## Single Skill Audit
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh infrastructure/terraform-generator --json --store
+sh ./scripts/evaluate.sh infrastructure/terraform-generator --json --store
 ```
 
 Output:
@@ -35,7 +35,7 @@ Next steps based on output:
 ## Batch Audit with Baseline Comparison
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/batch-audit.sh \
+sh ./scripts/batch-audit.sh \
   infrastructure/terraform-generator \
   ci-cd/github-actions-generator \
   development/bash-script-generator
@@ -68,6 +68,6 @@ sh scripts/evaluate.sh documentation/markdown-authoring --json --store
 # .github/workflows/skill-quality.yml
 - name: Audit changed skills
   run: |
-    sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh --pr-changes-only
+    sh ./scripts/audit-skills.sh --pr-changes-only
     # Fails the pipeline if any skill scores below B-grade (112/140)
 ```
