@@ -256,7 +256,7 @@ Keep SKILL.md concise and move deep details to references/.
 - Reader can identify what to do differently in this repository.
 - Re-run score for D1 increases or remains strong.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ### D2: Mindset + Procedures
 
@@ -278,7 +278,7 @@ Keep SKILL.md concise and move deep details to references/.
 - Another human/agent can execute the process without clarification.
 - Procedure order maps to real execution order.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ### D3: Anti-Pattern Quality
 
@@ -300,7 +300,7 @@ Keep SKILL.md concise and move deep details to references/.
 - Anti-patterns are actionable, not generic warnings.
 - BAD/GOOD examples directly map to expected author behavior.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ### D4: Specification Compliance
 
@@ -322,7 +322,7 @@ Keep SKILL.md concise and move deep details to references/.
 - Frontmatter fields are complete and precise.
 - Description is sufficient for routing without opening references.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ### D5: Progressive Disclosure
 
@@ -344,7 +344,7 @@ Keep SKILL.md concise and move deep details to references/.
 - SKILL.md is scannable and task-oriented.
 - Detailed content is discoverable but not blocking quick use.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ### D6: Freedom Calibration
 
@@ -366,7 +366,7 @@ Keep SKILL.md concise and move deep details to references/.
 - Instructions are strict where required and flexible where safe.
 - Agent can adapt to context without violating core constraints.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ### D7: Pattern Recognition
 
@@ -388,7 +388,7 @@ Keep SKILL.md concise and move deep details to references/.
 - User intents map to this skill without ambiguity.
 - Skill is discoverable from multiple equivalent phrasings.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ### D8: Practical Usability
 
@@ -410,7 +410,7 @@ Keep SKILL.md concise and move deep details to references/.
 - Human/agent can execute commands and verify outcomes directly.
 - No ambiguous "do X" steps without runnable examples.
 
-**Re-check**: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
+**Re-check**: sh ./scripts/evaluate.sh $skill_name --json
 
 ## Proposed Restructured SKILL.md
 
@@ -419,10 +419,10 @@ Use a deterministic template with sections for purpose, when to apply, workflow,
 ## Verification
 
 \`\`\`bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $skill_name --json
-skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh --skills-dir skills
-skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh skills
-skills/agentic-harness/skill-quality-auditor/scripts/validate-review-format.sh $out_file
+sh ./scripts/evaluate.sh $skill_name --json
+./scripts/audit-skills.sh --skills-dir skills
+./scripts/detect-duplication.sh skills
+./scripts/validate-review-format.sh $out_file
 \`\`\`
 
 ## Files Inventory
@@ -439,8 +439,8 @@ skills/$skill_name/
 
 ## Audit Execution
 
-- Evaluator: skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh
-- Report validator: skills/agentic-harness/skill-quality-auditor/scripts/validate-review-format.sh
+- Evaluator: ./scripts/evaluate.sh
+- Report validator: ./scripts/validate-review-format.sh
 - Date: $DATE_STR
 
 ## Score Evolution

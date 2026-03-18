@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+# shell: bash
 # Machine Learning Pattern Detection for Skill Quality Assessment
 # Simulates ML-based quality pattern recognition with statistical models
 
@@ -30,12 +31,14 @@ SKILL_COUNT=$(wc -l < "$TMP_DIR/skills.txt")
 
 echo "🧠 Training ML models on $SKILL_COUNT skills..."
 
-echo "## ML Model Summary" >> "$OUTPUT_FILE"
-echo "- **Skills analyzed**: $SKILL_COUNT" >> "$OUTPUT_FILE"
-echo "- **Feature dimensions**: $FEATURE_DIMENSIONS" >> "$OUTPUT_FILE"
-echo "- **Quality threshold**: $QUALITY_THRESHOLD%" >> "$OUTPUT_FILE"
-echo "- **Confidence threshold**: $CONFIDENCE_THRESHOLD" >> "$OUTPUT_FILE"
-echo "- **Pattern categories**: ${#PATTERN_CATEGORIES[@]}" >> "$OUTPUT_FILE"
+{
+    echo "## ML Model Summary"
+    echo "- **Skills analyzed**: $SKILL_COUNT"
+    echo "- **Feature dimensions**: $FEATURE_DIMENSIONS"
+    echo "- **Quality threshold**: $QUALITY_THRESHOLD%"
+    echo "- **Confidence threshold**: $CONFIDENCE_THRESHOLD"
+    echo "- **Pattern categories**: ${#PATTERN_CATEGORIES[@]}"
+} >> "$OUTPUT_FILE"
 echo "" >> "$OUTPUT_FILE"
 
 # Initialize ML model metadata
@@ -59,41 +62,42 @@ extract_ml_features() {
     local skill_file="$1"
     local skill_name="$2"
     local output_dir="$3"
-    
+
     # Feature Category 1: Structural Features (20 features)
     {
         # Document structure metrics
         total_lines=$(wc -l < "$skill_file")
         header_count=$(grep -c '^#' "$skill_file" || echo "0")
-        h1_count=$(grep -c '^# ' "$skill_file" || echo "0")  
+        h1_count=$(grep -c '^# ' "$skill_file" || echo "0")
         h2_count=$(grep -c '^## ' "$skill_file" || echo "0")
         h3_count=$(grep -c '^### ' "$skill_file" || echo "0")
-        
+
         # List and code metrics
         bullet_count=$(grep -c '^\s*[-*+]' "$skill_file" || echo "0")
         numbered_count=$(grep -c '^\s*[0-9]' "$skill_file" || echo "0")
         code_blocks=$(grep -c '^```' "$skill_file" || echo "0")
+        # shellcheck disable=SC2016
         inline_code=$(grep -o '`[^`]*`' "$skill_file" | wc -l || echo "0")
-        
+
         # Link and reference metrics
         external_links=$(grep -c '\[.*\](http' "$skill_file" || echo "0")
         internal_links=$(grep -c '\[.*\](' "$skill_file" | grep -cv 'http' || echo "0")
-        
+
         # Table metrics
         table_count=$(grep -c '^|' "$skill_file" || echo "0")
-        
+
         # Formatting density
         bold_text=$(grep -o '\*\*[^*]*\*\*' "$skill_file" | wc -l || echo "0")
         italic_text=$(grep -o '\*[^*]*\*' "$skill_file" | wc -l || echo "0")
-        
+
         # Length distribution features
         avg_line_length=$(awk '{total += length($0); count++} END {print (count > 0 ? int(total/count) : 0)}' "$skill_file")
         max_line_length=$(awk '{if(length > max) max = length} END {print max+0}' "$skill_file")
-        
+
         # Output structural features
         echo "total_lines:$total_lines"
         echo "header_count:$header_count"
-        echo "h1_count:$h1_count" 
+        echo "h1_count:$h1_count"
         echo "h2_count:$h2_count"
         echo "h3_count:$h3_count"
         echo "bullet_count:$bullet_count"
@@ -111,38 +115,38 @@ extract_ml_features() {
         echo "code_density:$(echo "scale=2; ($code_blocks + $inline_code) * 100 / $total_lines" | bc -l 2>/dev/null || echo "0")"
         echo "list_density:$(echo "scale=2; ($bullet_count + $numbered_count) * 100 / $total_lines" | bc -l 2>/dev/null || echo "0")"
         echo "link_density:$(echo "scale=2; ($external_links + $internal_links) * 100 / $total_lines" | bc -l 2>/dev/null || echo "0")"
-        
+
     } > "$output_dir/structural_features.txt"
-    
+
     # Feature Category 2: Content Quality Features (15 features)
     {
         # Word and vocabulary metrics
         word_count=$(wc -w < "$skill_file")
         unique_words=$(tr '[:upper:]' '[:lower:]' < "$skill_file" | tr -s '[:space:]' '\n' | grep -E '^[a-z]+$' | sort | uniq | wc -l)
-        
+
         # Technical vocabulary richness
         tech_terms=$(grep -oi '\b[A-Z]{2,}\b\|[a-z]*[A-Z][a-z]*[A-Z][a-z]*\|docker\|kubernetes\|aws\|git\|npm\|api\|json\|yaml' "$skill_file" | sort | uniq | wc -l)
-        
+
         # Readability proxies
         avg_word_length=$(tr '[:upper:]' '[:lower:]' < "$skill_file" | tr -s '[:space:]' '\n' | grep -E '^[a-z]+$' | awk '{total += length($0); count++} END {print (count > 0 ? int(total/count) : 0)}')
-        
+
         # Action word density (indicates actionable content)
         action_words=$(grep -oi '\b(create\|build\|implement\|configure\|setup\|install\|deploy\|test\|run\|execute\|generate\|analyze\|optimize\|debug\|fix\|update\|add\|remove\|delete\|modify)\b' "$skill_file" | wc -l)
-        
+
         # Question and explanation patterns
         questions=$(grep -c '?' "$skill_file" || echo "0")
         explanations=$(grep -ci 'because\|since\|therefore\|thus\|however\|moreover\|furthermore' "$skill_file" || echo "0")
-        
+
         # Example and demonstration content
         examples=$(grep -ci 'example\|for instance\|such as\|like\|e\.g\.' "$skill_file" || echo "0")
         demonstrations=$(grep -ci 'show\|demonstrate\|illustrate\|see\|look at\|consider' "$skill_file" || echo "0")
-        
+
         # Warning and caution patterns (quality indicators)
         warnings=$(grep -ci 'warning\|caution\|important\|note\|careful\|avoid\|don.t\|never' "$skill_file" || echo "0")
-        
+
         # Prerequisites and requirements
         prerequisites=$(grep -ci 'prerequisite\|require\|need\|must\|before\|first' "$skill_file" || echo "0")
-        
+
         # Output content features
         echo "word_count:$word_count"
         echo "unique_words:$unique_words"
@@ -159,42 +163,42 @@ extract_ml_features() {
         echo "tech_density:$(echo "scale=2; $tech_terms * 100 / $unique_words" | bc -l 2>/dev/null || echo "0")"
         echo "actionability:$(echo "scale=2; $action_words * 100 / $word_count" | bc -l 2>/dev/null || echo "0")"
         echo "clarity_score:$(echo "scale=2; ($questions + $explanations + $examples) * 100 / $word_count" | bc -l 2>/dev/null || echo "0")"
-        
+
     } > "$output_dir/content_features.txt"
-    
-    # Feature Category 3: Quality Indicators (15 features)  
+
+    # Feature Category 3: Quality Indicators (15 features)
     {
         # Frontmatter analysis
         has_frontmatter=$(grep -q '^---$' "$skill_file" && echo "1" || echo "0")
         frontmatter_lines=$(sed -n '1,/^---$/p' "$skill_file" | grep -c '^' || echo "0")
-        
+
         # Section completeness
         has_description=$(grep -qi '^description:' "$skill_file" && echo "1" || echo "0")
         has_examples=$(grep -qi 'example' "$skill_file" && echo "1" || echo "0")
         has_usage=$(grep -qi 'usage\|how to' "$skill_file" && echo "1" || echo "0")
         has_references=$(grep -qi 'reference\|see also\|further reading' "$skill_file" && echo "1" || echo "0")
-        
+
         # Code quality indicators
         has_code_snippets=$([ "$(grep -c '^```' "$skill_file")" -gt 0 ] && echo "1" || echo "0")
-        code_language_tags=$(grep '^```[a-z]' "$skill_file" | wc -l || echo "0")
-        
+        code_language_tags=$(grep -c '^```[a-z]' "$skill_file" || echo "0")
+
         # Professional quality markers
         has_keywords=$(grep -qi '^keywords:\|^tags:' "$skill_file" && echo "1" || echo "0")
         has_author=$(grep -qi '^author:\|^maintainer:' "$skill_file" && echo "1" || echo "0")
         has_version=$(grep -qi '^version:' "$skill_file" && echo "1" || echo "0")
-        
+
         # Best practice indicators
         organized_sections=$(grep -c '^## ' "$skill_file")
         consistent_formatting=$(grep -c '^### ' "$skill_file")
-        
+
         # Error handling and edge cases
         error_handling=$(grep -ci 'error\|fail\|exception\|catch\|handle' "$skill_file" || echo "0")
         edge_cases=$(grep -ci 'edge case\|corner case\|special case\|limitation' "$skill_file" || echo "0")
         troubleshooting=$(grep -ci 'troubleshoot\|debug\|problem\|issue\|solution' "$skill_file" || echo "0")
-        
+
         # Output quality features
         echo "has_frontmatter:$has_frontmatter"
-        echo "frontmatter_lines:$frontmatter_lines"  
+        echo "frontmatter_lines:$frontmatter_lines"
         echo "has_description:$has_description"
         echo "has_examples:$has_examples"
         echo "has_usage:$has_usage"
@@ -209,7 +213,7 @@ extract_ml_features() {
         echo "error_handling:$error_handling"
         echo "edge_cases:$edge_cases"
         echo "troubleshooting:$troubleshooting"
-        
+
     } > "$output_dir/quality_features.txt"
 }
 
@@ -218,26 +222,29 @@ predict_quality_score() {
     local feature_dir="$1"
     local skill_name="$2"
     local output_file="$3"
-    
+
     # Load feature values
     eval "$(cat "$feature_dir"/structural_features.txt | tr ':' '=')"
-    eval "$(cat "$feature_dir"/content_features.txt | tr ':' '=')"  
+    eval "$(cat "$feature_dir"/content_features.txt | tr ':' '=')"
     eval "$(cat "$feature_dir"/quality_features.txt | tr ':' '=')"
-    
+
     # Simulated ML scoring algorithm (weighted feature combination)
     # These weights would normally be learned from training data
-    
+    # Variables below are populated via eval from feature files
+    # shellcheck disable=SC2154
+
     # Structural Score (30% weight)
     structural_score=$(echo "scale=1; (
-        ($header_count * 2) + 
+        ($header_count * 2) +
         ($code_blocks * 3) +
         ($external_links * 1.5) +
         ($table_count * 1) +
         (($avg_line_length > 40 && $avg_line_length < 120) * 5) +
         ($header_density > 2 && $header_density < 8) * 3
     )" | bc -l 2>/dev/null || echo "0")
-    
-    # Content Score (40% weight)  
+
+    # Content Score (40% weight)
+    # shellcheck disable=SC2154
     content_score=$(echo "scale=1; (
         ($tech_terms * 1.5) +
         ($action_words * 0.5) +
@@ -248,7 +255,7 @@ predict_quality_score() {
         (($actionability > 2) * 4) +
         (($clarity_score > 1) * 6)
     )" | bc -l 2>/dev/null || echo "0")
-    
+
     # Quality Score (30% weight)
     quality_score=$(echo "scale=1; (
         ($has_frontmatter * 8) +
@@ -261,39 +268,39 @@ predict_quality_score() {
         ($error_handling * 2) +
         ($troubleshooting * 3)
     )" | bc -l 2>/dev/null || echo "0")
-    
+
     # Normalize scores to 0-100 scale
     structural_norm=$(echo "scale=1; $structural_score * 100 / 30" | bc -l 2>/dev/null | cut -d. -f1)
-    content_norm=$(echo "scale=1; $content_score * 100 / 40" | bc -l 2>/dev/null | cut -d. -f1) 
+    content_norm=$(echo "scale=1; $content_score * 100 / 40" | bc -l 2>/dev/null | cut -d. -f1)
     quality_norm=$(echo "scale=1; $quality_score * 100 / 50" | bc -l 2>/dev/null | cut -d. -f1)
-    
+
     # Cap at 100
     structural_norm=$([ "$structural_norm" -gt 100 ] && echo "100" || echo "$structural_norm")
     content_norm=$([ "$content_norm" -gt 100 ] && echo "100" || echo "$content_norm")
     quality_norm=$([ "$quality_norm" -gt 100 ] && echo "100" || echo "$quality_norm")
-    
+
     # Final weighted average
     final_score=$(echo "scale=1; ($structural_norm * 0.3) + ($content_norm * 0.4) + ($quality_norm * 0.3)" | bc -l 2>/dev/null | cut -d. -f1)
-    
+
     # Confidence calculation (based on feature completeness)
     features_present=$(echo "$has_frontmatter + $has_examples + $has_code_snippets + $has_usage" | bc)
     confidence=$(echo "scale=2; 0.6 + ($features_present * 0.1)" | bc -l 2>/dev/null || echo "0.60")
-    
+
     # Quality classification
     if [ "$final_score" -ge 90 ]; then
         classification="🟢 Excellent"
         recommendation="Ready for publication"
     elif [ "$final_score" -ge 75 ]; then
-        classification="🟡 Good" 
+        classification="🟡 Good"
         recommendation="Minor improvements recommended"
     elif [ "$final_score" -ge 60 ]; then
         classification="🟠 Fair"
-        recommendation="Moderate improvements needed"  
+        recommendation="Moderate improvements needed"
     else
         classification="🔴 Needs Work"
         recommendation="Significant improvements required"
     fi
-    
+
     # Pattern detection (identify specific improvement areas)
     patterns=()
     [ "$structural_norm" -lt 70 ] && patterns+=("structure")
@@ -302,13 +309,14 @@ predict_quality_score() {
     [ "$has_examples" -eq 0 ] && patterns+=("missing_examples")
     [ "$has_code_snippets" -eq 0 ] && patterns+=("missing_code")
     [ "$has_frontmatter" -eq 0 ] && patterns+=("missing_metadata")
-    
+
     # Output detailed analysis
+    # shellcheck disable=SC2154
     cat >> "$output_file" << EOF
 ### ML Analysis: $skill_name
 
-**Predicted Quality Score**: ${final_score}% (Confidence: ${confidence})  
-**Classification**: $classification  
+**Predicted Quality Score**: ${final_score}% (Confidence: ${confidence})
+**Classification**: $classification
 **Recommendation**: $recommendation
 
 | Component | Score | Weight | Normalized |
@@ -317,15 +325,15 @@ predict_quality_score() {
 | Content | ${content_score} | 40% | ${content_norm}% |
 | Quality Markers | ${quality_score} | 30% | ${quality_norm}% |
 
-**Detected Patterns**: $([ ${#patterns[@]} -eq 0 ] && echo "✅ All quality patterns present" || printf "%s, " "${patterns[@]}" | sed 's/, $//')
+**Detected Patterns**: $(if [ ${#patterns[@]} -eq 0 ]; then echo "✅ All quality patterns present"; else printf "%s, " "${patterns[@]}" | sed 's/, $//'; fi)
 
 **Improvement Areas**:
 $([ "$structural_norm" -lt 70 ] && echo "- 📐 Structure: Add more organized sections, headers, and visual elements")
-$([ "$content_norm" -lt 70 ] && echo "- 📝 Content: Increase technical depth, examples, and actionable guidance") 
+$([ "$content_norm" -lt 70 ] && echo "- 📝 Content: Increase technical depth, examples, and actionable guidance")
 $([ "$quality_norm" -lt 70 ] && echo "- ⭐ Quality: Add metadata, code snippets, and professional markers")
 
 **Feature Highlights**:
-- Technical vocabulary: $tech_terms terms ($tech_density% density)
+- Technical vocabulary: $tech_terms terms (${tech_density:-0}% density)
 - Actionability: $action_words action words ($actionability% density)
 - Examples: $examples instances
 - Code coverage: $code_blocks blocks, $inline_code inline snippets
@@ -350,31 +358,31 @@ i=1
 while [ "$i" -le "$SKILL_COUNT" ]; do
     skill_file=$(sed -n "${i}p" "$TMP_DIR/skills.txt")
     skill_name=$(basename "$(dirname "$skill_file")")
-    
+
     # Create feature directory
     feature_dir="$TMP_DIR/features/$skill_name"
     mkdir -p "$feature_dir"
-    
+
     echo "🧠 ML analysis for $skill_name..."
-    
+
     # Extract ML features
     extract_ml_features "$skill_file" "$skill_name" "$feature_dir"
-    
+
     # Predict quality score
     score=$(predict_quality_score "$feature_dir" "$skill_name" "$OUTPUT_FILE")
-    
+
     # Accumulate statistics
     total_score=$((total_score + score))
     skill_scores+=("$skill_name:$score")
-    
+
     [ "$score" -ge 85 ] && high_quality_count=$((high_quality_count + 1))
     [ "$score" -lt 60 ] && needs_improvement=$((needs_improvement + 1))
-    
+
     # Progress indicator
     if [ $((i % 5)) -eq 0 ]; then
         echo "🤖 ML predictions: $i/$SKILL_COUNT skills processed..."
     fi
-    
+
     i=$((i + 1))
 done
 
@@ -389,7 +397,7 @@ improvement_pct=$((needs_improvement * 100 / SKILL_COUNT))
     echo ""
     echo "### Aggregate Quality Metrics"
     echo "- **Average predicted quality**: ${avg_score}%"
-    echo "- **High-quality skills (≥85%)**: $high_quality_count ($high_quality_pct%)"  
+    echo "- **High-quality skills (≥85%)**: $high_quality_count ($high_quality_pct%)"
     echo "- **Skills needing improvement (<60%)**: $needs_improvement ($improvement_pct%)"
     echo "- **Repository health grade**: $(
         if [ "$avg_score" -ge 85 ]; then echo "A (Excellent)"
@@ -441,10 +449,10 @@ improvement_pct=$((needs_improvement * 100 / SKILL_COUNT))
     echo "./scripts/audit-skills.sh --ml-prioritized"
     echo '```'
     echo ""
-    echo "---"  
+    echo "---"
     echo "*Machine Learning Pattern Detection v1.0*  "
     echo "*Simulated ML: 50D feature vectors, weighted scoring, confidence intervals*"
-    echo "*Future: Real ML training on skill-judge data, neural embeddings*"
+    echo "*Future: Real ML training on audit data, neural embeddings*"
 } >> "$OUTPUT_FILE"
 
 # Complete model metadata
@@ -470,7 +478,7 @@ cat >> "$MODEL_FILE" << EOF
 }
 EOF
 
-echo "✅ ML Pattern Detection complete!"  
+echo "✅ ML Pattern Detection complete!"
 echo "📊 Analysis: $OUTPUT_FILE"
 echo "🤖 Model: $MODEL_FILE"
 echo "📈 Repository average quality: ${avg_score}%"

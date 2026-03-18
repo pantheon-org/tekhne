@@ -55,7 +55,7 @@ Duplication detection:
 Single skill evaluation:
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name> --json
+sh ./scripts/evaluate.sh <skill-name> --json
 ```
 
 **Arguments:**
@@ -69,7 +69,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <skill-name>
 Batch skill auditing with failure tracking:
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/batch-audit.sh <skill1> <skill2> [skill3...]
+sh ./scripts/batch-audit.sh <skill1> <skill2> [skill3...]
 ```
 
 **Arguments:**
@@ -188,9 +188,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
-      - run: chmod +x skills/agentic-harness/skill-quality-auditor/scripts/*.sh
-      - run: skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh
-      - run: skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh
+      - run: chmod +x ./scripts/*.sh
+      - run: ./scripts/audit-skills.sh
+      - run: ./scripts/detect-duplication.sh
       - uses: actions/upload-artifact@v4
         with:
           name: audit-reports
@@ -216,7 +216,7 @@ jobs:
         run: |
           for skill in $(git diff --name-only origin/main | grep "skills/.*/SKILL.md"); do
             skill_name=$(basename $(dirname $skill))
-            score=$(sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh "$skill_name" --json | jq '.total')
+            score=$(sh ./scripts/evaluate.sh "$skill_name" --json | jq '.total')
             if [ "$score" -lt 90 ]; then
               echo "Skill $skill_name scored $score (below 90)"
               exit 1
@@ -234,10 +234,10 @@ reviewer: automated audit
 skill_location: `skills/<skill-name>/SKILL.md`
 ```
 
-Use `skills/agentic-harness/skill-quality-auditor/templates/review-report-template.yaml` as the canonical format source, then validate generated reports with:
+Use `templates/review-report-template.yaml` as the canonical format source, then validate generated reports with:
 
 ```bash
-./skills/agentic-harness/skill-quality-auditor/scripts/validate-review-format.sh .context/audits/<skill>-YYYY-MM-DD.md
+././scripts/validate-review-format.sh .context/audits/<skill>-YYYY-MM-DD.md
 ```
 
 ## Report Interpretation

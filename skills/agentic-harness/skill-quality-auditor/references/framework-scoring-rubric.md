@@ -1,12 +1,12 @@
 ---
 category: framework
 priority: CRITICAL
-source: skill-judge evaluation methodology
+source: quality evaluation methodology
 ---
 
 # Skill Scoring Rubric
 
-Detailed scoring methodology for the skill-judge framework. Use this to understand how scores are calculated and ensure consistent evaluation.
+Detailed scoring methodology for the 9-dimension quality framework. Use this to understand how scores are calculated and ensure consistent evaluation.
 
 ## Scoring Overview
 
@@ -218,5 +218,5 @@ For scores below A-grade, identify specific improvements needed.
 
 ## See Also
 
-- `framework-skill-judge-dimensions.md` - Dimension definitions
+- `framework-dimensions.md` - Dimension definitions
 - `framework-quality-standards.md` - A-grade requirements

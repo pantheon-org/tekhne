@@ -11,7 +11,6 @@ find . -name "AGENTS.md" -o -name "AI-DOCS.md" 2>/dev/null
 
 # Find local skills to reference
 find .claude/skills -name "SKILL.md" 2>/dev/null
-find .agents/skills -name "SKILL.md" 2>/dev/null
 ls plugins/*/skills/*/SKILL.md 2>/dev/null
 ```
 
@@ -69,7 +68,7 @@ grep -r "express\|fastify\|koa\|nest\|hapi\|adonis" package.json 2>/dev/null | h
 # Python backends
 grep -r "django\|flask\|fastapi\|tornado" pyproject.toml setup.py requirements.txt 2>/dev/null | head -3
 
-# Go backends  
+# Go backends
 grep -r "gin\|echo\|fiber\|gorilla" go.mod 2>/dev/null | head -3
 
 # Other languages
@@ -158,14 +157,14 @@ ls -la .ruby-version .nvmrc .python-version 2>/dev/null
 After running discovery commands, structure findings as:
 
 ### 1. Repository Classification
-- **Type**: Simple project / Multi-package / Monorepo  
+- **Type**: Simple project / Multi-package / Monorepo
 - **Complexity**: [Number of major directories/packages]
 - **Team Structure**: Single developer / Small team / Large organization
 
 ### 2. Technology Stack Summary
 - **Primary Language(s)**: [Detected from file extensions and configs]
 - **Frontend**: [Framework + build tool detected]
-- **Backend**: [Framework + language detected] 
+- **Backend**: [Framework + language detected]
 - **Database**: [Type + ORM detected]
 - **Testing**: [Framework(s) detected]
 

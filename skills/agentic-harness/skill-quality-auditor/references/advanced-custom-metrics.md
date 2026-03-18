@@ -10,7 +10,7 @@ Domain-specific evaluation frameworks for specialized skill quality assessment.
 
 ## Overview
 
-**Purpose**: Extend skill-judge framework with custom metrics  
+**Purpose**: Extend 9-dimension quality framework with custom metrics  
 **Use Cases**: Domain-specific requirements, organizational standards  
 **Priority**: LOW - Use when standard metrics insufficient
 
@@ -354,6 +354,6 @@ When a metric is no longer needed:
 
 ## See Also
 
-- `framework-skill-judge-dimensions.md` - Standard dimensions
+- `framework-dimensions.md` - Standard dimensions
 - `framework-scoring-rubric.md` - Scoring methodology
 - `advanced-trends-analysis.md` - Tracking custom metrics

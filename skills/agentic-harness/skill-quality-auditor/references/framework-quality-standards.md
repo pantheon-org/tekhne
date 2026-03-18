@@ -1,12 +1,12 @@
 ---
 category: framework
 priority: CRITICAL
-source: skill-judge quality requirements
+source: skill-quality-auditor quality requirements
 ---
 
 # A-Grade Skill Quality Standards
 
-Requirements for achieving A-grade (≥126/140) on skill-judge evaluation. Use this as a checklist when creating or improving skills.
+Requirements for achieving A-grade (≥126/140) on quality evaluation. Use this as a checklist when creating or improving skills.
 
 ## A-Grade Requirements Summary
 
@@ -226,5 +226,5 @@ grep "^description:" skills/*/SKILL.md | wc -w
 
 ## See Also
 
-- `framework-skill-judge-dimensions.md` - Dimension definitions
+- `framework-dimensions.md` - Dimension definitions
 - `framework-scoring-rubric.md` - Scoring methodology

@@ -54,7 +54,7 @@ fi
 
 if [ ! -d "$AUDIT_DIR" ]; then
   echo "Error: Audit directory not found: $AUDIT_DIR"
-  echo "Run: sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh"
+  echo "Run: sh ./scripts/audit-skills.sh"
   exit 1
 fi
 
@@ -62,7 +62,7 @@ AUDIT_JSON="$AUDIT_DIR/audit.json"
 
 if [ ! -f "$AUDIT_JSON" ]; then
   echo "Error: Audit JSON not found: $AUDIT_JSON"
-  echo "Run: sh skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh"
+  echo "Run: sh ./scripts/audit-skills.sh"
   exit 1
 fi
 
@@ -152,7 +152,7 @@ source_audit: $AUDIT_JSON
 ## Verification Commands
 
 \`\`\`bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json
+sh ./scripts/evaluate.sh $SKILL_NAME --json
 bunx markdownlint-cli2 "skills/$SKILL_NAME/**/*.md"
 \`\`\`
 
@@ -188,4 +188,4 @@ EOF
 
 echo "Created: $PLAN_FILE"
 echo "Edit the plan to fill in the [bracketed] values from the audit."
-echo "Run: sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh $SKILL_NAME --json"
+echo "Run: sh ./scripts/evaluate.sh $SKILL_NAME --json"

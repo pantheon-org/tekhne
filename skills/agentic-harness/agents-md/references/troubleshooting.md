@@ -5,7 +5,7 @@ Common problems when creating AGENTS.md files and their solutions.
 ## Issue: Unclear Monorepo Structure
 
 **Problem**: Complex repository with unclear package boundaries or mixed patterns
-**Symptoms**: 
+**Symptoms**:
 - Packages have different tech stacks
 - Unclear which directories need own AGENTS.md
 - Multiple build systems in use
@@ -28,15 +28,15 @@ Common problems when creating AGENTS.md files and their solutions.
 
 **Solution**:
 1. Group skills by category (testing, deployment, etc.)
-2. Create skill index files in .agents/skills/
+2. Create skill index files in a local index directory (e.g., `docs/agents/`)
 3. Reference index files, not individual skills
 4. Use conditional loading based on file types
 
 **Example**:
 ```markdown
 ## Local Skills
-- Frontend: See `.agents/skills/frontend/index.md`
-- Backend: See `.agents/skills/backend/index.md`
+- Frontend: See `docs/agents/frontend-index.md`
+- Backend: See `docs/agents/backend-index.md`
 - DevOps: Use `deployment` skill for CI/CD tasks
 ```
 
@@ -80,7 +80,7 @@ services/web-node/AGENTS.md (Node.js-specific)
 ## Architecture
 See [Architecture Decision Records](docs/adr/) for design decisions
 
-## API Documentation  
+## API Documentation
 Authoritative API docs: [OpenAPI spec](api/openapi.yaml)
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: agents-md
-description: Create and maintain AGENTS.md documentation for simple projects and complex monorepos with deterministic discovery, scoped instruction files, and low-token navigation patterns; use when generating AGENTS.md, updating agent docs, or standardizing AI-facing project guidance.
+description: Create and maintain AGENTS.md documentation for simple projects, complex monorepos, deterministic discovery, scoped instruction files, low-token navigation; use when generating AGENTS.md, updating agent docs, standardizing AI-facing project guidance.
 ---
 
 # AGENTS.md Management
@@ -39,6 +39,25 @@ Output: synchronized documentation.
 
 - Simple project: one AGENTS.md when stack and patterns are uniform.
 - Complex monorepo: root AGENTS.md + scoped subdirectory AGENTS.md files.
+- Consider adding subdirectory files iteratively — start minimal, expand as complexity grows.
+
+## Minimal Template
+
+```markdown
+# Project Agent Guide
+
+## Commands
+- Build: `bun run build`
+- Test: `bun run test`
+- Lint: `bun run lint`
+
+## Conventions
+- [describe key patterns here]
+
+## Key Paths
+- Source: `src/`
+- Tests: colocated `*.test.ts`
+```
 
 ## Quick Commands
 
@@ -82,8 +101,11 @@ BAD: include hypothetical commands. GOOD: include only validated copy-paste comm
 ## Verification
 
 ```bash
-bunx markdownlint-cli2 "**/AGENTS.md" "skills/agents-md/**/*.md"
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh agents-md --json
+bunx markdownlint-cli2 "**/AGENTS.md"
+```
+
+```bash
+bun run lint
 ```
 
 ## References

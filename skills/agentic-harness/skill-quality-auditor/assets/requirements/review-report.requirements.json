@@ -49,8 +49,8 @@
   ],
   "required_commands": [],
   "recommended_commands": [
-    "skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh",
-    "skills/agentic-harness/skill-quality-auditor/scripts/audit-skills.sh",
-    "skills/agentic-harness/skill-quality-auditor/scripts/detect-duplication.sh"
+    "./scripts/evaluate.sh",
+    "./scripts/audit-skills.sh",
+    "./scripts/detect-duplication.sh"
   ]
 }
