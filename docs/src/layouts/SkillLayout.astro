@@ -9,6 +9,7 @@ import SkillPageTitle from "../components/SkillPageTitle.astro";
 import SkillSidebar from "../components/SkillSidebar.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
 import SiteLogo from "../components/SiteLogo.astro";
+import GitHubLink from "../components/GitHubLink.astro";
 
 interface Crumb {
   label: string;
@@ -28,6 +29,7 @@ const { entry, breadcrumbs } = Astro.props;
     <NavToggle />
     <SiteLogo />
     <SearchBar />
+    <GitHubLink />
     <ThemeToggle />
   </header>
   <div class="layout">

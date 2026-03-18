@@ -6,6 +6,7 @@ import ThemeToggle from "../components/ThemeToggle.astro";
 import NavToggle from "../components/NavToggle.astro";
 import SearchBar from "../components/SearchBar.astro";
 import SiteLogo from "../components/SiteLogo.astro";
+import GitHubLink from "../components/GitHubLink.astro";
 
 interface Props {
   tile: TileData;
@@ -19,6 +20,7 @@ const { tile } = Astro.props;
     <NavToggle />
     <SiteLogo />
     <SearchBar />
+    <GitHubLink />
     <ThemeToggle />
   </header>
   <div class="layout">
