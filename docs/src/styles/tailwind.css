@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/*
+  Map --tk-* CSS variables (defined per-theme in tokens.css) into Tailwind v4
+  colour tokens. Using `inline` so the values stay as var() references at
+  runtime and automatically follow the active data-theme.
+*/
+@theme inline {
+  /* Backgrounds */
+  --color-tk-bg:       var(--tk-bg);
+  --color-tk-surface:  var(--tk-bg-surface);
+  --color-tk-hover:    var(--tk-bg-hover);
+  --color-tk-elevated: var(--tk-bg-elevated);
+  --color-tk-code:     var(--tk-code-bg);
+
+  /* Borders */
+  --color-tk-border:  var(--tk-border);
+
+  /* Text */
+  --color-tk-text:    var(--tk-text);
+  --color-tk-muted:   var(--tk-text-muted);
+  --color-tk-white:   var(--tk-color-white);
+
+  /* Accent / brand */
+  --color-tk-accent:       var(--tk-accent);
+  --color-tk-accent-hover: var(--tk-accent-hover);
+  --color-tk-accent-low:   var(--tk-color-accent-low);
+  --color-tk-green:        var(--tk-color-green);
+  --color-tk-orange:       var(--tk-color-orange);
+
+  /* Links */
+  --color-tk-link:       var(--tk-link);
+  --color-tk-link-hover: var(--tk-link-hover);
+}
+
+/*
+  Global skill-grade badge classes. Used across SkillCard, SkillPageTitle,
+  TileLanding, and SkillSidebar — must be available outside Astro scoped styles.
+  Badge colour vars are defined per-theme in tokens.css.
+*/
+@layer components {
+  .skill-badge {
+    display: inline-block;
+    padding: 0.15em 0.5em;
+    border-radius: 0.25em;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .skill-badge--a-plus  { background: var(--badge-a-plus-bg);  color: var(--badge-fg); }
+  .skill-badge--a       { background: var(--badge-a-bg);        color: var(--badge-fg); }
+  .skill-badge--a-minus { background: var(--badge-a-minus-bg);  color: var(--badge-fg); }
+  .skill-badge--b-plus  { background: var(--badge-b-plus-bg);   color: var(--badge-fg); }
+  .skill-badge--b       { background: var(--badge-b-bg);        color: var(--badge-fg); }
+  .skill-badge--b-minus { background: var(--badge-b-minus-bg);  color: var(--badge-b-minus-fg); }
+  .skill-badge--c-plus  { background: var(--badge-c-plus-bg);   color: var(--badge-fg); }
+  .skill-badge--c       { background: var(--badge-c-bg);        color: var(--badge-fg); }
+  .skill-badge--c-minus { background: var(--badge-c-minus-bg);  color: var(--badge-fg); }
+  .skill-badge--d-plus  { background: var(--badge-d-plus-bg);   color: var(--badge-fg); }
+  .skill-badge--d       { background: var(--badge-d-bg);        color: var(--badge-fg); }
+  .skill-badge--d-minus { background: var(--badge-d-minus-bg);  color: var(--badge-fg); }
+  .skill-badge--f       { background: var(--badge-f-bg);        color: var(--badge-fg); }
+  .skill-badge--unknown { background: #6b7280;                  color: var(--badge-fg); }
+}

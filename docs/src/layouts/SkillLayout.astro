@@ -2,14 +2,10 @@
 import type { CollectionEntry } from "astro:content";
 import BaseLayout from "./BaseLayout.astro";
 import LeftNav from "../components/LeftNav.astro";
-import ThemeToggle from "../components/ThemeToggle.astro";
-import NavToggle from "../components/NavToggle.astro";
-import SearchBar from "../components/SearchBar.astro";
+import PageHeader from "../components/PageHeader.astro";
 import SkillPageTitle from "../components/SkillPageTitle.astro";
 import SkillSidebar from "../components/SkillSidebar.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
-import SiteLogo from "../components/SiteLogo.astro";
-import GitHubLink from "../components/GitHubLink.astro";
 
 interface Crumb {
   label: string;
@@ -25,65 +21,16 @@ const { entry, breadcrumbs } = Astro.props;
 ---
 
 <BaseLayout title={entry.data.title}>
-  <header slot="header">
-    <NavToggle />
-    <SiteLogo />
-    <SearchBar />
-    <GitHubLink />
-    <ThemeToggle />
-  </header>
-  <div class="layout">
+  <PageHeader slot="header" />
+  <div class="grid grid-cols-[16rem_1fr_14rem] min-h-[calc(100vh-3.5rem)] max-lg:grid-cols-[16rem_1fr] max-md:grid-cols-1">
     <LeftNav />
-    <main data-pagefind-body data-pagefind-filter="type:skill">
+    <main class="p-8 overflow-auto" data-pagefind-body data-pagefind-filter="type:skill">
       {breadcrumbs && breadcrumbs.length > 1 && <Breadcrumb crumbs={breadcrumbs} />}
       <SkillPageTitle entry={entry} />
       <slot />
     </main>
-    <aside class="right-sidebar">
+    <aside class="border-l border-tk-border px-4 py-6 overflow-auto max-lg:hidden">
       <SkillSidebar entry={entry} />
     </aside>
   </div>
 </BaseLayout>
-
-<style>
-  header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--tk-border);
-    background: var(--tk-bg-surface);
-  }
-
-  .layout {
-    display: grid;
-    grid-template-columns: 16rem 1fr 14rem;
-    min-height: calc(100vh - 3.5rem);
-  }
-
-  main {
-    padding: 2rem;
-    overflow: auto;
-  }
-
-  .right-sidebar {
-    border-left: 1px solid var(--tk-border);
-    padding: 1.5rem 1rem;
-    overflow: auto;
-  }
-
-  @media (max-width: 1024px) {
-    .layout {
-      grid-template-columns: 16rem 1fr;
-    }
-    .right-sidebar {
-      display: none;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .layout {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

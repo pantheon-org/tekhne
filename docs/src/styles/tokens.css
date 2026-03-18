@@ -3,6 +3,7 @@
   --tk-bg: #09090b;
   --tk-bg-surface: #18181b;
   --tk-bg-hover: #27272a;
+  --tk-bg-elevated: #2e2e32;
   --tk-border: #3f3f46;
   --tk-text: #a1a1aa;
   --tk-text-muted: #71717a;
@@ -49,6 +50,7 @@
   --tk-bg: #ffffff;
   --tk-bg-surface: #f4f4f5;
   --tk-bg-hover: #e4e4e7;
+  --tk-bg-elevated: #d4d4d8;
   --tk-border: #d4d4d8;
   --tk-text: #18181b;
   --tk-text-muted: #71717a;

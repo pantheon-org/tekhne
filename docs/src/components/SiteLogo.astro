@@ -2,9 +2,12 @@
 const base = import.meta.env.BASE_URL;
 ---
 
-<a href={`${base}/`} class="site-logo">
+<a
+  href={`${base}/`}
+  class="inline-flex items-end gap-[0.65rem] no-underline text-tk-white hover:no-underline font-bold text-[1.4rem] tracking-[0.08em] uppercase flex-shrink-0 leading-none"
+>
   <svg
-    class="site-logo__icon"
+    class="w-6 h-6 text-tk-white flex-shrink-0"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     aria-hidden="true"
@@ -20,26 +23,3 @@ const base = import.meta.env.BASE_URL;
   </svg>
   <span>Tekhne</span>
 </a>
-
-<style>
-  .site-logo {
-    display: inline-flex;
-    align-items: flex-end;
-    gap: 0.65rem;
-    text-decoration: none;
-    color: var(--tk-color-white);
-    font-weight: 700;
-    font-size: 1.4rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    flex-shrink: 0;
-    line-height: 1;
-  }
-
-  .site-logo__icon {
-    width: 1.5rem;
-    height: 1.5rem;
-    color: var(--tk-color-white);
-    flex-shrink: 0;
-  }
-</style>

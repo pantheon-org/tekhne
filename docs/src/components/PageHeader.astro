@@ -1,0 +1,21 @@
+---
+import NavToggle from "./NavToggle.astro";
+import SiteLogo from "./SiteLogo.astro";
+import SearchBar from "./SearchBar.astro";
+import GitHubLink from "./GitHubLink.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+interface Props {
+  navToggle?: boolean;
+}
+
+const { navToggle = true } = Astro.props;
+---
+
+<header class="flex items-center gap-3 px-4 py-3 border-b border-tk-border bg-tk-surface">
+  {navToggle && <NavToggle />}
+  <SiteLogo />
+  <SearchBar />
+  <GitHubLink />
+  <ThemeToggle />
+</header>

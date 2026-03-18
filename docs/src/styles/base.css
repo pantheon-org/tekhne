@@ -44,6 +44,13 @@ svg {
   max-width: 100%;
 }
 
+.tk-markdown-content h1 { font-size: 1.875rem; }
+.tk-markdown-content h2 { font-size: 1.5rem; }
+.tk-markdown-content h3 { font-size: 1.25rem; }
+.tk-markdown-content h4 { font-size: 1.125rem; }
+.tk-markdown-content h5,
+.tk-markdown-content h6 { font-size: 1rem; }
+
 .tk-markdown-content h1,
 .tk-markdown-content h2,
 .tk-markdown-content h3,
