@@ -132,50 +132,38 @@ domainGroups.sort((a, b) => a.domain.localeCompare(b.domain));
 </nav>
 
 <script>
-  const domainDetails = () =>
-    document.querySelectorAll<HTMLDetailsElement>("details[data-domain]");
-  const tileDetails = () =>
-    document.querySelectorAll<HTMLDetailsElement>("details[data-tile]");
-
   document.addEventListener("DOMContentLoaded", () => {
-    domainDetails().forEach((el) => {
+    const allDomain = () => document.querySelectorAll<HTMLDetailsElement>("details[data-domain]");
+    const allTile = () => document.querySelectorAll<HTMLDetailsElement>("details[data-tile]");
+
+    allDomain().forEach((el) => {
       if (!el.querySelector("[aria-current='page']")) el.open = false;
     });
-    tileDetails().forEach((el) => {
+    allTile().forEach((el) => {
       if (!el.querySelector("[aria-current='page']")) el.open = false;
     });
-  });
 
-  domainDetails().forEach((el) => {
-    el.addEventListener("toggle", () => {
-      if (el.open) {
-        domainDetails().forEach((other) => {
-          if (other !== el) other.open = false;
-        });
-      }
-    });
-  });
-
-  tileDetails().forEach((el) => {
-    el.addEventListener("toggle", () => {
-      if (el.open) {
-        const parentDomain = el.closest("details[data-domain]");
-        tileDetails().forEach((other) => {
-          if (other !== el && other.closest("details[data-domain]") === parentDomain) {
-            other.open = false;
-          }
-        });
-      }
-    });
-  });
-
-  document.querySelectorAll<HTMLElement>("summary[data-nav-group], summary[data-nav-tile]").forEach((summary) => {
-    summary.addEventListener("keydown", (e: KeyboardEvent) => {
-      if (e.key === " ") {
+    document.querySelectorAll<HTMLElement>("summary[data-nav-group]").forEach((summary) => {
+      summary.addEventListener("click", (e) => {
         e.preventDefault();
-        const parent = summary.parentElement as HTMLDetailsElement;
-        parent.open = !parent.open;
-      }
+        const domain = summary.closest<HTMLDetailsElement>("details[data-domain]")!;
+        const opening = !domain.open;
+        allDomain().forEach((d) => { d.open = false; });
+        if (opening) domain.open = true;
+      });
+    });
+
+    document.querySelectorAll<HTMLElement>("summary[data-nav-tile]").forEach((summary) => {
+      summary.addEventListener("click", (e) => {
+        e.preventDefault();
+        const tile = summary.closest<HTMLDetailsElement>("details[data-tile]")!;
+        const domain = tile.closest<HTMLDetailsElement>("details[data-domain]")!;
+        const opening = !tile.open;
+        allTile().forEach((t) => {
+          if (t.closest("details[data-domain]") === domain) t.open = false;
+        });
+        if (opening) tile.open = true;
+      });
     });
   });
 </script>
