@@ -15,18 +15,24 @@ interface NavItem {
   active: boolean;
 }
 
-interface NavGroup {
+interface TileGroup {
   tileSlug: string;
   tileLabel: string;
   tileLandingHref: string;
+  hasActive: boolean;
   items: NavItem[];
 }
 
-const groupMap = new Map<string, NavItem[]>();
+interface DomainGroup {
+  domain: string;
+  hasActive: boolean;
+  tiles: TileGroup[];
+}
+
+const tileMap = new Map<string, NavItem[]>();
 
 for (const entry of entries) {
-  if (!entry.id.endsWith("/skill") && !entry.id.endsWith("/SKILL.mdx"))
-    continue;
+  if (!entry.id.endsWith("/skill") && !entry.id.endsWith("/SKILL.mdx")) continue;
   const data = entry.data as Record<string, unknown>;
   const skillName = data.name as string | undefined;
   if (!skillName) continue;
@@ -36,12 +42,9 @@ for (const entry of entries) {
 
   const parts = entry.id.split("/");
   const skillsIdx = parts.indexOf("skills");
-  const skillPath =
-    skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
+  const skillPath = skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
   const href = `${base}/skills/${skillPath.replace(/\/skill$/, "/skill/")}/`;
-  const active =
-    currentPath === href ||
-    currentPath.startsWith(`${href.replace(/\/$/, "")}/`);
+  const active = currentPath === href || currentPath.startsWith(`${href.replace(/\/$/, "")}/`);
 
   const meta = (data.metadata as Record<string, unknown>) ?? {};
   const label =
@@ -49,90 +52,129 @@ for (const entry of entries) {
     (data.name as string | undefined) ??
     entry.data.title;
 
-  if (!groupMap.has(tile.slug)) groupMap.set(tile.slug, []);
-  groupMap.get(tile.slug)?.push({ label, href, active });
+  if (!tileMap.has(tile.slug)) tileMap.set(tile.slug, []);
+  tileMap.get(tile.slug)!.push({ label, href, active });
 }
 
-const groups: NavGroup[] = [];
+const domainMap = new Map<string, TileGroup[]>();
+
 for (const tile of publicTiles) {
-  const items = groupMap.get(tile.slug);
+  const items = tileMap.get(tile.slug);
   if (!items || items.length === 0) continue;
   items.sort((a, b) => a.label.localeCompare(b.label));
   const tileLabel = tile.name.replace(/^[^/]+\//, "").replace(/-/g, " ");
-  groups.push({
+  const hasActive = items.some((i) => i.active);
+  const domain = tile.tilePath.split("/")[0] ?? "other";
+
+  if (!domainMap.has(domain)) domainMap.set(domain, []);
+  domainMap.get(domain)!.push({
     tileSlug: tile.slug,
     tileLabel,
     tileLandingHref: `${base}/tiles/${tile.slug}/`,
+    hasActive,
     items,
   });
 }
-groups.sort((a, b) => a.tileLabel.localeCompare(b.tileLabel));
+
+const domainGroups: DomainGroup[] = [];
+for (const [domain, tiles] of domainMap) {
+  tiles.sort((a, b) => a.tileLabel.localeCompare(b.tileLabel));
+  domainGroups.push({
+    domain,
+    hasActive: tiles.some((t) => t.hasActive),
+    tiles,
+  });
+}
+domainGroups.sort((a, b) => a.domain.localeCompare(b.domain));
 ---
 
 <nav id="left-nav" aria-label="Skill navigation">
-  {groups.map((group) => {
-    const hasActive = group.items.some((i) => i.active);
-    return (
-      <details
-        data-domain={group.tileSlug}
-        open={hasActive || undefined}
-      >
-        <summary
-          data-nav-group={group.tileSlug}
-          tabindex="0"
-        >
-          <a
-            href={group.tileLandingHref}
-            class:list={["tile-link", hasActive && "tile-link--active"]}
-            onclick="event.stopPropagation()"
+  {domainGroups.map((dg) => (
+    <details
+      data-domain={dg.domain}
+      open={dg.hasActive || undefined}
+    >
+      <summary data-nav-group={dg.domain} tabindex="0">
+        {dg.domain.replace(/-/g, "\u00A0")}
+      </summary>
+      <div class="domain-tiles">
+        {dg.tiles.map((tg) => (
+          <details
+            data-tile={tg.tileSlug}
+            open={tg.hasActive || undefined}
           >
-            {group.tileLabel}
-          </a>
-        </summary>
-        <ul data-nav-group-content={group.tileSlug}>
-          {group.items.map((item) => (
-            <li>
+            <summary data-nav-tile={tg.tileSlug} tabindex="0">
               <a
-                href={item.href}
-                aria-current={item.active ? "page" : undefined}
+                href={tg.tileLandingHref}
+                class:list={["tile-link", tg.hasActive && "tile-link--active"]}
+                onclick="event.stopPropagation()"
               >
-                {item.label}
+                {tg.tileLabel}
               </a>
-            </li>
-          ))}
-        </ul>
-      </details>
-    );
-  })}
+            </summary>
+            <ul>
+              {tg.items.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={item.active ? "page" : undefined}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ))}
+      </div>
+    </details>
+  ))}
 </nav>
 
 <script>
-  const allDetails = () => document.querySelectorAll<HTMLDetailsElement>("details[data-domain]");
-
-  const collapseOthers = (except: HTMLDetailsElement) => {
-    allDetails().forEach((el) => {
-      if (el !== except) el.open = false;
-    });
-  };
+  const domainDetails = () =>
+    document.querySelectorAll<HTMLDetailsElement>("details[data-domain]");
+  const tileDetails = () =>
+    document.querySelectorAll<HTMLDetailsElement>("details[data-tile]");
 
   document.addEventListener("DOMContentLoaded", () => {
-    allDetails().forEach((el) => {
-      const hasActive = el.querySelector("[aria-current='page']");
-      if (!hasActive) el.open = false;
+    domainDetails().forEach((el) => {
+      if (!el.querySelector("[aria-current='page']")) el.open = false;
+    });
+    tileDetails().forEach((el) => {
+      if (!el.querySelector("[aria-current='page']")) el.open = false;
     });
   });
 
-  allDetails().forEach((el) => {
+  domainDetails().forEach((el) => {
     el.addEventListener("toggle", () => {
-      if (el.open) collapseOthers(el);
+      if (el.open) {
+        domainDetails().forEach((other) => {
+          if (other !== el) other.open = false;
+        });
+      }
     });
   });
 
-  document.querySelectorAll<HTMLElement>("summary[data-nav-group]").forEach((summary) => {
+  tileDetails().forEach((el) => {
+    el.addEventListener("toggle", () => {
+      if (el.open) {
+        const parentDomain = el.closest("details[data-domain]");
+        tileDetails().forEach((other) => {
+          if (other !== el && other.closest("details[data-domain]") === parentDomain) {
+            other.open = false;
+          }
+        });
+      }
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>("summary[data-nav-group], summary[data-nav-tile]").forEach((summary) => {
     summary.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.key === " ") {
         e.preventDefault();
-        (summary.parentElement as HTMLDetailsElement).open = !(summary.parentElement as HTMLDetailsElement).open;
+        const parent = summary.parentElement as HTMLDetailsElement;
+        parent.open = !parent.open;
       }
     });
   });
@@ -163,21 +205,41 @@ groups.sort((a, b) => a.tileLabel.localeCompare(b.tileLabel));
     }
   }
 
-  details > summary {
+  details[data-domain] > summary {
     padding: 0.4rem 1rem;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--tk-text-muted);
+  }
+
+  details[data-domain] > summary::-webkit-details-marker { display: none; }
+
+  details[data-domain] > summary:hover {
+    color: var(--tk-color-white);
+  }
+
+  .domain-tiles {
+    padding-bottom: 0.25rem;
+  }
+
+  details[data-tile] > summary {
+    padding: 0.3rem 1rem 0.3rem 1.25rem;
     cursor: pointer;
     list-style: none;
     display: flex;
     align-items: center;
   }
 
-  details > summary::-webkit-details-marker { display: none; }
+  details[data-tile] > summary::-webkit-details-marker { display: none; }
 
   .tile-link {
-    font-weight: 600;
-    font-size: 0.75rem;
+    font-weight: 500;
+    font-size: 0.8rem;
     text-transform: capitalize;
-    letter-spacing: 0.03em;
     color: var(--tk-text-muted);
     text-decoration: none;
     flex: 1;
@@ -199,8 +261,8 @@ groups.sort((a, b) => a.tileLabel.localeCompare(b.tileLabel));
 
   ul a {
     display: block;
-    padding: 0.3rem 1rem 0.3rem 1.5rem;
-    font-size: 0.875rem;
+    padding: 0.28rem 1rem 0.28rem 2rem;
+    font-size: 0.8rem;
     color: var(--tk-text);
   }
 
