@@ -22,10 +22,8 @@ const { title, description = "Tekhne — Agent skill library" } = Astro.props;
     <script is:inline>
       (function () {
         const stored = localStorage.getItem("tk-theme");
-        const preferred = window.matchMedia("(prefers-color-scheme: dark)").matches
-          ? "dark"
-          : "light";
-        document.documentElement.setAttribute("data-theme", stored || preferred);
+        const system = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", stored && stored !== "" ? stored : system);
       })();
     </script>
   </head>
