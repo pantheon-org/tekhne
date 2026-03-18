@@ -51,8 +51,22 @@ const tileDomain = tile.tilePath.split("/")[0] ?? "";
   <div class="tile-header">
     <div class="tile-header__meta">
       {tileDomain && <span class="tile-badge tile-domain">{tileDomain.replace(/-/g, "\u00A0")}</span>}
-      <span class="tile-badge tile-version">v{tile.version}</span>
+      {tile.private ? (
+        <span class="tile-badge tile-version">v{tile.version}</span>
+      ) : (
+        <a
+          class="tile-badge tile-version"
+          href={`https://tessl.io/registry/skills/${tile.name}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >v{tile.version}</a>
+      )}
       <span class="tile-badge tile-skills-count">{skills.length} skill{skills.length !== 1 ? "s" : ""}</span>
+      {tile.private ? (
+        <span class="tile-badge tile-visibility tile-visibility--private">private</span>
+      ) : (
+        <span class="tile-badge tile-visibility tile-visibility--public">public</span>
+      )}
     </div>
     <h1 class="tile-title">{tile.name}</h1>
     {tile.summary && <p class="tile-summary">{tile.summary}</p>}
@@ -150,9 +164,25 @@ const tileDomain = tile.tilePath.split("/")[0] ?? "";
     background: var(--tk-color-accent-low);
     color: var(--tk-color-accent-high);
     font-family: var(--tk-font-mono);
+    text-decoration: none;
+  }
+
+  a.tile-version:hover {
+    text-decoration: underline;
   }
 
   .tile-skills-count {
+    background: var(--tk-bg-elevated);
+    color: var(--tk-text-muted);
+    border: 1px solid var(--tk-border);
+  }
+
+  .tile-visibility--public {
+    background: color-mix(in srgb, var(--tk-color-green) 15%, transparent);
+    color: var(--tk-color-green);
+  }
+
+  .tile-visibility--private {
     background: var(--tk-bg-elevated);
     color: var(--tk-text-muted);
     border: 1px solid var(--tk-border);
