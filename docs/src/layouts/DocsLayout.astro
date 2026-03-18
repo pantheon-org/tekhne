@@ -10,21 +10,22 @@ import GitHubLink from "../components/GitHubLink.astro";
 interface Props {
   title: string;
   description?: string;
+  sidebar?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, sidebar = true } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description}>
   <header slot="header">
-    <NavToggle />
+    {sidebar && <NavToggle />}
     <SiteLogo />
     <SearchBar />
     <GitHubLink />
     <ThemeToggle />
   </header>
-  <div class="layout">
-    <LeftNav />
+  <div class:list={["layout", { "layout--no-sidebar": !sidebar }]}>
+    {sidebar && <LeftNav />}
     <main>
       <slot />
     </main>
@@ -41,17 +42,24 @@ const { title, description } = Astro.props;
     background: var(--tk-bg-surface);
   }
 
-
-
   .layout {
     display: grid;
     grid-template-columns: 16rem 1fr;
     min-height: calc(100vh - 3.5rem);
   }
 
+  .layout--no-sidebar {
+    grid-template-columns: 1fr;
+  }
+
   main {
     padding: 2rem;
     overflow: auto;
+  }
+
+  .layout--no-sidebar main {
+    padding: 0;
+    overflow: visible;
   }
 
   @media (max-width: 768px) {
