@@ -8,6 +8,7 @@ import SearchBar from "../components/SearchBar.astro";
 import SkillPageTitle from "../components/SkillPageTitle.astro";
 import SkillSidebar from "../components/SkillSidebar.astro";
 import Breadcrumb from "../components/Breadcrumb.astro";
+import SiteLogo from "../components/SiteLogo.astro";
 
 interface Crumb {
   label: string;
@@ -25,7 +26,7 @@ const { entry, breadcrumbs } = Astro.props;
 <BaseLayout title={entry.data.title}>
   <header slot="header">
     <NavToggle />
-    <a href={`${import.meta.env.BASE_URL}/`} class="site-logo">Tekhne</a>
+    <SiteLogo />
     <SearchBar />
     <ThemeToggle />
   </header>

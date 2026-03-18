@@ -5,6 +5,7 @@ import LeftNav from "../components/LeftNav.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import NavToggle from "../components/NavToggle.astro";
 import SearchBar from "../components/SearchBar.astro";
+import SiteLogo from "../components/SiteLogo.astro";
 
 interface Props {
   tile: TileData;
@@ -16,7 +17,7 @@ const { tile } = Astro.props;
 <BaseLayout title={tile.name} description={tile.summary}>
   <header slot="header">
     <NavToggle />
-    <a href={`${import.meta.env.BASE_URL}/`} class="site-logo">Tekhne</a>
+    <SiteLogo />
     <SearchBar />
     <ThemeToggle />
   </header>
