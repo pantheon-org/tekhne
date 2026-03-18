@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import TileLanding from "../../components/TileLanding.astro";
-import DocsLayout from "../../layouts/DocsLayout.astro";
+import TileLayout from "../../layouts/TileLayout.astro";
 import { loadPublicTiles } from "../../lib/tiles";
 
 export async function getStaticPaths() {
@@ -21,6 +21,6 @@ const skillEntries = allDocs.filter((e) => {
 });
 ---
 
-<DocsLayout title={tile.name} description={tile.summary}>
+<TileLayout tile={tile} skillEntries={skillEntries}>
   <TileLanding tile={tile} skillEntries={skillEntries} />
-</DocsLayout>
+</TileLayout>
