@@ -11,18 +11,17 @@ error() {
 check_templates_file() {
   file=$1
   case "$file" in
-    *.yaml|*.yml) ;;
-    *)
-      error "$file is in assets/templates/ but is not a YAML file (.yaml/.yml)."
-      return
+    */.gitkeep) return ;;
+    *.yaml|*.yml)
+      if command -v yq >/dev/null 2>&1; then
+        if grep -qE '\{\{|\{%|\[[a-z_]+\]' "$file" 2>/dev/null; then
+          :
+        elif ! yq eval '.' "$file" >/dev/null 2>&1; then
+          error "$file is not valid YAML."
+        fi
+      fi
       ;;
   esac
-
-  if command -v yq >/dev/null 2>&1; then
-    if ! yq eval '.' "$file" >/dev/null 2>&1; then
-      error "$file is not valid YAML."
-    fi
-  fi
 }
 
 check_schemas_file() {
@@ -51,6 +50,10 @@ check_schemas_file() {
 
 check_scripts_file() {
   file=$1
+
+  case "$file" in
+    */__pycache__/*|*/.gitkeep) return ;;
+  esac
 
   case $file in
     *.sh) check_shell_script "$file" ;;
@@ -141,10 +144,51 @@ check_file() {
   esac
 }
 
+check_skill_dir() {
+  skill_dir=$1
+  skill_name=$(basename "$skill_dir")
+
+  for entry in "$skill_dir"/*/; do
+    [ -d "$entry" ] || continue
+    dir_name=$(basename "$entry")
+    case "$dir_name" in
+      scripts|references|assets|evals) ;;
+      *)
+        error "$skill_dir: non-standard directory '$dir_name' (allowed: scripts/, references/, assets/, evals/)"
+        ;;
+    esac
+  done
+
+  skill_md="$skill_dir/SKILL.md"
+  [ -f "$skill_md" ] || return
+
+  line_count=$(wc -l < "$skill_md")
+  if [ "$line_count" -gt 500 ]; then
+    error "$skill_md: $line_count lines exceeds 500-line limit — move detail to references/"
+  fi
+
+  name_val=$(grep '^name:' "$skill_md" | head -1 | sed 's/^name:[[:space:]]*//' | tr -d '"'"'" | tr -d ' ')
+  if [ -n "$name_val" ] && [ "$name_val" != "$skill_name" ]; then
+    error "$skill_md: frontmatter name '$name_val' does not match directory name '$skill_name'"
+  fi
+
+  # shellcheck disable=SC2016
+  stripped=$(sed '/^```/,/^```/d' "$skill_md")
+  if printf '%s\n' "$stripped" | grep -qE '\.\./'; then
+    error "$skill_md: contains '../' path reference outside code blocks (skills must be self-contained)"
+  fi
+}
+
 if [ "$#" -gt 0 ]; then
   for file in "$@"; do
     [ -f "$file" ] || continue
     check_file "$file"
+    case "$file" in
+      skills/*/*/SKILL.md)
+        skill_dir=$(dirname "$file")
+        check_skill_dir "$skill_dir"
+        ;;
+    esac
   done
 else
   tmp_files=$(mktemp)
@@ -152,6 +196,12 @@ else
   find skills -type f \( -path 'skills/*/assets/templates/*' -o -path 'skills/*/assets/schemas/*' -o -path 'skills/*/scripts/*' \) > "$tmp_files"
   while IFS= read -r file; do
     check_file "$file"
+  done < "$tmp_files"
+
+  find skills -mindepth 2 -maxdepth 2 -type d > "$tmp_files"
+  while IFS= read -r skill_dir; do
+    [ -f "$skill_dir/SKILL.md" ] || continue
+    check_skill_dir "$skill_dir"
   done < "$tmp_files"
 fi
 
