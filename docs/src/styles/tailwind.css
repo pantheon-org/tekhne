@@ -39,6 +39,10 @@
   Badge colour vars are defined per-theme in tokens.css.
 */
 @layer components {
+  /* Default link styles — in @layer components so Tailwind utilities can override per-element */
+  a { color: var(--tk-link); text-decoration: none; }
+  a:hover { color: var(--tk-link-hover); text-decoration: underline; }
+
   .skill-badge {
     display: inline-block;
     padding: 0.15em 0.5em;

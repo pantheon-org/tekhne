@@ -23,16 +23,6 @@ body {
   min-height: 100vh;
 }
 
-a {
-  color: var(--tk-link);
-  text-decoration: none;
-}
-
-a:hover {
-  color: var(--tk-link-hover);
-  text-decoration: underline;
-}
-
 code,
 pre {
   font-family: var(--tk-font-mono);
