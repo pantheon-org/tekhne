@@ -268,6 +268,6 @@ This framework supplements, not replaces, the 9-dimension evaluation:
 
 ## See Also
 
-- `framework-skill-judge-dimensions.md` - Core 9-dimension framework
+- `framework-dimensions.md` - Core 9-dimension framework
 - `framework-quality-standards.md` - A-grade requirements
 - [Tessl Registry](https://tessl.io/registry) - Performance-evaluated skills

@@ -207,7 +207,7 @@ $(
 3. 🔄 **Process Integration**: Incorporate pattern analysis into skill review workflow
 
 ### Long-term Strategy (Next Quarter)
-1. 🤖 **ML Enhancement**: Implement real machine learning on historical skill-judge data
+1. 🤖 **ML Enhancement**: Implement real machine learning on historical audit data
 2. 📊 **Continuous Monitoring**: Automated quality drift detection
 3. 🎯 **Predictive Quality**: ML-guided skill creation and improvement
 

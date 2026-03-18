@@ -451,7 +451,7 @@ Don't aggregate if:
 2. Verify no duplication creeping in
 3. Review priority assignments
 4. Check if any reference files should be split/merged
-5. Re-run skill-judge evaluation
+5. Re-run quality evaluation
 
 ---
 

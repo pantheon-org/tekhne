@@ -102,7 +102,7 @@ See [Audit Workflow Examples](references/examples-audit-workflows.md) for detail
 
 | Topic | Reference | When to Use |
 | --- | --- | --- |
-| 9-dimension scoring breakdown, per-dimension criteria, and bonus rules | [Dimensions](references/framework-skill-judge-dimensions.md) | Evaluating any skill dimension or understanding the rubric |
+| 9-dimension scoring breakdown, per-dimension criteria, and bonus rules | [Dimensions](references/framework-dimensions.md) | Evaluating any skill dimension or understanding the rubric |
 | Score thresholds, grade bands, and A-grade targets | [Scoring Rubric](references/framework-scoring-rubric.md) | Calculating a total score or assigning a grade |
 | A-grade checklist per dimension, red flags, and verification commands | [Quality Standards](references/framework-quality-standards.md) | Targeting A-grade or reviewing what is blocking it |
 | Trigger pattern density, keyword analysis, and activation signal scoring | [Pattern Recognition](references/advanced-pattern-recognition.md) | Scoring D7 or improving description keywords |

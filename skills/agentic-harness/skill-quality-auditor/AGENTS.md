@@ -1,13 +1,13 @@
 # Skill Quality Auditor - Navigation Guide
 
-This skill provides automated quality evaluation and maintenance for your skill collection using the skill-judge framework.
+This skill provides automated quality evaluation and maintenance for your skill collection using the 9-dimension quality framework.
 
 ## Overview
 
 **Total Files**: 25 reference files + 17 scripts + 2 templates + 2 schemas + 1 requirements spec
 **Categories**: 7 (Framework, Duplication, Aggregation, Remediation, Scripts, Reporting, Advanced)
 **Pattern**: Navigation Hub (SKILL.md) + Expert References
-**Origin**: Consolidates skill-quality-auditor + skill-aggregation-pattern + skill-judge
+**Origin**: Consolidates skill-quality-auditor + skill-aggregation-pattern + skill-quality-auditor
 
 ## Usage Instructions
 
@@ -21,12 +21,12 @@ This skill provides automated quality evaluation and maintenance for your skill 
 
 ### Framework (CRITICAL Priority)
 
-Core evaluation methodology based on skill-judge:
+Core evaluation methodology based on skill-quality-auditor:
 
 | File | Purpose | Lines | When to Read |
 |------|---------|-------|--------------|
-| `framework-skill-judge-canonical.md` | Canonical upstream skill-judge mapping | ~60 | Validating framework intent/source |
-| `framework-skill-judge-dimensions.md` | 9-dimension evaluation criteria | ~510 | Evaluating any skill |
+| `framework-dimensions.md` | Canonical upstream skill-quality-auditor mapping | ~60 | Validating framework intent/source |
+| `framework-dimensions.md` | 9-dimension evaluation criteria | ~510 | Evaluating any skill |
 | `framework-scoring-rubric.md` | Detailed scoring methodology | ~280 | Understanding scores |
 | `framework-quality-standards.md` | A-grade requirements | ~220 | Setting quality goals |
 | `scoring-rubric.md` | Concise scoring reference | ~120 | Quick score lookup |
@@ -36,7 +36,7 @@ Core evaluation methodology based on skill-judge:
 | `dimension-analysis-template.md` | Per-dimension analysis scaffold | ~100 | Structuring a dimension-by-dimension audit |
 | `skill-taxonomy.md` | Domain classification criteria | ~120 | Categorising skills or detecting misclassification |
 
-**Load first**: framework-skill-judge-dimensions.md (load canonical source when checking framework fidelity)
+**Load first**: framework-dimensions.md
 
 ### Duplication Detection (HIGH Priority)
 
@@ -136,8 +136,8 @@ skills/agentic-harness/skill-quality-auditor/
 │   └── requirements/
 │       └── review-report.requirements.json           # Custom validation spec for reports
 ├── references/
-│   ├── framework-skill-judge-dimensions.md           # CRITICAL
-│   ├── framework-skill-judge-canonical.md            # CRITICAL
+│   ├── framework-dimensions.md           # CRITICAL
+│   ├── framework-dimensions.md            # CRITICAL
 │   ├── framework-scoring-rubric.md                   # CRITICAL
 │   ├── framework-quality-standards.md                # CRITICAL
 │   ├── scoring-rubric.md                             # CRITICAL
@@ -186,8 +186,8 @@ Total: 25 references + 17 scripts + 2 templates + 2 schemas + 1 requirements spe
 
 ### For Quality Evaluation
 
-1. Load `framework-skill-judge-dimensions.md`
-2. Load `framework-skill-judge-canonical.md` when checking intent or edge cases
+1. Load `framework-dimensions.md`
+2. Load `framework-dimensions.md` when checking intent or edge cases
 3. Load `framework-scoring-rubric.md`
 4. Apply to skill, calculate score
 5. Compare against `framework-quality-standards.md`
@@ -242,7 +242,7 @@ After using this skill, you should have:
 ## See Also
 
 - **supabase-postgres-best-practices** - Pattern inspiration (A-grade)
-- **skill-judge** - Foundation framework this implements
+- **skill-quality-auditor** - Foundation framework this implements
 - **skill-harvester** - Creates new skills (audit after creation)
 - **reducing-entropy** - Minimalism philosophy applied to skill collections
 - **creating-eval-scenarios** - Tessl eval scenario generation (D9 Eval Validation)

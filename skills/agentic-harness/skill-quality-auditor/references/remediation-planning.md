@@ -185,6 +185,6 @@ Compare new score against target in plan.
 
 ## Related References
 
-- `framework-skill-judge-dimensions.md` - Understanding the 8 dimensions
+- `framework-dimensions.md` - Understanding the 8 dimensions
 - `framework-scoring-rubric.md` - How scores are calculated
 - `aggregation-pattern.md` - For larger consolidation efforts

@@ -144,7 +144,7 @@ grep -r "@see" skills/*/SKILL.md | while read ref; do
   # Check referenced file exists
 done
 
-# Run skill-judge evaluation
+# Run quality evaluation
 find skills -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | while read -r skill_name; do
   sh ./scripts/evaluate.sh "$skill_name" --json >/dev/null
 done

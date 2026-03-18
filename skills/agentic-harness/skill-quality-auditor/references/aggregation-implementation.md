@@ -472,7 +472,7 @@ Target outcomes:
 
 - **90%+ size reduction** from original total lines
 - **<5% duplication** across collection
-- **A-grade score** (≥108/120) on skill-judge evaluation
+- **A-grade score** (≥108/120) on quality evaluation
 - **Zero confusion** about which skill to use
 - **Single source of truth** for each concept
 
@@ -503,5 +503,5 @@ Average: 96.4% size reduction, A+ grades (93.2/120)
 ## See Also
 
 - `aggregation-pattern.md` - The Navigation Hub pattern explained
-- `framework-skill-judge-dimensions.md` - Quality evaluation
+- `framework-dimensions.md` - Quality evaluation
 - `duplication-detection-algorithm.md` - Finding candidates

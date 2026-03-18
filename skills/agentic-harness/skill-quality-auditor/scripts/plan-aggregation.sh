@@ -238,7 +238,7 @@ generate_plan() {
     echo "3. **Create AGENTS.md** - Reference guide with file listing"
     echo "4. **Extract References** - Move content to categorized files"
     echo "5. **Deprecate Sources** - Move to .deprecated/"
-    echo "6. **Verify** - Run skill-judge evaluation"
+    echo "6. **Verify** - Run quality evaluation"
     echo ""
     echo "## Recommendations"
     echo ""

@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Evaluate a single skill using the skill-judge framework
+# Evaluate a single skill using the 9-dimension quality framework
 # Usage: sh evaluate.sh <skill-name> [--json] [--output <path>] [--store]
 
 set -e

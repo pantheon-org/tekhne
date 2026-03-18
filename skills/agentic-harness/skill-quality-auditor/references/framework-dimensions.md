@@ -1,18 +1,18 @@
 ---
 category: framework
 priority: CRITICAL
-source: skill-judge canonical + session experience
+source: quality framework + session experience
 ---
 
 # Skill-Judge Evaluation Framework: 9 Dimensions
 
-Complete evaluation methodology for assessing skill quality using the skill-judge framework. This is the foundation for all quality auditing.
+Complete evaluation methodology for assessing skill quality using the 9-dimension quality framework. This is the foundation for all quality auditing.
 
-Canonical source reference: `framework-skill-judge-canonical.md`
+Canonical source reference: `framework-dimensions.md`
 
 ## Overview
 
-The skill-judge framework evaluates skills across 9 dimensions totaling 140 points. **Dimension 1 (Knowledge Delta)** and **Dimension 9 (Eval Validation)** carry the highest weight at 20 points each - skills must contain expert-only knowledge AND be validated at runtime via tessl eval scenarios.
+The 9-dimension quality framework evaluates skills across 9 dimensions totaling 140 points. **Dimension 1 (Knowledge Delta)** and **Dimension 9 (Eval Validation)** carry the highest weight at 20 points each - skills must contain expert-only knowledge AND be validated at runtime via tessl eval scenarios.
 
 **Target Score:** ≥126 points (90%) = A-grade
 
