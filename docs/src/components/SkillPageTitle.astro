@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { buildSkillToTileMap } from "../lib/tiles";
 
 const PAGE_TITLE_ID = "_top";
 
@@ -33,6 +34,15 @@ const installSlug =
   skillsIdx >= 0 ? idParts.slice(skillsIdx + 1, -1).join("--") : "";
 
 const skillName: string | undefined = data.name;
+
+const base = import.meta.env.BASE_URL;
+const skillToTile = buildSkillToTileMap();
+const tileForSkill = skillName ? skillToTile.get(skillName) : undefined;
+const tileHref = tileForSkill ? `${base}/tiles/${tileForSkill.slug}/` : undefined;
+const tileLabel = tileForSkill
+  ? tileForSkill.name.replace(/^[^/]+\//, "").replace(/-/g, "\u00A0")
+  : undefined;
+
 const tileName: string | undefined =
   data.tileName ?? (skillName ? `pantheon-ai/${skillName}` : undefined);
 const tessInstallCmd = tileName
@@ -70,6 +80,11 @@ const gradeClass = grade
             <span class="sk-badge sk-domain">
               {domain.replace(/-/g, "\u00A0")}
             </span>
+          )}
+          {tileLabel && (
+            tileHref
+              ? <a class="sk-badge sk-tile" href={tileHref}>{tileLabel}</a>
+              : <span class="sk-badge sk-tile">{tileLabel}</span>
           )}
           {version && (
             <span class="sk-badge sk-version">v{version}</span>
@@ -322,6 +337,17 @@ const gradeClass = grade
     background: var(--tk-color-gray-5);
     color: var(--tk-color-gray-2);
     text-transform: capitalize;
+  }
+
+  .sk-tile {
+    background: var(--tk-color-accent-low);
+    color: var(--tk-link);
+    text-decoration: none;
+    text-transform: capitalize;
+  }
+
+  a.sk-tile:hover {
+    text-decoration: underline;
   }
 
   .sk-version {
