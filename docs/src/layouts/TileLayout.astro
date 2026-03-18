@@ -1,19 +1,16 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import type { TileData } from "../lib/tiles";
 import BaseLayout from "./BaseLayout.astro";
 import LeftNav from "../components/LeftNav.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import NavToggle from "../components/NavToggle.astro";
 import SearchBar from "../components/SearchBar.astro";
-import TileSidebar from "../components/TileSidebar.astro";
 
 interface Props {
   tile: TileData;
-  skillEntries: CollectionEntry<"docs">[];
 }
 
-const { tile, skillEntries } = Astro.props;
+const { tile } = Astro.props;
 ---
 
 <BaseLayout title={tile.name} description={tile.summary}>
@@ -28,9 +25,7 @@ const { tile, skillEntries } = Astro.props;
     <main>
       <slot />
     </main>
-    <aside class="right-sidebar">
-      <TileSidebar tile={tile} skillEntries={skillEntries} />
-    </aside>
+    <aside class="right-sidebar"></aside>
   </div>
 </BaseLayout>
 
