@@ -13,11 +13,10 @@ const { tile } = Astro.props;
 
 <BaseLayout title={tile.name} description={tile.summary}>
   <PageHeader slot="header" />
-  <div class="grid grid-cols-[16rem_1fr_14rem] min-h-[calc(100vh-3.5rem)] max-lg:grid-cols-[16rem_1fr] max-md:grid-cols-1">
+  <div class="grid grid-cols-[16rem_1fr] min-h-[calc(100vh-3.5rem)] max-md:grid-cols-1">
     <LeftNav />
     <main class="p-8 overflow-auto">
       <slot />
     </main>
-    <aside class="border-l border-tk-border px-4 py-6 overflow-auto max-lg:hidden"></aside>
   </div>
 </BaseLayout>
