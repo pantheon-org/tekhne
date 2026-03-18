@@ -6,20 +6,20 @@
   --tk-border: #3f3f46;
   --tk-text: #a1a1aa;
   --tk-text-muted: #71717a;
-  --tk-accent: #22c55e;
-  --tk-accent-hover: #16a34a;
+  --tk-accent: #a855f7;
+  --tk-accent-hover: #9333ea;
   --tk-code-bg: #18181b;
-  --tk-link: #4ade80;
-  --tk-link-hover: #86efac;
+  --tk-link: #c084fc;
+  --tk-link-hover: #d8b4fe;
   --tk-color-white: #fafafa;
   --tk-color-gray-1: #e4e4e7;
   --tk-color-gray-2: #a1a1aa;
   --tk-color-gray-3: #71717a;
   --tk-color-gray-4: #3f3f46;
   --tk-color-gray-5: #27272a;
-  --tk-color-accent-low: #052e16;
-  --tk-color-accent: #22c55e;
-  --tk-color-accent-high: #4ade80;
+  --tk-color-accent-low: #2e1065;
+  --tk-color-accent: #a855f7;
+  --tk-color-accent-high: #c084fc;
   --tk-font-mono:
     "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", monospace;
@@ -52,20 +52,20 @@
   --tk-border: #d4d4d8;
   --tk-text: #18181b;
   --tk-text-muted: #71717a;
-  --tk-accent: #16a34a;
-  --tk-accent-hover: #15803d;
+  --tk-accent: #9333ea;
+  --tk-accent-hover: #7e22ce;
   --tk-code-bg: #f4f4f5;
-  --tk-link: #16a34a;
-  --tk-link-hover: #15803d;
+  --tk-link: #9333ea;
+  --tk-link-hover: #7e22ce;
   --tk-color-white: #09090b;
   --tk-color-gray-1: #18181b;
   --tk-color-gray-2: #3f3f46;
   --tk-color-gray-3: #52525b;
   --tk-color-gray-4: #a1a1aa;
   --tk-color-gray-5: #d4d4d8;
-  --tk-color-accent-low: #dcfce7;
-  --tk-color-accent: #16a34a;
-  --tk-color-accent-high: #166534;
+  --tk-color-accent-low: #f3e8ff;
+  --tk-color-accent: #9333ea;
+  --tk-color-accent-high: #6b21a8;
   --tk-font-mono:
     "Atkinson Hyperlegible Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
     Consolas, "Liberation Mono", monospace;
