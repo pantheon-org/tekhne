@@ -4,6 +4,8 @@ import LeftNav from "../components/LeftNav.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import NavToggle from "../components/NavToggle.astro";
 import SearchBar from "../components/SearchBar.astro";
+import SiteLogo from "../components/SiteLogo.astro";
+import GitHubLink from "../components/GitHubLink.astro";
 
 interface Props {
   title: string;
@@ -16,8 +18,9 @@ const { title, description } = Astro.props;
 <BaseLayout title={title} description={description}>
   <header slot="header">
     <NavToggle />
-    <a href={`${import.meta.env.BASE_URL}/`} class="site-logo">Tekhne</a>
+    <SiteLogo />
     <SearchBar />
+    <GitHubLink />
     <ThemeToggle />
   </header>
   <div class="layout">
@@ -37,6 +40,8 @@ const { title, description } = Astro.props;
     border-bottom: 1px solid var(--tk-border);
     background: var(--tk-bg-surface);
   }
+
+
 
   .layout {
     display: grid;

@@ -1,13 +1,16 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
+import { Icon } from "astro-icon/components";
 
 interface Props {
   entry: CollectionEntry<"docs">;
 }
 
 const { entry } = Astro.props;
-const isSkillPage = (entry.id as string).endsWith("/skill");
+const isSkillPage =
+  (entry.id as string).endsWith("/skill") ||
+  (entry.id as string).endsWith("/SKILL.mdx");
 
 const data = entry.data as Record<string, any>;
 
@@ -55,7 +58,9 @@ if (isSkillPage && skillRefsMeta.length > 0) {
   renderedRefs = await Promise.all(
     skillRefsMeta.map(async (meta) => {
       const docEntry = refEntries.find(
-        (e) => e.id === `${refIdPrefix}${meta.slug}.md`,
+        (e) =>
+          e.id === `${refIdPrefix}${meta.slug}` ||
+          e.id === `${refIdPrefix}${meta.slug.toLowerCase()}`,
       );
       if (!docEntry)
         return { slug: meta.slug, title: meta.title, Content: null };
@@ -63,6 +68,14 @@ if (isSkillPage && skillRefsMeta.length > 0) {
       return { slug: meta.slug, title: meta.title, Content };
     }),
   );
+
+  renderedRefs.sort((a, b) => {
+    const aIsReadme = a.slug.toLowerCase() === "readme";
+    const bIsReadme = b.slug.toLowerCase() === "readme";
+    if (aIsReadme && !bIsReadme) return -1;
+    if (!aIsReadme && bIsReadme) return 1;
+    return 0;
+  });
 }
 
 const DIMENSION_LABELS: Record<string, string> = {
@@ -77,7 +90,29 @@ const DIMENSION_LABELS: Record<string, string> = {
   evalValidation: "Eval Validation",
 };
 
-const DIMENSION_MAX = 16;
+const DIMENSION_DESC: Record<string, string> = {
+  knowledgeDelta: "Expert-only knowledge the AI couldn't derive on its own — domain-specific patterns, production gotchas, decision frameworks, and non-obvious tool behaviour. High scores mean <5% redundancy with what the model already knows.",
+  mindsetProcedures: "A clear philosophy plus numbered step-by-step workflows with explicit entry/exit points. Should answer: what is the core principle, how to execute it, and when (and when not) to apply it.",
+  antiPatternQuality: "Explicit NEVER/WHY/consequence triplets with side-by-side bad/good examples. Generic warnings score low — concrete failure modes with real impact (security, correctness, performance) score high.",
+  specificationCompliance: "Proper frontmatter, single-task focus, activation keywords, and cross-harness portability. Skills must work across 40+ agentic harnesses without hardcoded paths or agent-specific references.",
+  progressiveDisclosure: "SKILL.md as a <100-line navigation hub pointing to focused references/ files. Content should be lazy-loaded on demand, not front-loaded. Includes actionable 'When to Use' conditions per reference.",
+  freedomCalibration: "Appropriate rigidity for the skill type: strict rules for critical/security skills, balanced steps for process skills, flexible options for tool skills. Mismatched calibration (too rigid or too loose) reduces score.",
+  patternRecognition: "Rich activation keywords and trigger scenarios in the description so the skill fires when needed. Best descriptions read like an exhaustive list of the tasks and concepts that should invoke this skill.",
+  practicalUsability: "Copy-paste-ready code, complete runnable examples, real file paths and commands. Pseudocode and abstract descriptions score low — concrete, executable content scores high.",
+  evalValidation: "Runtime validation via tessl eval scenarios proving the skill actually changes agent behaviour. Requires evals/ directory, instructions.json, ≥3 scenarios, and ≥80% instruction coverage in summary.json.",
+};
+
+const DIMENSION_MAX: Record<string, number> = {
+  knowledgeDelta: 20,
+  mindsetProcedures: 15,
+  antiPatternQuality: 15,
+  specificationCompliance: 15,
+  progressiveDisclosure: 15,
+  freedomCalibration: 15,
+  patternRecognition: 10,
+  practicalUsability: 15,
+  evalValidation: 20,
+};
 
 const gradeClass = (grade?: string) =>
   grade
@@ -108,6 +143,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
           aria-selected="true"
           aria-controls="sk-panel-skill"
         >
+          <Icon name="lucide:file-text" size={14} aria-hidden="true" />
           Skill
         </button>
 
@@ -118,12 +154,8 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
           aria-selected="false"
           aria-controls="sk-panel-audit"
         >
+          <Icon name="lucide:activity" size={14} aria-hidden="true" />
           Audit
-          {latestGrade && (
-            <span class:list={["skill-badge", gradeClass(latestGrade)]}>
-              {latestGrade}
-            </span>
-          )}
           {auditCount > 0 && (
             <span class="sk-tabs__count">{auditCount}</span>
           )}
@@ -136,6 +168,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
           aria-selected="false"
           aria-controls="sk-panel-evals"
         >
+          <Icon name="lucide:flask-conical" size={14} aria-hidden="true" />
           Evals
           {evalsCount > 0 && (
             <span class="sk-tabs__count">{evalsCount}</span>
@@ -150,6 +183,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
             aria-selected="false"
             aria-controls="sk-panel-refs"
           >
+            <Icon name="lucide:book-open" size={14} aria-hidden="true" />
             References
             <span class="sk-tabs__count">{refsCount}</span>
           </button>
@@ -158,7 +192,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 
       <div
         id="sk-panel-skill"
-        class="sk-tabs__panel sk-tabs__panel--active"
+        class="sk-tabs__panel sk-tabs__panel--active tk-markdown-content"
         role="tabpanel"
         data-panel="skill"
       >
@@ -189,36 +223,34 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                       / {getAuditMax(snapshot)}
                     </span>
                   </div>
-                  {snapshot.grade && (
-                    <span class:list={["skill-badge", "sk-audit__grade", gradeClass(snapshot.grade)]}>
-                      {snapshot.grade}
-                    </span>
-                  )}
+
                 </div>
 
                 {snapshot.dimensions && (
                   <div class="sk-audit__dimensions">
                     {Object.entries(snapshot.dimensions).map(
                       ([key, score]: [string, number]) => {
-                        const pct = Math.round((score / DIMENSION_MAX) * 100);
+                        const dimMax = DIMENSION_MAX[key] ?? 15;
+                        const pct = Math.round((score / dimMax) * 100);
                         return (
-                          <div class="sk-dim">
-                            <div class="sk-dim__header">
-                              <span class="sk-dim__label">
-                                {DIMENSION_LABELS[key] ?? key}
-                              </span>
-                              <span class="sk-dim__score">
-                                {score}/{DIMENSION_MAX}
-                              </span>
-                            </div>
-                            <div class="sk-dim__bar-track">
-                              <div
-                                class="sk-dim__bar-fill"
-                                style={`width: ${Math.min(pct, 100)}%`}
-                                data-pct={pct}
-                              />
-                            </div>
-                          </div>
+                           <div class="sk-dim">
+                             <div class="sk-dim__header">
+                               <span class="sk-dim__label">
+                                 {DIMENSION_LABELS[key] ?? key}
+                               </span>
+                                <span class="sk-dim__score">
+                                  {score}/{dimMax}
+                                </span>
+                             </div>
+                             {DIMENSION_DESC[key] && (
+                               <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
+                             )}
+                             <div class="sk-dim__segments" data-score={score} data-max={dimMax} data-pct={pct}>
+                               {Array.from({ length: dimMax }).map((_, i) => (
+                                 <div class:list={["sk-dim__seg", i < score && "sk-dim__seg--filled"]} />
+                               ))}
+                             </div>
+                           </div>
                         );
                       },
                     )}
@@ -247,35 +279,33 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
                   / {skillAudit.maxTotal ?? 120}
                 </span>
               </div>
-              {skillAudit.grade && (
-                <span class:list={["skill-badge", "sk-audit__grade", gradeClass(skillAudit.grade)]}>
-                  {skillAudit.grade}
-                </span>
-              )}
+
             </div>
 
             {skillAudit.dimensions && (
               <div class="sk-audit__dimensions">
                 {Object.entries(skillAudit.dimensions).map(
-                  ([key, score]: [string, number]) => {
-                    const pct = Math.round((score / DIMENSION_MAX) * 100);
-                    return (
-                      <div class="sk-dim">
-                        <div class="sk-dim__header">
-                          <span class="sk-dim__label">
-                            {DIMENSION_LABELS[key] ?? key}
-                          </span>
-                          <span class="sk-dim__score">
-                            {score}/{DIMENSION_MAX}
-                          </span>
-                        </div>
-                        <div class="sk-dim__bar-track">
-                          <div
-                            class="sk-dim__bar-fill"
-                            style={`width: ${Math.min(pct, 100)}%`}
-                            data-pct={pct}
-                          />
-                        </div>
+                   ([key, score]: [string, number]) => {
+                     const dimMax = DIMENSION_MAX[key] ?? 15;
+                     const pct = Math.round((score / dimMax) * 100);
+                     return (
+                       <div class="sk-dim">
+                         <div class="sk-dim__header">
+                           <span class="sk-dim__label">
+                             {DIMENSION_LABELS[key] ?? key}
+                           </span>
+                           <span class="sk-dim__score">
+                             {score}/{dimMax}
+                           </span>
+                         </div>
+                        {DIMENSION_DESC[key] && (
+                          <p class="sk-dim__desc">{DIMENSION_DESC[key]}</p>
+                        )}
+                         <div class="sk-dim__segments" data-score={score} data-max={dimMax} data-pct={pct}>
+                           {Array.from({ length: dimMax }).map((_, i) => (
+                             <div class:list={["sk-dim__seg", i < score && "sk-dim__seg--filled"]} />
+                           ))}
+                         </div>
                       </div>
                     );
                   },
@@ -304,22 +334,26 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
         hidden
       >
         {skillEvals.length > 0 ? (
-          <>
+          <div class="sk-evals">
             {skillEvals.map((scenario, i) => (
-              <div
-                class:list={["sk-evals__doc", i === 0 && "sk-evals__doc--active"]}
-                data-eval-panel={String(i)}
-                hidden={i !== 0}
-              >
+              <div class="sk-eval-card">
+                <div class="sk-eval-card__header">
+                  <span class="sk-eval-card__index">#{i + 1}</span>
+                  {scenario.feasible !== undefined && (
+                    <span class:list={["sk-eval-card__badge", scenario.feasible ? "sk-eval-card__badge--feasible" : "sk-eval-card__badge--infeasible"]}>
+                      {scenario.feasible ? "Feasible" : "Infeasible"}
+                    </span>
+                  )}
+                </div>
                 {scenario.capability && (
-                  <p class="sk-evals__capability">{scenario.capability}</p>
+                  <p class="sk-eval-card__capability">{scenario.capability}</p>
                 )}
                 {scenario.reason && (
-                  <p class="sk-evals__reason">{scenario.reason}</p>
+                  <p class="sk-eval-card__reason">{scenario.reason}</p>
                 )}
               </div>
             ))}
-          </>
+          </div>
         ) : (
           <p class="sk-empty">No eval scenarios available.</p>
         )}
@@ -333,12 +367,22 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
           data-panel="refs"
           hidden
         >
+          <nav class="sk-refs__nav" aria-label="Reference documents">
+            {renderedRefs.filter((r) => r.Content).map((ref, i) => (
+              <button
+                class:list={["sk-refs__btn", i === 0 && "sk-refs__btn--active"]}
+                type="button"
+                data-ref-btn={ref.slug}
+              >
+                {ref.title}
+              </button>
+            ))}
+          </nav>
           {renderedRefs.map((ref, i) =>
             ref.Content ? (
               <div
-                class:list={["sk-refs__doc", "tk-markdown-content", i === 0 && "sk-refs__doc--active"]}
+                class:list={["sk-refs__doc", "tk-markdown-content", i !== 0 && "sk-refs__doc--hidden"]}
                 data-ref-doc={ref.slug}
-                hidden={i !== 0}
               >
                 <ref.Content />
               </div>
@@ -353,6 +397,16 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 }
 
 <script>
+  document.querySelectorAll<HTMLElement>(".sk-dim__segments").forEach((seg) => {
+    const pct = Number(seg.dataset.pct ?? 0);
+    const remapped = Math.max(0, (pct - 40) / 60);
+    const hue = Math.round(remapped * 120);
+    const color = `hsl(${hue} 85% 42%)`;
+    seg.querySelectorAll<HTMLElement>(".sk-dim__seg--filled").forEach((s) => {
+      s.style.setProperty("--seg-color", color);
+    });
+  });
+
   const TABS = ["skill", "audit", "evals", "refs"];
 
   const activateTab = (name: string) => {
@@ -386,6 +440,48 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
       activateTab(tab);
     });
   });
+
+  const activateRef = (slug: string) => {
+    const panel = document.getElementById("sk-panel-refs");
+    if (!panel) return;
+    panel.querySelectorAll<HTMLButtonElement>("[data-ref-btn]").forEach((b) => {
+      b.classList.toggle("sk-refs__btn--active", b.dataset.refBtn === slug);
+    });
+    panel.querySelectorAll<HTMLElement>("[data-ref-doc]").forEach((d) => {
+      d.classList.toggle("sk-refs__doc--hidden", d.dataset.refDoc !== slug);
+    });
+  };
+
+  document.querySelectorAll<HTMLButtonElement>("[data-ref-btn]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const slug = btn.dataset.refBtn;
+      if (slug) activateRef(slug);
+    });
+  });
+
+  const panel = document.getElementById("sk-panel-refs");
+  if (panel) {
+    const knownSlugs = new Set(
+      Array.from(panel.querySelectorAll<HTMLElement>("[data-ref-doc]")).map(
+        (d) => d.dataset.refDoc!,
+      ),
+    );
+    panel.addEventListener("click", (e) => {
+      const anchor = (e.target as Element).closest("a");
+      if (!anchor) return;
+      const href = anchor.getAttribute("href") ?? "";
+      const filename = href.replace(/^.*\//, "").replace(/\.md$/, "");
+      const slug = knownSlugs.has(filename)
+        ? filename
+        : knownSlugs.has(filename.toLowerCase())
+          ? filename.toLowerCase()
+          : null;
+      if (slug) {
+        e.preventDefault();
+        activateRef(slug);
+      }
+    });
+  }
 </script>
 
 <style>
@@ -420,7 +516,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
 
   .sk-tabs__btn--active {
     color: var(--tk-color-white);
-    border-bottom-color: var(--tk-color-accent);
+    border-bottom-color: var(--tk-color-white);
     font-weight: 600;
   }
 
@@ -445,7 +541,7 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   .sk-audit {
     display: none;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 2rem;
   }
 
   .sk-audit--active {
@@ -484,39 +580,48 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
   .sk-audit__dimensions {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 1.75rem;
   }
 
   .sk-dim__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
   }
 
   .sk-dim__label {
-    font-size: 0.75rem;
-    color: var(--tk-color-gray-2);
+    font-size: 0.875rem;
+    color: var(--tk-color-gray-1);
   }
 
   .sk-dim__score {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-family: var(--tk-font-mono);
     color: var(--tk-color-gray-3);
   }
 
-  .sk-dim__bar-track {
-    height: 6px;
-    background: var(--tk-color-gray-5);
-    border-radius: 9999px;
-    overflow: hidden;
+  .sk-dim__desc {
+    font-size: 0.875rem;
+    color: var(--tk-color-gray-3);
+    margin: 0 0 0.4rem;
+    line-height: 1.5;
   }
 
-  .sk-dim__bar-fill {
-    height: 100%;
-    border-radius: 9999px;
-    background: var(--tk-color-accent);
-    transition: width 0.4s ease;
+  .sk-dim__segments {
+    display: flex;
+    gap: 3px;
+  }
+
+  .sk-dim__seg {
+    flex: 1;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--tk-color-gray-5);
+  }
+
+  .sk-dim__seg--filled {
+    background: var(--seg-color, var(--tk-color-accent));
   }
 
   .sk-audit__meta {
@@ -525,35 +630,105 @@ const getAuditDate = (a: AuditData) => a.date ?? a.auditDate;
     margin: 0;
   }
 
-  .sk-evals__doc {
-    display: none;
+  .sk-evals {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
 
-  .sk-evals__doc--active {
-    display: block;
+  .sk-eval-card {
+    border: 1px solid var(--tk-border);
+    border-radius: 0.5rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--tk-bg-surface);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .sk-evals__capability {
-    font-size: 0.875rem;
-    color: var(--tk-color-white);
+  .sk-eval-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .sk-eval-card__index {
+    font-size: 0.75rem;
+    font-family: var(--tk-font-mono);
+    color: var(--tk-color-gray-3);
+  }
+
+  .sk-eval-card__badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15em 0.6em;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .sk-eval-card__badge--feasible {
+    background: hsl(120 60% 20%);
+    color: hsl(120 70% 65%);
+  }
+
+  .sk-eval-card__badge--infeasible {
+    background: hsl(0 60% 20%);
+    color: hsl(0 70% 65%);
+  }
+
+  .sk-eval-card__capability {
+    font-size: 0.9375rem;
+    color: var(--tk-color-gray-1);
     font-weight: 500;
-    margin: 0 0 0.75rem;
+    margin: 0;
     line-height: 1.5;
   }
 
-  .sk-evals__reason {
-    font-size: 0.75rem;
-    color: var(--tk-color-gray-2);
+  .sk-eval-card__reason {
+    font-size: 0.875rem;
+    color: var(--tk-color-gray-3);
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.65;
+  }
+
+  .sk-refs__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--tk-border);
+  }
+
+  .sk-refs__btn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--tk-border);
+    background: transparent;
+    color: var(--tk-text-muted);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .sk-refs__btn:hover {
+    background: var(--tk-surface-2, #f4f4f5);
+    color: var(--tk-text);
+  }
+
+  .sk-refs__btn--active {
+    background: var(--tk-accent, #6366f1);
+    border-color: var(--tk-accent, #6366f1);
+    color: #fff;
   }
 
   .sk-refs__doc {
-    display: none;
+    display: block;
   }
 
-  .sk-refs__doc--active {
-    display: block;
+  .sk-refs__doc--hidden {
+    display: none;
   }
 
   .sk-empty {
