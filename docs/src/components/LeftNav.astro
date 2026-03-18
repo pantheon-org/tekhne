@@ -1,8 +1,13 @@
 ---
 import { getCollection } from "astro:content";
+import { buildSkillToTileMap, loadPublicTiles } from "../lib/tiles";
 
 const entries = await getCollection("docs");
 const currentPath = Astro.url.pathname;
+const base = import.meta.env.BASE_URL;
+
+const skillToTile = buildSkillToTileMap();
+const publicTiles = loadPublicTiles();
 
 interface NavItem {
   label: string;
@@ -11,29 +16,57 @@ interface NavItem {
 }
 
 interface NavGroup {
-  domain: string;
-  slug: string;
+  tileSlug: string;
+  tileLabel: string;
+  tileLandingHref: string;
   items: NavItem[];
 }
 
-const groups: NavGroup[] = [];
-const domainMap = new Map<string, NavItem[]>();
+const groupMap = new Map<string, NavItem[]>();
 
 for (const entry of entries) {
-  if (!entry.id.endsWith("/skill")) continue;
+  if (!entry.id.endsWith("/skill") && !entry.id.endsWith("/SKILL.mdx"))
+    continue;
+  const data = entry.data as Record<string, unknown>;
+  const skillName = data.name as string | undefined;
+  if (!skillName) continue;
+
+  const tile = skillToTile.get(skillName);
+  if (!tile) continue;
+
   const parts = entry.id.split("/");
-  const domain = parts[1] ?? "unknown";
-  const href = `${import.meta.env.BASE_URL}/skills/${entry.id.replace(/^skills\//, "").replace(/\/skill$/, "/skill/")}`;
-  const active = currentPath === href || currentPath.startsWith(href.replace(/\/$/, "") + "/");
-  if (!domainMap.has(domain)) domainMap.set(domain, []);
-  domainMap.get(domain)!.push({ label: entry.data.title, href, active });
+  const skillsIdx = parts.indexOf("skills");
+  const skillPath =
+    skillsIdx >= 0 ? parts.slice(skillsIdx + 1).join("/") : entry.id;
+  const href = `${base}/skills/${skillPath.replace(/\/skill$/, "/skill/")}/`;
+  const active =
+    currentPath === href ||
+    currentPath.startsWith(`${href.replace(/\/$/, "")}/`);
+
+  const meta = (data.metadata as Record<string, unknown>) ?? {};
+  const label =
+    (meta.displayTitle as string | undefined) ??
+    (data.name as string | undefined) ??
+    entry.data.title;
+
+  if (!groupMap.has(tile.slug)) groupMap.set(tile.slug, []);
+  groupMap.get(tile.slug)?.push({ label, href, active });
 }
 
-for (const [domain, items] of domainMap) {
+const groups: NavGroup[] = [];
+for (const tile of publicTiles) {
+  const items = groupMap.get(tile.slug);
+  if (!items || items.length === 0) continue;
   items.sort((a, b) => a.label.localeCompare(b.label));
-  groups.push({ domain, slug: domain.replace(/\s+/g, "-").toLowerCase(), items });
+  const tileLabel = tile.name.replace(/^[^/]+\//, "").replace(/-/g, " ");
+  groups.push({
+    tileSlug: tile.slug,
+    tileLabel,
+    tileLandingHref: `${base}/tiles/${tile.slug}/`,
+    items,
+  });
 }
-groups.sort((a, b) => a.domain.localeCompare(b.domain));
+groups.sort((a, b) => a.tileLabel.localeCompare(b.tileLabel));
 ---
 
 <nav id="left-nav" aria-label="Skill navigation">
@@ -41,16 +74,22 @@ groups.sort((a, b) => a.domain.localeCompare(b.domain));
     const hasActive = group.items.some((i) => i.active);
     return (
       <details
-        data-domain={group.slug}
+        data-domain={group.tileSlug}
         open={hasActive || undefined}
       >
         <summary
-          data-nav-group={group.slug}
+          data-nav-group={group.tileSlug}
           tabindex="0"
         >
-          {group.domain}
+          <a
+            href={group.tileLandingHref}
+            class:list={["tile-link", hasActive && "tile-link--active"]}
+            onclick="event.stopPropagation()"
+          >
+            {group.tileLabel}
+          </a>
         </summary>
-        <ul data-nav-group-content={group.slug}>
+        <ul data-nav-group-content={group.tileSlug}>
           {group.items.map((item) => (
             <li>
               <a
@@ -68,30 +107,24 @@ groups.sort((a, b) => a.domain.localeCompare(b.domain));
 </nav>
 
 <script>
-  const KEY = (domain: string) => `tk-nav-${domain}`;
+  const allDetails = () => document.querySelectorAll<HTMLDetailsElement>("details[data-domain]");
+
+  const collapseOthers = (except: HTMLDetailsElement) => {
+    allDetails().forEach((el) => {
+      if (el !== except) el.open = false;
+    });
+  };
 
   document.addEventListener("DOMContentLoaded", () => {
-    document.querySelectorAll<HTMLDetailsElement>("details[data-domain]").forEach((el) => {
-      const domain = el.dataset.domain!;
-      const stored = localStorage.getItem(KEY(domain));
+    allDetails().forEach((el) => {
       const hasActive = el.querySelector("[aria-current='page']");
-      if (!hasActive && stored !== null) {
-        el.open = stored === "true";
-      }
+      if (!hasActive) el.open = false;
     });
-
-    const active = document.querySelector("[aria-current='page']");
-    if (active) {
-      const parentDetails = active.closest("details");
-      if (parentDetails) parentDetails.open = true;
-    }
   });
 
-  document.querySelectorAll<HTMLDetailsElement>("details[data-domain]").forEach((el) => {
+  allDetails().forEach((el) => {
     el.addEventListener("toggle", () => {
-      if (!el.querySelector("[aria-current='page']")) {
-        localStorage.setItem(KEY(el.dataset.domain!), String(el.open));
-      }
+      if (el.open) collapseOthers(el);
     });
   });
 
@@ -133,34 +166,50 @@ groups.sort((a, b) => a.domain.localeCompare(b.domain));
   details > summary {
     padding: 0.4rem 1rem;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--tk-text-muted);
     list-style: none;
+    display: flex;
+    align-items: center;
   }
 
   details > summary::-webkit-details-marker { display: none; }
+
+  .tile-link {
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: capitalize;
+    letter-spacing: 0.03em;
+    color: var(--tk-text-muted);
+    text-decoration: none;
+    flex: 1;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tile-link:hover,
+  .tile-link--active {
+    color: var(--tk-color-white);
+  }
 
   ul {
     list-style: none;
     padding: 0;
   }
 
-  a {
+  ul a {
     display: block;
     padding: 0.3rem 1rem 0.3rem 1.5rem;
     font-size: 0.875rem;
     color: var(--tk-text);
   }
 
-  a:hover {
+  ul a:hover {
     background: var(--tk-bg-hover);
     text-decoration: none;
   }
 
-  a[aria-current="page"] {
+  ul a[aria-current="page"] {
     color: var(--tk-accent);
     background: var(--tk-bg-hover);
     font-weight: 500;

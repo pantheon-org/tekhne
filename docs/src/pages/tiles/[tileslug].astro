@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import TileLanding from "../../components/TileLanding.astro";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+import { loadPublicTiles } from "../../lib/tiles";
+
+export async function getStaticPaths() {
+  const tiles = loadPublicTiles();
+  return tiles.map((tile) => ({
+    params: { tileslug: tile.slug },
+    props: { tile },
+  }));
+}
+
+const { tile } = Astro.props;
+
+const allDocs = await getCollection("docs");
+const skillEntries = allDocs.filter((e) => {
+  const id = e.id as string;
+  return id.endsWith("/skill") || id.endsWith("/SKILL.mdx");
+});
+---
+
+<DocsLayout title={tile.name} description={tile.summary}>
+  <TileLanding tile={tile} skillEntries={skillEntries} />
+</DocsLayout>

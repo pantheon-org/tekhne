@@ -94,7 +94,7 @@ export const collections = {
   docs: defineCollection({
     loader: glob({
       base: "src/content/docs",
-      pattern: ["*.{md,mdx}", "**/SKILL.mdx", "**/references/*.md"],
+      pattern: ["**/SKILL.mdx", "**/references/*.md"],
     }),
     schema: withSkillTitle(docsBaseSchema.merge(skillExtraSchema)),
   }),
