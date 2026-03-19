@@ -53,7 +53,7 @@
     a:hover { text-decoration: underline; }
 
     /* ── Nav ── */
-    nav {
+    nav.top-nav {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -110,6 +110,30 @@
       color: var(--tk-text);
     }
     .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── PM selector (site-wide) ── */
+    .pm-selector {
+      display: flex;
+      align-items: center;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      overflow: hidden;
+    }
+    .pm-btn {
+      padding: 0.275rem 0.6rem;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      border-right: 1px solid var(--tk-border);
+    }
+    .pm-btn:last-child { border-right: none; }
+    .pm-btn:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+    .pm-btn--active { background: var(--tk-bg-hover); color: var(--tk-color-white); font-weight: 600; }
 
     /* ── Page shell ── */
     .page-shell {
@@ -292,8 +316,9 @@
       overflow: hidden;
       font-size: 0.8125rem;
     }
-    .install-tabs {
+    .install-block__header {
       display: flex;
+      align-items: center;
       border-bottom: 1px solid var(--tk-border);
     }
     .install-tab {
@@ -302,17 +327,25 @@
       font-weight: 500;
       color: var(--tk-text-muted);
       border-bottom: 2px solid transparent;
+      border-right: 1px solid transparent;
       cursor: pointer;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color 0.12s;
     }
+    .install-tab:hover { color: var(--tk-color-white); }
     .install-tab--active {
       color: var(--tk-color-white);
       border-bottom-color: var(--tk-accent);
     }
+    .install-block__panel { display: none; }
+    .install-block__panel--active { display: flex; }
     .install-cmd {
       display: flex;
       align-items: center;
       gap: 0.75rem;
       padding: 0.625rem 1rem;
+      width: 100%;
     }
     .install-cmd code {
       font-family: var(--tk-font-mono);
@@ -320,14 +353,26 @@
       color: var(--tk-color-white);
       flex: 1;
     }
+    .install-cmd code .exec { color: var(--tk-text-muted); }
     .install-copy {
-      font-size: 0.7rem;
-      color: var(--tk-text-muted);
-      border: 1px solid var(--tk-border);
-      border-radius: 0.25rem;
-      padding: 0.2em 0.6em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.3rem;
       cursor: pointer;
+      color: var(--tk-text-muted);
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
     }
+    .install-copy:hover { color: var(--tk-color-white); border-color: var(--tk-border); background: var(--tk-bg-hover); }
+    .install-copy svg { width: 0.9rem; height: 0.9rem; flex-shrink: 0; }
+    /* Dim PM selector when agent-skills tab active */
+    .pm-selector--disabled { opacity: 0.35; pointer-events: none; }
 
     .sk-tags {
       display: flex;
@@ -510,7 +555,7 @@
 <body>
 
   <!-- Nav -->
-  <nav>
+  <nav class="top-nav">
     <span class="nav-logo">tekhne<span>.</span></span>
     <div class="nav-links">
       <a href="#">Skills</a>
@@ -522,6 +567,12 @@
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       Search skills…
       <kbd>⌘K</kbd>
+    </div>
+    <div class="pm-selector" role="group" aria-label="Package manager">
+      <button class="pm-btn pm-btn--active" data-pm="npm"  data-exec="npx">npm</button>
+      <button class="pm-btn"               data-pm="yarn" data-exec="yarn dlx">yarn</button>
+      <button class="pm-btn"               data-pm="pnpm" data-exec="pnpx">pnpm</button>
+      <button class="pm-btn"               data-pm="bun"  data-exec="bunx">bun</button>
     </div>
     <a class="nav-gh" href="#">★ GitHub</a>
   </nav>
@@ -611,14 +662,35 @@
           </p>
 
           <!-- Install block -->
-          <div class="install-block">
-            <div class="install-tabs">
-              <div class="install-tab install-tab--active">tessl</div>
-              <div class="install-tab">skills-cli</div>
+          <div class="install-block" id="install-block">
+            <div class="install-block__header">
+              <div class="install-tab install-tab--active" data-tab="tessl">tessl.io</div>
+              <div class="install-tab" data-tab="skills">skills.sh</div>
+              <div class="install-tab" data-tab="agent">agentskills.sh</div>
             </div>
-            <div class="install-cmd">
-              <code>npx tessl install pantheon-ai/typescript-advanced</code>
-              <span class="install-copy">copy</span>
+
+            <!-- tessl.io panel -->
+            <div class="install-block__panel install-block__panel--active" data-panel="tessl">
+              <div class="install-cmd">
+                <code><span class="exec">npx</span> tessl i github:pantheon-org/tekhne --skill development--typescript-advanced</code>
+                <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+              </div>
+            </div>
+
+            <!-- skills.sh panel -->
+            <div class="install-block__panel" data-panel="skills">
+              <div class="install-cmd">
+                <code><span class="exec">npx</span> skills add https://github.com/pantheon-org/tekhne --skill development--typescript-advanced</code>
+                <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+              </div>
+            </div>
+
+            <!-- agentskills.sh panel -->
+            <div class="install-block__panel" data-panel="agent">
+              <div class="install-cmd">
+                <code>/learn @pantheon-ai/typescript-advanced</code>
+                <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+              </div>
             </div>
           </div>
 
@@ -731,5 +803,52 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
 
   </div>
 
+  <script>
+    // ── PM selector ──────────────────────────────────────────────
+    const pmBtns = document.querySelectorAll('.pm-btn');
+    const pmSelector = document.querySelector('.pm-selector');
+
+    function setExec(exec) {
+      document.querySelectorAll('.exec').forEach(el => { el.textContent = exec; });
+    }
+
+    pmBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        pmBtns.forEach(b => b.classList.remove('pm-btn--active'));
+        btn.classList.add('pm-btn--active');
+        setExec(btn.dataset.exec);
+      });
+    });
+
+    // ── Install block tabs ────────────────────────────────────────
+    const installTabs   = document.querySelectorAll('#install-block .install-tab');
+    const installPanels = document.querySelectorAll('#install-block .install-block__panel');
+
+    installTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        installTabs.forEach(t => t.classList.remove('install-tab--active'));
+        installPanels.forEach(p => p.classList.remove('install-block__panel--active'));
+        tab.classList.add('install-tab--active');
+        document.querySelector(`[data-panel="${target}"]`).classList.add('install-block__panel--active');
+        // dim PM selector for agent-skills (no exec needed)
+        pmSelector.classList.toggle('pm-selector--disabled', target === 'agent');
+      });
+    });
+
+    // ── Copy buttons ──────────────────────────────────────────────
+    const copyIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>`;
+    const checkIcon = `<svg stroke="currentColor" fill="none" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+    document.querySelectorAll('.install-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const code = btn.closest('.install-cmd').querySelector('code');
+        navigator.clipboard?.writeText(code.textContent.trim());
+        btn.innerHTML = checkIcon;
+        btn.style.color = 'var(--tk-accent)';
+        setTimeout(() => { btn.innerHTML = copyIcon; btn.style.color = ''; }, 1500);
+      });
+    });
+  </script>
 </body>
 </html>
