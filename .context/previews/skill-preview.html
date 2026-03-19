@@ -582,6 +582,7 @@
     }
     .grade-pill-a { background: color-mix(in srgb, var(--badge-a-bg) 20%, transparent); color: var(--badge-a-bg); }
     .grade-pill-b-plus { background: color-mix(in srgb, var(--badge-b-plus-bg) 20%, transparent); color: var(--badge-b-plus-bg); }
+    .grade-pill-c { background: color-mix(in srgb, var(--badge-c-bg) 20%, transparent); color: var(--badge-c-bg); }
 
     /* ── Audit cards ── */
     .audit-list { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -1009,78 +1010,81 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
       <div class="sk-panel" data-panel="audits" hidden>
         <div class="audit-list">
 
-          <!-- Audit card: 2026-03-15, grade A -->
+          <!-- Audit card: 2026-03-02, grade B+ -->
           <div class="audit-card">
             <div class="audit-card__header">
               <div class="audit-card__meta">
-                <span class="audit-card__date">2026-03-15</span>
-                <span class="audit-card__model">claude-opus-4-6</span>
-              </div>
-              <span class="audit-grade grade-pill-a">A</span>
-            </div>
-            <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar" data-total="18"><div class="score-fill" style="width:95%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar" data-total="17"><div class="score-fill" style="width:95%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar" data-total="16"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar" data-total="12"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
-            </div>
-            <div class="audit-card__total"><span>Total</span><strong>109 / 118</strong></div>
-            <div class="audit-card__notes sk-content">
-              <h3>Notes</h3>
-              <p>Strong coverage of compiler configuration and type narrowing. Consider expanding the <code>template literal types</code> section with a real-world example.</p>
-            </div>
-          </div>
-
-          <!-- Audit card: 2026-01-22, grade A -->
-          <div class="audit-card">
-            <div class="audit-card__header">
-              <div class="audit-card__meta">
-                <span class="audit-card__date">2026-01-22</span>
+                <span class="audit-card__date">2026-03-02</span>
                 <span class="audit-card__model">claude-sonnet-4-6</span>
-              </div>
-              <span class="audit-grade grade-pill-a">A</span>
-            </div>
-            <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar" data-total="18"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar" data-total="17"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar" data-total="16"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar" data-total="12"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-            </div>
-            <div class="audit-card__total"><span>Total</span><strong>106 / 118</strong></div>
-            <div class="audit-card__notes sk-content">
-              <h3>Notes</h3>
-              <p>Good overall. Utility types section could link to the official TypeScript handbook for deeper reference. Missing guidance on <code>satisfies</code> operator introduced in TS 4.9.</p>
-            </div>
-          </div>
-
-          <!-- Audit card: 2025-11-08, grade B+ -->
-          <div class="audit-card">
-            <div class="audit-card__header">
-              <div class="audit-card__meta">
-                <span class="audit-card__date">2025-11-08</span>
-                <span class="audit-card__model">claude-sonnet-4-6</span>s
               </div>
               <span class="audit-grade grade-pill-b-plus">B+</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar" data-total="18"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar" data-total="17"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar" data-total="16"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar" data-total="12"><div class="score-fill" style="width:70%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>97 / 118</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>103 / 120</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
-              <p>Initial version. Compiler config section was incomplete — missing <code>moduleResolution</code> guidance. Narrowing examples did not cover <code>in</code> operator or custom type predicates.</p>
+              <p>Strong on knowledge accuracy and specification compliance. <code>Progressive Disclosure</code> and <code>Anti-Pattern Quality</code> are the main drag — the skill front-loads advanced patterns without enough scaffolding for beginners.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2026-02-23, grade B+ -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-02-23</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-b-plus">B+</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>104 / 120</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Marginal improvement over previous audit. Anti-pattern coverage improved but progressive disclosure remains weak — complex examples introduced too early without prerequisite context.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2026-02-22, grade C -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-02-22</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-c">C</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>87 / 120</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Early version of the skill. Missing anti-pattern guidance, no progressive scaffolding, and knowledge content insufficient for production use. Major revision required.</p>
             </div>
           </div>
 
@@ -1235,16 +1239,16 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
       <h2 class="sk-sidebar__heading">Audits</h2>
       <div class="sk-sidebar__list">
         <button class="sk-sidebar__btn sk-sidebar__btn--active">
-          <span class="sk-sidebar__date">2026-03-15</span>
-          <span class="sk-sidebar__grade grade-pill-a">A</span>
-        </button>
-        <button class="sk-sidebar__btn">
-          <span class="sk-sidebar__date">2026-01-22</span>
-          <span class="sk-sidebar__grade grade-pill-a">A</span>
-        </button>
-        <button class="sk-sidebar__btn">
-          <span class="sk-sidebar__date">2025-11-08</span>
+          <span class="sk-sidebar__date">2026-03-02</span>
           <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
+        </button>
+        <button class="sk-sidebar__btn">
+          <span class="sk-sidebar__date">2026-02-23</span>
+          <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
+        </button>
+        <button class="sk-sidebar__btn">
+          <span class="sk-sidebar__date">2026-02-22</span>
+          <span class="sk-sidebar__grade grade-pill-c">C</span>
         </button>
       </div>
 
