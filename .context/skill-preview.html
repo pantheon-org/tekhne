@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Page — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,100..900;1,100..900&family=Atkinson+Hyperlegible+Mono:wght@100..900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tk-bg: #09090b;
+      --tk-bg-surface: #18181b;
+      --tk-bg-elevated: #1e1e21;
+      --tk-bg-hover: #27272a;
+      --tk-border: #3f3f46;
+      --tk-text: #a1a1aa;
+      --tk-text-muted: #71717a;
+      --tk-accent: #22c55e;
+      --tk-accent-hover: #16a34a;
+      --tk-code-bg: #18181b;
+      --tk-link: #4ade80;
+      --tk-link-hover: #86efac;
+      --tk-color-white: #fafafa;
+      --tk-color-accent-low: #052e16;
+      --tk-color-accent-high: #86efac;
+      --tk-color-green: #22c55e;
+      --tk-color-gray-2: #d4d4d8;
+      --tk-color-gray-3: #a1a1aa;
+      --tk-color-gray-4: #71717a;
+      --tk-color-gray-5: #27272a;
+      --tk-font-mono: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
+
+      /* Grade badge colours */
+      --badge-a-plus-bg: #22c55e; --badge-a-bg: #22c55e; --badge-a-minus-bg: #16a34a;
+      --badge-b-plus-bg: #eab308; --badge-b-bg: #ca8a04; --badge-b-minus-bg: #a16207;
+      --badge-c-plus-bg: #f97316; --badge-c-bg: #ea580c; --badge-c-minus-bg: #c2410c;
+      --badge-d-plus-bg: #ef4444; --badge-d-bg: #dc2626; --badge-d-minus-bg: #b91c1c;
+      --badge-f-bg: #991b1b;
+      --badge-fg: #fff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--tk-bg);
+      color: var(--tk-text);
+      font-family: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    a { color: var(--tk-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: rgba(9,9,11,0.92);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 3.5rem;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--tk-accent); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 2rem;
+      font-size: 0.875rem;
+    }
+    .nav-links a { color: var(--tk-text); }
+    .nav-links a:hover { color: var(--tk-color-white); text-decoration: none; }
+    .nav-spacer { flex: 1; }
+    .nav-search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      width: 14rem;
+    }
+    .nav-search kbd {
+      margin-left: auto;
+      font-size: 0.7rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.1em 0.4em;
+      font-family: var(--tk-font-mono);
+    }
+    .nav-gh {
+      font-size: 0.8125rem;
+      border: 1px solid var(--tk-border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.375rem;
+      color: var(--tk-text);
+    }
+    .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── Page shell ── */
+    .page-shell {
+      display: grid;
+      grid-template-columns: 16rem 1fr 14rem;
+      min-height: calc(100vh - 3.5rem);
+    }
+
+    /* ── Left nav ── */
+    .left-nav {
+      border-right: 1px solid var(--tk-border);
+      padding: 1.25rem 0;
+      overflow-y: auto;
+      position: sticky;
+      top: 3.5rem;
+      height: calc(100vh - 3.5rem);
+    }
+    .left-nav__section { margin-bottom: 1.5rem; }
+    .left-nav__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-text-muted);
+      padding: 0 1.25rem;
+      margin-bottom: 0.375rem;
+    }
+    .left-nav__item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1.25rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__item:hover {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      text-decoration: none;
+    }
+    .left-nav__item--active {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      border-left-color: var(--tk-accent);
+      font-weight: 500;
+    }
+    .left-nav__icon { font-size: 0.875rem; flex-shrink: 0; }
+    .left-nav__count {
+      margin-left: auto;
+      font-size: 0.65rem;
+      background: var(--tk-bg-elevated);
+      border: 1px solid var(--tk-border);
+      border-radius: 9999px;
+      padding: 0.05em 0.5em;
+      color: var(--tk-text-muted);
+    }
+    .left-nav__divider {
+      height: 1px;
+      background: var(--tk-border);
+      margin: 0.75rem 1.25rem;
+    }
+    .left-nav__sub {
+      display: flex;
+      flex-direction: column;
+    }
+    .left-nav__sub-item {
+      padding: 0.3rem 1.25rem 0.3rem 2.25rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__sub-item:hover { color: var(--tk-color-white); background: var(--tk-bg-hover); text-decoration: none; }
+    .left-nav__sub-item--active {
+      color: var(--tk-link);
+      border-left-color: var(--tk-accent);
+      background: color-mix(in srgb, var(--tk-accent) 5%, transparent);
+    }
+
+    /* ── Main content ── */
+    main { padding: 2rem; overflow: auto; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: var(--tk-text-muted); }
+    .breadcrumb a:hover { color: var(--tk-link); text-decoration: none; }
+    .breadcrumb__sep { color: var(--tk-border); }
+
+    /* ── Skill header card ── */
+    .sk-header {
+      display: flex;
+      gap: 1.75rem;
+      align-items: flex-start;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Grade shield */
+    .sk-grade {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 5.5rem;
+      height: 6.25rem;
+      align-self: center;
+    }
+    .sk-grade svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .sk-grade__text {
+      position: relative;
+      z-index: 1;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 1px #27272a, 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .grade-a { color: var(--badge-a-bg); }
+    .grade-a-plus { color: var(--badge-a-plus-bg); }
+    .grade-b-plus { color: var(--badge-b-plus-bg); }
+
+    .sk-header__body { flex: 1; min-width: 0; }
+    .sk-header__badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.875rem;
+    }
+    .sk-badge {
+      display: inline-block;
+      padding: 0.2em 0.65em;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .sk-domain { background: var(--tk-color-gray-5); color: var(--tk-color-gray-2); text-transform: capitalize; }
+    .sk-tile { background: var(--tk-color-accent-low); color: var(--tk-link); text-decoration: none; }
+    a.sk-tile:hover { text-decoration: underline; }
+    .sk-version { background: var(--tk-color-accent-low); color: var(--tk-color-accent-high); font-family: var(--tk-font-mono); }
+
+    .sk-title {
+      margin: 0 0 0.75rem;
+      font-size: 1.875rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--tk-color-white);
+    }
+    .sk-desc {
+      color: var(--tk-color-gray-2);
+      font-size: 0.875rem;
+      line-height: 1.65;
+      margin: 0 0 1.25rem;
+    }
+
+    /* Install block */
+    .install-block {
+      background: var(--tk-bg);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+      font-size: 0.8125rem;
+    }
+    .install-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .install-tab {
+      padding: 0.4rem 0.875rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--tk-text-muted);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+    .install-tab--active {
+      color: var(--tk-color-white);
+      border-bottom-color: var(--tk-accent);
+    }
+    .install-cmd {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem 1rem;
+    }
+    .install-cmd code {
+      font-family: var(--tk-font-mono);
+      font-size: 0.8125rem;
+      color: var(--tk-color-white);
+      flex: 1;
+    }
+    .install-copy {
+      font-size: 0.7rem;
+      color: var(--tk-text-muted);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.2em 0.6em;
+      cursor: pointer;
+    }
+
+    .sk-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      margin-top: 1rem;
+    }
+    .sk-tag {
+      background: var(--tk-color-gray-5);
+      color: var(--tk-color-gray-3);
+      border-radius: 9999px;
+      padding: 0.15em 0.65em;
+      font-size: 0.7rem;
+    }
+
+    /* ── Skill tabs ── */
+    .sk-tabs {
+      border-bottom: 1px solid var(--tk-border);
+      display: flex;
+      gap: 0;
+      margin-bottom: 2rem;
+    }
+    .sk-tab {
+      padding: 0.625rem 1rem;
+      font-size: 0.875rem;
+      color: var(--tk-text-muted);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      margin-bottom: -1px;
+    }
+    .sk-tab:hover { color: var(--tk-color-white); }
+    .sk-tab--active {
+      color: var(--tk-color-white);
+      border-bottom-color: var(--tk-accent);
+      font-weight: 500;
+    }
+    .sk-tab__count {
+      display: inline-block;
+      background: var(--tk-bg-hover);
+      border-radius: 9999px;
+      font-size: 0.65rem;
+      padding: 0.05em 0.5em;
+      margin-left: 0.35rem;
+      color: var(--tk-text-muted);
+    }
+
+    /* ── Skill markdown content ── */
+    .sk-content h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .sk-content h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .sk-content p {
+      margin-bottom: 0.875rem;
+      color: var(--tk-text);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+    .sk-content ul, .sk-content ol {
+      margin: 0 0 0.875rem 1.5rem;
+    }
+    .sk-content li {
+      font-size: 0.9375rem;
+      color: var(--tk-text);
+      line-height: 1.7;
+      margin-bottom: 0.25rem;
+    }
+    .sk-content code {
+      font-family: var(--tk-font-mono);
+      font-size: 0.85em;
+      background: var(--tk-code-bg);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.15em 0.4em;
+      color: var(--tk-color-accent-high);
+    }
+    .sk-content pre {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .sk-content pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--tk-text);
+      font-size: 0.8125rem;
+      line-height: 1.8;
+    }
+    .sk-content blockquote {
+      border-left: 3px solid var(--tk-accent);
+      background: color-mix(in srgb, var(--tk-accent) 5%, transparent);
+      padding: 0.75rem 1rem;
+      border-radius: 0 0.375rem 0.375rem 0;
+      margin-bottom: 0.875rem;
+    }
+    .sk-content blockquote p { margin: 0; font-size: 0.875rem; }
+
+    /* Edit link */
+    .edit-link {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--tk-border);
+    }
+    .edit-link a { font-size: 0.8rem; color: var(--tk-text-muted); }
+    .edit-link a:hover { color: var(--tk-link); }
+
+    /* ── Right sidebar ── */
+    .right-sidebar {
+      border-left: 1px solid var(--tk-border);
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+      position: sticky;
+      top: 3.5rem;
+      height: calc(100vh - 3.5rem);
+    }
+    .sk-sidebar__heading {
+      color: var(--tk-color-white);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.625rem;
+    }
+    .sk-sidebar__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      margin-bottom: 1.5rem;
+    }
+    .sk-sidebar__btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.4rem 0.5rem;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: inherit;
+      color: var(--tk-color-gray-3);
+      transition: background 0.12s, color 0.12s;
+    }
+    .sk-sidebar__btn:hover { background: var(--tk-color-gray-5); color: var(--tk-color-white); }
+    .sk-sidebar__btn--active {
+      background: var(--tk-color-gray-5);
+      border-color: var(--tk-border);
+      color: var(--tk-color-white);
+      font-weight: 500;
+    }
+    .sk-sidebar__date {
+      font-family: var(--tk-font-mono);
+      font-size: 0.7rem;
+    }
+    .sk-sidebar__grade {
+      font-size: 0.65rem !important;
+      padding: 0.1em 0.45em;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .grade-pill-a { background: color-mix(in srgb, var(--badge-a-bg) 20%, transparent); color: var(--badge-a-bg); }
+    .grade-pill-b-plus { background: color-mix(in srgb, var(--badge-b-plus-bg) 20%, transparent); color: var(--badge-b-plus-bg); }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <span class="nav-logo">tekhne<span>.</span></span>
+    <div class="nav-links">
+      <a href="#">Skills</a>
+      <a href="#">Tiles</a>
+      <a href="#">Docs</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search skills…
+      <kbd>⌘K</kbd>
+    </div>
+    <a class="nav-gh" href="#">★ GitHub</a>
+  </nav>
+
+  <div class="page-shell">
+
+    <!-- Left nav -->
+    <nav class="left-nav" aria-label="Site navigation">
+      <div class="left-nav__section">
+        <div class="left-nav__label">Navigation</div>
+        <a href="#" class="left-nav__item">
+          <span class="left-nav__icon">🏠</span> Home
+        </a>
+        <a href="#" class="left-nav__item">
+          <span class="left-nav__icon">⬡</span> All Skills
+          <span class="left-nav__count">70</span>
+        </a>
+        <a href="#" class="left-nav__item">
+          <span class="left-nav__icon">◫</span> Tiles
+          <span class="left-nav__count">18</span>
+        </a>
+      </div>
+      <div class="left-nav__divider"></div>
+      <div class="left-nav__section">
+        <div class="left-nav__label">Domains</div>
+        <div class="left-nav__sub">
+          <a href="#" class="left-nav__sub-item">ci-cd</a>
+          <a href="#" class="left-nav__sub-item">infrastructure</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">development</a>
+          <a href="#" class="left-nav__sub-item">agentic-harness</a>
+          <a href="#" class="left-nav__sub-item">testing</a>
+          <a href="#" class="left-nav__sub-item">software-engineering</a>
+          <a href="#" class="left-nav__sub-item">observability</a>
+          <a href="#" class="left-nav__sub-item">documentation</a>
+        </div>
+      </div>
+      <div class="left-nav__divider"></div>
+      <div class="left-nav__section">
+        <div class="left-nav__label">Development</div>
+        <div class="left-nav__sub">
+          <a href="#" class="left-nav__sub-item">bun-development</a>
+          <a href="#" class="left-nav__sub-item">commanderjs</a>
+          <a href="#" class="left-nav__sub-item">biome-complete</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">typescript-advanced</a>
+          <a href="#" class="left-nav__sub-item">scripting / bash</a>
+          <a href="#" class="left-nav__sub-item">scripting / makefile</a>
+          <a href="#" class="left-nav__sub-item">front-end / theme-porter</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main>
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="#">Skills</a>
+        <span class="breadcrumb__sep">›</span>
+        <a href="#">Development</a>
+        <span class="breadcrumb__sep">›</span>
+        <span>TypeScript Advanced</span>
+      </nav>
+
+      <!-- Skill header card -->
+      <div class="sk-header">
+        <!-- Grade shield -->
+        <div class="sk-grade grade-a">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+            <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+              fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+          </svg>
+          <span class="sk-grade__text">A</span>
+        </div>
+
+        <div class="sk-header__body">
+          <div class="sk-header__badges">
+            <span class="sk-badge sk-domain">development</span>
+            <a href="#" class="sk-badge sk-tile">typescript-advanced</a>
+            <span class="sk-badge sk-version">v1.3.0</span>
+          </div>
+
+          <h1 class="sk-title">TypeScript Advanced</h1>
+
+          <p class="sk-desc">
+            Comprehensive TypeScript guidance covering compiler configuration, advanced types,
+            utility types, type narrowing, generics, mapped types, template literal types,
+            and strict-mode patterns for production codebases.
+          </p>
+
+          <!-- Install block -->
+          <div class="install-block">
+            <div class="install-tabs">
+              <div class="install-tab install-tab--active">tessl</div>
+              <div class="install-tab">skills-cli</div>
+            </div>
+            <div class="install-cmd">
+              <code>npx tessl install pantheon-ai/typescript-advanced</code>
+              <span class="install-copy">copy</span>
+            </div>
+          </div>
+
+          <div class="sk-tags">
+            <span class="sk-tag">typescript</span>
+            <span class="sk-tag">types</span>
+            <span class="sk-tag">compiler</span>
+            <span class="sk-tag">generics</span>
+            <span class="sk-tag">strict-mode</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skill tabs -->
+      <div class="sk-tabs">
+        <div class="sk-tab sk-tab--active">Skill</div>
+        <div class="sk-tab">Audits <span class="sk-tab__count">3</span></div>
+        <div class="sk-tab">Evals <span class="sk-tab__count">8</span></div>
+        <div class="sk-tab">References <span class="sk-tab__count">5</span></div>
+      </div>
+
+      <!-- Skill markdown content -->
+      <div class="sk-content">
+        <h2>Overview</h2>
+        <p>
+          This skill provides deterministic TypeScript guidance for production codebases.
+          It covers <code>tsconfig.json</code> tuning, advanced type constructs, and the
+          patterns needed to maximise type safety without sacrificing developer ergonomics.
+        </p>
+
+        <h2>When to use this skill</h2>
+        <ul>
+          <li>Configuring or reviewing <code>tsconfig.json</code> for strict correctness</li>
+          <li>Writing generic utilities, mapped types, or conditional types</li>
+          <li>Debugging <em>inferred</em> vs <em>widened</em> type discrepancies</li>
+          <li>Migrating a JavaScript project to TypeScript incrementally</li>
+        </ul>
+
+        <h2>Compiler Configuration</h2>
+        <p>Start with the strictest reasonable baseline and relax only when necessary:</p>
+        <pre><code>{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "lib": ["ES2022"]
+  }
+}</code></pre>
+
+        <h2>Type Narrowing Patterns</h2>
+        <p>Prefer discriminated unions over boolean flags for variant types:</p>
+        <pre><code>type Result&lt;T&gt; =
+  | { ok: true;  value: T }
+  | { ok: false; error: string };
+
+function handle&lt;T&gt;(r: Result&lt;T&gt;) {
+  if (r.ok) {
+    // r.value is T here — no cast needed
+  }
+}</code></pre>
+
+        <blockquote>
+          <p><strong>Rule:</strong> Never use <code>as</code> casts in new code. If you need one, you have a modelling problem.</p>
+        </blockquote>
+
+        <h2>Utility Types Quick Reference</h2>
+        <ul>
+          <li><code>Partial&lt;T&gt;</code> — all properties optional</li>
+          <li><code>Required&lt;T&gt;</code> — all properties required</li>
+          <li><code>Pick&lt;T, K&gt;</code> / <code>Omit&lt;T, K&gt;</code> — structural subsets</li>
+          <li><code>ReturnType&lt;F&gt;</code> — extract function return type</li>
+          <li><code>Awaited&lt;T&gt;</code> — unwrap Promise depth</li>
+        </ul>
+
+        <div class="edit-link">
+          <a href="#">Edit this page on GitHub</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Right sidebar -->
+    <aside class="right-sidebar">
+      <h2 class="sk-sidebar__heading">Audits</h2>
+      <div class="sk-sidebar__list">
+        <button class="sk-sidebar__btn sk-sidebar__btn--active">
+          <span class="sk-sidebar__date">2026-03-15</span>
+          <span class="sk-sidebar__grade grade-pill-a">A</span>
+        </button>
+        <button class="sk-sidebar__btn">
+          <span class="sk-sidebar__date">2026-01-22</span>
+          <span class="sk-sidebar__grade grade-pill-a">A</span>
+        </button>
+        <button class="sk-sidebar__btn">
+          <span class="sk-sidebar__date">2025-11-08</span>
+          <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
+        </button>
+      </div>
+
+      <h2 class="sk-sidebar__heading">References</h2>
+      <div class="sk-sidebar__list">
+        <button class="sk-sidebar__btn sk-sidebar__btn--active">tsconfig-reference</button>
+        <button class="sk-sidebar__btn">advanced-types</button>
+        <button class="sk-sidebar__btn">generics-patterns</button>
+        <button class="sk-sidebar__btn">migration-guide</button>
+        <button class="sk-sidebar__btn">strict-mode</button>
+      </div>
+    </aside>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tile Page — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,100..900;1,100..900&family=Atkinson+Hyperlegible+Mono:wght@100..900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tk-bg: #09090b;
+      --tk-bg-surface: #18181b;
+      --tk-bg-elevated: #1e1e21;
+      --tk-bg-hover: #27272a;
+      --tk-border: #3f3f46;
+      --tk-text: #a1a1aa;
+      --tk-text-muted: #71717a;
+      --tk-accent: #22c55e;
+      --tk-accent-hover: #16a34a;
+      --tk-code-bg: #18181b;
+      --tk-link: #4ade80;
+      --tk-link-hover: #86efac;
+      --tk-color-white: #fafafa;
+      --tk-color-accent-low: #052e16;
+      --tk-color-accent-high: #86efac;
+      --tk-color-green: #22c55e;
+      --tk-color-gray-2: #d4d4d8;
+      --tk-color-gray-3: #a1a1aa;
+      --tk-color-gray-4: #71717a;
+      --tk-color-gray-5: #27272a;
+      --tk-font-mono: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
+
+      --badge-a-plus-bg: #22c55e; --badge-a-bg: #22c55e; --badge-a-minus-bg: #16a34a;
+      --badge-b-plus-bg: #eab308; --badge-b-bg: #ca8a04; --badge-b-minus-bg: #a16207;
+      --badge-c-plus-bg: #f97316; --badge-c-bg: #ea580c;
+      --badge-d-bg: #ef4444;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--tk-bg);
+      color: var(--tk-text);
+      font-family: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    a { color: var(--tk-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav.top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: rgba(9,9,11,0.92);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 3.5rem;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--tk-accent); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 2rem;
+      font-size: 0.875rem;
+    }
+    .nav-links a { color: var(--tk-text); }
+    .nav-links a:hover { color: var(--tk-color-white); text-decoration: none; }
+    .nav-spacer { flex: 1; }
+    .nav-search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      padding: 0.3rem 0.75rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      width: 14rem;
+    }
+    .nav-search kbd {
+      margin-left: auto;
+      font-size: 0.7rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.1em 0.4em;
+      font-family: var(--tk-font-mono);
+    }
+    .nav-gh {
+      font-size: 0.8125rem;
+      border: 1px solid var(--tk-border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.375rem;
+      color: var(--tk-text);
+    }
+    .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── Page shell ── */
+    .page-shell {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      min-height: calc(100vh - 3.5rem);
+    }
+
+    /* ── Left nav ── */
+    .left-nav {
+      border-right: 1px solid var(--tk-border);
+      padding: 1.25rem 0;
+      overflow-y: auto;
+      position: sticky;
+      top: 3.5rem;
+      height: calc(100vh - 3.5rem);
+    }
+    .left-nav__section { margin-bottom: 1.5rem; }
+    .left-nav__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-text-muted);
+      padding: 0 1.25rem;
+      margin-bottom: 0.375rem;
+    }
+    .left-nav__item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1.25rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__item:hover {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      text-decoration: none;
+    }
+    .left-nav__item--active {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      border-left-color: var(--tk-accent);
+      font-weight: 500;
+    }
+    .left-nav__icon { font-size: 0.875rem; flex-shrink: 0; }
+    .left-nav__count {
+      margin-left: auto;
+      font-size: 0.65rem;
+      background: var(--tk-bg-elevated);
+      border: 1px solid var(--tk-border);
+      border-radius: 9999px;
+      padding: 0.05em 0.5em;
+      color: var(--tk-text-muted);
+    }
+    .left-nav__divider {
+      height: 1px;
+      background: var(--tk-border);
+      margin: 0.75rem 1.25rem;
+    }
+    .left-nav__sub { display: flex; flex-direction: column; }
+    .left-nav__sub-item {
+      padding: 0.3rem 1.25rem 0.3rem 2.25rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__sub-item:hover { color: var(--tk-color-white); background: var(--tk-bg-hover); text-decoration: none; }
+    .left-nav__sub-item--active {
+      color: var(--tk-link);
+      border-left-color: var(--tk-accent);
+      background: color-mix(in srgb, var(--tk-accent) 5%, transparent);
+    }
+
+    /* ── Main ── */
+    main { padding: 2rem; overflow: auto; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: var(--tk-text-muted); }
+    .breadcrumb a:hover { color: var(--tk-link); text-decoration: none; }
+    .breadcrumb__sep { color: var(--tk-border); }
+
+    /* ── Tile header card ── */
+    .tile-header {
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+    .tile-header__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.875rem;
+    }
+    .tile-badge {
+      display: inline-block;
+      padding: 0.2em 0.65em;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .tile-domain { background: var(--tk-color-gray-5); color: var(--tk-color-gray-2); text-transform: capitalize; }
+    .tile-version {
+      background: var(--tk-color-accent-low);
+      color: var(--tk-color-accent-high);
+      font-family: var(--tk-font-mono);
+      text-decoration: none;
+    }
+    a.tile-version:hover { text-decoration: underline; }
+    .tile-skills-count {
+      background: var(--tk-bg-elevated);
+      color: var(--tk-text-muted);
+      border: 1px solid var(--tk-border);
+    }
+    .tile-visibility--public {
+      background: color-mix(in srgb, var(--tk-color-green) 15%, transparent);
+      color: var(--tk-color-green);
+    }
+    .tile-title {
+      margin: 0 0 0.75rem;
+      font-size: 1.875rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--tk-color-white);
+    }
+    .tile-summary {
+      color: var(--tk-color-gray-2);
+      font-size: 0.875rem;
+      line-height: 1.65;
+      margin: 0 0 1.25rem;
+      max-width: 65ch;
+    }
+
+    /* Install block */
+    .install-block {
+      background: var(--tk-bg);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+      font-size: 0.8125rem;
+      max-width: 480px;
+    }
+    .install-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .install-tab {
+      padding: 0.4rem 0.875rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--tk-text-muted);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+    }
+    .install-tab--active {
+      color: var(--tk-color-white);
+      border-bottom-color: var(--tk-accent);
+    }
+    .install-cmd {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem 1rem;
+    }
+    .install-cmd code {
+      font-family: var(--tk-font-mono);
+      font-size: 0.8125rem;
+      color: var(--tk-color-white);
+      flex: 1;
+    }
+    .install-copy {
+      font-size: 0.7rem;
+      color: var(--tk-text-muted);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.2em 0.6em;
+      cursor: pointer;
+    }
+
+    /* ── Skills section ── */
+    .tile-skills { margin-top: 0.5rem; }
+    .tile-skills__heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin-bottom: 1rem;
+    }
+    .tile-skills__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    /* Skill entry card */
+    .skill-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .skill-entry:hover {
+      border-color: var(--tk-accent);
+      background: var(--tk-bg-hover);
+    }
+    .skill-entry__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .skill-entry__name {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+    }
+    /* Shield grade */
+    .skill-entry__grade {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2.25rem;
+    }
+    .skill-entry__grade svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .skill-entry__grade-text {
+      position: relative;
+      z-index: 1;
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 1px #27272a, 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .grade-shield-a { color: var(--badge-a-bg); }
+    .grade-shield-a-plus { color: var(--badge-a-plus-bg); }
+    .grade-shield-b-plus { color: var(--badge-b-plus-bg); }
+    .grade-shield-b { color: var(--badge-b-bg); }
+    .grade-shield-c-plus { color: var(--badge-c-plus-bg); }
+    .skill-entry__desc {
+      font-size: 0.875rem;
+      color: var(--tk-text-muted);
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--tk-border); margin: 2.5rem 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="top-nav">
+    <span class="nav-logo">tekhne<span>.</span></span>
+    <div class="nav-links">
+      <a href="#">Skills</a>
+      <a href="#">Tiles</a>
+      <a href="#">Docs</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search skills…
+      <kbd>⌘K</kbd>
+    </div>
+    <a class="nav-gh" href="#">★ GitHub</a>
+  </nav>
+
+  <div class="page-shell">
+
+    <!-- Left nav -->
+    <nav class="left-nav" aria-label="Site navigation">
+      <div class="left-nav__section">
+        <div class="left-nav__label">Navigation</div>
+        <a href="#" class="left-nav__item">
+          <span class="left-nav__icon">🏠</span> Home
+        </a>
+        <a href="#" class="left-nav__item">
+          <span class="left-nav__icon">⬡</span> All Skills
+          <span class="left-nav__count">70</span>
+        </a>
+        <a href="#" class="left-nav__item left-nav__item--active">
+          <span class="left-nav__icon">◫</span> Tiles
+          <span class="left-nav__count">18</span>
+        </a>
+      </div>
+      <div class="left-nav__divider"></div>
+      <div class="left-nav__section">
+        <div class="left-nav__label">All Tiles</div>
+        <div class="left-nav__sub">
+          <a href="#" class="left-nav__sub-item">agentic-harness-core</a>
+          <a href="#" class="left-nav__sub-item">ci-cd-core</a>
+          <a href="#" class="left-nav__sub-item">development-core</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">infrastructure-core</a>
+          <a href="#" class="left-nav__sub-item">nx-monorepo</a>
+          <a href="#" class="left-nav__sub-item">observability-core</a>
+          <a href="#" class="left-nav__sub-item">testing-core</a>
+          <a href="#" class="left-nav__sub-item">documentation-core</a>
+          <a href="#" class="left-nav__sub-item">software-engineering</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main>
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="#">Tiles</a>
+        <span class="breadcrumb__sep">›</span>
+        <span>infrastructure-core</span>
+      </nav>
+
+      <!-- Tile header card -->
+      <div class="tile-header">
+        <div class="tile-header__meta">
+          <span class="tile-badge tile-domain">infrastructure</span>
+          <a class="tile-badge tile-version" href="#">v2.1.4</a>
+          <span class="tile-badge tile-skills-count">4 skills</span>
+          <span class="tile-badge tile-visibility--public">public</span>
+        </div>
+
+        <h1 class="tile-title">pantheon-ai/infrastructure-core</h1>
+
+        <p class="tile-summary">
+          Core infrastructure skills — Terraform generation &amp; validation, Dockerfile generation
+          &amp; validation, Kubernetes YAML authoring, and Ansible automation. Installs as a
+          bundle or skill-by-skill for teams adopting IaC incrementally.
+        </p>
+
+        <!-- Install block -->
+        <div class="install-block">
+          <div class="install-tabs">
+            <div class="install-tab install-tab--active">tessl</div>
+            <div class="install-tab">skills-cli</div>
+          </div>
+          <div class="install-cmd">
+            <code>npx tessl install pantheon-ai/infrastructure-core</code>
+            <span class="install-copy">copy</span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Skills grid -->
+      <section class="tile-skills">
+        <h2 class="tile-skills__heading">Skills</h2>
+        <div class="tile-skills__grid">
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Terraform Generator</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Generate Terraform modules, configure providers, define variables and outputs,
+              set up remote state backends, and structure multi-environment workspaces following
+              current HashiCorp best practices.
+            </p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Terraform Validator</span>
+              <div class="skill-entry__grade grade-shield-a-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">A+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Comprehensive toolkit for validating, linting, testing, and automating Terraform
+              configurations and HCL files using tflint, terraform validate, and security scanning.
+            </p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Dockerfile Generator</span>
+              <div class="skill-entry__grade grade-shield-b-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">B+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Generates production-ready Dockerfiles with multi-stage builds, layer caching,
+              security hardening (non-root user, minimal base images), and OCI label conventions.
+            </p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Dockerfile Validator</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Validates, lints, and secures Dockerfiles by running syntax checking, detecting
+              security vulnerabilities, and enforcing image hygiene rules via hadolint and trivy.
+            </p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">K8s YAML Generator</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Generates, validates, and manages Kubernetes YAML resources including Deployments,
+              Services, Ingresses, HPA, PDB, RBAC, ConfigMaps, and Secrets with security context defaults.
+            </p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Ansible Generator</span>
+              <div class="skill-entry__grade grade-shield-b">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">B</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Generates, validates, and refactors production-ready Ansible playbooks, roles,
+              task files, and inventory structures with idempotency and molecule test scaffolding.
+            </p>
+          </a>
+
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+</body>
+</html>
