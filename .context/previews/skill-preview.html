@@ -984,7 +984,7 @@
       <!-- Skill tabs -->
       <div class="sk-tabs" id="sk-tabs">
         <div class="sk-tab sk-tab--active" data-tab="skill">Skill</div>
-        <div class="sk-tab" data-tab="audits">Audits <span class="sk-tab__count">3</span></div>
+        <div class="sk-tab" data-tab="audits">Audits <span class="sk-tab__count">4</span></div>
         <div class="sk-tab" data-tab="evals">Evals <span class="sk-tab__count">8</span></div>
         <div class="sk-tab" data-tab="references">References <span class="sk-tab__count">5</span></div>
       </div>
@@ -1068,6 +1068,10 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
               <span>2026-02-22</span>
               <span class="sk-sidebar__grade grade-pill-c">C</span>
             </button>
+            <button class="audit-selector__btn" data-audit="3">
+              <span>2026-02-21</span>
+              <span class="sk-sidebar__grade grade-pill-c">C</span>
+            </button>
           </div>
         <div class="audit-list">
 
@@ -1146,6 +1150,32 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Early version of the skill. Missing anti-pattern guidance, no progressive scaffolding, and knowledge content insufficient for production use. Major revision required.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2026-02-21, grade C -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-02-21</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-c">C</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>87 / 120</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Earliest recorded audit. Anti-pattern coverage and practical usability both flagged as high-priority weak spots. Progressive disclosure scores perfectly — content was already extracted to <code>references/</code>. Activation cues need tightening. Major revision required before publishing.</p>
             </div>
           </div>
 
