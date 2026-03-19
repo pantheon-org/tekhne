@@ -287,11 +287,14 @@
       text-decoration: none;
     }
     .domain-icon {
-      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
       width: 2rem;
-      text-align: center;
+      color: var(--tk-text-muted);
     }
+    .domain-icon svg { width: 1.125rem; height: 1.125rem; }
     .domain-info { min-width: 0; }
     .domain-name {
       font-size: 0.8125rem;
@@ -446,84 +449,84 @@
 
     <div class="domain-grid">
       <a href="#" class="domain-card">
-        <span class="domain-icon">⚙️</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">CI/CD</div>
           <div class="domain-count">14 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">🏗️</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Infrastructure</div>
           <div class="domain-count">13 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">💻</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Development</div>
           <div class="domain-count">10 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">🤖</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Agentic Harness</div>
           <div class="domain-count">9 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">🧪</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6l3.13 4.38A2 2 0 0 1 15.52 16H8.48a2 2 0 0 1-1.61-2.62L10 8V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Testing</div>
           <div class="domain-count">5 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">📐</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Software Engineering</div>
           <div class="domain-count">4 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">📊</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Observability</div>
           <div class="domain-count">4 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">📝</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Documentation</div>
           <div class="domain-count">5 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">📦</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Repository Mgmt</div>
           <div class="domain-count">6 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">📋</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v11"/><path d="M12 5v6"/><path d="M18 5v14"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Project Mgmt</div>
           <div class="domain-count">5 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">🔧</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Package Mgmt</div>
           <div class="domain-count">2 skills</div>
         </div>
       </a>
       <a href="#" class="domain-card">
-        <span class="domain-icon">🔬</span>
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg></span>
         <div class="domain-info">
           <div class="domain-name">Specialized</div>
           <div class="domain-count">3 skills</div>
