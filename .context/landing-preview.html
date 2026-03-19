@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tekhne Skills — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,100..900;1,100..900&family=Atkinson+Hyperlegible+Mono:wght@100..900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tk-bg: #09090b;
+      --tk-bg-surface: #18181b;
+      --tk-bg-hover: #27272a;
+      --tk-border: #3f3f46;
+      --tk-text: #a1a1aa;
+      --tk-text-muted: #71717a;
+      --tk-accent: #22c55e;
+      --tk-accent-hover: #16a34a;
+      --tk-code-bg: #18181b;
+      --tk-link: #4ade80;
+      --tk-link-hover: #86efac;
+      --tk-color-white: #fafafa;
+      --tk-color-accent-low: #052e16;
+      --tk-font-mono: "Atkinson Hyperlegible Mono", ui-monospace, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--tk-bg);
+      color: var(--tk-text);
+      font-family: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: var(--tk-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: rgba(9,9,11,0.85);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--tk-accent); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 2rem;
+      font-size: 0.875rem;
+    }
+    .nav-links a { color: var(--tk-text); }
+    .nav-links a:hover { color: var(--tk-color-white); text-decoration: none; }
+    .nav-spacer { flex: 1; }
+    .nav-gh {
+      font-size: 0.8125rem;
+      border: 1px solid var(--tk-border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.375rem;
+      color: var(--tk-text);
+    }
+    .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── Hero ── */
+    .hero-wrap {
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    /* Radial glow behind hero text */
+    .hero-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, #052e16 0%, transparent 70%);
+      pointer-events: none;
+    }
+    /* Subtle dot grid */
+    .hero-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, #3f3f46 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-accent);
+      border: 1px solid #166534;
+      background: #052e16;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before { content: "◆"; font-size: 0.6em; }
+    .hero-title {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--tk-color-white);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title .gradient {
+      background: linear-gradient(135deg, #86efac 0%, #22c55e 50%, #16a34a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.125rem;
+      color: var(--tk-text);
+      max-width: 52ch;
+      margin: 1rem auto 2rem;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.625rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--tk-accent);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(34,197,94,0.25);
+    }
+    .btn-primary:hover { background: var(--tk-accent-hover); text-decoration: none; color: #fff; box-shadow: 0 0 28px rgba(34,197,94,0.35); }
+    .btn-secondary {
+      border: 1px solid var(--tk-border);
+      color: var(--tk-text);
+      background: rgba(255,255,255,0.03);
+    }
+    .btn-secondary:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--tk-border);
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.125rem;
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--tk-color-white);
+      letter-spacing: -0.02em;
+    }
+    .stat-value span { color: var(--tk-accent); }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--tk-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .stat-sep {
+      width: 1px;
+      background: var(--tk-border);
+      align-self: stretch;
+      margin: 0.25rem 0;
+    }
+
+    /* ── Section wrapper ── */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--tk-color-white);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      color: var(--tk-text-muted);
+      margin-bottom: 2rem;
+      max-width: 60ch;
+    }
+
+    /* ── Terminal snippet ── */
+    .terminal {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.625rem 1rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: var(--tk-bg-hover);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #eab308; }
+    .dot-green { background: #22c55e; }
+    .terminal-body {
+      padding: 1.25rem 1.5rem;
+      font-family: var(--tk-font-mono);
+      font-size: 0.875rem;
+      line-height: 2;
+    }
+    .term-prompt { color: var(--tk-text-muted); user-select: none; }
+    .term-cmd { color: var(--tk-color-white); }
+    .term-comment { color: var(--tk-text-muted); }
+    .term-out { color: var(--tk-accent); }
+    .term-dim { color: var(--tk-text-muted); }
+
+    /* ── Domain grid ── */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+    .domain-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.625rem;
+      padding: 0.875rem 1rem;
+      transition: border-color 0.15s, background 0.15s;
+      cursor: pointer;
+    }
+    .domain-card:hover {
+      border-color: #166534;
+      background: #0a1a10;
+      text-decoration: none;
+    }
+    .domain-icon {
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      width: 2rem;
+      text-align: center;
+    }
+    .domain-info { min-width: 0; }
+    .domain-name {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .domain-count {
+      font-size: 0.6875rem;
+      color: var(--tk-text-muted);
+    }
+
+    /* ── How it works ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .step {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.625rem;
+      padding: 1.25rem;
+      position: relative;
+    }
+    .step-num {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--tk-accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .step h3 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin-bottom: 0.375rem;
+    }
+    .step p {
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--tk-border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--tk-border); }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <span class="nav-logo">tekhne<span>.</span></span>
+    <div class="nav-links">
+      <a href="#">Skills</a>
+      <a href="#">Domains</a>
+      <a href="#">Docs</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <a class="nav-gh" href="#">★ GitHub</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-wrap">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Open Source · Quality-graded</div>
+      <h1 class="hero-title">
+        Extend any AI assistant<br>
+        <span class="gradient">in minutes</span>
+      </h1>
+      <p class="hero-sub">
+        Modular, quality-graded skills for Claude, Cursor, OpenCode, Copilot,
+        and 40+ other AI agents. Drop a skill in — get domain expertise instantly.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary">Browse All Skills</a>
+        <a href="#" class="btn btn-secondary">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-value">70<span>+</span></span>
+      <span class="stat-label">Skills</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">12</span>
+      <span class="stat-label">Domains</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">40<span>+</span></span>
+      <span class="stat-label">Agents supported</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">A</span>
+      <span class="stat-label">Quality threshold</span>
+    </div>
+  </div>
+
+  <!-- Install -->
+  <div class="section">
+    <div class="section-label">Get started</div>
+    <h2 class="section-title">Install in 30 seconds</h2>
+    <p class="section-desc">Skills are plain Markdown — add them to any agent configuration with one command.</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="term-comment"># Install all skills into your project</span></div>
+        <div><span class="term-prompt">$ </span><span class="term-cmd">bunx skills add ./skills --all</span></div>
+        <div><span class="term-out">✓ Installed 70 skills across 12 domains</span></div>
+        <br>
+        <div><span class="term-comment"># Or install a single skill</span></div>
+        <div><span class="term-prompt">$ </span><span class="term-cmd">bun cli/index.ts install ci-cd/github-actions-generator</span></div>
+        <div><span class="term-out">✓ ci-cd/github-actions-generator  A+</span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Domain grid -->
+  <div class="section">
+    <div class="section-label">Browse</div>
+    <h2 class="section-title">Explore by domain</h2>
+    <p class="section-desc">Every skill lives in one of 12 focused domains. Click a domain to see all skills.</p>
+
+    <div class="domain-grid">
+      <a href="#" class="domain-card">
+        <span class="domain-icon">⚙️</span>
+        <div class="domain-info">
+          <div class="domain-name">CI/CD</div>
+          <div class="domain-count">14 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">🏗️</span>
+        <div class="domain-info">
+          <div class="domain-name">Infrastructure</div>
+          <div class="domain-count">13 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">💻</span>
+        <div class="domain-info">
+          <div class="domain-name">Development</div>
+          <div class="domain-count">10 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">🤖</span>
+        <div class="domain-info">
+          <div class="domain-name">Agentic Harness</div>
+          <div class="domain-count">9 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">🧪</span>
+        <div class="domain-info">
+          <div class="domain-name">Testing</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">📐</span>
+        <div class="domain-info">
+          <div class="domain-name">Software Engineering</div>
+          <div class="domain-count">4 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">📊</span>
+        <div class="domain-info">
+          <div class="domain-name">Observability</div>
+          <div class="domain-count">4 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">📝</span>
+        <div class="domain-info">
+          <div class="domain-name">Documentation</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">📦</span>
+        <div class="domain-info">
+          <div class="domain-name">Repository Mgmt</div>
+          <div class="domain-count">6 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">📋</span>
+        <div class="domain-info">
+          <div class="domain-name">Project Mgmt</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">🔧</span>
+        <div class="domain-info">
+          <div class="domain-name">Package Mgmt</div>
+          <div class="domain-count">2 skills</div>
+        </div>
+      </a>
+      <a href="#" class="domain-card">
+        <span class="domain-icon">🔬</span>
+        <div class="domain-info">
+          <div class="domain-name">Specialized</div>
+          <div class="domain-count">3 skills</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- How it works -->
+  <div class="section">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">From zero to expert agent in three steps</h2>
+    <p class="section-desc">Skills are plain Markdown — no binaries, no lock-in.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Step 01</div>
+        <h3>Browse &amp; pick</h3>
+        <p>Find the skill that matches your workflow — CI/CD pipelines, Terraform, BDD testing, and more.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 02</div>
+        <h3>Install</h3>
+        <p>One CLI command drops the skill into your agent config. Works with OpenCode, Cursor, Claude, and 40+ others.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 03</div>
+        <h3>Extend or fork</h3>
+        <p>Every skill is a Markdown file. Read it, fork it, submit improvements back — no special tooling required.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>tekhne · <a href="#">pantheon-org</a></span>
+    <span>MIT License · <a href="#">GitHub</a> · <a href="#">Tessl Registry</a></span>
+  </footer>
+
+</body>
+</html>
