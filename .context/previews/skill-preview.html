@@ -630,12 +630,13 @@
     }
 
     /* ── Audit cards ── */
-    .audit-list { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.25rem; }
+    .audit-list { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.25rem; overflow-y: auto; max-height: calc(100vh - 26rem); position: relative; }
     .audit-card {
       border: 1px solid var(--tk-border);
       border-radius: 0.5rem;
       background: var(--tk-bg-surface);
       overflow: hidden;
+      flex-shrink: 0;
     }
     .audit-card__header {
       display: flex;
@@ -1510,21 +1511,22 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
       apply('dark');
     })();
 
-    // ── Audit selector → scroll into view ────────────────────────
+    // ── Audit selector → scroll within audit-list ────────────────
     (function () {
       const selectorBtns = document.querySelectorAll('.audit-selector__btn');
       const auditCards   = document.querySelectorAll('.audit-card');
+      const auditList    = document.querySelector('.audit-list');
 
       selectorBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           const idx  = parseInt(btn.dataset.audit, 10);
           const card = auditCards[idx];
-          if (!card) return;
+          if (!card || !auditList) return;
 
           selectorBtns.forEach(b => b.classList.remove('audit-selector__btn--active'));
           btn.classList.add('audit-selector__btn--active');
 
-          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          auditList.scrollTo({ top: card.offsetTop - auditList.offsetTop, behavior: 'smooth' });
         });
       });
     })();
