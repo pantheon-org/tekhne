@@ -553,6 +553,78 @@
     }
     .grade-pill-a { background: color-mix(in srgb, var(--badge-a-bg) 20%, transparent); color: var(--badge-a-bg); }
     .grade-pill-b-plus { background: color-mix(in srgb, var(--badge-b-plus-bg) 20%, transparent); color: var(--badge-b-plus-bg); }
+
+    /* ── Light theme ── */
+    [data-theme="light"] {
+      --tk-bg: #ffffff;
+      --tk-bg-surface: #f4f4f5;
+      --tk-bg-elevated: #e4e4e7;
+      --tk-bg-hover: #e4e4e7;
+      --tk-border: #d4d4d8;
+      --tk-text: #52525b;
+      --tk-text-muted: #a1a1aa;
+      --tk-accent: #16a34a;
+      --tk-accent-hover: #15803d;
+      --tk-code-bg: #f4f4f5;
+      --tk-link: #15803d;
+      --tk-link-hover: #166534;
+      --tk-color-white: #18181b;
+      --tk-color-accent-low: #dcfce7;
+      --tk-color-accent-high: #15803d;
+      --tk-color-green: #16a34a;
+      --tk-color-gray-2: #3f3f46;
+      --tk-color-gray-3: #71717a;
+      --tk-color-gray-4: #a1a1aa;
+      --tk-color-gray-5: #f4f4f5;
+    }
+    [data-theme="light"] nav.top-nav { background: rgba(255,255,255,0.95); }
+
+    /* ── Theme selector ── */
+    .theme-select { position: relative; }
+    .theme-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background: none;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .theme-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .theme-btn svg { width: 0.875rem; height: 0.875rem; }
+    .theme-dropdown {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 8rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .theme-dropdown[hidden] { display: none; }
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.8125rem;
+      font-family: inherit;
+      color: var(--tk-text);
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+    }
+    .theme-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+    .theme-option svg { width: 0.875rem; height: 0.875rem; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -576,6 +648,10 @@
       <button class="pm-btn"               data-pm="yarn" data-exec="yarn dlx">yarn</button>
       <button class="pm-btn"               data-pm="pnpm" data-exec="pnpx">pnpm</button>
       <button class="pm-btn"               data-pm="bun"  data-exec="bunx">bun</button>
+    </div>
+    <div class="theme-select" id="theme-select">
+      <button class="theme-btn" id="theme-btn" aria-label="Switch theme"></button>
+      <div class="theme-dropdown" id="theme-dropdown" hidden></div>
     </div>
     <a class="nav-gh" href="#">★ GitHub</a>
   </nav>
@@ -852,6 +928,47 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
         setTimeout(() => { btn.innerHTML = copyIcon; btn.style.color = ''; }, 1500);
       });
     });
+
+    // ── Theme selector ──────────────────────────────────────────────
+    (function () {
+      const html = document.documentElement;
+      const btn  = document.getElementById('theme-btn');
+      const drop = document.getElementById('theme-dropdown');
+      const icons = {
+        light:  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+        dark:   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+        system: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>`,
+      };
+      const labels = { light: 'Light', dark: 'Dark', system: 'System' };
+      let current = 'dark';
+
+      function resolve(t) {
+        return t === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : t;
+      }
+
+      function apply(t) {
+        current = t;
+        html.setAttribute('data-theme', resolve(t));
+        btn.innerHTML = icons[t];
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = ['light', 'dark', 'system']
+          .filter(t => t !== current)
+          .map(t => `<button class="theme-option" data-t="${t}">${icons[t]}<span>${labels[t]}</span></button>`)
+          .join('');
+        drop.querySelectorAll('.theme-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.t); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('dark');
+    })();
   </script>
 </body>
 </html>
