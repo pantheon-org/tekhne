@@ -660,7 +660,8 @@
     }
     .audit-card__scores { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
     .score-row { display: flex; align-items: center; gap: 0.75rem; }
-    .score-label { font-size: 0.75rem; color: var(--tk-text); width: 11rem; flex-shrink: 0; }
+    .score-label { font-size: 0.75rem; color: var(--tk-text); width: 14rem; flex-shrink: 0; line-height: 1.3; }
+    .score-label small { display: block; font-size: 0.65rem; color: var(--tk-text-muted); margin-top: 0.1rem; }
     .score-bar {
       flex: 1;
       height: 0.5rem;
@@ -1085,16 +1086,17 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
               <span class="audit-grade grade-pill-b-plus">B+</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>103 / 120</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>118 / 140</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Strong on knowledge accuracy and specification compliance. <code>Progressive Disclosure</code> and <code>Anti-Pattern Quality</code> are the main drag — the skill front-loads advanced patterns without enough scaffolding for beginners.</p>
@@ -1111,16 +1113,17 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
               <span class="audit-grade grade-pill-b-plus">B+</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:40%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>104 / 120</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>112 / 140</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Marginal improvement over previous audit. Anti-pattern coverage improved but progressive disclosure remains weak — complex examples introduced too early without prerequisite context.</p>
@@ -1137,16 +1140,17 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
               <span class="audit-grade grade-pill-c">C</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:0%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>87 / 120</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>87 / 140</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Early version of the skill. Missing anti-pattern guidance, no progressive scaffolding, and knowledge content insufficient for production use. Major revision required.</p>
@@ -1163,16 +1167,17 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
               <span class="audit-grade grade-pill-c">C</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Delta</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Mindset + Procedures</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Anti-Pattern Quality</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Specification Compliance</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Progressive Disclosure</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Freedom Calibration</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Pattern Recognition</span><div class="score-bar" data-total="10"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
-              <div class="score-row"><span class="score-label">Practical Usability</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:0%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>87 / 120</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>87 / 140</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Earliest recorded audit. Anti-pattern coverage and practical usability both flagged as high-priority weak spots. Progressive disclosure scores perfectly — content was already extracted to <code>references/</code>. Activation cues need tightening. Major revision required before publishing.</p>
