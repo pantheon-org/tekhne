@@ -167,7 +167,7 @@
     /* ── Page shell ── */
     .page-shell {
       display: grid;
-      grid-template-columns: 16rem 1fr 14rem;
+      grid-template-columns: 16rem 1fr;
       min-height: calc(100vh - 3.5rem);
     }
 
@@ -1270,6 +1270,15 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
 
       <!-- References panel -->
       <div class="sk-panel" data-panel="references" hidden>
+        <div class="audits-layout">
+          <div class="audit-selector">
+            <div class="audit-selector__label">References</div>
+            <button class="audit-selector__btn audit-selector__btn--active" data-ref="0">tsconfig-reference</button>
+            <button class="audit-selector__btn" data-ref="1">advanced-types</button>
+            <button class="audit-selector__btn" data-ref="2">generics-patterns</button>
+            <button class="audit-selector__btn" data-ref="3">migration-guide</button>
+            <button class="audit-selector__btn" data-ref="4">strict-mode</button>
+          </div>
         <div class="ref-list">
 
           <a href="#" class="ref-card">
@@ -1328,21 +1337,11 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
           </a>
 
         </div>
+        </div><!-- /audits-layout -->
       </div><!-- /sk-panel[references] -->
 
     </main>
 
-    <!-- Right sidebar -->
-    <aside class="right-sidebar">
-      <h2 class="sk-sidebar__heading">References</h2>
-      <div class="sk-sidebar__list">
-        <button class="sk-sidebar__btn sk-sidebar__btn--active">tsconfig-reference</button>
-        <button class="sk-sidebar__btn">advanced-types</button>
-        <button class="sk-sidebar__btn">generics-patterns</button>
-        <button class="sk-sidebar__btn">migration-guide</button>
-        <button class="sk-sidebar__btn">strict-mode</button>
-      </div>
-    </aside>
 
   </div>
 
