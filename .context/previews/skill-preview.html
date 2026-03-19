@@ -583,6 +583,129 @@
     .grade-pill-a { background: color-mix(in srgb, var(--badge-a-bg) 20%, transparent); color: var(--badge-a-bg); }
     .grade-pill-b-plus { background: color-mix(in srgb, var(--badge-b-plus-bg) 20%, transparent); color: var(--badge-b-plus-bg); }
 
+    /* ── Audit cards ── */
+    .audit-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .audit-card {
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      overflow: hidden;
+    }
+    .audit-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem 1.25rem;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .audit-card__meta { display: flex; align-items: center; gap: 0.75rem; }
+    .audit-card__date {
+      font-family: var(--tk-font-mono);
+      font-size: 0.8125rem;
+      color: var(--tk-color-white);
+      font-weight: 500;
+    }
+    .audit-card__model { font-size: 0.75rem; color: var(--tk-text-muted); }
+    .audit-grade {
+      font-size: 0.8125rem !important;
+      padding: 0.2em 0.6em;
+      border-radius: 0.3rem;
+      font-weight: 700;
+    }
+    .audit-card__scores { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .score-row { display: flex; align-items: center; gap: 0.75rem; }
+    .score-label { font-size: 0.75rem; color: var(--tk-text); width: 11rem; flex-shrink: 0; }
+    .score-bar {
+      flex: 1;
+      height: 0.375rem;
+      background: var(--tk-bg-hover);
+      border-radius: 9999px;
+      overflow: hidden;
+    }
+    .score-fill {
+      height: 100%;
+      background: var(--tk-accent);
+      border-radius: 9999px;
+    }
+    .score-val { font-size: 0.7rem; font-family: var(--tk-font-mono); color: var(--tk-text-muted); width: 3rem; text-align: right; flex-shrink: 0; }
+    .audit-card__total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.625rem 1.25rem;
+      border-top: 1px solid var(--tk-border);
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+    }
+    .audit-card__total strong { color: var(--tk-color-white); font-size: 0.9375rem; }
+    .audit-card__notes { padding: 1rem 1.25rem; border-top: 1px solid var(--tk-border); }
+    .audit-card__notes h3 { margin-bottom: 0.5rem !important; }
+
+    /* ── Evals ── */
+    .evals-summary {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .evals-stat-row { display: flex; gap: 2rem; }
+    .evals-stat { display: flex; flex-direction: column; gap: 0.25rem; }
+    .evals-stat__val { font-size: 1.5rem; font-weight: 700; color: var(--tk-color-white); line-height: 1; }
+    .evals-stat__val--pass { color: var(--tk-accent); }
+    .evals-stat__val--fail { color: #ef4444; }
+    .evals-stat__label { font-size: 0.75rem; color: var(--tk-text-muted); }
+    .eval-list { display: flex; flex-direction: column; gap: 0.625rem; }
+    .eval-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      background: var(--tk-bg-surface);
+    }
+    .eval-row--fail { border-color: color-mix(in srgb, #ef4444 30%, var(--tk-border)); background: color-mix(in srgb, #ef4444 4%, var(--tk-bg-surface)); }
+    .eval-status {
+      font-size: 0.65rem;
+      font-weight: 700;
+      font-family: var(--tk-font-mono);
+      padding: 0.2em 0.5em;
+      border-radius: 0.25rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .eval-status--pass { background: color-mix(in srgb, var(--tk-accent) 15%, transparent); color: var(--tk-accent); }
+    .eval-status--fail { background: color-mix(in srgb, #ef4444 15%, transparent); color: #ef4444; }
+    .eval-title { font-size: 0.875rem; font-weight: 500; color: var(--tk-color-white); margin-bottom: 0.25rem; }
+    .eval-desc { font-size: 0.8125rem; color: var(--tk-text); line-height: 1.6; }
+    .eval-desc code { font-family: var(--tk-font-mono); font-size: 0.85em; background: var(--tk-code-bg); border: 1px solid var(--tk-border); border-radius: 0.2rem; padding: 0.1em 0.35em; color: var(--tk-color-accent-high); }
+
+    /* ── References ── */
+    .ref-list { display: flex; flex-direction: column; gap: 0.625rem; }
+    .ref-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      color: var(--tk-text);
+      text-decoration: none;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .ref-card:hover { border-color: var(--tk-text-muted); background: var(--tk-bg-elevated); text-decoration: none; color: var(--tk-color-white); }
+    .ref-card__icon { flex-shrink: 0; color: var(--tk-text-muted); }
+    .ref-card__icon svg { width: 1.125rem; height: 1.125rem; }
+    .ref-card:hover .ref-card__icon { color: var(--tk-accent); }
+    .ref-card__body { flex: 1; min-width: 0; }
+    .ref-card__title { font-size: 0.875rem; font-weight: 500; color: var(--tk-color-white); font-family: var(--tk-font-mono); margin-bottom: 0.25rem; }
+    .ref-card__desc { font-size: 0.8125rem; color: var(--tk-text); line-height: 1.5; }
+    .ref-card__desc code { font-family: var(--tk-font-mono); font-size: 0.85em; background: var(--tk-code-bg); border: 1px solid var(--tk-border); border-radius: 0.2rem; padding: 0.1em 0.35em; color: var(--tk-color-accent-high); }
+    .ref-card__arrow { width: 0.875rem; height: 0.875rem; flex-shrink: 0; color: var(--tk-text-muted); opacity: 0; transition: opacity 0.12s; }
+    .ref-card:hover .ref-card__arrow { opacity: 1; color: var(--tk-accent); }
+
     /* ── Light theme ── */
     [data-theme="light"] {
       --tk-bg: #ffffff;
@@ -813,14 +936,15 @@
       </div>
 
       <!-- Skill tabs -->
-      <div class="sk-tabs">
-        <div class="sk-tab sk-tab--active">Skill</div>
-        <div class="sk-tab">Audits <span class="sk-tab__count">3</span></div>
-        <div class="sk-tab">Evals <span class="sk-tab__count">8</span></div>
-        <div class="sk-tab">References <span class="sk-tab__count">5</span></div>
+      <div class="sk-tabs" id="sk-tabs">
+        <div class="sk-tab sk-tab--active" data-tab="skill">Skill</div>
+        <div class="sk-tab" data-tab="audits">Audits <span class="sk-tab__count">3</span></div>
+        <div class="sk-tab" data-tab="evals">Evals <span class="sk-tab__count">8</span></div>
+        <div class="sk-tab" data-tab="references">References <span class="sk-tab__count">5</span></div>
       </div>
 
       <!-- Skill markdown content -->
+      <div class="sk-panel" data-panel="skill">
       <div class="sk-content">
         <h2>Overview</h2>
         <p>
@@ -879,6 +1003,231 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
           <a href="#">Edit this page on GitHub</a>
         </div>
       </div>
+      </div><!-- /sk-panel[skill] -->
+
+      <!-- Audits panel -->
+      <div class="sk-panel" data-panel="audits" hidden>
+        <div class="audit-list">
+
+          <!-- Audit card: 2026-03-15, grade A -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-03-15</span>
+                <span class="audit-card__model">claude-opus-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-a">A</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val">20/20</span></div>
+              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar"><div class="score-fill" style="width:95%"></div></div><span class="score-val">19/20</span></div>
+              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar"><div class="score-fill" style="width:95%"></div></div><span class="score-val">19/20</span></div>
+              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
+              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
+              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
+              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>128 / 140</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Strong coverage of compiler configuration and type narrowing. Consider expanding the <code>template literal types</code> section with a real-world example.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2026-01-22, grade A -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-01-22</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-a">A</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val">20/20</span></div>
+              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
+              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
+              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
+              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
+              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
+              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>124 / 140</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Good overall. Utility types section could link to the official TypeScript handbook for deeper reference. Missing guidance on <code>satisfies</code> operator introduced in TS 4.9.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2025-11-08, grade B+ -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2025-11-08</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-b-plus">B+</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
+              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
+              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
+              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
+              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
+              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
+              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val">15/20</span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>115 / 140</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Initial version. Compiler config section was incomplete — missing <code>moduleResolution</code> guidance. Narrowing examples did not cover <code>in</code> operator or custom type predicates.</p>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /sk-panel[audits] -->
+
+      <!-- Evals panel -->
+      <div class="sk-panel" data-panel="evals" hidden>
+        <div class="evals-summary">
+          <div class="evals-stat-row">
+            <div class="evals-stat"><span class="evals-stat__val">8</span><span class="evals-stat__label">Scenarios</span></div>
+            <div class="evals-stat"><span class="evals-stat__val evals-stat__val--pass">7</span><span class="evals-stat__label">Pass</span></div>
+            <div class="evals-stat"><span class="evals-stat__val evals-stat__val--fail">1</span><span class="evals-stat__label">Fail</span></div>
+            <div class="evals-stat"><span class="evals-stat__val">87.5%</span><span class="evals-stat__label">Score</span></div>
+          </div>
+        </div>
+        <div class="eval-list">
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Strict tsconfig baseline</div>
+              <div class="eval-desc">Model generates a <code>tsconfig.json</code> with <code>strict: true</code>, <code>noUncheckedIndexedAccess</code>, and <code>exactOptionalPropertyTypes</code> when asked for a production baseline.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Discriminated union over boolean flag</div>
+              <div class="eval-desc">Given a request to model a success/error result, model prefers a discriminated union rather than <code>success: boolean</code>.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">No <code>as</code> casts in new code</div>
+              <div class="eval-desc">Model avoids type assertions and explains the modelling issue when asked to "just cast it".</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Correct utility type selection</div>
+              <div class="eval-desc">Model picks <code>Partial&lt;T&gt;</code>, <code>Pick</code>, <code>Omit</code>, and <code>Awaited</code> correctly for standard patternquestions.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Generic constraint syntax</div>
+              <div class="eval-desc">Model writes well-constrained generics (<code>T extends object</code>, <code>K extends keyof T</code>) without widening.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Mapped types from union</div>
+              <div class="eval-desc">Model constructs a mapped type from a string-union key set correctly.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Incremental JS→TS migration path</div>
+              <div class="eval-desc">Model recommends <code>allowJs: true</code> + <code>checkJs: false</code> as a migration entry point, not a full rewrite.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--fail">
+            <span class="eval-status eval-status--fail">FAIL</span>
+            <div class="eval-body">
+              <div class="eval-title">Template literal type construction</div>
+              <div class="eval-desc">Model produced a plain string union instead of a template literal type when asked to derive event names from a base noun union. Skill lacks an explicit example for this pattern.</div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /sk-panel[evals] -->
+
+      <!-- References panel -->
+      <div class="sk-panel" data-panel="references" hidden>
+        <div class="ref-list">
+
+          <a href="#" class="ref-card">
+            <div class="ref-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="ref-card__body">
+              <div class="ref-card__title">tsconfig-reference</div>
+              <div class="ref-card__desc">Full compiler options reference with descriptions, types, and defaults for every <code>tsconfig.json</code> flag.</div>
+            </div>
+            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+
+          <a href="#" class="ref-card">
+            <div class="ref-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="ref-card__body">
+              <div class="ref-card__title">advanced-types</div>
+              <div class="ref-card__desc">Conditional types, infer keyword, mapped types, template literal types, and recursive type aliases.</div>
+            </div>
+            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+
+          <a href="#" class="ref-card">
+            <div class="ref-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="ref-card__body">
+              <div class="ref-card__title">generics-patterns</div>
+              <div class="ref-card__desc">Reusable generic patterns: constrained builders, higher-kinded type emulation, variance annotations.</div>
+            </div>
+            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+
+          <a href="#" class="ref-card">
+            <div class="ref-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="ref-card__body">
+              <div class="ref-card__title">migration-guide</div>
+              <div class="ref-card__desc">Step-by-step playbook for migrating a JavaScript codebase to TypeScript incrementally without big-bang rewrites.</div>
+            </div>
+            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+
+          <a href="#" class="ref-card">
+            <div class="ref-card__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <div class="ref-card__body">
+              <div class="ref-card__title">strict-mode</div>
+              <div class="ref-card__desc">What each strict-mode flag does, common errors it surfaces, and recommended per-flag enable/disable order for brownfield projects.</div>
+            </div>
+            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+
+        </div>
+      </div><!-- /sk-panel[references] -->
+
     </main>
 
     <!-- Right sidebar -->
@@ -912,6 +1261,20 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
   </div>
 
   <script>
+    // ── Skill tabs ────────────────────────────────────────────────
+    (function () {
+      const tabs   = document.querySelectorAll('#sk-tabs .sk-tab');
+      const panels = document.querySelectorAll('.sk-panel');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+          tabs.forEach(t => t.classList.remove('sk-tab--active'));
+          panels.forEach(p => { p.hidden = p.dataset.panel !== target; });
+          tab.classList.add('sk-tab--active');
+        });
+      });
+    })();
+
     // ── PM selector ──────────────────────────────────────────────
     (function () {
       const pms = [
