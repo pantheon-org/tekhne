@@ -617,15 +617,15 @@
     .score-label { font-size: 0.75rem; color: var(--tk-text); width: 11rem; flex-shrink: 0; }
     .score-bar {
       flex: 1;
-      height: 0.375rem;
-      background: var(--tk-bg-hover);
-      border-radius: 9999px;
-      overflow: hidden;
+      height: 0.5rem;
+      display: flex;
+      gap: 2px;
+      align-items: stretch;
     }
-    .score-fill {
-      height: 100%;
-      background: var(--tk-accent);
-      border-radius: 9999px;
+    .score-seg {
+      flex: 1;
+      border-radius: 2px;
+      background: var(--tk-bg-hover);
     }
     .score-val { font-size: 0.7rem; font-family: var(--tk-font-mono); color: var(--tk-text-muted); width: 3rem; text-align: right; flex-shrink: 0; }
     .audit-card__total {
@@ -1019,15 +1019,15 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
               <span class="audit-grade grade-pill-a">A</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val">20/20</span></div>
-              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar"><div class="score-fill" style="width:95%"></div></div><span class="score-val">19/20</span></div>
-              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar"><div class="score-fill" style="width:95%"></div></div><span class="score-val">19/20</span></div>
-              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
-              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
-              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
-              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
+              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar" data-total="18"><div class="score-fill" style="width:95%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar" data-total="17"><div class="score-fill" style="width:95%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar" data-total="16"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar" data-total="12"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>128 / 140</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>109 / 118</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Strong coverage of compiler configuration and type narrowing. Consider expanding the <code>template literal types</code> section with a real-world example.</p>
@@ -1044,15 +1044,15 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
               <span class="audit-grade grade-pill-a">A</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val">20/20</span></div>
-              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
-              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
-              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
-              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
-              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
-              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
+              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar" data-total="18"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar" data-total="17"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar" data-total="16"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar" data-total="12"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>124 / 140</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>106 / 118</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Good overall. Utility types section could link to the official TypeScript handbook for deeper reference. Missing guidance on <code>satisfies</code> operator introduced in TS 4.9.</p>
@@ -1064,20 +1064,20 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
             <div class="audit-card__header">
               <div class="audit-card__meta">
                 <span class="audit-card__date">2025-11-08</span>
-                <span class="audit-card__model">claude-sonnet-4-6</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>s
               </div>
               <span class="audit-grade grade-pill-b-plus">B+</span>
             </div>
             <div class="audit-card__scores">
-              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val">18/20</span></div>
-              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
-              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
-              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:85%"></div></div><span class="score-val">17/20</span></div>
-              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
-              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val">16/20</span></div>
-              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val">15/20</span></div>
+              <div class="score-row"><span class="score-label">Knowledge Accuracy</span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Actionability</span><div class="score-bar" data-total="18"><div class="score-fill" style="width:85%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Specificity</span><div class="score-bar" data-total="17"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Structure &amp; Navigation</span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Completeness</span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Determinism</span><div class="score-bar" data-total="16"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">Conciseness</span><div class="score-bar" data-total="12"><div class="score-fill" style="width:70%"></div></div><span class="score-val"></span></div>
             </div>
-            <div class="audit-card__total"><span>Total</span><strong>115 / 140</strong></div>
+            <div class="audit-card__total"><span>Total</span><strong>97 / 118</strong></div>
             <div class="audit-card__notes sk-content">
               <h3>Notes</h3>
               <p>Initial version. Compiler config section was incomplete — missing <code>moduleResolution</code> guidance. Narrowing examples did not cover <code>in</code> operator or custom type predicates.</p>
@@ -1272,6 +1272,49 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
           panels.forEach(p => { p.hidden = p.dataset.panel !== target; });
           tab.classList.add('sk-tab--active');
         });
+      });
+    })();
+
+    // ── Segmented score bars (purple → bright green) ─────────────
+    (function () {
+      const STOPS = [
+        [168, 85,  247],  // purple  #a855f7
+        [239, 68,   68],  // red     #ef4444
+        [249, 115,  22],  // orange  #f97316
+        [234, 179,   8],  // yellow  #eab308
+        [ 34, 197,  94],  // green   #22c55e
+      ];
+      const TOTAL = 20;
+
+      function lerp(a, b, t) { return Math.round(a + (b - a) * t); }
+      function segColor(i, total) {
+        total = total || TOTAL;
+        const t = total > 1 ? i / (total - 1) : 1;
+        const scaled = t * (STOPS.length - 1);
+        const lo = Math.floor(scaled);
+        const hi = Math.min(lo + 1, STOPS.length - 1);
+        const f  = scaled - lo;
+        const A = STOPS[lo], B = STOPS[hi];
+        return `rgb(${lerp(A[0],B[0],f)},${lerp(A[1],B[1],f)},${lerp(A[2],B[2],f)})`;
+      }
+
+      document.querySelectorAll('.score-bar').forEach(bar => {
+        const fill   = bar.querySelector('.score-fill');
+        const pct    = fill ? parseFloat(fill.style.width) / 100 : 0;
+        const total  = parseInt(bar.dataset.total) || TOTAL;
+        const filled = Math.round(pct * total);
+        const barColor = segColor(filled - 1 < 0 ? 0 : filled - 1, total);
+        bar.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const seg = document.createElement('div');
+          seg.className = 'score-seg';
+          if (i < filled) seg.style.background = barColor;
+          bar.appendChild(seg);
+        }
+        const val = bar.nextElementSibling;
+        if (val && val.classList.contains('score-val')) {
+          val.textContent = `${filled}/${total}`;
+        }
       });
     })();
 
