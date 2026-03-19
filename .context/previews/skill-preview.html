@@ -584,8 +584,53 @@
     .grade-pill-b-plus { background: color-mix(in srgb, var(--badge-b-plus-bg) 20%, transparent); color: var(--badge-b-plus-bg); }
     .grade-pill-c { background: color-mix(in srgb, var(--badge-c-bg) 20%, transparent); color: var(--badge-c-bg); }
 
+    /* ── Audits panel layout ── */
+    .audits-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .audit-selector {
+      flex-shrink: 0;
+      width: 9rem;
+      position: sticky;
+      top: calc(3.5rem + 2rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
+    .audit-selector__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-text-muted);
+      padding: 0 0.5rem;
+      margin-bottom: 0.375rem;
+    }
+    .audit-selector__btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.4rem 0.5rem;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-color-gray-3);
+      transition: background 0.12s, color 0.12s;
+    }
+    .audit-selector__btn:hover { background: var(--tk-color-gray-5); color: var(--tk-color-white); }
+    .audit-selector__btn--active {
+      background: var(--tk-color-gray-5);
+      border-color: var(--tk-border);
+      color: var(--tk-color-white);
+      font-weight: 500;
+    }
+
     /* ── Audit cards ── */
-    .audit-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .audit-list { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.25rem; }
     .audit-card {
       border: 1px solid var(--tk-border);
       border-radius: 0.5rem;
@@ -1008,6 +1053,22 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
 
       <!-- Audits panel -->
       <div class="sk-panel" data-panel="audits" hidden>
+        <div class="audits-layout">
+          <div class="audit-selector">
+            <div class="audit-selector__label">Audits</div>
+            <button class="audit-selector__btn audit-selector__btn--active" data-audit="0">
+              <span>2026-03-02</span>
+              <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
+            </button>
+            <button class="audit-selector__btn" data-audit="1">
+              <span>2026-02-23</span>
+              <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
+            </button>
+            <button class="audit-selector__btn" data-audit="2">
+              <span>2026-02-22</span>
+              <span class="sk-sidebar__grade grade-pill-c">C</span>
+            </button>
+          </div>
         <div class="audit-list">
 
           <!-- Audit card: 2026-03-02, grade B+ -->
@@ -1088,7 +1149,8 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
             </div>
           </div>
 
-        </div>
+        </div><!-- /audit-list -->
+        </div><!-- /audits-layout -->
       </div><!-- /sk-panel[audits] -->
 
       <!-- Evals panel -->
@@ -1236,22 +1298,6 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
 
     <!-- Right sidebar -->
     <aside class="right-sidebar">
-      <h2 class="sk-sidebar__heading">Audits</h2>
-      <div class="sk-sidebar__list">
-        <button class="sk-sidebar__btn sk-sidebar__btn--active">
-          <span class="sk-sidebar__date">2026-03-02</span>
-          <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
-        </button>
-        <button class="sk-sidebar__btn">
-          <span class="sk-sidebar__date">2026-02-23</span>
-          <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
-        </button>
-        <button class="sk-sidebar__btn">
-          <span class="sk-sidebar__date">2026-02-22</span>
-          <span class="sk-sidebar__grade grade-pill-c">C</span>
-        </button>
-      </div>
-
       <h2 class="sk-sidebar__heading">References</h2>
       <div class="sk-sidebar__list">
         <button class="sk-sidebar__btn sk-sidebar__btn--active">tsconfig-reference</button>
@@ -1427,6 +1473,25 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
       btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
       document.addEventListener('click', () => { drop.hidden = true; });
       apply('dark');
+    })();
+
+    // ── Audit selector → scroll into view ────────────────────────
+    (function () {
+      const selectorBtns = document.querySelectorAll('.audit-selector__btn');
+      const auditCards   = document.querySelectorAll('.audit-card');
+
+      selectorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx  = parseInt(btn.dataset.audit, 10);
+          const card = auditCards[idx];
+          if (!card) return;
+
+          selectorBtns.forEach(b => b.classList.remove('audit-selector__btn--active'));
+          btn.classList.add('audit-selector__btn--active');
+
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        });
+      });
     })();
   </script>
 </body>
