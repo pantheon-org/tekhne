@@ -111,29 +111,52 @@
     }
     .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
 
-    /* ── PM selector (site-wide) ── */
-    .pm-selector {
+    /* ── PM selector ── */
+    .pm-select { position: relative; }
+    .pm-select-btn {
       display: flex;
       align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.625rem;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
       background: var(--tk-bg-surface);
       border: 1px solid var(--tk-border);
       border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+      white-space: nowrap;
+    }
+    .pm-select-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .pm-select-btn svg { width: 0.75rem; height: 0.75rem; opacity: 0.6; }
+    .pm-drop {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 6rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
       overflow: hidden;
     }
-    .pm-btn {
-      padding: 0.275rem 0.6rem;
-      font-size: 0.75rem;
-      font-family: var(--tk-font-mono);
-      color: var(--tk-text-muted);
+    .pm-drop[hidden] { display: none; }
+    .pm-option {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
       background: none;
       border: none;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-text);
       cursor: pointer;
-      transition: background 0.12s, color 0.12s;
-      border-right: 1px solid var(--tk-border);
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
     }
-    .pm-btn:last-child { border-right: none; }
-    .pm-btn:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
-    .pm-btn--active { background: var(--tk-bg-hover); color: var(--tk-color-white); font-weight: 600; }
+    .pm-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
 
     /* ── Page shell ── */
     .page-shell {
@@ -375,7 +398,7 @@
     .install-copy:hover { color: var(--tk-color-white); border-color: var(--tk-border); background: var(--tk-bg-hover); }
     .install-copy svg { width: 0.9rem; height: 0.9rem; flex-shrink: 0; }
     /* Dim PM selector when agent-skills tab active */
-    .pm-selector--disabled { opacity: 0.35; pointer-events: none; }
+    .pm-select--disabled { opacity: 0.35; pointer-events: none; }
 
     .sk-tags {
       display: flex;
@@ -643,11 +666,12 @@
       Search skills…
       <kbd>⌘K</kbd>
     </div>
-    <div class="pm-selector" role="group" aria-label="Package manager">
-      <button class="pm-btn pm-btn--active" data-pm="npm"  data-exec="npx">npm</button>
-      <button class="pm-btn"               data-pm="yarn" data-exec="yarn dlx">yarn</button>
-      <button class="pm-btn"               data-pm="pnpm" data-exec="pnpx">pnpm</button>
-      <button class="pm-btn"               data-pm="bun"  data-exec="bunx">bun</button>
+    <div class="pm-select" id="pm-select">
+      <button class="pm-select-btn" id="pm-btn" aria-label="Package manager">
+        <span id="pm-label">npm</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="pm-drop" id="pm-drop" hidden></div>
     </div>
     <div class="theme-select" id="theme-select">
       <button class="theme-btn" id="theme-btn" aria-label="Switch theme"></button>
@@ -884,20 +908,40 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
 
   <script>
     // ── PM selector ──────────────────────────────────────────────
-    const pmBtns = document.querySelectorAll('.pm-btn');
-    const pmSelector = document.querySelector('.pm-selector');
+    (function () {
+      const pms = [
+        { id: 'npm',  exec: 'npx' },
+        { id: 'yarn', exec: 'yarn dlx' },
+        { id: 'pnpm', exec: 'pnpx' },
+        { id: 'bun',  exec: 'bunx' },
+      ];
+      const btn   = document.getElementById('pm-btn');
+      const label = document.getElementById('pm-label');
+      const drop  = document.getElementById('pm-drop');
+      let current = 'npm';
 
-    function setExec(exec) {
-      document.querySelectorAll('.exec').forEach(el => { el.textContent = exec; });
-    }
+      function apply(id) {
+        current = id;
+        const pm = pms.find(p => p.id === id);
+        label.textContent = pm.id;
+        document.querySelectorAll('.exec').forEach(el => { el.textContent = pm.exec; });
+        renderDrop();
+      }
 
-    pmBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        pmBtns.forEach(b => b.classList.remove('pm-btn--active'));
-        btn.classList.add('pm-btn--active');
-        setExec(btn.dataset.exec);
-      });
-    });
+      function renderDrop() {
+        drop.innerHTML = pms
+          .filter(p => p.id !== current)
+          .map(p => `<button class="pm-option" data-id="${p.id}">${p.id}</button>`)
+          .join('');
+        drop.querySelectorAll('.pm-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.id); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('npm');
+    })();
 
     // ── Install block tabs ────────────────────────────────────────
     const installTabs   = document.querySelectorAll('#install-block .install-tab');
@@ -911,7 +955,7 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
         tab.classList.add('install-tab--active');
         document.querySelector(`[data-panel="${target}"]`).classList.add('install-block__panel--active');
         // dim PM selector for agent-skills (no exec needed)
-        pmSelector.classList.toggle('pm-selector--disabled', target === 'agent');
+        document.getElementById('pm-select').classList.toggle('pm-select--disabled', target === 'agent');
       });
     });
 

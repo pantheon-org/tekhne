@@ -384,6 +384,53 @@
     [data-theme="light"] .hero-eyebrow { border-color: #bbf7d0; background: #f0fdf4; }
     [data-theme="light"] .domain-card:hover { border-color: #86efac; background: #f0fdf4; }
 
+    /* ── PM selector ── */
+    .pm-select { position: relative; }
+    .pm-select-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.625rem;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+      white-space: nowrap;
+    }
+    .pm-select-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .pm-select-btn svg { width: 0.75rem; height: 0.75rem; opacity: 0.6; }
+    .pm-drop {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 6rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .pm-drop[hidden] { display: none; }
+    .pm-option {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-text);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .pm-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+
     /* ── Theme selector ── */
     .theme-select { position: relative; }
     .theme-btn {
@@ -443,6 +490,13 @@
       <a href="#">Docs</a>
     </div>
     <div class="nav-spacer"></div>
+    <div class="pm-select" id="pm-select">
+      <button class="pm-select-btn" id="pm-btn" aria-label="Package manager">
+        <span id="pm-label">npm</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="pm-drop" id="pm-drop" hidden></div>
+    </div>
     <div class="theme-select" id="theme-select">
       <button class="theme-btn" id="theme-btn" aria-label="Switch theme"></button>
       <div class="theme-dropdown" id="theme-dropdown" hidden></div>
@@ -646,6 +700,41 @@
   </footer>
 
   <script>
+    // ── PM selector ──────────────────────────────────────────────
+    (function () {
+      const pms = [
+        { id: 'npm',  exec: 'npx' },
+        { id: 'yarn', exec: 'yarn dlx' },
+        { id: 'pnpm', exec: 'pnpx' },
+        { id: 'bun',  exec: 'bunx' },
+      ];
+      const btn   = document.getElementById('pm-btn');
+      const label = document.getElementById('pm-label');
+      const drop  = document.getElementById('pm-drop');
+      let current = 'npm';
+
+      function apply(id) {
+        current = id;
+        label.textContent = pms.find(p => p.id === id).id;
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = pms
+          .filter(p => p.id !== current)
+          .map(p => `<button class="pm-option" data-id="${p.id}">${p.id}</button>`)
+          .join('');
+        drop.querySelectorAll('.pm-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.id); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('npm');
+    })();
+
+    // ── Theme selector ──────────────────────────────────────────────
     (function () {
       const html = document.documentElement;
       const btn  = document.getElementById('theme-btn');
