@@ -1526,7 +1526,7 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
           selectorBtns.forEach(b => b.classList.remove('audit-selector__btn--active'));
           btn.classList.add('audit-selector__btn--active');
 
-          auditList.scrollTo({ top: card.offsetTop - auditList.offsetTop, behavior: 'smooth' });
+          auditList.scrollTo({ top: card.offsetTop, behavior: 'smooth' });
         });
       });
     })();
