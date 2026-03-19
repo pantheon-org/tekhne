@@ -630,7 +630,7 @@
     }
 
     /* ── Audit cards ── */
-    .audit-list { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.25rem; overflow-y: auto; max-height: calc(100vh - 12rem); scroll-behavior: smooth; }
+    .audit-list { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.25rem; }
     .audit-card {
       border: 1px solid var(--tk-border);
       border-radius: 0.5rem;
@@ -1524,7 +1524,7 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
           selectorBtns.forEach(b => b.classList.remove('audit-selector__btn--active'));
           btn.classList.add('audit-selector__btn--active');
 
-          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         });
       });
     })();
