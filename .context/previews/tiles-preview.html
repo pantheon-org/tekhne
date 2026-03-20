@@ -58,7 +58,7 @@
       z-index: 10;
       height: 3.5rem;
     }
-    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--tk-color-white); letter-spacing: -0.01em; }
+    .nav-logo { font-weight: 700; font-size: 1rem; color: var(--tk-color-white); letter-spacing: -0.01em; text-decoration: none; }
     .nav-logo span { color: var(--tk-accent); }
     .nav-links { display: flex; gap: 1.5rem; margin-left: 2rem; font-size: 0.875rem; }
     .nav-links a { color: var(--tk-text); }
@@ -328,6 +328,17 @@
     }
     .toolbar__sort-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); }
     .toolbar__sort-btn--active { border-color: var(--tk-accent); color: var(--tk-color-white); }
+    .toolbar__search input {
+      background: none;
+      border: none;
+      outline: none;
+      flex: 1;
+      color: var(--tk-text);
+      font-size: 0.8125rem;
+      font-family: inherit;
+      min-width: 0;
+    }
+    .toolbar__search input::placeholder { color: var(--tk-text-muted); }
 
     /* ── Tiles grid ── */
     .tiles-grid {
@@ -508,7 +519,7 @@
 
   <!-- Nav -->
   <nav class="top-nav">
-    <span class="nav-logo">tekhne<span>.</span></span>
+    <a href="landing-preview.html" class="nav-logo">tekhne<span>.</span></a>
     <div class="nav-links">
       <a href="skills-preview.html">Skills</a>
       <a href="tiles-preview.html" class="active">Tiles</a>
@@ -613,14 +624,14 @@
       <div class="toolbar">
         <div class="toolbar__search">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Filter tiles…
+          <input id="tiles-filter" type="text" placeholder="Filter tiles…" />
         </div>
         <div class="toolbar__spacer"></div>
         <div class="toolbar__sort">
           <span>Sort:</span>
-          <button class="toolbar__sort-btn toolbar__sort-btn--active">Name</button>
-          <button class="toolbar__sort-btn">Skills</button>
-          <button class="toolbar__sort-btn">Updated</button>
+          <button class="toolbar__sort-btn toolbar__sort-btn--active" data-sort="name">Name</button>
+          <button class="toolbar__sort-btn" data-sort="skills">Skills</button>
+          <button class="toolbar__sort-btn" data-sort="updated">Updated</button>
         </div>
       </div>
 
@@ -1049,6 +1060,58 @@
       btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
       document.addEventListener('click', () => { drop.hidden = true; });
       apply('dark');
+    })();
+
+    // ── Filter & Sort ──────────────────────────────────────────────
+    (function () {
+      let currentSort = 'name';
+      let currentQuery = '';
+
+      const filterInput = document.getElementById('tiles-filter');
+      const sortBtns = document.querySelectorAll('.toolbar__sort-btn');
+      const grid = document.querySelector('.tiles-grid');
+      const allCards = Array.from(grid.querySelectorAll('.tile-card'));
+
+      function getName(card) {
+        return card.querySelector('.tile-card__name')?.textContent.trim().toLowerCase() ?? '';
+      }
+      function getDesc(card) {
+        return card.querySelector('.tile-card__desc')?.textContent.trim().toLowerCase() ?? '';
+      }
+      function getSkillCount(card) {
+        return parseInt(card.querySelector('.tile-card__skill-count strong')?.textContent.trim() ?? '0', 10);
+      }
+
+      function render() {
+        const q = currentQuery.toLowerCase();
+        for (const card of allCards) {
+          const match = !q || getName(card).includes(q) || getDesc(card).includes(q);
+          card.style.display = match ? '' : 'none';
+        }
+        const visible = allCards.filter(c => c.style.display !== 'none');
+        const hidden  = allCards.filter(c => c.style.display === 'none');
+        let sorted;
+        if (currentSort === 'name') {
+          sorted = [...visible].sort((a, b) => getName(a).localeCompare(getName(b)));
+        } else if (currentSort === 'skills') {
+          sorted = [...visible].sort((a, b) => getSkillCount(b) - getSkillCount(a));
+        } else {
+          sorted = visible;
+        }
+        for (const card of [...sorted, ...hidden]) grid.appendChild(card);
+      }
+
+      filterInput.addEventListener('input', () => { currentQuery = filterInput.value; render(); });
+      sortBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentSort = btn.dataset.sort;
+          sortBtns.forEach(b => b.classList.remove('toolbar__sort-btn--active'));
+          btn.classList.add('toolbar__sort-btn--active');
+          render();
+        });
+      });
+
+      render(); // apply default name sort on load
     })();
   </script>
 

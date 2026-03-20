@@ -68,6 +68,7 @@
       font-size: 1rem;
       color: var(--tk-color-white);
       letter-spacing: -0.01em;
+      text-decoration: none;
     }
     .nav-logo span { color: var(--tk-accent); }
     .nav-links {
@@ -345,6 +346,108 @@
     }
     .toolbar__sort-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); }
     .toolbar__sort-btn--active { border-color: var(--tk-accent); color: var(--tk-color-white); }
+    .toolbar__search input {
+      background: none;
+      border: none;
+      outline: none;
+      flex: 1;
+      color: var(--tk-text);
+      font-size: 0.8125rem;
+      font-family: inherit;
+      min-width: 0;
+    }
+    .toolbar__search input::placeholder { color: var(--tk-text-muted); }
+
+    /* ── Section divider ── */
+    .content-section { margin-top: 2.5rem; }
+    .content-section__header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .content-section__title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+    }
+    .content-section__count {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      background: var(--tk-bg-elevated);
+      border: 1px solid var(--tk-border);
+      border-radius: 9999px;
+      padding: 0.15em 0.6em;
+      color: var(--tk-text-muted);
+    }
+
+    /* ── Skills grid ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.875rem;
+    }
+
+    /* ── Skill entry card ── */
+    .skill-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .skill-entry:hover { border-color: var(--tk-accent); background: var(--tk-bg-hover); text-decoration: none; }
+    .skill-entry__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .skill-entry__name {
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--tk-color-white);
+    }
+    .skill-entry__grade {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2.25rem;
+    }
+    .skill-entry__grade svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .skill-entry__grade-text {
+      position: relative;
+      z-index: 1;
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 1px #27272a, 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .grade-shield-a-plus { color: var(--badge-a-plus-bg); }
+    .grade-shield-a      { color: var(--badge-a-bg); }
+    .grade-shield-b-plus { color: var(--badge-b-plus-bg); }
+    .grade-shield-b      { color: var(--badge-b-bg); }
+    .grade-shield-c-plus { color: var(--badge-c-plus-bg); }
+    .skill-entry__desc {
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
 
     /* ── Tiles grid ── */
     .tiles-grid {
@@ -518,7 +621,7 @@
 
   <!-- Nav -->
   <nav class="top-nav">
-    <span class="nav-logo">tekhne<span>.</span></span>
+    <a href="landing-preview.html" class="nav-logo">tekhne<span>.</span></a>
     <div class="nav-links">
       <a href="skills-preview.html" class="active">Skills</a>
       <a href="tiles-preview.html">Tiles</a>
@@ -611,14 +714,13 @@
       <div class="toolbar">
         <div class="toolbar__search">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Filter skills…
+          <input id="domain-filter" type="text" placeholder="Filter tiles and skills…" />
         </div>
         <div class="toolbar__spacer"></div>
         <div class="toolbar__sort">
-          <span>Sort:</span>
-          <button class="toolbar__sort-btn toolbar__sort-btn--active">Name</button>
-          <button class="toolbar__sort-btn">Skills</button>
-          <button class="toolbar__sort-btn">Updated</button>
+          <span>Sort tiles:</span>
+          <button class="toolbar__sort-btn toolbar__sort-btn--active" data-sort="name">Name</button>
+          <button class="toolbar__sort-btn" data-sort="skills">Skills</button>
         </div>
       </div>
 
@@ -679,6 +781,127 @@
           </div>
         </a>
 
+      </div>
+
+      <!-- Skills section -->
+      <div class="content-section">
+        <div class="content-section__header">
+          <span class="content-section__title">Skills</span>
+          <span class="content-section__count" id="skills-count">10 skills</span>
+        </div>
+        <div class="skills-grid" id="skills-grid">
+
+          <a href="skill-preview.html" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">TypeScript Advanced</span>
+              <div class="skill-entry__grade grade-shield-b-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">B+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type narrowing, generics, and strict-mode patterns.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Bun Development</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management, testing, SQLite, and fast TypeScript applications.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Biome Complete</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Complete Biome toolchain guidance for linting, formatting, migration from ESLint and Prettier, and CI integration.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Commander.js</span>
+              <div class="skill-entry__grade grade-shield-a-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">A+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Complete Commander.js CLI framework guidance covering command structure, options, arguments, subcommands, and help generation.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Bash Script Generator</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Create bash scripts with argument parsing, error handling, logging, and input validation following community best practices.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Bash Script Validator</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Validate, lint, and optimize bash and shell scripts. Catches common pitfalls, enforces best practices, and integrates with ShellCheck.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Makefile Generator</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Generate GNU Make build systems that define build targets, configure dependencies, and set up phony targets for automation.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Makefile Validator</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Validate, lint, and optimize Makefiles. Catches common mistakes, checks target dependencies, and enforces GNU Make best practices.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Website Theme Porter</span>
+              <div class="skill-entry__grade grade-shield-b-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">B+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Port the visual theme and styling from a live website to a React/Tailwind CSS project. Extracts colours, fonts, and spacing tokens.</p>
+          </a>
+
+          <a href="#" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Web Reference Sheet Generator</span>
+              <div class="skill-entry__grade grade-shield-b-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true"><path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z" fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/></svg>
+                <span class="skill-entry__grade-text">B+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">Generate a comprehensive web design reference sheet (design-reference.md) and its companion HTML preview for React/Tailwind projects.</p>
+          </a>
+
+        </div>
       </div>
 
     </main>
@@ -761,13 +984,68 @@
       apply('dark');
     })();
 
-    // ── Sort buttons ──────────────────────────────────────────────
-    document.querySelectorAll('.toolbar__sort-btn').forEach(btn => {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('.toolbar__sort-btn').forEach(b => b.classList.remove('toolbar__sort-btn--active'));
-        this.classList.add('toolbar__sort-btn--active');
+    // ── Filter & Sort ──────────────────────────────────────────────
+    (function () {
+      const gradeOrder = { 'A+': 9, 'A': 8, 'A-': 7, 'B+': 6, 'B': 5, 'B-': 4, 'C+': 3, 'C': 2, 'D': 1 };
+      let currentSort = 'name';
+      let currentQuery = '';
+
+      const filterInput  = document.getElementById('domain-filter');
+      const sortBtns     = document.querySelectorAll('.toolbar__sort-btn');
+      const tilesGrid    = document.querySelector('.tiles-grid');
+      const skillsGrid   = document.getElementById('skills-grid');
+      const skillsCount  = document.getElementById('skills-count');
+      const allTiles     = Array.from(tilesGrid.querySelectorAll('.tile-card'));
+      const allSkills    = Array.from(skillsGrid.querySelectorAll('.skill-entry'));
+
+      function getTileName(c)  { return c.querySelector('.tile-card__name')?.textContent.trim().toLowerCase() ?? ''; }
+      function getTileSkills(c){ return parseInt(c.querySelector('.tile-card__skill-count strong')?.textContent.trim() ?? '0', 10); }
+      function getTileDesc(c)  { return c.querySelector('.tile-card__desc')?.textContent.trim().toLowerCase() ?? ''; }
+
+      function getSkillName(e) { return e.querySelector('.skill-entry__name')?.textContent.trim().toLowerCase() ?? ''; }
+      function getSkillDesc(e) { return e.querySelector('.skill-entry__desc')?.textContent.trim().toLowerCase() ?? ''; }
+      function getSkillGrade(e){ return gradeOrder[e.querySelector('.skill-entry__grade-text')?.textContent.trim() ?? ''] ?? 0; }
+
+      function render() {
+        const q = currentQuery.toLowerCase();
+
+        // Filter + sort tiles
+        for (const card of allTiles) {
+          const match = !q || getTileName(card).includes(q) || getTileDesc(card).includes(q);
+          card.style.display = match ? '' : 'none';
+        }
+        const visibleTiles  = allTiles.filter(c => c.style.display !== 'none');
+        const hiddenTiles   = allTiles.filter(c => c.style.display === 'none');
+        const sortedTiles   = currentSort === 'skills'
+          ? [...visibleTiles].sort((a, b) => getTileSkills(b) - getTileSkills(a))
+          : [...visibleTiles].sort((a, b) => getTileName(a).localeCompare(getTileName(b)));
+        for (const c of [...sortedTiles, ...hiddenTiles]) tilesGrid.appendChild(c);
+
+        // Filter skills (always sorted by grade desc then name)
+        for (const entry of allSkills) {
+          const match = !q || getSkillName(entry).includes(q) || getSkillDesc(entry).includes(q);
+          entry.style.display = match ? '' : 'none';
+        }
+        const visibleSkills = allSkills.filter(e => e.style.display !== 'none');
+        const hiddenSkills  = allSkills.filter(e => e.style.display === 'none');
+        const sortedSkills  = [...visibleSkills].sort((a, b) => getSkillGrade(b) - getSkillGrade(a) || getSkillName(a).localeCompare(getSkillName(b)));
+        for (const e of [...sortedSkills, ...hiddenSkills]) skillsGrid.appendChild(e);
+
+        skillsCount.textContent = `${visibleSkills.length} skill${visibleSkills.length !== 1 ? 's' : ''}`;
+      }
+
+      filterInput.addEventListener('input', () => { currentQuery = filterInput.value; render(); });
+      sortBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentSort = btn.dataset.sort;
+          sortBtns.forEach(b => b.classList.remove('toolbar__sort-btn--active'));
+          btn.classList.add('toolbar__sort-btn--active');
+          render();
+        });
       });
-    });
+
+      render();
+    })();
   </script>
 </body>
 </html>
