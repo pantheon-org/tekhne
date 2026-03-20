@@ -730,7 +730,7 @@
     .eval-desc code { font-family: var(--tk-font-mono); font-size: 0.85em; background: var(--tk-code-bg); border: 1px solid var(--tk-border); border-radius: 0.2rem; padding: 0.1em 0.35em; color: var(--tk-color-accent-high); }
 
     /* ── References ── */
-    .ref-list { display: flex; flex-direction: column; gap: 0.625rem; }
+    .ref-content { flex: 1; min-width: 0; }
     .ref-card {
       display: flex;
       align-items: center;
@@ -917,12 +917,12 @@
       <!-- Skill header card -->
       <div class="sk-header">
         <!-- Grade shield -->
-        <div class="sk-grade grade-a">
+        <div class="sk-grade grade-b-plus">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
             <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
               fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
           </svg>
-          <span class="sk-grade__text">A</span>
+          <span class="sk-grade__text">B+</span>
         </div>
 
         <div class="sk-header__body">
@@ -1279,62 +1279,135 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
             <button class="audit-selector__btn" data-ref="3">migration-guide</button>
             <button class="audit-selector__btn" data-ref="4">strict-mode</button>
           </div>
-        <div class="ref-list">
+        <div class="ref-content">
 
-          <a href="#" class="ref-card">
-            <div class="ref-card__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div class="ref-card__body">
-              <div class="ref-card__title">tsconfig-reference</div>
-              <div class="ref-card__desc">Full compiler options reference with descriptions, types, and defaults for every <code>tsconfig.json</code> flag.</div>
-            </div>
-            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
+          <!-- ref-panel: tsconfig-reference -->
+          <div class="sk-content" data-ref-panel="0">
+            <h2>tsconfig-reference</h2>
+            <p>Full compiler options reference with descriptions, types, and defaults for every <code>tsconfig.json</code> flag.</p>
+            <h3>Key flags</h3>
+            <ul>
+              <li><code>strict</code> — enables all strict type-checking sub-flags (<code>boolean</code>, default <code>false</code>)</li>
+              <li><code>target</code> — ECMAScript output version (<code>"ES3"</code>…<code>"ESNext"</code>, default <code>"ES3"</code>)</li>
+              <li><code>module</code> — module system for emitted code (<code>"CommonJS"</code>, <code>"ESNext"</code>, <code>"NodeNext"</code>, …)</li>
+              <li><code>moduleResolution</code> — algorithm for resolving imports (<code>"node"</code>, <code>"bundler"</code>, <code>"NodeNext"</code>)</li>
+              <li><code>outDir</code> — redirect output structure to a directory</li>
+              <li><code>rootDir</code> — root folder for input files; controls output layout</li>
+              <li><code>paths</code> — path mapping entries for module aliases</li>
+              <li><code>noUncheckedIndexedAccess</code> — adds <code>undefined</code> to index signature results (<code>boolean</code>, default <code>false</code>)</li>
+              <li><code>exactOptionalPropertyTypes</code> — disallows assigning <code>undefined</code> to optional properties unless <code>undefined</code> is explicit (<code>boolean</code>, default <code>false</code>)</li>
+            </ul>
+            <h3>Recommended production baseline</h3>
+            <pre><code>{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  }
+}</code></pre>
+          </div>
 
-          <a href="#" class="ref-card">
-            <div class="ref-card__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div class="ref-card__body">
-              <div class="ref-card__title">advanced-types</div>
-              <div class="ref-card__desc">Conditional types, infer keyword, mapped types, template literal types, and recursive type aliases.</div>
-            </div>
-            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
+          <!-- ref-panel: advanced-types -->
+          <div class="sk-content" data-ref-panel="1" hidden>
+            <h2>advanced-types</h2>
+            <p>Conditional types, <code>infer</code> keyword, mapped types, template literal types, and recursive type aliases.</p>
+            <h3>Conditional types</h3>
+            <pre><code>type IsArray&lt;T&gt; = T extends any[] ? true : false;
+type Flatten&lt;T&gt; = T extends Array&lt;infer Item&gt; ? Item : T;</code></pre>
+            <h3>Mapped types</h3>
+            <pre><code>type Readonly&lt;T&gt; = { readonly [K in keyof T]: T[K] };
+type Nullable&lt;T&gt; = { [K in keyof T]: T[K] | null };</code></pre>
+            <h3>Template literal types</h3>
+            <pre><code>type EventName&lt;T extends string&gt; = `on${Capitalize&lt;T&gt;}`;
+// EventName&lt;"click"&gt; → "onClick"
+type Routes = "/home" | "/about";
+type ApiRoute = `/api${Routes}`; // "/api/home" | "/api/about"</code></pre>
+            <h3>Recursive type aliases</h3>
+            <pre><code>type JSONValue =
+  | string | number | boolean | null
+  | JSONValue[]
+  | { [key: string]: JSONValue };</code></pre>
+          </div>
 
-          <a href="#" class="ref-card">
-            <div class="ref-card__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div class="ref-card__body">
-              <div class="ref-card__title">generics-patterns</div>
-              <div class="ref-card__desc">Reusable generic patterns: constrained builders, higher-kinded type emulation, variance annotations.</div>
-            </div>
-            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
+          <!-- ref-panel: generics-patterns -->
+          <div class="sk-content" data-ref-panel="2" hidden>
+            <h2>generics-patterns</h2>
+            <p>Reusable generic patterns: constrained builders, higher-kinded type emulation, variance annotations.</p>
+            <h3>Constrained generics</h3>
+            <pre><code>function pick&lt;T, K extends keyof T&gt;(obj: T, keys: K[]): Pick&lt;T, K&gt; {
+  return Object.fromEntries(keys.map(k =&gt; [k, obj[k]])) as Pick&lt;T, K&gt;;
+}</code></pre>
+            <h3>Builder pattern</h3>
+            <pre><code>class QueryBuilder&lt;T extends object&gt; {
+  #filters: Partial&lt;T&gt; = {};
+  where&lt;K extends keyof T&gt;(key: K, value: T[K]): this {
+    this.#filters[key] = value;
+    return this;
+  }
+  build(): Partial&lt;T&gt; { return { ...this.#filters }; }
+}</code></pre>
+            <h3>Variance annotations (TS 4.7+)</h3>
+            <pre><code>type Provider&lt;out T&gt; = () =&gt; T;   // covariant
+type Consumer&lt;in T&gt; = (v: T) =&gt; void; // contravariant</code></pre>
+          </div>
 
-          <a href="#" class="ref-card">
-            <div class="ref-card__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div class="ref-card__body">
-              <div class="ref-card__title">migration-guide</div>
-              <div class="ref-card__desc">Step-by-step playbook for migrating a JavaScript codebase to TypeScript incrementally without big-bang rewrites.</div>
-            </div>
-            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
+          <!-- ref-panel: migration-guide -->
+          <div class="sk-content" data-ref-panel="3" hidden>
+            <h2>migration-guide</h2>
+            <p>Step-by-step playbook for migrating a JavaScript codebase to TypeScript incrementally without big-bang rewrites.</p>
+            <h3>Phase 1 — Enable TypeScript without breaking anything</h3>
+            <pre><code>{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "strict": false,
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}</code></pre>
+            <h3>Phase 2 — Rename files incrementally</h3>
+            <ul>
+              <li>Rename leaf modules first (<code>.js</code> → <code>.ts</code>), working inward</li>
+              <li>Fix type errors one file at a time; use <code>// @ts-ignore</code> sparingly as escape hatches</li>
+              <li>Add <code>checkJs: true</code> for any <code>.js</code> files you want checked before renaming</li>
+            </ul>
+            <h3>Phase 3 — Tighten strictness</h3>
+            <ul>
+              <li>Enable <code>strict: true</code> once all files are <code>.ts</code></li>
+              <li>Add <code>noUncheckedIndexedAccess</code> and fix array access patterns</li>
+              <li>Remove all <code>// @ts-ignore</code> and <code>as any</code> casts</li>
+            </ul>
+            <blockquote><p><strong>Rule:</strong> Never do a big-bang rewrite. Migrate one module per PR so reviews stay tractable.</p></blockquote>
+          </div>
 
-          <a href="#" class="ref-card">
-            <div class="ref-card__icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            </div>
-            <div class="ref-card__body">
-              <div class="ref-card__title">strict-mode</div>
-              <div class="ref-card__desc">What each strict-mode flag does, common errors it surfaces, and recommended per-flag enable/disable order for brownfield projects.</div>
-            </div>
-            <svg class="ref-card__arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-          </a>
+          <!-- ref-panel: strict-mode -->
+          <div class="sk-content" data-ref-panel="4" hidden>
+            <h2>strict-mode</h2>
+            <p>What each strict-mode flag does, common errors it surfaces, and recommended per-flag enable order for brownfield projects.</p>
+            <h3>Flags enabled by <code>strict: true</code></h3>
+            <ul>
+              <li><code>strictNullChecks</code> — <code>null</code> and <code>undefined</code> are not assignable to other types</li>
+              <li><code>strictFunctionTypes</code> — function parameter types checked contravariantly</li>
+              <li><code>strictBindCallApply</code> — type-checks <code>bind</code>, <code>call</code>, <code>apply</code> arguments</li>
+              <li><code>strictPropertyInitialization</code> — class properties must be initialised in constructor</li>
+              <li><code>noImplicitAny</code> — error on expressions inferred as <code>any</code></li>
+              <li><code>noImplicitThis</code> — error when <code>this</code> has implicit <code>any</code> type</li>
+              <li><code>useUnknownInCatchVariables</code> — catch clause variables typed <code>unknown</code> instead of <code>any</code></li>
+            </ul>
+            <h3>Recommended brownfield enable order</h3>
+            <ol>
+              <li><code>strictNullChecks</code> — highest value, usually the most errors</li>
+              <li><code>noImplicitAny</code></li>
+              <li><code>strictFunctionTypes</code></li>
+              <li>Remaining flags together (lower noise)</li>
+            </ol>
+          </div>
 
         </div>
         </div><!-- /audits-layout -->
@@ -1512,9 +1585,10 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
 
     // ── Audit selector → scroll within audit-list ────────────────
     (function () {
-      const selectorBtns = document.querySelectorAll('.audit-selector__btn');
-      const auditCards   = document.querySelectorAll('.audit-card');
-      const auditList    = document.querySelector('.audit-list');
+      const auditsPanel  = document.querySelector('.sk-panel[data-panel="audits"]');
+      const selectorBtns = auditsPanel.querySelectorAll('.audit-selector__btn');
+      const auditCards   = auditsPanel.querySelectorAll('.audit-card');
+      const auditList    = auditsPanel.querySelector('.audit-list');
 
       selectorBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -1526,6 +1600,22 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
           btn.classList.add('audit-selector__btn--active');
 
           auditList.scrollTo({ top: card.offsetTop, behavior: 'smooth' });
+        });
+      });
+    })();
+
+    // ── Reference selector → show/hide ref panels ────────────────
+    (function () {
+      const refsPanel    = document.querySelector('.sk-panel[data-panel="references"]');
+      const selectorBtns = refsPanel.querySelectorAll('.audit-selector__btn');
+      const refPanels    = refsPanel.querySelectorAll('[data-ref-panel]');
+
+      selectorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = btn.dataset.ref;
+          selectorBtns.forEach(b => b.classList.remove('audit-selector__btn--active'));
+          btn.classList.add('audit-selector__btn--active');
+          refPanels.forEach(p => { p.hidden = p.dataset.refPanel !== idx; });
         });
       });
     })();
