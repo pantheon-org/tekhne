@@ -193,7 +193,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.35rem 1.25rem;
+      padding: 0.6rem 1.25rem;
       font-size: 0.8125rem;
       color: var(--tk-text);
       text-decoration: none;
@@ -207,7 +207,7 @@
       border-left-color: var(--tk-accent);
       font-weight: 500;
     }
-    .left-nav__icon { display: flex; align-items: center; flex-shrink: 0; color: var(--tk-text-muted); }
+    .left-nav__icon { display: flex; align-items: center; flex-shrink: 0; color: var(--tk-text-muted); min-width: 44px; min-height: 44px; justify-content: center; }
     .left-nav__icon svg { width: 0.875rem; height: 0.875rem; }
     .left-nav__item--active .left-nav__icon,
     .left-nav__item:hover .left-nav__icon { color: var(--tk-color-white); }
@@ -857,9 +857,18 @@
     background: color-mix(in srgb, var(--tk-accent) 4%, #fff) !important;
   }
 
+  /* ── Focus ring ── */
+  :focus-visible { outline: 2px solid var(--tk-accent); outline-offset: 2px; }
+  .toolbar__search:focus-within { border-color: var(--tk-accent); }
+
+  /* ── Skip link + screen-reader utilities ── */
+  .skip-link { position: absolute; left: -9999px; top: 1rem; z-index: 9999; padding: 0.5rem 1rem; background: var(--tk-accent); color: #000; font-weight: 700; border-radius: 0.25rem; text-decoration: none; }
+  .skip-link:focus { left: 1rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Nav -->
   <nav class="top-nav">
@@ -869,11 +878,11 @@
       <a href="tiles-preview.html">Tiles</a>
     </div>
     <div class="nav-spacer"></div>
-    <div class="nav-search">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      Search skills…
-      <kbd>⌘K</kbd>
-    </div>
+    <button class="nav-search" aria-label="Search (⌘K)" aria-keyshortcuts="Meta+K">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Search skills…</span>
+      <kbd aria-hidden="true">⌘K</kbd>
+    </button>
     <div class="pm-select" id="pm-select">
       <button class="pm-select-btn" id="pm-btn" aria-label="Package manager">
         <span id="pm-label">npm</span>
@@ -897,7 +906,7 @@
         <a href="landing-preview.html" class="left-nav__item">
           <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Home
         </a>
-        <a href="skills-preview.html" class="left-nav__item left-nav__item--active">
+        <a href="skills-preview.html" class="left-nav__item left-nav__item--active" aria-current="page">
           <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></span> All Skills
           <span class="left-nav__count">70</span>
         </a>
@@ -912,7 +921,7 @@
         <div class="left-nav__sub">
           <a href="domain-preview.html" class="left-nav__sub-item">ci-cd</a>
           <a href="domain-preview.html" class="left-nav__sub-item">infrastructure</a>
-          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">development</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active" aria-current="page">development</a>
           <a href="domain-preview.html" class="left-nav__sub-item">agentic-harness</a>
           <a href="domain-preview.html" class="left-nav__sub-item">testing</a>
           <a href="domain-preview.html" class="left-nav__sub-item">software-engineering</a>
@@ -923,13 +932,13 @@
     </nav>
 
     <!-- Main -->
-    <main>
+    <main id="main-content">
 
       <!-- Breadcrumb -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="skills-preview.html">Skills</a>
-        <span class="breadcrumb__sep">›</span>
-        <span>Development</span>
+        <span class="breadcrumb__sep" aria-hidden="true">›</span>
+        <span aria-current="page">Development</span>
       </nav>
 
       <!-- Domain header -->
@@ -955,15 +964,22 @@
       <!-- Toolbar -->
       <div class="toolbar">
         <div class="toolbar__search">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input id="domain-filter" type="text" placeholder="Filter tiles and skills…" />
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <label for="domain-filter" class="sr-only">Filter tiles and skills</label>
+          <input id="domain-filter" type="search" placeholder="Filter tiles and skills…" />
         </div>
         <div class="toolbar__spacer"></div>
         <div class="toolbar__sort">
           <span>Sort tiles:</span>
-          <button class="toolbar__sort-btn toolbar__sort-btn--active" data-sort="name">Name</button>
-          <button class="toolbar__sort-btn" data-sort="skills">Skills</button>
+          <button class="toolbar__sort-btn toolbar__sort-btn--active" data-sort="name" aria-pressed="true">Name</button>
+          <button class="toolbar__sort-btn" data-sort="skills" aria-pressed="false">Skills</button>
         </div>
+      </div>
+
+      <!-- Empty state -->
+      <div id="search-empty" hidden style="padding:3rem 0;text-align:center;color:var(--tk-text-muted)">
+        <p>No results for &ldquo;<strong id="empty-query"></strong>&rdquo;</p>
+        <button class="toolbar__sort-btn" id="clear-search" style="margin-top:1rem">Clear search</button>
       </div>
 
       <!-- Tiles grid -->
@@ -1208,6 +1224,7 @@
         current = t;
         html.setAttribute('data-theme', resolve(t));
         btn.innerHTML = icons[t];
+        btn.setAttribute('aria-label', 'Switch to ' + labels[t] + ' theme');
         renderDrop();
       }
 
@@ -1276,17 +1293,30 @@
         skillsCount.textContent = `${visibleSkills.length} skill${visibleSkills.length !== 1 ? 's' : ''}`;
       }
 
-      filterInput.addEventListener('input', () => { currentQuery = filterInput.value; render(); });
+      const emptyState = document.getElementById('search-empty');
+      const emptyQuery = document.getElementById('empty-query');
+      const clearBtn   = document.getElementById('clear-search');
+
+      function renderWithEmpty() {
+        render();
+        const hasResults = [...allTiles, ...allSkills].some(e => e.style.display !== 'none');
+        emptyState.hidden = hasResults || !currentQuery;
+        if (emptyQuery) emptyQuery.textContent = currentQuery;
+      }
+
+      filterInput.addEventListener('input', () => { currentQuery = filterInput.value; renderWithEmpty(); });
       sortBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           currentSort = btn.dataset.sort;
-          sortBtns.forEach(b => b.classList.remove('toolbar__sort-btn--active'));
+          sortBtns.forEach(b => { b.classList.remove('toolbar__sort-btn--active'); b.setAttribute('aria-pressed', 'false'); });
           btn.classList.add('toolbar__sort-btn--active');
-          render();
+          btn.setAttribute('aria-pressed', 'true');
+          renderWithEmpty();
         });
       });
+      clearBtn.addEventListener('click', () => { filterInput.value = ''; currentQuery = ''; renderWithEmpty(); });
 
-      render();
+      renderWithEmpty();
     })();
   </script>
 </body>

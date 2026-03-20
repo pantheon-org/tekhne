@@ -497,7 +497,8 @@
   .left-nav { display: none !important; }
   main { max-width: 960px; margin: 0 auto; padding: 2rem; }
   /* Horizontal domain pill strip */
-  .domain-grid { display: flex; flex-wrap: nowrap; gap: 0.625rem; overflow-x: auto; padding-bottom: 0.75rem; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  .domain-grid { display: flex; flex-wrap: nowrap; gap: 0.625rem; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; mask-image: linear-gradient(to right, transparent 0, black 1.5rem, black calc(100% - 3rem), transparent 100%); -webkit-mask-image: linear-gradient(to right, transparent 0, black 1.5rem, black calc(100% - 3rem), transparent 100%); padding-right: 2rem; }
+  .domain-grid::-webkit-scrollbar { display: none; }
   .domain-card { flex-shrink: 0; min-width: auto; width: auto; flex-direction: row; border-radius: 9999px !important; padding: 0.5rem 1rem; gap: 0.5rem; }
   .domain-icon { width: 1.25rem; }
   .domain-count { display: none; }
@@ -725,9 +726,18 @@
     background: color-mix(in srgb, var(--tk-accent) 4%, #fff) !important;
   }
 
+  /* ── Focus ring ── */
+  :focus-visible { outline: 2px solid var(--tk-accent); outline-offset: 2px; }
+  .toolbar__search:focus-within { border-color: var(--tk-accent); }
+
+  /* ── Skip link + screen-reader utilities ── */
+  .skip-link { position: absolute; left: -9999px; top: 1rem; z-index: 9999; padding: 0.5rem 1rem; background: var(--tk-accent); color: #000; font-weight: 700; border-radius: 0.25rem; text-decoration: none; }
+  .skip-link:focus { left: 1rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Nav -->
   <nav>
@@ -752,7 +762,7 @@
   </nav>
 
   <!-- Hero -->
-  <section class="hero-wrap">
+  <section class="hero-wrap" id="main-content">
     <div class="hero-inner">
       <div class="hero-eyebrow">Open Source · Quality-graded</div>
       <h1 class="hero-title">
@@ -1004,6 +1014,7 @@
         current = t;
         html.setAttribute('data-theme', resolve(t));
         btn.innerHTML = icons[t];
+        btn.setAttribute('aria-label', 'Switch to ' + labels[t] + ' theme');
         renderDrop();
       }
 

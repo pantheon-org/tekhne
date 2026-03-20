@@ -195,7 +195,7 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.35rem 1.25rem;
+      padding: 0.6rem 1.25rem;
       font-size: 0.8125rem;
       color: var(--tk-text);
       text-decoration: none;
@@ -213,7 +213,7 @@
       border-left-color: var(--tk-accent);
       font-weight: 500;
     }
-    .left-nav__icon { display: flex; align-items: center; flex-shrink: 0; color: var(--tk-text-muted); }
+    .left-nav__icon { display: flex; align-items: center; flex-shrink: 0; color: var(--tk-text-muted); min-width: 44px; min-height: 44px; justify-content: center; }
     .left-nav__icon svg { width: 0.875rem; height: 0.875rem; }
     .left-nav__item--active .left-nav__icon,
     .left-nav__item:hover .left-nav__icon { color: var(--tk-color-white); }
@@ -1068,9 +1068,21 @@
     background: color-mix(in srgb, var(--tk-accent) 4%, #fff) !important;
   }
 
+  /* ── Focus ring ── */
+  :focus-visible { outline: 2px solid var(--tk-accent); outline-offset: 2px; }
+  .toolbar__search:focus-within { border-color: var(--tk-accent); }
+
+  /* ── Install tab active state ── */
+  .install-tab--active { background: color-mix(in srgb, var(--tk-accent) 15%, transparent) !important; }
+
+  /* ── Skip link + screen-reader utilities ── */
+  .skip-link { position: absolute; left: -9999px; top: 1rem; z-index: 9999; padding: 0.5rem 1rem; background: var(--tk-accent); color: #000; font-weight: 700; border-radius: 0.25rem; text-decoration: none; }
+  .skip-link:focus { left: 1rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
   </style>
 </head>
 <body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <!-- Nav -->
   <nav class="top-nav">
@@ -1080,11 +1092,11 @@
       <a href="tiles-preview.html">Tiles</a>
     </div>
     <div class="nav-spacer"></div>
-    <div class="nav-search">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      Search skills…
-      <kbd>⌘K</kbd>
-    </div>
+    <button class="nav-search" aria-label="Search (⌘K)" aria-keyshortcuts="Meta+K">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <span>Search skills…</span>
+      <kbd aria-hidden="true">⌘K</kbd>
+    </button>
     <div class="pm-select" id="pm-select">
       <button class="pm-select-btn" id="pm-btn" aria-label="Package manager">
         <span id="pm-label">npm</span>
@@ -1123,7 +1135,7 @@
         <div class="left-nav__sub">
           <a href="skill-preview.html" class="left-nav__sub-item">ci-cd</a>
           <a href="skill-preview.html" class="left-nav__sub-item">infrastructure</a>
-          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">development</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active" aria-current="page">development</a>
           <a href="skill-preview.html" class="left-nav__sub-item">agentic-harness</a>
           <a href="skill-preview.html" class="left-nav__sub-item">testing</a>
           <a href="skill-preview.html" class="left-nav__sub-item">software-engineering</a>
@@ -1138,7 +1150,7 @@
           <a href="skill-preview.html" class="left-nav__sub-item">bun-development</a>
           <a href="skill-preview.html" class="left-nav__sub-item">commanderjs</a>
           <a href="skill-preview.html" class="left-nav__sub-item">biome-complete</a>
-          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">typescript-advanced</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active" aria-current="page">typescript-advanced</a>
           <a href="skill-preview.html" class="left-nav__sub-item">scripting / bash</a>
           <a href="skill-preview.html" class="left-nav__sub-item">scripting / makefile</a>
           <a href="skill-preview.html" class="left-nav__sub-item">front-end / theme-porter</a>
@@ -1147,14 +1159,14 @@
     </nav>
 
     <!-- Main -->
-    <main>
+    <main id="main-content">
       <!-- Breadcrumb -->
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="skills-preview.html">Skills</a>
-        <span class="breadcrumb__sep">›</span>
+        <span class="breadcrumb__sep" aria-hidden="true">›</span>
         <a href="domain-preview.html">Development</a>
-        <span class="breadcrumb__sep">›</span>
-        <span>TypeScript Advanced</span>
+        <span class="breadcrumb__sep" aria-hidden="true">›</span>
+        <span aria-current="page">TypeScript Advanced</span>
       </nav>
 
       <!-- Skill header card -->
@@ -1185,14 +1197,14 @@
 
           <!-- Install block -->
           <div class="install-block" id="install-block">
-            <div class="install-block__header">
-              <div class="install-tab install-tab--active" data-tab="tessl">tessl.io</div>
-              <div class="install-tab" data-tab="skills">skills.sh</div>
-              <div class="install-tab" data-tab="agent">agentskills.sh</div>
+            <div class="install-block__header" role="tablist" aria-label="Install method">
+              <button class="install-tab install-tab--active" role="tab" aria-selected="true" aria-controls="install-panel-tessl" data-tab="tessl">tessl.io <span style="font-size:0.6rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;opacity:0.75;margin-left:0.25rem;">recommended</span></button>
+              <button class="install-tab" role="tab" aria-selected="false" aria-controls="install-panel-skills" data-tab="skills">skills.sh</button>
+              <button class="install-tab" role="tab" aria-selected="false" aria-controls="install-panel-agent" data-tab="agent">agentskills.sh</button>
             </div>
 
             <!-- tessl.io panel -->
-            <div class="install-block__panel install-block__panel--active" data-panel="tessl">
+            <div class="install-block__panel install-block__panel--active" data-panel="tessl" id="install-panel-tessl" role="tabpanel">
               <div class="install-cmd">
                 <code><span class="exec">npx</span> tessl i github:pantheon-org/tekhne --skill development--typescript-advanced</code>
                 <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
@@ -1200,7 +1212,7 @@
             </div>
 
             <!-- skills.sh panel -->
-            <div class="install-block__panel" data-panel="skills">
+            <div class="install-block__panel" data-panel="skills" id="install-panel-skills" role="tabpanel">
               <div class="install-cmd">
                 <code><span class="exec">npx</span> skills add https://github.com/pantheon-org/tekhne --skill development--typescript-advanced</code>
                 <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
@@ -1208,13 +1220,15 @@
             </div>
 
             <!-- agentskills.sh panel -->
-            <div class="install-block__panel" data-panel="agent">
+            <div class="install-block__panel" data-panel="agent" id="install-panel-agent" role="tabpanel">
               <div class="install-cmd">
                 <code>/learn @pantheon-ai/typescript-advanced</code>
                 <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
               </div>
             </div>
           </div>
+
+          <div aria-live="polite" class="sr-only" id="copy-status"></div>
 
           <div class="sk-tags">
             <span class="sk-tag">typescript</span>
@@ -1227,15 +1241,15 @@
       </div>
 
       <!-- Skill tabs -->
-      <div class="sk-tabs" id="sk-tabs">
-        <div class="sk-tab sk-tab--active" data-tab="skill">Skill</div>
-        <div class="sk-tab" data-tab="audits">Audits <span class="sk-tab__count">4</span></div>
-        <div class="sk-tab" data-tab="evals">Evals <span class="sk-tab__count">8</span></div>
-        <div class="sk-tab" data-tab="references">References <span class="sk-tab__count">5</span></div>
+      <div class="sk-tabs" id="sk-tabs" role="tablist" aria-label="Skill sections">
+        <button class="sk-tab sk-tab--active" role="tab" aria-selected="true" aria-controls="panel-skill" id="tab-skill" data-tab="skill">Skill</button>
+        <button class="sk-tab" role="tab" aria-selected="false" aria-controls="panel-audits" id="tab-audits" data-tab="audits">Audits <span class="sk-tab__count">4</span></button>
+        <button class="sk-tab" role="tab" aria-selected="false" aria-controls="panel-evals" id="tab-evals" data-tab="evals">Evals <span class="sk-tab__count">8</span></button>
+        <button class="sk-tab" role="tab" aria-selected="false" aria-controls="panel-references" id="tab-references" data-tab="references">References <span class="sk-tab__count">5</span></button>
       </div>
 
       <!-- Skill markdown content -->
-      <div class="sk-panel" data-panel="skill">
+      <div class="sk-panel" data-panel="skill" id="panel-skill" role="tabpanel" aria-labelledby="tab-skill">
       <div class="sk-content">
         <h2>Overview</h2>
         <p>
@@ -1297,9 +1311,9 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
       </div><!-- /sk-panel[skill] -->
 
       <!-- Audits panel -->
-      <div class="sk-panel" data-panel="audits" hidden>
+      <div class="sk-panel" data-panel="audits" id="panel-audits" role="tabpanel" aria-labelledby="tab-audits" hidden>
         <div class="audits-layout">
-          <div class="audit-selector">
+          <div class="audit-selector" role="toolbar" aria-label="Audit history">
             <div class="audit-selector__label">Audits</div>
             <button class="audit-selector__btn audit-selector__btn--active" data-audit="0">
               <span>2026-03-02</span>
@@ -1433,7 +1447,7 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
       </div><!-- /sk-panel[audits] -->
 
       <!-- Evals panel -->
-      <div class="sk-panel" data-panel="evals" hidden>
+      <div class="sk-panel" data-panel="evals" id="panel-evals" role="tabpanel" aria-labelledby="tab-evals" hidden>
         <div class="evals-summary">
           <div class="evals-stat-row">
             <div class="evals-stat"><span class="evals-stat__val">8</span><span class="evals-stat__label">Scenarios</span></div>
@@ -1512,9 +1526,9 @@ function handle&lt;T&gt;(r: Result&lt;T&gt;) {
       </div><!-- /sk-panel[evals] -->
 
       <!-- References panel -->
-      <div class="sk-panel" data-panel="references" hidden>
+      <div class="sk-panel" data-panel="references" id="panel-references" role="tabpanel" aria-labelledby="tab-references" hidden>
         <div class="audits-layout">
-          <div class="audit-selector">
+          <div class="audit-selector" role="toolbar" aria-label="Reference files">
             <div class="audit-selector__label">References</div>
             <button class="audit-selector__btn audit-selector__btn--active" data-ref="0">tsconfig-reference</button>
             <button class="audit-selector__btn" data-ref="1">advanced-types</button>
@@ -1669,9 +1683,10 @@ type Consumer&lt;in T&gt; = (v: T) =&gt; void; // contravariant</code></pre>
       tabs.forEach(tab => {
         tab.addEventListener('click', () => {
           const target = tab.dataset.tab;
-          tabs.forEach(t => t.classList.remove('sk-tab--active'));
+          tabs.forEach(t => { t.classList.remove('sk-tab--active'); t.setAttribute('aria-selected', 'false'); });
           panels.forEach(p => { p.hidden = p.dataset.panel !== target; });
           tab.classList.add('sk-tab--active');
+          tab.setAttribute('aria-selected', 'true');
         });
       });
     })();
@@ -1762,9 +1777,10 @@ type Consumer&lt;in T&gt; = (v: T) =&gt; void; // contravariant</code></pre>
     installTabs.forEach(tab => {
       tab.addEventListener('click', () => {
         const target = tab.dataset.tab;
-        installTabs.forEach(t => t.classList.remove('install-tab--active'));
+        installTabs.forEach(t => { t.classList.remove('install-tab--active'); t.setAttribute('aria-selected', 'false'); });
         installPanels.forEach(p => p.classList.remove('install-block__panel--active'));
         tab.classList.add('install-tab--active');
+        tab.setAttribute('aria-selected', 'true');
         document.querySelector(`[data-panel="${target}"]`).classList.add('install-block__panel--active');
         // dim PM selector for agent-skills (no exec needed)
         document.getElementById('pm-select').classList.toggle('pm-select--disabled', target === 'agent');
@@ -1775,13 +1791,21 @@ type Consumer&lt;in T&gt; = (v: T) =&gt; void; // contravariant</code></pre>
     const copyIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>`;
     const checkIcon = `<svg stroke="currentColor" fill="none" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
 
+    const copyStatus = document.getElementById('copy-status');
     document.querySelectorAll('.install-copy').forEach(btn => {
       btn.addEventListener('click', () => {
         const code = btn.closest('.install-cmd').querySelector('code');
         navigator.clipboard?.writeText(code.textContent.trim());
         btn.innerHTML = checkIcon;
         btn.style.color = 'var(--tk-accent)';
-        setTimeout(() => { btn.innerHTML = copyIcon; btn.style.color = ''; }, 1500);
+        btn.setAttribute('aria-label', 'Copied!');
+        if (copyStatus) copyStatus.textContent = 'Copied to clipboard';
+        setTimeout(() => {
+          btn.innerHTML = copyIcon;
+          btn.style.color = '';
+          btn.setAttribute('aria-label', 'Copy to clipboard');
+          if (copyStatus) copyStatus.textContent = '';
+        }, 1500);
       });
     });
 
@@ -1808,6 +1832,7 @@ type Consumer&lt;in T&gt; = (v: T) =&gt; void; // contravariant</code></pre>
         current = t;
         html.setAttribute('data-theme', resolve(t));
         btn.innerHTML = icons[t];
+        btn.setAttribute('aria-label', 'Switch to ' + labels[t] + ' theme');
         renderDrop();
       }
 
