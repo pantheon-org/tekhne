@@ -333,6 +333,17 @@
     }
     .toolbar__sort-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); }
     .toolbar__sort-btn--active { border-color: var(--tk-accent); color: var(--tk-color-white); }
+    .toolbar__search input {
+      background: none;
+      border: none;
+      outline: none;
+      flex: 1;
+      color: var(--tk-text);
+      font-size: 0.8125rem;
+      font-family: inherit;
+      min-width: 0;
+    }
+    .toolbar__search input::placeholder { color: var(--tk-text-muted); }
 
     /* ── Domain sections ── */
     .domain-section { margin-bottom: 3rem; }
@@ -606,16 +617,19 @@
       <div class="toolbar">
         <div class="toolbar__search">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          Filter skills…
+          <input id="skills-filter" type="text" placeholder="Filter skills…" />
         </div>
         <div class="toolbar__spacer"></div>
         <div class="toolbar__sort">
           <span>Sort:</span>
-          <button class="toolbar__sort-btn toolbar__sort-btn--active">Domain</button>
-          <button class="toolbar__sort-btn">Name</button>
-          <button class="toolbar__sort-btn">Grade</button>
+          <button class="toolbar__sort-btn toolbar__sort-btn--active" data-sort="domain">Domain</button>
+          <button class="toolbar__sort-btn" data-sort="name">Name</button>
+          <button class="toolbar__sort-btn" data-sort="grade">Grade</button>
         </div>
       </div>
+
+      <!-- flat grid for name/grade sort -->
+      <div id="flat-grid" class="domain-section__grid" style="display:none;margin-bottom:3rem"></div>
 
       <!-- ci-cd -->
       <div class="domain-section">
@@ -1420,6 +1434,79 @@
       btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
       document.addEventListener('click', () => { drop.hidden = true; });
       apply('dark');
+    })();
+
+    // ── Filter & Sort ──────────────────────────────────────────────
+    (function () {
+      const gradeOrder = { 'A+': 9, 'A': 8, 'A-': 7, 'B+': 6, 'B': 5, 'B-': 4, 'C+': 3, 'C': 2, 'D': 1 };
+      let currentSort = 'domain';
+      let currentQuery = '';
+
+      const filterInput = document.getElementById('skills-filter');
+      const sortBtns = document.querySelectorAll('.toolbar__sort-btn');
+
+      const sections = Array.from(document.querySelectorAll('.domain-section'));
+      const sectionData = sections.map(section => {
+        const grid = section.querySelector('.domain-section__grid');
+        return { section, grid, entries: Array.from(grid.querySelectorAll('.skill-entry')) };
+      });
+
+      function getName(el) {
+        return el.querySelector('.skill-entry__name')?.textContent.trim().toLowerCase() ?? '';
+      }
+      function getDesc(el) {
+        return el.querySelector('.skill-entry__desc')?.textContent.trim().toLowerCase() ?? '';
+      }
+      function getGrade(el) {
+        const t = el.querySelector('.skill-entry__grade-text')?.textContent.trim() ?? '';
+        return gradeOrder[t] ?? 0;
+      }
+
+      const flatGrid = document.getElementById('flat-grid');
+
+      function render() {
+        const q = currentQuery.toLowerCase();
+
+        if (currentSort === 'domain') {
+          flatGrid.style.display = 'none';
+          for (const { section, grid, entries } of sectionData) {
+            for (const entry of entries) {
+              const match = !q || getName(entry).includes(q) || getDesc(entry).includes(q);
+              entry.style.display = match ? '' : 'none';
+              grid.appendChild(entry);
+            }
+            const visible = entries.filter(e => e.style.display !== 'none');
+            section.style.display = visible.length === 0 ? 'none' : '';
+          }
+        } else {
+          for (const { section } of sectionData) section.style.display = 'none';
+          const allEntries = sectionData.flatMap(d => d.entries);
+          for (const entry of allEntries) {
+            const match = !q || getName(entry).includes(q) || getDesc(entry).includes(q);
+            entry.style.display = match ? '' : 'none';
+          }
+          const visible = allEntries.filter(e => e.style.display !== 'none');
+          const hidden  = allEntries.filter(e => e.style.display === 'none');
+          let sorted;
+          if (currentSort === 'name') {
+            sorted = [...visible].sort((a, b) => getName(a).localeCompare(getName(b)));
+          } else {
+            sorted = [...visible].sort((a, b) => getGrade(b) - getGrade(a));
+          }
+          for (const entry of [...sorted, ...hidden]) flatGrid.appendChild(entry);
+          flatGrid.style.display = '';
+        }
+      }
+
+      filterInput.addEventListener('input', () => { currentQuery = filterInput.value; render(); });
+      sortBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentSort = btn.dataset.sort;
+          sortBtns.forEach(b => b.classList.remove('toolbar__sort-btn--active'));
+          btn.classList.add('toolbar__sort-btn--active');
+          render();
+        });
+      });
     })();
   </script>
 
