@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tekhne Skills — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..700;1,300..700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tk-bg: #070d14;
+      --tk-bg-surface: #0d1520;
+      --tk-bg-hover: #182639;
+      --tk-border: #1e3048;
+      --tk-text: #90adc4;
+      --tk-text-muted: #5a7a96;
+      --tk-accent: #38bdf8;
+      --tk-accent-hover: #0ea5e9;
+      --tk-code-bg: #0d1520;
+      --tk-link: #7dd3fc;
+      --tk-link-hover: #bae6fd;
+      --tk-color-white: #f0f9ff;
+      --tk-color-accent-low: #082035;
+      --tk-font-mono: "Fira Code", ui-monospace, Consolas, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--tk-bg);
+      color: var(--tk-text);
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: var(--tk-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: rgba(7,13,20,0.92);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--tk-accent); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 2rem;
+      font-size: 0.875rem;
+    }
+    .nav-links a { color: var(--tk-text); }
+    .nav-links a:hover { color: var(--tk-color-white); text-decoration: none; }
+    .nav-spacer { flex: 1; }
+    .nav-gh {
+      font-size: 0.8125rem;
+      border: 1px solid var(--tk-border);
+      padding: 0 0.75rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 0.375rem;
+      color: var(--tk-text);
+    }
+    .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── Hero ── */
+    .hero-wrap {
+      position: relative;
+      overflow: hidden;
+      padding: 5rem 2rem 4rem;
+      text-align: center;
+    }
+    /* Radial glow behind hero text */
+    .hero-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, #061525 0%, transparent 70%);
+      pointer-events: none;
+    }
+    /* Subtle dot grid */
+    .hero-wrap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, #3f3f46 1px, transparent 1px);
+      background-size: 28px 28px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-accent);
+      border: 1px solid #0c3351;
+      background: #061525;
+      padding: 0.25rem 0.75rem;
+      border-radius: 9999px;
+      margin-bottom: 1.5rem;
+    }
+    .hero-eyebrow::before { content: "◆"; font-size: 0.6em; }
+    .hero-title {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: var(--tk-color-white);
+      margin-bottom: 0.5rem;
+    }
+    .hero-title .gradient {
+      background: linear-gradient(135deg, #bae6fd 0%, #38bdf8 50%, #0ea5e9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.125rem;
+      color: var(--tk-text);
+      max-width: 52ch;
+      margin: 1rem auto 2rem;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.625rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 600;
+      font-size: 0.9375rem;
+      transition: all 0.15s;
+    }
+    .btn-primary {
+      background: var(--tk-accent);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(56,189,248,0.25);
+    }
+    .btn-primary:hover { background: var(--tk-accent-hover); text-decoration: none; color: #fff; box-shadow: 0 0 28px rgba(56,189,248,0.35); }
+    .btn-secondary {
+      border: 1px solid var(--tk-border);
+      color: var(--tk-text);
+      background: rgba(255,255,255,0.03);
+    }
+    .btn-secondary:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      border-top: 1px solid var(--tk-border);
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.125rem;
+    }
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--tk-color-white);
+      letter-spacing: -0.02em;
+    }
+    .stat-value span { color: var(--tk-accent); }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--tk-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .stat-sep {
+      width: 1px;
+      background: var(--tk-border);
+      align-self: stretch;
+      margin: 0.25rem 0;
+    }
+
+    /* ── Section wrapper ── */
+    .section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--tk-color-white);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .section-desc {
+      color: var(--tk-text-muted);
+      margin-bottom: 2rem;
+      max-width: 60ch;
+    }
+
+    /* ── Terminal snippet ── */
+    .terminal {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.625rem 1rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: var(--tk-bg-hover);
+    }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #eab308; }
+    .dot-green { background: #38bdf8; }
+    .terminal-body {
+      padding: 1.25rem 1.5rem;
+      font-family: var(--tk-font-mono);
+      font-size: 0.875rem;
+      line-height: 2;
+    }
+    .term-prompt { color: var(--tk-text-muted); user-select: none; }
+    .term-cmd { color: var(--tk-color-white); }
+    .term-comment { color: var(--tk-text-muted); }
+    .term-out { color: var(--tk-accent); }
+    .term-dim { color: var(--tk-text-muted); }
+
+    /* ── Domain grid ── */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.75rem;
+    }
+    .domain-card {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.625rem;
+      padding: 0.875rem 1rem;
+      transition: border-color 0.15s, background 0.15s;
+      cursor: pointer;
+    }
+    .domain-card:hover {
+      border-color: var(--tk-accent);
+      background: #071828;
+      text-decoration: none;
+    }
+    .domain-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 2rem;
+      color: var(--tk-text-muted);
+    }
+    .domain-icon svg { width: 1.125rem; height: 1.125rem; }
+    .domain-info { min-width: 0; }
+    .domain-name {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .domain-count {
+      font-size: 0.6875rem;
+      color: var(--tk-text-muted);
+    }
+
+    /* ── How it works ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .step {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.625rem;
+      padding: 1.25rem;
+      position: relative;
+    }
+    .step-num {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--tk-accent);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .step h3 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin-bottom: 0.375rem;
+    }
+    .step p {
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--tk-border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--tk-border); }
+
+    /* ── Light theme ── */
+    [data-theme="light"] {
+      --tk-bg: #f0f9ff;
+      --tk-bg-surface: #ffffff;
+      --tk-bg-hover: #bae6fd;
+      --tk-border: #bae6fd;
+      --tk-text: #334155;
+      --tk-text-muted: #64748b;
+      --tk-accent: #0ea5e9;
+      --tk-accent-hover: #0284c7;
+      --tk-code-bg: #f0f9ff;
+      --tk-link: #0284c7;
+      --tk-link-hover: #0369a1;
+      --tk-color-white: #0c1a2e;
+      --tk-color-accent-low: #e0f2fe;
+    }
+    [data-theme="light"] nav { background: rgba(240,249,255,0.95); }
+    [data-theme="light"] .hero-wrap::before {
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, #e0f2fe 0%, transparent 70%);
+    }
+    [data-theme="light"] .hero-wrap::after {
+      background-image: radial-gradient(circle, #d4d4d8 1px, transparent 1px);
+    }
+    [data-theme="light"] .hero-eyebrow { border-color: #7dd3fc; background: #f0f9ff; }
+    [data-theme="light"] .domain-card:hover { border-color: #38bdf8; background: #f0f9ff; }
+
+    /* ── PM selector ── */
+    .pm-select { position: relative; }
+    .pm-select-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0 0.625rem;
+      height: 2rem;
+      width: 5rem;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .pm-select-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .pm-select-btn svg { width: 0.75rem; height: 0.75rem; opacity: 0.6; }
+    .pm-drop {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 6rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .pm-drop[hidden] { display: none; }
+    .pm-option {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-text);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .pm-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+
+    /* ── Theme selector ── */
+    .theme-select { position: relative; }
+    .theme-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background: none;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .theme-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .theme-btn svg { width: 0.875rem; height: 0.875rem; }
+    .theme-dropdown {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 8rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .theme-dropdown[hidden] { display: none; }
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.8125rem;
+      font-family: inherit;
+      color: var(--tk-text);
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+    }
+    .theme-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+    .theme-option svg { width: 0.875rem; height: 0.875rem; flex-shrink: 0; }
+  
+  /* ── ARCTIC LAYOUT OVERRIDES ── */
+  /* Shadows instead of borders on interactive cards */
+  .skill-entry { border-color: transparent !important; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06); transition: box-shadow 0.15s, transform 0.15s !important; }
+  .skill-entry:hover { border-color: transparent !important; box-shadow: 0 8px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .domain-card { border-color: transparent !important; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .domain-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.12); transform: translateY(-1px); border-color: transparent !important; background: var(--tk-bg-surface) !important; }
+  .tile-header { border-color: transparent !important; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  /* Slimmer sidebar */
+  .page-shell { grid-template-columns: 13rem 1fr !important; }
+  .left-nav { padding: 1rem 0; }
+  .left-nav__item { padding: 0.3rem 1rem; font-size: 0.8rem; }
+  .left-nav__label { padding: 0 1rem; font-size: 0.625rem; }
+  /* No hero glow — clean white space */
+  .hero-wrap::before { display: none !important; }
+  /* Softer dot grid */
+  .hero-wrap::after { opacity: 0.15 !important; }
+  /* Centered minimal hero */
+  .hero-wrap { padding: 6rem 2rem 5rem; }
+  .hero-inner { max-width: 680px; }
+  /* Reading-width content */
+  main { max-width: 900px; }
+  /* Rounder domain cards */
+  .domain-card { border-radius: 0.75rem !important; }
+  /* Domain grid 2-col max on landing */
+  .domain-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  /* No btn glow */
+  .btn-primary { box-shadow: none !important; }
+  .btn-primary:hover { box-shadow: none !important; }
+  /* Generous card spacing */
+  .skill-entry { padding: 1.25rem 1.5rem; }
+  /* Active nav item pill */
+  .left-nav__item--active { background: color-mix(in srgb, var(--tk-accent) 10%, transparent) !important; border-left-color: var(--tk-accent); border-radius: 0 4px 4px 0; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="landing-preview.html" class="nav-logo">tekhne<span>.</span></a>
+    <div class="nav-links">
+      <a href="skills-preview.html">Skills</a>
+      <a href="tiles-preview.html">Tiles</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="pm-select" id="pm-select">
+      <button class="pm-select-btn" id="pm-btn" aria-label="Package manager">
+        <span id="pm-label">npm</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="pm-drop" id="pm-drop" hidden></div>
+    </div>
+    <div class="theme-select" id="theme-select">
+      <button class="theme-btn" id="theme-btn" aria-label="Switch theme"></button>
+      <div class="theme-dropdown" id="theme-dropdown" hidden></div>
+    </div>
+    <a class="nav-gh" href="#">★ GitHub</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-wrap">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Open Source · Quality-graded</div>
+      <h1 class="hero-title">
+        Extend any AI assistant<br>
+        <span class="gradient">in minutes</span>
+      </h1>
+      <p class="hero-sub">
+        Modular, quality-graded skills for Claude, Cursor, OpenCode, Copilot,
+        and 40+ other AI agents. Drop a skill in — get domain expertise instantly.
+      </p>
+      <div class="hero-actions">
+        <a href="skills-preview.html" class="btn btn-primary">Browse All Skills</a>
+        <a href="#" class="btn btn-secondary">View on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat">
+      <span class="stat-value">70<span>+</span></span>
+      <span class="stat-label">Skills</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">12</span>
+      <span class="stat-label">Domains</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">40<span>+</span></span>
+      <span class="stat-label">Agents supported</span>
+    </div>
+    <div class="stat-sep"></div>
+    <div class="stat">
+      <span class="stat-value">A</span>
+      <span class="stat-label">Quality threshold</span>
+    </div>
+  </div>
+
+  <!-- Install -->
+  <div class="section">
+    <div class="section-label">Get started</div>
+    <h2 class="section-title">Install in 30 seconds</h2>
+    <p class="section-desc">Skills are plain Markdown — add them to any agent configuration with one command.</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <div class="terminal-body">
+        <div><span class="term-comment"># Install all skills into your project</span></div>
+        <div><span class="term-prompt">$ </span><span class="term-cmd">bunx skills add ./skills --all</span></div>
+        <div><span class="term-out">✓ Installed 70 skills across 12 domains</span></div>
+        <br>
+        <div><span class="term-comment"># Or install a single skill</span></div>
+        <div><span class="term-prompt">$ </span><span class="term-cmd">bun cli/index.ts install ci-cd/github-actions-generator</span></div>
+        <div><span class="term-out">✓ ci-cd/github-actions-generator  A+</span></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- Domain grid -->
+  <div class="section">
+    <div class="section-label">Browse</div>
+    <h2 class="section-title">Explore by domain</h2>
+    <p class="section-desc">Every skill lives in one of 12 focused domains. Click a domain to see all skills.</p>
+
+    <div class="domain-grid">
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">CI/CD</div>
+          <div class="domain-count">14 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Infrastructure</div>
+          <div class="domain-count">13 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Development</div>
+          <div class="domain-count">10 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Agentic Harness</div>
+          <div class="domain-count">9 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2v6l3.13 4.38A2 2 0 0 1 15.52 16H8.48a2 2 0 0 1-1.61-2.62L10 8V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Testing</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Software Engineering</div>
+          <div class="domain-count">4 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Observability</div>
+          <div class="domain-count">4 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><line x1="10" x2="8" y1="9" y2="9"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Documentation</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v2c0 .6-.4 1-1 1H7c-.6 0-1-.4-1-1V9"/><path d="M12 12v3"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Repository Mgmt</div>
+          <div class="domain-count">6 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v11"/><path d="M12 5v6"/><path d="M18 5v14"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Project Mgmt</div>
+          <div class="domain-count">5 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Package Mgmt</div>
+          <div class="domain-count">2 skills</div>
+        </div>
+      </a>
+      <a href="domain-preview.html" class="domain-card">
+        <span class="domain-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg></span>
+        <div class="domain-info">
+          <div class="domain-name">Specialized</div>
+          <div class="domain-count">3 skills</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- How it works -->
+  <div class="section">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">From zero to expert agent in three steps</h2>
+    <p class="section-desc">Skills are plain Markdown — no binaries, no lock-in.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">Step 01</div>
+        <h3>Browse &amp; pick</h3>
+        <p>Find the skill that matches your workflow — CI/CD pipelines, Terraform, BDD testing, and more.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 02</div>
+        <h3>Install</h3>
+        <p>One CLI command drops the skill into your agent config. Works with OpenCode, Cursor, Claude, and 40+ others.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 03</div>
+        <h3>Extend or fork</h3>
+        <p>Every skill is a Markdown file. Read it, fork it, submit improvements back — no special tooling required.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>tekhne · <a href="#">pantheon-org</a></span>
+    <span>MIT License · <a href="#">GitHub</a> · <a href="#">Tessl Registry</a></span>
+  </footer>
+
+  <script>
+    // ── PM selector ──────────────────────────────────────────────
+    (function () {
+      const pms = [
+        { id: 'npm',  exec: 'npx' },
+        { id: 'yarn', exec: 'yarn dlx' },
+        { id: 'pnpm', exec: 'pnpx' },
+        { id: 'bun',  exec: 'bunx' },
+      ];
+      const btn   = document.getElementById('pm-btn');
+      const label = document.getElementById('pm-label');
+      const drop  = document.getElementById('pm-drop');
+      let current = 'npm';
+
+      function apply(id) {
+        current = id;
+        label.textContent = pms.find(p => p.id === id).id;
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = pms
+          .filter(p => p.id !== current)
+          .map(p => `<button class="pm-option" data-id="${p.id}">${p.id}</button>`)
+          .join('');
+        drop.querySelectorAll('.pm-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.id); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('npm');
+    })();
+
+    // ── Theme selector ──────────────────────────────────────────────
+    (function () {
+      const html = document.documentElement;
+      const btn  = document.getElementById('theme-btn');
+      const drop = document.getElementById('theme-dropdown');
+      const icons = {
+        light:  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+        dark:   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+        system: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>`,
+      };
+      const labels = { light: 'Light', dark: 'Dark', system: 'System' };
+      let current = 'dark';
+
+      function resolve(t) {
+        return t === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : t;
+      }
+
+      function apply(t) {
+        current = t;
+        html.setAttribute('data-theme', resolve(t));
+        btn.innerHTML = icons[t];
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = ['light', 'dark', 'system']
+          .filter(t => t !== current)
+          .map(t => `<button class="theme-option" data-t="${t}">${icons[t]}<span>${labels[t]}</span></button>`)
+          .join('');
+        drop.querySelectorAll('.theme-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.t); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('dark');
+    })();
+  </script>
+</body>
+</html>

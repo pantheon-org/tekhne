@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tile Page — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tk-bg: #0c0a06;
+      --tk-bg-surface: #1a1510;
+      --tk-bg-elevated: #221c12;
+      --tk-bg-hover: #2a2214;
+      --tk-border: #3d3320;
+      --tk-text: #a8a29e;
+      --tk-text-muted: #78716c;
+      --tk-accent: #f59e0b;
+      --tk-accent-hover: #d97706;
+      --tk-code-bg: #1a1510;
+      --tk-link: #fbbf24;
+      --tk-link-hover: #fcd34d;
+      --tk-color-white: #fafaf9;
+      --tk-color-accent-low: #292208;
+      --tk-color-accent-high: #fbbf24;
+      --tk-color-green: #4ade80;
+      --tk-color-gray-2: #e7e5e4;
+      --tk-color-gray-3: #a8a29e;
+      --tk-color-gray-4: #78716c;
+      --tk-color-gray-5: #2a2214;
+      --tk-font-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+      --badge-a-plus-bg: #4ade80; --badge-a-bg: #4ade80; --badge-a-minus-bg: #22c55e;
+      --badge-b-plus-bg: #fbbf24; --badge-b-bg: #f59e0b; --badge-b-minus-bg: #d97706;
+      --badge-c-plus-bg: #fb923c; --badge-c-bg: #f97316;
+      --badge-d-bg: #f87171;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--tk-bg);
+      color: var(--tk-text);
+      font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    a { color: var(--tk-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav.top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: rgba(12,10,6,0.92);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 3.5rem;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--tk-accent); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 2rem;
+      font-size: 0.875rem;
+    }
+    .nav-links a { color: var(--tk-text); }
+    .nav-links a:hover { color: var(--tk-color-white); text-decoration: none; }
+    .nav-spacer { flex: 1; }
+    .nav-search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      padding: 0 0.75rem;
+      height: 2rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      width: 14rem;
+    }
+    .nav-search kbd {
+      margin-left: auto;
+      font-size: 0.7rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.1em 0.4em;
+      font-family: var(--tk-font-mono);
+    }
+    .nav-gh {
+      font-size: 0.8125rem;
+      border: 1px solid var(--tk-border);
+      padding: 0 0.75rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 0.375rem;
+      color: var(--tk-text);
+    }
+    .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── PM selector ── */
+    .pm-select { position: relative; }
+    .pm-select-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0 0.625rem;
+      height: 2rem;
+      width: 5rem;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .pm-select-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .pm-select-btn svg { width: 0.75rem; height: 0.75rem; opacity: 0.6; }
+    .pm-drop {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 6rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .pm-drop[hidden] { display: none; }
+    .pm-option {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-text);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .pm-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+
+    /* ── Page shell ── */
+    .page-shell {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      min-height: calc(100vh - 3.5rem);
+    }
+
+    /* ── Left nav ── */
+    .left-nav {
+      border-right: 1px solid var(--tk-border);
+      padding: 1.25rem 0;
+      overflow-y: auto;
+      position: sticky;
+      top: 3.5rem;
+      height: calc(100vh - 3.5rem);
+    }
+    .left-nav__section { margin-bottom: 1.5rem; }
+    .left-nav__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-text-muted);
+      padding: 0 1.25rem;
+      margin-bottom: 0.375rem;
+    }
+    .left-nav__item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1.25rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__item:hover {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      text-decoration: none;
+    }
+    .left-nav__item--active {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      border-left-color: var(--tk-accent);
+      font-weight: 500;
+    }
+    .left-nav__icon { display: flex; align-items: center; flex-shrink: 0; color: var(--tk-text-muted); }
+    .left-nav__icon svg { width: 0.875rem; height: 0.875rem; }
+    .left-nav__item--active .left-nav__icon,
+    .left-nav__item:hover .left-nav__icon { color: var(--tk-color-white); }
+    .left-nav__count {
+      margin-left: auto;
+      font-size: 0.65rem;
+      background: var(--tk-bg-elevated);
+      border: 1px solid var(--tk-border);
+      border-radius: 9999px;
+      padding: 0.05em 0.5em;
+      color: var(--tk-text-muted);
+    }
+    .left-nav__divider {
+      height: 1px;
+      background: var(--tk-border);
+      margin: 0.75rem 1.25rem;
+    }
+    .left-nav__sub { display: flex; flex-direction: column; }
+    .left-nav__sub-item {
+      padding: 0.3rem 1.25rem 0.3rem 2.25rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__sub-item:hover { color: var(--tk-color-white); background: var(--tk-bg-hover); text-decoration: none; }
+    .left-nav__sub-item--active {
+      color: var(--tk-link);
+      border-left-color: var(--tk-accent);
+      background: color-mix(in srgb, var(--tk-accent) 5%, transparent);
+    }
+
+    /* ── Main ── */
+    main { padding: 2rem; overflow: auto; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: var(--tk-text-muted); }
+    .breadcrumb a:hover { color: var(--tk-link); text-decoration: none; }
+    .breadcrumb__sep { color: var(--tk-border); }
+
+    /* ── Tile header card ── */
+    .tile-header {
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+    .tile-header__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.875rem;
+    }
+    .tile-badge {
+      display: inline-block;
+      padding: 0.2em 0.65em;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .tile-domain { background: var(--tk-color-gray-5); color: var(--tk-color-gray-2); text-transform: capitalize; }
+    .tile-version {
+      background: var(--tk-color-accent-low);
+      color: var(--tk-color-accent-high);
+      font-family: var(--tk-font-mono);
+      text-decoration: none;
+    }
+    a.tile-version:hover { text-decoration: underline; }
+    .tile-skills-count {
+      background: var(--tk-bg-elevated);
+      color: var(--tk-text-muted);
+      border: 1px solid var(--tk-border);
+    }
+    .tile-visibility--public {
+      background: color-mix(in srgb, var(--tk-color-green) 15%, transparent);
+      color: var(--tk-color-green);
+    }
+    .tile-title {
+      margin: 0 0 0.75rem;
+      font-size: 1.875rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--tk-color-white);
+    }
+    .tile-summary {
+      color: var(--tk-color-gray-2);
+      font-size: 0.875rem;
+      line-height: 1.65;
+      margin: 0 0 1.25rem;
+      max-width: 65ch;
+    }
+
+    /* Install block */
+    .install-block {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--tk-bg);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 0.625rem 1rem;
+      font-size: 0.8125rem;
+      max-width: 520px;
+    }
+    .install-block code {
+      font-family: var(--tk-font-mono);
+      font-size: 0.8125rem;
+      color: var(--tk-color-white);
+      flex: 1;
+    }
+    .install-block code .exec { color: var(--tk-text-muted); }
+    .install-copy {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      color: var(--tk-text-muted);
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
+    }
+    .install-copy:hover { color: var(--tk-color-white); border-color: var(--tk-border); background: var(--tk-bg-hover); }
+    .install-copy svg { width: 0.9rem; height: 0.9rem; flex-shrink: 0; }
+
+    /* ── Skills section ── */
+    .tile-skills { margin-top: 0.5rem; }
+    .tile-skills__heading {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin-bottom: 1rem;
+    }
+    .tile-skills__grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+
+    /* Skill entry card */
+    .skill-entry {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 1.25rem;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .skill-entry:hover {
+      border-color: var(--tk-accent);
+      background: var(--tk-bg-hover);
+      text-decoration: none;
+    }
+    .skill-entry__top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+    .skill-entry__name {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+    }
+    /* Shield grade */
+    .skill-entry__grade {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 2rem;
+      height: 2.25rem;
+    }
+    .skill-entry__grade svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .skill-entry__grade-text {
+      position: relative;
+      z-index: 1;
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 1px #27272a, 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .grade-shield-a { color: var(--badge-a-bg); }
+    .grade-shield-a-plus { color: var(--badge-a-plus-bg); }
+    .grade-shield-b-plus { color: var(--badge-b-plus-bg); }
+    .grade-shield-b { color: var(--badge-b-bg); }
+    .grade-shield-c-plus { color: var(--badge-c-plus-bg); }
+    .skill-entry__desc {
+      font-size: 0.875rem;
+      color: var(--tk-text-muted);
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    /* ── Divider ── */
+    .divider { border: none; border-top: 1px solid var(--tk-border); margin: 2.5rem 0; }
+
+    /* ── Light theme ── */
+    [data-theme="light"] {
+      --tk-bg: #fffbf5;
+      --tk-bg-surface: #fff7ed;
+      --tk-bg-elevated: #fed7aa;
+      --tk-bg-hover: #fdba74;
+      --tk-border: #fcd9a8;
+      --tk-text: #78350f;
+      --tk-text-muted: #b45309;
+      --tk-accent: #d97706;
+      --tk-accent-hover: #b45309;
+      --tk-code-bg: #fff7ed;
+      --tk-link: #b45309;
+      --tk-link-hover: #92400e;
+      --tk-color-white: #1c1003;
+      --tk-color-accent-low: #fef3c7;
+      --tk-color-accent-high: #b45309;
+      --tk-color-green: #16a34a;
+      --tk-color-gray-2: #292524;
+      --tk-color-gray-3: #57534e;
+      --tk-color-gray-4: #a8a29e;
+      --tk-color-gray-5: #fef3c7;
+    }
+    [data-theme="light"] nav.top-nav { background: rgba(255,251,245,0.95); }
+
+    /* ── Theme selector ── */
+    .theme-select { position: relative; }
+    .theme-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background: none;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .theme-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .theme-btn svg { width: 0.875rem; height: 0.875rem; }
+    .theme-dropdown {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 8rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .theme-dropdown[hidden] { display: none; }
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.8125rem;
+      font-family: inherit;
+      color: var(--tk-text);
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+    }
+    .theme-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+    .theme-option svg { width: 0.875rem; height: 0.875rem; flex-shrink: 0; }
+  
+  /* ── AMBER LAYOUT OVERRIDES ── */
+  /* Very rounded cards, warm treatment */
+  .skill-entry, .domain-card, .tile-card, .tile-header { border-radius: 1rem !important; }
+  .tile-badge, .hero-eyebrow { border-radius: 9999px !important; }
+  .install-block { border-radius: 0.75rem !important; }
+  /* Remove hero background entirely — let typography carry it */
+  .hero-wrap::before { display: none !important; }
+  .hero-wrap::after { display: none !important; }
+  /* No sidebar — full width layout */
+  .page-shell { grid-template-columns: 1fr !important; }
+  .left-nav { display: none !important; }
+  main { max-width: 960px; margin: 0 auto; padding: 2rem; }
+  /* Horizontal domain pill strip */
+  .domain-grid { display: flex; flex-wrap: nowrap; gap: 0.625rem; overflow-x: auto; padding-bottom: 0.75rem; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+  .domain-card { flex-shrink: 0; min-width: auto; width: auto; flex-direction: row; border-radius: 9999px !important; padding: 0.5rem 1rem; gap: 0.5rem; }
+  .domain-icon { width: 1.25rem; }
+  .domain-count { display: none; }
+  /* Oversized editorial hero */
+  .hero-wrap { padding: 7rem 2rem 5rem; text-align: left; }
+  .hero-inner { max-width: 900px; }
+  .hero-actions { justify-content: flex-start; }
+  .hero-sub { margin-left: 0; font-size: 1.25rem !important; max-width: 64ch !important; }
+  .hero-title { font-size: clamp(3rem, 7vw, 5rem) !important; letter-spacing: -0.04em !important; }
+  .hero-eyebrow { margin-bottom: 2rem; }
+  /* Skill card bigger, article feel */
+  .skill-entry { padding: 1.5rem; }
+  .skill-entry__name { font-size: 1.0625rem !important; }
+  /* No btn glow */
+  .btn-primary { box-shadow: none !important; }
+  .btn-primary:hover { box-shadow: none !important; }
+  /* Domain section title in amber */
+  .domain-section__title { font-size: 1rem; font-weight: 700; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="top-nav">
+    <a href="landing-preview.html" class="nav-logo">tekhne<span>.</span></a>
+    <div class="nav-links">
+      <a href="skills-preview.html">Skills</a>
+      <a href="tiles-preview.html" class="active">Tiles</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search skills…
+      <kbd>⌘K</kbd>
+    </div>
+    <div class="pm-select" id="pm-select">
+      <button class="pm-select-btn" id="pm-btn" aria-label="Package manager">
+        <span id="pm-label">npm</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="pm-drop" id="pm-drop" hidden></div>
+    </div>
+    <div class="theme-select" id="theme-select">
+      <button class="theme-btn" id="theme-btn" aria-label="Switch theme"></button>
+      <div class="theme-dropdown" id="theme-dropdown" hidden></div>
+    </div>
+    <a class="nav-gh" href="#">★ GitHub</a>
+  </nav>
+
+  <div class="page-shell">
+
+    <!-- Left nav -->
+    <nav class="left-nav" aria-label="Site navigation">
+      <div class="left-nav__section">
+        <div class="left-nav__label">Navigation</div>
+        <a href="landing-preview.html" class="left-nav__item">
+          <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Home
+        </a>
+        <a href="skills-preview.html" class="left-nav__item">
+          <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></span> All Skills
+          <span class="left-nav__count">70</span>
+        </a>
+        <a href="tiles-preview.html" class="left-nav__item left-nav__item--active">
+          <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span> Tiles
+          <span class="left-nav__count">18</span>
+        </a>
+      </div>
+      <div class="left-nav__divider"></div>
+      <div class="left-nav__section">
+        <div class="left-nav__label">All Tiles</div>
+        <div class="left-nav__sub">
+          <a href="tile-preview.html" class="left-nav__sub-item">agentic-harness-core</a>
+          <a href="tile-preview.html" class="left-nav__sub-item">ci-cd-core</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">development-core</a>
+          <a href="tile-preview.html" class="left-nav__sub-item">nx-monorepo</a>
+          <a href="tile-preview.html" class="left-nav__sub-item">observability-core</a>
+          <a href="tile-preview.html" class="left-nav__sub-item">testing-core</a>
+          <a href="tile-preview.html" class="left-nav__sub-item">documentation-core</a>
+          <a href="tile-preview.html" class="left-nav__sub-item">software-engineering</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main>
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="tiles-preview.html">Tiles</a>
+        <span class="breadcrumb__sep">›</span>
+        <span>development-core</span>
+      </nav>
+
+      <!-- Tile header card -->
+      <div class="tile-header">
+        <div class="tile-header__meta">
+          <span class="tile-badge tile-domain">development</span>
+          <a class="tile-badge tile-version" href="#">v2.1.4</a>
+          <span class="tile-badge tile-skills-count">4 skills</span>
+          <span class="tile-badge tile-visibility--public">public</span>
+        </div>
+
+        <h1 class="tile-title">pantheon-ai/development-core</h1>
+
+        <p class="tile-summary">
+          Core development skills — TypeScript, Bun, Biome, and Commander.js. Installs the
+          essential toolchain for modern TypeScript-first projects as a bundle or skill-by-skill.
+        </p>
+
+        <!-- Install block -->
+        <div class="install-block" id="install-block">
+          <code><span class="exec">npx</span> tessl install pantheon-ai/development-core</code>
+          <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+        </div>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Skills grid -->
+      <section class="tile-skills">
+        <h2 class="tile-skills__heading">Skills</h2>
+        <div class="tile-skills__grid">
+
+          <a href="skill-preview.html" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">TypeScript Advanced</span>
+              <div class="skill-entry__grade grade-shield-b-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">B+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Comprehensive TypeScript guidance covering compiler configuration, advanced types,
+              utility types, type narrowing, generics, mapped types, and strict-mode patterns.
+            </p>
+          </a>
+
+          <a href="skill-preview.html" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Bun Development</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Complete Bun.js ecosystem guidance for runtime APIs, file I/O, package management,
+              testing, SQLite, and building fast TypeScript-first applications.
+            </p>
+          </a>
+
+          <a href="skill-preview.html" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Biome Complete</span>
+              <div class="skill-entry__grade grade-shield-a">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">A</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Complete Biome toolchain guidance for real repository workflows including linting,
+              formatting, migration from ESLint and Prettier, and CI integration.
+            </p>
+          </a>
+
+          <a href="skill-preview.html" class="skill-entry">
+            <div class="skill-entry__top">
+              <span class="skill-entry__name">Commander.js</span>
+              <div class="skill-entry__grade grade-shield-a-plus">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+                  <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+                    fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+                </svg>
+                <span class="skill-entry__grade-text">A+</span>
+              </div>
+            </div>
+            <p class="skill-entry__desc">
+              Complete Commander.js CLI framework guidance covering command structure, options,
+              arguments, subcommands, help generation, and error handling patterns.
+            </p>
+          </a>
+
+        </div>
+      </section>
+    </main>
+
+  </div>
+
+  <script>
+    // ── PM selector ──────────────────────────────────────────────
+    (function () {
+      const pms = [
+        { id: 'npm',  exec: 'npx' },
+        { id: 'yarn', exec: 'yarn dlx' },
+        { id: 'pnpm', exec: 'pnpx' },
+        { id: 'bun',  exec: 'bunx' },
+      ];
+      const btn   = document.getElementById('pm-btn');
+      const label = document.getElementById('pm-label');
+      const drop  = document.getElementById('pm-drop');
+      let current = 'npm';
+
+      function apply(id) {
+        current = id;
+        const pm = pms.find(p => p.id === id);
+        label.textContent = pm.id;
+        document.querySelectorAll('.exec').forEach(el => { el.textContent = pm.exec; });
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = pms
+          .filter(p => p.id !== current)
+          .map(p => `<button class="pm-option" data-id="${p.id}">${p.id}</button>`)
+          .join('');
+        drop.querySelectorAll('.pm-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.id); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('npm');
+    })();
+
+    const copyIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>`;
+    const checkIcon = `<svg stroke="currentColor" fill="none" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+    document.querySelector('.install-copy').addEventListener('click', function() {
+      const code = this.closest('.install-block').querySelector('code');
+      navigator.clipboard?.writeText(code.textContent.trim());
+      this.innerHTML = checkIcon;
+      this.style.color = 'var(--tk-accent)';
+      setTimeout(() => { this.innerHTML = copyIcon; this.style.color = ''; }, 1500);
+    });
+
+    // ── Theme selector ──────────────────────────────────────────────
+    (function () {
+      const html = document.documentElement;
+      const btn  = document.getElementById('theme-btn');
+      const drop = document.getElementById('theme-dropdown');
+      const icons = {
+        light:  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+        dark:   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+        system: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>`,
+      };
+      const labels = { light: 'Light', dark: 'Dark', system: 'System' };
+      let current = 'dark';
+
+      function resolve(t) {
+        return t === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : t;
+      }
+
+      function apply(t) {
+        current = t;
+        html.setAttribute('data-theme', resolve(t));
+        btn.innerHTML = icons[t];
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = ['light', 'dark', 'system']
+          .filter(t => t !== current)
+          .map(t => `<button class="theme-option" data-t="${t}">${icons[t]}<span>${labels[t]}</span></button>`)
+          .join('');
+        drop.querySelectorAll('.theme-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.t); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('dark');
+    })();
+  </script>
+</body>
+</html>

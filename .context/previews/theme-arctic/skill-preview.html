@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Skill Page — Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..700;1,300..700&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --tk-bg: #070d14;
+      --tk-bg-surface: #0d1520;
+      --tk-bg-elevated: #121d2b;
+      --tk-bg-hover: #182639;
+      --tk-border: #1e3048;
+      --tk-text: #90adc4;
+      --tk-text-muted: #5a7a96;
+      --tk-accent: #38bdf8;
+      --tk-accent-hover: #0ea5e9;
+      --tk-code-bg: #0d1520;
+      --tk-link: #7dd3fc;
+      --tk-link-hover: #bae6fd;
+      --tk-color-white: #f0f9ff;
+      --tk-color-accent-low: #082035;
+      --tk-color-accent-high: #7dd3fc;
+      --tk-color-green: #34d399;
+      --tk-color-gray-2: #cae4f5;
+      --tk-color-gray-3: #90adc4;
+      --tk-color-gray-4: #5a7a96;
+      --tk-color-gray-5: #182639;
+      --tk-font-mono: "Fira Code", ui-monospace, Consolas, monospace;
+
+      /* Grade badge colours */
+      --badge-a-plus-bg: #34d399; --badge-a-bg: #34d399; --badge-a-minus-bg: #10b981;
+      --badge-b-plus-bg: #fbbf24; --badge-b-bg: #f59e0b; --badge-b-minus-bg: #d97706;
+      --badge-c-plus-bg: #fb923c; --badge-c-bg: #f97316; --badge-c-minus-bg: #c2410c;
+      --badge-d-plus-bg: #ef4444; --badge-d-bg: #f87171; --badge-d-minus-bg: #b91c1c;
+      --badge-f-bg: #991b1b;
+      --badge-fg: #fff;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--tk-bg);
+      color: var(--tk-text);
+      font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    a { color: var(--tk-link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── Nav ── */
+    nav.top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.75rem 2rem;
+      border-bottom: 1px solid var(--tk-border);
+      background: rgba(7,13,20,0.92);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 3.5rem;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--tk-color-white);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--tk-accent); }
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      margin-left: 2rem;
+      font-size: 0.875rem;
+    }
+    .nav-links a { color: var(--tk-text); }
+    .nav-links a:hover { color: var(--tk-color-white); text-decoration: none; }
+    .nav-spacer { flex: 1; }
+    .nav-search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      padding: 0 0.75rem;
+      height: 2rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+      width: 14rem;
+    }
+    .nav-search kbd {
+      margin-left: auto;
+      font-size: 0.7rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.1em 0.4em;
+      font-family: var(--tk-font-mono);
+    }
+    .nav-gh {
+      font-size: 0.8125rem;
+      border: 1px solid var(--tk-border);
+      padding: 0 0.75rem;
+      height: 2rem;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 0.375rem;
+      color: var(--tk-text);
+    }
+    .nav-gh:hover { border-color: var(--tk-text); color: var(--tk-color-white); text-decoration: none; }
+
+    /* ── PM selector ── */
+    .pm-select { position: relative; }
+    .pm-select-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0 0.625rem;
+      height: 2rem;
+      width: 5rem;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .pm-select-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .pm-select-btn svg { width: 0.75rem; height: 0.75rem; opacity: 0.6; }
+    .pm-drop {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 6rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .pm-drop[hidden] { display: none; }
+    .pm-option {
+      display: block;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-text);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.1s, color 0.1s;
+    }
+    .pm-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+
+    /* ── Page shell ── */
+    .page-shell {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      min-height: calc(100vh - 3.5rem);
+    }
+
+    /* ── Left nav ── */
+    .left-nav {
+      border-right: 1px solid var(--tk-border);
+      padding: 1.25rem 0;
+      overflow-y: auto;
+      position: sticky;
+      top: 3.5rem;
+      height: calc(100vh - 3.5rem);
+    }
+    .left-nav__section { margin-bottom: 1.5rem; }
+    .left-nav__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-text-muted);
+      padding: 0 1.25rem;
+      margin-bottom: 0.375rem;
+    }
+    .left-nav__item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 1.25rem;
+      font-size: 0.8125rem;
+      color: var(--tk-text);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__item:hover {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      text-decoration: none;
+    }
+    .left-nav__item--active {
+      background: var(--tk-bg-hover);
+      color: var(--tk-color-white);
+      border-left-color: var(--tk-accent);
+      font-weight: 500;
+    }
+    .left-nav__icon { display: flex; align-items: center; flex-shrink: 0; color: var(--tk-text-muted); }
+    .left-nav__icon svg { width: 0.875rem; height: 0.875rem; }
+    .left-nav__item--active .left-nav__icon,
+    .left-nav__item:hover .left-nav__icon { color: var(--tk-color-white); }
+    .left-nav__count {
+      margin-left: auto;
+      font-size: 0.65rem;
+      background: var(--tk-bg-elevated);
+      border: 1px solid var(--tk-border);
+      border-radius: 9999px;
+      padding: 0.05em 0.5em;
+      color: var(--tk-text-muted);
+    }
+    .left-nav__divider {
+      height: 1px;
+      background: var(--tk-border);
+      margin: 0.75rem 1.25rem;
+    }
+    .left-nav__sub {
+      display: flex;
+      flex-direction: column;
+    }
+    .left-nav__sub-item {
+      padding: 0.3rem 1.25rem 0.3rem 2.25rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: background 0.12s, color 0.12s;
+    }
+    .left-nav__sub-item:hover { color: var(--tk-color-white); background: var(--tk-bg-hover); text-decoration: none; }
+    .left-nav__sub-item--active {
+      color: var(--tk-link);
+      border-left-color: var(--tk-accent);
+      background: color-mix(in srgb, var(--tk-accent) 5%, transparent);
+    }
+
+    /* ── Main content ── */
+    main { padding: 2rem; overflow: auto; }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78125rem;
+      color: var(--tk-text-muted);
+      margin-bottom: 1.25rem;
+    }
+    .breadcrumb a { color: var(--tk-text-muted); }
+    .breadcrumb a:hover { color: var(--tk-link); text-decoration: none; }
+    .breadcrumb__sep { color: var(--tk-border); }
+
+    /* ── Skill header card ── */
+    .sk-header {
+      display: flex;
+      gap: 1.75rem;
+      align-items: flex-start;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.75rem;
+    }
+
+    /* Grade shield */
+    .sk-grade {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 5.5rem;
+      height: 6.25rem;
+      align-self: center;
+    }
+    .sk-grade svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .sk-grade__text {
+      position: relative;
+      z-index: 1;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-shadow: 0 0 1px #27272a, 0 1px 2px rgba(0,0,0,0.4);
+    }
+    .grade-a { color: var(--badge-a-bg); }
+    .grade-a-plus { color: var(--badge-a-plus-bg); }
+    .grade-b-plus { color: var(--badge-b-plus-bg); }
+
+    .sk-header__body { flex: 1; min-width: 0; }
+    .sk-header__badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.875rem;
+    }
+    .sk-badge {
+      display: inline-block;
+      padding: 0.2em 0.65em;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+    .sk-domain { background: var(--tk-color-gray-5); color: var(--tk-color-gray-2); text-transform: capitalize; }
+    .sk-tile { background: var(--tk-color-accent-low); color: var(--tk-link); text-decoration: none; }
+    a.sk-tile:hover { text-decoration: underline; }
+    .sk-version { background: var(--tk-color-accent-low); color: var(--tk-color-accent-high); font-family: var(--tk-font-mono); }
+
+    .sk-title {
+      margin: 0 0 0.75rem;
+      font-size: 1.875rem;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--tk-color-white);
+    }
+    .sk-desc {
+      color: var(--tk-color-gray-2);
+      font-size: 0.875rem;
+      line-height: 1.65;
+      margin: 0 0 1.25rem;
+    }
+
+    /* Install block */
+    .install-block {
+      background: var(--tk-bg);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+      font-size: 0.8125rem;
+    }
+    .install-block__header {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .install-tab {
+      padding: 0.4rem 0.875rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--tk-text-muted);
+      border-bottom: 2px solid transparent;
+      border-right: 1px solid transparent;
+      cursor: pointer;
+      margin-bottom: -1px;
+      white-space: nowrap;
+      transition: color 0.12s;
+    }
+    .install-tab:hover { color: var(--tk-color-white); }
+    .install-tab--active {
+      color: var(--tk-color-white);
+      border-bottom-color: var(--tk-accent);
+    }
+    .install-block__panel { display: none; }
+    .install-block__panel--active { display: flex; }
+    .install-cmd {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.625rem 1rem;
+      width: 100%;
+    }
+    .install-cmd code {
+      font-family: var(--tk-font-mono);
+      font-size: 0.8125rem;
+      color: var(--tk-color-white);
+      flex: 1;
+    }
+    .install-cmd code .exec { color: var(--tk-text-muted); }
+    .install-copy {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 1.75rem;
+      height: 1.75rem;
+      padding: 0;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      color: var(--tk-text-muted);
+      transition: color 0.12s, border-color 0.12s, background 0.12s;
+    }
+    .install-copy:hover { color: var(--tk-color-white); border-color: var(--tk-border); background: var(--tk-bg-hover); }
+    .install-copy svg { width: 0.9rem; height: 0.9rem; flex-shrink: 0; }
+    /* Dim PM selector when agent-skills tab active */
+    .pm-select--disabled { opacity: 0.35; pointer-events: none; }
+
+    .sk-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      margin-top: 1rem;
+    }
+    .sk-tag {
+      background: var(--tk-color-gray-5);
+      color: var(--tk-color-gray-3);
+      border-radius: 9999px;
+      padding: 0.15em 0.65em;
+      font-size: 0.7rem;
+    }
+
+    /* ── Skill tabs ── */
+    .sk-tabs {
+      border-bottom: 1px solid var(--tk-border);
+      display: flex;
+      gap: 0;
+      margin-bottom: 2rem;
+    }
+    .sk-tab {
+      padding: 0.625rem 1rem;
+      font-size: 0.875rem;
+      color: var(--tk-text-muted);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      margin-bottom: -1px;
+    }
+    .sk-tab:hover { color: var(--tk-color-white); }
+    .sk-tab--active {
+      color: var(--tk-color-white);
+      border-bottom-color: var(--tk-accent);
+      font-weight: 500;
+    }
+    .sk-tab__count {
+      display: inline-block;
+      background: var(--tk-bg-hover);
+      border-radius: 9999px;
+      font-size: 0.65rem;
+      padding: 0.05em 0.5em;
+      margin-left: 0.35rem;
+      color: var(--tk-text-muted);
+    }
+
+    /* ── Skill markdown content ── */
+    .sk-content h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin: 2rem 0 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .sk-content h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--tk-color-white);
+      margin: 1.5rem 0 0.5rem;
+    }
+    .sk-content p {
+      margin-bottom: 0.875rem;
+      color: var(--tk-text);
+      font-size: 0.9375rem;
+      line-height: 1.7;
+    }
+    .sk-content ul, .sk-content ol {
+      margin: 0 0 0.875rem 1.5rem;
+    }
+    .sk-content li {
+      font-size: 0.9375rem;
+      color: var(--tk-text);
+      line-height: 1.7;
+      margin-bottom: 0.25rem;
+    }
+    .sk-content code {
+      font-family: var(--tk-font-mono);
+      font-size: 0.85em;
+      background: var(--tk-code-bg);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.25rem;
+      padding: 0.15em 0.4em;
+      color: var(--tk-color-accent-high);
+    }
+    .sk-content pre {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+    }
+    .sk-content pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--tk-text);
+      font-size: 0.8125rem;
+      line-height: 1.8;
+    }
+    .sk-content blockquote {
+      border-left: 3px solid var(--tk-accent);
+      background: color-mix(in srgb, var(--tk-accent) 5%, transparent);
+      padding: 0.75rem 1rem;
+      border-radius: 0 0.375rem 0.375rem 0;
+      margin-bottom: 0.875rem;
+    }
+    .sk-content blockquote p { margin: 0; font-size: 0.875rem; }
+
+    /* Edit link */
+    .edit-link {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--tk-border);
+    }
+    .edit-link a { font-size: 0.8rem; color: var(--tk-text-muted); }
+    .edit-link a:hover { color: var(--tk-link); }
+
+    /* ── Right sidebar ── */
+    .right-sidebar {
+      border-left: 1px solid var(--tk-border);
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+      position: sticky;
+      top: 3.5rem;
+      height: calc(100vh - 3.5rem);
+    }
+    .sk-sidebar__heading {
+      color: var(--tk-color-white);
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-bottom: 0.625rem;
+    }
+    .sk-sidebar__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+      margin-bottom: 1.5rem;
+    }
+    .sk-sidebar__btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.4rem 0.5rem;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: inherit;
+      color: var(--tk-color-gray-3);
+      transition: background 0.12s, color 0.12s;
+    }
+    .sk-sidebar__btn:hover { background: var(--tk-color-gray-5); color: var(--tk-color-white); }
+    .sk-sidebar__btn--active {
+      background: var(--tk-color-gray-5);
+      border-color: var(--tk-border);
+      color: var(--tk-color-white);
+      font-weight: 500;
+    }
+    .sk-sidebar__date {
+      font-family: var(--tk-font-mono);
+      font-size: 0.7rem;
+    }
+    .sk-sidebar__grade {
+      font-size: 0.65rem !important;
+      padding: 0.1em 0.45em;
+      border-radius: 0.25rem;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .grade-pill-a { background: color-mix(in srgb, var(--badge-a-bg) 20%, transparent); color: var(--badge-a-bg); }
+    .grade-pill-b-plus { background: color-mix(in srgb, var(--badge-b-plus-bg) 20%, transparent); color: var(--badge-b-plus-bg); }
+    .grade-pill-c { background: color-mix(in srgb, var(--badge-c-bg) 20%, transparent); color: var(--badge-c-bg); }
+
+    /* ── Audits panel layout ── */
+    .audits-layout { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .audit-selector {
+      flex-shrink: 0;
+      width: 9rem;
+      position: sticky;
+      top: calc(3.5rem + 2rem);
+      display: flex;
+      flex-direction: column;
+      gap: 0.125rem;
+    }
+    .audit-selector__label {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--tk-text-muted);
+      padding: 0 0.5rem;
+      margin-bottom: 0.375rem;
+    }
+    .audit-selector__btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      width: 100%;
+      text-align: left;
+      padding: 0.4rem 0.5rem;
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: var(--tk-font-mono);
+      color: var(--tk-color-gray-3);
+      transition: background 0.12s, color 0.12s;
+    }
+    .audit-selector__btn:hover { background: var(--tk-color-gray-5); color: var(--tk-color-white); }
+    .audit-selector__btn--active {
+      background: var(--tk-color-gray-5);
+      border-color: var(--tk-border);
+      color: var(--tk-color-white);
+      font-weight: 500;
+    }
+
+    /* ── Audit cards ── */
+    .audit-list { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1.25rem; overflow-y: auto; max-height: calc(100vh - 26rem); position: relative; }
+    .audit-card {
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .audit-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.875rem 1.25rem;
+      border-bottom: 1px solid var(--tk-border);
+    }
+    .audit-card__meta { display: flex; align-items: center; gap: 0.75rem; }
+    .audit-card__date {
+      font-family: var(--tk-font-mono);
+      font-size: 0.8125rem;
+      color: var(--tk-color-white);
+      font-weight: 500;
+    }
+    .audit-card__model { font-size: 0.75rem; color: var(--tk-text-muted); }
+    .audit-grade {
+      font-size: 0.8125rem !important;
+      padding: 0.2em 0.6em;
+      border-radius: 0.3rem;
+      font-weight: 700;
+    }
+    .audit-card__scores { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .score-row { display: flex; align-items: center; gap: 0.75rem; }
+    .score-label { font-size: 0.75rem; color: var(--tk-text); width: 14rem; flex-shrink: 0; line-height: 1.3; }
+    .score-label small { display: block; font-size: 0.65rem; color: var(--tk-text-muted); margin-top: 0.1rem; }
+    .score-bar {
+      flex: 1;
+      height: 0.5rem;
+      display: flex;
+      gap: 2px;
+      align-items: stretch;
+    }
+    .score-seg {
+      flex: 1;
+      border-radius: 2px;
+      background: var(--tk-bg-hover);
+    }
+    .score-val { font-size: 0.7rem; font-family: var(--tk-font-mono); color: var(--tk-text-muted); width: 3rem; text-align: right; flex-shrink: 0; }
+    .audit-card__total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.625rem 1.25rem;
+      border-top: 1px solid var(--tk-border);
+      font-size: 0.8125rem;
+      color: var(--tk-text-muted);
+    }
+    .audit-card__total strong { color: var(--tk-color-white); font-size: 0.9375rem; }
+    .audit-card__notes { padding: 1rem 1.25rem; border-top: 1px solid var(--tk-border); }
+    .audit-card__notes h3 { margin-bottom: 0.5rem !important; }
+
+    /* ── Evals ── */
+    .evals-summary {
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .evals-stat-row { display: flex; gap: 2rem; }
+    .evals-stat { display: flex; flex-direction: column; gap: 0.25rem; }
+    .evals-stat__val { font-size: 1.5rem; font-weight: 700; color: var(--tk-color-white); line-height: 1; }
+    .evals-stat__val--pass { color: var(--tk-accent); }
+    .evals-stat__val--fail { color: #ef4444; }
+    .evals-stat__label { font-size: 0.75rem; color: var(--tk-text-muted); }
+    .eval-list { display: flex; flex-direction: column; gap: 0.625rem; }
+    .eval-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      background: var(--tk-bg-surface);
+    }
+    .eval-row--fail { border-color: color-mix(in srgb, #ef4444 30%, var(--tk-border)); background: color-mix(in srgb, #ef4444 4%, var(--tk-bg-surface)); }
+    .eval-status {
+      font-size: 0.65rem;
+      font-weight: 700;
+      font-family: var(--tk-font-mono);
+      padding: 0.2em 0.5em;
+      border-radius: 0.25rem;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+    .eval-status--pass { background: color-mix(in srgb, var(--tk-accent) 15%, transparent); color: var(--tk-accent); }
+    .eval-status--fail { background: color-mix(in srgb, #ef4444 15%, transparent); color: #ef4444; }
+    .eval-title { font-size: 0.875rem; font-weight: 500; color: var(--tk-color-white); margin-bottom: 0.25rem; }
+    .eval-desc { font-size: 0.8125rem; color: var(--tk-text); line-height: 1.6; }
+    .eval-desc code { font-family: var(--tk-font-mono); font-size: 0.85em; background: var(--tk-code-bg); border: 1px solid var(--tk-border); border-radius: 0.2rem; padding: 0.1em 0.35em; color: var(--tk-color-accent-high); }
+
+    /* ── References ── */
+    .ref-content { flex: 1; min-width: 0; }
+    .ref-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.5rem;
+      background: var(--tk-bg-surface);
+      color: var(--tk-text);
+      text-decoration: none;
+      transition: border-color 0.12s, background 0.12s;
+    }
+    .ref-card:hover { border-color: var(--tk-text-muted); background: var(--tk-bg-elevated); text-decoration: none; color: var(--tk-color-white); }
+    .ref-card__icon { flex-shrink: 0; color: var(--tk-text-muted); }
+    .ref-card__icon svg { width: 1.125rem; height: 1.125rem; }
+    .ref-card:hover .ref-card__icon { color: var(--tk-accent); }
+    .ref-card__body { flex: 1; min-width: 0; }
+    .ref-card__title { font-size: 0.875rem; font-weight: 500; color: var(--tk-color-white); font-family: var(--tk-font-mono); margin-bottom: 0.25rem; }
+    .ref-card__desc { font-size: 0.8125rem; color: var(--tk-text); line-height: 1.5; }
+    .ref-card__desc code { font-family: var(--tk-font-mono); font-size: 0.85em; background: var(--tk-code-bg); border: 1px solid var(--tk-border); border-radius: 0.2rem; padding: 0.1em 0.35em; color: var(--tk-color-accent-high); }
+    .ref-card__arrow { width: 0.875rem; height: 0.875rem; flex-shrink: 0; color: var(--tk-text-muted); opacity: 0; transition: opacity 0.12s; }
+    .ref-card:hover .ref-card__arrow { opacity: 1; color: var(--tk-accent); }
+
+    /* ── Light theme ── */
+    [data-theme="light"] {
+      --tk-bg: #f0f9ff;
+      --tk-bg-surface: #ffffff;
+      --tk-bg-elevated: #e0f2fe;
+      --tk-bg-hover: #bae6fd;
+      --tk-border: #bae6fd;
+      --tk-text: #334155;
+      --tk-text-muted: #64748b;
+      --tk-accent: #0ea5e9;
+      --tk-accent-hover: #0284c7;
+      --tk-code-bg: #f0f9ff;
+      --tk-link: #0284c7;
+      --tk-link-hover: #0369a1;
+      --tk-color-white: #0c1a2e;
+      --tk-color-accent-low: #e0f2fe;
+      --tk-color-accent-high: #0284c7;
+      --tk-color-green: #059669;
+      --tk-color-gray-2: #1e293b;
+      --tk-color-gray-3: #475569;
+      --tk-color-gray-4: #94a3b8;
+      --tk-color-gray-5: #f0f9ff;
+    }
+    [data-theme="light"] nav.top-nav { background: rgba(240,249,255,0.95); }
+
+    /* ── Theme selector ── */
+    .theme-select { position: relative; }
+    .theme-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      background: none;
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      color: var(--tk-text);
+      transition: border-color 0.12s, color 0.12s, background 0.12s;
+    }
+    .theme-btn:hover { border-color: var(--tk-text-muted); color: var(--tk-color-white); background: var(--tk-bg-hover); }
+    .theme-btn svg { width: 0.875rem; height: 0.875rem; }
+    .theme-dropdown {
+      position: absolute;
+      top: calc(100% + 0.375rem);
+      right: 0;
+      background: var(--tk-bg-surface);
+      border: 1px solid var(--tk-border);
+      border-radius: 0.375rem;
+      min-width: 8rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      z-index: 100;
+      overflow: hidden;
+    }
+    .theme-dropdown[hidden] { display: none; }
+    .theme-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      font-size: 0.8125rem;
+      font-family: inherit;
+      color: var(--tk-text);
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+    }
+    .theme-option:hover { background: var(--tk-bg-hover); color: var(--tk-color-white); }
+    .theme-option svg { width: 0.875rem; height: 0.875rem; flex-shrink: 0; }
+  
+  /* ── ARCTIC LAYOUT OVERRIDES ── */
+  /* Shadows instead of borders on interactive cards */
+  .skill-entry { border-color: transparent !important; box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06); transition: box-shadow 0.15s, transform 0.15s !important; }
+  .skill-entry:hover { border-color: transparent !important; box-shadow: 0 8px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .domain-card { border-color: transparent !important; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .domain-card:hover { box-shadow: 0 6px 16px rgba(0,0,0,0.12); transform: translateY(-1px); border-color: transparent !important; background: var(--tk-bg-surface) !important; }
+  .tile-header { border-color: transparent !important; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+  /* Slimmer sidebar */
+  .page-shell { grid-template-columns: 13rem 1fr !important; }
+  .left-nav { padding: 1rem 0; }
+  .left-nav__item { padding: 0.3rem 1rem; font-size: 0.8rem; }
+  .left-nav__label { padding: 0 1rem; font-size: 0.625rem; }
+  /* No hero glow — clean white space */
+  .hero-wrap::before { display: none !important; }
+  /* Softer dot grid */
+  .hero-wrap::after { opacity: 0.15 !important; }
+  /* Centered minimal hero */
+  .hero-wrap { padding: 6rem 2rem 5rem; }
+  .hero-inner { max-width: 680px; }
+  /* Reading-width content */
+  main { max-width: 900px; }
+  /* Rounder domain cards */
+  .domain-card { border-radius: 0.75rem !important; }
+  /* Domain grid 2-col max on landing */
+  .domain-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  /* No btn glow */
+  .btn-primary { box-shadow: none !important; }
+  .btn-primary:hover { box-shadow: none !important; }
+  /* Generous card spacing */
+  .skill-entry { padding: 1.25rem 1.5rem; }
+  /* Active nav item pill */
+  .left-nav__item--active { background: color-mix(in srgb, var(--tk-accent) 10%, transparent) !important; border-left-color: var(--tk-accent); border-radius: 0 4px 4px 0; }
+
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="top-nav">
+    <a href="landing-preview.html" class="nav-logo">tekhne<span>.</span></a>
+    <div class="nav-links">
+      <a href="skills-preview.html" class="active">Skills</a>
+      <a href="tiles-preview.html">Tiles</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search skills…
+      <kbd>⌘K</kbd>
+    </div>
+    <div class="pm-select" id="pm-select">
+      <button class="pm-select-btn" id="pm-btn" aria-label="Package manager">
+        <span id="pm-label">npm</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <div class="pm-drop" id="pm-drop" hidden></div>
+    </div>
+    <div class="theme-select" id="theme-select">
+      <button class="theme-btn" id="theme-btn" aria-label="Switch theme"></button>
+      <div class="theme-dropdown" id="theme-dropdown" hidden></div>
+    </div>
+    <a class="nav-gh" href="#">★ GitHub</a>
+  </nav>
+
+  <div class="page-shell">
+
+    <!-- Left nav -->
+    <nav class="left-nav" aria-label="Site navigation">
+      <div class="left-nav__section">
+        <div class="left-nav__label">Navigation</div>
+        <a href="landing-preview.html" class="left-nav__item">
+          <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span> Home
+        </a>
+        <a href="skills-preview.html" class="left-nav__item">
+          <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg></span> All Skills
+          <span class="left-nav__count">70</span>
+        </a>
+        <a href="tiles-preview.html" class="left-nav__item">
+          <span class="left-nav__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg></span> Tiles
+          <span class="left-nav__count">18</span>
+        </a>
+      </div>
+      <div class="left-nav__divider"></div>
+      <div class="left-nav__section">
+        <div class="left-nav__label">Domains</div>
+        <div class="left-nav__sub">
+          <a href="skill-preview.html" class="left-nav__sub-item">ci-cd</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">infrastructure</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">development</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">agentic-harness</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">testing</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">software-engineering</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">observability</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">documentation</a>
+        </div>
+      </div>
+      <div class="left-nav__divider"></div>
+      <div class="left-nav__section">
+        <div class="left-nav__label">Development</div>
+        <div class="left-nav__sub">
+          <a href="skill-preview.html" class="left-nav__sub-item">bun-development</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">commanderjs</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">biome-complete</a>
+          <a href="#" class="left-nav__sub-item left-nav__sub-item--active">typescript-advanced</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">scripting / bash</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">scripting / makefile</a>
+          <a href="skill-preview.html" class="left-nav__sub-item">front-end / theme-porter</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main -->
+    <main>
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="skills-preview.html">Skills</a>
+        <span class="breadcrumb__sep">›</span>
+        <a href="domain-preview.html">Development</a>
+        <span class="breadcrumb__sep">›</span>
+        <span>TypeScript Advanced</span>
+      </nav>
+
+      <!-- Skill header card -->
+      <div class="sk-header">
+        <!-- Grade shield -->
+        <div class="sk-grade grade-b-plus">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 28" aria-hidden="true">
+            <path d="M12 0 L24 5 L24 14 C24 20.627 18.627 26 12 28 C5.373 26 0 20.627 0 14 L0 5 Z"
+              fill="currentColor" stroke="var(--tk-border)" stroke-width="0.75"/>
+          </svg>
+          <span class="sk-grade__text">B+</span>
+        </div>
+
+        <div class="sk-header__body">
+          <div class="sk-header__badges">
+            <span class="sk-badge sk-domain">development</span>
+            <a href="tile-preview.html" class="sk-badge sk-tile">typescript-advanced</a>
+            <span class="sk-badge sk-version">v1.3.0</span>
+          </div>
+
+          <h1 class="sk-title">TypeScript Advanced</h1>
+
+          <p class="sk-desc">
+            Comprehensive TypeScript guidance covering compiler configuration, advanced types,
+            utility types, type narrowing, generics, mapped types, template literal types,
+            and strict-mode patterns for production codebases.
+          </p>
+
+          <!-- Install block -->
+          <div class="install-block" id="install-block">
+            <div class="install-block__header">
+              <div class="install-tab install-tab--active" data-tab="tessl">tessl.io</div>
+              <div class="install-tab" data-tab="skills">skills.sh</div>
+              <div class="install-tab" data-tab="agent">agentskills.sh</div>
+            </div>
+
+            <!-- tessl.io panel -->
+            <div class="install-block__panel install-block__panel--active" data-panel="tessl">
+              <div class="install-cmd">
+                <code><span class="exec">npx</span> tessl i github:pantheon-org/tekhne --skill development--typescript-advanced</code>
+                <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+              </div>
+            </div>
+
+            <!-- skills.sh panel -->
+            <div class="install-block__panel" data-panel="skills">
+              <div class="install-cmd">
+                <code><span class="exec">npx</span> skills add https://github.com/pantheon-org/tekhne --skill development--typescript-advanced</code>
+                <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+              </div>
+            </div>
+
+            <!-- agentskills.sh panel -->
+            <div class="install-block__panel" data-panel="agent">
+              <div class="install-cmd">
+                <code>/learn @pantheon-ai/typescript-advanced</code>
+                <button class="install-copy" aria-label="Copy to clipboard"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="sk-tags">
+            <span class="sk-tag">typescript</span>
+            <span class="sk-tag">types</span>
+            <span class="sk-tag">compiler</span>
+            <span class="sk-tag">generics</span>
+            <span class="sk-tag">strict-mode</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skill tabs -->
+      <div class="sk-tabs" id="sk-tabs">
+        <div class="sk-tab sk-tab--active" data-tab="skill">Skill</div>
+        <div class="sk-tab" data-tab="audits">Audits <span class="sk-tab__count">4</span></div>
+        <div class="sk-tab" data-tab="evals">Evals <span class="sk-tab__count">8</span></div>
+        <div class="sk-tab" data-tab="references">References <span class="sk-tab__count">5</span></div>
+      </div>
+
+      <!-- Skill markdown content -->
+      <div class="sk-panel" data-panel="skill">
+      <div class="sk-content">
+        <h2>Overview</h2>
+        <p>
+          This skill provides deterministic TypeScript guidance for production codebases.
+          It covers <code>tsconfig.json</code> tuning, advanced type constructs, and the
+          patterns needed to maximise type safety without sacrificing developer ergonomics.
+        </p>
+
+        <h2>When to use this skill</h2>
+        <ul>
+          <li>Configuring or reviewing <code>tsconfig.json</code> for strict correctness</li>
+          <li>Writing generic utilities, mapped types, or conditional types</li>
+          <li>Debugging <em>inferred</em> vs <em>widened</em> type discrepancies</li>
+          <li>Migrating a JavaScript project to TypeScript incrementally</li>
+        </ul>
+
+        <h2>Compiler Configuration</h2>
+        <p>Start with the strictest reasonable baseline and relax only when necessary:</p>
+        <pre><code>{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "lib": ["ES2022"]
+  }
+}</code></pre>
+
+        <h2>Type Narrowing Patterns</h2>
+        <p>Prefer discriminated unions over boolean flags for variant types:</p>
+        <pre><code>type Result&lt;T&gt; =
+  | { ok: true;  value: T }
+  | { ok: false; error: string };
+
+function handle&lt;T&gt;(r: Result&lt;T&gt;) {
+  if (r.ok) {
+    // r.value is T here — no cast needed
+  }
+}</code></pre>
+
+        <blockquote>
+          <p><strong>Rule:</strong> Never use <code>as</code> casts in new code. If you need one, you have a modelling problem.</p>
+        </blockquote>
+
+        <h2>Utility Types Quick Reference</h2>
+        <ul>
+          <li><code>Partial&lt;T&gt;</code> — all properties optional</li>
+          <li><code>Required&lt;T&gt;</code> — all properties required</li>
+          <li><code>Pick&lt;T, K&gt;</code> / <code>Omit&lt;T, K&gt;</code> — structural subsets</li>
+          <li><code>ReturnType&lt;F&gt;</code> — extract function return type</li>
+          <li><code>Awaited&lt;T&gt;</code> — unwrap Promise depth</li>
+        </ul>
+
+        <div class="edit-link">
+          <a href="#">Edit this page on GitHub</a>
+        </div>
+      </div>
+      </div><!-- /sk-panel[skill] -->
+
+      <!-- Audits panel -->
+      <div class="sk-panel" data-panel="audits" hidden>
+        <div class="audits-layout">
+          <div class="audit-selector">
+            <div class="audit-selector__label">Audits</div>
+            <button class="audit-selector__btn audit-selector__btn--active" data-audit="0">
+              <span>2026-03-02</span>
+              <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
+            </button>
+            <button class="audit-selector__btn" data-audit="1">
+              <span>2026-02-23</span>
+              <span class="sk-sidebar__grade grade-pill-b-plus">B+</span>
+            </button>
+            <button class="audit-selector__btn" data-audit="2">
+              <span>2026-02-22</span>
+              <span class="sk-sidebar__grade grade-pill-c">C</span>
+            </button>
+            <button class="audit-selector__btn" data-audit="3">
+              <span>2026-02-21</span>
+              <span class="sk-sidebar__grade grade-pill-c">C</span>
+            </button>
+          </div>
+        <div class="audit-list">
+
+          <!-- Audit card: 2026-03-02, grade B+ -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-03-02</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-b-plus">B+</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>118 / 140</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Strong on knowledge accuracy and specification compliance. <code>Progressive Disclosure</code> and <code>Anti-Pattern Quality</code> are the main drag — the skill front-loads advanced patterns without enough scaffolding for beginners.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2026-02-23, grade B+ -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-02-23</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-b-plus">B+</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:93%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:40%"></div></div><span class="score-val"></span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>112 / 140</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Marginal improvement over previous audit. Anti-pattern coverage improved but progressive disclosure remains weak — complex examples introduced too early without prerequisite context.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2026-02-22, grade C -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-02-22</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-c">C</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:75%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:87%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:90%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:73%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:0%"></div></div><span class="score-val"></span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>87 / 140</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Early version of the skill. Missing anti-pattern guidance, no progressive scaffolding, and knowledge content insufficient for production use. Major revision required.</p>
+            </div>
+          </div>
+
+          <!-- Audit card: 2026-02-21, grade C -->
+          <div class="audit-card">
+            <div class="audit-card__header">
+              <div class="audit-card__meta">
+                <span class="audit-card__date">2026-02-21</span>
+                <span class="audit-card__model">claude-sonnet-4-6</span>
+              </div>
+              <span class="audit-grade grade-pill-c">C</span>
+            </div>
+            <div class="audit-card__scores">
+              <div class="score-row"><span class="score-label">D1 · Knowledge Delta<small>Expert-only knowledge</small></span><div class="score-bar"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D2 · Mindset + Procedures<small>Philosophy + workflows</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D3 · Anti-Pattern Quality<small>NEVER + WHY + consequences</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D4 · Specification Compliance<small>Description field critical</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:67%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D5 · Progressive Disclosure<small>Hub + references + lazy-load</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:100%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D6 · Freedom Calibration<small>Appropriate rigidity</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:80%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D7 · Pattern Recognition<small>Activation keywords</small></span><div class="score-bar" data-total="10"><div class="score-fill" style="width:60%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D8 · Practical Usability<small>Concrete examples</small></span><div class="score-bar" data-total="15"><div class="score-fill" style="width:53%"></div></div><span class="score-val"></span></div>
+              <div class="score-row"><span class="score-label">D9 · Eval Validation<small>Runtime eval coverage</small></span><div class="score-bar" data-total="20"><div class="score-fill" style="width:0%"></div></div><span class="score-val"></span></div>
+            </div>
+            <div class="audit-card__total"><span>Total</span><strong>87 / 140</strong></div>
+            <div class="audit-card__notes sk-content">
+              <h3>Notes</h3>
+              <p>Earliest recorded audit. Anti-pattern coverage and practical usability both flagged as high-priority weak spots. Progressive disclosure scores perfectly — content was already extracted to <code>references/</code>. Activation cues need tightening. Major revision required before publishing.</p>
+            </div>
+          </div>
+
+        </div><!-- /audit-list -->
+        </div><!-- /audits-layout -->
+      </div><!-- /sk-panel[audits] -->
+
+      <!-- Evals panel -->
+      <div class="sk-panel" data-panel="evals" hidden>
+        <div class="evals-summary">
+          <div class="evals-stat-row">
+            <div class="evals-stat"><span class="evals-stat__val">8</span><span class="evals-stat__label">Scenarios</span></div>
+            <div class="evals-stat"><span class="evals-stat__val evals-stat__val--pass">7</span><span class="evals-stat__label">Pass</span></div>
+            <div class="evals-stat"><span class="evals-stat__val evals-stat__val--fail">1</span><span class="evals-stat__label">Fail</span></div>
+            <div class="evals-stat"><span class="evals-stat__val">87.5%</span><span class="evals-stat__label">Score</span></div>
+          </div>
+        </div>
+        <div class="eval-list">
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Strict tsconfig baseline</div>
+              <div class="eval-desc">Model generates a <code>tsconfig.json</code> with <code>strict: true</code>, <code>noUncheckedIndexedAccess</code>, and <code>exactOptionalPropertyTypes</code> when asked for a production baseline.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Discriminated union over boolean flag</div>
+              <div class="eval-desc">Given a request to model a success/error result, model prefers a discriminated union rather than <code>success: boolean</code>.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">No <code>as</code> casts in new code</div>
+              <div class="eval-desc">Model avoids type assertions and explains the modelling issue when asked to "just cast it".</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Correct utility type selection</div>
+              <div class="eval-desc">Model picks <code>Partial&lt;T&gt;</code>, <code>Pick</code>, <code>Omit</code>, and <code>Awaited</code> correctly for standard patternquestions.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Generic constraint syntax</div>
+              <div class="eval-desc">Model writes well-constrained generics (<code>T extends object</code>, <code>K extends keyof T</code>) without widening.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Mapped types from union</div>
+              <div class="eval-desc">Model constructs a mapped type from a string-union key set correctly.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--pass">
+            <span class="eval-status eval-status--pass">PASS</span>
+            <div class="eval-body">
+              <div class="eval-title">Incremental JS→TS migration path</div>
+              <div class="eval-desc">Model recommends <code>allowJs: true</code> + <code>checkJs: false</code> as a migration entry point, not a full rewrite.</div>
+            </div>
+          </div>
+
+          <div class="eval-row eval-row--fail">
+            <span class="eval-status eval-status--fail">FAIL</span>
+            <div class="eval-body">
+              <div class="eval-title">Template literal type construction</div>
+              <div class="eval-desc">Model produced a plain string union instead of a template literal type when asked to derive event names from a base noun union. Skill lacks an explicit example for this pattern.</div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /sk-panel[evals] -->
+
+      <!-- References panel -->
+      <div class="sk-panel" data-panel="references" hidden>
+        <div class="audits-layout">
+          <div class="audit-selector">
+            <div class="audit-selector__label">References</div>
+            <button class="audit-selector__btn audit-selector__btn--active" data-ref="0">tsconfig-reference</button>
+            <button class="audit-selector__btn" data-ref="1">advanced-types</button>
+            <button class="audit-selector__btn" data-ref="2">generics-patterns</button>
+            <button class="audit-selector__btn" data-ref="3">migration-guide</button>
+            <button class="audit-selector__btn" data-ref="4">strict-mode</button>
+          </div>
+        <div class="ref-content">
+
+          <!-- ref-panel: tsconfig-reference -->
+          <div class="sk-content" data-ref-panel="0">
+            <h2>tsconfig-reference</h2>
+            <p>Full compiler options reference with descriptions, types, and defaults for every <code>tsconfig.json</code> flag.</p>
+            <h3>Key flags</h3>
+            <ul>
+              <li><code>strict</code> — enables all strict type-checking sub-flags (<code>boolean</code>, default <code>false</code>)</li>
+              <li><code>target</code> — ECMAScript output version (<code>"ES3"</code>…<code>"ESNext"</code>, default <code>"ES3"</code>)</li>
+              <li><code>module</code> — module system for emitted code (<code>"CommonJS"</code>, <code>"ESNext"</code>, <code>"NodeNext"</code>, …)</li>
+              <li><code>moduleResolution</code> — algorithm for resolving imports (<code>"node"</code>, <code>"bundler"</code>, <code>"NodeNext"</code>)</li>
+              <li><code>outDir</code> — redirect output structure to a directory</li>
+              <li><code>rootDir</code> — root folder for input files; controls output layout</li>
+              <li><code>paths</code> — path mapping entries for module aliases</li>
+              <li><code>noUncheckedIndexedAccess</code> — adds <code>undefined</code> to index signature results (<code>boolean</code>, default <code>false</code>)</li>
+              <li><code>exactOptionalPropertyTypes</code> — disallows assigning <code>undefined</code> to optional properties unless <code>undefined</code> is explicit (<code>boolean</code>, default <code>false</code>)</li>
+            </ul>
+            <h3>Recommended production baseline</h3>
+            <pre><code>{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true
+  }
+}</code></pre>
+          </div>
+
+          <!-- ref-panel: advanced-types -->
+          <div class="sk-content" data-ref-panel="1" hidden>
+            <h2>advanced-types</h2>
+            <p>Conditional types, <code>infer</code> keyword, mapped types, template literal types, and recursive type aliases.</p>
+            <h3>Conditional types</h3>
+            <pre><code>type IsArray&lt;T&gt; = T extends any[] ? true : false;
+type Flatten&lt;T&gt; = T extends Array&lt;infer Item&gt; ? Item : T;</code></pre>
+            <h3>Mapped types</h3>
+            <pre><code>type Readonly&lt;T&gt; = { readonly [K in keyof T]: T[K] };
+type Nullable&lt;T&gt; = { [K in keyof T]: T[K] | null };</code></pre>
+            <h3>Template literal types</h3>
+            <pre><code>type EventName&lt;T extends string&gt; = `on${Capitalize&lt;T&gt;}`;
+// EventName&lt;"click"&gt; → "onClick"
+type Routes = "/home" | "/about";
+type ApiRoute = `/api${Routes}`; // "/api/home" | "/api/about"</code></pre>
+            <h3>Recursive type aliases</h3>
+            <pre><code>type JSONValue =
+  | string | number | boolean | null
+  | JSONValue[]
+  | { [key: string]: JSONValue };</code></pre>
+          </div>
+
+          <!-- ref-panel: generics-patterns -->
+          <div class="sk-content" data-ref-panel="2" hidden>
+            <h2>generics-patterns</h2>
+            <p>Reusable generic patterns: constrained builders, higher-kinded type emulation, variance annotations.</p>
+            <h3>Constrained generics</h3>
+            <pre><code>function pick&lt;T, K extends keyof T&gt;(obj: T, keys: K[]): Pick&lt;T, K&gt; {
+  return Object.fromEntries(keys.map(k =&gt; [k, obj[k]])) as Pick&lt;T, K&gt;;
+}</code></pre>
+            <h3>Builder pattern</h3>
+            <pre><code>class QueryBuilder&lt;T extends object&gt; {
+  #filters: Partial&lt;T&gt; = {};
+  where&lt;K extends keyof T&gt;(key: K, value: T[K]): this {
+    this.#filters[key] = value;
+    return this;
+  }
+  build(): Partial&lt;T&gt; { return { ...this.#filters }; }
+}</code></pre>
+            <h3>Variance annotations (TS 4.7+)</h3>
+            <pre><code>type Provider&lt;out T&gt; = () =&gt; T;   // covariant
+type Consumer&lt;in T&gt; = (v: T) =&gt; void; // contravariant</code></pre>
+          </div>
+
+          <!-- ref-panel: migration-guide -->
+          <div class="sk-content" data-ref-panel="3" hidden>
+            <h2>migration-guide</h2>
+            <p>Step-by-step playbook for migrating a JavaScript codebase to TypeScript incrementally without big-bang rewrites.</p>
+            <h3>Phase 1 — Enable TypeScript without breaking anything</h3>
+            <pre><code>{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
+    "strict": false,
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}</code></pre>
+            <h3>Phase 2 — Rename files incrementally</h3>
+            <ul>
+              <li>Rename leaf modules first (<code>.js</code> → <code>.ts</code>), working inward</li>
+              <li>Fix type errors one file at a time; use <code>// @ts-ignore</code> sparingly as escape hatches</li>
+              <li>Add <code>checkJs: true</code> for any <code>.js</code> files you want checked before renaming</li>
+            </ul>
+            <h3>Phase 3 — Tighten strictness</h3>
+            <ul>
+              <li>Enable <code>strict: true</code> once all files are <code>.ts</code></li>
+              <li>Add <code>noUncheckedIndexedAccess</code> and fix array access patterns</li>
+              <li>Remove all <code>// @ts-ignore</code> and <code>as any</code> casts</li>
+            </ul>
+            <blockquote><p><strong>Rule:</strong> Never do a big-bang rewrite. Migrate one module per PR so reviews stay tractable.</p></blockquote>
+          </div>
+
+          <!-- ref-panel: strict-mode -->
+          <div class="sk-content" data-ref-panel="4" hidden>
+            <h2>strict-mode</h2>
+            <p>What each strict-mode flag does, common errors it surfaces, and recommended per-flag enable order for brownfield projects.</p>
+            <h3>Flags enabled by <code>strict: true</code></h3>
+            <ul>
+              <li><code>strictNullChecks</code> — <code>null</code> and <code>undefined</code> are not assignable to other types</li>
+              <li><code>strictFunctionTypes</code> — function parameter types checked contravariantly</li>
+              <li><code>strictBindCallApply</code> — type-checks <code>bind</code>, <code>call</code>, <code>apply</code> arguments</li>
+              <li><code>strictPropertyInitialization</code> — class properties must be initialised in constructor</li>
+              <li><code>noImplicitAny</code> — error on expressions inferred as <code>any</code></li>
+              <li><code>noImplicitThis</code> — error when <code>this</code> has implicit <code>any</code> type</li>
+              <li><code>useUnknownInCatchVariables</code> — catch clause variables typed <code>unknown</code> instead of <code>any</code></li>
+            </ul>
+            <h3>Recommended brownfield enable order</h3>
+            <ol>
+              <li><code>strictNullChecks</code> — highest value, usually the most errors</li>
+              <li><code>noImplicitAny</code></li>
+              <li><code>strictFunctionTypes</code></li>
+              <li>Remaining flags together (lower noise)</li>
+            </ol>
+          </div>
+
+        </div>
+        </div><!-- /audits-layout -->
+      </div><!-- /sk-panel[references] -->
+
+    </main>
+
+
+  </div>
+
+  <script>
+    // ── Skill tabs ────────────────────────────────────────────────
+    (function () {
+      const tabs   = document.querySelectorAll('#sk-tabs .sk-tab');
+      const panels = document.querySelectorAll('.sk-panel');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.tab;
+          tabs.forEach(t => t.classList.remove('sk-tab--active'));
+          panels.forEach(p => { p.hidden = p.dataset.panel !== target; });
+          tab.classList.add('sk-tab--active');
+        });
+      });
+    })();
+
+    // ── Segmented score bars (purple → bright green) ─────────────
+    (function () {
+      const STOPS = [
+        [168, 85,  247],  // purple  #a855f7
+        [239, 68,   68],  // red     #ef4444
+        [249, 115,  22],  // orange  #f97316
+        [234, 179,   8],  // yellow  #eab308
+        [ 34, 197,  94],  // green   #22c55e
+      ];
+      const TOTAL = 20;
+
+      function lerp(a, b, t) { return Math.round(a + (b - a) * t); }
+      function segColor(i, total) {
+        total = total || TOTAL;
+        const t = total > 1 ? i / (total - 1) : 1;
+        const scaled = t * (STOPS.length - 1);
+        const lo = Math.floor(scaled);
+        const hi = Math.min(lo + 1, STOPS.length - 1);
+        const f  = scaled - lo;
+        const A = STOPS[lo], B = STOPS[hi];
+        return `rgb(${lerp(A[0],B[0],f)},${lerp(A[1],B[1],f)},${lerp(A[2],B[2],f)})`;
+      }
+
+      document.querySelectorAll('.score-bar').forEach(bar => {
+        const fill   = bar.querySelector('.score-fill');
+        const pct    = fill ? parseFloat(fill.style.width) / 100 : 0;
+        const total  = parseInt(bar.dataset.total) || TOTAL;
+        const filled = Math.round(pct * total);
+        const barColor = segColor(filled - 1 < 0 ? 0 : filled - 1, total);
+        bar.innerHTML = '';
+        for (let i = 0; i < total; i++) {
+          const seg = document.createElement('div');
+          seg.className = 'score-seg';
+          if (i < filled) seg.style.background = barColor;
+          bar.appendChild(seg);
+        }
+        const val = bar.nextElementSibling;
+        if (val && val.classList.contains('score-val')) {
+          val.textContent = `${filled}/${total}`;
+        }
+      });
+    })();
+
+    // ── PM selector ──────────────────────────────────────────────
+    (function () {
+      const pms = [
+        { id: 'npm',  exec: 'npx' },
+        { id: 'yarn', exec: 'yarn dlx' },
+        { id: 'pnpm', exec: 'pnpx' },
+        { id: 'bun',  exec: 'bunx' },
+      ];
+      const btn   = document.getElementById('pm-btn');
+      const label = document.getElementById('pm-label');
+      const drop  = document.getElementById('pm-drop');
+      let current = 'npm';
+
+      function apply(id) {
+        current = id;
+        const pm = pms.find(p => p.id === id);
+        label.textContent = pm.id;
+        document.querySelectorAll('.exec').forEach(el => { el.textContent = pm.exec; });
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = pms
+          .filter(p => p.id !== current)
+          .map(p => `<button class="pm-option" data-id="${p.id}">${p.id}</button>`)
+          .join('');
+        drop.querySelectorAll('.pm-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.id); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('npm');
+    })();
+
+    // ── Install block tabs ────────────────────────────────────────
+    const installTabs   = document.querySelectorAll('#install-block .install-tab');
+    const installPanels = document.querySelectorAll('#install-block .install-block__panel');
+
+    installTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        installTabs.forEach(t => t.classList.remove('install-tab--active'));
+        installPanels.forEach(p => p.classList.remove('install-block__panel--active'));
+        tab.classList.add('install-tab--active');
+        document.querySelector(`[data-panel="${target}"]`).classList.add('install-block__panel--active');
+        // dim PM selector for agent-skills (no exec needed)
+        document.getElementById('pm-select').classList.toggle('pm-select--disabled', target === 'agent');
+      });
+    });
+
+    // ── Copy buttons ──────────────────────────────────────────────
+    const copyIcon = `<svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>`;
+    const checkIcon = `<svg stroke="currentColor" fill="none" stroke-width="2.5" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+    document.querySelectorAll('.install-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const code = btn.closest('.install-cmd').querySelector('code');
+        navigator.clipboard?.writeText(code.textContent.trim());
+        btn.innerHTML = checkIcon;
+        btn.style.color = 'var(--tk-accent)';
+        setTimeout(() => { btn.innerHTML = copyIcon; btn.style.color = ''; }, 1500);
+      });
+    });
+
+    // ── Theme selector ──────────────────────────────────────────────
+    (function () {
+      const html = document.documentElement;
+      const btn  = document.getElementById('theme-btn');
+      const drop = document.getElementById('theme-dropdown');
+      const icons = {
+        light:  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>`,
+        dark:   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+        system: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>`,
+      };
+      const labels = { light: 'Light', dark: 'Dark', system: 'System' };
+      let current = 'dark';
+
+      function resolve(t) {
+        return t === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : t;
+      }
+
+      function apply(t) {
+        current = t;
+        html.setAttribute('data-theme', resolve(t));
+        btn.innerHTML = icons[t];
+        renderDrop();
+      }
+
+      function renderDrop() {
+        drop.innerHTML = ['light', 'dark', 'system']
+          .filter(t => t !== current)
+          .map(t => `<button class="theme-option" data-t="${t}">${icons[t]}<span>${labels[t]}</span></button>`)
+          .join('');
+        drop.querySelectorAll('.theme-option').forEach(o => {
+          o.addEventListener('click', () => { apply(o.dataset.t); drop.hidden = true; });
+        });
+      }
+
+      btn.addEventListener('click', e => { e.stopPropagation(); drop.hidden = !drop.hidden; });
+      document.addEventListener('click', () => { drop.hidden = true; });
+      apply('dark');
+    })();
+
+    // ── Audit selector → scroll within audit-list ────────────────
+    (function () {
+      const auditsPanel  = document.querySelector('.sk-panel[data-panel="audits"]');
+      const selectorBtns = auditsPanel.querySelectorAll('.audit-selector__btn');
+      const auditCards   = auditsPanel.querySelectorAll('.audit-card');
+      const auditList    = auditsPanel.querySelector('.audit-list');
+
+      selectorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx  = parseInt(btn.dataset.audit, 10);
+          const card = auditCards[idx];
+          if (!card || !auditList) return;
+
+          selectorBtns.forEach(b => b.classList.remove('audit-selector__btn--active'));
+          btn.classList.add('audit-selector__btn--active');
+
+          auditList.scrollTo({ top: card.offsetTop, behavior: 'smooth' });
+        });
+      });
+    })();
+
+    // ── Reference selector → show/hide ref panels ────────────────
+    (function () {
+      const refsPanel    = document.querySelector('.sk-panel[data-panel="references"]');
+      const selectorBtns = refsPanel.querySelectorAll('.audit-selector__btn');
+      const refPanels    = refsPanel.querySelectorAll('[data-ref-panel]');
+
+      selectorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = btn.dataset.ref;
+          selectorBtns.forEach(b => b.classList.remove('audit-selector__btn--active'));
+          btn.classList.add('audit-selector__btn--active');
+          refPanels.forEach(p => { p.hidden = p.dataset.refPanel !== idx; });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
