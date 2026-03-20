@@ -860,6 +860,48 @@
   /* Domain section title in amber */
   .domain-section__title { font-size: 1rem; font-weight: 700; }
 
+  
+  /* ── AMBER REFINEMENTS ── */
+  /* Sticky section headers act as in-page nav anchors */
+  .domain-section__header {
+    position: sticky;
+    top: 3.5rem;
+    z-index: 4;
+    background: var(--tk-bg);
+    border-bottom: 1px solid var(--tk-border);
+    padding: 0.625rem 0;
+    margin-bottom: 1.25rem !important;
+  }
+  /* Hero eyebrow character */
+  .hero-eyebrow::before { content: "★"; font-size: 0.75em; }
+  /* Section title large editorial */
+  .domain-section__title {
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.01em;
+  }
+  /* Warm accent on skill entry top border */
+  .skill-entry { border-top: 2px solid transparent !important; }
+  .skill-entry:hover { border-top-color: var(--tk-accent) !important; }
+  /* Remove domain count from pills since it's stripped */
+  .domain-grid::-webkit-scrollbar { height: 4px; }
+  .domain-grid::-webkit-scrollbar-track { background: var(--tk-bg-surface); }
+  .domain-grid::-webkit-scrollbar-thumb { background: var(--tk-border); border-radius: 2px; }
+  /* Stats bar warmer */
+  .stats-bar { border-color: var(--tk-border); }
+  .stat-value { color: var(--tk-color-white); font-weight: 700; }
+  /* Page header gets left border accent */
+  .page-header { border-left: 3px solid var(--tk-accent); padding-left: 1.5rem !important; }
+  /* Wider reading content */
+  .domain-section__grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+  /* Amber button: stronger text */
+  .btn-primary { font-weight: 700; letter-spacing: 0.01em; }
+  /* Inner pages: main gets side padding to compensate for no sidebar */
+  main { padding-left: 2.5rem; padding-right: 2.5rem; }
+  /* Confirm page-shell is 1 col and left-nav gone */
+  .page-shell { grid-template-columns: 1fr !important; }
+  .left-nav { display: none !important; }
+
   </style>
 </head>
 <body>

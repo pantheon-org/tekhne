@@ -663,6 +663,47 @@
   /* Skill cards compact */
   .skill-entry { padding: 0.875rem 1rem; }
 
+  
+  /* ── MIDNIGHT REFINEMENTS ── */
+  /* Logo blink cursor */
+  .nav-logo::after {
+    content: "_";
+    color: var(--tk-accent);
+    animation: blink 1.2s step-end infinite;
+    margin-left: 1px;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+  /* Skill cards: left accent bar */
+  .skill-entry {
+    border-left: 2px solid var(--tk-accent) !important;
+    border-radius: 0 2px 2px 0 !important;
+  }
+  .skill-entry:hover { background: var(--tk-bg-hover) !important; border-color: var(--tk-accent) !important; }
+  /* Hero diagonal lines — more subtle */
+  .hero-wrap::before {
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 20px,
+      color-mix(in srgb, var(--tk-border) 20%, transparent) 20px,
+      color-mix(in srgb, var(--tk-border) 20%, transparent) 21px
+    ) !important;
+  }
+  /* Domain table rows: accent icon on hover */
+  .domain-card:hover .domain-icon svg { color: var(--tk-accent); }
+  .domain-card .domain-name { font-family: var(--tk-font-mono); font-size: 0.8rem; }
+  .domain-card .domain-count { font-family: var(--tk-font-mono); font-size: 0.7rem; }
+  /* Hero eyebrow character */
+  .hero-eyebrow::before { content: ">_"; letter-spacing: -0.05em; }
+  /* Tabular nums for scores */
+  .score-val, .stat-value, .audit-card__total strong { font-variant-numeric: tabular-nums; }
+  /* Nav active item: vertical bar + bg */
+  .left-nav__item--active { background: color-mix(in srgb, var(--tk-accent) 6%, transparent) !important; }
+  /* Tile header sharp */
+  .tile-header { border-left: 2px solid var(--tk-accent) !important; }
+  /* Section headers monospace */
+  .page-header__title, .domain-section__title, .page-header__eyebrow { font-family: var(--tk-font-mono); }
+
   </style>
 </head>
 <body>

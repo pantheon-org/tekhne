@@ -860,6 +860,70 @@
   /* Active nav item pill */
   .left-nav__item--active { background: color-mix(in srgb, var(--tk-accent) 10%, transparent) !important; border-left-color: var(--tk-accent); border-radius: 0 4px 4px 0; }
 
+  
+  /* ── ARCTIC REFINEMENTS ── */
+  /* Hero eyebrow character */
+  .hero-eyebrow::before { content: "◈"; font-size: 0.7em; }
+  /* Dark mode: replace invisible shadows with colored border glow */
+  .skill-entry {
+    border: 1px solid var(--tk-border) !important;
+    box-shadow: none !important;
+    transition: border-color 0.15s, transform 0.15s, background 0.15s !important;
+  }
+  .skill-entry:hover {
+    border-color: var(--tk-accent) !important;
+    box-shadow: 0 0 0 1px var(--tk-accent), 0 0 12px color-mix(in srgb, var(--tk-accent) 20%, transparent) !important;
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--tk-accent) 4%, var(--tk-bg-surface)) !important;
+  }
+  .domain-card {
+    border: 1px solid var(--tk-border) !important;
+    box-shadow: none !important;
+    transition: border-color 0.15s, transform 0.15s !important;
+  }
+  .domain-card:hover {
+    border-color: var(--tk-accent) !important;
+    box-shadow: 0 0 10px color-mix(in srgb, var(--tk-accent) 15%, transparent) !important;
+    transform: translateY(-1px);
+    background: color-mix(in srgb, var(--tk-accent) 4%, var(--tk-bg-surface)) !important;
+  }
+  /* Light mode: restore drop shadows */
+  [data-theme="light"] .skill-entry {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05) !important;
+    border-color: transparent !important;
+  }
+  [data-theme="light"] .skill-entry:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1), 0 2px 6px rgba(0,0,0,0.07) !important;
+    border-color: transparent !important;
+    transform: translateY(-2px);
+  }
+  [data-theme="light"] .domain-card {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.07) !important;
+    border-color: transparent !important;
+  }
+  [data-theme="light"] .domain-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1) !important;
+    border-color: transparent !important;
+    transform: translateY(-1px);
+  }
+  /* Sidebar active item: filled pill */
+  .left-nav__item--active {
+    background: color-mix(in srgb, var(--tk-accent) 12%, transparent) !important;
+    border-left-color: var(--tk-accent);
+    color: var(--tk-link) !important;
+    border-radius: 0 4px 4px 0;
+  }
+  .left-nav__item--active .left-nav__icon { color: var(--tk-link) !important; }
+  /* Clean hero — no glow, generous whitespace */
+  .hero-eyebrow { border-color: color-mix(in srgb, var(--tk-accent) 40%, var(--tk-border)) !important; background: color-mix(in srgb, var(--tk-accent) 8%, var(--tk-bg)) !important; }
+  /* Install block gets an accent left border */
+  .install-block { border-left: 2px solid var(--tk-accent) !important; }
+  /* Tile header accent */
+  .tile-header { border-top: 2px solid var(--tk-accent) !important; }
+  /* Section header eyebrow in accent */
+  .page-header__eyebrow { color: var(--tk-accent); font-weight: 700; }
+  .domain-header__eyebrow { color: var(--tk-accent); font-weight: 700; }
+
   </style>
 </head>
 <body>
