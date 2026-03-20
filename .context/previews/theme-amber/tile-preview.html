@@ -583,6 +583,172 @@
   .page-shell { grid-template-columns: 1fr !important; }
   .left-nav { display: none !important; }
 
+  
+  /* ── AMBER REFINEMENT PASS 2 ── */
+
+  /* ── Nav: warm amber bottom border, taller ── */
+  nav.top-nav, nav {
+    border-bottom: 2px solid color-mix(in srgb, var(--tk-accent) 35%, var(--tk-border)) !important;
+    height: 4rem !important;
+  }
+  .nav-logo { font-size: 1.125rem !important; letter-spacing: -0.03em !important; }
+  .nav-logo span { color: var(--tk-accent); }
+
+  /* ── Hero: large faded decorative word behind content ── */
+  .hero-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-wrap::before {
+    display: block !important;
+    content: "tekhne";
+    position: absolute;
+    bottom: -0.25em;
+    right: -0.1em;
+    font-size: clamp(10rem, 25vw, 18rem);
+    font-weight: 800;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--tk-accent) 12%, transparent);
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+  .hero-inner { position: relative; z-index: 1; }
+
+  /* ── Stats bar: left-aligned, flush with hero max-width ── */
+  .stats-bar {
+    justify-content: flex-start !important;
+    padding-left: calc((100% - 900px) / 2 + 2rem) !important;
+    gap: 3rem !important;
+  }
+  .stat-value { font-size: 2rem !important; letter-spacing: -0.04em !important; }
+  .stat-label { letter-spacing: 0.04em; }
+
+  /* ── Domain pills: text-only (hide icon), warmer ── */
+  .domain-card .domain-icon { display: none !important; }
+  .domain-card {
+    background: color-mix(in srgb, var(--tk-accent) 8%, var(--tk-bg-surface)) !important;
+    border: 1px solid color-mix(in srgb, var(--tk-accent) 25%, var(--tk-border)) !important;
+    color: var(--tk-color-white);
+    font-size: 0.8125rem !important;
+    font-weight: 600 !important;
+    padding: 0.4rem 0.875rem !important;
+    gap: 0.4rem !important;
+  }
+  .domain-card:hover {
+    background: color-mix(in srgb, var(--tk-accent) 18%, var(--tk-bg-surface)) !important;
+    border-color: var(--tk-accent) !important;
+  }
+  /* Restore domain count inside pills */
+  .domain-count {
+    display: inline !important;
+    font-size: 0.7rem !important;
+    color: var(--tk-text-muted) !important;
+    font-weight: 400 !important;
+  }
+  .domain-name { font-size: 0.8125rem !important; }
+
+  /* ── Skill cards: replace broken top-border-on-rounded with warm bg glow ── */
+  .skill-entry { border-top: none !important; border: 1px solid var(--tk-border) !important; }
+  .skill-entry:hover {
+    border-top: none !important;
+    border-color: color-mix(in srgb, var(--tk-accent) 60%, var(--tk-border)) !important;
+    background: color-mix(in srgb, var(--tk-accent) 5%, var(--tk-bg-surface)) !important;
+  }
+
+  /* ── Page header: editorial scale, no left-border ── */
+  .page-header {
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin-bottom: 2.5rem;
+  }
+  .page-header__eyebrow {
+    font-size: 0.8125rem !important;
+    color: var(--tk-accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .page-header__title {
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.1 !important;
+    margin-bottom: 0.75rem !important;
+  }
+  .page-header__desc { font-size: 1rem !important; max-width: 56ch !important; line-height: 1.7 !important; }
+
+  /* ── Breadcrumb: more prominent ── */
+  .breadcrumb { font-size: 0.875rem !important; margin-bottom: 2rem !important; gap: 0.5rem !important; }
+  .breadcrumb a { color: var(--tk-accent) !important; font-weight: 500; }
+  .breadcrumb__sep { color: var(--tk-text-muted); }
+
+  /* ── Section headers: count inline as accent badge ── */
+  .domain-section__title { color: var(--tk-color-white) !important; }
+  .domain-section__count {
+    background: color-mix(in srgb, var(--tk-accent) 15%, var(--tk-bg-surface)) !important;
+    color: var(--tk-accent) !important;
+    border: 1px solid color-mix(in srgb, var(--tk-accent) 30%, var(--tk-border)) !important;
+    border-radius: 9999px !important;
+    padding: 0.1em 0.6em !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* ── Install block: warm tint ── */
+  .install-block {
+    background: color-mix(in srgb, var(--tk-accent) 6%, var(--tk-bg)) !important;
+    border-color: color-mix(in srgb, var(--tk-accent) 30%, var(--tk-border)) !important;
+  }
+
+  /* ── Tile header: warm tint ── */
+  .tile-header {
+    background: color-mix(in srgb, var(--tk-accent) 4%, var(--tk-bg-surface)) !important;
+    border-color: color-mix(in srgb, var(--tk-accent) 25%, var(--tk-border)) !important;
+  }
+
+  /* ── Toolbar sort buttons ── */
+  .toolbar__sort-btn, .toolbar__sort-btn--active {
+    border-radius: 9999px !important;
+  }
+  .toolbar__sort-btn--active {
+    background: color-mix(in srgb, var(--tk-accent) 15%, var(--tk-bg-surface)) !important;
+    color: var(--tk-accent) !important;
+    border-color: color-mix(in srgb, var(--tk-accent) 40%, var(--tk-border)) !important;
+  }
+
+  /* ── Skill tabs ── */
+  .sk-tab--active {
+    border-bottom-color: var(--tk-accent) !important;
+    color: var(--tk-color-white) !important;
+  }
+
+  /* ── Audit card: warmer ── */
+  .audit-card {
+    border-radius: 1rem !important;
+    border-color: color-mix(in srgb, var(--tk-border) 80%, var(--tk-accent)) !important;
+  }
+
+  /* ── Ensure btn-primary stays no-glow (already set, belt+suspenders) ── */
+  .btn-primary { box-shadow: none !important; background: var(--tk-accent) !important; color: #fff !important; }
+  .btn-primary:hover { box-shadow: none !important; background: var(--tk-accent-hover) !important; }
+  .btn { border-radius: 9999px !important; padding: 0.625rem 1.75rem !important; }
+
+  /* ── Footer: no changes needed ── */
+
+  /* ── Light theme adjustments ── */
+  [data-theme="light"] .hero-wrap::before {
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--tk-accent) 15%, transparent);
+  }
+  [data-theme="light"] .domain-card {
+    background: color-mix(in srgb, var(--tk-accent) 6%, #fff) !important;
+  }
+  [data-theme="light"] .skill-entry:hover {
+    background: color-mix(in srgb, var(--tk-accent) 4%, #fff) !important;
+  }
+
   </style>
 </head>
 <body>
