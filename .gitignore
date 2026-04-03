@@ -11,6 +11,7 @@
 .tessl/
 .vscode/
 **/tessl__*
+**/.tools/
 dist/
 docs/node_modules/
 docs/dist/
