@@ -1,0 +1,53 @@
+{
+  "skill": "wave-execution-planner",
+  "total_scenarios": 3,
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "create-wave-plan-from-requirements",
+      "description": "Create a wave execution plan for a CLI refactor with 4 dependency levels. Tests DAG construction, parallel/sequential labelling, branch strategy, verification checklists, and correct output path.",
+      "instructions_covered": [
+        "Wave 1 = tasks with no dependencies; Wave N topological sort",
+        "Build explicit dependency DAG before assigning waves",
+        "Every task appears in exactly one wave",
+        "Parallel vs sequential wave labelling",
+        "Write output to .context/plans/<slug>.md",
+        "Include dependency graph and branch strategy",
+        "Include verification checklist per wave"
+      ]
+    },
+    {
+      "id": "scenario-2",
+      "capability": "create-wave-plan-from-flat-task-list",
+      "description": "Create a wave plan from a flat task list with explicit dependencies. Tests that the agent respects stated deps, does not invent extra constraints, and assigns parallel labels only where genuinely independent.",
+      "instructions_covered": [
+        "Build explicit dependency DAG before assigning waves",
+        "Wave N topological sort from stated dependencies",
+        "No dependent tasks in the same wave",
+        "Every task appears in exactly one wave",
+        "NEVER invent dependencies — parallel is default when none stated",
+        "Parallel vs sequential labelling",
+        "Include verification checklist per wave",
+        "Branch strategy one branch per parallel workstream"
+      ]
+    },
+    {
+      "id": "scenario-3",
+      "capability": "update-wave-statuses-mode-b",
+      "description": "Mode B update: tick completed Wave 1 tasks and verifications, mark the wave done, update Wave 2 to in-progress, mark T2.1 in-progress, write the file back, and announce the next wave.",
+      "instructions_covered": [
+        "Mode B: run verification commands and tick passing checks",
+        "Mode B: update Status column cells",
+        "Mode B: mark wave heading DONE when all verifications pass",
+        "Mode B: announce next wave and its execution mode",
+        "Mode B: write the updated document back",
+        "Wave document is the single source of truth — no status in task files"
+      ]
+    }
+  ],
+  "instructions_coverage": {
+    "coverage_percentage": "91.7%",
+    "instructions_covered": 11,
+    "total_instructions": 12
+  }
+}

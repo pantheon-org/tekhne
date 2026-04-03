@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/wave-execution-planner",
+  "version": "1.0.0",
+  "private": false,
+  "summary": "Groups plan phases/tasks into dependency-ordered waves for parallel subagent execution via git worktrees. Analyses task dependencies, builds a DAG, assigns tasks to waves, and emits a living wave document that tracks status as work lands. Also updates an existing wave plan when tasks complete.",
+  "skills": {
+    "wave-execution-planner": {
+      "path": "SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Agent was given a flat task list with explicit dependencies and asked to create a wave execution plan. Evaluate the document at .context/plans/infrastructure-cleanup.md.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "wave-document-created",
+      "description": "A wave document exists at .context/plans/infrastructure-cleanup.md",
+      "max_score": 5
+    },
+    {
+      "name": "dependency-dag-matches-stated-deps",
+      "description": "The dependency graph correctly reflects the stated dependencies: T0.1 blocks T1.x; T1.x blocks T2.x; T2.x blocks T3.x",
+      "max_score": 15
+    },
+    {
+      "name": "no-dependent-tasks-in-same-wave",
+      "description": "T0.1 is in Wave 1 alone; T1.x are in Wave 2; T2.x are in Wave 3; T3.x are in Wave 4 — no task is grouped with a task it depends on",
+      "max_score": 15
+    },
+    {
+      "name": "all-tasks-appear-exactly-once",
+      "description": "All 7 tasks (T0.1, T1.1, T1.2, T2.1, T2.2, T3.1, T3.2) appear in the document and each appears in exactly one wave",
+      "max_score": 10
+    },
+    {
+      "name": "parallel-waves-labelled-correctly",
+      "description": "Waves 2, 3, and 4 are labelled 'parallel' because each contains 2 independent tasks",
+      "max_score": 8
+    },
+    {
+      "name": "sequential-wave-labelled-correctly",
+      "description": "Wave 1 (T0.1 alone) is labelled 'sequential'",
+      "max_score": 7
+    },
+    {
+      "name": "verification-per-wave",
+      "description": "Each of the 4 waves includes a Verification checklist with at least one concrete runnable command",
+      "max_score": 10
+    },
+    {
+      "name": "branch-strategy-present",
+      "description": "A Branch Strategy section exists with a table assigning one branch per parallel task",
+      "max_score": 8
+    },
+    {
+      "name": "output-path-correct",
+      "description": "The wave document was written to exactly .context/plans/infrastructure-cleanup.md",
+      "max_score": 5
+    },
+    {
+      "name": "no-invented-dependencies",
+      "description": "The agent did not add dependencies that were not in the task list (e.g. did not make T3.1 depend on T3.2 or vice versa)",
+      "max_score": 10
+    },
+    {
+      "name": "wave-headings-include-mode",
+      "description": "Every wave heading specifies its execution mode: (sequential) or (parallel)",
+      "max_score": 7
+    }
+  ]
+}
