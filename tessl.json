@@ -19,6 +19,13 @@
     },
     "sahildmk/pr-comment-resolver": {
       "version": "0.3.1"
+    },
+    "RoleModel/rolemodel-skills": {
+      "version": "ce19367b08e537749b07e2a58de01c3fdc314275",
+      "source": "https://github.com/RoleModel/rolemodel-skills",
+      "include": {
+        "skills": ["laws-of-ux", "usability-heuristics"]
+      }
     }
   }
 }
