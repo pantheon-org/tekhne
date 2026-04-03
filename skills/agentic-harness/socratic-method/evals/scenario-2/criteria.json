@@ -1,22 +1,24 @@
-[
-  {
-    "description": "Activates questioning mode without recommending monolith or microservices immediately",
-    "max_score": 20
-  },
-  {
-    "description": "Phase 2 surfaces at least one real constraint: team size, operational maturity, or time-to-market",
-    "max_score": 20
-  },
-  {
-    "description": "Phase 4 applies a hypothetical to stress-test the reasoning (e.g. half the time, half the team)",
-    "max_score": 20
-  },
-  {
-    "description": "Questions are genuinely open — not leading or rhetorical",
-    "max_score": 20
-  },
-  {
-    "description": "Synthesis grounds the recommendation in the discovered constraints, not generic architecture advice",
-    "max_score": 20
-  }
-]
+{
+  "checklist": [
+    {
+      "description": "Activates questioning mode without recommending monolith or microservices immediately",
+      "max_score": 20
+    },
+    {
+      "description": "Phase 2 surfaces at least one real constraint: team size, operational maturity, or time-to-market",
+      "max_score": 20
+    },
+    {
+      "description": "Phase 4 applies a hypothetical to stress-test the reasoning (e.g. half the time, half the team)",
+      "max_score": 20
+    },
+    {
+      "description": "Questions are genuinely open — not leading or rhetorical",
+      "max_score": 20
+    },
+    {
+      "description": "Synthesis grounds the recommendation in the discovered constraints, not generic architecture advice",
+      "max_score": 20
+    }
+  ]
+}

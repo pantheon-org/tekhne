@@ -342,7 +342,7 @@ Refine vague or high-stakes prompts through Socratic questioning — surfaces hi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 4 |
 
 ### skill-quality-auditor
 
