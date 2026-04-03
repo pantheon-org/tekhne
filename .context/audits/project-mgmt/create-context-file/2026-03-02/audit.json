@@ -1,0 +1,19 @@
+{
+  "skill": "create-context-file",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 8,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 11
+  },
+  "total": 89,
+  "maxTotal": 120,
+  "grade": "C",
+  "lines": 51,
+  "hasReferences": false,
+  "referenceCount": 0
+}

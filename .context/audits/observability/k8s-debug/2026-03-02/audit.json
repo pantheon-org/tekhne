@@ -1,0 +1,19 @@
+{
+  "skill": "k8s-debug",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 8,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 15
+  },
+  "total": 91,
+  "maxTotal": 120,
+  "grade": "C+",
+  "lines": 219,
+  "hasReferences": true,
+  "referenceCount": 2
+}
