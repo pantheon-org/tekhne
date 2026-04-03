@@ -38,7 +38,13 @@ jobs:
             dir="$(dirname "$file")"
             while [ "$dir" != "." ] && [ "$dir" != "skills" ]; do
               if [ -f "$dir/tile.json" ]; then
-                TILE_DIRS="${TILE_DIRS}${dir}\n"
+                # Only publish if the tile.json version actually changed —
+                # prevents republishing an already-published version on non-version pushes.
+                OLD_VERSION=$(git show HEAD~1:"$dir/tile.json" 2>/dev/null | jq -r '.version' 2>/dev/null || echo "")
+                NEW_VERSION=$(jq -r '.version' "$dir/tile.json" 2>/dev/null || echo "")
+                if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
+                  TILE_DIRS="${TILE_DIRS}${dir}\n"
+                fi
                 break
               fi
               dir="$(dirname "$dir")"
@@ -67,7 +73,7 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - uses: tesslio/setup-tessl@v2
+      - uses: tesslio/setup-tessl@25ec223fc0da33b41b8044ff5ab2b85235f4f91e # v2
         with:
           token: ${{ secrets.TESSL_TOKEN }}
 
