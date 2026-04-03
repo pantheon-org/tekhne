@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/obsidian-toolkit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "summary": "Skills for working with Obsidian vaults and related formats: Obsidian Flavored Markdown, JSON Canvas files, the Obsidian CLI, and Defuddle for clean web content extraction.",
   "private": false,
   "skills": {

@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/moscow-prioritization",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": false,
   "summary": "Prioritize product requirements with the MoSCoW framework in a deterministic way.  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts,  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints.  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp,  release planning, scope control, stakeholder alignment.\n",
   "skills": {

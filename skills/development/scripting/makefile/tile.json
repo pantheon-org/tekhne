@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/makefile-toolkit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "summary": "Complete makefile toolkit with generation and validation capabilities",
   "private": false,
   "skills": {

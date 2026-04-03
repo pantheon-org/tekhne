@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/gitlab-ci-toolkit",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "summary": "Complete GitLab CI/CD toolkit with generation and validation capabilities for pipelines and configurations",
   "private": false,
   "skills": {
