@@ -1,7 +1,9 @@
 .agents/
 .claude/
 .codex/
-.context/
+!.context/
+.context/*
+!.context/audits
 .cursor/
 .gemini/
 .github/skills/

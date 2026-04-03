@@ -1,0 +1,19 @@
+{
+  "skill": "github-actions-validator",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 13
+  },
+  "total": 95,
+  "maxTotal": 120,
+  "grade": "C+",
+  "lines": 287,
+  "hasReferences": true,
+  "referenceCount": 6
+}

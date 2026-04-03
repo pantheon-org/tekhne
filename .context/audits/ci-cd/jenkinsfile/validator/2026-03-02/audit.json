@@ -1,0 +1,19 @@
+{
+  "skill": "jenkinsfile-validator",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 11
+  },
+  "total": 92,
+  "maxTotal": 120,
+  "grade": "C+",
+  "lines": 158,
+  "hasReferences": true,
+  "referenceCount": 6
+}

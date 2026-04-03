@@ -1,0 +1,19 @@
+{
+  "skill": "nx-bun-integration",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 13
+  },
+  "total": 104,
+  "maxTotal": 120,
+  "grade": "B+",
+  "lines": 128,
+  "hasReferences": true,
+  "referenceCount": 4
+}

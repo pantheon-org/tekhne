@@ -1,0 +1,19 @@
+{
+  "skill": "implementation-plan-splitter",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 13,
+    "patternRecognition": 6,
+    "practicalUsability": 15
+  },
+  "total": 98,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 302,
+  "hasReferences": true,
+  "referenceCount": 2
+}

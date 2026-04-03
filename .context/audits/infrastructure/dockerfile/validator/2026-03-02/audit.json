@@ -1,0 +1,19 @@
+{
+  "skill": "dockerfile-validator",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 9,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 13
+  },
+  "total": 96,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 378,
+  "hasReferences": true,
+  "referenceCount": 3
+}

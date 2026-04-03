@@ -1,0 +1,19 @@
+{
+  "skill": "github-actions-generator",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 12,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 12
+  },
+  "total": 94,
+  "maxTotal": 120,
+  "grade": "C+",
+  "lines": 267,
+  "hasReferences": true,
+  "referenceCount": 6
+}

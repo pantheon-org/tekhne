@@ -1,0 +1,19 @@
+{
+  "skill": "ansible-validator",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 13
+  },
+  "total": 97,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 229,
+  "hasReferences": true,
+  "referenceCount": 4
+}
