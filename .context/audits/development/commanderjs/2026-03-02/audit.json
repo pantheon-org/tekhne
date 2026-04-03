@@ -1,0 +1,19 @@
+{
+  "skill": "commanderjs",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 10,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 12,
+    "patternRecognition": 6,
+    "practicalUsability": 13
+  },
+  "total": 92,
+  "maxTotal": 120,
+  "grade": "C+",
+  "lines": 171,
+  "hasReferences": true,
+  "referenceCount": 6
+}

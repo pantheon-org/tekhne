@@ -1,0 +1,20 @@
+{
+  "skill": "project-mgmt/implementation-planner",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 12,
+    "antiPatternQuality": 11,
+    "specificationCompliance": 12,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 15,
+    "patternRecognition": 6,
+    "practicalUsability": 12,
+    "evalValidation": 11
+  },
+  "total": 105,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 618,
+  "hasReferences": true,
+  "referenceCount": 2
+}

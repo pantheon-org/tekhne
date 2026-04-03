@@ -1,0 +1,19 @@
+{
+  "skill": "mise-complete",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 12,
+    "patternRecognition": 6,
+    "practicalUsability": 13
+  },
+  "total": 98,
+  "maxTotal": 120,
+  "grade": "B",
+  "lines": 162,
+  "hasReferences": true,
+  "referenceCount": 16
+}

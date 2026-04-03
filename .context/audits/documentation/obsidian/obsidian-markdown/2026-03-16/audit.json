@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/obsidian/obsidian-markdown",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "evalValidation": 13
+  },
+  "total": 122,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 185,
+  "hasReferences": true,
+  "referenceCount": 5,
+  "referenceSectionCompliant": true
+}
