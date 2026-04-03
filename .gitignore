@@ -6,8 +6,7 @@
 .context/pr-reviews/
 .cursor/
 .gemini/
-.github/
-!.github/workflows/*.yml
+.github/skills/
 .opencode/
 .tessl/
 .vscode/
