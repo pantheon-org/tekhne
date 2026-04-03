@@ -1,0 +1,1 @@
+Generate What/Why MR descriptions in conventional commit format without degrading to file lists or commit logs

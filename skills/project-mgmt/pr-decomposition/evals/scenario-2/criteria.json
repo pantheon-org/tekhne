@@ -1,0 +1,61 @@
+{
+  "context": "Verify that the agent generates MR titles and descriptions that follow the What/Why format and do not degrade into file lists or commit logs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Both PRs have a title in conventional commit format",
+      "description": "Each title follows `<type>(<ticket>): <imperative summary>`. The type is a valid conventional commit type (chore, feat, fix, refactor, etc.) and the ticket identifier `PROJ-42` is present.",
+      "max_score": 10
+    },
+    {
+      "name": "PR 1 title uses an appropriate type",
+      "description": "PR 1 provisions infrastructure (CDK stack, IAM). The title type should be `chore` or `feat`, not `fix` or `test`.",
+      "max_score": 5
+    },
+    {
+      "name": "PR 2 title uses an appropriate type",
+      "description": "PR 2 adds application logic and tests. The title type should be `feat`, not `chore` or `fix`.",
+      "max_score": 5
+    },
+    {
+      "name": "Both PRs have a What field",
+      "description": "Each description contains a clearly labelled **What:** field. The field is present for both PR 1 and PR 2.",
+      "max_score": 8
+    },
+    {
+      "name": "Both PRs have a Why field",
+      "description": "Each description contains a clearly labelled **Why:** field. The field is present for both PR 1 and PR 2.",
+      "max_score": 8
+    },
+    {
+      "name": "What field describes the diff in plain English",
+      "description": "The What field summarises what changed in one sentence — not a file list (`infra/stacks/auth-stack.ts updated`) and not a commit log message. It reads as a human explanation of the change.",
+      "max_score": 14
+    },
+    {
+      "name": "Why field explains motivation or consequence",
+      "description": "The Why field explains why this change was necessary or what would happen without it. It does not restate the What field or list files.",
+      "max_score": 14
+    },
+    {
+      "name": "PR 1 description references its role as prerequisite for PR 2",
+      "description": "The PR 1 description (or Why field) mentions that it provisions infrastructure that the application logic in PR 2 depends on, establishing the stacked relationship.",
+      "max_score": 10
+    },
+    {
+      "name": "Neither description lists files or commit hashes",
+      "description": "Neither MR description contains raw file paths, commit SHAs, or a changelog-style list of changes. The descriptions are prose, not inventories.",
+      "max_score": 10
+    },
+    {
+      "name": "What and Why fields are each one sentence",
+      "description": "Each What field is a single sentence. Each Why field is a single sentence. Neither field is a multi-sentence paragraph.",
+      "max_score": 8
+    },
+    {
+      "name": "Descriptions are written for a reviewer with no prior context",
+      "description": "A reviewer who has never seen this codebase could read the description and understand what changed and why. No jargon or internal shorthand without explanation.",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Reject sequence-numbered branch names and produce descriptive content-based alternatives that reflect actual PR scope

@@ -1,0 +1,51 @@
+{
+  "context": "Verify that the agent rejects sequence-numbered branch names and proposes descriptive alternatives that reflect actual PR content.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Agent rejects the wave/sequence naming",
+      "description": "The agent explicitly states that names like `wave-1`, `wave-2`, `wave-3` are not acceptable. It does not silently accept them or use them in any proposed output.",
+      "max_score": 15
+    },
+    {
+      "name": "Agent explains why sequence names are problematic",
+      "description": "The agent gives a reason for rejecting sequence names — e.g., they don't convey scope, lose meaning after a rebase, or force reviewers to read every diff.",
+      "max_score": 10
+    },
+    {
+      "name": "Proposed branch names describe actual content",
+      "description": "Each replacement branch name reflects what the PR changes (e.g., `add-auth-cdk-stack-and-iam`, `add-jwt-session-and-token-refresh`). Names are not generic or placeholder.",
+      "max_score": 20
+    },
+    {
+      "name": "All three PRs get replacement branch names",
+      "description": "The agent provides a descriptive branch name for all three PRs, not just the first or second.",
+      "max_score": 10
+    },
+    {
+      "name": "Branch names retain the ticket prefix",
+      "description": "All proposed branch names include the ticket identifier `PROJ-42` as a prefix (e.g., `feature/PROJ-42-<content>`). The ticket prefix is preserved from the original naming.",
+      "max_score": 10
+    },
+    {
+      "name": "Branch names are kebab-case with no spaces or underscores",
+      "description": "All proposed branch names use lowercase letters and hyphens only. No spaces, underscores, camelCase, or uppercase letters.",
+      "max_score": 10
+    },
+    {
+      "name": "Branch names are sufficiently specific",
+      "description": "Names are not vague (e.g., `feature/PROJ-42-infra` is too vague). Names describe what specifically changes, not just the concern category.",
+      "max_score": 10
+    },
+    {
+      "name": "Agent does not create branches as part of this response",
+      "description": "The agent proposes names but does not execute git commands in this step. Branch creation requires separate user confirmation.",
+      "max_score": 8
+    },
+    {
+      "name": "Proposed names are consistent in style",
+      "description": "All three branch names follow the same naming convention (same prefix format, same case, same separator style).",
+      "max_score": 7
+    }
+  ]
+}

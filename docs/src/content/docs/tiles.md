@@ -546,7 +546,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (4 tiles)
+## Project Management (5 tiles)
 
 Planning & organization
 
@@ -579,6 +579,16 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [moscow-prioritization](/tekhne/skills/project-mgmt/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+
+### pr-decomposition
+
+Splits a large feature branch into smaller, focused pull requests using stacked branches and cherry-pick. Groups commits by concern (infrastructure, application logic, tests, housekeeping), proposes descriptive branch names for user approval, creates stacked branches, and generates What/Why MR titles and descriptions.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/pr-decomposition) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [pr-decomposition](/tekhne/skills/project-mgmt/pr-decomposition/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 4 |
 
 ### implementation-plan-splitter
 
