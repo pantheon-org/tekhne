@@ -1,0 +1,22 @@
+[
+  {
+    "description": "Does not suggest caching, CDN, lazy loading, or code splitting before completing questioning",
+    "max_score": 20
+  },
+  {
+    "description": "Phase 1 establishes what 'fast enough' means with a concrete target or user baseline",
+    "max_score": 15
+  },
+  {
+    "description": "Phase 2 probes where the 5 seconds is actually spent rather than assuming a cause",
+    "max_score": 25
+  },
+  {
+    "description": "Phase 3 explores whether data volume or query design is the root cause",
+    "max_score": 20
+  },
+  {
+    "description": "Synthesis identifies the root cause category (data/query problem, not frontend) before recommending a solution class",
+    "max_score": 20
+  }
+]
