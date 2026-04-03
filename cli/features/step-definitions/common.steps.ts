@@ -1,11 +1,35 @@
 // Step definition files use `function` syntax for Cucumber's `this` binding.
 // These files live outside cli/lib/ and are exempt from CLI TypeScript conventions.
-import { Given, Then, When } from "@cucumber/cucumber";
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { After, Given, Then, When } from "@cucumber/cucumber";
 import { runCli } from "./run-cli";
 import type { CliWorld } from "./world";
 
+const AUDIT_FIXTURE_PATH = ".context/audits/test-skill/latest";
+
 Given("I am at the repository root", function (this: CliWorld) {
   // No-op: cucumber.js is at the repo root so process.cwd() is already correct.
+});
+
+Given("audit fixture data exists", function (this: CliWorld) {
+  const dir = join(this.repoRoot, AUDIT_FIXTURE_PATH);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(
+    join(dir, "audit.json"),
+    JSON.stringify({ score: 130, grade: "A", dimensions: { clarity: 90 } }),
+  );
+});
+
+After({ tags: "@audit-fixture" }, function (this: CliWorld) {
+  try {
+    rmSync(join(this.repoRoot, ".context/audits/test-skill"), {
+      recursive: true,
+      force: true,
+    });
+  } catch {
+    // ignore cleanup errors
+  }
 });
 
 When(
