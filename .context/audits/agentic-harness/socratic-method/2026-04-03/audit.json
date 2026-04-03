@@ -1,0 +1,21 @@
+{
+  "skill": "agentic-harness/socratic-method",
+  "dimensions": {
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 17
+  },
+  "total": 128,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 113,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": true
+}

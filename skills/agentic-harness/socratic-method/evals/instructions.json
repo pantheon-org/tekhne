@@ -1,0 +1,52 @@
+{
+  "instructions": [
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER activate for simple, concrete, well-specified tasks. The protocol is for ambiguity, not ceremony."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER generate an implementation until all five phases are complete or the user explicitly asks you to stop questioning and proceed."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER ask more than three questions per turn. Ask the most important question; the answer will sharpen the next one."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER generate solutions while in questioning mode — not even partial ones. Partial solutions anchor the user to an approach before the problem is fully understood."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER lead the witness — questions must be genuinely open, not rhetorical. Leading questions push users toward predetermined answers."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER moralize or editorialize. Evaluative framing triggers defensiveness; the user defends their position instead of examining it."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER continue questioning after the user says 'just do it'. Continuing after an explicit override is Socratic harassment."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER skip Phase 5 before acting — always confirm the synthesized understanding. An unchecked synthesis may still be wrong."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "Work through five phases in order: Clarify, Probe assumptions, Explore implications, Challenge through hypotheticals, Synthesize toward clarity."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "Phase 1 establishes shared vocabulary. Phase 2 surfaces unstated premises. Phase 3 explores second-order effects. Phase 4 uses thought experiments. Phase 5 confirms before acting."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "The most valuable outcome is the user arriving at insight through their own reasoning, not the question being answered."
+    },
+    {
+      "why_given": "new knowledge",
+      "original_snippets": "When the user says 'just do it', acknowledge what was not examined briefly without judgment and proceed to implementation."
+    }
+  ]
+}
