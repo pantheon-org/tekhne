@@ -17,3 +17,4 @@ docs/dist/
 docs/.astro/
 node_modules/
 skills-lock.json
+.env.keys
