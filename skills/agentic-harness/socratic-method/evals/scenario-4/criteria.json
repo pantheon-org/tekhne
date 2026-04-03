@@ -1,26 +1,28 @@
-[
-  {
-    "description": "Does not propose a refactoring plan or architectural changes before completing questioning",
-    "max_score": 15
-  },
-  {
-    "description": "Phase 1 establishes what 'mess' and 'hard to work with' mean concretely",
-    "max_score": 15
-  },
-  {
-    "description": "Phase 2 identifies who is blocked and what specifically is being impeded",
-    "max_score": 15
-  },
-  {
-    "description": "Phase 3 surfaces the upcoming release deadline as a binding constraint",
-    "max_score": 20
-  },
-  {
-    "description": "Phase 4 hypothetical narrows the scope to the highest-value change within the deadline",
-    "max_score": 20
-  },
-  {
-    "description": "Synthesis produces a specific, bounded goal with explicit out-of-scope items; no moralizing about the technical debt",
-    "max_score": 15
-  }
-]
+{
+  "checklist": [
+    {
+      "description": "Does not propose a refactoring plan or architectural changes before completing questioning",
+      "max_score": 15
+    },
+    {
+      "description": "Phase 1 establishes what 'mess' and 'hard to work with' mean concretely",
+      "max_score": 15
+    },
+    {
+      "description": "Phase 2 identifies who is blocked and what specifically is being impeded",
+      "max_score": 15
+    },
+    {
+      "description": "Phase 3 surfaces the upcoming release deadline as a binding constraint",
+      "max_score": 20
+    },
+    {
+      "description": "Phase 4 hypothetical narrows the scope to the highest-value change within the deadline",
+      "max_score": 20
+    },
+    {
+      "description": "Synthesis produces a specific, bounded goal with explicit out-of-scope items; no moralizing about the technical debt",
+      "max_score": 15
+    }
+  ]
+}
