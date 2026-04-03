@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/website-theme-porter",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "summary": "Port the visual theme and styling from a live website to a React/Tailwind CSS project. Extracts colours, typography, spacing, and component styles — via agent-browser automation, manual inspection, curl/wget, or direct source reading — writes structured documentation and all artifacts under .context/artifacts/{website}/ with timestamps, applies findings as Tailwind v4 CSS tokens, then verifies by visually diffing the original site against the local or deployed version. Use when cloning a brand, replicating a design system, matching a reference site, migrating visual identity, copying a style guide, or porting a theme from any live URL into a React codebase.\n",
   "skills": {

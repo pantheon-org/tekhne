@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/implementation-plan-splitter",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": false,
   "summary": "Merged into implementation-planner. Redirects to the unified skill that handles both creating new plans and restructuring existing monolithic planning docs into hierarchical directory structures.",
   "skills": {
