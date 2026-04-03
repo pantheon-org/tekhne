@@ -1,0 +1,371 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    "skills/agentic-harness/agents-md": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/opencode-toolkit": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/opencode-toolkit/build-plugins": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/opencode-toolkit/build-tool": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/opencode-toolkit/configure": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/opencode-toolkit/design-agents": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/opencode-toolkit/design-commands": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/skill-quality-auditor": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/socratic-method": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/agentic-harness/tessl/publish-public": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/ci-cd/azure-pipelines": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/ci-cd/fluentbit": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/ci-cd/github-actions": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/ci-cd/gitlab-ci": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/ci-cd/helm": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/ci-cd/jenkinsfile": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/biome-complete": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/bun-development": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/commanderjs": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/front-end/web-reference-sheet-generator": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/front-end/website-theme-porter": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/scripting/bash-script": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/scripting/makefile": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/development/typescript-advanced": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/documentation/acceptance-criteria": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/documentation/astro-starlight": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/documentation/conventional-commits": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/documentation/journal-entry-creator": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/documentation/markdown-authoring": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/documentation/obsidian": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/documentation/plain-english": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/ansible": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/aws-cdk/cdk-nag": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/cfn": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/cfn/behavior-validator": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/cfn/template-compare": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/dockerfile": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/k8s": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/terraform": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/infrastructure/terragrunt": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/observability/logql-generator": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/observability/promql": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/package-mgmt/mise-complete": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/project-mgmt/create-context-file": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/project-mgmt/implementation-plan-splitter": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/project-mgmt/implementation-planner": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/project-mgmt/moscow-prioritization": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/project-mgmt/pr-decomposition": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/project-mgmt/wave-execution-planner": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/repository-mgmt/nx": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/repository-mgmt/nx/biome-integration": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/repository-mgmt/nx/bun-integration": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/repository-mgmt/nx/vite-integration": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/repository-mgmt/nx/workspace-patterns": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/software-engineering/design-principles": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/specialized/colyseus-multiplayer": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/specialized/github-copilot-models": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/specialized/gitlab-api": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/testing/bdd-testing": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/testing/test-driven-development": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    },
+    "skills/testing/ui-debug-workflow": {
+      "release-type": "simple",
+      "extra-files": [
+        { "type": "json", "path": "tile.json", "jsonpath": "$.version" }
+      ]
+    }
+  }
+}
