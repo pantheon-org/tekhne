@@ -24,7 +24,7 @@ This file defines how LLM agents should work in this repository.
 
 ## Domain Organization
 
-12 domains: `ci-cd/`, `infrastructure/`, `repository-mgmt/`, `development/`, `agentic-harness/`, `testing/`, `software-engineering/`, `observability/`, `documentation/`, `package-mgmt/`, `project-mgmt/`, `specialized/`.
+13 domains: `ci-cd/`, `infrastructure/`, `repository-mgmt/`, `development/`, `agentic-harness/`, `testing/`, `software-engineering/`, `observability/`, `documentation/`, `package-mgmt/`, `project-mgmt/`, `specialized/`, `languages/`.
 
 See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` for classification criteria.
 
@@ -92,7 +92,7 @@ See `cli/README.md` for full usage. Use `tessl skill review --optimize` for skil
 
 ## CLI TypeScript Conventions
 
-All `cli/` files follow 7 rules (arrow functions, barrel modules, collocated tests, no nested functions, ≤150-line bodies, one export per module, ≤10 modules per dir). See `cli/CONVENTIONS.md`.
+All `cli/` files follow 7 rules (arrow functions, barrel modules, collocated tests, no nested functions, ≤150-line bodies, one export per module, directory organisation by layer). See `cli/CONVENTIONS.md`.
 
 ## Git Hooks
 
