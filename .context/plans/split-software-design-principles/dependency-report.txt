@@ -1,5 +1,0 @@
-./README.md:| [software-design-principles](skills/software-engineering/software-design-principles/SKILL.md) | Apply SOLID principles, detect design anti-patterns, and evaluate architectural ... | ![B+](https://img.shields.io/badge/Rating-B+-yellowgreen) | [2026-03-02](.context/audits/software-engineering/software-design-principles/2026-03-02/audit.json) | [Public](https://tessl.io/registry/skills/pantheon-ai/pantheon-ai/software-design-principles) |
-./skills/software-engineering/software-design-principles/SKILL-FULL.md:name: software-design-principles
-./skills/software-engineering/software-design-principles/SKILL.md:name: software-design-principles
-./skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md:└── software-design-principles/
-./skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md:### software-design-principles
