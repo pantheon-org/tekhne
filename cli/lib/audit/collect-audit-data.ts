@@ -10,6 +10,10 @@ export interface SkillAudit {
 }
 
 export const collectAuditData = async (): Promise<SkillAudit[]> => {
+  if (!existsSync(".context/audits")) {
+    return [];
+  }
+
   const auditJsonFiles =
     await $`find -L .context/audits -name "audit.json" -path "*/latest/*"`.text();
   const files = auditJsonFiles.trim().split("\n").filter(Boolean);

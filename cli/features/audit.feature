@@ -26,8 +26,10 @@ Feature: Audit command
     Then the exit code should be 0
     And the output should contain "Audit Status"
 
+  @audit-fixture
   Scenario: summary subcommand generates a report when audit data exists
     Given I am at the repository root
+    And audit fixture data exists
     When I run the CLI command "audit summary"
     Then the exit code should be 0
     And the output should contain "Audit Summary"
