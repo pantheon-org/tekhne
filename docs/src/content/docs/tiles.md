@@ -316,7 +316,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 ---
 
-## Agentic Harness (4 tiles)
+## Agentic Harness (5 tiles)
 
 Agent framework configurations
 
@@ -333,6 +333,16 @@ Complete toolkit for configuring and extending OpenCode: agent creation, custom 
 | [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
 | [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
 | [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
+
+### socratic-method
+
+Refine vague or high-stakes prompts through Socratic questioning — surfaces hidden assumptions, probes reasoning, and iterates toward clarity before committing to a response
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/socratic-method) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### skill-quality-auditor
 
