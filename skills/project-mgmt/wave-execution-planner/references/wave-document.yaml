@@ -1,0 +1,95 @@
+title: "Wave Execution Template"
+description: >
+  Copy-paste starting point for a wave document.
+  Replace all <...> placeholders. Delete unused sections.
+  File location: .context/plans/<plan-slug>.md
+
+output_path: ".context/plans/<plan-slug>.md"
+
+sections:
+  header: |
+    # <Plan Title>
+
+    **Ticket / ref**: <link or N/A>
+    **Status**: Pending
+    **Assignee**: <name or team>
+
+  goal: |
+    ## Goal
+
+    <One paragraph describing the desired end state.>
+
+  conditions_of_satisfaction: |
+    ## Conditions of Satisfaction
+
+    - [ ] <observable outcome 1>
+    - [ ] <observable outcome 2>
+    - [ ] <observable outcome 3>
+
+  dependency_graph: |
+    ## Dependency Graph
+
+    ```text
+    Wave 1 (parallel)
+      <T1.1> <description> ─┐
+      <T1.2> <description> ─┤─► Wave 2
+      <T1.N> <description> ─┘
+
+    Wave 2 (<parallel | sequential>, unblocked after Wave 1)
+      <T2.1> <description> (← <T1.x>) ─► Wave 3
+
+    Wave N (sequential)
+      <TN.1> <description> (← all Wave N-1)
+    ```
+
+  waves_and_phases: |
+    ## Waves & Phases
+
+    ### Wave 1 — <Label> (<parallel | sequential>)
+
+    > Gate: None — start immediately.
+
+    | Phase | Focus | Tasks | Status |
+    |-------|-------|-------|--------|
+    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending |
+
+    Verification:
+    - [ ] <command or observable check>
+    - [ ] <command or observable check>
+
+    ---
+
+    ### Wave 2 — <Label> (<parallel | sequential>)
+
+    > Gate: Wave 1 verified ✓
+
+    | Phase | Focus | Tasks | Status |
+    |-------|-------|-------|--------|
+    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending |
+
+    Verification:
+    - [ ] <command or observable check>
+
+  branch_strategy: |
+    ## Branch Strategy
+
+    | Branch | Tracks | Base |
+    |--------|--------|------|
+    | `<type>/<scope>-<slug>` | <T1.1, T1.2 or Phase N> | `main` |
+
+    Merge order: `<branch-a>` → `<branch-b>` → ...
+
+  definition_of_done: |
+    ## Definition of Done
+
+    - [ ] All wave verification gates pass
+    - [ ] All branches merged to `main`
+    - [ ] CI green on `main`
+    - [ ] <project-specific criterion>
+    - [ ] <project-specific criterion>
+
+notes:
+  - "For small plans (<6 tasks total), use inline task checkboxes instead of phase table rows."
+  - "For plans with no separate phase files, replace Phase links with task IDs directly."
+  - "Add a Cleanup subsection to parallel waves that use git worktrees."
+  - "Status values: Pending → In Progress → Done → (optionally) Blocked"

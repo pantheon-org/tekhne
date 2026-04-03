@@ -1,6 +1,7 @@
 .agents/
 .claude/
 .codex/
+!.context/
 .context/investigations/
 .context/pr-reviews/
 .cursor/
