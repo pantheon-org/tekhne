@@ -1,0 +1,68 @@
+{
+  "skill": "socratic-method",
+  "total_scenarios": 4,
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "refine-vague-feature-request",
+      "description": "Vague auth request on a TypeScript/Express API. Tests that the agent enters questioning mode, runs Phase 1 and 2, surfaces hidden assumptions (strategy, user types), and synthesizes a specific requirement before offering implementation options.",
+      "instructions_covered": [
+        "Activate when request is vague or intent is ambiguous",
+        "Do not generate implementation during questioning mode",
+        "Ask one to three focused questions per turn, never more",
+        "Phase 1 — clarify the surface request",
+        "Phase 2 — probe assumptions and definitions",
+        "Phase 5 — synthesize toward clarity and confirm before acting"
+      ]
+    },
+    {
+      "id": "scenario-2",
+      "capability": "refine-architecture-decision",
+      "description": "Microservices vs monolith debate with hidden context (3-person team, no DevOps, 6-week deadline). Tests Phase 2 constraint discovery, Phase 4 hypotheticals, open (non-leading) questions, and context-grounded synthesis.",
+      "instructions_covered": [
+        "Activate when request touches architectural decisions with long-lived consequences",
+        "Do not generate implementation during questioning mode",
+        "Phase 2 — probe assumptions and definitions",
+        "Phase 4 — challenge through hypotheticals",
+        "Phase 5 — synthesize toward clarity and confirm before acting",
+        "Do not lead the witness — questions must be genuinely open"
+      ]
+    },
+    {
+      "id": "scenario-3",
+      "capability": "identify-wrong-problem",
+      "description": "Dashboard slowness framed as a frontend problem (actually unindexed N+1 queries + one power user loading 3 years of data). Tests that the agent reframes the problem via Phase 1–3 before recommending any solution class.",
+      "instructions_covered": [
+        "Activate when request could be solving the wrong problem",
+        "Do not generate implementation during questioning mode",
+        "Phase 1 — clarify the surface request",
+        "Phase 2 — probe assumptions and definitions",
+        "Phase 3 — explore implications and connections",
+        "Phase 5 — synthesize toward clarity and confirm before acting"
+      ]
+    },
+    {
+      "id": "scenario-4",
+      "capability": "prevent-scope-creep",
+      "description": "Vague 'refactor the codebase' with a release in two weeks and no tests. Tests all five phases, no moralizing about the technical debt, and synthesis that produces a scoped goal with explicit out-of-scope items.",
+      "instructions_covered": [
+        "Activate when competing concerns haven't been prioritized",
+        "Do not generate implementation during questioning mode",
+        "Phase 1 — clarify the surface request",
+        "Phase 2 — probe assumptions and definitions",
+        "Phase 3 — explore implications and connections",
+        "Phase 4 — challenge through hypotheticals",
+        "Phase 5 — synthesize toward clarity and confirm before acting",
+        "Do not moralize or editorialize"
+      ]
+    }
+  ],
+  "instructions_coverage": {
+    "coverage_percentage": "91.7%",
+    "instructions_covered": 11,
+    "total_instructions": 12,
+    "uncovered_instructions": [
+      "Short-circuit when user says 'just do it' — acknowledge override, note what was skipped"
+    ]
+  }
+}
