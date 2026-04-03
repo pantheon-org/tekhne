@@ -2,13 +2,9 @@
   "skill": "project-mgmt/pr-decomposition",
   "total_instructions": 14,
   "instructions_coverage": {
-    "covered": 12,
-    "uncovered": 2,
-    "coverage_percentage": "86%",
-    "uncovered_instructions": [
-      "NEVER split commits that share a single failing test",
-      "Do not decompose when all commits touch the same component"
-    ]
+    "covered": 14,
+    "uncovered": 0,
+    "coverage_percentage": "100%"
   },
   "scenarios": [
     {
@@ -30,6 +26,11 @@
       "id": "scenario-3",
       "capability": "Resolve cherry-pick conflicts and produce correct target-branch reminders",
       "instructions_covered": [7, 10]
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Decline decomposition when all commits touch the same component and a split would create a failing-test window",
+      "instructions_covered": [13, 14]
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "skill": "wave-execution-planner",
-  "total_scenarios": 3,
+  "total_scenarios": 5,
   "scenarios": [
     {
       "id": "scenario-1",
@@ -43,11 +43,36 @@
         "Mode B: write the updated document back",
         "Wave document is the single source of truth — no status in task files"
       ]
+    },
+    {
+      "id": "scenario-4",
+      "capability": "refuse-wave-advancement-when-verification-incomplete",
+      "description": "Mode B gate enforcement: user asks to start Wave 2 while Wave 1 has an unconfirmed verification check. Agent must block advancement, identify the specific failing check, and explain the gate rule.",
+      "instructions_covered": [
+        "NEVER advance to Wave N+1 before Wave N verification passes",
+        "Include Verification checklist per wave"
+      ]
+    },
+    {
+      "id": "scenario-5",
+      "capability": "create-wave-plan-from-prose-requirements",
+      "description": "Mode A from open-ended prose: extract tasks from a natural-language description, build the DAG, assign waves via topological sort, and emit the wave document to the correct path.",
+      "instructions_covered": [
+        "Wave 1 = tasks with no dependencies; Wave N topological sort",
+        "Build explicit dependency DAG before assigning waves",
+        "Every task appears in exactly one wave",
+        "Parallel vs sequential wave labelling",
+        "Write output to .context/plans/<slug>.md",
+        "Include dependency graph and branch strategy",
+        "Include verification checklist per wave",
+        "NEVER invent dependencies — parallel is default when none stated",
+        "Branch strategy one branch per parallel workstream"
+      ]
     }
   ],
   "instructions_coverage": {
-    "coverage_percentage": "91.7%",
-    "instructions_covered": 11,
+    "coverage_percentage": "100%",
+    "instructions_covered": 12,
     "total_instructions": 12
   }
 }

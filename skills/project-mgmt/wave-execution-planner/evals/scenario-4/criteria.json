@@ -1,0 +1,31 @@
+{
+  "context": "Agent was asked to start Wave 2 while Wave 1 has an unconfirmed verification check. Evaluate whether the agent correctly blocks advancement and keeps the document unchanged.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "blocks-wave-2-advancement",
+      "description": "Agent explicitly refuses to mark Wave 2 as in-progress or start any Wave 2 task, citing the incomplete Wave 1 verification gate",
+      "max_score": 30
+    },
+    {
+      "name": "identifies-specific-failing-check",
+      "description": "Agent names the specific verification check that has not passed (the e2e smoke test: `bun run test:e2e pipeline`), not just 'a check is missing'",
+      "max_score": 20
+    },
+    {
+      "name": "wave-2-document-unchanged",
+      "description": "The wave document is not modified: Wave 2 remains PENDING and no task under Wave 2 is marked in-progress",
+      "max_score": 20
+    },
+    {
+      "name": "explains-gate-rule",
+      "description": "Agent articulates the gate rule: Wave N+1 cannot start until ALL Wave N verification checks are confirmed, regardless of flakiness concerns",
+      "max_score": 15
+    },
+    {
+      "name": "provides-path-to-unblock",
+      "description": "Agent tells the user what they need to do next: confirm the e2e test passes (or tick it off if they accept the risk) before Wave 2 can begin",
+      "max_score": 15
+    }
+  ]
+}
