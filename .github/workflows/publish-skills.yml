@@ -8,7 +8,6 @@ on:
 
 permissions:
   contents: read
-  id-token: write # Required for OIDC token
 
 jobs:
   detect-tiles:
@@ -68,9 +67,14 @@ jobs:
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
-      - uses: tesslio/publish@main
+      - uses: tesslio/setup-tessl@v2
         with:
           token: ${{ secrets.TESSL_TOKEN }}
-          path: ${{ matrix.tile }}
-          review: "true"
-          review-threshold: "50"
+
+      - name: Lint tile
+        run: tessl tile lint
+        working-directory: ${{ matrix.tile }}
+
+      - name: Publish tile
+        run: tessl tile publish
+        working-directory: ${{ matrix.tile }}
