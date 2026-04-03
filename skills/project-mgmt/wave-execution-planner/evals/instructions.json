@@ -1,0 +1,104 @@
+{
+  "instructions": [
+    {
+      "instruction": "Wave 1 = tasks with no dependencies; Wave N = tasks whose all dependencies are in waves 1..N-1 (topological sort)",
+      "original_snippets": [
+        "Wave 1 = tasks with no dependencies; Wave N = tasks whose dependencies are all in waves 1..N-1"
+      ],
+      "relevant_when": "Mode A Step 4: assigning wave numbers",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Build an explicit dependency DAG before assigning wave numbers; list every task with its dependencies",
+      "original_snippets": [
+        "Build dependency DAG — see references/dependency-analysis.md"
+      ],
+      "relevant_when": "Mode A Step 3: before assigning waves",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Every task must appear in exactly one wave; no task may be omitted or listed in two waves",
+      "original_snippets": [
+        "Validate — every task appears in exactly one wave; no wave contains tasks that depend on each other"
+      ],
+      "relevant_when": "Mode A Step 7: validation",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "A wave is labelled parallel when it contains 2+ tasks with no mutual dependency; sequential when it contains only 1 task or tasks that must run in order",
+      "original_snippets": [
+        "a wave with >1 independent task is parallel; a wave with 1 task (or tasks that must run in order) is sequential"
+      ],
+      "relevant_when": "Mode A Step 5: labelling waves",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Write the wave document to .context/plans/<plan-slug>.md using the format in references/wave-format.md",
+      "original_snippets": [
+        "emit <plan-slug>.md to .context/plans/ using the format in references/wave-format.md"
+      ],
+      "relevant_when": "Mode A Step 6: writing output",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Include a Dependency Graph section (ASCII DAG) and a Branch Strategy table in every wave document",
+      "original_snippets": [
+        "Include a Dependency Graph section with an ASCII DAG",
+        "Include a Branch Strategy table"
+      ],
+      "relevant_when": "Mode A: always when writing the wave document",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Include a Verification checklist per wave; NEVER advance to Wave N+1 before Wave N verification passes",
+      "original_snippets": [
+        "NEVER advance to Wave N+1 before all Wave N verification checks pass",
+        "Verification: - [ ] <command>"
+      ],
+      "relevant_when": "Mode A: when writing each wave section; Mode B: before advancing waves",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "In Mode B, run the verification commands, tick passing checks, update Status column cells, mark the wave heading DONE, then announce which wave is next",
+      "original_snippets": [
+        "Run verification gate — execute the commands listed in the completed wave's Verification: checklist",
+        "Mark wave — append — DONE to the wave heading when all verifications pass",
+        "Announce next wave — state which wave is now unblocked"
+      ],
+      "relevant_when": "Mode B: always",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER put tasks that depend on each other in the same wave",
+      "original_snippets": [
+        "NEVER put dependent tasks in the same wave. If Task B reads output from Task A, they must be in different waves"
+      ],
+      "relevant_when": "Mode A: always during wave assignment",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER invent dependencies that are not stated in the requirements; parallel is the default when no ordering is stated",
+      "original_snippets": [
+        "NEVER invent dependencies that are not in the requirements. Parallel is the default when no ordering is stated"
+      ],
+      "relevant_when": "Mode A Step 2: extracting tasks",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For parallel waves, assign one branch per phase/workstream using the pattern <type>/<scope>-<slug>",
+      "original_snippets": [
+        "For parallel waves, assign one branch per workstream: <type>/<scope>-<slug>"
+      ],
+      "relevant_when": "Mode A: when writing the Branch Strategy section",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "The wave document is the single source of truth for status; NEVER track status inside individual task files",
+      "original_snippets": [
+        "NEVER track status inside individual task files — the wave document is the single source of truth"
+      ],
+      "relevant_when": "Mode B: always",
+      "why_given": "preference"
+    }
+  ]
+}

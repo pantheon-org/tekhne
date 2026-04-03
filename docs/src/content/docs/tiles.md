@@ -546,7 +546,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (5 tiles)
+## Project Management (6 tiles)
 
 Planning & organization
 
@@ -559,6 +559,16 @@ Converts a PRD or requirements document into a structured, phased implementation
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [implementation-planner](/tekhne/skills/project-mgmt/implementation-planner/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-11 | 5 |
+
+### wave-execution-planner
+
+Groups plan phases/tasks into dependency-ordered waves for parallel subagent execution via git worktrees. Analyses task dependencies, builds a DAG, assigns tasks to waves, and emits a living wave document that tracks status as work lands. Also updates an existing wave plan when tasks complete.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/wave-execution-planner) | **Version:** 1.0.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [wave-execution-planner](/tekhne/skills/project-mgmt/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### create-context-file
 
