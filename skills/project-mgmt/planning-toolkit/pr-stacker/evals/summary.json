@@ -1,0 +1,36 @@
+{
+  "skill": "project-mgmt/planning-toolkit/pr-stacker",
+  "total_instructions": 14,
+  "instructions_coverage": {
+    "covered": 14,
+    "uncovered": 0,
+    "coverage_percentage": "100%"
+  },
+  "scenarios": [
+    {
+      "id": "scenario-0",
+      "capability": "Analyse a mixed-concern branch and propose a concern-grouped decomposition table with approval gate",
+      "instructions_covered": [1, 2, 3, 4, 5, 6, 11, 12]
+    },
+    {
+      "id": "scenario-1",
+      "capability": "Reject sequence-numbered branch names and produce descriptive alternatives",
+      "instructions_covered": [5]
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Generate What/Why MR descriptions in conventional commit format",
+      "instructions_covered": [8, 9]
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Resolve cherry-pick conflicts and produce correct target-branch reminders",
+      "instructions_covered": [7, 10]
+    },
+    {
+      "id": "scenario-4",
+      "capability": "Decline decomposition when all commits touch the same component and a split would create a failing-test window",
+      "instructions_covered": [13, 14]
+    }
+  ]
+}
