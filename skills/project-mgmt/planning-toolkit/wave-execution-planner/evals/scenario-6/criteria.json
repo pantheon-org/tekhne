@@ -1,0 +1,46 @@
+{
+  "context": "Agent was given a phased decommission plan where a naive topological sort would place infrastructure cleanup (Phase 1) in a different wave from the service code cleanup (Phases 2 & 3). The critical correctness test is whether the agent recognises that deploying Phase 1 alone would break the live services at runtime, and therefore groups Phases 1, 2, and 3 into the same must-land-together wave.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "phases-1-2-3-same-wave",
+      "description": "Phases 1, 2, and 3 are placed in the same wave (not in separate waves). Placing Phase 1 in an earlier wave and Phases 2/3 in a later wave is a critical failure.",
+      "max_score": 35
+    },
+    {
+      "name": "must-land-together-label",
+      "description": "The wave containing Phases 1, 2, and 3 is labelled 'must land together' (or equivalent) with an explicit note that deploying Phase 1 alone would break the live services at runtime.",
+      "max_score": 20
+    },
+    {
+      "name": "atomic-deploy-note",
+      "description": "The wave document includes a blockquote or note stating that the infrastructure change (Phase 1) and the service code changes (Phases 2 & 3) must be deployed in the same operation.",
+      "max_score": 15
+    },
+    {
+      "name": "phase-5-after-phases-2-3",
+      "description": "Phase 5 (remove SDK package dependency) is placed after Phases 2 and 3, not before or alongside them, since removing the package before the import is deleted would break the services.",
+      "max_score": 10
+    },
+    {
+      "name": "phase-0-first-wave",
+      "description": "Phase 0 (validation) is the sole occupant of Wave 1 and is labelled sequential or pre-work.",
+      "max_score": 5
+    },
+    {
+      "name": "phases-2-3-parallel-within-wave",
+      "description": "Phases 2 and 3 are noted as independently workable (parallel worktrees) within their wave, since they touch different files.",
+      "max_score": 5
+    },
+    {
+      "name": "output-file-written",
+      "description": "Wave document is written to .context/plans/decommission-third-party-sdk.md",
+      "max_score": 5
+    },
+    {
+      "name": "verification-checklists-present",
+      "description": "Each wave has a Verification: checklist with at least one concrete, runnable command",
+      "max_score": 5
+    }
+  ]
+}

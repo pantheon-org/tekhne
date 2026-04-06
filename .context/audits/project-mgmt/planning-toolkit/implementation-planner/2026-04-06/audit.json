@@ -1,0 +1,21 @@
+{
+  "skill": "project-mgmt/planning-toolkit/implementation-planner",
+  "dimensions": {
+    "knowledgeDelta": 14,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 11,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "evalValidation": 17
+  },
+  "total": 117,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 749,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false
+}
