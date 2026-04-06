@@ -1,0 +1,21 @@
+{
+  "skill": "infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 15,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 17
+  },
+  "total": 127,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 87,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}

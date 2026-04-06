@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "instruction": "NEVER use `locator.click()` to click elements inside the CloudWatch iframe. ALWAYS use `page.mouse.click(x, y)` with page-level coordinates.",
+      "relevant_when": "Interacting with any element inside the CloudWatch microConsole iframe via Playwright.",
+      "why_given": "locator.click() times out after 5s on cross-origin iframe elements. page.mouse.click() with absolute coordinates works reliably."
+    },
+    {
+      "id": "I02",
+      "instruction": "ALWAYS use `frame.evaluate()` to query or manipulate CloudWatch DOM content. NEVER use `page.evaluate()` for elements inside the iframe.",
+      "relevant_when": "Reading or modifying any DOM element inside the CloudWatch iframe.",
+      "why_given": "page.evaluate() runs in the outer shell document where CloudWatch selectors return null."
+    },
+    {
+      "id": "I03",
+      "instruction": "To scroll the CloudWatch results table, ALWAYS use `frame.evaluate(() => document.querySelector('.logs-table__wrapper').scrollTop = N)`. NEVER use `window.scrollBy()`.",
+      "relevant_when": "Scrolling through log results in the CloudWatch Logs Insights results table.",
+      "why_given": "window.scrollBy() scrolls the outer shell page, not the results table which has its own overflow container."
+    },
+    {
+      "id": "I04",
+      "instruction": "ALWAYS screenshot the CloudWatch alarm detail page when verifying an alarm. NEVER use the raw AWS/Lambda Errors metric graph as proof.",
+      "relevant_when": "Capturing screenshots to verify or document a CloudWatch alarm.",
+      "why_given": "AWS/Lambda Errors = 0 does not mean no alarm triggered — the alarm may be driven by a Logs metric filter, not the native metric."
+    },
+    {
+      "id": "I05",
+      "instruction": "Dismiss cookie banners and new-experience banners before navigating in a fresh AWS Console session.",
+      "relevant_when": "Opening a new AWS Console tab via SSO or after cookie consent is required.",
+      "why_given": "Undismissed overlays block navigation and cause screenshot captures to include irrelevant UI elements."
+    }
+  ]
+}
