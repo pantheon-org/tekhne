@@ -567,29 +567,21 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (6 tiles)
+## Project Management (3 tiles)
 
 Planning & organization
 
-### implementation-planner
+### planning-toolkit
 
-Converts a PRD or requirements document into a structured, phased implementation plan with individual phase files and granular per-task files written to .context/plans/. Also restructures existing monolithic planning documents into digestible, hierarchical directory structures. Creates a root plan index summarising all phases, a numbered phase file per phase, and a numbered task file per task inside each phase directory.
+End-to-end project planning toolkit: converts requirements into structured phased implementation plans, groups phases into dependency-ordered waves for parallel subagent execution, and decomposes large branches into focused pull requests.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/implementation-planner) | **Version:** 0.4.3
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [implementation-planner](/tekhne/skills/project-mgmt/implementation-planner/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-11 | 5 |
-
-### wave-execution-planner
-
-Groups plan phases/tasks into dependency-ordered waves for parallel subagent execution via git worktrees. Analyses task dependencies, builds a DAG, assigns tasks to waves, and emits a living wave document that tracks status as work lands. Also updates an existing wave plan when tasks complete.
-
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/wave-execution-planner) | **Version:** 1.0.0
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/planning-toolkit) | **Version:** 1.0.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [wave-execution-planner](/tekhne/skills/project-mgmt/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 6 |
+| [implementation-planner](/tekhne/skills/project-mgmt/planning-toolkit/implementation-planner/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-06 | 5 |
+| [wave-execution-planner](/tekhne/skills/project-mgmt/planning-toolkit/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 6 |
+| [pr-stacker](/tekhne/skills/project-mgmt/planning-toolkit/pr-stacker/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 5 |
 
 ### create-context-file
 
@@ -610,26 +602,6 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [moscow-prioritization](/tekhne/skills/project-mgmt/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
-
-### pr-decomposition
-
-Splits a large feature branch into smaller, focused pull requests using stacked branches and cherry-pick. Groups commits by concern (infrastructure, application logic, tests, housekeeping), proposes descriptive branch names for user approval, creates stacked branches, and generates What/Why MR titles and descriptions.
-
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/pr-decomposition) | **Version:** 0.1.0
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [pr-decomposition](/tekhne/skills/project-mgmt/pr-decomposition/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 5 |
-
-### implementation-plan-splitter
-
-Merged into implementation-planner. Redirects to the unified skill that handles both creating new plans and restructuring existing monolithic planning docs into hierarchical directory structures.
-
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/implementation-plan-splitter) | **Version:** 2.0.0
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [implementation-plan-splitter](/tekhne/skills/project-mgmt/implementation-plan-splitter/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | - |
 
 ---
 

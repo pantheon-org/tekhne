@@ -290,7 +290,7 @@ package-mgmt/
 ```
 project-mgmt/
 ├── moscow-prioritization/
-├── implementation-plan-splitter/
+├── planning-toolkit/
 └── create-context-file/
 ```
 
