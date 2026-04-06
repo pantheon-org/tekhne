@@ -1,0 +1,21 @@
+{
+  "skill": "infrastructure/aws/investigation-toolkit/skills/aws-console-navigator",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 14,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "evalValidation": 17
+  },
+  "total": 127,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 142,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": true
+}

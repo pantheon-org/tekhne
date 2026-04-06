@@ -1,0 +1,14 @@
+{
+  "name": "pantheon-ai/aws-investigation-toolkit",
+  "version": "0.1.0",
+  "summary": "Toolkit for AWS incident investigation and console navigation — construct CloudWatch deep-link URLs (Logs Insights, Alarms, Metrics) and navigate the AWS Console via SSO or Playwright for screenshot capture.",
+  "private": true,
+  "skills": {
+    "aws-cloudwatch-url-builder": {
+      "path": "skills/aws-cloudwatch-url-builder/SKILL.md"
+    },
+    "aws-console-navigator": {
+      "path": "skills/aws-console-navigator/SKILL.md"
+    }
+  }
+}

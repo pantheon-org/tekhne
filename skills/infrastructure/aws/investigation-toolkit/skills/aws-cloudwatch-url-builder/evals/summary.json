@@ -1,0 +1,31 @@
+{
+  "skill": "aws-cloudwatch-url-builder",
+  "version": "1.0.0",
+  "total_scenarios": 3,
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "covered": ["I01", "I02", "I03", "I04", "I05"],
+    "partially_covered": [],
+    "uncovered": []
+  },
+  "scenarios": [
+    {
+      "id": "scenario-0",
+      "title": "Build a CloudWatch Logs Insights Deep-Link URL",
+      "primary_instructions": ["I01", "I02", "I03", "I05"],
+      "capability": "Logs Insights URL construction with correct *XX encoding"
+    },
+    {
+      "id": "scenario-1",
+      "title": "Build a CloudWatch Alarm Detail URL",
+      "primary_instructions": ["I03", "I04"],
+      "capability": "Alarm detail URL construction and alarm investigation guidance"
+    },
+    {
+      "id": "scenario-2",
+      "title": "Build a CloudWatch Metrics Graph URL",
+      "primary_instructions": ["I01", "I03", "I05"],
+      "capability": "Metrics graph URL construction with ISO timestamp encoding"
+    }
+  ]
+}

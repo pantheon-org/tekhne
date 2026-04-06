@@ -1,0 +1,46 @@
+{
+  "context": "Tests Metrics graph URL construction including namespace slash encoding and ISO timestamp colon encoding.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Namespace slash encoded as *2f",
+      "description": "AWS/Lambda namespace has the slash encoded as *2f (producing AWS*2fLambda)",
+      "max_score": 15
+    },
+    {
+      "name": "ISO timestamp colons encoded as *3a",
+      "description": "Colons in start/end ISO timestamps are encoded as *3a",
+      "max_score": 15
+    },
+    {
+      "name": "Correct metricsV2 fragment base",
+      "description": "URL fragment starts with #metricsV2:graph=",
+      "max_score": 10
+    },
+    {
+      "name": "Period in seconds",
+      "description": "Period value is 300 (seconds), not 5 (minutes)",
+      "max_score": 15
+    },
+    {
+      "name": "Stat set to Maximum",
+      "description": "stat parameter is set to Maximum",
+      "max_score": 10
+    },
+    {
+      "name": "Namespace metric dimension value all present",
+      "description": "URL contains AWS*2fLambda, Duration, FunctionName, and checkout-service-prod in the metrics tuple",
+      "max_score": 15
+    },
+    {
+      "name": "Region correct in both subdomain and query param",
+      "description": "us-east-1 appears in both the URL subdomain and region= query parameter",
+      "max_score": 10
+    },
+    {
+      "name": "Structural characters unencoded",
+      "description": "Tilde ~ parentheses ( ) and single quote ' are left literal as structural CloudWatch URL characters",
+      "max_score": 10
+    }
+  ]
+}

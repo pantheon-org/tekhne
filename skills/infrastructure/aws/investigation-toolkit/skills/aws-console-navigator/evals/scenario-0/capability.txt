@@ -1,0 +1,1 @@
+CloudWatch iframe row click via page-coord mouse.click
