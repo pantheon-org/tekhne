@@ -1,0 +1,36 @@
+{
+  "context": "Tests that agent scrolls the correct inner container rather than the window or outer page.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Obtains iframe frame object",
+      "description": "Code calls page.frame({ name: 'microConsole-Logs' }) to get the CloudWatch iframe context",
+      "max_score": 15
+    },
+    {
+      "name": "Does NOT use window.scrollBy or window.scrollTo",
+      "description": "Code does not call window.scrollBy() or window.scrollTo() to perform the scroll",
+      "max_score": 20
+    },
+    {
+      "name": "Does NOT use page.evaluate for CloudWatch content",
+      "description": "Code does not call page.evaluate() to query CloudWatch DOM elements — uses frame.evaluate()",
+      "max_score": 15
+    },
+    {
+      "name": "Targets logs-table__wrapper container",
+      "description": "Code queries .logs-table__wrapper as the scroll target element",
+      "max_score": 20
+    },
+    {
+      "name": "Sets scrollTop directly",
+      "description": "Code sets .scrollTop = 600 (not scrollBy, not scrollIntoView) on the container",
+      "max_score": 15
+    },
+    {
+      "name": "Uses frame.evaluate not page.evaluate",
+      "description": "The evaluate call is on the frame object, not on page",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Metrics graph URL with namespace and ISO timestamp encoding

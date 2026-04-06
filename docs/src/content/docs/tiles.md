@@ -80,7 +80,7 @@ Complete GitHub Actions toolkit with generation and validation capabilities for 
 
 ---
 
-## Infrastructure (8 tiles)
+## Infrastructure (9 tiles)
 
 Infrastructure as Code
 
@@ -159,6 +159,17 @@ Complete ansible toolkit with generation and validation capabilities
 | --- | --- | --- | --- |
 | [ansible-generator](/tekhne/skills/infrastructure/ansible/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 | [ansible-validator](/tekhne/skills/infrastructure/ansible/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+
+### aws-investigation-toolkit
+
+Toolkit for AWS incident investigation and console navigation — construct CloudWatch deep-link URLs (Logs Insights, Alarms, Metrics) and navigate the AWS Console via SSO or Playwright for screenshot capture.
+
+**Published:** - | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [aws-cloudwatch-url-builder](/tekhne/skills/infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 3 |
+| [aws-console-navigator](/tekhne/skills/infrastructure/aws/investigation-toolkit/skills/aws-console-navigator/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 3 |
 
 ### cdk-nag
 
@@ -578,7 +589,7 @@ Groups plan phases/tasks into dependency-ordered waves for parallel subagent exe
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [wave-execution-planner](/tekhne/skills/project-mgmt/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 5 |
+| [wave-execution-planner](/tekhne/skills/project-mgmt/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 6 |
 
 ### create-context-file
 

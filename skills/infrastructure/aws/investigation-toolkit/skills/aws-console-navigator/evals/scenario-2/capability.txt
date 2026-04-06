@@ -1,0 +1,1 @@
+CloudWatch screenshot prep: hide histogram and collapse sidebar
