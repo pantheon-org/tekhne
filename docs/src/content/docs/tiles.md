@@ -578,7 +578,7 @@ Groups plan phases/tasks into dependency-ordered waves for parallel subagent exe
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [wave-execution-planner](/tekhne/skills/project-mgmt/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 5 |
+| [wave-execution-planner](/tekhne/skills/project-mgmt/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 6 |
 
 ### create-context-file
 

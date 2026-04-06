@@ -1,0 +1,1 @@
+Logs Insights URL construction with correct *XX encoding
