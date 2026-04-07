@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "C2-1",
+      "description": "Agent identifies log capture as the correct artifact type",
+      "max_score": 15
+    },
+    {
+      "id": "C2-2",
+      "description": "Agent uses tee or output redirection to save logs to .context/evidence/",
+      "max_score": 30
+    },
+    {
+      "id": "C2-3",
+      "description": "Artifact filename is date-prefixed and descriptive, ending in .txt",
+      "max_score": 20
+    },
+    {
+      "id": "C2-4",
+      "description": "Response includes evidence summary table referencing the log artifact",
+      "max_score": 20
+    },
+    {
+      "id": "C2-5",
+      "description": "Agent avoids quoting raw log output in prose without saving to disk",
+      "max_score": 15
+    }
+  ]
+}

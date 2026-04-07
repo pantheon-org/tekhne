@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "C1-1",
+      "description": "Agent identifies screenshot as the correct artifact type for UI verification",
+      "max_score": 15
+    },
+    {
+      "id": "C1-2",
+      "description": "Agent uses playwright-mcp page.screenshot() with a .context/evidence/ path",
+      "max_score": 25
+    },
+    {
+      "id": "C1-3",
+      "description": "Filename follows YYYY-MM-DD-<descriptive-slug>.png convention",
+      "max_score": 20
+    },
+    {
+      "id": "C1-4",
+      "description": "Response includes evidence summary table with path and description",
+      "max_score": 25
+    },
+    {
+      "id": "C1-5",
+      "description": "Agent verifies artifact was written (e.g. ls .context/evidence/)",
+      "max_score": 15
+    }
+  ]
+}

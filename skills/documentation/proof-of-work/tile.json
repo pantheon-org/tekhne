@@ -1,0 +1,11 @@
+{
+  "name": "local/proof-of-work",
+  "version": "0.1.0",
+  "summary": "Instructs agents to document findings as proof-of-work artifacts: screenshots via agent-browser or playwright-mcp, captured logs, and script output",
+  "private": true,
+  "skills": {
+    "proof-of-work": {
+      "path": "skills/proof-of-work/SKILL.md"
+    }
+  }
+}
