@@ -469,7 +469,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (7 tiles)
+## Documentation (8 tiles)
 
 Writing & communication
 
@@ -492,6 +492,16 @@ Write technical content in plain English for non-technical stakeholders by trans
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [plain-english](/tekhne/skills/documentation/plain-english/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-11 | 8 |
+
+### proof-of-work
+
+Instructs agents to document findings as proof-of-work artifacts: screenshots via agent-browser or playwright-mcp, captured logs, and script output
+
+**Published:** - | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [proof-of-work](/tekhne/skills/documentation/proof-of-work/skills/proof-of-work/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### astro-starlight
 
