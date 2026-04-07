@@ -3,7 +3,7 @@
 
 template_name: troubleshooting
 description: Structured troubleshooting session documentation with problem resolution focus
-filename_pattern: "YYYY-MM-DD-slug.md"
+filename_pattern: "YYYY-MM-DD-JIRA-TICKET-slug.md (when Jira ticket known), YYYY-MM-DD-slug.md (otherwise)"
 location_pattern: "YYYY/MM/"
 
 # Extends journal-entry template with troubleshooting-specific requirements

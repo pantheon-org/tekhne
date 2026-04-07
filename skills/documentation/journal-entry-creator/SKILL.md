@@ -172,7 +172,7 @@ Entry is complete when ALL criteria are met:
 - Proceeding with failed validation or overwriting files without confirmation
 
 **Triple sync validation:**
-- ✅ File location: `YYYY/MM/YYYY-MM-DD-slug.md`
+- ✅ File location: `YYYY/MM/YYYY-MM-DD-slug.md` (or `YYYY/MM/YYYY-MM-DD-JIRA-TICKET-slug.md` for troubleshooting with ticket)
 - ✅ YAML frontmatter with all required fields  
 - ✅ Date consistency: filename = frontmatter = H1 title
 - ✅ Tag consistency: frontmatter array = Tags section
@@ -216,7 +216,9 @@ Entry is complete when ALL criteria are met:
 **Medium freedom - guided by schema:**
 
 1. Create directory if needed: `mkdir -p YYYY/MM`
-2. Generate filename: `YYYY-MM-DD-slug.md` using slug principles below
+2. Generate filename using slug principles below:
+   - Troubleshooting with Jira ticket: `YYYY-MM-DD-JIRA-TICKET-slug.md` (e.g. `2026-04-07-plgsd-9507-verify-details-alarm.md`)
+   - All other entries: `YYYY-MM-DD-slug.md`
 3. Populate YAML frontmatter per schema requirements
 4. Create metadata block with bold keys
 5. Fill all required sections from schema in correct order
@@ -230,7 +232,9 @@ Entry is complete when ALL criteria are met:
 - Remove common words ("the", "a", "and", "for", "with", "to")
 - **MUST be lowercase-only with hyphens** (NO uppercase/underscores)
 - Target 30-50 characters for readability
-- Examples: `opencode-killed-process-fix`, `aws-bedrock-inventory`, `react-state-patterns`
+- **Troubleshooting + Jira ticket:** prefix slug with the ticket ID in lowercase: `YYYY-MM-DD-plgsd-9507-slug.md`
+- **Do NOT include the Jira ticket again in the slug** — it appears once as the prefix only
+- Examples: `2026-04-07-plgsd-9507-verify-details-alarm`, `opencode-killed-process-fix`, `aws-bedrock-inventory`
 
 ### Phase 4: Validation & Formatting (LOW FREEDOM)
 
