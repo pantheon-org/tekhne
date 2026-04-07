@@ -10,7 +10,7 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 ## Skill Catalog
 
 <!-- skill-catalog-stats -->
-Browse all **84 skills across 53 tiles** in the [Skill Catalog](https://pantheon-org.github.io/tekhne/tiles/).
+Browse all **85 skills across 54 tiles** in the [Skill Catalog](https://pantheon-org.github.io/tekhne/tiles/).
 
 ## CLI Tool
 
