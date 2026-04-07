@@ -154,6 +154,50 @@ structure:
 
       3. **Long-term fix:** Implemented request throttling and auto-scaling
 
+  # Screenshots / Evidence (REQUIRED for troubleshooting)
+  - section: screenshots_evidence
+    level: 2
+    heading: "## Screenshots / Evidence"
+    required: true
+    emphasis: "Every incident entry MUST have an entry-specific assets directory to prevent overwrite collisions"
+    asset_path_format: "<YYYY-MM-DD-slug>/assets/<NN>-<description>.png"
+    description: |
+      Each entry gets its own sibling directory named after its slug, containing an assets/ subdirectory.
+      Structure: YYYY/MM/<slug>.md  +  YYYY/MM/<slug>/assets/<NN>-<description>.png
+      Relative path from the markdown file: <slug>/assets/<NN>-<description>.png
+      The assets/ directories are gitignored — screenshots are local-only; the markdown references are tracked.
+      Never use a shared screenshots/ or assets/ directory — filenames would collide across entries.
+    format: |
+      ### N. [Screenshot Title]
+
+      **URL path:** [AWS Console navigation path]
+
+      **Capture:** [What to capture and why]
+
+      ![Alt text](YYYY-MM-DD-slug/assets/NN-description.png)
+
+      ---
+    example: |
+      ### 1. CloudWatch Alarm — State History
+
+      **URL path:** CloudWatch → Alarms → `alarm-name`
+
+      **Capture:** Alarm state panel showing the OK → ALARM transition at HH:MM UTC.
+
+      ![CloudWatch alarm state — AlarmName OK→ALARM YYYY-MM-DD HH:MM UTC](2025-02-24-api-outage/assets/01-cloudwatch-alarm-state.png)
+
+      ---
+
+      ### 2. CloudWatch Logs Insights — Error Query Results
+
+      **URL path:** CloudWatch → Logs Insights → Log group `/aws/lambda/function-name`
+
+      **Capture:** Results table showing ERROR entries around the alarm time.
+
+      ![CloudWatch Logs Insights — ERROR entries YYYY-MM-DD HH:MM UTC](2025-02-24-api-outage/assets/02-logs-insights-error-results.png)
+
+      ---
+
   # Session Outcome
   - section: session_outcome
     level: 2

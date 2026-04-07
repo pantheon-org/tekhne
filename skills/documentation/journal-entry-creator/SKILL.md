@@ -46,10 +46,10 @@ Before generating any entry, you MUST read the complete template schema file:
 
 ```bash
 # Based on entry type selected, read ENTIRE file:
-skills/journal-entry-creator/template/troubleshooting.yaml
-skills/journal-entry-creator/template/learning.yaml
-skills/journal-entry-creator/template/article-summary.yaml
-skills/journal-entry-creator/template/journal-entry.yaml
+skills/journal-entry-creator/assets/templates/troubleshooting.yaml
+skills/journal-entry-creator/assets/templates/learning.yaml
+skills/journal-entry-creator/assets/templates/article-summary.yaml
+skills/journal-entry-creator/assets/templates/journal-entry.yaml
 ```
 
 **Do NOT generate entries without loading the schema first.** The schema defines required sections, frontmatter fields, heading hierarchy, and validation rules.
@@ -139,6 +139,28 @@ git status
 git status
 ```
 ````
+
+### Assets / Screenshots Convention
+
+Each entry that includes screenshots or attachments MUST use an **entry-specific sibling directory**:
+
+```text
+YYYY/MM/YYYY-MM-DD-slug.md          ← entry file
+YYYY/MM/YYYY-MM-DD-slug/assets/     ← entry assets (gitignored, local-only)
+```
+
+Reference assets in markdown with a relative path from the entry file:
+
+```markdown
+![Alt text](YYYY-MM-DD-slug/assets/NN-description.png)
+```
+
+**Why:** A shared `screenshots/` or `assets/` directory at the month level causes filename collisions
+when multiple entries use the same numbering scheme (e.g. `01-cloudwatch-alarm.png`). Scoping assets
+under the entry slug directory makes every path unique.
+
+**Note:** The `assets/` directories are gitignored — screenshots are local-only. The markdown image
+references are tracked in git as documentation of what evidence was captured.
 
 ## Success Criteria & Validation Rules
 
@@ -278,7 +300,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 
 - **WHY**: guessing structure leads to validation failures and missing required sections.
 - **BAD**: immediately write journal entry based on assumptions about structure.
-- **GOOD**: `cat skills/journal-entry-creator/template/troubleshooting.yaml` first, review required fields, then generate.
+- **GOOD**: `cat skills/journal-entry-creator/assets/templates/troubleshooting.yaml` first, review required fields, then generate.
 
 ### NEVER proceed with failed validation
 
@@ -300,25 +322,22 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 
 ## References
 
-### Template Schemas (template/)
+### Template Schemas (assets/templates/)
 
 - `journal-entry.yaml` - General purpose entries
 - `troubleshooting.yaml` - Problem resolution sessions
 - `learning.yaml` - Knowledge acquisition documentation
 - `article-summary.yaml` - External content summaries
 
-Load with relative paths: `skills/journal-entry-creator/template/[file]`
+Load with relative paths: `skills/journal-entry-creator/assets/templates/[file]`
 
 ### Scripts (scripts/)
 
 - `validate-journal-entry.sh` - Compliance validation (run before commit)
 
-### Checklists (checklist/)
-
-- `compliance.md` - Detailed validation rules (load only if validation fails)
-
 ### References (references/)
 
+- `compliance.md` - Detailed validation rules (load only if validation fails)
 - `edge-cases.md` - Detailed edge case resolution strategies (load only for complex scenarios)
 - `example-journal-entry.md` - Real entry example (load only if user asks)
 - `example-with-frontmatter.md` - Frontmatter example (load only if needed)
