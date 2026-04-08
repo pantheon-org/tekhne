@@ -159,6 +159,25 @@ check_skill_dir() {
     esac
   done
 
+  # Validate assets/ subdirectory names and contents
+  if [ -d "$skill_dir/assets" ]; then
+    for entry in "$skill_dir/assets"/*/; do
+      [ -d "$entry" ] || continue
+      assets_dir_name=$(basename "$entry")
+      case "$assets_dir_name" in
+        templates|schemas|requirements|examples) ;;
+        *)
+          error "$skill_dir: non-standard assets/ subdirectory '$assets_dir_name' (allowed: templates/, schemas/, requirements/, examples/)"
+          ;;
+      esac
+    done
+
+    for f in "$skill_dir/assets/"*.yaml "$skill_dir/assets/"*.yml; do
+      [ -f "$f" ] || continue
+      error "$f: YAML files must be placed in assets/templates/, not directly in assets/"
+    done
+  fi
+
   skill_md="$skill_dir/SKILL.md"
   [ -f "$skill_md" ] || return
 

@@ -1,0 +1,1 @@
+Triage a survey paper, apply the survey tag, and route the REFERENCE_INDEX.md entry to the Surveys category

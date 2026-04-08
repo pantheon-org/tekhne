@@ -1,0 +1,44 @@
+{
+  "instructions": [
+    {
+      "instruction": "Before creating any file, check REVIEWED.md and references/REFERENCE_INDEX.md for the arxiv ID or slug. If already present, report the duplicate and stop.",
+      "relevant_when": "User provides a paper to triage.",
+      "why_given": "The skill mandates a duplicate check as step 2, and the NEVER anti-pattern prohibits creating a new references file without checking first."
+    },
+    {
+      "instruction": "Derive a stable slug in the form <firstauthor-surname>-<2-3-word-topic> (e.g. jiang-llmlingua, press-longchat).",
+      "relevant_when": "Creating the references file and REVIEWED.md entry for any paper.",
+      "why_given": "The skill specifies this naming pattern explicitly in step 1 to ensure consistent, collision-resistant identifiers."
+    },
+    {
+      "instruction": "Always mark benchmark and evaluation results as '(as reported)' — never state metrics as verified facts.",
+      "relevant_when": "Populating the Evaluation section of references/<slug>.md.",
+      "why_given": "The NEVER anti-pattern prohibits inventing or presenting benchmark numbers as verified; the skill requires the '(as reported)' qualifier on all metrics."
+    },
+    {
+      "instruction": "Create references/<slug>.md using templates/REFERENCE-paper.md. Populate every section; mark inapplicable subsections as N/A rather than leaving them blank.",
+      "relevant_when": "Writing the reference summary for any newly triaged paper.",
+      "why_given": "The skill specifies this template as the canonical source for structure and requires every section to be addressed."
+    },
+    {
+      "instruction": "Add a reverse-chronological row to the REVIEWED.md summary table with columns: date, slug, type (paper), disposition (pending), one-line description.",
+      "relevant_when": "After completing the reference summary for any paper.",
+      "why_given": "Step 5 of the workflow requires updating REVIEWED.md with a table row and a detailed section."
+    },
+    {
+      "instruction": "Add a detailed section to REVIEWED.md below the summary table including arxiv ID, authors, date, tags, 2-3 sentence summary, and disposition 'pending'.",
+      "relevant_when": "After completing the reference summary for any paper.",
+      "why_given": "Step 5 specifies the exact fields required in the detailed REVIEWED.md section."
+    },
+    {
+      "instruction": "Do not create an ANALYSIS-*.md file during triage. Offer promotion as an option to the user after the triage is complete.",
+      "relevant_when": "At the end of any triage workflow.",
+      "why_given": "The NEVER anti-pattern explicitly prohibits creating ANALYSIS-*.md as part of triage; the skill requires the user to confirm promotion."
+    },
+    {
+      "instruction": "Add a row to references/REFERENCE_INDEX.md under the most relevant topic category table.",
+      "relevant_when": "After completing the reference summary and REVIEWED.md entry.",
+      "why_given": "Step 6 requires updating the REFERENCE_INDEX.md as part of every triage."
+    }
+  ]
+}

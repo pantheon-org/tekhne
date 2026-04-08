@@ -1,0 +1,1 @@
+Triage a session-lifecycle context tool from a GitHub URL into a complete reference summary with scope assessment, REVIEWED.md entry, and REFERENCE_INDEX.md update

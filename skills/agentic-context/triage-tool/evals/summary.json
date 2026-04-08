@@ -1,0 +1,28 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "covered": 8,
+    "total": 8,
+    "notes": "All 8 instructions covered: duplicate-check (s1,s2,s3), scope-assessment (s1,s2), as-reported marking (s1,s2), template usage (s1,s2), no-auto-vendor (s1,s3), REVIEWED.md entry with scope-fit (s1,s2,s3), no-auto-promotion (s1,s2,s3), REFERENCE_INDEX update (s1)"
+  },
+  "scenarios": [
+    {
+      "id": "scenario-1",
+      "capability": "Triage a session-lifecycle context tool from a GitHub URL into a complete reference summary with scope assessment, REVIEWED.md entry, and REFERENCE_INDEX.md update",
+      "feasible": true,
+      "reason": "Agent can fetch the tool's README, derive a slug, assess scope fit, fill the REFERENCE-tool template, update REVIEWED.md and REFERENCE_INDEX.md, and offer the user a promotion/vendor/keep/skip choice — all without running git submodule add or creating an ANALYSIS file."
+    },
+    {
+      "id": "scenario-2",
+      "capability": "Correctly classify a borderline tool (memory system with a context-layer injection component) as borderline rather than in scope or out of scope",
+      "feasible": true,
+      "reason": "Agent can read the tool's README, identify that its primary function is long-term memory storage but it has a context-injection layer, classify it as borderline, document the reasoning in both the reference file and REVIEWED.md, and still produce a useful summary."
+    },
+    {
+      "id": "scenario-3",
+      "capability": "Detect a tool already present in REVIEWED.md and halt without creating any new files",
+      "feasible": true,
+      "reason": "Agent can grep REVIEWED.md and REFERENCE_INDEX.md for the repo URL or slug, identify the existing entry, report it to the user, and stop."
+    }
+  ]
+}

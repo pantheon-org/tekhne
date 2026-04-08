@@ -1,0 +1,1 @@
+Detect a paper already present in REVIEWED.md and halt without creating any new files
