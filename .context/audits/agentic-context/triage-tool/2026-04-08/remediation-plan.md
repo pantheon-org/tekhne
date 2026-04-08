@@ -17,6 +17,7 @@ source_audit: ".context/audits/agentic-context/triage-tool/2026-04-08/audit.json
 
 **Focus Areas**:
 - D5: Progressive Disclosure (11/15)
+- D8: Practical Usability (11/15)
 
 **Verdict**: Targeted improvements needed to reach grade A (+7 points).
 
@@ -27,6 +28,7 @@ source_audit: ".context/audits/agentic-context/triage-tool/2026-04-08/audit.json
 | Issue | Dimension | Severity | Impact |
 |-------|-----------|----------|--------|
 | Poor progressive disclosure | D5 (11/15) | High | Skill is too long or lacks refs |
+| Limited practical examples | D8 (11/15) | High | Agents struggle to apply skill |
 
 ---
 
@@ -44,6 +46,19 @@ source_audit: ".context/audits/agentic-context/triage-tool/2026-04-08/audit.json
 Move detailed content to `references/` directory.
 
 **Action**: Extract deep-dive content into separate files, keep SKILL.md as navigation hub.
+
+
+### Phase 2: Practical Usability - Priority: High
+
+**Target**: Increase D8 from 11/15 to 13/15 (+2 points)
+
+#### Step 2.1: Add Code Examples
+
+Add executable code blocks with language tags.
+
+**File**: `skills/agentic-context/triage-tool/SKILL.md`
+
+**Action**: Include bash/typescript examples with clear syntax highlighting.
 
 ---
 
@@ -66,6 +81,7 @@ Move detailed content to `references/` directory.
 | Overall Score | >= 126/140 |
 | Grade | >= A |
 | D5: Progressive Disclosure | >= 13/15 |
+| D8: Practical Usability | >= 13/15 |
 
 ---
 

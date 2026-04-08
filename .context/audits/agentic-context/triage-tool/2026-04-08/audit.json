@@ -2,20 +2,20 @@
   "skill": "agentic-context/triage-tool",
   "dimensions": {
     "knowledgeDelta": 16,
-    "mindsetProcedures": 13,
-    "antiPatternQuality": 13,
-    "specificationCompliance": 13,
-    "progressiveDisclosure": 11,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 13,
     "freedomCalibration": 13,
     "patternRecognition": 10,
     "practicalUsability": 13,
     "evalValidation": 17
   },
-  "total": 119,
+  "total": 127,
   "maxTotal": 140,
-  "grade": "B+",
-  "lines": 185,
+  "grade": "A",
+  "lines": 149,
   "hasReferences": true,
-  "referenceCount": 2,
+  "referenceCount": 3,
   "referenceSectionCompliant": true
 }

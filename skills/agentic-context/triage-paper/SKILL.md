@@ -24,9 +24,9 @@ Add a new academic paper to the agentic-context research repo as a structured re
 
 Triage is a quality gate, not a data-entry task. The goal is a scannable, honest record.
 
-- **Evidence first**: quote what the paper reports; never infer or embellish claims.
-- **Triage-then-promote**: every paper enters via `REVIEWED.md`; promotion to `ANALYSIS-*.md` requires a deliberate user decision — never automatic.
-- **Scope over completeness**: a well-reasoned rejection is as valuable as a full summary. If the paper is tangentially related, triage it and flag it; don't silently skip it.
+1. **Evidence first**: quote what the paper reports; never infer or embellish claims.
+2. **Triage-then-promote**: every paper enters via `REVIEWED.md`; promotion to `ANALYSIS-*.md` requires a deliberate user decision — never automatic.
+3. **Scope over completeness**: a well-reasoned rejection is as valuable as a full summary. If the paper is tangentially related, triage it and flag it; don't silently skip it.
 
 ## Workflow
 
@@ -115,9 +115,8 @@ curl -s "https://arxiv.org/abs/<id>"
 cp templates/REFERENCE-paper.md references/<slug>.md
 
 # Validate the completed reference file
-sh /path/to/skill/scripts/validate-reference-paper.sh references/<slug>.md
+./scripts/validate-reference-paper.sh references/<slug>.md
 
-# Add triage entry to REVIEWED.md (reverse-chronological)
 # | YYYY-MM-DD | <slug> | paper | pending | <one-line description> |
 ```
 
@@ -127,22 +126,19 @@ sh /path/to/skill/scripts/validate-reference-paper.sh references/<slug>.md
 
 **WHY:** Fabricated metrics corrupt the research record.
 
-**BAD:** "Achieves 87% recall on LongMemEval."
-**GOOD:** "Reports 87% recall on LongMemEval (as reported, Table 3)."
+**BAD** `"Achieves 87% recall on LongMemEval."` → **GOOD** `"Reports 87% recall on LongMemEval (as reported, Table 3)."`
 
 ### NEVER skip the duplicate check
 
 **WHY:** Re-triaging the same paper wastes effort and creates conflicting entries.
 
-**BAD:** Creating a new references file without checking REVIEWED.md.
-**GOOD:** `grep -i "<slug>" REVIEWED.md references/REFERENCE_INDEX.md` first.
+**BAD** Create new file without checking REVIEWED.md. → **GOOD** Run `grep -i "<slug>" REVIEWED.md references/REFERENCE_INDEX.md` first.
 
 ### NEVER promote without user confirmation
 
 **WHY:** Promotion to ANALYSIS-*.md is a quality gate, not automatic.
 
-**BAD:** Creating ANALYSIS-*.md as part of triage.
-**GOOD:** Triage to REVIEWED.md, then ask the user.
+**BAD** Create ANALYSIS-*.md as part of triage. → **GOOD** Triage to REVIEWED.md, then ask the user.
 
 ## References
 

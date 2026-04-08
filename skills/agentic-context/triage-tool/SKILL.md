@@ -24,9 +24,9 @@ Add a new tool or library to the agentic-context research repo as a structured r
 
 Triage is a quality gate, not a catalogue entry. The goal is a reproducible, honest assessment.
 
-- **Scope before summary**: confirm the tool touches the active context window layer before investing in a full write-up. A well-reasoned out-of-scope ruling is as valuable as a full summary.
-- **Evidence first**: quote README and docs; never infer capabilities not described by the author.
-- **Triage-then-promote**: every tool enters via `REVIEWED.md`; promotion to `ANALYSIS-*.md` and vendoring both require explicit user confirmation — never automatic.
+1. **Scope before summary**: confirm the tool touches the active context window layer before investing in a full write-up. A well-reasoned out-of-scope ruling is as valuable as a full summary.
+2. **Evidence first**: quote README and docs; never infer capabilities not described by the author.
+3. **Triage-then-promote**: every tool enters via `REVIEWED.md`; promotion to `ANALYSIS-*.md` and vendoring both require explicit user confirmation — never automatic.
 
 ## Workflow
 
@@ -44,33 +44,24 @@ Triage is a quality gate, not a catalogue entry. The goal is a reproducible, hon
 
 ### 3. Classify the tool
 
-Assign one or more tags from this controlled list:
-
-| Tag | Meaning |
-|---|---|
-| `compression` | Reduces token count (summarisation, pruning, compaction) |
-| `tiered-loading` | Priority-based injection (L0/L1/L2, lazy vs eager) |
-| `token-budgeting` | Hard caps, soft priorities, eviction policies |
-| `injection` | How content enters the context window |
-| `cli` | Operated via command-line interface |
-| `daemon` | Runs as a background process |
-| `mcp-server` | Exposes capabilities via MCP protocol |
-| `session-lifecycle` | Manages wake/sleep/checkpoint across sessions |
-| `retrieval` | RAG / retrieval-augmented context feeding |
+Assign one or more tags from the controlled list. See [classification guide](references/classification-guide.md) for the full taxonomy and scope assessment criteria.
 
 ### 4. Assess scope fit
 
-Before writing the summary, confirm the tool is in scope for this repo:
-
-- **In scope**: tools that manage what's in the active context window (compression, tiered loading, token budgeting, injection, session continuity).
-- **Borderline**: tools focused on long-term memory storage — note the overlap and assess the injection/context layer specifically.
-- **Out of scope**: pure vector DBs, embedding services, or tools with no context-window-layer involvement.
-
-If borderline or out of scope, note this clearly in the summary and REVIEWED.md disposition.
+Confirm the tool touches the active context window layer. See [classification guide](references/classification-guide.md) for in-scope / borderline / out-of-scope criteria. Note any borderline ruling in REVIEWED.md.
 
 ### 5. Fill in the reference summary
 
-Create `references/<slug>.md` using `templates/REFERENCE-tool.md`. Populate every section:
+Create `references/<slug>.md` using `templates/REFERENCE-tool.md`. Populate every section. Frontmatter example:
+
+```yaml
+title: "MemGPT"
+author: "Packer et al."
+date: 2023-10-12
+type: reference
+tags: [tool, context-management, session-lifecycle]
+source: "https://github.com/cpacker/MemGPT"
+```
 
 - **TL;DR**: 3–8 bullets capturing what the tool does and why it matters for context management.
 - **What's novel**: one paragraph — what does this do that adjacent tools do not?
@@ -83,12 +74,7 @@ Keep language precise. Do not pad. Mark all unverified claims.
 
 ### 6. Decide on vendoring
 
-Ask the user whether to vendor the repo into `tools/`:
-
-- **Vendor**: clone the repo as a git submodule into `tools/<repo-name>/` and record the pinned commit in the reference frontmatter `local_clone` field. Do this for tools that warrant code-level inspection.
-- **Reference only**: link to the upstream repo without vendoring. Do this for tools that are large, frequently updated, or clearly peripheral.
-
-Do not vendor without confirmation.
+Ask whether to vendor the repo. Clone as a git submodule into `tools/<repo-name>/` (record the pinned commit in `local_clone`) for tools warranting code-level inspection, or link-only for large or peripheral tools. Do not vendor without confirmation.
 
 ### 7. Update REVIEWED.md
 
@@ -98,34 +84,13 @@ Add a row to the summary table at the top (reverse-chronological):
 | <today's date> | <slug> | tool | pending | <one-line description> |
 ```
 
-Add a detailed section below the table:
-
-```markdown
-## <slug> — <Tool name>
-
-- **Repo**: <URL>
-- **Author**: <author/org>
-- **Version**: <vX.Y.Z / commit>
-- **Language**: <language>
-- **Tags**: <tags>
-- **Summary**: <2–3 sentences>
-- **Scope fit**: in scope / borderline / out of scope — <reason>
-- **Disposition**: pending — awaiting user decision on promotion
-```
-
 ### 8. Update REFERENCE_INDEX.md
 
 Add a row under the most relevant category table.
 
 ### 9. Report and offer next step
 
-Summarise what was created. Then ask:
-
-> This tool is now in `REVIEWED.md` as **pending**. Would you like to:
-> - **Promote** it to a standalone `ANALYSIS-<slug>.md` deep dive?
-> - **Vendor** the repo into `tools/` for code-level inspection?
-> - **Keep** it in REVIEWED.md for now?
-> - **Skip** it (mark as not promoted with reasoning)?
+Summarise what was created. Ask the user whether to promote to `ANALYSIS-<slug>.md`, vendor into `tools/`, keep as pending, or skip with reasoning.
 
 ## Quick Commands
 
@@ -140,12 +105,11 @@ curl -s "https://raw.githubusercontent.com/<owner>/<repo>/main/README.md"
 cp templates/REFERENCE-tool.md references/<slug>.md
 
 # Validate the completed reference file
-sh /path/to/skill/scripts/validate-reference-tool.sh references/<slug>.md
+./scripts/validate-reference-tool.sh references/<slug>.md
 
 # Vendor as submodule (only after explicit user confirmation)
 git submodule add <repo-url> tools/<repo-name>
 
-# Add triage entry to REVIEWED.md (reverse-chronological)
 # | YYYY-MM-DD | <slug> | tool | pending | <one-line description> |
 ```
 
@@ -155,34 +119,31 @@ git submodule add <repo-url> tools/<repo-name>
 
 **WHY:** Tool benchmarks are often run on curated inputs under favourable conditions.
 
-**BAD:** "Achieves 60% token reduction."
-**GOOD:** "Reports 60% token reduction on their internal benchmark (as reported, README)."
+**BAD** `"Achieves 60% token reduction."` → **GOOD** `"Reports 60% token reduction (as reported, README)."`
 
 ### NEVER skip the duplicate check
 
 **WHY:** Re-triaging creates conflicting entries and wastes effort.
 
-**BAD:** Creating a new references file without checking REVIEWED.md.
-**GOOD:** `grep -i "<slug>" REVIEWED.md references/REFERENCE_INDEX.md` first.
+**BAD** Create new file without checking REVIEWED.md. → **GOOD** Run `grep -i "<slug>" REVIEWED.md references/REFERENCE_INDEX.md` first.
 
 ### NEVER vendor without user confirmation
 
 **WHY:** Vendoring changes git state and submodule config — a deliberate action, not automatic.
 
-**BAD:** Running `git submodule add` during triage.
-**GOOD:** Offer vendoring as a follow-up option after the summary is written.
+**BAD** Run `git submodule add` during triage. → **GOOD** Offer vendoring as a follow-up after the summary is written.
 
 ### NEVER promote without user confirmation
 
 **WHY:** Promotion to ANALYSIS-*.md is a quality gate, not automatic.
 
-**BAD:** Creating ANALYSIS-*.md as part of triage.
-**GOOD:** Triage to REVIEWED.md, then ask the user.
+**BAD** Create ANALYSIS-*.md as part of triage. → **GOOD** Triage to REVIEWED.md, then ask the user.
 
 ## References
 
 - [REFERENCE-tool template](references/reference-tool-template.md) — frontmatter fields, section structure, and body conventions; use every time you create a new `references/<slug>.md` in the consuming project
 - [ANALYSIS-tool template](references/analysis-tool-template.md) — 3-stage deep-dive structure and frontmatter; use when promoting a tool to a standalone ANALYSIS-*.md
+- [classification guide](references/classification-guide.md) — full tag taxonomy, scope assessment criteria (in/borderline/out), and examples
 - [REFERENCE-tool YAML template](assets/templates/REFERENCE-tool.yaml) — machine-readable description of the expected output structure (fields, sections, constraints)
 - [reference-tool.schema.json](assets/schemas/reference-tool.schema.json) — JSON Schema for validating `references/<slug>.md` frontmatter
 - [validate-reference-tool.sh](scripts/validate-reference-tool.sh) — run after creating a reference to verify frontmatter, required sections, TL;DR bullet count, and unfilled placeholders
