@@ -1,20 +1,30 @@
 ---
 name: website-theme-porter
-description: >
-  Port the visual theme and styling from a live website to a React/Tailwind CSS project.
-  Extracts colours, typography, spacing, and component styles — via agent-browser automation,
-  manual inspection, curl/wget, or direct source reading — writes structured documentation
-  and all artifacts under .context/artifacts/{website}/ with timestamps, applies findings
-  as Tailwind v4 CSS tokens, then verifies by visually diffing the original site against
-  the local or deployed version. Use when cloning a brand, replicating a design system,
-  matching a reference site, migrating visual identity, copying a style guide, or porting
-  a theme from any live URL into a React codebase.
+description: "Ports the visual identity of any live website into a React plus Tailwind CSS project. Extracts colours, typography, spacing, component styles via browser automation, source inspection, curl, wget, DevTools. Writes structured documentation, applies findings as Tailwind v4 CSS tokens, then verifies by visually diffing the original site against the local build. Use when cloning a brand, replicating a design system, matching a reference site, migrating visual identity, copying a style guide, porting a theme from any live URL into a React codebase, matching a client reference design."
 ---
 
 # Website Theme Porter
 
 Port the visual identity of any live website into a React + Tailwind CSS project.
 The workflow is four linear stages: **Extract → Document → Apply → Verify**.
+
+---
+
+## Principles
+
+1. **Document before you code** — write all theme documentation under `.context/artifacts/` before touching a single source file.
+2. **Tokens over literals** — every extracted value becomes a semantic CSS token; hardcoded colours never appear in component classes.
+3. **Method hierarchy** — prefer automated extraction (agent-browser) over manual inspection; document whichever method was used.
+4. **Verify visually** — the workflow is not complete until a diff screenshot confirms the local build matches the reference site.
+5. **Respect scope** — only port colours, typography, spacing, and component patterns; never copy the source site's actual stylesheet files.
+
+### When to use this skill
+
+Apply this skill when you need to replicate a visual design from a live URL into a React + Tailwind codebase: brand migrations, client reference designs, design-system ports, or style-guide replication.
+
+### When not to apply
+
+See the **When NOT to Use This Skill** section at the end of this file for login-walled sites, canvas-rendered UIs, obfuscated class names, and licence considerations.
 
 ---
 
@@ -403,7 +413,7 @@ Prioritise in this order:
 ## Anti-Patterns
 
 - **NEVER wrap HSL values in `hsl()` inside `@theme inline`.**
-  In Tailwind v4, `--color-primary: hsl(174 90% 31%)` inside `@theme inline` will
+  WHY: In Tailwind v4, `--color-primary: hsl(174 90% 31%)` inside `@theme inline` will
   double-wrap when Tailwind generates utilities, producing broken output.
   **Consequence:** `bg-primary` resolves to `hsl(hsl(174 90% 31%))` — an invalid value; the colour renders as transparent or black.
 
@@ -454,10 +464,8 @@ Prioritise in this order:
   <button className="bg-primary text-primary-foreground">
   ```
 
-## Reference Files
+## References
 
-| File | Priority | When to load |
-|------|----------|-------------|
-| [references/extraction.md](references/extraction.md) | CRITICAL | Load at the start of Stage 1 — full JS toolkit and colour parsing helpers |
-| [references/tailwind-mapping.md](references/tailwind-mapping.md) | CRITICAL | Load at the start of Stage 2 — token tables, HSL converter, Token Decision Tree, index.css template |
-| [references/verification.md](references/verification.md) | HIGH | Load at the start of Stage 4 — diff thresholds, mismatch symptom→fix table |
+- [references/extraction.md](references/extraction.md) — CRITICAL: Load at the start of Stage 1. Full JS toolkit, colour parsing helpers, nav/card/footer extractors, and page capture patterns.
+- [references/tailwind-mapping.md](references/tailwind-mapping.md) — CRITICAL: Load at the start of Stage 2. Token tables, HSL converter, Token Decision Tree, and index.css template.
+- [references/verification.md](references/verification.md) — HIGH: Load at the start of Stage 4. Diff thresholds, mismatch symptom→fix table.

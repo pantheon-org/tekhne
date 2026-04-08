@@ -1,9 +1,0 @@
-{
-  "total_infeasible": 1,
-  "infeasible_scenarios": [
-    {
-      "scenarios": "chatops-permission-check",
-      "reasoning": "A ChatOps scenario using the `issue_comment` trigger requires a live GitHub repository with actual PR comments, author association data, and team membership API calls. None of these can be meaningfully exercised or graded without a real GitHub environment and interactive session. The criteria (verify permission checks, secret protection, input sanitization) cannot be confirmed from static files alone when the core security property depends on runtime authorization checks against GitHub's API."
-    }
-  ]
-}

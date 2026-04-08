@@ -152,9 +152,9 @@ check_skill_dir() {
     [ -d "$entry" ] || continue
     dir_name=$(basename "$entry")
     case "$dir_name" in
-      scripts|references|assets|evals) ;;
+      scripts|references|assets|evals|schemas|templates) ;;
       *)
-        error "$skill_dir: non-standard directory '$dir_name' (allowed: scripts/, references/, assets/, evals/)"
+        error "$skill_dir: non-standard directory '$dir_name' (allowed: scripts/, references/, assets/, evals/, schemas/, templates/)"
         ;;
     esac
   done

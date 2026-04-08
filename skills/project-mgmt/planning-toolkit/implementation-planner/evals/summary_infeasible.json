@@ -1,5 +1,0 @@
-{
-  "skill": "implementation-planner",
-  "infeasible_scenarios": [],
-  "notes": "All 5 scenarios are feasible in a standard file-system environment. No scenario requires external API keys, network access, or large binary downloads. The scripts referenced (new-plan.sh, new-phase.sh, new-task.sh, validate-plan.sh, validate-structure.sh) are bundled in the skill's scripts/ directory and available locally."
-}

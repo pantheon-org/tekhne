@@ -1,0 +1,21 @@
+{
+  "skill": "development/front-end/web-reference-sheet-generator",
+  "dimensions": {
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 9
+  },
+  "total": 126,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 147,
+  "hasReferences": true,
+  "referenceCount": 12,
+  "referenceSectionCompliant": true
+}
