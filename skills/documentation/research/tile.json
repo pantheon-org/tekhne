@@ -1,0 +1,14 @@
+{
+  "name": "pantheon-ai/research",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Research toolkit for context window management. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the research repo conventions.",
+  "skills": {
+    "triage-paper": {
+      "path": "triage-paper/SKILL.md"
+    },
+    "triage-tool": {
+      "path": "triage-tool/SKILL.md"
+    }
+  }
+}

@@ -1,0 +1,107 @@
+template_name: analysis-paper
+description: 3-stage deep-dive analysis of an academic paper promoted from REVIEWED.md in the research repo
+filename_pattern: "ANALYSIS-arxiv-<id>-<slug>.md"
+schema: "../schemas/analysis-paper.schema.json"
+
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: Short analysis title
+      example: "Analysis — LLMLingua (Jiang2023)"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: Date the analysis was written
+
+    - name: type
+      type: enum
+      values: [analysis]
+      description: Must be "analysis"
+
+    - name: paper
+      type: object
+      description: Bibliographic details for the paper
+      fields:
+        - name: id
+          type: string
+          description: arxiv ID or DOI
+          example: "arxiv:2310.05736"
+        - name: title
+          type: string
+          description: Full paper title
+        - name: authors
+          type: array
+          items: string
+        - name: year
+          type: integer
+        - name: venue
+          type: string
+          description: arXiv / conference / journal
+
+    - name: source
+      type: array
+      items: string
+      description: Relative paths to related reference files
+      example:
+        - "references/jiang-llmlingua.md"
+
+  optional_fields:
+    - name: links
+      type: array
+      items: string
+      description: Additional URLs (PDF, code, demo)
+
+    - name: artifacts
+      type: object
+      description: Local file paths for downloaded artifacts
+      fields:
+        - name: pdf
+          type: string
+          example: "references/papers/2310.05736.pdf"
+        - name: text
+          type: string
+          example: "references/papers/2310.05736.md"
+
+sections:
+  required:
+    - heading: "Stage 1 — Descriptive"
+      marker: "## Stage 1 — Descriptive"
+      description: Problem statement, core approach, context representation, injection path, compression path, eviction policy, explicit non-scope
+      subsections:
+        - heading: "1.1 Problem statement"
+        - heading: "1.2 Core approach"
+        - heading: "1.3 Context representation and data model"
+        - heading: "1.4 Injection path"
+        - heading: "1.5 Compression / summarisation path"
+        - heading: "1.6 Eviction / truncation policy"
+        - heading: "1.7 What the paper explicitly does not cover"
+
+    - heading: "Stage 2 — Evaluative"
+      marker: "## Stage 2 — Evaluative"
+      description: Evaluation setup, main results, strengths, limitations, reproducibility — all as reported
+      subsections:
+        - heading: "2.1 Evaluation setup (as reported)"
+        - heading: "2.2 Main results (as reported)"
+        - heading: "2.3 Strengths"
+        - heading: "2.4 Limitations / open questions"
+        - heading: "2.5 Reproducibility"
+
+    - heading: "Stage 3 — Synthesis hooks"
+      marker: "## Stage 3 — Synthesis hooks"
+      description: Comparison, repo theme mapping, actionable takeaways
+      subsections:
+        - heading: "3.1 Comparison to adjacent work"
+        - heading: "3.2 Mapping to repo themes"
+        - heading: "3.3 Concrete takeaways"
+
+validation:
+  script: "../../scripts/validate-analysis-paper.sh"
+  required_checks:
+    - "YAML frontmatter present and valid"
+    - "Required fields: title, date, type, paper, source"
+    - "type == analysis"
+    - "paper.id and paper.title present"
+    - "Required stage headings present"
+    - "No unfilled angle-bracket placeholders"

@@ -1,0 +1,66 @@
+{
+  "context": "Verify that the agent correctly triages a prompt-compression paper from an arxiv ID into the research repo, following all workflow steps without creating an ANALYSIS file or skipping any required updates.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Duplicate check performed before any file is created",
+      "description": "The agent searches REVIEWED.md and/or references/REFERENCE_INDEX.md for the arxiv ID or a matching slug before writing any new file.",
+      "max_score": 10
+    },
+    {
+      "name": "references/<slug>.md is created",
+      "description": "A new file is created at references/<slug>.md (e.g. references/jiang-llmlingua.md or similar slug). The file must exist in the output.",
+      "max_score": 10
+    },
+    {
+      "name": "Slug follows the <firstauthor-surname>-<topic> convention",
+      "description": "The slug used for the filename and REVIEWED.md entry starts with the first author's surname (jiang) and includes a short topic descriptor (e.g. jiang-llmlingua or jiang-prompt-compression).",
+      "max_score": 6
+    },
+    {
+      "name": "TL;DR section contains 3 to 8 bullets",
+      "description": "The TL;DR section in references/<slug>.md has between 3 and 8 bullet points. Fewer than 3 or more than 8 fails this criterion.",
+      "max_score": 7
+    },
+    {
+      "name": "Evaluation results marked as reported",
+      "description": "Any benchmark metrics or evaluation results in the reference file include '(as reported)' or equivalent qualifier. No metric is stated as a verified fact.",
+      "max_score": 10
+    },
+    {
+      "name": "Mechanism overview covers compression path",
+      "description": "The mechanism overview section describes how the tool compresses prompts (the compression/injection path). Sections that are not applicable are marked N/A rather than left blank.",
+      "max_score": 8
+    },
+    {
+      "name": "Open questions section has substantive content",
+      "description": "The open questions section contains at least one meaningful gap, risk, or unverified claim — not just a placeholder.",
+      "max_score": 6
+    },
+    {
+      "name": "REVIEWED.md summary table row is added",
+      "description": "A new row is appended to the summary table at the top of REVIEWED.md with at minimum: date, slug, type (paper), disposition (pending), and a one-line description.",
+      "max_score": 10
+    },
+    {
+      "name": "REVIEWED.md detailed section is added",
+      "description": "A detailed section is added below the REVIEWED.md summary table including arxiv ID, authors, date, tags, a 2-3 sentence summary, and disposition set to pending.",
+      "max_score": 8
+    },
+    {
+      "name": "REFERENCE_INDEX.md is updated",
+      "description": "A new row is added to the appropriate topic category table in references/REFERENCE_INDEX.md. The entry is placed under Compression & summarisation or the closest matching category.",
+      "max_score": 8
+    },
+    {
+      "name": "No ANALYSIS-*.md file is created",
+      "description": "The agent does not create any file matching the pattern ANALYSIS-*.md during triage. Promotion to an analysis file is not performed automatically.",
+      "max_score": 10
+    },
+    {
+      "name": "User is offered a promotion choice at the end",
+      "description": "The agent concludes by explicitly asking the user whether to promote the paper to a standalone ANALYSIS file, keep it in REVIEWED.md, or skip it.",
+      "max_score": 7
+    }
+  ]
+}
