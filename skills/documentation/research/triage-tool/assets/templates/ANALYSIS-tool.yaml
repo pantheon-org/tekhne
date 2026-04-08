@@ -1,5 +1,5 @@
 template_name: analysis-tool
-description: 3-stage deep-dive analysis of a context management tool promoted from REVIEWED.md in the research repo
+description: 3-stage deep-dive analysis of a tool or library promoted from REVIEWED.md in the research repo
 filename_pattern: "ANALYSIS-<slug>.md"
 schema: "../schemas/analysis-tool.schema.json"
 
@@ -63,16 +63,15 @@ sections:
   required:
     - heading: "Stage 1 — Descriptive"
       marker: "## Stage 1 — Descriptive"
-      description: Problem, architecture, context representation, injection, compression, eviction, session lifecycle, explicit non-scope
+      description: Problem definition, architecture, core design, interface, key algorithms, known limitations, explicit non-scope
       subsections:
         - heading: "1.1 Problem it solves"
         - heading: "1.2 Architecture overview"
-        - heading: "1.3 Context representation"
-        - heading: "1.4 Injection mechanism"
-        - heading: "1.5 Compression / summarisation"
-        - heading: "1.6 Eviction / overflow handling"
-        - heading: "1.7 Session lifecycle"
-        - heading: "1.8 What the tool explicitly does not cover"
+        - heading: "1.3 Core design"
+        - heading: "1.4 Interface / API"
+        - heading: "1.5 Key algorithms or techniques"
+        - heading: "1.6 Known limitations / trade-offs"
+        - heading: "1.7 What the tool explicitly does not cover"
 
     - heading: "Stage 2 — Evaluative"
       marker: "## Stage 2 — Evaluative"

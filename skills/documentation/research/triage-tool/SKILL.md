@@ -1,6 +1,6 @@
 ---
 name: triage-tool
-description: "Triage a context management tool or library into a structured reference summary for the research repo. Use when given a GitHub URL, npm package, PyPI package, CLI tool, MCP server, or library name to assess context management relevance. Creates references/{slug}.md with architecture overview and scope assessment; adds REVIEWED.md entry and REFERENCE_INDEX.md row. Triggers: triage tool, add tool, analyse tool, context window tool, prompt compression library, token budgeting cli, context injection framework, session lifecycle tool, MCP context server, context daemon, context sandbox, context vault, rolling summary tool, context compressor, eviction policy tool, context pruning library, token counter, sliding window manager."
+description: "Triage a tool or library into a structured reference summary for the research repo. Use when given a GitHub URL, npm package, PyPI package, or CLI tool name. Creates references/{slug}.md with architecture overview and scope assessment; adds REVIEWED.md entry and REFERENCE_INDEX.md row. Triggers: triage tool, add tool, analyse tool, GitHub project, npm package, PyPI package, library, framework, CLI tool, MCP server, open source project."
 allowed-tools: Read, Write, Edit, Bash, WebFetch
 ---
 
@@ -17,14 +17,14 @@ Add a new tool or library to the research repo as a structured reference summary
 ## When Not to Use
 
 - The tool has already been triaged (check `REVIEWED.md` first)
-- The tool is clearly out of scope (not related to active context window management)
+- The tool is clearly out of scope (not relevant to the research domain)
 - User wants a full deep-dive analysis — use `triage-tool` first, then promote to `ANALYSIS-<name>.md`
 
 ## Mindset
 
 Triage is a quality gate, not a catalogue entry. The goal is a reproducible, honest assessment.
 
-1. **Scope before summary**: confirm the tool touches the active context window layer before investing in a full write-up. A well-reasoned out-of-scope ruling is as valuable as a full summary.
+1. **Scope before summary**: confirm the tool is relevant to the research domain before investing in a full write-up. A well-reasoned out-of-scope ruling is as valuable as a full summary.
 2. **Evidence first**: quote README and docs; never infer capabilities not described by the author.
 3. **Triage-then-promote**: every tool enters via `REVIEWED.md`; promotion to `ANALYSIS-*.md` and vendoring both require explicit user confirmation — never automatic.
 
@@ -48,7 +48,7 @@ Assign one or more tags from the controlled list. See [classification guide](ref
 
 ### 4. Assess scope fit
 
-Confirm the tool touches the active context window layer. See [classification guide](references/classification-guide.md) for in-scope / borderline / out-of-scope criteria. Note any borderline ruling in REVIEWED.md.
+Confirm the tool is relevant to the research domain. See [classification guide](references/classification-guide.md) for in-scope / borderline / out-of-scope criteria. Note any borderline ruling in REVIEWED.md.
 
 ### 5. Fill in the reference summary
 
@@ -59,13 +59,13 @@ title: "MemGPT"
 author: "Packer et al."
 date: 2023-10-12
 type: reference
-tags: [tool, context-management, session-lifecycle]
+tags: [tool, library]
 source: "https://github.com/cpacker/MemGPT"
 ```
 
-- **TL;DR**: 3–8 bullets capturing what the tool does and why it matters for context management.
+- **TL;DR**: 3–8 bullets capturing what the tool does and why it matters.
 - **What's novel**: one paragraph — what does this do that adjacent tools do not?
-- **Architecture overview**: describe context representation, injection mechanism, compression/summarisation, eviction/overflow handling, session lifecycle. Skip sections that are not applicable (mark `N/A`).
+- **Architecture overview**: describe the core design and how the tool works. Skip sections that are not applicable (mark `N/A`).
 - **Deployment model**: runtime, language, dependencies, storage.
 - **Self-reported metrics**: quote numbers with source — always mark `(as reported)`.
 - **Open questions**: gaps, risks, unverified claims, missing benchmarks.
@@ -120,7 +120,7 @@ git submodule add <repo-url> tools/<repo-name>
 
 **WHY:** Tool benchmarks are often run on curated inputs under favourable conditions.
 
-**BAD** `"Achieves 60% token reduction."` → **GOOD** `"Reports 60% token reduction (as reported, README)."`
+**BAD** `"Achieves 40% latency reduction."` → **GOOD** `"Reports 40% latency reduction (as reported, README)."`
 
 ### NEVER skip the duplicate check
 
@@ -142,7 +142,6 @@ git submodule add <repo-url> tools/<repo-name>
 
 ## References
 
-- [classification guide](references/classification-guide.md) — full tag taxonomy, scope assessment criteria (in/borderline/out), and examples
-- **Guides**: [REFERENCE-tool](references/reference-tool-guide.md) — body structure and conventions · [ANALYSIS-tool](references/analysis-tool-guide.md) — 3-stage deep-dive structure
+- [classification guide](references/classification-guide.md) — tag taxonomy and scope assessment criteria (in/borderline/out); customise for your research domain
 - **Reference artifacts**: [YAML template](assets/templates/REFERENCE-tool.yaml) · [schema](assets/schemas/reference-tool.schema.json) · [validator](scripts/validate-reference-tool.sh)
 - **Analysis artifacts**: [YAML template](assets/templates/ANALYSIS-tool.yaml) · [schema](assets/schemas/analysis-tool.schema.json) · [validator](scripts/validate-analysis-tool.sh)

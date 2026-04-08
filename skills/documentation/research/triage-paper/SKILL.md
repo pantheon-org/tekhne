@@ -1,6 +1,6 @@
 ---
 name: triage-paper
-description: "Triage an academic paper into a structured reference summary for the research repo. Use when given an arxiv ID, arxiv URL, DOI, or paper PDF to assess context management relevance. Creates references/{slug}.md; adds REVIEWED.md entry and REFERENCE_INDEX.md row. Triggers: triage paper, add paper, analyse paper, arxiv, context window, prompt compression, token budget, token reduction, context injection, context summarisation, RAG injection, eviction policy, long context, LLM context, context overflow, tiered context, context pruning, sliding window, KV cache, attention sink, survey paper, benchmark paper, deep dive paper."
+description: "Triage an academic paper into a structured reference summary for the research repo. Use when given an arxiv ID, arxiv URL, DOI, or paper PDF. Creates references/{slug}.md; adds REVIEWED.md entry and REFERENCE_INDEX.md row. Triggers: triage paper, add paper, analyse paper, review paper, literature review, survey paper, benchmark paper, deep dive paper, arxiv, DOI."
 allowed-tools: Read, Write, Edit, Bash, WebFetch
 ---
 
@@ -17,7 +17,7 @@ Add a new academic paper to the research repo as a structured reference summary.
 ## When Not to Use
 
 - The paper has already been triaged (check `REVIEWED.md` first)
-- The paper is clearly out of scope (not related to context window management)
+- The paper is clearly out of scope (not related to the research domain)
 - User wants a full deep-dive analysis — use `triage-paper` first, then promote to `ANALYSIS-*.md`
 
 ## Mindset
@@ -43,25 +43,23 @@ Triage is a quality gate, not a data-entry task. The goal is a scannable, honest
 
 ### 3. Classify the paper
 
-Assign one or more tags from this controlled list:
+Assign one or more tags appropriate to the research domain. Universal tags:
 
 | Tag | Meaning |
 |---|---|
-| `compression` | Reduces token count (summarisation, pruning, distillation) |
-| `tiered-loading` | Priority-based injection (L0/L1/L2, lazy vs eager) |
-| `token-budgeting` | Hard caps, soft priorities, eviction policies |
-| `injection` | How content enters the context window |
-| `benchmark` | Evaluation dataset or framework |
 | `survey` | Overview paper covering the topic broadly |
-| `retrieval` | RAG / retrieval-augmented context |
+| `benchmark` | Evaluation dataset or framework |
+| `empirical` | Study with experimental evaluation |
+| `theoretical` | Formal or theoretical contribution |
+| `system` | System or implementation paper |
 
 ### 4. Fill in the reference summary
 
 Create `references/<slug>.md` using `templates/REFERENCE-paper.md`. Populate every section:
 
-- **TL;DR**: 3–8 bullets capturing what the paper does and why it matters for context management.
+- **TL;DR**: 3–8 bullets capturing what the paper does and why it matters.
 - **What's novel**: one paragraph — what does this do that adjacent work does not?
-- **Mechanism overview**: describe context representation, compression/injection path, eviction policy, token budget model. Skip sections that are not applicable (mark `N/A`).
+- **Mechanism overview**: describe the core approach and methodology. Skip sections that are not applicable (mark `N/A`).
 - **Evaluation**: quote benchmark name, baselines, key metric, and result — always mark `(as reported)`.
 - **Implementation details worth stealing**: concrete takeaways only.
 - **Open questions**: gaps, risks, unverified claims.
@@ -143,6 +141,5 @@ cp templates/REFERENCE-paper.md references/<slug>.md
 
 ## References
 
-- **Guides**: [REFERENCE-paper](references/reference-paper-guide.md) — body structure and conventions · [ANALYSIS-paper](references/analysis-paper-guide.md) — 3-stage deep-dive structure
 - **Reference artifacts**: [YAML template](assets/templates/REFERENCE-paper.yaml) · [schema](assets/schemas/reference-paper.schema.json) · [validator](scripts/validate-reference-paper.sh)
 - **Analysis artifacts**: [YAML template](assets/templates/ANALYSIS-paper.yaml) · [schema](assets/schemas/analysis-paper.schema.json) · [validator](scripts/validate-analysis-paper.sh)

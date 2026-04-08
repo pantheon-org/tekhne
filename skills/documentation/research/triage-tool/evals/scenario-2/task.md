@@ -1,6 +1,5 @@
 # Triage Tool — Borderline Scope Assessment
 
-You are working in the research repository. The repo focuses on tools that manage what is in the **active context window**: compression, tiered loading, token budgeting, injection, and session lifecycle.
 
 ## Task
 

@@ -1,41 +1,41 @@
 # Tool Classification Guide
 
 Use this guide when classifying a tool during the **Classify** step of the triage workflow.
+Customise the tag taxonomy and scope criteria to match your research domain.
 
 ## Tag Taxonomy
 
 | Tag | Meaning |
 |---|---|
-| `compression` | Reduces token count (summarisation, pruning, compaction) |
-| `tiered-loading` | Priority-based injection (L0/L1/L2, lazy vs eager) |
-| `token-budgeting` | Hard caps, soft priorities, eviction policies |
-| `injection` | How content enters the context window |
+| `library` | Reusable code library or package |
+| `framework` | Opinionated structure for building something |
 | `cli` | Operated via command-line interface |
+| `service` | Runs as a standalone service or API |
 | `daemon` | Runs as a background process |
 | `mcp-server` | Exposes capabilities via MCP protocol |
-| `session-lifecycle` | Manages wake/sleep/checkpoint across sessions |
-| `retrieval` | RAG / retrieval-augmented context feeding |
+| `sdk` | Language-specific developer SDK |
+| `benchmark` | Evaluation or benchmark tool |
+| `dataset` | Training or evaluation dataset |
 
-A tool may carry multiple tags. Prefer tags that describe what the tool **does to context** over tags that describe its delivery mechanism.
+A tool may carry multiple tags. Add domain-specific tags as needed.
 
 ## Scope Assessment
 
 | Verdict | Criteria |
 |---------|----------|
-| **In scope** | Manages what is in the active context window: compression, tiered loading, token budgeting, injection, session continuity |
-| **Borderline** | Primarily long-term memory storage but has a context-window injection layer |
-| **Out of scope** | Pure vector DBs, embedding services, or tools with no context-window involvement |
+| **In scope** | Directly relevant to the research domain tracked in the repo |
+| **Borderline** | Adjacent to the domain but with partial relevance; note the overlap |
+| **Out of scope** | No meaningful connection to the research domain |
 
 For borderline tools: triage and flag the overlap in REVIEWED.md; do not silently exclude or include.
 
 ## Examples
 
 ### Clearly in scope
-- A library that compresses conversation history to fit a token budget → `compression`, `token-budgeting`
-- A daemon that swaps context segments based on recency → `tiered-loading`, `session-lifecycle`
+- Replace with a concrete example from your research domain.
 
 ### Borderline
-- A vector DB with a retrieval-injection pipeline → `retrieval` (note: assess whether the injection layer is first-class)
+- Replace with a borderline example — a tool that is adjacent but has partial relevance.
 
 ### Out of scope
-- A pure embedding service with no context injection — log as out-of-scope in REVIEWED.md
+- Replace with an out-of-scope example — log it as out-of-scope in REVIEWED.md.

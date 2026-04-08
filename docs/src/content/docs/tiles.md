@@ -475,7 +475,7 @@ Writing & communication
 
 ### research
 
-Research toolkit for context window management. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the research repo conventions.
+Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the research repo conventions.
 
 **Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.1.0
 
