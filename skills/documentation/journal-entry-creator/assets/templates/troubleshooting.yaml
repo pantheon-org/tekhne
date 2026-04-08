@@ -113,6 +113,50 @@ structure:
       - "Each step has clear what/commands/result"
       - "Commands are in code blocks with language specifiers"
 
+  # Source Code Location (REQUIRED — must be the final investigation step)
+  - section: source_code_location
+    level: 3
+    heading: "### Step N — Locate the Bug in Source Code"
+    required: true
+    emphasis: "MANDATORY final investigation step — always shallow-clone the repo and find the exact file and line"
+    description: |
+      Shallow-clone the relevant repository and identify the exact file, class, method, and line numbers
+      where the defect or slow code lives. Document the repo path, file path, and line range so the fix
+      can be found and reviewed without re-investigation.
+    commands_format: |
+      ```bash
+      git clone --depth 1 <repo-url> /tmp/<repo-name>
+      grep -rn "<symbol>" /tmp/<repo-name>/
+      ```
+    result_format: |
+      | Location  | Detail                        |
+      | --------- | ----------------------------- |
+      | Repo      | `org/repo-name`               |
+      | File      | `path/to/file.py`             |
+      | Symbol    | `ClassName.method_name`       |
+      | Lines     | **N–M**                       |
+    example: |
+      ### Step 5 — Locate the Bug in Source Code
+
+      **What:** Confirm which repository and file own the slow query identified in X-Ray, and find the
+      exact line numbers so a fix can be raised without re-investigation.
+
+      **Commands:**
+
+      ```bash
+      git clone --depth 1 git@github.com:org/my-service.git /tmp/my-service
+      grep -rn "find_customers\|SLOW_QUERY_SQL" /tmp/my-service/src/
+      ```
+
+      **Result:** The query is in `my-service`, not the downstream database service.
+
+      | Location  | Detail                              |
+      | --------- | ----------------------------------- |
+      | Repo      | `org/my-service`                    |
+      | File      | `src/adaptor/database_adaptor.py`   |
+      | Constant  | `FIND_CUSTOMERS_SQL` — lines 33–117 |
+      | Call site | `DatabaseAdaptor.find_customers` — lines 199–224 |
+
   # Root Cause (REQUIRED for troubleshooting)
   - section: root_cause
     level: 2
@@ -279,6 +323,7 @@ validation:
     - "Must have numbered steps"
     - "Each step has what/commands/result"
     - "Commands in code blocks"
+    - "Final step MUST be source code location — shallow clone, exact file and line range documented in a table"
 
 # Best practices for troubleshooting entries
 best_practices:
@@ -291,3 +336,4 @@ best_practices:
   - "Update monitoring/alerts based on lessons learned"
   - "Focus on root cause, not just symptoms"
   - "When a Jira ticket is associated, create follow-up tickets for each actionable fix and link them in Session Outcome"
+  - "Always shallow-clone the repo and document the exact file and line range of the defect — never leave source location as 'TBD' or vague"
