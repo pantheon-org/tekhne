@@ -15,7 +15,10 @@ export const auditStatus = async (): Promise<void> => {
 
   for (const skillFile of skillFiles) {
     const skillPath = skillFile.replace("/SKILL.md", "");
-    const auditDir = join(skillPath, ".context/audits", skillPath);
+    const auditDir = join(
+      ".context/audits",
+      skillPath.replace(/^skills\//, ""),
+    );
     const latestLink = join(auditDir, "latest");
     const auditJson = join(latestLink, "audit.json");
 
@@ -43,15 +46,15 @@ export const auditStatus = async (): Promise<void> => {
 
     if (age > 30) {
       const auditData = await Bun.file(auditJson).json();
-      const score = auditData.score || 0;
+      const score = auditData.total || 0;
       logger.warning(
-        `⚠ ${skillPath} - Outdated (${Math.floor(age)} days old, score: ${score}/120)`,
+        `⚠ ${skillPath} - Outdated (${Math.floor(age)} days old, score: ${score}/140)`,
       );
       outdated++;
     } else {
       const auditData = await Bun.file(auditJson).json();
-      const score = auditData.score || 0;
-      logger.success(`✓ ${skillPath} - Compliant (score: ${score}/120)`);
+      const score = auditData.total || 0;
+      logger.success(`✓ ${skillPath} - Compliant (score: ${score}/140)`);
       compliant++;
     }
   }

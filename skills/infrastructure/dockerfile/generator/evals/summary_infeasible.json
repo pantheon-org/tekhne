@@ -1,9 +1,0 @@
-{
-  "total_infeasible": 1,
-  "infeasible_scenarios": [
-    {
-      "scenarios": "dockerfile-validator-invocation",
-      "reasoning": "The skill's Stage 5 requires invoking 'devops-skills:dockerfile-validator' (a separate skill) which runs hadolint, Checkov, and custom validation tools. These tools require a Docker daemon or native installation, and the validation output (structured error/warning report) is only observable through tool side-effects — not inspectable in final workspace files. A grader cannot verify that the validator was invoked or that iteration occurred from static files alone."
-    }
-  ]
-}

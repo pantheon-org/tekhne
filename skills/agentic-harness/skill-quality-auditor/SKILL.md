@@ -36,6 +36,11 @@ Results stored in `audits/<full-skill-path>/latest/` — the path mirrors `skill
 - Enforcing artifact conventions across skill collections
 - Implementing CI quality gates with score thresholds (see [Score Thresholds](references/quality-thresholds-scoring.md))
 
+## When Not to Use
+
+- Skip this auditor when the skill has not yet been drafted — write the skill first, audit second.
+- Do not apply this auditor as a substitute for peer review of logic or domain accuracy.
+
 ## Workflow
 
 1. **Inventory** target skills with proper directory scanning
@@ -84,6 +89,25 @@ See [Detailed Anti-Patterns](references/detailed-anti-patterns.md) for complete 
 
 ./scripts/evaluate.sh documentation/markdown-authoring --json --store
 # Score: 98/140 (C+) -> review remediation-plan.md -> fix -> re-audit -> 128/140 (A)
+```
+
+```bash
+# Store audit results and generate remediation plan
+./scripts/evaluate.sh agentic-harness/skill-quality-auditor --json --store
+# Stored: .context/audits/agentic-harness/skill-quality-auditor/<date>/audit.json
+
+# Check grade threshold directly
+./scripts/evaluate.sh documentation/markdown-authoring --json | jq '.total >= 126'
+```
+
+```bash
+# PR-scoped triage: audit only skills changed in the current branch
+./scripts/audit-skills.sh --pr-changes-only
+```
+
+```bash
+# Audit all skills and print a summary table
+./scripts/audit-skills.sh
 ```
 
 See [Audit Workflow Examples](references/examples-audit-workflows.md) for detailed input/output pairs, baseline comparison, remediation workflow, and CI quality gate configuration.

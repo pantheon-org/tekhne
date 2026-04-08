@@ -1,0 +1,21 @@
+{
+  "skill": "agentic-harness/opencode-toolkit/build-plugins",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 15,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 17
+  },
+  "total": 129,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 87,
+  "hasReferences": true,
+  "referenceCount": 10,
+  "referenceSectionCompliant": false
+}

@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/proof-of-work/skills/proof-of-work",
+  "dimensions": {
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 17
+  },
+  "total": 129,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 138,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}

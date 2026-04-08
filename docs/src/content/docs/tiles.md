@@ -313,7 +313,7 @@ Port the visual theme and styling from a live website to a React/Tailwind CSS pr
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [website-theme-porter](/tekhne/skills/development/front-end/website-theme-porter/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [website-theme-porter](/tekhne/skills/development/front-end/website-theme-porter/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### web-reference-sheet-generator
 
@@ -323,7 +323,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [web-reference-sheet-generator](/tekhne/skills/development/front-end/web-reference-sheet-generator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+| [web-reference-sheet-generator](/tekhne/skills/development/front-end/web-reference-sheet-generator/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 
 ---
 
@@ -339,11 +339,11 @@ Complete toolkit for configuring and extending OpenCode: agent creation, custom 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
+| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 
 ### socratic-method
 
@@ -353,7 +353,7 @@ Refine vague or high-stakes prompts through Socratic questioning — surfaces hi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 4 |
+| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 4 |
 
 ### skill-quality-auditor
 
@@ -363,7 +363,7 @@ Audit and improve skill collections with a 9-dimension scoring framework (Knowle
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-04 | 5 |
+| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### agents-md
 
@@ -373,7 +373,7 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-03-18 | 5 |
+| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-08 | 5 |
 
 ### tessl-publish-public
 
@@ -383,7 +383,7 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [tessl-publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-03 | 14 |
+| [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 9 |
 
 ---
 
@@ -481,8 +481,8 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
-| [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+| [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-04-08 | 3 |
+| [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 
 ### markdown-authoring
 
@@ -512,7 +512,7 @@ Instructs agents to document findings as proof-of-work artifacts: screenshots vi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [proof-of-work](/tekhne/skills/documentation/proof-of-work/skills/proof-of-work/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [proof-of-work](/tekhne/skills/documentation/proof-of-work/skills/proof-of-work/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### astro-starlight
 
@@ -522,9 +522,9 @@ Skills for setting up and customizing Astro Starlight documentation sites, cover
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [starlight-base](/tekhne/skills/documentation/astro-starlight/skills/starlight-base/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 3 |
-| [starlight-theme](/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 3 |
-| [starlight-custom-component](/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 3 |
+| [starlight-base](/tekhne/skills/documentation/astro-starlight/skills/starlight-base/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 6 |
+| [starlight-theme](/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 6 |
+| [starlight-custom-component](/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 7 |
 
 ### journal-entry-creator
 
@@ -554,7 +554,7 @@ Skill for creating structured, semantic commit messages following the Convention
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### obsidian-toolkit
 
