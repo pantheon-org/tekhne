@@ -1,6 +1,5 @@
 # Triage Tool — Session Lifecycle Context Manager
 
-You are working in the research repository. The repo tracks tools and papers related to context window management for agentic LLM systems.
 
 ## Task
 

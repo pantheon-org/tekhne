@@ -68,15 +68,14 @@ sections:
   required:
     - heading: "Stage 1 — Descriptive"
       marker: "## Stage 1 — Descriptive"
-      description: Problem statement, core approach, context representation, injection path, compression path, eviction policy, explicit non-scope
+      description: Problem statement, core approach, data model, core mechanisms, known constraints, explicit non-scope
       subsections:
         - heading: "1.1 Problem statement"
         - heading: "1.2 Core approach"
-        - heading: "1.3 Context representation and data model"
-        - heading: "1.4 Injection path"
-        - heading: "1.5 Compression / summarisation path"
-        - heading: "1.6 Eviction / truncation policy"
-        - heading: "1.7 What the paper explicitly does not cover"
+        - heading: "1.3 Data / representation model"
+        - heading: "1.4 Core mechanisms"
+        - heading: "1.5 Known constraints or scope limits"
+        - heading: "1.6 What the paper explicitly does not cover"
 
     - heading: "Stage 2 — Evaluative"
       marker: "## Stage 2 — Evaluative"

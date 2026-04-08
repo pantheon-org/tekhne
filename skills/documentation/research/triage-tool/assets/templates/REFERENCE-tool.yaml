@@ -1,5 +1,5 @@
 template_name: reference-tool
-description: Structured reference summary for a context management tool triaged into the research repo
+description: Structured reference summary for a tool or library triaged into the research repo
 filename_pattern: "references/<slug>.md"
 schema: "../schemas/reference-tool.schema.json"
 
@@ -27,12 +27,12 @@ frontmatter:
 
     - name: tags
       type: array
-      description: Must include "tool" and "context-management" plus one or more topic tags
-      validation: Must contain "tool" and "context-management"
+      description: Must include "tool" plus one or more topic tags appropriate to the research domain
+      validation: Must contain "tool"
       example:
         - tool
-        - context-management
-        - daemon
+        - library
+        - cli
 
     - name: source
       type: string
@@ -69,7 +69,7 @@ sections:
   required:
     - heading: "TL;DR"
       marker: "## TL;DR"
-      description: 3-8 bullets capturing what the tool does and why it matters for context management
+      description: 3-8 bullets capturing what the tool does and why it matters
       constraints:
         format: bullet-list
         min_bullets: 3
@@ -83,16 +83,14 @@ sections:
       marker: "## Architecture overview"
       description: Technical design broken into subsections; mark N/A for non-applicable subsections
       subsections:
-        - heading: "Context representation"
-          marker: "### Context representation"
-        - heading: "Injection mechanism"
-          marker: "### Injection mechanism"
-        - heading: "Compression / summarization"
-          marker: "### Compression / summarization"
-        - heading: "Eviction / overflow handling"
-          marker: "### Eviction / overflow handling"
-        - heading: "Session lifecycle"
-          marker: "### Session lifecycle"
+        - heading: "Core design"
+          marker: "### Core design"
+        - heading: "Interface / API"
+          marker: "### Interface / API"
+        - heading: "Dependencies"
+          marker: "### Dependencies"
+        - heading: "Scope / limitations"
+          marker: "### Scope / limitations"
 
     - heading: "Deployment model"
       marker: "## Deployment model"
@@ -117,7 +115,7 @@ validation:
     - "YAML frontmatter present and valid"
     - "Required fields: title, author, date, type, tags, source"
     - "type == reference"
-    - "tags contains tool and context-management"
+    - "tags contains tool"
     - "source matches https?://"
     - "Required sections present"
     - "TL;DR contains 3-8 bullet lines"

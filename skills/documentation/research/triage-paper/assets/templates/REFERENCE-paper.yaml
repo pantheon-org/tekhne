@@ -27,12 +27,12 @@ frontmatter:
 
     - name: tags
       type: array
-      description: Must include "paper" and "context-management" plus one or more topic tags
-      validation: Must contain "paper" and "context-management"
+      description: Must include "paper" plus one or more topic tags appropriate to the research domain
+      validation: Must contain "paper"
       example:
         - paper
-        - context-management
-        - compression
+        - survey
+        - benchmark
 
     - name: source
       type: string
@@ -69,7 +69,7 @@ sections:
   required:
     - heading: "TL;DR"
       marker: "## TL;DR"
-      description: 3-8 bullets capturing what the paper does and why it matters for context management
+      description: 3-8 bullets capturing what the paper does and why it matters
       constraints:
         format: bullet-list
         min_bullets: 3
@@ -83,14 +83,12 @@ sections:
       marker: "## Mechanism overview"
       description: Technical approach broken into subsections; mark N/A for non-applicable subsections
       subsections:
-        - heading: "Context representation"
-          marker: "### Context representation"
-        - heading: "Compression / injection path"
-          marker: "### Compression / injection path"
-        - heading: "Eviction / truncation policy"
-          marker: "### Eviction / truncation policy"
-        - heading: "Token budget model"
-          marker: "### Token budget model"
+        - heading: "Problem / motivation"
+          marker: "### Problem / motivation"
+        - heading: "Core approach"
+          marker: "### Core approach"
+        - heading: "Key design decisions"
+          marker: "### Key design decisions"
 
     - heading: "Evaluation (as reported)"
       marker: "## Evaluation (as reported)"
@@ -115,7 +113,7 @@ validation:
     - "YAML frontmatter present and valid"
     - "Required fields: title, author, date, type, tags, source"
     - "type == reference"
-    - "tags contains paper and context-management"
+    - "tags contains paper"
     - "source matches https?://"
     - "Required sections present"
     - "TL;DR contains 3-8 bullet lines"
