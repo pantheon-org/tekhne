@@ -1,0 +1,56 @@
+{
+  "context": "Verify that the agent correctly identifies memv as a borderline tool (primary focus is long-term memory storage, but it surfaces retrieved episodes into context), documents the borderline classification with reasoning, and still produces a useful reference summary.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Scope assessed before writing the summary",
+      "description": "The agent evaluates the tool's scope against the in scope / borderline / out of scope criteria before creating references/<slug>.md.",
+      "max_score": 8
+    },
+    {
+      "name": "Tool classified as borderline, not in scope or out of scope",
+      "description": "The scope-fit field in the reference file and/or REVIEWED.md shows 'borderline'. It is not classified as simply 'in scope' or 'out of scope'.",
+      "max_score": 18
+    },
+    {
+      "name": "Borderline reasoning explains the out-of-scope aspect",
+      "description": "The reasoning notes that memv's primary function is long-term memory storage (episode extraction, bi-temporal validity) — which is primarily an agentic-memory concern.",
+      "max_score": 10
+    },
+    {
+      "name": "Borderline reasoning explains the in-scope aspect",
+      "description": "The reasoning notes that memv surfaces retrieved episodes into agent context at query time (retrieval-augmented context injection), which overlaps with this repo's scope.",
+      "max_score": 10
+    },
+    {
+      "name": "Context-layer overlap specifically described in the reference file",
+      "description": "The architecture overview or open questions section in references/<slug>.md specifically addresses the context injection / retrieval-to-context pathway, not just the storage layer.",
+      "max_score": 10
+    },
+    {
+      "name": "references/<slug>.md is created despite borderline classification",
+      "description": "The agent creates a reference summary even though the tool is borderline — a borderline result is triaged, not silently skipped.",
+      "max_score": 10
+    },
+    {
+      "name": "REVIEWED.md scope-fit field shows borderline with reason",
+      "description": "The detailed REVIEWED.md section includes scope-fit: 'borderline — <explanation>' rather than a binary in/out classification.",
+      "max_score": 12
+    },
+    {
+      "name": "REVIEWED.md disposition is pending, not out of scope",
+      "description": "The disposition field in REVIEWED.md is 'pending', leaving the promotion decision to the user rather than auto-rejecting.",
+      "max_score": 8
+    },
+    {
+      "name": "User is informed of the borderline classification",
+      "description": "The agent explicitly tells the user that the tool is borderline and explains why, so the user can make an informed decision.",
+      "max_score": 8
+    },
+    {
+      "name": "Tool is not rejected without assessing the context layer",
+      "description": "The agent does not dismiss the tool as out of scope based solely on its memory-storage focus without first examining whether it has a context-injection component.",
+      "max_score": 6
+    }
+  ]
+}
