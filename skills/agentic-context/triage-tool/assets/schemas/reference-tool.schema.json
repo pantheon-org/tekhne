@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "reference-tool.schema.json",
+  "title": "Reference Tool Frontmatter",
+  "description": "Validates the YAML frontmatter of a references/{slug}.md file created by the triage-tool skill",
+  "type": "object",
+  "required": ["title", "author", "date", "type", "tags", "source"],
+  "additionalProperties": true,
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "ISO 8601 date (YYYY-MM-DD)"
+    },
+    "type": {
+      "type": "string",
+      "const": "reference"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 2,
+      "allOf": [
+        { "contains": { "const": "tool" } },
+        { "contains": { "const": "context-management" } }
+      ]
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^https?://"
+    },
+    "source_repo": {
+      "type": "string",
+      "pattern": "^https?://"
+    },
+    "local_clone": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "context": {
+      "type": "string"
+    },
+    "related": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

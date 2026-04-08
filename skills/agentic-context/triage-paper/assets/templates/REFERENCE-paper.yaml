@@ -1,0 +1,122 @@
+template_name: reference-paper
+description: Structured reference summary for an academic paper triaged into the agentic-context research repo
+filename_pattern: "references/<slug>.md"
+schema: "../schemas/reference-paper.schema.json"
+
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: Full paper title
+      example: "MemGPT: Towards LLMs as Operating Systems"
+
+    - name: author
+      type: string
+      description: First author et al.
+      example: "Packer et al."
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: Paper publication or arXiv submission date
+
+    - name: type
+      type: enum
+      values: [reference]
+      description: Must be "reference"
+
+    - name: tags
+      type: array
+      description: Must include "paper" and "context-management" plus one or more topic tags
+      validation: Must contain "paper" and "context-management"
+      example:
+        - paper
+        - context-management
+        - compression
+
+    - name: source
+      type: string
+      format: url
+      description: Primary landing page (arXiv abs / publisher DOI)
+      example: "https://arxiv.org/abs/2310.08560"
+
+  optional_fields:
+    - name: source_alt
+      type: string
+      format: url
+      description: Direct PDF link
+
+    - name: version
+      type: string
+      description: arXiv vN / camera-ready / etc
+      example: "arXiv v2"
+
+    - name: context
+      type: string
+      description: Why we care; what synthesis bucket this supports
+
+    - name: related
+      type: array
+      items: string
+      description: Relative paths to related ANALYSIS-*.md files
+
+    - name: files
+      type: array
+      items: string
+      description: Relative paths to downloaded PDF or extracted text snapshots
+
+sections:
+  required:
+    - heading: "TL;DR"
+      marker: "## TL;DR"
+      description: 3-8 bullets capturing what the paper does and why it matters for context management
+      constraints:
+        format: bullet-list
+        min_bullets: 3
+        max_bullets: 8
+
+    - heading: "What's novel / different"
+      marker: "## What's novel / different"
+      description: One paragraph — what does this do that adjacent work does not?
+
+    - heading: "Mechanism overview"
+      marker: "## Mechanism overview"
+      description: Technical approach broken into subsections; mark N/A for non-applicable subsections
+      subsections:
+        - heading: "Context representation"
+          marker: "### Context representation"
+        - heading: "Compression / injection path"
+          marker: "### Compression / injection path"
+        - heading: "Eviction / truncation policy"
+          marker: "### Eviction / truncation policy"
+        - heading: "Token budget model"
+          marker: "### Token budget model"
+
+    - heading: "Evaluation (as reported)"
+      marker: "## Evaluation (as reported)"
+      description: Benchmark name, baselines, key metric, result — always mark (as reported)
+
+    - heading: "Implementation details worth stealing"
+      marker: "## Implementation details worth stealing"
+      description: Concrete takeaways only; bullet list
+
+    - heading: "Open questions / risks / missing details"
+      marker: "## Open questions / risks / missing details"
+      description: Gaps, risks, unverified claims; bullet list
+
+  optional:
+    - heading: "Notes"
+      marker: "## Notes"
+      description: Corrections, updates, follow-up pointers
+
+validation:
+  script: "../../scripts/validate-reference-paper.sh"
+  required_checks:
+    - "YAML frontmatter present and valid"
+    - "Required fields: title, author, date, type, tags, source"
+    - "type == reference"
+    - "tags contains paper and context-management"
+    - "source matches https?://"
+    - "Required sections present"
+    - "TL;DR contains 3-8 bullet lines"
+    - "No unfilled angle-bracket placeholders"
