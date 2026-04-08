@@ -25,7 +25,7 @@
 ## Metadata
 
 - **Skill Path**: skills/agentic-context/triage-paper/SKILL.md
-- **Total Lines**: 150
+- **Total Lines**: 153
 - **Has References**: Yes
 - **Reference Count**: 2 files
 - **References Section Compliant**: Yes (D4 +1 bonus awarded)
