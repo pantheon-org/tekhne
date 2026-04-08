@@ -469,7 +469,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (8 tiles)
+## Documentation (9 tiles)
 
 Writing & communication
 
@@ -534,6 +534,17 @@ Write clear, testable acceptance criteria for user stories and feature delivery;
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [acceptance-criteria](/tekhne/skills/documentation/acceptance-criteria/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
+
+### agentic-context
+
+Analysis toolkit for agentic context management research. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the agentic-context repo conventions.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/agentic-context) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [triage-paper](/tekhne/skills/documentation/agentic-context/triage-paper/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+| [triage-tool](/tekhne/skills/documentation/agentic-context/triage-tool/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### conventional-commits
 
