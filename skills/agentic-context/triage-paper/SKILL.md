@@ -1,6 +1,6 @@
 ---
 name: triage-paper
-description: "Triage an academic paper into a structured reference summary for the agentic-context research repo. Use when given an arxiv ID, arxiv URL, DOI, or paper PDF to assess context management relevance. Creates references/<slug>.md; adds REVIEWED.md entry and REFERENCE_INDEX.md row. Triggers: triage paper, add paper, analyse paper, arxiv, context window, prompt compression, token budget, token reduction, context injection, context summarisation, RAG injection, eviction policy, long context, LLM context, context overflow, tiered context, context pruning, sliding window, KV cache, attention sink, survey paper, benchmark paper, deep dive paper."
+description: "Triage an academic paper into a structured reference summary for the agentic-context research repo. Use when given an arxiv ID, arxiv URL, DOI, or paper PDF to assess context management relevance. Creates references/{slug}.md; adds REVIEWED.md entry and REFERENCE_INDEX.md row. Triggers: triage paper, add paper, analyse paper, arxiv, context window, prompt compression, token budget, token reduction, context injection, context summarisation, RAG injection, eviction policy, long context, LLM context, context overflow, tiered context, context pruning, sliding window, KV cache, attention sink, survey paper, benchmark paper, deep dive paper."
 allowed-tools: Read, Write, Edit, Bash, WebFetch
 ---
 
