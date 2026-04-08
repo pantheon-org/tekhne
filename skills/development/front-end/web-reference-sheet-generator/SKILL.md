@@ -53,13 +53,13 @@ See [`references/workflow.md`](references/workflow.md) for the full 8-step gener
 
 3. Check dark mode and accessibility patterns
 
-4. Fill [`references/skill-output.yaml`](references/skill-output.yaml) — structured scratchpad validated against [`references/design-reference.schema.json`](references/design-reference.schema.json)
+4. Fill [`templates/skill-output.yaml`](templates/skill-output.yaml) — structured scratchpad validated against [`schemas/design-reference.schema.json`](schemas/design-reference.schema.json)
 
 5. Generate `docs/design/design-reference.md` from the template
 
    ```bash
    # Review populated scratchpad before generating final docs
-   cat references/skill-output.yaml | grep -E "TBD|null" && echo "Gaps found — fill before generating"
+   cat templates/skill-output.yaml | grep -E "TBD|null" && echo "Gaps found — fill before generating"
    ```
 
 6. Generate the enforcement skill from the enforcement skill template
@@ -71,7 +71,7 @@ See [`references/workflow.md`](references/workflow.md) for the full 8-step gener
 7. Confirm output with a structured report listing populated sections and TBD items
 
    ```bash
-   bun run validate --schema references/design-reference.schema.json --input references/skill-output.yaml
+   bun run validate --schema schemas/design-reference.schema.json --input templates/skill-output.yaml
    ```
 
 ---
@@ -136,8 +136,8 @@ See [`references/workflow.md`](references/workflow.md) for the full 8-step gener
 - [`references/workflow.md`](references/workflow.md) — Full 8-step generation workflow
 - [`references/design-reference-template.md`](references/design-reference-template.md) — Output template for `docs/design/design-reference.md`
 - [`references/enforcement-skill-template.md`](references/enforcement-skill-template.md) — Output template for the companion enforcement skill
-- [`references/skill-output.yaml`](references/skill-output.yaml) — Structured scratchpad; populate before writing any markdown
-- [`references/design-reference.schema.json`](references/design-reference.schema.json) — JSON schema for scratchpad validation
+- [`templates/skill-output.yaml`](templates/skill-output.yaml) — Structured scratchpad; populate before writing any markdown
+- [`schemas/design-reference.schema.json`](schemas/design-reference.schema.json) — JSON schema for scratchpad validation
 - [`references/accessibility-guidelines.md`](references/accessibility-guidelines.md) — WCAG 2.1 AA criteria, contrast ratios, keyboard nav, ARIA
 - [`references/typography-principles.md`](references/typography-principles.md) — Hierarchy, readability, type pairing, modular scale
 - [`references/psychology-of-color.md`](references/psychology-of-color.md) — Colour associations, brand strategy, harmony, WCAG contrast
