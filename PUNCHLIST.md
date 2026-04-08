@@ -80,8 +80,16 @@ Almost all `evals/` directories are empty. Only 3 files exist across the whole r
 ### Partial (needs top-up)
 - [ ] `development/front-end/web-reference-sheet-generator` — 3/5 files
 
-### Format ambiguity
-- [ ] Decide: are `evals.md` (astro-starlight style) acceptable, or should all skills use `evals/*.md`?
+### Format ambiguity — resolved
+
+Canonical format: `evals/scenario-NN.md` (one file per scenario). See `skills/agentic-harness/skill-quality-auditor/references/eval-format.md`.
+
+Converted:
+- [x] `software-engineering/design-principles` — 12 `.yaml` → 12 `scenario-NN.md`
+- [x] `documentation/astro-starlight` sub-skills — 3 `evals.md` → 19 `scenario-NN.md` (6+7+6)
+- [x] Retired meta-files (`instructions.json`, `summary*.json`) removed repo-wide (~300 files)
+
+Remaining: ~401 `scenario-*/` subdirectory-style evals across the repo have not yet been migrated — they contain real content and need converting to `scenario-NN.md` flat files.
 
 ---
 
@@ -103,5 +111,5 @@ Result after fix: **85/87 compliant (98%)**. Two skills genuinely have no audit 
 1. ~~Fix stale audit mv~~ — done
 2. ~~Investigate audit CLI path bug~~ — fixed (84/87 compliant)
 3. ~~Run missing audits for 2 remaining skills~~ — done (87/87, 100%)
-4. Fill evals to 5 per skill (largest volume of work)
-5. Resolve evals format ambiguity for astro-starlight skills
+4. Fill evals to 5 per skill — in progress (format resolved; ~401 old scenario-*/ dirs need migrating to scenario-NN.md)
+5. ~~Resolve evals format ambiguity~~ — done (`evals/scenario-NN.md` canonical, see eval-format.md)

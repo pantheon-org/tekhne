@@ -1,9 +1,0 @@
-{
-  "total_infeasible": 1,
-  "infeasible_scenarios": [
-    {
-      "scenarios": "tessl skill review --optimize workflow",
-      "reasoning": "Testing the --optimize flag requires the tessl CLI to be installed and authenticated with a real workspace, and scoring output is only observable at runtime. The quality improvement from optimization cannot be assessed from static output files alone."
-    }
-  ]
-}

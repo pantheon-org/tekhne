@@ -383,7 +383,7 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 14 |
+| [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 9 |
 
 ---
 
@@ -522,9 +522,9 @@ Skills for setting up and customizing Astro Starlight documentation sites, cover
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [starlight-base](/tekhne/skills/documentation/astro-starlight/skills/starlight-base/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 3 |
-| [starlight-theme](/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 3 |
-| [starlight-custom-component](/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 3 |
+| [starlight-base](/tekhne/skills/documentation/astro-starlight/skills/starlight-base/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 6 |
+| [starlight-theme](/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 6 |
+| [starlight-custom-component](/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-17 | 7 |
 
 ### journal-entry-creator
 

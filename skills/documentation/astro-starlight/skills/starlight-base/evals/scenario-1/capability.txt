@@ -1,1 +1,0 @@
-Knows the correct Starlight project scaffolding command and avoids unnecessary manual setup steps.

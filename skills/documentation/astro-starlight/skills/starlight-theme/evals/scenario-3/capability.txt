@@ -1,1 +1,0 @@
-Diagnoses the Tailwind dark mode incompatibility and knows the correct fix via the Starlight compatibility package.

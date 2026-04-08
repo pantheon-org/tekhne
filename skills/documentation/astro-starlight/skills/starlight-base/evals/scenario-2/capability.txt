@@ -1,1 +1,0 @@
-Correctly formats sidebar slug values and knows the difference between explicit items and autogenerate approaches.
