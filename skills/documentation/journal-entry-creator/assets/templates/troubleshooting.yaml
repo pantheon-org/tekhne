@@ -209,11 +209,20 @@ structure:
       **Next steps:**
       - [ ] Action item with checkbox
       - [ ] Follow-up task
+
+      **Follow-up tickets:** (when Jira ticket is associated)
+      - [PROJ-NNN](url) — brief description
     status_options:
       - "Resolved"
       - "Investigating"
       - "Workaround Applied"
       - "Escalated"
+    follow_up_tickets:
+      required_when: "Entry has an associated Jira ticket"
+      description: |
+        For each actionable next step that warrants its own ticket, create a Jira issue and link it here.
+        Typically one follow-up ticket per distinct root cause fix or improvement identified.
+      format: "- [PROJ-NNN](url) — one-line description of what the ticket covers"
     example: |
       **Resolved** — Service fully restored, concurrency limits increased
 
@@ -222,6 +231,9 @@ structure:
       - [ ] Coordinate with marketing on traffic surge notifications
       - [ ] Review and increase other Lambda limits proactively
       - [ ] Update incident response runbook
+
+      **Follow-up tickets:**
+      - [PROJ-456](url) — Add database index to fix slow correlated subquery
 
   # Future Reference/Preventative Measures (REQUIRED)
   - section: future_reference
@@ -278,3 +290,4 @@ best_practices:
   - "Link to related incidents or documentation"
   - "Update monitoring/alerts based on lessons learned"
   - "Focus on root cause, not just symptoms"
+  - "When a Jira ticket is associated, create follow-up tickets for each actionable fix and link them in Session Outcome"
