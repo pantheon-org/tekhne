@@ -481,8 +481,8 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
-| [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+| [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-04-08 | 3 |
+| [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 
 ### markdown-authoring
 
@@ -554,7 +554,7 @@ Skill for creating structured, semantic commit messages following the Convention
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [conventional-commits](/tekhne/skills/documentation/conventional-commits/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### obsidian-toolkit
 
