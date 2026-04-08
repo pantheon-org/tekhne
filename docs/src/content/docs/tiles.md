@@ -481,7 +481,7 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-04-08 | 3 |
+| [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 | [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 
 ### markdown-authoring
