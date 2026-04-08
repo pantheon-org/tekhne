@@ -28,58 +28,31 @@ The recent `agentic-context → documentation/research` rename left two audits s
 
 ## 2. MISSING AUDITS
 
-The `bun cli/index.ts audit status` reports no valid audit for the following skills.
-Note: audit files exist on disk for `agentic-harness/*` and `development/*` — the CLI may have a path-resolution mismatch with the new skill structures. Verify before blindly re-running.
+CLI fixed (see §4). Post-fix status: **84/87 compliant (97%)**.
 
-### documentation (16 skills)
-- [x] `documentation/research/triage-tool` ← audit moved, CLI should now resolve
-- [x] `documentation/research/triage-paper` ← audit moved, CLI should now resolve
-- [ ] `documentation/markdown-authoring`
-- [ ] `documentation/plain-english`
+### Still missing (3 skills — no audit files at all)
+
 - [ ] `documentation/proof-of-work/skills/proof-of-work`
-- [ ] `documentation/astro-starlight/skills/starlight-base`
-- [ ] `documentation/astro-starlight/skills/starlight-custom-component`
-- [ ] `documentation/astro-starlight/skills/starlight-theme`
-- [ ] `documentation/journal-entry-creator`
-- [ ] `documentation/acceptance-criteria`
-- [x] `documentation/conventional-commits` — A grade (127/140)
-- [ ] `documentation/obsidian/defuddle`
-- [ ] `documentation/obsidian/json-canvas`
-- [ ] `documentation/obsidian/obsidian-bases`
-- [ ] `documentation/obsidian/obsidian-cli`
-- [ ] `documentation/obsidian/obsidian-markdown`
-
-### agentic-harness (9 skills)
-> Audit files exist at `.context/audits/agentic-harness/*` — CLI may not be resolving them. Investigate before re-auditing.
-- [x] `agentic-harness/agents-md` — A+ grade (133/140)
-- [x] `agentic-harness/skill-quality-auditor` — A grade (127/140)
-- [x] `agentic-harness/socratic-method` — A grade (128/140)
-- [x] `agentic-harness/tessl/publish-public` — A grade (127/140)
-- [x] `agentic-harness/opencode-toolkit/build-plugins` — A grade (129/140)
-- [x] `agentic-harness/opencode-toolkit/build-tool` — A grade (128/140)
-- [x] `agentic-harness/opencode-toolkit/configure` — A grade (128/140)
-- [x] `agentic-harness/opencode-toolkit/design-agents` — A grade (127/140)
-- [x] `agentic-harness/opencode-toolkit/design-commands` — A grade (128/140)
-
-### development (10 skills)
-> Audit files exist at `.context/audits/development/*` — same CLI resolution concern.
-- [ ] `development/biome-complete`
-- [ ] `development/bun-development`
-- [ ] `development/commanderjs`
-- [ ] `development/typescript-advanced`
-- [ ] `development/front-end/web-reference-sheet-generator`
 - [ ] `development/front-end/website-theme-porter`
-- [ ] `development/scripting/bash-script/generator`
-- [ ] `development/scripting/bash-script/validator`
-- [ ] `development/scripting/makefile/generator`
-- [ ] `development/scripting/makefile/validator`
+- [ ] `development/front-end/web-reference-sheet-generator`
 
-### other domains (5 skills)
-- [ ] `observability/logql-generator`
-- [ ] `package-mgmt/mise-complete`
-- [ ] `specialized/colyseus-multiplayer`
-- [ ] `specialized/github-copilot-models`
-- [ ] `specialized/gitlab-api`
+### Resolved (84 skills)
+
+**documentation** — triage-tool (127), triage-paper (120), markdown-authoring (104),
+plain-english (128), conventional-commits (127), acceptance-criteria (104),
+journal-entry-creator (96), astro-starlight/starlight-base (126),
+starlight-custom-component (131), starlight-theme (130), obsidian/defuddle (119),
+json-canvas (123), obsidian-bases (120), obsidian-cli (123), obsidian-markdown (122)
+
+**agentic-harness** — agents-md A+ (133), skill-quality-auditor A (127),
+socratic-method A (128), tessl/publish-public A (127), opencode-toolkit/build-plugins A (129),
+build-tool A (128), configure A (128), design-agents A (127), design-commands A (128)
+
+**development** — biome-complete, bun-development, commanderjs, typescript-advanced (103),
+scripting/bash-script/generator, bash-script/validator, makefile/generator, makefile/validator
+
+**other** — observability/logql-generator (94), package-mgmt/mise-complete,
+specialized/colyseus-multiplayer (97), github-copilot-models (96), gitlab-api (94)
 
 ---
 
