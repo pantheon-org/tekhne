@@ -313,7 +313,7 @@ Port the visual theme and styling from a live website to a React/Tailwind CSS pr
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [website-theme-porter](/tekhne/skills/development/front-end/website-theme-porter/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [website-theme-porter](/tekhne/skills/development/front-end/website-theme-porter/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### web-reference-sheet-generator
 
@@ -323,7 +323,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [web-reference-sheet-generator](/tekhne/skills/development/front-end/web-reference-sheet-generator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+| [web-reference-sheet-generator](/tekhne/skills/development/front-end/web-reference-sheet-generator/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 
 ---
 

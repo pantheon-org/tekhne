@@ -65,12 +65,12 @@ grep -r "aria-\|role=\|focus-visible\|visually-hidden\|sr-only" src/ --include="
 
 ## Step 5 — Fill the structured extraction template
 
-Before writing any markdown, populate [`templates/skill-output.yaml`](../templates/skill-output.yaml) with
+Before writing any markdown, populate [`skill-output.yaml`](skill-output.yaml) with
 every value discovered in Steps 1–4. This acts as a structured scratchpad and ensures no
 section is skipped.
 
 Validate the populated YAML against
-[`schemas/design-reference.schema.json`](../schemas/design-reference.schema.json).
+[`design-reference.schema.json`](design-reference.schema.json).
 All `required` fields must have real values (not `TBD`) before proceeding. Fields that are
 genuinely unknown may remain `TBD` but must be called out in the Step 8 report.
 
