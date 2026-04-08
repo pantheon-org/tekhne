@@ -51,7 +51,7 @@ Note: audit files exist on disk for `agentic-harness/*` and `development/*` — 
 
 ### agentic-harness (9 skills)
 > Audit files exist at `.context/audits/agentic-harness/*` — CLI may not be resolving them. Investigate before re-auditing.
-- [ ] `agentic-harness/agents-md`
+- [x] `agentic-harness/agents-md` — A+ grade (133/140)
 - [ ] `agentic-harness/skill-quality-auditor`
 - [ ] `agentic-harness/socratic-method`
 - [ ] `agentic-harness/tessl/publish-public`

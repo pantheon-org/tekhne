@@ -373,7 +373,7 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-03-18 | 5 |
+| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-08 | 5 |
 
 ### tessl-publish-public
 
