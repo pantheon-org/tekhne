@@ -1,0 +1,124 @@
+template_name: reference-tool
+description: Structured reference summary for a context management tool triaged into the research repo
+filename_pattern: "references/<slug>.md"
+schema: "../schemas/reference-tool.schema.json"
+
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: Tool or library name
+      example: "MemGPT"
+
+    - name: author
+      type: string
+      description: Author or organisation
+      example: "Packer et al. / Stanford"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: Date first triaged (today) or last significant release date
+
+    - name: type
+      type: enum
+      values: [reference]
+      description: Must be "reference"
+
+    - name: tags
+      type: array
+      description: Must include "tool" and "context-management" plus one or more topic tags
+      validation: Must contain "tool" and "context-management"
+      example:
+        - tool
+        - context-management
+        - daemon
+
+    - name: source
+      type: string
+      format: url
+      description: Primary landing page (GitHub / docs / npm / PyPI)
+      example: "https://github.com/cpacker/MemGPT"
+
+  optional_fields:
+    - name: source_repo
+      type: string
+      format: url
+      description: GitHub repository URL if source is not already the repo
+
+    - name: local_clone
+      type: string
+      description: Relative path to a local clone of the tool
+      example: "../tools/memgpt"
+
+    - name: version
+      type: string
+      description: vX.Y.Z / commit SHA when triaged
+      example: "v0.3.17"
+
+    - name: context
+      type: string
+      description: Why we care; what synthesis bucket this supports
+
+    - name: related
+      type: array
+      items: string
+      description: Relative paths to related ANALYSIS-*.md files
+
+sections:
+  required:
+    - heading: "TL;DR"
+      marker: "## TL;DR"
+      description: 3-8 bullets capturing what the tool does and why it matters for context management
+      constraints:
+        format: bullet-list
+        min_bullets: 3
+        max_bullets: 8
+
+    - heading: "What's novel / different"
+      marker: "## What's novel / different"
+      description: One paragraph — what does this do that adjacent tools do not?
+
+    - heading: "Architecture overview"
+      marker: "## Architecture overview"
+      description: Technical design broken into subsections; mark N/A for non-applicable subsections
+      subsections:
+        - heading: "Context representation"
+          marker: "### Context representation"
+        - heading: "Injection mechanism"
+          marker: "### Injection mechanism"
+        - heading: "Compression / summarization"
+          marker: "### Compression / summarization"
+        - heading: "Eviction / overflow handling"
+          marker: "### Eviction / overflow handling"
+        - heading: "Session lifecycle"
+          marker: "### Session lifecycle"
+
+    - heading: "Deployment model"
+      marker: "## Deployment model"
+      description: Runtime, language, dependencies, storage
+
+    - heading: "Benchmarks / self-reported metrics"
+      marker: "## Benchmarks / self-reported metrics"
+      description: Numbers quoted with source; unverified claims marked "as reported"
+
+    - heading: "Open questions / risks / missing details"
+      marker: "## Open questions / risks / missing details"
+      description: Gaps, risks, unverified claims, missing benchmarks; bullet list
+
+  optional:
+    - heading: "Notes"
+      marker: "## Notes"
+      description: Corrections, updates, follow-up pointers
+
+validation:
+  script: "../../scripts/validate-reference-tool.sh"
+  required_checks:
+    - "YAML frontmatter present and valid"
+    - "Required fields: title, author, date, type, tags, source"
+    - "type == reference"
+    - "tags contains tool and context-management"
+    - "source matches https?://"
+    - "Required sections present"
+    - "TL;DR contains 3-8 bullet lines"
+    - "No unfilled angle-bracket placeholders"
