@@ -28,13 +28,13 @@ The recent `agentic-context → documentation/research` rename left two audits s
 
 ## 2. MISSING AUDITS
 
-CLI fixed (see §4). Post-fix status: **85/87 compliant (98%)**.
+CLI fixed (see §4). Post-fix status: **87/87 compliant (100%)**.
 
-### Still missing (2 skills — no audit files at all)
+### Still missing (resolved — all 3 skills now audited)
 
 - [x] `documentation/proof-of-work/skills/proof-of-work` — A grade (129/140)
-- [ ] `development/front-end/website-theme-porter`
-- [ ] `development/front-end/web-reference-sheet-generator`
+- [x] `development/front-end/website-theme-porter` — A grade (128/140)
+- [x] `development/front-end/web-reference-sheet-generator` — A grade (126/140)
 
 ### Resolved (84 skills)
 
@@ -102,6 +102,6 @@ Result after fix: **85/87 compliant (98%)**. Two skills genuinely have no audit 
 
 1. ~~Fix stale audit mv~~ — done
 2. ~~Investigate audit CLI path bug~~ — fixed (84/87 compliant)
-3. Run missing audits for 2 remaining skills (`front-end/website-theme-porter`, `front-end/web-reference-sheet-generator`)
+3. ~~Run missing audits for 2 remaining skills~~ — done (87/87, 100%)
 4. Fill evals to 5 per skill (largest volume of work)
 5. Resolve evals format ambiguity for astro-starlight skills
