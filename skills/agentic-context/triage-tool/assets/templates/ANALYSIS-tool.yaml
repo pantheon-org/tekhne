@@ -1,0 +1,103 @@
+template_name: analysis-tool
+description: 3-stage deep-dive analysis of a context management tool promoted from REVIEWED.md in the agentic-context research repo
+filename_pattern: "ANALYSIS-<slug>.md"
+schema: "../schemas/analysis-tool.schema.json"
+
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: Short analysis title
+      example: "Analysis — MemGPT"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: Date the analysis was written
+
+    - name: type
+      type: enum
+      values: [analysis]
+      description: Must be "analysis"
+
+    - name: tool
+      type: object
+      description: Metadata about the tool being analysed
+      fields:
+        - name: name
+          type: string
+          description: Tool name
+          example: "MemGPT"
+        - name: repo
+          type: string
+          format: url
+          description: GitHub repository URL
+          example: "https://github.com/cpacker/MemGPT"
+        - name: version
+          type: string
+          description: vX.Y.Z or commit SHA when analysed
+          example: "v0.3.17"
+        - name: language
+          type: string
+          description: Primary implementation language
+          example: "Python"
+        - name: license
+          type: string
+          example: "MIT"
+
+    - name: source
+      type: array
+      items: string
+      description: Relative paths to related reference files or vendored clone
+      example:
+        - "references/versatly-clawvault.md"
+        - "tools/clawvault/"
+
+  optional_fields:
+    - name: links
+      type: array
+      items: string
+      description: Additional URLs (docs, npm, PyPI)
+
+sections:
+  required:
+    - heading: "Stage 1 — Descriptive"
+      marker: "## Stage 1 — Descriptive"
+      description: Problem, architecture, context representation, injection, compression, eviction, session lifecycle, explicit non-scope
+      subsections:
+        - heading: "1.1 Problem it solves"
+        - heading: "1.2 Architecture overview"
+        - heading: "1.3 Context representation"
+        - heading: "1.4 Injection mechanism"
+        - heading: "1.5 Compression / summarisation"
+        - heading: "1.6 Eviction / overflow handling"
+        - heading: "1.7 Session lifecycle"
+        - heading: "1.8 What the tool explicitly does not cover"
+
+    - heading: "Stage 2 — Evaluative"
+      marker: "## Stage 2 — Evaluative"
+      description: Self-reported metrics, independent verification, strengths, limitations, operational complexity
+      subsections:
+        - heading: "2.1 Self-reported metrics (as reported)"
+        - heading: "2.2 Independent verification"
+        - heading: "2.3 Strengths"
+        - heading: "2.4 Limitations / risks / missing details"
+        - heading: "2.5 Operational complexity"
+
+    - heading: "Stage 3 — Synthesis hooks"
+      marker: "## Stage 3 — Synthesis hooks"
+      description: Comparison, repo theme mapping, actionable takeaways, scope fit
+      subsections:
+        - heading: "3.1 Comparison to adjacent tools"
+        - heading: "3.2 Mapping to repo themes"
+        - heading: "3.3 Concrete takeaways"
+
+validation:
+  script: "../../scripts/validate-analysis-tool.sh"
+  required_checks:
+    - "YAML frontmatter present and valid"
+    - "Required fields: title, date, type, tool, source"
+    - "type == analysis"
+    - "tool.name and tool.repo present"
+    - "Required stage headings present"
+    - "No unfilled angle-bracket placeholders"
