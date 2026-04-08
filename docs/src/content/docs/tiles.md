@@ -473,6 +473,17 @@ Complete PromQL toolkit with generation and validation capabilities
 
 Writing & communication
 
+### research
+
+Research toolkit for context window management. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the research repo conventions.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+| [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+
 ### markdown-authoring
 
 Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style.
@@ -534,17 +545,6 @@ Write clear, testable acceptance criteria for user stories and feature delivery;
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [acceptance-criteria](/tekhne/skills/documentation/acceptance-criteria/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
-
-### agentic-context
-
-Analysis toolkit for agentic context management research. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the agentic-context repo conventions.
-
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/agentic-context) | **Version:** 0.1.0
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [triage-paper](/tekhne/skills/documentation/agentic-context/triage-paper/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
-| [triage-tool](/tekhne/skills/documentation/agentic-context/triage-tool/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### conventional-commits
 
