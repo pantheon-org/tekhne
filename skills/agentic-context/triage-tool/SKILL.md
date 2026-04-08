@@ -139,6 +139,9 @@ curl -s "https://raw.githubusercontent.com/<owner>/<repo>/main/README.md"
 # Create reference file from template
 cp templates/REFERENCE-tool.md references/<slug>.md
 
+# Validate the completed reference file
+sh /path/to/skill/scripts/validate-reference-tool.sh references/<slug>.md
+
 # Vendor as submodule (only after explicit user confirmation)
 git submodule add <repo-url> tools/<repo-name>
 
@@ -180,3 +183,6 @@ git submodule add <repo-url> tools/<repo-name>
 
 - [REFERENCE-tool template](references/reference-tool-template.md) — frontmatter fields, section structure, and body conventions; use every time you create a new `references/<slug>.md` in the consuming project
 - [ANALYSIS-tool template](references/analysis-tool-template.md) — 3-stage deep-dive structure and frontmatter; use when promoting a tool to a standalone ANALYSIS-*.md
+- [REFERENCE-tool YAML template](assets/templates/REFERENCE-tool.yaml) — machine-readable description of the expected output structure (fields, sections, constraints)
+- [reference-tool.schema.json](assets/schemas/reference-tool.schema.json) — JSON Schema for validating `references/<slug>.md` frontmatter
+- [validate-reference-tool.sh](scripts/validate-reference-tool.sh) — run after creating a reference to verify frontmatter, required sections, TL;DR bullet count, and unfilled placeholders

@@ -114,6 +114,9 @@ curl -s "https://arxiv.org/abs/<id>"
 # Create reference file from template
 cp templates/REFERENCE-paper.md references/<slug>.md
 
+# Validate the completed reference file
+sh /path/to/skill/scripts/validate-reference-paper.sh references/<slug>.md
+
 # Add triage entry to REVIEWED.md (reverse-chronological)
 # | YYYY-MM-DD | <slug> | paper | pending | <one-line description> |
 ```
@@ -145,3 +148,6 @@ cp templates/REFERENCE-paper.md references/<slug>.md
 
 - [REFERENCE-paper template](references/reference-paper-template.md) — frontmatter fields, section structure, and body conventions; use every time you create a new `references/<slug>.md` in the consuming project
 - [ANALYSIS-paper template](references/analysis-paper-template.md) — 3-stage deep-dive structure and frontmatter; use when promoting a paper to a standalone ANALYSIS-*.md
+- [REFERENCE-paper YAML template](assets/templates/REFERENCE-paper.yaml) — machine-readable description of the expected output structure (fields, sections, constraints)
+- [reference-paper.schema.json](assets/schemas/reference-paper.schema.json) — JSON Schema for validating `references/<slug>.md` frontmatter
+- [validate-reference-paper.sh](scripts/validate-reference-paper.sh) — run after creating a reference to verify frontmatter, required sections, TL;DR bullet count, and unfilled placeholders
