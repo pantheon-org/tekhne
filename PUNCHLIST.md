@@ -52,14 +52,14 @@ Note: audit files exist on disk for `agentic-harness/*` and `development/*` — 
 ### agentic-harness (9 skills)
 > Audit files exist at `.context/audits/agentic-harness/*` — CLI may not be resolving them. Investigate before re-auditing.
 - [x] `agentic-harness/agents-md` — A+ grade (133/140)
-- [ ] `agentic-harness/skill-quality-auditor`
-- [ ] `agentic-harness/socratic-method`
-- [ ] `agentic-harness/tessl/publish-public`
-- [ ] `agentic-harness/opencode-toolkit/build-plugins`
-- [ ] `agentic-harness/opencode-toolkit/build-tool`
-- [ ] `agentic-harness/opencode-toolkit/configure`
-- [ ] `agentic-harness/opencode-toolkit/design-agents`
-- [ ] `agentic-harness/opencode-toolkit/design-commands`
+- [x] `agentic-harness/skill-quality-auditor` — A grade (127/140)
+- [x] `agentic-harness/socratic-method` — A grade (128/140)
+- [x] `agentic-harness/tessl/publish-public` — A grade (127/140)
+- [x] `agentic-harness/opencode-toolkit/build-plugins` — A grade (129/140)
+- [x] `agentic-harness/opencode-toolkit/build-tool` — A grade (128/140)
+- [x] `agentic-harness/opencode-toolkit/configure` — A grade (128/140)
+- [x] `agentic-harness/opencode-toolkit/design-agents` — A grade (127/140)
+- [x] `agentic-harness/opencode-toolkit/design-commands` — A grade (128/140)
 
 ### development (10 skills)
 > Audit files exist at `.context/audits/development/*` — same CLI resolution concern.
