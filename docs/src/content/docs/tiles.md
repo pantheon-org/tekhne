@@ -339,11 +339,11 @@ Complete toolkit for configuring and extending OpenCode: agent creation, custom 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
-| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-14 | 3 |
+| [opencode-design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [opencode-build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 
 ### socratic-method
 
@@ -353,7 +353,7 @@ Refine vague or high-stakes prompts through Socratic questioning — surfaces hi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-03 | 4 |
+| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 4 |
 
 ### skill-quality-auditor
 
@@ -363,7 +363,7 @@ Audit and improve skill collections with a 9-dimension scoring framework (Knowle
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-03-04 | 5 |
+| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### agents-md
 
@@ -383,7 +383,7 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [tessl-publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-03 | 14 |
+| [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 14 |
 
 ---
 

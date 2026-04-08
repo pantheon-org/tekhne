@@ -1,283 +1,103 @@
 ---
-name: tessl-publish-public
-description: >
-  Ensure Tessl tiles meet all requirements for public registry publication with
-  comprehensive validation. Use when publishing skills to public registry, validating
-  tile.json configuration, creating evaluation scenarios, checking quality thresholds
-  (≥108/120 A-grade), or preparing skills for release. Validates eval scenario coverage,
-  tile.json fields (name, version, private, summary, skills), agent-agnostic compliance,
-  and publication readiness.
+name: publish-public
+description: "Ensure Tessl tiles meet all requirements for public registry publication with comprehensive validation. Use when publishing skills to public registry, validating tile.json configuration, creating evaluation scenarios, checking quality thresholds (A-grade ≥108/120), or preparing skills for release. Validates eval scenario coverage, tile.json fields (name, version, private, summary, skills), agent-agnostic compliance, and publication readiness."
 ---
 
 # Tessl Public Publication Skill
 
 Ensure Tessl tiles (skills) meet all requirements for public registry publication, including evaluation scenario coverage, quality thresholds, and proper tile configuration.
 
-> **Not applicable for**: private skill publishing, internal workspace-only development, or pre-alpha prototyping.
+## Principles
 
-## Scope
+Public skills represent a quality commitment to every agent that installs them. Apply this skill when you need to validate, prepare, or execute a public registry publication.
 
-| What's Included | What's NOT Included |
-|----------------|---------------------|
-| Evaluation scenario creation and validation | Writing the skill content itself |
-| Quality threshold enforcement (A-grade ≥108/120) | General skill authoring guidance |
-| Tile.json configuration for public publishing | Private workspace skill publishing |
-| Publication readiness validation workflow | Skill content optimization |
-| Agent-agnostic compliance checking | Skill-quality-auditor execution (separate tool) |
-| Cross-platform compatibility validation | Post-publication monitoring |
-| Registry submission preparation | |
+**When to use**: Publishing a skill to the public Tessl registry, verifying publication readiness, or enforcing quality gates before release.
+
+**When not to**: Private workspace publishing, internal-only skills, or pre-alpha prototypes where A-grade quality is not yet expected.
+
+The three non-negotiable gates are:
+
+1. Quality audit passes (≥108/120 A-grade via skill-quality-auditor)
+2. Evaluation scenarios exist (minimum 5 scenarios with measurable success criteria)
+3. Tile.json is correctly configured (`private: false`, valid fields)
 
 ## Workflow
 
-Every public skill must prove effectiveness via eval scenarios, meet the A-grade quality bar (≥108/120), be agent-agnostic, and show measurable ROI in agent performance. The following steps enforce these principles.
-
 ### 1. Pre-Publication Quality Audit
 
-Run skill-quality-auditor to ensure A-grade minimum:
-
 ```bash
-# Run quality audit and store results
 sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill-name> --json --store
-
-# Review audit results
 cat .context/audits/<domain>/<skill-name>/latest/analysis.md
 ```
 
-**Quality Gate**: Skill MUST score ≥108/120 (A-grade) to proceed. If below threshold:
-
-```bash
-# Review remediation plan
-cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
-
-# Address critical issues (D1, D2, D3, D5 dimensions typically)
-# Re-run audit after improvements
-```
+If below A-grade, review the remediation plan and re-audit after improvements.
 
 ### 2. Create Evaluation Scenarios
 
-Generate comprehensive eval scenarios that prove skill effectiveness:
-
 ```bash
-# Create evaluation scenarios directory if not exists
-mkdir -p skills/<domain>/<skill-name>/evaluation-scenarios
-
-# Create scenario files
-touch skills/<domain>/<skill-name>/evaluation-scenarios/scenario-{01..05}.md
+mkdir -p skills/<domain>/<skill-name>/evals/scenario-01
 ```
 
-Each scenario file must include:
+Each scenario needs: `task.md`, `criteria.json` (checklist summing to 100), `capability.txt`. Target 5-8 scenarios covering the full trigger surface.
 
-- **Scenario name**: Clear, descriptive title
-- **User prompt**: Exact input the agent receives
-- **Expected behavior**: What the agent should do (step-by-step)
-- **Success criteria**: Measurable outcomes (files created, commands run, outputs produced)
-- **Failure conditions**: What indicates the skill was not used or failed
-
-**Example scenario structure**:
-
-```markdown
-# Scenario 01: Basic Public Publication Check
-
-## User Prompt
-"Is this skill ready to publish publicly on Tessl?"
-
-## Expected Behavior
-1. Agent locates the skill directory
-2. Checks for evaluation-scenarios/ directory
-3. Verifies tile.json exists with private: false
-4. Runs or checks for recent skill-quality-auditor results
-5. Reports publication readiness status
-
-## Success Criteria
-- Agent identifies all missing requirements
-- Provides specific remediation steps
-- Does NOT attempt to publish if requirements unmet
-- Reports A-grade score if available
-
-## Failure Conditions
-- Agent skips evaluation scenario check
-- Agent publishes without verifying private: false
-- Agent ignores quality audit results
-- Agent provides generic "looks good" without validation
-```
-
-**Aim for 5-8 scenarios** covering:
-
-- Basic publication readiness check
-- Creating missing eval scenarios
-- Quality threshold enforcement
-- Tile.json configuration validation
-- Agent-agnostic compliance check
-- Cross-platform compatibility validation
-- Full publication workflow execution
-- Edge cases (missing files, low scores, private: true)
-
-### 3. Configure Tile.json for Public Publishing
-
-Validate and configure tile.json with ALL required fields. Missing any required field blocks publication.
-
-**5 Required Fields**:
+### 3. Configure Tile.json
 
 ```json
 {
   "name": "workspace/skill-name",
   "version": "1.0.0",
   "private": false,
-  "summary": "Descriptive text with use cases. Keywords: term1, term2, term3",
-  "skills": {
-    "skill-id": {
-      "path": "SKILL.md",
-      "references": ["references/guide.md"]
-    }
-  }
+  "summary": "Descriptive text with use cases. Keywords: term1, term2",
+  "skills": { "skill-id": { "path": "SKILL.md" } }
 }
 ```
 
-**Critical validations**:
+All 5 fields are required. `private: false` must be boolean, not string.
 
-- `private: false` - Must be boolean (not string "false")
-- `name` - Format: `workspace/tile-name` (lowercase, kebab-case)
-- `version` - Semantic: `x.y.z` (no `v` prefix)
-- `summary` - 150-300 chars, embed keywords inline (NOT separate array)
-- `skills` - Non-empty, paths exist, SKILL.md has frontmatter
-
-**Optional fields**: `files` (root-level), `references`/`resources` (skill-level), `docs`
-
-See `references/tile-json-schema.md` for complete documentation with validation rules, examples, and anti-patterns.
+See `references/tile-json-schema.md` for field validation rules and examples.
 
 ### 4. Run Tessl Optimization
 
-Use Tessl's built-in optimization to maximize quality scores:
-
 ```bash
-# Initial quality assessment
 tessl skill review skills/<domain>/<skill-name>
-
-# If score < 90%, run optimization
 tessl skill review skills/<domain>/<skill-name> --optimize
-
-# Verify improvements
-tessl skill review skills/<domain>/<skill-name>
 ```
 
-**Target**: ≥90% quality score from Tessl (independent of skill-quality-auditor)
+Target ≥90% from Tessl (independent of skill-quality-auditor).
 
 ### 5. Validate Agent-Agnostic Compliance
 
-Ensure skill works across ALL agent harnesses:
+Prohibited: harness-specific tool references, IDE-specific commands, platform-specific paths.
+Required: universal tools only (Read, Write, Edit, Bash, Grep, Glob).
 
-**Prohibited**:
-
-- Agent-specific tools (claude-code-specific, cursor-specific)
-- Harness-specific instructions ("use Claude Code's X feature")
-- Platform-specific behaviors (VS Code commands, IDE integrations)
-
-**Required**:
-
-- Universal tools only (Read, Write, Edit, Bash, Grep, Glob)
-- Conditional capability checks when using advanced features
-- Cross-platform compatibility (works in CLI agents, IDE agents)
-
-### 6. Execute Publication
-
-Once all gates pass, publish to public registry:
+### 6. Publish
 
 ```bash
-# Final readiness check
-sh skills/agentic-harness/tessl/publish-public/scripts/check-publication-readiness.sh skills/<domain>/<skill-name>
-
-# Publish to public registry
+sh scripts/check-publication-readiness.sh skills/<domain>/<skill-name>
 tessl skill publish skills/<domain>/<skill-name> --public
-
-# Verify publication
 tessl search <skill-name>
 ```
 
-## Quick Commands
+## Anti-Patterns
 
-```bash
-# Full publication readiness check
-sh skills/agentic-harness/tessl/publish-public/scripts/check-publication-readiness.sh skills/<domain>/<skill-name>
+<!-- BAD: publish directly | GOOD: run all gates first -->
 
-# Create eval scenario template
-mkdir -p skills/<domain>/<skill-name>/evaluation-scenarios
-cat > skills/<domain>/<skill-name>/evaluation-scenarios/scenario-01.md << 'EOF'
-# Scenario 01: [Description]
+- **NEVER skip evaluation scenarios** — WHY: public registry requires proof of effectiveness via measurable scenarios
+- **NEVER publish below A-grade (108/120)** — WHY: sub-threshold skills erode registry quality and may be flagged
+- **NEVER set `private: true`** — WHY: tile.json defaults to private; must be explicitly set to `false`
+- **NEVER skip `--optimize` when below 90%** — WHY: optimization routinely lifts scores from 85% → 99%
+- **NEVER use harness-specific tool calls** — WHY: public skills must work across all agent platforms
 
-## User Prompt
-"[Exact user input]"
-
-## Expected Behavior
-1. [Step 1]
-2. [Step 2]
-
-## Success Criteria
-- [Measurable outcome 1]
-- [Measurable outcome 2]
-
-## Failure Conditions
-- [Condition indicating skill not used]
-- [Condition indicating skill failed]
-EOF
-
-# Validate tile.json for public publishing
-jq '.private' skills/<domain>/<skill-name>/tile.json
-
-# Check quality audit score
-cat .context/audits/<domain>/<skill-name>/latest/analysis.md | grep "Total Score"
-
-# Publish to public registry
-tessl skill publish skills/<domain>/<skill-name> --public
-```
+See `references/anti-patterns.md` for detailed examples with remediation steps.
 
 ## Gotchas
 
-- **Eval scenarios are NOT optional**: Public skills require evaluation scenarios to prove effectiveness
-- **Private: true blocks publishing**: tile.json must have `private: false` explicitly set
-- **Quality audit != Tessl review**: Both are independent; skill-quality-auditor (≥108/120) and Tessl (≥90%) must pass
-- **Version bumping required**: Republishing existing skill requires version increment
-- **Agent-agnostic violations fail silently**: Skills with harness-specific tools work locally but fail cross-platform
-- **Optimization is critical**: `tessl skill review --optimize` can boost scores 85% → 99%
-- **Eval scenario quality matters**: Generic "agent does X" scenarios fail validation; need specific success criteria
-
-## Production Caveats
-
-- **No rollback mechanism**: Published skills cannot be unpublished; only newer versions can supersede
-- **Registry propagation delay**: Public skills may take 5-10 minutes to appear in search results
-- **Version immutability**: Once published, a specific version cannot be modified
-- **Quality degradation**: Skills scoring <80% on Tessl review may be flagged or delisted
-- **Eval scenario enforcement**: Future Tessl versions may require passing automated eval runs before publishing
-- **License compliance**: Ensure license in tile.json matches actual content licensing
-- **Keyword spam detection**: Excessive or irrelevant keywords may trigger registry moderation
-
-## Anti-Patterns
-
-See `references/anti-patterns.md` for detailed examples. Summary:
-
-- **NEVER skip evaluation scenarios** — minimum 5 scenarios with specific success criteria required
-- **NEVER publish below A-grade (108/120)** — audit, remediate, and re-audit until threshold is met
-- **NEVER omit `private: false`** — tile.json defaults to `private: true`; must be set explicitly
-- **NEVER skip `--optimize` when below 90%** — optimization can boost scores from 85% → 99%
-- **NEVER use agent-specific tools** — public skills must use universal tools only (Bash, Edit, Read, Write, Grep, Glob)
-
-## Related Skills
-
-- **skill-quality-auditor**: Internal quality improvement and dimensional guidance (required pre-requisite)
-- **creating-eval-scenarios**: Generate evaluation scenarios for Tessl tiles (used in workflow step 2)
-- **tile-creator**: Create new Tessl tiles with proper structure
-- **skill-review-optimizer**: Automate iterative skill improvement using Tessl review feedback
-
-## Success Metrics
-
-- **100% eval scenario coverage**: All public skills have 5-8 comprehensive scenarios
-- **A-grade minimum**: All public skills score ≥108/120 on skill-quality-auditor
-- **90%+ Tessl score**: All public skills score ≥90% on `tessl skill review`
-- **Agent-agnostic compliance**: Zero harness-specific tools or instructions in public skills
-- **Zero failed publications**: All publication attempts succeed on first try after validation
-- **Registry acceptance rate**: 100% of submitted skills accepted without moderation flags
+- **Eval scenarios are NOT optional**: Public skills require evaluation scenarios
+- **Quality audit ≠ Tessl review**: Both are independent checks; both must pass
+- **Version bumping required**: Republishing requires a version increment
+- **No rollback**: Published versions are immutable; only newer versions supersede
 
 ## References
 
-- [Tile JSON Schema](references/tile-json-schema.md) — complete field documentation, validation rules, and examples for tile.json
-- [Public Publication Requirements](references/public-publication-requirements.md) — detailed checklist of all gates, compliance rules, and registry acceptance criteria
-- [Tessl Registry Documentation](https://tessl.io) — official registry specs, publication policies, and versioning requirements
+- [Tile JSON Schema](references/tile-json-schema.md) — field documentation, validation rules, and examples for tile.json
+- [Public Publication Requirements](references/public-publication-requirements.md) — full checklist of gates, compliance rules, and registry acceptance criteria
