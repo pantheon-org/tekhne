@@ -28,11 +28,11 @@ The recent `agentic-context → documentation/research` rename left two audits s
 
 ## 2. MISSING AUDITS
 
-CLI fixed (see §4). Post-fix status: **84/87 compliant (97%)**.
+CLI fixed (see §4). Post-fix status: **85/87 compliant (98%)**.
 
-### Still missing (3 skills — no audit files at all)
+### Still missing (2 skills — no audit files at all)
 
-- [ ] `documentation/proof-of-work/skills/proof-of-work`
+- [x] `documentation/proof-of-work/skills/proof-of-work` — A grade (129/140)
 - [ ] `development/front-end/website-theme-porter`
 - [ ] `development/front-end/web-reference-sheet-generator`
 
@@ -92,8 +92,7 @@ Fixed. Three bugs in `cli/lib/audit/audit-status.ts`:
 2. Read `auditData.score` — field doesn't exist (evaluator writes `total`). Fixed.
 3. Displayed `/120` — evaluator max is 140. Fixed.
 
-Result after fix: **84/87 compliant (97%)**. Three skills genuinely have no audit files:
-- [ ] `documentation/proof-of-work/skills/proof-of-work`
+Result after fix: **85/87 compliant (98%)**. Two skills genuinely have no audit files:
 - [ ] `development/front-end/website-theme-porter`
 - [ ] `development/front-end/web-reference-sheet-generator`
 
@@ -103,6 +102,6 @@ Result after fix: **84/87 compliant (97%)**. Three skills genuinely have no audi
 
 1. ~~Fix stale audit mv~~ — done
 2. ~~Investigate audit CLI path bug~~ — fixed (84/87 compliant)
-3. Run missing audits for 3 remaining skills
+3. Run missing audits for 2 remaining skills (`front-end/website-theme-porter`, `front-end/web-reference-sheet-generator`)
 4. Fill evals to 5 per skill (largest volume of work)
 5. Resolve evals format ambiguity for astro-starlight skills

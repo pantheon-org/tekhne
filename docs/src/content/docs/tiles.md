@@ -512,7 +512,7 @@ Instructs agents to document findings as proof-of-work artifacts: screenshots vi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [proof-of-work](/tekhne/skills/documentation/proof-of-work/skills/proof-of-work/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [proof-of-work](/tekhne/skills/documentation/proof-of-work/skills/proof-of-work/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
 
 ### astro-starlight
 
