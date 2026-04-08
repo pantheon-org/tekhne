@@ -27,11 +27,8 @@
     "tags": {
       "type": "array",
       "items": { "type": "string" },
-      "minItems": 2,
-      "allOf": [
-        { "contains": { "const": "paper" } },
-        { "contains": { "const": "context-management" } }
-      ]
+      "minItems": 1,
+      "contains": { "const": "paper" }
     },
     "source": {
       "type": "string",
