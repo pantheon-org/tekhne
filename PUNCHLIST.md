@@ -114,17 +114,22 @@ Almost all `evals/` directories are empty. Only 3 files exist across the whole r
 
 ## 4. AUDIT CLI INVESTIGATION
 
-The `bun cli/index.ts audit status` command reports "No audit found" for skills that DO have audit files on disk (e.g. `agentic-harness/agents-md` has `.context/audits/agentic-harness/agents-md/2026-03-18/audit.json`). This is likely a path-resolution bug introduced with recent restructuring.
+Fixed. Three bugs in `cli/lib/audit/audit-status.ts`:
+1. Path built as `join(skillPath, ".context/audits", skillPath)` — wrong anchor and double `skills/` prefix. Fixed to `join(".context/audits", skillPath.replace(/^skills\//, ""))`.
+2. Read `auditData.score` — field doesn't exist (evaluator writes `total`). Fixed.
+3. Displayed `/120` — evaluator max is 140. Fixed.
 
-- [ ] Investigate why the CLI doesn't resolve existing audits for `agentic-harness/*` and `development/*`
-- [ ] Fix before doing mass re-audit runs to avoid duplicate work
+Result after fix: **84/87 compliant (97%)**. Three skills genuinely have no audit files:
+- [ ] `documentation/proof-of-work/skills/proof-of-work`
+- [ ] `development/front-end/website-theme-porter`
+- [ ] `development/front-end/web-reference-sheet-generator`
 
 ---
 
 ## Priority Order
 
-1. Fix stale audit mv (2 items — fast)
-2. Investigate audit CLI path bug (blocking mass audit)
-3. Run missing audits domain-by-domain, starting with `documentation`
+1. ~~Fix stale audit mv~~ — done
+2. ~~Investigate audit CLI path bug~~ — fixed (84/87 compliant)
+3. Run missing audits for 3 remaining skills
 4. Fill evals to 5 per skill (largest volume of work)
 5. Resolve evals format ambiguity for astro-starlight skills
