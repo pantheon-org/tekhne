@@ -16,173 +16,101 @@ The CloudWatch console is a **micro-frontend SPA embedded inside an iframe**
 
 2. **`locator.click()` on iframe elements times out.** Playwright's locator API hits a 5 s
    timeout when clicking elements inside cross-origin iframes. Use `page.mouse.click(x, y)`
-   with coordinates calculated from the iframe's bounding box + element's `getBoundingClientRect`.
+   with coordinates calculated from the iframe bounding box + element's `getBoundingClientRect`.
 
 3. **The results table is its own scroll container.** `window.scrollBy()` scrolls the outer
-   shell. The CloudWatch results table lives in `DIV.logs-table__wrapper`, a separate
-   overflow container. Scroll it directly: `frame.evaluate(() => document.querySelector('.logs-table__wrapper').scrollTop = N)`.
+   shell. The CloudWatch results table lives in `DIV.logs-table__wrapper`. Scroll it directly:
+   `frame.evaluate(() => document.querySelector('.logs-table__wrapper').scrollTop = N)`.
 
 ## When to Use This Skill
 
-- You are capturing AWS Console screenshots via Playwright MCP
-- You need to authenticate via SSO and open a specific account/role
-- You need step-by-step instructions to reach a CloudWatch Logs Insights query, alarm, or metric
-- You are guiding a user to navigate the console manually
+- Capturing AWS Console screenshots via Playwright MCP
+- Authenticating via SSO and opening a specific account/role
+- Getting step-by-step instructions to reach a CloudWatch Logs Insights query, alarm, or metric
+- Guiding a user to navigate the console manually
 
----
+## When NOT to Use This Skill
 
-## SSO Authentication Flow
-
-### Step 1 — Open the SSO portal
-
-URL: `https://d-996716c793.awsapps.com/start`
-
-Wait for: `AWS IAM Identity Center` heading or the account list to appear.
-
-### Step 2 — Select the account
-
-The portal lists accounts. Use the search box or scroll to find the target account name or ID.
-Click the account row to expand it and reveal available permission sets (roles).
-
-| AWS Profile | Account alias pattern |
-|-------------|----------------------|
-| `ppl-sw-pr` | `ppl-sw-pr` or similar |
-
-### Step 3 — Open the console for the correct role
-
-Click the role name (e.g. `PowerUserAccess`, `AdministratorAccess`) under the account.
-A new browser tab opens with the AWS Management Console for that account + role.
-
-> **Cookie/banner dismissal:** dismiss before navigating further:
-> - Cookie banner: click `Accept all` or `Reject all`
-> - New experience banner: click `X` or `Dismiss`
-
-### Step 4 — Set the region
-
-The region selector is in the top-right corner of the console header. Click it and type or
-select the target region (e.g. `EU (Ireland)` → `eu-west-1`).
-
-Confirm the URL contains `region=eu-west-1` after switching.
+- The target service does not use the microConsole iframe (e.g. S3, EC2) — `locator.click()` works normally there
+- You only need to construct a CloudWatch URL without opening a browser — use `aws-cloudwatch-url-builder` instead
 
 ---
 
 ## Navigating to CloudWatch Pages
 
-### CloudWatch Logs Insights
+### Logs Insights
 
-**Manual path:**
-1. Services → CloudWatch (or search "CloudWatch" in the top bar)
-2. Left sidebar → Logs → Logs Insights
-3. In the log group selector, type the log group name and select it
-4. Paste the query into the query editor
-5. Set the time range (Absolute: enter start/end times)
-6. Click **Run query**
+1. Services → CloudWatch → Logs → Logs Insights
+2. Select the log group, paste the query, set the time range (Absolute), click **Run query**
 
-**Direct URL:** See `aws-cloudwatch-url-builder` skill for the encoded URL template.
+**Direct URL:** See `aws-cloudwatch-url-builder` for the encoded URL template.
 
-### CloudWatch Alarms
+### Alarms
 
-**Manual path:**
-1. CloudWatch → Alarms → All alarms
-2. Search for the alarm name in the filter box
-3. Click the alarm name to open the detail page
+1. CloudWatch → Alarms → All alarms → search by alarm name → click alarm name
+2. Verify which metric is graphed before capturing screenshots
 
 **Direct URL:**
 ```
 https://{region}.console.aws.amazon.com/cloudwatch/home?region={region}#alarmsV2:alarm/{alarm_name}
 ```
 
-> Always verify which metric is graphed before capturing screenshots — the alarm may use a
-> CloudWatch Logs metric filter, not the native `AWS/Lambda Errors` metric.
+### Metrics
 
-### CloudWatch Metrics
+1. CloudWatch → Metrics → All metrics → select namespace → filter by dimension → Graph metrics
+2. Adjust time range in the graph toolbar
 
-**Manual path:**
-1. CloudWatch → Metrics → All metrics
-2. Select namespace (e.g. `AWS/Lambda`)
-3. Filter by dimension (e.g. `FunctionName`)
-4. Select the metric(s) and click **Graph metrics**
-5. Adjust the time range in the graph toolbar
-
-**Direct URL:** See `aws-cloudwatch-url-builder` skill for the encoded URL template.
+For full SSO auth steps and region codes, see `references/console-reference.md`.
+Full Playwright code snippets are in `references/playwright-patterns.md`.
 
 ---
 
-## Playwright Patterns
+## Quick Playwright Patterns
 
-### Wait for CloudWatch to finish loading
-
-```javascript
-await page.waitForSelector('iframe[name="microConsole-Logs"]', { timeout: 15000 });
-```
-
-### Dismiss cookie consent overlay
-
-```javascript
-const cookieBtn = page.locator('button:has-text("Accept"), button:has-text("Reject all")').first();
-if (await cookieBtn.isVisible({ timeout: 2000 }).catch(() => false)) {
-  await cookieBtn.click();
-}
-```
-
-### Collapse left sidebar (wider screenshot)
-
-```javascript
-const closeBtn = page.locator('[aria-label="Close navigation"], [aria-label="Collapse sidebar"]').first();
-if (await closeBtn.isVisible({ timeout: 1000 }).catch(() => false)) {
-  await closeBtn.click();
-}
-```
-
-### Scroll the results table
+Get the frame reference first — optionally cache it for reuse across multiple operations:
 
 ```javascript
 const frame = page.frame({ name: 'microConsole-Logs' });
+await page.waitForSelector('iframe[name="microConsole-Logs"]', { timeout: 15000 });
+```
+
+Scroll the results table (use `frame.evaluate`, not `window.scrollBy`):
+
+```javascript
 await frame.evaluate(() => {
   document.querySelector('.logs-table__wrapper').scrollTop = 600;
 });
 ```
 
-### Expand a log row (page-coord click)
+Expand a log row using page-level coordinates (consider pre-calculating for multiple rows):
 
 ```javascript
 const iframeBox = await page.locator('iframe[name="microConsole-Logs"]').boundingBox();
-const frame = page.frame({ name: 'microConsole-Logs' });
 const rowBox = await frame.locator('tr.logs-table__row').first().boundingBox();
-await page.mouse.click(
-  iframeBox.x + rowBox.x + 20,
-  iframeBox.y + rowBox.y + rowBox.height / 2
-);
-```
-
-### Hide histogram (cleaner screenshot)
-
-```javascript
-const frame = page.frame({ name: 'microConsole-Logs' });
-await frame.evaluate(() => {
-  const el = document.querySelector('.logs__histogram-container');
-  if (el) el.style.display = 'none';
-});
+await page.mouse.click(iframeBox.x + rowBox.x + 20, iframeBox.y + rowBox.y + rowBox.height / 2);
 ```
 
 ---
 
 ## Anti-Patterns
 
+Each entry shows the **BAD** practice and the **GOOD** replacement.
+
+---
+
 ❌ **NEVER use `locator.click()` directly on CloudWatch iframe elements**
 
-Playwright's `locator.click()` uses accessibility tree traversal and times out after 5 s
-when targeting elements inside a cross-origin or sandboxed iframe. The click appears to
-register but nothing happens, or a `TimeoutError` is thrown.
+WHY: Playwright's `locator.click()` uses accessibility tree traversal and times out after 5 s
+when targeting elements inside a cross-origin or sandboxed iframe.
 
-✅ Calculate page-level coordinates from the iframe bounding box + element
-`getBoundingClientRect()`, then use `page.mouse.click(absoluteX, absoluteY)`.
+✅ BAD: `await frame.locator('tr').first().click()` → GOOD: calculate page-level coordinates
+from `iframeBox + rowBox`, then call `page.mouse.click(absoluteX, absoluteY)`.
 
 ---
 
 ❌ **NEVER use `window.scrollBy()` or `window.scrollTo()` inside the CloudWatch iframe**
 
-`window` in the iframe context scrolls `MAIN.logs__main__visual-refresh` (the outer
+WHY: `window` in the iframe context scrolls `MAIN.logs__main__visual-refresh` (the outer
 page-level scroller), not the results table. The results table is in a separate overflow
 container (`DIV.logs-table__wrapper`) and will not move.
 
@@ -192,34 +120,23 @@ container (`DIV.logs-table__wrapper`) and will not move.
 
 ❌ **NEVER query `window.document` from `page.evaluate()` to interact with CloudWatch content**
 
-`page.evaluate()` runs in the outer shell document. CloudWatch content is inside the iframe.
-Calling `document.querySelector('.logs-table__wrapper')` from `page.evaluate()` returns null.
+WHY: `page.evaluate()` runs in the outer shell document. CloudWatch content is inside the iframe.
+`document.querySelector('.logs-table__wrapper')` returns null from `page.evaluate()`.
 
 ✅ Use `frame.evaluate()` where `frame = page.frame({ name: 'microConsole-Logs' })`.
 
 ---
 
-❌ **NEVER assume a screenshot of "Lambda Errors = 0" means no alarm**
+❌ **NEVER assume `AWS/Lambda Errors = 0` means no alarm triggered**
 
-The native `AWS/Lambda Errors` CloudWatch metric counts invocation-level failures (exit code ≠ 0).
-An alarm driven by a **Logs metric filter** (e.g. `ErrorCount-PlayerLambdaFunction`) will fire
-even when the invocation exits cleanly, as long as ERROR-level log lines were emitted.
-A screenshot showing `AWS/Lambda Errors = 0` is not evidence that the alarm condition was absent.
+WHY: The native `AWS/Lambda Errors` metric counts invocation-level failures (exit code ≠ 0).
+An alarm driven by a **Logs metric filter** fires even when the invocation exits cleanly, as
+long as ERROR-level log lines were emitted.
 
 ✅ Always screenshot the alarm detail page, not the raw `AWS/Lambda Errors` metric graph.
 
----
-
-## Region Codes Reference
-
-| Console display name  | Region code       |
-|-----------------------|-------------------|
-| EU (Ireland)          | eu-west-1         |
-| EU (Frankfurt)        | eu-central-1      |
-| US East (N. Virginia) | us-east-1         |
-| US West (Oregon)      | us-west-2         |
-| AP (Sydney)           | ap-southeast-2    |
-
 ## References
 
-- **aws-cloudwatch-url-builder** (companion skill in this tile) — construct encoded deep-link URLs for Logs Insights queries, Alarm detail pages, and Metrics graphs
+- [SSO authentication flow and region codes](references/console-reference.md)
+- [Playwright code patterns for iframe interaction](references/playwright-patterns.md)
+- **aws-cloudwatch-url-builder** — companion skill for constructing encoded CloudWatch deep-link URLs

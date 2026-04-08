@@ -1,0 +1,14 @@
+{
+  "name": "pantheon-ai/agentic-context",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Analysis toolkit for agentic context management research. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the agentic-context repo conventions.",
+  "skills": {
+    "triage-paper": {
+      "path": "triage-paper/SKILL.md"
+    },
+    "triage-tool": {
+      "path": "triage-tool/SKILL.md"
+    }
+  }
+}
