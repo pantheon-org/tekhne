@@ -1,6 +1,6 @@
 ---
 name: reproduce-benchmark
-description: "Reproduce and verify the benchmark claims of a tool or paper already triaged in the research repo. Locates the benchmark harness, runs it, and records verified vs. reported figures in benchmarks/sources/<slug>-repro.md. Triggers: reproduce benchmark, verify claims, run benchmark, check benchmark, benchmark reproduction, verify numbers."
+description: "Reproduce and verify the benchmark claims of a tool or paper already triaged in the research repo. Locates the benchmark harness, runs it, and records verified vs. reported figures in benchmarks/sources/{slug}-repro.md. Triggers: reproduce benchmark, verify claims, run benchmark, check benchmark, benchmark reproduction, verify numbers."
 allowed-tools: Read, Write, Edit, Bash
 ---
 
