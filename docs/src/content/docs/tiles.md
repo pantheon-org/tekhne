@@ -475,14 +475,15 @@ Writing & communication
 
 ### research
 
-Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries following the research repo conventions.
+Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries, and reproduce benchmark claims.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.1.0
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [triage-paper](/tekhne/skills/documentation/research/triage-paper/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-04-08 | 3 |
 | [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
+| [reproduce-benchmark](/tekhne/skills/documentation/research/reproduce-benchmark/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### markdown-authoring
 
