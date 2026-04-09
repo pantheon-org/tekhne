@@ -20,6 +20,29 @@ Run a tool's or paper's benchmark harness and record what could and could not be
 - A repro file already exists in `benchmarks/sources/` — report it and offer to re-run instead
 - The benchmark requires live external services or paid APIs that are unavailable — set outcome to `unverified` and document the blocker
 
+## Recommended MCP Servers
+
+If the benchmark harness or reported figures need to be looked up from the original paper, prefer these MCPs over `WebFetch`:
+
+```json
+{
+  "mcpServers": {
+    "semantic-scholar": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["semantic-scholar-fastmcp"]
+    },
+    "google-scholar": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["google_scholar_mcp_server"]
+    }
+  }
+}
+```
+
+See `triage-paper` for full setup guidance.
+
 ## Mindset
 
 Reproduction is a verification exercise, not a sales pitch.

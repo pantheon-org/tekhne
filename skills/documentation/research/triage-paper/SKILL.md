@@ -20,6 +20,29 @@ Add a new academic paper to the research repo as a structured reference summary.
 - The paper is clearly out of scope (not related to the research domain)
 - User wants a full deep-dive analysis — use `triage-paper` first, then promote to `ANALYSIS-*.md`
 
+## Recommended MCP Servers
+
+When available, prefer these MCPs over `WebFetch` for paper discovery and metadata resolution — they return structured data and avoid HTML scraping.
+
+```json
+{
+  "mcpServers": {
+    "semantic-scholar": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["semantic-scholar-fastmcp"]
+    },
+    "google-scholar": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["google_scholar_mcp_server"]
+    }
+  }
+}
+```
+
+Use `semantic-scholar` as the primary source (open, structured, covers most CS/ML papers). Fall back to `google-scholar` for papers not indexed there. Fall back to `WebFetch` (arxiv abstract page) only when neither MCP is configured or returns results.
+
 ## Mindset
 
 Triage is a quality gate, not a data-entry task. The goal is a scannable, honest record.
@@ -32,7 +55,8 @@ Triage is a quality gate, not a data-entry task. The goal is a scannable, honest
 
 ### 1. Resolve the source
 
-- If given an arxiv ID or URL, fetch the abstract page to get title, authors, date, and abstract.
+- If given an arxiv ID or URL: use the `semantic-scholar` MCP to resolve metadata (title, authors, date, abstract, DOI). If not configured, fall back to `WebFetch` on the arxiv abstract page.
+- If given a DOI: prefer `semantic-scholar` or `google-scholar` MCP over a raw HTTP fetch.
 - If given a PDF path, read it to extract the same fields.
 - Derive a stable slug: `<firstauthor-surname>-<2-3-word-topic>` (e.g. `jiang-llmlingua`, `press-longchat`).
 
