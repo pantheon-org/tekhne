@@ -477,7 +477,7 @@ Writing & communication
 
 Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries, and reproduce benchmark claims.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.0
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.1
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
