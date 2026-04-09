@@ -55,7 +55,9 @@ Assign one or more tags appropriate to the research domain. Universal tags:
 
 ### 4. Fill in the reference summary
 
-Create `references/<slug>.md` using `templates/REFERENCE-paper.md`. Populate every section:
+Read `assets/templates/REFERENCE-paper.yaml` to get the required frontmatter fields and section structure. Create `references/<slug>.md` with a YAML frontmatter block (all `required_fields` from the template) followed by the required sections.
+
+Populate every section:
 
 - **TL;DR**: 3–8 bullets capturing what the paper does and why it matters.
 - **What's novel**: one paragraph — what does this do that adjacent work does not?
@@ -100,6 +102,10 @@ Summarise what was created. Then ask:
 > - **Keep** it in REVIEWED.md for now?
 > - **Skip** it (mark as not promoted with reasoning)?
 
+### 8. If user confirms promotion
+
+Read `assets/templates/ANALYSIS-paper.yaml` to get the required frontmatter fields and section structure. Create `analysis/ANALYSIS-arxiv-<id>-<slug>.md` with a YAML frontmatter block (all `required_fields` from the template) followed by the required stage sections. Update the disposition in `REVIEWED.md` from `pending` to `analysis`.
+
 ## Quick Commands
 
 ```bash
@@ -120,6 +126,12 @@ cp templates/REFERENCE-paper.md references/<slug>.md
 ```
 
 ## Anti-Patterns
+
+### NEVER omit YAML frontmatter
+
+**WHY:** Files without frontmatter fail schema validation and break indexing tools that rely on structured metadata.
+
+**BAD** Start the file with `# ANALYSIS: <slug>` followed by bold-text fields. → **GOOD** Open with `---` YAML frontmatter block containing all required fields before any prose.
 
 ### NEVER invent benchmark numbers
 
