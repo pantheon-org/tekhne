@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent runs a basic keyword search, checks for MCP availability first, returns a formatted candidate list, and does not auto-triage any results.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "MCP availability check performed before invoking script",
+      "description": "The agent explicitly checks whether a semantic-scholar or google-scholar MCP server is configured before falling back to the Python script.",
+      "max_score": 20
+    },
+    {
+      "name": "search subcommand used with --query flag",
+      "description": "The agent invokes the script with the 'search' subcommand and passes --query 'chain-of-thought reasoning' (or equivalent). The --results flag is set to 5 or left at default (10 is acceptable).",
+      "max_score": 25
+    },
+    {
+      "name": "Candidate list is presented to the user",
+      "description": "The agent displays a list of result titles (and ideally authors/links) and frames them as candidates for the user to review.",
+      "max_score": 25
+    },
+    {
+      "name": "No paper is triaged automatically",
+      "description": "The agent does not invoke triage-paper or create any reference/analysis file without explicit user confirmation.",
+      "max_score": 20
+    },
+    {
+      "name": "User is offered a handoff to triage-paper",
+      "description": "The agent asks the user which (if any) of the candidates they would like to triage, rather than proceeding silently.",
+      "max_score": 10
+    }
+  ]
+}

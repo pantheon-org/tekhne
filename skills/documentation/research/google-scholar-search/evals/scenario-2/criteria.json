@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent uses the advanced subcommand with author and year-range flags, and qualifies the results as a non-exhaustive sample.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "advanced subcommand is used",
+      "description": "The agent invokes the script with the 'advanced' subcommand rather than 'search'.",
+      "max_score": 25
+    },
+    {
+      "name": "--author flag is set to 'Ilya Sutskever'",
+      "description": "The --author flag is passed with the correct author name (case-insensitive).",
+      "max_score": 20
+    },
+    {
+      "name": "--year-start and --year-end flags are set",
+      "description": "Both --year-start 2017 and --year-end 2021 are passed to the script.",
+      "max_score": 20
+    },
+    {
+      "name": "Results are qualified as non-exhaustive",
+      "description": "The agent explicitly notes that Google Scholar's year filter is a ranking hint and that results may not include all papers in the range.",
+      "max_score": 20
+    },
+    {
+      "name": "Candidate list is returned without auto-triaging",
+      "description": "The results are presented to the user as candidates. No triage-paper invocation occurs without confirmation.",
+      "max_score": 15
+    }
+  ]
+}
