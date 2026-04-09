@@ -1,0 +1,1 @@
+Run an advanced search filtered by author and year range, qualify results as a non-exhaustive sample

@@ -1,0 +1,1 @@
+Detect a blocked/rate-limited response, retry once, then offer MCP fallback without looping
