@@ -1,0 +1,1 @@
+Reproduce a vendored tool's benchmark harness, record partially-verified results with environment details, and back-fill the ANALYSIS file's Stage 2.2 section

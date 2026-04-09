@@ -52,16 +52,7 @@ Confirm the tool is relevant to the research domain. See [classification guide](
 
 ### 5. Fill in the reference summary
 
-Create `references/<slug>.md` using `templates/REFERENCE-tool.md`. Populate every section. Frontmatter example:
-
-```yaml
-title: "MemGPT"
-author: "Packer et al."
-date: 2023-10-12
-type: reference
-tags: [tool, library]
-source: "https://github.com/cpacker/MemGPT"
-```
+Read `assets/templates/REFERENCE-tool.yaml` to get the required frontmatter fields and section structure. Create `references/<slug>.md` with a YAML frontmatter block (all `required_fields` from the template) followed by the required sections.
 
 - **TL;DR**: 3–8 bullets capturing what the tool does and why it matters.
 - **What's novel**: one paragraph — what does this do that adjacent tools do not?
@@ -92,6 +83,10 @@ Add a row under the most relevant category table.
 
 Summarise what was created. Ask the user whether to promote to `ANALYSIS-<slug>.md`, vendor into `tools/`, keep as pending, or skip with reasoning.
 
+### 10. If user confirms promotion
+
+Read `assets/templates/ANALYSIS-tool.yaml` to get the required frontmatter fields and section structure. Create `analysis/ANALYSIS-<slug>.md` with a YAML frontmatter block (all `required_fields` from the template) followed by the required stage sections. Update the disposition in `REVIEWED.md` from `pending` to `analysis`.
+
 ## Quick Commands
 
 ```bash
@@ -115,6 +110,12 @@ git submodule add <repo-url> tools/<repo-name>
 ```
 
 ## Anti-Patterns
+
+### NEVER omit YAML frontmatter
+
+**WHY:** Files without frontmatter fail schema validation and break indexing tools that rely on structured metadata.
+
+**BAD** Start the file with `# ANALYSIS: <slug>` followed by bold-text fields. → **GOOD** Open with `---` YAML frontmatter block containing all required fields before any prose.
 
 ### NEVER treat self-reported benchmarks as verified
 
