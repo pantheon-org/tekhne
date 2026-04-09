@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/research",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": false,
   "summary": "Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries, and reproduce benchmark claims.",
   "skills": {
