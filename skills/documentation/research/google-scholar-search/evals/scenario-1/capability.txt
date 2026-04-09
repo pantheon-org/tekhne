@@ -1,0 +1,1 @@
+Search for papers on a topic, check MCP availability first, and return a candidate list without auto-triaging
