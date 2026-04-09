@@ -1,8 +1,8 @@
 {
   "name": "pantheon-ai/research",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": false,
-  "summary": "Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries, and reproduce benchmark claims.",
+  "summary": "Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries, reproduce benchmark claims, and search Google Scholar for paper discovery.",
   "skills": {
     "triage-paper": {
       "path": "triage-paper/SKILL.md"
@@ -12,6 +12,9 @@
     },
     "reproduce-benchmark": {
       "path": "reproduce-benchmark/SKILL.md"
+    },
+    "google-scholar-search": {
+      "path": "google-scholar-search/SKILL.md"
     }
   }
 }
