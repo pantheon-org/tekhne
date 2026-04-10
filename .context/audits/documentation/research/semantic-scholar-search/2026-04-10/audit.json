@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/research/semantic-scholar-search",
+  "dimensions": {
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 17
+  },
+  "total": 132,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 141,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false
+}
