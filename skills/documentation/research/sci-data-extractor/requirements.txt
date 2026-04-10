@@ -1,0 +1,13 @@
+# Sci-Data-Extractor dependencies
+
+# Core PDF processing
+pymupdf>=1.23.0
+
+# LLM API calls (OpenAI-compatible, works with Anthropic endpoints)
+openai>=1.12.0
+
+# HTTP requests (Mathpix OCR)
+requests>=2.31.0
+
+# Environment variable management (optional)
+python-dotenv>=1.0.0

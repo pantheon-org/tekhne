@@ -1,0 +1,9 @@
+{
+  "instructions": [
+    "Check whether the sci-hub MCP server is configured before invoking the Python script.",
+    "Use DOI search when the DOI is known — it is deterministic and more accurate than title or keyword search.",
+    "Never download papers automatically without explicit user confirmation.",
+    "Inform the user about the legal disclaimer before downloading — verify local laws apply.",
+    "Present search results as candidates; always require explicit user selection before triaging or downloading."
+  ]
+}
