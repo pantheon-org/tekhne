@@ -469,15 +469,15 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (9 tiles, 1 skill)
+## Documentation (9 tiles)
 
 Writing & communication
 
 ### research
 
-Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools, reproduce benchmark claims, and search Google Scholar or Semantic Scholar for paper discovery.
+Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools, reproduce benchmark claims, search Google Scholar, Semantic Scholar, PubMed, or Sci-Hub, and extract structured data from scientific PDFs.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.3
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.4
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -486,6 +486,9 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 | [reproduce-benchmark](/tekhne/skills/documentation/research/reproduce-benchmark/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 | [google-scholar-search](/tekhne/skills/documentation/research/google-scholar-search/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-09 | 3 |
 | [semantic-scholar-search](/tekhne/skills/documentation/research/semantic-scholar-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+| [pubmed-search](/tekhne/skills/documentation/research/pubmed-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+| [sci-hub-search](/tekhne/skills/documentation/research/sci-hub-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+| [sci-data-extractor](/tekhne/skills/documentation/research/sci-data-extractor/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-10 | 3 |
 
 ### markdown-authoring
 
@@ -572,14 +575,6 @@ Skills for working with Obsidian vaults and related formats: Obsidian Flavored M
 | [json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 5 |
-
-### research-sci-data-extractor
-
-Extract structured data from scientific literature PDFs using AI-powered OCR and...
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [research-sci-data-extractor](/tekhne/skills/documentation/research/sci-data-extractor/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-10 | 3 |
 
 ---
 
