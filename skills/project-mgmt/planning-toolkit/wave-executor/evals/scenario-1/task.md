@@ -20,9 +20,9 @@ Execute Wave 0.
 
 | Phase | Focus | Tasks | Status | Model |
 |-------|-------|-------|--------|-------|
-| `feat/schema` | Add new auth schema columns | 2 | Pending | sonnet |
-| `feat/tokens` | Implement token generation service | 3 | Pending | sonnet |
-| `feat/session` | Scaffold session store interface | 2 | Pending | haiku |
+| `feat/schema` | Add new auth schema columns | 2 | Pending | standard |
+| `feat/tokens` | Implement token generation service | 3 | Pending | standard |
+| `feat/session` | Scaffold session store interface | 2 | Pending | fast |
 
 Verification:
 - [ ] All three branches merged to `main`

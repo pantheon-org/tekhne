@@ -1,5 +1,5 @@
 {
-  "context": "Agent was asked to execute a wave with mixed model tiers and one phase with no Model value. Evaluate whether model assignments are correct and the default is applied.",
+  "context": "Agent was asked to execute a wave with mixed model tiers ('fast', 'smart', 'standard') and one phase with no Model value. The skill must resolve tier names to concrete model IDs via model-map.yaml. Evaluate whether the resolved model IDs are correct and the default ('standard' → 'sonnet') is applied for the blank cell.",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -23,7 +23,7 @@ Wave 0 has been verified. However, not all Wave 0 branches have been merged yet.
 
 | Phase | Focus | Tasks | Status | Writes | Blocked on | Model |
 |-------|-------|-------|--------|--------|------------|-------|
-| `feat/synthesis` | Write Key Themes section from 14 analysis files | 1 | Pending | `ANALYSIS.md` | `feat/rubric` merged | opus |
-| `feat/consolidate` | Flip PUNCHLIST, add REVIEWED rows, sync index | 3 | Pending | `REVIEWED.md`, `PUNCHLIST.md`, `REFERENCE_INDEX.md` | all Wave 0 triage branches merged | haiku |
-| `feat/benchmark-decision` | Resolve HELMET and LongBench disposition | 1 | Pending | `REVIEWED.md` | — | sonnet |
+| `feat/synthesis` | Write Key Themes section from 14 analysis files | 1 | Pending | `ANALYSIS.md` | `feat/rubric` merged | smart |
+| `feat/consolidate` | Flip PUNCHLIST, add REVIEWED rows, sync index | 3 | Pending | `REVIEWED.md`, `PUNCHLIST.md`, `REFERENCE_INDEX.md` | all Wave 0 triage branches merged | fast |
+| `feat/benchmark-decision` | Resolve HELMET and LongBench disposition | 1 | Pending | `REVIEWED.md` | — | standard |
 ```

@@ -41,7 +41,7 @@ Use the plan slug from the requirements or a short descriptive identifier (e.g. 
 
 | Phase | Focus | Tasks | Status | Model |
 |-------|-------|-------|--------|-------|
-| [N](phase-N-<slug>.md) | <description> | <count> | Pending | sonnet |
+| [N](phase-N-<slug>.md) | <description> | <count> | Pending | standard |
 
 Verification:
 - [ ] <command or check that must pass before Wave 2 starts>
@@ -77,7 +77,7 @@ Merge order: <branch A> → <branch B> → ...
 - **Status values**: `Pending` → `In Progress` → `Done`
 - Add a `> Gate:` blockquote at the top of each wave (except Wave 1).
 - Add a `Verification:` checklist at the bottom of each wave.
-- **Model column** (optional): specifies the agent model tier for each phase. Valid values: `haiku`, `sonnet`, `opus`. Omit the column or leave a cell blank to default to `sonnet`. See the `wave-executor` skill for how this value is used at execution time.
+- **Model column** (optional): specifies the agent capability tier for each phase. Valid values: `fast`, `standard`, `smart`. Omit the column or leave a cell blank to default to `standard`. The `wave-executor` skill resolves these to concrete model IDs via its `references/model-map.yaml` at execution time.
 
 ## Phase row format
 
@@ -87,7 +87,7 @@ Merge order: <branch A> → <branch B> → ...
 | Focus | 3–6 word description of what the phase accomplishes |
 | Tasks | Integer count of discrete tasks inside the phase |
 | Status | `Pending` / `In Progress` / `Done` |
-| Model | *(optional)* `haiku` / `sonnet` / `opus` — agent model tier. Defaults to `sonnet` if omitted. |
+| Model | *(optional)* `fast` / `standard` / `smart` — agent capability tier. Defaults to `standard` if omitted. |
 
 If the plan has no separate phase files, use task IDs directly (e.g. `T1.1`, `T2.3`).
 
@@ -103,10 +103,10 @@ Use this for smaller plans where phases are not broken into separate files:
 Run **T1.1–T1.4 in parallel, each in its own worktree.**
 Each agent works independently; tasks touch different files with no overlap.
 
-- [ ] **T1.1** — `scripts/lib/http.ts` — branch `refactor/scripts-lib-http` — model: `haiku`
-- [ ] **T1.2** — `scripts/lib/dates.ts` — branch `refactor/scripts-lib-dates` — model: `sonnet`
-- [ ] **T1.3** — `scripts/lib/wikidata.ts` — branch `refactor/scripts-lib-wikidata` — model: `sonnet`
-- [ ] **T1.4** — `scripts/lib/paths.ts` — branch `refactor/scripts-lib-paths` — model: `haiku`
+- [ ] **T1.1** — `scripts/lib/http.ts` — branch `refactor/scripts-lib-http` — model: `fast`
+- [ ] **T1.2** — `scripts/lib/dates.ts` — branch `refactor/scripts-lib-dates` — model: `standard`
+- [ ] **T1.3** — `scripts/lib/wikidata.ts` — branch `refactor/scripts-lib-wikidata` — model: `standard`
+- [ ] **T1.4** — `scripts/lib/paths.ts` — branch `refactor/scripts-lib-paths` — model: `fast`
 
 **Wave 1 merge**: after all branches pass validation, merge in order:
 `refactor/scripts-lib-http` → `refactor/scripts-lib-dates` → `refactor/scripts-lib-wikidata` → `refactor/scripts-lib-paths`
@@ -116,7 +116,7 @@ Verification:
 - [ ] No direct imports of old paths remain
 ```
 
-The `— model: haiku|sonnet|opus` suffix is optional on inline tasks. Omit it to default to `sonnet`.
+The `— model: fast|standard|smart` suffix is optional on inline tasks. Omit it to default to `standard`.
 
 ## Dependency graph format
 
