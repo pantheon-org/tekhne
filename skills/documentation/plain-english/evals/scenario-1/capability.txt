@@ -1,3 +1,0 @@
-Converts a technical Architecture Decision Record into compliance-ready communication:
-identifies audience, surfaces the decision and regulatory impact first, translates
-database and availability jargon, defines acronyms, and includes cost and timeline context.

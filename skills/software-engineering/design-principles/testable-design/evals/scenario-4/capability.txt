@@ -1,1 +1,0 @@
-Design appropriate test doubles (stub, mock, fake) for a given interface

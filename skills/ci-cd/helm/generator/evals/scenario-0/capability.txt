@@ -1,1 +1,0 @@
-Image tag & resource limits in values.yaml

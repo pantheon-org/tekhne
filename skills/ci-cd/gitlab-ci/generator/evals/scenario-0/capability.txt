@@ -1,1 +1,0 @@
-rules over only/except, image pinning, artifact expiration

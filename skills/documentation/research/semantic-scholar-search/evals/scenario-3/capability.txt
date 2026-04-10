@@ -1,1 +1,0 @@
-Locate a Semantic Scholar author ID via search, then fetch the author profile with the correct subcommand

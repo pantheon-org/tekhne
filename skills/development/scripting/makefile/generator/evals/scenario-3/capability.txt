@@ -1,1 +1,0 @@
-Generate a Python project Makefile for a package with virtual-env, test, lint, and dist targets

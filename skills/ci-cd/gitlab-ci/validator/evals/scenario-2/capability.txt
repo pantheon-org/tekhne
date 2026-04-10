@@ -1,1 +1,0 @@
-Best practices: deprecated only/except migration to rules, caching, artifact expiration, and image pinning

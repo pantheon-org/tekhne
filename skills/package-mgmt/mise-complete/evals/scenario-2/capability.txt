@@ -1,1 +1,0 @@
-Identify and fix anti-pattern violations in an existing mise.toml

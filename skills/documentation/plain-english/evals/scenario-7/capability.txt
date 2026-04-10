@@ -1,3 +1,0 @@
-Applies the unknown-terminology fallback by adding inline parenthetical definitions for
-uncertain technical terms, marking estimates clearly, and rewriting a cloud cost report
-for a finance director with key message first and action items with named owners and deadlines.

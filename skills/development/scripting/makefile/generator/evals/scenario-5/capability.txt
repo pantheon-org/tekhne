@@ -1,1 +1,0 @@
-Generate a multi-directory C++ project Makefile using $(MAKE) for recursive sub-makes and order-only prerequisites

@@ -1,1 +1,0 @@
-Analyse a mixed-concern branch and propose a concern-grouped decomposition table with approval gate before any action

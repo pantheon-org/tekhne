@@ -1,1 +1,0 @@
-Metric query construction and aggregation patterns

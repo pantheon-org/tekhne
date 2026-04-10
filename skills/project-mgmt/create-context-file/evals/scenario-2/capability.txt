@@ -1,1 +1,0 @@
-Produce a correctly formatted context file with valid frontmatter and specific slug

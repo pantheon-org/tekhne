@@ -1,1 +1,0 @@
-Evaluate pattern fit and correctly decide NOT to apply a pattern when cost exceeds benefit
