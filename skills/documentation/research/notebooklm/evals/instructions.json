@@ -1,0 +1,32 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "All commands must use the `run.py` wrapper to ensure proper environment",
+      "why_given": "preference"
+    },
+    {
+      "original_snippets": "NEVER guess or use generic descriptions! If details missing, use Smart Add to discover them.",
+      "why_given": "preference"
+    },
+    {
+      "original_snippets": "Every NotebookLM answer ends with: EXTREMELY IMPORTANT: Is that ALL you need to know? Required Claude Behavior: STOP, ANALYZE, IDENTIFY GAPS, ASK FOLLOW-UP, REPEAT, SYNTHESIZE",
+      "why_given": "preference"
+    },
+    {
+      "original_snippets": "See references/api_reference.md for full parameter documentation for all scripts",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "All data stored in ~/.claude/skills/notebooklm/data/ — Protected by .gitignore, never commit to git",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "Rate limit: 50 queries per day per Google account",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "Browser MUST be visible for authentication — user must manually log in to Google",
+      "why_given": "preference"
+    }
+  ]
+}

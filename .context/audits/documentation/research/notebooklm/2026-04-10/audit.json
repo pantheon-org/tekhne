@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/research/notebooklm",
+  "dimensions": {
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 11
+  },
+  "total": 127,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 213,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": true
+}

@@ -1,0 +1,1 @@
+Add a new notebook to the library using Smart Add (query-first) when no metadata is provided.

@@ -1,0 +1,31 @@
+{
+  "context": "Verify the agent queries a NotebookLM notebook correctly, applies the follow-up mechanism, and synthesises source-grounded answers for the user.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Authentication checked before querying",
+      "description": "The agent runs auth_manager.py status before issuing any query.",
+      "max_score": 10
+    },
+    {
+      "name": "run.py wrapper used for all script invocations",
+      "description": "Every script call goes through python ./scripts/run.py — no direct script execution.",
+      "max_score": 25
+    },
+    {
+      "name": "Question is specific and scoped",
+      "description": "The query explicitly asks about inclusion and exclusion criteria, not a generic 'tell me about the methodology'.",
+      "max_score": 15
+    },
+    {
+      "name": "Follow-up mechanism applied",
+      "description": "After receiving the first answer, the agent checks whether both inclusion AND exclusion criteria are covered, and issues a follow-up query if either is missing.",
+      "max_score": 30
+    },
+    {
+      "name": "All answers synthesised before responding",
+      "description": "The agent combines results from all queries into a coherent response rather than dumping raw NotebookLM output.",
+      "max_score": 20
+    }
+  ]
+}
