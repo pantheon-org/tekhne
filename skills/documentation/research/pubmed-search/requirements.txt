@@ -1,0 +1,7 @@
+# PubMed-Search dependencies
+
+# HTTP requests to PubMed E-utilities API
+requests>=2.31.0
+
+# Environment variable management (optional)
+python-dotenv>=1.0.0

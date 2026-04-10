@@ -43,7 +43,7 @@ Complete fluentbit toolkit with generation and validation capabilities
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [fluentbit-generator](/tekhne/skills/ci-cd/fluentbit/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
-| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 3 |
 
 ### jenkinsfile-toolkit
 
@@ -114,7 +114,7 @@ Complete terragrunt toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [terragrunt-generator](/tekhne/skills/infrastructure/terragrunt/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [terragrunt-generator](/tekhne/skills/infrastructure/terragrunt/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 4 |
 | [terragrunt-validator](/tekhne/skills/infrastructure/terragrunt/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
 
 ### k8s-toolkit
@@ -469,7 +469,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (9 tiles)
+## Documentation (9 tiles, 1 skill)
 
 Writing & communication
 
@@ -572,6 +572,14 @@ Skills for working with Obsidian vaults and related formats: Obsidian Flavored M
 | [json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 5 |
+
+### research-pubmed-search
+
+Search and analyze biomedical literature from PubMed using the free E-utilities ...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [research-pubmed-search](/tekhne/skills/documentation/research/pubmed-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 
 ---
 

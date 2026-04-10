@@ -1,0 +1,11 @@
+{
+  "instructions": [
+    "Check whether a PubTator or PubMed MCP server is configured before invoking the Python script.",
+    "Use the correct subcommand (search, metadata, analyze, download) based on the user's request.",
+    "Handle rate-limit errors by retrying once after a delay, then recommending an API key or MCP fallback — never retry in a tight loop.",
+    "Present search results as a candidate list and wait for the user to choose which papers to triage.",
+    "Never auto-triage search results — always require explicit user confirmation before passing a result to triage-paper.",
+    "Never assume all PMC articles are downloadable — check open-access status before attempting a PDF download.",
+    "Never hardcode API keys; always use environment variables for PUBMED_API_KEY."
+  ]
+}
