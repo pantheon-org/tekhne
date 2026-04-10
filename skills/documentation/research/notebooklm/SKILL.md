@@ -94,6 +94,12 @@ python ./scripts/run.py ask_question.py --question "Your question here"
 
 # Optionally target a specific notebook by URL
 python ./scripts/run.py ask_question.py --question "Your question" --notebook-url URL
+
+# Get formatted markdown output (recommended for responses with code, lists, tables)
+python ./scripts/run.py ask_question.py --question "Your question" --markdown
+
+# Save outputs to logs/ directory (original + markdown + comparison stats)
+python ./scripts/run.py ask_question.py --question "Your question" --markdown --log
 ```
 
 ### Quick Workflow
@@ -129,7 +135,7 @@ See [references/api_reference.md](references/api_reference.md) for full paramete
 | --- | --- |
 | `auth_manager.py` | Setup, status, re-authenticate, clear credentials |
 | `notebook_manager.py` | Add, list, search, activate, remove, stats |
-| `ask_question.py` | Query active notebook or by URL/ID |
+| `ask_question.py` | Query active notebook or by URL/ID; `--markdown` for formatted output, `--log` to save results |
 | `cleanup_manager.py` | Clean browser state (`--preserve-library` keeps notebooks) |
 
 ## Data Storage and Configuration

@@ -1,0 +1,416 @@
+#!/usr/bin/env python3
+"""
+Simple NotebookLM Question Interface
+Based on MCP server implementation - simplified without sessions
+
+Implements hybrid auth approach:
+- Persistent browser profile (user_data_dir) for fingerprint consistency
+- Manual cookie injection from state.json for session cookies (Playwright bug workaround)
+See: https://github.com/microsoft/playwright/issues/36139
+"""
+
+import argparse
+import sys
+import time
+import re
+from pathlib import Path
+
+from patchright.sync_api import sync_playwright
+
+# Add parent directory to path
+sys.path.insert(0, str(Path(__file__).parent))
+
+# Get project root for logs directory
+PROJECT_ROOT = Path(__file__).parent.parent
+LOGS_DIR = PROJECT_ROOT / "logs"
+LOGS_DIR.mkdir(exist_ok=True)
+
+from auth_manager import AuthManager
+from notebook_manager import NotebookLibrary
+from config import QUERY_INPUT_SELECTORS, RESPONSE_SELECTORS
+from browser_utils import BrowserFactory, StealthUtils
+from logger import QueryLogger
+
+
+# Follow-up reminder (adapted from MCP server for stateless operation)
+# Since we don't have persistent sessions, we encourage comprehensive questions
+FOLLOW_UP_REMINDER = (
+    "\n\nEXTREMELY IMPORTANT: Is that ALL you need to know? "
+    "You can always ask another question! Think about it carefully: "
+    "before you reply to the user, review their original request and this answer. "
+    "If anything is still unclear or missing, ask me another comprehensive question "
+    "that includes all necessary context (since each question opens a new browser session)."
+)
+
+
+def _try_copy_button(response_element, page) -> str:
+    """
+    Try to click the copy button associated with a specific response element.
+
+    Args:
+        response_element: The Playwright element handle for the response
+        page: The Playwright page object
+
+    Returns:
+        Clipboard text if successful, None otherwise
+    """
+    try:
+        # Search for the copy button within the same container as the response
+        # This ensures we get the copy button for THIS response, not an old one
+        result = page.evaluate("""(element) => {
+            // Find the container of this response
+            let container = element;
+
+            // Try different container levels
+            const possibleContainers = [
+                element,
+                element.parentElement,
+                element.parentElement?.parentElement,
+                element.closest('.to-user-container'),
+                element.closest('[data-message-author="bot"]'),
+                element.closest('[data-message-author="assistant"]'),
+            ];
+
+            let copyButton = null;
+
+            for (const container of possibleContainers) {
+                if (!container) continue;
+
+                // Look for copy button by aria-label or data-tooltip
+                const buttons = container.querySelectorAll('button');
+                for (const btn of buttons) {
+                    const label = (btn.getAttribute('aria-label') || '').toLowerCase();
+                    const tooltip = (btn.getAttribute('data-tooltip') || '').toLowerCase();
+                    if (label.includes('copy') || tooltip.includes('copy')) {
+                        copyButton = btn;
+                        break;
+                    }
+                }
+                if (copyButton) break;
+            }
+
+            if (copyButton) {
+                copyButton.click();
+                return true;
+            }
+            return false;
+        }""", response_element)
+
+        if not result:
+            return None
+
+        # Wait for clipboard to be populated
+        time.sleep(0.5)
+
+        # Read clipboard
+        clipboard_text = page.evaluate("() => navigator.clipboard.readText()")
+        return clipboard_text if clipboard_text else None
+
+    except Exception:
+        return None
+
+
+def ask_notebooklm(question: str, notebook_url: str, headless: bool = True, use_markdown: bool = False) -> dict:
+    """
+    Ask a question to NotebookLM
+
+    Args:
+        question: Question to ask
+        notebook_url: NotebookLM notebook URL
+        headless: Run browser in headless mode
+        use_markdown: Try to get formatted markdown output via copy button
+
+    Returns:
+        Dictionary with 'original', 'markdown', and 'success' keys
+    """
+    auth = AuthManager()
+
+    if not auth.is_authenticated():
+        print("⚠️ Not authenticated. Run: python auth_manager.py setup")
+        return None
+
+    print(f"💬 Asking: {question}")
+    print(f"📚 Notebook: {notebook_url}")
+
+    playwright = None
+    context = None
+
+    try:
+        # Start playwright
+        playwright = sync_playwright().start()
+
+        # Launch persistent browser context using factory
+        context = BrowserFactory.launch_persistent_context(
+            playwright,
+            headless=headless
+        )
+
+        # Navigate to notebook
+        page = context.new_page()
+        print("  🌐 Opening notebook...")
+        page.goto(notebook_url, wait_until="domcontentloaded")
+
+        # Wait for NotebookLM
+        page.wait_for_url(re.compile(r"^https://notebooklm\.google\.com/"), timeout=10000)
+
+        # Wait for query input (MCP approach)
+        print("  ⏳ Waiting for query input...")
+        query_element = None
+
+        for selector in QUERY_INPUT_SELECTORS:
+            try:
+                query_element = page.wait_for_selector(
+                    selector,
+                    timeout=10000,
+                    state="visible"  # Only check visibility, not disabled!
+                )
+                if query_element:
+                    print(f"  ✓ Found input: {selector}")
+                    break
+            except:
+                continue
+
+        if not query_element:
+            print("  ❌ Could not find query input")
+            return None
+
+        # Type question (human-like, fast)
+        print("  ⏳ Typing question...")
+
+        # Use primary selector for typing
+        input_selector = QUERY_INPUT_SELECTORS[0]
+        StealthUtils.human_type(page, input_selector, question)
+
+        # Snapshot existing responses before submitting so we can
+        # distinguish them from the new answer later
+        existing_responses = set()
+        for selector in RESPONSE_SELECTORS:
+            try:
+                elements = page.query_selector_all(selector)
+                for el in elements:
+                    text = el.inner_text().strip()
+                    if text:
+                        existing_responses.add(text)
+            except:
+                continue
+
+        # Submit
+        print("  📤 Submitting...")
+        page.keyboard.press("Enter")
+
+        # Small pause
+        StealthUtils.random_delay(500, 1500)
+
+        # Wait for response - scan from newest to oldest and pick the
+        # first candidate that was not already present before submission
+        print("  ⏳ Waiting for answer...")
+
+        # Transient placeholders that NotebookLM shows while generating
+        _PLACEHOLDERS = {
+            "reading through pages",
+            "finding key words",
+            "analyzing sources",
+            "searching sources",
+            "generating response",
+        }
+
+        result = {
+            'original': None,
+            'markdown': None,
+            'success': False
+        }
+        stable_count = 0
+        last_text = None
+        deadline = time.time() + 300  # 5 minutes timeout for large notebooks
+
+        while time.time() < deadline:
+            # Check if NotebookLM is still thinking (most reliable indicator)
+            try:
+                thinking_element = page.query_selector('div.thinking-message')
+                if thinking_element and thinking_element.is_visible():
+                    time.sleep(1)
+                    continue
+            except:
+                pass
+
+            # Try to find the new response with MCP selectors
+            candidate = None
+            current_element = None
+            for selector in RESPONSE_SELECTORS:
+                try:
+                    elements = page.query_selector_all(selector)
+                    if not elements:
+                        continue
+                    # Scan from newest to oldest
+                    for el in reversed(elements):
+                        text = el.inner_text().strip()
+                        if not text:
+                            continue
+                        # Skip transient placeholders
+                        if text.lower() in _PLACEHOLDERS:
+                            continue
+                        # Skip responses that existed before we submitted
+                        if text in existing_responses:
+                            continue
+                        # Skip the user's own question echoed back
+                        if text == question:
+                            continue
+                        candidate = text
+                        current_element = el
+                        break
+                except:
+                    continue
+                if candidate:
+                    break
+
+            if candidate:
+                if candidate == last_text:
+                    stable_count += 1
+                    if stable_count >= 3:  # Stable for 3 polls
+                        print(f"  ✓ Response stable (length: {len(candidate)} chars)")
+
+                        # Always store original text
+                        result['original'] = candidate
+
+                        # Try copy button if markdown is enabled and response is long enough
+                        if use_markdown and len(candidate) >= 100:
+                            print("  📋 Trying copy button for clean markdown...")
+                            markdown = _try_copy_button(current_element, page)
+                            if markdown:
+                                result['markdown'] = markdown
+                            else:
+                                print("  ! Copy button failed, using original text")
+
+                        result['success'] = True
+                        break
+                else:
+                    stable_count = 0
+                    last_text = candidate
+
+            time.sleep(1)
+
+        if not result['success']:
+            print("  ❌ Timeout waiting for answer")
+            return None
+
+        print("  ✅ Got answer!")
+        # Add follow-up reminder to encourage Claude to ask more questions
+        result['original'] = result['original'] + FOLLOW_UP_REMINDER
+        if result['markdown']:
+            result['markdown'] = result['markdown'] + FOLLOW_UP_REMINDER
+        return result
+
+    except Exception as e:
+        print(f"  ❌ Error: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+    finally:
+        # Always clean up
+        if context:
+            try:
+                context.close()
+            except:
+                pass
+
+        if playwright:
+            try:
+                playwright.stop()
+            except:
+                pass
+
+
+def main():
+    parser = argparse.ArgumentParser(description='Ask NotebookLM a question')
+
+    parser.add_argument('--question', required=True, help='Question to ask')
+    parser.add_argument('--notebook-url', help='NotebookLM notebook URL')
+    parser.add_argument('--notebook-id', help='Notebook ID from library')
+    parser.add_argument('--show-browser', action='store_true', help='Show browser')
+    parser.add_argument('--markdown', action='store_true', help='Get formatted markdown output via copy button (saves both original and markdown)')
+    parser.add_argument('--log', action='store_true', help='Save outputs to log files in logs/ directory')
+
+    args = parser.parse_args()
+
+    # Resolve notebook URL
+    notebook_url = args.notebook_url
+
+    if not notebook_url and args.notebook_id:
+        library = NotebookLibrary()
+        notebook = library.get_notebook(args.notebook_id)
+        if notebook:
+            notebook_url = notebook['url']
+        else:
+            print(f"❌ Notebook '{args.notebook_id}' not found")
+            return 1
+
+    if not notebook_url:
+        # Check for active notebook first
+        library = NotebookLibrary()
+        active = library.get_active_notebook()
+        if active:
+            notebook_url = active['url']
+            print(f"📚 Using active notebook: {active['name']}")
+        else:
+            # Show available notebooks
+            notebooks = library.list_notebooks()
+            if notebooks:
+                print("\n📚 Available notebooks:")
+                for nb in notebooks:
+                    mark = " [ACTIVE]" if nb.get('id') == library.active_notebook_id else ""
+                    print(f"  {nb['id']}: {nb['name']}{mark}")
+                print("\nSpecify with --notebook-id or set active:")
+                print("python scripts/run.py notebook_manager.py activate --id ID")
+            else:
+                print("❌ No notebooks in library. Add one first:")
+                print("python scripts/run.py notebook_manager.py add --url URL --name NAME --description DESC --topics TOPICS")
+            return 1
+
+    # Ask the question
+    result = ask_notebooklm(
+        question=args.question,
+        notebook_url=notebook_url,
+        headless=not args.show_browser,
+        use_markdown=args.markdown
+    )
+
+    if result:
+        # Determine which output to display
+        display_answer = result['markdown'] if (args.markdown and result['markdown']) else result['original']
+
+        # Print the answer to console
+        print("\n" + "=" * 60)
+        print(f"Question: {args.question}")
+        print("=" * 60)
+        if args.markdown and result['markdown']:
+            print("📋 Output: Markdown (from copy button)")
+        elif args.markdown:
+            print("📄 Output: Original (copy button failed or response too short)")
+        else:
+            print("📄 Output: Original")
+        print("=" * 60)
+        print()
+        print(display_answer)
+        print()
+        print("=" * 60)
+
+        # Save outputs to logs directory only if --log option is enabled
+        if args.log:
+            logger = QueryLogger(LOGS_DIR)
+            saved_files = logger.save_query_results(
+                question=args.question,
+                notebook_url=notebook_url,
+                result=result,
+                use_markdown=args.markdown
+            )
+            logger.print_save_summary(saved_files)
+
+        return 0
+    else:
+        print("\n❌ Failed to get answer")
+        return 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
