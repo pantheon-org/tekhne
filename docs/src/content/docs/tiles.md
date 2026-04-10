@@ -475,9 +475,9 @@ Writing & communication
 
 ### research
 
-Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools, reproduce benchmark claims, search Google Scholar, Semantic Scholar, PubMed, or Sci-Hub, and extract structured data from scientific PDFs.
+Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools, reproduce benchmark claims, search Google Scholar, Semantic Scholar, PubMed, or Sci-Hub, extract structured data from scientific PDFs, evaluate scholarly work, and generate publication-quality scientific diagrams.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.4
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.5
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -489,6 +489,8 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 | [pubmed-search](/tekhne/skills/documentation/research/pubmed-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 | [sci-hub-search](/tekhne/skills/documentation/research/sci-hub-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 | [sci-data-extractor](/tekhne/skills/documentation/research/sci-data-extractor/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-10 | 3 |
+| [scholar-evaluation](/tekhne/skills/documentation/research/scholar-evaluation/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+| [scientific-schematics](/tekhne/skills/documentation/research/scientific-schematics/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 
 ### markdown-authoring
 

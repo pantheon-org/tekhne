@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent selects the conference document type, uses verbose mode, and correctly handles the iterative refinement workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "--doc-type conference applied",
+      "description": "The agent uses --doc-type conference (threshold 8.0/10), not the default or journal threshold.",
+      "max_score": 25
+    },
+    {
+      "name": "Verbose mode enabled",
+      "description": "The agent passes the -v flag to show generation and review steps as requested.",
+      "max_score": 20
+    },
+    {
+      "name": "Smart iteration explained",
+      "description": "The agent explains that regeneration only occurs if quality is below threshold — not unconditionally.",
+      "max_score": 20
+    },
+    {
+      "name": "Output file path reported",
+      "description": "The agent reports the path to the generated diagram in figures/.",
+      "max_score": 20
+    },
+    {
+      "name": "Diagram scientifically described",
+      "description": "The prompt passed to the generator includes encoder-decoder architecture with multi-head attention layers.",
+      "max_score": 15
+    }
+  ]
+}

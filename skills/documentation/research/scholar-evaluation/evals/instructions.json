@@ -1,0 +1,32 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "Identify the work type (empirical paper, literature review, proposal, etc.) and scope before selecting evaluation dimensions.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "Load references/evaluation_framework.md for detailed criteria and rubrics before scoring any dimension.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "NEVER assign a score without supporting it with specific evidence from the work being evaluated.",
+      "why_given": "preference"
+    },
+    {
+      "original_snippets": "ALWAYS evaluate all applicable dimensions systematically — do not skip dimensions because they seem weak.",
+      "why_given": "preference"
+    },
+    {
+      "original_snippets": "Frame weaknesses as opportunities for improvement, not failures; use the 5-point scale consistently across all dimensions.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "NEVER conflate quantitative scores with the narrative assessment — scores are optional supplementary data, not the primary output.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "Adjust evaluation expectations based on work stage: a draft proposal is held to lower standards than a submission-ready manuscript.",
+      "why_given": "new knowledge"
+    }
+  ]
+}

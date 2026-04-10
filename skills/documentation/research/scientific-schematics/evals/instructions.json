@@ -1,0 +1,32 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "Set ANTHROPIC_API_KEY before invoking the generation script; NEVER hardcode the key in the script or task file.",
+      "why_given": "preference"
+    },
+    {
+      "original_snippets": "Select the --doc-type flag matching the target venue (journal=8.5, conference=8.0, poster=7.0) to apply the correct quality threshold.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "NEVER request more than 2 iterations; the smart-iteration system stops early if quality is already above threshold.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "ALWAYS verify the output image exists and meets the quality threshold before referencing it in a manuscript.",
+      "why_given": "preference"
+    },
+    {
+      "original_snippets": "Store all generated diagrams under figures/ and reference them with relative paths to keep the project portable.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "NEVER use the generation script for decorative or non-scientific images — this tool targets publication-quality scientific diagrams only.",
+      "why_given": "new knowledge"
+    },
+    {
+      "original_snippets": "Describe the diagram in precise scientific language; vague prompts produce generic output that fails quality review.",
+      "why_given": "new knowledge"
+    }
+  ]
+}
