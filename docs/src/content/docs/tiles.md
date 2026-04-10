@@ -469,7 +469,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (9 tiles, 2 skills)
+## Documentation (9 tiles, 1 skill)
 
 Writing & communication
 
@@ -572,14 +572,6 @@ Skills for working with Obsidian vaults and related formats: Obsidian Flavored M
 | [json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 5 |
-
-### research-sci-hub-search
-
-Search and download academic papers through Sci-Hub by DOI, title, or keyword. S...
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [research-sci-hub-search](/tekhne/skills/documentation/research/sci-hub-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 
 ### research-sci-data-extractor
 
