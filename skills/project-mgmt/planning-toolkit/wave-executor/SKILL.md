@@ -42,8 +42,15 @@ Parse the wave table or inline task list. For each row / item capture:
 
 - **branch** — the branch name. In phase tables: the phase identifier (use as branch if no explicit branch). In inline tasks: the value after `— branch`.
 - **focus** — the task description (Focus column, or phase file content if linked).
-- **model** — the `Model` column value, or `— model:` suffix on inline tasks. Default: `sonnet` if absent.
+- **model** — the `Model` column value, or `— model:` suffix on inline tasks. Default: `standard` if absent.
 - **writes** — if a `Writes` column or `— writes:` annotation is present, capture it. Otherwise derive from the phase file, or leave unspecified and let the agent determine scope from the focus.
+
+#### 2b.5. Resolve tiers to model IDs
+
+Read `references/model-map.yaml`. For each extracted `model` tier value, look up the
+corresponding concrete model ID. If a tier is absent from the map, use the `standard` entry.
+
+Carry the resolved model ID (not the tier name) forward to step 2d.
 
 #### 2c. Build per-agent prompts
 
@@ -61,7 +68,7 @@ Send a **single response** containing one `Agent` tool call per unblocked phase.
 
 Each call must set:
 - `subagent_type`: `"general-purpose"`
-- `model`: the exact tier string from step 2b (`"haiku"` / `"sonnet"` / `"opus"`)
+- `model`: the resolved model ID from step 2b.5 (e.g. `"haiku"` for a `fast`-tier phase)
 - `isolation`: `"worktree"` for all phases that commit to a branch (omit for phases that commit directly to main)
 - `description`: `"Wave N: <branch>"`
 - `prompt`: the filled per-agent prompt from step 2c
@@ -109,10 +116,10 @@ After all waves are done:
 
 ### NEVER omit the `model` parameter on Agent calls
 
-**WHY**: Omitting it silently defaults to the orchestrator's model. For `haiku`-tier mechanical tasks, this wastes significant cost with no quality benefit.
+**WHY**: Omitting it silently defaults to the orchestrator's model. For `fast`-tier mechanical tasks, this wastes significant cost with no quality benefit.
 
 **BAD** `Agent(subagent_type="general-purpose", prompt=...)` with no `model`.
-**GOOD** `Agent(model="haiku", ...)` as specified in the wave document.
+**GOOD** `Agent(model="haiku", ...)` — resolved from the `fast` tier in `model-map.yaml`.
 
 ### NEVER start the next wave before the gate passes
 
@@ -138,6 +145,7 @@ After all waves are done:
 ## References
 
 - [Per-agent prompt template](references/per-agent-template.md) — fill for every spawned agent
-- [Model tier guide](references/model-tier-guide.md) — when to use haiku / sonnet / opus
+- [Model tier guide](references/model-tier-guide.md) — when to use fast / standard / smart
+- [Model map](references/model-map.yaml) — resolves tier names to concrete model IDs; edit to switch providers
 - Wave format spec — defined in the `wave-execution-planner` skill (`wave-execution-planner/references/wave-format.md`)
 - Status tracking protocol — defined in the `wave-execution-planner` skill (`wave-execution-planner/references/status-tracking.md`); used in step 2g
