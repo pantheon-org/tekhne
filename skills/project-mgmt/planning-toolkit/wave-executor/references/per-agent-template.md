@@ -50,9 +50,9 @@ Report:
 
 ## Model-tier additions
 
-Replace `{model_tier_addition}` with the block matching the phase's `Model` value.
+Replace `{model_tier_addition}` with the block matching the phase's resolved tier.
 
-### haiku
+### fast
 
 ```
 Work mechanically. Follow each step in the task description in order.
@@ -60,7 +60,7 @@ Do not infer, expand, or improve beyond the stated scope.
 If any step is ambiguous, take the most conservative interpretation and note it in your report.
 ```
 
-### sonnet
+### standard
 
 ```
 Use the skill or script named in your task. Follow its output format exactly.
@@ -68,7 +68,7 @@ Verify that any file you produced matches the expected structure before reportin
 If the skill requires a confirmation sub-step, take the default/conservative option and note it.
 ```
 
-### opus
+### smart
 
 ```
 You may read any existing file in the repo to inform your analysis.
@@ -85,7 +85,7 @@ Wave document row (phase table, Wave 0):
 
 | Phase | Focus | Tasks | Status | Model |
 |-------|-------|-------|--------|-------|
-| `feat/triage-memory` | Triage Mem0, Zep, MemoryOS, Letta via `tessl__triage-tool` | 4 | Pending | sonnet |
+| `feat/triage-memory` | Triage Mem0, Zep, MemoryOS, Letta via `tessl__triage-tool` | 4 | Pending | standard |
 
 Filled prompt:
 
@@ -132,7 +132,7 @@ Corresponding `Agent` call:
 ```
 Agent(
   subagent_type="general-purpose",
-  model="sonnet",
+  model="sonnet",        # resolved from tier 'standard' via model-map.yaml
   isolation="worktree",
   description="Wave 0: feat/triage-memory",
   prompt=<above>

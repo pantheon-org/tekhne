@@ -1,13 +1,16 @@
 # Model Tier Guide
 
-The `Model` column in the wave document is the authoritative assignment.
+The `Model` column in the wave document is the authoritative capability assignment.
+Tier names are provider-agnostic — `wave-executor` resolves them to concrete model IDs
+via `references/model-map.yaml` at execution time.
+
 This guide explains the reasoning so you can judge edge cases and unlisted tasks.
 
 ---
 
 ## Tiers
 
-### haiku — mechanical operations
+### fast — mechanical operations
 
 Use when the task is fully determined by explicit instructions with no judgment calls.
 
@@ -25,7 +28,7 @@ Examples:
 
 ---
 
-### sonnet — structured output with bounded judgment
+### standard — structured output with bounded judgment
 
 Use when the task drives a skill or fills a template and the output format is pre-defined.
 Judgment is required but constrained to a small, known decision space.
@@ -44,7 +47,7 @@ Examples:
 
 ---
 
-### opus — open-ended synthesis or deep evidence evaluation
+### smart — open-ended synthesis or deep evidence evaluation
 
 Use when the task requires reading multiple documents, reconciling conflicting evidence,
 or producing analysis whose quality cannot be checked against a schema.
@@ -64,12 +67,27 @@ Examples:
 
 ## Default
 
-Omitting the `Model` column or leaving a cell blank defaults to **`sonnet`**.
+Omitting the `Model` column or leaving a cell blank defaults to **`standard`**.
 
 ## Decision rule for unlisted tasks
 
-Ask: "Could a `haiku` agent complete this correctly by following explicit steps?"
+Ask: "Could a `fast` agent complete this correctly by following explicit steps?"
 
-- Yes → `haiku`
-- No, but the output format is defined and the decision space is small → `sonnet`
-- No, and the output quality depends on synthesis across documents → `opus`
+- Yes → `fast`
+- No, but the output format is defined and the decision space is small → `standard`
+- No, and the output quality depends on synthesis across documents → `smart`
+
+---
+
+## Provider mapping
+
+Tier names are resolved at execution time using `references/model-map.yaml`.
+Current defaults (Anthropic):
+
+| Tier | Model ID |
+|------|----------|
+| `fast` | `haiku` |
+| `standard` | `sonnet` |
+| `smart` | `opus` |
+
+To use a different provider, update `model-map.yaml` — wave documents do not need to change.

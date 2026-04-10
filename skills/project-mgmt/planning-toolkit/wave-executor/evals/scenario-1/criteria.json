@@ -1,5 +1,5 @@
 {
-  "context": "Agent was asked to execute Wave 0 of an auth migration plan. Evaluate whether it spawned agents correctly.",
+  "context": "Agent was asked to execute Wave 0 of an auth migration plan. The wave document uses provider-agnostic tier names ('standard', 'fast') which the skill must resolve to concrete model IDs via model-map.yaml before spawning agents. Evaluate whether it spawned agents correctly with the correct resolved model IDs.",
   "type": "weighted_checklist",
   "checklist": [
     {

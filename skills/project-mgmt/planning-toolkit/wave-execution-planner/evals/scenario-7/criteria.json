@@ -1,5 +1,5 @@
 {
-  "context": "Agent was asked to create a wave document for a research consolidation with tasks of clearly different complexity. Evaluate whether the Model column is present and whether tier assignments are appropriate.",
+  "context": "Agent was asked to create a wave document for a research consolidation with tasks of clearly different complexity. Evaluate whether the Model column is present and whether tier assignments are appropriate. Tier names in the wave document are provider-agnostic: 'fast', 'standard', 'smart'.",
   "type": "weighted_checklist",
   "checklist": [
     {
@@ -8,23 +8,23 @@
       "max_score": 15
     },
     {
-      "name": "triage-phases-assigned-sonnet",
-      "description": "All 6 triage phases (skill-driven, template output) are assigned 'sonnet' in the Model column",
+      "name": "triage-phases-assigned-standard",
+      "description": "All 6 triage phases (skill-driven, template output) are assigned 'standard' in the Model column",
       "max_score": 20
     },
     {
-      "name": "synthesis-phase-assigned-opus",
-      "description": "The synthesis phase (cross-document analysis, high judgment) is assigned 'opus' in the Model column",
+      "name": "synthesis-phase-assigned-smart",
+      "description": "The synthesis phase (cross-document analysis, high judgment) is assigned 'smart' in the Model column",
       "max_score": 20
     },
     {
-      "name": "consolidation-phase-assigned-haiku",
-      "description": "The consolidation pass (PUNCHLIST flip, script run) is assigned 'haiku' in the Model column",
+      "name": "consolidation-phase-assigned-fast",
+      "description": "The consolidation pass (PUNCHLIST flip, script run) is assigned 'fast' in the Model column",
       "max_score": 20
     },
     {
-      "name": "cleanup-phase-assigned-haiku",
-      "description": "The cleanup audit phase (lint, consistency check) is assigned 'haiku' in the Model column",
+      "name": "cleanup-phase-assigned-fast",
+      "description": "The cleanup audit phase (lint, consistency check) is assigned 'fast' in the Model column",
       "max_score": 15
     },
     {

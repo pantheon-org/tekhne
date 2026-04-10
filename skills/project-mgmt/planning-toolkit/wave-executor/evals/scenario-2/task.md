@@ -20,9 +20,9 @@ Execute Wave 1.
 
 | Phase | Focus | Tasks | Status | Model |
 |-------|-------|-------|--------|-------|
-| `feat/delete-scripts` | Delete deprecated sync scripts | 1 | Pending | haiku |
-| `feat/cross-analysis` | Write cross-cutting analysis from 8 source files | 1 | Pending | opus |
-| `feat/update-docs` | Update API reference tables | 2 | Pending | sonnet |
+| `feat/delete-scripts` | Delete deprecated sync scripts | 1 | Pending | fast |
+| `feat/cross-analysis` | Write cross-cutting analysis from 8 source files | 1 | Pending | smart |
+| `feat/update-docs` | Update API reference tables | 2 | Pending | standard |
 | `feat/index-rebuild` | Run index rebuild and verify output | 1 | Pending | |
 
 Verification:

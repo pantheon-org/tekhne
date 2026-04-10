@@ -51,7 +51,7 @@ sections:
 
     | Phase | Focus | Tasks | Status | Model |
     |-------|-------|-------|--------|-------|
-    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending | sonnet |
+    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending | standard |
 
     Verification:
     - [ ] <command or observable check>
@@ -65,7 +65,7 @@ sections:
 
     | Phase | Focus | Tasks | Status | Model |
     |-------|-------|-------|--------|-------|
-    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending | sonnet |
+    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending | standard |
 
     Verification:
     - [ ] <command or observable check>

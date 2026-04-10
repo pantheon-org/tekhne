@@ -1,0 +1,11 @@
+# Model tier mapping
+# Maps abstract capability tiers (used in wave documents) to concrete model IDs
+# accepted by the Agent tool's `model` parameter.
+#
+# Edit this file to switch providers or pin to a specific model version.
+# Keys: tier names as written in the wave document Model column.
+# Values: model IDs passed to the Agent tool at execution time.
+
+fast:     haiku     # mechanical, script-driven, high-volume
+standard: sonnet    # skill-driven, template output, bounded judgment
+smart:    opus      # open-ended synthesis, deep evidence evaluation
