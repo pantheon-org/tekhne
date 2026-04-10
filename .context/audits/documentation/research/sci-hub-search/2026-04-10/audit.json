@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/research/sci-hub-search",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 17
+  },
+  "total": 132,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 149,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false
+}

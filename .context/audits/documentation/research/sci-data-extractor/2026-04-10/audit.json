@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/research/sci-data-extractor",
+  "dimensions": {
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 17
+  },
+  "total": 133,
+  "maxTotal": 140,
+  "grade": "A+",
+  "lines": 139,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false
+}

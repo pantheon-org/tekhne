@@ -1,0 +1,1 @@
+Search by keyword, return candidate list, qualify results as CrossRef-ranked, require user confirmation before download or triage
