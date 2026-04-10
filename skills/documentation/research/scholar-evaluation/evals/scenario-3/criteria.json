@@ -1,0 +1,31 @@
+{
+  "context": "Verify that the agent produces a publication-readiness verdict, benchmarks against conference standards, and provides a prioritised revision list.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All ScholarEval dimensions assessed",
+      "description": "The agent evaluates all 7+ core dimensions before rendering a readiness verdict.",
+      "max_score": 20
+    },
+    {
+      "name": "Conference-level benchmark applied",
+      "description": "The agent adjusts expectations to top-tier conference standards, not generic publication standards.",
+      "max_score": 20
+    },
+    {
+      "name": "Clear readiness verdict provided",
+      "description": "The agent explicitly states ready / needs minor revisions / needs major revisions with a rationale.",
+      "max_score": 20
+    },
+    {
+      "name": "Aggregate score calculated",
+      "description": "The agent provides a numeric overall score or summary score alongside the qualitative verdict.",
+      "max_score": 20
+    },
+    {
+      "name": "Prioritised revision list produced",
+      "description": "Recommended revisions are ranked by impact/effort and are specific enough to act on immediately.",
+      "max_score": 20
+    }
+  ]
+}
