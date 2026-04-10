@@ -1,0 +1,46 @@
+{
+  "context": "Agent was asked to execute Wave 0 of an auth migration plan. Evaluate whether it spawned agents correctly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "all-three-agents-spawned",
+      "description": "Three Agent tool calls were made, one for feat/schema, one for feat/tokens, and one for feat/session",
+      "max_score": 15
+    },
+    {
+      "name": "agents-spawned-in-single-message",
+      "description": "All three Agent calls appear in a single response (parallel), not across separate sequential messages",
+      "max_score": 20
+    },
+    {
+      "name": "worktree-isolation-set",
+      "description": "Each Agent call sets isolation: 'worktree' (or equivalent parameter indicating branch isolation)",
+      "max_score": 15
+    },
+    {
+      "name": "correct-model-feat-schema",
+      "description": "The Agent call for feat/schema uses model: 'sonnet'",
+      "max_score": 10
+    },
+    {
+      "name": "correct-model-feat-tokens",
+      "description": "The Agent call for feat/tokens uses model: 'sonnet'",
+      "max_score": 10
+    },
+    {
+      "name": "correct-model-feat-session",
+      "description": "The Agent call for feat/session uses model: 'haiku'",
+      "max_score": 10
+    },
+    {
+      "name": "task-description-not-paraphrased",
+      "description": "Each agent prompt includes the Focus cell text verbatim (e.g. 'Add new auth schema columns'), not a reworded summary",
+      "max_score": 10
+    },
+    {
+      "name": "stops-after-agents-complete",
+      "description": "After spawning agents, the skill does not immediately proceed to Wave 1 — it waits for agent results and then stops to ask for merge confirmation",
+      "max_score": 10
+    }
+  ]
+}

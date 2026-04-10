@@ -1,0 +1,31 @@
+{
+  "context": "Wave 0 agents have all completed. Agent must stop, ask for merge confirmation, and provide the Verification checklist before advancing to Wave 1. Evaluate whether the merge gate is correctly enforced.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "does-not-spawn-wave-1-immediately",
+      "description": "The agent does NOT spawn a Wave 1 Agent call in its response — it explicitly stops before doing so",
+      "max_score": 25
+    },
+    {
+      "name": "asks-user-to-merge-branches",
+      "description": "The response asks the user to merge the three Wave 0 branches (feat/remove-terraform, feat/update-consumers, feat/cleanup-vars) to main before proceeding",
+      "max_score": 20
+    },
+    {
+      "name": "verification-checklist-provided",
+      "description": "The response includes the Wave 0 Verification checklist items verbatim so the user knows what to run before confirming",
+      "max_score": 20
+    },
+    {
+      "name": "waits-for-user-confirmation",
+      "description": "The response explicitly states it will wait for user confirmation (e.g. 'reply verified when done') before starting Wave 1",
+      "max_score": 20
+    },
+    {
+      "name": "lists-all-three-branches",
+      "description": "All three branch names (feat/remove-terraform, feat/update-consumers, feat/cleanup-vars) are listed in the merge request",
+      "max_score": 15
+    }
+  ]
+}

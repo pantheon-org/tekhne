@@ -49,9 +49,9 @@ sections:
 
     > Gate: None — start immediately.
 
-    | Phase | Focus | Tasks | Status |
-    |-------|-------|-------|--------|
-    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending |
+    | Phase | Focus | Tasks | Status | Model |
+    |-------|-------|-------|--------|-------|
+    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending | sonnet |
 
     Verification:
     - [ ] <command or observable check>
@@ -63,9 +63,9 @@ sections:
 
     > Gate: Wave 1 verified ✓
 
-    | Phase | Focus | Tasks | Status |
-    |-------|-------|-------|--------|
-    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending |
+    | Phase | Focus | Tasks | Status | Model |
+    |-------|-------|-------|--------|-------|
+    | [<N>](<phase-N-slug>.md) | <3–6 word description> | <count> | Pending | sonnet |
 
     Verification:
     - [ ] <command or observable check>

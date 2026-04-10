@@ -1,0 +1,31 @@
+{
+  "context": "Wave 1 has three phases. feat/synthesis is blocked on feat/rubric which is not yet merged. feat/consolidate and feat/benchmark-decision are unblocked. Evaluate whether the agent correctly skips the blocked phase and spawns only the unblocked ones.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "feat-synthesis-not-spawned",
+      "description": "No Agent call is made for feat/synthesis — it is correctly identified as blocked",
+      "max_score": 25
+    },
+    {
+      "name": "feat-consolidate-spawned",
+      "description": "An Agent call is made for feat/consolidate with model: 'haiku'",
+      "max_score": 20
+    },
+    {
+      "name": "feat-benchmark-decision-spawned",
+      "description": "An Agent call is made for feat/benchmark-decision with model: 'sonnet'",
+      "max_score": 20
+    },
+    {
+      "name": "unblocked-agents-spawned-in-parallel",
+      "description": "The two unblocked Agent calls (feat/consolidate and feat/benchmark-decision) appear in a single parallel response",
+      "max_score": 15
+    },
+    {
+      "name": "blocked-phase-reported-to-user",
+      "description": "The response clearly reports that feat/synthesis is blocked on feat/rubric not being merged, and states what is needed to unblock it",
+      "max_score": 20
+    }
+  ]
+}

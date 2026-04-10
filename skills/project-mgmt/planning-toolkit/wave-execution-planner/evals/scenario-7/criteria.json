@@ -1,0 +1,36 @@
+{
+  "context": "Agent was asked to create a wave document for a research consolidation with tasks of clearly different complexity. Evaluate whether the Model column is present and whether tier assignments are appropriate.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "model-column-present-in-all-wave-tables",
+      "description": "Every wave table in the document includes a Model column",
+      "max_score": 15
+    },
+    {
+      "name": "triage-phases-assigned-sonnet",
+      "description": "All 6 triage phases (skill-driven, template output) are assigned 'sonnet' in the Model column",
+      "max_score": 20
+    },
+    {
+      "name": "synthesis-phase-assigned-opus",
+      "description": "The synthesis phase (cross-document analysis, high judgment) is assigned 'opus' in the Model column",
+      "max_score": 20
+    },
+    {
+      "name": "consolidation-phase-assigned-haiku",
+      "description": "The consolidation pass (PUNCHLIST flip, script run) is assigned 'haiku' in the Model column",
+      "max_score": 20
+    },
+    {
+      "name": "cleanup-phase-assigned-haiku",
+      "description": "The cleanup audit phase (lint, consistency check) is assigned 'haiku' in the Model column",
+      "max_score": 15
+    },
+    {
+      "name": "document-written-to-correct-path",
+      "description": "The wave document is written to .context/plans/research-consolidation.md",
+      "max_score": 10
+    }
+  ]
+}

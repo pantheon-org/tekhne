@@ -1,0 +1,1 @@
+include-model-column-in-wave-document
