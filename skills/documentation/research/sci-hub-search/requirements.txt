@@ -1,0 +1,13 @@
+# Sci-Hub-Search dependencies
+
+# Core Sci-Hub library
+scihub>=1.0.0
+
+# HTTP requests
+requests>=2.31.0
+
+# Environment variable management (optional)
+python-dotenv>=1.0.0
+
+# urllib3 (for disabling HTTPS warnings)
+urllib3>=2.0.0

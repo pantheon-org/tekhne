@@ -573,13 +573,13 @@ Skills for working with Obsidian vaults and related formats: Obsidian Flavored M
 | [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 5 |
 
-### research-pubmed-search
+### research-sci-hub-search
 
-Search and analyze biomedical literature from PubMed using the free E-utilities ...
+Search and download academic papers through Sci-Hub by DOI, title, or keyword. S...
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [research-pubmed-search](/tekhne/skills/documentation/research/pubmed-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+| [research-sci-hub-search](/tekhne/skills/documentation/research/sci-hub-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 
 ---
 
