@@ -1,0 +1,9 @@
+{
+  "instructions": [
+    "Check whether the semantic-scholar MCP server is configured before invoking the Python script.",
+    "Use the correct subcommand — search for keyword discovery, paper for known IDs/DOIs, author for profiles (by ID), citations for citation graphs.",
+    "Never pass a paper title to the paper subcommand or an author name to the author subcommand — IDs are required.",
+    "Respect rate limits; never loop subcommands without delay; optionally set SEMANTIC_SCHOLAR_API_KEY for higher quota.",
+    "Present results as candidates and require explicit user confirmation before passing any paper to triage-paper."
+  ]
+}

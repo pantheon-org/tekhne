@@ -475,9 +475,9 @@ Writing & communication
 
 ### research
 
-Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools into structured reference summaries and REVIEWED.md entries, reproduce benchmark claims, and search Google Scholar for paper discovery.
+Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools, reproduce benchmark claims, and search Google Scholar or Semantic Scholar for paper discovery.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.2
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/research) | **Version:** 0.2.3
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
@@ -485,6 +485,7 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 | [triage-tool](/tekhne/skills/documentation/research/triage-tool/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 3 |
 | [reproduce-benchmark](/tekhne/skills/documentation/research/reproduce-benchmark/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 | [google-scholar-search](/tekhne/skills/documentation/research/google-scholar-search/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-09 | 3 |
+| [semantic-scholar-search](/tekhne/skills/documentation/research/semantic-scholar-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 
 ### markdown-authoring
 
