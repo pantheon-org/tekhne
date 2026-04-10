@@ -469,7 +469,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (9 tiles, 1 skill)
+## Documentation (9 tiles, 2 skills)
 
 Writing & communication
 
@@ -580,6 +580,14 @@ Search and download academic papers through Sci-Hub by DOI, title, or keyword. S
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [research-sci-hub-search](/tekhne/skills/documentation/research/sci-hub-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+
+### research-sci-data-extractor
+
+Extract structured data from scientific literature PDFs using AI-powered OCR and...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [research-sci-data-extractor](/tekhne/skills/documentation/research/sci-data-extractor/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-10 | 3 |
 
 ---
 

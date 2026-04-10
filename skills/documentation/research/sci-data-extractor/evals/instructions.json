@@ -1,0 +1,10 @@
+{
+  "instructions": [
+    "Configure EXTRACTOR_API_KEY and EXTRACTOR_BASE_URL before running any extraction.",
+    "Choose the correct preset template (enzyme, experiment, review) or write an explicit custom prompt that includes output format instructions.",
+    "Validate extracted output before saving: check text length after PyMuPDF extraction; switch to Mathpix OCR if content is empty or suspiciously short.",
+    "Never hardcode API keys in scripts or committed files; always use environment variables or a .env file excluded from version control.",
+    "After a batch run, always review the failed-files list printed at the end and re-run failed files individually to diagnose issues.",
+    "When handing off extracted data to a downstream tool, include the source PDF path and the template or prompt used so results can be reproduced."
+  ]
+}
