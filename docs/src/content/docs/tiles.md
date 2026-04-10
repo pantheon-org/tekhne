@@ -603,14 +603,15 @@ Planning & organization
 
 ### planning-toolkit
 
-End-to-end project planning toolkit: converts requirements into structured phased implementation plans, groups phases into dependency-ordered waves for parallel subagent execution, and decomposes large branches into focused pull requests.
+End-to-end project planning toolkit: converts requirements into structured phased implementation plans, groups phases into dependency-ordered waves for parallel subagent execution, executes wave plans by spawning parallel agents with correct model tiers, and decomposes large branches into focused pull requests.
 
 **Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/planning-toolkit) | **Version:** 1.0.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [implementation-planner](/tekhne/skills/project-mgmt/planning-toolkit/implementation-planner/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-06 | 5 |
-| [wave-execution-planner](/tekhne/skills/project-mgmt/planning-toolkit/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 6 |
+| [wave-execution-planner](/tekhne/skills/project-mgmt/planning-toolkit/wave-execution-planner/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 7 |
+| [wave-executor](/tekhne/skills/project-mgmt/planning-toolkit/wave-executor/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 | [pr-stacker](/tekhne/skills/project-mgmt/planning-toolkit/pr-stacker/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 5 |
 
 ### create-context-file
