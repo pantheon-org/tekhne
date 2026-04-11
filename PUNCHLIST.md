@@ -1,19 +1,19 @@
-# PUNCHLIST — 2026-04-08
+# PUNCHLIST — 2026-04-10
 
 ## Recent Changes (last 10 commits)
 
 | SHA | Change |
 |-----|--------|
+| e4b7531 | chore(evals): migrate scenario-*/ subdirs to scenario-NN.md flat files (#80) |
+| b4218d1 | refactor(planning-toolkit): abstract model tiers from provider-specific names (#79) |
+| 9de5550 | feat(planning-toolkit): add wave-executor skill and extend wave format with Model column (#78) |
+| 319a634 | feat(notebooklm): add scripts and port upstream improvements (#77) |
+| ed5459a | feat(research): add notebooklm skill to research tile (#76) |
+| e98d594 | feat(research): add scholar-evaluation and scientific-schematics skills (v0.2.5) (#75) |
 | 40a1a57 | feat(troubleshooting): require source code location as final investigation step |
 | b274cd0 | feat(troubleshooting): add follow-up tickets section to session outcome |
 | bd4bf60 | refactor(research): make triage skills domain-agnostic (#63) |
 | c2df2d5 | refactor(documentation): rename agentic-context → research (#62) |
-| 9cf34ef | refactor(agentic-context): move to documentation domain (#61) |
-| c883f08 | feat(agentic-context): remediate triage-paper/triage-tool to A grade (#59) |
-| c3e1d25 | feat(documentation): add proof-of-work skill (A grade, 129/140) (#56) |
-| 68b5b6b | feat(project-mgmt): consolidate planning skills into planning-toolkit (#55) |
-| b5bf4bc | feat(infrastructure): move aws-investigation-toolkit under infrastructure/aws (#54) |
-| 0b3d1ae | chore(audits): migrate stale audit records to current skill paths (#53) |
 
 ---
 
@@ -78,7 +78,7 @@ Almost all `evals/` directories are empty. Only 3 files exist across the whole r
 **testing** (bdd-testing, test-driven-development, ui-debug-workflow)
 
 ### Partial (needs top-up)
-- [ ] `development/front-end/web-reference-sheet-generator` — 3/5 files
+- [x] `development/front-end/web-reference-sheet-generator` — migrated 3 existing scenario-*/ dirs to scenario-NN.md (still only 3/5 canonical files — 2 more evals needed to reach minimum)
 
 ### Format ambiguity — resolved
 
@@ -88,8 +88,7 @@ Converted:
 - [x] `software-engineering/design-principles` — 12 `.yaml` → 12 `scenario-NN.md`
 - [x] `documentation/astro-starlight` sub-skills — 3 `evals.md` → 19 `scenario-NN.md` (6+7+6)
 - [x] Retired meta-files (`instructions.json`, `summary*.json`) removed repo-wide (~300 files)
-
-Remaining: ~401 `scenario-*/` subdirectory-style evals across the repo have not yet been migrated — they contain real content and need converting to `scenario-NN.md` flat files.
+- [x] ~425 `scenario-*/` subdirectory-style evals across 87 skills → 464 `scenario-NN.md` flat files (#80)
 
 ---
 
@@ -106,10 +105,31 @@ Result after fix: **85/87 compliant (98%)**. Two skills genuinely have no audit 
 
 ---
 
+## 5. Addtional Skills
+
+Any import should be following the same flow:
+
+1. do a shallow git clone locally (gitignored)
+2. determin the domain it should fit in (see @skills)
+3. copy the file(s) to the adequate location
+4. run a quality audit
+5. commit the changes
+6. publish to tessl registry
+7. push to remote
+8. create PR and merge it
+
+- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/create-context>
+- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/pick-model>
+- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/save-context>
+- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/load-context>
+- [ ] Investigate if there is any more skills that would fit our current project in <https://github.com/digital-stoic-org/agent-skills/tree/main>
+
+---
+
 ## Priority Order
 
 1. ~~Fix stale audit mv~~ — done
 2. ~~Investigate audit CLI path bug~~ — fixed (84/87 compliant)
 3. ~~Run missing audits for 2 remaining skills~~ — done (87/87, 100%)
-4. Fill evals to 5 per skill — in progress (format resolved; ~401 old scenario-*/ dirs need migrating to scenario-NN.md)
+4. ~~Fill evals — migrate old scenario-*/ dirs~~ — done (#80, 464 files across 87 skills). Remaining: `web-reference-sheet-generator` needs 2 more evals to reach 5/5.
 5. ~~Resolve evals format ambiguity~~ — done (`evals/scenario-NN.md` canonical, see eval-format.md)
