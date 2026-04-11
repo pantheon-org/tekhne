@@ -1,1 +1,0 @@
-Check MCP availability, prefer MCP over script, include legal disclaimer, require user confirmation before download

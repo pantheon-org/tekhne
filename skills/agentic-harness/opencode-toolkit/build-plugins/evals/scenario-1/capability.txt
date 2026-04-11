@@ -1,1 +1,0 @@
-Reacting to file edit events and displaying toast notifications

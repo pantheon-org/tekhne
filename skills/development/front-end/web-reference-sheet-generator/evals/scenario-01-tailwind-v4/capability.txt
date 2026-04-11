@@ -1,1 +1,0 @@
-Generate a project-specific design reference sheet and companion enforcement skill from a Tailwind v4 codebase with @theme CSS tokens, correctly extracting all found tokens, marking absent sections as TBD, and producing both output files with the structured Step 8 confirmation report.

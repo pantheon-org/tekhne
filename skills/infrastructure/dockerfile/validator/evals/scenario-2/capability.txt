@@ -1,1 +1,0 @@
-Security scan: hardcoded secrets, missing USER, and port exposure

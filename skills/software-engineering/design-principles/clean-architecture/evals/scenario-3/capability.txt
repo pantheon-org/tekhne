@@ -1,1 +1,0 @@
-Refactor fat controller to thin controller and use case

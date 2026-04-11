@@ -1,1 +1,0 @@
-Blocking dangerous tool execution using tool.execute.before hook with throw

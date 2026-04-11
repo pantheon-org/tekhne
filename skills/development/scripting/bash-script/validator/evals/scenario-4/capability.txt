@@ -1,1 +1,0 @@
-Apply the structured four-part response format when reporting multiple validation issues

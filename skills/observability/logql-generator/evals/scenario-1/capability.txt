@@ -1,1 +1,0 @@
-Alerting rules with rate() and vector()

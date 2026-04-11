@@ -1,1 +1,0 @@
-Module validation from root configuration

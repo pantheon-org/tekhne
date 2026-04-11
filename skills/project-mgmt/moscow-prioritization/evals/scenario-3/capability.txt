@@ -1,1 +1,0 @@
-Identify anti-patterns in a provided priority table and correct them

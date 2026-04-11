@@ -1,1 +1,0 @@
-Batch-process a folder of PDFs, identify failed extractions from the summary, and provide remediation steps for individual re-runs

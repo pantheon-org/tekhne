@@ -1,1 +1,0 @@
-Apply Anti-Corruption Layer to isolate an external system's model from the domain

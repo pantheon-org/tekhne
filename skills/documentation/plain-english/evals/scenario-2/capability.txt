@@ -1,3 +1,0 @@
-Identifies specific plain-english anti-patterns in an existing document (jargon, passive
-voice, buried decisions, missing ownership) and rewrites the document for a cross-functional
-non-technical audience with active voice, clear owners, and key message first.

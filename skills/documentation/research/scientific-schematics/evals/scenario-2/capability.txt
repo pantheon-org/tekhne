@@ -1,1 +1,0 @@
-Generate a neural network architecture diagram at conference quality threshold with verbose iterative refinement

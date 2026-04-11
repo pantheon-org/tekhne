@@ -1,1 +1,0 @@
-Secrets management with Ansible Vault and no_log

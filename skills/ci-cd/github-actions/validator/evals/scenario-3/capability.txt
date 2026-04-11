@@ -1,1 +1,0 @@
-Reusable workflow validation; caller + callee both checked

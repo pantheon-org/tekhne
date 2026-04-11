@@ -1,1 +1,0 @@
-CI/CD integration; exit codes; pre-commit validation workflow

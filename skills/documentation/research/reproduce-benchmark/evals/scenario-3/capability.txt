@@ -1,1 +1,0 @@
-Handle a subject with no runnable harness: set outcome to unverified, document the blocker, and record only self-reported figures

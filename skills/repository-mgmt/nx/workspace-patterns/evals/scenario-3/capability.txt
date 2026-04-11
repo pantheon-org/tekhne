@@ -1,1 +1,0 @@
-Assign correct scope and type tags to a set of projects in their project.json files

@@ -1,1 +1,0 @@
-Detect empty PyMuPDF extraction, warn user about scanned PDF pitfall, and fall back to Mathpix OCR correctly

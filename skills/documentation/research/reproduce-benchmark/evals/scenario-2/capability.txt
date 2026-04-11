@@ -1,1 +1,0 @@
-Handle a broken benchmark harness gracefully: document the failure, set outcome to failed, and still produce a valid repro file

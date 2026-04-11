@@ -1,1 +1,0 @@
-Apply the Humble Object pattern to separate business logic from infrastructure

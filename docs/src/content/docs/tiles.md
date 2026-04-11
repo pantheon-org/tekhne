@@ -235,7 +235,7 @@ Configure and integrate Vite in Nx monorepos for applications and libraries. Cov
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nx-vite-integration](/tekhne/skills/repository-mgmt/nx/vite-integration/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [nx-vite-integration](/tekhne/skills/repository-mgmt/nx/vite-integration/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 4 |
 
 ---
 

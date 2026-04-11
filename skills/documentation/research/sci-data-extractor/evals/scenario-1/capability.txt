@@ -1,1 +1,0 @@
-Extract enzyme kinetics data from a scientific PDF using a preset template and validate output before saving

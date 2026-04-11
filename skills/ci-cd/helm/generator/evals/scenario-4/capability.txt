@@ -1,1 +1,0 @@
-Manifest-to-Helm conversion & validation workflow

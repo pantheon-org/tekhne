@@ -1,1 +1,0 @@
-Generate a correct C project Makefile with modern header, automatic dependency tracking, and standard targets

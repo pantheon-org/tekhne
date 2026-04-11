@@ -1,1 +1,0 @@
-Detect and fix an LSP violation in an inheritance hierarchy

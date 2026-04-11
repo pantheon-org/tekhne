@@ -1,1 +1,0 @@
-Register generator in generators.json and export from index.ts

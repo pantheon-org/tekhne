@@ -1,1 +1,0 @@
-Configuring a provider with baseEnv for API key — never hardcoding credentials

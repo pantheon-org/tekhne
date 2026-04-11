@@ -1,1 +1,0 @@
-Severity-categorised findings report with fix proposals

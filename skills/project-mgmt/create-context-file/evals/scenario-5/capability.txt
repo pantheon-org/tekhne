@@ -1,1 +1,0 @@
-Apply the decision rule to choose between plan, justification, and scratch for ambiguous requests

@@ -1,1 +1,0 @@
-Migrate from asdf .tool-versions to mise.toml

@@ -1,1 +1,0 @@
-Docker tagging rules and multi-stage deployment jobs

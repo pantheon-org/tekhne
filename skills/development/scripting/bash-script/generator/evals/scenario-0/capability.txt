@@ -1,1 +1,0 @@
-Strict mode, shebang, trap, and error helpers
