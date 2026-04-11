@@ -1,0 +1,21 @@
+{
+  "skill": "software-engineering/troubleshoot",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 4
+  },
+  "total": 93,
+  "maxTotal": 140,
+  "grade": "D",
+  "lines": 106,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": true
+}

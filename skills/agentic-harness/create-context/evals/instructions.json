@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "NEVER create context without scanning .context/session/in/ — source materials in the in-folder define the scope; a context built without them is speculative.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER write a manifest without a session_id — unnamed sessions cannot be retrieved by load-context.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "After EVERY AskUserQuestion call, check if answers are empty/blank — outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "Use --force flag to overwrite an existing .context/session/ctx/ snapshot when source files have been updated.",
+      "why_given": "preference",
+      "dimension": "D6"
+    },
+    {
+      "original_snippets": "NEVER include security-sensitive files from in-folder in the manifest without explicit user confirmation.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "In-folder is immutable bootstrap — user dumps raw docs there, commands never modify it.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    }
+  ]
+}

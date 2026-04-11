@@ -1,0 +1,21 @@
+{
+  "skill": "agentic-harness/load-context",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 13,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 4
+  },
+  "total": 92,
+  "maxTotal": 140,
+  "grade": "D",
+  "lines": 65,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": true
+}

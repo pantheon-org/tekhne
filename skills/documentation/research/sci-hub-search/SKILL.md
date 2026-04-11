@@ -99,7 +99,7 @@ See [setup-and-troubleshooting.md](references/setup-and-troubleshooting.md).
 
 Show results to the user. NEVER download automatically without confirmation. For each paper found, offer:
 
-> Found paper: {title}. Would you like to download the PDF?
+> Found paper: `{title}`. Would you like to download the PDF?
 
 NEVER triage or download automatically — always confirm with the user first.
 ## Anti-Patterns

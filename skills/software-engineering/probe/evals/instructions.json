@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "Phase 1 entry gate: AskUserQuestion must confirm user approval before Phase 2 executes. NEVER bypass this gate.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "NEVER run a probe with production traffic — probes are designed to fail safely; production failures are not safe.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER treat probe results as proof — Complex domains resist confirmation; one successful probe is a weak signal.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER design an irreversible probe — reversibility is the core property that makes probing safe.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "Persist thinking artifact to thinking/probes/{project}/{date}-{slug}-llm.md before exit gate. MANDATORY — do not skip.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "Classify result as confirmed, refuted, partial, or surprise before selecting handoff template.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "If AskUserQuestion returns empty, do NOT proceed with assumptions — present options as a numbered list and wait.",
+      "why_given": "preference",
+      "dimension": "D6"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "skill": "software-engineering/bridge",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 9,
+    "specificationCompliance": 12,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 12,
+    "patternRecognition": 6,
+    "practicalUsability": 10,
+    "evalValidation": 4
+  },
+  "total": 89,
+  "maxTotal": 140,
+  "grade": "F",
+  "lines": 228,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false
+}

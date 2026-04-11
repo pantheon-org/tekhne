@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/pick-model",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Recommend the optimal Claude model (Haiku/Sonnet/Opus) for a task using a decision matrix with complexity escalators.",
+  "skills": {
+    "pick-model": {
+      "path": "SKILL.md"
+    }
+  }
+}

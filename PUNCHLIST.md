@@ -118,11 +118,22 @@ Any import should be following the same flow:
 7. push to remote
 8. create PR and merge it
 
-- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/create-context>
-- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/pick-model>
-- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/save-context>
-- [ ] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/load-context>
-- [ ] Investigate if there is any more skills that would fit our current project in <https://github.com/digital-stoic-org/agent-skills/tree/main>
+- [x] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/create-context>
+- [x] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/pick-model>
+- [x] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/save-context>
+- [x] Import <https://github.com/digital-stoic-org/agent-skills/tree/main/dstoic/skills/load-context>
+- [x] Investigate if there is any more skills that would fit our current project in <https://github.com/digital-stoic-org/agent-skills/tree/main>
+
+### Additional high-value candidates also imported (PR #82)
+
+- [x] `agentic-harness/pin` — B 112/140
+- [x] `software-engineering/frame-problem` — B 113/140
+- [x] `software-engineering/bridge` — B 116/140
+- [x] `software-engineering/probe` — B 115/140
+- [x] `software-engineering/challenge` — B 112/140
+- [x] `software-engineering/troubleshoot` — B 113/140
+- [x] `specialized/retrospect-collab` — B+ 122/140
+- [x] `specialized/retrospect-domain` — B+ 122/140
 
 ---
 
@@ -133,3 +144,4 @@ Any import should be following the same flow:
 3. ~~Run missing audits for 2 remaining skills~~ — done (87/87, 100%)
 4. ~~Fill evals — migrate old scenario-*/ dirs~~ — done (#80, 464 files across 87 skills). Remaining: `web-reference-sheet-generator` needs 2 more evals to reach 5/5.
 5. ~~Resolve evals format ambiguity~~ — done (`evals/scenario-NN.md` canonical, see eval-format.md)
+6. ~~Import digital-stoic-org skills~~ — done (#82, 12 skills, all >= B grade, published to tessl registry)

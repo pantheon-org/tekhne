@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "NEVER default to the most powerful model for every task — oversized models inflate costs without quality gain on simple tasks.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER pick a model based on benchmark leaderboards alone — benchmark tasks often differ from production workloads.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER hardcode model names in agent workflows — providers rename and deprecate models; use model tier aliases (fast/balanced/reasoning).",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "Parse task description from $ARGUMENTS, classify against decision matrix, output recommendation using format template.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "Model: haiku — this skill itself uses the fast tier because model selection is a classification task, not a reasoning task.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "Output format: recommended model + tier label + one-line rationale + estimated cost tier (low/medium/high).",
+      "why_given": "preference",
+      "dimension": "D6"
+    }
+  ]
+}

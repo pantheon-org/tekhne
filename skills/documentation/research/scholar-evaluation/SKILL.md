@@ -350,5 +350,5 @@ This skill integrates seamlessly with the scientific writer workflow:
 ## References
 
 - [Evaluation Framework](references/evaluation_framework.md) — detailed rubrics and scoring criteria for each ScholarEval dimension
-- [Score Calculator](scripts/calculate_scores.py) — aggregate dimension scores, threshold analysis, and report output
+- `scripts/calculate_scores.py` — aggregate dimension scores, threshold analysis, and report output (not yet implemented)
 - [ScholarEval Paper](https://arxiv.org/abs/2510.16234) — Moussa et al. (2025), _ScholarEval: Research Idea Evaluation Grounded in Literature_
