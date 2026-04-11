@@ -1,5 +1,5 @@
 {
-  "skill": "agentic-context/triage-tool",
+  "skill": "documentation/research/triage-tool",
   "dimensions": {
     "knowledgeDelta": 16,
     "mindsetProcedures": 15,
@@ -14,8 +14,8 @@
   "total": 127,
   "maxTotal": 140,
   "grade": "A",
-  "lines": 149,
+  "lines": 147,
   "hasReferences": true,
-  "referenceCount": 3,
+  "referenceCount": 1,
   "referenceSectionCompliant": true
 }
