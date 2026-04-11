@@ -518,7 +518,7 @@ Capture cross-project connections on the fly and persist them as structured YAML
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [bridge](/tekhne/skills/software-engineering/bridge/skill/) | <span class="skill-badge skill-badge--f">F</span> | 2026-04-11 | 10 |
+| [bridge](/tekhne/skills/software-engineering/bridge/skill/) | <span class="skill-badge skill-badge--f">F</span> | 2026-04-11 | 5 |
 
 ### challenge
 
