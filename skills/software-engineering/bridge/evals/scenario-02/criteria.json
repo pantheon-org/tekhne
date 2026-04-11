@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "bidirectional-direction",
+      "description": "YAML file has direction: bidirectional (not one-way)",
+      "max_score": 25
+    },
+    {
+      "id": "people-archetype",
+      "description": "archetype is 'people' and emoji is the people emoji",
+      "max_score": 25
+    },
+    {
+      "id": "active-strength",
+      "description": "strength resolves to 'active' from 'carries context' language",
+      "max_score": 20
+    },
+    {
+      "id": "arrow-notation",
+      "description": "Response line uses ↔ arrow notation to reflect bidirectionality",
+      "max_score": 20
+    },
+    {
+      "id": "verbatim-description",
+      "description": "description field stores the user's text verbatim without reformulation",
+      "max_score": 10
+    }
+  ]
+}

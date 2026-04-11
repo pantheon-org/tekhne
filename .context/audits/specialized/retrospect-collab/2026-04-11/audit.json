@@ -1,0 +1,21 @@
+{
+  "skill": "specialized/retrospect-collab",
+  "dimensions": {
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 4
+  },
+  "total": 122,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 123,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}

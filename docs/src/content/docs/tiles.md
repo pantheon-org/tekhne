@@ -327,7 +327,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 ---
 
-## Agentic Harness (5 tiles)
+## Agentic Harness (10 tiles)
 
 Agent framework configurations
 
@@ -355,6 +355,16 @@ Refine vague or high-stakes prompts through Socratic questioning — surfaces hi
 | --- | --- | --- | --- |
 | [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 4 |
 
+### pin
+
+Pin session decisions, questions, constraints, and corrections to a persistent board that survives context compaction.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/pin) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [pin](/tekhne/skills/agentic-harness/pin/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-11 | 5 |
+
 ### skill-quality-auditor
 
 Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds.
@@ -364,6 +374,26 @@ Audit and improve skill collections with a 9-dimension scoring framework (Knowle
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
+
+### create-context
+
+Bootstrap project context from .context/session/in/ with manifest-driven organisation and token-aware file sizing.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/create-context) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [create-context](/tekhne/skills/agentic-harness/create-context/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
+
+### load-context
+
+Resume a previous session from .context/session/CONTEXT-llm.md with optional full resource expansion.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/load-context) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [load-context](/tekhne/skills/agentic-harness/load-context/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
 
 ### agents-md
 
@@ -375,6 +405,16 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 | --- | --- | --- | --- |
 | [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-08 | 5 |
 
+### save-context
+
+Checkpoint the current session to .context/session/CONTEXT-llm.md with a structured LLM-optimised summary.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/save-context) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [save-context](/tekhne/skills/agentic-harness/save-context/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
+
 ### tessl-publish-public
 
 Ensure Tessl tiles meet all requirements for public registry publishing with comprehensive validation, quality gates, and evaluation scenarios. Use when preparing skills for public Tessl release, validating tile.json configuration, creating evaluation scenarios, enforcing quality thresholds, or checking agent-agnostic compliance. Keywords: tessl, tile, publishing, public-registry, validation, quality-gates, tile.json, evaluation-scenarios, skill-publishing
@@ -384,6 +424,16 @@ Ensure Tessl tiles meet all requirements for public registry publishing with com
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 9 |
+
+### pick-model
+
+Recommend the optimal Claude model (Haiku/Sonnet/Opus) for a task using a decision matrix with complexity escalators.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/pick-model) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [pick-model](/tekhne/skills/agentic-harness/pick-model/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
 
 ---
 
@@ -423,7 +473,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 ---
 
-## Software Engineering (1 tile)
+## Software Engineering (6 tiles)
 
 Software engineering principles
 
@@ -439,6 +489,56 @@ Strategic architecture, tactical design, and testable code principles (SOLID, Cl
 | [clean-architecture](/tekhne/skills/software-engineering/design-principles/clean-architecture/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
 | [design-patterns](/tekhne/skills/software-engineering/design-principles/design-patterns/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
 | [testable-design](/tekhne/skills/software-engineering/design-principles/testable-design/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
+
+### troubleshoot
+
+Search-first troubleshooting with a diagnostic phase — use when an error, bug, or unexpected behaviour is reported.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/troubleshoot) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [troubleshoot](/tekhne/skills/software-engineering/troubleshoot/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
+
+### frame-problem
+
+Classify a problem using Cynefin triangulation before acting — routes to the right skill chain (investigate, brainstorm, probe, troubleshoot).
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/frame-problem) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [frame-problem](/tekhne/skills/software-engineering/frame-problem/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
+
+### bridge
+
+Capture cross-project connections on the fly and persist them as structured YAML in a bridges directory.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/bridge) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [bridge](/tekhne/skills/software-engineering/bridge/skill/) | <span class="skill-badge skill-badge--f">F</span> | 2026-04-11 | 10 |
+
+### challenge
+
+Challenge AI output with structured devil's-advocate protocols: anchor, verify, framing, and deep sub-commands.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/challenge) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [challenge](/tekhne/skills/software-engineering/challenge/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-04-11 | 5 |
+
+### probe
+
+Run a safe-to-fail experiment for Complex domain problems where cause-and-effect is only visible in retrospect.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/probe) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [probe](/tekhne/skills/software-engineering/probe/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-11 | 5 |
 
 ---
 
@@ -636,7 +736,7 @@ Prioritize product requirements with the MoSCoW framework in a deterministic way
 
 ---
 
-## Specialized (3 tiles)
+## Specialized (5 tiles)
 
 Domain-specific tools
 
@@ -660,6 +760,16 @@ Retrieve and analyze GitLab merge request comments and metadata using authentica
 | --- | --- | --- | --- |
 | [gitlab-api](/tekhne/skills/specialized/gitlab-api/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
 
+### retrospect-domain
+
+Extract domain insights, patterns, and learnings from captured sessions for long-term knowledge retention.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/retrospect-domain) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [retrospect-domain](/tekhne/skills/specialized/retrospect-domain/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-04-11 | 5 |
+
 ### colyseus-multiplayer
 
 Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when implementing rooms, schema state sync, client message validation, matchmaking, authentication, reconnection handling, or server-side anti-cheat constraints. Keywords: colyseus, room lifecycle, schema, multiplayer, websocket, matchmaking, onJoin, onLeave, onDrop, allowReconnection.
@@ -669,3 +779,13 @@ Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [colyseus-multiplayer](/tekhne/skills/specialized/colyseus-multiplayer/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+
+### retrospect-collab
+
+Analyse human-AI collaboration patterns and compute quality metrics from captured session data.
+
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/retrospect-collab) | **Version:** 0.1.0
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [retrospect-collab](/tekhne/skills/specialized/retrospect-collab/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-04-11 | 5 |

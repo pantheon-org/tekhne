@@ -1,0 +1,21 @@
+{
+  "skill": "agentic-harness/save-context",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 14,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 4
+  },
+  "total": 91,
+  "maxTotal": 140,
+  "grade": "D",
+  "lines": 68,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": true
+}

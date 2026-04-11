@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "NEVER load context from done/ without checking dates — stale context from weeks ago misleads current decisions.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER skip verifying the session_id after load — loading the wrong context silently diverges from the user's intent.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "Speed: < 3 seconds (default), 5-8 seconds (--full). Use --full only when hot files or thinking artifacts are needed.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "After EVERY AskUserQuestion call, check if answers are empty/blank — outside Plan Mode, AskUserQuestion silently returns empty answers.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "Contexts in done/ are retired — loading them requires explicit user confirmation.",
+      "why_given": "preference",
+      "dimension": "D6"
+    },
+    {
+      "original_snippets": "NEVER treat a loaded context snapshot as a live task list — verify open tasks against current state before acting on them.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    }
+  ]
+}

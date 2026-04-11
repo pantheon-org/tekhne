@@ -1,0 +1,21 @@
+{
+  "skill": "agentic-harness/create-context",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 9,
+    "specificationCompliance": 12,
+    "progressiveDisclosure": 12,
+    "freedomCalibration": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 9,
+    "evalValidation": 4
+  },
+  "total": 92,
+  "maxTotal": 140,
+  "grade": "D",
+  "lines": 78,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": true
+}
