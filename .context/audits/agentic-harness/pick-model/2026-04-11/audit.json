@@ -1,0 +1,21 @@
+{
+  "skill": "agentic-harness/pick-model",
+  "dimensions": {
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 12,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 4
+  },
+  "total": 96,
+  "maxTotal": 140,
+  "grade": "D",
+  "lines": 167,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}

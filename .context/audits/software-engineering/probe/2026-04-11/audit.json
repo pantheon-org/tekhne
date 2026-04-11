@@ -1,0 +1,21 @@
+{
+  "skill": "software-engineering/probe",
+  "dimensions": {
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 11,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "evalValidation": 7
+  },
+  "total": 115,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 197,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": true
+}

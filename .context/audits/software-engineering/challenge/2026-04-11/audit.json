@@ -1,0 +1,21 @@
+{
+  "skill": "software-engineering/challenge",
+  "dimensions": {
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 10,
+    "antiPatternQuality": 8,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 15,
+    "freedomCalibration": 12,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "evalValidation": 4
+  },
+  "total": 98,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 77,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true
+}

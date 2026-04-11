@@ -1,0 +1,28 @@
+{
+  "name": "pantheon-ai/bridge",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Capture cross-project connections on the fly and persist them as structured YAML in a bridges directory.",
+  "skills": {
+    "bridge": {
+      "path": "SKILL.md"
+    }
+  },
+  "files": [
+    "evals/scenario-01/task.md",
+    "evals/scenario-01/criteria.json",
+    "evals/scenario-01/capability.txt",
+    "evals/scenario-02/task.md",
+    "evals/scenario-02/criteria.json",
+    "evals/scenario-02/capability.txt",
+    "evals/scenario-03/task.md",
+    "evals/scenario-03/criteria.json",
+    "evals/scenario-03/capability.txt",
+    "evals/scenario-04/task.md",
+    "evals/scenario-04/criteria.json",
+    "evals/scenario-04/capability.txt",
+    "evals/scenario-05/task.md",
+    "evals/scenario-05/criteria.json",
+    "evals/scenario-05/capability.txt"
+  ]
+}

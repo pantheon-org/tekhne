@@ -1,0 +1,21 @@
+{
+  "skill": "agentic-harness/pin",
+  "dimensions": {
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 10,
+    "freedomCalibration": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "evalValidation": 4
+  },
+  "total": 112,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 209,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": true
+}

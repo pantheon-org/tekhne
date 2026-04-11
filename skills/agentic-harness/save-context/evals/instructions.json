@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "original_snippets": "Target: 1200-1500 tokens MAX — context files must stay within the token budget to survive context window compaction.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "NEVER overwrite existing context without reading it first — Silent overwrites lose prior session decisions.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "If status is done or parked → move file to .context/session/done/ subfolder automatically.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "NEVER save context at the start of a session — save at meaningful checkpoints, not at startup.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "Stream naming: default → .context/session/CONTEXT-llm.md, {name} → .context/session/CONTEXT-{name}-llm.md",
+      "why_given": "preference",
+      "dimension": "D6"
+    },
+    {
+      "original_snippets": "Use heading Next (not todo or pending) — Claude Code compaction grep-matches next/todo/pending/remaining keywords for survival priority.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "NEVER skip the INDEX.md upsert via scripts/upsert-index.sh — the index is the authoritative pointer for load-context.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    }
+  ]
+}

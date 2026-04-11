@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/save-context",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Checkpoint the current session to .context/session/CONTEXT-llm.md with a structured LLM-optimised summary.",
+  "skills": {
+    "save-context": {
+      "path": "SKILL.md"
+    }
+  }
+}

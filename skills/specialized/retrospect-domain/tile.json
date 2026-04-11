@@ -1,0 +1,18 @@
+{
+  "name": "pantheon-ai/retrospect-domain",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Extract domain insights, patterns, and learnings from captured sessions for long-term knowledge retention.",
+  "skills": {
+    "retrospect-domain": {
+      "path": "SKILL.md"
+    }
+  },
+  "files": [
+    "evals/scenario-01.md",
+    "evals/scenario-02.md",
+    "evals/scenario-03.md",
+    "evals/scenario-04.md",
+    "evals/scenario-05.md"
+  ]
+}

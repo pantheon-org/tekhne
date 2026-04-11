@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/load-context",
+  "version": "0.1.0",
+  "private": false,
+  "summary": "Resume a previous session from .context/session/CONTEXT-llm.md with optional full resource expansion.",
+  "skills": {
+    "load-context": {
+      "path": "SKILL.md"
+    }
+  }
+}
