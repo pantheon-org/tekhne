@@ -1,7 +1,7 @@
 ---
 name: bridge
 description: "Capture cross-project connections on the fly. Use when you notice a shared pattern, people-bridge, knowledge cascade, narrative amplifier, or flywheel loop linking two projects. Persists structured YAML to a bridges directory. Triggers on: bridge, connects to, feeds into, same pattern as, cross-project link, archetype detection, bidirectional, one-way, active, potential, theoretical."
-allowed-tools: [Bash, Read, Write, Edit, Glob]
+allowed-tools: bash, read, write, edit, glob
 model: haiku
 argument-hint: "<source> → <target>: <description>"
 context: main

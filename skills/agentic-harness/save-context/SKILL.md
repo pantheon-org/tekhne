@@ -2,7 +2,7 @@
 name: save-context
 description: Save session to CONTEXT-llm.md with conversation summary. Use when saving work, checkpointing progress, preserving session state. Triggers include "save context", "save session", "checkpoint", "save my progress".
 argument-hint: "[stream-name] [description]"
-allowed-tools: [Bash, Read, Write, Edit, AskUserQuestion]
+allowed-tools: bash, read, write, edit, askuserquestion
 model: haiku
 context: main
 user-invocable: true

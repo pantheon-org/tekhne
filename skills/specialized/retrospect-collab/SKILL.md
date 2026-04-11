@@ -2,7 +2,7 @@
 name: retrospect-collab
 description: Analyze collaboration patterns (HOW) and compute metrics from captured sessions. Use when reviewing collaboration quality, analyzing human-AI interaction, computing session metrics. Triggers include "retrospect collab", "collaboration analysis", "session patterns", "how am I collaborating".
 argument-hint: "[--last Nd|--week|--month|--from DATE --to DATE]"
-allowed-tools: [Bash, Read, Write, Grep]
+allowed-tools: bash, read, write, grep
 model: opus
 context: main
 user-invocable: true

@@ -1,7 +1,7 @@
 ---
 name: pin
 description: "Pin session decisions, questions, objections, scope constraints, and corrections to a persistent board that survives context compaction. Use PROACTIVELY when: (1) user approves/rejects a recommendation, (2) user asks a clarifying question about a proposal, (3) user states a scope constraint, (4) user corrects a misunderstanding. Also use when user says pin, track this, mark as approved, board, show pins. Auto-invoke without user asking whenever a decision, question, or constraint is detected."
-allowed-tools: [Bash, Read, Write, Edit]
+allowed-tools: bash, read, write, edit
 model: haiku
 context: main
 user-invocable: true

@@ -2,7 +2,7 @@
 name: create-context
 description: Create baseline context from .context/session/in/ folder with manifest-driven organization (run once per project). Use when bootstrapping project context, setting up .context/session/ctx/ snapshot. Triggers include "create context", "bootstrap context", "setup context", "init context".
 argument-hint: "[--force to overwrite existing .context/session/ctx/]"
-allowed-tools: [Read, Write, Glob, Bash, AskUserQuestion, Task]
+allowed-tools: read, write, glob, bash, askuserquestion, task
 context: main
 user-invocable: true
 ---
