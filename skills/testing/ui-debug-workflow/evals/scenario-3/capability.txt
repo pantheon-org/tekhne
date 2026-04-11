@@ -1,1 +1,0 @@
-Identify anti-patterns in a provided debug process description

@@ -1,1 +1,0 @@
-Query delivery format: explanation, usage instructions, multi-line formatting

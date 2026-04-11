@@ -1,1 +1,0 @@
-Identifying and fixing multiple anti-patterns in a command template

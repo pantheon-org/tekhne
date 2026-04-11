@@ -1,1 +1,0 @@
-Query an active NotebookLM notebook with follow-up queries to fully answer a research question.

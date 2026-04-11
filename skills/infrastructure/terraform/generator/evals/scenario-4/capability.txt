@@ -1,1 +1,0 @@
-Data sources and locals for dynamic values

@@ -1,1 +1,0 @@
-Generate a Go project Makefile with version embedding via ldflags and Docker build/push targets

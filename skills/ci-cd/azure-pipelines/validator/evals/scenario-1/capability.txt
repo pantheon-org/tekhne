@@ -1,1 +1,0 @@
-Syntax validation: task format versioning, invalid dependsOn values, stage/job hierarchy errors

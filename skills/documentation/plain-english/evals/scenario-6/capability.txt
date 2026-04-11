@@ -1,3 +1,0 @@
-Applies the plain-english verification checklist item-by-item to a draft document,
-identifies specific failures with quoted examples, and produces a corrected version
-that passes all 5 checklist items with translated jargon and active-voice action items.

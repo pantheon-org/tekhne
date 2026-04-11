@@ -1,1 +1,0 @@
-Security scanning workflow with CodeQL and dependency review

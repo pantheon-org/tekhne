@@ -1,1 +1,0 @@
-Select the correct file type (plan/justification/scratch) for a given request

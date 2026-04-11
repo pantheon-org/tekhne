@@ -1,1 +1,0 @@
-CI pipeline integration with --error-on-warnings

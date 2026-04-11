@@ -1,1 +1,0 @@
-Alert rules: for clause, rate() not increase(), multi-window burn-rate

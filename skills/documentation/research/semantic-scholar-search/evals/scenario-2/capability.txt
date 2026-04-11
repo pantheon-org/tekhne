@@ -1,1 +1,0 @@
-Fetch full paper metadata by arxiv ID using the paper subcommand and hand the result to triage-paper

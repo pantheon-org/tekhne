@@ -1,1 +1,0 @@
-Cert-Manager Certificate generation

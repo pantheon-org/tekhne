@@ -1,1 +1,0 @@
-Define a CI workflow that uses nx affected with explicit base/head instead of run-many --all

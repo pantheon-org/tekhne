@@ -1,1 +1,0 @@
-CloudWatch iframe scroll via logs-table__wrapper scrollTop

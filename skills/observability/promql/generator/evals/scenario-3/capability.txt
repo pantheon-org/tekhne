@@ -1,1 +1,0 @@
-Recording rules naming convention, high-cardinality label avoidance

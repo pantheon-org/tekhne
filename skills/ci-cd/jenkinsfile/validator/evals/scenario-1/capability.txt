@@ -1,1 +1,0 @@
-Shared library vars file validation

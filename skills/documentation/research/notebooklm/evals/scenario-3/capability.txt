@@ -1,1 +1,0 @@
-Complete first-time setup (authentication + library) and query a notebook for a research topic.

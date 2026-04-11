@@ -1,1 +1,0 @@
-Add explicit biome-lint and biome-format targets to a project.json

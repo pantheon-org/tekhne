@@ -1,1 +1,0 @@
-Produce a vite.config.ts for a Vue app with the correct Nx-specific plugin setup and path configuration

@@ -1,3 +1,0 @@
-Performs a systematic acronym extraction and definition pass on a technical document,
-defines every acronym inline on first use, and rewrites an acronym-heavy board briefing
-in plain language with technical terms translated and key message leading the document.

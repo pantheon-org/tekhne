@@ -1,1 +1,0 @@
-no-changed-when and check mode with --diff
