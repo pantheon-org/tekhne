@@ -34,8 +34,7 @@ Triage is a quality gate, not a catalogue entry. The goal is a reproducible, hon
 
 - Fetch the repo README and any linked docs/architecture pages.
 - Record: tool name, author/org, license, language, latest version/commit, primary URL.
-- Derive a stable slug: `<author-or-org>-<tool-name>` (e.g. `versatly-clawvault`, `press-longchat`).
-  For well-known single-name tools, use just the tool name (e.g. `context-mode`, `memv`).
+- Derive a stable slug: always `<author-or-org>-<tool-name>` — no exceptions (e.g. `versatly-clawvault`, `press-longchat`, `rtk-ai-rtk`, `safishamsi-graphify`).
 
 ### 2. Check for duplicates
 
@@ -65,7 +64,7 @@ Keep language precise. Do not pad. Mark all unverified claims.
 
 ### 6. Decide on vendoring
 
-Ask whether to vendor the repo. Clone as a git submodule into `tools/<repo-name>/` (record the pinned commit in `local_clone`) for tools warranting code-level inspection, or link-only for large or peripheral tools. Do not vendor without confirmation.
+Ask whether to vendor the repo. Clone as a git submodule into `tools/<repo-name>/` for tools warranting code-level inspection, or link-only for large or peripheral tools. Do not vendor without confirmation. When vendored, set `local_clone` in both the reference and analysis frontmatter to the submodule path relative to the document (e.g. relative to `references/` or `analysis/`, it will be one level up then into `tools/`).
 
 ### 7. Update REVIEWED.md
 
@@ -86,6 +85,10 @@ Summarise what was created. Ask the user whether to promote to `ANALYSIS-<slug>.
 ### 10. If user confirms promotion
 
 Read `assets/templates/ANALYSIS-tool.yaml` to get the required frontmatter fields and section structure. Create `analysis/ANALYSIS-<slug>.md` with a YAML frontmatter block (all `required_fields` from the template) followed by the required stage sections. Update the disposition in `REVIEWED.md` from `pending` to `analysis`.
+
+### 10b. Create repro file
+
+After creating `ANALYSIS-<slug>.md`, also create `benchmarks/sources/<slug>-repro.md` using the REPRO-tool template (`assets/templates/REPRO-tool.yaml`). Locate the benchmark harness in the vendored source by checking common directories in order: `benchmarks/`, `eval/`, `evals/`, `scripts/`. Set `harness_present: true` and `harness_path` to the relative path within the vendored repo if found, otherwise set `harness_present: false` and `harness_path: null`. Set `outcome` to one of: `verified`, `partially verified`, `attempted — inconclusive`, `repro guide (not run)`, or `stub — no harness found`.
 
 ## Quick Commands
 
@@ -146,3 +149,4 @@ git submodule add <repo-url> tools/<repo-name>
 - [classification guide](references/classification-guide.md) — tag taxonomy and scope assessment criteria (in/borderline/out); customise for your research domain
 - **Reference artifacts**: [YAML template](assets/templates/REFERENCE-tool.yaml) · [schema](assets/schemas/reference-tool.schema.json) · [validator](scripts/validate-reference-tool.sh)
 - **Analysis artifacts**: [YAML template](assets/templates/ANALYSIS-tool.yaml) · [schema](assets/schemas/analysis-tool.schema.json) · [validator](scripts/validate-analysis-tool.sh)
+- **Repro artifacts**: [YAML template](assets/templates/REPRO-tool.yaml) · [schema](assets/schemas/repro-tool.schema.json)

@@ -5,6 +5,11 @@ schema: "../schemas/analysis-tool.schema.json"
 
 frontmatter:
   required_fields:
+    - name: slug
+      type: string
+      description: Identifier matching the filename stem after "ANALYSIS-" (always author-or-org-tool-name)
+      example: "cpacker-memgpt"
+
     - name: title
       type: string
       description: Short analysis title
@@ -46,12 +51,37 @@ frontmatter:
           example: "MIT"
 
     - name: source
-      type: array
-      items: string
-      description: Relative paths to related reference files or vendored clone
-      example:
-        - "references/versatly-clawvault.md"
-        - "tools/clawvault/"
+      type: string
+      format: url
+      description: GitHub URL of the tool repository (string, not array)
+      example: "https://github.com/cpacker/MemGPT"
+
+    - name: local_clone
+      type: string
+      description: Relative path to the vendored submodule
+      example: "../tools/memgpt"
+
+    - name: reviewed
+      type: boolean
+      description: Whether the tool has been reviewed
+      example: true
+
+    - name: reviewed_date
+      type: date
+      format: "YYYY-MM-DD"
+      description: Date of review, or null if not yet reviewed
+      example: "2026-04-13"
+
+    - name: source_reviewed
+      type: boolean
+      description: True only if source code was read directly (not just README/docs)
+      example: false
+
+    - name: updated
+      type: date
+      format: "YYYY-MM-DD"
+      description: Date of last update to this file
+      example: "2026-04-13"
 
   optional_fields:
     - name: links
@@ -95,8 +125,12 @@ validation:
   script: "../../scripts/validate-analysis-tool.sh"
   required_checks:
     - "YAML frontmatter present and valid"
-    - "Required fields: title, date, type, tool, source"
+    - "Required fields: slug, title, date, type, tool, source, local_clone, reviewed, reviewed_date, source_reviewed, updated"
     - "type == analysis"
+    - "slug matches filename stem after ANALYSIS-"
+    - "slug follows author-or-org-tool-name pattern"
     - "tool.name and tool.repo present"
+    - "source is a string URL (not an array)"
+    - "local_clone is set when tool is vendored"
     - "Required stage headings present"
     - "No unfilled angle-bracket placeholders"
