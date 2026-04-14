@@ -3,9 +3,26 @@
   "title": "analysis-tool",
   "description": "Frontmatter schema for ANALYSIS-<slug>.md files in the research repo",
   "type": "object",
-  "required": ["title", "date", "type", "tool", "source"],
+  "required": [
+    "slug",
+    "title",
+    "date",
+    "type",
+    "tool",
+    "source",
+    "local_clone",
+    "reviewed",
+    "reviewed_date",
+    "source_reviewed",
+    "updated"
+  ],
   "additionalProperties": true,
   "properties": {
+    "slug": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier matching the filename stem after ANALYSIS-; always author-or-org-tool-name"
+    },
     "title": {
       "type": "string",
       "minLength": 1
@@ -42,9 +59,42 @@
       }
     },
     "source": {
-      "type": "array",
-      "minItems": 1,
-      "items": { "type": "string" }
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "GitHub URL of the tool repository (string, not array)"
+    },
+    "local_clone": {
+      "type": "string",
+      "description": "Relative path to the vendored submodule, e.g. ../tools/{slug}"
+    },
+    "reviewed": {
+      "type": "boolean"
+    },
+    "reviewed_date": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "source_reviewed": {
+      "type": "boolean",
+      "description": "True only if source code was read directly (not just README/docs)"
+    },
+    "updated": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
     },
     "links": {
       "type": "array",

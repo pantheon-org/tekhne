@@ -57,19 +57,27 @@ else
     ajv validate -s "$SCHEMA" -d "$TMP" 2>&1 || true
 fi
 
-# 3. Check required stage sections
+# 3. Check required sections
+# Prefix matching handles heading variants, e.g.:
+#   "## What it does (verified from source)"
+#   "## What it does (from reference documentation)"
+#   "## Benchmark claims — verified vs as-reported"
+#   "## Benchmark claims — as-reported vs verified"
 check_section() {
     heading="$1"
     if grep -q "^## ${heading}" "$FILE"; then
-        ok "Section present: ## ${heading}"
+        ok "Section present: ## ${heading}..."
     else
-        err "Missing section: ## ${heading}"
+        err "Missing section: ## ${heading} (must appear as a level-2 heading)"
     fi
 }
 
-check_section "Stage 1 — Descriptive"
-check_section "Stage 2 — Evaluative"
-check_section "Stage 3 — Synthesis hooks"
+check_section "Summary"
+check_section "What it does"
+check_section "Benchmark claims"
+check_section "Architectural assessment"
+check_section "Recommendation"
+check_section "Comparison hooks (for ANALYSIS.md matrix)"
 
 # 4. No unfilled angle-bracket placeholders
 if grep -qE '<[A-Za-z][A-Za-z0-9 _-]*>' "$FILE"; then

@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "repro-tool.schema.json",
+  "title": "Repro Tool Frontmatter",
+  "description": "Validates the YAML frontmatter of a benchmarks/sources/{slug}-repro.md file created by the triage-tool skill",
+  "type": "object",
+  "required": [
+    "slug",
+    "title",
+    "source",
+    "local_clone",
+    "harness_present",
+    "harness_path",
+    "outcome",
+    "updated"
+  ],
+  "additionalProperties": true,
+  "properties": {
+    "slug": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Filename stem before -repro; always author-or-org-tool-name"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "GitHub URL of the tool repository"
+    },
+    "local_clone": {
+      "type": "string",
+      "description": "Relative path to the vendored submodule from this file's location, e.g. ../../tools/{slug}"
+    },
+    "harness_present": {
+      "type": "boolean"
+    },
+    "harness_path": {
+      "oneOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path within the vendored repo where the harness lives"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "verified",
+        "partially verified",
+        "attempted — inconclusive",
+        "repro guide (not run)",
+        "stub — no harness found"
+      ]
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    }
+  }
+}
