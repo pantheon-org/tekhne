@@ -1,0 +1,93 @@
+template_name: repro-tool
+description: Benchmark reproduction record for a tool or library promoted to ANALYSIS-*.md in the research repo
+filename_pattern: "benchmarks/sources/<slug>-repro.md"
+schema: "../schemas/repro-tool.schema.json"
+
+frontmatter:
+  required_fields:
+    - name: slug
+      type: string
+      description: Filename stem before "-repro" (always author-or-org-tool-name)
+      example: "cpacker-memgpt"
+
+    - name: title
+      type: string
+      description: Human-readable title for this repro record
+      example: "Repro — MemGPT"
+
+    - name: source
+      type: string
+      format: url
+      description: GitHub URL of the tool repository
+      example: "https://github.com/cpacker/MemGPT"
+
+    - name: local_clone
+      type: string
+      description: Relative path to the vendored submodule from this file's location
+      example: "../../tools/memgpt"
+
+    - name: harness_present
+      type: boolean
+      description: Whether a benchmark harness was found in the vendored source
+      example: true
+
+    - name: harness_path
+      type: string
+      description: Path within the vendored repo where the harness lives, or null if not found
+      example: "benchmarks/run_eval.py"
+
+    - name: outcome
+      type: enum
+      values:
+        - verified
+        - partially verified
+        - "attempted — inconclusive"
+        - "repro guide (not run)"
+        - "stub — no harness found"
+      description: Result of the reproduction attempt
+
+    - name: updated
+      type: date
+      format: "YYYY-MM-DD"
+      description: Date this file was last updated
+      example: "2026-04-13"
+
+sections:
+  required:
+    - heading: "Benchmark harness"
+      marker: "## Benchmark harness"
+      description: >
+        Describe where the harness lives (path in vendored repo), what it measures,
+        and how to invoke it. If no harness was found, state that explicitly.
+
+    - heading: "Reproduction steps"
+      marker: "## Reproduction steps"
+      description: >
+        Step-by-step commands to reproduce the benchmark from the vendored clone.
+        Include environment setup, dependencies, and the exact invocation.
+        If not run, write "Not run — see harness path above."
+
+    - heading: "Results"
+      marker: "## Results"
+      description: >
+        Reported vs. reproduced figures in a table or bullet list.
+        Mark self-reported numbers "(as reported)". Mark reproduced numbers with the
+        run date. Note any discrepancies.
+
+    - heading: "Methodology notes"
+      marker: "## Methodology notes"
+      description: >
+        Any caveats about the reproduction: hardware differences, dataset version,
+        missing dependencies, partial runs, or reasons the harness could not be executed.
+
+validation:
+  required_checks:
+    - "YAML frontmatter present and valid"
+    - "Required fields: slug, title, source, local_clone, harness_present, harness_path, outcome, updated"
+    - "slug follows author-or-org-tool-name pattern"
+    - "slug matches filename stem before -repro"
+    - "source matches https?://"
+    - "harness_path is null when harness_present is false"
+    - "outcome is one of the allowed enum values"
+    - "Required section headings present"
+    - "No unfilled angle-bracket placeholders"
