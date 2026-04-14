@@ -91,35 +91,62 @@ frontmatter:
 
 sections:
   required:
-    - heading: "Stage 1 — Descriptive"
-      marker: "## Stage 1 — Descriptive"
-      description: Problem definition, architecture, core design, interface, key algorithms, known limitations, explicit non-scope
-      subsections:
-        - heading: "1.1 Problem it solves"
-        - heading: "1.2 Architecture overview"
-        - heading: "1.3 Core design"
-        - heading: "1.4 Interface / API"
-        - heading: "1.5 Key algorithms or techniques"
-        - heading: "1.6 Known limitations / trade-offs"
-        - heading: "1.7 What the tool explicitly does not cover"
+    - heading: "Summary"
+      marker: "## Summary"
+      description: >
+        2–4 paragraph narrative. What the tool does, how it does it, and the
+        single most important verified finding from source inspection.
+        Correct any README claims contradicted by source here.
 
-    - heading: "Stage 2 — Evaluative"
-      marker: "## Stage 2 — Evaluative"
-      description: Self-reported metrics, independent verification, strengths, limitations, operational complexity
-      subsections:
-        - heading: "2.1 Self-reported metrics (as reported)"
-        - heading: "2.2 Independent verification"
-        - heading: "2.3 Strengths"
-        - heading: "2.4 Limitations / risks / missing details"
-        - heading: "2.5 Operational complexity"
+    - heading: "What it does"
+      marker: "## What it does"
+      description: >
+        Source-confirmed description of the tool's mechanism. Use ### subsections
+        for major subsystems. Mark unverified claims as (as reported).
+      heading_variants:
+        - "## What it does (verified from source)"
+        - "## What it does (from reference documentation)"
+        - "## What it does"
 
-    - heading: "Stage 3 — Synthesis hooks"
-      marker: "## Stage 3 — Synthesis hooks"
-      description: Comparison, repo theme mapping, actionable takeaways, scope fit
-      subsections:
-        - heading: "3.1 Comparison to adjacent tools"
-        - heading: "3.2 Mapping to repo themes"
-        - heading: "3.3 Concrete takeaways"
+    - heading: "Benchmark claims"
+      marker: "## Benchmark claims"
+      description: >
+        Table: Claim | Value | Scope | Assessment.
+        Every row ends with (verified), (as reported), or (attempted — inconclusive).
+      heading_variants:
+        - "## Benchmark claims — verified vs as-reported"
+        - "## Benchmark claims — as-reported vs verified"
+
+    - heading: "Architectural assessment"
+      marker: "## Architectural assessment"
+      description: >
+        ### Strengths and ### Weaknesses / risks sub-sections.
+        Each item is a numbered bullet with a bold label.
+
+    - heading: "Recommendation"
+      marker: "## Recommendation"
+      description: >
+        **Use when:** bullets — concrete conditions favouring adoption.
+        **Avoid when:** bullets — disqualifying conditions.
+        **vs <peer>:** one sentence per named peer (overlap + preference rule).
+
+    - heading: "Comparison hooks (for ANALYSIS.md matrix)"
+      marker: "## Comparison hooks (for ANALYSIS.md matrix)"
+      description: >
+        Bullet list of key facts for the ANALYSIS.md comparison matrix row.
+        Required bullets: retrieval model / approach, token saving scope,
+        storage, maintenance signal, source-corrected (if any).
+        Optional: license risk, unique value, MCP status, language coverage.
+
+  optional:
+    - heading: "Source review"
+      description: Date-stamped note on what source was read and when.
+
+    - heading: "Open questions after source review"
+      description: Gaps, risks, and unresolved claims from source inspection.
+
+    - heading: "Triage claim review"
+      description: Retrospective on claims made during the triage stage.
 
 validation:
   script: "../../scripts/validate-analysis-tool.sh"
@@ -130,7 +157,11 @@ validation:
     - "slug matches filename stem after ANALYSIS-"
     - "slug follows author-or-org-tool-name pattern"
     - "tool.name and tool.repo present"
-    - "source is a string URL (not an array)"
     - "local_clone is set when tool is vendored"
-    - "Required stage headings present"
+    - "Section ## Summary present"
+    - "Section ## What it does present (prefix match)"
+    - "Section ## Benchmark claims present (prefix match)"
+    - "Section ## Architectural assessment present"
+    - "Section ## Recommendation present"
+    - "Section ## Comparison hooks (for ANALYSIS.md matrix) present"
     - "No unfilled angle-bracket placeholders"
