@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/opencode-build-tool",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "summary": "Build custom tools and plugins using the OpenCode SDK packages. Use when creating custom tools, implementing tool schemas, building plugins, managing OpenCode sessions programmatically, using opencode-ai/sdk, using opencode-ai/plugin, creating a tool.ts file, writing an execute handler, tool.schema, ToolContext, createOpencode, plugin hooks, custom auth, integrating with OpenCode programmatically, automating OpenCode from a script, building a CI tool that uses OpenCode, or creating a tool that calls an external API.",
   "skills": {
