@@ -85,15 +85,13 @@ Key constraints:
 ### Step 4 — Validate the YAML
 
 ```bash
-chmod +x skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup/scripts/validate-ticket.sh
-
-skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup/scripts/validate-ticket.sh \
+bun run skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup/scripts/validate-ticket.ts \
   <path-to-ticket-data.yaml>
 ```
 
 Fix any reported errors before proceeding to markdown generation.
 
-**Prerequisite:** `uv` must be available (`which uv`). The script uses `uv run` with inline dependencies — no manual package install needed.
+**Prerequisite:** `bun` must be available (`which bun`).
 
 ### Step 5 — Generate the markdown output
 
@@ -143,7 +141,7 @@ Use this structure exactly:
 ### Step 6 — Validate the markdown
 
 ```bash
-skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup/scripts/validate-ticket.sh \
+bun run skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup/scripts/validate-ticket.ts \
   <path-to-ticket-data.yaml> \
   --markdown <path-to-ticket-output.md>
 ```
@@ -193,9 +191,9 @@ WHY: The root cause, evidence, and proposed fix almost always appear in comments
 ✅ GOOD: Fetch all comments via `jira_get_issue(fields="comment")` and read every one.
 
 ### NEVER proceed to markdown generation if YAML validation fails
-WHY: A broken YAML file silently propagates errors into the markdown and downstream tooling. The validate-ticket.sh script exists precisely to catch these before they spread.
+WHY: A broken YAML file silently propagates errors into the markdown and downstream tooling. The validate-ticket.ts script exists precisely to catch these before they spread.
 ❌ BAD: Continuing to generate markdown after a schema validation error, assuming it "looks fine".
-✅ GOOD: Fix every validation error reported by validate-ticket.sh before calling Step 5.
+✅ GOOD: Fix every validation error reported by validate-ticket.ts before calling Step 5.
 
 ### NEVER write conditions of satisfaction as vague aspirations
 WHY: "Improve reliability" is untestable. Refinement sessions get blocked when teams cannot determine whether a requirement is met.
@@ -209,4 +207,4 @@ WHY: "Improve reliability" is untestable. Refinement sessions get blocked when t
 | YAML field guide | `references/yaml-field-guide.md` | When unsure what a template field expects |
 | YAML template | `assets/templates/ready-for-refinement.yaml` | Step 1 of every workflow run |
 | JSON schema | `assets/schemas/ready-for-refinement.schema.json` | Understand validation rules |
-| Validation script | `scripts/validate-ticket.sh` | Steps 4 and 6 of the workflow |
+| Validation script | `scripts/validate-ticket.ts` | Steps 4 and 6 of the workflow |
