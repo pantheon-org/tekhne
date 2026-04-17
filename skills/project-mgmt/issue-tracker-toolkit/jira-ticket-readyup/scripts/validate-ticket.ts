@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * Validates a ready-for-refinement YAML data file against the schema,
+ * Validates a ready-for-refinement YAML data file against the JSON schema,
  * then optionally checks that the markdown output has the required sections.
  *
  * Usage:
@@ -9,9 +9,9 @@
  */
 
 import { readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { join, resolve } from "node:path";
+import Ajv from "ajv";
 import { load } from "js-yaml";
-import { z } from "zod";
 
 // ── CLI args ──────────────────────────────────────────────────────────────────
 
@@ -37,41 +37,15 @@ if (!yamlFile) {
   process.exit(2);
 }
 
-// ── Schema ────────────────────────────────────────────────────────────────────
+// ── Resolve schema path relative to this script ───────────────────────────────
 
-const TicketSchema = z.object({
-  ticket: z.object({
-    key: z
-      .string()
-      .min(1)
-      .regex(/^[A-Z][A-Z0-9]+-[0-9]+$/, "key must match PROJ-NNN format"),
-    summary: z.string().min(1),
-    type: z.enum(["Bug", "Feature", "Maintenance", "Investigation", "Story"]),
-    linked_incident: z.string().optional(),
-  }),
-  context: z.object({
-    background: z.string().min(1),
-    current_behaviour: z.string().optional(),
-    implications: z.union([z.string(), z.array(z.string())]).optional(),
-  }),
-  conditions_of_satisfaction: z.object({
-    must: z.array(z.string()).min(1),
-    should: z.array(z.string()).optional(),
-    could: z.array(z.string()).optional(),
-  }),
-  acceptance_criteria: z.array(z.string()).min(2),
-  supporting_information: z
-    .array(
-      z.object({
-        label: z.string(),
-        url: z.string().optional(),
-        description: z.string().optional(),
-      }),
-    )
-    .optional(),
-});
+const skillDir = join(import.meta.dir, "..");
+const schemaPath = join(
+  skillDir,
+  "assets/schemas/ready-for-refinement.schema.json",
+);
 
-// ── 1. YAML → schema validation ───────────────────────────────────────────────
+// ── 1. YAML → JSON schema validation ─────────────────────────────────────────
 
 console.log(`Validating ${yamlFile} against schema...`);
 
@@ -83,13 +57,23 @@ try {
   process.exit(3);
 }
 
-const result = TicketSchema.safeParse(rawData);
-if (!result.success) {
-  for (const issue of result.error.issues) {
-    const path = issue.path.join(" > ") || "(root)";
-    console.error(`  FAIL [${path}]: ${issue.message}`);
+let schema: unknown;
+try {
+  schema = JSON.parse(readFileSync(schemaPath, "utf8"));
+} catch (err) {
+  console.error(`  FAIL: Could not read schema: ${(err as Error).message}`);
+  process.exit(3);
+}
+
+const ajv = new Ajv({ allErrors: true });
+const valid = ajv.validate(schema as object, rawData);
+
+if (!valid && ajv.errors) {
+  for (const e of ajv.errors) {
+    const path = e.instancePath || "(root)";
+    console.error(`  FAIL [${path}]: ${e.message}`);
   }
-  console.error(`\n${result.error.issues.length} validation error(s) found.`);
+  console.error(`\n${ajv.errors.length} validation error(s) found.`);
   process.exit(1);
 }
 
@@ -99,16 +83,21 @@ console.log("  OK: YAML data is valid against schema.");
 
 console.log("Checking required fields are populated...");
 
-const data = result.data;
-const fieldErrors: string[] = [];
+const data = rawData as Record<string, unknown>;
+const ticket = (data.ticket ?? {}) as Record<string, unknown>;
+const context = (data.context ?? {}) as Record<string, unknown>;
+const cos = (data.conditions_of_satisfaction ?? {}) as Record<string, unknown>;
+const ac = data.acceptance_criteria as unknown[];
 
-if (!data.ticket.key.trim()) fieldErrors.push("ticket.key is empty");
-if (!data.ticket.summary.trim()) fieldErrors.push("ticket.summary is empty");
-if (!data.context.background.trim())
+const fieldErrors: string[] = [];
+if (!String(ticket.key ?? "").trim()) fieldErrors.push("ticket.key is empty");
+if (!String(ticket.summary ?? "").trim())
+  fieldErrors.push("ticket.summary is empty");
+if (!String(context.background ?? "").trim())
   fieldErrors.push("context.background is empty");
-if (data.conditions_of_satisfaction.must.length === 0)
+if (!Array.isArray(cos.must) || cos.must.length === 0)
   fieldErrors.push("conditions_of_satisfaction.must has no items");
-if (data.acceptance_criteria.length < 2)
+if (!Array.isArray(ac) || ac.length < 2)
   fieldErrors.push("acceptance_criteria must have at least 2 items");
 
 if (fieldErrors.length > 0) {
