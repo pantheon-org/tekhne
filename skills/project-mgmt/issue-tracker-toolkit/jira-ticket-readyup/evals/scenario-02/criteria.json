@@ -1,0 +1,56 @@
+{
+  "checklist": [
+    {
+      "criterion": "Reads YAML template from assets/templates/ready-for-refinement.yaml before generating any output",
+      "max_score": 8
+    },
+    {
+      "criterion": "Fetches PROJ-612 from Jira using jira_get_issue with at least summary, description, status, issuetype, issuelinks in fields",
+      "max_score": 8
+    },
+    {
+      "criterion": "Does NOT fetch any incident ticket — no jira_get_issue call targets an INC-NNN key",
+      "max_score": 10
+    },
+    {
+      "criterion": "Populates context.background from the ticket description, explaining the customer portal and the language-switching request",
+      "max_score": 8
+    },
+    {
+      "criterion": "Sets ticket.type to Feature (not Bug, Maintenance, or Investigation)",
+      "max_score": 8
+    },
+    {
+      "criterion": "Leaves ticket.linked_incident empty or omits it — does not invent an incident reference",
+      "max_score": 10
+    },
+    {
+      "criterion": "conditions_of_satisfaction.must contains at least one MUST requirement derived from the ticket description",
+      "max_score": 8
+    },
+    {
+      "criterion": "acceptance_criteria contains at least two specific, testable criteria relevant to multi-language support",
+      "max_score": 8
+    },
+    {
+      "criterion": "Validates YAML with validate-ticket.sh and fixes any errors before proceeding to markdown generation",
+      "max_score": 6
+    },
+    {
+      "criterion": "Generates markdown file at YYYY/MM/YYYY-MM-DD-PROJ-612-ready-for-refinement.md using today's date",
+      "max_score": 8
+    },
+    {
+      "criterion": "Validates markdown structure with the --markdown flag after generation",
+      "max_score": 8
+    },
+    {
+      "criterion": "Markdown does NOT contain a Linked Incident line (line is omitted, not left blank)",
+      "max_score": 8
+    },
+    {
+      "criterion": "Reports YAML path, markdown path, validation result, and a one-paragraph summary on completion",
+      "max_score": 2
+    }
+  ]
+}

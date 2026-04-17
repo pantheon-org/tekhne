@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Jira Ticket Ready for Refinement",
+  "description": "Schema for validating a ticket data file before rendering to markdown",
+  "type": "object",
+  "required": [
+    "ticket",
+    "context",
+    "conditions_of_satisfaction",
+    "acceptance_criteria"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ticket": {
+      "type": "object",
+      "required": ["key", "summary", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]+-[0-9]+$",
+          "description": "Jira issue key, e.g. PROJ-NNN"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Ticket summary/title"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["Bug", "Feature", "Maintenance", "Investigation", "Story"],
+          "description": "Jira issue type"
+        },
+        "linked_incident": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9]+-[0-9]+$",
+          "description": "Linked incident key, e.g. INC-NNN"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "required": ["background"],
+      "additionalProperties": false,
+      "properties": {
+        "background": {
+          "type": "string",
+          "minLength": 50,
+          "description": "Background description — what the component does and what triggered this ticket"
+        },
+        "current_behaviour": {
+          "type": "string",
+          "minLength": 20,
+          "description": "What is currently happening (the problematic behaviour)"
+        },
+        "implications": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 5 },
+          "minItems": 1,
+          "description": "List of implications of the current behaviour"
+        }
+      }
+    },
+    "conditions_of_satisfaction": {
+      "type": "object",
+      "required": ["must"],
+      "additionalProperties": false,
+      "properties": {
+        "must": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "minItems": 1,
+          "description": "Non-negotiable requirements (MUST)"
+        },
+        "should": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "description": "Strongly recommended requirements (SHOULD)"
+        },
+        "could": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 10 },
+          "description": "Optional nice-to-have requirements (COULD)"
+        }
+      }
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 20 },
+      "minItems": 1,
+      "description": "Specific, testable acceptance criteria"
+    },
+    "supporting_information": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "repositories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["url"],
+            "additionalProperties": false,
+            "properties": {
+              "url": { "type": "string", "minLength": 10 },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path"],
+            "additionalProperties": false,
+            "properties": {
+              "path": { "type": "string", "minLength": 1 },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["url"],
+            "additionalProperties": false,
+            "properties": {
+              "url": { "type": "string", "minLength": 10 },
+              "description": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

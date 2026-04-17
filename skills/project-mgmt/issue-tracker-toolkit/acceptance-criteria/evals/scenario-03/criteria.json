@@ -1,0 +1,48 @@
+{
+  "checklist": [
+    {
+      "criterion": "Identifies that the original story fails the Independent criterion (too broad, dependent on undefined 'improvements')",
+      "max_score": 8
+    },
+    {
+      "criterion": "Identifies that the original story fails the Specific/Small criterion (no defined scope or deliverable)",
+      "max_score": 8
+    },
+    {
+      "criterion": "Identifies that the original story fails the Estimable criterion (cannot be sized without knowing what 'improved' means)",
+      "max_score": 8
+    },
+    {
+      "criterion": "Identifies that the original story fails the Valuable criterion (no stated benefit or outcome for the user)",
+      "max_score": 8
+    },
+    {
+      "criterion": "Produces a rewritten story that is Independent — scoped to a single, deliverable behaviour",
+      "max_score": 10
+    },
+    {
+      "criterion": "Rewritten story is Valuable — includes a clear 'so that' clause stating the user benefit",
+      "max_score": 10
+    },
+    {
+      "criterion": "Rewritten story is Estimable — specific enough that a team could assign a size or estimate",
+      "max_score": 10
+    },
+    {
+      "criterion": "Rewritten story is Testable — paired with at least two measurable acceptance criteria",
+      "max_score": 12
+    },
+    {
+      "criterion": "Explains why the original story fails — one sentence per failing INVEST dimension",
+      "max_score": 10
+    },
+    {
+      "criterion": "Uses a consistent format for both the diagnosis and the rewritten story (no mixed formats)",
+      "max_score": 8
+    },
+    {
+      "criterion": "Acceptance criteria added to the rewritten story use observable outcomes — no vague or implementation-specific language",
+      "max_score": 8
+    }
+  ]
+}

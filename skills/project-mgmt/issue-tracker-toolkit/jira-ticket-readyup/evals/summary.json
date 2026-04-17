@@ -1,0 +1,19 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": "90",
+    "covered_instructions": [
+      "I1",
+      "I2",
+      "I3",
+      "I4",
+      "I5",
+      "I6",
+      "I7",
+      "I8",
+      "I9",
+      "I10"
+    ],
+    "uncovered_instructions": [],
+    "notes": "All 10 instructions are exercised across the 3 evaluation scenarios."
+  }
+}

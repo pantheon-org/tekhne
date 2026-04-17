@@ -1,0 +1,1 @@
+The product owner wants 'Dark mode theme' classified as Must because customers have been requesting it loudly on social media. The engineering lead disagrees. Apply MoSCoW rules to adjudicate and produce a decision log explaining the classification decision with evidence.

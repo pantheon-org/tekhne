@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "criterion": "Applies the failure-focused test to each Must item (explicit statement that release fails without it).",
+      "max_score": 12
+    },
+    {
+      "criterion": "Must-tier effort is at or below 60% of total capacity (4w × 2 engineers = 8 engineer-weeks).",
+      "max_score": 12
+    },
+    {
+      "criterion": "At least one item is classified as Won't with an explicit revisit date.",
+      "max_score": 10
+    },
+    {
+      "criterion": "Output is saved to moscow-table.md as instructed.",
+      "max_score": 10
+    },
+    {
+      "criterion": "Each item includes a business rationale in the table.",
+      "max_score": 10
+    },
+    {
+      "criterion": "Document opens with a constraint summary (timeline, team size, scope-lock statement).",
+      "max_score": 8
+    },
+    {
+      "criterion": "Table contains the required columns: Requirement | Category | Business Rationale | Risk if Omitted.",
+      "max_score": 10
+    },
+    {
+      "criterion": "No item is labelled Must purely due to stakeholder preference; every Must passes the failure test.",
+      "max_score": 12
+    },
+    {
+      "criterion": "Release constraints (date, staffing) are confirmed before categories are assigned.",
+      "max_score": 8
+    },
+    {
+      "criterion": "All 8 backlog items are assigned a category (none omitted or left uncategorized).",
+      "max_score": 8
+    }
+  ]
+}

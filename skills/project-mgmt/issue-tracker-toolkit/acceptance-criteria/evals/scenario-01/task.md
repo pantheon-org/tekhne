@@ -1,0 +1,1 @@
+Write acceptance criteria for the login feature of a web application. Users should be able to log in with email and password. Failed login attempts should be handled. Accounts should lock after 5 failed attempts. Use Given/When/Then format.

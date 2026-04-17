@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "criterion": "Uses rule-oriented format (declarative statements), not Given/When/Then format",
+      "max_score": 12
+    },
+    {
+      "criterion": "Covers the size limit boundary: exactly 10MB is accepted, files exceeding 10MB are rejected",
+      "max_score": 12
+    },
+    {
+      "criterion": "Covers format validation: non-PDF files are rejected with an error visible to the user",
+      "max_score": 10
+    },
+    {
+      "criterion": "Covers the virus scan flow: uploaded file is in a pending/unavailable state until scan completes",
+      "max_score": 10
+    },
+    {
+      "criterion": "Error messages are explicitly described as user-visible (not logged internally only)",
+      "max_score": 10
+    },
+    {
+      "criterion": "Covers the success path: valid PDF under 10MB is accepted and becomes available after passing scan",
+      "max_score": 10
+    },
+    {
+      "criterion": "No implementation details about scan technology, storage service, or virus scanner vendor",
+      "max_score": 12
+    },
+    {
+      "criterion": "Includes an explicit Out of Scope section",
+      "max_score": 8
+    },
+    {
+      "criterion": "All criteria formatted as checkbox items (- [ ] ...)",
+      "max_score": 8
+    },
+    {
+      "criterion": "No vague language such as 'appropriate error', 'handled correctly', or 'quickly' in any criterion",
+      "max_score": 8
+    }
+  ]
+}

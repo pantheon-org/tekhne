@@ -1,0 +1,1 @@
+Handles investigation-type tickets by setting type to Investigation, deriving context entirely from the ticket description, and ensuring conditions of satisfaction include both a written root-cause analysis deliverable and a measurable acceptance criterion confirming the problem does not recur.

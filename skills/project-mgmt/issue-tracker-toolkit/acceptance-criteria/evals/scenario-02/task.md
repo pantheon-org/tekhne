@@ -1,0 +1,1 @@
+Write acceptance criteria for a document upload feature. Users upload PDF files up to 10MB. Files larger than 10MB or non-PDF format should be rejected with a clear error. Uploaded files should be scanned for viruses before being made available. Use rule-oriented format.

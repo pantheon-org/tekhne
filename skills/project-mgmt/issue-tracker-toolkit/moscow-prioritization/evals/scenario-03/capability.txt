@@ -1,0 +1,1 @@
+Adjudicate a stakeholder disagreement on MoSCoW classification by applying the failure-focused test and distinguishing release-critical need from stakeholder preference in a written decision log.

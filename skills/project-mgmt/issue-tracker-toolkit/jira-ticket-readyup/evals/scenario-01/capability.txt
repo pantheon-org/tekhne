@@ -1,0 +1,1 @@
+Gathers incident context from Jira (ticket + linked incident comments), populates and validates a YAML data file, and generates a structured markdown ready-for-refinement document for a bug ticket with a linked incident.

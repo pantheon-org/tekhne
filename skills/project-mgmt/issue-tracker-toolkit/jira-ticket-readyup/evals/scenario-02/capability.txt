@@ -1,0 +1,1 @@
+Handles feature tickets with no linked incident by populating context solely from the ticket description, setting type to Feature, and omitting the Linked Incident header line from the generated markdown.

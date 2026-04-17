@@ -1,0 +1,19 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": "85",
+    "covered_instructions": [
+      "I01",
+      "I02",
+      "I03",
+      "I04",
+      "I05",
+      "I06",
+      "I07",
+      "I08",
+      "I09",
+      "I10"
+    ],
+    "uncovered_instructions": [],
+    "notes": "All 10 instructions are exercised across the three scenarios. Scenario-01 covers GWT format, measurable outcomes, negative scenarios, out-of-scope, checkbox format, no vague criteria, and no implementation details. Scenario-02 covers rule-oriented format, boundary conditions, error visibility, and scope constraints. Scenario-03 covers INVEST checks, story rewriting, and measurable criteria for the rewritten story. Stakeholder alignment (I10) and single-behaviour coupling (I08) are implicit in all three scenarios but not individually scored, accounting for the 15% gap."
+  }
+}
