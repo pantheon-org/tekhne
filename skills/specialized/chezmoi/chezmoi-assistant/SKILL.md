@@ -74,7 +74,7 @@ export BROWSER=xdg-open
 
 Secret from password manager (e.g. 1Password):
 ```
-export GITHUB_TOKEN="{{ onepasswordRead "op://Private/GitHub/token" }}"
+export GITHUB_TOKEN="{{ onepasswordRead "Private" "GitHub" "token" }}"
 ```
 
 Debug templates without applying: `chezmoi execute-template < ~/.local/share/chezmoi/dot_zshrc.tmpl`
@@ -83,7 +83,7 @@ Debug templates without applying: `chezmoi execute-template < ~/.local/share/che
 
 New machine bootstrap:
 ```bash
-chezmoi init --apply https://github.com/$GITHUB_USERNAME/dotfiles
+chezmoi init --apply $GITHUB_USERNAME
 ```
 
 Daily sync:

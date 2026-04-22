@@ -48,7 +48,7 @@ Use in templates: `{{ .email }}`, `{{ .workMachine }}`
 
 ```
 # 1Password
-{{ onepasswordRead "op://vault/item/field" }}
+{{ onepasswordRead "vault" "item" "field" }}
 
 # Bitwarden
 {{ bitwarden "item" "field" }}
@@ -65,7 +65,7 @@ Use in templates: `{{ .email }}`, `{{ .workMachine }}`
 
 ## Sprig Functions
 
-chezmoi includes the [Sprig](https://masterminds.github.io/sprig/) template library:
+chezmoi includes the Sprig template library (see chezmoi.io/reference/templates/functions/ for the full list):
 
 ```
 {{ "hello" | upper }}              → HELLO

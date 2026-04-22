@@ -784,7 +784,7 @@ Build authoritative real-time multiplayer servers with Colyseus 0.17+. Use when 
 
 Expert assistant for chezmoi dotfiles management. Use when: "add this file to chezmoi", "make this a template", "encrypt this secret", "apply on a new machine", "run script only once", "manage dotfiles across machines".  Examples: - user: "Track my .zshrc with chezmoi" → chezmoi add ~/.zshrc - user: "Make my .gitconfig machine-specific" → convert to .tmpl, use {{ .chezmoi.hostname }} - user: "Run a script only on first apply" → once_ prefix - user: "Sync to a new laptop" → chezmoi init --apply $GITHUB_USERNAME - user: "Why isn't my file being applied?" → diagnose source attribute, diff, doctor
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/chezmoi) | **Version:** 0.1.1
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/chezmoi) | **Version:** 0.1.2
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
