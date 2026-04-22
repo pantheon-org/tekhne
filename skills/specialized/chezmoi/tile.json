@@ -1,0 +1,27 @@
+{
+  "name": "pantheon-ai/chezmoi",
+  "version": "0.1.1",
+  "private": false,
+  "summary": "Expert assistant for chezmoi dotfiles management. Use when: \"add this file to chezmoi\", \"make this a template\", \"encrypt this secret\", \"apply on a new machine\", \"run script only once\", \"manage dotfiles across machines\".\n\nExamples:\n- user: \"Track my .zshrc with chezmoi\" → chezmoi add ~/.zshrc\n- user: \"Make my .gitconfig machine-specific\" → convert to .tmpl, use {{ .chezmoi.hostname }}\n- user: \"Run a script only on first apply\" → once_ prefix\n- user: \"Sync to a new laptop\" → chezmoi init --apply $GITHUB_USERNAME\n- user: \"Why isn't my file being applied?\" → diagnose source attribute, diff, doctor",
+  "skills": {
+    "chezmoi-assistant": {
+      "path": "chezmoi-assistant/SKILL.md"
+    }
+  },
+  "files": [
+    "chezmoi-assistant/evals/scenario-01.md",
+    "chezmoi-assistant/evals/scenario-02.md",
+    "chezmoi-assistant/evals/scenario-03.md",
+    "chezmoi-assistant/references/commands.md",
+    "chezmoi-assistant/references/source-attrs.md",
+    "chezmoi-assistant/references/templates.md"
+  ],
+  "keywords": [
+    "chezmoi",
+    "dotfiles",
+    "templates",
+    "configuration",
+    "multi-machine",
+    "encryption"
+  ]
+}
