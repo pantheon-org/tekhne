@@ -1,0 +1,1 @@
+Shell plugin as chezmoi external with SHA pinning and Renovate

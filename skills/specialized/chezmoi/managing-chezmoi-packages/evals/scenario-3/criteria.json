@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent adds correct Renovate annotations to existing externals and produces matching custom manager rules with the right datasources and fileMatch patterns for the .chezmoiexternals/ directory.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Renovate annotation in zsh file",
+      "description": "updated_zsh.externals.toml contains `# renovate:` annotations before each git-repo entry",
+      "max_score": 10
+    },
+    {
+      "name": "Annotation format correct",
+      "description": "Renovate annotations follow the pattern `# renovate: repo=USER/REPO branch=BRANCH` (contains both repo= and branch= parts)",
+      "max_score": 10
+    },
+    {
+      "name": "Annotation position",
+      "description": "Each `# renovate:` annotation appears immediately before (not after) its external definition",
+      "max_score": 8
+    },
+    {
+      "name": "Annotation in bat file",
+      "description": "updated_bat.externals.toml contains a `# renovate:` annotation before the file entry",
+      "max_score": 8
+    },
+    {
+      "name": "git-refs rule for revision field",
+      "description": "renovate_rules.json5 includes a rule with `datasourceTemplate: 'git-refs'` targeting the revision field in the zsh externals",
+      "max_score": 12
+    },
+    {
+      "name": "git-refs rule for raw file URL",
+      "description": "renovate_rules.json5 includes a rule with `datasourceTemplate: 'git-refs'` targeting the SHA in the bat raw file URL",
+      "max_score": 12
+    },
+    {
+      "name": "Correct fileMatch pattern",
+      "description": "All Renovate rules use fileMatch targeting .chezmoiexternals/ (pattern contains `.chezmoiexternals`)",
+      "max_score": 10
+    },
+    {
+      "name": "matchStrings present",
+      "description": "Each rule includes a `matchStrings` array with at least one regex pattern containing named capture groups",
+      "max_score": 10
+    },
+    {
+      "name": "currentDigest capture group",
+      "description": "At least one matchStrings regex contains `(?<currentDigest>[a-f0-9]{40})` or similar SHA pattern",
+      "max_score": 10
+    },
+    {
+      "name": "No apply commands",
+      "description": "Output files do not include instructions to immediately run `chezmoi apply` or modify the live repo",
+      "max_score": 10
+    }
+  ]
+}
