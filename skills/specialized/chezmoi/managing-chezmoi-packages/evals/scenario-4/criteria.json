@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly migrates legacy externals to per-program files under .chezmoiexternals/, updates script references, preserves conditionals, and includes chezmoi diff verification before deleting the legacy file.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Program-specific file names",
+      "description": "Output files follow the PROGRAM.externals.toml[.tmpl] naming convention (zsh.externals, bat.externals, tmux.externals) — NOT a single combined file",
+      "max_score": 10
+    },
+    {
+      "name": "Zsh conditionals preserved",
+      "description": "zsh.externals.toml.tmpl retains the `{{ if lookPath \"zsh\" }}` conditional wrapping the zsh plugin entries",
+      "max_score": 10
+    },
+    {
+      "name": "bat conditionals preserved",
+      "description": "bat.externals.toml.tmpl retains the `{{ if lookPath \"bat\" }}` conditional",
+      "max_score": 10
+    },
+    {
+      "name": "tmux no .tmpl suffix",
+      "description": "The tmux externals file does NOT have a .tmpl suffix (since it has no template directives)",
+      "max_score": 8
+    },
+    {
+      "name": "Run script reference updated",
+      "description": "run_onchange_externals.sh.tmpl no longer references `.chezmoiexternal.toml.tmpl` — includes are updated to the new file paths or removed",
+      "max_score": 12
+    },
+    {
+      "name": "chezmoi diff before delete",
+      "description": "migration_plan.md explicitly states to run `chezmoi diff` BEFORE deleting or removing the original .chezmoiexternal.toml.tmpl file",
+      "max_score": 12
+    },
+    {
+      "name": "Delete only after diff succeeds",
+      "description": "migration_plan.md conditions removal of the legacy file on `chezmoi diff` showing no unexpected changes",
+      "max_score": 10
+    },
+    {
+      "name": "Entries fully moved",
+      "description": "All four external definitions from the input file appear in the output files (2 zsh, 1 bat, 1 tmux) — none are dropped",
+      "max_score": 10
+    },
+    {
+      "name": "SHAs unchanged",
+      "description": "All revision and URL commit SHAs in the output files match the input exactly — no SHAs are altered during migration",
+      "max_score": 10
+    },
+    {
+      "name": "No apply during migration",
+      "description": "migration_plan.md does NOT instruct running `chezmoi apply` before the diff verification step is complete",
+      "max_score": 8
+    }
+  ]
+}

@@ -789,7 +789,7 @@ Expert assistant for chezmoi dotfiles management. Use when: "add this file to ch
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [chezmoi-assistant](/tekhne/skills/specialized/chezmoi/chezmoi-assistant/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
-| [managing-chezmoi-packages](/tekhne/skills/specialized/chezmoi/managing-chezmoi-packages/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [managing-chezmoi-packages](/tekhne/skills/specialized/chezmoi/managing-chezmoi-packages/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-24 | 5 |
 
 ### retrospect-collab
 

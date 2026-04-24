@@ -376,8 +376,30 @@ executable = true
 6. **Test on clean machine**: Verify externals work from scratch
 7. **Pin everything**: No mutable references, ever
 
-## Reference Documentation
+## Anti-Patterns
 
-- `./references/externals-reference.md` - Complete external type specifications
-- `./references/renovate-integration.md` - Renovate automation patterns
-- `./references/ecosystem-guide.md` - Package manager selection guide
+NEVER use mutable references (`latest`, branch names, version ranges) in externals. WHY: Mutable refs make reproductions non-deterministic — the same `chezmoi apply` produces different results on different days, breaking machine parity.
+
+NEVER execute package managers (`brew install`, `mise use`, `chezmoi apply`) without explicit user permission. WHY: Package installs modify system state; the agent's role is to propose changes, not apply them unilaterally.
+
+NEVER create a new `.chezmoiexternal.toml` at the repo root when `.chezmoiexternals/` already exists. WHY: Mixing the legacy single-file format with the directory-based format confuses chezmoi and leads to duplicate or shadowed external definitions.
+
+NEVER add a new external ecosystem when an existing one already covers the use case. WHY: Every additional ecosystem (Homebrew + mise + pip + externals + cli-versions) multiplies maintenance burden; always consult `./references/ecosystem-guide.md` before introducing a new one.
+
+NEVER omit a Renovate rule when adding a pinned external. WHY: A pinned dependency with no automation becomes stale immediately — security vulnerabilities and breaking changes accumulate silently until someone notices.
+
+NEVER skip `chezmoi diff` before proposing `chezmoi apply`. WHY: Externals can overwrite local modifications; showing the diff first lets the user confirm no unexpected files will be changed.
+
+## Eval Scenarios
+
+- [Scenario 0: Add a Zsh plugin as a chezmoi external](evals/scenario-0/task.md)
+- [Scenario 1: Ecosystem selection across three tool types](evals/scenario-1/task.md)
+- [Scenario 2: Cross-platform release binary via archive-file external](evals/scenario-2/task.md)
+- [Scenario 3: Renovate automation rules for existing externals](evals/scenario-3/task.md)
+- [Scenario 4: Migrate legacy .chezmoiexternal.toml to .chezmoiexternals/](evals/scenario-4/task.md)
+
+## References
+
+- [`references/externals-reference.md`](references/externals-reference.md) — Complete external type specifications
+- [`references/renovate-integration.md`](references/renovate-integration.md) — Renovate automation patterns
+- [`references/ecosystem-guide.md`](references/ecosystem-guide.md) — Package manager selection guide

@@ -1,0 +1,51 @@
+{
+  "context": "Tests whether the agent correctly applies the ecosystem selection framework: Homebrew cask for a macOS GUI app, mise for a CLI dev tool, and chezmoi externals for a single downloaded file.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Warp → Homebrew cask",
+      "description": "Proposes adding Warp to packages.yaml under darwin.casks, NOT as a chezmoi external or mise tool",
+      "max_score": 14
+    },
+    {
+      "name": "packages.yaml location",
+      "description": "Homebrew change targets home/.chezmoidata/packages.yaml (not a new file)",
+      "max_score": 8
+    },
+    {
+      "name": "yq → mise",
+      "description": "Proposes adding yq to the mise config (e.g. as aqua:mikefarah/yq), NOT as a Homebrew brew or chezmoi external",
+      "max_score": 14
+    },
+    {
+      "name": "bat theme → chezmoi externals",
+      "description": "Proposes adding the bat theme file as a chezmoi external (type=file), NOT as a Homebrew package or mise tool",
+      "max_score": 14
+    },
+    {
+      "name": "External file in .chezmoiexternals/",
+      "description": "The chezmoi external for the bat theme is placed in home/.chezmoiexternals/bat.externals.toml (not home/.chezmoiexternal.toml)",
+      "max_score": 10
+    },
+    {
+      "name": "Bat theme URL uses commit SHA",
+      "description": "The URL for the bat theme file includes a commit SHA in the path (not a branch name like 'main')",
+      "max_score": 12
+    },
+    {
+      "name": "Bat theme Renovate annotation",
+      "description": "The bat theme external entry includes a `# renovate:` annotation",
+      "max_score": 10
+    },
+    {
+      "name": "No execute commands",
+      "description": "Does NOT propose running brew install, mise use, or chezmoi apply as immediate actions — only as optional next steps",
+      "max_score": 10
+    },
+    {
+      "name": "chezmoi diff mentioned",
+      "description": "Includes `chezmoi diff` as a verification step",
+      "max_score": 8
+    }
+  ]
+}
