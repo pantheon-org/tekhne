@@ -1,0 +1,1 @@
+Migrating legacy .chezmoiexternal.toml to .chezmoiexternals/ directory

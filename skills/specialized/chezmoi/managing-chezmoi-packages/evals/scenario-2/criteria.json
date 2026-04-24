@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent uses archive-file type with version pinning, checksum verification, platform conditionals, .tmpl suffix, and a github-releases Renovate rule for a cross-platform binary external.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "archive-file type",
+      "description": "Uses `type = \"archive-file\"` in the TOML definition (not type=file, archive, or git-repo)",
+      "max_score": 10
+    },
+    {
+      "name": "executable = true",
+      "description": "External definition includes `executable = true`",
+      "max_score": 8
+    },
+    {
+      "name": "path field present",
+      "description": "External definition includes a `path` field specifying the binary name within the archive (e.g. `path = \"zellij\"`)",
+      "max_score": 8
+    },
+    {
+      "name": "Pinned version tag",
+      "description": "URL contains a specific version tag (e.g. v0.40.0), NOT 'latest' or a mutable reference",
+      "max_score": 12
+    },
+    {
+      "name": "Checksum field",
+      "description": "Includes `checksum = \"sha256:...\"` field (or acknowledges it must be computed)",
+      "max_score": 10
+    },
+    {
+      "name": ".tmpl file suffix",
+      "description": "The proposed file path ends with .toml.tmpl (not just .toml), enabling Go template processing",
+      "max_score": 10
+    },
+    {
+      "name": "Platform conditionals",
+      "description": "TOML uses Go template OS conditionals ({{ if eq .chezmoi.os \"darwin\" }} / linux branch) or architecture variable (.chezmoi.arch)",
+      "max_score": 10
+    },
+    {
+      "name": "File in .chezmoiexternals/",
+      "description": "Proposes home/.chezmoiexternals/zellij.externals.toml.tmpl (or similar program-specific name), NOT home/.chezmoiexternal.toml",
+      "max_score": 10
+    },
+    {
+      "name": "github-releases datasource",
+      "description": "Renovate rule uses `datasourceTemplate: 'github-releases'` (not git-refs)",
+      "max_score": 12
+    },
+    {
+      "name": "chezmoi diff step",
+      "description": "Proposal includes `chezmoi diff` as a verification step",
+      "max_score": 10
+    }
+  ]
+}

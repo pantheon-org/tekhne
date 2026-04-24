@@ -1,0 +1,112 @@
+{
+  "instructions": [
+    {
+      "instruction": "Select the package ecosystem using the decision table: Homebrew for macOS packages/GUI apps, mise for CLI developer tools, pip for Python tools, Docker for containers, chezmoi externals for files/archives/repos, cli-versions for install-script CLIs.",
+      "original_snippets": "Choose the appropriate package manager (see `./ecosystem-guide.md` for details):\n| Use Case | Ecosystem | Location |\n| macOS packages (Homebrew) | brew/cask/mas | `home/.chezmoidata/packages.yaml` |\n| CLI developer tools | mise (Aqua) | `.mise.toml` ...",
+      "relevant_when": "Any request to add, update, or remove a package or tool in a chezmoi dotfiles repository",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Organize chezmoi externals using the .chezmoiexternals/ directory structure, with one file per program (e.g. zsh.externals.toml, bat.externals.toml), not the legacy single .chezmoiexternal.toml file.",
+      "original_snippets": "IMPORTANT: Organize externals by primary program using the `.chezmoiexternals/` directory structure.\nhome/.chezmoiexternals/\n├── zsh.externals.toml\n├── bat.externals.toml",
+      "relevant_when": "When adding or organizing chezmoi external dependencies",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Pin git-repo externals to a 40-character commit SHA in the `revision` field — never use a branch name or 'latest'.",
+      "original_snippets": "NEVER use:\n- `latest` tags\n- Mutable branch names without SHA pinning\n...\nrevision = \"<commit-sha>\"  # MUST pin to SHA",
+      "relevant_when": "When adding or updating a git-repo type external",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Pin file-type externals by embedding a commit SHA in the GitHub URL path (raw/<sha>/file.ext), not a branch name.",
+      "original_snippets": "For single files (themes, configs):\nurl = \"https://github.com/user/repo/raw/<commit-sha>/file.ext\"",
+      "relevant_when": "When adding a file-type external pointing to a GitHub raw file",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Pin release binaries to a specific version tag AND include a `checksum = \"sha256:...\"` field.",
+      "original_snippets": "Release binary | Version tag + checksum | `v1.2.3` + `checksum = \"sha256:...\"`\nNEVER use: `latest` tags",
+      "relevant_when": "When adding an archive-file external that downloads a release binary",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Include `refreshPeriod` in externals (168h recommended for weekly updates).",
+      "original_snippets": "refreshPeriod = \"168h\"  # Update weekly",
+      "relevant_when": "When writing any chezmoi external definition",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Add a `# renovate: repo=USER/REPO branch=BRANCH` annotation immediately above each external definition to enable automated SHA updates.",
+      "original_snippets": "# renovate: repo=marlonrichert/zsh-snap branch=main\n[...]\nrevision = \"25754a45d9ceafe6d7d082c9ebe40a08cb85a4f0\"",
+      "relevant_when": "When adding any pinned external dependency",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "For each external, verify or add a matching Renovate rule in renovate.json5 with the correct datasource: git-refs for SHA-based URLs, github-releases for version-tag URLs.",
+      "original_snippets": "See `./renovate-integration.md` for detailed patterns.\ndatasourceTemplate: 'git-refs'\ndatasourceTemplate: 'github-releases'",
+      "relevant_when": "When adding or modifying any external that needs automated updates",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "The fileMatch in Renovate rules must match the .chezmoiexternals/ directory pattern: `^home/\\.chezmoiexternals/.*\\.toml(\\.tmpl)?$`",
+      "original_snippets": "fileMatch: ['^home/\\.chezmoiexternals/.*\\.toml(\\.tmpl)?$']",
+      "relevant_when": "When writing Renovate custom manager rules for chezmoi externals",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use .tmpl suffix on external files that require Go template processing (OS detection, architecture variables, conditional installs).",
+      "original_snippets": "Use `.tmpl` suffix for templating support (OS conditionals, variables)",
+      "relevant_when": "When an external needs platform-specific configuration or conditional logic",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Wrap external definitions with `{{ if lookPath \"tool\" }}...{{ end }}` for conditional installation when the host tool may not be present.",
+      "original_snippets": "{{ if lookPath \"zsh\" }}\n...\n{{ end }}",
+      "relevant_when": "When adding externals for optional or shell-specific tools",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Always show `chezmoi diff` before proposing `chezmoi apply` so the user can confirm no unexpected files will change.",
+      "original_snippets": "Preview changes:\nchezmoi diff\n...NEVER skip `chezmoi diff` before proposing `chezmoi apply`",
+      "relevant_when": "Any time changes are proposed that would be applied via chezmoi apply",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Never execute package managers (brew install, mise use, chezmoi apply) without explicit user permission.",
+      "original_snippets": "NEVER execute package managers without explicit permission",
+      "relevant_when": "Any request involving package installation or chezmoi apply",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Output changes in the structured format: Decision (ecosystem + rationale + organization), Files To Edit, Proposed Changes, Renovate Integration, Verification Commands, Next Steps checklist.",
+      "original_snippets": "Decision:\n- Ecosystem: ...\n- Rationale: ...\nFiles To Edit:\nProposed Changes:\nRenovate Integration:\nVerification Commands:\nNext Steps:",
+      "relevant_when": "Any time the agent proposes changes to dotfiles configuration",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use `gh api repos/USER/REPO/commits/BRANCH --jq .sha` to retrieve the latest commit SHA before adding a git-repo or file external.",
+      "original_snippets": "Verify latest commit SHA\ngh api repos/USER/REPO/commits/BRANCH --jq .sha",
+      "relevant_when": "When adding a new git-repo or GitHub file external",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Before migrating from .chezmoiexternal.toml to .chezmoiexternals/, search for all references to the old file with grep before deleting or renaming it.",
+      "original_snippets": "Search for references to the old file before migration:\ngrep -r \"\\.chezmoiexternal\\.toml\\.tmpl\" home/",
+      "relevant_when": "When reorganizing existing externals from legacy single-file format to directory structure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run `chezmoi diff` after migrating externals and only remove the legacy file after the diff succeeds cleanly (shows no unexpected changes).",
+      "original_snippets": "Verify with chezmoi diff (will error if references are broken)\nRemove old file only after all references are updated and chezmoi diff succeeds",
+      "relevant_when": "When completing a migration from .chezmoiexternal.toml to .chezmoiexternals/",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Add Homebrew packages to home/.chezmoidata/packages.yaml under the correct platform section (darwin/linux) and category (brews/casks/mas).",
+      "original_snippets": "Edit home/.chezmoidata/packages.yaml\nAdd to appropriate section (darwin/linux, brews/casks/mas)",
+      "relevant_when": "When adding macOS or Linux packages via Homebrew",
+      "why_given": "new knowledge"
+    }
+  ]
+}

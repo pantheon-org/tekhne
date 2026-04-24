@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent correctly adds a Zsh shell plugin as a chezmoi external, using the proper directory structure, SHA-pinned git-repo type, Renovate annotation, and structured output format.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct file placement",
+      "description": "Proposes adding to home/.chezmoiexternals/zsh.externals.toml (or .toml.tmpl), NOT to home/.chezmoiexternal.toml or any other location",
+      "max_score": 12
+    },
+    {
+      "name": "git-repo type",
+      "description": "External definition uses `type = \"git-repo\"` (not file, archive, or archive-file)",
+      "max_score": 8
+    },
+    {
+      "name": "SHA-pinned revision",
+      "description": "The `revision` field contains a 40-character hexadecimal commit SHA, not a branch name like 'master' or 'main'",
+      "max_score": 15
+    },
+    {
+      "name": "Renovate annotation present",
+      "description": "Includes a `# renovate: repo=zsh-users/zsh-autosuggestions branch=...` comment immediately before the external entry",
+      "max_score": 12
+    },
+    {
+      "name": "refreshPeriod included",
+      "description": "External definition includes a `refreshPeriod` field (e.g. 168h)",
+      "max_score": 8
+    },
+    {
+      "name": "git-refs datasource",
+      "description": "Renovate rule uses `datasourceTemplate: 'git-refs'` (not github-releases or github-tags)",
+      "max_score": 12
+    },
+    {
+      "name": "Correct fileMatch",
+      "description": "Renovate rule fileMatch targets the .chezmoiexternals/ directory pattern (contains `.chezmoiexternals`)",
+      "max_score": 8
+    },
+    {
+      "name": "chezmoi diff step",
+      "description": "Proposal includes `chezmoi diff` as a verification step before apply",
+      "max_score": 10
+    },
+    {
+      "name": "No apply command issued",
+      "description": "Does NOT include `chezmoi apply` as a command to run immediately — only lists it as an optional next step",
+      "max_score": 8
+    },
+    {
+      "name": "Structured output sections",
+      "description": "proposal.md contains distinct sections covering: target file, TOML content, Renovate rule, and verification commands",
+      "max_score": 7
+    }
+  ]
+}
