@@ -64,17 +64,29 @@ func init() {
 	rootCmd.AddCommand(evaluateCmd)
 }
 
-// resolveSkillPath converts a skill arg to an absolute SKILL.md path.
-// If arg starts with '/', it is used as-is (appending /SKILL.md if needed).
-// Otherwise it is resolved relative to <repoRoot>/skills/.
+// resolveSkillPath converts a skill arg to an absolute filesystem path to SKILL.md.
+// Absolute paths and relative paths starting with ./ or ../ are used as-is.
+// Bare domain/skill-name args are resolved under <repoRoot>/skills/.
 func resolveSkillPath(skillArg, repoRoot string) string {
-	if strings.HasPrefix(skillArg, "/") {
-		if strings.HasSuffix(skillArg, "SKILL.md") {
-			return skillArg
+	isFilesystemPath := filepath.IsAbs(skillArg) ||
+		strings.HasPrefix(skillArg, "./") ||
+		strings.HasPrefix(skillArg, "../")
+
+	var base string
+	if isFilesystemPath {
+		abs, err := filepath.Abs(skillArg)
+		if err != nil {
+			abs = skillArg
 		}
-		return filepath.Join(skillArg, "SKILL.md")
+		base = abs
+	} else {
+		base = filepath.Join(repoRoot, "skills", skillArg)
 	}
-	return filepath.Join(repoRoot, "skills", skillArg, "SKILL.md")
+
+	if strings.HasSuffix(base, "SKILL.md") {
+		return base
+	}
+	return filepath.Join(base, "SKILL.md")
 }
 
 // resolveRepoRoot returns the repo root from flag or auto-detection.
