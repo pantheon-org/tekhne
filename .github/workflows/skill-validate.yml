@@ -23,7 +23,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+      - name: Install skill-validator
+        run: |
+          go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
+          echo "$HOME/go/bin" >> "$GITHUB_PATH"
 
       - name: Find changed skill dirs
         id: dirs
