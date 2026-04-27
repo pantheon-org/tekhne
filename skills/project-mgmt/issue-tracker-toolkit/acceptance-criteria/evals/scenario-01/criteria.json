@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "criterion": "Uses Given/When/Then (Gherkin) format for all acceptance criteria",
+      "max_score": 12
+    },
+    {
+      "criterion": "Covers the success path: valid credentials result in authenticated session",
+      "max_score": 10
+    },
+    {
+      "criterion": "Covers the failure path: incorrect password returns a visible error message",
+      "max_score": 10
+    },
+    {
+      "criterion": "Covers the lockout scenario: account locked after exactly 5 failed attempts",
+      "max_score": 12
+    },
+    {
+      "criterion": "Uses observable, user-facing outcomes only — no references to session tokens, database calls, or internal implementation",
+      "max_score": 10
+    },
+    {
+      "criterion": "Includes measurable timing or threshold where relevant (e.g., redirect within 2 seconds after login)",
+      "max_score": 8
+    },
+    {
+      "criterion": "Includes an explicit Out of Scope section",
+      "max_score": 8
+    },
+    {
+      "criterion": "All criteria formatted as checkbox items (- [ ] ...)",
+      "max_score": 8
+    },
+    {
+      "criterion": "No vague language such as 'works correctly', 'is easy', or 'handles gracefully' in any criterion",
+      "max_score": 12
+    },
+    {
+      "criterion": "No implementation instructions — criteria do not specify UI framework, validation library, or backend technology",
+      "max_score": 10
+    }
+  ]
+}

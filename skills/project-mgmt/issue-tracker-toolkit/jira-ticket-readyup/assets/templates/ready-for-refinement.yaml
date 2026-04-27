@@ -1,0 +1,42 @@
+# Ready-for-Refinement Ticket Template
+# Fill in each field. Remove comments before saving as the data file.
+# Validate with: scripts/validate-ticket.sh <your-ticket.yaml>
+
+ticket:
+  key: ""               # e.g. PROJ-NNN
+  summary: ""           # The ticket title/summary
+  type: ""              # Bug | Feature | Maintenance | Investigation
+  linked_incident: ""   # e.g. INC-NNN (omit if none)
+
+context:
+  background: |
+    # Describe the system/service involved and the background situation.
+    # What is this component? What does it do? What triggered this ticket?
+  current_behaviour: |
+    # What is currently happening (the problematic or missing behaviour)?
+  implications:
+    - ""  # e.g. "Users see X error when doing Y"
+    - ""  # e.g. "False-positive alarms reduce signal quality"
+
+conditions_of_satisfaction:
+  must:
+    - ""  # e.g. "MUST validate the input field before passing it to the downstream service"
+  should:
+    - ""  # e.g. "SHOULD log the offending value at WARNING level with a correlation ID"
+  could:
+    - ""  # e.g. "COULD add unit tests for boundary values of the validation rule"
+
+acceptance_criteria:
+  - ""  # Specific, testable criterion — e.g. "Submitting an invalid value returns HTTP 400, no downstream call is made"
+  - ""  # e.g. "Valid values continue to be processed as before"
+
+supporting_information:
+  repositories:
+    - url: ""           # e.g. https://github.com/your-org/your-service
+      description: ""   # e.g. Main service repository
+  files:
+    - path: ""          # e.g. src/adaptor.py
+      description: ""   # e.g. Entry point for the downstream call (line NNN)
+  links:
+    - url: ""           # e.g. https://your-jira.atlassian.net/browse/INC-NNN
+      description: ""   # e.g. Incident ticket that triggered this work

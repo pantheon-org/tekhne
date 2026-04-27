@@ -1,0 +1,1 @@
+Produces rule-oriented acceptance criteria for file upload features covering size and format validation constraints, async processing states, and user-visible error messages.

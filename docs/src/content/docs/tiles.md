@@ -569,7 +569,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (9 tiles)
+## Documentation (8 tiles)
 
 Writing & communication
 
@@ -645,16 +645,6 @@ Create structured journal entries with YAML frontmatter, template-based sections
 | --- | --- | --- | --- |
 | [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
 
-### acceptance-criteria
-
-Write clear, testable acceptance criteria for user stories and feature delivery; use when defining done conditions, creating measurable requirements, applying INVEST checks, documenting negative scenarios, and aligning product, engineering, and QA on expected outcomes.
-
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/acceptance-criteria) | **Version:** 0.1.1
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [acceptance-criteria](/tekhne/skills/documentation/acceptance-criteria/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 5 |
-
 ### conventional-commits
 
 Skill for creating structured, semantic commit messages following the Conventional Commits specification
@@ -724,15 +714,17 @@ Create context files (plans, justifications, scratches) in .context/ directory w
 | --- | --- | --- | --- |
 | [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
 
-### moscow-prioritization
+### issue-tracker-toolkit
 
-Prioritize product requirements with the MoSCoW framework in a deterministic way.  Use when teams need to define MVP scope, sequence releases, resolve stakeholder conflicts,  prevent scope creep, or rebalance backlog under time, budget, or staffing constraints.  Keywords: moscow, must should could wont, requirement prioritization, backlog, mvp,  release planning, scope control, stakeholder alignment.
+Toolkit for writing, refining, and prioritizing tickets on issue-tracking systems (Jira and equivalents). Covers three concerns: writing clear acceptance criteria for user stories; applying MoSCoW prioritization to requirements and backlogs; and readying sparse backlog tickets for refinement by gathering incident context, applying a YAML template, and generating a validated structured document.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/moscow-prioritization) | **Version:** 0.1.1
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/issue-tracker-toolkit) | **Version:** 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [moscow-prioritization](/tekhne/skills/project-mgmt/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [acceptance-criteria](/tekhne/skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
+| [moscow-prioritization](/tekhne/skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
+| [jira-ticket-readyup](/tekhne/skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ---
 

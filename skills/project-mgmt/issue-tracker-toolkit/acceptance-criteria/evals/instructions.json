@@ -1,0 +1,93 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "instruction": "Select the criteria format based on the user's request — use Given/When/Then (Gherkin) when clarity of sequence matters, or rule-oriented format when the user explicitly requests it.",
+      "why_given": "preference",
+      "original_snippets": [
+        "Select criteria format (Given/When/Then or rule-oriented).",
+        "Choose Given/When/Then (Gherkin) for clarity."
+      ]
+    },
+    {
+      "id": "I02",
+      "instruction": "All acceptance criteria must express measurable, observable outcomes — never vague language such as 'should be fast', 'user-friendly', or 'works correctly'.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER use vague, non-measurable criteria. WHY: vague language cannot be tested objectively.",
+        "BAD: 'The system should be fast.' GOOD: 'Search returns in <= 2s for 95% of requests.'"
+      ]
+    },
+    {
+      "id": "I03",
+      "instruction": "Always include negative and boundary scenarios alongside the happy path — covering invalid inputs, error states, timeouts, and edge conditions.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER skip negative and boundary scenarios. WHY: real users hit error and edge conditions.",
+        "BAD: only valid-login scenario listed. GOOD: include invalid credentials, timeout, and expired session behavior."
+      ]
+    },
+    {
+      "id": "I04",
+      "instruction": "Include an explicit Out of Scope section to define scope boundaries and prevent scope creep.",
+      "why_given": "preference",
+      "original_snippets": [
+        "Out of Scope:\n- ...",
+        "Scope clear: password reset flow only, not account recovery via SMS."
+      ]
+    },
+    {
+      "id": "I05",
+      "instruction": "Never write implementation instructions as acceptance criteria — criteria must describe outcomes, not technology or code choices.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER write implementation instructions as acceptance criteria. WHY: criteria define outcomes, not implementation details.",
+        "BAD: 'Use JavaScript validation on submit button click.' GOOD: 'Invalid form input shows error message within 1 second.'"
+      ]
+    },
+    {
+      "id": "I06",
+      "instruction": "Apply INVEST checks (Independent, Negotiable, Valuable, Estimable, Small, Testable) when asked to review or rewrite a user story.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Apply INVEST quality checks to this story.",
+        "INVEST criteria | references/invest-criteria.md"
+      ]
+    },
+    {
+      "id": "I07",
+      "instruction": "Format acceptance criteria as checkbox items (- [ ] ...) under named sections such as 'Acceptance Criteria (Must Have)' and 'Negative/Edge Scenarios'.",
+      "why_given": "preference",
+      "original_snippets": [
+        "Acceptance Criteria (Must Have):\n- [ ] ...\n- [ ] ...\n\nNegative/Edge Scenarios:\n- [ ] ..."
+      ]
+    },
+    {
+      "id": "I08",
+      "instruction": "Never couple multiple distinct behaviours into a single criterion — each criterion must address exactly one observable outcome.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER couple multiple behaviors into one ambiguous criterion. WHY: broad criteria hide failure source and reduce test clarity.",
+        "BAD: 'Checkout and email and invoice should work.' GOOD: split into separate measurable criteria."
+      ]
+    },
+    {
+      "id": "I09",
+      "instruction": "Every criterion must be independently pass/fail testable by product, engineering, and QA without further clarification.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Every criterion is measurable (pass/fail).",
+        "Criteria are understandable by product + QA."
+      ]
+    },
+    {
+      "id": "I10",
+      "instruction": "Capture user outcome and business intent before drafting criteria — ensure criteria trace back to a stated user benefit.",
+      "why_given": "preference",
+      "original_snippets": [
+        "Capture user outcome and business intent.",
+        "User outcome: User regains account access after forgetting password. Business intent: Reduce support tickets; maintain security."
+      ]
+    }
+  ]
+}

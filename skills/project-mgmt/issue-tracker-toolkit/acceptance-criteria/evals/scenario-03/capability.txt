@@ -1,0 +1,1 @@
+Applies the INVEST quality framework to evaluate and rewrite vague user stories into specific, estimable, and testable stories with measurable acceptance criteria.

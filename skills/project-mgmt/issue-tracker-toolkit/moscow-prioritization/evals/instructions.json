@@ -1,0 +1,88 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "instruction": "Apply the failure-focused test to every Must item: the release fails if this is absent.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Challenge every `Must` using failure-focused questions.",
+        "`Must` means release failure if missing."
+      ]
+    },
+    {
+      "id": "I02",
+      "instruction": "Must effort must not exceed 60% of total effort. Rebalance if it does.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Validate: Verify that the `Must` count does not exceed 60% of total effort before proceeding.",
+        "Rebalance if `Must` work exceeds 60% of effort."
+      ]
+    },
+    {
+      "id": "I03",
+      "instruction": "Never label an item as Must solely because a stakeholder prefers it.",
+      "why_given": "preference",
+      "original_snippets": [
+        "NEVER label stakeholder preference as `Must`",
+        "Preference is not the same as release-critical need.",
+        "Executive asked for dark mode, so it is Must. — BAD"
+      ]
+    },
+    {
+      "id": "I04",
+      "instruction": "Always record Won't items with an explicit revisit date.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "NEVER skip explicit `Won't` items",
+        "Record rejected items with revisit date.",
+        "Missing exclusions invite silent scope creep."
+      ]
+    },
+    {
+      "id": "I05",
+      "instruction": "Validate release constraints (date, budget, staffing) before assigning any categories.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Confirm release constraints (date, budget, team).",
+        "NEVER finalize priorities without constraint checks",
+        "Categorize before confirming release limits. — BAD"
+      ]
+    },
+    {
+      "id": "I06",
+      "instruction": "Every categorized item must include a business rationale and risk-if-omitted note.",
+      "why_given": "preference",
+      "original_snippets": [
+        "NEVER keep categories without rationale",
+        "Unjustified categories cannot be defended or audited.",
+        "Include business outcome and risk rationale. — GOOD"
+      ]
+    },
+    {
+      "id": "I07",
+      "instruction": "Save the final MoSCoW output to a named file as instructed by the user.",
+      "why_given": "preference",
+      "original_snippets": ["Publish final table with owners and review date."]
+    },
+    {
+      "id": "I08",
+      "instruction": "The output table must include columns: Requirement | Category | Business Rationale | Risk if Omitted.",
+      "why_given": "preference",
+      "original_snippets": ["| Requirement | Category | Rationale | Owner |"]
+    },
+    {
+      "id": "I09",
+      "instruction": "If Must-effort rebalancing cannot reach 60%, escalate to stakeholders to re-scope before finalizing.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "If rebalancing cannot bring `Must` under 60%, escalate to stakeholders to either re-scope the release (split into two releases, extend the timeline, or increase capacity) before finalizing categories."
+      ]
+    },
+    {
+      "id": "I10",
+      "instruction": "Open the categorization session by collecting all candidate requirements into a single list before sorting.",
+      "why_given": "new knowledge",
+      "original_snippets": ["Collect candidate requirements in one list."]
+    }
+  ]
+}

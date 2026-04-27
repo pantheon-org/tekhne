@@ -1,0 +1,56 @@
+{
+  "checklist": [
+    {
+      "criterion": "Reads YAML template from assets/templates/ready-for-refinement.yaml before generating any output",
+      "max_score": 8
+    },
+    {
+      "criterion": "Fetches PROJ-789 from Jira using jira_get_issue with at least summary, description, status, issuetype, issuelinks in fields",
+      "max_score": 8
+    },
+    {
+      "criterion": "Does NOT fetch any incident ticket — no jira_get_issue call targets an INC-NNN key",
+      "max_score": 6
+    },
+    {
+      "criterion": "Sets ticket.type to Investigation (not Bug, Feature, or Maintenance)",
+      "max_score": 10
+    },
+    {
+      "criterion": "Populates context.background explaining the batch-processing service, the nightly export job, and the CloudWatch alarm pattern",
+      "max_score": 8
+    },
+    {
+      "criterion": "Populates context.current_behaviour describing the memory accumulation observed in ResultAccumulator.process_batch()",
+      "max_score": 8
+    },
+    {
+      "criterion": "conditions_of_satisfaction.must includes at least one MUST requirement for a written root-cause analysis or investigation deliverable",
+      "max_score": 10
+    },
+    {
+      "criterion": "conditions_of_satisfaction.must or conditions_of_satisfaction.should includes a requirement for a proposed remediation plan",
+      "max_score": 6
+    },
+    {
+      "criterion": "acceptance_criteria contains at least two items, including at least one measurable outcome (e.g. memory alarm does not re-fire after remediation is applied)",
+      "max_score": 10
+    },
+    {
+      "criterion": "Validates YAML with validate-ticket.sh and fixes any errors before proceeding to markdown generation",
+      "max_score": 8
+    },
+    {
+      "criterion": "Generates markdown file at YYYY/MM/YYYY-MM-DD-PROJ-789-ready-for-refinement.md using today's date",
+      "max_score": 8
+    },
+    {
+      "criterion": "Validates markdown structure with the --markdown flag after generation",
+      "max_score": 8
+    },
+    {
+      "criterion": "Reports YAML path, markdown path, validation result, and a one-paragraph summary on completion",
+      "max_score": 2
+    }
+  ]
+}
