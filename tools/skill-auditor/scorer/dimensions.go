@@ -11,20 +11,37 @@ type DimensionScore struct {
 	Max   int
 }
 
+// Diagnostic is a single error or warning produced during scoring.
+type Diagnostic struct {
+	Dimension string `json:"dimension"`
+	Message   string `json:"message"`
+	severity  string // "error" or "warning" — internal only, not serialized
+}
+
 // Result is the output of scoring a skill.
 // JSON shape matches the legacy evaluate.sh audit.json format.
 type Result struct {
-	Skill                    string         `json:"skill"`
-	Dimensions               map[string]int `json:"dimensions"`
-	Total                    int            `json:"total"`
-	MaxTotal                 int            `json:"maxTotal"`
-	Grade                    string         `json:"grade"`
-	Lines                    int            `json:"lines"`
-	HasReferences            bool           `json:"hasReferences"`
-	ReferenceCount           int            `json:"referenceCount"`
-	ReferenceSectionCompliant bool          `json:"referenceSectionCompliant"`
-	Errors                   int            `json:"errors"`
-	Warnings                 int            `json:"warnings"`
+	Skill                     string         `json:"skill"`
+	Dimensions                map[string]int `json:"dimensions"`
+	Total                     int            `json:"total"`
+	MaxTotal                  int            `json:"maxTotal"`
+	Grade                     string         `json:"grade"`
+	Lines                     int            `json:"lines"`
+	HasReferences             bool           `json:"hasReferences"`
+	ReferenceCount            int            `json:"referenceCount"`
+	ReferenceSectionCompliant bool           `json:"referenceSectionCompliant"`
+	Errors                    int            `json:"errors"`
+	Warnings                  int            `json:"warnings"`
+	ErrorDetails              []Diagnostic   `json:"errorDetails,omitempty"`
+	WarningDetails            []Diagnostic   `json:"warningDetails,omitempty"`
+}
+
+func errDiag(dimension, message string) Diagnostic {
+	return Diagnostic{Dimension: dimension, Message: message, severity: "error"}
+}
+
+func warnDiag(dimension, message string) Diagnostic {
+	return Diagnostic{Dimension: dimension, Message: message, severity: "warning"}
 }
 
 // countPattern counts case-insensitive substring occurrences.

@@ -2,6 +2,7 @@ package scorer
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -24,29 +25,46 @@ func Score(skillPath string) (*Result, error) {
 func ScoreFromContent(skillPath, content, evalsDir string) (*Result, error) {
 	skillDir := filepath.Dir(skillPath)
 
-	d1 := scoreD1(content, skillDir)
+	d1, diag1 := scoreD1(content, skillDir)
 	d2 := scoreD2(content)
-	d3 := scoreD3(content, skillDir)
-	d4 := scoreD4(content, skillDir)
+	d3, diag3 := scoreD3(content, skillDir)
+	d4, diag4 := scoreD4(content, skillDir)
 	d5, lines, refCount, hasRefs := scoreD5WithMeta(content, skillDir)
 	d6 := scoreD6(content)
-	d7 := scoreD7(content)
+	d7, diag7 := scoreD7(content)
 	d8 := scoreD8(content)
-	d9 := scoreD9(evalsDir)
+	d9, diag9 := scoreD9(evalsDir)
 
 	total := d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9
 
-	refSectionCompliant := isReferenceSectionCompliant(content)
+	// Aggregate diagnostics and split by severity.
+	var errorDetails, warningDetails []Diagnostic
+	for _, d := range append(append(append(append(diag1, diag3...), diag4...), diag7...), diag9...) {
+		if d.severity == "error" {
+			errorDetails = append(errorDetails, d)
+		} else {
+			warningDetails = append(warningDetails, d)
+		}
+	}
+
+	// D5 warnings (no scoreD5 return — computed here from metadata).
+	if !hasRefs {
+		warningDetails = append(warningDetails, warnDiag("D5", "no references/ directory (progressive disclosure missing)"))
+	}
 
 	return &Result{
-		Skill:                    skillPath,
-		Total:                    total,
-		MaxTotal:                 140,
-		Grade:                    Grade(total),
-		Lines:                    lines,
-		HasReferences:            hasRefs,
-		ReferenceCount:           refCount,
-		ReferenceSectionCompliant: refSectionCompliant,
+		Skill:                     skillPath,
+		Total:                     total,
+		MaxTotal:                  140,
+		Grade:                     Grade(total),
+		Lines:                     lines,
+		HasReferences:             hasRefs,
+		ReferenceCount:            refCount,
+		ReferenceSectionCompliant: isReferenceSectionCompliant(content),
+		Errors:                    len(errorDetails),
+		Warnings:                  len(warningDetails),
+		ErrorDetails:              errorDetails,
+		WarningDetails:            warningDetails,
 		Dimensions: map[string]int{
 			"knowledgeDelta":          d1,
 			"mindsetProcedures":       d2,
@@ -63,8 +81,9 @@ func ScoreFromContent(skillPath, content, evalsDir string) (*Result, error) {
 
 // scoreD1 — Knowledge Delta (max: 20)
 // Replicates evaluate_knowledge_delta from evaluate.sh.
-func scoreD1(content, skillDir string) int {
+func scoreD1(content, skillDir string) (int, []Diagnostic) {
 	score := 15
+	var diags []Diagnostic
 
 	// Penalties: -2 each for beginner-oriented patterns
 	for _, pat := range []string{"npm install", "yarn add", "pip install", "getting started", "introduction", "basic syntax", "hello world"} {
@@ -88,11 +107,12 @@ func scoreD1(content, skillDir string) int {
 				WhyGiven string `json:"why_given"`
 			} `json:"instructions"`
 		}
-		if json.Unmarshal(data, &instrData) == nil {
+		if json.Unmarshal(data, &instrData) != nil {
+			diags = append(diags, errDiag("D1", "instructions.json exists but cannot be parsed"))
+		} else {
 			total := len(instrData.Instructions)
 			if total > 0 {
-				newKnow := 0
-				pref := 0
+				newKnow, pref := 0, 0
 				for _, instr := range instrData.Instructions {
 					switch instr.WhyGiven {
 					case "new knowledge":
@@ -117,7 +137,7 @@ func scoreD1(content, skillDir string) int {
 	if score > 20 {
 		score = 20
 	}
-	return score
+	return score, diags
 }
 
 // scoreD2 — Mindset + Procedures (max: 15)
@@ -150,10 +170,10 @@ func scoreD2(content string) int {
 
 // scoreD3 — Anti-Pattern Quality (max: 15)
 // Replicates evaluate_anti_pattern_quality.
-func scoreD3(content, skillDir string) int {
+func scoreD3(content, skillDir string) (int, []Diagnostic) {
 	score := 8
+	var diags []Diagnostic
 
-	// NEVER count
 	neverCount := countPattern(content, "NEVER")
 	if neverCount > 3 {
 		score += 3
@@ -161,17 +181,14 @@ func scoreD3(content, skillDir string) int {
 		score += neverCount
 	}
 
-	// BAD.*GOOD on same line (case-insensitive)
 	if matchesRegexCI(content, `(?i)BAD.*GOOD`) {
 		score += 2
 	}
 
-	// WHY:
 	if countPattern(content, "WHY:") > 0 {
 		score += 2
 	}
 
-	// Eval anti-pattern instructions
 	instrFile := filepath.Join(skillDir, "evals", "instructions.json")
 	if data, err := os.ReadFile(instrFile); err == nil {
 		var instrData struct {
@@ -180,7 +197,9 @@ func scoreD3(content, skillDir string) int {
 				Content          string      `json:"content"`
 			} `json:"instructions"`
 		}
-		if json.Unmarshal(data, &instrData) == nil {
+		if json.Unmarshal(data, &instrData) != nil {
+			diags = append(diags, errDiag("D3", "instructions.json exists but cannot be parsed"))
+		} else {
 			antiPat := regexp.MustCompile(`(?i)NEVER|ALWAYS|anti-pattern|avoid|do not`)
 			antiInstr := 0
 			for _, instr := range instrData.Instructions {
@@ -215,13 +234,14 @@ func scoreD3(content, skillDir string) int {
 	if score < 0 {
 		score = 0
 	}
-	return score
+	return score, diags
 }
 
 // scoreD4 — Specification Compliance (max: 17)
 // Replicates evaluate_specification_compliance.
-func scoreD4(content, skillDir string) int {
+func scoreD4(content, skillDir string) (int, []Diagnostic) {
 	score := 10
+	var diags []Diagnostic
 
 	description := extractFrontmatterField(content, "description")
 	descLen := len(description)
@@ -246,13 +266,17 @@ func scoreD4(content, skillDir string) int {
 
 	// Portability: no harness-specific paths
 	harnessPathRe := regexp.MustCompile(`\.(opencode|claude|cursor|aider|continue)/`)
-	if !harnessPathRe.MatchString(content) {
+	if m := harnessPathRe.FindString(content); m != "" {
+		diags = append(diags, warnDiag("D4", "harness-specific path found: "+m))
+	} else {
 		score++
 	}
 
 	// No agent-specific references in instructions
 	agentRefRe := regexp.MustCompile(`(?i)claude code|cursor agent|github copilot|aider|continue\.dev`)
-	if !agentRefRe.MatchString(content) {
+	if m := agentRefRe.FindString(content); m != "" {
+		diags = append(diags, warnDiag("D4", "agent-specific reference found: "+m))
+	} else {
 		score++
 	}
 
@@ -268,18 +292,21 @@ func scoreD4(content, skillDir string) int {
 	// ../ references escape skill directory
 	if strings.Contains(nonCode, "../") {
 		score -= 2
+		diags = append(diags, warnDiag("D4", "../ reference outside code blocks (self-containment violation)"))
 	}
 
 	// Absolute skills/X/Y paths
 	absPathRe := regexp.MustCompile(`skills/[a-z][a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+`)
-	if absPathRe.MatchString(nonCode) {
+	if m := absPathRe.FindString(nonCode); m != "" {
 		score--
+		diags = append(diags, warnDiag("D4", "absolute skill path outside code blocks: "+m))
 	}
 
 	// .context/ or .agents/ references
 	ctxAgentsRe := regexp.MustCompile(`\.(context|agents)/`)
-	if ctxAgentsRe.MatchString(nonCode) {
+	if m := ctxAgentsRe.FindString(nonCode); m != "" {
 		score--
+		diags = append(diags, warnDiag("D4", ".context/ or .agents/ reference outside code blocks: "+m))
 	}
 
 	// Penalty: absolute repo paths in scripts/ files (-1 per file, cap -2)
@@ -412,7 +439,7 @@ func scoreD4(content, skillDir string) int {
 	if score > 17 {
 		score = 17
 	}
-	return score
+	return score, diags
 }
 
 // scoreD5 — Progressive Disclosure (max: 15)
@@ -502,9 +529,9 @@ func scoreD6(content string) int {
 
 // scoreD7 — Pattern Recognition (max: 10)
 // Replicates evaluate_pattern_recognition.
-func scoreD7(content string) int {
+func scoreD7(content string) (int, []Diagnostic) {
+	var diags []Diagnostic
 	description := extractFrontmatterField(content, "description")
-	// Count words with length > 3 (tr -cs '[:alnum:]' '\n' | awk 'length > 3')
 	wordRe := regexp.MustCompile(`[[:alnum:]]+`)
 	words := wordRe.FindAllString(description, -1)
 	count := 0
@@ -514,16 +541,20 @@ func scoreD7(content string) int {
 		}
 	}
 
+	if count <= 5 {
+		diags = append(diags, warnDiag("D7", fmt.Sprintf("description has %d qualifying words (need >5 for full score)", count)))
+	}
+
 	if count > 15 {
-		return 10
+		return 10, diags
 	}
 	if count > 10 {
-		return 9
+		return 9, diags
 	}
 	if count > 5 {
-		return 8
+		return 8, diags
 	}
-	return 6
+	return 6, diags
 }
 
 // scoreD8 — Practical Usability (max: 15)
@@ -559,11 +590,13 @@ func scoreD8(content string) int {
 
 // scoreD9 — Eval Validation (max: 20)
 // Replicates evaluate_eval_validation.
-func scoreD9(evalsDir string) int {
+func scoreD9(evalsDir string) (int, []Diagnostic) {
 	score := 0
+	var diags []Diagnostic
 
 	if info, err := os.Stat(evalsDir); err != nil || !info.IsDir() {
-		return score
+		diags = append(diags, warnDiag("D9", "evals/ directory missing entirely"))
+		return score, diags
 	}
 	score += 4
 
@@ -573,10 +606,11 @@ func scoreD9(evalsDir string) int {
 		var instrData struct {
 			Instructions []json.RawMessage `json:"instructions"`
 		}
-		if json.Unmarshal(data, &instrData) == nil && len(instrData.Instructions) > 0 {
+		if json.Unmarshal(data, &instrData) != nil {
+			diags = append(diags, errDiag("D9", "instructions.json exists but is not valid JSON"))
+		} else if len(instrData.Instructions) > 0 {
 			score += 3
 		} else if len(data) > 0 {
-			// fallback: non-empty file
 			score += 3
 		}
 	}
@@ -589,24 +623,26 @@ func scoreD9(evalsDir string) int {
 				CoveragePercentage interface{} `json:"coverage_percentage"`
 			} `json:"instructions_coverage"`
 		}
-		if json.Unmarshal(data, &summaryData) == nil {
+		if json.Unmarshal(data, &summaryData) != nil {
+			diags = append(diags, errDiag("D9", "summary.json exists but is not valid JSON"))
+		} else {
 			coverage := parseCoveragePercentage(summaryData.InstructionsCoverage.CoveragePercentage)
 			if coverage >= 0 {
 				score += 3
 				if coverage >= 80 {
 					score += 3
+				} else {
+					diags = append(diags, warnDiag("D9", fmt.Sprintf("summary.json coverage is %d%% (below 80%% threshold)", coverage)))
 				}
 			} else if len(data) > 0 {
-				// jq not available fallback: non-empty
 				score += 3
 			}
-		} else if len(data) > 0 {
-			score += 3
 		}
 	}
 
 	// Valid scenarios
-	validScenarios := countValidScenarios(evalsDir)
+	validScenarios, scenarioDiags := countValidScenariosWithDiags(evalsDir)
+	diags = append(diags, scenarioDiags...)
 	if validScenarios >= 3 {
 		score += 4
 	} else if validScenarios >= 1 {
@@ -616,7 +652,7 @@ func scoreD9(evalsDir string) int {
 	if score > 20 {
 		score = 20
 	}
-	return score
+	return score, diags
 }
 
 // parseCoveragePercentage parses a coverage percentage value (int, float64, or string) to int.
@@ -652,11 +688,18 @@ func parseCoveragePercentage(v interface{}) int {
 	return -1
 }
 
-// countValidScenarios counts scenario-N/ dirs with task.md, criteria.json (checklist sum=100), capability.txt.
+// countValidScenarios is a thin wrapper used by tests.
 func countValidScenarios(evalsDir string) int {
+	count, _ := countValidScenariosWithDiags(evalsDir)
+	return count
+}
+
+// countValidScenariosWithDiags counts valid scenario dirs and emits diagnostics for problems.
+func countValidScenariosWithDiags(evalsDir string) (int, []Diagnostic) {
+	var diags []Diagnostic
 	entries, err := os.ReadDir(evalsDir)
 	if err != nil {
-		return 0
+		return 0, diags
 	}
 
 	valid := 0
@@ -664,18 +707,29 @@ func countValidScenarios(evalsDir string) int {
 		if !e.IsDir() || !strings.HasPrefix(e.Name(), "scenario-") {
 			continue
 		}
-		scenarioDir := filepath.Join(evalsDir, e.Name())
+		name := e.Name()
+		scenarioDir := filepath.Join(evalsDir, name)
 		hasTask := fileExists(filepath.Join(scenarioDir, "task.md"))
 		hasCriteria := fileExists(filepath.Join(scenarioDir, "criteria.json"))
 		hasCapability := fileExists(filepath.Join(scenarioDir, "capability.txt"))
+
 		if !hasTask || !hasCriteria || !hasCapability {
+			missing := []string{}
+			if !hasTask {
+				missing = append(missing, "task.md")
+			}
+			if !hasCriteria {
+				missing = append(missing, "criteria.json")
+			}
+			if !hasCapability {
+				missing = append(missing, "capability.txt")
+			}
+			diags = append(diags, warnDiag("D9", fmt.Sprintf("%s missing: %s", name, strings.Join(missing, ", "))))
 			continue
 		}
 
-		// Validate criteria.json: checklist[].max_score must sum to 100
 		data, err := os.ReadFile(filepath.Join(scenarioDir, "criteria.json"))
 		if err != nil {
-			// If we can't read it, count it as valid (jq-not-available fallback)
 			valid++
 			continue
 		}
@@ -685,6 +739,7 @@ func countValidScenarios(evalsDir string) int {
 			} `json:"checklist"`
 		}
 		if json.Unmarshal(data, &criteriaData) != nil {
+			diags = append(diags, errDiag("D9", fmt.Sprintf("%s/criteria.json is not valid JSON", name)))
 			valid++
 			continue
 		}
@@ -694,9 +749,11 @@ func countValidScenarios(evalsDir string) int {
 		}
 		if sum == 100 {
 			valid++
+		} else {
+			diags = append(diags, warnDiag("D9", fmt.Sprintf("%s/criteria.json checklist does not sum to 100 (got %d)", name, sum)))
 		}
 	}
-	return valid
+	return valid, diags
 }
 
 // fileExists returns true if the path exists and is a regular file.

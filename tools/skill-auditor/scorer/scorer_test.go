@@ -45,7 +45,7 @@ func TestScoreFullAGrade(t *testing.T) {
 
 func TestD1_Penalties(t *testing.T) {
 	content := "---\ndescription: something\n---\n# Skill\ngetting started with npm install"
-	score := scoreD1(content, t.TempDir())
+	score, _ := scoreD1(content, t.TempDir())
 	// start=15, -2 for "getting started", -2 for "npm install" = 11
 	if score != 11 {
 		t.Errorf("D1 with penalties: want 11, got %d", score)
@@ -54,7 +54,7 @@ func TestD1_Penalties(t *testing.T) {
 
 func TestD1_Rewards(t *testing.T) {
 	content := "---\ndescription: something\n---\n# Skill\nNEVER do this. ALWAYS validate. anti-pattern here. production gotcha pitfall."
-	score := scoreD1(content, t.TempDir())
+	score, _ := scoreD1(content, t.TempDir())
 	// start=15, +1 each for NEVER, ALWAYS, anti-pattern, production, gotcha, pitfall = 15+6=21 → capped 20
 	if score != 20 {
 		t.Errorf("D1 with all rewards: want 20, got %d", score)
@@ -81,7 +81,7 @@ func TestD2_Minimal(t *testing.T) {
 
 func TestD3_NEVERAndWHY(t *testing.T) {
 	content := "---\ndescription: x\n---\nNEVER do this. WHY: because reasons."
-	score := scoreD3(content, t.TempDir())
+	score, _ := scoreD3(content, t.TempDir())
 	// 8 + 1 (NEVER count=1) + 2 (WHY:) = 11
 	if score != 11 {
 		t.Errorf("D3 NEVER+WHY: want 11, got %d", score)
@@ -90,7 +90,7 @@ func TestD3_NEVERAndWHY(t *testing.T) {
 
 func TestD3_NEVERHighCount(t *testing.T) {
 	content := "---\ndescription: x\n---\nNEVER a. NEVER b. NEVER c. NEVER d. WHY: reasons. BAD example GOOD alternative."
-	score := scoreD3(content, t.TempDir())
+	score, _ := scoreD3(content, t.TempDir())
 	// 8 + 3 (>3 NEVERs) + 2 (WHY:) + 2 (BAD.*GOOD same line) = 15 → capped at 15
 	if score != 15 {
 		t.Errorf("D3 high NEVER: want 15, got %d", score)
@@ -101,7 +101,7 @@ func TestD4_GoodDescription(t *testing.T) {
 	// description >100 chars, no harness paths, no agent refs, has references/ path
 	desc := "Validates and sanitizes user inputs before processing to prevent injection attacks and data corruption in production systems"
 	content := "---\ndescription: " + desc + "\n---\n# Skill\nSee references/guide.md for details."
-	score := scoreD4(content, t.TempDir())
+	score, _ := scoreD4(content, t.TempDir())
 	// start=10 +2(desc>100) -1(and/or count: "and"=2 +"in"... "and data corruption" + maybe >1)
 	// Actually: "and data corruption" has 1 "and", no "or" visible... let me just check range
 	if score < 10 {
@@ -182,7 +182,7 @@ func TestD6_Minimal(t *testing.T) {
 func TestD7_LongDescription(t *testing.T) {
 	// > 15 words with length > 3
 	content := "---\ndescription: Validates sanitizes processes transforms normalizes parses serializes deserializes validates enriches computes aggregates filters projects sorts groups\n---\n# x"
-	score := scoreD7(content)
+	score, _ := scoreD7(content)
 	if score != 10 {
 		t.Errorf("D7 long description: want 10, got %d", score)
 	}
@@ -190,7 +190,7 @@ func TestD7_LongDescription(t *testing.T) {
 
 func TestD7_MissingDescription(t *testing.T) {
 	content := "---\nname: test\n---\n# Skill"
-	score := scoreD7(content)
+	score, _ := scoreD7(content)
 	// 0 words > 3 chars → 6
 	if score != 6 {
 		t.Errorf("D7 missing description: want 6, got %d", score)
@@ -223,7 +223,7 @@ func TestD8_FewCodeBlocks(t *testing.T) {
 }
 
 func TestD9_NoEvalsDir(t *testing.T) {
-	score := scoreD9(filepath.Join(t.TempDir(), "nonexistent"))
+	score, _ := scoreD9(filepath.Join(t.TempDir(), "nonexistent"))
 	if score != 0 {
 		t.Errorf("D9 no evals: want 0, got %d", score)
 	}
@@ -249,7 +249,7 @@ func TestD9_FullScore(t *testing.T) {
 			`{"checklist":[{"description":"x","max_score":60},{"description":"y","max_score":40}]}`)
 	}
 
-	score := scoreD9(evalsDir)
+	score, _ := scoreD9(evalsDir)
 	// 4 + 3 + 3 + 3 + 4 = 17
 	if score != 17 {
 		t.Errorf("D9 full: want 17, got %d", score)
