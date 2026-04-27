@@ -7,7 +7,25 @@ description: "Evaluate, score, and remediate agent skill collections using a 9-d
 
 Navigation hub for evaluating, maintaining, and improving skill quality with 9-dimension framework scoring.
 
-## Quick Start
+## Quick Start (Go binary — recommended)
+
+Build the binary once from the repo root:
+
+```bash
+bun run build:skill-auditor
+```
+
+Then run audits:
+
+```bash
+# Single skill
+skill-auditor evaluate agentic-harness/skill-quality-auditor --json --store
+
+# Batch
+skill-auditor batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
+```
+
+**Shell script fallback** (still supported):
 
 ```bash
 # Evaluate single skill — pass full path from skills/ root, preserving all directory levels

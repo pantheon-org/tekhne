@@ -1,0 +1,18 @@
+{
+  "instructions": [
+    {
+      "type": "new knowledge",
+      "content": "Always validate inputs before processing"
+    },
+    {
+      "type": "preference",
+      "content": "Prefer explicit over implicit configuration"
+    },
+    { "type": "procedure", "content": "Follow the standard workflow" },
+    {
+      "type": "anti-pattern",
+      "content": "NEVER skip validation in production"
+    },
+    { "type": "anti-pattern", "content": "NEVER use hardcoded credentials" }
+  ]
+}

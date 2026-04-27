@@ -29,7 +29,8 @@
     "tessl:publish": "tessl skill publish",
     "tessl:review": "tessl skill review",
     "test": "bun test cli/",
-    "test:integration": "cucumber-js"
+    "test:integration": "cucumber-js",
+    "build:skill-auditor": "cd tools/skill-auditor && go build -o ../../bin/skill-auditor ."
   },
   "keywords": [],
   "author": "",

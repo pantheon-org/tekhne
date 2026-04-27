@@ -1,0 +1,6 @@
+{
+  "checklist": [
+    { "description": "Edge case detected", "max_score": 50 },
+    { "description": "Graceful handling", "max_score": 50 }
+  ]
+}
