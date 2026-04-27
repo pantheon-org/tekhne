@@ -10,8 +10,8 @@ import (
 	"github.com/pantheon-org/tekhne/tools/skill-auditor/scorer"
 )
 
-// Store writes a Result as JSON to .context/audits/<skillPath>/<date>/audit.json
-// relative to repoRoot. Creates directories with os.MkdirAll.
+// Store writes audit.json, Analysis.md, and Remediation.md to
+// .context/audits/<skillPath>/<date>/ relative to repoRoot.
 func Store(repoRoot, skillPath string, r *scorer.Result) error {
 	date := time.Now().Format("2006-01-02")
 	dir := filepath.Join(repoRoot, ".context", "audits", skillPath, date)
@@ -20,21 +20,27 @@ func Store(repoRoot, skillPath string, r *scorer.Result) error {
 		return fmt.Errorf("store: create directories: %w", err)
 	}
 
-	data, err := json.MarshalIndent(r, "", "  ")
+	auditJSON, err := json.MarshalIndent(r, "", "  ")
 	if err != nil {
 		return fmt.Errorf("store: marshal result: %w", err)
 	}
 
-	dest := filepath.Join(dir, "audit.json")
-	tmp := dest + ".tmp"
-
-	if err := os.WriteFile(tmp, data, 0o644); err != nil {
-		return fmt.Errorf("store: write temp file: %w", err)
+	files := map[string][]byte{
+		"audit.json":     auditJSON,
+		"Analysis.md":    []byte(Analysis(r)),
+		"Remediation.md": []byte(Remediation(r)),
 	}
 
-	if err := os.Rename(tmp, dest); err != nil {
-		_ = os.Remove(tmp)
-		return fmt.Errorf("store: rename to final path: %w", err)
+	for name, data := range files {
+		dest := filepath.Join(dir, name)
+		tmp := dest + ".tmp"
+		if err := os.WriteFile(tmp, data, 0o644); err != nil {
+			return fmt.Errorf("store: write %s: %w", name, err)
+		}
+		if err := os.Rename(tmp, dest); err != nil {
+			_ = os.Remove(tmp)
+			return fmt.Errorf("store: rename %s: %w", name, err)
+		}
 	}
 
 	return nil

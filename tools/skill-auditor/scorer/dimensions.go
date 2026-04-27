@@ -18,6 +18,9 @@ type Diagnostic struct {
 	severity  string // "error" or "warning" — internal only, not serialized
 }
 
+// Severity returns "error" or "warning".
+func (d Diagnostic) Severity() string { return d.severity }
+
 // Result is the output of scoring a skill.
 // JSON shape matches the legacy evaluate.sh audit.json format.
 type Result struct {
