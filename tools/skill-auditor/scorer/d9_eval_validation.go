@@ -113,6 +113,14 @@ func countValidScenariosWithDiags(evalsDir string) (int, []Diagnostic) {
 		return 0, diags
 	}
 
+	// Detect flat scenario-NN.md files (legacy format) when no subdirectory scenarios exist.
+	flatCount := 0
+	for _, e := range entries {
+		if !e.IsDir() && strings.HasPrefix(e.Name(), "scenario-") && strings.HasSuffix(e.Name(), ".md") {
+			flatCount++
+		}
+	}
+
 	valid := 0
 	for _, e := range entries {
 		if !e.IsDir() || !strings.HasPrefix(e.Name(), "scenario-") {
@@ -164,5 +172,10 @@ func countValidScenariosWithDiags(evalsDir string) (int, []Diagnostic) {
 			diags = append(diags, warnDiag("D9", fmt.Sprintf("%s/criteria.json checklist does not sum to 100 (got %d)", name, sum)))
 		}
 	}
+
+	if valid == 0 && flatCount > 0 {
+		diags = append(diags, warnDiag("D9", fmt.Sprintf("%d flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9", flatCount)))
+	}
+
 	return valid, diags
 }

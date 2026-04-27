@@ -3,6 +3,7 @@ package scorer
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -137,6 +138,26 @@ func TestD9_InvalidCriteriaJSON(t *testing.T) {
 	}
 	if !found {
 		t.Error("expected D9 error for invalid criteria.json")
+	}
+}
+
+func TestD9_FlatScenarioFormatWarning(t *testing.T) {
+	evalsDir := t.TempDir()
+	writeTestFile(t, filepath.Join(evalsDir, "scenario-01.md"), "# Scenario 1")
+	writeTestFile(t, filepath.Join(evalsDir, "scenario-02.md"), "# Scenario 2")
+	score, diags := scoreD9(evalsDir)
+	found := false
+	for _, d := range diags {
+		if d.Dimension == "D9" && d.severity == "warning" && strings.Contains(d.Message, "flat scenario") {
+			found = true
+		}
+	}
+	if !found {
+		t.Errorf("expected D9 flat-format warning, got diags: %v", diags)
+	}
+	// evals/ exists → +4, nothing else
+	if score != 4 {
+		t.Errorf("want score 4, got %d", score)
 	}
 }
 
