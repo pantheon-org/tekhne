@@ -13,11 +13,19 @@ func scoreD8(content string) int {
 		score += 2
 	}
 
-	if countPattern(content, "./") > 0 || countPattern(content, "bun run") > 0 {
+	hasRunCmd := countPattern(content, "./") > 0 ||
+		countPattern(content, "npm run") > 0 ||
+		countPattern(content, "yarn ") > 0 ||
+		countPattern(content, "pnpm run") > 0 ||
+		countPattern(content, "bun run") > 0 ||
+		countPattern(content, "make ") > 0 ||
+		countPattern(content, "python ") > 0 ||
+		countPattern(content, "go run") > 0
+	if hasRunCmd {
 		score += 2
 	}
 
-	langTagRe := regexp.MustCompile("```(bash|shell|typescript|javascript)")
+	langTagRe := regexp.MustCompile("```(bash|sh|shell|typescript|javascript|python|go|rust)")
 	if langTagRe.MatchString(content) {
 		score++
 	}
