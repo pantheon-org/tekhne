@@ -31,17 +31,15 @@ func scoreD4(content, skillDir string) (int, []Diagnostic) {
 	}
 
 	// Harness-specific config/data directories from the vercel-labs/skills supported-agents table.
-	harnessPathRe := regexp.MustCompile(`\.(claude|cursor|continue|codeium|goose|pi|windsurf|agents|copilot|codex|gemini|deepagents|firebender|aider)/`)
-	if m := harnessPathRe.FindString(content); m != "" {
-		diags = append(diags, warnDiag("D4", "harness-specific path found: "+m))
+	if dir := findHarnessPath(content); dir != "" {
+		diags = append(diags, warnDiag("D4", "harness-specific path found: "+dir))
 	} else {
 		score++
 	}
 
 	// Agent name references that would make the skill non-portable.
-	agentRefRe := regexp.MustCompile(`(?i)\bclaude code\b|\bcursor agent\b|\bgithub copilot\b|\baider\b|\bcontinue\.dev\b|\bopencode\b|\bwindsurf\b|\bgemini cli\b|\bgoose\b|\bcodex\b|\bcline\b|\bwarp agent\b|\bamp agent\b|\bfirebender\b|\bdeep agents\b|\breplit agent\b|\bkimi code\b`)
-	if m := agentRefRe.FindString(content); m != "" {
-		diags = append(diags, warnDiag("D4", "agent-specific reference found: "+m))
+	if ref := findAgentRef(content); ref != "" {
+		diags = append(diags, warnDiag("D4", "agent-specific reference found: "+ref))
 	} else {
 		score++
 	}
