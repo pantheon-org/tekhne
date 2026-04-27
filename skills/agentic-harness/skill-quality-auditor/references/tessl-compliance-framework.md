@@ -226,7 +226,7 @@ Integration with existing skill-quality-auditor workflow:
 
 ```bash
 # Standard evaluation first
-sh ./scripts/evaluate.sh <skill-name> --json
+skill-auditor evaluate <skill-name> --json
 
 # Then apply tessl compliance checks
 sh ./scripts/tessl-compliance-check.sh <skill-name>

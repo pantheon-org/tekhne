@@ -65,7 +65,7 @@ remediation_phases:
 # =============================================================================
 # Required: Commands to verify remediation
 verification_commands:
-  - "string"                     # e.g., "sh skills/skill-quality-auditor/scripts/evaluate.sh <skill> --json"
+  - "string"                     # e.g., "skill-auditor evaluate <skill> --json"
 
 # =============================================================================
 # SUCCESS CRITERIA SECTION

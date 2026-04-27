@@ -1,0 +1,30 @@
+{
+  "instructions": [
+    {
+      "type": "new knowledge",
+      "content": "Always validate inputs before processing"
+    },
+    {
+      "type": "preference",
+      "content": "Prefer explicit over implicit configuration"
+    },
+    { "type": "procedure", "content": "Follow the standard workflow" },
+    {
+      "type": "anti-pattern",
+      "content": "NEVER skip validation in production"
+    },
+    { "type": "anti-pattern", "content": "NEVER use hardcoded credentials" },
+    {
+      "type": "anti-pattern",
+      "content": "NEVER mutate input data before validation is complete"
+    },
+    {
+      "type": "anti-pattern",
+      "content": "avoid trusting caller-supplied type assertions without schema verification"
+    },
+    {
+      "type": "anti-pattern",
+      "content": "do not defer validation to the persistence layer"
+    }
+  ]
+}

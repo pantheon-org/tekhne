@@ -16,29 +16,56 @@ Complete workflow for running automated skill quality audits. Covers setup, exec
 
 ## Prerequisites
 
-- Bash shell environment
-- Bun runtime for TypeScript scripts
-- Write access to `.context/analysis/` directory
+- Go 1.21+ (for building the binary)
+- Bun runtime (for TypeScript aggregation scripts)
+- Write access to `.context/audits/` directory
 
-## Audit Scripts
-
-### audit-skills.sh
-
-Full skill collection audit:
+Build the binary once from the repo root:
 
 ```bash
-./scripts/audit-skills.sh [--output path]
+bun run build:skill-auditor
+```
+
+## Audit Commands
+
+### Single skill evaluation
+
+```bash
+skill-auditor evaluate <domain/skill-name> --json
 ```
 
 **Options:**
 
-- `--output` - Custom output directory (default: `.context/analysis/`)
+- `--json` - Machine-readable JSON output
+- `--store` - Write results to `.context/audits/<skill>/YYYY-MM-DD/`
+- `--repo-root` - Explicit repo root (auto-detected if omitted)
 
-**Output:** `skill-audit-YYYY-MM-DD.md`
+**Output:** JSON score report
 
-### detect-duplication.sh
+### Batch audit
 
-Duplication detection:
+```bash
+skill-auditor batch <skill1> <skill2> [skill3...]
+```
+
+**Options:**
+
+- `--json` - Machine-readable JSON array output
+- `--store` - Write each result to `.context/audits/<skill>/YYYY-MM-DD/`
+- `--fail-below <grade>` - Exit 1 if any skill scores below this grade (e.g. `B+`)
+
+**Features:**
+
+- Sequential evaluation with per-skill error isolation
+- Failure tracking and summary table
+- Audit results stored in `.context/audits/<skill-name>/YYYY-MM-DD/`
+- Exit code reflects failures (0 = all passed, 1 = some failed)
+
+**Output:** Summary table or JSON array
+
+**Use when:** Auditing multiple skills in phases or batches with consolidated tracking
+
+### Duplication detection (shell helper)
 
 ```bash
 ./scripts/detect-duplication.sh [skills-dir]
@@ -50,46 +77,7 @@ Duplication detection:
 
 **Output:** `duplication-report-YYYY-MM-DD.md`
 
-### evaluate.sh
-
-Single skill evaluation:
-
-```bash
-sh ./scripts/evaluate.sh <skill-name> --json
-```
-
-**Arguments:**
-
-- `skill-name` - Name of skill to evaluate
-
-**Output:** JSON score report
-
-### batch-audit.sh
-
-Batch skill auditing with failure tracking:
-
-```bash
-sh ./scripts/batch-audit.sh <skill1> <skill2> [skill3...]
-```
-
-**Arguments:**
-
-- `skill1, skill2, ...` - Space-separated list of skill names to audit
-
-**Features:**
-
-- Parallel audit execution using `evaluate.sh`
-- Failure tracking and summary reporting
-- Audit results stored in `.context/audits/<skill-name>/latest/`
-- Exit code reflects failures (0 = all passed, 1 = some failed)
-
-**Output:** Success/failure summary with failed skill list
-
-**Use when:** Auditing multiple skills in phases or batches with consolidated tracking
-
-### plan-aggregation.ts
-
-Aggregation planning:
+### Aggregation planning
 
 ```bash
 bun run scripts/plan-aggregation.ts --family <prefix>
@@ -119,11 +107,11 @@ ls -1 skills/ | grep -E "^[a-z]+-" | cut -d- -f1 | sort -u
 ### Phase 2: Quality Evaluation
 
 ```bash
-# Run full audit
-./scripts/audit-skills.sh
+# Run full batch audit
+skill-auditor batch $(find skills -name "SKILL.md" | sed 's|skills/||;s|/SKILL.md||') --store
 
-# Review report
-cat .context/analysis/skill-audit-*.md | head -50
+# Review stored results
+cat .context/audits/*/$(date +%Y-%m-%d)/audit.json | jq '.grade'
 ```
 
 ### Phase 3: Duplication Analysis
@@ -188,13 +176,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
-      - run: chmod +x ./scripts/*.sh
-      - run: ./scripts/audit-skills.sh
+      - name: Build skill-auditor
+        run: bun run build:skill-auditor
+      - name: Run full batch audit
+        run: |
+          skills=$(find skills -name "SKILL.md" | sed 's|skills/||;s|/SKILL.md||' | tr '\n' ' ')
+          skill-auditor batch $skills --store
       - run: ./scripts/detect-duplication.sh
       - uses: actions/upload-artifact@v4
         with:
           name: audit-reports
-          path: .context/analysis/
+          path: .context/audits/
 ```
 
 ### Pre-Merge Quality Gate
@@ -212,16 +204,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v1
+      - name: Build skill-auditor
+        run: bun run build:skill-auditor
       - name: Check changed skills
         run: |
-          for skill in $(git diff --name-only origin/main | grep "skills/.*/SKILL.md"); do
-            skill_name=$(basename $(dirname $skill))
-            score=$(sh ./scripts/evaluate.sh "$skill_name" --json | jq '.total')
-            if [ "$score" -lt 90 ]; then
-              echo "Skill $skill_name scored $score (below 90)"
-              exit 1
-            fi
+          for skill in $(git diff --name-only origin/main | grep "skills/.*/SKILL.md" | sed 's|skills/||;s|/SKILL.md||'); do
+            skill-auditor evaluate "$skill" --json --store
           done
+          skill-auditor batch $(git diff --name-only origin/main | grep "skills/.*/SKILL.md" | sed 's|skills/||;s|/SKILL.md||' | tr '\n' ' ') --fail-below B
 ```
 
 ## Single-Skill Report Format

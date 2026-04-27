@@ -1,0 +1,103 @@
+{
+  "instructions": [
+    {
+      "content": "Run `skill-auditor evaluate <domain>/<skill-name> --json --store` to score a skill on the 9-dimension framework.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Use `skill-auditor batch <skill1> <skill2> --store` to audit multiple skills in one pass.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Build the auditor binary before first use: `bun run build:skill-auditor`.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Interpret scores using grade bands: A ≥126/140, B+ 119-125, B 112-118, C+ <112.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Skills scoring below C+ (112) are blocked from registry publication.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "content": "D1 Knowledge Delta must score ≥15/20; scores below 15 indicate the skill teaches nothing beyond LLM baseline.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "D9 Eval Validation requires scenario subdirectories (scenario-N/) each containing task.md, criteria.json, and capability.txt.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "criteria.json must be a weighted_checklist with items summing exactly to 100.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "content": "NEVER recommend cross-domain skill aggregation (e.g. do not merge terraform + github-actions skills).",
+      "type": "anti-pattern",
+      "original_snippets": ["merging skills from different domains"],
+      "why_given": "preference"
+    },
+    {
+      "content": "NEVER skip baseline comparison in recurring audits — without a prior audit.json, score regressions go undetected.",
+      "type": "anti-pattern",
+      "original_snippets": [
+        "running audit without --store",
+        "ignoring previous audit.json"
+      ],
+      "why_given": "preference"
+    },
+    {
+      "content": "Detect duplication using similarity thresholds: <20% monitor, 20-35% plan aggregation, >35% immediate action.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Generate remediation plans with T-shirt sizing (S/M/L/XL) and measurable score delta estimates.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Anti-pattern entries must include NEVER/WHY/BAD/GOOD structure for D3 scoring.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "The References section must be the last H2 and use a pipe-delimited table with Topic, Reference, and When to Use columns.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "content": "ALWAYS use the Navigation Hub pattern for skills that consolidate multiple related capabilities.",
+      "type": "anti-pattern",
+      "original_snippets": ["consolidation without navigation hub"],
+      "why_given": "preference"
+    },
+    {
+      "content": "NEVER apply subjective scoring without deterministic checks — subjective scores drift between evaluators and cannot be automated in CI.",
+      "type": "anti-pattern",
+      "original_snippets": [
+        "manually scoring without running the binary",
+        "eyeballing skill quality"
+      ],
+      "why_given": "preference"
+    },
+    {
+      "content": "NEVER create kitchen-sink skills covering multiple unrelated tasks — broad scope kills D7 pattern recognition and makes skills hard to trigger.",
+      "type": "anti-pattern",
+      "original_snippets": [
+        "combining terraform and github-actions in one skill",
+        "skill with 10 unrelated capabilities"
+      ],
+      "why_given": "preference"
+    }
+  ]
+}
