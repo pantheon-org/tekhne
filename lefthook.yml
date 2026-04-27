@@ -33,6 +33,15 @@ pre-commit:
       glob: "skills/**/SKILL.md"
       run: for f in {staged_files}; do dir=$(dirname "$f"); if [ -f "$dir/tile.json" ]; then bun run tessl:lint -- "$f" || exit 1; fi; done
       stage_fixed: true
+    skill-validate:
+      glob: "skills/**/SKILL.md"
+      run: |
+        rc=0
+        for f in {staged_files}; do
+          skill-validator validate structure --allow-dirs=evals "$(dirname "$f")" || rc=$?
+        done
+        exit $rc
+      stage_fixed: false
     cli-ts-conventions:
       glob: "cli/**/*.ts"
       run: bun cli/scripts/validate-ts-conventions.ts {staged_files}
@@ -44,3 +53,11 @@ pre-push:
       run: bun test cli/
     integration-tests:
       run: bunx cucumber-js
+    skill-check:
+      glob: "skills/**/SKILL.md"
+      run: |
+        rc=0
+        for f in {push_files}; do
+          skill-validator check --allow-dirs=evals --per-file "$(dirname "$f")" || rc=$?
+        done
+        exit $rc

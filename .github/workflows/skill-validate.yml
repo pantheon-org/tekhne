@@ -1,0 +1,60 @@
+name: Validate Skills
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - "skills/**"
+  push:
+    branches: [main]
+    paths:
+      - "skills/**"
+
+permissions:
+  contents: read
+
+jobs:
+  skill-validator:
+    name: Skill Validator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+
+      - name: Find changed skill dirs
+        id: dirs
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+          fi
+
+          DIRS=$(git diff --name-only --diff-filter=AM "$BASE...$HEAD" \
+            -- 'skills/**/SKILL.md' 2>/dev/null \
+            | xargs -I{} dirname {} \
+            | sort -u \
+            | tr '\n' ' ')
+
+          echo "dirs=$DIRS" >> "$GITHUB_OUTPUT"
+          [ -n "$DIRS" ] && echo "found=true" >> "$GITHUB_OUTPUT" || echo "found=false" >> "$GITHUB_OUTPUT"
+
+      - name: Validate changed skills
+        if: steps.dirs.outputs.found == 'true'
+        run: |
+          rc=0
+          for dir in ${{ steps.dirs.outputs.dirs }}; do
+            skill-validator check --allow-dirs=evals --emit-annotations --per-file "$dir" || rc=$?
+            skill-validator check --allow-dirs=evals -o markdown "$dir" >> "$GITHUB_STEP_SUMMARY"
+          done
+          exit $rc
+
+      - name: No skills changed
+        if: steps.dirs.outputs.found == 'false'
+        run: echo "No SKILL.md files changed — nothing to validate."
