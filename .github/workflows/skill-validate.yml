@@ -51,6 +51,7 @@ jobs:
       - name: Validate changed skills
         if: steps.dirs.outputs.found == 'true'
         run: |
+          set +e
           rc=0
           for dir in ${{ steps.dirs.outputs.dirs }}; do
             skill-validator check --allow-dirs=evals --emit-annotations --per-file "$dir"
