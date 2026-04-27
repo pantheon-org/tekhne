@@ -38,7 +38,9 @@ pre-commit:
       run: |
         rc=0
         for f in {staged_files}; do
-          skill-validator validate structure --allow-dirs=evals "$(dirname "$f")" || rc=$?
+          skill-validator validate structure --allow-dirs=evals "$(dirname "$f")"
+          code=$?
+          [ $code -eq 1 ] && rc=1
         done
         exit $rc
       stage_fixed: false
@@ -46,6 +48,10 @@ pre-commit:
       glob: "cli/**/*.ts"
       run: bun cli/scripts/validate-ts-conventions.ts {staged_files}
       stage_fixed: false
+    go-mod-tidy:
+      glob: "tools/skill-auditor/**/*.go"
+      run: cd tools/skill-auditor && go mod tidy
+      stage_fixed: true
 
 pre-push:
   commands:
@@ -58,6 +64,8 @@ pre-push:
       run: |
         rc=0
         for f in {push_files}; do
-          skill-validator check --allow-dirs=evals --per-file "$(dirname "$f")" || rc=$?
+          skill-validator check --allow-dirs=evals --per-file "$(dirname "$f")"
+          code=$?
+          [ $code -eq 1 ] && rc=1
         done
         exit $rc

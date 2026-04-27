@@ -222,11 +222,5 @@ Advanced pattern recognition now uses **multi-layered algorithmic analysis** bey
 - Transformer-based semantic embeddings
 - Automated improvement suggestion generation
 - Continuous quality monitoring with ML feedback loops
-Use when: evaluating skill quality, generating remediation plans,
-validating report format, enforcing repository-wide skill artifact
-conventions, or when users say 'check my skills', 'review skill files',
-'skill audit', 'improve my SKILL.md files', 'find duplicate skills',
-'validate skill format', or 'quality check my skills'.
-```
 
 This comprehensive trigger list ensures the skill activates in all relevant scenarios.

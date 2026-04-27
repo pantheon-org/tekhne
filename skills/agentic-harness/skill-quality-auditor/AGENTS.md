@@ -161,10 +161,10 @@ skills/agentic-harness/skill-quality-auditor/
 │   ├── advanced-trends-analysis.md                   # LOW
 │   └── advanced-custom-metrics.md                    # LOW
 └── scripts/
-    ├── evaluate.sh                                   # Primary evaluator
-    ├── audit-skills.sh                               # Full collection audit
+    ├── evaluate.sh                                   # Shell fallback evaluator (use skill-auditor binary)
+    ├── audit-skills.sh                               # Shell fallback for full collection audit
     ├── audit-per-skill.sh                            # Per-skill audit runner
-    ├── batch-audit.sh                                # Batch multiple skills
+    ├── batch-audit.sh                                # Shell fallback for batch audits
     ├── detect-duplication.sh                         # Duplication finder
     ├── detect-duplication-enhanced.sh                # Enhanced duplication detection
     ├── generate-remediation-plan.sh                  # Remediation plan generator
@@ -208,7 +208,7 @@ Total: 25 references + 17 scripts + 2 templates + 2 schemas + 1 requirements spe
 
 ### For Remediation Planning
 
-1. Run `./scripts/evaluate.sh <skill-name> --json`
+1. Run `skill-auditor evaluate <skill-name> --json`
 2. Load `remediation-planning.md` for guidance
 3. Use `assets/templates/remediation-plan-template.yaml`
 4. Save plan to `.context/plans/<skill-name>-remediation-plan.md`
@@ -219,7 +219,7 @@ Total: 25 references + 17 scripts + 2 templates + 2 schemas + 1 requirements spe
 2. If missing, use `creating-eval-scenarios` skill to generate scenarios
 3. Run `tessl eval run <tile-path>` to execute evals
 4. Verify `summary.json` shows `coverage_percentage >= 80`
-5. Re-run `./scripts/evaluate.sh <skill-name> --json` to confirm D9 score
+5. Re-run `skill-auditor evaluate <skill-name> --json` to confirm D9 score
 
 ### For Automation Setup
 

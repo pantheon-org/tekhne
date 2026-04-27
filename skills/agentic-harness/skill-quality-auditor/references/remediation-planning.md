@@ -12,7 +12,7 @@ Use this guide when:
 
 ## Prerequisites
 
-1. **Completed Audit**: Run `sh ./scripts/evaluate.sh <skill-name> --json`
+1. **Completed Audit**: Run `skill-auditor evaluate <skill-name> --json`
 2. **Audit Report**: Location should be `.context/audits/<skill-name>-audit-YYYY-MM-DD.md`
 3. **Template**: Load `templates/remediation-plan-template.yaml`
 
@@ -177,7 +177,7 @@ description: |
 After implementing remediation:
 
 ```bash
-sh ./scripts/evaluate.sh <skill-name> --json
+skill-auditor evaluate <skill-name> --json
 bunx markdownlint-cli2 "skills/<skill-name>/**/*.md"
 ```
 

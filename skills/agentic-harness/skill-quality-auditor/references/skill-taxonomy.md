@@ -461,6 +461,8 @@ domain/
         └── tile.json
 ```
 
+```
+
 **Examples:**
 - `ci-cd/github-actions/{generator,validator}`
 - `infrastructure/terraform/{generator,validator}`

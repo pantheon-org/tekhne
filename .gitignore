@@ -19,3 +19,4 @@ docs/.astro/
 node_modules/
 skills-lock.json
 .env.keys
+/bin/

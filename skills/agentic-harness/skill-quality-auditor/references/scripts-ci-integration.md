@@ -45,24 +45,21 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Make scripts executable
-        run: chmod +x ./scripts/*.sh
+      - name: Build skill-auditor
+        run: bun run build:skill-auditor
 
       - name: Evaluate changed skills
         id: evaluate
         run: |
           FAILED=""
           for file in $(git diff --name-only origin/main | grep "skills/.*/SKILL.md"); do
-            skill_name=$(basename $(dirname $file))
-            echo "Evaluating: $skill_name"
-            
-            cd skills/skill-quality-auditor
-            score=$(sh scripts/evaluate.sh "$skill_name" --json 2>/dev/null | jq '.total')
-            cd ../..
+            skill=$(echo "$file" | sed 's|skills/||;s|/SKILL.md||')
+            echo "Evaluating: $skill"
+            score=$(skill-auditor evaluate "$skill" --json 2>/dev/null | jq '.total')
             
             if [ -n "$score" ] && [ "$score" -lt 90 ]; then
-              echo "::warning::$skill_name scored $score/120 (below A-grade threshold 90)"
-              FAILED="$FAILED $skill_name"
+              echo "::warning::$skill scored $score/140 (below threshold 90)"
+              FAILED="$FAILED $skill"
             fi
           done
           
@@ -73,9 +70,8 @@ jobs:
 
       - name: Check for duplication
         run: |
-          cd skills/skill-quality-auditor
-          ./scripts/detect-duplication.sh ../..
-          if grep -q "Critical" ../../.context/analysis/duplication-report-*.md; then
+          ./scripts/detect-duplication.sh
+          if grep -q "Critical" .context/analysis/duplication-report-*.md; then
             echo "::warning::Critical duplication detected"
           fi
 
@@ -120,10 +116,13 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
 
+      - name: Build skill-auditor
+        run: bun run build:skill-auditor
+
       - name: Run full audit
         run: |
-          chmod +x ./scripts/*.sh
-          ./scripts/audit-skills.sh
+          skills=$(find skills -name "SKILL.md" | sed 's|skills/||;s|/SKILL.md||' | tr '\n' ' ')
+          skill-auditor batch $skills --store
           ./scripts/detect-duplication.sh
 
       - name: Create issue if critical issues found
@@ -158,13 +157,11 @@ skill-quality:
       changes:
         - skills/**/SKILL.md
   script:
-    - chmod +x ./scripts/*.sh
+    - bun install && bun run build:skill-auditor
     - |
       for file in $(git diff --name-only $CI_MERGE_REQUEST_DIFF_BASE_SHA $CI_COMMIT_SHA | grep "skills/.*/SKILL.md"); do
-        skill_name=$(basename $(dirname $file))
-        cd skills/skill-quality-auditor
-        sh scripts/evaluate.sh "$skill_name" --json
-        cd ../..
+        skill=$(echo "$file" | sed 's|skills/||;s|/SKILL.md||')
+        skill-auditor evaluate "$skill" --json --store
       done
     - ./scripts/detect-duplication.sh
   artifacts:
@@ -182,8 +179,9 @@ weekly-skill-audit:
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
   script:
-    - chmod +x ./scripts/*.sh
-    - ./scripts/audit-skills.sh
+    - bun install && bun run build:skill-auditor
+    - skills=$(find skills -name "SKILL.md" | sed 's|skills/||;s|/SKILL.md||' | tr '\n' ' ')
+    - skill-auditor batch $skills --store
     - ./scripts/detect-duplication.sh
   artifacts:
     paths:
@@ -210,6 +208,12 @@ pipeline {
       }
     }
     
+    stage('Build') {
+      steps {
+        sh 'bun run build:skill-auditor'
+      }
+    }
+
     stage('Quality Check') {
       when {
         anyOf {
@@ -219,13 +223,9 @@ pipeline {
       }
       steps {
         sh '''
-          chmod +x ./scripts/*.sh
-          
           for file in $(git diff --name-only origin/main HEAD | grep "skills/.*/SKILL.md"); do
-            skill_name=$(basename $(dirname $file))
-            cd skills/skill-quality-auditor
-            sh scripts/evaluate.sh "$skill_name" --json
-            cd ../..
+            skill=$(echo "$file" | sed 's|skills/||;s|/SKILL.md||')
+            skill-auditor evaluate "$skill" --json --store
           done
         '''
       }

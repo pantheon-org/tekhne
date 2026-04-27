@@ -25,5 +25,5 @@ Done criteria:
 Re-check:
 
 ```bash
-sh ./scripts/evaluate.sh <skill-name> --json
+skill-auditor evaluate <skill-name> --json
 ```

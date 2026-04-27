@@ -34,3 +34,23 @@ bun cli/index.ts tessl publish-check <tiles...>
 ```
 
 See [`cli/README.md`](cli/README.md) for complete documentation.
+
+## skill-auditor (Go binary)
+
+`tools/skill-auditor/` is a typed, testable Go binary that replaces the `evaluate.sh` shell script. It implements the same 9-dimension rubric (140 pts total) with unit tests and a structured JSON output.
+
+```bash
+# Build once
+bun run build:skill-auditor
+
+# Evaluate a single skill
+skill-auditor evaluate agentic-harness/skill-quality-auditor --json --store
+
+# Batch evaluate
+skill-auditor batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
+
+# Exit 1 if any skill grades below B+
+skill-auditor batch --fail-below B+ agentic-harness/skill-quality-auditor
+```
+
+The shell scripts (`evaluate.sh`, `batch-audit.sh`) remain as fallback. See `tools/skill-auditor/` for source.
