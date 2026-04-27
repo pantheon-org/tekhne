@@ -31,6 +31,7 @@ var evaluateCmd = &cobra.Command{
 		}
 
 		skillPath := resolveSkillPath(skillArg, repoRoot)
+		skillKey := canonicalSkillKey(skillPath, repoRoot)
 
 		result, err := scorer.Score(skillPath)
 		if err != nil {
@@ -48,7 +49,7 @@ var evaluateCmd = &cobra.Command{
 		}
 
 		if evaluateStore {
-			if err := reporter.Store(repoRoot, skillArg, result); err != nil {
+			if err := reporter.Store(repoRoot, skillKey, result); err != nil {
 				return fmt.Errorf("store result: %w", err)
 			}
 		}
@@ -62,6 +63,15 @@ func init() {
 	evaluateCmd.Flags().BoolVar(&evaluateStore, "store", false, "persist result to .context/audits/")
 	evaluateCmd.Flags().StringVar(&evaluateRepoRoot, "repo-root", "", "repo root (auto-detected if empty)")
 	rootCmd.AddCommand(evaluateCmd)
+}
+
+// canonicalSkillKey derives the domain/skill-name storage key from an absolute
+// SKILL.md path by stripping <repoRoot>/skills/ and the trailing /SKILL.md.
+func canonicalSkillKey(skillPath, repoRoot string) string {
+	prefix := filepath.Join(repoRoot, "skills") + string(filepath.Separator)
+	key := strings.TrimPrefix(skillPath, prefix)
+	key = strings.TrimSuffix(key, string(filepath.Separator)+"SKILL.md")
+	return key
 }
 
 // resolveSkillPath converts a skill arg to an absolute filesystem path to SKILL.md.
