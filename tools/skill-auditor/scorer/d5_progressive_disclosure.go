@@ -8,13 +8,15 @@ import (
 )
 
 // scoreD5 — Progressive Disclosure (max: 15)
-func scoreD5(content, skillDir string) int {
-	score, _, _, _ := scoreD5WithMeta(content, skillDir)
+func scoreD5(content, skillDir string, b *validatorBridge) int {
+	score, _, _, _ := scoreD5WithMeta(content, skillDir, b)
 	return score
 }
 
 // scoreD5WithMeta returns the D5 score plus metadata used in the Result.
-func scoreD5WithMeta(content, skillDir string) (score, lines, refCount int, hasRefs bool) {
+// Token thresholds are calibrated at ~8 tokens/line; falls back to line count
+// when the library cannot produce a token count.
+func scoreD5WithMeta(content, skillDir string, b *validatorBridge) (score, lines, refCount int, hasRefs bool) {
 	refsDir := filepath.Join(skillDir, "references")
 	if info, err := os.Stat(refsDir); err == nil && info.IsDir() {
 		entries, _ := os.ReadDir(refsDir)
@@ -28,6 +30,39 @@ func scoreD5WithMeta(content, skillDir string) (score, lines, refCount int, hasR
 
 	lines = len(strings.Split(content, "\n"))
 
+	tokens := b.skillMDTokens()
+	if tokens > 0 {
+		return scoreD5ByTokens(tokens, lines, refCount, hasRefs)
+	}
+	return scoreD5ByLines(lines, refCount, hasRefs)
+}
+
+func scoreD5ByTokens(tokens, lines, refCount int, hasRefs bool) (score, outLines, outRefCount int, outHasRefs bool) {
+	if hasRefs {
+		switch {
+		case tokens < 800:
+			return 15, lines, refCount, hasRefs
+		case tokens < 1200:
+			return 13, lines, refCount, hasRefs
+		case tokens < 1600:
+			return 11, lines, refCount, hasRefs
+		default:
+			return 10, lines, refCount, hasRefs
+		}
+	}
+	switch {
+	case tokens < 1200:
+		return 12, lines, refCount, hasRefs
+	case tokens < 2400:
+		return 10, lines, refCount, hasRefs
+	case tokens < 4000:
+		return 7, lines, refCount, hasRefs
+	default:
+		return 5, lines, refCount, hasRefs
+	}
+}
+
+func scoreD5ByLines(lines, refCount int, hasRefs bool) (score, outLines, outRefCount int, outHasRefs bool) {
 	if hasRefs {
 		switch {
 		case lines < 100:
@@ -40,7 +75,6 @@ func scoreD5WithMeta(content, skillDir string) (score, lines, refCount int, hasR
 			return 10, lines, refCount, hasRefs
 		}
 	}
-
 	switch {
 	case lines < 200:
 		return 12, lines, refCount, hasRefs

@@ -1,27 +1,64 @@
 package scorer
 
-import "testing"
+import (
+	"math"
+	"testing"
 
-func TestD6_HighNeverAlways(t *testing.T) {
-	content := "NEVER a. NEVER b. NEVER c. ALWAYS d. ALWAYS e. ALWAYS f. consider this. optionally that."
-	score := scoreD6(content)
-	// 10 + 3 (>5) + 2 (consider/optionally) = 15
-	if score != 15 {
+	"github.com/agent-ecosystem/skill-validator/types"
+)
+
+func TestD6_HighSpecificity(t *testing.T) {
+	// InstructionSpecificity=1.0 (all strong) → round(1.0*15) = 15
+	b := &validatorBridge{Content: &types.ContentReport{
+		StrongMarkers:          6,
+		WeakMarkers:            0,
+		InstructionSpecificity: 1.0,
+	}}
+	if score := scoreD6(b); score != 15 {
 		t.Errorf("want 15, got %d", score)
 	}
 }
 
-func TestD6_Minimal(t *testing.T) {
-	content := "just some text"
-	if score := scoreD6(content); score != 10 {
-		t.Errorf("want 10, got %d", score)
+func TestD6_MixedSpecificity(t *testing.T) {
+	// InstructionSpecificity=0.6 → round(0.6*15) = round(9.0) = 9
+	b := &validatorBridge{Content: &types.ContentReport{
+		StrongMarkers:          3,
+		WeakMarkers:            2,
+		InstructionSpecificity: 0.6,
+	}}
+	want := int(math.Round(0.6 * 15))
+	if score := scoreD6(b); score != want {
+		t.Errorf("want %d, got %d", want, score)
 	}
 }
 
-func TestD6_MidRangePrescriptive(t *testing.T) {
-	// 3 NEVER/ALWAYS → +2; no permissive → 10+2=12
-	content := "NEVER a. ALWAYS b. NEVER c."
-	if score := scoreD6(content); score != 12 {
-		t.Errorf("want 12, got %d", score)
+func TestD6_ZeroMarkers(t *testing.T) {
+	// No strong or weak markers → 0 (no directive language)
+	b := &validatorBridge{Content: &types.ContentReport{
+		StrongMarkers:          0,
+		WeakMarkers:            0,
+		InstructionSpecificity: 1.0, // library returns 1.0 when both zero — we override to 0
+	}}
+	if score := scoreD6(b); score != 0 {
+		t.Errorf("want 0 when no markers, got %d", score)
+	}
+}
+
+func TestD6_NilContent(t *testing.T) {
+	if score := scoreD6(nilBridge()); score != 0 {
+		t.Errorf("want 0 when bridge has no content, got %d", score)
+	}
+}
+
+func TestD6_LowSpecificity(t *testing.T) {
+	// InstructionSpecificity=0.2 → round(0.2*15) = round(3.0) = 3
+	b := &validatorBridge{Content: &types.ContentReport{
+		StrongMarkers:          1,
+		WeakMarkers:            4,
+		InstructionSpecificity: 0.2,
+	}}
+	want := int(math.Round(0.2 * 15))
+	if score := scoreD6(b); score != want {
+		t.Errorf("want %d, got %d", want, score)
 	}
 }

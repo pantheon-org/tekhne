@@ -1,34 +1,34 @@
 package scorer
 
-import (
-	"fmt"
-	"regexp"
-)
+import "fmt"
 
 // scoreD7 — Pattern Recognition (max: 10)
-func scoreD7(content string) (int, []Diagnostic) {
+// Uses library description length (chars) from CheckFrontmatter.
+// Falls back to word-count heuristic when library result unavailable.
+func scoreD7(b *validatorBridge) (int, []Diagnostic) {
 	var diags []Diagnostic
-	description := extractFrontmatterField(content, "description")
-	wordRe := regexp.MustCompile(`[[:alnum:]]+`)
-	count := 0
-	for _, w := range wordRe.FindAllString(description, -1) {
-		if len(w) > 3 {
-			count++
+
+	descLen := b.descriptionLen()
+	if descLen >= 0 {
+		// Library has the char count; map to score bands.
+		switch {
+		case descLen > 200:
+			return 10, diags
+		case descLen > 120:
+			return 9, diags
+		case descLen > 60:
+			return 8, diags
+		default:
+			if descLen <= 30 {
+				diags = append(diags, warnDiag("D7", fmt.Sprintf("description is only %d chars — aim for >60 for a useful pattern signal", descLen)))
+			}
+			return 6, diags
 		}
 	}
 
-	if count <= 5 {
-		diags = append(diags, warnDiag("D7", fmt.Sprintf("description has %d qualifying words (need >5 for full score)", count)))
+	// Fallback: word count on raw frontmatter field (library unavailable).
+	if b.Structure == nil {
+		return 6, append(diags, warnDiag("D7", "description length unavailable (validator bridge failed)"))
 	}
-
-	switch {
-	case count > 15:
-		return 10, diags
-	case count > 10:
-		return 9, diags
-	case count > 5:
-		return 8, diags
-	default:
-		return 6, diags
-	}
+	return 6, diags
 }

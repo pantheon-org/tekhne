@@ -9,18 +9,31 @@ import (
 )
 
 // scoreD3 — Anti-Pattern Quality (max: 15)
-func scoreD3(content, skillDir string) (int, []Diagnostic) {
-	score := 8
+func scoreD3(content, skillDir string, b *validatorBridge) (int, []Diagnostic) {
+	score := 0
 	var diags []Diagnostic
 
-	neverCount := countPattern(content, "NEVER")
-	if neverCount > 3 {
-		score += 3
-	} else if neverCount > 0 {
-		score += neverCount
+	if b.Content != nil {
+		// Use library strong-marker count as the primary directive-language signal
+		sm := b.Content.StrongMarkers
+		switch {
+		case sm > 8:
+			score += 5
+		case sm > 4:
+			score += 3
+		case sm > 0:
+			score += 1
+		}
+	} else {
+		neverCount := countPattern(content, "NEVER")
+		if neverCount > 3 {
+			score += 3
+		} else if neverCount > 0 {
+			score += neverCount
+		}
 	}
 
-	if matchesRegexCI(content, `(?i)BAD.*GOOD`) {
+	if matchesRegexCI(content, `(?is)BAD.*GOOD`) {
 		score += 2
 	}
 	if countPattern(content, "WHY:") > 0 {
@@ -31,6 +44,7 @@ func scoreD3(content, skillDir string) (int, []Diagnostic) {
 	if data, err := os.ReadFile(instrFile); err == nil {
 		var instrData struct {
 			Instructions []struct {
+				Type             string      `json:"type"`
 				OriginalSnippets interface{} `json:"original_snippets"`
 				Content          string      `json:"content"`
 			} `json:"instructions"`
@@ -54,7 +68,10 @@ func scoreD3(content, skillDir string) (int, []Diagnostic) {
 					}
 					snippetStr = strings.Join(parts, " ")
 				}
-				if antiPat.MatchString(snippetStr) {
+				if snippetStr == "" {
+					snippetStr = instr.Content
+				}
+				if strings.EqualFold(instr.Type, "anti-pattern") || antiPat.MatchString(snippetStr) {
 					antiInstr++
 				}
 			}

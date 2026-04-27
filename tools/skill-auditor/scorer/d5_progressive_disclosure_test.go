@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/agent-ecosystem/skill-validator/types"
 )
 
 func TestD5_WithRefsShort(t *testing.T) {
@@ -13,7 +15,8 @@ func TestD5_WithRefsShort(t *testing.T) {
 	if err := writeRefFile(tmpDir, "deep.md", "# Deep Reference"); err != nil {
 		t.Fatal(err)
 	}
-	if score := scoreD5(content, tmpDir); score != 15 {
+	// 50+3 = 53 lines < 100 → 15
+	if score := scoreD5(content, tmpDir, nilBridge()); score != 15 {
 		t.Errorf("want 15, got %d", score)
 	}
 }
@@ -24,8 +27,8 @@ func TestD5_WithRefsMedium(t *testing.T) {
 	if err := writeRefFile(tmpDir, "deep.md", "# Deep Reference"); err != nil {
 		t.Fatal(err)
 	}
-	// 123 total lines → 100 ≤ x < 150 → 13
-	if score := scoreD5(content, tmpDir); score != 13 {
+	// 120+3 = 123 lines: 100 ≤ x < 150 → 13
+	if score := scoreD5(content, tmpDir, nilBridge()); score != 13 {
 		t.Errorf("want 13, got %d", score)
 	}
 }
@@ -39,12 +42,12 @@ func TestD5_WithRefsLarge(t *testing.T) {
 		lines int
 		want  int
 	}{
-		{195, 11}, // 195+3 frontmatter = 198 → 150 ≤ x < 200 → 11
-		{210, 10}, // 210+3 = 213 → ≥200 → 10
+		{160, 11}, // 160+3 = 163: 150 ≤ x < 200 → 11
+		{210, 10}, // 210+3 = 213: ≥200 → 10
 	}
 	for _, tc := range cases {
 		content := makeLines(tc.lines)
-		score := scoreD5(content, tmpDir)
+		score := scoreD5(content, tmpDir, nilBridge())
 		if score != tc.want {
 			t.Errorf("lines=%d: want %d, got %d", tc.lines, tc.want, score)
 		}
@@ -53,32 +56,79 @@ func TestD5_WithRefsLarge(t *testing.T) {
 
 func TestD5_NoRefsShort(t *testing.T) {
 	content := "---\ndescription: x\n---\n# Short skill"
-	if score := scoreD5(content, t.TempDir()); score != 12 {
+	// 4 lines < 200 → 12
+	if score := scoreD5(content, t.TempDir(), nilBridge()); score != 12 {
 		t.Errorf("want 12, got %d", score)
 	}
 }
 
 func TestD5_NoRefsMedium(t *testing.T) {
-	// 200-299 lines without refs → 10
+	// 250+3 = 253 lines: 200 ≤ x < 300 → 10
 	content := makeLines(250)
-	if score := scoreD5(content, t.TempDir()); score != 10 {
+	if score := scoreD5(content, t.TempDir(), nilBridge()); score != 10 {
 		t.Errorf("want 10, got %d", score)
 	}
 }
 
 func TestD5_NoRefsLarge(t *testing.T) {
-	// 300-499 lines → 7
+	// 350+3 = 353 lines: 300 ≤ x < 500 → 7
 	content := makeLines(350)
-	if score := scoreD5(content, t.TempDir()); score != 7 {
+	if score := scoreD5(content, t.TempDir(), nilBridge()); score != 7 {
 		t.Errorf("want 7, got %d", score)
 	}
 }
 
 func TestD5_NoRefsVeryLarge(t *testing.T) {
-	// 500+ lines → 5
+	// 510+3 = 513 lines: ≥500 → 5
 	content := makeLines(510)
-	if score := scoreD5(content, t.TempDir()); score != 5 {
+	if score := scoreD5(content, t.TempDir(), nilBridge()); score != 5 {
 		t.Errorf("want 5, got %d", score)
+	}
+}
+
+func TestD5_TokenPath_WithRefs(t *testing.T) {
+	tmpDir := t.TempDir()
+	if err := writeRefFile(tmpDir, "deep.md", "# Deep Reference"); err != nil {
+		t.Fatal(err)
+	}
+	b := &validatorBridge{Content: &types.ContentReport{}}
+	// Inject token count via a Report that has a TokenCount entry.
+	// Since validatorBridge.skillMDTokens() reads b.Structure.TokenCounts,
+	// we test the token path indirectly through scoreD5ByTokens directly.
+	score, _, _, _ := scoreD5ByTokens(600, 50, 1, true)
+	if score != 15 {
+		t.Errorf("tokens=600 with refs: want 15, got %d", score)
+	}
+	score, _, _, _ = scoreD5ByTokens(1000, 120, 1, true)
+	if score != 13 {
+		t.Errorf("tokens=1000 with refs: want 13, got %d", score)
+	}
+	score, _, _, _ = scoreD5ByTokens(1400, 160, 1, true)
+	if score != 11 {
+		t.Errorf("tokens=1400 with refs: want 11, got %d", score)
+	}
+	score, _, _, _ = scoreD5ByTokens(2000, 200, 1, true)
+	if score != 10 {
+		t.Errorf("tokens=2000 with refs: want 10, got %d", score)
+	}
+	_ = b
+}
+
+func TestD5_TokenPath_NoRefs(t *testing.T) {
+	cases := []struct {
+		tokens int
+		want   int
+	}{
+		{800, 12},
+		{1500, 10},
+		{3000, 7},
+		{5000, 5},
+	}
+	for _, tc := range cases {
+		score, _, _, _ := scoreD5ByTokens(tc.tokens, 100, 0, false)
+		if score != tc.want {
+			t.Errorf("tokens=%d no refs: want %d, got %d", tc.tokens, tc.want, score)
+		}
 	}
 }
 

@@ -1,25 +1,23 @@
 package scorer
 
+import "math"
+
 // scoreD6 — Freedom Calibration (max: 15)
-func scoreD6(content string) int {
-	score := 10
-
-	neverAlways := countPattern(content, "NEVER") + countPattern(content, "ALWAYS")
-	if neverAlways > 5 {
-		score += 3
-	} else if neverAlways > 2 {
-		score += 2
+// score = round(InstructionSpecificity * 15); no baseline.
+// Zero markers → 0 (no directive language is a genuine quality gap).
+func scoreD6(b *validatorBridge) int {
+	if b.Content == nil {
+		return 0
 	}
-
-	if countPattern(content, "consider") > 0 || countPattern(content, "optionally") > 0 || countPattern(content, "may") > 0 {
-		score += 2
+	if b.Content.StrongMarkers+b.Content.WeakMarkers == 0 {
+		return 0
 	}
-
+	score := int(math.Round(b.Content.InstructionSpecificity * 15))
 	if score > 15 {
-		score = 15
+		return 15
 	}
 	if score < 0 {
-		score = 0
+		return 0
 	}
 	return score
 }

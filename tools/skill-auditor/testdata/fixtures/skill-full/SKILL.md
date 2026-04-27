@@ -1,6 +1,6 @@
 ---
 name: input-validation-skill
-description: Validates and sanitizes user inputs before processing to prevent injection attacks, data corruption, and runtime errors in production systems
+description: Validates, sanitizes, normalizes user inputs before processing. Prevents injection attacks, data corruption, runtime errors in production. Enforces schema-driven validation at entry points with explicit rejection policies for malformed payloads.
 ---
 
 # Input Validation Skill
@@ -16,6 +16,7 @@ Core rules:
 1. Validate at entry points, not deep in business logic
 2. Reject early — fail fast on malformed input
 3. NEVER assume internal callers are trusted without proof
+4. ALWAYS return a structured error with the validation failure reason
 
 ## When to Use
 
@@ -27,7 +28,9 @@ Core rules:
 
 - Validating internal constants or compile-time values
 - Re-validating data that has already passed a trusted validation boundary in the same request lifecycle
-- optionally skip for internal microservice calls behind a trusted network boundary
+- skip for internal microservice calls behind a trusted network boundary verified at the infrastructure layer
+
+NEVER bypass the validation boundary for performance reasons without an explicit security review.
 
 ## Procedures
 
@@ -105,4 +108,4 @@ WHY: Side effects are already applied when validation fails. ALWAYS validate bef
 ## References
 
 - [Deep Reference: Schema Design](./references/deep-reference.md) — Schema design and progressive disclosure patterns
-- consider reviewing Zod documentation for advanced schema composition
+- [Zod documentation](https://zod.dev) — advanced schema composition patterns

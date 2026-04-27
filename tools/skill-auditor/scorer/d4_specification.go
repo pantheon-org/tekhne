@@ -8,13 +8,15 @@ import (
 )
 
 // scoreD4 — Specification Compliance (max: 17)
-func scoreD4(content, skillDir string) (int, []Diagnostic) {
-	score := 10
+func scoreD4(content, skillDir string, b *validatorBridge) (int, []Diagnostic) {
+	score := 8
 	var diags []Diagnostic
 
-	description := extractFrontmatterField(content, "description")
-	descLen := len(description)
-
+	// Description length: prefer library result; fall back to custom parse.
+	descLen := b.descriptionLen()
+	if descLen < 0 {
+		descLen = len(extractFrontmatterField(content, "description"))
+	}
 	if descLen > 100 {
 		score += 2
 	}
@@ -22,6 +24,8 @@ func scoreD4(content, skillDir string) (int, []Diagnostic) {
 		score++
 	}
 
+	// Keyword-stuffing proxy via and/or count (library flags stuffing but no count).
+	description := extractFrontmatterField(content, "description")
 	andOrRe := regexp.MustCompile(`(?i) and | or `)
 	andOrCount := len(andOrRe.FindAllString(description, -1))
 	if andOrCount > 3 {
@@ -30,14 +34,14 @@ func scoreD4(content, skillDir string) (int, []Diagnostic) {
 		score--
 	}
 
-	// Harness-specific config/data directories from the vercel-labs/skills supported-agents table.
+	// Harness-specific paths — content scan, no library equivalent.
 	if dir := findHarnessPath(content); dir != "" {
 		diags = append(diags, warnDiag("D4", "harness-specific path found: "+dir))
 	} else {
 		score++
 	}
 
-	// Agent name references that would make the skill non-portable.
+	// Agent name references — content scan, no library equivalent.
 	if ref := findAgentRef(content); ref != "" {
 		diags = append(diags, warnDiag("D4", "agent-specific reference found: "+ref))
 	} else {
@@ -51,7 +55,8 @@ func scoreD4(content, skillDir string) (int, []Diagnostic) {
 
 	nonCode := removeCodeBlocks(content)
 
-	if strings.Contains(nonCode, "../") {
+	// ../  violations: use library's internal-link check as primary signal.
+	if b.hasInternalLinkWarning() || strings.Contains(nonCode, "../") {
 		score -= 2
 		diags = append(diags, warnDiag("D4", "../ reference outside code blocks (self-containment violation)"))
 	}
