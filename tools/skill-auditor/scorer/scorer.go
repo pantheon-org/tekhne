@@ -28,7 +28,7 @@ func ScoreFromContent(skillPath, content, evalsDir string) (*Result, error) {
 	d2 := scoreD2(content)
 	d3 := scoreD3(content, skillDir)
 	d4 := scoreD4(content, skillDir)
-	d5 := scoreD5(content, skillDir)
+	d5, lines, refCount, hasRefs := scoreD5WithMeta(content, skillDir)
 	d6 := scoreD6(content)
 	d7 := scoreD7(content)
 	d8 := scoreD8(content)
@@ -36,21 +36,27 @@ func ScoreFromContent(skillPath, content, evalsDir string) (*Result, error) {
 
 	total := d1 + d2 + d3 + d4 + d5 + d6 + d7 + d8 + d9
 
+	refSectionCompliant := isReferenceSectionCompliant(content)
+
 	return &Result{
-		SkillPath: skillPath,
-		Total:     total,
-		MaxTotal:  140,
-		Grade:     Grade(total),
-		Dimensions: map[string]DimensionScore{
-			"D1": {Score: d1, Max: 20},
-			"D2": {Score: d2, Max: 15},
-			"D3": {Score: d3, Max: 15},
-			"D4": {Score: d4, Max: 17},
-			"D5": {Score: d5, Max: 15},
-			"D6": {Score: d6, Max: 15},
-			"D7": {Score: d7, Max: 10},
-			"D8": {Score: d8, Max: 15},
-			"D9": {Score: d9, Max: 20},
+		Skill:                    skillPath,
+		Total:                    total,
+		MaxTotal:                 140,
+		Grade:                    Grade(total),
+		Lines:                    lines,
+		HasReferences:            hasRefs,
+		ReferenceCount:           refCount,
+		ReferenceSectionCompliant: refSectionCompliant,
+		Dimensions: map[string]int{
+			"knowledgeDelta":          d1,
+			"mindsetProcedures":       d2,
+			"antiPatternQuality":      d3,
+			"specificationCompliance": d4,
+			"progressiveDisclosure":   d5,
+			"freedomCalibration":      d6,
+			"patternRecognition":      d7,
+			"practicalUsability":      d8,
+			"evalValidation":          d9,
 		},
 	}, nil
 }
@@ -410,46 +416,63 @@ func scoreD4(content, skillDir string) int {
 }
 
 // scoreD5 — Progressive Disclosure (max: 15)
-// Replicates evaluate_progressive_disclosure.
 func scoreD5(content, skillDir string) int {
+	score, _, _, _ := scoreD5WithMeta(content, skillDir)
+	return score
+}
+
+// scoreD5WithMeta returns the D5 score plus metadata used in the Result.
+func scoreD5WithMeta(content, skillDir string) (score, lines, refCount int, hasRefs bool) {
 	refsDir := filepath.Join(skillDir, "references")
-	hasRefs := false
 	if info, err := os.Stat(refsDir); err == nil && info.IsDir() {
 		entries, _ := os.ReadDir(refsDir)
 		for _, e := range entries {
 			if !e.IsDir() && strings.HasSuffix(e.Name(), ".md") && !strings.HasPrefix(e.Name(), ".") {
 				hasRefs = true
-				break
+				refCount++
 			}
 		}
 	}
 
 	// evaluate.sh uses wc -l which counts total lines (including empty ones)
-	lines := len(strings.Split(content, "\n"))
+	lines = len(strings.Split(content, "\n"))
 
 	if hasRefs {
 		if lines < 100 {
-			return 15
+			return 15, lines, refCount, hasRefs
 		}
 		if lines < 150 {
-			return 13
+			return 13, lines, refCount, hasRefs
 		}
 		if lines < 200 {
-			return 11
+			return 11, lines, refCount, hasRefs
 		}
-		return 10
+		return 10, lines, refCount, hasRefs
 	}
 
 	if lines < 200 {
-		return 12
+		return 12, lines, refCount, hasRefs
 	}
 	if lines < 300 {
-		return 10
+		return 10, lines, refCount, hasRefs
 	}
 	if lines < 500 {
-		return 7
+		return 7, lines, refCount, hasRefs
 	}
-	return 5
+	return 5, lines, refCount, hasRefs
+}
+
+// isReferenceSectionCompliant checks if ## References is the last H2 with ≥1 bullet link.
+func isReferenceSectionCompliant(content string) bool {
+	lines := strings.Split(content, "\n")
+	lastH2 := ""
+	for _, line := range lines {
+		if strings.HasPrefix(line, "## ") {
+			lastH2 = strings.TrimPrefix(line, "## ")
+		}
+	}
+	bulletLinkRe := regexp.MustCompile(`(?m)^- \[.+\]\(.+\)`)
+	return strings.TrimSpace(lastH2) == "References" && bulletLinkRe.MatchString(content)
 }
 
 // scoreD6 — Freedom Calibration (max: 15)

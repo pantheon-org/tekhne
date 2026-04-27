@@ -33,7 +33,7 @@ func TestScoreFullAGrade(t *testing.T) {
 	if result.Total < 126 {
 		t.Errorf("skill-full expected total >= 126, got %d (grade %s)", result.Total, result.Grade)
 		for k, v := range result.Dimensions {
-			t.Logf("  %s: %d/%d", k, v.Score, v.Max)
+			t.Logf("  %s: %d", k, v)
 		}
 	}
 	if GradeRank[result.Grade] < GradeRank["A"] {

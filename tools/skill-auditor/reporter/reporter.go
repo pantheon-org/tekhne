@@ -7,36 +7,37 @@ import (
 	"github.com/pantheon-org/tekhne/tools/skill-auditor/scorer"
 )
 
-// dimensionOrder defines the canonical D1–D9 display order with names.
+// dimensionOrder defines the canonical display order with camelCase keys and labels.
 var dimensionOrder = []struct {
 	key  string
-	name string
+	label string
+	max  int
 }{
-	{"D1", "Knowledge Delta"},
-	{"D2", "Mindset + Procedures"},
-	{"D3", "Anti-Pattern Quality"},
-	{"D4", "Specification Compliance"},
-	{"D5", "Progressive Disclosure"},
-	{"D6", "Freedom Calibration"},
-	{"D7", "Pattern Recognition"},
-	{"D8", "Practical Usability"},
-	{"D9", "Eval Validation"},
+	{"knowledgeDelta", "Knowledge Delta", 20},
+	{"mindsetProcedures", "Mindset + Procedures", 15},
+	{"antiPatternQuality", "Anti-Pattern Quality", 15},
+	{"specificationCompliance", "Specification Compliance", 15},
+	{"progressiveDisclosure", "Progressive Disclosure", 15},
+	{"freedomCalibration", "Freedom Calibration", 15},
+	{"patternRecognition", "Pattern Recognition", 10},
+	{"practicalUsability", "Practical Usability", 15},
+	{"evalValidation", "Eval Validation", 20},
 }
 
 // Format returns a human-readable representation of a Result.
 func Format(r *scorer.Result) string {
 	var sb strings.Builder
 
-	fmt.Fprintf(&sb, "Skill: %s\n", r.SkillPath)
+	fmt.Fprintf(&sb, "Skill: %s\n", r.Skill)
 	fmt.Fprintf(&sb, "Grade: %s (%d/%d)\n", r.Grade, r.Total, r.MaxTotal)
 	fmt.Fprintf(&sb, "\nDimensions:\n")
 
 	for _, d := range dimensionOrder {
-		dim, ok := r.Dimensions[d.key]
+		score, ok := r.Dimensions[d.key]
 		if !ok {
 			continue
 		}
-		fmt.Fprintf(&sb, "  %-3s %-28s %2d/%d\n", d.key, d.name, dim.Score, dim.Max)
+		fmt.Fprintf(&sb, "  %-28s %2d/%d\n", d.label, score, d.max)
 	}
 
 	fmt.Fprintf(&sb, "\nErrors: %d  Warnings: %d\n", r.Errors, r.Warnings)

@@ -13,12 +13,12 @@ import (
 
 func makeStoreResult() *scorer.Result {
 	return &scorer.Result{
-		SkillPath: "agentic-harness/skill-quality-auditor",
-		Total:     122,
-		MaxTotal:  140,
-		Grade:     "B+",
-		Dimensions: map[string]scorer.DimensionScore{
-			"D1": {Score: 14, Max: 20},
+		Skill:    "agentic-harness/skill-quality-auditor",
+		Total:    122,
+		MaxTotal: 140,
+		Grade:    "B+",
+		Dimensions: map[string]int{
+			"knowledgeDelta": 14,
 		},
 		Errors:   0,
 		Warnings: 0,
@@ -66,8 +66,8 @@ func TestStoreContent(t *testing.T) {
 	}
 
 	// Check key fields.
-	if got.SkillPath != skillPath {
-		t.Errorf("skill_path: got %q, want %q", got.SkillPath, skillPath)
+	if got.Skill != skillPath {
+		t.Errorf("skill: got %q, want %q", got.Skill, skillPath)
 	}
 	if got.Total != 122 {
 		t.Errorf("total: got %d, want 122", got.Total)

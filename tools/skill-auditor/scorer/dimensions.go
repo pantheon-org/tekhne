@@ -5,20 +5,26 @@ import (
 )
 
 // DimensionScore holds the score and max for a single rubric dimension.
+// Used internally; not serialized directly.
 type DimensionScore struct {
-	Score int `json:"score"`
-	Max   int `json:"max"`
+	Score int
+	Max   int
 }
 
 // Result is the output of scoring a skill.
+// JSON shape matches the legacy evaluate.sh audit.json format.
 type Result struct {
-	SkillPath  string                    `json:"skill_path"`
-	Total      int                       `json:"total"`
-	MaxTotal   int                       `json:"max_total"`
-	Grade      string                    `json:"grade"`
-	Dimensions map[string]DimensionScore `json:"dimensions"`
-	Errors     int                       `json:"errors"`
-	Warnings   int                       `json:"warnings"`
+	Skill                    string         `json:"skill"`
+	Dimensions               map[string]int `json:"dimensions"`
+	Total                    int            `json:"total"`
+	MaxTotal                 int            `json:"maxTotal"`
+	Grade                    string         `json:"grade"`
+	Lines                    int            `json:"lines"`
+	HasReferences            bool           `json:"hasReferences"`
+	ReferenceCount           int            `json:"referenceCount"`
+	ReferenceSectionCompliant bool          `json:"referenceSectionCompliant"`
+	Errors                   int            `json:"errors"`
+	Warnings                 int            `json:"warnings"`
 }
 
 // countPattern counts case-insensitive substring occurrences.

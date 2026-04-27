@@ -37,6 +37,7 @@ var evaluateCmd = &cobra.Command{
 		if err != nil {
 			return fmt.Errorf("scoring failed: %w", err)
 		}
+		result.Skill = skillKey
 
 		if evaluateJSON {
 			data, err := json.MarshalIndent(result, "", "  ")
