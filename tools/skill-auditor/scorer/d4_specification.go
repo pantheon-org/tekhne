@@ -30,14 +30,16 @@ func scoreD4(content, skillDir string) (int, []Diagnostic) {
 		score--
 	}
 
-	harnessPathRe := regexp.MustCompile(`\.(opencode|claude|cursor|aider|continue)/`)
+	// Harness-specific config/data directories from the vercel-labs/skills supported-agents table.
+	harnessPathRe := regexp.MustCompile(`\.(claude|cursor|continue|codeium|goose|pi|windsurf|agents|copilot|codex|gemini|deepagents|firebender|aider)/`)
 	if m := harnessPathRe.FindString(content); m != "" {
 		diags = append(diags, warnDiag("D4", "harness-specific path found: "+m))
 	} else {
 		score++
 	}
 
-	agentRefRe := regexp.MustCompile(`(?i)claude code|cursor agent|github copilot|aider|continue\.dev`)
+	// Agent name references that would make the skill non-portable.
+	agentRefRe := regexp.MustCompile(`(?i)\bclaude code\b|\bcursor agent\b|\bgithub copilot\b|\baider\b|\bcontinue\.dev\b|\bopencode\b|\bwindsurf\b|\bgemini cli\b|\bgoose\b|\bcodex\b|\bcline\b|\bwarp agent\b|\bamp agent\b|\bfirebender\b|\bdeep agents\b|\breplit agent\b|\bkimi code\b`)
 	if m := agentRefRe.FindString(content); m != "" {
 		diags = append(diags, warnDiag("D4", "agent-specific reference found: "+m))
 	} else {
