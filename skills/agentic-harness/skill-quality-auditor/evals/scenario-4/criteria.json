@@ -1,0 +1,41 @@
+{
+  "context": "Tests whether the agent produces correctly structured anti-patterns with NEVER/WHY/BAD/GOOD format, covering all three original issues and adding at least one new one.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "NEVER statements used",
+      "description": "Each anti-pattern leads with 'NEVER: [action]' phrasing",
+      "max_score": 15
+    },
+    {
+      "name": "WHY: explanations present",
+      "description": "Each NEVER statement is followed by a 'WHY:' line explaining the consequence",
+      "max_score": 18
+    },
+    {
+      "name": "BAD code examples",
+      "description": "Each anti-pattern includes a fenced BAD code block showing the incorrect pattern",
+      "max_score": 18
+    },
+    {
+      "name": "GOOD code examples",
+      "description": "Each anti-pattern includes a fenced GOOD code block showing the correct alternative",
+      "max_score": 15
+    },
+    {
+      "name": "All 3 original issues covered",
+      "description": "Secrets hardcoding, parallel dependency issues, and floating action tags are all addressed",
+      "max_score": 14
+    },
+    {
+      "name": "At least 4 anti-patterns total",
+      "description": "Section contains 4 or more distinct NEVER entries (original 3 + at least 1 new)",
+      "max_score": 10
+    },
+    {
+      "name": "Score impact explained",
+      "description": "before-after-diff.md explains which D3 signals the new content satisfies and estimates score delta",
+      "max_score": 10
+    }
+  ]
+}

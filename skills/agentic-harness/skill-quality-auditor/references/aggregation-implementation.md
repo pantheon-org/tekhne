@@ -448,7 +448,7 @@ ls -1 .agents/skills/ | grep -v "^\." | wc -l
 ls -1 .agents/skills/.deprecated/ | wc -l
 
 # Verify aggregation exists
-test -f skills/bdd-testing/SKILL.md && echo "✅ Aggregation created"
+test -f skills/<aggregated-skill>/SKILL.md && echo "✅ Aggregation created"
 ```
 
 ## Verification Checklist

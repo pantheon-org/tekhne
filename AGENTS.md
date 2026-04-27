@@ -67,7 +67,7 @@ bunx markdownlint-cli2 "**/*.md"
 Run before publishing or committing major changes. See `skills/agentic-harness/skill-quality-auditor/SKILL.md` for full workflow.
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill-name> --json --store
+skill-auditor evaluate <domain>/<skill-name> --json --store
 ```
 
 Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (blocked from publishing).

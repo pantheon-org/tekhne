@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent produces an executable, phase-based remediation plan with measurable targets, effort estimates, and concrete file-level changes — not a vague list of suggestions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Executive summary present",
+      "description": "Plan opens with current score, target score, current/target grade, priority, and top focus areas",
+      "max_score": 10
+    },
+    {
+      "name": "Critical issues table",
+      "description": "Identifies top issues referencing D3, D5, D9 by dimension number with severity and impact",
+      "max_score": 12
+    },
+    {
+      "name": "Phase-based organisation",
+      "description": "Steps are grouped into phases (e.g. Phase 1: Anti-Patterns, Phase 2: Progressive Disclosure) with per-phase targets",
+      "max_score": 15
+    },
+    {
+      "name": "Specific file changes",
+      "description": "Names exact files to create or modify (e.g. SKILL.md, references/anti-patterns.md) with content examples",
+      "max_score": 18
+    },
+    {
+      "name": "Measurable success criteria",
+      "description": "success-criteria.md defines per-dimension score targets (e.g. D3 >=12/15, D9 >=16/20)",
+      "max_score": 15
+    },
+    {
+      "name": "S/M/L effort sizing",
+      "description": "Each phase has an effort estimate (S/M/L) and approximate time in hours",
+      "max_score": 10
+    },
+    {
+      "name": "Verification commands",
+      "description": "implementation-steps.sh includes skill-auditor evaluate commands to verify each phase's impact",
+      "max_score": 12
+    },
+    {
+      "name": "A-grade target achievable",
+      "description": "The plan's projected score delta would bring the skill to >=126/140 if all phases completed",
+      "max_score": 8
+    }
+  ]
+}

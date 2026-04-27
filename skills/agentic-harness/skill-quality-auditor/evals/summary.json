@@ -1,0 +1,34 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 85,
+    "covered_instructions": [
+      "skill-auditor evaluate command with --json --store flags",
+      "skill-auditor batch command for multiple skills",
+      "Build binary with bun run build:skill-auditor",
+      "Grade bands A/B+/B/C+ with score thresholds",
+      "D1 Knowledge Delta minimum threshold",
+      "D9 scenario subdirectory structure requirements",
+      "criteria.json checklist summing to 100",
+      "Duplication similarity thresholds and action tiers",
+      "No cross-domain aggregation rule",
+      "Remediation plan T-shirt sizing",
+      "Navigation Hub pattern",
+      "Anti-pattern NEVER/WHY/BAD/GOOD structure",
+      "References section as last H2"
+    ],
+    "uncovered_instructions": [
+      "Store flag and audit path conventions",
+      "Publication blocking threshold"
+    ]
+  },
+  "scenario_coverage": {
+    "total_scenarios": 5,
+    "capabilities_covered": [
+      "skill-quality-evaluation",
+      "batch-audit-workflow",
+      "remediation-planning",
+      "anti-pattern-documentation",
+      "duplication-detection"
+    ]
+  }
+}

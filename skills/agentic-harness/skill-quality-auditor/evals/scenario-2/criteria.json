@@ -1,0 +1,46 @@
+{
+  "context": "Tests whether the agent uses skill-auditor batch for collection-wide audits, stores results in the correct directory structure, compares against baselines, and produces a trend-aware report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "skill-auditor batch used",
+      "description": "Uses `skill-auditor batch` (not individual evaluate calls per skill) to audit the collection",
+      "max_score": 15
+    },
+    {
+      "name": "--store flag used",
+      "description": "Passes --store so results are written to .context/audits/<skill>/YYYY-MM-DD/",
+      "max_score": 10
+    },
+    {
+      "name": "--json flag used",
+      "description": "Passes --json to capture structured output",
+      "max_score": 8
+    },
+    {
+      "name": "Baseline comparison performed",
+      "description": "Reads previous audit.json files from .context/audits/ and computes score deltas",
+      "max_score": 20
+    },
+    {
+      "name": "Grade thresholds applied",
+      "description": "Uses A>=126, B+>=119, B>=112, C/C+<112 thresholds in the report",
+      "max_score": 12
+    },
+    {
+      "name": "New skills handled",
+      "description": "Notes that 4 skills have no baseline and marks them as 'new — no delta available'",
+      "max_score": 10
+    },
+    {
+      "name": "Trend analysis present",
+      "description": "baseline-comparison.md identifies at least improvements, regressions, and new skills categories",
+      "max_score": 15
+    },
+    {
+      "name": "Reproducible commands documented",
+      "description": "audit-execution.sh contains exact commands that can be re-run to reproduce the audit",
+      "max_score": 10
+    }
+  ]
+}

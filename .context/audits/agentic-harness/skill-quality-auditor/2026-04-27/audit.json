@@ -1,0 +1,24 @@
+{
+  "skill": "agentic-harness/skill-quality-auditor",
+  "date": "2026-04-27",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 14,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 13,
+    "specificationCompliance": 9
+  },
+  "total": 123,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 119,
+  "hasReferences": true,
+  "referenceCount": 24,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

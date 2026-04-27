@@ -369,11 +369,11 @@ Pin session decisions, questions, constraints, and corrections to a persistent b
 
 Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds.
 
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/skill-quality-auditor) | **Version:** 0.1.4
+**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/skill-quality-auditor) | **Version:** 0.1.5
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
+| [skill-quality-auditor](/tekhne/skills/agentic-harness/skill-quality-auditor/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-04-27 | 5 |
 
 ### create-context
 
@@ -403,7 +403,7 @@ Create and maintain AGENTS.md documentation for simple projects and complex mono
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--a-plus">A+</span> | 2026-04-08 | 5 |
+| [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-27 | 5 |
 
 ### save-context
 

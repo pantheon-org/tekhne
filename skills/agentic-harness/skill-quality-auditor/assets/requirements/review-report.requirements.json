@@ -49,8 +49,8 @@
   ],
   "required_commands": [],
   "recommended_commands": [
-    "./scripts/evaluate.sh",
-    "./scripts/audit-skills.sh",
+    "skill-auditor evaluate",
+    "skill-auditor batch",
     "./scripts/detect-duplication.sh"
   ]
 }
