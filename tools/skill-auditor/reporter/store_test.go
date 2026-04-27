@@ -6,14 +6,16 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/pantheon-org/tekhne/tools/skill-auditor/scorer"
 )
 
+const testDate = "2026-01-01"
+
 func makeStoreResult() *scorer.Result {
 	return &scorer.Result{
 		Skill:    "agentic-harness/skill-quality-auditor",
+		Date:     testDate,
 		Total:    122,
 		MaxTotal: 140,
 		Grade:    "B+",
@@ -34,8 +36,7 @@ func TestStoreCreatesFile(t *testing.T) {
 		t.Fatalf("Store returned error: %v", err)
 	}
 
-	date := time.Now().Format("2006-01-02")
-	expected := filepath.Join(root, ".context", "audits", skillPath, date, "audit.json")
+	expected := filepath.Join(root, ".context", "audits", skillPath, testDate, "audit.json")
 
 	if _, err := os.Stat(expected); os.IsNotExist(err) {
 		t.Errorf("expected file not created at %s", expected)
@@ -51,8 +52,7 @@ func TestStoreContent(t *testing.T) {
 		t.Fatalf("Store returned error: %v", err)
 	}
 
-	date := time.Now().Format("2006-01-02")
-	dest := filepath.Join(root, ".context", "audits", skillPath, date, "audit.json")
+	dest := filepath.Join(root, ".context", "audits", skillPath, testDate, "audit.json")
 
 	data, err := os.ReadFile(dest)
 	if err != nil {

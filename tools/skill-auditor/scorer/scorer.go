@@ -3,6 +3,7 @@ package scorer
 import (
 	"os"
 	"path/filepath"
+	"time"
 )
 
 // Score evaluates a skill at skillPath and returns a Result.
@@ -45,6 +46,7 @@ func ScoreFromContent(skillPath, content, evalsDir string) (*Result, error) {
 
 	return &Result{
 		Skill:                     skillPath,
+		Date:                      time.Now().Format("2006-01-02"),
 		Total:                     total,
 		MaxTotal:                  140,
 		Grade:                     Grade(total),

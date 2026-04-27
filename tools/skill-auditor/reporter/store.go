@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/pantheon-org/tekhne/tools/skill-auditor/scorer"
 )
@@ -13,8 +12,7 @@ import (
 // Store writes audit.json, Analysis.md, and Remediation.md to
 // .context/audits/<skillPath>/<date>/ relative to repoRoot.
 func Store(repoRoot, skillPath string, r *scorer.Result) error {
-	date := time.Now().Format("2006-01-02")
-	dir := filepath.Join(repoRoot, ".context", "audits", skillPath, date)
+	dir := filepath.Join(repoRoot, ".context", "audits", skillPath, r.Date)
 
 	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return fmt.Errorf("store: create directories: %w", err)

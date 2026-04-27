@@ -25,6 +25,7 @@ func (d Diagnostic) Severity() string { return d.severity }
 // JSON shape matches the legacy evaluate.sh audit.json format.
 type Result struct {
 	Skill                     string         `json:"skill"`
+	Date                      string         `json:"date"`
 	Dimensions                map[string]int `json:"dimensions"`
 	Total                     int            `json:"total"`
 	MaxTotal                  int            `json:"maxTotal"`
