@@ -1,0 +1,52 @@
+{
+  "checklist": [
+    {
+      "criterion": "Reads YAML template from assets/templates/ before populating any fields",
+      "max_score": 8
+    },
+    {
+      "criterion": "Fetches PROJ-501 from Jira with issuelinks in requested fields",
+      "max_score": 8
+    },
+    {
+      "criterion": "Fetches INC-2034 and reads all its comments for root-cause details",
+      "max_score": 10
+    },
+    {
+      "criterion": "Populates context.background explaining the payment service and why the ticket exists",
+      "max_score": 8
+    },
+    {
+      "criterion": "Populates context.current_behaviour describing the unhandled exception on invalid postal code",
+      "max_score": 8
+    },
+    {
+      "criterion": "conditions_of_satisfaction.must contains at least one MUST requirement",
+      "max_score": 8
+    },
+    {
+      "criterion": "acceptance_criteria contains at least two specific, testable criteria",
+      "max_score": 8
+    },
+    {
+      "criterion": "Validates YAML with validate-ticket.sh and fixes any errors before generating markdown",
+      "max_score": 10
+    },
+    {
+      "criterion": "Generates markdown file at YYYY/MM/YYYY-MM-DD-PROJ-501-ready-for-refinement.md using today's date",
+      "max_score": 8
+    },
+    {
+      "criterion": "Validates markdown structure with --markdown flag after generation",
+      "max_score": 8
+    },
+    {
+      "criterion": "Markdown includes **Linked Incident:** line pointing to INC-2034",
+      "max_score": 8
+    },
+    {
+      "criterion": "Reports YAML path, markdown path, validation result, and summary paragraph on completion",
+      "max_score": 8
+    }
+  ]
+}

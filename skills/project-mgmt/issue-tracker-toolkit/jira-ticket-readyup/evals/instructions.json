@@ -1,0 +1,83 @@
+{
+  "instructions": [
+    {
+      "id": "I1",
+      "instruction": "Always read the YAML template at assets/templates/ready-for-refinement.yaml before generating any ticket data file.",
+      "why_given": "new knowledge",
+      "original_snippets": ["MANDATORY before generating any output"]
+    },
+    {
+      "id": "I2",
+      "instruction": "Fetch the Jira ticket using jira_get_issue with fields including issuelinks to discover linked incidents.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "jira_get_issue(issue_key=\"PROJ-NNN\", fields=\"summary,description,status,issuetype,issuelinks\")"
+      ]
+    },
+    {
+      "id": "I3",
+      "instruction": "Fetch every linked incident ticket and read all its comments — comments contain the investigation findings used to populate the context.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Comments on the incident ticket contain the investigation findings — read them all."
+      ]
+    },
+    {
+      "id": "I4",
+      "instruction": "Never leave a required YAML field empty or as the placeholder \"\".",
+      "why_given": "preference",
+      "original_snippets": [
+        "Never leave a required field empty or as the placeholder \"\""
+      ]
+    },
+    {
+      "id": "I5",
+      "instruction": "conditions_of_satisfaction.must must have at least one item; acceptance_criteria must have at least two items.",
+      "why_given": "preference",
+      "original_snippets": [
+        "conditions_of_satisfaction.must must have at least one item",
+        "acceptance_criteria must have at least two items"
+      ]
+    },
+    {
+      "id": "I6",
+      "instruction": "Validate the YAML data file with validate-ticket.sh and fix all errors before generating the markdown output.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Fix any reported errors before proceeding to markdown generation."
+      ]
+    },
+    {
+      "id": "I7",
+      "instruction": "After generating the markdown, run validate-ticket.sh again with the --markdown flag to confirm structure.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "validate-ticket.sh <path-to-ticket-data.yaml> --markdown <path-to-ticket-output.md>"
+      ]
+    },
+    {
+      "id": "I8",
+      "instruction": "Store outputs at <journal-dir>/YYYY/MM/YYYY-MM-DD-PROJ-NNN-ready-for-refinement.{yaml,md} using today's date.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "Use today's date for YYYY-MM-DD. The journal-dir is the current project root."
+      ]
+    },
+    {
+      "id": "I9",
+      "instruction": "Omit the Linked Incident line from the markdown header if no incident is linked to the ticket.",
+      "why_given": "new knowledge",
+      "original_snippets": [
+        "**Linked Incident:** [<INC-NNN>](<jira-url>)  *(omit if none)*"
+      ]
+    },
+    {
+      "id": "I10",
+      "instruction": "Report the YAML path, markdown path, validation result, and a one-paragraph summary when the workflow is complete.",
+      "why_given": "preference",
+      "original_snippets": [
+        "report: Path to the YAML data file, Path to the markdown output file, Validation result, A one-paragraph summary"
+      ]
+    }
+  ]
+}

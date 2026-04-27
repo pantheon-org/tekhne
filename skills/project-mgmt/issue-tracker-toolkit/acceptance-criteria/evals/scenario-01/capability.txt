@@ -1,0 +1,1 @@
+Produces Given/When/Then acceptance criteria for authentication features including success paths, failure paths, and account lockout scenarios.
