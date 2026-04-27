@@ -53,8 +53,11 @@ jobs:
         run: |
           rc=0
           for dir in ${{ steps.dirs.outputs.dirs }}; do
-            skill-validator check --allow-dirs=evals --emit-annotations --per-file "$dir" || rc=$?
+            skill-validator check --allow-dirs=evals --emit-annotations --per-file "$dir"
+            code=$?
             skill-validator check --allow-dirs=evals -o markdown "$dir" >> "$GITHUB_STEP_SUMMARY"
+            # exit 1 = errors (blocking); exit 2 = warnings only (non-blocking)
+            [ $code -eq 1 ] && rc=1
           done
           exit $rc
 
