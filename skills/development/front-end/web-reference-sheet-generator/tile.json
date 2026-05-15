@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/web-reference-sheet-generator",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "summary": "Generate a comprehensive web design reference sheet (docs/design/design-reference.md) and its companion enforcement skill (.agents/skills/{project-slug}/SKILL.md) for any website project. Extracts tokens from CSS files, validates completeness against a JSON schema scratchpad, inspects existing components, and produces a 12-section living document covering colours, typography, spacing, layout, borders, shadows, motion, component patterns, accessibility, dark mode, and Figma sync notes. Use when starting a new project, onboarding a design system, creating a Figma reference sheet, porting design tokens, or auditing existing styles. Triggers on: \"create a design reference\", \"generate a style guide\", \"document the design tokens\", \"make a brand reference sheet\", \"create design docs\", \"port design tokens\", \"audit existing styles\".\n",
   "skills": {
