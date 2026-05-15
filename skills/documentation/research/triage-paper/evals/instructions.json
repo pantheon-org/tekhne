@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "instruction": "Check REVIEWED.md and references/REFERENCE_INDEX.md for duplicates before creating any file",
+      "original_snippets": "Search REVIEWED.md and references/REFERENCE_INDEX.md for the slug or arxiv ID. If already present, report it and stop.",
+      "relevant_when": "User provides an arxiv ID, arxiv URL, DOI, or paper PDF to triage"
+    },
+    {
+      "instruction": "Derive a stable slug using <firstauthor-surname>-<2-3-word-topic> convention",
+      "original_snippets": "Derive a stable slug: <firstauthor-surname>-<2-3-word-topic> (e.g. jiang-llmlingua, press-longchat).",
+      "relevant_when": "Before creating any file for a new paper"
+    },
+    {
+      "instruction": "Create references/<slug>.md using templates/REFERENCE-paper.md and populate every section",
+      "original_snippets": "Create references/<slug>.md using templates/REFERENCE-paper.md. Populate every section: TL;DR, What's novel, Mechanism overview, Evaluation, Implementation details worth stealing, Open questions.",
+      "relevant_when": "After duplicate check passes and slug is derived"
+    },
+    {
+      "instruction": "TL;DR must contain 3 to 8 bullets",
+      "original_snippets": "TL;DR: 3–8 bullets capturing what the paper does and why it matters.",
+      "relevant_when": "Filling in references/<slug>.md"
+    },
+    {
+      "instruction": "Always mark benchmark metrics and evaluation results as (as reported) — never state them as verified facts",
+      "original_snippets": "Evaluation: quote benchmark name, baselines, key metric, and result — always mark (as reported).",
+      "relevant_when": "Filling in the Evaluation section of the reference summary"
+    },
+    {
+      "instruction": "Add a reverse-chronological row to REVIEWED.md summary table and a detailed section below it",
+      "original_snippets": "Add a row to the summary table at the top (reverse-chronological)... Add a detailed section below the table.",
+      "relevant_when": "After reference file is created"
+    },
+    {
+      "instruction": "Add a row to REFERENCE_INDEX.md under the most relevant category",
+      "original_snippets": "Add a row under the most relevant category table. If no category fits, add it to the closest one and note it for the user.",
+      "relevant_when": "After REVIEWED.md is updated"
+    },
+    {
+      "instruction": "Never create ANALYSIS-*.md automatically — offer promotion as an option and wait for user confirmation",
+      "original_snippets": "Triage-then-promote: every paper enters via REVIEWED.md; promotion to ANALYSIS-*.md requires a deliberate user decision — never automatic.",
+      "relevant_when": "At the end of every triage workflow"
+    },
+    {
+      "instruction": "Skip sections not applicable to the paper and mark them N/A rather than leaving them blank",
+      "original_snippets": "Skip sections that are not applicable (mark N/A).",
+      "relevant_when": "Filling in the Mechanism overview section"
+    },
+    {
+      "instruction": "Run validate-reference-paper.sh on the completed file before reporting",
+      "original_snippets": "./scripts/validate-reference-paper.sh references/<slug>.md",
+      "relevant_when": "After references/<slug>.md is fully populated"
+    }
+  ]
+}

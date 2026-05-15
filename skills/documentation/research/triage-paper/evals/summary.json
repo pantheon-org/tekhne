@@ -1,0 +1,13 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 85,
+    "total_instructions": 10,
+    "covered_by_scenarios": 8,
+    "uncovered": [
+      "N/A marking for inapplicable sections",
+      "validate-reference-paper.sh post-creation check"
+    ]
+  },
+  "scenario_count": 3,
+  "valid_scenario_count": 3
+}
