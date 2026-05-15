@@ -1,25 +1,24 @@
-# Remediation Plan: agentic-context/triage-tool
+# Remediation Plan: documentation/research/triage-tool
 
 ---
 plan_date: "2026-04-08"
-skill_name: "agentic-context/triage-tool"
-source_audit: ".context/audits/agentic-context/triage-tool/2026-04-08/audit.json"
+skill_name: "documentation/research/triage-tool"
+source_audit: ".context/audits/documentation/research/triage-tool/2026-04-08/audit.json"
 ---
 
 ## Executive Summary
 
 | Metric | Current | Target |
 |--------|---------|--------|
-| **Score** | 119/140 (85%) | 126/140 (90%) |
+| **Score** | 120/140 (85%) | 126/140 (90%) |
 | **Grade** | B+ | A |
 | **Priority** | Medium | |
 | **Effort** | S | |
 
 **Focus Areas**:
-- D5: Progressive Disclosure (11/15)
-- D8: Practical Usability (11/15)
+- D9: Eval Validation (8/20)
 
-**Verdict**: Targeted improvements needed to reach grade A (+7 points).
+**Verdict**: Targeted improvements needed to reach grade A (+6 points).
 
 ---
 
@@ -27,8 +26,7 @@ source_audit: ".context/audits/agentic-context/triage-tool/2026-04-08/audit.json
 
 | Issue | Dimension | Severity | Impact |
 |-------|-----------|----------|--------|
-| Poor progressive disclosure | D5 (11/15) | High | Skill is too long or lacks refs |
-| Limited practical examples | D8 (11/15) | High | Agents struggle to apply skill |
+| Missing or incomplete evals | D9 (8/20) | High | Skill not validated at runtime |
 
 ---
 
@@ -37,28 +35,29 @@ source_audit: ".context/audits/agentic-context/triage-tool/2026-04-08/audit.json
 > **Note**: This is an auto-generated template. Review dimension scores and customize based on actual skill content.
 
 
-### Phase 1: Progressive Disclosure - Priority: High
+### Phase 1: Eval Validation - Priority: High
 
-**Target**: Increase D5 from 11/15 to 13/15 (+2 points)
+**Target**: Increase D9 from 8/20 to 17/20 (+9 points)
 
-#### Step 1.1: Create Reference Files
+#### Step 1.1: Create Eval Scenarios
 
-Move detailed content to `references/` directory.
+Use the `creating-eval-scenarios` skill to generate evaluation scenarios.
 
-**Action**: Extract deep-dive content into separate files, keep SKILL.md as navigation hub.
+**Action**: Run the eval scenario creation workflow to produce:
+- `evals/instructions.json` - Extract all instructions from SKILL.md
+- `evals/summary.json` - Coverage statistics (target >= 80%)
+- `evals/scenario-N/` - 5 scenarios with task.md, criteria.json, capability.txt
 
+#### Step 1.2: Run Evals
 
-### Phase 2: Practical Usability - Priority: High
+```bash
+tessl eval run <tile-path>
+tessl eval view-status <status_id> --json
+```
 
-**Target**: Increase D8 from 11/15 to 13/15 (+2 points)
+#### Step 1.3: Validate Coverage
 
-#### Step 2.1: Add Code Examples
-
-Add executable code blocks with language tags.
-
-**File**: `skills/agentic-context/triage-tool/SKILL.md`
-
-**Action**: Include bash/typescript examples with clear syntax highlighting.
+Verify `summary.json` shows `coverage_percentage >= 80` and all criteria.json files sum to 100.
 
 ---
 
@@ -66,10 +65,10 @@ Add executable code blocks with language tags.
 
 ```bash
 # Re-run evaluation
-./scripts/evaluate.sh agentic-context/triage-tool --json --store
+./scripts/evaluate.sh documentation/research/triage-tool --json --store
 
 # Check target score achieved
-./scripts/evaluate.sh agentic-context/triage-tool --json | jq ".total >= 126"
+./scripts/evaluate.sh documentation/research/triage-tool --json | jq ".total >= 126"
 ```
 
 ---
@@ -80,8 +79,7 @@ Add executable code blocks with language tags.
 |-----------|-------------|
 | Overall Score | >= 126/140 |
 | Grade | >= A |
-| D5: Progressive Disclosure | >= 13/15 |
-| D8: Practical Usability | >= 13/15 |
+| D9: Eval Validation | >= 17/20 |
 
 ---
 
@@ -102,7 +100,7 @@ Add executable code blocks with language tags.
 ## Rollback Plan
 
 ```bash
-git checkout HEAD~1 -- skills/agentic-context/triage-tool/SKILL.md
+git checkout HEAD~1 -- skills/documentation/research/triage-tool/SKILL.md
 ```
 
 ---

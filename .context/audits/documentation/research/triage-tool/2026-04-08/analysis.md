@@ -1,4 +1,4 @@
-# Skill Quality Analysis: agentic-context/triage-tool
+# Skill Quality Analysis: documentation/research/triage-tool
 
 **Date**: 2026-04-08  
 **Overall Score**: 127/140 (90%)  
@@ -24,10 +24,10 @@
 
 ## Metadata
 
-- **Skill Path**: skills/agentic-context/triage-tool/SKILL.md
-- **Total Lines**: 149
+- **Skill Path**: skills/documentation/research/triage-tool/SKILL.md
+- **Total Lines**: 147
 - **Has References**: Yes
-- **Reference Count**: 3 files
+- **Reference Count**: 1 files
 - **References Section Compliant**: Yes (D4 +1 bonus awarded)
 
 ---

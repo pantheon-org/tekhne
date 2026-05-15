@@ -1,21 +1,21 @@
 {
-  "skill": "agentic-context/triage-paper",
+  "skill": "documentation/research/triage-paper",
   "dimensions": {
     "knowledgeDelta": 16,
-    "mindsetProcedures": 13,
-    "antiPatternQuality": 13,
-    "specificationCompliance": 16,
-    "progressiveDisclosure": 11,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 15,
+    "specificationCompliance": 15,
+    "progressiveDisclosure": 12,
     "freedomCalibration": 13,
     "patternRecognition": 10,
-    "practicalUsability": 11,
+    "practicalUsability": 13,
     "evalValidation": 17
   },
-  "total": 120,
+  "total": 126,
   "maxTotal": 140,
-  "grade": "B+",
-  "lines": 153,
-  "hasReferences": true,
-  "referenceCount": 2,
-  "referenceSectionCompliant": true
+  "grade": "A",
+  "lines": 145,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false
 }

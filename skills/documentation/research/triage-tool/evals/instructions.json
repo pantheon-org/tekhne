@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "instruction": "Check REVIEWED.md and references/REFERENCE_INDEX.md for duplicates before creating any file",
+      "original_snippets": "Search REVIEWED.md and references/REFERENCE_INDEX.md for the slug or repo URL. If already present, report it and stop.",
+      "relevant_when": "User provides a GitHub URL, npm/PyPI package, or tool name to triage"
+    },
+    {
+      "instruction": "Derive a stable slug using <author-or-org>-<tool-name> convention; use just the tool name for well-known single-name tools",
+      "original_snippets": "Derive a stable slug: <author-or-org>-<tool-name>. For well-known single-name tools, use just the tool name (e.g. context-mode, memv).",
+      "relevant_when": "Before creating any file for a new tool"
+    },
+    {
+      "instruction": "Confirm scope relevance before investing in a full write-up; a well-reasoned out-of-scope ruling is as valuable as a full summary",
+      "original_snippets": "Scope before summary: confirm the tool is relevant to the research domain before investing in a full write-up.",
+      "relevant_when": "After resolving the source and before filling in the reference summary"
+    },
+    {
+      "instruction": "Quote README and docs only; never infer capabilities not described by the author",
+      "original_snippets": "Evidence first: quote README and docs; never infer capabilities not described by the author.",
+      "relevant_when": "Filling in all sections of references/<slug>.md"
+    },
+    {
+      "instruction": "Create references/<slug>.md using templates/REFERENCE-tool.md and populate every section",
+      "original_snippets": "Create references/<slug>.md using templates/REFERENCE-tool.md. Populate every section.",
+      "relevant_when": "After duplicate check passes and scope is confirmed"
+    },
+    {
+      "instruction": "TL;DR must contain 3 to 8 bullets",
+      "original_snippets": "TL;DR: 3–8 bullets capturing what the tool does and why it matters.",
+      "relevant_when": "Filling in references/<slug>.md"
+    },
+    {
+      "instruction": "Always mark self-reported benchmarks as (as reported) — never state them as verified facts",
+      "original_snippets": "Self-reported metrics: quote numbers with source — always mark (as reported).",
+      "relevant_when": "Filling in the Self-reported metrics section"
+    },
+    {
+      "instruction": "Never run git submodule add during triage — offer vendoring as a follow-up after the summary is written",
+      "original_snippets": "Triage-then-promote: vendoring both require explicit user confirmation — never automatic.",
+      "relevant_when": "When the tool warrants code-level inspection"
+    },
+    {
+      "instruction": "Add a reverse-chronological row to REVIEWED.md summary table",
+      "original_snippets": "Add a row to the summary table at the top (reverse-chronological).",
+      "relevant_when": "After reference file is created"
+    },
+    {
+      "instruction": "Never create ANALYSIS-*.md automatically — offer promotion as an option and wait for user confirmation",
+      "original_snippets": "Promotion to ANALYSIS-*.md is a quality gate, not automatic.",
+      "relevant_when": "At the end of every triage workflow"
+    }
+  ]
+}
