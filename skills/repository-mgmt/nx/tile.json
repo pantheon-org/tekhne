@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/nx-plugin-toolkit",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": false,
   "summary": "Complete Nx plugin development toolkit: create custom generators, executors, and extend Nx workspaces with reusable automation",
   "skills": {

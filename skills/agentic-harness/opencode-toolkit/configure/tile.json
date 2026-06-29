@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/opencode-configure",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "summary": "Configure OpenCode via opencode.json and AGENTS.md with deterministic provider setup, model selection, permission policies, formatter behavior, and environment variable handling; use when editing opencode configuration, setting model/provider defaults, tightening agent permissions, or troubleshooting OpenCode config behavior.",
   "skills": {
