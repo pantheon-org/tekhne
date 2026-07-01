@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/troubleshoot",
+  "version": "0.1.1",
+  "description": "Search-first troubleshooting with a diagnostic phase — use when an error, bug, or unexpected behaviour is reported.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

@@ -7,21 +7,21 @@
 ## Expected Behavior
 
 1. Agent runs quality audit: `sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh development/bdd-testing --json --store`
-2. Agent checks audit results for A-grade threshold (≥108/120)
+2. Agent checks audit results for A-grade threshold (>=108/120)
 3. If below threshold, agent reviews remediation plan and blocks publication
-4. Agent verifies evaluation-scenarios/ directory exists with 5+ scenarios
-5. Agent checks tile.json for `private: false`
-6. Agent runs `tessl skill review skills/development/bdd-testing`
-7. If Tessl score < 90%, agent runs `tessl skill review --optimize`
+4. Agent verifies `evals/` directory exists with 5+ scenarios
+5. Agent checks `.tessl-plugin/plugin.json` for `private: false`
+6. Agent runs `tessl review run skills/development/bdd-testing`
+7. If Tessl score < 90%, agent runs `tessl review run --optimize`
 8. Agent performs agent-agnostic compliance check
 9. Agent runs publication readiness script (if available)
-10. Only after all gates pass, agent executes `tessl skill publish skills/development/bdd-testing --public`
+10. Only after all gates pass, agent executes `tessl plugin publish --workspace pantheon-ai skills/development/bdd-testing --bump patch`
 11. Agent verifies publication with `tessl search bdd-testing`
 
 ## Success Criteria
 
 - Agent executes all workflow steps in correct order
-- Agent blocks at any failed gate (quality, evals, tile config, compliance)
+- Agent blocks at any failed gate (quality, evals, plugin config, compliance)
 - Agent runs optimization if Tessl score < 90%
 - Agent provides clear status updates at each step
 - Agent only publishes after ALL requirements met

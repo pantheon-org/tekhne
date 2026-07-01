@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/terraform-toolkit",
+  "version": "1.0.1",
+  "description": "Complete terraform toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": ["generator", "validator"]
+}

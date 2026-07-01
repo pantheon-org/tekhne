@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/cfn-toolkit",
+  "version": "1.0.0",
+  "description": "Complete CloudFormation toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": ["behavior-validator/SKILL.md", "template-compare/SKILL.md"]
+}

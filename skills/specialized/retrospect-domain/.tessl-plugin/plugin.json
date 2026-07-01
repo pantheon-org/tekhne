@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/retrospect-domain",
+  "version": "0.1.1",
+  "description": "Extract domain insights, patterns, and learnings from captured sessions for long-term knowledge retention.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

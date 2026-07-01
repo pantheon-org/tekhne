@@ -16,28 +16,25 @@ afterEach(() => {
 
 describe("buildTileSkills", () => {
   test("returns empty array when no skills defined", () => {
-    expect(buildTileSkills(tmp, {})).toHaveLength(0);
+    expect(buildTileSkills(tmp, [])).toHaveLength(0);
   });
 
   test("excludes skill when SKILL.md does not exist", () => {
-    const result = buildTileSkills(tmp, { "my-gen": {} });
+    const result = buildTileSkills(tmp, ["SKILL.md"]);
     expect(result).toHaveLength(0);
   });
 
   test("includes skill when SKILL.md exists at default path", () => {
     writeFileSync(join(tmp, "SKILL.md"), "---\nname: x\n---\n");
-    const result = buildTileSkills(tmp, { "my-gen": {} });
+    const result = buildTileSkills(tmp, ["SKILL.md"]);
     expect(result).toHaveLength(1);
-    expect(result[0].name).toBe("my-gen");
   });
 
   test("resolves custom path for skill", () => {
     const subDir = join(tmp, "generator");
     mkdirSync(subDir);
     writeFileSync(join(subDir, "SKILL.md"), "---\nname: x\n---\n");
-    const result = buildTileSkills(tmp, {
-      "my-gen": { path: "generator/SKILL.md" },
-    });
+    const result = buildTileSkills(tmp, ["generator/SKILL.md"]);
     expect(result).toHaveLength(1);
     expect(result[0].skillDir).toContain("generator");
   });
