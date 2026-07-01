@@ -4,14 +4,26 @@ import { join } from "node:path";
 export const getTesslStatus = async (
   skillRelativePath: string,
 ): Promise<string> => {
+  const pluginJsonPath = join(
+    "skills",
+    skillRelativePath,
+    ".tessl-plugin",
+    "plugin.json",
+  );
   const tileJsonPath = join("skills", skillRelativePath, "tile.json");
 
-  if (!existsSync(tileJsonPath)) {
+  const manifestPath = existsSync(pluginJsonPath)
+    ? pluginJsonPath
+    : existsSync(tileJsonPath)
+      ? tileJsonPath
+      : null;
+
+  if (!manifestPath) {
     return "-";
   }
 
   try {
-    const tileData = await Bun.file(tileJsonPath).json();
+    const tileData = await Bun.file(manifestPath).json();
 
     if (tileData.private === false) {
       const tileName = tileData.name || "";

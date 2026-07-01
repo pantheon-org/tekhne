@@ -1,7 +1,6 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import { ValidationError } from "../utils/errors";
 import { logger } from "../utils/logger";
+import { readManifest } from "../utils/skill-manifest";
 import { importSkill } from "./import-skill";
 import { lintSkill } from "./lint-skill";
 import { publishSkill } from "./publish-skill";
@@ -11,10 +10,10 @@ export const processSkill = async (
   skillPath: string,
   workspace: string,
 ): Promise<void> => {
-  const tileJsonPath = join(skillPath, "tile.json");
+  const manifest = await readManifest(skillPath);
 
-  if (!existsSync(tileJsonPath)) {
-    logger.info("No tile.json found, importing skill...");
+  if (!manifest) {
+    logger.info("No manifest found, importing skill...");
     await importSkill(skillPath);
     return;
   }

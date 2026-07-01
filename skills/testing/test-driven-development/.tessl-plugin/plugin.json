@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/test-driven-development",
+  "version": "0.3.1",
+  "description": "Master Test-Driven Development with deterministic red-green-refactor workflows, test-first feature delivery, bug reproduction through failing tests, behavior-focused assertions, and refactoring safety; use when implementing new functions, changing APIs, fixing regressions, or restructuring code under test.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

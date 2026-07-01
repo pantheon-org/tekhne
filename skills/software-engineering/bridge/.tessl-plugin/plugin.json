@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/bridge",
+  "version": "0.1.0",
+  "description": "Capture cross-project connections on the fly and persist them as structured YAML in a bridges directory.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

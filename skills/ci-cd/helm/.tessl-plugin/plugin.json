@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/helm-toolkit",
+  "version": "1.0.1",
+  "description": "Complete helm toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": ["generator", "validator"]
+}

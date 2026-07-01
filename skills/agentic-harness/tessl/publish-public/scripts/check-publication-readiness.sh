@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 # check-publication-readiness.sh
-# Validates a Tessl skill meets all requirements for public registry publishing
+# Validates a Tessl plugin meets all requirements for public registry publishing
 
 set -e
 
@@ -76,112 +76,121 @@ else
     log_fail "SKILL.md not found"
 fi
 
-# Check 2: tile.json comprehensive validation
+# Check 2: .tessl-plugin/plugin.json comprehensive validation
 echo ""
-echo "${BLUE}[2/8]${NC} Checking tile.json (comprehensive validation)..."
-if [ -f "$SKILL_PATH/tile.json" ]; then
-    log_pass "tile.json exists"
-    
+echo "${BLUE}[2/8]${NC} Checking .tessl-plugin/plugin.json (comprehensive validation)..."
+PLUGIN_JSON="$SKILL_PATH/.tessl-plugin/plugin.json"
+if [ -f "$PLUGIN_JSON" ]; then
+    log_pass ".tessl-plugin/plugin.json exists"
+
     if command -v jq >/dev/null 2>&1; then
         # Validate JSON syntax
-        if jq empty "$SKILL_PATH/tile.json" 2>/dev/null; then
-            log_pass "tile.json has valid JSON syntax"
+        if jq empty "$PLUGIN_JSON" 2>/dev/null; then
+            log_pass "plugin.json has valid JSON syntax"
         else
-            log_fail "tile.json has invalid JSON syntax"
+            log_fail "plugin.json has invalid JSON syntax"
             echo ""
-            echo "${BLUE}[2/8]${NC} Skipping further tile.json checks due to syntax errors"
+            echo "${BLUE}[2/8]${NC} Skipping further plugin.json checks due to syntax errors"
             echo ""
             echo "${BLUE}[3/8]${NC} Checking evaluation scenarios..."
         fi
-        
+
         # REQUIRED FIELD: private
-        PRIVATE_VALUE=$(jq -r '.private // "null"' "$SKILL_PATH/tile.json")
+        PRIVATE_VALUE=$(jq -r '.private // "null"' "$PLUGIN_JSON")
         if [ "$PRIVATE_VALUE" = "false" ]; then
-            log_pass "tile.json has private: false (required for public publishing)"
+            log_pass "plugin.json has private: false (required for public publishing)"
         elif [ "$PRIVATE_VALUE" = "true" ]; then
-            log_fail "tile.json has private: true (MUST be false for public publishing)"
+            log_fail "plugin.json has private: true (MUST be false for public publishing)"
         else
-            log_fail "tile.json missing 'private' field (MUST be explicitly set to false)"
+            log_fail "plugin.json missing 'private' field (MUST be explicitly set to false)"
         fi
-        
+
         # REQUIRED FIELD: name
-        NAME_VALUE=$(jq -r '.name // "null"' "$SKILL_PATH/tile.json")
+        NAME_VALUE=$(jq -r '.name // "null"' "$PLUGIN_JSON")
         if [ "$NAME_VALUE" != "null" ] && [ "$NAME_VALUE" != "" ]; then
-            # Validate name format: workspace/tile-name
+            # Validate name format: workspace/plugin-name
             if echo "$NAME_VALUE" | grep -qE '^[a-z0-9-]+/[a-z0-9-]+$'; then
-                log_pass "tile.json has valid 'name' field: $NAME_VALUE"
+                log_pass "plugin.json has valid 'name' field: $NAME_VALUE"
             else
-                log_fail "tile.json 'name' field has invalid format: $NAME_VALUE (must be workspace/tile-name, lowercase, kebab-case)"
+                log_fail "plugin.json 'name' field has invalid format: $NAME_VALUE (must be workspace/plugin-name, lowercase, kebab-case)"
             fi
         else
-            log_fail "tile.json missing 'name' field (REQUIRED: workspace/tile-name)"
+            log_fail "plugin.json missing 'name' field (REQUIRED: workspace/plugin-name)"
         fi
-        
+
         # REQUIRED FIELD: version
-        VERSION_VALUE=$(jq -r '.version // "null"' "$SKILL_PATH/tile.json")
+        VERSION_VALUE=$(jq -r '.version // "null"' "$PLUGIN_JSON")
         if [ "$VERSION_VALUE" != "null" ] && [ "$VERSION_VALUE" != "" ]; then
             # Validate semantic versioning: x.y.z
             if echo "$VERSION_VALUE" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
-                log_pass "tile.json has valid 'version' field: $VERSION_VALUE (semantic versioning)"
+                log_pass "plugin.json has valid 'version' field: $VERSION_VALUE (semantic versioning)"
             else
-                log_fail "tile.json 'version' field invalid: $VERSION_VALUE (must be x.y.z format, e.g., 1.0.0)"
+                log_fail "plugin.json 'version' field invalid: $VERSION_VALUE (must be x.y.z format, e.g., 1.0.0)"
             fi
         else
-            log_fail "tile.json missing 'version' field (REQUIRED: semantic versioning x.y.z)"
+            log_fail "plugin.json missing 'version' field (REQUIRED: semantic versioning x.y.z)"
         fi
-        
-        # REQUIRED FIELD: summary
-        SUMMARY_VALUE=$(jq -r '.summary // "null"' "$SKILL_PATH/tile.json")
-        if [ "$SUMMARY_VALUE" != "null" ] && [ "$SUMMARY_VALUE" != "" ]; then
-            SUMMARY_LENGTH=${#SUMMARY_VALUE}
-            if [ "$SUMMARY_LENGTH" -ge 100 ] && [ "$SUMMARY_LENGTH" -le 500 ]; then
-                log_pass "tile.json has descriptive 'summary' field ($SUMMARY_LENGTH chars, recommended 150-300)"
-            elif [ "$SUMMARY_LENGTH" -lt 100 ]; then
-                log_warn "tile.json 'summary' is short ($SUMMARY_LENGTH chars, recommended 150-300 for discoverability)"
+
+        # REQUIRED FIELD: description (replaces summary)
+        DESCRIPTION_VALUE=$(jq -r '.description // "null"' "$PLUGIN_JSON")
+        if [ "$DESCRIPTION_VALUE" != "null" ] && [ "$DESCRIPTION_VALUE" != "" ]; then
+            DESCRIPTION_LENGTH=${#DESCRIPTION_VALUE}
+            if [ "$DESCRIPTION_LENGTH" -ge 100 ] && [ "$DESCRIPTION_LENGTH" -le 500 ]; then
+                log_pass "plugin.json has descriptive 'description' field ($DESCRIPTION_LENGTH chars, recommended 150-300)"
+            elif [ "$DESCRIPTION_LENGTH" -lt 100 ]; then
+                log_warn "plugin.json 'description' is short ($DESCRIPTION_LENGTH chars, recommended 150-300 for discoverability)"
             else
-                log_warn "tile.json 'summary' is long ($SUMMARY_LENGTH chars, recommended 150-300)"
+                log_warn "plugin.json 'description' is long ($DESCRIPTION_LENGTH chars, recommended 150-300)"
             fi
-            
-            # Check for generic summaries
-            if echo "$SUMMARY_VALUE" | grep -qiE '(useful|helpful|good|nice|simple)'; then
-                log_warn "tile.json 'summary' may be too generic (avoid words like 'useful', 'helpful', 'simple')"
+
+            # Check for generic descriptions
+            if echo "$DESCRIPTION_VALUE" | grep -qiE '(useful|helpful|good|nice|simple)'; then
+                log_warn "plugin.json 'description' may be too generic (avoid words like 'useful', 'helpful', 'simple')"
             fi
         else
-            log_fail "tile.json missing 'summary' field (REQUIRED: descriptive summary with use cases)"
+            log_fail "plugin.json missing 'description' field (REQUIRED: descriptive description with use cases)"
         fi
-        
-        # REQUIRED FIELD: skills
-        SKILLS_COUNT=$(jq -r '.skills // {} | length' "$SKILL_PATH/tile.json")
-        if [ "$SKILLS_COUNT" -gt 0 ]; then
-            log_pass "tile.json has 'skills' object with $SKILLS_COUNT skill(s)"
-            
-            # Validate each skill path exists
-            jq -r '.skills | to_entries[] | "\(.key)=\(.value.path)"' "$SKILL_PATH/tile.json" 2>/dev/null | while IFS='=' read -r skill_id skill_path; do
-                FULL_SKILL_PATH="$SKILL_PATH/$skill_path"
-                if [ -f "$FULL_SKILL_PATH" ]; then
-                    log_pass "Skill '$skill_id' path exists: $skill_path"
-                    
-                    # Check SKILL.md has YAML frontmatter
-                    if grep -q '^---$' "$FULL_SKILL_PATH" 2>/dev/null; then
-                        log_pass "Skill '$skill_id' has YAML frontmatter"
+
+        # REQUIRED FIELD: skills (array of strings)
+        SKILLS_TYPE=$(jq -r '.skills | type' "$PLUGIN_JSON" 2>/dev/null)
+        if [ "$SKILLS_TYPE" = "array" ]; then
+            SKILLS_COUNT=$(jq -r '.skills | length' "$PLUGIN_JSON")
+            if [ "$SKILLS_COUNT" -gt 0 ]; then
+                log_pass "plugin.json has 'skills' array with $SKILLS_COUNT skill path(s)"
+
+                # Validate each skill path exists
+                jq -r '.skills[]' "$PLUGIN_JSON" 2>/dev/null | while IFS= read -r skill_path; do
+                    FULL_SKILL_PATH="$SKILL_PATH/$skill_path"
+                    if [ -f "$FULL_SKILL_PATH" ]; then
+                        log_pass "Skill path exists: $skill_path"
+
+                        # Check SKILL.md has YAML frontmatter
+                        if grep -q '^---$' "$FULL_SKILL_PATH" 2>/dev/null; then
+                            log_pass "Skill '$skill_path' has YAML frontmatter"
+                        else
+                            log_warn "Skill '$skill_path' missing YAML frontmatter (required: name, description)"
+                        fi
                     else
-                        log_warn "Skill '$skill_id' missing YAML frontmatter (required: name, description)"
+                        log_fail "Skill path does not exist: $skill_path"
                     fi
-                else
-                    log_fail "Skill '$skill_id' path does not exist: $skill_path"
-                fi
-            done
+                done
+            else
+                log_fail "plugin.json 'skills' array is empty (REQUIRED: at least one skill path)"
+            fi
+        elif [ "$SKILLS_TYPE" = "object" ]; then
+            log_fail "plugin.json 'skills' is an object but should be an array of path strings (e.g., [\"SKILL.md\"])"
+        elif [ "$SKILLS_TYPE" = "null" ]; then
+            log_fail "plugin.json missing 'skills' field (REQUIRED: array of skill path strings)"
         else
-            log_fail "tile.json missing 'skills' object or empty (REQUIRED: at least one skill)"
+            log_fail "plugin.json 'skills' has unexpected type '$SKILLS_TYPE' (must be an array of strings)"
         fi
-        
-        # OPTIONAL ROOT-LEVEL: files (11% usage)
-        FILES_COUNT=$(jq -r '.files // [] | length' "$SKILL_PATH/tile.json")
+
+        # OPTIONAL: files (bundled assets)
+        FILES_COUNT=$(jq -r '.files // [] | length' "$PLUGIN_JSON")
         if [ "$FILES_COUNT" -gt 0 ]; then
-            log_pass "tile.json has 'files' array with $FILES_COUNT file(s) to bundle"
-            
-            # Validate each file exists
-            jq -r '.files[]' "$SKILL_PATH/tile.json" 2>/dev/null | while IFS= read -r file_path; do
+            log_pass "plugin.json has 'files' array with $FILES_COUNT file(s) to bundle"
+
+            jq -r '.files[]' "$PLUGIN_JSON" 2>/dev/null | while IFS= read -r file_path; do
                 FULL_FILE_PATH="$SKILL_PATH/$file_path"
                 if [ -f "$FULL_FILE_PATH" ]; then
                     log_pass "File exists: $file_path"
@@ -190,54 +199,26 @@ if [ -f "$SKILL_PATH/tile.json" ]; then
                 fi
             done
         fi
-        
-        # ANTI-PATTERN CHECK: keywords array (deprecated, 2% usage)
-        KEYWORDS_COUNT=$(jq -r '.keywords // [] | length' "$SKILL_PATH/tile.json")
-        if [ "$KEYWORDS_COUNT" -gt 0 ]; then
-            log_warn "tile.json has deprecated 'keywords' array (ANTI-PATTERN: embed keywords in summary instead)"
-            log_info "Example: 'Keywords: term1, term2, term3' at end of summary field"
-        fi
-        
-        # OPTIONAL SKILL-LEVEL: references/resources (45% usage for references)
-        jq -r '.skills | to_entries[] | "\(.key)=\(.value.references // [] | length)=\(.value.resources // [] | length)"' "$SKILL_PATH/tile.json" 2>/dev/null | while IFS='=' read -r skill_id ref_count res_count; do
-            if [ "$ref_count" -gt 0 ]; then
-                log_pass "Skill '$skill_id' has $ref_count reference(s)"
-            fi
-            if [ "$res_count" -gt 0 ]; then
-                log_pass "Skill '$skill_id' has $res_count resource(s)"
-            fi
-        done
-        
-        # OPTIONAL: docs
-        DOCS_VALUE=$(jq -r '.docs // "null"' "$SKILL_PATH/tile.json")
-        if [ "$DOCS_VALUE" != "null" ] && [ "$DOCS_VALUE" != "" ]; then
-            DOCS_PATH="$SKILL_PATH/$DOCS_VALUE"
-            if [ -f "$DOCS_PATH" ]; then
-                log_pass "tile.json has 'docs' field pointing to existing file: $DOCS_VALUE"
-            else
-                log_warn "tile.json 'docs' field points to non-existent file: $DOCS_VALUE"
-            fi
-        fi
     else
-        log_fail "jq not installed (required for tile.json validation)"
+        log_fail "jq not installed (required for plugin.json validation)"
         log_info "Install jq: brew install jq (macOS) or apt-get install jq (Linux)"
     fi
 else
-    log_fail "tile.json not found (run 'tessl skill import $SKILL_PATH' first)"
+    log_fail ".tessl-plugin/plugin.json not found (create .tessl-plugin/ directory with plugin.json)"
 fi
 
 # Check 3: Evaluation scenarios
 echo ""
 echo "${BLUE}[3/8]${NC} Checking evaluation scenarios..."
-if [ -d "$SKILL_PATH/evaluation-scenarios" ]; then
-    SCENARIO_COUNT=$(find "$SKILL_PATH/evaluation-scenarios" -name "*.md" -type f | wc -l | tr -d ' ')
+if [ -d "$SKILL_PATH/evals" ]; then
+    SCENARIO_COUNT=$(find "$SKILL_PATH/evals" -name "*.md" -type f | wc -l | tr -d ' ')
     if [ "$SCENARIO_COUNT" -ge 5 ]; then
-        log_pass "Found $SCENARIO_COUNT evaluation scenarios (≥5 required)"
+        log_pass "Found $SCENARIO_COUNT evaluation scenarios in evals/ (>=5 required)"
     else
-        log_fail "Found only $SCENARIO_COUNT evaluation scenarios (minimum 5 required)"
+        log_fail "Found only $SCENARIO_COUNT evaluation scenarios in evals/ (minimum 5 required)"
     fi
 else
-    log_fail "evaluation-scenarios/ directory not found (required for public publishing)"
+    log_fail "evals/ directory not found (required for public publishing)"
 fi
 
 # Check 4: Quality audit results
@@ -250,7 +231,7 @@ if [ -d "$AUDIT_PATH" ]; then
         if grep -q "Total Score" "$AUDIT_PATH/analysis.md"; then
             TOTAL_SCORE=$(grep "Total Score" "$AUDIT_PATH/analysis.md" | grep -o '[0-9]\+/120' | cut -d'/' -f1)
             if [ "$TOTAL_SCORE" -ge 108 ]; then
-                log_pass "Quality audit score: ${TOTAL_SCORE}/120 (A-grade, ≥108 required)"
+                log_pass "Quality audit score: ${TOTAL_SCORE}/120 (A-grade, >=108 required)"
             else
                 log_fail "Quality audit score: ${TOTAL_SCORE}/120 (below A-grade threshold of 108/120)"
                 log_info "Review remediation plan: ${AUDIT_PATH}/remediation-plan.md"
@@ -271,7 +252,7 @@ echo ""
 echo "${BLUE}[5/8]${NC} Checking agent-agnostic compliance..."
 if [ -f "$SKILL_PATH/SKILL.md" ]; then
     VIOLATIONS=""
-    
+
     # Check for common agent-specific references
     if grep -iq "claude code" "$SKILL_PATH/SKILL.md"; then
         VIOLATIONS="${VIOLATIONS}\n  - Found 'Claude Code' references"
@@ -285,7 +266,7 @@ if [ -f "$SKILL_PATH/SKILL.md" ]; then
     if grep -iq "opencode" "$SKILL_PATH/SKILL.md" && [ "$SKILL_NAME" != "opencode" ]; then
         VIOLATIONS="${VIOLATIONS}\n  - Found 'OpenCode' references"
     fi
-    
+
     if [ -z "$VIOLATIONS" ]; then
         log_pass "No obvious agent-specific references found"
     else
@@ -302,14 +283,14 @@ echo "${BLUE}[6/8]${NC} Checking SKILL.md frontmatter..."
 if [ -f "$SKILL_PATH/SKILL.md" ]; then
     if head -n 1 "$SKILL_PATH/SKILL.md" | grep -q '^---$'; then
         log_pass "YAML frontmatter detected"
-        
+
         # Check for name and description
         if grep -q "^name:" "$SKILL_PATH/SKILL.md"; then
             log_pass "Frontmatter has 'name' field"
         else
             log_fail "Frontmatter missing 'name' field"
         fi
-        
+
         if grep -q "^description:" "$SKILL_PATH/SKILL.md"; then
             log_pass "Frontmatter has 'description' field"
         else
@@ -328,49 +309,49 @@ echo "${BLUE}[7/8]${NC} Checking required SKILL.md sections..."
 if [ -f "$SKILL_PATH/SKILL.md" ]; then
     SECTIONS_FOUND=0
     SECTIONS_REQUIRED=6
-    
+
     if grep -q "## When to Use" "$SKILL_PATH/SKILL.md"; then
         log_pass "Section: When to Use"
         SECTIONS_FOUND=$((SECTIONS_FOUND + 1))
     else
         log_warn "Missing section: When to Use"
     fi
-    
+
     if grep -q "## Mindset" "$SKILL_PATH/SKILL.md"; then
         log_pass "Section: Mindset"
         SECTIONS_FOUND=$((SECTIONS_FOUND + 1))
     else
         log_warn "Missing section: Mindset"
     fi
-    
+
     if grep -q "## Workflow" "$SKILL_PATH/SKILL.md"; then
         log_pass "Section: Workflow"
         SECTIONS_FOUND=$((SECTIONS_FOUND + 1))
     else
         log_warn "Missing section: Workflow"
     fi
-    
+
     if grep -q "## Anti-Patterns" "$SKILL_PATH/SKILL.md"; then
         log_pass "Section: Anti-Patterns"
         SECTIONS_FOUND=$((SECTIONS_FOUND + 1))
     else
         log_warn "Missing section: Anti-Patterns"
     fi
-    
+
     if grep -q "## Success Metrics" "$SKILL_PATH/SKILL.md"; then
         log_pass "Section: Success Metrics"
         SECTIONS_FOUND=$((SECTIONS_FOUND + 1))
     else
         log_warn "Missing section: Success Metrics"
     fi
-    
+
     if grep -q "## Quick Reference" "$SKILL_PATH/SKILL.md"; then
         log_pass "Section: Quick Reference"
         SECTIONS_FOUND=$((SECTIONS_FOUND + 1))
     else
         log_warn "Missing section: Quick Reference"
     fi
-    
+
     if [ "$SECTIONS_FOUND" -ge "$SECTIONS_REQUIRED" ]; then
         log_pass "All required sections present ($SECTIONS_FOUND/$SECTIONS_REQUIRED)"
     else
@@ -380,12 +361,12 @@ else
     log_warn "Cannot check sections without SKILL.md"
 fi
 
-# Check 8: Tessl review score (if available)
+# Check 8: Tessl review recommendation
 echo ""
 echo "${BLUE}[8/8]${NC} Tessl review recommendation..."
-log_info "Run 'tessl skill review $SKILL_PATH' to check Tessl quality score"
-log_info "If score < 90%, run 'tessl skill review $SKILL_PATH --optimize'"
-log_info "Target: ≥90% for public publishing"
+log_info "Run 'tessl review run $SKILL_PATH' to check Tessl quality score"
+log_info "If score < 90%, run 'tessl review run $SKILL_PATH --optimize'"
+log_info "Target: >=90% for public publishing"
 
 # Final summary
 echo ""
@@ -399,16 +380,16 @@ echo "Warnings:       ${YELLOW}${WARNINGS}${NC}"
 echo ""
 
 if [ "$CHECKS_FAILED" -eq 0 ]; then
-    echo "${GREEN}✓ Skill appears ready for public publishing!${NC}"
+    echo "${GREEN}✓ Plugin appears ready for public publishing!${NC}"
     echo ""
     echo "Next steps:"
-    echo "  1. Run: tessl skill review $SKILL_PATH"
-    echo "  2. If score < 90%, run: tessl skill review $SKILL_PATH --optimize"
-    echo "  3. Publish: tessl skill publish $SKILL_PATH --public"
+    echo "  1. Run: tessl review run $SKILL_PATH"
+    echo "  2. If score < 90%, run: tessl review run $SKILL_PATH --optimize"
+    echo "  3. Publish: tessl plugin publish --workspace pantheon-ai $SKILL_PATH --bump patch"
     echo ""
     exit 0
 else
-    echo "${RED}✗ Skill NOT ready for public publishing${NC}"
+    echo "${RED}✗ Plugin NOT ready for public publishing${NC}"
     echo ""
     echo "Fix the failed checks above before attempting publication."
     echo ""

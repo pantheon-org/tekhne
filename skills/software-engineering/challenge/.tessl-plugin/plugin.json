@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/challenge",
+  "version": "0.1.1",
+  "description": "Challenge AI output with structured devil's-advocate protocols: anchor, verify, framing, and deep sub-commands.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

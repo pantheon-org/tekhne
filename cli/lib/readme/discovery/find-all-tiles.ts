@@ -7,52 +7,61 @@ import { isChildTile } from "./is-child-tile";
 import { parsePublishedStatus } from "./parse-published-status";
 
 export const findAllTiles = async (): Promise<TileEntry[]> => {
-  const output = await $`find skills -name "tile.json" -type f`.text();
+  const output =
+    await $`find skills -name "plugin.json" -path "*/.tessl-plugin/*" -o -name "tile.json" -type f`.text();
   const files = output.trim().split("\n").filter(Boolean);
 
-  // Build a set of all tile directories to detect parent/child relationships.
-  // A child tile is one whose parent directory also contains a tile.json.
   const tileDirs = new Set(files.map((f) => dirname(f)));
-
   const tiles: TileEntry[] = [];
 
   for (const file of files) {
     try {
-      const tileData = await Bun.file(file).json();
+      const rawData = (await Bun.file(file).json()) as Record<string, unknown>;
       const tileDir = dirname(file);
 
-      // Skip private child tiles: if the parent directory also has a tile.json
-      // AND this tile is private, it is a sub-skill component of a consolidated
-      // parent tile and should not appear as a top-level entry.
-      if (isChildTile(tileDir, tileDirs, tileData)) continue;
+      if (isChildTile(tileDir, tileDirs, rawData.private === true)) continue;
 
       const tileRelDir = tileDir.replace(/^skills\//, "");
       const domain = tileRelDir.split("/")[0];
 
-      const skillsObj: Record<string, { path?: string }> =
-        tileData.skills || {};
-      const skills = buildTileSkills(tileDir, skillsObj);
+      const skillsArr: string[] = [];
+      const rawSkills = rawData.skills;
+      if (Array.isArray(rawSkills)) {
+        for (const entry of rawSkills) {
+          if (typeof entry === "string") skillsArr.push(entry);
+          else if (entry && typeof entry === "object" && "path" in entry) {
+            skillsArr.push((entry as { path: string }).path);
+          }
+        }
+      } else if (rawSkills && typeof rawSkills === "object") {
+        for (const def of Object.values(rawSkills) as Array<
+          Record<string, unknown>
+        >) {
+          if (def?.path && typeof def.path === "string")
+            skillsArr.push(def.path);
+        }
+      }
 
+      const skills = buildTileSkills(tileDir, skillsArr);
       if (skills.length === 0) continue;
 
-      const fullName = tileData.name || "";
-      const shortName = parseShortName(fullName);
-      const publishedStatus = parsePublishedStatus(tileData);
-      const isPublic = publishedStatus === "public";
+      const fullName = (rawData.name as string) || "";
+      const summary =
+        (rawData.description as string) ?? (rawData.summary as string) ?? "";
 
       tiles.push({
         tileDir,
         domain,
-        shortName,
+        shortName: parseShortName(fullName),
         fullName,
-        version: tileData.version || "",
-        summary: tileData.summary || "",
-        isPublic,
-        publishedStatus,
+        version: (rawData.version as string) || "",
+        summary,
+        isPublic: parsePublishedStatus(rawData) === "public",
+        publishedStatus: parsePublishedStatus(rawData),
         skills,
       });
     } catch {
-      // skip invalid tile.json
+      // skip invalid manifest
     }
   }
 

@@ -3,8 +3,8 @@ import { join } from "node:path";
 import { logger } from "../utils/logger";
 import { processTileSkillLink } from "./process-tile-skill-link";
 
-interface TileJson {
-  skills: Record<string, unknown>;
+interface PluginJson {
+  skills: Array<string | { path: string }>;
 }
 
 export const syncTileSymlinks = async (
@@ -15,29 +15,39 @@ export const syncTileSymlinks = async (
 ): Promise<{ created: number; updated: number; skipped: number }> => {
   const stats = { created: 0, updated: 0, skipped: 0 };
 
-  const globber = new Bun.Glob(`${tilesDir}/*/*/tile.json`);
-  const tileJsonPaths: string[] = [];
+  const globber = new Bun.Glob(`${tilesDir}/*/*/.tessl-plugin/plugin.json`);
+  const manifestPaths: string[] = [];
   for await (const path of globber.scan({ cwd: repoRoot })) {
-    tileJsonPaths.push(path);
+    manifestPaths.push(path);
   }
 
-  for (const tileJsonRelPath of tileJsonPaths) {
-    const tileJsonAbsPath = join(repoRoot, tileJsonRelPath);
-    const tileDir = tileJsonRelPath.replace(/\/tile\.json$/, "");
+  for (const manifestRelPath of manifestPaths) {
+    const tileDir = manifestRelPath.replace(
+      /\/\.tessl-plugin\/plugin\.json$/,
+      "",
+    );
     const target = join(repoRoot, tileDir);
 
-    let tileJson: TileJson;
+    let pluginJson: PluginJson;
     try {
-      tileJson = JSON.parse(readFileSync(tileJsonAbsPath, "utf8")) as TileJson;
+      pluginJson = JSON.parse(
+        readFileSync(join(repoRoot, manifestRelPath), "utf8"),
+      ) as PluginJson;
     } catch (err) {
-      logger.error(`Failed to parse ${tileJsonAbsPath}: ${err}`);
+      logger.error(`Failed to parse ${manifestRelPath}: ${err}`);
       continue;
     }
 
-    const skillNames = Object.keys(tileJson.skills ?? {});
+    const skillPaths: string[] = [];
+    if (Array.isArray(pluginJson.skills)) {
+      for (const entry of pluginJson.skills) {
+        if (typeof entry === "string") skillPaths.push(entry);
+        else if (entry?.path) skillPaths.push(entry.path);
+      }
+    }
 
-    for (const skillName of skillNames) {
-      const action = processTileSkillLink(skillName, target, skillsDir, dryRun);
+    for (const skillPath of skillPaths) {
+      const action = processTileSkillLink(skillPath, target, skillsDir, dryRun);
       if (action === "create") stats.created++;
       else if (action === "update") stats.updated++;
       else stats.skipped++;

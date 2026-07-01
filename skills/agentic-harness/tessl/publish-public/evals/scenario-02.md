@@ -7,7 +7,7 @@
 ## Expected Behavior
 
 1. Agent locates the skill directory at `skills/infrastructure/docker-containerization/`
-2. Creates `evaluation-scenarios/` directory if it doesn't exist
+2. Creates `evals/` directory if it doesn't exist
 3. Analyzes the SKILL.md content to understand skill purpose and workflows
 4. Generates 5-8 comprehensive scenario files (scenario-01.md through scenario-08.md)
 5. Each scenario includes: user prompt, expected behavior, success criteria, failure conditions
@@ -16,13 +16,13 @@
 
 ## Success Criteria
 
-- Agent creates evaluation-scenarios/ directory
+- Agent creates evals/ directory
 - Agent generates minimum 5 scenario files (scenario-01.md to scenario-05.md)
 - Each scenario file has all four required sections (prompt, behavior, success, failure)
 - Scenarios are specific to the skill domain (Docker containerization)
 - Success criteria are measurable (files created, commands run, outputs verified)
 - Failure conditions clearly indicate when skill was not applied correctly
-- Scenarios cover breadth of skill capabilities (basic → advanced)
+- Scenarios cover breadth of skill capabilities (basic -> advanced)
 
 ## Failure Conditions
 

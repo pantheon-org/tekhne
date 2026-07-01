@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/ansible-toolkit",
+  "version": "1.0.1",
+  "description": "Complete ansible toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": ["generator", "validator"]
+}
