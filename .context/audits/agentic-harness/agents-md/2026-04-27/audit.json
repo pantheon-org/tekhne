@@ -1,0 +1,30 @@
+{
+  "skill": "agentic-harness/agents-md",
+  "date": "2026-04-27",
+  "dimensions": {
+    "antiPatternQuality": 15,
+    "evalValidation": 4,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 15,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 13,
+    "specificationCompliance": 15
+  },
+  "total": 118,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 122,
+  "hasReferences": true,
+  "referenceCount": 7,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D9",
+      "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+    }
+  ]
+}

@@ -601,7 +601,7 @@ Author high-quality Markdown documentation with deterministic structure, lint co
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 4 |
+| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-07-01 | 7 |
 
 ### plain-english
 
