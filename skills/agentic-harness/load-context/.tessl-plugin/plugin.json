@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/load-context",
+  "version": "0.1.1",
+  "description": "Resume a previous session from .context/session/CONTEXT-llm.md with optional full resource expansion.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

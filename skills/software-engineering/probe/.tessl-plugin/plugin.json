@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/probe",
+  "version": "0.1.1",
+  "description": "Run a safe-to-fail experiment for Complex domain problems where cause-and-effect is only visible in retrospect.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

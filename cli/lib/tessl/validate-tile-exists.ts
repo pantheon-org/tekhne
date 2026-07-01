@@ -3,14 +3,11 @@ import { join } from "node:path";
 import { logger } from "../utils/logger";
 
 export const validateTileExists = (tilePath: string): boolean => {
-  if (!existsSync(tilePath)) {
-    logger.error(`Tile not found: ${tilePath}`);
-    return false;
-  }
+  const pluginJson = join(tilePath, ".tessl-plugin", "plugin.json");
+  const tileJson = join(tilePath, "tile.json");
 
-  const tileJsonPath = join(tilePath, "tile.json");
-  if (!existsSync(tileJsonPath)) {
-    logger.error("Missing tile.json");
+  if (!existsSync(pluginJson) && !existsSync(tileJson)) {
+    logger.error("Missing skill manifest (no plugin.json or tile.json)");
     return false;
   }
 

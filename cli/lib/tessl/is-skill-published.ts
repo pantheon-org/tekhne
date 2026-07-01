@@ -1,21 +1,15 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-import { TileSchema } from "../schemas/tile.schema";
 import { exec } from "../utils/exec";
+import { readManifest } from "../utils/skill-manifest";
 
 export const isSkillPublished = async (
   skillPath: string,
   workspace: string,
 ): Promise<boolean> => {
-  const tileJsonPath = join(skillPath, "tile.json");
-  if (!existsSync(tileJsonPath)) {
+  const manifest = await readManifest(skillPath);
+  if (!manifest || !manifest.name) {
     return false;
   }
 
-  const rawData = await Bun.file(tileJsonPath).json();
-  const tileData = TileSchema.parse(rawData);
-  const tileName = tileData.name;
-
-  const { exitCode } = await exec(`tessl search ${workspace}/${tileName}`);
+  const { exitCode } = await exec(`tessl search ${workspace}/${manifest.name}`);
   return exitCode === 0;
 };

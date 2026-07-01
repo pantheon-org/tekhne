@@ -21,7 +21,7 @@ export const tesslManage = async (
   logger.header("Managing all skills");
 
   const skillDirs =
-    await $`find skills -name "tile.json" -o -name "SKILL.md"`.text();
+    await $`find skills -name ".tessl-plugin" -o -name "tile.json" -o -name "SKILL.md"`.text();
   const paths = skillDirs
     .trim()
     .split("\n")

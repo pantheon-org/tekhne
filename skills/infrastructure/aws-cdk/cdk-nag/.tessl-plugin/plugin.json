@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/cdk-nag",
+  "version": "0.2.1",
+  "description": "Enforce AWS CDK security and compliance controls with cdk-nag. Use when adding rule packs, triaging findings, writing justified suppressions, integrating checks in CI/CD, or preventing insecure infrastructure patterns in CDK stacks.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

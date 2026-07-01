@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/tessl-publish-public",
+  "version": "1.1.1",
+  "description": "Ensure Tessl plugins meet all requirements for public registry publishing with comprehensive validation, quality gates, and evaluation scenarios. Use when preparing skills for public Tessl release, validating plugin.json manifest, creating evaluation scenarios, enforcing quality thresholds, or checking agent-agnostic compliance. Keywords: tessl, plugin, publishing, public-registry, validation, quality-gates, plugin.json, eval-scenarios, skill-publishing",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

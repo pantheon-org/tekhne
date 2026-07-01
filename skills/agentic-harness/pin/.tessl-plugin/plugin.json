@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/pin",
+  "version": "0.1.1",
+  "description": "Pin session decisions, questions, constraints, and corrections to a persistent board that survives context compaction.",
+  "private": false,
+  "skills": ["SKILL.md"]
+}

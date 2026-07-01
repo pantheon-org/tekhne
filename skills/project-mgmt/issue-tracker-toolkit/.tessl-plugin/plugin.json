@@ -1,0 +1,11 @@
+{
+  "name": "pantheon-ai/issue-tracker-toolkit",
+  "version": "0.1.1",
+  "description": "Toolkit for writing, refining, and prioritizing tickets on issue-tracking systems (Jira and equivalents). Covers three concerns: writing clear acceptance criteria for user stories; applying MoSCoW prioritization to requirements and backlogs; and readying sparse backlog tickets for refinement by gathering incident context, applying a YAML template, and generating a validated structured document.",
+  "private": false,
+  "skills": [
+    "acceptance-criteria",
+    "moscow-prioritization",
+    "jira-ticket-readyup"
+  ]
+}

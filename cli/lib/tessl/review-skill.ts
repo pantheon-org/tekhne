@@ -1,8 +1,7 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-import { TileSchema } from "../schemas/tile.schema";
+import { dirname, join } from "node:path";
 import { exec } from "../utils/exec";
 import { logger } from "../utils/logger";
+import { readManifest } from "../utils/skill-manifest";
 
 export const reviewSkill = async (
   skillPath: string,
@@ -10,31 +9,22 @@ export const reviewSkill = async (
 ): Promise<boolean> => {
   logger.info(`Reviewing skill: ${skillPath}`);
 
-  const tileJsonPath = join(skillPath, "tile.json");
-  if (existsSync(tileJsonPath)) {
-    const rawData = await Bun.file(tileJsonPath).json();
-    const tileData = TileSchema.parse(rawData);
-    const skillEntries = Object.entries(tileData.skills ?? {});
-
-    if (skillEntries.length > 1) {
-      logger.info(`Multi-skill tile detected (${skillEntries.length} skills)`);
-      for (const [skillName, skillInfo] of skillEntries) {
-        const skillDir = join(
-          skillPath,
-          skillInfo.path.replace(/\/SKILL\.md$/, ""),
-        );
-        logger.info(`Reviewing skill: ${skillName}`);
-        const { exitCode, stderr } = await exec(
-          `tessl skill review ${skillDir}`,
-        );
-        if (exitCode !== 0) {
-          logger.error(`Review failed for ${skillName}: ${stderr}`);
-          return false;
-        }
+  const manifest = await readManifest(skillPath);
+  if (manifest && manifest.skills.length > 1) {
+    logger.info(`Multi-skill tile detected (${manifest.skills.length} skills)`);
+    for (const skillPathRel of manifest.skills) {
+      const skillFullPath = join(skillPath, dirname(skillPathRel));
+      logger.info(`Reviewing skill: ${skillPathRel}`);
+      const { exitCode, stderr } = await exec(
+        `tessl skill review ${skillFullPath}`,
+      );
+      if (exitCode !== 0) {
+        logger.error(`Review failed for ${skillPathRel}: ${stderr}`);
+        return false;
       }
-      logger.success("All skills reviewed successfully");
-      return true;
     }
+    logger.success("All skills reviewed successfully");
+    return true;
   }
 
   const { exitCode, stderr } = await exec(`tessl skill review ${skillPath}`);

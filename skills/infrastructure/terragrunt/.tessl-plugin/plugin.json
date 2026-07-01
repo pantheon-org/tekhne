@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/terragrunt-toolkit",
+  "version": "1.0.1",
+  "description": "Complete terragrunt toolkit with generation and validation capabilities",
+  "private": false,
+  "skills": ["generator", "validator"]
+}

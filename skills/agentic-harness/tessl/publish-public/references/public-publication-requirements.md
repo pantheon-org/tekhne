@@ -1,14 +1,14 @@
-# Public Publication Requirements for Tessl Skills
+# Public Publication Requirements for Tessl Plugins
 
-This document defines the complete set of requirements a Tessl skill (tile) must meet before publishing to the public registry.
+This document defines the complete set of requirements a Tessl plugin must meet before publishing to the public registry.
 
 ## Critical Requirements (Must Pass)
 
-### 1. Quality Threshold: A-Grade Minimum (≥108/120)
+### 1. Quality Threshold: A-Grade Minimum (>=108/120)
 
 **Source**: skill-quality-auditor eight-dimension scoring system
 
-**Rationale**: Between 2025-2026, 63 skills were published using only `tessl skill review`, resulting in average score of 98.3/120 (82%) with 37% in C+/C range. This required 40-60 hours of remediation work to lift to acceptable levels.
+**Rationale**: Between 2025-2026, 63 plugins were published using only `tessl review run`, resulting in average score of 98.3/120 (82%) with 37% in C+/C range. This required 40-60 hours of remediation work to lift to acceptable levels.
 
 **Validation**: Run quality audit and check total score
 
@@ -26,19 +26,19 @@ cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
 **Common weak dimensions** (repository-wide audit 2026-03):
 
 - **D3 Anti-Pattern Quality (68% avg)**: Add "Common Mistakes" section with 3-5 anti-patterns
-- **D5 Progressive Disclosure (73% avg)**: Structure info as Quick Start → Detailed Guide → Advanced
+- **D5 Progressive Disclosure (73% avg)**: Structure info as Quick Start -> Detailed Guide -> Advanced
 - **D2 Mindset & Procedures (74% avg)**: Establish mental models before procedures
 
 ### 2. Evaluation Scenarios: 5-8 Comprehensive Test Cases
 
-**Rationale**: Public skills represent effectiveness standards. Without eval scenarios, there's no proof the skill delivers value.
+**Rationale**: Public plugins represent effectiveness standards. Without eval scenarios, there's no proof the plugin delivers value.
 
 **Structure**: Each scenario requires four sections:
 
 1. **User Prompt**: Exact input the agent receives
 2. **Expected Behavior**: Step-by-step actions agent should take
 3. **Success Criteria**: Measurable outcomes (files created, commands run, outputs)
-4. **Failure Conditions**: What indicates skill was not used or failed
+4. **Failure Conditions**: What indicates plugin was not used or failed
 
 **Coverage**: Scenarios should cover:
 
@@ -59,8 +59,8 @@ cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
 
 ## Expected Behavior
 1. Agent locates skill directory
-2. Checks for evaluation-scenarios/ directory
-3. Verifies tile.json has private: false
+2. Checks for evals/ directory
+3. Verifies .tessl-plugin/plugin.json has private: false
 4. Reviews quality audit results
 5. Reports readiness status
 
@@ -75,17 +75,17 @@ cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
 - Agent provides generic "looks good" response
 ```
 
-### 3. Tile.json Configuration
+### 3. .tessl-plugin/plugin.json Configuration
 
 **Required fields**:
 
 ```json
 {
-  "name": "workspace/skill-name",
+  "name": "workspace/plugin-name",
   "version": "1.0.0",
   "private": false,
-  "summary": "Clear value proposition",
-  "keywords": ["relevant", "searchable", "terms"]
+  "description": "Clear value proposition with use cases and keywords",
+  "skills": ["SKILL.md"]
 }
 ```
 
@@ -93,15 +93,16 @@ cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
 
 - `private: false` - MUST be explicitly set for public publishing
 - `version` - Semantic versioning; bump if republishing
-- `summary` - Clear, concise (shown in registry search)
-- `keywords` - 3-5 relevant, discoverable terms
+- `description` - Clear, concise (shown in registry search); replaces legacy `summary`
+- `skills` - Array of path strings (NOT the old tile.json object format)
 
 **Common mistakes**:
 
 - Omitting `private` field (defaults to true)
 - Leaving `private: true` unchanged
-- Generic summary ("A skill for X")
-- Keyword spam or irrelevant tags
+- Generic description ("A plugin for X")
+- Using old tile.json format with `skills` as object instead of array
+- Using `summary` field (legacy tile.json) instead of `description`
 
 ### 4. Agent-Agnostic Compliance
 
@@ -123,26 +124,26 @@ cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
 grep -i "claude code\|cursor\|vs code\|opencode" skills/domain/skill-name/SKILL.md
 ```
 
-### 5. Tessl Optimization: ≥90% Quality Score
+### 5. Tessl Optimization: >=90% Quality Score
 
-**Source**: `tessl skill review` scoring system (independent of skill-quality-auditor)
+**Source**: `tessl review run` scoring system (independent of skill-quality-auditor)
 
-**Rationale**: Tessl's optimization engine can dramatically improve scores (observed 85% → 99% improvements).
+**Rationale**: Tessl's optimization engine can dramatically improve scores (observed 85% -> 99% improvements).
 
 **Workflow**:
 
 ```bash
 # Initial review
-tessl skill review skills/domain/skill-name
+tessl review run skills/domain/skill-name
 
 # If < 90%, optimize
-tessl skill review skills/domain/skill-name --optimize
+tessl review run skills/domain/skill-name --optimize
 
 # Re-review to verify
-tessl skill review skills/domain/skill-name
+tessl review run skills/domain/skill-name
 ```
 
-**Key insight**: Always use `--optimize` flag for skills scoring below 90%. Manual improvements may miss optimization opportunities.
+**Key insight**: Always use `--optimize` flag for plugins scoring below 90%. Manual improvements may miss optimization opportunities.
 
 ## Recommended Requirements (Best Practices)
 
@@ -168,7 +169,7 @@ tessl skill review skills/domain/skill-name
 - Production Caveats
 - Related Skills
 
-**Progressive disclosure**: Structure as Quick Start → Detailed Guide → Advanced Topics
+**Progressive disclosure**: Structure as Quick Start -> Detailed Guide -> Advanced Topics
 
 ### 7. Documentation Quality
 
@@ -176,7 +177,7 @@ tessl skill review skills/domain/skill-name
 
 - Short paragraphs (2-4 sentences)
 - Active voice
-- Clear headings hierarchy (H2 → H3 → H4)
+- Clear headings hierarchy (H2 -> H3 -> H4)
 - Concrete examples over abstract explanations
 
 **Completeness**:
@@ -205,31 +206,31 @@ tessl skill review skills/domain/skill-name
 
 ### Phase 1: Pre-Publication Audit
 
-1. Run skill-quality-auditor → verify ≥108/120
+1. Run skill-quality-auditor -> verify >=108/120
 2. Review remediation plan if needed
 3. Fix critical dimensions (D1, D2, D3, D5)
 4. Re-audit until A-grade achieved
 
 ### Phase 2: Evaluation Scenario Creation
 
-1. Create `evaluation-scenarios/` directory
+1. Create `evals/` directory
 2. Generate 5-8 comprehensive scenario files
 3. Ensure each has all four required sections
 4. Cover breadth of skill capabilities
 
-### Phase 3: Tile Configuration
+### Phase 3: Plugin Configuration
 
-1. Run `tessl skill import` if tile.json missing
-2. Set `private: false` in tile.json
-3. Verify required fields (name, version, summary, keywords)
+1. Ensure `.tessl-plugin/plugin.json` exists
+2. Set `private: false` in plugin.json
+3. Verify required fields (name, version, description, skills)
 4. Bump version if republishing
 
 ### Phase 4: Tessl Optimization
 
-1. Run `tessl skill review skills/domain/skill-name`
-2. If < 90%, run `tessl skill review --optimize`
+1. Run `tessl review run skills/domain/skill-name`
+2. If < 90%, run `tessl review run --optimize`
 3. Re-review to verify improvements
-4. Target ≥90% score
+4. Target >=90% score
 
 ### Phase 5: Agent-Agnostic Validation
 
@@ -241,18 +242,18 @@ tessl skill review skills/domain/skill-name
 ### Phase 6: Publication
 
 1. Run publication readiness script (optional but recommended)
-2. Execute `tessl skill publish skills/domain/skill-name --public`
+2. Execute `tessl plugin publish --workspace pantheon-ai skills/domain/skill-name --bump patch`
 3. Verify publication with `tessl search skill-name`
 
 ## Quality Gates Summary
 
 | Gate | Requirement | Validation Command | Blocker |
 |------|-------------|-------------------|---------|
-| Quality Audit | ≥108/120 (A-grade) | `sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill> --json --store` | YES |
-| Eval Scenarios | 5-8 comprehensive scenarios | `ls skills/<domain>/<skill>/evaluation-scenarios/` | YES |
-| Tile Config | `private: false` | `jq '.private' skills/<domain>/<skill>/tile.json` | YES |
+| Quality Audit | >=108/120 (A-grade) | `sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill> --json --store` | YES |
+| Eval Scenarios | 5-8 comprehensive scenarios | `ls skills/<domain>/<skill>/evals/` | YES |
+| Plugin Config | `private: false` | `jq '.private' skills/<domain>/<skill>/.tessl-plugin/plugin.json` | YES |
 | Agent-Agnostic | No harness-specific tools | Manual SKILL.md scan | YES |
-| Tessl Score | ≥90% | `tessl skill review skills/<domain>/<skill>` | RECOMMENDED |
+| Tessl Score | >=90% | `tessl review run skills/<domain>/<skill>` | RECOMMENDED |
 | SKILL.md Sections | Required sections present | Manual review | RECOMMENDED |
 | Cross-Platform | Works on all agents | Multi-agent testing | RECOMMENDED |
 
@@ -260,31 +261,31 @@ tessl skill review skills/domain/skill-name
 
 ### Failure 1: Skipped Evaluation Scenarios
 
-**Symptom**: Publish command succeeds, but skill flagged during registry review
+**Symptom**: Publish command succeeds, but plugin flagged during registry review
 
-**Cause**: evaluation-scenarios/ directory missing or has < 5 scenarios
+**Cause**: `evals/` directory missing or has < 5 scenarios
 
 **Fix**: Create comprehensive eval scenarios before publishing
 
 ### Failure 2: Private: True Blocks Publishing
 
-**Symptom**: `tessl skill publish --public` publishes to private workspace only
+**Symptom**: `tessl plugin publish --public` publishes to private workspace only
 
-**Cause**: tile.json missing `private: false` or has `private: true`
+**Cause**: plugin.json missing `private: false` or has `private: true`
 
-**Fix**: Explicitly set `private: false` in tile.json
+**Fix**: Explicitly set `private: false` in `.tessl-plugin/plugin.json`
 
 ### Failure 3: Quality Score Too Low
 
-**Symptom**: Skill published but performs poorly in agent evaluations
+**Symptom**: Plugin published but performs poorly in agent evaluations
 
 **Cause**: Skipped skill-quality-auditor or published below A-grade threshold
 
-**Fix**: Run audit, address remediation plan, re-audit until ≥108/120
+**Fix**: Run audit, address remediation plan, re-audit until >=108/120
 
 ### Failure 4: Agent-Specific Tools Break Cross-Platform
 
-**Symptom**: Skill works in one agent but fails in others
+**Symptom**: Plugin works in one agent but fails in others
 
 **Cause**: Used harness-specific tools or instructions
 
@@ -296,20 +297,28 @@ tessl skill review skills/domain/skill-name
 
 **Cause**: Didn't use `--optimize` flag
 
-**Fix**: Run `tessl skill review --optimize` to unlock automatic improvements
+**Fix**: Run `tessl review run --optimize` to unlock automatic improvements
+
+### Failure 6: Legacy tile.json Format Used
+
+**Symptom**: `tessl review run` fails or ignores manifest
+
+**Cause**: Plugin still uses old `tile.json` format with `summary` and `skills` object
+
+**Fix**: Migrate to `.tessl-plugin/plugin.json` with `description` field and `skills` array
 
 ## Post-Publication Considerations
 
 ### Version Management
 
 - Published versions are immutable
-- Use semantic versioning for updates (patch/minor/major)
+- Use `--bump patch|minor|major` for updates
 - Breaking changes require major version bump
 
 ### Quality Monitoring
 
-- Registry may flag skills with declining quality scores
-- Skills < 80% Tessl review may be delisted
+- Registry may flag plugins with declining quality scores
+- Plugins < 80% Tessl review may be delisted
 - Monitor community feedback and issue reports
 
 ### Updates and Maintenance
@@ -322,11 +331,11 @@ tessl skill review skills/domain/skill-name
 
 - Respond to public comments constructively
 - Share improvements back to community
-- Maintain high quality bar for all published skills
+- Maintain high quality bar for all published plugins
 
 ## References
 
 - **skill-quality-auditor**: Internal quality improvement tool
-- **tessl skill review**: Registry publication preparation tool
-- **Agent Skills Specification**: <https://agentskills.io>
+- **tessl review run**: Registry publication preparation tool
+- **tessl plugin publish**: Registry publication command
 - **Repository AGENTS.md**: Tessl publishing workflow and quality gates
