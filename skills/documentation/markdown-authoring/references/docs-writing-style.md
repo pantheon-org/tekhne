@@ -447,7 +447,6 @@ npm run migrate
 ```
 
 **Good:**
-```markdown
 Apply database migrations to create the required tables:
 
 ```bash
@@ -455,8 +454,6 @@ npm run migrate
 ```
 
 This creates the `users` and `posts` tables in your database.
-
-```
 
 ## Best Practices
 

@@ -1,0 +1,31 @@
+{
+  "context": "Agent must correct markdownlint violations in a contributed guide.md file without adding suppressions or changing content meaning.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "heading_levels_sequential",
+      "description": "Heading levels are sequential with no skips: H1 is followed by H2, H2 by H3, etc. No H1→H3 or H2→H4 skip.",
+      "max_score": 20
+    },
+    {
+      "name": "code_blocks_language_tags",
+      "description": "All fenced code blocks have explicit language tags (e.g., bash, yaml). No untagged fences remain.",
+      "max_score": 20
+    },
+    {
+      "name": "list_markers_consistent",
+      "description": "All bullet list items use the same marker character. No mixing of -, *, and +.",
+      "max_score": 20
+    },
+    {
+      "name": "no_lint_suppressions",
+      "description": "No markdownlint disable comments or suppressions added to the output.",
+      "max_score": 20
+    },
+    {
+      "name": "content_preserved",
+      "description": "All original sections, code samples, and table content are preserved. No text deleted or reworded.",
+      "max_score": 20
+    }
+  ]
+}

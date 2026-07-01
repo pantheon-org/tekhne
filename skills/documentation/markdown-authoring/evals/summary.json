@@ -1,0 +1,36 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 87,
+    "covered_instructions": [
+      "Run markdownlint locally and fix violations until zero errors.",
+      "Use fenced code blocks with explicit language tags.",
+      "Never skip heading levels.",
+      "Keep list markers consistent throughout a document.",
+      "Never suppress markdownlint rules broadly.",
+      "Use ATX-style headings with one H1 per document.",
+      "Structure README with standard sections.",
+      "Keep Markdown lint-clean and deterministic.",
+      "Write with active voice, present tense, and address the reader directly.",
+      "Use descriptive kebab-case filenames and group docs into subdirectories.",
+      "Enable all markdownlint rules by default.",
+      "Use consistent table formatting.",
+      "Include alt text on images and use descriptive link text."
+    ],
+    "uncovered_instructions": [
+      "Organize documentation by user journey with shallow hierarchy.",
+      "Integrate markdownlint into CI/CD pipelines and pre-commit hooks."
+    ]
+  },
+  "scenario_coverage": {
+    "total_scenarios": 7,
+    "capabilities_covered": [
+      "fix-markdownlint-violations",
+      "author-readme",
+      "tag-code-fences",
+      "create-markdownlint-config",
+      "setup-markdownlint-ci",
+      "apply-writing-style",
+      "restructure-documentation"
+    ]
+  }
+}

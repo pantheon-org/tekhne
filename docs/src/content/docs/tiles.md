@@ -569,7 +569,7 @@ Complete PromQL toolkit with generation and validation capabilities
 
 ---
 
-## Documentation (8 tiles)
+## Documentation (7 tiles, 1 skill)
 
 Writing & communication
 
@@ -592,16 +592,6 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 | [scholar-evaluation](/tekhne/skills/documentation/research/scholar-evaluation/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 | [scientific-schematics](/tekhne/skills/documentation/research/scientific-schematics/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 | [notebooklm](/tekhne/skills/documentation/research/notebooklm/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
-
-### markdown-authoring
-
-Author high-quality Markdown documentation with deterministic structure, lint compliance, and CI integration. Use when writing README files, creating docs pages, fixing markdownlint failures, defining style rules, or wiring markdown checks into pre-commit and pipelines. Keywords: markdown, markdownlint, readme, docs, headings, lists, code fences, links, images, lint config, ci, documentation style.
-
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/markdown-authoring) | **Version:** 0.1.1
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 4 |
 
 ### plain-english
 
@@ -668,6 +658,14 @@ Skills for working with Obsidian vaults and related formats: Obsidian Flavored M
 | [json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [defuddle](/tekhne/skills/documentation/obsidian/defuddle/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
 | [obsidian-bases](/tekhne/skills/documentation/obsidian/obsidian-bases/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 5 |
+
+### markdown-authoring
+
+Author high-quality Markdown documentation with deterministic structure, lint co...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-07-01 | 7 |
 
 ---
 

@@ -13,7 +13,7 @@ Use this skill when the task involves Markdown content, linting, or documentatio
 
 Do not use this skill for non-Markdown document formats (for example `.adoc` or `.rst`) unless conversion is part of the task.
 
-## Core Principles
+## Principles
 
 1. Structure first, wording second.
 2. Keep Markdown lint-clean and deterministic.
@@ -42,7 +42,7 @@ Expected result: no errors for staged or target files.
 ### Lint one skill folder
 
 ```bash
-bunx markdownlint-cli2 "skills/markdown-authoring/**/*.md"
+bunx markdownlint-cli2 "skills/documentation/markdown-authoring/**/*.md"
 ```
 
 Expected result: folder-specific Markdown issues reported or zero errors.
@@ -58,10 +58,26 @@ Expected result: non-Markdown formatting/lint issues also caught.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh markdown-authoring --json
+sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/markdown-authoring --json
 ```
 
 Expected result: updated dimension scores and grade.
+
+### Read a specific reference
+
+```bash
+./scripts/read-reference.sh syntax-headings
+```
+
+Expected result: displays reference content for the requested topic.
+
+### Check document style compliance
+
+```bash
+bun run check-style "path/to/document.md"
+```
+
+Expected result: style validation report printed to stdout.
 
 ## Anti-Patterns
 
@@ -91,6 +107,8 @@ Expected result: updated dimension scores and grade.
 **GOOD:** Increase heading levels one step at a time.
 
 **Consequence:** Navigation and accessibility suffer.
+
+**Consider** adding a table of contents for documents longer than 300 lines. Optionally include anchor links in headings to improve internal navigation.
 
 ### NEVER mix inconsistent list and table styles in one document
 
