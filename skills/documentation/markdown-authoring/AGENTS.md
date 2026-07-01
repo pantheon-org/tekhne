@@ -2,15 +2,16 @@
 
 ## Overview
 
-Complete markdown authoring and documentation guidance covering syntax, documentation structure, markdownlint configuration, and CI/CD integration.
+Complete markdown authoring and documentation guidance covering syntax, documentation structure, markdownlint configuration, CI/CD integration, and writing style.
 
 ## Structure
 
 ```
 markdown-authoring/
   SKILL.md       # Main navigation hub
-  AGENTS.md      # This file - complete reference guide
+  AGENTS.md      # This file - navigation reference
   references/    # Detailed reference files by category
+  evals/         # Evaluation scenarios
 ```
 
 ## Usage
@@ -25,41 +26,36 @@ markdown-authoring/
 | Priority | Category | Impact | Prefix |
 |----------|----------|--------|--------|
 | 1 | Markdown Syntax | CRITICAL | `syntax-` |
-| 2 | Documentation Structure | HIGH | `documentation-` |
-| 3 | Linting Configuration | HIGH | `linting-config-` |
-| 4 | Linting Integration | MEDIUM | `linting-integration-` |
+| 2 | Documentation Structure | HIGH | `docs-` |
+| 3 | Linting Configuration | HIGH | `lint-` |
+| 4 | Linting Integration | MEDIUM | `lint-` |
 
 ## Available References
 
 **Markdown Syntax** (`syntax-`):
-- `references/syntax-fundamentals.md` - Headings, paragraphs, emphasis
-- `references/syntax-lists.md` - Ordered, unordered, nested lists
-- `references/syntax-links.md` - Inline, reference, autolinks
-- `references/syntax-images.md` - Image syntax and alt text
-- `references/syntax-code.md` - Inline code and code blocks
-- `references/syntax-tables.md` - Table syntax and alignment
-- `references/syntax-blockquotes.md` - Blockquote syntax
+- `references/syntax-headings.md` - Heading levels, ATX vs setext, best practices
+- `references/syntax-lists.md` - Ordered, unordered, nested, and task lists
+- `references/syntax-code-blocks.md` - Fenced code blocks, language tags, inline code
+- `references/syntax-links-images.md` - Inline, reference, automatic links, images, alt text
+- `references/syntax-formatting.md` - Bold, italic, strikethrough, inline code formatting
+- `references/syntax-other-elements.md` - Blockquotes, tables, horizontal rules, HTML, escaping
 
-**Documentation Structure** (`documentation-`):
-- `references/documentation-readme.md` - README structure and sections
-- `references/documentation-api.md` - API documentation patterns
-- `references/documentation-changelogs.md` - Changelog formatting
-- `references/documentation-contributing.md` - Contributing guide structure
+**Documentation Structure** (`docs-`):
+- `references/docs-readme.md` - README structure, templates, and best practices
+- `references/docs-api.md` - REST, function, GraphQL, and CLI documentation patterns
+- `references/docs-changelog.md` - Keep a Changelog format and writing good entries
+- `references/docs-organization.md` - File naming, directory structure, navigation, cross-references
+- `references/docs-writing-style.md` - Active voice, conciseness, tone, audience considerations
 
-**Linting Configuration** (`linting-config-`):
-- `references/linting-config-rules.md` - markdownlint rule categories
-- `references/linting-config-file.md` - .markdownlint.json configuration
-- `references/linting-config-inline.md` - Inline comments to disable rules
-- `references/linting-config-inheritance.md` - Configuration file hierarchy
+**Linting Configuration** (`lint-`):
+- `references/lint-config.md` - Configuration files, hierarchy, inline comments, common patterns
+- `references/lint-rules.md` - All markdownlint rule categories and configuration examples
 
-**Linting Integration** (`linting-integration-`):
-- `references/linting-integration-cli.md` - markdownlint-cli usage
-- `references/linting-integration-ci.md` - GitHub Actions, GitLab CI
-- `references/linting-integration-pre-commit.md` - Pre-commit hooks
-- `references/linting-integration-api.md` - Programmatic usage
+**Linting Integration** (`lint-`):
+- `references/lint-cli.md` - markdownlint-cli2 usage, npm scripts, monorepo setup
+- `references/lint-ci.md` - GitHub Actions, GitLab CI, CircleCI, Jenkins, Azure Pipelines, pre-commit hooks
+- `references/lint-api.md` - Programmatic API, custom rules, build tool integration
 
 ---
 
-*Consolidates 4 original skills: markdown-documentation, markdown-syntax-fundamentals, markdownlint-configuration, markdownlint-integration*
-
-*19 reference files across 4 categories*
+Consolidated from 4 original skills: markdown-documentation, markdown-syntax-fundamentals, markdownlint-configuration, markdownlint-integration. 16 reference files across 4 categories.

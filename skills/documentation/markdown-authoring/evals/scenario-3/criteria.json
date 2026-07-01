@@ -1,0 +1,26 @@
+{
+  "context": "Agent must add appropriate language tags to untagged code fences in a database runbook document without changing any other content.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "all_fences_tagged",
+      "description": "All six code blocks in the output file have a language identifier. No bare triple-backtick fences remain.",
+      "max_score": 25
+    },
+    {
+      "name": "tags_accurate",
+      "description": "Language tags are correct: shell scripts tagged bash, SQL queries tagged sql, TOML config tagged toml, YAML config tagged yaml. No generic tags like text used where specific tags fit.",
+      "max_score": 25
+    },
+    {
+      "name": "content_unchanged",
+      "description": "Document structure, headings, prose, and code content are identical to input. Only fence opening lines differ.",
+      "max_score": 25
+    },
+    {
+      "name": "no_suppressions",
+      "description": "No markdownlint disable comments of any kind added to the output.",
+      "max_score": 25
+    }
+  ]
+}

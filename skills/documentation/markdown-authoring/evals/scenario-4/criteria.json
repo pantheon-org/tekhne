@@ -1,0 +1,36 @@
+{
+  "context": "Agent must produce a .markdownlint.json config and an explanatory notes file encoding four key markdown authoring anti-patterns as enforced lint rules.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "default_true_set",
+      "description": "The .markdownlint.json contains 'default': true so all standard rules are enabled unless explicitly overridden.",
+      "max_score": 17
+    },
+    {
+      "name": "fenced_code_language_rule",
+      "description": "Config includes a setting for rule MD040 (or equivalent) that requires language tags on fenced code blocks.",
+      "max_score": 17
+    },
+    {
+      "name": "heading_level_sequence_rule",
+      "description": "Config includes a setting for rule MD001 (or equivalent) that enforces sequential heading levels with no skips.",
+      "max_score": 17
+    },
+    {
+      "name": "list_marker_consistency_rule",
+      "description": "Config includes a setting for rule MD004 (or equivalent) that enforces a single list marker style.",
+      "max_score": 17
+    },
+    {
+      "name": "no_rules_disabled",
+      "description": "No rule is set to false in the config. All configured rules are either enabled (true) or given specific option values.",
+      "max_score": 16
+    },
+    {
+      "name": "notes_file_explanations",
+      "description": "markdownlint-notes.md includes one entry per configured rule explaining its purpose and which anti-pattern it prevents.",
+      "max_score": 16
+    }
+  ]
+}

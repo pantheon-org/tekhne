@@ -1,0 +1,79 @@
+{
+  "instructions": [
+    {
+      "content": "Run markdownlint locally and fix violations until zero errors. Identify the specific rule, fix the source content or apply a narrow inline exception, then re-lint. Do not proceed until lint is clean.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Use fenced code blocks with explicit language tags (e.g., ```bash, ```ts) instead of bare triple backticks.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never skip heading levels. Increase heading levels one step at a time (H1 → H2 → H3, not H1 → H3).",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Keep list markers consistent throughout a document. Do not mix -, *, and +.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never suppress markdownlint rules broadly. Fix source content or apply narrow, justified inline exceptions.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Use ATX-style headings (#) with a single space after the hash. Keep one H1 per document.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Structure README with sections: Overview, Installation, Usage, Configuration, API Reference, Contributing, License.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Keep Markdown lint-clean and deterministic. Use consistent file-level conventions across the repository.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Write with active voice, present tense, and address the reader directly. Be concise and specific.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Organize documentation by user journey: Getting Started, Guides, Reference, Advanced Topics. Keep hierarchy shallow (max 2-3 levels).",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Use descriptive kebab-case filenames and group related docs into subdirectories.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Enable all markdownlint rules by default (default: true). Configure specific rules rather than disabling them.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Use consistent table formatting with aligned pipe characters and spacing.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Integrate markdownlint into CI/CD pipelines and pre-commit hooks to prevent regression.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Include alt text on all images, use descriptive link text (avoid 'click here'), and verify links work.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

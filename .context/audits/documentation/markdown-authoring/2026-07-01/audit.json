@@ -1,0 +1,21 @@
+{
+  "skill": "documentation/markdown-authoring",
+  "dimensions": {
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 15,
+    "antiPatternQuality": 13,
+    "specificationCompliance": 16,
+    "progressiveDisclosure": 13,
+    "freedomCalibration": 14,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "evalValidation": 17
+  },
+  "total": 132,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 139,
+  "hasReferences": true,
+  "referenceCount": 16,
+  "referenceSectionCompliant": true
+}

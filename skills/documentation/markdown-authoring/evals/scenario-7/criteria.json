@@ -1,0 +1,41 @@
+{
+  "context": "Agent must restructure a flat docs directory of 15 files into a logical hierarchy and produce a documentation index README.md.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "files_grouped_logically",
+      "description": "Installation, API, and deployment files each grouped into their own subdirectory.",
+      "max_score": 15
+    },
+    {
+      "name": "max_three_levels",
+      "description": "No path exceeds docs/subdir/file.md depth (max 3 levels including docs/).",
+      "max_score": 15
+    },
+    {
+      "name": "all_subjects_preserved",
+      "description": "Every original subject (installation, authentication, API, deployment, development setup, testing, architecture, FAQ, contributing) has a home in the new structure.",
+      "max_score": 15
+    },
+    {
+      "name": "readme_exists",
+      "description": "docs/README.md is present with a code-fenced directory tree and navigation sections with relative links.",
+      "max_score": 15
+    },
+    {
+      "name": "user_journey_navigation",
+      "description": "Navigation follows logical user journey order: Getting Started, Guides, Reference, Contributing (or similar progressive structure).",
+      "max_score": 14
+    },
+    {
+      "name": "kebab_case",
+      "description": "All paths use kebab-case filenames. No underscores or camelCase.",
+      "max_score": 13
+    },
+    {
+      "name": "code_fences_tagged",
+      "description": "Directory tree code block has a language tag (text or markdown). Any command examples use bash.",
+      "max_score": 13
+    }
+  ]
+}

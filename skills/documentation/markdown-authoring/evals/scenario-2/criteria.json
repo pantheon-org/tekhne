@@ -1,0 +1,31 @@
+{
+  "context": "Agent must author a complete README.md for a CLI tool named snapcheck following specific structural and formatting requirements.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "document_structure_order",
+      "description": "README contains H2 sections for Overview, Installation, Usage, Commands, Configuration, and Contributing, in that order.",
+      "max_score": 20
+    },
+    {
+      "name": "heading_levels_sequential",
+      "description": "No heading level jumps. Every H3 appears under an H2 parent, no H4 without H3 parent.",
+      "max_score": 20
+    },
+    {
+      "name": "code_blocks_language_tags",
+      "description": "Every fenced code block has a language tag. Shell commands use bash, config examples use yaml or json.",
+      "max_score": 20
+    },
+    {
+      "name": "list_markers_consistent",
+      "description": "All bullet list items use the same marker style. No mixing of -, *, and + across lists.",
+      "max_score": 20
+    },
+    {
+      "name": "commands_table",
+      "description": "Commands section contains a Markdown table with columns for command name, syntax, and description. Properly formatted with aligned pipes.",
+      "max_score": 20
+    }
+  ]
+}

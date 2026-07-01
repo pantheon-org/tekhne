@@ -1,0 +1,36 @@
+{
+  "context": "Agent must rewrite a CONTRIBUTING.md draft to fix passive voice, wordy phrases, vague instructions, and missing code fence language tags.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "active_voice",
+      "description": "No remaining passive constructions like 'should be run', 'should be filled out', 'should be followed'.",
+      "max_score": 17
+    },
+    {
+      "name": "no_wordy_phrases",
+      "description": "Wordy phrases removed: 'In order to', 'It is important to note that', 'it is necessary to', 'do not hesitate to'.",
+      "max_score": 17
+    },
+    {
+      "name": "specific_instructions",
+      "description": "Commands are concrete (e.g., 'Run npm install' not 'run the appropriate command').",
+      "max_score": 17
+    },
+    {
+      "name": "code_fences_tagged",
+      "description": "Every fenced code block has a language identifier (e.g., bash).",
+      "max_score": 17
+    },
+    {
+      "name": "direct_address",
+      "description": "Instructions use imperative mood or 'you' instead of 'one' or passive constructions.",
+      "max_score": 16
+    },
+    {
+      "name": "structure_preserved",
+      "description": "All original sections, headings, and technical content are unchanged.",
+      "max_score": 16
+    }
+  ]
+}

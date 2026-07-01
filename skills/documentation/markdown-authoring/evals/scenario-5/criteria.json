@@ -1,0 +1,46 @@
+{
+  "context": "Agent must create a GitHub Actions CI workflow and package.json with markdownlint-cli2 configuration for a repository with no existing docs automation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "workflow_triggers",
+      "description": "Workflow YAML has on: sections for push to main and pull_request to main.",
+      "max_score": 13
+    },
+    {
+      "name": "uses_markdownlint_cli2",
+      "description": "Workflow runs markdownlint-cli2 (via npm run lint:md or directly) as the lint command.",
+      "max_score": 13
+    },
+    {
+      "name": "no_rules_disabled",
+      "description": "The .markdownlint.json has default: true and no rule is set to false.",
+      "max_score": 13
+    },
+    {
+      "name": "md013_configured",
+      "description": "MD013 configured for 120 character line length with code_blocks and tables disabled.",
+      "max_score": 13
+    },
+    {
+      "name": "md033_allowed_elements",
+      "description": "MD033 config includes details, summary, br, and img in allowed_elements.",
+      "max_score": 12
+    },
+    {
+      "name": "md024_siblings_only",
+      "description": "MD024 configured with siblings_only: true.",
+      "max_score": 12
+    },
+    {
+      "name": "build_fails_on_errors",
+      "description": "Workflow does not use || true or any error-suppression pattern. Build exits non-zero on lint errors.",
+      "max_score": 12
+    },
+    {
+      "name": "package_json_script",
+      "description": "package.json includes lint:md script running markdownlint-cli2 with correct globs and ignores.",
+      "max_score": 12
+    }
+  ]
+}
