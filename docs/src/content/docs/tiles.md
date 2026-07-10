@@ -810,7 +810,7 @@ Guide technical communication for software developers. Covers email structure, t
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [professional-communication](/tekhne/skills/documentation/professional-communication/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [professional-communication](/tekhne/skills/documentation/professional-communication/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### mermaid-diagrams
 
@@ -818,7 +818,7 @@ Comprehensive guide for creating software diagrams using Mermaid syntax. Use whe
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [mermaid-diagrams](/tekhne/skills/documentation/mermaid-diagrams/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [mermaid-diagrams](/tekhne/skills/documentation/mermaid-diagrams/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### markdown-authoring
 
@@ -930,7 +930,7 @@ Remove signs of AI-generated writing from text. Use when editing or reviewing te
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [humanizer](/tekhne/skills/documentation/humanizer/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [humanizer](/tekhne/skills/documentation/humanizer/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ---
 

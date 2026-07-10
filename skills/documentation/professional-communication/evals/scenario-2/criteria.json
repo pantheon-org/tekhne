@@ -1,0 +1,21 @@
+{
+  "context": "Explain a technical decision (e.g. a migration) to a non-technical stakeholder without jargon, focused on impact.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Removes or defines jargon",
+      "description": "Removes or defines jargon",
+      "max_score": 40
+    },
+    {
+      "name": "Focuses on impact/why-it-matters",
+      "description": "Focuses on impact/why-it-matters",
+      "max_score": 35
+    },
+    {
+      "name": "Stays accurate",
+      "description": "Stays accurate",
+      "max_score": 25
+    }
+  ]
+}

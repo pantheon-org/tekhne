@@ -1,0 +1,1 @@
+Selects an appropriate diagram type for the data and justifies it

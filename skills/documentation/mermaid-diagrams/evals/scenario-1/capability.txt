@@ -1,0 +1,1 @@
+Produces a valid, readable Mermaid flowchart for a branching process

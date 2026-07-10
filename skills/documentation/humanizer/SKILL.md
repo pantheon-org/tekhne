@@ -437,3 +437,39 @@ Provide:
 This skill is based on [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing), maintained by WikiProject AI Cleanup. The patterns documented there come from observations of thousands of instances of AI-generated text on Wikipedia.
 
 Key insight from Wikipedia: "LLMs use statistical algorithms to guess what should come next. The result tends toward the most statistically likely result that applies to the widest variety of cases."
+
+## Mindset
+
+Write like a person with a point of view, not a summary engine. React to the material, vary the rhythm, and let a little mess in. Know **when not to**: legal, safety, or API-reference text should stay plain and literal, not "humanised".
+
+## When to Use This Skill
+
+Use when editing or reviewing prose that humans will read and that currently reads as machine-generated: documentation, posts, and messages.
+
+## Anti-Patterns
+
+### NEVER leave hollow hedging in place
+
+- WHY: phrases like "it is important to note" add words and signal machine authorship.
+- BAD: "It is important to note that the cache is invalidated on write."
+- GOOD: "The cache is invalidated on write."
+
+### NEVER turn every point into a bulleted list
+
+- WHY: listicle-everything flattens the argument and reads as generated.
+- BAD: converting a two-sentence idea into a five-bullet list.
+- GOOD: let connected ideas run as prose; reserve lists for genuinely parallel items.
+
+### NEVER invent facts to sound more confident
+
+- WHY: voice must never come at the cost of accuracy.
+- BAD: adding specific numbers or claims not in the source.
+- GOOD: add opinion and rhythm while keeping every fact traceable to the source.
+
+### ALWAYS vary sentence rhythm
+
+- WHY: uniform cadence is the strongest machine tell.
+
+## References
+
+- [AI-Writing Tells and Fixes](references/writing-tells.md) - the full catalogue of tells and their fixes.
