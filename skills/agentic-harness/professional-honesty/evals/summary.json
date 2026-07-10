@@ -1,0 +1,13 @@
+{
+  "total_scenarios": 3,
+  "instructions_coverage": {
+    "total_instructions": 5,
+    "instructions_tested": 5,
+    "coverage_percentage": 100
+  },
+  "reason_distribution": {
+    "verify_claim": 1,
+    "reject_approach": 1,
+    "correct_fact": 1
+  }
+}
