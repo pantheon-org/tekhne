@@ -1,0 +1,105 @@
+name: Skill Audit Gate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - "skills/**"
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  skill-audit:
+    name: Skill Audit
+    # Fork PRs get a read-only token; skip to avoid comment-permission errors.
+    if: github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.fork == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      # skill-auditor combines its own D1-D9 scoring with skill-validator's structural checks.
+      - name: Install skill-validator
+        run: |
+          go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
+          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+
+      - name: Build skill-auditor
+        run: cd tools/skill-auditor && go build -o ../../bin/skill-auditor .
+
+      - name: Find changed skill dirs
+        id: dirs
+        run: |
+          DIRS=$(git diff --name-only --diff-filter=AM \
+            "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
+            -- 'skills/**/SKILL.md' 2>/dev/null \
+            | xargs -I{} dirname {} | sort -u | tr '\n' ' ')
+          echo "dirs=$DIRS" >> "$GITHUB_OUTPUT"
+          [ -n "$DIRS" ] && echo "found=true" >> "$GITHUB_OUTPUT" || echo "found=false" >> "$GITHUB_OUTPUT"
+
+      - name: Audit changed skills
+        id: audit
+        if: steps.dirs.outputs.found == 'true'
+        run: |
+          set +e
+          rows=""
+          fail=0
+          for dir in ${{ steps.dirs.outputs.dirs }}; do
+            rel="${dir#skills/}"
+            json=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null)
+            grade=$(printf '%s' "$json" | python3 -c "import sys,json;print(json.load(sys.stdin).get('grade','?'))" 2>/dev/null)
+            total=$(printf '%s' "$json" | python3 -c "import sys,json;print(json.load(sys.stdin).get('total','?'))" 2>/dev/null)
+            [ -z "$grade" ] && grade="?"
+            case "$grade" in
+              A|A+) tier="✅ pass";;
+              B+|B|C+|C) tier="⚠️ warning";;
+              D|F) tier="❌ fail"; fail=1;;
+              *) tier="❓ error"; fail=1;;
+            esac
+            rows="${rows}| \`${rel}\` | ${grade} | ${total}/140 | ${tier} |\n"
+          done
+          {
+            echo "table<<AUDIT_EOF"
+            printf '| Skill | Grade | Score | Tier |\n'
+            printf '| --- | --- | --- | --- |\n'
+            printf "%b" "$rows"
+            echo "AUDIT_EOF"
+            echo "fail=$fail"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Find existing audit comment
+        id: find-comment
+        if: steps.dirs.outputs.found == 'true'
+        uses: peter-evans/find-comment@3eae4d37986fb5a8592848f6a574fdf654e61f9e # v3
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: "## Skill Audit"
+
+      - name: Post audit comment
+        if: steps.dirs.outputs.found == 'true'
+        uses: peter-evans/create-or-update-comment@71345be0265236311c031f5c7866368bd1eff043 # v4
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body: |
+            ## Skill Audit
+
+            ${{ steps.audit.outputs.table }}
+
+            **Gate:** ✅ pass = A / A+ (≥126) · ⚠️ warning = C – B+ (98–125, non-blocking) · ❌ fail = D / F (<98, blocks merge)
+
+      - name: Enforce gate (fail on D/F)
+        if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail == '1'
+        run: |
+          echo "::error::One or more changed skills scored below C (D/F) or could not be audited. Raise them to at least grade C to pass; grade A for a green pass."
+          exit 1
+
+      - name: No skills changed
+        if: steps.dirs.outputs.found == 'false'
+        run: echo "No SKILL.md changed — nothing to audit."
