@@ -1,0 +1,31 @@
+{
+  "context": "End-of-week wrap-up trigger for consolidation; user uses language like 'tidy up' and 'summarise'",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises consolidation trigger",
+      "description": "Identifies 'summarise and tidy up memories' as a consolidation trigger and proceeds with vault-cli consolidate",
+      "max_score": 20
+    },
+    {
+      "name": "Runs --propose first",
+      "description": "Runs `vault-cli consolidate --propose` as the first command",
+      "max_score": 25
+    },
+    {
+      "name": "Instructs user to review",
+      "description": "Instructs the user to review the proposals in Obsidian (at 00-inbox/consolidation-proposals.md or similar)",
+      "max_score": 20
+    },
+    {
+      "name": "Includes --apply as second step",
+      "description": "Includes `vault-cli consolidate --apply` as the second step, conditional on user approval",
+      "max_score": 20
+    },
+    {
+      "name": "Correct sequence maintained",
+      "description": "The propose step clearly precedes the apply step with user action in between",
+      "max_score": 15
+    }
+  ]
+}

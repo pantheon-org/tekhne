@@ -1,0 +1,41 @@
+{
+  "context": "Saving a confirmed architectural decision about UUID primary keys in the payments-api project",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli capture",
+      "description": "The command invokes `vault-cli capture`",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --text flag",
+      "description": "Content is passed via the `--text` flag (not piped or other method)",
+      "max_score": 10
+    },
+    {
+      "name": "Content captures the decision",
+      "description": "The captured text includes the UUID primary key decision substance",
+      "max_score": 15
+    },
+    {
+      "name": "Uses --tier semantic",
+      "description": "Uses `--tier semantic` because this is a long-term architectural rule, not a time-bound event",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --project flag",
+      "description": "Scopes the capture with `--project payments-api` (or similar project identifier)",
+      "max_score": 15
+    },
+    {
+      "name": "Uses --tags flag",
+      "description": "Attaches relevant tags (e.g., `--tags uuid,primary-key,schema` or similar)",
+      "max_score": 10
+    },
+    {
+      "name": "Single coherent command",
+      "description": "Produces a single valid shell command (not split into unrelated commands)",
+      "max_score": 10
+    }
+  ]
+}

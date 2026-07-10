@@ -1,0 +1,31 @@
+{
+  "context": "User asks a direct recall question using 'do you remember' phrasing",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs vault-cli search",
+      "description": "Runs `vault-cli search` with a relevant query",
+      "max_score": 25
+    },
+    {
+      "name": "Query targets connection pooling or database",
+      "description": "The search query includes terms like 'connection pooling', 'database', or 'pool'",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --project flag for infra",
+      "description": "Scopes the search with `--project infra` (or similar)",
+      "max_score": 20
+    },
+    {
+      "name": "Reports results accurately",
+      "description": "Summarises the search results (or notes no results found) rather than fabricating an answer",
+      "max_score": 20
+    },
+    {
+      "name": "Does not fabricate memories",
+      "description": "If no results are found, says so rather than inventing a past decision",
+      "max_score": 15
+    }
+  ]
+}

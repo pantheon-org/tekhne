@@ -1,0 +1,36 @@
+{
+  "context": "Saving a multi-step deployment workflow that the user wants remembered permanently",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli capture",
+      "description": "The command invokes `vault-cli capture`",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --tier procedural",
+      "description": "Uses `--tier procedural` because the content describes a step-by-step how-to process",
+      "max_score": 25
+    },
+    {
+      "name": "Captures all key steps",
+      "description": "The captured text includes all 5 deployment steps (build, tag, push ECR, update task def, wait for stabilisation)",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --text flag with content",
+      "description": "Content is passed via `--text` flag (or pipe equivalent)",
+      "max_score": 10
+    },
+    {
+      "name": "Uses relevant tags",
+      "description": "Attaches tags related to deployment (e.g., `--tags deployment,ecs,docker` or similar)",
+      "max_score": 10
+    },
+    {
+      "name": "Does not use --tier episodic",
+      "description": "Does NOT use `--tier episodic` (or omit tier) for a permanent process",
+      "max_score": 15
+    }
+  ]
+}

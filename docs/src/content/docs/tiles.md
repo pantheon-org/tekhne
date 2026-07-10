@@ -376,7 +376,7 @@ Generate a project-specific web design reference sheet (docs/design/design-refer
 
 ---
 
-## Agentic Harness (14 skills)
+## Agentic Harness (18 skills)
 
 Agent framework configurations
 
@@ -436,6 +436,22 @@ Pin session decisions, questions, objections, scope constraints, and corrections
 | --- | --- | --- | --- |
 | [pin](/tekhne/skills/agentic-harness/pin/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-11 | 5 |
 
+### vault-search
+
+Search persistent memory for relevant context — including architectural decision...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [vault-search](/tekhne/skills/agentic-harness/vault-search/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### vault-consolidate
+
+Propose or apply consolidation of episodic memories into semantic ones, combinin...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [vault-consolidate](/tekhne/skills/agentic-harness/vault-consolidate/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
 ### skill-quality-auditor
 
 Evaluate, score, and remediate agent skill collections using a 9-dimension quali...
@@ -467,6 +483,22 @@ Create and maintain AGENTS.md documentation for simple projects, complex monorep
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [agents-md](/tekhne/skills/agentic-harness/agents-md/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-27 | 5 |
+
+### vault-fetch
+
+Fetch a URL, extract its text content, and persist it as a semantic memory tagge...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [vault-fetch](/tekhne/skills/agentic-harness/vault-fetch/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### vault-capture
+
+Captures an important insight, decision, constraint, pattern, or discovery to pe...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [vault-capture](/tekhne/skills/agentic-harness/vault-capture/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### save-context
 

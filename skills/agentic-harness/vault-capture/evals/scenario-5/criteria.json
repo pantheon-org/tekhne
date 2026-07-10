@@ -1,0 +1,41 @@
+{
+  "context": "Saving a strong user preference about code output style that should persist across all sessions",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli capture",
+      "description": "The command invokes `vault-cli capture`",
+      "max_score": 15
+    },
+    {
+      "name": "Uses --tier semantic",
+      "description": "Uses `--tier semantic` since this is a persistent preference/rule, not a time-bound event",
+      "max_score": 20
+    },
+    {
+      "name": "Captures the no-comments preference",
+      "description": "Captured text clearly states no comments are to be added unless explicitly requested",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --text flag",
+      "description": "Content is passed via `--text` flag or pipe",
+      "max_score": 10
+    },
+    {
+      "name": "Uses relevant tags",
+      "description": "Attaches tags like `--tags preference,comments,code-style` or similar",
+      "max_score": 15
+    },
+    {
+      "name": "No project scoping (global preference)",
+      "description": "Does NOT use `--project` flag since this is a global preference, not project-specific",
+      "max_score": 10
+    },
+    {
+      "name": "Command is valid shell syntax",
+      "description": "The command is syntactically correct and would execute without errors",
+      "max_score": 10
+    }
+  ]
+}

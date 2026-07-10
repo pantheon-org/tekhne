@@ -1,0 +1,52 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use `vault-cli search \"<query>\"` to retrieve relevant memories before starting a non-trivial task",
+      "original_snippets": ["vault-cli search \"<query>\""],
+      "relevant_when": "About to start a non-trivial implementation, debugging, or design task",
+      "why_given": "The agent must search memory proactively before proposing approaches that may conflict with prior decisions"
+    },
+    {
+      "instruction": "Use `--top-k <n>` to limit the number of results returned",
+      "original_snippets": ["--top-k <n>"],
+      "relevant_when": "The query is broad and may return many results; user wants a focused list",
+      "why_given": "Without --top-k, all matching results are returned which may be excessive"
+    },
+    {
+      "instruction": "Use `--project <id>` to scope the search to a specific project",
+      "original_snippets": ["--project <id>"],
+      "relevant_when": "Working in a project context and memories should be filtered to that project",
+      "why_given": "Without project scoping, global memories from other projects can pollute results"
+    },
+    {
+      "instruction": "Search when the user asks 'do you remember...', 'what did we decide about...', or similar recall questions",
+      "original_snippets": [
+        "user says 'do you remember...', 'what did we decide about...'"
+      ],
+      "relevant_when": "User is trying to recall a past decision, constraint, or fact from a prior session",
+      "why_given": "These phrases are explicit recall triggers the agent must recognise"
+    },
+    {
+      "instruction": "Search before proposing an architectural approach to check for existing constraints",
+      "original_snippets": [
+        "Trigger BEFORE proposing approach: check for existing constraints"
+      ],
+      "relevant_when": "About to propose a design or implementation approach",
+      "why_given": "Prior constraints may rule out the proposed approach; searching avoids repeating rejected solutions"
+    },
+    {
+      "instruction": "Search when a bug appears familiar to check for past workarounds",
+      "original_snippets": [
+        "Trigger when bug appears familiar: search for past workarounds"
+      ],
+      "relevant_when": "Encountering a bug or error that may have been seen before",
+      "why_given": "Prior sessions may have recorded the root cause and fix, saving debugging time"
+    },
+    {
+      "instruction": "If the search returns no results, acknowledge that no relevant memories were found and proceed without fabricating context",
+      "original_snippets": ["Exits 1 with 'No results.'"],
+      "relevant_when": "The search command returns no results",
+      "why_given": "The agent must not invent memories when the search is empty"
+    }
+  ]
+}

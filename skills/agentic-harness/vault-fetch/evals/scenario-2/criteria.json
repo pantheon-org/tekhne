@@ -1,0 +1,31 @@
+{
+  "context": "User shares a GitHub issue URL and explicitly asks to save it",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli fetch",
+      "description": "The command uses `vault-cli fetch`",
+      "max_score": 25
+    },
+    {
+      "name": "Passes the correct GitHub URL",
+      "description": "The command passes `https://github.com/oven-sh/bun/issues/1234` as the URL argument",
+      "max_score": 25
+    },
+    {
+      "name": "Does not specify --tier",
+      "description": "Does NOT add a `--tier` flag — vault-fetch sets tier automatically",
+      "max_score": 20
+    },
+    {
+      "name": "URL is properly quoted",
+      "description": "The URL argument is quoted to prevent shell interpretation issues",
+      "max_score": 15
+    },
+    {
+      "name": "Command is syntactically correct",
+      "description": "The full command would execute without syntax errors",
+      "max_score": 15
+    }
+  ]
+}

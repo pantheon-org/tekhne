@@ -1,0 +1,26 @@
+{
+  "context": "User is concerned that fetching a large page will store too much content",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "States content is truncated automatically",
+      "description": "Explains that vault-cli fetch automatically truncates content",
+      "max_score": 35
+    },
+    {
+      "name": "Mentions the 4000 character limit",
+      "description": "Specifically states that content is truncated to approximately 4000 characters",
+      "max_score": 30
+    },
+    {
+      "name": "Reassures no manual action needed",
+      "description": "Makes clear the user does not need to do anything special to limit the stored size",
+      "max_score": 20
+    },
+    {
+      "name": "No incorrect claims",
+      "description": "Does not state an incorrect truncation limit or claim no truncation occurs",
+      "max_score": 15
+    }
+  ]
+}
