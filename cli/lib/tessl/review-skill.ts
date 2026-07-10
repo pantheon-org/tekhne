@@ -11,12 +11,14 @@ export const reviewSkill = async (
 
   const manifest = await readManifest(skillPath);
   if (manifest && manifest.skills.length > 1) {
-    logger.info(`Multi-skill tile detected (${manifest.skills.length} skills)`);
+    logger.info(
+      `Multi-skill plugin detected (${manifest.skills.length} skills)`,
+    );
     for (const skillPathRel of manifest.skills) {
       const skillFullPath = join(skillPath, dirname(skillPathRel));
       logger.info(`Reviewing skill: ${skillPathRel}`);
       const { exitCode, stderr } = await exec(
-        `tessl skill review ${skillFullPath}`,
+        `tessl review run ${skillFullPath}`,
       );
       if (exitCode !== 0) {
         logger.error(`Review failed for ${skillPathRel}: ${stderr}`);
@@ -27,7 +29,7 @@ export const reviewSkill = async (
     return true;
   }
 
-  const { exitCode, stderr } = await exec(`tessl skill review ${skillPath}`);
+  const { exitCode, stderr } = await exec(`tessl review run ${skillPath}`);
   if (exitCode !== 0) {
     logger.error(`Review failed: ${stderr}`);
     return false;

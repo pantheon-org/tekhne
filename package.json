@@ -25,9 +25,9 @@
     "tessl:manage": "bun cli/index.ts tessl manage",
     "tessl:publish-check": "bun cli/index.ts tessl publish-check",
     "tessl:import": "tessl skill import",
-    "tessl:lint": "tessl skill lint",
-    "tessl:publish": "tessl skill publish",
-    "tessl:review": "tessl skill review",
+    "tessl:lint": "tessl plugin lint",
+    "tessl:publish": "tessl plugin publish",
+    "tessl:review": "tessl review run",
     "test": "bun test cli/",
     "test:integration": "cucumber-js",
     "build:skill-auditor": "cd tools/skill-auditor && go build -o ../../bin/skill-auditor ."
@@ -43,7 +43,7 @@
     "@types/js-yaml": "^4.0.9",
     "lefthook": "^2.1.1",
     "markdownlint-cli2": "^0.21.0",
-    "tessl": "^0.68.0",
+    "tessl": "^0.90.0",
     "tsx": "^4.0.0"
   },
   "dependencies": {
