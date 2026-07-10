@@ -8,6 +8,10 @@ description:
 
 Automate creation of structured journal entries with template schemas, frontmatter validation, and compliance checking.
 
+## Mindset
+
+Every entry is a durable, queryable record, not a scratch note: get the frontmatter, triple-synced dates, and structure right the first time so future search and tooling can rely on them. Know **when not to** use this skill: a throwaway note with no frontmatter needs no ceremony.
+
 ## When to Use This Skill
 
 Use journal-entry-creator when:
