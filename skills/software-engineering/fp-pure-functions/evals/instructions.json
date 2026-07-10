@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Write functions whose output depends only on their inputs, with no hidden state or side effects",
+      "original_snippets": [],
+      "relevant_when": "Implementing or reviewing a function that computes a value",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Pass dependencies (current time, config, I/O handles) as parameters instead of reaching for globals",
+      "original_snippets": [],
+      "relevant_when": "A function needs time, config, or external data",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Return new values instead of mutating the arguments passed in",
+      "original_snippets": [],
+      "relevant_when": "A function receives a collection or object to transform",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Isolate side effects at the edges (functional core, imperative shell)",
+      "original_snippets": [],
+      "relevant_when": "A workflow mixes computation with I/O",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "context": "A `for` loop builds a new array of doubled values. Rewrite it using `map`.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses map to produce the transformed array",
+      "description": "Uses map to produce the transformed array",
+      "max_score": 45
+    },
+    {
+      "name": "Removes the manual index/loop and mutable accumulator",
+      "description": "Removes the manual index/loop and mutable accumulator",
+      "max_score": 35
+    },
+    {
+      "name": "Preserves the original behaviour",
+      "description": "Preserves the original behaviour",
+      "max_score": 20
+    }
+  ]
+}

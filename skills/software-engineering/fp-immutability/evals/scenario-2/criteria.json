@@ -1,0 +1,21 @@
+{
+  "context": "Add and remove an element from a list without mutating the original list.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses non-mutating operations (spread/concat/filter)",
+      "description": "Uses non-mutating operations (spread/concat/filter)",
+      "max_score": 45
+    },
+    {
+      "name": "Avoids push/splice on the original",
+      "description": "Avoids push/splice on the original",
+      "max_score": 35
+    },
+    {
+      "name": "Original list is unchanged",
+      "description": "Original list is unchanged",
+      "max_score": 20
+    }
+  ]
+}

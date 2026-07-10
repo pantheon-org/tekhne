@@ -1,0 +1,26 @@
+{
+  "context": "A function reads `Date.now()` internally, making it non-deterministic. Refactor it to accept the timestamp as a parameter.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Removes the internal Date.now()/global read",
+      "description": "Removes the internal Date.now()/global read",
+      "max_score": 35
+    },
+    {
+      "name": "Accepts the dependency as a parameter",
+      "description": "Accepts the dependency as a parameter",
+      "max_score": 35
+    },
+    {
+      "name": "Keeps the return value a pure function of inputs",
+      "description": "Keeps the return value a pure function of inputs",
+      "max_score": 20
+    },
+    {
+      "name": "Notes the caller now supplies the value",
+      "description": "Notes the caller now supplies the value",
+      "max_score": 10
+    }
+  ]
+}

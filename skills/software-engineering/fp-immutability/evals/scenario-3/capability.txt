@@ -1,0 +1,1 @@
+Diagnoses and fixes an aliasing/shared-mutation bug via immutability

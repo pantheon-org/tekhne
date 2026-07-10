@@ -1,0 +1,1 @@
+Tests a pure function with plain input/output assertions and no test doubles

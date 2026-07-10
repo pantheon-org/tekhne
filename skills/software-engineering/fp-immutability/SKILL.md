@@ -201,6 +201,34 @@ The guidance above uses JavaScript for the primary examples. For the same patter
 
 - [Immutability in Python, Elixir, and Haskell](references/language-examples.md)
 
+## Mindset
+
+Treat data as values, not containers to mutate. Produce a new copy for every change and treat every argument as read-only. Know **when not to**: a local variable never shared outside its function is fine to mutate for a tight loop.
+
+## Anti-Patterns
+
+### NEVER mutate an object or array you were given
+
+- WHY: callers share references; mutating in place corrupts state they still rely on.
+- BAD: `state.user.name = "x";`
+- GOOD: `return { ...state, user: { ...state.user, name: "x" } };`
+
+### NEVER deep-clone a whole structure just to change one field
+
+- WHY: full copies are wasteful; structural sharing copies only the changed path.
+- BAD: `const next = JSON.parse(JSON.stringify(state)); next.a.b = 1;`
+- GOOD: `const next = { ...state, a: { ...state.a, b: 1 } };`
+
+### NEVER cache and hand out a shared mutable object
+
+- WHY: any caller can mutate it and corrupt every other caller (an aliasing bug).
+- BAD: return the same config object to all callers.
+- GOOD: `Object.freeze` it, or return a fresh copy per caller.
+
+### ALWAYS treat function arguments as read-only
+
+- WHY: read-only arguments keep functions predictable and safe to reorder.
+
 ## When to Use This Skill
 
 - Managing application state (Redux, state machines)
