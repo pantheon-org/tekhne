@@ -1,0 +1,36 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use `vault-cli fetch \"<url>\"` to fetch a URL and store its content as a semantic memory",
+      "original_snippets": ["vault-cli fetch \"<url>\""],
+      "relevant_when": "User shares a URL to documentation, a GitHub issue, a blog post, or reference material",
+      "why_given": "The agent must know the exact CLI invocation to fetch and persist URL content"
+    },
+    {
+      "instruction": "Use `--project <id>` to scope the fetched content to a specific project",
+      "original_snippets": ["vault-cli fetch \"<url>\" [--project <id>]"],
+      "relevant_when": "The fetched URL is relevant to a specific project context",
+      "why_given": "Without scoping, the fetched memory is global and may pollute other project retrieval"
+    },
+    {
+      "instruction": "Fetched content is automatically stored as tier:semantic — no --tier flag is needed",
+      "original_snippets": ["Auto: tier=semantic"],
+      "relevant_when": "User asks about what tier a fetched URL is stored as",
+      "why_given": "The agent must not manually specify a tier when fetching; the command handles this automatically"
+    },
+    {
+      "instruction": "Content is automatically truncated to 4000 characters — no action required to limit size",
+      "original_snippets": ["truncated to 4000 chars"],
+      "relevant_when": "User worries about large documentation pages",
+      "why_given": "The agent should reassure users that large pages are handled automatically"
+    },
+    {
+      "instruction": "Trigger vault-cli fetch when the user shares a reference URL that should persist across sessions",
+      "original_snippets": [
+        "user shares doc link, GitHub issue/PR with important context, reference material needed across sessions"
+      ],
+      "relevant_when": "User pastes a URL to an API doc, RFC, GitHub issue, or blog post",
+      "why_given": "The agent must recognise when to proactively fetch without being asked explicitly"
+    }
+  ]
+}

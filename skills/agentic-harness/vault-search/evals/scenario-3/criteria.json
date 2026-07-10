@@ -1,0 +1,31 @@
+{
+  "context": "User requests a limited number of search results using 'top 3' phrasing",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli search",
+      "description": "The command uses `vault-cli search`",
+      "max_score": 20
+    },
+    {
+      "name": "Query targets authentication",
+      "description": "The search query includes 'authentication' or similar terms",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --top-k 3",
+      "description": "Includes `--top-k 3` to limit results to 3",
+      "max_score": 35
+    },
+    {
+      "name": "Query is properly quoted",
+      "description": "The query string is quoted in the command",
+      "max_score": 10
+    },
+    {
+      "name": "Command is syntactically correct",
+      "description": "The full command would execute without errors",
+      "max_score": 15
+    }
+  ]
+}

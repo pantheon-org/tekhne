@@ -1,0 +1,36 @@
+{
+  "context": "User requests a full consolidation workflow after a long session",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs --propose first",
+      "description": "The response includes running `vault-cli consolidate --propose` as the first command",
+      "max_score": 25
+    },
+    {
+      "name": "Instructs user to review in Obsidian",
+      "description": "Explicitly tells the user to open Obsidian and review/approve the consolidation proposals before continuing",
+      "max_score": 20
+    },
+    {
+      "name": "Runs --apply only after review",
+      "description": "Includes `vault-cli consolidate --apply` as a subsequent step, after the user has reviewed",
+      "max_score": 20
+    },
+    {
+      "name": "Does not auto-apply without user review",
+      "description": "Does NOT run both --propose and --apply in a single uninterrupted sequence without a user action in between",
+      "max_score": 15
+    },
+    {
+      "name": "Explains what happens during apply",
+      "description": "Mentions that approved proposals become semantic memories and source episodics are marked superseded (not deleted)",
+      "max_score": 10
+    },
+    {
+      "name": "Correct command syntax",
+      "description": "Both commands use correct syntax: `vault-cli consolidate --propose` and `vault-cli consolidate --apply`",
+      "max_score": 10
+    }
+  ]
+}

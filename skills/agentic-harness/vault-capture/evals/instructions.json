@@ -1,0 +1,48 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use `vault-cli capture --text \"<content>\"` to save information to persistent memory",
+      "original_snippets": ["vault-cli capture --text \"<content>\""],
+      "relevant_when": "User confirms a decision, preference, constraint, or asks to save something",
+      "why_given": "The agent must know the exact CLI invocation to capture memories"
+    },
+    {
+      "instruction": "Use `--tier semantic` when capturing distilled facts or rules (not time-bound events)",
+      "original_snippets": ["--tier episodic|semantic|procedural"],
+      "relevant_when": "Capturing a principle, fact, convention, or rule that should persist long-term",
+      "why_given": "Tier selection affects memory durability and how memories are later consolidated"
+    },
+    {
+      "instruction": "Use `--tier procedural` when capturing how-to processes or step-by-step instructions",
+      "original_snippets": ["--tier episodic|semantic|procedural"],
+      "relevant_when": "Capturing a workflow, process, or set of steps the user wants remembered",
+      "why_given": "Procedural memories are permanent until explicitly revoked and get special handling"
+    },
+    {
+      "instruction": "Use `--project <id>` to scope a memory to a specific project",
+      "original_snippets": ["--project <id>"],
+      "relevant_when": "User is working in a project context and the memory is project-specific",
+      "why_given": "Without a project scope, the memory is global and may pollute other project contexts"
+    },
+    {
+      "instruction": "Use `--tags` to attach relevant keywords for later retrieval",
+      "original_snippets": ["--tags tag1,tag2"],
+      "relevant_when": "The memory content has clear topic keywords that aid future search",
+      "why_given": "Tags improve BM25 search quality for this memory"
+    },
+    {
+      "instruction": "Capture on confirmed decisions, constraints, recurring bugs, naming conventions, and user preferences",
+      "original_snippets": [
+        "architectural decisions, recurring bugs, hard-won constraints, naming conventions, or user preferences"
+      ],
+      "relevant_when": "The conversation produces something worth remembering across sessions",
+      "why_given": "The agent must recognise the right moments to invoke capture proactively"
+    },
+    {
+      "instruction": "Default tier is episodic; only override when the content is clearly a fact/rule or a procedure",
+      "original_snippets": ["Default tier: episodic"],
+      "relevant_when": "Deciding which tier to assign to a capture",
+      "why_given": "Using the wrong tier causes incorrect memory handling during consolidation"
+    }
+  ]
+}

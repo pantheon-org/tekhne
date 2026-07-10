@@ -1,0 +1,31 @@
+{
+  "context": "Agent is about to start a non-trivial implementation task and should search memory first",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs vault-cli search before writing code",
+      "description": "Runs `vault-cli search` before producing any implementation code",
+      "max_score": 30
+    },
+    {
+      "name": "Uses a relevant query",
+      "description": "The search query is relevant to the task (e.g., 'payments', 'billing-service', 'endpoint', or similar)",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --project flag",
+      "description": "Scopes the search with `--project billing-service` (or similar)",
+      "max_score": 20
+    },
+    {
+      "name": "Explains the search intent",
+      "description": "Notes that searching is to check for prior decisions or constraints before implementing",
+      "max_score": 15
+    },
+    {
+      "name": "Correct command syntax",
+      "description": "The vault-cli search command is syntactically correct",
+      "max_score": 15
+    }
+  ]
+}

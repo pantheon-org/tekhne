@@ -1,0 +1,31 @@
+{
+  "context": "User asks whether source episodic memories are deleted after consolidation is applied",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "States episodics are NOT deleted",
+      "description": "Clearly states that episodic memories are NOT deleted after consolidation",
+      "max_score": 30
+    },
+    {
+      "name": "States episodics are marked superseded",
+      "description": "Explains that source episodic memories are marked as 'superseded' (not removed)",
+      "max_score": 25
+    },
+    {
+      "name": "States approved proposals become semantic memories",
+      "description": "Explains that approved proposals are written as new semantic-tier memories",
+      "max_score": 20
+    },
+    {
+      "name": "Mentions human-edited immunity",
+      "description": "Mentions that manually edited memories are never overwritten by consolidation",
+      "max_score": 15
+    },
+    {
+      "name": "Accurate and no contradictions",
+      "description": "The explanation contains no factually incorrect statements about what consolidation does",
+      "max_score": 10
+    }
+  ]
+}

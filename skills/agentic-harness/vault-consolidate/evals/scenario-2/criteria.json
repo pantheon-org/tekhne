@@ -1,0 +1,31 @@
+{
+  "context": "User wants to consolidate memories for one project only, not all projects",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses --propose flag",
+      "description": "The command uses the `--propose` flag, not `--apply`",
+      "max_score": 25
+    },
+    {
+      "name": "Uses --project flag",
+      "description": "The command includes `--project billing-service` (or similar project identifier)",
+      "max_score": 30
+    },
+    {
+      "name": "Correct command base",
+      "description": "The base command is `vault-cli consolidate`",
+      "max_score": 15
+    },
+    {
+      "name": "Does not run --apply",
+      "description": "Does NOT include `--apply` — the task only asks for the propose step",
+      "max_score": 15
+    },
+    {
+      "name": "Mentions user review step",
+      "description": "Notes that the user should review proposals before applying",
+      "max_score": 15
+    }
+  ]
+}

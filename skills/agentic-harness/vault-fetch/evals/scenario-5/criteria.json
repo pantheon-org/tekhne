@@ -1,0 +1,31 @@
+{
+  "context": "User shares a general reference URL with no project context; should be saved without --project scope",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli fetch",
+      "description": "The command uses `vault-cli fetch`",
+      "max_score": 25
+    },
+    {
+      "name": "Passes the correct URL",
+      "description": "The command passes `https://use-the-index-luke.com/sql/anatomy` as the URL argument",
+      "max_score": 25
+    },
+    {
+      "name": "Does not use --project flag",
+      "description": "Does NOT include a `--project` flag since the content is explicitly stated to be global",
+      "max_score": 20
+    },
+    {
+      "name": "Does not specify --tier",
+      "description": "Does NOT add a `--tier` flag",
+      "max_score": 15
+    },
+    {
+      "name": "URL is properly quoted",
+      "description": "The URL is quoted in the command",
+      "max_score": 15
+    }
+  ]
+}
