@@ -2,10 +2,11 @@ name: PR Skill Checks
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, labeled]
     branches: [main]
     paths:
       - "skills/**"
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -132,9 +133,15 @@ jobs:
 
   tessl-review:
     name: Tessl Skill Review
-    # Fork PRs run with a read-only GITHUB_TOKEN; skip entirely to avoid permission errors on comment steps
-    # Also skip if the PR is no longer open (e.g. a queued run completing after merge)
-    if: github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.fork == false
+    # Advisory, opt-in LLM/hosted review (mirrors skill-quality-auditor ADR-007 Tier 2).
+    # Runs ONLY when a PR carries the 'run-eval' label (or via workflow_dispatch), never on every PR,
+    # and never blocks the PR (see the advisory step below). The required, deterministic gate is the
+    # keyless Skill Validator check; hosted review is fragile (token/401) so it must not gate.
+    # Fork PRs run with a read-only GITHUB_TOKEN; skip entirely to avoid permission errors on comment steps.
+    if: >-
+      github.event.pull_request.state == 'open' &&
+      github.event.pull_request.head.repo.fork == false &&
+      contains(github.event.pull_request.labels.*.name, 'run-eval')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -186,7 +193,7 @@ jobs:
           combined_output=""
           combined_exit=0
           for skill_dir in $SKILL_DIRS; do
-            out=$(bunx tessl skill review "$skill_dir" 2>&1)
+            out=$(bunx tessl review run "$skill_dir" 2>&1)
             code=$?
             combined_output="${combined_output}=== ${skill_dir} ===\n${out}\n"
             [ $code -ne 0 ] && combined_exit=$code
@@ -231,9 +238,10 @@ jobs:
 
             </details>
 
-      - name: Fail if review failed
+      - name: Advisory notice if review reported issues
         if: steps.review.conclusion != 'skipped' && steps.review.outputs.exit_code != '0'
-        run: exit 1
+        run: |
+          echo "::warning::Tessl skill review reported issues or could not authenticate (advisory only, does not block this PR). See the 'Tessl Skill Review' comment. The required structural gate is the Skill Validator check."
 
   request-eval-scenarios:
     name: Request Eval Scenarios from Copilot
