@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/pantheon-org/tekhne/compare/v0.4.0...v0.5.0) (2026-07-10)
+
+
+### Features
+
+* **journal-entry-creator:** conform to grade C (W2 final) ([#109](https://github.com/pantheon-org/tekhne/issues/109)) ([88ef005](https://github.com/pantheon-org/tekhne/commit/88ef005d60d7f56ac7c9f6a36513f8a9eaf31375))
+
 ## [0.4.0](https://github.com/pantheon-org/tekhne/compare/v0.3.0...v0.4.0) (2026-07-10)
 
 
