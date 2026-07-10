@@ -1,4 +1,4 @@
-name: Publish Skills to Tessl
+name: Publish Plugins to Tessl
 
 on:
   push:
@@ -10,40 +10,40 @@ permissions:
   contents: read
 
 jobs:
-  detect-tiles:
-    name: Detect Changed Tiles
+  detect-plugins:
+    name: Detect Changed Plugins
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.tiles.outputs.matrix }}
-      has-tiles: ${{ steps.tiles.outputs.has-tiles }}
+      matrix: ${{ steps.plugins.outputs.matrix }}
+      has-plugins: ${{ steps.plugins.outputs.has-plugins }}
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 2
 
-      - name: Find changed tile directories
-        id: tiles
+      - name: Find changed plugin directories
+        id: plugins
         run: |
           CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'skills/**' 2>/dev/null || true)
 
           if [ -z "$CHANGED" ]; then
-            echo "has-tiles=false" >> "$GITHUB_OUTPUT"
-            echo 'matrix={"tile":[]}' >> "$GITHUB_OUTPUT"
+            echo "has-plugins=false" >> "$GITHUB_OUTPUT"
+            echo 'matrix={"plugin":[]}' >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          # For each changed file, walk up the directory tree to find the nearest tile.json
-          TILE_DIRS=""
+          # For each changed file, walk up to the nearest plugin root (dir containing .tessl-plugin/plugin.json).
+          PLUGIN_DIRS=""
           while IFS= read -r file; do
             dir="$(dirname "$file")"
             while [ "$dir" != "." ] && [ "$dir" != "skills" ]; do
-              if [ -f "$dir/tile.json" ]; then
-                # Only publish if the tile.json version actually changed —
+              if [ -f "$dir/.tessl-plugin/plugin.json" ]; then
+                # Only publish if the plugin version actually changed —
                 # prevents republishing an already-published version on non-version pushes.
-                OLD_VERSION=$(git show HEAD~1:"$dir/tile.json" 2>/dev/null | jq -r '.version' 2>/dev/null || echo "")
-                NEW_VERSION=$(jq -r '.version' "$dir/tile.json" 2>/dev/null || echo "")
+                OLD_VERSION=$(git show HEAD~1:"$dir/.tessl-plugin/plugin.json" 2>/dev/null | jq -r '.version' 2>/dev/null || echo "")
+                NEW_VERSION=$(jq -r '.version' "$dir/.tessl-plugin/plugin.json" 2>/dev/null || echo "")
                 if [ "$OLD_VERSION" != "$NEW_VERSION" ]; then
-                  TILE_DIRS="${TILE_DIRS}${dir}\n"
+                  PLUGIN_DIRS="${PLUGIN_DIRS}${dir}\n"
                 fi
                 break
               fi
@@ -51,24 +51,24 @@ jobs:
             done
           done <<< "$CHANGED"
 
-          UNIQUE_DIRS=$(printf '%b' "$TILE_DIRS" | sort -u | grep -v '^$' || true)
+          UNIQUE_DIRS=$(printf '%b' "$PLUGIN_DIRS" | sort -u | grep -v '^$' || true)
 
           if [ -z "$UNIQUE_DIRS" ]; then
-            echo "has-tiles=false" >> "$GITHUB_OUTPUT"
-            echo 'matrix={"tile":[]}' >> "$GITHUB_OUTPUT"
+            echo "has-plugins=false" >> "$GITHUB_OUTPUT"
+            echo 'matrix={"plugin":[]}' >> "$GITHUB_OUTPUT"
           else
-            MATRIX=$(printf '%s\n' "$UNIQUE_DIRS" | jq -R . | jq -sc '{tile: .}')
-            echo "has-tiles=true" >> "$GITHUB_OUTPUT"
+            MATRIX=$(printf '%s\n' "$UNIQUE_DIRS" | jq -R . | jq -sc '{plugin: .}')
+            echo "has-plugins=true" >> "$GITHUB_OUTPUT"
             echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
           fi
 
   publish:
-    name: Publish ${{ matrix.tile }}
-    needs: detect-tiles
-    if: needs.detect-tiles.outputs.has-tiles == 'true'
+    name: Publish ${{ matrix.plugin }}
+    needs: detect-plugins
+    if: needs.detect-plugins.outputs.has-plugins == 'true'
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{ fromJson(needs.detect-tiles.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.detect-plugins.outputs.matrix) }}
       fail-fast: false
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -77,10 +77,10 @@ jobs:
         with:
           token: ${{ secrets.TESSL_TOKEN }}
 
-      - name: Lint tile
-        run: tessl tile lint
-        working-directory: ${{ matrix.tile }}
+      - name: Lint plugin
+        run: tessl plugin lint
+        working-directory: ${{ matrix.plugin }}
 
-      - name: Publish tile
-        run: tessl tile publish
-        working-directory: ${{ matrix.tile }}
+      - name: Publish plugin
+        run: tessl plugin publish
+        working-directory: ${{ matrix.plugin }}

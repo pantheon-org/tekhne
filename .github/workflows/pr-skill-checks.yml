@@ -132,7 +132,7 @@ jobs:
         run: exit 1
 
   tessl-review:
-    name: Tessl Skill Review
+    name: Tessl Review
     # Advisory, opt-in LLM/hosted review (mirrors skill-quality-auditor ADR-007 Tier 2).
     # Runs ONLY when a PR carries the 'run-eval' label (or via workflow_dispatch), never on every PR,
     # and never blocks the PR (see the advisory step below). The required, deterministic gate is the
@@ -168,7 +168,7 @@ jobs:
         if: steps.token-check.outputs.present == 'true'
         run: bun install
 
-      - name: Run tessl skill review
+      - name: Run tessl review
         id: review
         if: steps.token-check.outputs.present == 'true'
         env:
@@ -215,7 +215,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: github-actions[bot]
-          body-includes: "## Tessl Skill Review"
+          body-includes: "## Tessl Review"
 
       - name: Post review results as PR comment
         if: always()
@@ -225,7 +225,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
           body: |
-            ## Tessl Skill Review
+            ## Tessl Review
 
             ${{ steps.review.conclusion == 'skipped' && '> ⏭️ Skipped — `TESSL_TOKEN` is not configured (fork PR or missing secret)' || '' }}
 
@@ -241,7 +241,7 @@ jobs:
       - name: Advisory notice if review reported issues
         if: steps.review.conclusion != 'skipped' && steps.review.outputs.exit_code != '0'
         run: |
-          echo "::warning::Tessl skill review reported issues or could not authenticate (advisory only, does not block this PR). See the 'Tessl Skill Review' comment. The required structural gate is the Skill Validator check."
+          echo "::warning::Tessl review reported issues or could not authenticate (advisory only, does not block this PR). See the 'Tessl Review' comment. The required structural gate is the Skill Validator check."
 
   request-eval-scenarios:
     name: Request Eval Scenarios from Copilot
