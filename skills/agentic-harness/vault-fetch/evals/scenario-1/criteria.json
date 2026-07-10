@@ -1,0 +1,36 @@
+{
+  "context": "User shares a documentation URL and asks to save it for a specific project",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli fetch",
+      "description": "The command uses `vault-cli fetch`",
+      "max_score": 25
+    },
+    {
+      "name": "Passes the correct URL",
+      "description": "The command passes `https://stripe.com/docs/webhooks` as the URL argument",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --project flag",
+      "description": "Scopes the fetch with `--project payments-api` (or similar identifier)",
+      "max_score": 20
+    },
+    {
+      "name": "Does not specify --tier",
+      "description": "Does NOT add a `--tier` flag (tier is automatically set to semantic by the command)",
+      "max_score": 15
+    },
+    {
+      "name": "Correct URL quoting",
+      "description": "The URL is properly quoted in the command",
+      "max_score": 10
+    },
+    {
+      "name": "Single command",
+      "description": "Produces a single vault-cli fetch command (not multiple steps)",
+      "max_score": 10
+    }
+  ]
+}

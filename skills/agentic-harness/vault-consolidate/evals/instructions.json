@@ -1,0 +1,49 @@
+{
+  "instructions": [
+    {
+      "instruction": "ALWAYS run `vault-cli consolidate --propose` before `vault-cli consolidate --apply`; never skip the propose step",
+      "original_snippets": [
+        "vault-cli consolidate --propose",
+        "vault-cli consolidate --apply"
+      ],
+      "relevant_when": "Any consolidation workflow; user asks to consolidate, summarise, or clean up memories",
+      "why_given": "Applying without proposing bypasses human review of memory merges, which can destroy important context irreversibly"
+    },
+    {
+      "instruction": "After running --propose, instruct the user to review and approve proposals in Obsidian before running --apply",
+      "original_snippets": [
+        "user reviews in Obsidian, sets status: approved or rejected"
+      ],
+      "relevant_when": "After --propose completes and before --apply is run",
+      "why_given": "The human approval step is mandatory; the agent must not auto-apply without human review"
+    },
+    {
+      "instruction": "Use `--project <id>` with --propose to limit consolidation to a specific project scope",
+      "original_snippets": ["vault-cli consolidate --propose [--project <id>]"],
+      "relevant_when": "User wants to consolidate memories for one project only",
+      "why_given": "Without scoping, all projects' episodic memories are consolidated together"
+    },
+    {
+      "instruction": "After --apply, source episodic memories are marked 'superseded' but never deleted",
+      "original_snippets": [
+        "marks source episodics as 'superseded'. Source episodics are NEVER deleted"
+      ],
+      "relevant_when": "User asks what happens to old memories after consolidation",
+      "why_given": "The agent must not reassure users that episodics are deleted — they are preserved"
+    },
+    {
+      "instruction": "Human-edited memories are never overwritten by consolidation",
+      "original_snippets": [
+        "Human edits are always respected, never overwritten"
+      ],
+      "relevant_when": "User asks about safety of running consolidation on memories they have manually edited",
+      "why_given": "Human-edited memories have special immunity to automated changes"
+    },
+    {
+      "instruction": "Consolidation produces semantic memories from clusters of episodic memories",
+      "original_snippets": ["Clusters episodic memories into semantic ones"],
+      "relevant_when": "Explaining what consolidation does",
+      "why_given": "The agent must understand the output tier so it can explain the process accurately"
+    }
+  ]
+}

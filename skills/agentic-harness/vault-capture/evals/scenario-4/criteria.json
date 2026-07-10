@@ -1,0 +1,36 @@
+{
+  "context": "Saving a code naming convention that applies across a TypeScript project",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli capture",
+      "description": "The command invokes `vault-cli capture`",
+      "max_score": 15
+    },
+    {
+      "name": "Uses --tier semantic",
+      "description": "Uses `--tier semantic` because a naming convention is a distilled rule, not a time-bound event",
+      "max_score": 25
+    },
+    {
+      "name": "Captures the convention accurately",
+      "description": "The captured text includes the `handle` prefix rule and an example function name",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --text flag",
+      "description": "Content is passed via `--text` flag or pipe",
+      "max_score": 10
+    },
+    {
+      "name": "Uses relevant tags",
+      "description": "Uses tags like `--tags naming,typescript,events,convention` or similar keywords",
+      "max_score": 15
+    },
+    {
+      "name": "Does not use --tier episodic",
+      "description": "Does NOT default to episodic for a permanent convention",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "context": "Recording a recurring bug and its workaround discovered during a debugging session",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses vault-cli capture",
+      "description": "The command invokes `vault-cli capture`",
+      "max_score": 20
+    },
+    {
+      "name": "Captures the bug and workaround",
+      "description": "The captured text describes both the failure condition (race condition) and the fix (depends_on with service_healthy)",
+      "max_score": 20
+    },
+    {
+      "name": "Uses --text flag",
+      "description": "Content is passed via `--text` flag or pipe",
+      "max_score": 10
+    },
+    {
+      "name": "Tier is episodic or semantic (not procedural)",
+      "description": "Uses `--tier episodic` (default) or `--tier semantic` — this is a bug note, not a how-to process",
+      "max_score": 15
+    },
+    {
+      "name": "Uses tags relevant to the bug",
+      "description": "Attaches tags like `--tags docker,auth-service,health-check` or similar",
+      "max_score": 15
+    },
+    {
+      "name": "Command is valid shell syntax",
+      "description": "The command is syntactically correct and executable",
+      "max_score": 10
+    },
+    {
+      "name": "Captures proactively without user prompting",
+      "description": "The response captures without waiting for an explicit 'remember this' instruction from the user",
+      "max_score": 10
+    }
+  ]
+}

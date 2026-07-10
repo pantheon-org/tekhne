@@ -1,0 +1,31 @@
+{
+  "context": "A familiar-looking bug appears; user explicitly says they've hit it before and can't remember the fix",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs vault-cli search",
+      "description": "Runs `vault-cli search` as the first action",
+      "max_score": 30
+    },
+    {
+      "name": "Query targets the error or Postgres",
+      "description": "The search query includes terms like 'ECONNREFUSED', 'postgres', 'connection refused', or 'startup'",
+      "max_score": 25
+    },
+    {
+      "name": "Searches before suggesting solutions",
+      "description": "Runs the search BEFORE offering any fix or workaround suggestions",
+      "max_score": 20
+    },
+    {
+      "name": "Explains why searching first",
+      "description": "Notes that searching for past workarounds before debugging from scratch",
+      "max_score": 10
+    },
+    {
+      "name": "Command is syntactically correct",
+      "description": "The vault-cli search command is syntactically valid",
+      "max_score": 15
+    }
+  ]
+}

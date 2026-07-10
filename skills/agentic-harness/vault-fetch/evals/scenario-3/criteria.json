@@ -1,0 +1,36 @@
+{
+  "context": "User shares a reference URL without explicitly asking to save it; agent should proactively fetch it",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs vault-cli fetch proactively",
+      "description": "Runs `vault-cli fetch` without waiting for an explicit 'save this' instruction",
+      "max_score": 30
+    },
+    {
+      "name": "Fetches the correct URL",
+      "description": "Passes `https://datatracker.ietf.org/doc/html/rfc9457` as the URL argument",
+      "max_score": 20
+    },
+    {
+      "name": "Does not specify --tier",
+      "description": "Does NOT include a `--tier` flag",
+      "max_score": 15
+    },
+    {
+      "name": "URL is properly quoted",
+      "description": "The URL is quoted in the command",
+      "max_score": 10
+    },
+    {
+      "name": "Informs the user the content was saved",
+      "description": "Notifies the user that the RFC has been persisted to memory",
+      "max_score": 15
+    },
+    {
+      "name": "Command is syntactically correct",
+      "description": "The command would execute without syntax errors",
+      "max_score": 10
+    }
+  ]
+}
