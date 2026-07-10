@@ -376,7 +376,7 @@ Generate a project-specific web design reference sheet (docs/design/design-refer
 
 ---
 
-## Agentic Harness (19 skills)
+## Agentic Harness (20 skills)
 
 Agent framework configurations
 
@@ -435,6 +435,14 @@ Pin session decisions, questions, objections, scope constraints, and corrections
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [pin](/tekhne/skills/agentic-harness/pin/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-11 | 5 |
+
+### professional-honesty
+
+Use when responding to questions or providing information requiring professional...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [professional-honesty](/tekhne/skills/agentic-harness/professional-honesty/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
 
 ### vault-search
 
@@ -704,7 +712,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (26 skills)
+## Documentation (27 skills)
 
 Writing & communication
 
@@ -795,6 +803,14 @@ Search Semantic Scholar for academic papers, fetch paper details by ID or DOI, r
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [research-semantic-scholar-search](/tekhne/skills/documentation/research/semantic-scholar-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+
+### professional-communication
+
+Guide technical communication for software developers. Covers email structure, t...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [professional-communication](/tekhne/skills/documentation/professional-communication/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
 
 ### mermaid-diagrams
 
