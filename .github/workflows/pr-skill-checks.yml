@@ -15,10 +15,14 @@ permissions:
 
 jobs:
   tessl-lint:
-    name: Tessl Skill Lint
-    # Fork PRs run with a read-only GITHUB_TOKEN; skip entirely to avoid permission errors on comment steps
-    # Also skip if the PR is no longer open (e.g. a queued run completing after merge)
-    if: github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.fork == false
+    name: Tessl Plugin Lint
+    # Advisory, opt-in hosted plugin lint (mirrors the Tessl Review job). Runs ONLY on a 'run-eval' label,
+    # never on every PR, and never blocks; the deterministic Skill Validator and Skill Audit checks are the
+    # required gates. Fork PRs get a read-only token, so they are excluded too.
+    if: >-
+      github.event.pull_request.state == 'open' &&
+      github.event.pull_request.head.repo.fork == false &&
+      contains(github.event.pull_request.labels.*.name, 'run-eval')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -45,7 +49,7 @@ jobs:
         if: steps.token-check.outputs.present == 'true'
         run: bun install
 
-      - name: Run tessl skill lint
+      - name: Run tessl plugin lint
         id: lint
         if: steps.token-check.outputs.present == 'true'
         env:
@@ -53,7 +57,7 @@ jobs:
         run: |
           set +e
 
-          # Find changed SKILL.md files and resolve their nearest tile.json directory
+          # Find changed SKILL.md files and resolve their nearest .tessl-plugin/plugin.json directory
           CHANGED=$(git diff --name-only --diff-filter=AM \
             "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
             -- 'skills/**/SKILL.md' 2>/dev/null || true)
@@ -62,7 +66,7 @@ jobs:
           for skill_md in $CHANGED; do
             dir=$(dirname "$skill_md")
             while [ "$dir" != "." ]; do
-              if [ -f "$dir/tile.json" ]; then
+              if [ -f "$dir/.tessl-plugin/plugin.json" ]; then
                 TILE_DIRS="$TILE_DIRS $dir"
                 break
               fi
@@ -73,8 +77,8 @@ jobs:
           TILE_DIRS=$(echo "$TILE_DIRS" | tr ' ' '\n' | sort -u | grep -v '^$' || true)
 
           if [ -z "$TILE_DIRS" ]; then
-            echo "No tiles to lint — no changed SKILL.md files with a tile.json found."
-            echo "output=No tiles to lint." >> "$GITHUB_OUTPUT"
+            echo "No plugins to lint — no changed SKILL.md files with a .tessl-plugin/plugin.json found."
+            echo "output=No plugins to lint." >> "$GITHUB_OUTPUT"
             echo "exit_code=0" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -82,7 +86,7 @@ jobs:
           combined_output=""
           combined_exit=0
           for tile_dir in $TILE_DIRS; do
-            out=$(bunx tessl skill lint "$tile_dir" 2>&1)
+            out=$(bunx tessl plugin lint "$tile_dir" 2>&1)
             code=$?
             combined_output="${combined_output}=== ${tile_dir} ===\n${out}\n"
             [ $code -ne 0 ] && combined_exit=$code
@@ -104,7 +108,7 @@ jobs:
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: github-actions[bot]
-          body-includes: "## Tessl Skill Lint"
+          body-includes: "## Tessl Plugin Lint"
 
       - name: Post lint results as PR comment
         if: always()
@@ -114,7 +118,7 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
           body: |
-            ## Tessl Skill Lint
+            ## Tessl Plugin Lint
 
             ${{ steps.lint.conclusion == 'skipped' && '> ⏭️ Skipped — `TESSL_TOKEN` is not configured (fork PR or missing secret)' || steps.lint.outputs.exit_code == '0' && '> ✅ All checks passed' || '> ❌ Issues found — review the output below' }}
 
@@ -127,9 +131,10 @@ jobs:
 
             </details>
 
-      - name: Fail if lint failed
+      - name: Advisory notice if lint reported issues
         if: steps.lint.conclusion != 'skipped' && steps.lint.outputs.exit_code != '0'
-        run: exit 1
+        run: |
+          echo "::warning::Tessl plugin lint reported issues or could not authenticate (advisory only, does not block this PR). See the 'Tessl Plugin Lint' comment. The required gates are Skill Validator and Skill Audit."
 
   tessl-review:
     name: Tessl Review
@@ -298,4 +303,4 @@ jobs:
             **Modified skills:**
             ${{ steps.skills.outputs.dirs }}
 
-            For each skill, generate eval scenarios following the format in `.tessl/tiles/tessl-labs/tessl-skill-eval-scenarios/`. Place scenarios under `evals/scenario-N/task.md` within the skill's directory.
+            For each skill, generate eval scenarios following the format in `.tessl/plugins/tessl-labs/tessl-skill-eval-scenarios/`. Place scenarios under `evals/scenario-N/task.md` within the skill's directory.

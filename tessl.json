@@ -2,20 +2,8 @@
   "name": "pantheon-ai/tekhne",
   "mode": "vendored",
   "dependencies": {
-    "tessl/cli-setup": {
-      "version": "0.71.0"
-    },
     "tessl-labs/tessl-skill-eval-scenarios": {
       "version": "0.1.0"
-    },
-    "tessl-labs/tile-creator": {
-      "version": "1.2.0"
-    },
-    "tessl-labs/skill-review-optimizer": {
-      "version": "0.1.1"
-    },
-    "tessl-labs/review-model-performance": {
-      "version": "0.1.2"
     },
     "sahildmk/pr-comment-resolver": {
       "version": "0.3.1"
