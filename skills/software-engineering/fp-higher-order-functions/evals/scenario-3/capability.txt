@@ -1,0 +1,1 @@
+Composes small functions into a readable transformation pipeline

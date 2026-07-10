@@ -1,0 +1,21 @@
+{
+  "context": "A function caches a config object and callers mutate it, corrupting shared state. Fix the aliasing bug.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the shared-mutation/aliasing cause",
+      "description": "Identifies the shared-mutation/aliasing cause",
+      "max_score": 35
+    },
+    {
+      "name": "Fixes it by copying/freezing instead of sharing a mutable ref",
+      "description": "Fixes it by copying/freezing instead of sharing a mutable ref",
+      "max_score": 40
+    },
+    {
+      "name": "Explains why the original bug occurred",
+      "description": "Explains why the original bug occurred",
+      "max_score": 25
+    }
+  ]
+}

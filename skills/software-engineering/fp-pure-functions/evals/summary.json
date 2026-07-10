@@ -1,0 +1,8 @@
+{
+  "total_scenarios": 3,
+  "instructions_coverage": {
+    "total_instructions": 4,
+    "instructions_tested": 4,
+    "coverage_percentage": 100
+  }
+}

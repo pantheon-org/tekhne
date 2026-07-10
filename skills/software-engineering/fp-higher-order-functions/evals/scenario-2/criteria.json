@@ -1,0 +1,21 @@
+{
+  "context": "Code pushes matching items into a results array inside a loop. Rewrite it using `filter` with a named predicate.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses filter with a predicate",
+      "description": "Uses filter with a predicate",
+      "max_score": 40
+    },
+    {
+      "name": "Extracts a named predicate function",
+      "description": "Extracts a named predicate function",
+      "max_score": 35
+    },
+    {
+      "name": "Drops the manual loop/push",
+      "description": "Drops the manual loop/push",
+      "max_score": 25
+    }
+  ]
+}

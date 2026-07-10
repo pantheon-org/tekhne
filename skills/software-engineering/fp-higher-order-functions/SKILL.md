@@ -286,6 +286,34 @@ The guidance above uses JavaScript for the primary examples. For the same patter
 - [Higher-Order Functions in Python and Elixir](references/language-examples.md)
 - [Advanced Higher-Order Function Patterns](references/advanced-patterns.md)
 
+## Mindset
+
+Express *what* a transformation produces, not *how* to iterate. Reach for `map`/`filter`/`reduce` and small composed functions before an index loop with a mutable accumulator. Know **when not to**: a genuinely side-effecting loop (streaming I/O) is clearer left imperative.
+
+## Anti-Patterns
+
+### NEVER hand-roll an index loop when map/filter/reduce expresses the intent
+
+- WHY: imperative loops with mutable accumulators hide the transformation and invite off-by-one and aliasing bugs.
+- BAD: `for (let i = 0; i < xs.length; i++) { out.push(xs[i] * 2); }`
+- GOOD: `const out = xs.map((x) => x * 2);`
+
+### NEVER cram filtering, mapping, and aggregation into one giant callback
+
+- WHY: monolithic callbacks are hard to test and reuse; composition keeps each step verifiable.
+- BAD: one `reduce` that filters, transforms, and groups at once.
+- GOOD: compose small `filter`, then `map`, then `reduce` steps (or `pipe`).
+
+### NEVER mutate the source collection inside a map/filter/reduce callback
+
+- WHY: these are pure transformations; mutating the input breaks referential transparency.
+- BAD: `xs.map((x) => { x.seen = true; return x; })`
+- GOOD: `xs.map((x) => ({ ...x, seen: true }))`
+
+### ALWAYS keep callbacks pure and side-effect-free
+
+- WHY: pure callbacks make transformations predictable, testable, and safe to reorder.
+
 ## When to Use This Skill
 
 - Transforming collections of data

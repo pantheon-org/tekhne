@@ -1,0 +1,1 @@
+Makes a non-deterministic function pure by injecting the time dependency

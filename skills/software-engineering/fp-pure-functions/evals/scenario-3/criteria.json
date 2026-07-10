@@ -1,0 +1,21 @@
+{
+  "context": "Write tests for a pure function. Show that no mocking, setup, or teardown is needed.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Asserts output purely from inputs",
+      "description": "Asserts output purely from inputs",
+      "max_score": 40
+    },
+    {
+      "name": "Uses no mocks/stubs/global setup",
+      "description": "Uses no mocks/stubs/global setup",
+      "max_score": 35
+    },
+    {
+      "name": "Covers an edge case",
+      "description": "Covers an edge case",
+      "max_score": 25
+    }
+  ]
+}
