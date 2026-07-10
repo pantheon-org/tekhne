@@ -564,7 +564,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 ---
 
-## Software Engineering (10 skills)
+## Software Engineering (13 skills)
 
 Software engineering principles
 
@@ -632,6 +632,22 @@ Capture cross-project connections on the fly. Use when you notice a shared patte
 | --- | --- | --- | --- |
 | [bridge](/tekhne/skills/software-engineering/bridge/skill/) | <span class="skill-badge skill-badge--f">F</span> | 2026-04-11 | 5 |
 
+### fp-immutability
+
+Apply immutability principles across languages for safer, more predictable code
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [fp-immutability](/tekhne/skills/software-engineering/fp-immutability/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+
+### fp-pure-functions
+
+Write pure functions and avoid side effects for predictable, testable code
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [fp-pure-functions](/tekhne/skills/software-engineering/fp-pure-functions/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+
 ### challenge
 
 Challenge, push back, play devil's advocate on AI output. Use when: challenge th...
@@ -639,6 +655,14 @@ Challenge, push back, play devil's advocate on AI output. Use when: challenge th
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [challenge](/tekhne/skills/software-engineering/challenge/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-04-11 | 5 |
+
+### fp-higher-order-functions
+
+Master higher-order functions, map/filter/reduce patterns for expressive data tr...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [fp-higher-order-functions](/tekhne/skills/software-engineering/fp-higher-order-functions/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
 
 ### probe
 
