@@ -1,0 +1,21 @@
+{
+  "context": "Two functions share ~6 similar lines. Decide whether to abstract now or wait, and justify against DRY and premature-abstraction.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Weighs DRY against premature abstraction",
+      "description": "Weighs DRY against premature abstraction",
+      "max_score": 40
+    },
+    {
+      "name": "Reaches a justified decision",
+      "description": "Reaches a justified decision",
+      "max_score": 35
+    },
+    {
+      "name": "Ties the call to whether the shape is stable",
+      "description": "Ties the call to whether the shape is stable",
+      "max_score": 25
+    }
+  ]
+}

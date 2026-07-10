@@ -1,0 +1,21 @@
+{
+  "context": "A setup puts the volatile conversation before the static system prompt and tools, defeating caching. Reorder it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Moves stable content (system prompt, tools) to the front",
+      "description": "Moves stable content (system prompt, tools) to the front",
+      "max_score": 45
+    },
+    {
+      "name": "Explains why ordering affects cache reuse",
+      "description": "Explains why ordering affects cache reuse",
+      "max_score": 30
+    },
+    {
+      "name": "Preserves behaviour",
+      "description": "Preserves behaviour",
+      "max_score": 25
+    }
+  ]
+}

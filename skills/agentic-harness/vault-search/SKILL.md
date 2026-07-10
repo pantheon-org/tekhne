@@ -72,3 +72,29 @@ Each result shows:
 - **Never skip search before a non-trivial implementation task** — prior constraints may invalidate your approach before you write a line
 - **Never fabricate a memory** when search returns empty — report "No results found" and proceed without invented context
 - **Never search with a full sentence or question** — BM25 scores individual terms; verbose queries dilute signal
+
+## Mindset
+
+Search memory first; do not re-derive what was already decided. Treat retrieval as cheap and re-work as expensive. Know **when not to**: trivial, self-evident steps do not need a memory lookup.
+
+## Anti-Patterns
+
+### NEVER re-implement something without searching memory first
+
+- WHY: past decisions, constraints, and fixes are often already recorded; re-deriving them wastes effort and risks contradicting a prior decision.
+- BAD: writing a new approach from scratch for a recurring problem.
+- GOOD: `vault-cli search "<topic>"` first, then build on what returns.
+
+### NEVER search with the user's literal phrasing when concrete nouns work better
+
+- WHY: memory is indexed on concepts, not surface wording.
+- BAD: searching the whole question verbatim.
+- GOOD: extract the key nouns and search those.
+
+### ALWAYS treat an empty result as meaningful
+
+- WHY: a miss suggests the decision is genuinely new and worth capturing.
+
+## References
+
+- [Vault Search: Query Tips](references/query-tips.md) - practical query construction guidance.

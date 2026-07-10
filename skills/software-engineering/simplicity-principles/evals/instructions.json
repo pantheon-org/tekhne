@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Apply KISS: choose the simplest design that solves the actual problem",
+      "original_snippets": [],
+      "relevant_when": "Designing or reviewing a solution",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Apply YAGNI: do not build for imagined future requirements",
+      "original_snippets": [],
+      "relevant_when": "Tempted to add configurability or extension points now",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Apply DRY to knowledge, not just characters: dedupe a single source of truth",
+      "original_snippets": [],
+      "relevant_when": "The same decision/rule is encoded in several places",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Avoid premature abstraction: prefer duplication until the shape is clear",
+      "original_snippets": [],
+      "relevant_when": "Two similar pieces of code appear",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

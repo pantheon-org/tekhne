@@ -422,3 +422,25 @@ interface Props {
 - Simple != simplistic (handle errors, edge cases properly)
 
 ### When in doubt, choose the simpler path
+
+## Mindset
+
+Default to the simplest thing that works; add complexity only when a real, present requirement forces it. Know **when not to** simplify: do not collapse a genuinely necessary abstraction just to cut lines.
+
+## Anti-Patterns
+
+### NEVER add configurability or extension points for imagined future needs
+
+- WHY: YAGNI: speculative generality is cost with no present benefit and usually guesses wrong.
+- BAD: a plugin/factory/config layer for a single current use case.
+- GOOD: implement the one case directly; generalise when a second real case arrives.
+
+### NEVER abstract on the first duplication
+
+- WHY: premature abstraction couples unrelated code to a shape that is not yet clear.
+- BAD: extracting a shared helper the moment two lines look similar.
+- GOOD: wait for the rule of three; duplicate until the shape stabilises.
+
+### ALWAYS prefer the design a newcomer can read in one pass
+
+- WHY: simplicity is measured by comprehension cost, not cleverness.

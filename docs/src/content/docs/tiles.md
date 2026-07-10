@@ -482,7 +482,7 @@ Audit your Claude Code setup against prompt caching best practices. Checks order
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [cache-audit](/tekhne/skills/agentic-harness/cache-audit/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [cache-audit](/tekhne/skills/agentic-harness/cache-audit/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### load-context
 
@@ -630,7 +630,7 @@ Use when designing solutions, adding features, or refactoring by applying KISS, 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [simplicity-principles](/tekhne/skills/software-engineering/simplicity-principles/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [simplicity-principles](/tekhne/skills/software-engineering/simplicity-principles/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### bridge
 
