@@ -1,0 +1,21 @@
+{
+  "context": "A large stable prefix has no cache breakpoint, so nothing is cached. Identify where the breakpoint belongs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Places the breakpoint after the largest stable prefix",
+      "description": "Places the breakpoint after the largest stable prefix",
+      "max_score": 45
+    },
+    {
+      "name": "Explains the effect on cost/latency",
+      "description": "Explains the effect on cost/latency",
+      "max_score": 30
+    },
+    {
+      "name": "Avoids breakpointing volatile content",
+      "description": "Avoids breakpointing volatile content",
+      "max_score": 25
+    }
+  ]
+}

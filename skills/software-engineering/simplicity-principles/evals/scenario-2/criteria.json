@@ -1,0 +1,21 @@
+{
+  "context": "Code adds parameters and hooks 'in case we need them later', none used today. Strip the unused generality.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the unused/imagined-future code",
+      "description": "Identifies the unused/imagined-future code",
+      "max_score": 40
+    },
+    {
+      "name": "Removes it without breaking current behaviour",
+      "description": "Removes it without breaking current behaviour",
+      "max_score": 40
+    },
+    {
+      "name": "Explains the YAGNI rationale",
+      "description": "Explains the YAGNI rationale",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Order context stable-first: static system prompt and tools before volatile conversation",
+      "original_snippets": [],
+      "relevant_when": "Auditing a prompt/cache setup",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Place cache breakpoints after the largest stable prefix",
+      "original_snippets": [],
+      "relevant_when": "Configuring prompt caching",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Keep the tool list and system prompt stable across turns to preserve cache hits",
+      "original_snippets": [],
+      "relevant_when": "Tool definitions or system prompt change between turns",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Measure the cache hit rate and attribute misses to churn",
+      "original_snippets": [],
+      "relevant_when": "Cache savings are lower than expected",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

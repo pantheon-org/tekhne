@@ -1,0 +1,21 @@
+{
+  "context": "Cache hit rate is low; the tool list is regenerated in a new order each turn. Diagnose and fix the churn.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the churning tool list as the cause",
+      "description": "Identifies the churning tool list as the cause",
+      "max_score": 40
+    },
+    {
+      "name": "Proposes stabilising the order/content",
+      "description": "Proposes stabilising the order/content",
+      "max_score": 35
+    },
+    {
+      "name": "Ties the fix to cache-hit improvement",
+      "description": "Ties the fix to cache-hit improvement",
+      "max_score": 25
+    }
+  ]
+}

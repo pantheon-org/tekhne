@@ -1,0 +1,1 @@
+Reorders context so the stable prefix comes first for cache reuse

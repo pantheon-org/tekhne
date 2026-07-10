@@ -1,0 +1,1 @@
+Strips unused speculative generality per YAGNI
