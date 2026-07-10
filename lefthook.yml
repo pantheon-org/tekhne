@@ -69,3 +69,20 @@ pre-push:
           [ $code -eq 1 ] && rc=1
         done
         exit $rc
+    skill-audit:
+      glob: "skills/**/SKILL.md"
+      run: |
+        if [ ! -x bin/skill-auditor ]; then
+          (cd tools/skill-auditor && go build -o ../../bin/skill-auditor .) || { echo "skill-auditor build failed; skipping local audit (CI enforces the gate)"; exit 0; }
+        fi
+        rc=0
+        for f in {push_files}; do
+          rel="$(dirname "$f")"; rel="${rel#skills/}"
+          grade=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null | python3 -c "import sys,json;print(json.load(sys.stdin).get('grade','?'))" 2>/dev/null)
+          case "$grade" in
+            A|A+) echo "✅ $rel: $grade";;
+            B+|B|C+|C) echo "⚠️  $rel: $grade (warning — CI non-blocking)";;
+            *) echo "❌ $rel: ${grade:-?} (below C — blocked)"; rc=1;;
+          esac
+        done
+        exit $rc
