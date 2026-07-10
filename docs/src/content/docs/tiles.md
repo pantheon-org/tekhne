@@ -442,7 +442,7 @@ Use when responding to questions or providing information requiring professional
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [professional-honesty](/tekhne/skills/agentic-harness/professional-honesty/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [professional-honesty](/tekhne/skills/agentic-harness/professional-honesty/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### vault-search
 
