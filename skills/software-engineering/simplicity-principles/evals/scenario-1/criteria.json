@@ -1,0 +1,21 @@
+{
+  "context": "A feature is implemented with a plugin system, a factory, and a config layer for a single use case. Simplify it to the least machinery that works.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Removes speculative machinery (factory/plugin/config)",
+      "description": "Removes speculative machinery (factory/plugin/config)",
+      "max_score": 40
+    },
+    {
+      "name": "Keeps the actual behaviour",
+      "description": "Keeps the actual behaviour",
+      "max_score": 35
+    },
+    {
+      "name": "Justifies the simpler design",
+      "description": "Justifies the simpler design",
+      "max_score": 25
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Removes unnecessary machinery down to the simplest working design

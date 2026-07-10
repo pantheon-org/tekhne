@@ -187,3 +187,29 @@ If everything passes: say so clearly and note the estimated cost savings from th
 | 4. Models | One model per conversation, subagents for switches | Inline model switching |
 | 5. Size | Trim dynamic injections to minimum needed | Dump full git status (40k chars) |
 | 6. Forks | Same prefix for compaction/subagents | Different system prompt for summary calls |
+
+## When to Use This Skill
+
+Use when auditing or configuring prompt caching for an agent setup, or when cache savings are lower than expected. Apply it whenever the system prompt, tool list, or context ordering changes. Know when not to bother: a one-shot call with no reuse gains nothing from caching.
+
+## Mindset
+
+Cache reuse is an ordering problem: stable content first, volatile content last, breakpoint in between. Audit for churn that silently busts the cache. Know **when not to** cache: genuinely per-request content should stay after the breakpoint.
+
+## Anti-Patterns
+
+### NEVER place volatile content before the stable prefix
+
+- WHY: any change early in the prompt invalidates the entire downstream cache.
+- BAD: conversation or timestamps ahead of the system prompt and tools.
+- GOOD: static system prompt and tools first, volatile turns last.
+
+### NEVER regenerate the tool list in a new order each turn
+
+- WHY: reordering is a byte change that busts the cached prefix every turn.
+- BAD: building the tool array from an unordered map per request.
+- GOOD: emit tools in a stable, sorted order.
+
+### ALWAYS measure the cache hit rate before and after a change
+
+- WHY: cache wins are invisible without measurement; attribute misses to specific churn.

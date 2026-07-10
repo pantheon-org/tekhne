@@ -1,0 +1,1 @@
+Makes a justified DRY-vs-duplication call rather than reflexively abstracting
