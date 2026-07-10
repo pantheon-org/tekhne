@@ -1,0 +1,21 @@
+{
+  "context": "A function sorts and returns the caller's array in place, mutating the input. Make it return a new array instead.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the in-place mutation of the argument",
+      "description": "Identifies the in-place mutation of the argument",
+      "max_score": 35
+    },
+    {
+      "name": "Returns a new array instead of mutating",
+      "description": "Returns a new array instead of mutating",
+      "max_score": 40
+    },
+    {
+      "name": "Leaves the caller's original array unchanged",
+      "description": "Leaves the caller's original array unchanged",
+      "max_score": 25
+    }
+  ]
+}

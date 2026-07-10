@@ -1,0 +1,1 @@
+Selects elements with filter and a reusable predicate

@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Update objects and arrays by producing new copies rather than mutating in place",
+      "original_snippets": [],
+      "relevant_when": "Changing a field or element of shared data",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Use immutable/frozen structures where the language provides them",
+      "original_snippets": [],
+      "relevant_when": "Modelling values that must not change",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Prefer structural sharing over deep copies for large data",
+      "original_snippets": [],
+      "relevant_when": "Updating a small part of a large structure",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Treat function arguments as read-only",
+      "original_snippets": [],
+      "relevant_when": "A function receives an object or collection",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

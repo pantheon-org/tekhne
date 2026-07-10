@@ -1,0 +1,21 @@
+{
+  "context": "Update a nested field of a state object without mutating the original (e.g. `state.user.name`).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Returns a new object rather than mutating state",
+      "description": "Returns a new object rather than mutating state",
+      "max_score": 40
+    },
+    {
+      "name": "Copies only the path that changed (structural sharing)",
+      "description": "Copies only the path that changed (structural sharing)",
+      "max_score": 35
+    },
+    {
+      "name": "Leaves the original object unchanged",
+      "description": "Leaves the original object unchanged",
+      "max_score": 25
+    }
+  ]
+}

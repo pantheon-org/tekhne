@@ -1,0 +1,21 @@
+{
+  "context": "Three transformations are done as nested calls. Express them as a composed pipeline of small functions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Defines small single-purpose functions",
+      "description": "Defines small single-purpose functions",
+      "max_score": 35
+    },
+    {
+      "name": "Composes them (compose/pipe or chained map/filter/reduce)",
+      "description": "Composes them (compose/pipe or chained map/filter/reduce)",
+      "max_score": 40
+    },
+    {
+      "name": "Result is equivalent to the nested version",
+      "description": "Result is equivalent to the nested version",
+      "max_score": 25
+    }
+  ]
+}

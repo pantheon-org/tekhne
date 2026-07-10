@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use map to transform a collection instead of a manual index loop",
+      "original_snippets": [],
+      "relevant_when": "Transforming every element of a collection",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Use filter with a predicate to select elements instead of push-in-a-loop",
+      "original_snippets": [],
+      "relevant_when": "Selecting a subset of a collection",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Use reduce to aggregate a collection into a single value",
+      "original_snippets": [],
+      "relevant_when": "Summing, grouping, or folding a collection",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Compose small single-purpose functions instead of one monolithic function",
+      "original_snippets": [],
+      "relevant_when": "Building a multi-step transformation",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

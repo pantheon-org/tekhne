@@ -1,0 +1,1 @@
+Replaces an imperative accumulation loop with map
