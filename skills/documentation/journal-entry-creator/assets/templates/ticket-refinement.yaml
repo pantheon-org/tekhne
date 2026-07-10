@@ -1,0 +1,252 @@
+# Ticket Refinement Entry Template Schema
+# Describes the REQUIRED structure for ticket-refinement session entries.
+#
+# A ticket-refinement entry documents the work of fleshing out or amending an issue-tracker ticket
+# (backlog grooming, refinement prep, turning a one-line ticket into a refinement-ready one).
+#
+# HARD RULE: this workflow NEVER edits the ticket directly. The proposed/amended ticket content lives
+# inside the entry as a ready-to-paste markdown block (## Proposed Ticket Description). Applying it to
+# the tracker is a separate, explicitly confirmed step outside this skill.
+
+template_name: ticket-refinement
+description: Documentation of an issue-tracker ticket refinement session; the amended ticket content is captured in-entry, never written to the tracker directly
+filename_pattern: "YYYY-MM-DD-slug.md"
+location_pattern: "YYYY/MM/"
+
+# Extends journal-entry template with ticket-refinement-specific requirements
+extends: journal-entry
+
+# YAML frontmatter (inherits from journal-entry with additions)
+frontmatter:
+  required_fields:
+    - name: refinement_ticket
+      type: string
+      description: >
+        Issue-tracker key being refined (e.g. "TICKET-123"). REQUIRED for this entry type. When present, a
+        '## Proposed Ticket Description' section becomes REQUIRED (enforced by the validator) and a no-op
+        otherwise, so existing entries are unaffected. Use this field rather than jira_ticket for a
+        refinement: the deliverable is the ticket description, not a comment draft.
+      example: "TICKET-123"
+
+    - name: tags
+      type: array
+      description: "Must include the 'ticket-refinement' tag"
+      validation: "Must contain 'ticket-refinement' in array"
+      example:
+        - ticket-refinement
+        - ticket-123
+        - backlog
+
+  optional_fields:
+    # Set jira_ticket ONLY if you also want a separate '## Jira Comment Draft' (e.g. a note to post on the
+    # ticket alongside the refinement). It is independent of refinement_ticket. See journal-entry.yaml.
+    - name: jira_ticket
+      type: string
+      description: "Optional. Set only when a separate comment draft is also wanted; forces a '## Jira Comment Draft' section. Independent of refinement_ticket."
+      example: "TICKET-123"
+
+# Document structure (REQUIRED sections in order)
+structure:
+  # H1 Title (same as journal-entry)
+  - section: h1_title
+    level: 1
+    format: "# [Ticket Key] [Short Title] - [Month D, YYYY]"
+    required: true
+    example: "# TICKET-123 Service Logging Refinement - July 8, 2026"
+
+  # Metadata block (extended for refinement)
+  - section: metadata_block
+    required: true
+    format: "**Key:** Value (NO bullet points, NO list formatting)"
+    fields:
+      - Date: "Month D, YYYY"
+      - Duration: "X hours (optional)"
+      - Ticket: "Issue-tracker key being refined (e.g. TICKET-123)"
+      - Context: "Why this ticket is being refined and for which refinement/session"
+      - System: "System/Service the ticket concerns"
+    example: |
+      **Date:** July 8, 2026
+      **Duration:** ~1 hour
+      **Ticket:** TICKET-123
+      **Context:** Fleshing out TICKET-123 ahead of the next refinement session
+      **System:** example-service
+
+  # Session Overview
+  - section: session_overview
+    level: 2
+    heading: "## Session Overview"
+    required: true
+    description: "High-level summary of what the ticket is, why it needed refining, and what this session produced"
+
+  # Context
+  - section: context
+    level: 2
+    heading: "## Context"
+    required: true
+    description: "Origin of the ticket (parent incident, request, backlog item) and any constraints (regulatory, personal data, dependencies)"
+
+  # Current Ticket State
+  - section: current_ticket_state
+    level: 2
+    heading: "## Current Ticket State"
+    required: true
+    description: "What the ticket said before refinement — summary, type, status, and what was missing or ambiguous"
+    example: |
+      - Summary: "Ensure better logging on example-service-api"
+      - Type: Maintenance, Status: Backlog
+      - Body was a single line linking the parent incident; no problem statement, scope, or acceptance criteria
+
+  # Findings / Investigation
+  - section: findings
+    level: 2
+    heading: "## Findings"
+    required: true
+    description: >
+      What was learned that grounds the refinement — code read, incidents reviewed, constraints confirmed.
+      Use numbered '### Step N: [Title]' subsections with what/commands/result when the refinement involved
+      investigation, or a bulleted list of grounded findings otherwise.
+
+  # Proposed Ticket Description (THE deliverable — enforced by validator when refinement_ticket is set)
+  - section: proposed_ticket_description
+    level: 2
+    heading: "## Proposed Ticket Description"
+    required: true
+    description: >
+      The ready-to-paste, amended ticket content — the sole deliverable of a refinement session. REQUIRED
+      whenever frontmatter sets refinement_ticket (enforced by validate-journal-entry.sh). It MUST be a single
+      fenced code block with a language specifier (```markdown), so it copies verbatim into the tracker and its
+      inner headings are not parsed as document headings (keeps the single-H1 rule intact). Use a 4-backtick
+      outer fence (````markdown) if the ticket content itself contains 3-backtick code blocks. It is a DRAFT:
+      state that it has not been applied to the ticket and that applying it is a separate, human-confirmed step.
+      NEVER edit the ticket directly from this skill.
+    format: |
+      A short lead line stating this is a draft, not applied, then a fenced markdown block holding the full
+      amended ticket description. Follow your team's ticket-writing standard for the INNER block if one exists.
+      A widely useful default is bold-label sections (not markdown headings), in this order (omit a section
+      when it does not apply, do not reorder):
+
+        1. **Summary** (optional one-line restatement of the title)
+        2. **Background** / **Context** (parent incident/request, corrected root cause, framing; if the work
+           touches regulated or personal data, state that constraint HERE)
+        3. **Problem** (the specific engineering gap)
+        4. **Investigation required** (when a decision is open: numbered options + trade-offs, ending
+           "Capture the decision and rationale on the ticket." — use this instead of a loose open-questions list)
+        5. **Conditions of Satisfaction** (MoSCoW: MUST / SHOULD / COULD) as checkbox items (`- [ ]`) so they render as tickable tasks in the tracker
+        6. **Acceptance criteria** (concrete, testable; add a "no new personal data emitted" criterion when the
+           work touches regulated or personal data)
+        7. **Supporting Information** (repo URLs, incident links, key file paths)
+
+      Always hyperlink references with [text](url): other ticket/incident keys to their tracker URL, and repos
+      and source files to their source-host URL. Do not leave bare keys or paths on first mention.
+    example: |
+      The following is the ready-to-paste description produced this session. It is a draft for review, not
+      applied to the ticket. Copy the block below verbatim into TICKET-123 once approved.
+
+      ````markdown
+      **Summary:** Ensure better logging on example-service-api
+
+      **Background**
+
+      Raised from incident [INCIDENT-456](https://tracker.example.com/browse/INCIDENT-456). If the service
+      processes personal data, no personal data may be written to logs, traces, or metrics; pseudonymised
+      identifiers only.
+
+      **Problem**
+
+      On a 4xx/5xx alarm, on-call has no privacy-safe way to identify the affected request ...
+
+      **Investigation required**
+
+      1. Scrubbed structured log record on the failure path. Trade-offs: ...
+      2. Dedicated rejected-request log group with short retention. Trade-offs: ...
+
+      Capture the decision and rationale on the ticket.
+
+      **Conditions of Satisfaction**
+
+      - [ ] **MUST** attach a pseudonymised correlation key on the validation-failure path.
+      - [ ] **SHOULD** document a query/runbook from alarm to correlated record.
+      - [ ] **COULD** add a rejected-request metric distinct from the generic 4xx alarm.
+
+      **Acceptance criteria**
+
+      - A simulated malformed request produces a privacy-safe, correlated log record.
+      - No new personal data is emitted to logs, traces, or metrics.
+
+      **Supporting Information**
+
+      - Repo: [example-service](https://example.com/org/example-service)
+      - Incident: [INCIDENT-456](https://tracker.example.com/browse/INCIDENT-456)
+      ````
+    validation:
+      - "Required if frontmatter sets refinement_ticket (checked by validate-journal-entry.sh)"
+      - "Must be a fenced code block with a language specifier so it is copy-pasteable and does not add H1/H2 headings"
+      - "Never applied to the tracker from this skill; applying it is a separate, explicitly confirmed step"
+
+  # Session Outcome
+  - section: session_outcome
+    level: 2
+    heading: "## Session Outcome"
+    required: true
+    format: |
+      **[Status]** - brief summary (text only, NO emojis in this type)
+
+      Next steps:
+
+      - Action item
+    status_options:
+      - "Refined"
+      - "Draft for review"
+      - "Blocked"
+    example: |
+      Draft for review - TICKET-123 is refinement-ready; the ticket itself was intentionally left untouched.
+
+      Next steps:
+
+      - Confirm the draft with the team and apply it to TICKET-123 when approved
+      - If the work touches regulated or personal data, confirm with the owning function before implementation
+
+  # Future Reference / Notes
+  - section: future_reference
+    level: 2
+    heading: "## Future Reference / Notes"
+    required: true
+    description: "Links (ticket, parent incident, repo, key files) and any decisions or open questions carried forward"
+
+  # Tags (at end of document)
+  - section: tags
+    level: 2
+    heading: "## Tags"
+    required: true
+    description: "Backtick-separated tags matching frontmatter; must include ticket-refinement"
+    format: "`ticket-refinement` | `ticket-123` | `tag3`"
+    validation: "Must match tags in frontmatter and include ticket-refinement"
+
+# Ticket-refinement-specific validation
+validation:
+  required_sections:
+    - current_ticket_state
+    - findings
+    - proposed_ticket_description
+    - future_reference
+
+  required_tags:
+    - ticket-refinement
+
+  required_frontmatter:
+    - refinement_ticket
+
+  proposed_ticket_description:
+    - "Enforced by validator when refinement_ticket is set"
+    - "Must be a fenced markdown block (copy-pasteable, no stray headings)"
+
+# Best practices for ticket-refinement entries
+best_practices:
+  - "Follow your team's ticket-writing standard for the inner Proposed Ticket Description block if one exists; a useful default is bold-label sections in the order Background -> Problem -> Investigation required -> Conditions of Satisfaction (MoSCoW) -> Acceptance criteria -> Supporting Information"
+  - "Use MoSCoW (MUST/SHOULD/COULD) checkbox items (`- [ ]`) for Conditions of Satisfaction so they render as tickable tasks in the tracker; use a numbered Investigation required block for open decisions rather than a loose open-questions list"
+  - "Ground the refinement in evidence (code read, incident reviewed): cite file:line and ticket keys"
+  - "Always hyperlink references with [text](url): ticket/incident keys to their tracker URL, repos and source files to their source-host URL; no bare keys or paths on first mention"
+  - "Keep the proposed description self-contained; a ticket reader has not seen the journal entry"
+  - "If the work touches regulated or personal data, flag the constraint in Background and route final sign-off to the owning function"
+  - "Frame the description as decision-support: applying it to the tracker is a separate, human-confirmed step"
+  - "NEVER edit the ticket directly from this skill: the amended content lives in the entry"

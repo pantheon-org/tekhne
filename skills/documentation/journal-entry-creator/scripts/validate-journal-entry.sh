@@ -31,6 +31,16 @@ if [[ ${#args[@]} -eq 0 ]]; then
   exit 2
 fi
 
+# Helper: extract a top-level frontmatter field value (first match), empty if absent
+frontmatter_field() {
+  local file="$1" field="$2"
+  awk '/^---$/{c++; next} c==1' "$file" 2>/dev/null \
+    | grep -E "^${field}:" \
+    | head -1 \
+    | sed -E "s/^${field}:[[:space:]]*\"?([^\"]*)\"?[[:space:]]*\$/\\1/" \
+    || true
+}
+
 # Helper: validate a single file
 validate_single() {
   local file="$1"
@@ -228,6 +238,19 @@ validate_single() {
       echo "Invalid: H1 must end with the full date formatted as 'Month D, YYYY' (expected ending: $formatted_date) in $file" >&2
       rm -f "$tmp_out"
       return 15
+    fi
+  fi
+
+  # 8) Proposed ticket description — only runs when frontmatter declares refinement_ticket.
+  # Ticket-refinement entries never edit the tracker directly; the amended ticket content lives here
+  # as a ready-to-paste markdown block. No-op for entries without the field, so others are unaffected.
+  local refinement_ticket
+  refinement_ticket="$(frontmatter_field "$file" "refinement_ticket")"
+  if [[ -n "$refinement_ticket" ]]; then
+    if ! awk -F"\t" '$2 == "## Proposed Ticket Description" { found=1; exit } END{ if(!found) exit 1 }' "$tmp_out"; then
+      echo "Invalid: refinement_ticket ($refinement_ticket) is set but no '## Proposed Ticket Description' section in $file" >&2
+      rm -f "$tmp_out"
+      return 16
     fi
   fi
 

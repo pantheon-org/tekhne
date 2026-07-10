@@ -1,9 +1,7 @@
 ---
 name: journal-entry-creator
 description:
-  "Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]',
-  'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports four entry types: general journal entries, troubleshooting sessions, learning notes, and article
-  summaries. Keywords: journal, documentation, troubleshooting, learning, article-summary, YAML frontmatter, template schemas, validation."
+  "Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports five entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, and ticket-refinement sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, refine ticket, YAML frontmatter, template schemas, validation."
 ---
 
 # Journal Entry Creator
@@ -29,6 +27,7 @@ Use journal-entry-creator when:
 - **Problem resolution?** → Troubleshooting
 - **New knowledge/skills?** → Learning  
 - **External content summary?** → Article Summary
+- **Fleshing out or amending a ticket (refinement prep, backlog grooming)?** → Ticket Refinement
 - **Otherwise** → Journal Entry
 
 | User Intent Signals | Type | Template | Required Tag |
@@ -36,7 +35,10 @@ Use journal-entry-creator when:
 | "error", "fix", "resolved", "incident" | Troubleshooting | `troubleshooting.yaml` | `troubleshooting` |
 | "learned", "tutorial", "discovered" | Learning | `learning.yaml` | `learning` |
 | URL/source, "read", "watched", "summarize" | Article Summary | `article-summary.yaml` | `article`/`video`/`podcast`/`talk` |
+| "refine", "flesh out", "groom", "amend ticket" | Ticket Refinement | `ticket-refinement.yaml` | `ticket-refinement` |
 | General documentation, investigation | Journal Entry | `journal-entry.yaml` | (flexible) |
+
+**Trade-off:** When intent is ambiguous, prefer the more specific type (Troubleshooting > Ticket Refinement > Learning > General).
 
 ## Template Schema System
 
@@ -49,6 +51,7 @@ Before generating any entry, you MUST read the complete template schema file:
 skills/journal-entry-creator/assets/templates/troubleshooting.yaml
 skills/journal-entry-creator/assets/templates/learning.yaml
 skills/journal-entry-creator/assets/templates/article-summary.yaml
+skills/journal-entry-creator/assets/templates/ticket-refinement.yaml
 skills/journal-entry-creator/assets/templates/journal-entry.yaml
 ```
 
@@ -161,6 +164,41 @@ under the entry slug directory makes every path unique.
 
 **Note:** The `assets/` directories are gitignored — screenshots are local-only. The markdown image
 references are tracked in git as documentation of what evidence was captured.
+
+### Proposed Ticket Description (Ticket-Refinement Entries)
+
+Applies to ticket-refinement sessions: fleshing out or amending an issue-tracker ticket (refinement prep, backlog grooming, turning a one-line ticket into a refinement-ready one). Use the `ticket-refinement.yaml` type.
+
+**HARD RULE: this skill NEVER edits the ticket directly.** The amended ticket content lives inside the journal entry as a ready-to-paste markdown block. Applying it to the tracker is a separate step the user explicitly confirms, performed outside this skill.
+
+When an entry refines a ticket, you MUST:
+
+1. Set `refinement_ticket: <KEY>` in the frontmatter (e.g. `refinement_ticket: TICKET-123`). Use this field, not `jira_ticket` — the deliverable is a ticket description, not a comment.
+2. Add a `## Proposed Ticket Description` section holding the full amended description inside a fenced markdown block:
+
+````markdown
+## Proposed Ticket Description
+
+Draft for TICKET-123 - review before applying; not yet applied to the ticket.
+
+```markdown
+**Summary:** <one-line summary>
+
+**Background**
+
+<full, self-contained amended ticket description>
+```
+````
+
+Rules for the proposed description:
+
+- It is a DRAFT and has NOT been applied. Lead with a `Draft for [TICKET] - review before applying; not yet applied.` line, and never write it to the tracker from this skill.
+- It MUST sit inside a fenced code block with a language specifier so it copies verbatim and its inner headings do not become document headings (this keeps the single-H1 rule intact). Use a 4-backtick outer fence when the ticket content itself contains 3-backtick code blocks.
+- It must be self-contained: a ticket reader has not seen the journal entry, so the description stands on its own.
+- Follow your team's ticket-writing standard if one exists.
+- If the work touches regulated or personal data, state the constraint and route final sign-off to the appropriate function.
+
+The validator (`validate-journal-entry.sh`) enforces this: when `refinement_ticket` is present in frontmatter, a `## Proposed Ticket Description` section is required. It is a no-op when the field is absent, so other entries are unaffected.
 
 ## Success Criteria & Validation Rules
 
@@ -291,13 +329,6 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - Date in parentheses (YYYY-MM-DD)
 - Example: `Add journal entry: OpenCode process fix (2025-02-24)`
 
-**Commit message format:**
-
-- Prefix: `Add journal entry:`
-- Brief description (30-50 chars)
-- Date in parentheses (YYYY-MM-DD)
-- Example: `Add journal entry: OpenCode process fix (2025-02-24)`
-
 ## Anti-Patterns
 
 ### NEVER create entries without reading the template schema first
@@ -324,6 +355,12 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - **BAD**: filename `2025-02-24-*.md`, frontmatter `date: 2025-02-25`, H1 `March 1, 2025`.
 - **GOOD**: all three match exactly - `2025-02-24` in filename, `date: 2025-02-24` in frontmatter, `February 24, 2025` in H1.
 
+### NEVER edit the ticket directly when refining it
+
+- **WHY**: this skill produces a reviewable draft; applying changes to the tracker is a separate, user-confirmed step outside the skill.
+- **BAD**: refine a ticket and push the edit straight to the issue tracker.
+- **GOOD**: set `refinement_ticket` and put the amended content in a `## Proposed Ticket Description` fenced block; the user applies it separately.
+
 ## References
 
 ### Template Schemas (assets/templates/)
@@ -332,6 +369,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - `troubleshooting.yaml` - Problem resolution sessions
 - `learning.yaml` - Knowledge acquisition documentation
 - `article-summary.yaml` - External content summaries
+- `ticket-refinement.yaml` - Issue-tracker ticket refinement (amended ticket captured in-entry, never written to the tracker)
 
 Load with relative paths: `skills/journal-entry-creator/assets/templates/[file]`
 
