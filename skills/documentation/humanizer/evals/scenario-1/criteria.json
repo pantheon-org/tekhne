@@ -1,0 +1,26 @@
+{
+  "context": "A paragraph reports an event in flat, neutral prose. Rewrite it so it has a point of view and varied rhythm without adding false facts.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Adds a genuine point of view / reaction",
+      "description": "Adds a genuine point of view / reaction",
+      "max_score": 35
+    },
+    {
+      "name": "Varies sentence rhythm",
+      "description": "Varies sentence rhythm",
+      "max_score": 30
+    },
+    {
+      "name": "Removes hollow hedging and clich\u00e9s",
+      "description": "Removes hollow hedging and clich\u00e9s",
+      "max_score": 20
+    },
+    {
+      "name": "Invents no new facts",
+      "description": "Invents no new facts",
+      "max_score": 15
+    }
+  ]
+}

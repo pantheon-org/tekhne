@@ -1,0 +1,1 @@
+Rewrites a rambling update into an outcome-first, structured message

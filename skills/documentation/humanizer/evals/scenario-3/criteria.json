@@ -1,0 +1,21 @@
+{
+  "context": "A sentence is buried in qualifiers ('perhaps we might possibly want to consider'). Rewrite it directly while keeping the actual claim.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Removes the filler qualifiers",
+      "description": "Removes the filler qualifiers",
+      "max_score": 45
+    },
+    {
+      "name": "Keeps the real claim intact",
+      "description": "Keeps the real claim intact",
+      "max_score": 35
+    },
+    {
+      "name": "Result reads direct and human",
+      "description": "Result reads direct and human",
+      "max_score": 20
+    }
+  ]
+}

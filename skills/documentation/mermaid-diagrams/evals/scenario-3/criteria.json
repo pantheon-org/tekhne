@@ -1,0 +1,21 @@
+{
+  "context": "Given data with entities and relationships, pick and justify the diagram type (ER vs class vs flowchart) and produce it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chooses an appropriate diagram type",
+      "description": "Chooses an appropriate diagram type",
+      "max_score": 40
+    },
+    {
+      "name": "Justifies the choice",
+      "description": "Justifies the choice",
+      "max_score": 30
+    },
+    {
+      "name": "Produces valid syntax for it",
+      "description": "Produces valid syntax for it",
+      "max_score": 30
+    }
+  ]
+}

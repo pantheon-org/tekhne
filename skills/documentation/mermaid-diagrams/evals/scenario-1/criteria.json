@@ -1,0 +1,21 @@
+{
+  "context": "Given a described multi-step process with a branch, produce a valid Mermaid `flowchart` with labelled decision edges.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses valid flowchart syntax",
+      "description": "Uses valid flowchart syntax",
+      "max_score": 40
+    },
+    {
+      "name": "Represents the branch/decision correctly",
+      "description": "Represents the branch/decision correctly",
+      "max_score": 35
+    },
+    {
+      "name": "Labels edges clearly",
+      "description": "Labels edges clearly",
+      "max_score": 25
+    }
+  ]
+}

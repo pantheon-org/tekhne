@@ -215,3 +215,20 @@ flowchart LR
 - Visualize data flows and system interactions
 - Plan before coding
 - Create living documentation that evolves with code
+
+## Anti-Patterns
+
+### NEVER pick a diagram type that fights the data
+
+- WHY: a flowchart for entity relationships (or an ERD for a process) obscures rather than clarifies.
+- BAD: modelling a request/response exchange as a flowchart.
+- GOOD: use a sequenceDiagram for interactions, an ER/class diagram for structure.
+
+### NEVER let a diagram grow past readability
+
+- WHY: a 40-node flowchart communicates nothing; density defeats the purpose.
+- GOOD: split into sub-diagrams or group related nodes.
+
+### ALWAYS label decision edges and message arrows
+
+- WHY: unlabelled branches force the reader to guess the condition.

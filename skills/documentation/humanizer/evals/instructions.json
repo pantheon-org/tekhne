@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Identify and remove AI-writing tells (uniform sentence rhythm, listicle everything, hollow hedging)",
+      "original_snippets": [],
+      "relevant_when": "Editing or reviewing generated prose",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Add a point of view: react to facts, do not just report them",
+      "original_snippets": [],
+      "relevant_when": "Text reads as neutral and voiceless",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Vary sentence rhythm and let some structural mess in",
+      "original_snippets": [],
+      "relevant_when": "Every sentence has the same cadence",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Cut clich\u00e9s and filler ('it is important to note', 'in today's world')",
+      "original_snippets": [],
+      "relevant_when": "Text is padded with empty phrases",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

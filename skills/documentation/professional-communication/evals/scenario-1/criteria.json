@@ -1,0 +1,21 @@
+{
+  "context": "A status update buries the outcome in the middle of a wall of text. Rewrite it outcome-first with clear structure.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Leads with the outcome/headline",
+      "description": "Leads with the outcome/headline",
+      "max_score": 40
+    },
+    {
+      "name": "Separates context from detail",
+      "description": "Separates context from detail",
+      "max_score": 30
+    },
+    {
+      "name": "Is concise and skimmable",
+      "description": "Is concise and skimmable",
+      "max_score": 30
+    }
+  ]
+}
