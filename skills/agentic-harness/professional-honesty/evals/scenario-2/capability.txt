@@ -1,0 +1,1 @@
+Identifies a concrete flaw in a proposed approach and offers a better alternative with reasoning.

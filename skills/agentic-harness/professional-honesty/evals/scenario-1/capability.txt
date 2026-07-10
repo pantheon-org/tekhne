@@ -1,0 +1,1 @@
+Verifies a user's causal claim with evidence before acting, and corrects it honestly.
