@@ -1,0 +1,21 @@
+{
+  "context": "Given a passage, list the specific AI-writing tells present (e.g. everything-is-a-list, uniform cadence, 'it is important to note').",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Names specific tells present",
+      "description": "Names specific tells present",
+      "max_score": 50
+    },
+    {
+      "name": "Explains why each reads as machine-written",
+      "description": "Explains why each reads as machine-written",
+      "max_score": 30
+    },
+    {
+      "name": "Suggests a concrete fix per tell",
+      "description": "Suggests a concrete fix per tell",
+      "max_score": 20
+    }
+  ]
+}

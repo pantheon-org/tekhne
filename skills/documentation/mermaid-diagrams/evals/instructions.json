@@ -1,0 +1,22 @@
+{
+  "instructions": [
+    {
+      "instruction": "Choose the diagram type that fits the relationship (flowchart, sequence, ER, class, state)",
+      "original_snippets": [],
+      "relevant_when": "Deciding how to visualise a system",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Use correct Mermaid syntax for the chosen diagram type",
+      "original_snippets": [],
+      "relevant_when": "Writing the diagram source",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Keep diagrams readable: label edges, limit node count, group where helpful",
+      "original_snippets": [],
+      "relevant_when": "A diagram is growing large or dense",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

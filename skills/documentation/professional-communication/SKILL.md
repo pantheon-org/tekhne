@@ -265,3 +265,25 @@ Before sending any professional communication:
 - **v1.0.0** (2025-12-26): Initial release
 
 ---
+
+## Mindset
+
+Communicate for the reader, not the writer: lead with the outcome, cut jargon to the audience's level, and make every message self-contained. Know **when not to** over-structure: a one-line answer needs no agenda.
+
+## Anti-Patterns
+
+### NEVER bury the outcome in the middle of a wall of text
+
+- WHY: readers skim; the headline must come first.
+- BAD: three paragraphs of context before the actual status.
+- GOOD: lead with the outcome, then context, then detail.
+
+### NEVER use unexplained jargon with a mixed audience
+
+- WHY: undefined terms exclude non-specialist readers and hide meaning.
+- BAD: "we cut p99 by sharding the write path" to a non-technical stakeholder.
+- GOOD: state the impact first; define or drop the jargon.
+
+### ALWAYS end a message with the decision or next action
+
+- WHY: communication without a clear ask or outcome wastes the exchange.

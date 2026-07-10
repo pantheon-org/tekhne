@@ -1,0 +1,21 @@
+{
+  "context": "Given a request/response interaction between services, produce a valid Mermaid `sequenceDiagram`.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses valid sequenceDiagram syntax",
+      "description": "Uses valid sequenceDiagram syntax",
+      "max_score": 40
+    },
+    {
+      "name": "Orders the messages correctly",
+      "description": "Orders the messages correctly",
+      "max_score": 35
+    },
+    {
+      "name": "Distinguishes request vs response",
+      "description": "Distinguishes request vs response",
+      "max_score": 25
+    }
+  ]
+}

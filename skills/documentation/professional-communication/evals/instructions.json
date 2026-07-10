@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Structure written updates: lead with the outcome, then context, then detail",
+      "original_snippets": [],
+      "relevant_when": "Writing a status update, email, or message",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Simplify jargon for the actual audience",
+      "original_snippets": [],
+      "relevant_when": "Communicating with non-specialists or mixed audiences",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Structure meetings with a purpose, agenda, and decisions/actions",
+      "original_snippets": [],
+      "relevant_when": "Running or requesting a meeting",
+      "why_given": "Core practice of the skill"
+    },
+    {
+      "instruction": "Prefer clear async messages over synchronous interruptions where possible",
+      "original_snippets": [],
+      "relevant_when": "Choosing a communication channel",
+      "why_given": "Core practice of the skill"
+    }
+  ]
+}

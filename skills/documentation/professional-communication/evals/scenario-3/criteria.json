@@ -1,0 +1,21 @@
+{
+  "context": "Write an async end-of-day handoff so a teammate in another timezone can continue without a meeting.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "States current status and next step",
+      "description": "States current status and next step",
+      "max_score": 40
+    },
+    {
+      "name": "Is self-contained (no meeting needed)",
+      "description": "Is self-contained (no meeting needed)",
+      "max_score": 35
+    },
+    {
+      "name": "Flags blockers/decisions",
+      "description": "Flags blockers/decisions",
+      "max_score": 25
+    }
+  ]
+}
