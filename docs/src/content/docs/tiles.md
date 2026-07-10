@@ -376,7 +376,7 @@ Generate a project-specific web design reference sheet (docs/design/design-refer
 
 ---
 
-## Agentic Harness (18 skills)
+## Agentic Harness (19 skills)
 
 Agent framework configurations
 
@@ -468,6 +468,14 @@ Create baseline context from .context/session/in/ folder with manifest-driven or
 | --- | --- | --- | --- |
 | [create-context](/tekhne/skills/agentic-harness/create-context/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
 
+### cache-audit
+
+Audit your Claude Code setup against prompt caching best practices. Checks order...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [cache-audit](/tekhne/skills/agentic-harness/cache-audit/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+
 ### load-context
 
 Resume session from CONTEXT-llm.md. Use when resuming work, loading saved contex...
@@ -556,7 +564,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 ---
 
-## Software Engineering (9 skills)
+## Software Engineering (10 skills)
 
 Software engineering principles
 
@@ -607,6 +615,14 @@ Sense-making before action. Classify problem using Cynefin triangulation (3 test
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [frame-problem](/tekhne/skills/software-engineering/frame-problem/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
+
+### simplicity-principles
+
+Use when designing solutions, adding features, or refactoring by applying KISS, ...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [simplicity-principles](/tekhne/skills/software-engineering/simplicity-principles/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
 
 ### bridge
 
@@ -664,7 +680,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (24 skills)
+## Documentation (26 skills)
 
 Writing & communication
 
@@ -755,6 +771,14 @@ Search Semantic Scholar for academic papers, fetch paper details by ID or DOI, r
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [research-semantic-scholar-search](/tekhne/skills/documentation/research/semantic-scholar-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
+
+### mermaid-diagrams
+
+Comprehensive guide for creating software diagrams using Mermaid syntax. Use whe...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [mermaid-diagrams](/tekhne/skills/documentation/mermaid-diagrams/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
 
 ### markdown-authoring
 
@@ -859,6 +883,14 @@ Create and edit JSON Canvas files (.canvas) with nodes, edges, groups, and conne
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [obsidian-json-canvas](/tekhne/skills/documentation/obsidian/json-canvas/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-16 | 4 |
+
+### humanizer
+
+Remove signs of AI-generated writing from text. Use when editing or reviewing te...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [humanizer](/tekhne/skills/documentation/humanizer/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
 
 ---
 
