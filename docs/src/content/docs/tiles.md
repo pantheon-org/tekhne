@@ -972,17 +972,9 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (9 skills)
+## Project Management (8 skills)
 
 Planning & organization
-
-### plan-execute
-
-Execute an implementation plan with rigorous checklist-driven verification. Ever...
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [plan-execute](/tekhne/skills/project-mgmt/plan-execute/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### planning-toolkit-wave-executor
 

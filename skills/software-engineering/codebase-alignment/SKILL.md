@@ -216,3 +216,7 @@ After completing the review:
 | `standards-to-tooling` | After alignment, to codify rules as lint config |
 | `pr-author` | When alignment results should become a PR |
 | `vault-capture` | Persist alignment decisions (e.g. "we allow console.warn") |
+
+### Reference files
+
+- [edge-cases.md](references/edge-cases.md) - handling mixed languages, generated code, and conflicting standards during alignment.
