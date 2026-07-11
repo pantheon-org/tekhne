@@ -1,0 +1,1 @@
+Execute a single-phase plan end to end: run the baseline gates before touching code, create CHECKLIST.md with every task, work and validate each task recording verbatim command output, validate the phase, and mark items VALIDATED only when Actual output is present.

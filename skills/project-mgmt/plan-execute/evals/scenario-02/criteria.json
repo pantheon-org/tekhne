@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to handle multi-phase execution, plan divergence, amendment, and regression protection across phases.",
+  "checklist": [
+    {
+      "name": "Phase dependency verified",
+      "description": "Phase 01 is verified VALIDATED before Phase 02 begins",
+      "max_score": 15
+    },
+    {
+      "name": "Divergence documented",
+      "description": "Divergence section in CHECKLIST.md has Expected, Actual, and Reason fields",
+      "max_score": 20
+    },
+    {
+      "name": "Plan amended before continuing",
+      "description": "New task added to plan via plan-create amendment pattern; README updated",
+      "max_score": 20
+    },
+    {
+      "name": "Checklist updated for amended scope",
+      "description": "Amended tasks appear in checklist with proper validation subsections",
+      "max_score": 15
+    },
+    {
+      "name": "Per-phase commits",
+      "description": "Phase 02 and Phase 03 are separate commits with evidence",
+      "max_score": 15
+    },
+    {
+      "name": "Regression diff clean",
+      "description": "No new failures compared to baseline after both phases",
+      "max_score": 15
+    }
+  ]
+}
