@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "criterion": "Asks before scanning",
+      "description": "The agent does not scan the codebase or report violations without first asking for the standards.",
+      "max_score": 35
+    },
+    {
+      "criterion": "No assumed defaults",
+      "description": "The agent does not default to a well-known style guide or convention set without explicit user confirmation.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Two pathways offered",
+      "description": "Both direct text input and file/URL pathways are presented as options for supplying standards.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Defers to user",
+      "description": "The agent waits for the user's response rather than proceeding with incomplete information.",
+      "max_score": 15
+    }
+  ]
+}

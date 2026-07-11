@@ -1,0 +1,1 @@
+Detect and surface conflicting standards, asking the user to resolve the conflict before continuing.

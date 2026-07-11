@@ -1,0 +1,1 @@
+Handle subjective or design-preference standards by reporting them as manual review needed rather than running an automated check.

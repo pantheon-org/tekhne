@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to map a naming convention to the correct ESLint rule.",
+  "checklist": [
+    {
+      "name": "Correct rule identified",
+      "description": "vue/component-name-in-template-casing is the rule chosen, not a different one",
+      "max_score": 40
+    },
+    {
+      "name": "Scoped to .vue files",
+      "description": "The rule is applied only to Vue SFCs, not globally",
+      "max_score": 35
+    },
+    {
+      "name": "Configuration explained",
+      "description": "The PascalCase option and its effect are explained",
+      "max_score": 25
+    }
+  ]
+}

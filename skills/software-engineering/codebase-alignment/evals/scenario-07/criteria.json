@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "criterion": "Conflict detected before scan",
+      "description": "The agent identifies the conflicting standards before running any scan.",
+      "max_score": 30
+    },
+    {
+      "criterion": "Conflict presented clearly",
+      "description": "The agent explains both sides of the conflict and why they cannot both be satisfied.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Asks for resolution",
+      "description": "The agent asks the user which standard takes precedence or how to resolve the conflict.",
+      "max_score": 25
+    },
+    {
+      "criterion": "No scan before resolution",
+      "description": "No scans are run until the user resolves the conflict.",
+      "max_score": 20
+    }
+  ]
+}

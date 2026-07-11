@@ -1,0 +1,59 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Ask the user for the file path to the standards document before starting the review. Use a single question tool call with the path as the only question."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Parse the standards file into individual standard entries. For Markdown, each heading block (## / ### / ####) is one standard; if no headings, each bullet list item is one standard. For plain text, each non-empty line is one standard."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Tell the user how many standards were found and confirm they want to review all of them before starting the interview."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Review each standard one at a time — exactly one standard per question tool call. Never bundle multiple standards into a single call."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Present a recap summary table of all standards and their actions, then get explicit user confirmation before writing the report."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Default to writing the review report as a .context/findings/ file. If .context/findings/ does not exist, write to .context/ instead or ask the user."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER present more than one standard per question turn. This is the core constraint of the skill."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip the recap and confirmation before writing the review report."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER debate the user's assessment or argue about their evaluation of a standard."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER ask about the same standard twice. Once assessed, that standard is closed."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER bundle an evaluation question with a follow-up question. Ask just the action; if the user volunteers notes, capture them, but do not ask for them."
+    }
+  ]
+}

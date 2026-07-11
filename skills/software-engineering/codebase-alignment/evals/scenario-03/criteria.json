@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "criterion": "URL fetched and parsed",
+      "description": "The agent fetches the URL and extracts standards from the document content.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Standards classified by coverage",
+      "description": "Each standard is labelled as auto-checkable, semi-auto, or manual-only.",
+      "max_score": 20
+    },
+    {
+      "criterion": "Semi-auto findings caveated",
+      "description": "Findings for semi-auto standards are presented as needing human review, not as definitive violations.",
+      "max_score": 20
+    },
+    {
+      "criterion": "Traceable auto-check results",
+      "description": "Auto-checked violations include file paths and line numbers.",
+      "max_score": 20
+    },
+    {
+      "criterion": "URL error handled gracefully",
+      "description": "If the URL is inaccessible, the agent reports the error and offers direct input instead of giving up.",
+      "max_score": 15
+    }
+  ]
+}

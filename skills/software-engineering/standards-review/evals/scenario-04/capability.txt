@@ -1,0 +1,1 @@
+Record the user's assessment silently without debating or questioning their judgement, even when the assessment seems unexpected.

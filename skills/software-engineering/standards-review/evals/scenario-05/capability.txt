@@ -1,0 +1,1 @@
+Detect an unparseable file with no headings or bullet structure and ask the user how standards are delimited before continuing.

@@ -1,0 +1,91 @@
+{
+  "skill": "standards-to-tooling",
+  "description": "Translates project coding standards into concrete linting and formatting tool configurations for the Stars project (JS/TS/Vue)",
+  "queries": [
+    {
+      "prompt": "We need to enforce that all Vue components use PascalCase in templates",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Configure ESLint to require type imports for TypeScript",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Set up Prettier to match our coding conventions from AGENTS.md",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "I want a lint check that catches unused variables in our TS codebase",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Add a pre-commit hook that formats our Vue and TS files",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Can we enforce kebab-case for file names with a tool?",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "How do I make sure nobody commits console.log statements?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Set up CI to run linting and type checking",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "I need to configure tsconfig.json for strict mode",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "We're migrating JS to TS, what linting should we add?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "What does the Vue 3 style guide say about component naming?",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Can we auto-fix import ordering in our Vue SFCs?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Should we use Biome instead of ESLint + Prettier?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Help me deploy the galaxy visualization to GitHub Pages",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "How does the Three.js galaxy rendering pipeline work?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "What branch naming convention should I use?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Set up GitHub Actions to deploy the app",
+      "should_trigger": false,
+      "tag": "adjacent"
+    }
+  ]
+}

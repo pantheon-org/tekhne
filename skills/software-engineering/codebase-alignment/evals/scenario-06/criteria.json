@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "criterion": "New standards acknowledged",
+      "description": "The agent explicitly acknowledges the new standards before acting on them.",
+      "max_score": 25
+    },
+    {
+      "criterion": "No redundant re-scans",
+      "description": "Previously completed scans are not re-run — only new standards are scanned.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Merged updated report",
+      "description": "The final report merges previous findings with new ones in a single view.",
+      "max_score": 25
+    },
+    {
+      "criterion": "All violations traceable",
+      "description": "Every violation across all standards includes a file path and line number.",
+      "max_score": 25
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Fetch standards from a remote URL provided by the user and scan the codebase against them.

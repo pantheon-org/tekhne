@@ -1,0 +1,1 @@
+Execute the full remediation workflow: scan standards, report violations grouped by convention, then fix them.

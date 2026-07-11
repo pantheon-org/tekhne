@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Source the project's conventions from AGENTS.md, CONTRIBUTING.md, existing configs, code review history, and project language docs before mapping to tool rules."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Map each convention to the correct tool: naming/vue to ESLint, formatting to Prettier, types to tsconfig.json, with appropriate rule names and severity."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "After generating config, run the verification commands (eslint, prettier --check, vue-tsc) to confirm the tooling works as expected."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER add a tool the project doesn't already use without asking — introducing a new linter/formatter is a team decision."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER change Prettier formatting options without verifying the change across the full codebase — formatting wars are expensive."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER configure ESLint rules that conflict with Prettier rules — use eslint-config-prettier to disable style rules ESLint handles."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER add a rule that produces noise — warnings that are always ignored reduce trust in the tool."
+    }
+  ]
+}

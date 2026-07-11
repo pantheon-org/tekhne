@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to verify config by running lint commands.",
+  "checklist": [
+    {
+      "name": "Verification command run",
+      "description": "The lint command is executed, not just described",
+      "max_score": 40
+    },
+    {
+      "name": "Results reported",
+      "description": "Violations are reported with file paths and counts",
+      "max_score": 35
+    },
+    {
+      "name": "Not auto-fixed without asking",
+      "description": "The agent does not auto-fix or downgrade rules without asking",
+      "max_score": 25
+    }
+  ]
+}

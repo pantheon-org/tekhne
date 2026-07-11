@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to maintain one-standard-per-turn discipline when the file contains many standards.",
+  "checklist": [
+    {
+      "name": "4 standards correctly parsed",
+      "description": "The agent identifies exactly 4 standards from the ### heading blocks",
+      "max_score": 15
+    },
+    {
+      "name": "Separate turn for each standard",
+      "description": "Each of the 4 standards gets its own question tool call — 4 distinct turns",
+      "max_score": 40
+    },
+    {
+      "name": "No batching or grouping",
+      "description": "The agent does not group standards into a single 'what do you think of all of these' question",
+      "max_score": 25
+    },
+    {
+      "name": "Recap covers all 4",
+      "description": "The recap table includes all 4 standards and their actions",
+      "max_score": 10
+    },
+    {
+      "name": "Confirmation before report",
+      "description": "The agent asks for confirmation before writing the report",
+      "max_score": 10
+    }
+  ]
+}

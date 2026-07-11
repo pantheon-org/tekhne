@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to detect an unparseable file and ask the user for structure clarification.",
+  "checklist": [
+    {
+      "name": "Detects unparseable structure",
+      "description": "The agent recognizes the file has no headings, bullets, or numbered list structure",
+      "max_score": 35
+    },
+    {
+      "name": "Does not guess incorrectly",
+      "description": "The agent does NOT arbitrarily split the content without asking",
+      "max_score": 35
+    },
+    {
+      "name": "Asks user for delimiter",
+      "description": "The agent explicitly asks the user how standards are delimited before proceeding",
+      "max_score": 30
+    }
+  ]
+}

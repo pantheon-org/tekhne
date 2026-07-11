@@ -1,0 +1,1 @@
+Handle user cancellation mid-review: stop asking, present a partial recap of only the standards already assessed, and write a partial report.

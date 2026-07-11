@@ -1,0 +1,41 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the full standards review flow: file path, parsing, one-at-a-time interview, recap, confirmation, and report writing.",
+  "checklist": [
+    {
+      "name": "File path obtained and file read",
+      "description": "The agent asks for or accepts the file path, then reads and parses the file",
+      "max_score": 15
+    },
+    {
+      "name": "Standards correctly parsed",
+      "description": "The agent identifies exactly 2 standards from the Markdown headings",
+      "max_score": 15
+    },
+    {
+      "name": "One standard per question turn",
+      "description": "Each question tool call presents exactly one standard — never bundles multiple standards",
+      "max_score": 25
+    },
+    {
+      "name": "Options are 3-4 concrete choices",
+      "description": "Each standard question offers 3-4 options (Accept/Revise/Reject/Other) with descriptions",
+      "max_score": 15
+    },
+    {
+      "name": "Recap presented before report",
+      "description": "A summary table of all standards and their actions is shown before the report is written",
+      "max_score": 15
+    },
+    {
+      "name": "Explicit confirmation requested",
+      "description": "The agent asks the user to confirm the recap is correct before writing the report",
+      "max_score": 10
+    },
+    {
+      "name": "Report file written",
+      "description": "A report file is written matching the confirmed answers",
+      "max_score": 5
+    }
+  ]
+}
