@@ -1,0 +1,12 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "scenarios": 4,
+    "scenarios_cover": [
+      "single-phase baseline + checklist",
+      "multi-phase divergence + amendment",
+      "delegation with subagent proof verification",
+      "meta-honesty failure (final integrity audit)"
+    ]
+  }
+}

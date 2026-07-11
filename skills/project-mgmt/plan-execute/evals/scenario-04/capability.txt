@@ -1,0 +1,1 @@
+Run the final checklist integrity audit, detect a checked item that lacks Actual output (a meta-honesty failure), refuse to declare the plan DONE, and set status ACTIVE with the reason documented.
