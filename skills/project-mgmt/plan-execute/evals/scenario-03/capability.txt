@@ -1,0 +1,1 @@
+Delegate an independent phase to a subagent, then independently re-run at least one gate yourself to verify the subagent's claimed proof before marking the phase VALIDATED; send it back if the outputs differ.

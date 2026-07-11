@@ -1,0 +1,1 @@
+Execute a multi-phase plan and handle a mid-implementation divergence: stop, document the divergence, amend the plan, re-review if significant, update the checklist, and continue from where you stopped with recorded proof.
