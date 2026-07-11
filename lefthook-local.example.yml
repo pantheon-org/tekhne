@@ -1,0 +1,30 @@
+# Personal, machine-local git hooks (Phase 4: live-global skill distribution).
+#
+# lefthook automatically merges `lefthook-local.yml` (git-ignored) over the
+# committed `lefthook.yml`. This file is a committed *example* — it is not
+# active. To enable live-global distribution on your machine:
+#
+#   cp lefthook-local.example.yml lefthook-local.yml
+#   bun cli/index.ts install --global --agent claude-code opencode   # first-time link
+#
+# How it works
+# ------------
+# `tekhne install --global` symlinks every skill in this repo into the global
+# skill directories of the named agents (Claude Code: ~/.claude/skills,
+# OpenCode: ~/.config/opencode/skills). Because the installs are symlinks into
+# this working tree, skill *edits* are live immediately — no hook needed.
+#
+# The hook below only handles the add/remove case: after `git pull`/`git merge`
+# brings newly merged skills to your checkout, it creates links for the new
+# skills. It is idempotent (already-linked skills are skipped) and never
+# clobbers non-tekhne skills (real files/dirs are left untouched).
+#
+# This is opt-in and kept out of the committed `lefthook.yml` on purpose: a
+# shared hook would write ~130 symlinks into the home directory of anyone who
+# clones or pulls the repo (and could fire in CI). Distribution to a personal
+# machine is a personal-machine concern.
+
+post-merge:
+  commands:
+    refresh-global-skills:
+      run: bun cli/index.ts install --global --agent claude-code opencode
