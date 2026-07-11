@@ -1,0 +1,1 @@
+Refuse to add a tool the project doesn't already use without asking the user first.

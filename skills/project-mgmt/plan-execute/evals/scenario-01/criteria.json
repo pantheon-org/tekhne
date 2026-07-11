@@ -1,0 +1,41 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to execute a single phase with baseline recording, checklist creation, per-task quick gates, full gates, structural audits, and phase-level validation.",
+  "checklist": [
+    {
+      "name": "Baseline recorded first",
+      "description": "All gates run before any file modifications; output recorded verbatim",
+      "max_score": 20
+    },
+    {
+      "name": "Checklist created with all tasks",
+      "description": "CHECKLIST.md exists with Phase 01 tasks enumerated with proper subsections",
+      "max_score": 15
+    },
+    {
+      "name": "Quick gate between file ops",
+      "description": "Typecheck run after 1-3 file operations; failure stops progress",
+      "max_score": 15
+    },
+    {
+      "name": "Full gate per task",
+      "description": "Full suite run after task completion; output recorded verbatim",
+      "max_score": 15
+    },
+    {
+      "name": "Structural audit when applicable",
+      "description": "Mechanical changes validated with a structural audit command",
+      "max_score": 10
+    },
+    {
+      "name": "Proof with every [x]",
+      "description": "No checklist item is [x] without verbatim Actual output",
+      "max_score": 15
+    },
+    {
+      "name": "Phase committed with evidence",
+      "description": "Phase 01 is a single atomic commit with gate evidence in message body",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Map a naming convention to an ESLint rule and generate the config entry.

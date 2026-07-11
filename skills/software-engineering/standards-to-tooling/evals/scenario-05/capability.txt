@@ -1,0 +1,1 @@
+Generate complete ESLint + Prettier + TypeScript config files from a set of conventions.

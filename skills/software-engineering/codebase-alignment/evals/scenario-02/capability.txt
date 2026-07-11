@@ -1,0 +1,1 @@
+Accept direct-text standards from the user, run a full codebase scan against them, and produce a structured report.

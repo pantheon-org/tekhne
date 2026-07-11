@@ -1,0 +1,1 @@
+Parse standards from a file with mixed Markdown structure (bullet lists without headings) and review each bullet item as a separate standard.

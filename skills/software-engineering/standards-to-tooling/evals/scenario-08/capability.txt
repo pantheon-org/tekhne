@@ -1,0 +1,1 @@
+Add CI configuration for lint/format/typecheck steps after generating tooling config.

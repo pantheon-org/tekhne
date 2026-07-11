@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to parse standards from a bullet list when no headings are present.",
+  "checklist": [
+    {
+      "name": "5 standards parsed from bullet list",
+      "description": "Exactly 5 standards are identified from the list items",
+      "max_score": 35
+    },
+    {
+      "name": "Paragraph not treated as standard",
+      "description": "The introductory text is not included as a standard",
+      "max_score": 30
+    },
+    {
+      "name": "One standard per turn",
+      "description": "Each standard is presented in its own question call",
+      "max_score": 35
+    }
+  ]
+}

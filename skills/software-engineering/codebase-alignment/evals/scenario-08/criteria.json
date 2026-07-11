@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to separate objective from subjective standards and handle each correctly.",
+  "checklist": [
+    {
+      "name": "Objective standard checked",
+      "description": "The /v1/ prefix standard is checked against the codebase",
+      "max_score": 35
+    },
+    {
+      "name": "Subjective standards reported as manual review",
+      "description": "Variable names, single responsibility, readability are marked for manual review",
+      "max_score": 35
+    },
+    {
+      "name": "No fabricated checks",
+      "description": "The agent does not attempt or fabricate automated checks for subjective standards",
+      "max_score": 30
+    }
+  ]
+}

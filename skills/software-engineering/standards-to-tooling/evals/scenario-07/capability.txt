@@ -1,0 +1,1 @@
+Verify generated config by running the corresponding lint/format command and reporting results.

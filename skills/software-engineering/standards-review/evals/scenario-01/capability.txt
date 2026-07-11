@@ -1,0 +1,1 @@
+Execute the full standards review flow: ask for the file path, parse standards, interview one at a time with the default option set, recap, confirm, and write the report file.

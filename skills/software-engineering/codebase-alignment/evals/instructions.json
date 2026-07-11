@@ -1,0 +1,32 @@
+{
+  "instructions": [
+    {
+      "instruction": "MUST ask the user for the standards before doing anything else — never assume, guess, or default to a well-known style guide without explicit user confirmation.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Offer two pathways for standards collection: direct text input (user types/pastes) OR a file/URL link. Present both options to the user.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report every violation with an exact file path and line number — never report untraceable warnings.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Present findings before offering to fix anything — never auto-fix without user confirmation.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Classify each standard by check coverage: auto-checkable, semi-auto (needs judgment), or manual-only. Label each finding clearly.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When standards are vague or underspecified, push back with a request for specific, actionable rules — do not attempt to proceed with ambiguous criteria.",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When the user adds standards incrementally mid-review, pause, acknowledge, re-scan affected files, and update the report.",
+      "why_given": "new knowledge"
+    }
+  ]
+}

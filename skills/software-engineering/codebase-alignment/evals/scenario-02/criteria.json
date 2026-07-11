@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "criterion": "All standards reported",
+      "description": "Every user-supplied standard appears in the report with a pass/fail status.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Traceable violations",
+      "description": "Every violation includes an exact file path and line number.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Grouped by standard",
+      "description": "Findings are grouped by standard, not presented as one flat list.",
+      "max_score": 20
+    },
+    {
+      "criterion": "No auto-fix without asking",
+      "description": "Fixes are offered but not applied without user confirmation.",
+      "max_score": 20
+    },
+    {
+      "criterion": "Passing standards shown",
+      "description": "Standards with zero violations are shown as ✅, not omitted.",
+      "max_score": 10
+    }
+  ]
+}

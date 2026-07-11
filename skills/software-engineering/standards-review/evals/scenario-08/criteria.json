@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to stop the review mid-way when the user cancels and produce a partial report.",
+  "checklist": [
+    {
+      "name": "Stops immediately",
+      "description": "No further standards are presented after the cancellation signal",
+      "max_score": 35
+    },
+    {
+      "name": "Partial recap of assessed standards",
+      "description": "Only the 3 assessed standards appear in the recap",
+      "max_score": 30
+    },
+    {
+      "name": "Partial report notes unassessed",
+      "description": "The report explicitly states 2 standards were not reviewed and why",
+      "max_score": 35
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to accept a user's assessment without debating or questioning it.",
+  "checklist": [
+    {
+      "name": "No debate or questioning",
+      "description": "The agent does not ask 'Are you sure?', argue, or suggest the user reconsider",
+      "max_score": 45
+    },
+    {
+      "name": "Assessment recorded silently",
+      "description": "The agent records 'Reject' as the action without further discussion",
+      "max_score": 30
+    },
+    {
+      "name": "Proceeds to next step",
+      "description": "The agent moves to the next standard or recap without dwelling on this standard",
+      "max_score": 25
+    }
+  ]
+}

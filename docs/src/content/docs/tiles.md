@@ -572,7 +572,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 ---
 
-## Software Engineering (13 skills)
+## Software Engineering (16 skills)
 
 Software engineering principles
 
@@ -607,6 +607,14 @@ Apply Clean Architecture principles to define layer boundaries, identify depende
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [design-principles-clean-architecture](/tekhne/skills/software-engineering/design-principles/clean-architecture/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
+
+### standards-review
+
+Review a saved standards document via a one-standard-at-a-time interview. Prompt...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [standards-review](/tekhne/skills/software-engineering/standards-review/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
 
 ### troubleshoot
 
@@ -648,6 +656,14 @@ Apply immutability principles across languages for safer, more predictable code
 | --- | --- | --- | --- |
 | [fp-immutability](/tekhne/skills/software-engineering/fp-immutability/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
+### codebase-alignment
+
+Given a user-provided set of coding standards (either as direct text input or as...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [codebase-alignment](/tekhne/skills/software-engineering/codebase-alignment/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
+
 ### fp-pure-functions
 
 Write pure functions and avoid side effects for predictable, testable code
@@ -679,6 +695,14 @@ Safe-to-fail experiment for Complex domain problems where cause-effect is only v
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [probe](/tekhne/skills/software-engineering/probe/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-04-11 | 5 |
+
+### standards-to-tooling
+
+Translates project coding standards into concrete linting and formatting tool co...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [standards-to-tooling](/tekhne/skills/software-engineering/standards-to-tooling/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
 
 ---
 
@@ -948,9 +972,17 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (8 skills)
+## Project Management (9 skills)
 
 Planning & organization
+
+### plan-execute
+
+Execute an implementation plan with rigorous checklist-driven verification. Ever...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [plan-execute](/tekhne/skills/project-mgmt/plan-execute/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### planning-toolkit-wave-executor
 
