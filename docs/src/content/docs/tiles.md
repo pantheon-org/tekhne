@@ -736,7 +736,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (27 skills)
+## Documentation (28 skills)
 
 Writing & communication
 
@@ -851,6 +851,14 @@ Author high-quality Markdown documentation with deterministic structure, lint co
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [markdown-authoring](/tekhne/skills/documentation/markdown-authoring/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-07-01 | 7 |
+
+### sop-structure
+
+Use when structuring Standard Operating Procedures with proper sections, organiz...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [sop-structure](/tekhne/skills/documentation/sop-structure/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### plain-english
 

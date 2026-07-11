@@ -1,0 +1,28 @@
+{
+  "instructions": [
+    {
+      "instruction": "Structure an SOP with the standard anatomy: title, overview, prerequisites, numbered steps, verification",
+      "original_snippets": [],
+      "relevant_when": "Writing or reviewing a standard operating procedure",
+      "why_given": "A consistent anatomy makes SOPs scannable and executable"
+    },
+    {
+      "instruction": "Name SOP files by the action-verb + specific-outcome convention",
+      "original_snippets": [],
+      "relevant_when": "Creating a new SOP file",
+      "why_given": "Predictable names make SOPs discoverable"
+    },
+    {
+      "instruction": "Declare prerequisites (tools, knowledge, setup) before the steps",
+      "original_snippets": [],
+      "relevant_when": "An SOP depends on tools or prior setup",
+      "why_given": "Readers must know what they need before starting"
+    },
+    {
+      "instruction": "Make each step a single concrete action with a verifiable result",
+      "original_snippets": [],
+      "relevant_when": "Writing the steps section",
+      "why_given": "Ambiguous steps cause inconsistent execution"
+    }
+  ]
+}
