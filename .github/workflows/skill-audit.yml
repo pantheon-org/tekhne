@@ -1,11 +1,14 @@
 name: Skill Audit Gate
 
+# Runs on every PR to main (no path filter) so the required "Skill Audit"
+# status check always reports a conclusion. PRs that change no skills are
+# detected early and pass immediately without building the Go tools — a path
+# filter here would leave the required check unreported and block non-skill
+# PRs forever.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
-    paths:
-      - "skills/**"
 
 permissions:
   contents: read
@@ -22,15 +25,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      # skill-auditor combines its own D1-D9 scoring with skill-validator's structural checks.
-      - name: Install skill-validator
-        run: |
-          go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
-          echo "$HOME/go/bin" >> "$GITHUB_PATH"
-
-      - name: Build skill-auditor
-        run: cd tools/skill-auditor && go build -o ../../bin/skill-auditor .
-
       - name: Find changed skill dirs
         id: dirs
         run: |
@@ -40,6 +34,22 @@ jobs:
             | xargs -I{} dirname {} | sort -u | tr '\n' ' ')
           echo "dirs=$DIRS" >> "$GITHUB_OUTPUT"
           [ -n "$DIRS" ] && echo "found=true" >> "$GITHUB_OUTPUT" || echo "found=false" >> "$GITHUB_OUTPUT"
+
+      - name: No skills changed
+        if: steps.dirs.outputs.found == 'false'
+        run: echo "No SKILL.md changed — nothing to audit. Skill Audit passes."
+
+      # skill-auditor combines its own D1-D9 scoring with skill-validator's structural checks.
+      # Only build the Go tools when there are skills to audit.
+      - name: Install skill-validator
+        if: steps.dirs.outputs.found == 'true'
+        run: |
+          go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
+          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+
+      - name: Build skill-auditor
+        if: steps.dirs.outputs.found == 'true'
+        run: cd tools/skill-auditor && go build -o ../../bin/skill-auditor .
 
       - name: Audit changed skills
         id: audit
@@ -99,7 +109,3 @@ jobs:
         run: |
           echo "::error::One or more changed skills scored below C (D/F) or could not be audited. Raise them to at least grade C to pass; grade A for a green pass."
           exit 1
-
-      - name: No skills changed
-        if: steps.dirs.outputs.found == 'false'
-        run: echo "No SKILL.md changed — nothing to audit."
