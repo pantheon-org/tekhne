@@ -1,0 +1,16 @@
+{
+  "context": "An SOP file has a non-descriptive name",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses action-verb + outcome",
+      "description": "New name starts with an action verb and names the specific outcome",
+      "max_score": 55
+    },
+    {
+      "name": "Follows the casing/format convention",
+      "description": "Matches the documented naming format",
+      "max_score": 45
+    }
+  ]
+}

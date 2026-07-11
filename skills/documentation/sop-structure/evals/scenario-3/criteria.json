@@ -1,0 +1,21 @@
+{
+  "context": "An SOP omits prerequisites its steps depend on",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Adds Prerequisites before steps",
+      "description": "A Prerequisites section precedes the steps",
+      "max_score": 40
+    },
+    {
+      "name": "Covers tools, knowledge, setup",
+      "description": "All three prerequisite kinds are addressed",
+      "max_score": 40
+    },
+    {
+      "name": "Matches the actual step dependencies",
+      "description": "Prerequisites reflect what the steps need",
+      "max_score": 20
+    }
+  ]
+}
