@@ -204,5 +204,5 @@ When the project's language differs from Stars (JS/TS/Vue), use these mappings:
 - [ESLint Flat Config docs](https://eslint.org/docs/latest/use/configure/configuration-files)
 - [typescript-eslint rules](https://typescript-eslint.io/rules/)
 - [Prettier options](https://prettier.io/docs/en/options.html)
-- [Biome (alternative to ESLint + Prettier for JS/TS)](https://biomejs.dev/)
+- [Biome (alternative to ESLint + Prettier for JS/TS)](https://github.com/biomejs/biome)
 - Related skills: `vault-capture` (persist tooling decisions as semantic memories)
