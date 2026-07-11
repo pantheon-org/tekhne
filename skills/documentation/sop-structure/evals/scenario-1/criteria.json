@@ -1,0 +1,21 @@
+{
+  "context": "Unstructured deployment notes need to become a proper SOP",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Produces the standard anatomy",
+      "description": "Title, overview, prerequisites, numbered steps, verification present",
+      "max_score": 45
+    },
+    {
+      "name": "Steps are concrete and ordered",
+      "description": "Each step is a single action with a verifiable result",
+      "max_score": 35
+    },
+    {
+      "name": "Keeps content faithful to the notes",
+      "description": "No invented steps",
+      "max_score": 20
+    }
+  ]
+}
