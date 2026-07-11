@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to map a formatting convention to Prettier config.",
+  "checklist": [
+    {
+      "name": "Correct config added",
+      "description": "singleQuote: true is added to .prettierrc",
+      "max_score": 35
+    },
+    {
+      "name": "Existing settings preserved",
+      "description": "printWidth and trailingComma are not removed or changed",
+      "max_score": 35
+    },
+    {
+      "name": "ESLint conflict check",
+      "description": "The agent checks for conflicting ESLint quote rules",
+      "max_score": 30
+    }
+  ]
+}

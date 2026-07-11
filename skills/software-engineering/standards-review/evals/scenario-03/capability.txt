@@ -1,0 +1,1 @@
+Accept a user correction to the recap, apply the change, re-present the corrected recap once, then proceed to write the report.

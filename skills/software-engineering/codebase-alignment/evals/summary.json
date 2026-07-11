@@ -1,0 +1,27 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 7,
+  "instructions": {
+    "total": 7,
+    "covered": 7,
+    "scenarios": {
+      "MUST ask for standards": ["scenario-01", "scenario-04"],
+      "Offer two pathways (text + URL)": ["scenario-01", "scenario-03"],
+      "Report with file:line for violations": [
+        "scenario-02",
+        "scenario-05",
+        "scenario-06"
+      ],
+      "Present findings before offering fix": ["scenario-02", "scenario-05"],
+      "Classify by coverage (auto/semi/manual)": ["scenario-02", "scenario-03"],
+      "Push back on vague standards": ["scenario-04"],
+      "Handle incremental standards mid-review": ["scenario-06"],
+      "Handle conflicting standards": ["scenario-07"]
+    }
+  }
+}

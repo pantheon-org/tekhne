@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "criterion": "Confirms before fixing",
+      "description": "The agent confirms the scope of changes with the user before applying any fixes.",
+      "max_score": 30
+    },
+    {
+      "criterion": "Flags import dependencies",
+      "description": "When renaming a component file, the agent flags that imports may need updating.",
+      "max_score": 20
+    },
+    {
+      "criterion": "Reports changes post-fix",
+      "description": "After applying fixes, the agent reports what was changed and where.",
+      "max_score": 20
+    },
+    {
+      "criterion": "Minimal correct fixes",
+      "description": "Fixes are contextually correct (e.g. `var` → `const` for invariants, `let` for reassigned vars), not blanket regex.",
+      "max_score": 20
+    },
+    {
+      "criterion": "Does not auto-fix silently",
+      "description": "No fixes are applied without explicit user confirmation of scope.",
+      "max_score": 10
+    }
+  ]
+}

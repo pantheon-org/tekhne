@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to generate complete multi-tool config from a set of conventions.",
+  "checklist": [
+    {
+      "name": "All conventions mapped to correct tool",
+      "description": "Each convention maps to the right tool: ESLint, Prettier, or TypeScript",
+      "max_score": 40
+    },
+    {
+      "name": "Config entries correct",
+      "description": "The generated config values are correct for each tool",
+      "max_score": 35
+    },
+    {
+      "name": "Dependencies mentioned",
+      "description": "Required packages (eslint-plugin-vue, etc.) are called out",
+      "max_score": 25
+    }
+  ]
+}

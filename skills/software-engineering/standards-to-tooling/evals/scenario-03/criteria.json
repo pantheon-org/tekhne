@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to map TypeScript strictness conventions to tsconfig.json.",
+  "checklist": [
+    {
+      "name": "Strict mode enabled",
+      "description": "strict: true or both strictNullChecks and noImplicitAny are enabled",
+      "max_score": 40
+    },
+    {
+      "name": "Existing settings preserved",
+      "description": "Other tsconfig settings are not lost",
+      "max_score": 30
+    },
+    {
+      "name": "Change explained",
+      "description": "The rationale for the config change is provided",
+      "max_score": 30
+    }
+  ]
+}

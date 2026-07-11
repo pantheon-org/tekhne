@@ -1,0 +1,1 @@
+Prompt the user for the file path when none is provided, using a single question tool call with the path as the only question.

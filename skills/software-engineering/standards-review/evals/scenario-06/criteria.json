@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to prompt for a file path when none is provided, asking nothing else in the same turn.",
+  "checklist": [
+    {
+      "name": "Asks for file path",
+      "description": "The agent asks the user for the standards file path",
+      "max_score": 40
+    },
+    {
+      "name": "Single question only",
+      "description": "The question tool call contains only the file path question — no other questions",
+      "max_score": 35
+    },
+    {
+      "name": "Does not proceed without path",
+      "description": "The agent waits for the path and does not start the review without a file",
+      "max_score": 25
+    }
+  ]
+}

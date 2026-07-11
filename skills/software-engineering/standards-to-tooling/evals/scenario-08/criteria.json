@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to add CI pipeline steps for tooling checks.",
+  "checklist": [
+    {
+      "name": "CI workflow updated",
+      "description": "Lint, format:check, and typecheck steps are added to CI",
+      "max_score": 35
+    },
+    {
+      "name": "Package.json scripts referenced",
+      "description": "The CI steps use npm scripts, not inline commands",
+      "max_score": 30
+    },
+    {
+      "name": "Scripts created if missing",
+      "description": "Missing scripts are added to package.json",
+      "max_score": 20
+    },
+    {
+      "name": "Existing steps preserved",
+      "description": "The existing test step is not removed",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to discover conventions from AGENTS.md and map them to rules.",
+  "checklist": [
+    {
+      "name": "Conventions extracted from source",
+      "description": "All 3 conventions are read from AGENTS.md, not re-prompted from the user",
+      "max_score": 35
+    },
+    {
+      "name": "All 3 mapped correctly",
+      "description": "Each convention maps to the correct ESLint rule",
+      "max_score": 40
+    },
+    {
+      "name": "Config generated",
+      "description": "The ESLint config is created or updated with the rules",
+      "max_score": 25
+    }
+  ]
+}

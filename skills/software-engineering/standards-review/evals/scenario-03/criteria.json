@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to accept a user correction to the recap, apply it, re-present, and proceed.",
+  "checklist": [
+    {
+      "name": "Correction accepted without debate",
+      "description": "The agent does not argue with the user's correction or claim they said something else",
+      "max_score": 30
+    },
+    {
+      "name": "Recap corrected and re-presented",
+      "description": "The corrected recap is shown again with standard #2 as 'Revise'",
+      "max_score": 30
+    },
+    {
+      "name": "Confirmation re-requested",
+      "description": "The agent asks the user to confirm the corrected recap before writing",
+      "max_score": 20
+    },
+    {
+      "name": "Report matches corrected recap",
+      "description": "The final report correctly shows 'Revise' for standard #2",
+      "max_score": 20
+    }
+  ]
+}

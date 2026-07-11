@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "criterion": "No scan without standards",
+      "description": "The agent does not scan the codebase or report violations with only vague criteria to work from.",
+      "max_score": 30
+    },
+    {
+      "criterion": "Vagueness called out",
+      "description": "The agent explicitly states that the provided standards are too vague to act on.",
+      "max_score": 25
+    },
+    {
+      "criterion": "Concrete examples offered",
+      "description": "The agent provides examples of specific, actionable standards (naming, style, patterns to avoid).",
+      "max_score": 25
+    },
+    {
+      "criterion": "Pathways re-offered",
+      "description": "The agent again offers both direct input and file/URL pathways for the user to supply clear standards.",
+      "max_score": 20
+    }
+  ]
+}

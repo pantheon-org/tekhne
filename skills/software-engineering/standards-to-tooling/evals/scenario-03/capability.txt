@@ -1,0 +1,1 @@
+Map a TypeScript strictness convention to tsconfig.json compiler options.
