@@ -17,7 +17,7 @@ jobs:
       matrix: ${{ steps.plugins.outputs.matrix }}
       has-plugins: ${{ steps.plugins.outputs.has-plugins }}
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           fetch-depth: 2
 
@@ -71,7 +71,7 @@ jobs:
       matrix: ${{ fromJson(needs.detect-plugins.outputs.matrix) }}
       fail-fast: false
     steps:
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - uses: tesslio/setup-tessl@25ec223fc0da33b41b8044ff5ab2b85235f4f91e # v2
         with:
