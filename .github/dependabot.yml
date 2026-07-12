@@ -1,0 +1,99 @@
+version: 2
+
+# Dependabot keeps dependencies and pinned GitHub Actions current.
+#
+# Strategy: minor and patch bumps are grouped into a single weekly PR per
+# ecosystem to cut review noise; major bumps are raised individually so
+# breaking changes get reviewed in isolation.
+#
+# Bun caveat: the `npm` ecosystem below updates the version ranges in each
+# `package.json`, but Dependabot does not natively refresh Bun's `bun.lock`.
+# After merging an npm update, run `bun install` locally (or let the mise
+# `postinstall`/`enter` hook do it) to regenerate the lockfile.
+
+updates:
+  # Root workspace (CLI, Biome, cucumber, zod, ajv, cliffy, ...)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "npm"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    groups:
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Documentation site (Astro / Starlight)
+  - package-ecosystem: "npm"
+    directory: "/docs"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "docs"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    groups:
+      docs-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Go tooling (skill-auditor)
+  - package-ecosystem: "gomod"
+    directory: "/tools/skill-auditor"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "go"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      gomod-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions (keeps the SHA pins in .github/workflows current)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    groups:
+      actions-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
