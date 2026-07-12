@@ -13,8 +13,9 @@ bunx @biomejs/biome check .
 bunx markdownlint-cli2 "**/*.md"
 ```
 
-Pre-commit hooks (via `lefthook`) run Biome, markdownlint, YAML validation, and
-CLI TypeScript convention checks automatically on staged files.
+Pre-commit hooks (via [`hk`](https://hk.jdx.dev), configured in `hk.pkl`) run
+Biome, markdownlint, YAML validation, and CLI TypeScript convention checks
+automatically on staged files.
 
 ## Adding or editing skills
 

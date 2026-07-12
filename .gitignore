@@ -20,4 +20,5 @@ node_modules/
 skills-lock.json
 .env.keys
 /bin/
-lefthook-local.yml
+hk.local.pkl
+!mise.toml

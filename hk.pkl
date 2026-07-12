@@ -1,0 +1,126 @@
+amends "package://github.com/jdx/hk/releases/download/v1.49.0/hk@1.49.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.49.0/hk@1.49.0#/Builtins.pkl"
+
+// Migrated from lefthook.yml. Custom steps mirror the exact commands the
+// project used so behaviour is preserved. `check` runs a non-mutating
+// verification (used by `hk check` and CI); `fix` runs the mutating variant
+// (used by the pre-commit hook, which stages the results automatically).
+
+// -- pre-commit linters (run in parallel on staged files) --
+local preCommit = new Mapping<String, Step> {
+    ["biome"] {
+        glob = List("*.js", "*.cjs", "*.mjs", "*.ts", "*.tsx", "*.jsx", "*.json", "*.jsonc")
+        check = "bunx @biomejs/biome check --no-errors-on-unmatched {{files}}"
+        fix = "bunx @biomejs/biome check --write --no-errors-on-unmatched {{files}}"
+    }
+    ["markdownlint"] {
+        glob = List("*.md")
+        exclude = List(".context/**", "docs/src/content/docs/tiles.md")
+        check = "markdownlint-cli2 --config .markdownlint-cli2.jsonc {{files}}"
+        fix = "markdownlint-cli2 --fix --config .markdownlint-cli2.jsonc {{files}}"
+    }
+    // Validation only (no file mutation); runs on every commit like the
+    // original glob-less lefthook command.
+    ["skill-artifacts"] {
+        check = "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh {{files}}"
+    }
+    // Regenerates README.md + docs tiles from skills/cli/audits and stages
+    // them. Fix-only: `--dry-run` exits 0 even when out of sync, which would
+    // let hk's check-first skip the regeneration, so there is no `check`
+    // variant (matches lefthook, which always regenerated). Skipped by
+    // `hk check`; use `bun run readme:update:dry-run` for a CI drift check.
+    ["readme-sync"] {
+        glob = List("skills/**", "cli/**", ".context/audits/**")
+        fix = "bun cli/index.ts readme update && markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md"
+        stage = List("README.md", "docs/src/content/docs/tiles.md")
+    }
+    ["yamllint"] {
+        glob = List("*.yml", "*.yaml")
+        shell = "sh -c"
+        check = "command -v yq >/dev/null 2>&1 && yq eval '.' {{files}} >/dev/null"
+    }
+    ["shellcheck"] {
+        glob = List("*.sh")
+        shell = "sh -c"
+        check = "command -v shellcheck >/dev/null 2>&1 && shellcheck {{files}}"
+    }
+    ["skill-frontmatter"] {
+        glob = List("skills/**/SKILL.md")
+        check = "bun cli/index.ts validate frontmatter {{files}}"
+    }
+    ["tessl-lint"] {
+        glob = List("skills/**/SKILL.md")
+        shell = "sh -c"
+        check = #"for f in {{files}}; do dir=$(dirname "$f"); if [ -f "$dir/tile.json" ]; then bun run tessl:lint -- "$f" || exit 1; fi; done"#
+    }
+    ["skill-validate"] {
+        glob = List("skills/**/SKILL.md")
+        shell = "sh -c"
+        check = #"rc=0; for f in {{files}}; do skill-validator validate structure --allow-dirs=evals "$(dirname "$f")"; [ $? -eq 1 ] && rc=1; done; exit $rc"#
+    }
+    ["cli-ts-conventions"] {
+        glob = List("cli/**/*.ts")
+        check = "bun cli/scripts/validate-ts-conventions.ts {{files}}"
+    }
+    // `go mod tidy` mutates go.mod/go.sum; stage them after fixing. Fix-only
+    // (no non-mutating check exists on Go 1.22), so it is skipped by `hk check`.
+    ["go-mod-tidy"] {
+        glob = List("tools/skill-auditor/**/*.go")
+        fix = "cd tools/skill-auditor && go mod tidy"
+        stage = List("tools/skill-auditor/go.mod", "tools/skill-auditor/go.sum")
+    }
+}
+
+// -- pre-push checks (tests + skill quality gates) --
+local prePush = new Mapping<String, Step> {
+    ["unit-tests"] {
+        check = "bun test cli/"
+    }
+    ["integration-tests"] {
+        check = "bunx cucumber-js"
+    }
+    ["skill-check"] {
+        glob = List("skills/**/SKILL.md")
+        shell = "sh -c"
+        check = #"rc=0; for f in {{files}}; do skill-validator check --allow-dirs=evals --per-file "$(dirname "$f")"; [ $? -eq 1 ] && rc=1; done; exit $rc"#
+    }
+    ["skill-audit"] {
+        glob = List("skills/**/SKILL.md")
+        shell = "sh -c"
+        check = #"""
+if [ ! -x bin/skill-auditor ]; then
+  (cd tools/skill-auditor && go build -o ../../bin/skill-auditor .) || { echo "skill-auditor build failed; skipping local audit (CI enforces the gate)"; exit 0; }
+fi
+rc=0
+for f in {{files}}; do
+  rel="$(dirname "$f")"; rel="${rel#skills/}"
+  grade=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null | python3 -c "import sys,json;print(json.load(sys.stdin).get('grade','?'))" 2>/dev/null)
+  case "$grade" in
+    A|A+) echo "PASS $rel: $grade";;
+    B+|B|C+|C) echo "WARN $rel: $grade (warning -- CI non-blocking)";;
+    *) echo "FAIL $rel: ${grade:-?} (below C -- blocked)"; rc=1;;
+  esac
+done
+exit $rc
+"""#
+    }
+}
+
+hooks {
+    ["pre-commit"] {
+        fix = true       // apply fix steps and stage the results
+        stash = "git"    // stash unstaged changes so only staged content is linted
+        steps = preCommit
+    }
+    ["pre-push"] {
+        steps = prePush
+    }
+    // Special hooks powering `hk fix` and `hk check` (handy in CI).
+    ["fix"] {
+        fix = true
+        steps = preCommit
+    }
+    ["check"] {
+        steps = preCommit
+    }
+}
