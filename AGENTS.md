@@ -96,7 +96,7 @@ All `cli/` files follow 7 rules (arrow functions, barrel modules, collocated tes
 
 ## Git Hooks
 
-Pre-commit (`lefthook`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, CLI convention checks.
+Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, CLI convention checks. Pre-push runs unit + integration tests and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`.
 
 Do not bypass hooks unless explicitly requested.
 

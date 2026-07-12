@@ -9,9 +9,9 @@
   "scripts": {
     "docs:build": "cd docs && bun run build",
     "docs:dev": "cd docs && bun run dev",
-    "prepare": "bunx lefthook install",
+    "prepare": "hk install",
     "check:biome": "bunx @biomejs/biome check .",
-    "check:markdown": "bunx markdownlint-cli2 \"**/*.md\"",
+    "check:markdown": "markdownlint-cli2 \"**/*.md\"",
     "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
     "audit:skill": "bun cli/index.ts audit skill",
     "audit:skills": "bun cli/index.ts audit all",
@@ -41,8 +41,6 @@
     "@cucumber/cucumber": "^11.0.0",
     "@types/bun": "latest",
     "@types/js-yaml": "^4.0.9",
-    "lefthook": "^2.1.1",
-    "markdownlint-cli2": "^0.21.0",
     "tessl": "^0.90.0",
     "tsx": "^4.0.0"
   },

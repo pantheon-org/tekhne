@@ -1,0 +1,27 @@
+[tools]
+"github:agent-ecosystem/skill-validator" = "latest"
+go = "1.22.0"
+node = "lts"
+bun = "latest"
+hk = "1.49.0"
+yq = "latest"
+shellcheck = "latest"
+# Registry short name (backend: npm) so this project pin overrides any global
+# markdownlint-cli2 rather than sitting alongside it on PATH.
+markdownlint-cli2 = "0.21.0"
+
+[env]
+# Wrap hk-invoked git hooks in `mise x` so pinned tools (bun, go, node, yq,
+# shellcheck, markdownlint-cli2, skill-validator) are on PATH without shell
+# activation.
+HK_MISE = "1"
+
+[tasks.setup]
+description = "Install project dependencies and git hooks"
+run = ["bun install", "hk install"]
+
+[hooks]
+# Guarantee deps + git hooks are present after `mise install` and whenever the
+# project directory is entered. `bun install` and `hk install` are idempotent.
+postinstall = "mise run setup"
+enter = "mise run setup"
