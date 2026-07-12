@@ -1,0 +1,82 @@
+name: Auto-rebase PR branches
+
+# The `main` ruleset requires linear history and a strict "branches must be up
+# to date" status-check policy, so every push to `main` marks all open PRs as
+# BEHIND and blocks them until rebased. This workflow rebases those branches
+# onto the latest `main` using the pantheon-ai-bot App token, which (unlike the
+# default GITHUB_TOKEN) re-triggers the required checks on the new head.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# The default token is unused; all PR operations run under the App token.
+permissions:
+  contents: read
+
+# A full sweep rebases every behind PR, so a newer run supersedes an older one.
+concurrency:
+  group: pr-auto-rebase
+  cancel-in-progress: true
+
+jobs:
+  rebase:
+    name: Rebase behind PR branches
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint pantheon-ai-bot token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          # App IDs are public identifiers, not secrets. 3181784 = pantheon-ai-bot.
+          app-id: "3181784"
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+      - name: Rebase behind, non-draft PRs
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          # Candidates: open, non-draft PRs, excluding the release-please PR
+          # (release-please regenerates and force-pushes its own branch on every
+          # push to main, so rebasing it here would race with that workflow).
+          mapfile -t prs < <(
+            gh pr list --state open --limit 100 \
+              --json number,isDraft,author,headRefName \
+              -q '.[]
+                  | select(.isDraft == false)
+                  | select(.author.login != "app/github-actions")
+                  | select((.headRefName | startswith("release-please--")) | not)
+                  | .number'
+          )
+
+          if [ "${#prs[@]}" -eq 0 ]; then
+            echo "No candidate PRs to rebase."
+            echo "No candidate PRs to rebase." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "### Auto-rebase results" >> "$GITHUB_STEP_SUMMARY"
+
+          for n in "${prs[@]}"; do
+            # Per-PR view forces GitHub to compute the merge state (a list query
+            # can return UNKNOWN before it is calculated).
+            state="$(gh pr view "$n" --json mergeStateStatus -q .mergeStateStatus 2>/dev/null || echo UNKNOWN)"
+
+            if [ "$state" != "BEHIND" ]; then
+              echo "PR #$n: state=$state, skipping"
+              echo "- PR #$n: \`$state\`, skipped" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            if gh pr update-branch "$n" --rebase; then
+              echo "PR #$n: rebased onto main"
+              echo "- PR #$n: rebased :white_check_mark:" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::warning title=Auto-rebase failed::PR #$n could not be rebased (likely a merge conflict); needs a manual rebase"
+              echo "- PR #$n: conflict, needs manual rebase :warning:" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          done
