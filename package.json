@@ -47,7 +47,7 @@
   "dependencies": {
     "@cliffy/command": "npm:@jsr/cliffy__command",
     "@cliffy/prompt": "npm:@jsr/cliffy__prompt",
-    "badge-maker": "^5.0.2",
+    "badge-maker": "^6.0.0",
     "ajv": "^8.18.0",
     "js-yaml": "^5.2.1",
     "xdg-basedir": "^5.1.0",
