@@ -49,7 +49,7 @@
     "@cliffy/prompt": "npm:@jsr/cliffy__prompt",
     "badge-maker": "^5.0.2",
     "ajv": "^8.18.0",
-    "js-yaml": "^4.1.1",
+    "js-yaml": "^5.2.1",
     "xdg-basedir": "^5.1.0",
     "zod": "^4.3.6"
   }
