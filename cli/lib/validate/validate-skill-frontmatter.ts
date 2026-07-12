@@ -7,7 +7,7 @@ import { validateFile } from "./validate-file";
 /**
  * Validate SKILL.md frontmatter for one or more files.
  * When no files are provided, scans all SKILL.md files under skills/.
- * File paths may be relative (e.g. from lefthook) or absolute.
+ * File paths may be relative (e.g. from the hk pre-commit hook) or absolute.
  */
 export const validateSkillFrontmatter = async (
   files: string[],
@@ -17,7 +17,7 @@ export const validateSkillFrontmatter = async (
     files.length > 0
       ? files
           .filter((f) => f.endsWith("SKILL.md"))
-          // Resolve relative paths (e.g. passed by lefthook) to absolute.
+          // Resolve relative paths (e.g. passed by the hk hook) to absolute.
           .map((f) => (isAbsolute(f) ? f : resolve(process.cwd(), f)))
       : await collectSkillFiles(repoRoot);
 

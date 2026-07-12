@@ -94,7 +94,7 @@ The command automatically:
 - Generates markdown tables organized by domain
 - Updates README.md in place
 
-Used by lefthook pre-commit hook to keep README in sync with audits.
+Used by the hk pre-commit hook to keep README in sync with audits.
 
 ### Install Commands
 
