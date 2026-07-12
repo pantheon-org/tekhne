@@ -62,19 +62,30 @@ jobs:
           echo "### Auto-rebase results" >> "$GITHUB_STEP_SUMMARY"
 
           for n in "${prs[@]}"; do
-            # Per-PR view forces GitHub to compute the merge state (a list query
-            # can return UNKNOWN before it is calculated).
-            state="$(gh pr view "$n" --json mergeStateStatus -q .mergeStateStatus 2>/dev/null || echo UNKNOWN)"
+            head="$(gh pr view "$n" --json headRefName -q .headRefName)"
 
-            if [ "$state" != "BEHIND" ]; then
-              echo "PR #$n: state=$state, skipping"
-              echo "- PR #$n: \`$state\`, skipped" >> "$GITHUB_STEP_SUMMARY"
+            # `mergeStateStatus` is computed lazily and returns UNKNOWN for a
+            # while right after a push to main, i.e. exactly when this runs. The
+            # compare API is synchronous: behind_by is how many commits `main`
+            # has that the PR branch lacks, so behind_by > 0 means it needs a
+            # rebase.
+            behind="$(gh api "repos/$GH_REPO/compare/main...$head" -q '.behind_by' 2>/dev/null || echo "")"
+
+            if [ -z "$behind" ]; then
+              echo "PR #$n ($head): could not compare, skipping"
+              echo "- PR #$n: compare failed, skipped :grey_question:" >> "$GITHUB_STEP_SUMMARY"
+              continue
+            fi
+
+            if [ "$behind" -eq 0 ]; then
+              echo "PR #$n ($head): up to date, skipping"
+              echo "- PR #$n: up to date, skipped" >> "$GITHUB_STEP_SUMMARY"
               continue
             fi
 
             if gh pr update-branch "$n" --rebase; then
-              echo "PR #$n: rebased onto main"
-              echo "- PR #$n: rebased :white_check_mark:" >> "$GITHUB_STEP_SUMMARY"
+              echo "PR #$n ($head): rebased onto main (was behind by $behind)"
+              echo "- PR #$n: rebased :white_check_mark: (was behind by $behind)" >> "$GITHUB_STEP_SUMMARY"
             else
               echo "::warning title=Auto-rebase failed::PR #$n could not be rebased (likely a merge conflict); needs a manual rebase"
               echo "- PR #$n: conflict, needs manual rebase :warning:" >> "$GITHUB_STEP_SUMMARY"
