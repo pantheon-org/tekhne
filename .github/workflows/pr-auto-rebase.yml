@@ -29,8 +29,8 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          # App IDs are public identifiers, not secrets. 3181784 = pantheon-ai-bot.
-          app-id: "3181784"
+          # Client ID for the pantheon-ai-bot App (public identifier, not a secret).
+          client-id: "Iv23ligzn16vkDCWfHgc"
           private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
 
       - name: Rebase behind, non-draft PRs
