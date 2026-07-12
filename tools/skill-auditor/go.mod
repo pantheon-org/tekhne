@@ -3,7 +3,7 @@ module github.com/pantheon-org/tekhne/tools/skill-auditor
 go 1.25.5
 
 require (
-	github.com/agent-ecosystem/skill-validator v1.5.5
+	github.com/agent-ecosystem/skill-validator v1.5.6
 	github.com/spf13/cobra v1.10.2
 )
 
