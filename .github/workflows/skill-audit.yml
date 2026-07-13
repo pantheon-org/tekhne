@@ -14,6 +14,12 @@ permissions:
   contents: read
   pull-requests: write
 
+concurrency:
+  # Supersede an in-flight run when the ref updates (e.g. a rebase), so
+  # stale runs are cancelled instead of piling onto the shared API quota.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   skill-audit:
     name: Skill Audit
@@ -102,7 +108,10 @@ jobs:
 
             ${{ steps.audit.outputs.table }}
 
-            **Gate:** ✅ pass = A / A+ (≥126) · ⚠️ warning = C – B+ (98–125, non-blocking) · ❌ fail = D / F (<98, blocks merge)
+            **Gate:** 
+            - ✅ pass = A / A+ (≥126)
+            - ⚠️ warning = C – B+ (98–125, non-blocking)
+            - ❌ fail = D / F (<98, blocks merge)
 
       - name: Enforce gate (fail on D/F)
         if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail == '1'
