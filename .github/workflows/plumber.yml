@@ -1,0 +1,45 @@
+name: Plumber
+
+# CI/CD security scanning for this repository's GitHub Actions workflows and
+# repository configuration (unpinned actions, untrusted shell input, missing
+# branch protection, over-broad permissions). Findings surface in the Security
+# tab (Code Scanning) and in the job summary as a Plumber Score (A-E).
+#
+# Advisory mode: soft-fail is on, so findings are reported but never block a PR.
+# To gate CI on the score once the baseline is clean, drop `soft-fail` and add
+# `min-score: "B"` (see https://getplumber.io/docs/cli/github). Config lives in
+# .plumber.yaml at the repo root (required by the action).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  schedule:
+    # Weekly scan (Mondays 03:41 UTC) to catch security drift and newly
+    # published action advisories between changes.
+    - cron: "41 3 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  plumber:
+    name: Plumber Score
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      security-events: write # upload SARIF to Code Scanning
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: getplumber/plumber@feaea981266b40eea7985b7cb880d47a3426a570 # v0.4.2
+        with:
+          # Advisory only: report findings without failing the job. Remove this
+          # and set `min-score` to start gating PRs on the Plumber Score.
+          soft-fail: "true"
+          # Publishing a public score badge to score.getplumber.io is an
+          # explicit opt-in; keep it off. To enable, set this to "true" and add
+          # `id-token: write` to the job permissions above.
+          score-push: "false"
