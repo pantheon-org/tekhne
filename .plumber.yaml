@@ -616,6 +616,11 @@ github:
         - docker/build-push-action
         - ossf/scorecard-action
         - anchore/scan-action
+        - googleapis/release-please-action # Release automation (release-please.yml)
+        - oven-sh/setup-bun # Bun runtime setup (CLI, docs, skill-check workflows)
+        - peter-evans/find-comment # PR comment lookup (skill-check workflows)
+        - peter-evans/create-or-update-comment # PR comment upserts (skill-check workflows)
+        - tesslio/setup-tessl # Tessl registry tooling (publish-skills.yml)
 
     # ===========================================
     # Container images must not use forbidden tags
