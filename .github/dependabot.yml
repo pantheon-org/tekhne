@@ -19,6 +19,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "npm"
@@ -41,6 +45,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "docs"
@@ -63,6 +71,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "go"
@@ -85,6 +97,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "python"
@@ -107,6 +123,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "github-actions"
