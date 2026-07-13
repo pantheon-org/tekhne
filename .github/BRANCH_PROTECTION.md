@@ -1,8 +1,7 @@
-# Branch protection: Plumber ISSUE-505
+# Branch protection: Plumber ISSUE-505 (risk acceptance)
 
-Decision (13-07-2026): the code owner is **@thoroc**. Option 1 below is chosen.
-`CODEOWNERS` is added in this PR; the ruleset change is the remaining step and
-is a repo setting, so it is applied by an admin, not by merging this PR.
+Decision (13-07-2026), owner **@thoroc**: the finding is **accepted, not
+remediated**. Rationale below. Revisit if the project gains more maintainers.
 
 ## The finding
 
@@ -13,75 +12,47 @@ The Plumber CI/CD security scan reports one open finding on `main`:
 - Docs: https://getplumber.io/docs/cli/issues/ISSUE-505
 
 It is the only finding left after the authorized-sources tuning; the score is
-otherwise **B (85/100)**. Clearing it would move the repository toward an A.
+otherwise **B (85/100)**.
 
-## Root cause
+## Why it is accepted rather than fixed
 
-`main` is protected by a **ruleset** (id `13518481`, active). Its `pull_request`
-rule currently sets:
+The only way to clear this finding is to require code-owner review on `main`
+(`require_code_owner_review: true` plus a `CODEOWNERS` file). This project is a
+**single-maintainer effort**, so mandatory review is impractical and harmful:
 
-| Setting | Current |
-| --- | --- |
-| `require_code_owner_review` | `false` |
-| `required_approving_review_count` | `0` |
-| `require_last_push_approval` | `false` |
-| `required_review_thread_resolution` | `true` |
-| `required_linear_history` | enabled |
-| required status checks | Skill Audit, CodeQL, code quality |
+- GitHub does not let an author approve their own PR, so every change would need
+  a second reviewer who does not exist, or a bypass that defeats the control.
+- It would stall automation: Dependabot and the auto-rebase/merge workflow would
+  block on a code-owner approval that never comes.
 
-Plumber's GitHub `branchMustBeProtected` control expects code-owner review to be
-required. Two facts matter for the fix:
+Verified while investigating: the `.plumber.yaml` fields
+`codeOwnerApprovalRequired`, `minMergeAccessLevel`, and `minPushAccessLevel` are
+GitLab access-model knobs and do **not** affect the GitHub check, so the finding
+cannot be tuned away in config either.
 
-1. There is **no `CODEOWNERS`** file in the repository, so code-owner review
-   cannot be required until one exists.
-2. The `.plumber.yaml` fields `codeOwnerApprovalRequired`, `minMergeAccessLevel`,
-   and `minPushAccessLevel` are GitLab access-model knobs. Testing confirmed they
-   do **not** relax the GitHub check: ISSUE-505 persists with the same reason
-   regardless of their values. So the finding cannot be tuned away in config the
-   way the authorized-sources finding was; it is resolved either by changing the
-   ruleset or by accepting the risk.
+## What `main` still enforces
 
-## Options
+Accepting this finding does not leave `main` unprotected. The active ruleset
+(id `13518481`) still enforces:
 
-### Option 1: make `main` compliant (recommended if the team uses reviews)
+- No force-push (non-fast-forward) and no branch deletion
+- Linear history
+- Pull request required before merge, with review-thread resolution
+- Required status checks: Skill Audit, CodeQL, code quality (errors)
+- Code-scanning gate (CodeQL, high-or-higher)
 
-Two steps:
+The single residual gap is code-owner review, which carries no security value
+for a solo maintainer.
 
-1. **Add a `CODEOWNERS` file.** Done in this PR: `.github/CODEOWNERS` sets
-   `* @thoroc` (admin on the repo, so eligible as a code owner). Adjust to
-   finer-grained ownership later if needed.
+## Impact
 
-2. **Require code-owner review on the `main` ruleset.** This fetches the current
-   ruleset, flips `require_code_owner_review` to `true`, and sets one required
-   approval so the review actually gates, then writes it back:
+None on CI. The Plumber check is advisory (`soft-fail` + `continue-on-error`),
+so ISSUE-505 does not block PRs. The repository is public and the SARIF alert
+remains visible in the Security tab for transparency.
 
-   ```bash
-   gh api repos/pantheon-org/tekhne/rulesets/13518481 > ruleset.json
-   jq '(.rules[] | select(.type=="pull_request") | .parameters)
-        |= (.require_code_owner_review = true
-            | .required_approving_review_count = (if .required_approving_review_count < 1 then 1 else .required_approving_review_count end))' \
-     ruleset.json > ruleset.patched.json
-   gh api --method PUT repos/pantheon-org/tekhne/rulesets/13518481 --input ruleset.patched.json
-   ```
+## Revisit trigger
 
-   Review `ruleset.patched.json` before the `PUT`. Confirm the bypass-actor list
-   still matches policy (the automation that rebases and merges PRs, e.g.
-   `pantheon-ai-bot`, may need a bypass entry so it is not blocked by the new
-   review requirement).
-
-Trade-off: every PR then needs a code-owner approval. Confirm the team has the
-reviewer capacity and that Dependabot/automation flows still work (they may need
-a bypass actor or an auto-approval step).
-
-### Option 2: accept the residual finding
-
-The repository is public and already scores B. If a mandatory code-owner review
-does not fit the team's workflow, the accepted path is to record the risk
-acceptance (owner, date, rationale) and leave the scan advisory. The Plumber
-check does not block PRs, so this has no CI impact.
-
-## Recommendation
-
-Route this to the governance owner. If the project intends to enforce reviews,
-Option 1 is the durable fix and gets to an A; otherwise document Option 2. Either
-way the decision and its owner should be recorded.
+If additional maintainers join, reconsider requiring code-owner review: add a
+`CODEOWNERS` file and set `require_code_owner_review: true` on the ruleset (keep
+a bypass actor for the `pantheon-ai-bot` automation), which clears ISSUE-505 and
+moves the score toward an A.

@@ -1,7 +1,0 @@
-# Code owners for pantheon-org/tekhne
-#
-# Required so the `main` branch ruleset can enforce code-owner review
-# (Plumber ISSUE-505). See .github/BRANCH_PROTECTION.md.
-#
-# Every path, until finer-grained ownership is needed.
-* @thoroc
