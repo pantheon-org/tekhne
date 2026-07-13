@@ -110,6 +110,9 @@ updates:
       include: "scope"
     groups:
       pip-minor-patch:
+        # Collapse the same dependency across all research-skill directories
+        # into one PR (e.g. a single `requests` bump instead of one per skill).
+        group-by: dependency-name
         patterns:
           - "*"
         update-types:
