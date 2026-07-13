@@ -77,6 +77,29 @@ updates:
           - "minor"
           - "patch"
 
+  # Python research skills (requirements.txt under skills/documentation/research)
+  - package-ecosystem: "pip"
+    directories:
+      - "/skills/documentation/research/*"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    groups:
+      pip-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
   # GitHub Actions (keeps the SHA pins in .github/workflows current)
   - package-ecosystem: "github-actions"
     directory: "/"
