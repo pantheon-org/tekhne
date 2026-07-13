@@ -4,13 +4,11 @@ name: CodeQL
 # tooling, and Python scripts. Findings surface in the Security tab and as PR
 # checks.
 #
-# On pull requests, the `changes` job builds a matrix containing only the
-# languages whose files changed, so a workflow-only or docs-only PR does not
-# spin up an unrelated language analysis. Pushes to main and the weekly
-# schedule always run the full matrix.
-#
-# Note: this is the advanced (security) scan only. The separate GitHub Code
-# Quality scan is managed in repo settings and always runs all languages.
+# All languages run on every pull request. Per-language filtering was tried and
+# reverted: the `main` ruleset's code_scanning merge protection requires each
+# PR's CodeQL security analyses to match the configurations present on `main`
+# (which scans all languages), so skipping a language on a PR produces a
+# "configurations not found" block. See PR #126 for the failure this caused.
 
 on:
   push:
@@ -26,78 +24,8 @@ permissions:
   contents: read
 
 jobs:
-  changes:
-    name: Detect changed languages
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: read
-    outputs:
-      matrix: ${{ steps.set.outputs.matrix }}
-    steps:
-      - uses: dorny/paths-filter@7b450fff21473bca461d4b92ce414b9d0420d706 # v4.0.2
-        id: filter
-        if: github.event_name == 'pull_request'
-        with:
-          filters: |
-            go:
-              - 'tools/skill-auditor/**'
-              - '**/*.go'
-              - '**/go.mod'
-              - '**/go.sum'
-            js:
-              - 'cli/**'
-              - 'docs/**'
-              - '**/*.ts'
-              - '**/*.tsx'
-              - '**/*.js'
-              - '**/*.jsx'
-              - '**/*.cjs'
-              - '**/*.mjs'
-              - 'package.json'
-              - 'bun.lock'
-              - 'cucumber.js'
-            py:
-              - '**/*.py'
-              - '**/requirements*.txt'
-              - '**/pyproject.toml'
-              - '**/setup.py'
-              - '**/setup.cfg'
-            config:
-              - '.github/workflows/codeql.yml'
-
-      # Build the analysis matrix. On push/schedule, scan everything. On a PR,
-      # include a language only when its files (or this workflow) changed. A
-      # change to the workflow itself re-runs all languages so the config is
-      # exercised end to end.
-      - id: set
-        env:
-          EVENT: ${{ github.event_name }}
-          GO: ${{ steps.filter.outputs.go }}
-          JS: ${{ steps.filter.outputs.js }}
-          PY: ${{ steps.filter.outputs.py }}
-          CONFIG: ${{ steps.filter.outputs.config }}
-        run: |
-          set -euo pipefail
-          js='{"language":"javascript-typescript","build-mode":"none"}'
-          go='{"language":"go","build-mode":"manual"}'
-          py='{"language":"python","build-mode":"none"}'
-          if [ "$EVENT" != "pull_request" ]; then
-            matrix="[$js,$go,$py]"
-          else
-            entries=()
-            if [ "$CONFIG" = "true" ] || [ "$JS" = "true" ]; then entries+=("$js"); fi
-            if [ "$CONFIG" = "true" ] || [ "$GO" = "true" ]; then entries+=("$go"); fi
-            if [ "$CONFIG" = "true" ] || [ "$PY" = "true" ]; then entries+=("$py"); fi
-            matrix="[$(IFS=,; echo "${entries[*]:-}")]"
-          fi
-          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
-          echo "Computed CodeQL matrix: $matrix"
-
   analyze:
     name: Analyze (${{ matrix.language }})
-    needs: changes
-    if: needs.changes.outputs.matrix != '[]'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -106,7 +34,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include: ${{ fromJSON(needs.changes.outputs.matrix) }}
+        include:
+          - language: javascript-typescript
+            build-mode: none
+          - language: go
+            build-mode: manual
+          - language: python
+            build-mode: none
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
