@@ -34,10 +34,12 @@ jobs:
     permissions:
       contents: read
       security-events: write # upload SARIF to Code Scanning
+      pull-requests: write # post the advisory Plumber Score comment on PRs
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
-      - uses: getplumber/plumber@feaea981266b40eea7985b7cb880d47a3426a570 # v0.4.2
+      - id: plumber
+        uses: getplumber/plumber@feaea981266b40eea7985b7cb880d47a3426a570 # v0.4.2
         # Advisory: a failed scan (including transient runtime errors) must not
         # block the PR. Drop this together with `soft-fail` when gating on score.
         continue-on-error: true
@@ -49,3 +51,65 @@ jobs:
           # explicit opt-in; keep it off. To enable, set this to "true" and add
           # `id-token: write` to the job permissions above.
           score-push: "false"
+
+      # In advisory mode the check just passes, so findings are easy to miss.
+      # Surface the Plumber Score as a single upserted PR comment. Skipped when
+      # gating on score (a failing required check is the signal instead).
+      - name: Comment Plumber Score on PR
+        if: github.event_name == 'pull_request' && !cancelled()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          REPORT: ${{ steps.plumber.outputs.report }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SECURITY_URL: ${{ github.server_url }}/${{ github.repository }}/security/code-scanning
+        run: |
+          set -euo pipefail
+          marker="<!-- plumber-advisory -->"
+
+          if [ -n "${REPORT:-}" ] && [ -s "${REPORT:-/dev/null}" ]; then
+            read -r score points crit high med low < <(
+              jq -r '[.plumberScore.score,
+                      (.plumberScore.finalPoints | floor),
+                      .plumberScore.counts.critical,
+                      .plumberScore.counts.high,
+                      .plumberScore.counts.medium,
+                      .plumberScore.counts.low] | @tsv' "$REPORT"
+            )
+            codes="$(jq -r '.plumberScore.codeLosses // []
+                            | sort_by(-.count)[]
+                            | "| \(.code) | \(.severity) | \(.count) |"' "$REPORT")"
+            [ -n "$codes" ] || codes="| _none_ | | |"
+            body="$marker
+          ## Plumber Score: ${score} (${points}/100)
+
+          Advisory CI/CD security scan. This does **not** block the PR; it reports the score for awareness. Full detail is in the [Code Scanning alerts](${SECURITY_URL}) and the [run summary](${RUN_URL}).
+
+          **Findings by severity:** critical ${crit} · high ${high} · medium ${med} · low ${low}
+
+          | Issue | Severity | Count |
+          | --- | --- | --- |
+          ${codes}
+          "
+          else
+            body="$marker
+          ## Plumber Score: unavailable
+
+          The advisory CI/CD security scan did not produce a report this run (for example a transient runtime error). It does **not** block the PR. See the [run log](${RUN_URL}) for detail."
+          fi
+
+          # Upsert: update the existing advisory comment if present, else create.
+          # Posting is best-effort: on Dependabot or fork PRs the GITHUB_TOKEN is
+          # read-only, so a write 403 must not fail the job (advisory never blocks).
+          id="$(gh api "repos/$GH_REPO/issues/$PR/comments" --paginate \
+                 -q ".[] | select(.body | contains(\"$marker\")) | .id" 2>/dev/null | head -n1 || true)"
+          if [ -n "$id" ]; then
+            gh api -X PATCH "repos/$GH_REPO/issues/comments/$id" -f body="$body" >/dev/null \
+              && echo "Updated advisory comment $id on PR #$PR" \
+              || echo "::notice::Could not update PR comment (read-only token on a Dependabot/fork PR?); skipping."
+          else
+            gh api -X POST "repos/$GH_REPO/issues/$PR/comments" -f body="$body" >/dev/null \
+              && echo "Created advisory comment on PR #$PR" \
+              || echo "::notice::Could not post PR comment (read-only token on a Dependabot/fork PR?); skipping."
+          fi
