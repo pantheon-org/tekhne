@@ -7,7 +7,7 @@ pymupdf>=1.23.0
 openai>=1.12.0
 
 # HTTP requests (Mathpix OCR)
-requests>=2.31.0
+requests>=2.34.2
 
 # Environment variable management (optional)
 python-dotenv>=1.0.0
