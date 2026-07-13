@@ -5,10 +5,13 @@ name: Plumber
 # branch protection, over-broad permissions). Findings surface in the Security
 # tab (Code Scanning) and in the job summary as a Plumber Score (A-E).
 #
-# Advisory mode: soft-fail is on, so findings are reported but never block a PR.
-# To gate CI on the score once the baseline is clean, drop `soft-fail` and add
-# `min-score: "B"` (see https://getplumber.io/docs/cli/github). Config lives in
-# .plumber.yaml at the repo root (required by the action).
+# Advisory mode: findings are reported but never block a PR. `soft-fail` covers
+# score-gate failures; `continue-on-error` additionally keeps transient runtime
+# errors (e.g. a rate-limited SLSA attestation check during a PR burst) from
+# blocking merges, which `soft-fail` alone does not. To gate CI on the score
+# once the baseline is clean, drop both and add `min-score: "B"` (see
+# https://getplumber.io/docs/cli/github). Config lives in .plumber.yaml at the
+# repo root (required by the action).
 
 on:
   push:
@@ -35,6 +38,9 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - uses: getplumber/plumber@feaea981266b40eea7985b7cb880d47a3426a570 # v0.4.2
+        # Advisory: a failed scan (including transient runtime errors) must not
+        # block the PR. Drop this together with `soft-fail` when gating on score.
+        continue-on-error: true
         with:
           # Advisory only: report findings without failing the job. Remove this
           # and set `min-score` to start gating PRs on the Plumber Score.
