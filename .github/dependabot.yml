@@ -19,6 +19,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "npm"
@@ -41,6 +45,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "docs"
@@ -63,6 +71,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "go"
@@ -77,6 +89,33 @@ updates:
           - "minor"
           - "patch"
 
+  # Python research skills (requirements.txt under skills/documentation/research)
+  - package-ecosystem: "pip"
+    directories:
+      - "/skills/documentation/research/*"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
+    labels:
+      - "dependencies"
+      - "python"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    groups:
+      pip-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
   # GitHub Actions (keeps the SHA pins in .github/workflows current)
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -84,6 +123,10 @@ updates:
       interval: "weekly"
       day: "monday"
     open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
     labels:
       - "dependencies"
       - "github-actions"
