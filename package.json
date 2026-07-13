@@ -38,7 +38,7 @@
   "type": "commonjs",
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
-    "@cucumber/cucumber": "^11.0.0",
+    "@cucumber/cucumber": "^13.0.0",
     "@types/bun": "latest",
     "@types/js-yaml": "^4.0.9",
     "tessl": "^0.90.0",
