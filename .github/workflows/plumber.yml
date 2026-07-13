@@ -99,17 +99,12 @@ jobs:
           The advisory CI/CD security scan did not produce a report this run (for example a transient runtime error). It does **not** block the PR. See the [run log](${RUN_URL}) for detail."
           fi
 
-          # Upsert: update the existing advisory comment if present, else create.
-          # Posting is best-effort: on Dependabot or fork PRs the GITHUB_TOKEN is
-          # read-only, so a write 403 must not fail the job (advisory never blocks).
-          id="$(gh api "repos/$GH_REPO/issues/$PR/comments" --paginate \
-                 -q ".[] | select(.body | contains(\"$marker\")) | .id" 2>/dev/null | head -n1 || true)"
-          if [ -n "$id" ]; then
-            gh api -X PATCH "repos/$GH_REPO/issues/comments/$id" -f body="$body" >/dev/null \
-              && echo "Updated advisory comment $id on PR #$PR" \
-              || echo "::notice::Could not update PR comment (read-only token on a Dependabot/fork PR?); skipping."
+          # Upsert one comment: edit the bot's previous advisory comment in
+          # place, else create it. Best-effort: on Dependabot or fork PRs the
+          # token is read-only, so a write failure must not fail the job
+          # (advisory never blocks). The marker only tags the comment for humans.
+          if gh pr comment "$PR" --body "$body" --edit-last --create-if-none; then
+            echo "Posted advisory Plumber comment on PR #$PR"
           else
-            gh api -X POST "repos/$GH_REPO/issues/$PR/comments" -f body="$body" >/dev/null \
-              && echo "Created advisory comment on PR #$PR" \
-              || echo "::notice::Could not post PR comment (read-only token on a Dependabot/fork PR?); skipping."
+            echo "::notice::Could not post the advisory Plumber comment (read-only token on a Dependabot/fork PR?); skipping."
           fi
