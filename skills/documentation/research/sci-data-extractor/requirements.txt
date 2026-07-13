@@ -1,7 +1,7 @@
 # Sci-Data-Extractor dependencies
 
 # Core PDF processing
-pymupdf>=1.23.0
+pymupdf>=1.28.0
 
 # LLM API calls (OpenAI-compatible, works with Anthropic endpoints)
 openai>=1.12.0
