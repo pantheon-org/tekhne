@@ -1,8 +1,8 @@
-# Branch protection: Plumber ISSUE-505 (decision-support)
+# Branch protection: Plumber ISSUE-505
 
-This is decision-support for a repository-governance owner. The change it
-proposes is a repo setting (a ruleset), not code, so nothing here is applied
-automatically. A human must decide and document the final choice.
+Decision (13-07-2026): the code owner is **@thoroc**. Option 1 below is chosen.
+`CODEOWNERS` is added in this PR; the ruleset change is the remaining step and
+is a repo setting, so it is applied by an admin, not by merging this PR.
 
 ## The finding
 
@@ -45,16 +45,11 @@ required. Two facts matter for the fix:
 
 ### Option 1: make `main` compliant (recommended if the team uses reviews)
 
-Two steps, both governance decisions:
+Two steps:
 
-1. **Add a `CODEOWNERS` file.** Owners must be real teams or users with write
-   access. Do not guess them. A starting point to adapt:
-
-   ```
-   # .github/CODEOWNERS
-   # Replace with the actual owning team(s). Left as a placeholder on purpose.
-   * @pantheon-org/<your-maintainers-team>
-   ```
+1. **Add a `CODEOWNERS` file.** Done in this PR: `.github/CODEOWNERS` sets
+   `* @thoroc` (admin on the repo, so eligible as a code owner). Adjust to
+   finer-grained ownership later if needed.
 
 2. **Require code-owner review on the `main` ruleset.** This fetches the current
    ruleset, flips `require_code_owner_review` to `true`, and sets one required
