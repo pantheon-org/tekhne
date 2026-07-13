@@ -1,2 +1,2 @@
-semanticscholar>=0.8.0
+semanticscholar>=0.12.0
 requests>=2.31.0
