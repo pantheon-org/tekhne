@@ -4,6 +4,9 @@
 !.context/
 .context/*
 !.context/audits
+!.context/plans/
+.context/plans/*
+!.context/plans/monorepo-tools-distribution.md
 .cursor/
 .gemini/
 .github/skills/
