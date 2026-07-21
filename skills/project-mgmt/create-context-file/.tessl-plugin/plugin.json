@@ -1,7 +1,7 @@
 {
   "name": "pantheon-ai/create-context-file",
   "version": "0.3.1",
-  "description": "Create context files (plans, justifications, scratches) in .context/ directory with unique three-word IDs and frontmatter",
+  "description": "Create context files under .context/<typology>/ (findings, plans, guides, follow-ups, merge-requests, tickets, ...) with date-prefixed YYYY-MM-DD-slug.md filenames and YAML frontmatter",
   "private": false,
   "skills": ["SKILL.md"]
 }
