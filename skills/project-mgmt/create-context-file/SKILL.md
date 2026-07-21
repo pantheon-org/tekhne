@@ -1,104 +1,145 @@
 ---
 name: create-context-file
-description: Creates structured context files (plans, justifications, scratches) in the .context/ directory with unique three-word IDs and frontmatter metadata. Use when starting a new task and needing to document a plan or task breakdown, when recording decision rationale or architectural choices as a justification, when saving temporary notes or exploratory thinking as a scratch, or when the user asks to "create a plan", "document my thinking", "save context", "track decisions", or "keep notes" in a structured project context directory.
+description: "Creates a structured, date-stamped context file filed by typology (findings, plans, guides, follow-ups, merge-requests, tickets, decisions, notes, research) with YAML frontmatter. Use when saving a finding, writing a plan, capturing a guide, recording a decision, logging a follow-up, filing a merge-request note, plus ticket write-ups."
 license: MIT
-compatibility: opencode
 metadata:
-  version: "0.1.0"
+  version: "1.0.0"
   audience: agents
-  workflow: planning, decision-making, exploration
+  workflow: capture, planning, documentation
 ---
 
-# create-context-file
+# Create Context File
 
-## What I do
-
-I create context files in the `.context/` directory for three purposes:
-- **Plans** (`.context/plans/`): task breakdowns, feature specs, project plans
-- **Justifications** (`.context/justifications/`): decision rationale, architectural choices, approach validation
-- **Scratches** (`.context/scratches/`): temporary notes, exploratory ideas, idea pads
-
-Each file gets a unique three-word identifier (e.g., `happy-blue-moon`), ensuring no filename conflicts, plus frontmatter with the current date and a formatted title.
-
-## How to use
-
-Run with type, slug, and content:
-```bash
-bunx .context/skills/create-context-file/scripts/create-context-file.ts --type plan "feature-name" "Plan content here"
-```
-
-Or use heredoc for multi-line content:
-```bash
-bunx .context/skills/create-context-file/scripts/create-context-file.ts --type justification "decision-name" << HEREDOC
-Multi-line
-justification content
-goes here
-HEREDOC
-```
-
-## File format
-
-Files are created as: `{three-word-id}-{slug}.md`
-Example: `happy-blue-moon-feature-name.md`
-
-The file includes frontmatter:
-```markdown
----
-date: 2026-01-13
-title: Feature Name
----
----
-Your content here
-```
+Persist a working artifact into the project's context directory, filed by
+**typology** and named with a date prefix so it sorts chronologically and never
+collides.
 
 ## When to Use
 
-Use create-context-file when:
-- **Starting new work**: Document plan before writing code (prevents scope creep)
-- **Decision points**: Record why you chose approach A over B (future reference)
-- **Exploratory thinking**: Save scratch notes during research (avoid losing insights)
-- **User requests**: "create a plan", "document this decision", "save my notes"
+- Save an investigation write-up, plan, guide, or decision produced while working.
+- Capture a follow-up, merge-request note, or ticket write-up for later.
+- The user asks to "save this finding", "create a plan", or "write this up".
 
-**Do NOT use for:**
-- **Code comments**: Put technical notes in source files directly
-- **External docs**: Use proper documentation systems (Confluence, Notion)
-- **Long-term specs**: Use README.md or `/docs` for permanent documentation
-- **Task tracking**: Use issue trackers, not context files
+## When Not to Use
 
-## File Type Selection Guide
+- Do NOT use for technical notes that belong inline in source — write a code comment.
+- Do NOT use for permanent, long-lived docs — use the README or docs site.
+- Do NOT use for issue tracking — use the issue tracker.
+- Do NOT use for content the team consumes externally — use the docs system.
 
-| Type | Purpose | Lifecycle | Example Use Cases |
-|------|---------|-----------|-------------------|
-| **plan** | Task breakdown before execution | Delete after task complete | Feature specs, refactoring roadmaps, migration plans |
-| **justification** | Record decision rationale | Keep indefinitely | Architecture choices, library selection, approach validation |
-| **scratch** | Temporary exploratory notes | Delete after conclusion | Research notes, debugging hypotheses, idea capture |
+## Principles
 
-**Decision rule:** If you'll reference it later → **justification**. If it's temporary → **scratch**. If it guides execution → **plan**.
+1. **Typology is the organizing axis.** ALWAYS choose the folder by *what the
+   artifact is*, not by how long it lives.
+2. **One artifact, one file.** ALWAYS keep a single typology per file; NEVER
+   merge a finding with a plan.
+3. **Deterministic names.** The generator MUST own the filename and frontmatter;
+   never hand-craft them.
+4. **Curated growth.** Extend the typology set deliberately, not per task.
+
+## Workflow
+
+1. Choose the typology from the curated set. — **Stop if:** none fits and the
+   need will not recur; reuse the closest match instead of adding a folder.
+2. Inspect what already exists for that typology to avoid duplicates:
+
+   ```bash
+   ls .context/findings/
+   ```
+
+   Expected result: the existing files, so you can confirm none already covers
+   this artifact.
+3. Run the generator with a specific, task-tied title. — **Verify:** the printed
+   path uses the expected typology plus date.
+4. Fill in the body beneath the generated heading. — **Stop if:** the content
+   spans two typologies; split it into separate files.
+
+## Quick Commands
+
+```bash
+# Create a finding with tags
+./scripts/create-context-file.sh --type findings --title "Auth token analysis" \
+  --tags "auth,oauth"
+```
+
+Expected result: a new dated finding file, printed as the only stdout line.
+
+```bash
+# Multi-line body via heredoc
+./scripts/create-context-file.sh --type plans --title "Retriever rollout" << 'EOF'
+## Phase 1
+...
+EOF
+```
+
+Expected result: a dated plan file containing the heredoc body.
+
+```bash
+# Preview without writing
+./scripts/create-context-file.sh --type merge-requests --title "PLG-1234" --dry-run
+```
+
+Expected result: the target path plus full file body printed; nothing written.
+
+```bash
+# A deliberate one-off typology
+./scripts/create-context-file.sh --type experiments --title "spike" --allow-new-type
+```
+
+Expected result: a file under a new typology folder, created knowingly.
+
+Full option list: see the CLI reference below.
 
 ## Anti-Patterns
 
-### NEVER create context files without reading existing .context/ structure first
+### NEVER create a file without checking the typology folder first
 
-- **WHY**: duplicate or misplaced files violate organization conventions and confuse searches.
-- **BAD**: immediately run `create-context-file.ts --type plan "my-plan"` without checking what exists.
-- **GOOD**: `ls .context/plans/` first to see existing plans, avoid duplicates, follow naming patterns.
+**WHY:** the same artifact captured twice fragments context and breaks search.
 
-### NEVER use generic slugs like "notes" or "todo"
+**BAD:** run the generator immediately for a plan that already exists.
+**GOOD:** list the folder, confirm nothing covers it, then create.
 
-- **WHY**: collisions are likely when multiple tasks use vague names; three-word IDs aren't enough if slugs duplicate.
-- **BAD**: `--type scratch "notes"` → creates `happy-blue-moon-notes.md` but another task may have `sad-red-sky-notes.md` causing confusion.
-- **GOOD**: specific slugs tied to task: `--type scratch "api-refactor-notes"` or `--type plan "user-auth-migration"`.
+**Consequence:** duplicate, drifting files that later readers cannot reconcile —
+a common pitfall once a repository grows.
 
-### NEVER mix content types in one file
+### NEVER use a generic slug like `notes` or `todo`
 
-- **WHY**: plans, justifications, and scratches have different lifecycles and audiences; mixing creates cleanup confusion.
-- **BAD**: `--type plan "feature"` but content includes justification rationale AND scratch exploration.
-- **GOOD**: separate files — `--type plan "feature-implementation"`, `--type justification "why-graphql"`, `--type scratch "api-alternatives"`.
+**WHY:** vague slugs collide and read as noise when sorted by date.
 
-### NEVER skip frontmatter or use invalid date formats
+**BAD:** `--title "notes"` yields a `notes.md` that clashes across tasks.
+**GOOD:** `--title "API refactor findings"` yields a specific, searchable name.
 
-- **WHY**: frontmatter powers metadata queries and date sorting; invalid formats break tooling.
-- **BAD**: manually edit file to remove frontmatter or use `date: Jan 13th` (invalid).
-- **GOOD**: script-generated frontmatter with `date: 2026-01-13` (ISO 8601) always included.
+**Consequence:** unsearchable filenames plus silent name clashes in production
+repositories.
+
+### NEVER mix typologies in one file
+
+**WHY:** a finding, a plan, and a follow-up have different lifecycles and readers.
+
+**BAD:** one file holding analysis, a rollout plan, and open questions.
+**GOOD:** three files, one per typology, cross-referenced if needed.
+
+**Consequence:** no file can be retired cleanly; each keeps stale content alive.
+
+### NEVER hand-edit the filename or frontmatter date
+
+**WHY:** the date prefix plus ISO `date` power sorting and downstream tooling.
+
+**BAD:** rename to drop the date, or set `date: Jul 21st`.
+**GOOD:** let the generator produce both; keep the original date on later edits.
+
+**Consequence:** broken chronological ordering plus frontmatter parse failures.
+
+### NEVER invent a new typology for a one-off
+
+**WHY:** ad-hoc folders erode the curated set that makes context navigable.
+
+**BAD:** create a bespoke folder for a single throwaway note.
+**GOOD:** reuse the closest typology, or pass `--allow-new-type` knowingly.
+
+**Consequence:** folder sprawl that defeats predictable retrieval — a slow pitfall.
 
 ## References
+
+- [Typologies](references/typologies.md) — the curated catalog, selection rule, and how to extend the set; load when choosing or adding a typology.
+- [CLI reference](references/cli.md) — full generator flags, behavior, and examples; load when you need an option beyond the Quick Commands.
