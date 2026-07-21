@@ -1026,7 +1026,7 @@ Splits a large feature branch into smaller, focused pull requests using stacked 
 
 ### create-context-file
 
-Creates structured context files (plans, justifications, scratches) in the .cont...
+Creates a structured, date-stamped context file filed by typology (findings, pla...
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
