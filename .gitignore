@@ -22,3 +22,6 @@ skills-lock.json
 /bin/
 hk.local.pkl
 !mise.toml
+
+# Rust
+/target/
