@@ -1,0 +1,24 @@
+# Python allowlist: skills permitted to retain Python after the C3 removal.
+#
+# Source of truth: .context/plans/python-inventory.md (task C1).
+# See the migration plan decisions D1 (research skills) and D5 (custom-logic
+# validators/generators). Each listed skill is (or will be, per C2b) marked
+# with a `python-allowlist` key under `metadata` in its SKILL.md frontmatter.
+#
+# One skill directory per line. Consumed by C3 to narrow the dependabot pip
+# block and the CodeQL python matrix, and to verify no other Python remains.
+
+# --- Research skills (D1); frontmatter markers applied in C1 ---
+skills/documentation/research/pubmed-search
+skills/documentation/research/sci-hub-search
+skills/documentation/research/notebooklm
+skills/documentation/research/sci-data-extractor
+skills/documentation/research/google-scholar-search
+skills/documentation/research/semantic-scholar-search
+
+# --- Custom-logic validators/generators (D5); frontmatter markers applied in C2b ---
+skills/observability/promql/validator
+skills/ci-cd/gitlab-ci/validator
+skills/ci-cd/azure-pipelines/validator
+skills/ci-cd/jenkinsfile/generator
+skills/ci-cd/fluentbit/generator

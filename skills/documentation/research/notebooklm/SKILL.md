@@ -2,6 +2,8 @@
 name: notebooklm
 description: "Query Google NotebookLM notebooks directly for source-grounded, citation-backed answers from your uploaded documents. Includes browser automation, library management, and persistent authentication."
 allowed-tools: [Read, Write, Edit, Bash]
+metadata:
+  python-allowlist: "research"
 ---
 
 # NotebookLM Research Assistant

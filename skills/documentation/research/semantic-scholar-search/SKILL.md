@@ -2,6 +2,8 @@
 name: semantic-scholar-search
 description: "Search Semantic Scholar for academic papers, fetch paper details by ID or DOI, retrieve author profiles, and analyse citation graphs. Preferred over google-scholar-search — uses the official API with no scraping. Triggers: search papers, find papers, semantic scholar, paper details, paper by DOI, paper by ID, author profile, citation analysis, references, literature search, paper discovery."
 allowed-tools: Read, Write, Bash
+metadata:
+  python-allowlist: "research"
 ---
 
 # Semantic Scholar Search
