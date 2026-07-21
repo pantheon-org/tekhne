@@ -7,6 +7,7 @@
 !.context/plans/
 .context/plans/*
 !.context/plans/monorepo-tools-distribution.md
+!.context/plans/skill-validator-port-spec.md
 .cursor/
 .gemini/
 .github/skills/
