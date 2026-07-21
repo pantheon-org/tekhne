@@ -241,16 +241,6 @@
         }
       ]
     },
-    "skills/documentation/acceptance-criteria": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
     "skills/documentation/astro-starlight": {
       "release-type": "simple",
       "extra-files": [
@@ -441,56 +431,6 @@
         }
       ]
     },
-    "skills/project-mgmt/implementation-plan-splitter": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "skills/project-mgmt/implementation-planner": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "skills/project-mgmt/moscow-prioritization": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "skills/project-mgmt/pr-decomposition": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "skills/project-mgmt/wave-execution-planner": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
     "skills/repository-mgmt/nx": {
       "release-type": "simple",
       "extra-files": [
@@ -602,6 +542,26 @@
       ]
     },
     "skills/testing/ui-debug-workflow": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/project-mgmt/planning-toolkit": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/project-mgmt/issue-tracker-toolkit": {
       "release-type": "simple",
       "extra-files": [
         {
