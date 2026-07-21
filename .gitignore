@@ -28,3 +28,7 @@ hk.local.pkl
 
 # Rust
 /target/
+
+.tokensave/
+.aislop/
+.tmp/
