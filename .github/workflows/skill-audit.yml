@@ -67,8 +67,8 @@ jobs:
           for dir in ${{ steps.dirs.outputs.dirs }}; do
             rel="${dir#skills/}"
             json=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null)
-            grade=$(printf '%s' "$json" | python3 -c "import sys,json;print(json.load(sys.stdin).get('grade','?'))" 2>/dev/null)
-            total=$(printf '%s' "$json" | python3 -c "import sys,json;print(json.load(sys.stdin).get('total','?'))" 2>/dev/null)
+            grade=$(printf '%s' "$json" | jq -r '.grade // "?"' 2>/dev/null)
+            total=$(printf '%s' "$json" | jq -r '.total // "?"' 2>/dev/null)
             [ -z "$grade" ] && grade="?"
             case "$grade" in
               A|A+) tier="✅ pass";;
