@@ -1,0 +1,25 @@
+# cargo-dist workspace configuration (STUB, created in A1).
+#
+# This is a scaffold placeholder that pins the distribution shape early:
+# Unix-first (macOS + Linux), shell installer, per-tool release tags.
+# It is finalized in A5, where `dist init` regenerates this file and the
+# generated `.github/workflows/release.yml` once the first binary crate
+# (skill-auditor) exists. cargo-dist is not installed locally yet, so this
+# stub has not been validated by `dist` itself.
+
+[workspace]
+members = ["cargo:crates/*"]
+
+[dist]
+# Bump to the version resolved by the R1 spike before A5 runs `dist init`.
+cargo-dist-version = "0.28.0"
+# `curl | sh` shell installer (decision 5: registration is a separate
+# `skill install` subcommand, so the installer only drops the binary on PATH).
+installers = ["shell"]
+# Windows deferred (decision 3); add "x86_64-pc-windows-msvc" later.
+targets = [
+    "aarch64-apple-darwin",
+    "x86_64-apple-darwin",
+    "aarch64-unknown-linux-gnu",
+    "x86_64-unknown-linux-gnu",
+]
