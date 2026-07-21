@@ -2,6 +2,8 @@
 name: google-scholar-search
 description: "Search Google Scholar for academic papers and author profiles. Use when discovering papers to triage — by keyword, author, or year range. Returns titles, authors, abstracts, and links. Triggers: search papers, find papers, google scholar, search scholar, find author, author profile, literature search, paper discovery, search academic literature."
 allowed-tools: Read, Write, Bash
+metadata:
+  python-allowlist: "research"
 ---
 
 # Google Scholar Search

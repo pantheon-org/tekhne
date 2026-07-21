@@ -2,6 +2,8 @@
 name: pubmed-search
 description: "Search and analyze biomedical literature from PubMed using the free E-utilities API. Use when researching medical topics, discovering clinical papers, fetching article metadata by PMID, performing deep paper analysis, or downloading open-access PDFs from PubMed Central. Triggers: pubmed search, search biomedical literature, find medical papers, PMID lookup, pubmed metadata, clinical literature search, biomedical research, life sciences papers, PMC download, ncbi search."
 allowed-tools: Read, Write, Bash
+metadata:
+  python-allowlist: "research"
 ---
 
 # PubMed Search
