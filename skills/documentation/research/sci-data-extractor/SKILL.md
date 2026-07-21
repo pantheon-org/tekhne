@@ -2,6 +2,8 @@
 name: sci-data-extractor
 description: "Extract structured data from scientific literature PDFs using AI-powered OCR and LLM analysis. Supports enzyme kinetics, experimental results, and literature review templates. Use when researchers need to parse tables, charts, or text from paper PDFs into Markdown or CSV. Triggers: extract data from PDF, scientific data extraction, parse paper tables, enzyme kinetics extraction, batch PDF extraction, literature data, research data from paper, OCR scientific paper, convert PDF to structured data."
 allowed-tools: Read, Write, Bash
+metadata:
+  python-allowlist: "research"
 ---
 
 # Sci-Data-Extractor

@@ -10,6 +10,7 @@
 !.context/plans/skill-validator-port-spec.md
 !.context/plans/release-versioning-policy.md
 !.context/plans/skill-distribution.md
+!.context/plans/python-inventory.md
 .cursor/
 .gemini/
 .github/skills/

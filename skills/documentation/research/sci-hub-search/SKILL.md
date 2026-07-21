@@ -2,6 +2,8 @@
 name: sci-hub-search
 description: "Search and download academic papers through Sci-Hub by DOI, title, or keyword. Supports PDF download, metadata extraction, and automatic mirror detection via CrossRef integration. Use when a paper is behind a paywall and you have the DOI or title. Triggers: sci-hub, download paper, fetch paper, academic paper download, paper by DOI, paper access, paywall bypass, retrieve paper, get full text, paper download."
 allowed-tools: Read, Write, Bash
+metadata:
+  python-allowlist: "research"
 ---
 
 # Sci-Hub Search
