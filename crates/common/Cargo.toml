@@ -9,3 +9,9 @@ publish = false
 description = "Shared configuration, error types, structured output, and filesystem helpers for the tekhne tool crates."
 
 [dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
