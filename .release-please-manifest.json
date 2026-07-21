@@ -23,7 +23,6 @@
   "skills/development/scripting/bash-script": "4.0.0",
   "skills/development/scripting/makefile": "4.0.0",
   "skills/development/typescript-advanced": "0.2.0",
-  "skills/documentation/acceptance-criteria": "0.2.0",
   "skills/documentation/astro-starlight": "0.2.0",
   "skills/documentation/conventional-commits": "0.2.0",
   "skills/documentation/journal-entry-creator": "0.5.0",
@@ -43,11 +42,6 @@
   "skills/observability/promql": "4.0.0",
   "skills/package-mgmt/mise-complete": "0.2.0",
   "skills/project-mgmt/create-context-file": "0.4.0",
-  "skills/project-mgmt/implementation-plan-splitter": "2.4.0",
-  "skills/project-mgmt/implementation-planner": "0.8.0",
-  "skills/project-mgmt/moscow-prioritization": "0.2.0",
-  "skills/project-mgmt/pr-decomposition": "0.2.0",
-  "skills/project-mgmt/wave-execution-planner": "1.3.0",
   "skills/repository-mgmt/nx": "4.0.0",
   "skills/repository-mgmt/nx/biome-integration": "0.2.0",
   "skills/repository-mgmt/nx/bun-integration": "0.2.0",
@@ -59,5 +53,7 @@
   "skills/specialized/gitlab-api": "1.7.0",
   "skills/testing/bdd-testing": "0.2.0",
   "skills/testing/test-driven-development": "0.4.0",
-  "skills/testing/ui-debug-workflow": "0.2.0"
+  "skills/testing/ui-debug-workflow": "0.2.0",
+  "skills/project-mgmt/planning-toolkit": "1.0.1",
+  "skills/project-mgmt/issue-tracker-toolkit": "0.1.1"
 }
