@@ -12,10 +12,13 @@ license = "ISC"
 repository = "https://github.com/pantheon-org/tekhne"
 rust-version = "1.96"
 
-# Shared dependencies are introduced by later waves (A2 common, A3
-# skill-install, A4a skill-validator-rs). Kept empty here so the scaffold
-# builds with no third-party dependencies.
+# Shared dependencies for the tekhne tool crates. Added as each wave needs
+# them (A2 introduces the foundational set below).
 [workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+tempfile = "3"
 
 [profile.release]
 lto = "thin"
