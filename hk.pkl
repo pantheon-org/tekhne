@@ -94,7 +94,7 @@ fi
 rc=0
 for f in {{files}}; do
   rel="$(dirname "$f")"; rel="${rel#skills/}"
-  grade=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null | python3 -c "import sys,json;print(json.load(sys.stdin).get('grade','?'))" 2>/dev/null)
+  grade=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
   case "$grade" in
     A|A+) echo "PASS $rel: $grade";;
     B+|B|C+|C) echo "WARN $rel: $grade (warning -- CI non-blocking)";;
