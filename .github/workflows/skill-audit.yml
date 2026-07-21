@@ -87,9 +87,13 @@ jobs:
             echo "fail=$fail"
           } >> "$GITHUB_OUTPUT"
 
+      # The audit comment is cosmetic. Never let a transient comment-API
+      # failure (e.g. installation-token rate limit) fail the required gate —
+      # the verdict is decided by "Enforce gate" from the grade alone.
       - name: Find existing audit comment
         id: find-comment
         if: steps.dirs.outputs.found == 'true'
+        continue-on-error: true
         uses: peter-evans/find-comment@3eae4d37986fb5a8592848f6a574fdf654e61f9e # v3
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -98,6 +102,7 @@ jobs:
 
       - name: Post audit comment
         if: steps.dirs.outputs.found == 'true'
+        continue-on-error: true
         uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
         with:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
