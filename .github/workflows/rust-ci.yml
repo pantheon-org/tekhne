@@ -1,0 +1,55 @@
+name: Rust CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "crates/**"
+      - "rust-toolchain.toml"
+      - ".github/workflows/rust-ci.yml"
+  push:
+    branches: [main]
+    paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "crates/**"
+      - "rust-toolchain.toml"
+      - ".github/workflows/rust-ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  # Supersede an in-flight run when the ref updates (e.g. a rebase), so
+  # stale runs are cancelled instead of piling onto the shared API quota.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: Build, test, lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      # rustup is preinstalled on GitHub-hosted runners; pin the toolchain to
+      # match mise.toml. Keep this version in sync with the `rust` pin there.
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install 1.96.1 --profile minimal --component rustfmt,clippy
+          rustup default 1.96.1
+
+      - name: Format check
+        run: cargo fmt --all --check
+
+      - name: Clippy
+        run: cargo clippy --workspace --all-targets --locked -- -D warnings
+
+      - name: Build
+        run: cargo build --workspace --locked
+
+      - name: Test
+        run: cargo test --workspace --locked

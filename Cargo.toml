@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/common",
+    "crates/skill-install",
+    "crates/skill-validator-rs",
+]
+
+[workspace.package]
+edition = "2021"
+license = "ISC"
+repository = "https://github.com/pantheon-org/tekhne"
+rust-version = "1.96"
+
+# Shared dependencies are introduced by later waves (A2 common, A3
+# skill-install, A4a skill-validator-rs). Kept empty here so the scaffold
+# builds with no third-party dependencies.
+[workspace.dependencies]
+
+[profile.release]
+lto = "thin"
+strip = true
