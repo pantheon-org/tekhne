@@ -30,6 +30,13 @@ local preCommit = new Mapping<String, Step> {
     ["skill-artifacts"] {
         check = "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh {{files}}"
     }
+    // Guardrail: no .py may live outside a directory listed in
+    // python-allowlist.txt. Python is retained only for the allowlisted skills,
+    // so a stray .py is a mis-placed script or an allowlist gap. Glob-less so it
+    // scans the whole tree on every commit; offline and deterministic.
+    ["python-allowlist"] {
+        check = "./scripts/check-python-allowlist.sh"
+    }
     // Regenerates README.md + docs tiles from skills and audit data, staging
     // them. Fix-only: `--dry-run` exits 0 even when out of sync, which would
     // let hk's check-first skip the regeneration, so there is no `check`
