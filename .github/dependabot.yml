@@ -64,31 +64,6 @@ updates:
           - "minor"
           - "patch"
 
-  # Go tooling (skill-auditor)
-  - package-ecosystem: "gomod"
-    directory: "/tools/skill-auditor"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    open-pull-requests-limit: 5
-    # Wait 7 days after a release before opening an update PR, so a yanked or
-    # compromised release has time to surface before we adopt it.
-    cooldown:
-      default-days: 7
-    labels:
-      - "dependencies"
-      - "go"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-    groups:
-      gomod-minor-patch:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-
   # Python research skills (requirements.txt under skills/documentation/research)
   - package-ecosystem: "pip"
     directories:

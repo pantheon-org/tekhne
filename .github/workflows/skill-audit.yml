@@ -2,7 +2,7 @@ name: Skill Audit Gate
 
 # Runs on every PR to main (no path filter) so the required "Skill Audit"
 # status check always reports a conclusion. PRs that change no skills are
-# detected early and pass immediately without building the Go tools — a path
+# detected early and pass immediately without building the Rust tools; a path
 # filter here would leave the required check unreported and block non-skill
 # PRs forever.
 on:
@@ -45,17 +45,21 @@ jobs:
         if: steps.dirs.outputs.found == 'false'
         run: echo "No SKILL.md changed — nothing to audit. Skill Audit passes."
 
-      # skill-auditor combines its own D1-D9 scoring with skill-validator's structural checks.
-      # Only build the Go tools when there are skills to audit.
-      - name: Install skill-validator
+      # skill-auditor bundles its own D1-D9 scoring with the skill-validator-rs
+      # structural checks (both crates live in the Rust workspace). Only build
+      # from source when there are skills to audit.
+      #
+      # rustup is preinstalled on GitHub-hosted runners; pin the toolchain to
+      # match mise.toml and rust-ci.yml. Keep this version in sync with them.
+      - name: Install Rust toolchain
         if: steps.dirs.outputs.found == 'true'
         run: |
-          go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
-          echo "$HOME/go/bin" >> "$GITHUB_PATH"
+          rustup toolchain install 1.96.1 --profile minimal
+          rustup default 1.96.1
 
       - name: Build skill-auditor
         if: steps.dirs.outputs.found == 'true'
-        run: cd tools/skill-auditor && go build -o ../../bin/skill-auditor .
+        run: cargo build --release --locked -p skill-auditor
 
       - name: Audit changed skills
         id: audit
@@ -66,7 +70,7 @@ jobs:
           fail=0
           for dir in ${{ steps.dirs.outputs.dirs }}; do
             rel="${dir#skills/}"
-            json=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null)
+            json=$(target/release/skill-auditor evaluate "$rel" --json 2>/dev/null)
             grade=$(printf '%s' "$json" | jq -r '.grade // "?"' 2>/dev/null)
             total=$(printf '%s' "$json" | jq -r '.total // "?"' 2>/dev/null)
             [ -z "$grade" ] && grade="?"
