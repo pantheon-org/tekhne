@@ -1,7 +1,7 @@
 # Skills monorepo with crate-based CLIs — migration wave plan
 
 **Ticket / ref**: [.context/investigations/monorepo-tools-distribution-2026-07-13.md](../investigations/monorepo-tools-distribution-2026-07-13.md)
-**Status**: In Progress — **Waves 1, 2, 3 and 4 complete and merged to `main` (22-07-2026)**. The S1 `o200k_base` token-parity go/no-go returned **GO**. Wave 5 (A5 distribution) is next and is the last committed wave before the go/no-go gate. Waves 6-7 pending (behind the post-A5 go/no-go). See "Execution progress" below.
+**Status**: In Progress — **Waves 1 to 5 (the full committed Rust critical path) complete and merged to `main` (22-07-2026)**. The S1 `o200k_base` token-parity go/no-go returned **GO**. **At the post-A5 GO/NO-GO gate: awaiting the decision on whether to proceed into the post-gate retirement waves 6-7.** See "Execution progress" below.
 **Assignee**: thomas.roche
 **Revision**: v4 (21-07-2026, adversarial review corrections applied; see "Revision history"). Execution status tracked in "Execution progress" and updated as each wave lands.
 
@@ -15,8 +15,8 @@ Living status; updated as each task/wave lands on `main`.
 | 2 — Shared foundation & housekeeping | ✅ Done (A2 #179, C2 #180, C2b #181, B2a #182) |
 | 3 — skill-install & validator-rs (A3, A4a) | ✅ Done — token-parity gate **GO**; A3 #186, A4a #187 |
 | 4 — Auditor rewrite (A4b) | ✅ Done — A4b #189; 132/132 skills grade- and dimension-exact vs the Go auditor |
-| 5 — Distribution (A5) | ⬜ Next — last committed wave before the go/no-go gate |
-| Go / No-Go gate (after A5) | ⬜ Pending |
+| 5 — Distribution (A5) | ✅ Done — A5 #191; clean-machine install verified; `tool/`-namespaced cargo-dist releases |
+| Go / No-Go gate (after A5) | 🟡 Running — Waves 1-5 verified; **awaiting GO/NO-GO decision** |
 | 6 — Retire Go, add tools, drop TS CLI | ⬜ Post-gate |
 | 7 — Python removal & tools catalogue | ⬜ Post-gate |
 
@@ -208,15 +208,15 @@ Verification:
 
 Rollback: additive; Go remains authoritative.
 
-### Wave 5 — Distribution (sequential) [committed]
+### Wave 5 — Distribution (sequential) — ✅ DONE (merged to main)
 
 > Gate: Wave 4 verified ✓
 
-- [ ] **A5** — Auditor distribution: run `dist init` to generate the workspace `release.yml` (macOS/Linux `curl | sh`; Windows deferred), bundle the skill into `crates/skill-auditor/skill/`, add the `skill-auditor skill install` subcommand using `skill-install`. Note the cargo-dist model: it generates and owns one workspace `release.yml` that is regenerated when crates are added (A7/A8), not a hand-authored reusable template. Update release-please config/manifest per R1. **Verify on a clean machine (no repo, no toolchain): install binary, then `skill install`.** — branch `feat/auditor-dist` — model: smart
+- [x] **A5** — Auditor distribution: run `dist init` to generate the workspace `release.yml` (macOS/Linux `curl | sh`; Windows deferred), bundle the skill into `crates/skill-auditor/skill/`, add the `skill-auditor skill install` subcommand using `skill-install`. Note the cargo-dist model: it generates and owns one workspace `release.yml` that is regenerated when crates are added (A7/A8), not a hand-authored reusable template. Update release-please config/manifest per R1. **Verify on a clean machine (no repo, no toolchain): install binary, then `skill install`.** — branch `feat/auditor-dist` — model: smart — **DONE (PR #191).** Refinements recorded during execution: (1) **skill embedded from its canonical `skills/` path via `build.rs`, not relocated into the crate** (no duplicate; skill stays a first-class release-please-managed skill), so A5 needed no release-please change (R1 policy-4 relocation still applies to A7/A8). (2) **cargo-dist tag namespace `tool/`** (`tag-namespace = "tool"`): tool tags are `tool/<pkg>-v<semver>`, disjoint from release-please's bare `v<semver>` skill tags, config-driven so it survives `dist generate`; workflow is `tool-release.yml`. (3) **Plumber config**: `trustedUrls` for the dist/rustup bootstrap and `containerImagesMustBePinnedByDigest: false` (only container workflow; mutable-tag detection stays on).
 
 Verification:
-- [ ] Clean-machine install yields a working `skill-auditor`; `skill install` registers the skill into detected agent dirs.
-- [ ] Generated workspace `release.yml` exists and the regenerate-on-new-crate flow is documented.
+- [x] Clean-machine install yields a working `skill-auditor`; `skill install` registers the skill into detected agent dirs — verified against an isolated empty HOME.
+- [x] Generated workspace `tool-release.yml` exists (owned by dist) and the regenerate flow is documented in `dist-workspace.toml`.
 
 Rollback: additive (Go still present).
 
