@@ -5,6 +5,7 @@ import ThemeToggle from "../components/ThemeToggle.astro";
 import NavToggle from "../components/NavToggle.astro";
 import SearchBar from "../components/SearchBar.astro";
 import SiteLogo from "../components/SiteLogo.astro";
+import HeaderNav from "../components/HeaderNav.astro";
 import GitHubLink from "../components/GitHubLink.astro";
 
 interface Props {
@@ -20,6 +21,7 @@ const { title, description, sidebar = true } = Astro.props;
   <header slot="header">
     {sidebar && <NavToggle />}
     <SiteLogo />
+    <HeaderNav />
     <SearchBar />
     <GitHubLink />
     <ThemeToggle />

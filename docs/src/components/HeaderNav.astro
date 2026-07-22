@@ -1,0 +1,59 @@
+---
+const base = import.meta.env.BASE_URL;
+const path = Astro.url.pathname;
+
+const links = [
+  { label: "Skills", href: `${base}/tiles/`, match: ["/tiles", "/skills"] },
+  { label: "Tools", href: `${base}/tools/`, match: ["/tools"] },
+];
+
+const isActive = (match: string[]) =>
+  match.some((m) => path === `${base}${m}/` || path.startsWith(`${base}${m}/`));
+---
+
+<nav class="header-nav" aria-label="Sections">
+  {links.map((link) => (
+    <a
+      href={link.href}
+      class:list={["header-nav__link", isActive(link.match) && "header-nav__link--active"]}
+      aria-current={isActive(link.match) ? "page" : undefined}
+    >
+      {link.label}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-shrink: 0;
+  }
+
+  .header-nav__link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--tk-text-muted);
+    text-decoration: none;
+    padding: 0.35rem 0.6rem;
+    border-radius: 0.375rem;
+    transition: color 0.15s, background 0.15s;
+  }
+
+  .header-nav__link:hover {
+    color: var(--tk-color-white);
+    background: var(--tk-bg-hover);
+    text-decoration: none;
+  }
+
+  .header-nav__link--active {
+    color: var(--tk-accent);
+  }
+
+  @media (max-width: 768px) {
+    .header-nav {
+      display: none;
+    }
+  }
+</style>
