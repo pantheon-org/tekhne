@@ -6,7 +6,8 @@
     "useIgnoreFile": false
   },
   "files": {
-    "ignoreUnknown": true
+    "ignoreUnknown": true,
+    "includes": ["**", "!crates/skill-validator-rs/tests/golden-corpus"]
   },
   "formatter": {
     "enabled": true,

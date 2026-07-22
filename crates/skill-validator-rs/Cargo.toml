@@ -8,4 +8,18 @@ rust-version.workspace = true
 publish = false
 description = "Deterministic, offline skill validation (structure, content, token counts) for the tekhne auditor."
 
+[lib]
+name = "skill_validator_rs"
+path = "src/lib.rs"
+
+# The CLI/binary target is deferred to A5b (D3). Until then this crate is a
+# pure library, so `clap` (and the currently unused `common`) are not declared.
 [dependencies]
+tiktoken-rs = { workspace = true }
+regex = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+serde_yaml_ng = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

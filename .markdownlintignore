@@ -8,3 +8,4 @@ skills/agentic-harness/opencode-toolkit/design-agents/references/
 skills/agentic-harness/opencode-toolkit/configure/references/
 .context/
 .tessl/
+crates/skill-validator-rs/tests/golden-corpus/fixtures/
