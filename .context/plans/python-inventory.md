@@ -4,6 +4,16 @@
 **Task**: C1 (Wave 1) of the monorepo tools distribution migration.
 **Allowlist file**: `python-allowlist.txt` (repo root).
 
+> **Revised by C2b (22-07-2026):** the "Convert to bash in C2b; Python deleted
+> in C3" dispositions below are **superseded**. On inspection the 7 validators'
+> `.py` is custom analysis logic (HCL/YAML parsers, a 1171-LOC fluentbit
+> validator), not thin wrappers, so **all 12 validator/generator skills are kept
+> as allowlisted Python** (no bash conversion). Marking is via the root
+> `python-allowlist.txt` only (18 skills); per-skill frontmatter markers on the
+> validators are blocked by the skill-artifacts validator's name-vs-dir bug and
+> their D/F audit grades. Grade-C quality fixes are parked on
+> `wip/validator-quality-audit`. See the plan's D5 / C2b.
+
 ## 1. Python by skill, with disposition
 
 Every skill directory containing `.py`, classified per decisions D1 (research) and D5 (validators/generators). Disposition drives C2b (convert or keep) and C3 (delete or preserve).
