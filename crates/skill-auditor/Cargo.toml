@@ -1,0 +1,27 @@
+[package]
+name = "skill-auditor"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+description = "Deterministic 9-dimension skill quality auditor (Rust port of the Go skill-auditor)."
+
+[lib]
+name = "skill_auditor"
+path = "src/lib.rs"
+
+[[bin]]
+name = "skill-auditor"
+path = "src/main.rs"
+
+[dependencies]
+skill-validator-rs = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+regex = { workspace = true }
+clap = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }
