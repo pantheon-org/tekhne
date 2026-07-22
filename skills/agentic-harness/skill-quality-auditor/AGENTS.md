@@ -171,7 +171,6 @@ skills/agentic-harness/skill-quality-auditor/
     ├── validate-remediation-plan.sh                  # Plan schema validator
     ├── validate-review-format.sh                     # Review report validator
     ├── validate-skill-artifacts.sh                   # Artifact convention validator
-    ├── check-consistency.sh                          # Consistency checker
     ├── tessl-compliance-check.sh                     # Tessl registry compliance
     ├── pattern-recognition-pipeline.sh              # Pattern analysis pipeline
     ├── ml-pattern-detection.sh                       # ML-based pattern detection

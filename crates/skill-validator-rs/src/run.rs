@@ -3,8 +3,9 @@
 //! `check` additionally runs the content and contamination groups (per-file
 //! when requested); `analyze content` runs the content group alone.
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
+use skill_validator_rs::artifacts::{check_files, check_tree};
 use skill_validator_rs::structure::fsutil::read_dir_sorted;
 use skill_validator_rs::{analyze_contamination, analyze_content, validate, Options, Skill};
 
@@ -48,6 +49,26 @@ pub fn check(dir: &str, opts: &Options, per_file: bool) -> CliReport {
     }
 
     cli
+}
+
+/// Run `validate artifacts [paths...]`: the artifact-convention checks. With no
+/// paths, scan the whole `skills/` tree; otherwise validate the given files
+/// (the `hk` pre-commit invocation passes changed files).
+pub fn validate_artifacts(paths: &[String]) -> CliReport {
+    let (report, skill_dir) = if paths.is_empty() {
+        (check_tree(Path::new("skills")), "skills".to_string())
+    } else {
+        let files: Vec<PathBuf> = paths.iter().map(PathBuf::from).collect();
+        (check_files(&files), paths.join(", "))
+    };
+    let errors = report.errors();
+    CliReport {
+        skill_dir,
+        results: report.results,
+        errors,
+        warnings: 0,
+        ..CliReport::default()
+    }
 }
 
 /// Run `analyze content <dir>`: the content group over SKILL.md only.

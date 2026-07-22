@@ -26,9 +26,18 @@ local preCommit = new Mapping<String, Step> {
         fix = "markdownlint-cli2 --fix --config .markdownlint-cli2.jsonc {{files}}"
     }
     // Validation only (no file mutation); runs on every commit like the
-    // original glob-less lefthook command.
+    // original glob-less lefthook command. Ported from the shell
+    // validate-skill-artifacts.sh into `skill-validator-rs validate artifacts`
+    // (Wave 2). Builds the Rust validator once (cached in target/release) then
+    // invokes it; exit 1 = error (blocking), exit 0 = clean.
     ["skill-artifacts"] {
-        check = "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh {{files}}"
+        shell = "sh -c"
+        check = #"""
+if [ ! -x target/release/skill-validator-rs ]; then
+  cargo build --release -q -p skill-validator-rs || { echo "skill-validator-rs build failed; skipping local validation (CI enforces the gate)"; exit 0; }
+fi
+target/release/skill-validator-rs validate artifacts {{files}}
+"""#
     }
     // Guardrail: no .py may live outside a directory listed in
     // python-allowlist.txt. Python is retained only for the allowlisted skills,
