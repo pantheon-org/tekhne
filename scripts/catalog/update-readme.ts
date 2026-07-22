@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
-import { logger } from "../utils/logger";
 import { findAllSkills, findAllTiles, findUntiledSkills } from "./discovery";
+import { logger } from "./logger";
 import {
   buildReadmeCatalogLine,
   generateDocsTilesPage,
