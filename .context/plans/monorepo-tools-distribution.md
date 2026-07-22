@@ -1,7 +1,7 @@
 # Skills monorepo with crate-based CLIs — migration wave plan
 
 **Ticket / ref**: [.context/investigations/monorepo-tools-distribution-2026-07-13.md](../investigations/monorepo-tools-distribution-2026-07-13.md)
-**Status**: In Progress — **Waves 1 and 2 complete and merged to `main` (22-07-2026)**. Wave 3 is next, gated by the S1 `o200k_base` token-parity go/no-go. Waves 4-7 pending (6-7 behind the post-A5 go/no-go). See "Execution progress" below.
+**Status**: In Progress — **Waves 1, 2 and 3 complete and merged to `main` (22-07-2026)**. The S1 `o200k_base` token-parity go/no-go returned **GO**. Wave 4 (A4b auditor rewrite) is next. Waves 5-7 pending (6-7 behind the post-A5 go/no-go). See "Execution progress" below.
 **Assignee**: thomas.roche
 **Revision**: v4 (21-07-2026, adversarial review corrections applied; see "Revision history"). Execution status tracked in "Execution progress" and updated as each wave lands.
 
@@ -13,8 +13,8 @@ Living status; updated as each task/wave lands on `main`.
 |------|--------|
 | 1 — Foundation, de-risk & decisions | ✅ Done (plan #171; A1 #172, S1 #173, R1 #174, B1+B3 #175, C1 #176; B4 = no-op) |
 | 2 — Shared foundation & housekeeping | ✅ Done (A2 #179, C2 #180, C2b #181, B2a #182) |
-| 3 — skill-install & validator-rs (A3, A4a) | ⬜ Next — gated by the S1 `o200k_base` token-parity go/no-go |
-| 4 — Auditor rewrite (A4b) | ⬜ Pending |
+| 3 — skill-install & validator-rs (A3, A4a) | ✅ Done — token-parity gate **GO**; A3 #186, A4a #187 |
+| 4 — Auditor rewrite (A4b) | ⬜ Next |
 | 5 — Distribution (A5) | ⬜ Pending |
 | Go / No-Go gate (after A5) | ⬜ Pending |
 | 6 — Retire Go, add tools, drop TS CLI | ⬜ Post-gate |
@@ -182,17 +182,17 @@ Verification:
 
 Rollback: revert per branch; jq swap is behaviour-preserving.
 
-### Wave 3 — skill-install & validator-rs (parallel) [committed — NEXT; A4a gated by the S1 token-parity go/no-go]
+### Wave 3 — skill-install & validator-rs (parallel) — ✅ DONE (merged to main)
 
-> Gate: Wave 2 verified ✓ (and S1 for A4a)
+> Gate: Wave 2 verified ✓ (and S1 for A4a) — S1 `o200k_base` token-parity go/no-go returned **GO**.
 
-- [ ] **A3** — `skill-install` crate: port agent-dir detection from `cli/lib/types/agents.ts` (42 agents, env overrides, xdg semantics) + copy/link a bundled skill into detected dirs; table-parity test vs the TS — branch `feat/skill-install-crate` — model: standard
-- [ ] **A4a** — `skill-validator-rs` crate: reimplement the validator surface per S1 (structure metrics, content analysis, token counts); deterministic/offline. Also the future replacement for the standalone validator gate — branch `feat/skill-validator-rs` — model: smart
+- [x] **A3** — `skill-install` crate: port agent-dir detection from `cli/lib/types/agents.ts` (42 agents, env overrides, xdg semantics) + copy/link a bundled skill into detected dirs; table-parity test vs the TS — branch `feat/skill-install-crate` — model: standard — **DONE (PR #186): 42/42 agent-table parity, 33 tests.**
+- [x] **A4a** — `skill-validator-rs` crate: reimplement the validator surface per S1 (structure metrics, content analysis, token counts); deterministic/offline. Also the future replacement for the standalone validator gate — branch `feat/skill-validator-rs` — model: smart — **DONE (PR #187): structure/content/contamination/token core ported; S1 token-parity gate + golden-corpus parity gate (152/152 skills bit-exact vs Go `skill-validator@v1.5.6` within tolerance); one Rust bug fixed (non-scalar `metadata` now rejected to match Go). CLI binary deferred to A5b.**
 
 Verification:
-- [ ] `cargo test -p skill-install` and `-p skill-validator-rs` green.
-- [ ] `skill-install` parity test matches the TS table.
-- [ ] `skill-validator-rs` reproduces the Go validator metrics within tolerance on the golden corpus.
+- [x] `cargo test -p skill-install` and `-p skill-validator-rs` green.
+- [x] `skill-install` parity test matches the TS table.
+- [x] `skill-validator-rs` reproduces the Go validator metrics within tolerance on the golden corpus (152 skills, all bit-exact).
 
 Rollback: additive crates; nothing repointed.
 
