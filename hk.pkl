@@ -12,7 +12,10 @@ local preCommit = new Mapping<String, Step> {
         glob = List("*.js", "*.cjs", "*.mjs", "*.ts", "*.tsx", "*.jsx", "*.json", "*.jsonc")
         // Golden-corpus test data (Go-generated goldens + copied fixtures) is
         // reference data, not source; do not reformat it.
-        exclude = List("crates/skill-validator-rs/tests/golden-corpus/**")
+        exclude = List(
+            "crates/skill-validator-rs/tests/golden-corpus/**",
+            "crates/skill-auditor/tests/golden-corpus/**"
+        )
         check = "bunx @biomejs/biome check --no-errors-on-unmatched {{files}}"
         fix = "bunx @biomejs/biome check --write --no-errors-on-unmatched {{files}}"
     }
