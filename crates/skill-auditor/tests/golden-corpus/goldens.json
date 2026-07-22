@@ -1,0 +1,4540 @@
+[
+  {
+    "dir": "crates/skill-auditor/testdata/fixtures/skill-full",
+    "result": {
+      "skill": "crates/skill-auditor/testdata/fixtures/skill-full",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 15,
+        "specificationCompliance": 15
+      },
+      "total": 127,
+      "maxTotal": 140,
+      "grade": "A",
+      "lines": 112,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "crates/skill-auditor/testdata/fixtures/skill-minimal",
+    "result": {
+      "skill": "crates/skill-auditor/testdata/fixtures/skill-minimal",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 0,
+        "evalValidation": 0,
+        "freedomCalibration": 0,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 3,
+        "patternRecognition": 6,
+        "practicalUsability": 5,
+        "progressiveDisclosure": 12,
+        "specificationCompliance": 10
+      },
+      "total": 51,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 9,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D7",
+          "message": "description is only 27 chars — aim for \u003e60 for a useful pattern signal"
+        },
+        {
+          "dimension": "D9",
+          "message": "evals/ directory missing entirely"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/agents-md",
+    "result": {
+      "skill": "skills/agentic-harness/agents-md",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 15,
+        "specificationCompliance": 14
+      },
+      "total": 101,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 122,
+      "hasReferences": true,
+      "referenceCount": 7,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/cache-audit",
+    "result": {
+      "skill": "skills/agentic-harness/cache-audit",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 17,
+        "freedomCalibration": 9,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 9,
+        "practicalUsability": 8,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 10
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 216,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/create-context",
+    "result": {
+      "skill": "skills/agentic-harness/create-context",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 8,
+        "evalValidation": 7,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 10
+      },
+      "total": 95,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 144,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 4,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/load-context",
+    "result": {
+      "skill": "skills/agentic-harness/load-context",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 8,
+        "evalValidation": 7,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 13,
+        "patternRecognition": 9,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 121,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 4,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/opencode-toolkit/build-plugins",
+    "result": {
+      "skill": "skills/agentic-harness/opencode-toolkit/build-plugins",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 10,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 15,
+        "specificationCompliance": 14
+      },
+      "total": 105,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 88,
+      "hasReferences": true,
+      "referenceCount": 10,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/opencode-toolkit/build-tool",
+    "result": {
+      "skill": "skills/agentic-harness/opencode-toolkit/build-tool",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 15,
+        "specificationCompliance": 12
+      },
+      "total": 106,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 92,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/opencode-toolkit/configure",
+    "result": {
+      "skill": "skills/agentic-harness/opencode-toolkit/configure",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 101,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 230,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/opencode-toolkit/design-agents",
+    "result": {
+      "skill": "skills/agentic-harness/opencode-toolkit/design-agents",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 13
+      },
+      "total": 106,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 100,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/opencode-toolkit/design-commands",
+    "result": {
+      "skill": "skills/agentic-harness/opencode-toolkit/design-commands",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 15,
+        "specificationCompliance": 13
+      },
+      "total": 109,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 97,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/pick-model",
+    "result": {
+      "skill": "skills/agentic-harness/pick-model",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 8,
+        "evalValidation": 7,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 11,
+        "patternRecognition": 9,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 96,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 225,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/pin",
+    "result": {
+      "skill": "skills/agentic-harness/pin",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 102,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 210,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/professional-honesty",
+    "result": {
+      "skill": "skills/agentic-harness/professional-honesty",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 14,
+        "mindsetProcedures": 11,
+        "patternRecognition": 9,
+        "practicalUsability": 8,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 102,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 213,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/save-context",
+    "result": {
+      "skill": "skills/agentic-harness/save-context",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 8,
+        "evalValidation": 7,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 96,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 135,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 4,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/skill-quality-auditor",
+    "result": {
+      "skill": "skills/agentic-harness/skill-quality-auditor",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 11,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 14,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 9
+      },
+      "total": 123,
+      "maxTotal": 140,
+      "grade": "B+",
+      "lines": 119,
+      "hasReferences": true,
+      "referenceCount": 24,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/socratic-method",
+    "result": {
+      "skill": "skills/agentic-harness/socratic-method",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 9,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 13
+      },
+      "total": 96,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 114,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/tessl/publish-public",
+    "result": {
+      "skill": "skills/agentic-harness/tessl/publish-public",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 10
+      },
+      "total": 97,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 102,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "9 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/vault-capture",
+    "result": {
+      "skill": "skills/agentic-harness/vault-capture",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 12,
+        "specificationCompliance": 13
+      },
+      "total": 104,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 75,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/vault-consolidate",
+    "result": {
+      "skill": "skills/agentic-harness/vault-consolidate",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 8,
+        "progressiveDisclosure": 12,
+        "specificationCompliance": 13
+      },
+      "total": 103,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 66,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/vault-fetch",
+    "result": {
+      "skill": "skills/agentic-harness/vault-fetch",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 3,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 14,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 12,
+        "specificationCompliance": 13
+      },
+      "total": 101,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 63,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/agentic-harness/vault-search",
+    "result": {
+      "skill": "skills/agentic-harness/vault-search",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 15,
+        "specificationCompliance": 15
+      },
+      "total": 115,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 101,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/ci-cd/azure-pipelines/generator",
+    "result": {
+      "skill": "skills/ci-cd/azure-pipelines/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 358,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/azure-pipelines/validator",
+    "result": {
+      "skill": "skills/ci-cd/azure-pipelines/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 90,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 205,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/fluentbit/generator",
+    "result": {
+      "skill": "skills/ci-cd/fluentbit/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 7,
+        "specificationCompliance": 14
+      },
+      "total": 85,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 321,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/fluentbit/validator",
+    "result": {
+      "skill": "skills/ci-cd/fluentbit/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 90,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 258,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: cline"
+        },
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/github-actions/generator",
+    "result": {
+      "skill": "skills/ci-cd/github-actions/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 298,
+      "hasReferences": true,
+      "referenceCount": 6,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/github-actions/validator",
+    "result": {
+      "skill": "skills/ci-cd/github-actions/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 323,
+      "hasReferences": true,
+      "referenceCount": 6,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/gitlab-ci/generator",
+    "result": {
+      "skill": "skills/ci-cd/gitlab-ci/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 96,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 289,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/gitlab-ci/validator",
+    "result": {
+      "skill": "skills/ci-cd/gitlab-ci/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 90,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 201,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/helm/generator",
+    "result": {
+      "skill": "skills/ci-cd/helm/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 101,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 229,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/helm/validator",
+    "result": {
+      "skill": "skills/ci-cd/helm/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 274,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/jenkinsfile/generator",
+    "result": {
+      "skill": "skills/ci-cd/jenkinsfile/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 374,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/ci-cd/jenkinsfile/validator",
+    "result": {
+      "skill": "skills/ci-cd/jenkinsfile/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 85,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 187,
+      "hasReferences": true,
+      "referenceCount": 6,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/biome-complete",
+    "result": {
+      "skill": "skills/development/biome-complete",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 136,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/bun-development",
+    "result": {
+      "skill": "skills/development/bun-development",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 177,
+      "hasReferences": true,
+      "referenceCount": 13,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/commanderjs",
+    "result": {
+      "skill": "skills/development/commanderjs",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 15
+      },
+      "total": 95,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 204,
+      "hasReferences": true,
+      "referenceCount": 6,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/front-end/web-reference-sheet-generator",
+    "result": {
+      "skill": "skills/development/front-end/web-reference-sheet-generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 12
+      },
+      "total": 105,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 148,
+      "hasReferences": true,
+      "referenceCount": 12,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/front-end/website-theme-porter",
+    "result": {
+      "skill": "skills/development/front-end/website-theme-porter",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 106,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 472,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/scripting/bash-script/generator",
+    "result": {
+      "skill": "skills/development/scripting/bash-script/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 95,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 316,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/scripting/bash-script/validator",
+    "result": {
+      "skill": "skills/development/scripting/bash-script/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 96,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 198,
+      "hasReferences": true,
+      "referenceCount": 8,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/scripting/makefile/generator",
+    "result": {
+      "skill": "skills/development/scripting/makefile/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 6,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 96,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 468,
+      "hasReferences": true,
+      "referenceCount": 7,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/scripting/makefile/validator",
+    "result": {
+      "skill": "skills/development/scripting/makefile/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 87,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 199,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/development/typescript-advanced",
+    "result": {
+      "skill": "skills/development/typescript-advanced",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 14
+      },
+      "total": 93,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 229,
+      "hasReferences": true,
+      "referenceCount": 48,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/astro-starlight/skills/starlight-base",
+    "result": {
+      "skill": "skills/documentation/astro-starlight/skills/starlight-base",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 104,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 149,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "6 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/astro-starlight/skills/starlight-custom-component",
+    "result": {
+      "skill": "skills/documentation/astro-starlight/skills/starlight-custom-component",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 14
+      },
+      "total": 106,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 150,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "7 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/astro-starlight/skills/starlight-theme",
+    "result": {
+      "skill": "skills/documentation/astro-starlight/skills/starlight-theme",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 14
+      },
+      "total": 104,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 149,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "6 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/conventional-commits",
+    "result": {
+      "skill": "skills/documentation/conventional-commits",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 0,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 6,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 81,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 188,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/humanizer",
+    "result": {
+      "skill": "skills/documentation/humanizer",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 15
+      },
+      "total": 108,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 476,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/documentation/journal-entry-creator",
+    "result": {
+      "skill": "skills/documentation/journal-entry-creator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 101,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 391,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D4",
+          "message": "absolute skill path outside code blocks: skills/journal-entry-creator/references"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/markdown-authoring",
+    "result": {
+      "skill": "skills/documentation/markdown-authoring",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 123,
+      "maxTotal": 140,
+      "grade": "B+",
+      "lines": 140,
+      "hasReferences": true,
+      "referenceCount": 16,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/documentation/mermaid-diagrams",
+    "result": {
+      "skill": "skills/documentation/mermaid-diagrams",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 105,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 235,
+      "hasReferences": true,
+      "referenceCount": 7,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/documentation/obsidian/defuddle",
+    "result": {
+      "skill": "skills/documentation/obsidian/defuddle",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 102,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 146,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/obsidian/json-canvas",
+    "result": {
+      "skill": "skills/documentation/obsidian/json-canvas",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 95,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 194,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/obsidian/obsidian-bases",
+    "result": {
+      "skill": "skills/documentation/obsidian/obsidian-bases",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 97,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 635,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/obsidian/obsidian-cli",
+    "result": {
+      "skill": "skills/documentation/obsidian/obsidian-cli",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 190,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/obsidian/obsidian-markdown",
+    "result": {
+      "skill": "skills/documentation/obsidian/obsidian-markdown",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 186,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/plain-english",
+    "result": {
+      "skill": "skills/documentation/plain-english",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 12
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 148,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "8 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/professional-communication",
+    "result": {
+      "skill": "skills/documentation/professional-communication",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 111,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 290,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/documentation/proof-of-work/skills/proof-of-work",
+    "result": {
+      "skill": "skills/documentation/proof-of-work/skills/proof-of-work",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 12
+      },
+      "total": 103,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 139,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/google-scholar-search",
+    "result": {
+      "skill": "skills/documentation/research/google-scholar-search",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 13,
+        "freedomCalibration": 8,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 112,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 141,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 2,
+      "warnings": 1,
+      "errorDetails": [
+        {
+          "dimension": "D1",
+          "message": "instructions.json exists but cannot be parsed"
+        },
+        {
+          "dimension": "D3",
+          "message": "instructions.json exists but cannot be parsed"
+        }
+      ],
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/notebooklm",
+    "result": {
+      "skill": "skills/documentation/research/notebooklm",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 7,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
+        "patternRecognition": 9,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 15
+      },
+      "total": 110,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 222,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/pubmed-search",
+    "result": {
+      "skill": "skills/documentation/research/pubmed-search",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 13,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 112,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 144,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 2,
+      "warnings": 1,
+      "errorDetails": [
+        {
+          "dimension": "D1",
+          "message": "instructions.json exists but cannot be parsed"
+        },
+        {
+          "dimension": "D3",
+          "message": "instructions.json exists but cannot be parsed"
+        }
+      ],
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/reproduce-benchmark",
+    "result": {
+      "skill": "skills/documentation/research/reproduce-benchmark",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 98,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 169,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/scholar-evaluation",
+    "result": {
+      "skill": "skills/documentation/research/scholar-evaluation",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 10,
+        "evalValidation": 7,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 108,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 355,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/sci-data-extractor",
+    "result": {
+      "skill": "skills/documentation/research/sci-data-extractor",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 13,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 12
+      },
+      "total": 116,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 142,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 2,
+      "warnings": 1,
+      "errorDetails": [
+        {
+          "dimension": "D1",
+          "message": "instructions.json exists but cannot be parsed"
+        },
+        {
+          "dimension": "D3",
+          "message": "instructions.json exists but cannot be parsed"
+        }
+      ],
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/sci-hub-search",
+    "result": {
+      "skill": "skills/documentation/research/sci-hub-search",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 13,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 12
+      },
+      "total": 111,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 152,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 2,
+      "warnings": 1,
+      "errorDetails": [
+        {
+          "dimension": "D1",
+          "message": "instructions.json exists but cannot be parsed"
+        },
+        {
+          "dimension": "D3",
+          "message": "instructions.json exists but cannot be parsed"
+        }
+      ],
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/scientific-schematics",
+    "result": {
+      "skill": "skills/documentation/research/scientific-schematics",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 10,
+        "evalValidation": 7,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 15
+      },
+      "total": 111,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 430,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/semantic-scholar-search",
+    "result": {
+      "skill": "skills/documentation/research/semantic-scholar-search",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 13,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 110,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 144,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 2,
+      "warnings": 1,
+      "errorDetails": [
+        {
+          "dimension": "D1",
+          "message": "instructions.json exists but cannot be parsed"
+        },
+        {
+          "dimension": "D3",
+          "message": "instructions.json exists but cannot be parsed"
+        }
+      ],
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/triage-paper",
+    "result": {
+      "skill": "skills/documentation/research/triage-paper",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 13,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 110,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 182,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/research/triage-tool",
+    "result": {
+      "skill": "skills/documentation/research/triage-tool",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 10,
+        "evalValidation": 13,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 12,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 112,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 153,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/documentation/sop-structure",
+    "result": {
+      "skill": "skills/documentation/sop-structure",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 12,
+        "mindsetProcedures": 11,
+        "patternRecognition": 9,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 106,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 330,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/infrastructure/ansible/generator",
+    "result": {
+      "skill": "skills/infrastructure/ansible/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 95,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 301,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/ansible/validator",
+    "result": {
+      "skill": "skills/infrastructure/ansible/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 89,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 256,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/aws-cdk/cdk-nag",
+    "result": {
+      "skill": "skills/infrastructure/aws-cdk/cdk-nag",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 12,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 158,
+      "hasReferences": true,
+      "referenceCount": 6,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder",
+    "result": {
+      "skill": "skills/infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 5,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 15
+      },
+      "total": 98,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 111,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/aws/investigation-toolkit/skills/aws-console-navigator",
+    "result": {
+      "skill": "skills/infrastructure/aws/investigation-toolkit/skills/aws-console-navigator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 15
+      },
+      "total": 98,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 143,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/cfn/behavior-validator",
+    "result": {
+      "skill": "skills/infrastructure/cfn/behavior-validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 11
+      },
+      "total": 93,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 118,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/cfn/template-compare",
+    "result": {
+      "skill": "skills/infrastructure/cfn/template-compare",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 98,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 227,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/dockerfile/generator",
+    "result": {
+      "skill": "skills/infrastructure/dockerfile/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 6,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 10
+      },
+      "total": 91,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 475,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/dockerfile/validator",
+    "result": {
+      "skill": "skills/infrastructure/dockerfile/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 92,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 407,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/k8s/debug",
+    "result": {
+      "skill": "skills/infrastructure/k8s/debug",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 6,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 97,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 379,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/k8s/yaml-generator",
+    "result": {
+      "skill": "skills/infrastructure/k8s/yaml-generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 7,
+        "specificationCompliance": 12
+      },
+      "total": 92,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 439,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/k8s/yaml-validator",
+    "result": {
+      "skill": "skills/infrastructure/k8s/yaml-validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 6,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 95,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 407,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/terraform/generator",
+    "result": {
+      "skill": "skills/infrastructure/terraform/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 507,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/terraform/validator",
+    "result": {
+      "skill": "skills/infrastructure/terraform/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 246,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: cline"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/terragrunt/generator",
+    "result": {
+      "skill": "skills/infrastructure/terragrunt/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 93,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 508,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "../ reference outside code blocks (self-containment violation)"
+        },
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/infrastructure/terragrunt/validator",
+    "result": {
+      "skill": "skills/infrastructure/terragrunt/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 91,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 658,
+      "hasReferences": true,
+      "referenceCount": 6,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/observability/logql-generator",
+    "result": {
+      "skill": "skills/observability/logql-generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 6,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 348,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/observability/promql/generator",
+    "result": {
+      "skill": "skills/observability/promql/generator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 13
+      },
+      "total": 85,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 202,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/observability/promql/validator",
+    "result": {
+      "skill": "skills/observability/promql/validator",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 9,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 86,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 163,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .claude/"
+        },
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/package-mgmt/mise-complete",
+    "result": {
+      "skill": "skills/package-mgmt/mise-complete",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 106,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 163,
+      "hasReferences": true,
+      "referenceCount": 16,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/create-context-file",
+    "result": {
+      "skill": "skills/project-mgmt/create-context-file",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 15
+      },
+      "total": 112,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 146,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria",
+    "result": {
+      "skill": "skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 10,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 5,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 114,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 163,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup",
+    "result": {
+      "skill": "skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 15
+      },
+      "total": 118,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 211,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization",
+    "result": {
+      "skill": "skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 10,
+        "evalValidation": 17,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 15,
+        "specificationCompliance": 14
+      },
+      "total": 120,
+      "maxTotal": 140,
+      "grade": "B+",
+      "lines": 108,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/plan-execute",
+    "result": {
+      "skill": "skills/project-mgmt/plan-execute",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 17,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 114,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 486,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/planning-toolkit/implementation-planner",
+    "result": {
+      "skill": "skills/project-mgmt/planning-toolkit/implementation-planner",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 8
+      },
+      "total": 90,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 464,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/planning-toolkit/pr-stacker",
+    "result": {
+      "skill": "skills/project-mgmt/planning-toolkit/pr-stacker",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 12
+      },
+      "total": 96,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 154,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/planning-toolkit/wave-execution-planner",
+    "result": {
+      "skill": "skills/project-mgmt/planning-toolkit/wave-execution-planner",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 10
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 136,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D9",
+          "message": "7 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/project-mgmt/planning-toolkit/wave-executor",
+    "result": {
+      "skill": "skills/project-mgmt/planning-toolkit/wave-executor",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 5,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 14
+      },
+      "total": 92,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 152,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/repository-mgmt/nx/biome-integration",
+    "result": {
+      "skill": "skills/repository-mgmt/nx/biome-integration",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 13
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 136,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/repository-mgmt/nx/bun-integration",
+    "result": {
+      "skill": "skills/repository-mgmt/nx/bun-integration",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 102,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 127,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/repository-mgmt/nx/nx-plugin-authoring",
+    "result": {
+      "skill": "skills/repository-mgmt/nx/nx-plugin-authoring",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 273,
+      "hasReferences": true,
+      "referenceCount": 9,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D4",
+          "message": "../ reference outside code blocks (self-containment violation)"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/repository-mgmt/nx/vite-integration",
+    "result": {
+      "skill": "skills/repository-mgmt/nx/vite-integration",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 10,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 15
+      },
+      "total": 107,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 274,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/repository-mgmt/nx/workspace-patterns",
+    "result": {
+      "skill": "skills/repository-mgmt/nx/workspace-patterns",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 14
+      },
+      "total": 102,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 177,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/bridge",
+    "result": {
+      "skill": "skills/software-engineering/bridge",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 9,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 7,
+        "specificationCompliance": 14
+      },
+      "total": 93,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 279,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/challenge",
+    "result": {
+      "skill": "skills/software-engineering/challenge",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 14
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 127,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/codebase-alignment",
+    "result": {
+      "skill": "skills/software-engineering/codebase-alignment",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 12,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 15
+      },
+      "total": 115,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 223,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/software-engineering/design-principles/clean-architecture",
+    "result": {
+      "skill": "skills/software-engineering/design-principles/clean-architecture",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 95,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 216,
+      "hasReferences": true,
+      "referenceCount": 29,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/design-principles/design-patterns",
+    "result": {
+      "skill": "skills/software-engineering/design-principles/design-patterns",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 299,
+      "hasReferences": true,
+      "referenceCount": 11,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/design-principles/solid-principles",
+    "result": {
+      "skill": "skills/software-engineering/design-principles/solid-principles",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 171,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/design-principles/testable-design",
+    "result": {
+      "skill": "skills/software-engineering/design-principles/testable-design",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 243,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/fp-higher-order-functions",
+    "result": {
+      "skill": "skills/software-engineering/fp-higher-order-functions",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 17,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 8,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 104,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 379,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/software-engineering/fp-immutability",
+    "result": {
+      "skill": "skills/software-engineering/fp-immutability",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 11,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 8,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 107,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 292,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/software-engineering/fp-pure-functions",
+    "result": {
+      "skill": "skills/software-engineering/fp-pure-functions",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 3,
+        "evalValidation": 17,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 8,
+        "patternRecognition": 8,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 409,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/software-engineering/frame-problem",
+    "result": {
+      "skill": "skills/software-engineering/frame-problem",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 9,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 97,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 210,
+      "hasReferences": true,
+      "referenceCount": 6,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/probe",
+    "result": {
+      "skill": "skills/software-engineering/probe",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 7,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 104,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 198,
+      "hasReferences": true,
+      "referenceCount": 4,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/simplicity-principles",
+    "result": {
+      "skill": "skills/software-engineering/simplicity-principles",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 17,
+        "freedomCalibration": 7,
+        "knowledgeDelta": 16,
+        "mindsetProcedures": 7,
+        "patternRecognition": 9,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 11
+      },
+      "total": 101,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 447,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/software-engineering/standards-review",
+    "result": {
+      "skill": "skills/software-engineering/standards-review",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 17,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 10,
+        "patternRecognition": 10,
+        "practicalUsability": 12,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 111,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 148,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .context/"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/standards-to-tooling",
+    "result": {
+      "skill": "skills/software-engineering/standards-to-tooling",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 6,
+        "evalValidation": 17,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 107,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 209,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/software-engineering/troubleshoot",
+    "result": {
+      "skill": "skills/software-engineering/troubleshoot",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 8,
+        "evalValidation": 7,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 9,
+        "practicalUsability": 9,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 13
+      },
+      "total": 101,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 158,
+      "hasReferences": true,
+      "referenceCount": 2,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 2,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: claude code"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/specialized/chezmoi/chezmoi-assistant",
+    "result": {
+      "skill": "skills/specialized/chezmoi/chezmoi-assistant",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 15
+      },
+      "total": 94,
+      "maxTotal": 140,
+      "grade": "D",
+      "lines": 138,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/specialized/chezmoi/managing-chezmoi-packages",
+    "result": {
+      "skill": "skills/specialized/chezmoi/managing-chezmoi-packages",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 8,
+        "evalValidation": 17,
+        "freedomCalibration": 14,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 8,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 116,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 406,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
+    "dir": "skills/specialized/colyseus-multiplayer",
+    "result": {
+      "skill": "skills/specialized/colyseus-multiplayer",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 15,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 15
+      },
+      "total": 105,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 245,
+      "hasReferences": true,
+      "referenceCount": 3,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/specialized/github-copilot-models",
+    "result": {
+      "skill": "skills/specialized/github-copilot-models",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 8,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 2,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 14
+      },
+      "total": 85,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 200,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: codex"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/specialized/gitlab-api",
+    "result": {
+      "skill": "skills/specialized/gitlab-api",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 4,
+        "patternRecognition": 10,
+        "practicalUsability": 13,
+        "progressiveDisclosure": 12,
+        "specificationCompliance": 7
+      },
+      "total": 86,
+      "maxTotal": 140,
+      "grade": "F",
+      "lines": 127,
+      "hasReferences": false,
+      "referenceCount": 0,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 6,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "harness-specific path found: .agents/"
+        },
+        {
+          "dimension": "D4",
+          "message": "../ reference outside code blocks (self-containment violation)"
+        },
+        {
+          "dimension": "D4",
+          "message": "absolute skill path outside code blocks: skills/gitlab-api/scripts"
+        },
+        {
+          "dimension": "D4",
+          "message": ".context/ or .agents/ reference outside code blocks: .agents/"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        },
+        {
+          "dimension": "D5",
+          "message": "no references/ directory (progressive disclosure missing)"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/specialized/retrospect-collab",
+    "result": {
+      "skill": "skills/specialized/retrospect-collab",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 14,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 15
+      },
+      "total": 112,
+      "maxTotal": 140,
+      "grade": "B",
+      "lines": 124,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/specialized/retrospect-domain",
+    "result": {
+      "skill": "skills/specialized/retrospect-domain",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 10,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 15
+      },
+      "total": 106,
+      "maxTotal": 140,
+      "grade": "C+",
+      "lines": 141,
+      "hasReferences": true,
+      "referenceCount": 1,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/testing/bdd-testing",
+    "result": {
+      "skill": "skills/testing/bdd-testing",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 17,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 13
+      },
+      "total": 99,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 152,
+      "hasReferences": true,
+      "referenceCount": 7,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "8 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/testing/test-driven-development",
+    "result": {
+      "skill": "skills/testing/test-driven-development",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 5,
+        "evalValidation": 4,
+        "freedomCalibration": 12,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 9,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 14
+      },
+      "total": 98,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 196,
+      "hasReferences": true,
+      "referenceCount": 42,
+      "referenceSectionCompliant": true,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
+    "dir": "skills/testing/ui-debug-workflow",
+    "result": {
+      "skill": "skills/testing/ui-debug-workflow",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 7,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 11,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 13,
+        "specificationCompliance": 12
+      },
+      "total": 103,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 146,
+      "hasReferences": true,
+      "referenceCount": 14,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  }
+]

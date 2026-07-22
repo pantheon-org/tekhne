@@ -1,0 +1,7 @@
+{
+  "checklist": [
+    { "description": "Correct output format", "max_score": 40 },
+    { "description": "No errors", "max_score": 30 },
+    { "description": "Follows the procedure", "max_score": 30 }
+  ]
+}
