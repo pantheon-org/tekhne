@@ -736,7 +736,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (28 skills)
+## Documentation (29 skills)
 
 Writing & communication
 
@@ -875,6 +875,14 @@ Captures and documents agent findings as verifiable artifacts — screenshots vi
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [proof-of-work-skills-proof-of-work](/tekhne/skills/documentation/proof-of-work/skills/proof-of-work/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-08 | 5 |
+
+### adr-creator
+
+Creates, lists, and supersedes Architecture Decision Records with the adr CLI, f...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### astro-starlight-skills-starlight-theme
 

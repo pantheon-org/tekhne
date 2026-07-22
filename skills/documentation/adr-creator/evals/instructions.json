@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "content": "Run `adr new \"<Title>\"` to create the next-numbered ADR from the house template.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Run `adr list` to show every ADR as number, status, and title.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Run `adr supersede <number> \"<New Title>\"` to mark an old ADR superseded and create a linked replacement.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "The next ADR number is max(existing) + 1 and gap-tolerant; never reuse or hand-type a number.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never rewrite an accepted ADR to change its decision; always supersede it so the history is preserved.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Resolve the ADR directory from --dir, then ADR_DIR, then the docs/adr default.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never rename or reorder the template headings; keep Context, Decision, Consequences, Alternatives Considered, and Compliance verbatim and in order.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Never record multiple unrelated decisions in one ADR; split them into separate records.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Always populate Alternatives Considered with pros, cons, and the reason each option was rejected; avoid leaving it empty.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Flip Status from Proposed to Accepted only once the team ratifies the decision.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    }
+  ]
+}

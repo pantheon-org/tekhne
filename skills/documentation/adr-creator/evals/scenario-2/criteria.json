@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent supersedes an existing ADR using the CLI, preserving the old record's text while marking it superseded and creating a linked, correctly-numbered replacement.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses adr supersede",
+      "description": "Performs the transition with `adr supersede 2 \"Adopt gRPC for internal services\"` rather than manual edits.",
+      "max_score": 25
+    },
+    {
+      "name": "Old record marked superseded",
+      "description": "ADR-0002 Status becomes `Superseded by ADR-0004` (or the correct new number).",
+      "max_score": 20
+    },
+    {
+      "name": "Old decision text preserved",
+      "description": "The Context and Decision prose of ADR-0002 is left unchanged; only the Status line is altered.",
+      "max_score": 20
+    },
+    {
+      "name": "New record correctly numbered",
+      "description": "The replacement is numbered 0004 (max existing 0003 plus one), not a reused or guessed number.",
+      "max_score": 15
+    },
+    {
+      "name": "New record is Accepted and cross-references the old",
+      "description": "The new ADR has Status Accepted and references ADR-0002 (for example, Supersedes ADR-0002).",
+      "max_score": 20
+    }
+  ]
+}
