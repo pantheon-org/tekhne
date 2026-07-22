@@ -1,5 +1,5 @@
 import { Command } from "@cliffy/command";
-import { updateReadme } from "../lib/readme";
+import { updateReadme } from "../../scripts/catalog";
 import { CLIError, logger } from "../lib/utils";
 
 export const readmeCommand = new Command()
