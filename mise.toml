@@ -1,6 +1,4 @@
 [tools]
-"github:agent-ecosystem/skill-validator" = "latest"
-go = "1.22.0"
 rust = "1.96.1"
 node = "lts"
 bun = "latest"
@@ -13,8 +11,8 @@ markdownlint-cli2 = "latest"
 cargo-dist = "0.28.0"
 
 [env]
-# Wrap hk-invoked git hooks in `mise x` so pinned tools (bun, go, node, yq,
-# shellcheck, markdownlint-cli2, skill-validator) are on PATH without shell
+# Wrap hk-invoked git hooks in `mise x` so pinned tools (bun, node, yq,
+# shellcheck, markdownlint-cli2, rust/cargo) are on PATH without shell
 # activation.
 HK_MISE = "1"
 

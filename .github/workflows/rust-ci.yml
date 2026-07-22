@@ -53,3 +53,16 @@ jobs:
 
       - name: Test
         run: cargo test --workspace --locked
+
+      # RUSTSEC advisory scan (A6c). Installed from crates.io and pinned by the
+      # workspace Cargo.lock. Advisory-only for now: it surfaces findings via a
+      # workflow warning without failing the job, so a newly published advisory
+      # cannot block unrelated merges before triage. Promote to a hard gate
+      # (drop continue-on-error) once the tree is confirmed clean and any
+      # accepted advisories are pinned in an audit.toml ignore list.
+      - name: Install cargo-audit
+        run: cargo install cargo-audit --locked
+
+      - name: Cargo audit (RUSTSEC advisories)
+        continue-on-error: true
+        run: cargo audit

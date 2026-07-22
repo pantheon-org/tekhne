@@ -1,8 +1,9 @@
 name: CodeQL
 
-# GitHub-native static analysis (code scanning) for the TypeScript CLI, the Go
-# tooling, and Python scripts. Findings surface in the Security tab and as PR
-# checks.
+# GitHub-native static analysis (code scanning) for the TypeScript CLI and
+# Python scripts. Findings surface in the Security tab and as PR checks.
+# Rust is not a CodeQL-supported language; the Rust workspace is covered by
+# clippy in rust-ci.yml and the cargo-audit advisory scan.
 #
 # All languages run on every pull request. Per-language filtering was tried and
 # reverted: the `main` ruleset's code_scanning merge protection requires each
@@ -43,34 +44,16 @@ jobs:
         include:
           - language: javascript-typescript
             build-mode: none
-          - language: go
-            build-mode: manual
           - language: python
             build-mode: none
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
-
-      - name: Set up Go
-        if: matrix.language == 'go'
-        uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
-        with:
-          go-version-file: tools/skill-auditor/go.mod
-          # The Go module lives in a subdirectory, so point the build cache at
-          # its lockfile; otherwise setup-go warns it cannot find go.mod at root.
-          cache-dependency-path: tools/skill-auditor/go.sum
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0
         with:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
-
-      # build-mode: manual — the Go module lives in a subdirectory, so build it
-      # explicitly rather than relying on autobuild finding it from the root.
-      - name: Build Go tooling
-        if: matrix.language == 'go'
-        run: go build ./...
-        working-directory: tools/skill-auditor
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@99df26d4f13ea111d4ec1a7dddef6063f76b97e9 # v4.37.0

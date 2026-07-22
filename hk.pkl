@@ -61,21 +61,27 @@ local preCommit = new Mapping<String, Step> {
         shell = "sh -c"
         check = #"for f in {{files}}; do dir=$(dirname "$f"); if [ -f "$dir/tile.json" ]; then bun run tessl:lint -- "$f" || exit 1; fi; done"#
     }
+    // Builds the Rust validator from source once (cached in target/release),
+    // then invokes it. Exit-code contract preserved: exit 1 = error (blocking,
+    // rc=1); exit 2 = warning (non-blocking); exit 0 = clean.
     ["skill-validate"] {
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
-        check = #"rc=0; for f in {{files}}; do skill-validator validate structure --allow-dirs=evals "$(dirname "$f")"; [ $? -eq 1 ] && rc=1; done; exit $rc"#
+        check = #"""
+if [ ! -x target/release/skill-validator-rs ]; then
+  cargo build --release -q -p skill-validator-rs || { echo "skill-validator-rs build failed; skipping local validation (CI enforces the gate)"; exit 0; }
+fi
+rc=0
+for f in {{files}}; do
+  target/release/skill-validator-rs validate structure --allow-dirs=evals "$(dirname "$f")"
+  [ $? -eq 1 ] && rc=1
+done
+exit $rc
+"""#
     }
     ["cli-ts-conventions"] {
         glob = List("cli/**/*.ts")
         check = "bun cli/scripts/validate-ts-conventions.ts {{files}}"
-    }
-    // `go mod tidy` mutates go.mod/go.sum; stage them after fixing. Fix-only
-    // (no non-mutating check exists on Go 1.22), so it is skipped by `hk check`.
-    ["go-mod-tidy"] {
-        glob = List("tools/skill-auditor/**/*.go")
-        fix = "cd tools/skill-auditor && go mod tidy"
-        stage = List("tools/skill-auditor/go.mod", "tools/skill-auditor/go.sum")
     }
 }
 
@@ -87,22 +93,38 @@ local prePush = new Mapping<String, Step> {
     ["integration-tests"] {
         check = "bunx cucumber-js"
     }
+    // Builds the Rust validator from source once (cached in target/release),
+    // then invokes it. Exit 1 = error (blocking, rc=1); exit 2 = warning
+    // (non-blocking); exit 0 = clean.
     ["skill-check"] {
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
-        check = #"rc=0; for f in {{files}}; do skill-validator check --allow-dirs=evals --per-file "$(dirname "$f")"; [ $? -eq 1 ] && rc=1; done; exit $rc"#
+        check = #"""
+if [ ! -x target/release/skill-validator-rs ]; then
+  cargo build --release -q -p skill-validator-rs || { echo "skill-validator-rs build failed; skipping local validation (CI enforces the gate)"; exit 0; }
+fi
+rc=0
+for f in {{files}}; do
+  target/release/skill-validator-rs check --allow-dirs=evals --per-file "$(dirname "$f")"
+  [ $? -eq 1 ] && rc=1
+done
+exit $rc
+"""#
     }
+    // Builds the Rust auditor from source once (cached in target/release),
+    // then invokes it. Grade gate preserved: A/A+ pass; B+/B/C+/C warn
+    // (non-blocking); below C fail (rc=1).
     ["skill-audit"] {
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
         check = #"""
-if [ ! -x bin/skill-auditor ]; then
-  (cd tools/skill-auditor && go build -o ../../bin/skill-auditor .) || { echo "skill-auditor build failed; skipping local audit (CI enforces the gate)"; exit 0; }
+if [ ! -x target/release/skill-auditor ]; then
+  cargo build --release -q -p skill-auditor || { echo "skill-auditor build failed; skipping local audit (CI enforces the gate)"; exit 0; }
 fi
 rc=0
 for f in {{files}}; do
   rel="$(dirname "$f")"; rel="${rel#skills/}"
-  grade=$(bin/skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
+  grade=$(target/release/skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
   case "$grade" in
     A|A+) echo "PASS $rel: $grade";;
     B+|B|C+|C) echo "WARN $rel: $grade (warning -- CI non-blocking)";;
