@@ -3,8 +3,10 @@
 //! `--repo-root` and (batch only) `--fail-below`.
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
+use skill_auditor::aggregation;
 use skill_auditor::duplication;
 use skill_auditor::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
+use skill_auditor::prune;
 use skill_auditor::reporter;
 use skill_auditor::scorer::{self, grade_rank, Result as AuditResult};
 use skill_auditor::skill_bundle;
@@ -66,11 +68,42 @@ enum Command {
     },
     /// Detect duplication across skills (line-overlap or composite similarity).
     Duplication(DuplicationArgs),
+    /// Prune old audit snapshots under .context/audits, keeping the most recent.
+    PruneAudits(PruneAuditsArgs),
+    /// Draft an aggregation plan for a skill family (skills sharing a prefix).
+    PlanAggregation(PlanAggregationArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
         action: SkillAction,
     },
+}
+
+#[derive(Args)]
+struct PruneAuditsArgs {
+    /// Number of snapshots to keep per skill.
+    #[arg(long, default_value_t = prune::DEFAULT_KEEP)]
+    keep: usize,
+    /// Audits root (defaults to `<repo-root>/.context/audits`).
+    #[arg(long = "audits-dir")]
+    audits_dir: Option<String>,
+    /// Report what would be removed without deleting anything.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
+    /// Repo root (auto-detected if empty).
+    #[arg(long = "repo-root")]
+    repo_root: Option<String>,
+}
+
+#[derive(Args)]
+struct PlanAggregationArgs {
+    /// Skill-family prefix (matches a skill named `<prefix>` or `<prefix>-*`).
+    #[arg(long)]
+    family: String,
+    /// Root directory to search (repeatable). Defaults to `skills` and
+    /// `.agents/skills`.
+    #[arg(long = "skills-dir", value_name = "DIR")]
+    skills_dir: Vec<String>,
 }
 
 #[derive(Args)]
@@ -200,6 +233,8 @@ fn main() {
             repo_root.as_deref(),
         ),
         Command::Duplication(args) => run_duplication(args),
+        Command::PruneAudits(args) => run_prune_audits(args),
+        Command::PlanAggregation(args) => run_plan_aggregation(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -351,6 +386,98 @@ fn print_batch_table(entries: &mut [Entry]) {
         0
     };
     println!("Total: {} skill(s)  Average: {avg}/140", entries.len());
+}
+
+/// Prune old audit snapshots under `.context/audits`, keeping the most recent
+/// `--keep` per skill.
+fn run_prune_audits(args: PruneAuditsArgs) -> std::result::Result<(), String> {
+    let audits_root = match &args.audits_dir {
+        Some(dir) => PathBuf::from(dir),
+        None => {
+            let repo_root = resolve_repo_root(args.repo_root.as_deref())
+                .map_err(|e| format!("cannot determine repo root: {e}"))?;
+            repo_root.join(".context").join("audits")
+        }
+    };
+
+    if !audits_root.is_dir() {
+        println!("No audit directory found: {}", audits_root.display());
+        return Ok(());
+    }
+
+    let plans = prune::prune(&audits_root, args.keep, args.dry_run).map_err(|e| e.to_string())?;
+
+    if args.dry_run {
+        println!(
+            "Dry run: keeping {} per skill under {}\n",
+            args.keep,
+            audits_root.display()
+        );
+    } else {
+        println!(
+            "Keeping {} per skill under {}\n",
+            args.keep,
+            audits_root.display()
+        );
+    }
+
+    let mut removed_total = 0;
+    for p in &plans {
+        let rel = p.dir.strip_prefix(&audits_root).unwrap_or(&p.dir);
+        let label = if rel.as_os_str().is_empty() {
+            ".".to_string()
+        } else {
+            rel.display().to_string()
+        };
+        removed_total += p.removed.len();
+        let verb = if args.dry_run {
+            "would remove"
+        } else {
+            "removed"
+        };
+        if p.removed.is_empty() {
+            println!("  {label}: kept {} (nothing to prune)", p.kept.len());
+        } else {
+            println!(
+                "  {label}: kept {}, {verb} {} ({})",
+                p.kept.len(),
+                p.removed.len(),
+                p.removed.join(", ")
+            );
+        }
+    }
+
+    let verb = if args.dry_run {
+        "would remove"
+    } else {
+        "removed"
+    };
+    println!(
+        "\nDone. {verb} {removed_total} snapshot(s) across {} skill(s).",
+        plans.len()
+    );
+    Ok(())
+}
+
+/// Draft and print an aggregation plan for the `--family` prefix.
+fn run_plan_aggregation(args: PlanAggregationArgs) -> std::result::Result<(), String> {
+    let roots: Vec<PathBuf> = if args.skills_dir.is_empty() {
+        aggregation::default_roots()
+    } else {
+        args.skills_dir.iter().map(PathBuf::from).collect()
+    };
+
+    let skills = aggregation::find_family(&roots, &args.family);
+    if skills.is_empty() {
+        return Err(format!("No skills found with prefix: {}", args.family));
+    }
+
+    let duplication = aggregation::average_duplication(&skills);
+    print!(
+        "{}",
+        aggregation::render_plan(&args.family, &skills, duplication)
+    );
+    Ok(())
 }
 
 /// Detect and report duplication across the skills under `--skills-dir`.
