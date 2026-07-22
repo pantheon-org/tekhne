@@ -3,6 +3,7 @@
 //! `--repo-root` and (batch only) `--fail-below`.
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
+use skill_auditor::duplication;
 use skill_auditor::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
 use skill_auditor::reporter;
 use skill_auditor::scorer::{self, grade_rank, Result as AuditResult};
@@ -63,11 +64,30 @@ enum Command {
         #[arg(long = "repo-root")]
         repo_root: Option<String>,
     },
+    /// Detect duplication across skills (line-overlap or composite similarity).
+    Duplication(DuplicationArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
         action: SkillAction,
     },
+}
+
+#[derive(Args)]
+struct DuplicationArgs {
+    /// Root directory to scan for `SKILL.md` files.
+    #[arg(default_value = "skills")]
+    skills_dir: String,
+    /// Use the composite (semantic + structural + lexical) algorithm instead of
+    /// the basic line-overlap one.
+    #[arg(long)]
+    enhanced: bool,
+    /// Only report pairs at or above this similarity percentage.
+    #[arg(long, default_value_t = duplication::MODERATE_THRESHOLD)]
+    threshold: u32,
+    /// Emit JSON instead of a Markdown report.
+    #[arg(long)]
+    json: bool,
 }
 
 #[derive(Subcommand)]
@@ -179,6 +199,7 @@ fn main() {
             fail_below.as_deref(),
             repo_root.as_deref(),
         ),
+        Command::Duplication(args) => run_duplication(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -330,6 +351,107 @@ fn print_batch_table(entries: &mut [Entry]) {
         0
     };
     println!("Total: {} skill(s)  Average: {avg}/140", entries.len());
+}
+
+/// Detect and report duplication across the skills under `--skills-dir`.
+fn run_duplication(args: DuplicationArgs) -> std::result::Result<(), String> {
+    let root = Path::new(&args.skills_dir);
+    if !root.is_dir() {
+        return Err(format!("skills directory not found: {}", args.skills_dir));
+    }
+    let skills = duplication::load_skills(root);
+
+    if args.enhanced {
+        let pairs = duplication::detect_enhanced(&skills);
+        if args.json {
+            let json = serde_json::to_string_pretty(&pairs).map_err(|e| format!("marshal: {e}"))?;
+            println!("{json}");
+        } else {
+            print!(
+                "{}",
+                render_enhanced(&args.skills_dir, skills.len(), &pairs)
+            );
+        }
+    } else {
+        let pairs = duplication::detect_basic(&skills, args.threshold);
+        if args.json {
+            let json = serde_json::to_string_pretty(&pairs).map_err(|e| format!("marshal: {e}"))?;
+            println!("{json}");
+        } else {
+            print!(
+                "{}",
+                render_basic(&args.skills_dir, skills.len(), args.threshold, &pairs)
+            );
+        }
+    }
+    Ok(())
+}
+
+/// Render the basic (line-overlap) duplication report as Markdown.
+fn render_basic(
+    dir: &str,
+    count: usize,
+    threshold: u32,
+    pairs: &[duplication::BasicPair],
+) -> String {
+    let mut s = String::new();
+    s.push_str("# Skill Duplication Report\n\n## Summary\n");
+    s.push_str(&format!("- Skills analyzed: {count}\n"));
+    s.push_str(&format!("- Directory: {dir}\n"));
+    s.push_str(&format!("- Threshold: >{threshold}% similarity\n\n"));
+    s.push_str("## High Duplication Pairs\n\n");
+    if pairs.is_empty() {
+        s.push_str("None above threshold.\n");
+    } else {
+        for p in pairs {
+            s.push_str(&format!("### {} \u{2194} {}\n", p.name1, p.name2));
+            s.push_str(&format!("- Similarity: {}%\n", p.similarity));
+            s.push_str(&format!("- Common lines: {}\n", p.common_lines));
+            s.push_str("- Recommendation: Consider aggregation\n\n");
+        }
+    }
+    s
+}
+
+/// Render the enhanced (composite) duplication report as Markdown, grouped by
+/// similarity band.
+fn render_enhanced(dir: &str, count: usize, pairs: &[duplication::EnhancedPair]) -> String {
+    use duplication::Band;
+
+    let mut s = String::new();
+    s.push_str("# Enhanced Skill Duplication Report\n\n## Executive Summary\n");
+    s.push_str(&format!("- Skills analyzed: {count}\n"));
+    s.push_str(&format!("- Directory: {dir}\n"));
+    s.push_str(&format!(
+        "- Thresholds: Moderate >={}%, High >={}%, Critical >={}%\n\n",
+        duplication::MODERATE_THRESHOLD,
+        duplication::HIGH_THRESHOLD,
+        duplication::CRITICAL_THRESHOLD
+    ));
+
+    for band in [Band::Critical, Band::High, Band::Moderate] {
+        s.push_str(&format!("## {} Duplications\n\n", band.label()));
+        let group: Vec<&duplication::EnhancedPair> =
+            pairs.iter().filter(|p| p.band == band).collect();
+        if group.is_empty() {
+            s.push_str("None.\n\n");
+            continue;
+        }
+        for p in group {
+            s.push_str(&format!("### {} \u{2194} {}\n", p.name1, p.name2));
+            s.push_str(&format!(
+                "**Overall Similarity**: {}% {}\n\n",
+                p.composite,
+                band.label()
+            ));
+            s.push_str("| Metric | Score | Weight |\n|--------|-------|--------|\n");
+            s.push_str(&format!("| Semantic | {}% | 40% |\n", p.semantic));
+            s.push_str(&format!("| Structural | {}% | 35% |\n", p.structural));
+            s.push_str(&format!("| Lexical | {}% | 25% |\n\n", p.lexical));
+            s.push_str(&format!("**Action Required**: {}\n\n", band.action()));
+        }
+    }
+    s
 }
 
 /// Install the bundled companion skill into agent directories.
