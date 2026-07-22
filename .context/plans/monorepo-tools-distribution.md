@@ -1,9 +1,31 @@
 # Skills monorepo with crate-based CLIs — migration wave plan
 
 **Ticket / ref**: [.context/investigations/monorepo-tools-distribution-2026-07-13.md](../investigations/monorepo-tools-distribution-2026-07-13.md)
-**Status**: In Progress. Committed through Wave 5 (A5); Waves 6-7 pending a go/no-go gate after A5. v4 folds in multi-agent review findings (21-07-2026) with open decisions D1-D4 resolved by interview; see "v4 review findings" and "Open decisions (v4)".
+**Status**: In Progress — **Waves 1 and 2 complete and merged to `main` (22-07-2026)**. Wave 3 is next, gated by the S1 `o200k_base` token-parity go/no-go. Waves 4-7 pending (6-7 behind the post-A5 go/no-go). See "Execution progress" below.
 **Assignee**: thomas.roche
-**Revision**: v4 (21-07-2026, adversarial review corrections applied; see "Revision history").
+**Revision**: v4 (21-07-2026, adversarial review corrections applied; see "Revision history"). Execution status tracked in "Execution progress" and updated as each wave lands.
+
+## Execution progress (updated 22-07-2026)
+
+Living status; updated as each task/wave lands on `main`.
+
+| Wave | Status |
+|------|--------|
+| 1 — Foundation, de-risk & decisions | ✅ Done (plan #171; A1 #172, S1 #173, R1 #174, B1+B3 #175, C1 #176; B4 = no-op) |
+| 2 — Shared foundation & housekeeping | ✅ Done (A2 #179, C2 #180, C2b #181, B2a #182) |
+| 3 — skill-install & validator-rs (A3, A4a) | ⬜ Next — gated by the S1 `o200k_base` token-parity go/no-go |
+| 4 — Auditor rewrite (A4b) | ⬜ Pending |
+| 5 — Distribution (A5) | ⬜ Pending |
+| Go / No-Go gate (after A5) | ⬜ Pending |
+| 6 — Retire Go, add tools, drop TS CLI | ⬜ Post-gate |
+| 7 — Python removal & tools catalogue | ⬜ Post-gate |
+
+**Open follow-ups from execution** (not yet scheduled into a wave):
+
+- **tile.json discovery** — the catalog generator (`scripts/catalog`) and release-please still reference the removed `tile.json`; repoint to `.tessl-plugin/plugin.json` (B2a / R1).
+- **`scripts/catalog` test coverage** — the relocated `*.test.ts` fell out of the pre-push `bun test cli/` glob; re-wire coverage (B2a).
+- **`wip/validator-quality-audit`** — parked branch with grade-C improvements for the 12 validator/generator skills (D/F -> C/C+), blocked by the skill-artifacts name-vs-directory validator bug (C2b).
+- **R1 release drift** — the stale `tile.json` extra-files were repointed and 6 stale entries re-homed, but the 100% manifest ↔ `plugin.json` version reconciliation is deferred to before the next skill release.
 
 ## v4 review findings (21-07-2026)
 
@@ -122,7 +144,7 @@ Four tracks: **A** = Rust tooling (critical path), **R** = release/versioning, *
 
 ## Waves & Phases
 
-### Wave 1 — Foundation, de-risk & decisions (parallel) [committed]
+### Wave 1 — Foundation, de-risk & decisions (parallel) — ✅ DONE (merged to main)
 
 > Gate: None — start immediately. No behaviour change.
 
@@ -143,7 +165,7 @@ Verification:
 
 Rollback: all Wave 1 branches additive or delete only unused code; revert per branch.
 
-### Wave 2 — Shared foundation & housekeeping (parallel) [committed]
+### Wave 2 — Shared foundation & housekeeping (parallel) — ✅ DONE (merged to main)
 
 > Gate: Wave 1 verified ✓
 
@@ -160,7 +182,7 @@ Verification:
 
 Rollback: revert per branch; jq swap is behaviour-preserving.
 
-### Wave 3 — skill-install & validator-rs (parallel) [committed]
+### Wave 3 — skill-install & validator-rs (parallel) [committed — NEXT; A4a gated by the S1 token-parity go/no-go]
 
 > Gate: Wave 2 verified ✓ (and S1 for A4a)
 
