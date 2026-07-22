@@ -16,7 +16,7 @@ Living status; updated as each task/wave lands on `main`.
 | 3 — skill-install & validator-rs (A3, A4a) | ✅ Done — token-parity gate **GO**; A3 #186, A4a #187 |
 | 4 — Auditor rewrite (A4b) | ✅ Done — A4b #189; 132/132 skills grade- and dimension-exact vs the Go auditor |
 | 5 — Distribution (A5) | ✅ Done — A5 #191; clean-machine install verified; `tool/`-namespaced cargo-dist releases |
-| Go / No-Go gate (after A5) | 🟡 Running — Waves 1-5 verified; **awaiting GO/NO-GO decision** |
+| Go / No-Go gate (after A5) | ✅ **GO** (22-07-2026) — proceed into Waves 6-7; preconditions resolved (see gate section) |
 | 6 — Retire Go, add tools, drop TS CLI | ⬜ Post-gate |
 | 7 — Python removal & tools catalogue | ⬜ Post-gate |
 
@@ -223,6 +223,12 @@ Rollback: additive (Go still present).
 ### GO / NO-GO GATE (after A5)
 
 > Record a decision before any Wave 6 work. The auditor is now a proven, distributable Rust binary. Confirm: is the model worth propagating to retirements (A6/B5/C3) and new tools (A7/A8)? Note that "stop here" is not a clean state: after Wave 5 the repo carries a permanent dual stack (two validators, two auditors via A4a/A4b, two README generators via B2a) while Go, TS `cli/`, and Python all remain authoritative. A NO-GO must therefore choose one of: (a) accept and maintain that dual stack indefinitely, or (b) schedule a tear-down of Waves 2-5 (its own effort estimate required). Do not treat the gate as a free off-ramp.
+
+**DECISION: GO (22-07-2026).** Waves 1-5 verified (token-parity GO; validator 152/152 bit-exact; auditor 132/132 grade- and dimension-exact; distribution + clean-machine install proven). Proceed into Waves 6-7 to remove the dual stack. Preconditions resolved:
+
+- **A6c Rust static-analysis:** clippy already gates lints in `rust-ci.yml` (`--all-targets -D warnings`); CodeQL has no Rust support and loses nothing when Go leaves. Add `cargo-audit` (RUSTSEC advisory scan) to `rust-ci.yml` to cover dependency vulnerabilities (optionally `cargo-deny` for licences). Implemented as part of A6c.
+- **B5 `sync opencode` owner:** **retire with rationale.** `syncOpencode` is a repo-local, cwd-scoped dev-setup helper (cleans dangling `.agents/skills` symlinks, mirrors `.mcp.json` into `opencode.json`, links `.tessl/tiles`); it is not part of the distributed product. Its only consumers are two `package.json` scripts (`sync:opencode`, `sync:opencode:dry-run`) and `cli/features/sync.feature`, all repo-internal and removed with B5; nothing in CI, hooks, or user docs depends on it. B5 deletes the command, `cli/lib/sync/*`, the two scripts, and `sync.feature` (not ported). If wanted later it can return as an opencode-toolkit skill script.
+- **A7 `adr` design anchor:** no existing `adr` skill; anchor the crate on the house ADR template already in the repo at `skills/development/typescript-advanced/references/docs-adr-templates.md`, with a matching bundled `adr` skill.
 
 ### Wave 6 — Retire Go, add tools, drop the TS CLI (parallel) [post-gate]
 
