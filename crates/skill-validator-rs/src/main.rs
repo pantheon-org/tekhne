@@ -94,6 +94,12 @@ enum ValidateGroup {
         /// The skill directory.
         dir: String,
     },
+    /// Validate artifact conventions (script shebangs, schema/template
+    /// placement, skill-dir layout, name match, self-containment).
+    Artifacts {
+        /// Files to validate. With none, the whole `skills/` tree is scanned.
+        paths: Vec<String>,
+    },
 }
 
 #[derive(Subcommand)]
@@ -140,6 +146,9 @@ fn dispatch(cli: &Cli) -> Result<(CliReport, bool), String> {
         Command::Validate {
             group: ValidateGroup::Structure { dir },
         } => Ok((run::validate_structure(dir, &cli.options()), true)),
+        Command::Validate {
+            group: ValidateGroup::Artifacts { paths },
+        } => Ok((run::validate_artifacts(paths), true)),
         Command::Check { dir } => Ok((run::check(dir, &cli.options(), cli.per_file), true)),
         Command::Analyze {
             group: AnalyzeGroup::Content { dir },
