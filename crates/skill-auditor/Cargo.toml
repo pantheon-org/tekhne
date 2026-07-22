@@ -18,6 +18,8 @@ path = "src/main.rs"
 
 [dependencies]
 skill-validator-rs = { workspace = true }
+skill-install = { workspace = true }
+common = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 regex = { workspace = true }

@@ -28,6 +28,8 @@ serde_yaml_ng = "0.10"
 clap = { version = "4", features = ["derive"] }
 # skill-validator-rs is consumed by the Rust auditor (A4b).
 skill-validator-rs = { path = "crates/skill-validator-rs" }
+# skill-install backs the auditor's self-contained `skill install` command (A5).
+skill-install = { path = "crates/skill-install" }
 
 [profile.release]
 lto = "thin"
