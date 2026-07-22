@@ -164,6 +164,10 @@ dependencies = [
 [[package]]
 name = "skill-install"
 version = "0.0.0"
+dependencies = [
+ "common",
+ "tempfile",
+]
 
 [[package]]
 name = "skill-validator-rs"
