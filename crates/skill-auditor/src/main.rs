@@ -76,6 +76,18 @@ enum SkillAction {
     Install(SkillInstallArgs),
     /// Remove the bundled skill from detected (or selected) agent directories.
     Uninstall(SkillUninstallArgs),
+    /// List the files embedded in this binary (what `install` would write).
+    Bundle(SkillBundleArgs),
+}
+
+#[derive(Args)]
+struct SkillBundleArgs {
+    /// List the embedded files with sizes (the default when no flag is given).
+    #[arg(long)]
+    list: bool,
+    /// Emit the bundle manifest as JSON instead of a table.
+    #[arg(long, conflicts_with = "list")]
+    manifest: bool,
 }
 
 /// How the bundled skill is placed into each target directory.
@@ -173,6 +185,9 @@ fn main() {
         Command::Skill {
             action: SkillAction::Uninstall(args),
         } => run_skill_uninstall(args),
+        Command::Skill {
+            action: SkillAction::Bundle(args),
+        } => run_skill_bundle(args),
     };
 
     if let Err(e) = result {
@@ -358,6 +373,88 @@ fn run_skill_install(args: SkillInstallArgs) -> std::result::Result<(), String> 
 
     print_install_report(&opts, skill_bundle::skill_name(), &report);
     Ok(())
+}
+
+/// Report the files baked into this binary, either as a table (`--list`, the
+/// default) or as JSON (`--manifest`).
+fn run_skill_bundle(args: SkillBundleArgs) -> std::result::Result<(), String> {
+    if args.manifest {
+        print_bundle_manifest()
+    } else {
+        print_bundle_list();
+        Ok(())
+    }
+}
+
+/// Print a human-readable table of every embedded file and a size summary.
+fn print_bundle_list() {
+    let entries = skill_bundle::manifest();
+    let width = entries
+        .iter()
+        .map(|e| e.path.len())
+        .max()
+        .unwrap_or(0)
+        .max(20);
+
+    println!("Embedded skill: {}", skill_bundle::skill_name());
+    println!(
+        "Files: {}   Total: {}\n",
+        entries.len(),
+        human_bytes(skill_bundle::total_bytes())
+    );
+    for entry in &entries {
+        println!("  {:<width$}  {:>10}", entry.path, human_bytes(entry.bytes));
+    }
+}
+
+/// JSON view of the bundle manifest: skill name, counts, and per-file sizes.
+#[derive(serde::Serialize)]
+struct BundleManifest<'a> {
+    skill: &'a str,
+    file_count: usize,
+    total_bytes: usize,
+    files: Vec<BundleManifestFile<'a>>,
+}
+
+#[derive(serde::Serialize)]
+struct BundleManifestFile<'a> {
+    path: &'a str,
+    bytes: usize,
+}
+
+/// Serialise the embedded-file manifest to pretty JSON on stdout.
+fn print_bundle_manifest() -> std::result::Result<(), String> {
+    let entries = skill_bundle::manifest();
+    let manifest = BundleManifest {
+        skill: skill_bundle::skill_name(),
+        file_count: entries.len(),
+        total_bytes: skill_bundle::total_bytes(),
+        files: entries
+            .iter()
+            .map(|e| BundleManifestFile {
+                path: e.path,
+                bytes: e.bytes,
+            })
+            .collect(),
+    };
+    let json =
+        serde_json::to_string_pretty(&manifest).map_err(|e| format!("marshal manifest: {e}"))?;
+    println!("{json}");
+    Ok(())
+}
+
+/// Format a byte count as a compact human-readable string (B / KB / MB).
+fn human_bytes(bytes: usize) -> String {
+    const KB: f64 = 1024.0;
+    const MB: f64 = KB * 1024.0;
+    let b = bytes as f64;
+    if b >= MB {
+        format!("{:.1} MB", b / MB)
+    } else if b >= KB {
+        format!("{:.1} KB", b / KB)
+    } else {
+        format!("{bytes} B")
+    }
 }
 
 /// Resolve the per-user directory the embedded skill is extracted into

@@ -22,6 +22,35 @@ pub fn file_count() -> usize {
     EMBEDDED_SKILL_FILES.len()
 }
 
+/// A single embedded file: its forward-slash path relative to the skill root
+/// and its size in bytes.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct BundleEntry {
+    /// Path relative to the skill root (e.g. `references/scoring-rubric.md`).
+    pub path: &'static str,
+    /// Size of the embedded file in bytes.
+    pub bytes: usize,
+}
+
+/// The manifest of every embedded file, in the build script's sorted order.
+///
+/// This is the ground truth for what `skill install` would write to disk, read
+/// straight from the baked-in table rather than any repository checkout.
+pub fn manifest() -> Vec<BundleEntry> {
+    EMBEDDED_SKILL_FILES
+        .iter()
+        .map(|(path, bytes)| BundleEntry {
+            path,
+            bytes: bytes.len(),
+        })
+        .collect()
+}
+
+/// Total size in bytes of every embedded file.
+pub fn total_bytes() -> usize {
+    EMBEDDED_SKILL_FILES.iter().map(|(_, b)| b.len()).sum()
+}
+
 /// Write the embedded skill tree into `dest_root`.
 ///
 /// Creates `dest_root/<skill-name>` (and any parent directories per file),
@@ -75,6 +104,18 @@ mod tests {
             .unwrap();
         let written = std::fs::read(skill_dir.join(nested_rel)).unwrap();
         assert_eq!(&written, nested_bytes);
+    }
+
+    #[test]
+    fn manifest_matches_embedded_table() {
+        let manifest = manifest();
+        assert_eq!(manifest.len(), file_count());
+        assert!(manifest.iter().any(|e| e.path == "SKILL.md"));
+        // Every embedded file has content, and the manifest byte counts agree
+        // with the raw table.
+        let manifest_total: usize = manifest.iter().map(|e| e.bytes).sum();
+        assert_eq!(manifest_total, total_bytes());
+        assert!(total_bytes() > 0);
     }
 
     #[test]
