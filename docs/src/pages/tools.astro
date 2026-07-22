@@ -34,6 +34,7 @@ const tools: Tool[] = [
       { usage: "skill-auditor evaluate <skill>", summary: "Evaluate a single skill." },
       { usage: "skill-auditor batch <skill...>", summary: "Evaluate multiple skills, with an optional --fail-below grade gate." },
       { usage: "skill-auditor duplication [dir]", summary: "Detect duplicate skills by line-overlap or --enhanced composite similarity." },
+      { usage: "skill-auditor prune-audits", summary: "Keep the most recent N audit snapshots per skill under .context/audits." },
       { usage: "skill-auditor skill install", summary: "Register the bundled skill into detected agent directories." },
       { usage: "skill-auditor skill bundle", summary: "List the skill files embedded in the binary (--manifest for JSON)." },
     ],
