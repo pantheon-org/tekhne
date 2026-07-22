@@ -42,13 +42,7 @@ on:
   pull_request:
   push:
     tags:
-      # DELIBERATE OVERRIDE of dist's default broad glob ('**[0-9]+.[0-9]+.[0-9]+*').
-      # Per the R1 versioning policy, cargo-dist owns tool crates via '<tool>-v<semver>'
-      # tags, while release-please owns skills via plain 'v<semver>' tags. The narrowed
-      # pattern below matches 'skill-auditor-v0.1.0' but never 'v0.2.0', so a skill
-      # release never triggers a tool release. If `dist generate` is re-run when a crate
-      # is added (A7/A8), this narrowing MUST be re-applied.
-      - '*-v[0-9]+.[0-9]+.[0-9]+*'
+      - 'tool**[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   # Run 'dist plan' (or host) to determine what tasks we need to do
