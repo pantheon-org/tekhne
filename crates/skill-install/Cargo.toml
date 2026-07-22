@@ -9,3 +9,7 @@ publish = false
 description = "Agent-directory detection and bundled-skill installation for tekhne tool CLIs."
 
 [dependencies]
+common = { path = "../common" }
+
+[dev-dependencies]
+tempfile = { workspace = true }
