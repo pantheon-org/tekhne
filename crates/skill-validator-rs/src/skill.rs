@@ -154,7 +154,47 @@ fn parse_frontmatter(raw: &Value) -> Result<Frontmatter, String> {
         fm.allowed_tools = parse_allowed_tools(v)?;
     }
 
+    // Go's `Frontmatter.Metadata` is typed `map[string]string`, so yaml.v3's
+    // typed decode fails when `metadata` is not a mapping of scalar values
+    // (e.g. a nested sequence). Reproduce that failure so `Skill::load` errors
+    // in the same cases; the value itself is unused downstream.
+    if let Some(v) = map.get(Value::String("metadata".to_string())) {
+        validate_metadata_map(v)?;
+    }
+
     Ok(fm)
+}
+
+/// Mirror yaml.v3's decode of the `metadata` field into `map[string]string`:
+/// a null or a mapping of scalar-coercible keys and values decodes cleanly;
+/// a scalar/sequence top level, or any non-scalar value, errors (matching Go's
+/// typed `Frontmatter` decode). The Go wording differs by YAML library; only
+/// the fact that the load fails is part of the auditor's consumed surface.
+fn validate_metadata_map(v: &Value) -> Result<(), String> {
+    match v {
+        Value::Null => Ok(()),
+        Value::Mapping(m) => {
+            for (key, val) in m {
+                if scalar_to_string(key).is_none() {
+                    return Err(
+                        "parsing frontmatter YAML: cannot unmarshal metadata key into string"
+                            .to_string(),
+                    );
+                }
+                if scalar_to_string(val).is_none() {
+                    return Err(
+                        "parsing frontmatter YAML: cannot unmarshal non-scalar metadata value into string"
+                            .to_string(),
+                    );
+                }
+            }
+            Ok(())
+        }
+        _ => Err(
+            "parsing frontmatter YAML: cannot unmarshal metadata into map[string]string"
+                .to_string(),
+        ),
+    }
 }
 
 fn parse_allowed_tools(v: &Value) -> Result<AllowedTools, String> {
