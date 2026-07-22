@@ -37,3 +37,11 @@ tag-namespace = "tool"
 # releases only ever happen on a 'tool/*-v*' tag push, so the PR dry-run adds
 # noise without value; skip it so PRs settle to CLEAN.
 pr-run-mode = "skip"
+
+# Runner overrides. cargo-dist 0.28's default `ubuntu-20.04` runner was retired
+# by GitHub, so the release jobs queued forever. Pin the global jobs and the
+# Linux build targets to `ubuntu-22.04` (macOS targets use the macOS runners).
+[dist.github-custom-runners]
+global = "ubuntu-22.04"
+aarch64-unknown-linux-gnu = "ubuntu-22.04"
+x86_64-unknown-linux-gnu = "ubuntu-22.04"
