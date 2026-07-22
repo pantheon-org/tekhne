@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { $ } from "bun";
-import { logger } from "../utils/logger";
+import { logger } from "./logger";
 
 export const showDryRunDiff = async (
   readmePath: string,
