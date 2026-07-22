@@ -1,12 +1,22 @@
 # Python allowlist: skills permitted to retain Python after the C3 removal.
 #
 # Source of truth: .context/plans/python-inventory.md (task C1).
-# See the migration plan decisions D1 (research skills) and D5 (custom-logic
-# validators/generators). Each listed skill is (or will be, per C2b) marked
-# with a `python-allowlist` key under `metadata` in its SKILL.md frontmatter.
+# See migration plan decisions D1 (research skills) and D5 (validator/generator
+# skills with custom-logic Python).
 #
-# One skill directory per line. Consumed by C3 to narrow the dependabot pip
-# block and the CodeQL python matrix, and to verify no other Python remains.
+# THIS FILE is the authoritative allowlist that C3 and CI consume (narrowing the
+# dependabot pip block + CodeQL python matrix, and verifying no other Python
+# remains). Marking mechanism (C2b): the root list below is authoritative;
+# per-skill SKILL.md frontmatter markers are NOT required. The 6 research skills
+# carry a metadata.python-allowlist marker (added in C1); the validator/generator
+# skills are listed here only, because the pre-commit skill-artifacts validator's
+# naive name-vs-directory rule flags every <tool>-validator/-generator skill on
+# the toolkit layout (an apparent validator bug), which blocks touching their
+# SKILL.md to add a marker. See the plan's C2b note and the parked branch
+# wip/validator-quality-audit (grade-C quality improvements held pending a
+# validator-rule fix).
+#
+# One skill directory per line.
 
 # --- Research skills (D1); frontmatter markers applied in C1 ---
 skills/documentation/research/pubmed-search
@@ -16,9 +26,20 @@ skills/documentation/research/sci-data-extractor
 skills/documentation/research/google-scholar-search
 skills/documentation/research/semantic-scholar-search
 
-# --- Custom-logic validators/generators (D5); frontmatter markers applied in C2b ---
+# --- Validator/generator skills with custom-logic Python (D5, revised) ---
+# All carry real analysis logic (HCL/YAML parsers, config validators, diagnostics);
+# their external-tool orchestration (checkov, tflint, etc.) lives in .sh scripts.
+# Kept as allowlisted Python (not converted to bash); listed here, not marked in
+# frontmatter (see header note).
 skills/observability/promql/validator
 skills/ci-cd/gitlab-ci/validator
 skills/ci-cd/azure-pipelines/validator
 skills/ci-cd/jenkinsfile/generator
 skills/ci-cd/fluentbit/generator
+skills/ci-cd/fluentbit/validator
+skills/ci-cd/helm/validator
+skills/infrastructure/ansible/validator
+skills/infrastructure/k8s/yaml-validator
+skills/infrastructure/k8s/debug
+skills/infrastructure/terraform/validator
+skills/infrastructure/terragrunt/validator
