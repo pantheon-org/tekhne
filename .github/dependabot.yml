@@ -64,10 +64,18 @@ updates:
           - "minor"
           - "patch"
 
-  # Python research skills (requirements.txt under skills/documentation/research)
+  # Python research skills (requirements.txt under skills/documentation/research).
+  # Scoped to exactly the allowlisted research skills that ship a requirements.txt
+  # (python-allowlist.txt). The allowlisted validator/generator skills carry .py
+  # but no requirements.txt (stdlib only), so they are not listed here.
   - package-ecosystem: "pip"
     directories:
-      - "/skills/documentation/research/*"
+      - "/skills/documentation/research/google-scholar-search"
+      - "/skills/documentation/research/notebooklm"
+      - "/skills/documentation/research/pubmed-search"
+      - "/skills/documentation/research/sci-data-extractor"
+      - "/skills/documentation/research/sci-hub-search"
+      - "/skills/documentation/research/semantic-scholar-search"
     schedule:
       interval: "weekly"
       day: "monday"
