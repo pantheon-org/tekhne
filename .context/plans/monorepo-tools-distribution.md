@@ -1,7 +1,7 @@
 # Skills monorepo with crate-based CLIs — migration wave plan
 
 **Ticket / ref**: [.context/investigations/monorepo-tools-distribution-2026-07-13.md](../investigations/monorepo-tools-distribution-2026-07-13.md)
-**Status**: In Progress — **Waves 1 to 6 complete and merged to `main` (22-07-2026)**; GO/NO-GO gate returned **GO**. The Go toolchain and the TypeScript `cli/` are retired; six Rust crates (`common`, `skill-install`, `skill-validator-rs`, `skill-auditor`, `adr`, `journal`) with hooks/CI on build-from-source. **Wave 7 (C3 Python narrowing + B2b docs) is the last remaining work.** See "Execution progress" below.
+**Status**: ✅ **COMPLETE — all 7 waves merged to `main` (22-07-2026, `e8d6c81b`)**. GO/NO-GO gate returned GO. The Go toolchain and the TypeScript `cli/` are retired; six Rust crates (`common`, `skill-install`, `skill-validator-rs`, `skill-auditor`, `adr`, `journal`) with hooks/CI on build-from-source; Python narrowed to the allowlist with a guardrail; docs Tools section shipped. Remaining items are the deferred follow-ups listed below (release-please reconciliation, first release tag, guardrail-in-CI), none blocking. See Definition of Done.
 **Assignee**: thomas.roche
 **Revision**: v4 (21-07-2026, adversarial review corrections applied; see "Revision history"). Execution status tracked in "Execution progress" and updated as each wave lands.
 
@@ -18,7 +18,9 @@ Living status; updated as each task/wave lands on `main`.
 | 5 — Distribution (A5) | ✅ Done — A5 #191; clean-machine install verified; `tool/`-namespaced cargo-dist releases |
 | Go / No-Go gate (after A5) | ✅ **GO** (22-07-2026) — proceed into Waves 6-7; preconditions resolved (see gate section) |
 | 6 — Retire Go, add tools, drop TS CLI | ✅ Done — A7 #195, A8 #194, A5b #197, A6+A6c #198, B5 #202. Go + TS `cli/` gone; 6 Rust crates; hooks/CI build-from-source |
-| 7 — Python removal & tools catalogue | ⬜ Post-gate |
+| 7 — Python removal & tools catalogue | ✅ Done — C3 #204 (Python narrowed to the allowlist + guardrail), B2b #205 (Astro Tools section) |
+
+**🎉 Migration complete (22-07-2026): all 7 waves merged to `main` (`e8d6c81b`).** See Definition of Done below.
 
 **Open follow-ups from execution** (not yet scheduled into a wave):
 
@@ -266,12 +268,12 @@ Rollback: joint and reverse-order. Tag both the pre-A6 and pre-B5 commits. Rever
 
 > Gate: Wave 6 verified ✓
 
-- [ ] **C3** — Remove Python **[must land together]**: **narrow** (do not delete) the dependabot pip block and the codeql `python` matrix to the allowlist (six research skills per D1 plus the custom-logic validator/generator skills per D5), so retained Python keeps dependency + scan coverage. Per the revised D5 (see C2b), all 12 validator/generator skills keep their Python (on the root allowlist), so **no validator/generator `.py` is deleted**; C3 removes only genuinely dead `.py` (C1 found none) and verifies every remaining `.py` is allowlisted. **Preserve the allowlisted skills** and **carve out `.agents/skills/**`** vendored copies from the verification. Requires A6c to land the CodeQL-matrix ruleset change. Verify: every remaining `.py` is allowlisted, no `python3` invocation outside the allowlist, and pip/CodeQL still cover the retained Python — branch `chore/remove-python` — model: standard
-- [ ] **B2b** — Astro Tools section (under `docs/src/pages/`) from tool-crate metadata/README, listing the shipped CLIs (auditor, adr, journal) with the CLI-install story; validators appear in the Skills section, not here (D5) — branch `feat/docs-tools-section` — model: standard
+- [x] **C3** — **DONE (PR #204):** 38 `.py` files verified all under the 18 allowlisted dirs (carve-outs: `target/`, `node_modules/`, `.agents/skills/**`, golden-corpus fixtures); no stray `python3`/`python` invocation. Dependabot `pip` narrowed to the six research-skill dirs that ship `requirements.txt`. Guardrail `scripts/check-python-allowlist.sh` wired into a `python-allowlist` pre-commit step. CodeQL `python` entry left intact (Python retained, so no language-retirement transition). Follow-ups: guardrail is pre-commit only (CI step optional); C1 inventory doc has stale wording superseded by `python-allowlist.txt`. Original text below. — Remove Python **[must land together]**: **narrow** (do not delete) the dependabot pip block and the codeql `python` matrix to the allowlist (six research skills per D1 plus the custom-logic validator/generator skills per D5), so retained Python keeps dependency + scan coverage. Per the revised D5 (see C2b), all 12 validator/generator skills keep their Python (on the root allowlist), so **no validator/generator `.py` is deleted**; C3 removes only genuinely dead `.py` (C1 found none) and verifies every remaining `.py` is allowlisted. **Preserve the allowlisted skills** and **carve out `.agents/skills/**`** vendored copies from the verification. Requires A6c to land the CodeQL-matrix ruleset change. Verify: every remaining `.py` is allowlisted, no `python3` invocation outside the allowlist, and pip/CodeQL still cover the retained Python — branch `chore/remove-python` — model: standard
+- [x] **B2b** — **DONE (PR #205):** `docs/src/pages/tools.astro` + a site-wide Skills/Tools `HeaderNav`, listing skill-auditor/adr/journal with description, commands, and the `curl | sh` + `skill install` story; validators stay in the Skills section (D5). `bun run build` passes (669 pages). — Astro Tools section (under `docs/src/pages/`) from tool-crate metadata/README, listing the shipped CLIs (auditor, adr, journal) with the CLI-install story; validators appear in the Skills section, not here (D5) — branch `feat/docs-tools-section` — model: standard
 
 Verification:
-- [ ] Python check passes with the allowlist + D2 plain-skill exceptions; allowlisted skills still function; pip/CodeQL still track retained Python.
-- [ ] Astro renders Skills + Tools sections; Tools lists every shipped CLI.
+- [x] Python check passes with the allowlist + D2 plain-skill exceptions; allowlisted skills still function; pip/CodeQL still track retained Python — guardrail passes; pip narrowed to the six research dirs; CodeQL python retained.
+- [x] Astro renders Skills + Tools sections; Tools lists every shipped CLI — `tools.astro` lists skill-auditor/adr/journal; Skills section intact; build green.
 
 Rollback: **C3** — revert the must-land commit. **B2b** — docs-only revert.
 
@@ -307,13 +309,15 @@ Prefer stacked PRs within a track (`pr-stacker`). B and C tracks can start again
 
 ## Definition of Done
 
-- [ ] All wave verification gates pass; go/no-go recorded after A5.
-- [ ] All branches merged to `main`; CI green on `main`.
-- [ ] No Go, no TS `cli/`, and no Python except the documented allowlist (six research skills plus the D5 validator/generator skills).
-- [ ] `skill-auditor`, `adr`, and `journal` install standalone (macOS/Linux) and register their skills via `skill install`; validators ship as plain skills (D5).
-- [ ] release-please and cargo-dist coexist under the R1 policy with no stale entries.
-- [ ] Acceptance coverage equivalent to the old cucumber suite is green.
-- [ ] `AGENTS.md`, `README.md`, `CONTRIBUTING.md`, and the Astro site describe the new install/audit/publish story.
+- [x] All wave verification gates pass; go/no-go recorded after A5 — GO (22-07-2026).
+- [x] All branches merged to `main`; CI green on `main` (`e8d6c81b`).
+- [x] No Go, no TS `cli/`, and no Python except the documented allowlist (six research skills plus the D5 validator/generator skills) — verified; guardrail enforces going forward.
+- [x] `skill-auditor`, `adr`, and `journal` install standalone (macOS/Linux) and register their skills via `skill install`; validators ship as plain skills (D5) — `dist=true` + `tool/`-namespaced release workflow; clean-machine install path proven for the shared pattern. **Caveat: the first release tag has not been cut, so the end-to-end download-from-a-release install is not yet exercised in the wild.**
+- [~] release-please and cargo-dist coexist under the R1 policy — **coexistence yes** (disjoint `tool/` vs `v` tag namespaces, disjoint triggers); **"no stale entries" NOT yet met**: the R1 version-drift reconciliation and the 6 stale package entries remain a deferred follow-up (see Open follow-ups), plus the new `adr-creator` skill still needs a release-please entry.
+- [~] Acceptance coverage vs the old cucumber suite — **ported to the new owners** (`readme`→`scripts/catalog`, `validate`→`skill-validator-rs`; cargo tests cover the auditor/validator); `sync`/`audit`/`install`/`tessl` features were **removed with rationale** (retired / covered by cargo tests / external-installer or B3 owner with no offline gate), so the suite is intentionally narrower, not one-to-one equivalent.
+- [x] `AGENTS.md`, `README.md`, `CONTRIBUTING.md`, and the Astro site describe the new install/audit/publish story — repointed in A6/B5 + the B2b Tools section.
+
+**Deferred follow-ups (non-blocking, tracked in "Open follow-ups"):** R1 release-please version-drift + stale-entry reconciliation; `adr-creator` release-please entry; cut the first `tool/*-v*` release tags; promote the Python guardrail to a CI step; reconcile the stale C1-inventory wording; re-home tessl bulk `manage`/`publish-check`; `scripts/catalog` test coverage re-wiring; `tile.json` discovery repoint.
 
 ## Revision history
 
