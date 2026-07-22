@@ -3422,7 +3422,7 @@
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "total reference files: 46708 tokens — agents may load multiple references in one session, consider whether all this content is essential",
+          "Message": "total reference files: 46694 tokens — agents may load multiple references in one session, consider whether all this content is essential",
           "File": "",
           "Line": 0
         },
@@ -3621,7 +3621,7 @@
         },
         {
           "File": "AGENTS.md",
-          "Tokens": 2563
+          "Tokens": 2549
         },
         {
           "File": "CHANGELOG.md",
