@@ -1,0 +1,353 @@
+---
+import DocsLayout from "../layouts/DocsLayout.astro";
+
+const base = import.meta.env.BASE_URL;
+const repo = "pantheon-org/tekhne";
+
+interface ToolCommand {
+  usage: string;
+  summary: string;
+}
+
+interface Tool {
+  name: string;
+  version: string;
+  icon: string;
+  tagline: string;
+  description: string;
+  commands: ToolCommand[];
+  bundledSkill: string;
+  bundledSkillHref: string;
+}
+
+// Sourced from each crate's Cargo.toml `description`, the clap `about`/`long_about`
+// command surface, and the bundled skill recorded in `skill_bundle.rs`.
+const tools: Tool[] = [
+  {
+    name: "skill-auditor",
+    version: "0.1.0",
+    icon: "🔍",
+    tagline: "Audit skill quality using the 9-dimension framework.",
+    description:
+      "Deterministic 9-dimension skill quality auditor (a Rust port of the Go skill-auditor). It combines skill-validator structural checks with the custom D1 to D9 scoring and can emit human or JSON reports, persist audits, and gate a batch below a grade threshold.",
+    commands: [
+      { usage: "skill-auditor evaluate <skill>", summary: "Evaluate a single skill." },
+      { usage: "skill-auditor batch <skill...>", summary: "Evaluate multiple skills, with an optional --fail-below grade gate." },
+      { usage: "skill-auditor skill install", summary: "Register the bundled skill into detected agent directories." },
+    ],
+    bundledSkill: "skill-quality-auditor",
+    bundledSkillHref: `${base}/skills/agentic-harness/skill-quality-auditor/skill/`,
+  },
+  {
+    name: "adr",
+    version: "0.1.0",
+    icon: "🧭",
+    tagline: "Create and manage Architecture Decision Records.",
+    description:
+      "Architecture Decision Record (ADR) CLI with a bundled adr-creator skill and installer. It creates, lists, and supersedes ADRs from the house template, writing to docs/adr by default (or the ADR_DIR env var).",
+    commands: [
+      { usage: "adr new <title>", summary: "Create the next-numbered ADR from the house template." },
+      { usage: "adr list", summary: "List existing ADRs by number, status, and title." },
+      { usage: "adr supersede <number> <new-title>", summary: "Supersede an existing ADR with a new one." },
+      { usage: "adr skill install", summary: "Register the bundled skill into detected agent directories." },
+    ],
+    bundledSkill: "adr-creator",
+    bundledSkillHref: `${base}/skills/documentation/adr-creator/skill/`,
+  },
+  {
+    name: "journal",
+    version: "0.1.0",
+    icon: "📓",
+    tagline: "Create and validate structured journal entries.",
+    description:
+      "Creates and validates structured journal entries, promoting the journal-entry-creator skill into a self-contained CLI. Entries are timestamped Markdown with YAML frontmatter, triple-synced dates, and template-based sections across five entry types, then checked for compliance.",
+    commands: [
+      { usage: "journal new --type <type> --title <title>", summary: "Create a new entry from one of the five template schemas." },
+      { usage: "journal validate <file>", summary: "Validate an existing entry for compliance." },
+      { usage: "journal skill install", summary: "Register the bundled skill into detected agent directories." },
+    ],
+    bundledSkill: "journal-entry-creator",
+    bundledSkillHref: `${base}/skills/documentation/journal-entry-creator/skill/`,
+  },
+];
+
+const installerUrl = (tool: Tool) =>
+  `https://github.com/${repo}/releases/download/tool/${tool.name}-v${tool.version}/${tool.name}-installer.sh`;
+---
+
+<DocsLayout title="Tools" description="The shipped Tekhne tool CLIs: skill-auditor, adr, and journal. Standalone Rust binaries you install with a single curl command, each bundling a companion skill." sidebar={false}>
+  <div class="lp-section">
+    <div class="section-label">Tools</div>
+    <h1 class="page-title">Standalone CLIs</h1>
+    <p class="page-sub">
+      Three of the Tekhne skills also ship as standalone Rust binaries. Each installs
+      on macOS or Linux with a single <code>curl | sh</code> command, then registers its
+      bundled companion skill into your agents with an explicit <code>skill install</code>
+      subcommand. The installer only places the binary on your PATH, so registering the
+      skill is always a deliberate second step.
+    </p>
+
+    <div class="install-note">
+      <p>
+        Installers follow the cargo-dist shell installer shape and are published under the
+        <code>tool/</code> tag namespace, so every release tag looks like
+        <code>tool/&lt;package&gt;-v&lt;semver&gt;</code> (for example
+        <code>tool/skill-auditor-v0.1.0</code>). Binaries land in <code>CARGO_HOME</code>.
+        Looking for the validators or the other skills? They ship as plain Markdown skills in the
+        <a href={`${base}/tiles/`}>Skills catalog</a>.
+      </p>
+    </div>
+  </div>
+
+  {tools.map((tool) => (
+    <section class="tool-card" id={tool.name}>
+      <div class="tool-head">
+        <span class="tool-icon">{tool.icon}</span>
+        <div class="tool-titles">
+          <h2 class="tool-name">
+            {tool.name}
+            <span class="tool-version">v{tool.version}</span>
+          </h2>
+          <p class="tool-tagline">{tool.tagline}</p>
+        </div>
+      </div>
+
+      <p class="tool-desc">{tool.description}</p>
+
+      <h3 class="tool-subhead">Commands</h3>
+      <ul class="cmd-list">
+        {tool.commands.map((cmd) => (
+          <li>
+            <code class="cmd-usage">{cmd.usage}</code>
+            <span class="cmd-summary">{cmd.summary}</span>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="tool-subhead">Install</h3>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="term-comment"># 1. Install the binary onto your PATH</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">curl --proto '=https' --tlsv1.2 -LsSf \</span></div>
+          <div class="term-wrap"><span class="term-cmd">{`    ${installerUrl(tool)} | sh`}</span></div>
+          <br />
+          <div><span class="term-comment"># 2. Register its bundled skill into your agents</span></div>
+          <div><span class="term-prompt">$ </span><span class="term-cmd">{`${tool.name} skill install`}</span></div>
+          <div><span class="term-out">{`✓ Installed ${tool.bundledSkill} into your agents`}</span></div>
+        </div>
+      </div>
+
+      <p class="tool-skill">
+        Bundled skill:
+        <a href={tool.bundledSkillHref}>{tool.bundledSkill}</a>
+      </p>
+    </section>
+  ))}
+</DocsLayout>
+
+<style>
+  .lp-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem 1rem;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tk-accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--tk-color-white);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+
+  .page-sub {
+    color: var(--tk-text-muted);
+    max-width: 68ch;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .install-note {
+    background: var(--tk-bg-surface);
+    border: 1px solid var(--tk-border);
+    border-left: 3px solid var(--tk-accent);
+    border-radius: 0.5rem;
+    padding: 0.9rem 1.1rem;
+  }
+
+  .install-note p {
+    color: var(--tk-text-muted);
+    font-size: 0.875rem;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  code {
+    font-family: var(--tk-font-mono);
+    font-size: 0.85em;
+    background: var(--tk-bg-hover);
+    color: var(--tk-color-accent-high);
+    border-radius: 0.3rem;
+    padding: 0.1em 0.35em;
+  }
+
+  a {
+    color: var(--tk-accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .tool-card {
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    padding: 1.5rem 2rem;
+    background: var(--tk-bg-surface);
+    border: 1px solid var(--tk-border);
+    border-radius: 0.75rem;
+  }
+
+  .tool-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  .tool-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .tool-name {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--tk-font-mono);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--tk-color-white);
+    margin: 0 0 0.2rem;
+  }
+
+  .tool-version {
+    font-size: 0.7rem;
+    font-family: var(--tk-font-mono);
+    background: var(--tk-color-accent-low);
+    color: var(--tk-color-accent-high);
+    border-radius: 0.375rem;
+    padding: 0.2em 0.5em;
+    font-weight: 500;
+  }
+
+  .tool-tagline {
+    color: var(--tk-text);
+    font-size: 0.95rem;
+    margin: 0;
+  }
+
+  .tool-desc {
+    color: var(--tk-text-muted);
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .tool-subhead {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--tk-accent);
+    margin: 1.25rem 0 0.6rem;
+  }
+
+  .cmd-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0.5rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .cmd-list li {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.75rem;
+  }
+
+  .cmd-usage {
+    white-space: nowrap;
+  }
+
+  .cmd-summary {
+    color: var(--tk-text-muted);
+    font-size: 0.875rem;
+  }
+
+  .terminal {
+    background: var(--tk-bg-surface);
+    border: 1px solid var(--tk-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid var(--tk-border);
+    background: var(--tk-bg-hover);
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-red { background: #ef4444; }
+  .dot-yellow { background: #eab308; }
+  .dot-green { background: #22c55e; }
+
+  .terminal-body {
+    padding: 1.1rem 1.35rem;
+    font-family: var(--tk-font-mono);
+    font-size: 0.82rem;
+    line-height: 1.9;
+    overflow-x: auto;
+  }
+
+  .term-wrap {
+    white-space: nowrap;
+  }
+
+  .term-prompt { color: var(--tk-text-muted); user-select: none; }
+  .term-cmd { color: var(--tk-color-white); }
+  .term-comment { color: var(--tk-text-muted); }
+  .term-out { color: var(--tk-accent); }
+
+  .tool-skill {
+    font-size: 0.875rem;
+    color: var(--tk-text-muted);
+    margin: 1rem 0 0;
+  }
+</style>
