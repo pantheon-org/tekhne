@@ -12,9 +12,9 @@ The monorepo has two independent release mechanisms that must not collide:
 
 ## 2. Coexistence policy (decisions)
 
-1. **Disjoint tag namespaces.** release-please uses its component tags for skills. cargo-dist uses `<tool>-v<semver>` tags (e.g. `skill-auditor-v1.2.3`). The `rust-release.yml` prototype (A1) triggers only on `*-v[0-9]+.[0-9]+.[0-9]+`, so skill release tags never trigger tool releases and vice versa.
+1. **Disjoint tag namespaces.** release-please tags skills as plain `v<semver>` (e.g. `v0.2.0`). cargo-dist tools use the `tool/` tag namespace: `tool/<package>-v<semver>` (e.g. `tool/skill-auditor-v0.1.0`), set via cargo-dist's `tag-namespace = "tool"` in `dist-workspace.toml`. **Refined in A5 (was `<tool>-v<semver>`):** cargo-dist's default release trigger greedily matches any version-shaped tag, including a bare `v<semver>`, so the tool trigger must be scoped. `tag-namespace` scopes it via config (dist generates a workflow that triggers only on the `tool/` prefix), which is disjoint from skills' bare `v<semver>` and, unlike a hand-edited trigger, survives `dist generate`. The generated workflow is `.github/workflows/tool-release.yml`.
 2. **Version source of truth by package type.** Skills: the release-please manifest is authoritative; `plugin.json` `$.version` is a **derived mirror** synced by extra-files. Tool crates: `Cargo.toml` is authoritative; cargo-dist reads it. Neither system writes the other's source of truth.
-3. **Disjoint workflow triggers.** `release-please.yml` runs on push to `main`. The generated cargo-dist `release.yml` runs on tag push. No shared trigger, no race.
+3. **Disjoint workflow triggers.** `release-please.yml` runs on push to `main`. The generated cargo-dist `tool-release.yml` runs on `tool/`-namespaced tag push. No shared trigger, no race.
 4. **Relocated / retired tool-backed skills exit release-please cleanly.** When a skill becomes a tool crate (e.g. `journal` in A8) or is relocated/consolidated, its release-please package entry AND its `.release-please-manifest.json` entry are removed in the same change, and any husk directory (leftover `CHANGELOG.md`) is deleted. Its versioning then lives only in `Cargo.toml` + cargo-dist tags (for tool crates) or under its new path's entry (for relocations). This is the process A5/A6/A7/A8 follow.
 
 ## 3. D4 fix: extra-files repoint (applied)

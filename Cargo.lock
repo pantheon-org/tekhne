@@ -420,9 +420,11 @@ name = "skill-auditor"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "common",
  "regex",
  "serde",
  "serde_json",
+ "skill-install",
  "skill-validator-rs",
  "tempfile",
 ]

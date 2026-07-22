@@ -641,7 +641,10 @@ github:
       # alpine@sha256:...). Takes precedence over the forbidden tags
       # list — any image not using an immutable digest reference is
       # flagged.
-      containerImagesMustBePinnedByDigest: true
+      # Disabled for A5: tool-release.yml is the only workflow using a container
+      # (cargo-dist's manylinux build image, chosen by dist and not digest
+      # pinnable via config). Mutable-tag detection (latest/main/etc.) stays on.
+      containerImagesMustBePinnedByDigest: false
 
     # ===========================================
     # Pipeline must not use Docker-in-Docker
@@ -662,8 +665,12 @@ github:
     # style base64 obfuscation. Maps to OWASP CICD-SEC-3 / CICD-SEC-8.
     pipelineMustNotExecuteUnverifiedScripts:
       enabled: true
-      trustedUrls: []
-      # - https://internal-artifacts.example.com/*
+      # Trust the cargo-dist release bootstrap and the official rustup installer
+      # invoked by the dist-generated tool-release.yml (A5). The dist URL is
+      # version pinned; every other pipe-to-shell anywhere else is still flagged.
+      trustedUrls:
+        - https://github.com/axodotdev/cargo-dist/releases/download/*
+        - https://sh.rustup.rs
 
     # ===========================================
     # Reusable workflows must not inherit secrets
