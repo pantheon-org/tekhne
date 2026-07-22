@@ -3,10 +3,22 @@ name: Release Please
 on:
   push:
     branches: [main]
+  schedule:
+    # Weekly release cut: Mondays 08:07 UTC (09:07 BST). Off-peak minute lowers
+    # the chance of GitHub dropping the scheduled run under load.
+    - cron: "7 8 * * 1"
+  workflow_dispatch: {}
 
 permissions:
   contents: write
   pull-requests: write
+
+# Serialise runs so a push-triggered PR refresh and the weekly release cut do
+# not race to update the release-please branch. Never cancel an in-flight run:
+# cancelling mid tag/GitHub-Release creation could leave a half-cut release.
+concurrency:
+  group: release-please
+  cancel-in-progress: false
 
 jobs:
   release-please:
@@ -15,8 +27,13 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@16a9c90856f42705d54a6fda1823352bdc62cf38 # v4.4.0
         with:
-          # RELEASE_PLEASE_TOKEN: optional PAT for orgs that restrict GITHUB_TOKEN
-          # permissions. A human merging the release PR still triggers publish-skills.yml.
+          # Optional PAT for orgs that restrict the default GITHUB_TOKEN.
+          # Falls back to GITHUB_TOKEN when the PAT secret is absent.
           token: ${{ secrets.RELEASE_PLEASE_TOKEN || secrets.GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+          # Cadence control. On push we only refresh the rolling release PR
+          # (skip the tag/GitHub Release), so it stays current and mergeable
+          # against the strict up-to-date branch ruleset. The release itself is
+          # cut only on the weekly schedule, or on demand via workflow_dispatch.
+          skip-github-release: ${{ github.event_name == 'push' }}
