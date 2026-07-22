@@ -13,7 +13,7 @@ use common::{Error, Result};
 use skill_install::{
     agents::{all, by_name, AgentConfig},
     env::Environment,
-    install::{install_skill, resolve_target_dir, InstallMode},
+    install::{install_skill, resolve_target_dir, uninstall_skill, InstallMode},
 };
 
 /// How the target agents are chosen.
@@ -199,6 +199,109 @@ fn install_one(
     install_skill(source, target_dir, mode)
 }
 
+/// Options controlling a `skill uninstall` run.
+#[derive(Debug, Clone)]
+pub struct UninstallOptions {
+    /// Which agents to target.
+    pub selection: Selection,
+    /// Operate on global skills directories rather than project-local ones.
+    pub global: bool,
+    /// Report actions without removing anything.
+    pub dry_run: bool,
+}
+
+/// What happened for a single agent during an uninstall run.
+#[derive(Debug, Clone)]
+pub struct UninstallOutcome {
+    /// The agent slug.
+    pub agent: String,
+    /// The resolved skills directory for the agent.
+    pub target_dir: PathBuf,
+    /// The skill path that was (or would be) removed.
+    pub target_path: PathBuf,
+    /// Whether a skill was actually present and removed.
+    pub removed: bool,
+    /// Whether the agent was detected as installed on this machine.
+    pub detected: bool,
+    /// An error message if the removal failed for this agent.
+    pub error: Option<String>,
+}
+
+/// The result of a `skill uninstall` run.
+#[derive(Debug, Clone)]
+pub struct UninstallReport {
+    /// Per-agent outcomes, in selection order after de-duplication.
+    pub outcomes: Vec<UninstallOutcome>,
+    /// Agents that were requested but are not installed on this machine.
+    pub missing: Vec<String>,
+}
+
+/// Remove the bundled skill named `skill_name` from every selected agent
+/// directory.
+///
+/// Agent selection mirrors [`run_install`]. Idempotent per agent: an absent
+/// skill is reported with `removed = false` rather than as an error.
+pub fn run_uninstall(
+    opts: &UninstallOptions,
+    env: &Environment,
+    exists: &dyn Fn(&Path) -> bool,
+    skill_name: &str,
+) -> Result<UninstallReport> {
+    // Reuse the install selection logic; the placement mode is irrelevant here.
+    let install_opts = InstallOptions {
+        selection: opts.selection.clone(),
+        global: opts.global,
+        mode: InstallMode::Copy,
+        dry_run: opts.dry_run,
+    };
+    let agents = select_agents(&install_opts, env, exists)?;
+
+    let mut outcomes = Vec::with_capacity(agents.len());
+    let mut missing = Vec::new();
+
+    for agent in agents {
+        let target_dir = resolve_target_dir(agent, opts.global, env, exists);
+        let target_path = target_dir.join(skill_name);
+        let detected = agent.detect_installed(env, exists);
+        if !detected {
+            missing.push(agent.name.to_string());
+        }
+
+        if opts.dry_run {
+            outcomes.push(UninstallOutcome {
+                agent: agent.name.to_string(),
+                removed: exists(&target_path),
+                target_dir,
+                target_path,
+                detected,
+                error: None,
+            });
+            continue;
+        }
+
+        match uninstall_skill(&target_dir, skill_name) {
+            Ok(removed) => outcomes.push(UninstallOutcome {
+                agent: agent.name.to_string(),
+                target_dir,
+                target_path,
+                removed,
+                detected,
+                error: None,
+            }),
+            Err(e) => outcomes.push(UninstallOutcome {
+                agent: agent.name.to_string(),
+                target_dir,
+                target_path,
+                removed: false,
+                detected,
+                error: Some(e.to_string()),
+            }),
+        }
+    }
+
+    Ok(UninstallReport { outcomes, missing })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -343,5 +446,40 @@ mod tests {
         let report = run_install(&opts, &env, &|_| false, &source).unwrap();
         let planned = report.outcomes[0].installed_path.as_ref().unwrap();
         assert!(!planned.exists(), "dry run must not write the skill");
+    }
+
+    #[test]
+    fn run_uninstall_removes_installed_skill() {
+        let tmp = tempfile::tempdir().unwrap();
+        let source = fixture_skill(&tmp.path().join("bundle"));
+        let home = tmp.path().join("home");
+        std::fs::create_dir_all(&home).unwrap();
+        let env = env_with(&home, &home);
+        let skill_name = source.file_name().unwrap().to_str().unwrap().to_string();
+
+        let install_opts = InstallOptions {
+            selection: Selection::Explicit(vec!["claude-code".into()]),
+            global: true,
+            mode: InstallMode::Copy,
+            dry_run: false,
+        };
+        let installed = run_install(&install_opts, &env, &|_| false, &source).unwrap();
+        let path = installed.outcomes[0].installed_path.clone().unwrap();
+        assert!(path.exists());
+
+        let opts = UninstallOptions {
+            selection: Selection::Explicit(vec!["claude-code".into()]),
+            global: true,
+            dry_run: false,
+        };
+        let report = run_uninstall(&opts, &env, &|p: &Path| p.exists(), &skill_name).unwrap();
+        assert_eq!(report.outcomes.len(), 1);
+        assert!(report.outcomes[0].removed);
+        assert!(!path.exists(), "uninstall should remove the skill");
+
+        // Idempotent: a second uninstall removes nothing and does not error.
+        let again = run_uninstall(&opts, &env, &|p: &Path| p.exists(), &skill_name).unwrap();
+        assert!(!again.outcomes[0].removed);
+        assert!(again.outcomes[0].error.is_none());
     }
 }
