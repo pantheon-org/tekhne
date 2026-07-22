@@ -6,6 +6,7 @@ members = [
     "crates/skill-validator-rs",
     "crates/skill-auditor",
     "crates/journal",
+    "crates/adr",
 ]
 
 [workspace.package]

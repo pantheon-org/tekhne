@@ -1,0 +1,27 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 90,
+    "covered_instructions": [
+      "adr new command creates the next-numbered ADR",
+      "adr list shows number, status, and title",
+      "adr supersede marks the old ADR and links the replacement",
+      "Numbering is max(existing) + 1 and gap-tolerant",
+      "Accepted ADRs are immutable except for Status",
+      "Directory resolution: --dir, ADR_DIR, docs/adr default",
+      "Template headings kept verbatim and in order",
+      "One decision per ADR",
+      "Alternatives Considered must be populated"
+    ],
+    "uncovered_instructions": [
+      "Flip Status from Proposed to Accepted on ratification"
+    ]
+  },
+  "scenario_coverage": {
+    "total_scenarios": 3,
+    "capabilities_covered": [
+      "adr-creation",
+      "adr-superseding",
+      "adr-log-listing"
+    ]
+  }
+}

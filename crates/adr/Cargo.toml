@@ -1,0 +1,31 @@
+[package]
+name = "adr"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+description = "Architecture Decision Record (ADR) CLI with a bundled adr-creator skill and installer."
+
+# Opt this crate into cargo-dist: the workspace policy sets `publish = false`,
+# which otherwise hides the binary from dist. adr follows the A5 distribution
+# template established by skill-auditor.
+[package.metadata.dist]
+dist = true
+
+[lib]
+name = "adr_core"
+path = "src/lib.rs"
+
+[[bin]]
+name = "adr"
+path = "src/main.rs"
+
+[dependencies]
+skill-install = { workspace = true }
+common = { workspace = true }
+clap = { workspace = true }
+
+[dev-dependencies]
+tempfile = { workspace = true }

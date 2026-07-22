@@ -1,0 +1,36 @@
+{
+  "context": "Tests whether the agent creates a correctly-numbered ADR with the adr CLI and completes the house template with all required sections and a real rejected alternative.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses adr new for creation",
+      "description": "Creates the record with `adr new \"Adopt event-driven ingestion\"` rather than hand-writing a file.",
+      "max_score": 20
+    },
+    {
+      "name": "Correct next number",
+      "description": "The new record is numbered 0002 (max existing 0001 plus one), not 0001 or a guessed number.",
+      "max_score": 15
+    },
+    {
+      "name": "Kebab-case file name",
+      "description": "The file is named 0002-adopt-event-driven-ingestion.md under docs/adr.",
+      "max_score": 10
+    },
+    {
+      "name": "All template headings present and ordered",
+      "description": "The ADR contains Context, Decision, Consequences (with Positive, Negative, Neutral), Alternatives Considered, and Compliance in that order.",
+      "max_score": 25
+    },
+    {
+      "name": "Alternatives populated",
+      "description": "At least one rejected alternative is recorded with pros, cons, and a concrete reason for rejection.",
+      "max_score": 20
+    },
+    {
+      "name": "Status and date set correctly",
+      "description": "The record carries a Status line and a YYYY-MM-DD Date; a freshly created record starts as Proposed.",
+      "max_score": 10
+    }
+  ]
+}

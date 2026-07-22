@@ -32,3 +32,8 @@ install-updater = false
 # tag namespaces are disjoint and a skill release never triggers a tool release.
 # This is config-driven: dist owns and regenerates the workflow, no manual edit.
 tag-namespace = "tool"
+# Do not run the release workflow on pull requests. The default PR "plan" job
+# sits QUEUED on every PR and holds it at mergeStateStatus=UNSTABLE. Tool
+# releases only ever happen on a 'tool/*-v*' tag push, so the PR dry-run adds
+# noise without value; skip it so PRs settle to CLEAN.
+pr-run-mode = "skip"
