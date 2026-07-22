@@ -70,8 +70,8 @@ impl Skill {
     /// Read and parse `<dir>/SKILL.md` (Go `skill.Load`).
     pub fn load(dir: &Path) -> Result<Skill, String> {
         let path = dir.join("SKILL.md");
-        let content = std::fs::read_to_string(&path)
-            .map_err(|e| format!("reading SKILL.md: {e}"))?;
+        let content =
+            std::fs::read_to_string(&path).map_err(|e| format!("reading SKILL.md: {e}"))?;
 
         let (fm, body) = split_frontmatter(&content)?;
 
@@ -231,9 +231,7 @@ pub fn split_frontmatter(content: &str) -> Result<(String, String), String> {
 }
 
 fn find_subslice(haystack: &[u8], needle: &[u8]) -> Option<usize> {
-    haystack
-        .windows(needle.len())
-        .position(|w| w == needle)
+    haystack.windows(needle.len()).position(|w| w == needle)
 }
 
 fn trim_right_cr(b: &[u8]) -> &[u8] {

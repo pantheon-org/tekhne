@@ -59,13 +59,11 @@ const TRAILING_PUNCT: &[char] = &['?', '!', '.', ',', ':', '*', '_', '~', '\'', 
 /// following cmark-gfm autolink rules (Go `trimTrailingDelimiters`).
 fn trim_trailing_delimiters(url: &str) -> String {
     let mut url = url.to_string();
+    // Trim repeatedly until an iteration makes no change (reaches the `break`).
     loop {
-        let mut changed = false;
-
         if url.ends_with(';') {
             if let Some(m) = ENTITY_SUFFIX.find(&url) {
                 url.truncate(m.start());
-                changed = true;
                 continue;
             }
         }
@@ -75,7 +73,6 @@ fn trim_trailing_delimiters(url: &str) -> String {
             let close = url.matches(')').count();
             if close > open {
                 url.pop();
-                changed = true;
                 continue;
             }
         }
@@ -83,14 +80,11 @@ fn trim_trailing_delimiters(url: &str) -> String {
         if let Some(last) = url.chars().last() {
             if TRAILING_PUNCT.contains(&last) {
                 url.pop();
-                changed = true;
                 continue;
             }
         }
 
-        if !changed {
-            break;
-        }
+        break;
     }
     url
 }
@@ -120,9 +114,21 @@ mod tests {
 
     #[test]
     fn trailing_entity_and_punct_trimmed() {
-        assert_eq!(trim_trailing_delimiters("https://x.com/a&amp;"), "https://x.com/a");
-        assert_eq!(trim_trailing_delimiters("https://x.com/a."), "https://x.com/a");
-        assert_eq!(trim_trailing_delimiters("https://x.com/a(b)"), "https://x.com/a(b)");
-        assert_eq!(trim_trailing_delimiters("https://x.com/a)"), "https://x.com/a");
+        assert_eq!(
+            trim_trailing_delimiters("https://x.com/a&amp;"),
+            "https://x.com/a"
+        );
+        assert_eq!(
+            trim_trailing_delimiters("https://x.com/a."),
+            "https://x.com/a"
+        );
+        assert_eq!(
+            trim_trailing_delimiters("https://x.com/a(b)"),
+            "https://x.com/a(b)"
+        );
+        assert_eq!(
+            trim_trailing_delimiters("https://x.com/a)"),
+            "https://x.com/a"
+        );
     }
 }

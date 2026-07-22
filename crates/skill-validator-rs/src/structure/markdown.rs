@@ -39,7 +39,9 @@ pub fn check_markdown(dir: &Path, body: &str) -> Vec<ValidationResult> {
         if !e.name.to_lowercase().ends_with(".md") {
             continue;
         }
-        let Some(data) = read_file(&e.path) else { continue };
+        let Some(data) = read_file(&e.path) else {
+            continue;
+        };
         let rel = format!("references/{}", e.name);
         if let Some(line) = find_unclosed_fence(&data) {
             results.push(ctx.error_at_line(

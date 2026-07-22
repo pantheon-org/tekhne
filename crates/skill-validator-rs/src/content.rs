@@ -13,14 +13,30 @@ use crate::util::{self, round_to};
 
 /// Strong directive-language markers (Go `content.strongMarkerRes`).
 const STRONG_MARKERS: &[&str] = &[
-    r"must", r"always", r"never", r"shall", r"required", r"do not", r"don't", r"ensure",
-    r"critical", r"mandatory",
+    r"must",
+    r"always",
+    r"never",
+    r"shall",
+    r"required",
+    r"do not",
+    r"don't",
+    r"ensure",
+    r"critical",
+    r"mandatory",
 ];
 
 /// Weak/advisory-language markers (Go `content.weakMarkerRes`).
 const WEAK_MARKERS: &[&str] = &[
-    r"may", r"consider", r"could", r"might", r"optional", r"possibly", r"suggested", r"prefer",
-    r"try to", r"if possible",
+    r"may",
+    r"consider",
+    r"could",
+    r"might",
+    r"optional",
+    r"possibly",
+    r"suggested",
+    r"prefer",
+    r"try to",
+    r"if possible",
 ];
 
 fn compile_markers(words: &[&str]) -> Vec<Regex> {
@@ -35,11 +51,52 @@ static WEAK_RES: LazyLock<Vec<Regex>> = LazyLock::new(|| compile_markers(WEAK_MA
 
 /// Common imperative verbs (Go `content.imperativeVerbs`).
 const IMPERATIVE_VERBS: &[&str] = &[
-    "use", "run", "create", "add", "set", "install", "configure", "write", "read", "check",
-    "verify", "make", "build", "test", "ensure", "include", "remove", "delete", "update", "call",
-    "import", "export", "define", "implement", "return", "pass", "handle", "parse", "generate",
-    "format", "validate", "convert", "follow", "apply", "start", "stop", "avoid", "keep", "do",
-    "execute", "open", "close", "save", "load", "send", "receive",
+    "use",
+    "run",
+    "create",
+    "add",
+    "set",
+    "install",
+    "configure",
+    "write",
+    "read",
+    "check",
+    "verify",
+    "make",
+    "build",
+    "test",
+    "ensure",
+    "include",
+    "remove",
+    "delete",
+    "update",
+    "call",
+    "import",
+    "export",
+    "define",
+    "implement",
+    "return",
+    "pass",
+    "handle",
+    "parse",
+    "generate",
+    "format",
+    "validate",
+    "convert",
+    "follow",
+    "apply",
+    "start",
+    "stop",
+    "avoid",
+    "keep",
+    "do",
+    "execute",
+    "open",
+    "close",
+    "save",
+    "load",
+    "send",
+    "receive",
 ];
 
 static CODE_LANG: LazyLock<Regex> =
@@ -188,10 +245,11 @@ mod tests {
     fn markers_and_specificity() {
         let md = "You must always do this. You may consider that.";
         let r = analyze(md);
-        // strong: must, always, do -> 3 ; weak: may, consider -> 2
-        assert_eq!(r.strong_markers, 3);
+        // strong: must, always -> 2 (plain "do" is not a strong marker; only
+        // "do not" is) ; weak: may, consider -> 2
+        assert_eq!(r.strong_markers, 2);
         assert_eq!(r.weak_markers, 2);
-        assert_eq!(r.instruction_specificity, round_to(3.0 / 5.0, 4));
+        assert_eq!(r.instruction_specificity, round_to(2.0 / 4.0, 4));
     }
 
     #[test]

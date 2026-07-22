@@ -29,8 +29,7 @@ fn fixture_dir() -> PathBuf {
 
 fn load_corpus() -> Vec<String> {
     let path = fixture_dir().join("corpus.jsonl");
-    let raw = fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw = fs::read_to_string(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     raw.lines()
         .filter(|l| !l.is_empty())
         .enumerate()
@@ -43,8 +42,7 @@ fn load_corpus() -> Vec<String> {
 
 fn load_json_array<T: serde::de::DeserializeOwned>(name: &str) -> Vec<T> {
     let path = fixture_dir().join(name);
-    let raw = fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw = fs::read_to_string(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).unwrap_or_else(|e| panic!("parse {name}: {e}"))
 }
 

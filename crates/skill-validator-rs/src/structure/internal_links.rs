@@ -123,7 +123,10 @@ mod tests {
 
     #[test]
     fn join_clean_resolves_relative() {
-        assert_eq!(join_clean("/skills/x", "references/g.md"), "/skills/x/references/g.md");
+        assert_eq!(
+            join_clean("/skills/x", "references/g.md"),
+            "/skills/x/references/g.md"
+        );
         assert_eq!(join_clean("/skills/x", "../y/g.md"), "/skills/y/g.md");
     }
 }

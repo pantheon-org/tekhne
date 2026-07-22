@@ -10,31 +10,67 @@
 //! sole known parity caveat and are excluded from the golden corpus.
 
 use std::collections::{BTreeMap, BTreeSet};
-use std::sync::LazyLock;
 
 use crate::types::ContaminationReport;
-use crate::util::{round_to, sorted_keys};
+use crate::util::round_to;
 
 /// Tools whose skills legitimately use many languages (Go `multiInterfaceTools`).
 const MULTI_INTERFACE_TOOLS: &[&str] = &[
-    "mongodb", "aws", "docker", "kubernetes", "redis", "postgresql", "mysql", "elasticsearch",
-    "firebase", "terraform", "graphql", "grpc", "kafka", "rabbitmq", "stripe",
+    "mongodb",
+    "aws",
+    "docker",
+    "kubernetes",
+    "redis",
+    "postgresql",
+    "mysql",
+    "elasticsearch",
+    "firebase",
+    "terraform",
+    "graphql",
+    "grpc",
+    "kafka",
+    "rabbitmq",
+    "stripe",
 ];
 
 /// Ordered language categories and their member identifiers (Go
 /// `languageCategories`, in source-literal order for deterministic first-match).
 const LANGUAGE_CATEGORIES: &[(&str, &[&str])] = &[
-    ("shell", &["bash", "shell", "sh", "zsh", "fish", "powershell", "cmd", "bat"]),
-    ("javascript", &["javascript", "js", "typescript", "ts", "jsx", "tsx", "node"]),
+    (
+        "shell",
+        &[
+            "bash",
+            "shell",
+            "sh",
+            "zsh",
+            "fish",
+            "powershell",
+            "cmd",
+            "bat",
+        ],
+    ),
+    (
+        "javascript",
+        &["javascript", "js", "typescript", "ts", "jsx", "tsx", "node"],
+    ),
     ("python", &["python", "py", "python3"]),
     ("java", &["java", "kotlin", "scala", "groovy"]),
     ("systems", &["c", "cpp", "c++", "rust", "go", "zig"]),
     ("ruby", &["ruby", "rb"]),
     ("dotnet", &["csharp", "cs", "fsharp", "vb"]),
-    ("config", &["yaml", "yml", "json", "toml", "ini", "xml", "hcl"]),
+    (
+        "config",
+        &["yaml", "yml", "json", "toml", "ini", "xml", "hcl"],
+    ),
     ("query", &["sql", "graphql", "cypher", "sparql"]),
-    ("markup", &["html", "css", "scss", "sass", "less", "markdown", "md"]),
-    ("mobile", &["swift", "kotlin", "dart", "objective-c", "objc"]),
+    (
+        "markup",
+        &["html", "css", "scss", "sass", "less", "markdown", "md"],
+    ),
+    (
+        "mobile",
+        &["swift", "kotlin", "dart", "objective-c", "objc"],
+    ),
 ];
 
 /// Framework/runtime name -> language category (Go `techPatterns`).
@@ -53,8 +89,15 @@ const TECH_PATTERNS: &[(&str, &str)] = &[
     ("flutter", "mobile"),
 ];
 
-const APPLICATION_CATEGORIES: &[&str] =
-    &["javascript", "python", "java", "systems", "ruby", "dotnet", "mobile"];
+const APPLICATION_CATEGORIES: &[&str] = &[
+    "javascript",
+    "python",
+    "java",
+    "systems",
+    "ruby",
+    "dotnet",
+    "mobile",
+];
 
 const AUXILIARY_CATEGORIES: &[&str] = &["shell", "config", "query", "markup"];
 
@@ -249,7 +292,11 @@ mod tests {
 
     #[test]
     fn auxiliary_only_is_low() {
-        let r = analyze("aux", "```bash\nx\n```", &langs(&["bash", "yaml", "json", "sh"]));
+        let r = analyze(
+            "aux",
+            "```bash\nx\n```",
+            &langs(&["bash", "yaml", "json", "sh"]),
+        );
         assert_eq!(r.contamination_level, "low");
         assert!(!r.language_mismatch);
         assert_eq!(r.primary_category, "shell");

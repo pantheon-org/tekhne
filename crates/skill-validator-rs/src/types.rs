@@ -309,7 +309,12 @@ impl ResultContext {
     }
 
     /// Error result with an explicit file and line number.
-    pub fn error_at_line(&self, file: &str, line: usize, msg: impl Into<String>) -> ValidationResult {
+    pub fn error_at_line(
+        &self,
+        file: &str,
+        line: usize,
+        msg: impl Into<String>,
+    ) -> ValidationResult {
         self.build(Level::Error, file, line, msg.into())
     }
 }

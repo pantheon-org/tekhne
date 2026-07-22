@@ -12,18 +12,14 @@ description = "Deterministic, offline skill validation (structure, content, toke
 name = "skill_validator_rs"
 path = "src/lib.rs"
 
-[[bin]]
-name = "skill-validator-rs"
-path = "src/main.rs"
-
+# The CLI/binary target is deferred to A5b (D3). Until then this crate is a
+# pure library, so `clap` (and the currently unused `common`) are not declared.
 [dependencies]
-common = { workspace = true }
 tiktoken-rs = { workspace = true }
 regex = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 serde_yaml_ng = { workspace = true }
-clap = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }

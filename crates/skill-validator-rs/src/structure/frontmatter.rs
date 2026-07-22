@@ -78,7 +78,10 @@ pub fn check_frontmatter(s: &Skill, opts: &Options) -> Vec<ValidationResult> {
     if desc.is_empty() {
         results.push(ctx.error("description is required"));
     } else if desc.len() > 1024 {
-        results.push(ctx.error(format!("description exceeds 1024 characters ({})", desc.len())));
+        results.push(ctx.error(format!(
+            "description exceeds 1024 characters ({})",
+            desc.len()
+        )));
     } else if desc.trim().is_empty() {
         results.push(ctx.error("description must not be empty/whitespace-only"));
     } else {
@@ -95,7 +98,10 @@ pub fn check_frontmatter(s: &Skill, opts: &Options) -> Vec<ValidationResult> {
     let compat = &s.frontmatter.compatibility;
     if !compat.is_empty() {
         if compat.len() > 500 {
-            results.push(ctx.error(format!("compatibility exceeds 500 characters ({})", compat.len())));
+            results.push(ctx.error(format!(
+                "compatibility exceeds 500 characters ({})",
+                compat.len()
+            )));
         } else {
             results.push(ctx.pass(format!("compatibility: ({} chars)", compat.len())));
         }
@@ -113,7 +119,9 @@ pub fn check_frontmatter(s: &Skill, opts: &Options) -> Vec<ValidationResult> {
                 keys.sort_by(|a, b| a.0.cmp(&b.0));
                 for (k, v) in &keys {
                     if !matches!(v, Value::String(_)) {
-                        results.push(ctx.error(format!("metadata[{}] value must be a string", go_quote(k))));
+                        results.push(
+                            ctx.error(format!("metadata[{}] value must be a string", go_quote(k))),
+                        );
                         all_strings = false;
                     }
                 }
@@ -129,7 +137,10 @@ pub fn check_frontmatter(s: &Skill, opts: &Options) -> Vec<ValidationResult> {
 
     // allowed-tools
     if !s.frontmatter.allowed_tools.is_empty() {
-        results.push(ctx.pass(format!("allowed-tools: {}", go_quote(&s.frontmatter.allowed_tools.value))));
+        results.push(ctx.pass(format!(
+            "allowed-tools: {}",
+            go_quote(&s.frontmatter.allowed_tools.value)
+        )));
         if s.frontmatter.allowed_tools.was_list {
             results.push(ctx.info(
                 "allowed-tools is a YAML list; the spec defines this as a space-delimited string — \
@@ -203,7 +214,7 @@ fn check_description_keyword_stuffing(ctx: &ResultContext, desc: &str) -> Vec<Va
         let mut short_count = 0usize;
         let mut total_words = 0usize;
         for seg in &segments {
-            let words = seg.trim().split_whitespace().count();
+            let words = seg.split_whitespace().count();
             total_words += words;
             if words <= 3 {
                 short_count += 1;
@@ -236,7 +247,10 @@ fn split_sentences(text: &str) -> Vec<String> {
         caps[0].replacen('.', PERIOD_PLACEHOLDER, 1)
     });
     let protected = DIGIT_PERIOD
-        .replace_all(&protected, format!("${{1}}{PERIOD_PLACEHOLDER}${{2}}").as_str())
+        .replace_all(
+            &protected,
+            format!("${{1}}{PERIOD_PLACEHOLDER}${{2}}").as_str(),
+        )
         .into_owned();
 
     let mut sentences = Vec::new();
@@ -264,13 +278,36 @@ mod tests {
 
     #[test]
     fn split_sentences_protects_abbrev_and_numbers() {
-        let s = split_sentences("Use e.g. Kafka. Version v18.0 works. Deploy now.");
+        // Matches the Go TestSplitSentences cases: the abbreviation and the
+        // version-number periods do not create sentence boundaries. Go protects
+        // only the first period of "e.g."; the boundary regex additionally
+        // requires a capital letter after the period, so "e.g. vector" never
+        // splits regardless.
+        let s = split_sentences("Use for e.g. vector search and embeddings. Next sentence here.");
         assert_eq!(
             s,
             vec![
-                "Use e.g. Kafka.".to_string(),
-                "Version v18.0 works.".to_string(),
-                "Deploy now.".to_string(),
+                "Use for e.g. vector search and embeddings.".to_string(),
+                "Next sentence here.".to_string(),
+            ]
+        );
+
+        let v = split_sentences("Requires Node.js v18.0 or higher. Also supports Deno.");
+        assert_eq!(
+            v,
+            vec![
+                "Requires Node.js v18.0 or higher.".to_string(),
+                "Also supports Deno.".to_string(),
+            ]
+        );
+
+        // "etc." is intentionally NOT protected, so it is a boundary.
+        let e = split_sentences("Handles auth, storage, etc. Supports caching.");
+        assert_eq!(
+            e,
+            vec![
+                "Handles auth, storage, etc.".to_string(),
+                "Supports caching.".to_string(),
             ]
         );
     }

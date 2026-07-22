@@ -30,7 +30,17 @@ pub fn count_tokens(text: &str) -> usize {
 }
 
 const TEXT_ASSET_EXTENSIONS: &[&str] = &[
-    ".md", ".tex", ".py", ".yaml", ".yml", ".tsx", ".ts", ".jsx", ".sty", ".mplstyle", ".ipynb",
+    ".md",
+    ".tex",
+    ".py",
+    ".yaml",
+    ".yml",
+    ".tsx",
+    ".ts",
+    ".jsx",
+    ".sty",
+    ".mplstyle",
+    ".ipynb",
 ];
 
 const STANDARD_ROOT_FILES: &[&str] = &["skill.md"];
@@ -166,11 +176,16 @@ fn count_asset_files(dir: &Path) -> Vec<TokenCount> {
     walk_files(&assets_dir, &mut files);
     let mut counts = Vec::new();
     for path in files {
-        let name = path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+        let name = path
+            .file_name()
+            .map(|n| n.to_string_lossy().into_owned())
+            .unwrap_or_default();
         if !TEXT_ASSET_EXTENSIONS.contains(&ext_lower(&name).as_str()) {
             continue;
         }
-        let Some(data) = read_file(&path) else { continue };
+        let Some(data) = read_file(&path) else {
+            continue;
+        };
         counts.push(TokenCount {
             file: rel_slash(dir, &path),
             tokens: count_tokens(&data),
@@ -192,24 +207,33 @@ fn count_other_files(dir: &Path, opts: &Options) -> Vec<TokenCount> {
             let mut files = Vec::new();
             walk_files(&e.path, &mut files);
             for path in files {
-                let fname = path.file_name().map(|n| n.to_string_lossy().into_owned()).unwrap_or_default();
+                let fname = path
+                    .file_name()
+                    .map(|n| n.to_string_lossy().into_owned())
+                    .unwrap_or_default();
                 if is_binary_ext(&fname) {
                     continue;
                 }
-                let Some(data) = read_file(&path) else { continue };
+                let Some(data) = read_file(&path) else {
+                    continue;
+                };
                 counts.push(TokenCount {
                     file: rel_slash(dir, &path),
                     tokens: count_tokens(&data),
                 });
             }
         } else {
-            if STANDARD_ROOT_FILES.contains(&e.name.to_lowercase().as_str()) || opts.allow_flat_layouts {
+            if STANDARD_ROOT_FILES.contains(&e.name.to_lowercase().as_str())
+                || opts.allow_flat_layouts
+            {
                 continue;
             }
             if is_binary_ext(&e.name) {
                 continue;
             }
-            let Some(data) = read_file(&e.path) else { continue };
+            let Some(data) = read_file(&e.path) else {
+                continue;
+            };
             counts.push(TokenCount {
                 file: e.name.clone(),
                 tokens: count_tokens(&data),
@@ -231,7 +255,9 @@ fn count_root_files(dir: &Path) -> Vec<TokenCount> {
         if is_binary_ext(&e.name) {
             continue;
         }
-        let Some(data) = read_file(&e.path) else { continue };
+        let Some(data) = read_file(&e.path) else {
+            continue;
+        };
         counts.push(TokenCount {
             file: e.name.clone(),
             tokens: count_tokens(&data),

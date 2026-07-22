@@ -6,9 +6,8 @@ use std::path::{Path, PathBuf};
 
 const BINARY_EXTENSIONS: &[&str] = &[
     ".png", ".jpg", ".jpeg", ".gif", ".bmp", ".ico", ".svg", ".webp", ".pdf", ".doc", ".docx",
-    ".xls", ".xlsx", ".zip", ".tar", ".gz", ".bz2", ".7z", ".rar", ".exe", ".dll", ".so",
-    ".dylib", ".bin", ".mp3", ".mp4", ".wav", ".avi", ".mov", ".woff", ".woff2", ".ttf", ".eot",
-    ".otf",
+    ".xls", ".xlsx", ".zip", ".tar", ".gz", ".bz2", ".7z", ".rar", ".exe", ".dll", ".so", ".dylib",
+    ".bin", ".mp3", ".mp4", ".wav", ".avi", ".mov", ".woff", ".woff2", ".ttf", ".eot", ".otf",
 ];
 
 /// A directory entry: name, full path, and directory flag.
