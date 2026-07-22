@@ -1,7 +1,7 @@
 # Skills monorepo with crate-based CLIs — migration wave plan
 
 **Ticket / ref**: [.context/investigations/monorepo-tools-distribution-2026-07-13.md](../investigations/monorepo-tools-distribution-2026-07-13.md)
-**Status**: In Progress — **Waves 1, 2 and 3 complete and merged to `main` (22-07-2026)**. The S1 `o200k_base` token-parity go/no-go returned **GO**. Wave 4 (A4b auditor rewrite) is next. Waves 5-7 pending (6-7 behind the post-A5 go/no-go). See "Execution progress" below.
+**Status**: In Progress — **Waves 1, 2, 3 and 4 complete and merged to `main` (22-07-2026)**. The S1 `o200k_base` token-parity go/no-go returned **GO**. Wave 5 (A5 distribution) is next and is the last committed wave before the go/no-go gate. Waves 6-7 pending (behind the post-A5 go/no-go). See "Execution progress" below.
 **Assignee**: thomas.roche
 **Revision**: v4 (21-07-2026, adversarial review corrections applied; see "Revision history"). Execution status tracked in "Execution progress" and updated as each wave lands.
 
@@ -14,8 +14,8 @@ Living status; updated as each task/wave lands on `main`.
 | 1 — Foundation, de-risk & decisions | ✅ Done (plan #171; A1 #172, S1 #173, R1 #174, B1+B3 #175, C1 #176; B4 = no-op) |
 | 2 — Shared foundation & housekeeping | ✅ Done (A2 #179, C2 #180, C2b #181, B2a #182) |
 | 3 — skill-install & validator-rs (A3, A4a) | ✅ Done — token-parity gate **GO**; A3 #186, A4a #187 |
-| 4 — Auditor rewrite (A4b) | ⬜ Next |
-| 5 — Distribution (A5) | ⬜ Pending |
+| 4 — Auditor rewrite (A4b) | ✅ Done — A4b #189; 132/132 skills grade- and dimension-exact vs the Go auditor |
+| 5 — Distribution (A5) | ⬜ Next — last committed wave before the go/no-go gate |
 | Go / No-Go gate (after A5) | ⬜ Pending |
 | 6 — Retire Go, add tools, drop TS CLI | ⬜ Post-gate |
 | 7 — Python removal & tools catalogue | ⬜ Post-gate |
@@ -196,15 +196,15 @@ Verification:
 
 Rollback: additive crates; nothing repointed.
 
-### Wave 4 — Auditor rewrite (sequential) [committed]
+### Wave 4 — Auditor rewrite (sequential) — ✅ DONE (merged to main)
 
 > Gate: Wave 3 verified ✓
 
-- [ ] **A4b** — Rust `skill-auditor` on `skill-validator-rs`: port the 9-dimension scorer, reporter, store (+ tests) behind the same CLI surface. Dep mapping: stdlib `regexp` → `regex`, `tiktoken-go` → `tiktoken-rs` (subsumes the BPE split regex; **no fancy-regex**), `yaml.v3` → `serde_yaml`, `cobra` → `clap`. **Leave the Go binary in place.** — branch `feat/rust-skill-auditor` — model: smart
+- [x] **A4b** — Rust `skill-auditor` on `skill-validator-rs`: port the 9-dimension scorer, reporter, store (+ tests) behind the same CLI surface. Dep mapping: stdlib `regexp` → `regex`, `tiktoken-go` → `tiktoken-rs` (subsumes the BPE split regex; **no fancy-regex**), `yaml.v3` → `serde_yaml`, `cobra` → `clap`. **Leave the Go binary in place.** — branch `feat/rust-skill-auditor` — model: smart — **DONE (PR #189): all D1-D9 ported deterministically on the validator crate; 132/132 corpus skills grade- and dimension-exact vs the Go auditor (grade spread A-F); one Rust bug fixed (bridge now honours skill-load failure). `Date` injectable; Go quirks reproduced for parity. Go binary untouched.**
 
 Verification:
-- [ ] Auditor **grades** match the Go auditor within the S1 tolerance across the golden corpus, with a reviewed boundary-case list (not string equality).
-- [ ] Go tools still work — nothing repointed.
+- [x] Auditor **grades** match the Go auditor within the S1 tolerance across the golden corpus, with a reviewed boundary-case list (not string equality) — 132/132 grade- and dimension-exact.
+- [x] Go tools still work — nothing repointed (additive crate only).
 
 Rollback: additive; Go remains authoritative.
 
