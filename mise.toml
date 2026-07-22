@@ -10,6 +10,7 @@ shellcheck = "latest"
 hk = "latest"
 pkl = "latest"
 markdownlint-cli2 = "latest"
+cargo-dist = "0.28.0"
 
 [env]
 # Wrap hk-invoked git hooks in `mise x` so pinned tools (bun, go, node, yq,

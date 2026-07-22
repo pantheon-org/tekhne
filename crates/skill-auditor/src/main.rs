@@ -2,9 +2,14 @@
 //! `evaluate <skill>` and `batch <skill...>`, with `--json`, `--store`,
 //! `--repo-root` and (batch only) `--fail-below`.
 
-use clap::{Parser, Subcommand};
+use clap::{Args, Parser, Subcommand, ValueEnum};
+use skill_auditor::install_cmd::{self, InstallOptions, Selection};
 use skill_auditor::reporter;
 use skill_auditor::scorer::{self, grade_rank, Result as AuditResult};
+use skill_auditor::skill_bundle;
+use skill_install::agents::all as all_agents;
+use skill_install::env::Environment;
+use skill_install::install::InstallMode;
 use std::path::{Path, PathBuf};
 use std::process;
 
@@ -58,6 +63,59 @@ enum Command {
         #[arg(long = "repo-root")]
         repo_root: Option<String>,
     },
+    /// Manage the bundled companion skill.
+    Skill {
+        #[command(subcommand)]
+        action: SkillAction,
+    },
+}
+
+#[derive(Subcommand)]
+enum SkillAction {
+    /// Install the bundled skill into detected (or selected) agent directories.
+    Install(SkillInstallArgs),
+}
+
+/// How the bundled skill is placed into each target directory.
+#[derive(Clone, Copy, PartialEq, Eq, ValueEnum)]
+enum ModeArg {
+    /// Recursively copy the skill (self-contained; the default).
+    Copy,
+    /// Symlink each target at a per-user extraction of the skill.
+    Symlink,
+}
+
+impl From<ModeArg> for InstallMode {
+    fn from(mode: ModeArg) -> Self {
+        match mode {
+            ModeArg::Copy => InstallMode::Copy,
+            ModeArg::Symlink => InstallMode::Symlink,
+        }
+    }
+}
+
+#[derive(Args)]
+struct SkillInstallArgs {
+    /// Target a specific agent by slug (repeatable). Defaults to every
+    /// detected agent.
+    #[arg(long = "agent", value_name = "NAME")]
+    agent: Vec<String>,
+    /// Install into every agent in the universal list, not only detected ones.
+    #[arg(long, conflicts_with = "agent")]
+    all: bool,
+    /// Install into project-local skills directories instead of the global
+    /// ones (global is the default for a distributed binary).
+    #[arg(long)]
+    local: bool,
+    /// Placement mode for the skill files.
+    #[arg(long, value_enum, default_value_t = ModeArg::Copy)]
+    mode: ModeArg,
+    /// Show what would be installed without writing anything.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
+    /// List the agents that can be targeted and exit.
+    #[arg(long = "list-agents")]
+    list_agents: bool,
 }
 
 fn main() {
@@ -86,6 +144,9 @@ fn main() {
             fail_below.as_deref(),
             repo_root.as_deref(),
         ),
+        Command::Skill {
+            action: SkillAction::Install(args),
+        } => run_skill_install(args),
     };
 
     if let Err(e) = result {
@@ -228,6 +289,125 @@ fn print_batch_table(entries: &mut [Entry]) {
         0
     };
     println!("Total: {} skill(s)  Average: {avg}/140", entries.len());
+}
+
+/// Install the bundled companion skill into agent directories.
+fn run_skill_install(args: SkillInstallArgs) -> std::result::Result<(), String> {
+    if args.list_agents {
+        print_agent_list();
+        return Ok(());
+    }
+
+    let env = Environment::from_env().map_err(|e| format!("cannot resolve environment: {e}"))?;
+
+    let selection = if args.all {
+        Selection::All
+    } else if !args.agent.is_empty() {
+        Selection::Explicit(args.agent.clone())
+    } else {
+        Selection::Detected
+    };
+
+    let opts = InstallOptions {
+        selection,
+        global: !args.local,
+        mode: args.mode.into(),
+        dry_run: args.dry_run,
+    };
+
+    // The embedded skill is extracted to a stable per-user directory. Copies
+    // are duplicated from there; symlinks point back at it, so it must outlive
+    // the command (unlike a temporary directory).
+    let bundle_root = bundle_home(&env);
+    let source_skill_dir = if args.dry_run {
+        bundle_root.join(skill_bundle::skill_name())
+    } else {
+        skill_bundle::materialise(&bundle_root)
+            .map_err(|e| format!("cannot unpack bundled skill: {e}"))?
+    };
+
+    let exists = |p: &Path| p.exists();
+    let report = install_cmd::run_install(&opts, &env, &exists, &source_skill_dir)
+        .map_err(|e| e.to_string())?;
+
+    print_install_report(&opts, skill_bundle::skill_name(), &report);
+    Ok(())
+}
+
+/// Resolve the per-user directory the embedded skill is extracted into
+/// (`$XDG_DATA_HOME/tekhne/skill-auditor`, or `~/.local/share/...`).
+fn bundle_home(env: &Environment) -> PathBuf {
+    std::env::var_os("XDG_DATA_HOME")
+        .map(PathBuf::from)
+        .filter(|p| !p.as_os_str().is_empty())
+        .unwrap_or_else(|| env.home.join(".local/share"))
+        .join("tekhne")
+        .join("skill-auditor")
+}
+
+/// Print the agents `skill install` can target, in table order.
+fn print_agent_list() {
+    println!("Agents skill-auditor can install into:\n");
+    for agent in all_agents() {
+        let scope = if agent.show_in_universal_list {
+            ""
+        } else {
+            " (opt-in only)"
+        };
+        println!("  {:<16} {}{scope}", agent.name, agent.display_name);
+    }
+}
+
+/// Print a human-readable summary of an install run.
+fn print_install_report(
+    opts: &InstallOptions,
+    skill_name: &str,
+    report: &install_cmd::InstallReport,
+) {
+    let mode = match opts.mode {
+        InstallMode::Copy => "copy",
+        InstallMode::Symlink => "symlink",
+    };
+    let scope = if opts.global { "global" } else { "local" };
+
+    if report.outcomes.is_empty() {
+        println!(
+            "No agents selected. No installed agents were detected; pass --agent <name> or --all, or run --list-agents."
+        );
+        return;
+    }
+
+    if opts.dry_run {
+        println!("Dry run: would install '{skill_name}' ({mode}, {scope}) into:");
+    } else {
+        println!("Installed '{skill_name}' ({mode}, {scope}) into:");
+    }
+
+    let mut installed = 0;
+    let mut failed = 0;
+    for outcome in &report.outcomes {
+        match (&outcome.error, &outcome.installed_path) {
+            (Some(err), _) => {
+                failed += 1;
+                println!("  {:<16} FAILED: {err}", outcome.agent);
+            }
+            (None, Some(path)) => {
+                installed += 1;
+                println!("  {:<16} {}", outcome.agent, path.display());
+            }
+            (None, None) => {}
+        }
+    }
+
+    if !report.missing.is_empty() {
+        println!(
+            "\nNote: these agents are not detected on this machine but were targeted anyway: {}",
+            report.missing.join(", ")
+        );
+    }
+
+    let verb = if opts.dry_run { "planned" } else { "installed" };
+    println!("\n{installed} {verb}, {failed} failed.");
 }
 
 /// Derive the `domain/skill-name` storage key from an absolute SKILL.md path

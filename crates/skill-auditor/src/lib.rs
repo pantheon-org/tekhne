@@ -3,5 +3,7 @@
 //! function of on-disk content plus the `skill-validator-rs` analysis; no LLM or
 //! network access is involved anywhere.
 
+pub mod install_cmd;
 pub mod reporter;
 pub mod scorer;
+pub mod skill_bundle;
