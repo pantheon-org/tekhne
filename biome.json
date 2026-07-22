@@ -7,7 +7,11 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!crates/skill-validator-rs/tests/golden-corpus"]
+    "includes": [
+      "**",
+      "!crates/skill-validator-rs/tests/golden-corpus",
+      "!crates/skill-auditor/tests/golden-corpus"
+    ]
   },
   "formatter": {
     "enabled": true,

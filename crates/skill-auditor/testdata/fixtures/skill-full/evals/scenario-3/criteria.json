@@ -1,0 +1,6 @@
+{
+  "checklist": [
+    { "description": "Anti-pattern identified", "max_score": 60 },
+    { "description": "Correct alternative provided", "max_score": 40 }
+  ]
+}

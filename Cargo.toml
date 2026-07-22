@@ -4,6 +4,7 @@ members = [
     "crates/common",
     "crates/skill-install",
     "crates/skill-validator-rs",
+    "crates/skill-auditor",
 ]
 
 [workspace.package]
@@ -25,6 +26,8 @@ tiktoken-rs = "0.12"
 regex = "1"
 serde_yaml_ng = "0.10"
 clap = { version = "4", features = ["derive"] }
+# skill-validator-rs is consumed by the Rust auditor (A4b).
+skill-validator-rs = { path = "crates/skill-validator-rs" }
 
 [profile.release]
 lto = "thin"
