@@ -4,7 +4,7 @@
 //! [`skill_validator_rs::analyze_content`] and [`skill_validator_rs::validate`].
 
 use regex::Regex;
-use skill_validator_rs::{analyze_content, validate, ContentReport, Level, Options, Report};
+use skill_validator_rs::{analyze_content, validate, ContentReport, Level, Options, Report, Skill};
 use std::path::Path;
 
 /// Cached validator results for a single skill. Constructed once per score.
@@ -21,15 +21,21 @@ pub struct ValidatorBridge {
 impl ValidatorBridge {
     /// Build a bridge by running the validator over `skill_dir`.
     ///
-    /// The Go bridge called `orchestrate.RunContentAnalysis(skillDir)` (which
-    /// reads and analyses SKILL.md) and `structure.Validate(skillDir, opts)`
-    /// with `SkipOrphans`, `AllowFlatLayouts` and `AllowExtraFrontmatter` all
-    /// set. Here we read SKILL.md directly and feed it to `analyze_content`,
-    /// and set the equivalently named `Options` fields.
+    /// The Go bridge called `orchestrate.RunContentAnalysis(skillDir)` and
+    /// `structure.Validate(skillDir, opts)` with `SkipOrphans`,
+    /// `AllowFlatLayouts` and `AllowExtraFrontmatter` all set.
+    ///
+    /// `RunContentAnalysis` runs `skill.Load(dir)` and then
+    /// `content.Analyze(RawContent)`, so when the skill fails to load (for
+    /// example a frontmatter YAML parse error) it returns a `nil`
+    /// `ContentReport`. We reproduce that exactly: load the skill and analyse
+    /// its raw content only on success, leaving `content` as `None` otherwise.
+    /// Reading SKILL.md directly instead would score content for skills the Go
+    /// auditor treats as unanalysed, diverging on the content-driven dimensions.
     pub fn new(skill_dir: &Path) -> Self {
-        let content = std::fs::read_to_string(skill_dir.join("SKILL.md"))
+        let content = Skill::load(skill_dir)
             .ok()
-            .map(|c| analyze_content(&c));
+            .map(|s| analyze_content(&s.raw_content));
 
         let opts = Options {
             skip_orphans: true,
