@@ -94,6 +94,32 @@ updates:
           - "minor"
           - "patch"
 
+  # Rust tool crates (the Cargo workspace under crates/). Replaces the retired
+  # gomod entry now that the Go auditor is gone (A6).
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    # Wait 7 days after a release before opening an update PR, so a yanked or
+    # compromised release has time to surface before we adopt it.
+    cooldown:
+      default-days: 7
+    labels:
+      - "dependencies"
+      - "rust"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      cargo-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
   # GitHub Actions (keeps the SHA pins in .github/workflows current)
   - package-ecosystem: "github-actions"
     directory: "/"
