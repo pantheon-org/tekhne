@@ -18,7 +18,8 @@ This file defines how LLM agents should work in this repository.
 - `skills/<domain>/<skill-name>/templates/`: Reusable templates (mostly YAML).
 - `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
-- `cli/`: TypeScript CLI tool for skill management, auditing, and installation.
+- `crates/`: Rust tools (`skill-auditor`, `skill-validator-rs`, `adr`, `journal`) for auditing, validation, and skill distribution.
+- `scripts/catalog/`: TypeScript catalog generator for `README.md` and the docs tiles page.
 
 **Note:** Generator/validator pairs are consolidated at the tool level (e.g. `terraform-generator` and `terraform-validator` share `skills/infrastructure/terraform/tile.json`).
 
@@ -72,37 +73,30 @@ skill-auditor evaluate <domain>/<skill-name> --json --store
 
 Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (blocked from publishing).
 
-CLI shortcuts:
-
-```bash
-bun cli/index.ts audit skill <domain>/<skill-name>
-bun cli/index.ts audit all
-bun cli/index.ts audit status
-```
+Build the auditor from source with `bun run build:skill-auditor` (a shortcut for `cargo build --release -p skill-auditor`), then invoke `target/release/skill-auditor evaluate`.
 
 ## Skill Management with Tessl
 
+The Tessl registry lifecycle runs through the `tessl` CLI directly, wrapped by npm scripts:
+
 ```bash
-bun cli/index.ts tessl manage                      # all skills
-bun cli/index.ts tessl manage <domain>/<skill-name>
-bun cli/index.ts tessl publish-check <tile-path>
+bun run tessl:import      # tessl skill import
+bun run tessl:lint        # tessl plugin lint
+bun run tessl:review      # tessl review run
+bun run tessl:publish     # tessl plugin publish
 ```
 
-See `cli/README.md` for full usage. Use `tessl skill review --optimize` for skills scoring below 90%.
-
-## CLI TypeScript Conventions
-
-All `cli/` files follow 7 rules (arrow functions, barrel modules, collocated tests, no nested functions, ≤150-line bodies, one export per module, directory organisation by layer). See `cli/CONVENTIONS.md`.
+Use `tessl skill review --optimize` for skills scoring below 90%. The former bulk `tessl manage` and `publish-check` commands were retired with the TypeScript CLI.
 
 ## Git Hooks
 
-Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, CLI convention checks. Pre-push runs unit + integration tests and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`.
+Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, and skill structure validation. Pre-push runs unit tests (`bun test scripts/`), integration tests (cucumber), and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`.
 
 Do not bypass hooks unless explicitly requested.
 
 ## Multi-Agent Development
 
-Install skills locally: `bun cli/index.ts install` or `npx skills add ./skills --all`.
+Install skills locally with an ecosystem installer (`npx skills add ./skills --all`), or let a bundled tool install its own companion skill (`skill-auditor skill install`, `adr skill install`, `journal skill install`).
 See `README.md` for the full list of 41+ supported agents.
 
 ## Safety Constraints

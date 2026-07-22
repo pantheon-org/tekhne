@@ -8,7 +8,7 @@ use std::process;
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use journal::date::Timestamp;
 use journal::entry::{EntrySpec, EntryType};
-use journal::install_cmd::{self, InstallOptions, Selection};
+use journal::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
 use journal::skill_bundle;
 use journal::validate::{self, Outcome};
 use skill_install::agents::all as all_agents;
@@ -72,6 +72,8 @@ struct NewArgs {
 enum SkillAction {
     /// Install the bundled skill into detected (or selected) agent directories.
     Install(SkillInstallArgs),
+    /// Remove the bundled skill from detected (or selected) agent directories.
+    Uninstall(SkillUninstallArgs),
 }
 
 /// How the bundled skill is placed into each target directory.
@@ -116,6 +118,27 @@ struct SkillInstallArgs {
     list_agents: bool,
 }
 
+#[derive(Args)]
+struct SkillUninstallArgs {
+    /// Target a specific agent by slug (repeatable). Defaults to every
+    /// detected agent.
+    #[arg(long = "agent", value_name = "NAME")]
+    agent: Vec<String>,
+    /// Remove from every agent in the universal list, not only detected ones.
+    #[arg(long, conflicts_with = "agent")]
+    all: bool,
+    /// Operate on project-local skills directories instead of the global ones
+    /// (global is the default for a distributed binary).
+    #[arg(long)]
+    local: bool,
+    /// Show what would be removed without deleting anything.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
+    /// List the agents that can be targeted and exit.
+    #[arg(long = "list-agents")]
+    list_agents: bool,
+}
+
 fn main() {
     let cli = Cli::parse();
     let result = match cli.command {
@@ -124,6 +147,9 @@ fn main() {
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
+        Command::Skill {
+            action: SkillAction::Uninstall(args),
+        } => run_skill_uninstall(args),
     };
 
     if let Err(e) = result {
@@ -289,4 +315,87 @@ fn print_install_report(
 
     let verb = if opts.dry_run { "planned" } else { "installed" };
     println!("\n{installed} {verb}, {failed} failed.");
+}
+
+/// Remove the bundled companion skill from agent directories.
+fn run_skill_uninstall(args: SkillUninstallArgs) -> std::result::Result<(), String> {
+    if args.list_agents {
+        print_agent_list();
+        return Ok(());
+    }
+
+    let env = Environment::from_env().map_err(|e| format!("cannot resolve environment: {e}"))?;
+
+    let selection = if args.all {
+        Selection::All
+    } else if !args.agent.is_empty() {
+        Selection::Explicit(args.agent.clone())
+    } else {
+        Selection::Detected
+    };
+
+    let opts = UninstallOptions {
+        selection,
+        global: !args.local,
+        dry_run: args.dry_run,
+    };
+
+    let exists = |p: &Path| p.exists();
+    let report = install_cmd::run_uninstall(&opts, &env, &exists, skill_bundle::skill_name())
+        .map_err(|e| e.to_string())?;
+
+    print_uninstall_report(&opts, skill_bundle::skill_name(), &report);
+    Ok(())
+}
+
+/// Print a human-readable summary of an uninstall run.
+fn print_uninstall_report(
+    opts: &UninstallOptions,
+    skill_name: &str,
+    report: &install_cmd::UninstallReport,
+) {
+    let scope = if opts.global { "global" } else { "local" };
+
+    if report.outcomes.is_empty() {
+        println!(
+            "No agents selected. No installed agents were detected; pass --agent <name> or --all, or run --list-agents."
+        );
+        return;
+    }
+
+    if opts.dry_run {
+        println!("Dry run: would remove '{skill_name}' ({scope}) from:");
+    } else {
+        println!("Removed '{skill_name}' ({scope}) from:");
+    }
+
+    let mut removed = 0;
+    let mut absent = 0;
+    let mut failed = 0;
+    for outcome in &report.outcomes {
+        match &outcome.error {
+            Some(err) => {
+                failed += 1;
+                println!("  {:<16} FAILED: {err}", outcome.agent);
+            }
+            None if outcome.removed => {
+                removed += 1;
+                println!("  {:<16} {}", outcome.agent, outcome.target_path.display());
+            }
+            None => {
+                absent += 1;
+                println!("  {:<16} (nothing to remove)", outcome.agent);
+            }
+        }
+    }
+
+    if !report.missing.is_empty() {
+        println!(
+            "\nNote: these agents are not detected on this machine but were targeted anyway: {}",
+            report.missing.join(", ")
+        );
+    }
+
+    let verb = if opts.dry_run { "planned" } else { "removed" };
+    println!("\n{removed} {verb}, {absent} already absent, {failed} failed.");
 }

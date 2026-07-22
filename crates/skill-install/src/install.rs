@@ -59,6 +59,30 @@ pub fn install_skill(source: &Path, target_dir: &Path, mode: InstallMode) -> Res
     Ok(target)
 }
 
+/// Remove a previously-installed skill named `skill_name` from `target_dir`.
+///
+/// Handles both placement modes used by [`install_skill`]: a copied directory
+/// tree (removed recursively) and a symlink (only the link is removed, its
+/// target is left untouched). Idempotent: returns `Ok(false)` when nothing was
+/// present to remove, `Ok(true)` when a skill was removed.
+pub fn uninstall_skill(target_dir: &Path, skill_name: &str) -> Result<bool> {
+    let target = target_dir.join(skill_name);
+    let meta = match std::fs::symlink_metadata(&target) {
+        Ok(meta) => meta,
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(false),
+        Err(e) => return Err(Error::io(&target, e)),
+    };
+    if meta.file_type().is_dir() {
+        // A copied skill directory: remove the whole tree.
+        std::fs::remove_dir_all(&target).map_err(|e| Error::io(&target, e))?;
+    } else {
+        // A symlink (even one pointing at a directory) or a stray file: unlink
+        // it, mirroring the stale-symlink cleanup in the install command.
+        std::fs::remove_file(&target).map_err(|e| Error::io(&target, e))?;
+    }
+    Ok(true)
+}
+
 /// Recursively copy `src` into `dst`, creating `dst` and any parents.
 fn copy_dir_all(src: &Path, dst: &Path) -> Result<()> {
     std::fs::create_dir_all(dst).map_err(|e| Error::io(dst, e))?;
@@ -204,6 +228,50 @@ mod tests {
             installed.canonicalize().unwrap(),
             skill.canonicalize().unwrap()
         );
+    }
+
+    #[test]
+    fn uninstall_removes_copied_tree() {
+        let tmp = tempfile::tempdir().unwrap();
+        let skill = make_skill(&tmp.path().join("bundle"));
+        let target_dir = tmp.path().join("dest/skills");
+        let installed = install_skill(&skill, &target_dir, InstallMode::Copy).unwrap();
+        assert!(installed.exists());
+
+        let removed = uninstall_skill(&target_dir, "my-skill").unwrap();
+        assert!(removed, "a copied skill should report as removed");
+        assert!(!installed.exists(), "the copied tree should be gone");
+    }
+
+    #[test]
+    fn uninstall_removes_symlink_but_keeps_source() {
+        let tmp = tempfile::tempdir().unwrap();
+        let skill = make_skill(&tmp.path().join("bundle"));
+        let target_dir = tmp.path().join("dest/skills");
+        let installed = install_skill(&skill, &target_dir, InstallMode::Symlink).unwrap();
+        assert!(installed
+            .symlink_metadata()
+            .unwrap()
+            .file_type()
+            .is_symlink());
+
+        let removed = uninstall_skill(&target_dir, "my-skill").unwrap();
+        assert!(removed, "a symlinked skill should report as removed");
+        assert!(
+            installed.symlink_metadata().is_err(),
+            "the symlink should be gone"
+        );
+        // The source skill the link pointed at is untouched.
+        assert!(skill.join("SKILL.md").is_file());
+    }
+
+    #[test]
+    fn uninstall_absent_is_idempotent() {
+        let tmp = tempfile::tempdir().unwrap();
+        let target_dir = tmp.path().join("dest/skills");
+        std::fs::create_dir_all(&target_dir).unwrap();
+        let removed = uninstall_skill(&target_dir, "my-skill").unwrap();
+        assert!(!removed, "removing an absent skill is a no-op");
     }
 
     #[test]
