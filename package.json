@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "A curated collection of reusable agent skills for AI assistants, designed for easy redistribution and integration.",
   "main": "index.js",
-  "bin": {
-    "tekhne": "./cli/index.ts"
-  },
   "scripts": {
     "docs:build": "cd docs && bun run build",
     "docs:dev": "cd docs && bun run dev",
@@ -13,22 +10,14 @@
     "check:biome": "bunx @biomejs/biome check .",
     "check:markdown": "markdownlint-cli2 \"**/*.md\"",
     "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
-    "audit:skill": "bun cli/index.ts audit skill",
-    "audit:skills": "bun cli/index.ts audit all",
-    "audit:skills:force": "bun cli/index.ts audit all --force",
-    "audit:status": "bun cli/index.ts audit status",
-    "audit:summary": "bun cli/index.ts audit summary",
+    "audit:skill": "cargo build --release -q -p skill-auditor && target/release/skill-auditor evaluate",
     "readme:update": "bun scripts/catalog/update.ts",
     "readme:update:dry-run": "bun scripts/catalog/update.ts --dry-run",
-    "sync:opencode": "bun cli/index.ts sync opencode",
-    "sync:opencode:dry-run": "bun cli/index.ts sync opencode --dry-run",
-    "tessl:manage": "bun cli/index.ts tessl manage",
-    "tessl:publish-check": "bun cli/index.ts tessl publish-check",
     "tessl:import": "tessl skill import",
     "tessl:lint": "tessl plugin lint",
     "tessl:publish": "tessl plugin publish",
     "tessl:review": "tessl review run",
-    "test": "bun test cli/",
+    "test": "bun test scripts/",
     "test:integration": "cucumber-js",
     "build:skill-auditor": "cargo build --release -p skill-auditor"
   },
@@ -45,8 +34,6 @@
     "tsx": "^4.0.0"
   },
   "dependencies": {
-    "@cliffy/command": "npm:@jsr/cliffy__command",
-    "@cliffy/prompt": "npm:@jsr/cliffy__prompt",
     "badge-maker": "^6.0.0",
     "ajv": "^8.18.0",
     "js-yaml": "^5.2.1",

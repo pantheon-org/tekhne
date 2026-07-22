@@ -30,13 +30,13 @@ local preCommit = new Mapping<String, Step> {
     ["skill-artifacts"] {
         check = "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh {{files}}"
     }
-    // Regenerates README.md + docs tiles from skills/cli/audits and stages
+    // Regenerates README.md + docs tiles from skills and audit data, staging
     // them. Fix-only: `--dry-run` exits 0 even when out of sync, which would
     // let hk's check-first skip the regeneration, so there is no `check`
     // variant (matches lefthook, which always regenerated). Skipped by
     // `hk check`; use `bun run readme:update:dry-run` for a CI drift check.
     ["readme-sync"] {
-        glob = List("skills/**", "cli/**", ".context/audits/**")
+        glob = List("skills/**", ".context/audits/**")
         fix = "bun scripts/catalog/update.ts && markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md"
         stage = List("README.md", "docs/src/content/docs/tiles.md")
     }
@@ -51,10 +51,6 @@ local preCommit = new Mapping<String, Step> {
         exclude = List("crates/skill-validator-rs/tests/golden-corpus/fixtures/**")
         shell = "sh -c"
         check = "command -v shellcheck >/dev/null 2>&1 && shellcheck {{files}}"
-    }
-    ["skill-frontmatter"] {
-        glob = List("skills/**/SKILL.md")
-        check = "bun cli/index.ts validate frontmatter {{files}}"
     }
     ["tessl-lint"] {
         glob = List("skills/**/SKILL.md")
@@ -79,16 +75,12 @@ done
 exit $rc
 """#
     }
-    ["cli-ts-conventions"] {
-        glob = List("cli/**/*.ts")
-        check = "bun cli/scripts/validate-ts-conventions.ts {{files}}"
-    }
 }
 
 // -- pre-push checks (tests + skill quality gates) --
 local prePush = new Mapping<String, Step> {
     ["unit-tests"] {
-        check = "bun test cli/"
+        check = "bun test scripts/"
     }
     ["integration-tests"] {
         check = "bunx cucumber-js"

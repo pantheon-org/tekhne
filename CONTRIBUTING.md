@@ -14,8 +14,8 @@ bunx markdownlint-cli2 "**/*.md"
 ```
 
 Pre-commit hooks (via [`hk`](https://hk.jdx.dev), configured in `hk.pkl`) run
-Biome, markdownlint, YAML validation, and CLI TypeScript convention checks
-automatically on staged files.
+Biome, markdownlint, YAML validation, skill artifact checks, and skill
+structure validation automatically on staged files.
 
 ## Adding or editing skills
 
@@ -29,55 +29,35 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<sk
 
 Target B-grade (112/140) minimum; A-grade (126/140) for publication.
 
-## CLI (`cli/`)
+## Tooling
 
-The CLI is a TypeScript project built with Bun and Commander.js.
+Skill management, auditing, and validation are provided by Rust crates under
+`crates/` (`skill-auditor`, `skill-validator-rs`, `adr`, `journal`) plus the
+`scripts/catalog` catalog generator. Everything builds from the Cargo workspace
+or runs with Bun, so there is no separate install step.
 
-### TypeScript conventions
+```bash
+# Audit a single skill (builds the auditor from source, then evaluates)
+bun run audit:skill <domain>/<skill-name>
 
-All files under `cli/` follow **7 enforced rules** documented in full in
-[`cli/CONVENTIONS.md`](cli/CONVENTIONS.md):
+# Validate a skill's structure
+cargo run -p skill-validator-rs -- validate structure skills/<domain>/<skill-name>
 
-| # | Rule |
-|---|------|
-| 1 | Arrow functions only |
-| 2 | Barrel modules (`index.ts` per subdirectory) |
-| 3 | Collocated tests (`foo.test.ts` beside `foo.ts`) |
-| 4 | No internal (nested) functions |
-| 5 | Function body ≤ 150 lines |
-| 6 | One exported function per module |
-| 7 | Directory organisation by layer |
-
-### Library directory structure
-
-Modules inside `cli/lib/<domain>/` are organised into responsibility layers.
-Imports only flow **downward**:
-
+# Regenerate the skill catalog in README.md and the docs tiles page
+bun run readme:update
 ```
-types/       ← pure type definitions and constants
-    ↓
-parsing/     ← pure string/value parsing (no I/O)
-    ↓
-discovery/   ← filesystem traversal, metadata reading
-    ↓
-sections/    ← boundary detection for structured documents
-    ↓
-rendering/   ← markdown builders and output generators
-```
-
-A module may import from the same layer (`./module-name`) or a lower one
-(`../types`, `../parsing`, …). It must never import upward.
 
 ### Running tests
 
 ```bash
-bun test
-```
+# TypeScript catalog tests
+bun test scripts/
 
-### Validating CLI conventions
+# Rust workspace tests
+cargo test --workspace
 
-```bash
-bun cli/scripts/validate-ts-conventions.ts
+# Integration (cucumber) tests
+bun run test:integration
 ```
 
 ## Commit style
