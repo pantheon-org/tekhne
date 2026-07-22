@@ -24,6 +24,9 @@
     "skills/agentic-harness/opencode-toolkit/design-agents/references/**",
     "skills/agentic-harness/opencode-toolkit/configure/references/**",
     ".tessl/**",
+    // Golden-corpus parity fixtures: copied third-party testdata and
+    // deliberately malformed boundary cases, not authored docs.
+    "crates/skill-validator-rs/tests/golden-corpus/fixtures/**",
     // Generated file — contains intentional inline HTML for badge spans.
     "docs/src/content/docs/tiles.md"
   ],
