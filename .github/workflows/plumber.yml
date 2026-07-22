@@ -45,7 +45,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - id: plumber
-        uses: getplumber/plumber@feaea981266b40eea7985b7cb880d47a3426a570 # v0.4.2
+        uses: getplumber/plumber@fdd2a2d0555bb3b33cbb2efff3b955dea5a6bbf0 # v0.4.3
         # Advisory: a failed scan (including transient runtime errors) must not
         # block the PR. Drop this together with `soft-fail` when gating on score.
         continue-on-error: true
