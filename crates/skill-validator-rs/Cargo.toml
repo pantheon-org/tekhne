@@ -9,3 +9,11 @@ publish = false
 description = "Deterministic, offline skill validation (structure, content, token counts) for the tekhne auditor."
 
 [dependencies]
+
+# S1 token-parity gate (A4a): prove tiktoken-rs o200k_base token counts are
+# bit-exact vs the Go auditor's tiktoken-go O200kBase. Test-only for now; the
+# validator gains a runtime dependency on it in a later wave.
+[dev-dependencies]
+tiktoken-rs = "0.12"
+serde = { workspace = true }
+serde_json = { workspace = true }
