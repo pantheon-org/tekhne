@@ -35,22 +35,22 @@ bun cli/index.ts tessl publish-check <tiles...>
 
 See [`cli/README.md`](cli/README.md) for complete documentation.
 
-## skill-auditor (Go binary)
+## skill-auditor (Rust crate)
 
-`tools/skill-auditor/` is a typed, testable Go binary that replaces the `evaluate.sh` shell script. It implements the same 9-dimension rubric (140 pts total) with unit tests and a structured JSON output.
+`crates/skill-auditor/` is a typed, testable Rust binary that implements the 9-dimension rubric (140 pts total) with unit tests and structured JSON output. It bundles the `crates/skill-validator-rs/` structural checks, so the two crates form the full audit gate. Both build from the Cargo workspace; no separate install is needed.
 
 ```bash
-# Build once
-bun run build:skill-auditor
+# Build once (cached in target/release)
+cargo build --release -p skill-auditor
 
 # Evaluate a single skill
-skill-auditor evaluate agentic-harness/skill-quality-auditor --json --store
+cargo run -p skill-auditor -- evaluate agentic-harness/skill-quality-auditor --json --store
 
 # Batch evaluate
-skill-auditor batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
+cargo run -p skill-auditor -- batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
 
 # Exit 1 if any skill grades below B+
-skill-auditor batch --fail-below B+ agentic-harness/skill-quality-auditor
+cargo run -p skill-auditor -- batch --fail-below B+ agentic-harness/skill-quality-auditor
 ```
 
-The shell scripts (`evaluate.sh`, `batch-audit.sh`) remain as fallback. See `tools/skill-auditor/` for source.
+`bun run build:skill-auditor` is a shortcut for the `cargo build` above. See `crates/skill-auditor/` for source.

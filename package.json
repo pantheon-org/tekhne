@@ -30,7 +30,7 @@
     "tessl:review": "tessl review run",
     "test": "bun test cli/",
     "test:integration": "cucumber-js",
-    "build:skill-auditor": "cd tools/skill-auditor && go build -o ../../bin/skill-auditor ."
+    "build:skill-auditor": "cargo build --release -p skill-auditor"
   },
   "keywords": [],
   "author": "",
