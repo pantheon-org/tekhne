@@ -11,6 +11,7 @@
 //! links, orphans) plus the content/contamination analysers in [`content`] and
 //! [`contamination`].
 
+pub mod artifacts;
 pub mod contamination;
 pub mod content;
 pub mod links;
