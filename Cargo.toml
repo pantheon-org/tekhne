@@ -5,6 +5,7 @@ members = [
     "crates/skill-install",
     "crates/skill-validator-rs",
     "crates/skill-auditor",
+    "crates/journal",
 ]
 
 [workspace.package]
