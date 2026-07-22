@@ -1,6 +1,6 @@
 [package]
 name = "skill-validator-rs"
-version = "0.0.0"
+version = "0.1.0"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
@@ -8,18 +8,31 @@ rust-version.workspace = true
 publish = false
 description = "Deterministic, offline skill validation (structure, content, token counts) for the tekhne auditor."
 
+# Opt this crate into cargo-dist: workspace policy sets `publish = false`, which
+# otherwise hides the binary from dist. skill-validator-rs is the offline
+# validator gate consumed by the git hooks and CI (A5b). It ships no bundled
+# skill and has no `skill install` subcommand: it is a gate tool, not a skill
+# installer.
+[package.metadata.dist]
+dist = true
+
 [lib]
 name = "skill_validator_rs"
 path = "src/lib.rs"
 
-# The CLI/binary target is deferred to A5b (D3). Until then this crate is a
-# pure library, so `clap` (and the currently unused `common`) are not declared.
+# The standalone validator gate binary (A5b). Wraps the lib API with a clap CLI,
+# report rendering (text/json/markdown/annotations), and exit-code logic.
+[[bin]]
+name = "skill-validator-rs"
+path = "src/main.rs"
+
 [dependencies]
 tiktoken-rs = { workspace = true }
 regex = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 serde_yaml_ng = { workspace = true }
+clap = { workspace = true }
 
 [dev-dependencies]
 tempfile = { workspace = true }
