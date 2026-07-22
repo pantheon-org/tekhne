@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent lists ADRs from a non-default directory resolved via ADR_DIR, correctly reads each record's status, distinguishes in-force from retired decisions, and excludes non-ADR files.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses adr list against the configured directory",
+      "description": "Runs `adr list` honouring ADR_DIR (or passes --dir architecture/decisions) rather than reading files manually.",
+      "max_score": 25
+    },
+    {
+      "name": "Reads status per record",
+      "description": "Reports the Status of each ADR, including that ADR-0002 is Superseded by ADR-0004.",
+      "max_score": 20
+    },
+    {
+      "name": "Groups in force vs retired",
+      "description": "Summary separates in-force records (0001, 0003, 0004) from the retired one (0002).",
+      "max_score": 25
+    },
+    {
+      "name": "Excludes non-ADR files",
+      "description": "Notes that README.md is not an ADR and is excluded from the listing.",
+      "max_score": 20
+    },
+    {
+      "name": "Records identified by number and title",
+      "description": "Each record in the summary is named by its number and title.",
+      "max_score": 10
+    }
+  ]
+}
