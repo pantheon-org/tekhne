@@ -1,25 +1,31 @@
-# cargo-dist workspace configuration (STUB, created in A1).
+# cargo-dist workspace configuration (finalized in A5).
 #
-# This is a scaffold placeholder that pins the distribution shape early:
-# Unix-first (macOS + Linux), shell installer, per-tool release tags.
-# It is finalized in A5, where `dist init` regenerates this file and the
-# generated `.github/workflows/release.yml` once the first binary crate
-# (skill-auditor) exists. cargo-dist is not installed locally yet, so this
-# stub has not been validated by `dist` itself.
+# Distribution shape: Unix-first (macOS + Linux), `curl | sh` shell installer,
+# per-tool release tags ('<tool>-v<semver>'). Finalized in A5 via `dist init`;
+# validated locally with `dist plan --tag skill-auditor-v0.1.0`. cargo-dist is
+# pinned in mise.toml. The generated `.github/workflows/release.yml` is owned by
+# dist except for a documented tag-trigger narrowing (see `allow-dirty` below).
+# Windows is deferred (add "x86_64-pc-windows-msvc" to `targets` later).
 
 [workspace]
-members = ["cargo:crates/*"]
+members = ["cargo:."]
 
+# Config for 'dist'
 [dist]
-# Bump to the version resolved by the R1 spike before A5 runs `dist init`.
+# The preferred dist version to use in CI (Cargo.toml SemVer syntax)
 cargo-dist-version = "0.28.0"
-# `curl | sh` shell installer (decision 5: registration is a separate
-# `skill install` subcommand, so the installer only drops the binary on PATH).
+# The installers to generate for each app
 installers = ["shell"]
-# Windows deferred (decision 3); add "x86_64-pc-windows-msvc" later.
-targets = [
-    "aarch64-apple-darwin",
-    "x86_64-apple-darwin",
-    "aarch64-unknown-linux-gnu",
-    "x86_64-unknown-linux-gnu",
-]
+# Target platforms to build apps for (Rust target-triple syntax)
+targets = ["aarch64-apple-darwin", "aarch64-unknown-linux-gnu", "x86_64-apple-darwin", "x86_64-unknown-linux-gnu"]
+# CI backends to support
+ci = "github"
+# Path that installers should place binaries in
+install-path = "CARGO_HOME"
+# Whether to install an updater program
+install-updater = false
+# Allow the generated CI (`release.yml`) to carry a manual edit without dist
+# treating it as out of date: the tag trigger is narrowed to the '<tool>-v<semver>'
+# namespace per the R1 versioning policy so skill releases never trigger tool
+# releases. Re-apply that narrowing if `dist generate` is ever re-run.
+allow-dirty = ["ci"]

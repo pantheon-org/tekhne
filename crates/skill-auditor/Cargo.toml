@@ -8,6 +8,12 @@ rust-version.workspace = true
 publish = false
 description = "Deterministic 9-dimension skill quality auditor (Rust port of the Go skill-auditor)."
 
+# Opt this crate into cargo-dist: workspace policy sets `publish = false`, which
+# otherwise hides the binary from dist. skill-auditor is the first distributed
+# tool (A5).
+[package.metadata.dist]
+dist = true
+
 [lib]
 name = "skill_auditor"
 path = "src/lib.rs"
