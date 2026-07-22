@@ -10,12 +10,15 @@ import "package://github.com/jdx/hk/releases/download/v1.49.0/hk@1.49.0#/Builtin
 local preCommit = new Mapping<String, Step> {
     ["biome"] {
         glob = List("*.js", "*.cjs", "*.mjs", "*.ts", "*.tsx", "*.jsx", "*.json", "*.jsonc")
+        // Golden-corpus test data (Go-generated goldens + copied fixtures) is
+        // reference data, not source; do not reformat it.
+        exclude = List("crates/skill-validator-rs/tests/golden-corpus/**")
         check = "bunx @biomejs/biome check --no-errors-on-unmatched {{files}}"
         fix = "bunx @biomejs/biome check --write --no-errors-on-unmatched {{files}}"
     }
     ["markdownlint"] {
         glob = List("*.md")
-        exclude = List(".context/**", "docs/src/content/docs/tiles.md")
+        exclude = List(".context/**", "docs/src/content/docs/tiles.md", "crates/skill-validator-rs/tests/golden-corpus/fixtures/**")
         check = "markdownlint-cli2 --config .markdownlint-cli2.jsonc {{files}}"
         fix = "markdownlint-cli2 --fix --config .markdownlint-cli2.jsonc {{files}}"
     }
@@ -36,11 +39,13 @@ local preCommit = new Mapping<String, Step> {
     }
     ["yamllint"] {
         glob = List("*.yml", "*.yaml")
+        exclude = List("crates/skill-validator-rs/tests/golden-corpus/fixtures/**")
         shell = "sh -c"
         check = "command -v yq >/dev/null 2>&1 && yq eval '.' {{files}} >/dev/null"
     }
     ["shellcheck"] {
         glob = List("*.sh")
+        exclude = List("crates/skill-validator-rs/tests/golden-corpus/fixtures/**")
         shell = "sh -c"
         check = "command -v shellcheck >/dev/null 2>&1 && shellcheck {{files}}"
     }

@@ -1,0 +1,34 @@
+name: Validate Skills
+
+# Customize the paths filter to match where skills live in your repository.
+# For example, if your skills are in "agent-skills/", change the path below.
+on:
+  pull_request:
+    paths:
+      - "skills/**"
+
+# Set this to match the paths filter above. The validate script uses it to
+# find changed skill directories via git diff and as the fallback search root.
+env:
+  SKILLS_DIR: skills
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          # Full history is needed so git diff can compare against the base branch
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: false
+
+      - name: Install skill-validator
+        run: go install github.com/agent-ecosystem/skill-validator/cmd/skill-validator@latest
+
+      - name: Validate changed skills
+        run: bash .github/scripts/validate-skills.sh "${{ github.base_ref }}" "$SKILLS_DIR"
