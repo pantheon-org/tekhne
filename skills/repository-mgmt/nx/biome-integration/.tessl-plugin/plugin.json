@@ -1,7 +1,9 @@
 {
   "name": "pantheon-ai/nx-biome-integration",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Integrate Biome into Nx monorepos with deterministic setup, caching, migration from ESLint and Prettier, and plugin-based inferred tasks; use when adding Biome, replacing ESLint/Prettier, tuning cache inputs, or scaling lint and format workflows across projects.",
   "private": false,
-  "skills": ["SKILL.md"]
+  "skills": [
+    "SKILL.md"
+  ]
 }

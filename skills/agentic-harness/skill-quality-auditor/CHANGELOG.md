@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.3.0](https://github.com/pantheon-org/tekhne/compare/v0.2.0...v0.3.0) (2026-07-23)
+
+
+### Features
+
+* **agentic-context:** add triage-paper and triage-tool skills ([#57](https://github.com/pantheon-org/tekhne/issues/57)) ([bc16396](https://github.com/pantheon-org/tekhne/commit/bc1639618555a64ab0543211befa69aeb1cd886b))
+* **docs:** add Astro Starlight docs site with GitHub Pages deployment ([#13](https://github.com/pantheon-org/tekhne/issues/13)) ([a2f3679](https://github.com/pantheon-org/tekhne/commit/a2f36795b9eaed06b71efda9df41f53877922a8b))
+* **project-mgmt:** add implementation-planner skill ([#5](https://github.com/pantheon-org/tekhne/issues/5)) ([834b884](https://github.com/pantheon-org/tekhne/commit/834b88482e25e5ac0cd611d0de06d1eefcca3d4f))
+* **project-mgmt:** consolidate planning skills into planning-toolkit tile ([#55](https://github.com/pantheon-org/tekhne/issues/55)) ([2f91c1b](https://github.com/pantheon-org/tekhne/commit/2f91c1b4bf7ed616cd32cadd7031d6199686e9ce))
+* **skill-quality-auditor:** add D9 Eval Validation dimension and scale to 140-point framework ([954f964](https://github.com/pantheon-org/tekhne/commit/954f9645dca8d13323d196c2b8d180ea281d5876))
+* **skill-quality-auditor:** add kitchen-sink anti-pattern and improve to A-grade (113/120) ([874f7e2](https://github.com/pantheon-org/tekhne/commit/874f7e28b71e81b240baa05c3df7dc8a55e41506))
+* **skill-quality-auditor:** add self-containment penalties and script portability bonus to D4 ([871bcb2](https://github.com/pantheon-org/tekhne/commit/871bcb29ba6f1ec0d5a704a1203b3c27651aebe2))
+* **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([2d4c8cf](https://github.com/pantheon-org/tekhne/commit/2d4c8cfb0a57290e20e70e72186b8021bf802687))
+* **skill-quality-auditor:** improve D4/D5/D7/D8 dimensions and fix 9-dimension references ([73270d4](https://github.com/pantheon-org/tekhne/commit/73270d42ad9a0ab153272de2914be2f242f6a029))
+* **skill-validator-rs:** port validate-skill-artifacts; retire check-consistency (Wave 2) ([#211](https://github.com/pantheon-org/tekhne/issues/211)) ([9a33d4e](https://github.com/pantheon-org/tekhne/commit/9a33d4e218a85f749d63c6de9b144c396d1b41d0))
+* **software-engineering:** split software-design-principles into 4 focused skills ([7766492](https://github.com/pantheon-org/tekhne/commit/77664920fffe77becb04b991af6d04a085b4959c))
+* **tools:** add skill-auditor Go binary (replaces evaluate.sh) ([#90](https://github.com/pantheon-org/tekhne/issues/90)) ([13307fa](https://github.com/pantheon-org/tekhne/commit/13307fa3166ac9d6d8f8c3ebf249911d3c03554d))
+
+
+### Bug Fixes
+
+* **agents-md:** improve skill quality B+ → A+ (121 → 133/140) ([#34](https://github.com/pantheon-org/tekhne/issues/34)) ([ca6ae79](https://github.com/pantheon-org/tekhne/commit/ca6ae79f9ec7bda40f2c986e18b587f6cd2dd2a3))
+* **skill-quality-auditor:** enforce assets/ subdirectory conventions ([bc16396](https://github.com/pantheon-org/tekhne/commit/bc1639618555a64ab0543211befa69aeb1cd886b))
+* **skill-quality-auditor:** enforce lazy loading of references in D5 ([#30](https://github.com/pantheon-org/tekhne/issues/30)) ([9ceb8b4](https://github.com/pantheon-org/tekhne/commit/9ceb8b493ac887e4e3eeb5c2bb966a1e18d54c4c))
+* **skill-quality-auditor:** use || true to suppress grep -c non-zero exit under set -e ([#46](https://github.com/pantheon-org/tekhne/issues/46)) ([8a931e2](https://github.com/pantheon-org/tekhne/commit/8a931e232c59c4fafadf31333f798a18ccf3f69a))
+* **software-engineering:** complete design-principles migration from software-design-principles ([fb797b0](https://github.com/pantheon-org/tekhne/commit/fb797b012f5756fcb2445747671ac0db19431e6f))
+
 ## [0.2.0](https://github.com/pantheon-org/tekhne/compare/v0.1.4...v0.2.0) (2026-05-15)
 
 

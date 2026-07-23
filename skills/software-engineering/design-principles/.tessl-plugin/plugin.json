@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/design-principles",
-  "version": "1.1.1",
+  "version": "1.4.0",
   "description": "Strategic architecture, tactical design, and testable code principles (SOLID, Clean Architecture, Design Patterns, Testable Design)",
   "private": false,
   "skills": [

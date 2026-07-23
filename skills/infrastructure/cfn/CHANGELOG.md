@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.0.0](https://github.com/pantheon-org/tekhne/compare/v4.0.0...v5.0.0) (2026-07-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **tiles:** Individual skill tiles replaced with sub-domain tiles
+
+### Features
+
+* **tiles:** add 15 consolidated sub-domain tiles ([358d4c3](https://github.com/pantheon-org/tekhne/commit/358d4c3f7bfc1e226940166aa6b84d3d2b02bec2))
+
 ## [4.0.0](https://github.com/pantheon-org/tekhne/compare/v3.0.0...v4.0.0) (2026-07-10)
 
 

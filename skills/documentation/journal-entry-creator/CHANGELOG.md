@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.0](https://github.com/pantheon-org/tekhne/compare/v0.5.0...v0.6.0) (2026-07-23)
+
+
+### Features
+
+* **agentic-context:** add triage-paper and triage-tool skills ([#57](https://github.com/pantheon-org/tekhne/issues/57)) ([bc16396](https://github.com/pantheon-org/tekhne/commit/bc1639618555a64ab0543211befa69aeb1cd886b))
+* **journal-entry-creator:** add ticket-refinement entry type ([#97](https://github.com/pantheon-org/tekhne/issues/97)) ([367deee](https://github.com/pantheon-org/tekhne/commit/367deee33c84349e3521aa627b1bb41f67e70501))
+* **journal-entry-creator:** conform to grade C (W2 final) ([#109](https://github.com/pantheon-org/tekhne/issues/109)) ([db3f9d9](https://github.com/pantheon-org/tekhne/commit/db3f9d932a3a2c6144f969f7fffcff5420713aec))
+* **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([2d4c8cf](https://github.com/pantheon-org/tekhne/commit/2d4c8cfb0a57290e20e70e72186b8021bf802687))
+
+
+### Bug Fixes
+
+* **skill-quality-auditor:** enforce assets/ subdirectory conventions ([bc16396](https://github.com/pantheon-org/tekhne/commit/bc1639618555a64ab0543211befa69aeb1cd886b))
+
 ## [0.5.0](https://github.com/pantheon-org/tekhne/compare/v0.4.0...v0.5.0) (2026-07-10)
 
 

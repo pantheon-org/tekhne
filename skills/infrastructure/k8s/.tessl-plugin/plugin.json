@@ -1,7 +1,11 @@
 {
   "name": "pantheon-ai/k8s-toolkit",
-  "version": "0.3.1",
+  "version": "0.5.0",
   "description": "Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster debugging",
   "private": false,
-  "skills": ["yaml-generator", "yaml-validator", "debug"]
+  "skills": [
+    "yaml-generator",
+    "yaml-validator",
+    "debug"
+  ]
 }
