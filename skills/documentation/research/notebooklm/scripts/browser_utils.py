@@ -8,7 +8,6 @@ import json
 import time
 import random
 import logging
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
