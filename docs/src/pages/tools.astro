@@ -72,6 +72,8 @@ const tools: Tool[] = [
     commands: [
       { usage: "pantheon-journal new --type <type> --title <title>", summary: "Create a new entry from one of the five template schemas." },
       { usage: "pantheon-journal validate <file>", summary: "Validate an existing entry for compliance." },
+      { usage: "pantheon-journal lint", summary: "Advisory tag lint against the taxonomy: alias suggestions and unfaceted tags." },
+      { usage: "pantheon-journal index", summary: "Generate the browse index (NDJSON source of truth + rendered markdown view)." },
       { usage: "pantheon-journal skill install", summary: "Register the bundled skill into detected agent directories." },
     ],
     bundledSkill: "journal-entry-creator",
