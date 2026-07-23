@@ -1,0 +1,51 @@
+name: aislop
+
+# Full-repo code-quality gate (aislop): catches dead imports, duplicate logic,
+# unsafe casts, narrative comments, swallowed errors, oversized functions and
+# similar, scored out of 100. aislop already runs locally via a PostToolUse
+# hook; this enforces the same gate in CI, where local hooks are bypassable
+# (--no-verify, web-UI merges, API commits).
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Supersede an in-flight run when the ref updates (e.g. a rebase), so stale
+  # runs are cancelled instead of piling up.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: aislop quality gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22
+
+      # Advisory rollout. `aislop ci` exits 1 below ci.failBelow (or aislop's
+      # default) or on any error-severity diagnostic, and a full-repo scan today
+      # reports 30 errors / 3 confirmed defects — so gating hard right now would
+      # block every PR. continue-on-error keeps this non-blocking while the
+      # findings are surfaced in the run log; the local PostToolUse hook still
+      # enforces quality per-edit. Promote to a hard gate (drop
+      # continue-on-error) once a full-repo scan is clean. Mirrors the staged
+      # rollout of the cargo-audit step in rust-ci.yml.
+      #
+      # aislop is unpinned (@latest) to match the local PostToolUse hook, which
+      # also tracks latest; there is no aislop version pin in mise.toml. If CI
+      # reproducibility later requires it, pin a specific version here and in the
+      # hook together.
+      - name: aislop ci
+        continue-on-error: true
+        run: npx --yes aislop@latest ci .
