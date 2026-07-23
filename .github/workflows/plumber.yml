@@ -2,15 +2,19 @@ name: Plumber
 
 # CI/CD security scanning for this repository's GitHub Actions workflows and
 # repository configuration (unpinned actions, untrusted shell input, missing
-# branch protection, over-broad permissions). Findings surface in the Security
-# tab (Code Scanning) and in the job summary as a Plumber Score (A-E).
+# branch protection, over-broad permissions). Findings surface in three places:
+# the Security tab (Code Scanning SARIF), a per-PR compliance comment, and — for
+# High/Medium/Low — a single persistent backlog issue.
 #
-# Advisory mode: findings are reported but never block a PR. `soft-fail` covers
-# score-gate failures; `continue-on-error` additionally keeps transient runtime
-# errors (e.g. a rate-limited SLSA attestation check during a PR burst) from
-# blocking merges, which `soft-fail` alone does not. To gate CI on the score
-# once the baseline is clean, drop both and add `min-score: "B"` (see
-# https://getplumber.io/docs/cli/github). Config lives in .plumber.yaml at the
+# Gating model (ported from pantheon-org/skill-quality-auditor):
+#   - Critical findings BLOCK the PR (scripts/plumber-gate.sh).
+#   - High/Medium/Low are tracked, never blocking: a rolling backlog issue on
+#     push to main (scripts/plumber-file-issues.sh) and a per-PR comment
+#     (scripts/plumber-pr-comment.sh).
+# The Plumber action itself runs with soft-fail + continue-on-error so its own
+# A-E score gate and any transient runtime error (e.g. a rate-limited SLSA
+# attestation check during a PR burst) never block; the ONLY blocking signal is
+# a Critical finding via plumber-gate.sh. Config lives in .plumber.yaml at the
 # repo root (required by the action).
 
 on:
@@ -40,77 +44,50 @@ jobs:
     permissions:
       contents: read
       security-events: write # upload SARIF to Code Scanning
-      pull-requests: write # post the advisory Plumber Score comment on PRs
+      issues: write # maintain the High/Medium/Low backlog issue
+      pull-requests: write # post the compliance comment on PRs
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - id: plumber
         uses: getplumber/plumber@feaea981266b40eea7985b7cb880d47a3426a570 # v0.4.2
-        # Advisory: a failed scan (including transient runtime errors) must not
-        # block the PR. Drop this together with `soft-fail` when gating on score.
+        # soft-fail: the action never fails on its own A-E score. continue-on-error:
+        # a transient runtime error must not block either — the Critical gate below
+        # is the only blocking signal. SARIF upload to Code Scanning is left on
+        # (default); `output` just fixes the JSON report path for the scripts.
         continue-on-error: true
         with:
-          # Advisory only: report findings without failing the job. Remove this
-          # and set `min-score` to start gating PRs on the Plumber Score.
           soft-fail: "true"
-          # Publishing a public score badge to score.getplumber.io is an
-          # explicit opt-in; keep it off. To enable, set this to "true" and add
-          # `id-token: write` to the job permissions above.
+          # Publishing a public score badge to score.getplumber.io is an explicit
+          # opt-in; keep it off. To enable, set "true" and add `id-token: write`.
           score-push: "false"
+          output: results.json
 
-      # In advisory mode the check just passes, so findings are easy to miss.
-      # Surface the Plumber Score as a single upserted PR comment. Skipped when
-      # gating on score (a failing required check is the signal instead).
-      - name: Comment Plumber Score on PR
-        if: github.event_name == 'pull_request' && !cancelled()
+      # Critical findings block the PR. Reads the JSON report the action wrote;
+      # tolerant of a missing report (transient scan error → warn, don't block).
+      - name: Gate on Critical findings
+        run: scripts/plumber-gate.sh results.json
+
+      # Rolling backlog issue for High/Medium/Low. Push-to-main only: it reflects
+      # the state of main, not a PR branch's speculative merged state — running it
+      # on PRs would make concurrent PRs fight over the single rollup issue.
+      - name: File issues for High/Medium/Low findings
+        if: always() && github.event_name == 'push'
         env:
           GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-          PR: ${{ github.event.pull_request.number }}
-          REPORT: ${{ steps.plumber.outputs.report }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          SECURITY_URL: ${{ github.server_url }}/${{ github.repository }}/security/code-scanning
-        run: |
-          set -euo pipefail
-          marker="<!-- plumber-advisory -->"
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: scripts/plumber-file-issues.sh results.json
 
-          if [ -n "${REPORT:-}" ] && [ -s "${REPORT:-/dev/null}" ]; then
-            read -r score points crit high med low < <(
-              jq -r '[.plumberScore.score,
-                      (.plumberScore.finalPoints | floor),
-                      .plumberScore.counts.critical,
-                      .plumberScore.counts.high,
-                      .plumberScore.counts.medium,
-                      .plumberScore.counts.low] | @tsv' "$REPORT"
-            )
-            codes="$(jq -r '.plumberScore.codeLosses // []
-                            | sort_by(-.count)[]
-                            | "| \(.code) | \(.severity) | \(.count) |"' "$REPORT")"
-            [ -n "$codes" ] || codes="| _none_ | | |"
-            body="$marker
-          ## Plumber Score: ${score} (${points}/100)
+      # Fork PRs run with a read-only GITHUB_TOKEN regardless of the permissions
+      # block above, so gh pr comment would 403.
+      - name: Skip PR comment for fork PRs
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == true
+        run: echo "::notice::Fork PR — GITHUB_TOKEN is read-only, skipping the compliance comment. See this check's log and the Critical gate result."
 
-          Advisory CI/CD security scan. This does **not** block the PR; it reports the score for awareness. Full detail is in the [Code Scanning alerts](${SECURITY_URL}) and the [run summary](${RUN_URL}).
-
-          **Findings by severity:** critical ${crit} · high ${high} · medium ${med} · low ${low}
-
-          | Issue | Severity | Count |
-          | --- | --- | --- |
-          ${codes}
-          "
-          else
-            body="$marker
-          ## Plumber Score: unavailable
-
-          The advisory CI/CD security scan did not produce a report this run (for example a transient runtime error). It does **not** block the PR. See the [run log](${RUN_URL}) for detail."
-          fi
-
-          # Upsert one comment: edit the bot's previous advisory comment in
-          # place, else create it. Best-effort: on Dependabot or fork PRs the
-          # token is read-only, so a write failure must not fail the job
-          # (advisory never blocks). The marker only tags the comment for humans.
-          if gh pr comment "$PR" --body "$body" --edit-last --create-if-none; then
-            echo "Posted advisory Plumber comment on PR #$PR"
-          else
-            echo "::notice::Could not post the advisory Plumber comment (read-only token on a Dependabot/fork PR?); skipping."
-          fi
+      - name: Comment compliance result on the PR
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: scripts/plumber-pr-comment.sh results.json
