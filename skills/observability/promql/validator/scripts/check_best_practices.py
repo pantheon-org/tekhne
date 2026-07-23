@@ -9,7 +9,7 @@ Provides actionable suggestions for improving query efficiency and correctness.
 import re
 import sys
 import json
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List
 
 
 class PromQLBestPracticesChecker:

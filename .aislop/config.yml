@@ -11,3 +11,12 @@ exclude:
   - "skills/**/references/**"
   - "skills/**/templates/**"
   - "skills/**/examples/**"
+
+# aislop's format engine also runs Biome, but its own bundled version
+# (@biomejs/biome ^2.5.1) differs from the repo's pinned Biome (^2.4.4 via
+# biome.json), so it reports phantom .ts formatting diffs. The repo's Biome
+# (biome.json + the hk pre-commit hook) is the single source of truth for
+# formatting, so disable aislop's duplicate pass rather than run two Biome
+# versions against each other.
+engines:
+  format: false

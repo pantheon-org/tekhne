@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent / 'lib'))
 
 from common_patterns import PipelinePatterns
-from syntax_helpers import ScriptedSyntax, FormattingHelpers, ValidationHelpers
+from syntax_helpers import ScriptedSyntax, FormattingHelpers
 
 
 class ScriptedPipelineGenerator:

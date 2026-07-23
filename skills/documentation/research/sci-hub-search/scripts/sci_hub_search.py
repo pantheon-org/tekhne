@@ -11,7 +11,7 @@ import argparse
 import logging
 import urllib3
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Dict, List, Any
 
 try:
     from scihub import SciHub

@@ -17,7 +17,7 @@ import argparse
 import logging
 import sys
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import List
 from collections import defaultdict
 
 
