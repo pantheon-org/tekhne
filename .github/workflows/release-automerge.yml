@@ -1,0 +1,107 @@
+name: Release Auto-merge
+
+# Scheduled auto-merge of the open release-please PR ("chore(main): release ...").
+# This removes the manual merge step: release-please.yml refreshes the rolling
+# release PR on every push to main and cuts the tagged Release on the weekly
+# schedule; this job then merges whatever release PR is open, so a release lands
+# without a human clicking merge.
+#
+# WHY A GITHUB APP TOKEN (not GITHUB_TOKEN):
+# A merge performed with the default GITHUB_TOKEN does NOT trigger new workflow
+# runs (GitHub's anti-recursion rule). tool-release.yml (cargo-dist) runs on the
+# pushed version tag and is what builds and uploads the release binaries. If this
+# job merged with GITHUB_TOKEN, the release PR would land and the tag would be
+# created, but tool-release.yml would never fire, producing a tag with no
+# binaries. Minting the pantheon-ai-bot App installation token makes the merge a
+# real actor event, so the downstream release build fires.
+#
+# CREDENTIALS: reuses the pantheon-ai-bot App already used by pr-auto-rebase.yml
+# (public client-id below + org secret GH_APP_PRIVATE_KEY). No new App or secret
+# is needed.
+
+on:
+  schedule:
+    # Mondays 08:37 UTC (09:37 BST). Runs after release-please.yml's own weekly
+    # cut (08:07 UTC) so the tagged release PR exists before this tries to merge
+    # it. Cron is UTC; there is no DST handling.
+    - cron: "37 8 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+# Never run two auto-merges at once, and never cancel one mid-merge: cancelling
+# between the merge and the downstream release build could land the PR without
+# the release firing cleanly.
+concurrency:
+  group: release-automerge
+  cancel-in-progress: false
+
+jobs:
+  automerge:
+    name: Merge open release PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint pantheon-ai-bot token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          # Client ID for the pantheon-ai-bot App (public identifier, not a secret).
+          client-id: "Iv23ligzn16vkDCWfHgc"
+          private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+
+      - name: Merge open release-please PR
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          # Select by the release-please branch (stable) rather than by title:
+          # this is a multi-package manifest release, so the aggregate PR title
+          # varies with which components changed. The head branch name is fixed.
+          pr=$(gh pr list --repo "$GH_REPO" \
+            --state open \
+            --head 'release-please--branches--main' \
+            --json number,title,mergeStateStatus,isDraft \
+            --jq '.[0] // empty')
+
+          if [ -z "$pr" ]; then
+            echo "No open release PR found. Nothing to merge."
+            echo "No open release PR found." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          number=$(jq -r '.number' <<<"$pr")
+          title=$(jq -r '.title' <<<"$pr")
+          state=$(jq -r '.mergeStateStatus' <<<"$pr")
+          draft=$(jq -r '.isDraft' <<<"$pr")
+          echo "Found release PR #$number (\"$title\", mergeStateStatus=$state, draft=$draft)"
+
+          if [ "$draft" = "true" ]; then
+            echo "PR #$number is a draft; skipping." | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # DIRTY/BLOCKED/BEHIND mean the PR cannot merge cleanly. pr-auto-rebase.yml
+          # deliberately skips the release-please branch, so a BEHIND release PR is
+          # expected here: refresh it in place so the next scheduled run can merge
+          # the now up-to-date branch, rather than force-merging a stale one.
+          case "$state" in
+            BEHIND)
+              echo "PR #$number is BEHIND main; updating its branch and deferring the merge to the next run."
+              gh pr update-branch "$number" --repo "$GH_REPO" --rebase || \
+                echo "::warning::Could not rebase PR #$number; it needs a manual rebase."
+              echo "- PR #$number: was BEHIND, rebased; merge deferred to next run." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+              ;;
+            DIRTY|BLOCKED)
+              echo "::warning::PR #$number is not in a mergeable state ($state); skipping."
+              echo "- PR #$number: not mergeable ($state); skipped." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+              ;;
+          esac
+
+          gh pr merge "$number" --repo "$GH_REPO" --squash --delete-branch
+          echo "Merged release PR #$number. tool-release.yml will now build and publish."
+          echo "- PR #$number: merged :white_check_mark: — release build triggered." >> "$GITHUB_STEP_SUMMARY"
