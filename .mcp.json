@@ -4,6 +4,34 @@
       "type": "stdio",
       "command": "tessl",
       "args": ["mcp", "start"]
+    },
+    "sigmap": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "sigmap", "--mcp"]
+    },
+    "aislop": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "--package=aislop", "aislop-mcp"]
+    },
+    "code-review-graph": {
+      "command": "uvx",
+      "args": ["code-review-graph", "serve"],
+      "type": "stdio"
+    },
+    "qmd": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@tobilu/qmd", "mcp"]
+    },
+    "context-mode": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "context-mode", "context-mode"],
+      "env": {
+        "CONTEXT_MODE_IDLE_TIMEOUT_MS": "900000"
+      }
     }
   }
 }
