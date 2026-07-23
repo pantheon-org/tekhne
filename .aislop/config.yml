@@ -11,6 +11,11 @@ exclude:
   - "skills/**/references/**"
   - "skills/**/templates/**"
   - "skills/**/examples/**"
+  # Curated skill scripts are gated and cleaned incrementally (tracked in
+  # issue #233), not by this blocking gate. The gate enforces quality on
+  # tekhne's own code (crates/, scripts/, features/, docs/). Removing this line
+  # brings skill scripts back under the gate once their backlog is cleared.
+  - "skills/**/scripts/**"
 
 # aislop's format engine also runs Biome, but its own bundled version
 # (@biomejs/biome ^2.5.1) differs from the repo's pinned Biome (^2.4.4 via
