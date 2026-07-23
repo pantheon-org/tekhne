@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091
+# ^ SC1091: sourced paths are resolved at runtime, not statically
 # Wrapper script for extract_tf_info.py that handles python-hcl2 dependency
 # Creates a temporary venv if python-hcl2 is not available, auto-cleans on exit
 
@@ -33,7 +36,7 @@ fi
 
 # python-hcl2 not available, create temporary venv
 TEMP_VENV=$(mktemp -d -t terraform-validator.XXXXXX)
-trap "rm -rf $TEMP_VENV" EXIT
+trap 'rm -rf "$TEMP_VENV"' EXIT
 
 echo "python-hcl2 not found in system Python. Creating temporary environment..." >&2
 

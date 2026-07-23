@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 # Generate a comprehensive .dockerignore file
 
 set -euo pipefail

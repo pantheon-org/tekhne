@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 # CloudFormation Event Watcher
 # Watches CloudFormation events in real-time during stack updates
 

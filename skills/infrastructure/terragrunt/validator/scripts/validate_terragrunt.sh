@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 
 # Terragrunt Validation Script
 # This script performs comprehensive validation of Terragrunt configurations including:

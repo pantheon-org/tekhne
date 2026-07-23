@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 
 # Ansible FQCN (Fully Qualified Collection Name) Checker
 # Identifies modules using short names instead of FQCN format
@@ -179,7 +180,8 @@ check_module() {
             echo "$results" | head -5 | while read -r line; do
                 echo "  $line"
             done
-            local count=$(echo "$results" | wc -l | tr -d ' ')
+            local count
+            count=$(echo "$results" | wc -l | tr -d ' ')
             if [ "$count" -gt 5 ]; then
                 echo "  ... and $((count - 5)) more occurrences"
             fi

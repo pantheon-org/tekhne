@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 
 #
 # GitLab CI Validator - Tool Installation Script

@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 
 # Script to scaffold basic Helm chart directory structure
 # Usage: bash generate_chart_structure.sh <chart-name> <output-directory> [options]

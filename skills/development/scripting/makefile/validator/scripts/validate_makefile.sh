@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2016,SC2329
+# ^ SC2016: single quotes are intentional (literal, no expansion wanted); SC2329: functions invoked by scripts that source this file
 
 # Makefile Validator Script
 # Validates Makefile syntax, best practices, security, and optimization using mbake tool

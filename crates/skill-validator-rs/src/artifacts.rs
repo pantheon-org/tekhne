@@ -123,6 +123,14 @@ fn collect_files(dir: &Path, out: &mut Vec<PathBuf>) {
     };
     for entry in entries.flatten() {
         let path = entry.path();
+        // Dot-directories (e.g. `scripts/.tools/` holding vendored, gitignored
+        // binaries) are skipped: the shell's `**` globbing never descended into
+        // hidden path components, so their contents were never scanned. Matches
+        // the dot-directory skip already applied to check_subdirs / check_assets.
+        let name = entry.file_name();
+        if name.to_string_lossy().starts_with('.') {
+            continue;
+        }
         match entry.file_type() {
             Ok(t) if t.is_dir() => collect_files(&path, out),
             Ok(t) if t.is_file() => out.push(path),
@@ -456,9 +464,12 @@ fn frontmatter_name(content: &str) -> Option<String> {
     Some(cleaned)
 }
 
-/// True when `../` appears outside fenced code blocks. Lines from a ```` ``` ````
-/// fence to the next fence (inclusive) are removed first, matching the shell's
-/// `sed '/^```/,/^```/d'`.
+/// True when `../` appears outside code. Lines from a ```` ``` ```` fence to the
+/// next fence (inclusive) are removed first, matching the shell's
+/// `sed '/^```/,/^```/d'`. Backtick-delimited inline code spans are also stripped
+/// from each surviving line: illustrative snippets like `` `curl .../merge_requests` ``
+/// (an ellipsis, not a parent path) are examples, not skill dependencies, so they
+/// carry the same "inside code" exemption as fenced blocks.
 fn contains_parent_ref_outside_code(content: &str) -> bool {
     let mut in_fence = false;
     for line in content.lines() {
@@ -470,11 +481,29 @@ fn contains_parent_ref_outside_code(content: &str) -> bool {
         if in_fence {
             continue;
         }
-        if line.contains("../") {
+        if strip_inline_code(line).contains("../") {
             return true;
         }
     }
     false
+}
+
+/// Remove backtick-delimited inline code spans from a single line, leaving only
+/// prose. An unterminated backtick drops the remainder of the line (matching how
+/// Markdown renders a dangling span as literal text we conservatively ignore).
+fn strip_inline_code(line: &str) -> String {
+    let mut out = String::new();
+    let mut in_code = false;
+    for ch in line.chars() {
+        if ch == '`' {
+            in_code = !in_code;
+            continue;
+        }
+        if !in_code {
+            out.push(ch);
+        }
+    }
+    out
 }
 
 #[cfg(test)]
@@ -638,6 +667,35 @@ mod tests {
     fn parent_ref_inside_code_ignored() {
         let content = "---\nname: s\n---\n```sh\ncat ../foo\n```\nClean prose.\n";
         assert!(!contains_parent_ref_outside_code(content));
+    }
+
+    #[test]
+    fn parent_ref_inside_inline_code_ignored() {
+        // An ellipsis inside an inline code span (`curl .../merge_requests`) is an
+        // illustrative snippet, not a parent-path dependency: it must not be flagged.
+        let content = "---\nname: s\n---\nUse `curl .../merge_requests` here.\n";
+        assert!(!contains_parent_ref_outside_code(content));
+    }
+
+    #[test]
+    fn parent_ref_in_prose_still_flagged_with_inline_code_present() {
+        // A real `../` in prose is still caught even when an inline span sits on the
+        // same line, so the inline-code exemption cannot mask a genuine reference.
+        let content = "---\nname: s\n---\nSee ../other and run `ls` now.\n";
+        assert!(contains_parent_ref_outside_code(content));
+    }
+
+    #[test]
+    fn tree_scan_skips_dot_directories() {
+        // A vendored binary under `scripts/.tools/` (gitignored in practice) must
+        // not be flagged as an unrecognised script type: the whole-tree scan skips
+        // hidden path components, matching the shell's `**` globbing.
+        let dir = tempdir().unwrap();
+        let skill = dir.path().join("skills/d/my-skill");
+        write(&skill.join("SKILL.md"), "---\nname: my-skill\n---\nBody\n");
+        write(&skill.join("scripts/.tools/actionlint"), "binary-ish\n");
+        let report = check_tree(&dir.path().join("skills"));
+        assert_eq!(report.errors(), 0, "{:?}", report.results);
     }
 
     #[test]

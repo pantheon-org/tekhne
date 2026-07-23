@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2329
+# ^ SC2329: functions invoked by scripts that source this file
+# shellcheck disable=SC2129
+# ^ SC2129: sequential appends to the report file are intentional and readable here
 #
 # CloudFormation Template Comparison Script
 # 
@@ -103,7 +108,8 @@ retrieve_deployed_template() {
         exit 2
     fi
     
-    local line_count=$(wc -l < "$WORK_DIR/deployed.json")
+    local line_count
+    line_count=$(wc -l < "$WORK_DIR/deployed.json")
     log_success "Retrieved deployed template ($line_count lines)"
 }
 
@@ -124,7 +130,8 @@ locate_local_template() {
             exit 2
         fi
         
-        local template_count=$(find cdk.out -name "*.template.json" -type f | wc -l)
+        local template_count
+        template_count=$(find cdk.out -name "*.template.json" -type f | wc -l)
         
         if [ "$template_count" -eq 0 ]; then
             log_error "No CloudFormation templates found in cdk.out/"
@@ -138,7 +145,8 @@ locate_local_template() {
         cp cdk.out/*.template.json "$WORK_DIR/local.json"
     fi
     
-    local line_count=$(wc -l < "$WORK_DIR/local.json")
+    local line_count
+    line_count=$(wc -l < "$WORK_DIR/local.json")
     log_success "Located local template ($line_count lines)"
 }
 
@@ -164,8 +172,10 @@ compare_structure() {
 compare_resources() {
     log_info "Comparing resources..."
     
-    local deployed_count=$(jq -r '.Resources | keys | length' "$WORK_DIR/deployed.json")
-    local local_count=$(jq -r '.Resources | keys | length' "$WORK_DIR/local.json")
+    local deployed_count
+    deployed_count=$(jq -r '.Resources | keys | length' "$WORK_DIR/deployed.json")
+    local local_count
+    local_count=$(jq -r '.Resources | keys | length' "$WORK_DIR/local.json")
     
     echo "  Deployed: $deployed_count resources"
     echo "  Local:    $local_count resources"
@@ -175,9 +185,12 @@ compare_resources() {
     jq -r '.Resources | keys | sort[]' "$WORK_DIR/local.json" > "$WORK_DIR/local-resources.txt"
     
     # Find differences
-    local added=$(comm -13 "$WORK_DIR/deployed-resources.txt" "$WORK_DIR/local-resources.txt" 2>/dev/null | wc -l)
-    local removed=$(comm -23 "$WORK_DIR/deployed-resources.txt" "$WORK_DIR/local-resources.txt" 2>/dev/null | wc -l)
-    local common=$(comm -12 "$WORK_DIR/deployed-resources.txt" "$WORK_DIR/local-resources.txt" 2>/dev/null | wc -l)
+    local added
+    added=$(comm -13 "$WORK_DIR/deployed-resources.txt" "$WORK_DIR/local-resources.txt" 2>/dev/null | wc -l)
+    local removed
+    removed=$(comm -23 "$WORK_DIR/deployed-resources.txt" "$WORK_DIR/local-resources.txt" 2>/dev/null | wc -l)
+    local common
+    common=$(comm -12 "$WORK_DIR/deployed-resources.txt" "$WORK_DIR/local-resources.txt" 2>/dev/null | wc -l)
     
     echo "  Common:   $common resources"
     
@@ -203,8 +216,10 @@ compare_resources() {
 compare_cdk_nag() {
     log_info "Comparing CDK Nag suppressions..."
     
-    local deployed_suppressions=$(jq -r '[.Resources | to_entries[] | select(.value.Metadata.cdk_nag != null) | .key] | length' "$WORK_DIR/deployed.json")
-    local local_suppressions=$(jq -r '[.Resources | to_entries[] | select(.value.Metadata.cdk_nag != null) | .key] | length' "$WORK_DIR/local.json")
+    local deployed_suppressions
+    deployed_suppressions=$(jq -r '[.Resources | to_entries[] | select(.value.Metadata.cdk_nag != null) | .key] | length' "$WORK_DIR/deployed.json")
+    local local_suppressions
+    local_suppressions=$(jq -r '[.Resources | to_entries[] | select(.value.Metadata.cdk_nag != null) | .key] | length' "$WORK_DIR/local.json")
     
     echo "  Deployed: $deployed_suppressions resources with suppressions"
     echo "  Local:    $local_suppressions resources with suppressions"
@@ -224,8 +239,10 @@ analyze_renamed_resources() {
     local local_res="$2"
     
     # Extract base name without trailing hash (last 16 chars typically)
-    local deployed_base=$(echo "$deployed_res" | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
-    local local_base=$(echo "$local_res" | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
+    local deployed_base
+    deployed_base=$(echo "$deployed_res" | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
+    local local_base
+    local_base=$(echo "$local_res" | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
     
     # Check if base names are similar (allowing for small variations)
     if [ "$deployed_base" = "$local_base" ]; then
@@ -234,8 +251,10 @@ analyze_renamed_resources() {
     fi
     
     # Check if only difference is stack name suffix (e.g., lctmonitoringst vs lctmonitoringstthoroc)
-    local deployed_normalized=$(echo "$deployed_res" | sed -E 's/lctmonitoringst[a-z0-9]*/lctmonitoringst/' | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
-    local local_normalized=$(echo "$local_res" | sed -E 's/lctmonitoringst[a-z0-9]*/lctmonitoringst/' | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
+    local deployed_normalized
+    deployed_normalized=$(echo "$deployed_res" | sed -E 's/lctmonitoringst[a-z0-9]*/lctmonitoringst/' | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
+    local local_normalized
+    local_normalized=$(echo "$local_res" | sed -E 's/lctmonitoringst[a-z0-9]*/lctmonitoringst/' | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
     
     if [ "$deployed_normalized" = "$local_normalized" ]; then
         echo "RENAMED"
@@ -329,20 +348,24 @@ EOF
         # Match renamed resources
         while IFS= read -r local_res; do
             local found_match=0
-            local local_type=$(jq -r ".Resources[\"$local_res\"].Type" "$WORK_DIR/local.json")
+            local local_type
+            local_type=$(jq -r ".Resources[\"$local_res\"].Type" "$WORK_DIR/local.json")
             
             # Extract base resource name (everything before the hash pattern)
             # For resources like "BeehiveAccessSecurityGrouptolctmonitoringstthorocBeehiveDbSecurityGroup6B95C6C8543226F10A21"
             # We want to match on the functional part, ignoring stack refs and hashes
-            local local_base=$(echo "$local_res" | sed -E 's/lctmonitoringst[a-z0-9]*/STACKREF/g' | sed -E 's/[A-F0-9]{4,16}//g' | sed -E 's/[a-f0-9]{8}//g')
+            local local_base
+            local_base=$(echo "$local_res" | sed -E 's/lctmonitoringst[a-z0-9]*/STACKREF/g' | sed -E 's/[A-F0-9]{4,16}//g' | sed -E 's/[a-f0-9]{8}//g')
             
             while IFS= read -r deployed_res; do
-                local deployed_type=$(jq -r ".Resources[\"$deployed_res\"].Type" "$WORK_DIR/deployed.json")
+                local deployed_type
+                deployed_type=$(jq -r ".Resources[\"$deployed_res\"].Type" "$WORK_DIR/deployed.json")
                 
                 # Only match if types are the same
                 if [ "$deployed_type" = "$local_type" ]; then
                     # Extract base from deployed resource
-                    local deployed_base=$(echo "$deployed_res" | sed -E 's/lctmonitoringst[a-z0-9]*/STACKREF/g' | sed -E 's/[A-F0-9]{4,16}//g' | sed -E 's/[a-f0-9]{8}//g')
+                    local deployed_base
+                    deployed_base=$(echo "$deployed_res" | sed -E 's/lctmonitoringst[a-z0-9]*/STACKREF/g' | sed -E 's/[A-F0-9]{4,16}//g' | sed -E 's/[a-f0-9]{8}//g')
                     
                     if [ "$deployed_base" = "$local_base" ]; then
                         echo "$deployed_res → $local_res ($local_type)" >> "$WORK_DIR/renamed-resources.txt"
@@ -467,8 +490,10 @@ EOF
 EOF
 
     # Extract and compare SNS Topics with details
-    local deployed_topics=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Topic") | .key' "$WORK_DIR/deployed.json")
-    local local_topics=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Topic") | .key' "$WORK_DIR/local.json")
+    local deployed_topics
+    deployed_topics=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Topic") | .key' "$WORK_DIR/deployed.json")
+    local local_topics
+    local_topics=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Topic") | .key' "$WORK_DIR/local.json")
     
     if [ -z "$deployed_topics" ] && [ -z "$local_topics" ]; then
         echo "No SNS Topics found in either template." >> "$report_file"
@@ -479,8 +504,10 @@ EOF
             echo "No topics found." >> "$report_file"
         else
             echo "$deployed_topics" | while read -r topic; do
-                local display_name=$(jq -r ".Resources[\"$topic\"].Properties.DisplayName // \"N/A\"" "$WORK_DIR/deployed.json")
-                local topic_name=$(jq -r ".Resources[\"$topic\"].Properties.TopicName // \"N/A\"" "$WORK_DIR/deployed.json")
+                local display_name
+                display_name=$(jq -r ".Resources[\"$topic\"].Properties.DisplayName // \"N/A\"" "$WORK_DIR/deployed.json")
+                local topic_name
+                topic_name=$(jq -r ".Resources[\"$topic\"].Properties.TopicName // \"N/A\"" "$WORK_DIR/deployed.json")
                 echo "- **$topic**" >> "$report_file"
                 echo "  - Display Name: \`$display_name\`" >> "$report_file"
                 echo "  - Topic Name: \`$topic_name\`" >> "$report_file"
@@ -494,8 +521,10 @@ EOF
             echo "No topics found." >> "$report_file"
         else
             echo "$local_topics" | while read -r topic; do
-                local display_name=$(jq -r ".Resources[\"$topic\"].Properties.DisplayName // \"N/A\"" "$WORK_DIR/local.json")
-                local topic_name=$(jq -r ".Resources[\"$topic\"].Properties.TopicName // \"N/A\"" "$WORK_DIR/local.json")
+                local display_name
+                display_name=$(jq -r ".Resources[\"$topic\"].Properties.DisplayName // \"N/A\"" "$WORK_DIR/local.json")
+                local topic_name
+                topic_name=$(jq -r ".Resources[\"$topic\"].Properties.TopicName // \"N/A\"" "$WORK_DIR/local.json")
                 echo "- **$topic**" >> "$report_file"
                 echo "  - Display Name: \`$display_name\`" >> "$report_file"
                 echo "  - Topic Name: \`$topic_name\`" >> "$report_file"
@@ -508,8 +537,10 @@ EOF
     echo "" >> "$report_file"
     
     # Extract and compare SNS Subscriptions with details
-    local deployed_subs=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Subscription") | .key' "$WORK_DIR/deployed.json")
-    local local_subs=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Subscription") | .key' "$WORK_DIR/local.json")
+    local deployed_subs
+    deployed_subs=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Subscription") | .key' "$WORK_DIR/deployed.json")
+    local local_subs
+    local_subs=$(jq -r '.Resources | to_entries[] | select(.value.Type == "AWS::SNS::Subscription") | .key' "$WORK_DIR/local.json")
     
     if [ -z "$deployed_subs" ] && [ -z "$local_subs" ]; then
         echo "No SNS Subscriptions found in either template." >> "$report_file"
@@ -522,9 +553,12 @@ EOF
             echo "No subscriptions found in deployed template." >> "$report_file"
         else
             echo "$deployed_subs" | while read -r sub; do
-                local protocol=$(jq -r ".Resources[\"$sub\"].Properties.Protocol // \"N/A\"" "$WORK_DIR/deployed.json")
-                local endpoint=$(jq -r ".Resources[\"$sub\"].Properties.Endpoint // \"N/A\"" "$WORK_DIR/deployed.json")
-                local topic_arn=$(jq -r ".Resources[\"$sub\"].Properties.TopicArn // \"N/A\"" "$WORK_DIR/deployed.json")
+                local protocol
+                protocol=$(jq -r ".Resources[\"$sub\"].Properties.Protocol // \"N/A\"" "$WORK_DIR/deployed.json")
+                local endpoint
+                endpoint=$(jq -r ".Resources[\"$sub\"].Properties.Endpoint // \"N/A\"" "$WORK_DIR/deployed.json")
+                local topic_arn
+                topic_arn=$(jq -r ".Resources[\"$sub\"].Properties.TopicArn // \"N/A\"" "$WORK_DIR/deployed.json")
                 echo "- **$sub**" >> "$report_file"
                 echo "  - Protocol: \`$protocol\`" >> "$report_file"
                 echo "  - Endpoint: \`$endpoint\`" >> "$report_file"
@@ -539,9 +573,12 @@ EOF
             echo "No subscriptions found in local template." >> "$report_file"
         else
             echo "$local_subs" | while read -r sub; do
-                local protocol=$(jq -r ".Resources[\"$sub\"].Properties.Protocol // \"N/A\"" "$WORK_DIR/local.json")
-                local endpoint=$(jq -r ".Resources[\"$sub\"].Properties.Endpoint // \"N/A\"" "$WORK_DIR/local.json")
-                local topic_arn=$(jq -r ".Resources[\"$sub\"].Properties.TopicArn // \"N/A\"" "$WORK_DIR/local.json")
+                local protocol
+                protocol=$(jq -r ".Resources[\"$sub\"].Properties.Protocol // \"N/A\"" "$WORK_DIR/local.json")
+                local endpoint
+                endpoint=$(jq -r ".Resources[\"$sub\"].Properties.Endpoint // \"N/A\"" "$WORK_DIR/local.json")
+                local topic_arn
+                topic_arn=$(jq -r ".Resources[\"$sub\"].Properties.TopicArn // \"N/A\"" "$WORK_DIR/local.json")
                 echo "- **$sub**" >> "$report_file"
                 echo "  - Protocol: \`$protocol\`" >> "$report_file"
                 echo "  - Endpoint: \`$endpoint\`" >> "$report_file"

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 
 # Ansible Secret Scanner
 # Scans Ansible files for hardcoded secrets that Checkov may miss

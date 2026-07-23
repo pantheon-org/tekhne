@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2034
+# ^ SC2034: vars consumed by scripts that source this file
 
 # Common Validation Functions
 # Shared validation functions for both Declarative and Scripted pipelines
@@ -51,7 +54,8 @@ detect_pipeline_type() {
     local file=$1
 
     # Remove comments and empty lines
-    local first_meaningful=$(grep -v '^\s*//' "$file" | grep -v '^\s*$' | head -1)
+    local first_meaningful
+    first_meaningful=$(grep -v '^\s*//' "$file" | grep -v '^\s*$' | head -1)
 
     if echo "$first_meaningful" | grep -q '^\s*pipeline\s*{'; then
         echo "declarative"
@@ -317,13 +321,15 @@ check_variable_usage() {
 
         # Track variable definitions
         if echo "$line" | grep -qE '(def|String|Integer|Boolean)\s+[a-zA-Z_][a-zA-Z0-9_]*\s*='; then
-            local var_name=$(echo "$line" | grep -oE '[a-zA-Z_][a-zA-Z0-9_]*\s*=' | sed 's/\s*=//')
+            local var_name
+            var_name=$(echo "$line" | grep -oE '[a-zA-Z_][a-zA-Z0-9_]*\s*=' | sed 's/\s*=//')
             defined_vars["$var_name"]=$line_num
         fi
 
         # Track variable usage (simple heuristic)
         if echo "$line" | grep -qE '\$\{?[a-zA-Z_][a-zA-Z0-9_]*\}?'; then
-            local vars=$(echo "$line" | grep -oE '\$\{?[a-zA-Z_][a-zA-Z0-9_]*\}?' | sed 's/[\${}]//g')
+            local vars
+            vars=$(echo "$line" | grep -oE '\$\{?[a-zA-Z_][a-zA-Z0-9_]*\}?' | sed 's/[\${}]//g')
             for var in $vars; do
                 used_vars["$var"]=$line_num
             done
@@ -331,7 +337,8 @@ check_variable_usage() {
 
         # Check for undefined variables being used
         if echo "$line" | grep -qE '\$[a-zA-Z_][a-zA-Z0-9_]*' && ! echo "$line" | grep -qE '(def|String|params\.|env\.)'; then
-            local var=$(echo "$line" | grep -oE '\$[a-zA-Z_][a-zA-Z0-9_]*' | sed 's/\$//' | head -1)
+            local var
+            var=$(echo "$line" | grep -oE '\$[a-zA-Z_][a-zA-Z0-9_]*' | sed 's/\$//' | head -1)
             if [[ ! -v defined_vars["$var"] ]] && [[ "$var" != "WORKSPACE" ]] && [[ "$var" != "BUILD_NUMBER" ]] && [[ "$var" != "JOB_NAME" ]]; then
                 log_info "$line_num" "Variable '\$$var' used but not explicitly defined - ensure it's set by environment"
             fi
@@ -371,7 +378,8 @@ detect_plugins() {
 
     for pattern in "${plugin_patterns[@]}"; do
         if grep -q "$pattern" "$file"; then
-            local plugin_name=$(echo "$pattern" | sed 's/[\.\\].*$//' | sed 's/ $//')
+            local plugin_name
+            plugin_name=$(echo "$pattern" | sed 's/[\.\\].*$//' | sed 's/ $//')
             plugins["$plugin_name"]=1
         fi
     done

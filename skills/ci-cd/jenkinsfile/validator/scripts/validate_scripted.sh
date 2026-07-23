@@ -1,4 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2034
+# ^ SC2034: vars consumed by scripts that source this file
+# shellcheck disable=SC2094
+# ^ SC2094: reads the same file in several commands; every access is a read, none writes it
 
 # Scripted Pipeline Validator
 # Validates Jenkins Scripted Pipeline syntax and structure
@@ -65,8 +70,10 @@ validate_groovy_syntax() {
         fi
 
         # Check for unmatched braces (simple check)
-        local open_braces=$(echo "$line" | grep -o '{' | wc -l)
-        local close_braces=$(echo "$line" | grep -o '}' | wc -l)
+        local open_braces
+        open_braces=$(echo "$line" | grep -o '{' | wc -l)
+        local close_braces
+        close_braces=$(echo "$line" | grep -o '}' | wc -l)
 
         # Check for unmatched quotes
         # Skip lines that are part of multi-line strings (triple quotes or heredocs)
@@ -80,9 +87,12 @@ validate_groovy_syntax() {
         fi
 
         # Remove escaped quotes before counting
-        local clean_line=$(echo "$line" | sed "s/\\\\'//g" | sed 's/\\"//g')
-        local single_quotes=$(echo "$clean_line" | grep -o "'" | wc -l)
-        local double_quotes=$(echo "$clean_line" | grep -o '"' | wc -l)
+        local clean_line
+        clean_line=$(echo "$line" | sed "s/\\\\'//g" | sed 's/\\"//g')
+        local single_quotes
+        single_quotes=$(echo "$clean_line" | grep -o "'" | wc -l)
+        local double_quotes
+        double_quotes=$(echo "$clean_line" | grep -o '"' | wc -l)
 
         # Only flag truly unbalanced quotes (not in multi-line contexts)
         if (( single_quotes % 2 != 0 )); then
@@ -104,8 +114,10 @@ validate_groovy_syntax() {
     done < "$file"
 
     # Check overall brace balance
-    local total_open=$(grep -o '{' "$file" | wc -l)
-    local total_close=$(grep -o '}' "$file" | wc -l)
+    local total_open
+    total_open=$(grep -o '{' "$file" | wc -l)
+    local total_close
+    total_close=$(grep -o '}' "$file" | wc -l)
 
     if (( total_open != total_close )); then
         log_error "EOF" "Unbalanced braces: $total_open opening, $total_close closing"
@@ -167,7 +179,8 @@ validate_error_handling() {
 
             for ((i=0; i<100; i++)); do
                 ((check_line++))
-                local next_line=$(sed -n "${check_line}p" "$file")
+                local next_line
+                next_line=$(sed -n "${check_line}p" "$file")
 
                 # Match catch with optional leading } for "} catch (" pattern
                 if echo "$next_line" | grep -qE 'catch\s*\('; then
@@ -198,11 +211,14 @@ validate_error_handling() {
 
             for ((i=0; i<100 && check_back>0; i++)); do
                 ((check_back--))
-                local prev_line=$(sed -n "${check_back}p" "$file")
+                local prev_line
+                prev_line=$(sed -n "${check_back}p" "$file")
 
                 # Track brace depth to understand scope
-                local close_braces=$(echo "$prev_line" | grep -o '}' | wc -l)
-                local open_braces=$(echo "$prev_line" | grep -o '{' | wc -l)
+                local close_braces
+                close_braces=$(echo "$prev_line" | grep -o '}' | wc -l)
+                local open_braces
+                open_braces=$(echo "$prev_line" | grep -o '{' | wc -l)
                 brace_depth=$((brace_depth + close_braces - open_braces))
 
                 # Check if we find a try block at the right depth
@@ -245,7 +261,8 @@ validate_noncps() {
 
             for ((i=0; i<30; i++)); do
                 ((check_line++))
-                local next_line=$(sed -n "${check_line}p" "$file")
+                local next_line
+                next_line=$(sed -n "${check_line}p" "$file")
 
                 # Check for async pipeline steps in @NonCPS method
                 if echo "$next_line" | grep -qE '\s+(sh|bat|sleep|timeout|node|stage)\s*["\047(]'; then
@@ -279,7 +296,8 @@ validate_variables() {
 
         # Track variables declared with def, String, Integer, Boolean, Map, List
         if echo "$line" | grep -qE '^\s*(def|String|Integer|Boolean|Map|List)\s+([a-zA-Z_][a-zA-Z0-9_]*)'; then
-            local var_name=$(echo "$line" | grep -oE '(def|String|Integer|Boolean|Map|List)\s+[a-zA-Z_][a-zA-Z0-9_]*' | awk '{print $2}')
+            local var_name
+            var_name=$(echo "$line" | grep -oE '(def|String|Integer|Boolean|Map|List)\s+[a-zA-Z_][a-zA-Z0-9_]*' | awk '{print $2}')
             if [[ -n "$var_name" ]]; then
                 declared_vars="$declared_vars:$var_name:"
             fi
@@ -301,7 +319,8 @@ validate_variables() {
             # Check if it's not a property assignment (has dot notation)
             if ! echo "$line" | grep -q '\.'; then
                 # Extract variable name
-                local var_name=$(echo "$line" | grep -oE '^\s*[a-zA-Z_][a-zA-Z0-9_]*' | tr -d ' ')
+                local var_name
+                var_name=$(echo "$line" | grep -oE '^\s*[a-zA-Z_][a-zA-Z0-9_]*' | tr -d ' ')
                 # Only warn if variable was not previously declared
                 if [[ "$declared_vars" != *":$var_name:"* ]]; then
                     log_info "$line_num" "Consider using 'def' for variable declaration for better scoping"

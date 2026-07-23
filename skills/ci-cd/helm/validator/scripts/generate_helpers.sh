@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 # Generate standard Helm helpers (_helpers.tpl) for a chart
 
 set -e

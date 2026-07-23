@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2001
+# ^ SC2001: sed regex substitution is not expressible as shell parameter expansion
 #
 # Bash/Shell Script Validator
 # Validates bash and shell scripts for syntax errors, best practices, security issues, and optimizations
@@ -179,6 +182,7 @@ run_shellcheck() {
     fi
 
     local output
+    # shellcheck disable=SC2086  # word-splitting of the config/flag var is intentional
     if output=$($shellcheck_cmd $shell_arg -f gcc "$file" 2>&1); then
         print_success "No ShellCheck issues found"
         return 0

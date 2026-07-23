@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2012
+# ^ SC2012: ls is used for time-sorted / formatted listing; find -printf is non-portable (macOS)
 #
 # Generate bash script templates
 #
 
 set -euo pipefail
 
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
 readonly TEMPLATES_DIR="${SCRIPT_DIR}/../assets/templates"
 
 usage() {
