@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091
+# ^ SC1091: sourced paths are resolved at runtime, not statically
 
 # Checkov Installation Script with Virtual Environment
 # This script installs Checkov in an isolated virtual environment and provides
@@ -67,11 +70,14 @@ check_python() {
         exit 1
     fi
 
-    local python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
-    local major=$(echo "$python_version" | cut -d. -f1)
-    local minor=$(echo "$python_version" | cut -d. -f2)
+    local python_version
+    python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+    local major
+    major=$(echo "$python_version" | cut -d. -f1)
+    local minor
+    minor=$(echo "$python_version" | cut -d. -f2)
 
-    if [ "$major" -lt 3 ] || ([ "$major" -eq 3 ] && [ "$minor" -lt 9 ]); then
+    if [ "$major" -lt 3 ] || { [ "$major" -eq 3 ] && [ "$minor" -lt 9 ]; }; then
         echo -e "${RED}ERROR: Python 3.9 or higher is required${NC}" >&2
         echo "Current version: $python_version" >&2
         echo "Please upgrade Python and try again" >&2
@@ -119,7 +125,8 @@ install_checkov() {
     deactivate
 
     # Get installed version
-    local version=$("$INSTALL_DIR/bin/checkov" --version 2>&1 | head -n 1)
+    local version
+    version=$("$INSTALL_DIR/bin/checkov" --version 2>&1 | head -n 1)
     echo -e "${GREEN}✓${NC} Checkov installed: $version"
 }
 
@@ -152,7 +159,8 @@ WRAPPER_EOF
 
 # Check if wrapper is in PATH
 check_path() {
-    local bin_dir=$(dirname "$WRAPPER_LINK")
+    local bin_dir
+    bin_dir=$(dirname "$WRAPPER_LINK")
 
     if [[ ":$PATH:" != *":$bin_dir:"* ]]; then
         echo ""
@@ -252,7 +260,8 @@ do_upgrade() {
     fi
 
     # Get current version
-    local current_version=$("$INSTALL_DIR/bin/checkov" --version 2>&1 | head -n 1)
+    local current_version
+    current_version=$("$INSTALL_DIR/bin/checkov" --version 2>&1 | head -n 1)
     echo "Current version: $current_version"
     echo ""
     echo "Upgrading checkov..."
@@ -263,7 +272,8 @@ do_upgrade() {
     deactivate
 
     # Get new version
-    local new_version=$("$INSTALL_DIR/bin/checkov" --version 2>&1 | head -n 1)
+    local new_version
+    new_version=$("$INSTALL_DIR/bin/checkov" --version 2>&1 | head -n 1)
 
     echo ""
     echo -e "${GREEN}✓${NC} Upgrade complete"
@@ -279,7 +289,8 @@ do_status() {
 
     # Check Python
     if command -v python3 &> /dev/null; then
-        local python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
+        local python_version
+        python_version=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:2])))')
         echo -e "Python: ${GREEN}✓${NC} $python_version"
     else
         echo -e "Python: ${RED}✗${NC} Not installed"
@@ -301,7 +312,8 @@ do_status() {
 
     # Check if checkov is accessible
     if command -v checkov &> /dev/null; then
-        local version=$(checkov --version 2>&1 | head -n 1)
+        local version
+        version=$(checkov --version 2>&1 | head -n 1)
         echo -e "Checkov Command: ${GREEN}✓${NC} $version"
     else
         echo -e "Checkov Command: ${RED}✗${NC} Not in PATH"

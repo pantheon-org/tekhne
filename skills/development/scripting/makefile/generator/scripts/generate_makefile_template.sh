@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2034
+# ^ SC2034: vars consumed by scripts that source this file
 #
 # generate_makefile_template.sh
 # Description: Generate Makefile templates for different project types
@@ -8,8 +11,10 @@
 set -euo pipefail
 
 # Script metadata
-readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+readonly SCRIPT_NAME
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly SCRIPT_DIR
 
 # Default values
 FORCE=0

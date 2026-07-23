@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2329
+# ^ SC2329: functions invoked by scripts that source this file
 
 # Setup and validation tool for Ansible Validator
 # Checks for required tools and provides installation instructions

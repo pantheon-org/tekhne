@@ -1,4 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2034
+# ^ SC2034: vars consumed by scripts that source this file
+# shellcheck disable=SC2094
+# ^ SC2094: reads the same file in several commands; every access is a read, none writes it
 
 # Shared Library Validator
 # Validates Jenkins Shared Library files (vars/*.groovy, src/**/*.groovy)
@@ -68,7 +73,8 @@ log_info() {
 # Detect file type within shared library
 detect_library_file_type() {
     local file=$1
-    local filepath=$(realpath "$file" 2>/dev/null || echo "$file")
+    local filepath
+    filepath=$(realpath "$file" 2>/dev/null || echo "$file")
 
     if [[ "$filepath" == */vars/*.groovy ]]; then
         echo "vars"
@@ -91,7 +97,8 @@ detect_library_file_type() {
 # Validate vars/*.groovy global variable files
 validate_vars_file() {
     local file=$1
-    local filename=$(basename "$file" .groovy)
+    local filename
+    filename=$(basename "$file" .groovy)
     local line_num=0
     local has_call_method=false
     local has_doc_comment=false
@@ -130,7 +137,8 @@ validate_vars_file() {
         # Check for @NonCPS annotation usage
         if echo "$line" | grep -q '@NonCPS'; then
             # Check next non-empty line for pipeline steps
-            local next_lines=$(tail -n +$((line_num + 1)) "$file" | head -20)
+            local next_lines
+            next_lines=$(tail -n +$((line_num + 1)) "$file" | head -20)
             if echo "$next_lines" | grep -qE '^\s*(sh|bat|echo|checkout|archiveArtifacts|junit|input|build)\s'; then
                 log_error "$line_num" "@NonCPS method contains pipeline steps (sh, echo, etc.)"
                 log_error "$line_num" "  → Pipeline steps cannot be used in @NonCPS methods"
@@ -141,7 +149,8 @@ validate_vars_file() {
         # Check for proper error handling in pipeline steps
         if echo "$line" | grep -qE '^\s*sh\s+["\047]'; then
             # Check if inside try block
-            local context=$(head -n $line_num "$file" | tail -20)
+            local context
+            context=$(head -n $line_num "$file" | tail -20)
             if ! echo "$context" | grep -q 'try\s*{'; then
                 log_info "$line_num" "Consider wrapping sh step in try-catch for error handling"
             fi
@@ -174,7 +183,8 @@ validate_vars_file() {
         # Check for proper CPS handling with closures
         if echo "$line" | grep -qE '\.(each|collect|find|findAll|any|every)\s*\{'; then
             # Check if marked @NonCPS
-            local prev_lines=$(head -n $line_num "$file" | tail -10)
+            local prev_lines
+            prev_lines=$(head -n $line_num "$file" | tail -10)
             if ! echo "$prev_lines" | grep -q '@NonCPS'; then
                 log_info "$line_num" "Groovy closure detected - ensure method is @NonCPS if not using pipeline steps"
                 log_info "$line_num" "  → Closures like .each{}, .collect{} require @NonCPS annotation"
@@ -214,7 +224,8 @@ validate_vars_file() {
 # Validate src/**/*.groovy class files
 validate_src_file() {
     local file=$1
-    local filename=$(basename "$file" .groovy)
+    local filename
+    filename=$(basename "$file" .groovy)
     local line_num=0
     local has_package=false
     local has_class=false
@@ -276,7 +287,8 @@ validate_src_file() {
     fi
 
     # Check class naming matches filename
-    local class_name=$(grep -oE '^\s*(class|interface|enum|trait)\s+([A-Z][a-zA-Z0-9]*)' "$file" | head -1 | awk '{print $2}')
+    local class_name
+    class_name=$(grep -oE '^\s*(class|interface|enum|trait)\s+([A-Z][a-zA-Z0-9]*)' "$file" | head -1 | awk '{print $2}')
     if [ -n "$class_name" ] && [ "$class_name" != "$filename" ]; then
         log_error "1" "Class name '$class_name' does not match filename '$filename'"
     fi
@@ -325,7 +337,8 @@ print_results() {
 # Validate a single file
 validate_file() {
     local file=$1
-    local file_type=$(detect_library_file_type "$file")
+    local file_type
+    file_type=$(detect_library_file_type "$file")
 
     case "$file_type" in
         vars)

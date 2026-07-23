@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 #
 # ShellCheck Wrapper with Temporary Virtual Environment
 #

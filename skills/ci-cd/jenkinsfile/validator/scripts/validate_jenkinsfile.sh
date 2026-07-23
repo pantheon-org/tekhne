@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2001
+# ^ SC2001: sed regex substitution is not expressible as shell parameter expansion
 
 # Jenkinsfile Validator - Main Orchestrator Script
 # Runs all validators in sequence with unified output

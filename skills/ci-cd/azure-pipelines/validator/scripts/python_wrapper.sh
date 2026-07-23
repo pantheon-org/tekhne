@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091
+# ^ SC1091: sourced paths are resolved at runtime, not statically
 # Python Wrapper Script for Azure Pipelines Validator
 # Handles PyYAML and yamllint dependencies with transparent venv management
 #

@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 #
 # Azure Pipelines Validator
 #
@@ -77,13 +78,13 @@ auto_detect_files() {
 
     local count=${#files[@]}
 
-    if [ $count -eq 0 ]; then
+    if [ "$count" -eq 0 ]; then
         echo -e "${YELLOW}No Azure Pipelines files found.${NC}"
         echo ""
         echo "Searched for: azure-pipelines*.yml, azure-pipelines*.yaml"
         echo "Please specify a file path or create an azure-pipelines.yml file."
         exit 2
-    elif [ $count -eq 1 ]; then
+    elif [ "$count" -eq 1 ]; then
         FILE_PATH="${files[0]}"
         echo -e "${BLUE}Auto-detected:${NC} $FILE_PATH"
         echo ""

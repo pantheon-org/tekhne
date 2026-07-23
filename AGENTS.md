@@ -48,7 +48,7 @@ See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` 
 - `templates/`: YAML extensions (`.yaml` or `.yml`) only.
 - `schemas/`: JSON Schema files named `*.schema.json` with a `"$schema"` URL.
 - `scripts/`: Executable scripts with proper shebangs (sh/bash/python3/bun/node).
-- Skills must be self-contained: no `../` paths, no absolute `skills/X/Y` paths, no `.context/` or `.agents/` references in SKILL.md (code blocks exempt).
+- Skills must be self-contained: no `../` paths, no absolute `skills/X/Y` paths, no `.context/` or `.agents/` references in SKILL.md (fenced code blocks and inline code spans are exempt).
 
 ### Tessl Registry Preparation
 

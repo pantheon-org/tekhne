@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091,SC2329
+# ^ SC1091: sourced paths are resolved at runtime, not statically; SC2329: functions invoked by scripts that source this file
 
 # Comprehensive Ansible Playbook Validation Script
 # Automatically installs ansible and ansible-lint in temporary venv if not available
@@ -96,7 +99,7 @@ if [ $USE_SYSTEM_ANSIBLE -eq 0 ] || [ $USE_SYSTEM_ANSIBLE_LINT -eq 0 ]; then
 
     # Setup cleanup trap
     cleanup() {
-        if [ $CLEANUP_VENV -eq 1 ] && [ -n "$TEMP_VENV" ]; then
+        if [ "$CLEANUP_VENV" -eq 1 ] && [ -n "$TEMP_VENV" ]; then
             echo ""
             echo "Cleaning up temporary environment..."
             rm -rf "$TEMP_VENV"
@@ -145,6 +148,7 @@ if [ -n "$YAMLLINT_CMD" ]; then
         YAMLLINT_CONFIG=""
     fi
 
+    # shellcheck disable=SC2086  # word-splitting of the config/flag var is intentional
     if $YAMLLINT_CMD $YAMLLINT_CONFIG "$PLAYBOOK_ABS"; then
         echo -e "${COLOR_GREEN}✓ YAML syntax check passed${COLOR_RESET}"
     else
@@ -189,6 +193,7 @@ if [ $USE_SYSTEM_ANSIBLE_LINT -eq 1 ] || [ -n "$TEMP_VENV" ]; then
     fi
 
     # Run ansible-lint and capture exit code
+    # shellcheck disable=SC2086  # word-splitting of the config/flag var is intentional
     if run_ansible_lint $ANSIBLE_LINT_CONFIG "$PLAYBOOK_ABS"; then
         echo -e "${COLOR_GREEN}✓ Ansible lint check passed${COLOR_RESET}"
     else
