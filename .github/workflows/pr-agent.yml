@@ -79,6 +79,13 @@ jobs:
           # litellm fallbacks so a single provider's rate limit is not a SPOF.
           config.model: "gemini/gemini-3.5-flash"
           config.fallback_models: '["mistral/mistral-small-2603", "cerebras/gpt-oss-120b"]'
+          # The fallback models are not in PR-Agent's built-in MAX_TOKENS table,
+          # so without this they fail with "not defined in MAX_TOKENS" the moment
+          # Gemini is unavailable (e.g. a 503), leaving the review silently
+          # unposted. A positive custom_model_max_tokens gives any unknown model
+          # a context budget so the fallback chain actually works. Both fallbacks
+          # support >=128k context.
+          config.custom_model_max_tokens: "128000"
           GOOGLE_AI_STUDIO.GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           # PR-Agent maps MISTRAL.KEY to MISTRAL_API_KEY; Cerebras has no
           # PR-Agent-specific key, litellm reads CEREBRAS_API_KEY from the env.
