@@ -570,6 +570,176 @@
           "jsonpath": "$.version"
         }
       ]
+    },
+    "skills/agentic-harness/create-context": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/agentic-harness/load-context": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/agentic-harness/pick-model": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/agentic-harness/pin": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/agentic-harness/save-context": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/documentation/adr-creator": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/documentation/proof-of-work": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/documentation/research": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/infrastructure/aws/investigation-toolkit": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/software-engineering/bridge": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/software-engineering/challenge": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/software-engineering/frame-problem": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/software-engineering/probe": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/software-engineering/troubleshoot": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/specialized/chezmoi": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/specialized/retrospect-collab": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
+    },
+    "skills/specialized/retrospect-domain": {
+      "release-type": "simple",
+      "extra-files": [
+        {
+          "type": "json",
+          "path": ".tessl-plugin/plugin.json",
+          "jsonpath": "$.version"
+        }
+      ]
     }
   }
 }
