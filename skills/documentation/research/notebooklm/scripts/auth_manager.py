@@ -75,6 +75,7 @@ class AuthManager:
                     saved_info = json.load(f)
                     info.update(saved_info)
             except Exception:
+                # Saved auth metadata is optional; keep the computed defaults.
                 pass
 
         if info['state_exists']:
@@ -149,12 +150,14 @@ class AuthManager:
                 try:
                     context.close()
                 except Exception:
+                    # Best-effort cleanup; the context may already be closed.
                     pass
 
             if playwright:
                 try:
                     playwright.stop()
                 except Exception:
+                    # Best-effort cleanup; ignore errors while stopping Playwright.
                     pass
 
     def _save_browser_state(self, context: BrowserContext):
@@ -177,7 +180,8 @@ class AuthManager:
             with open(self.auth_info_file, 'w') as f:
                 json.dump(info, f, indent=2)
         except Exception:
-            pass  # Non-critical
+            # Saving auth metadata is non-critical; ignore write failures.
+            pass
 
     def clear_auth(self) -> bool:
         """
@@ -276,11 +280,13 @@ class AuthManager:
                 try:
                     context.close()
                 except Exception:
+                    # Best-effort cleanup; the context may already be closed.
                     pass
             if playwright:
                 try:
                     playwright.stop()
                 except Exception:
+                    # Best-effort cleanup; ignore errors while stopping Playwright.
                     pass
 
 

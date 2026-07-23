@@ -8,6 +8,7 @@ import os
 import sys
 import json
 import argparse
+import logging
 import urllib3
 from pathlib import Path
 from typing import Optional, Dict, List, Any
@@ -34,6 +35,7 @@ try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
+    # python-dotenv is optional; env vars can be provided directly.
     pass
 
 
@@ -168,7 +170,7 @@ class SciHubSearch:
                         papers.append(result)
 
         except Exception as e:
-            print(f"关键词搜索出错: {e}")
+            logging.getLogger(__name__).error("Keyword search failed: %s", e)
 
         return papers
 

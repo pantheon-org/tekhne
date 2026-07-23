@@ -230,7 +230,9 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True, use_
                 if thinking_element and thinking_element.is_visible():
                     time.sleep(1)
                     continue
-            except:
+            except Exception:
+                # Best-effort readiness probe; a stale/absent element just means
+                # we fall through and try to read the response this poll.
                 pass
 
             # Try to find the new response with MCP selectors
@@ -311,13 +313,15 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True, use_
         if context:
             try:
                 context.close()
-            except:
+            except Exception:
+                # Best-effort cleanup; the context may already be closed.
                 pass
 
         if playwright:
             try:
                 playwright.stop()
-            except:
+            except Exception:
+                # Best-effort cleanup; ignore errors while stopping Playwright.
                 pass
 
 

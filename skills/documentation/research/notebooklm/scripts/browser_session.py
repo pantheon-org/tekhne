@@ -7,6 +7,7 @@ Based on the original NotebookLM API implementation
 
 import time
 import sys
+import logging
 from typing import Any, Dict, Optional
 from pathlib import Path
 
@@ -162,6 +163,7 @@ class BrowserSession:
             if responses:
                 return responses[-1].inner_text()
         except Exception:
+            # Best-effort snapshot; treat any read failure as "no response yet".
             pass
         return None
 
@@ -179,6 +181,7 @@ class BrowserSession:
                     time.sleep(0.5)
                     continue
             except Exception:
+                # Best-effort readiness probe; fall through to read the response.
                 pass
 
             try:
@@ -200,6 +203,7 @@ class BrowserSession:
                             last_candidate = latest_text
 
             except Exception:
+                # Best-effort poll; a transient DOM read error just retries.
                 pass
 
             time.sleep(0.5)
@@ -228,7 +232,8 @@ class BrowserSession:
             try:
                 self.page.close()
             except Exception as e:
-                print(f"  ⚠️ Error closing page: {e}")
+                # Best-effort close; a page that is already gone is fine to skip.
+                logging.getLogger(__name__).warning("Error closing page: %s", e)
 
         print(f"✅ Session {self.id} closed")
 

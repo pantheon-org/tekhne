@@ -24,6 +24,7 @@ try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
+    # python-dotenv is optional; env vars can be provided directly.
     pass
 
 

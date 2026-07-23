@@ -8,6 +8,7 @@ import os
 import sys
 import subprocess
 import venv
+import logging
 from pathlib import Path
 
 
@@ -80,7 +81,7 @@ class SkillEnvironment:
                     )
                     print("✅ Chrome installed")
                 except subprocess.CalledProcessError as e:
-                    print(f"⚠️ Warning: Failed to install Chrome: {e}")
+                    logging.getLogger(__name__).warning("Failed to install Chrome: %s", e)
                     print("   You may need to run manually: python -m patchright install chrome")
                     print("   Chrome is required (not Chromium) for reliability!")
 
