@@ -10,6 +10,7 @@ use skill_auditor::prune;
 use skill_auditor::reporter;
 use skill_auditor::scorer::{self, grade_rank, Result as AuditResult};
 use skill_auditor::skill_bundle;
+use skill_auditor::tessl;
 use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
 use skill_install::install::InstallMode;
@@ -72,6 +73,8 @@ enum Command {
     PruneAudits(PruneAuditsArgs),
     /// Draft an aggregation plan for a skill family (skills sharing a prefix).
     PlanAggregation(PlanAggregationArgs),
+    /// Check a skill for Tessl registry compliance (agent-agnostic, metrics).
+    TesslCheck(TesslCheckArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -104,6 +107,15 @@ struct PlanAggregationArgs {
     /// `.agents/skills`.
     #[arg(long = "skills-dir", value_name = "DIR")]
     skills_dir: Vec<String>,
+}
+
+#[derive(Args)]
+struct TesslCheckArgs {
+    /// The skill to check (a name under `--skills-dir`, or a path).
+    skill: String,
+    /// Root directory the skill name is resolved against.
+    #[arg(long = "skills-dir", default_value = "skills")]
+    skills_dir: String,
 }
 
 #[derive(Args)]
@@ -235,6 +247,7 @@ fn main() {
         Command::Duplication(args) => run_duplication(args),
         Command::PruneAudits(args) => run_prune_audits(args),
         Command::PlanAggregation(args) => run_plan_aggregation(args),
+        Command::TesslCheck(args) => run_tessl_check(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -457,6 +470,78 @@ fn run_prune_audits(args: PruneAuditsArgs) -> std::result::Result<(), String> {
         plans.len()
     );
     Ok(())
+}
+
+/// Check a skill for Tessl registry compliance and print a per-group report.
+/// Exits 1 when the skill is not compliant (agent-agnostic or performance
+/// groups fail); the cross-platform group is advisory and never fails.
+fn run_tessl_check(args: TesslCheckArgs) -> std::result::Result<(), String> {
+    let path = tessl::skill_path(&args.skills_dir, &args.skill);
+    if !path.is_dir() {
+        return Err(format!("skill directory not found: {}", path.display()));
+    }
+    let report = tessl::check(&path);
+
+    println!("Tessl compliance check: {}\n", args.skill);
+
+    println!("1. Agent-Agnostic");
+    if report.agent_agnostic_pass() {
+        println!("   PASS: no agent-specific references or tools");
+    } else {
+        if !report.agent_reference_files.is_empty() {
+            println!("   FAIL: agent-specific references found in:");
+            for f in &report.agent_reference_files {
+                println!("     - {f}");
+            }
+        }
+        if report.agent_specific_tools {
+            println!("   FAIL: agent-specific tools in allowed-tools");
+        }
+    }
+
+    println!("\n2. Performance Metrics");
+    if report.performance_pass() {
+        println!("   PASS: metrics section and quantified claims present");
+    } else {
+        if !report.has_metrics_section {
+            println!("   FAIL: no performance metrics section found");
+        }
+        if !report.has_quantified_claim {
+            println!("   FAIL: no quantified performance claims found");
+        }
+    }
+
+    println!("\n3. Cross-Platform (advisory)");
+    if report.platform_path_files.is_empty()
+        && report
+            .platform_command_files_without_alternatives
+            .is_empty()
+    {
+        println!("   PASS: no hard-coded platform paths or unqualified package commands");
+    } else {
+        for f in &report.platform_path_files {
+            println!("   WARN: platform-specific path in {f}");
+        }
+        for f in &report.platform_command_files_without_alternatives {
+            println!("   WARN: platform package command without OS alternatives in {f}");
+        }
+    }
+
+    let yn = |pass: bool| if pass { "PASS" } else { "FAIL" };
+    println!("\nSummary");
+    println!(
+        "  Agent-Agnostic:      {}",
+        yn(report.agent_agnostic_pass())
+    );
+    println!("  Performance Metrics: {}", yn(report.performance_pass()));
+
+    if report.compliant() {
+        println!("\nOVERALL: TESSL COMPLIANT");
+        Ok(())
+    } else {
+        println!("\nOVERALL: NOT TESSL COMPLIANT");
+        process::exit(1);
+    }
 }
 
 /// Draft and print an aggregation plan for the `--family` prefix.
