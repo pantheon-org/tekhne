@@ -1224,7 +1224,7 @@
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "SKILL.md body is 501 lines (spec recommends \u003c 500)",
+          "Message": "SKILL.md body is 501 lines (spec recommends < 500)",
           "File": "SKILL.md",
           "Line": 0
         },
@@ -8704,166 +8704,6 @@
     }
   },
   {
-    "dir": "skills/documentation/journal-entry-creator",
-    "content": {
-      "word_count": 2120,
-      "code_block_count": 14,
-      "code_block_ratio": 0.0519,
-      "code_languages": [
-        "bash",
-        "markdown",
-        "yaml",
-        "markdown",
-        "markdown",
-        "bash",
-        "markdown",
-        "text",
-        "markdown",
-        "markdown",
-        "markdown",
-        "bash",
-        "bash",
-        "bash"
-      ],
-      "sentence_count": 155,
-      "imperative_count": 23,
-      "imperative_ratio": 0.1484,
-      "information_density": 0.1001,
-      "strong_markers": 48,
-      "weak_markers": 2,
-      "instruction_specificity": 0.96,
-      "section_count": 32,
-      "list_item_count": 116
-    },
-    "structure": {
-      "results": [
-        {
-          "Level": 0,
-          "Category": "Structure",
-          "Message": "SKILL.md found",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
-          "Level": 2,
-          "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
-          "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 2,
-          "Category": "Structure",
-          "Message": "deep nesting detected: assets/templates/",
-          "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 0,
-          "Category": "Frontmatter",
-          "Message": "name: \"journal-entry-creator\" (valid)",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
-          "Level": 0,
-          "Category": "Frontmatter",
-          "Message": "description: (585 chars)",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
-          "Level": 2,
-          "Category": "Frontmatter",
-          "Message": "description has 10 comma-separated segments, most very short — this looks like a keyword list; per the spec, the description should concisely describe what the skill does and when to use it",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
-          "Level": 0,
-          "Category": "Markdown",
-          "Message": "no unclosed code fences found",
-          "File": "",
-          "Line": 0
-        }
-      ],
-      "token_counts": [
-        {
-          "File": "SKILL.md body",
-          "Tokens": 3591
-        },
-        {
-          "File": "references/compliance.md",
-          "Tokens": 843
-        },
-        {
-          "File": "references/edge-cases.md",
-          "Tokens": 825
-        },
-        {
-          "File": "references/example-journal-entry.md",
-          "Tokens": 1875
-        },
-        {
-          "File": "references/example-with-frontmatter.md",
-          "Tokens": 4586
-        },
-        {
-          "File": "references/journal-command.md",
-          "Tokens": 728
-        },
-        {
-          "File": "CHANGELOG.md",
-          "Tokens": 766
-        },
-        {
-          "File": "assets/templates/article-summary.yaml",
-          "Tokens": 2671
-        },
-        {
-          "File": "assets/templates/journal-entry.yaml",
-          "Tokens": 1924
-        },
-        {
-          "File": "assets/templates/learning.yaml",
-          "Tokens": 2124
-        },
-        {
-          "File": "assets/templates/ticket-refinement.yaml",
-          "Tokens": 2687
-        },
-        {
-          "File": "assets/templates/troubleshooting.yaml",
-          "Tokens": 2886
-        }
-      ],
-      "other_token_counts": [
-        {
-          "File": "evals/scenario-01.md",
-          "Tokens": 818
-        },
-        {
-          "File": "evals/scenario-02.md",
-          "Tokens": 796
-        },
-        {
-          "File": "evals/scenario-03.md",
-          "Tokens": 1048
-        },
-        {
-          "File": "evals/scenario-04.md",
-          "Tokens": 855
-        },
-        {
-          "File": "evals/scenario-05.md",
-          "Tokens": 958
-        }
-      ],
-      "errors": 0,
-      "warnings": 3
-    }
-  },
-  {
     "dir": "skills/documentation/markdown-authoring",
     "content": {
       "word_count": 594,
@@ -9718,7 +9558,7 @@
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "SKILL.md body is 631 lines (spec recommends \u003c 500)",
+          "Message": "SKILL.md body is 631 lines (spec recommends < 500)",
           "File": "SKILL.md",
           "Line": 0
         },
@@ -13944,7 +13784,7 @@
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "SKILL.md body is 503 lines (spec recommends \u003c 500)",
+          "Message": "SKILL.md body is 503 lines (spec recommends < 500)",
           "File": "SKILL.md",
           "Line": 0
         },
@@ -14205,14 +14045,14 @@
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "SKILL.md body is 5064 tokens (spec recommends \u003c 5000)",
+          "Message": "SKILL.md body is 5064 tokens (spec recommends < 5000)",
           "File": "SKILL.md",
           "Line": 0
         },
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "SKILL.md body is 504 lines (spec recommends \u003c 500)",
+          "Message": "SKILL.md body is 504 lines (spec recommends < 500)",
           "File": "SKILL.md",
           "Line": 0
         },
@@ -14368,14 +14208,14 @@
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "SKILL.md body is 5149 tokens (spec recommends \u003c 5000)",
+          "Message": "SKILL.md body is 5149 tokens (spec recommends < 5000)",
           "File": "SKILL.md",
           "Line": 0
         },
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "SKILL.md body is 654 lines (spec recommends \u003c 500)",
+          "Message": "SKILL.md body is 654 lines (spec recommends < 500)",
           "File": "SKILL.md",
           "Line": 0
         },

@@ -60,3 +60,62 @@ includes: auto
 - **B5** (drop `cli/`): rely on skills.sh for the 42-agent install fan-out; re-home or retire `tessl:manage` / `tessl:publish-check`; keep `publish-skills.yml`.
 - **B2a/B2b** (Astro docs): document `npx skills add pantheon-org/tekhne` as the install story.
 - Revisit `.claude-plugin/marketplace.json` + apm only if native (non-skills.sh) distribution is required, which entails the toolkit restructure in section 2.
+
+## 7. Follow-up (23-07-2026): crate-embedded skills and the naked-skill coupling
+
+Three skills are now embedded into Rust crates at build time and distributed by
+each crate's `install` command, with their registry publish retired (see
+`journal`, `adr`, `skill-auditor`):
+
+- `documentation/journal-entry-creator` -> `journal`
+- `documentation/adr-creator` -> `adr`
+- `agentic-harness/skill-quality-auditor` -> `skill-auditor`
+
+**The coupling problem.** These SKILL.md files now reference their companion
+binary (e.g. `journal lint`). If the skill is installed by any mechanism that
+does not also deliver the binary (skills.sh convention-discovery over `skills/`,
+a manual copy, or a future registry re-publish), the skill is "naked": it points
+at a CLI that is not on `PATH`. The canonical source still lives under `skills/`
+(the crate embeds it via `build.rs`), so a skills-only install path remains
+physically possible.
+
+**Two resolutions, and what we chose:**
+
+1. **Prerequisite / first-run check (done, in the taxonomy+lint PR).** The
+   SKILL.md declares a Prerequisites section splitting features into
+   self-contained (authoring, bundled `scripts/validate-journal-entry.sh`) and
+   CLI-backed (`journal lint`), and gates CLI-backed steps on a `journal
+   --version` check with install guidance. This makes the skill honest about its
+   dependency on any install path and lets it degrade gracefully. It is the
+   universal, low-cost fix and is now the standing pattern for any crate-backed
+   feature added to an embedded skill.
+2. **Move the skill tree into the crate (deferred, structural).** Moving
+   `SKILL.md` + assets into `crates/<tool>/skill/` would make crate-install the
+   only sanctioned way to obtain the skill, so the binary is always present. It
+   does not help if someone extracts the SKILL.md from the binary by hand, and
+   it carries a real re-homing cost: everything that globs `skills/` must learn a
+   second root, specifically the hk pre-commit checks (`skills/**`,
+   `skills/**/SKILL.md`), skill-auditor's default `--skills-dir skills`, and the
+   catalog/README generator. Until that tooling is re-pointed, moving would drop
+   these three skills from quality, eval, and catalog coverage, which we
+   explicitly want to keep. Treat as its own migration PR if the structural
+   guarantee is later judged worth the tooling churn.
+
+**Rule for future embedded-skill features:** any SKILL.md instruction that
+invokes the companion binary MUST sit behind the Prerequisites check, so the
+skill never assumes a tool it cannot guarantee is installed.
+
+**Parity-gate coupling (systemic, needs a proper fix).** The skill-auditor
+(`grade_parity`) and skill-validator-rs (`golden_parity`) tests freeze the
+*entire* `skills/**` tree against a Go reference scorer. That Go reference was
+retired in #198, so the goldens can no longer be regenerated: any edit to any
+skill's SKILL.md breaks both gates with no supported way to refresh them. The
+taxonomy+lint PR was the first content edit to hit this; the fix there was to
+drop `journal-entry-creator` from both corpora (with an exclusion note in each
+`corpus.txt`). The same drop is required for `adr-creator` and
+`skill-quality-auditor` when the rename+harden PR edits them. This is a latent
+trap for the whole repo, not just the embedded skills: **recommend a dedicated
+follow-up** to re-baseline both gates from the Rust scorers (now the
+authoritative implementations post-Go-retirement) and re-frame them as Rust
+regression baselines, or make them advisory, so routine skill edits stop
+breaking CI.

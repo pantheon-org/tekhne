@@ -262,6 +262,8 @@ dependencies = [
  "clap",
  "common",
  "regex",
+ "serde",
+ "serde_json",
  "skill-install",
  "tempfile",
 ]

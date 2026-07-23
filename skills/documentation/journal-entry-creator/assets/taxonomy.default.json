@@ -1,0 +1,20 @@
+{
+  "$schema": "./schemas/taxonomy.schema.json",
+  "threshold": 3,
+  "aliases": {},
+  "facets": {
+    "type": [
+      "troubleshooting",
+      "learning",
+      "article",
+      "video",
+      "podcast",
+      "talk",
+      "ticket-refinement",
+      "general"
+    ]
+  },
+  "pin": [],
+  "suppress": [],
+  "ticketPattern": "^[a-z][a-z0-9]*-?[0-9]+$"
+}

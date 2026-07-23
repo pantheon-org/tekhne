@@ -3,6 +3,13 @@
 # Read by BOTH the Go reference harness (goref) and the Rust grade_parity test.
 # Blank lines and lines beginning with '#' are ignored.
 #
+# Excluded: skills/documentation/journal-entry-creator is embedded in and
+# co-developed with the `journal` crate. The Go reference scorer was retired
+# (#198), so its golden cannot be regenerated; it is left out of this frozen
+# gate so routine SKILL.md edits do not break parity. Other crate-embedded
+# skills (adr-creator, skill-quality-auditor) will be excluded likewise when
+# their content changes. See .context/plans/skill-distribution.md section 7.
+#
 # --- skill-auditor's own testdata fixtures (skill-full, skill-minimal) ---
 crates/skill-auditor/testdata/fixtures/skill-full
 crates/skill-auditor/testdata/fixtures/skill-minimal
@@ -55,7 +62,6 @@ skills/documentation/astro-starlight/skills/starlight-custom-component
 skills/documentation/astro-starlight/skills/starlight-theme
 skills/documentation/conventional-commits
 skills/documentation/humanizer
-skills/documentation/journal-entry-creator
 skills/documentation/markdown-authoring
 skills/documentation/mermaid-diagrams
 skills/documentation/obsidian/defuddle
