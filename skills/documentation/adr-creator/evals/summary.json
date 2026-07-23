@@ -2,9 +2,9 @@
   "instructions_coverage": {
     "coverage_percentage": 90,
     "covered_instructions": [
-      "adr new command creates the next-numbered ADR",
-      "adr list shows number, status, and title",
-      "adr supersede marks the old ADR and links the replacement",
+      "pantheon-adr new command creates the next-numbered ADR",
+      "pantheon-adr list shows number, status, and title",
+      "pantheon-adr supersede marks the old ADR and links the replacement",
       "Numbering is max(existing) + 1 and gap-tolerant",
       "Accepted ADRs are immutable except for Status",
       "Directory resolution: --dir, ADR_DIR, docs/adr default",

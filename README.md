@@ -26,9 +26,9 @@ Each bundled Rust tool can also install (or remove) its own companion skill in
 detected agents:
 
 ```bash
-skill-auditor skill install     # or: skill uninstall
-adr skill install
-journal skill install
+pantheon-skill-auditor skill install     # or: skill uninstall
+pantheon-adr skill install
+pantheon-journal skill install
 ```
 
 ## Maintaining the catalog
@@ -50,16 +50,16 @@ bun run readme:update:dry-run
 
 ```bash
 # Build once (cached in target/release)
-cargo build --release -p skill-auditor
+cargo build --release -p pantheon-skill-auditor
 
 # Evaluate a single skill
-cargo run -p skill-auditor -- evaluate agentic-harness/skill-quality-auditor --json --store
+cargo run -p pantheon-skill-auditor -- evaluate agentic-harness/skill-quality-auditor --json --store
 
 # Batch evaluate
-cargo run -p skill-auditor -- batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
+cargo run -p pantheon-skill-auditor -- batch infrastructure/terraform-generator ci-cd/github-actions-generator --store
 
 # Exit 1 if any skill grades below B+
-cargo run -p skill-auditor -- batch --fail-below B+ agentic-harness/skill-quality-auditor
+cargo run -p pantheon-skill-auditor -- batch --fail-below B+ agentic-harness/skill-quality-auditor
 ```
 
 `bun run build:skill-auditor` is a shortcut for the `cargo build` above. See `crates/skill-auditor/` for source.

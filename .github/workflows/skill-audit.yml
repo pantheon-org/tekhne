@@ -59,7 +59,7 @@ jobs:
 
       - name: Build skill-auditor
         if: steps.dirs.outputs.found == 'true'
-        run: cargo build --release --locked -p skill-auditor
+        run: cargo build --release --locked -p pantheon-skill-auditor
 
       # Cross-skill duplication scan over the whole skills/ tree. Advisory here:
       # skill families legitimately share structure (the tree-wide maximum today
@@ -72,7 +72,7 @@ jobs:
         if: steps.dirs.outputs.found == 'true'
         run: |
           set -euo pipefail
-          target/release/skill-auditor duplication skills --threshold 70 --json > duplication.json || echo '[]' > duplication.json
+          target/release/pantheon-skill-auditor duplication skills --threshold 70 --json > duplication.json || echo '[]' > duplication.json
           changed=$(for dir in ${{ steps.dirs.outputs.dirs }}; do basename "$dir"; done | sort -u | jq -R . | jq -cs .)
           jq -c --argjson names "$changed" \
             '[.[] | select((.name1 as $a | $names | index($a)) or (.name2 as $b | $names | index($b)))]' \
@@ -111,7 +111,7 @@ jobs:
           for dir in ${{ steps.dirs.outputs.dirs }}; do
             rels+=("${dir#skills/}")
           done
-          target/release/skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
+          target/release/pantheon-skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
           rows=$(jq -r '
             .[]
             | (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; "")) as $rel

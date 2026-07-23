@@ -1,10 +1,10 @@
-//! End-to-end checks for the `journal lint` command: taxonomy resolution,
+//! End-to-end checks for the `pantheon-journal lint` command: taxonomy resolution,
 //! JSON output, the embedded-default fallback, and the `--strict` exit code.
 
 use std::path::Path;
 use std::process::Command;
 
-const BIN: &str = env!("CARGO_BIN_EXE_journal");
+const BIN: &str = env!("CARGO_BIN_EXE_pantheon-journal");
 
 /// Write a dated entry with the given block-sequence tags under `root`.
 fn write_entry(root: &Path, rel: &str, tags: &[&str]) {

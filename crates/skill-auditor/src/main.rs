@@ -26,10 +26,10 @@ const VERSION: &str = "0.1.0";
 
 #[derive(Parser)]
 #[command(
-    name = "skill-auditor",
+    name = "pantheon-skill-auditor",
     version = VERSION,
     about = "Audit skill quality using the 9-dimension framework",
-    long_about = "skill-auditor evaluates skills against the 9-dimension quality framework, combining skill-validator structural checks with custom D1-D9 scoring."
+    long_about = "pantheon-skill-auditor evaluates skills against the 9-dimension quality framework, combining skill-validator structural checks with custom D1-D9 scoring."
 )]
 struct Cli {
     #[command(subcommand)]

@@ -3,8 +3,8 @@
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "Uses adr supersede",
-      "description": "Performs the transition with `adr supersede 2 \"Adopt gRPC for internal services\"` rather than manual edits.",
+      "name": "Uses pantheon-adr supersede",
+      "description": "Performs the transition with `pantheon-adr supersede 2 \"Adopt gRPC for internal services\"` rather than manual edits.",
       "max_score": 25
     },
     {

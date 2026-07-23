@@ -3,16 +3,6 @@
 version = 4
 
 [[package]]
-name = "adr"
-version = "0.1.0"
-dependencies = [
- "clap",
- "common",
- "skill-install",
- "tempfile",
-]
-
-[[package]]
 name = "aho-corasick"
 version = "1.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -256,19 +246,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682"
 
 [[package]]
-name = "journal"
-version = "0.1.0"
-dependencies = [
- "clap",
- "common",
- "regex",
- "serde",
- "serde_json",
- "skill-install",
- "tempfile",
-]
-
-[[package]]
 name = "lazy_static"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -303,6 +280,43 @@ name = "once_cell_polyfill"
 version = "1.70.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
+
+[[package]]
+name = "pantheon-adr"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "common",
+ "skill-install",
+ "tempfile",
+]
+
+[[package]]
+name = "pantheon-journal"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "common",
+ "regex",
+ "serde",
+ "serde_json",
+ "skill-install",
+ "tempfile",
+]
+
+[[package]]
+name = "pantheon-skill-auditor"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "common",
+ "regex",
+ "serde",
+ "serde_json",
+ "skill-install",
+ "skill-validator-rs",
+ "tempfile",
+]
 
 [[package]]
 name = "proc-macro2"
@@ -436,20 +450,6 @@ dependencies = [
  "ryu",
  "serde",
  "unsafe-libyaml",
-]
-
-[[package]]
-name = "skill-auditor"
-version = "0.1.0"
-dependencies = [
- "clap",
- "common",
- "regex",
- "serde",
- "serde_json",
- "skill-install",
- "skill-validator-rs",
- "tempfile",
 ]
 
 [[package]]

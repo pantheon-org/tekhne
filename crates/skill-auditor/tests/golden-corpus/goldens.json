@@ -555,33 +555,6 @@
     }
   },
   {
-    "dir": "skills/agentic-harness/skill-quality-auditor",
-    "result": {
-      "skill": "skills/agentic-harness/skill-quality-auditor",
-      "date": "",
-      "dimensions": {
-        "antiPatternQuality": 11,
-        "evalValidation": 17,
-        "freedomCalibration": 15,
-        "knowledgeDelta": 19,
-        "mindsetProcedures": 14,
-        "patternRecognition": 10,
-        "practicalUsability": 15,
-        "progressiveDisclosure": 13,
-        "specificationCompliance": 9
-      },
-      "total": 123,
-      "maxTotal": 140,
-      "grade": "B+",
-      "lines": 119,
-      "hasReferences": true,
-      "referenceCount": 24,
-      "referenceSectionCompliant": false,
-      "errors": 0,
-      "warnings": 0
-    }
-  },
-  {
     "dir": "skills/agentic-harness/socratic-method",
     "result": {
       "skill": "skills/agentic-harness/socratic-method",

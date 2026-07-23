@@ -85,7 +85,7 @@ pub fn select_agents(
             for name in names {
                 let agent = by_name(name).ok_or_else(|| {
                     Error::Config(format!(
-                        "unknown agent {name:?}; run `adr skill install --list-agents`"
+                        "unknown agent {name:?}; run `pantheon-adr skill install --list-agents`"
                     ))
                 })?;
                 resolved.push(agent);

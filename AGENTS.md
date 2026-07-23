@@ -68,12 +68,12 @@ bunx markdownlint-cli2 "**/*.md"
 Run before publishing or committing major changes. See `skills/agentic-harness/skill-quality-auditor/SKILL.md` for full workflow.
 
 ```bash
-skill-auditor evaluate <domain>/<skill-name> --json --store
+pantheon-skill-auditor evaluate <domain>/<skill-name> --json --store
 ```
 
 Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (blocked from publishing).
 
-Build the auditor from source with `bun run build:skill-auditor` (a shortcut for `cargo build --release -p skill-auditor`), then invoke `target/release/skill-auditor evaluate`.
+Build the auditor from source with `bun run build:skill-auditor` (a shortcut for `cargo build --release -p pantheon-skill-auditor`), then invoke `target/release/pantheon-skill-auditor evaluate`.
 
 ## Skill Management with Tessl
 
@@ -102,8 +102,8 @@ from `release-please-config.json` and `.release-please-manifest.json`, so the cr
 version is canonical and `tessl:publish` skips them. Their previously published
 registry versions were archived with `tessl plugin archive`. Continue running
 evals, audits, and quality tooling on their `SKILL.md` as normal; only the registry
-publish step is retired. Install them with `journal skill install`, `adr skill
-install`, or `skill-auditor skill install`.
+publish step is retired. Install them with `pantheon-journal skill install`, `adr skill
+install`, or `pantheon-skill-auditor skill install`.
 
 ## Git Hooks
 
@@ -113,7 +113,7 @@ Do not bypass hooks unless explicitly requested.
 
 ## Multi-Agent Development
 
-Install skills locally with an ecosystem installer (`npx skills add ./skills --all`), or let a bundled tool install its own companion skill (`skill-auditor skill install`, `adr skill install`, `journal skill install`).
+Install skills locally with an ecosystem installer (`npx skills add ./skills --all`), or let a bundled tool install its own companion skill (`pantheon-skill-auditor skill install`, `pantheon-adr skill install`, `pantheon-journal skill install`).
 See `README.md` for the full list of 41+ supported agents.
 
 ## Safety Constraints

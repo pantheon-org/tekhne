@@ -2,8 +2,8 @@
   "instructions_coverage": {
     "coverage_percentage": 85,
     "covered_instructions": [
-      "skill-auditor evaluate command with --json --store flags",
-      "skill-auditor batch command for multiple skills",
+      "pantheon-skill-auditor evaluate command with --json --store flags",
+      "pantheon-skill-auditor batch command for multiple skills",
       "Build binary with bun run build:skill-auditor",
       "Grade bands A/B+/B/C+ with score thresholds",
       "D1 Knowledge Delta minimum threshold",

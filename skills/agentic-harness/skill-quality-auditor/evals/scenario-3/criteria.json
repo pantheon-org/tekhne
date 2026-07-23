@@ -34,7 +34,7 @@
     },
     {
       "name": "Verification commands",
-      "description": "implementation-steps.sh includes skill-auditor evaluate commands to verify each phase's impact",
+      "description": "implementation-steps.sh includes pantheon-skill-auditor evaluate commands to verify each phase's impact",
       "max_score": 12
     },
     {

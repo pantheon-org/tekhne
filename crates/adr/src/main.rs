@@ -18,10 +18,10 @@ const VERSION: &str = "0.1.0";
 
 #[derive(Parser)]
 #[command(
-    name = "adr",
+    name = "pantheon-adr",
     version = VERSION,
     about = "Create and manage Architecture Decision Records",
-    long_about = "adr creates, lists, and supersedes Architecture Decision Records from the house template, and installs the bundled adr-creator skill into agent directories."
+    long_about = "pantheon-adr creates, lists, and supersedes Architecture Decision Records from the house template, and installs the bundled adr-creator skill into agent directories."
 )]
 struct Cli {
     #[command(subcommand)]

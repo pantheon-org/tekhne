@@ -3,8 +3,8 @@
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "Uses adr list against the configured directory",
-      "description": "Runs `adr list` honouring ADR_DIR (or passes --dir architecture/decisions) rather than reading files manually.",
+      "name": "Uses pantheon-adr list against the configured directory",
+      "description": "Runs `pantheon-adr list` honouring ADR_DIR (or passes --dir architecture/decisions) rather than reading files manually.",
       "max_score": 25
     },
     {

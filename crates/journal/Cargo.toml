@@ -1,5 +1,5 @@
 [package]
-name = "journal"
+name = "pantheon-journal"
 version = "0.1.0"
 edition.workspace = true
 license.workspace = true
@@ -19,7 +19,7 @@ name = "journal"
 path = "src/lib.rs"
 
 [[bin]]
-name = "journal"
+name = "pantheon-journal"
 path = "src/main.rs"
 
 [dependencies]

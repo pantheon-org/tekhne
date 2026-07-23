@@ -7,6 +7,19 @@ description: "Evaluate, score, and remediate agent skill collections using a 9-d
 
 Navigation hub for evaluating, maintaining, and improving skill quality with 9-dimension framework scoring.
 
+## Prerequisites
+
+This skill drives the `pantheon-skill-auditor` CLI and is distributed by it
+(`pantheon-skill-auditor skill install`). Every audit command below requires that
+binary on `PATH`. Confirm it is available:
+
+```bash
+pantheon-skill-auditor --version
+```
+
+If it is missing, build or install it first (see Quick Start). There is no
+self-contained fallback for these commands.
+
 ## Quick Start
 
 Build once, then audit:
@@ -21,10 +34,10 @@ Run audits:
 
 ```bash
 # Single skill
-skill-auditor evaluate <domain>/<skill-name> --json --store
+pantheon-skill-auditor evaluate <domain>/<skill-name> --json --store
 
 # Batch with grade gate
-skill-auditor batch <skill1> <skill2> --fail-below B --store
+pantheon-skill-auditor batch <skill1> <skill2> --fail-below B --store
 ```
 
 ## When to Use
@@ -40,7 +53,7 @@ skill-auditor batch <skill1> <skill2> --fail-below B --store
 
 ## Workflow
 
-1. Run `skill-auditor evaluate <skill> --json --store`
+1. Run `pantheon-skill-auditor evaluate <skill> --json --store`
 2. Check artifacts and eval coverage using deterministic criteria
 3. Generate a remediation plan with T-shirt sizing and score delta estimates
 4. Run the auditor again to verify improvement; if score is below target, check `remediation-plan.md` and focus on the lowest-scoring dimension
@@ -68,7 +81,7 @@ Ensure you review [Detailed Anti-Patterns](references/detailed-anti-patterns.md)
 Remediation workflow:
 
 ```bash
-skill-auditor evaluate documentation/markdown-authoring --json --store
+pantheon-skill-auditor evaluate documentation/markdown-authoring --json --store
 # Score: 98/140 (C+) -> review remediation-plan.md -> fix -> re-audit -> 128/140 (A)
 ```
 
@@ -76,13 +89,13 @@ PR-scoped triage:
 
 ```bash
 skills=$(git diff --name-only origin/main | grep "skills/.*/SKILL.md" | sed 's|skills/||;s|/SKILL.md||' | tr '\n' ' ')
-skill-auditor batch $skills --fail-below B --store
+pantheon-skill-auditor batch $skills --fail-below B --store
 ```
 
 Audit all skills:
 
 ```bash
-skill-auditor batch $(find skills -name "SKILL.md" | sed 's|skills/||;s|/SKILL.md||' | tr '\n' ' ')
+pantheon-skill-auditor batch $(find skills -name "SKILL.md" | sed 's|skills/||;s|/SKILL.md||' | tr '\n' ' ')
 ```
 
 See [Audit Workflow Examples](references/examples-audit-workflows.md) for input/output pairs and CI quality gate examples.
@@ -90,7 +103,7 @@ See [Audit Workflow Examples](references/examples-audit-workflows.md) for input/
 ## Self-Audit
 
 ```bash
-skill-auditor evaluate agentic-harness/skill-quality-auditor --json
+pantheon-skill-auditor evaluate agentic-harness/skill-quality-auditor --json
 # Expected: A grade, total >= 126/140
 ```
 
@@ -114,5 +127,5 @@ skill-auditor evaluate agentic-harness/skill-quality-auditor --json
 | NEVER/WHY/BAD/GOOD failure modes per dimension | [Anti-Patterns](references/detailed-anti-patterns.md) | Explaining low scores or writing remediation guidance |
 | T-shirt sizing and remediation roadmaps | [Remediation Planning](references/remediation-planning.md) | Writing a remediation plan for a C/D-grade skill |
 | Deduplication workflow and aggregation guidance | [Duplication Detection](references/duplication-detection-algorithm.md) | Detecting skill overlap or planning aggregations |
-| `skill-auditor evaluate/batch` usage and output formats | [Scripts Workflow](references/scripts-audit-workflow.md) | Running audits from the command line |
+| `pantheon-skill-auditor evaluate/batch` usage and output formats | [Scripts Workflow](references/scripts-audit-workflow.md) | Running audits from the command line |
 | Registry publication gates and tessl compliance checks | [Tessl Compliance](references/tessl-compliance-framework.md) | Preparing a skill for public registry submission |

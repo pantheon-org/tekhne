@@ -15,18 +15,18 @@ Every entry is a durable, queryable record, not a scratch note: get the frontmat
 ## Prerequisites
 
 This skill is a companion to the `journal` CLI and is normally installed by it
-(`journal skill install`). Its features split into two tiers:
+(`pantheon-journal skill install`). Its features split into two tiers:
 
 - **Self-contained** (no binary needed): interactive gathering, entry-type
   selection, entry authoring, and structural validation via the bundled
   `scripts/validate-journal-entry.sh`.
 - **CLI-backed** (require the `journal` binary on `PATH`): corpus-wide tag lint
-  (`journal lint`) and any other `journal` subcommand this skill references.
+  (`pantheon-journal lint`) and any other `pantheon-journal` subcommand this skill references.
 
 Before running any `journal ...` command, confirm the binary is present:
 
 ```bash
-journal --version
+pantheon-journal --version
 ```
 
 If it is missing, the skill was installed without its companion CLI. Install the
@@ -171,8 +171,8 @@ checked separately from single-entry validation by the CLI (requires the
 `journal` binary; see Prerequisites):
 
 ```bash
-journal lint            # advisory: alias suggestions and unfaceted tags
-journal lint --strict   # non-zero exit on findings (for CI)
+pantheon-journal lint            # advisory: alias suggestions and unfaceted tags
+pantheon-journal lint --strict   # non-zero exit on findings (for CI)
 ```
 
 `lint` is advisory and never rewrites the taxonomy or an entry; it reports
