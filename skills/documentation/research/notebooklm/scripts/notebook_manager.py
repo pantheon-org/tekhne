@@ -7,7 +7,6 @@ Based on the MCP server implementation
 
 import json
 import argparse
-import uuid
 import os
 import logging
 from pathlib import Path

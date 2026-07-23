@@ -10,7 +10,7 @@ import sys
 import json
 import argparse
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List
 
 try:
     import fitz  # PyMuPDF
