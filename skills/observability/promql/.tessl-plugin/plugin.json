@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/promql-toolkit",
-  "version": "1.0.1",
+  "version": "4.0.0",
   "description": "Complete PromQL toolkit with generation and validation capabilities",
   "private": false,
   "skills": ["generator", "validator"]
