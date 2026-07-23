@@ -88,6 +88,23 @@ bun run tessl:publish     # tessl plugin publish
 
 Use `tessl skill review --optimize` for skills scoring below 90%. The former bulk `tessl manage` and `publish-check` commands were retired with the TypeScript CLI.
 
+### Skills distributed via crate installers (not the registry)
+
+Three skills are embedded into Rust crates at build time and distributed only by
+their crate's `install` command, never through the Tessl registry:
+
+- `documentation/journal-entry-creator` (embedded in the `journal` crate)
+- `documentation/adr-creator` (embedded in the `adr` crate)
+- `agentic-harness/skill-quality-auditor` (embedded in the `skill-auditor` crate)
+
+These have `"private": true` in their `.tessl-plugin/plugin.json` and are omitted
+from `release-please-config.json` and `.release-please-manifest.json`, so the crate
+version is canonical and `tessl:publish` skips them. Their previously published
+registry versions were archived with `tessl plugin archive`. Continue running
+evals, audits, and quality tooling on their `SKILL.md` as normal; only the registry
+publish step is retired. Install them with `journal skill install`, `adr skill
+install`, or `skill-auditor skill install`.
+
 ## Git Hooks
 
 Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, skill structure validation, and the Python allowlist guardrail. Pre-push runs unit tests (`bun test scripts/`), integration tests (cucumber), and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`. The Python allowlist guardrail (`scripts/check-python-allowlist.sh`) is also enforced in CI by the Python Allowlist workflow, so a stray `.py` outside `python-allowlist.txt` cannot land by skipping the local hook.

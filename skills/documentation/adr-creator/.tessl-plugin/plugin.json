@@ -2,6 +2,6 @@
   "name": "pantheon-ai/adr-creator",
   "version": "0.1.0",
   "description": "Creates, lists, and supersedes Architecture Decision Records with the adr CLI, following the house ADR template; use when recording an architectural decision, writing an ADR, documenting a technical choice, superseding a prior decision, numbering a new record, or bootstrapping an ADR log under docs/adr.",
-  "private": false,
+  "private": true,
   "skills": ["SKILL.md"]
 }

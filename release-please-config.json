@@ -71,16 +71,6 @@
         }
       ]
     },
-    "skills/agentic-harness/skill-quality-auditor": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
     "skills/agentic-harness/socratic-method": {
       "release-type": "simple",
       "extra-files": [
@@ -252,16 +242,6 @@
       ]
     },
     "skills/documentation/conventional-commits": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "skills/documentation/journal-entry-creator": {
       "release-type": "simple",
       "extra-files": [
         {
@@ -612,16 +592,6 @@
       ]
     },
     "skills/agentic-harness/save-context": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tessl-plugin/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
-    "skills/documentation/adr-creator": {
       "release-type": "simple",
       "extra-files": [
         {
