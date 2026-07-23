@@ -9,6 +9,7 @@ import json
 import argparse
 import uuid
 import os
+import logging
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from datetime import datetime
@@ -58,7 +59,7 @@ class NotebookLibrary:
             with open(self.library_file, 'w') as f:
                 json.dump(data, f, indent=2)
         except Exception as e:
-            print(f"❌ Error saving library: {e}")
+            logging.getLogger(__name__).error("Error saving library: %s", e)
 
     def add_notebook(
         self,

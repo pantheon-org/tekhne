@@ -124,6 +124,7 @@ class CleanupManager:
                     if item.is_file():
                         total += item.stat().st_size
             except Exception:
+                # Best-effort size probe; return whatever was summed so far.
                 pass
             return total
         return 0

@@ -7,7 +7,9 @@ Handles browser launching, stealth features, and common interactions
 import json
 import time
 import random
-from typing import Optional, List
+import logging
+
+logger = logging.getLogger(__name__)
 
 from patchright.sync_api import Playwright, BrowserContext, Page
 from config import BROWSER_PROFILE_DIR, STATE_FILE, BROWSER_ARGS, USER_AGENT
@@ -54,7 +56,8 @@ class BrowserFactory:
                         context.add_cookies(state['cookies'])
                         # print(f"  🔧 Injected {len(state['cookies'])} cookies from state.json")
             except Exception as e:
-                print(f"  ⚠️  Could not load state.json: {e}")
+                # Cookie injection is optional; the persistent profile still works.
+                logger.warning("Could not load state.json: %s", e)
 
 
 class StealthUtils:
@@ -73,7 +76,8 @@ class StealthUtils:
             # Try waiting if not immediately found
             try:
                 element = page.wait_for_selector(selector, timeout=2000)
-            except:
+            except Exception:
+                # Element may not appear; handled by the not-found guard below.
                 pass
         
         if not element:

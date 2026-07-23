@@ -9,6 +9,7 @@ get paper details, author information, and citation data from Semantic Scholar.
 import argparse
 import json
 import sys
+import logging
 from typing import Dict, Any, List, Optional
 import semanticscholar as sch
 from semanticscholar import SemanticScholar, Author, Paper
@@ -264,7 +265,7 @@ class OutputHandler:
                 json.dump(data, f, indent=2, ensure_ascii=False)
             print(f"\n结果已保存到: {filepath}")
         except Exception as e:
-            print(f"Error writing to file: {str(e)}", file=sys.stderr)
+            logging.getLogger(__name__).error("Error writing to file: %s", e)
 
 
 def main():
