@@ -1,0 +1,37 @@
+name: Python Allowlist
+
+# Guardrail: fail if any tracked .py file lives outside a directory listed in
+# python-allowlist.txt. Python is retained only for the allowlisted skills, so a
+# stray .py anywhere else is a mis-placed script or an allowlist gap that must be
+# reviewed before it lands. This promotes the pre-commit `python-allowlist` hook
+# (hk.pkl) to a CI gate, so a stray file cannot land via a path that skipped the
+# local hook. The script is deterministic and offline: no build, no network.
+#
+# No path filter, so the check always reports a conclusion (mirrors skill-audit.yml);
+# a stray .py can appear anywhere, not only under skills/. Also runs on push to main
+# as a post-merge safety net.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Supersede an in-flight run when the ref updates (e.g. a rebase), so
+  # stale runs are cancelled instead of piling onto the shared API quota.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python-allowlist:
+    name: Python Allowlist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+
+      - name: Check Python allowlist
+        run: ./scripts/check-python-allowlist.sh
