@@ -31,6 +31,11 @@ local preCommit = new Mapping<String, Step> {
     // (Wave 2). Builds the Rust validator once (cached in target/release) then
     // invokes it; exit 1 = error (blocking), exit 0 = clean.
     ["skill-artifacts"] {
+        // Scoped to skill files so the step only runs (per-file) when a skill
+        // changes. Without a glob, a commit touching no skill files passes an
+        // empty {{files}}, which `validate artifacts` treats as a whole-tree
+        // scan and then blocks the commit on unrelated pre-existing findings.
+        glob = List("skills/**")
         shell = "sh -c"
         check = #"""
 if [ ! -x target/release/skill-validator-rs ]; then
