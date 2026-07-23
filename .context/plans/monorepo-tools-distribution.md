@@ -22,15 +22,17 @@ Living status; updated as each task/wave lands on `main`.
 
 **🎉 Migration complete (22-07-2026): all 7 waves merged to `main` (`e8d6c81b`).** See Definition of Done below.
 
-**Open follow-ups from execution** (not yet scheduled into a wave):
+**Open follow-ups from execution** (tracked as GitHub issues 23-07-2026):
 
-- **tile.json discovery** — the catalog generator (`scripts/catalog`) and release-please still reference the removed `tile.json`; repoint to `.tessl-plugin/plugin.json` (B2a / R1).
-- **`scripts/catalog` test coverage** — the relocated `*.test.ts` fell out of the pre-push `bun test cli/` glob; re-wire coverage (B2a).
-- **`wip/validator-quality-audit`** — parked branch with grade-C improvements for the 12 validator/generator skills (D/F -> C/C+), blocked by the skill-artifacts name-vs-directory validator bug (C2b).
+- **tile.json discovery** ([#245](https://github.com/pantheon-org/tekhne/issues/245)) — the catalog generator (`scripts/catalog`) still references the removed `tile.json`; repoint to `.tessl-plugin/plugin.json` (B2a / R1).
+- **`scripts/catalog` test coverage** ([#246](https://github.com/pantheon-org/tekhne/issues/246)) — the relocated `*.test.ts` fell out of the pre-push `bun test scripts/` glob; re-wire coverage (B2a).
+- **`wip/validator-quality-audit`** ([#244](https://github.com/pantheon-org/tekhne/issues/244)) — parked branch with grade-C improvements for the 12 validator/generator skills (D/F -> C/C+), blocked by the skill-artifacts name-vs-directory validator bug ([#243](https://github.com/pantheon-org/tekhne/issues/243), C2b).
+- **skill-artifacts name-vs-directory bug** ([#243](https://github.com/pantheon-org/tekhne/issues/243)) — the artifacts check false-positives on consolidated `<tool>-validator`/`-generator` skills; blocks #244.
 - ~~**R1 release drift** — 100% manifest ↔ `plugin.json` reconciliation.~~ **DONE 23-07-2026:** max/no-regression reconciliation applied (28 manifest + 27 plugin.json bumps); zero drift remains. See `release-versioning-policy.md` section 6.
 - ~~**`adr-creator` release-please entry**~~ **DONE 23-07-2026:** added, along with the other 16 previously-unmanaged skills; all 74 publishable skills are now release-please packages.
-- **tessl bulk `manage` / `publish-check`** — B5 removed these npm scripts with no successor owner (no tessl crate/`scripts` owns bulk `plugin.json` management); direct `tessl:import/lint/publish/review` scripts survive. Re-home if bulk management is still wanted.
-- **CodeQL language-retirement playbook (for C3)** — when a language leaves the CodeQL matrix, GitHub's `code_scanning` merge protection keeps requiring it ("N configurations not found") and even `--admin` cannot bypass it. A6c resolution, to repeat for `python` in C3: (1) temporarily remove the `code_scanning` rule from the `main` ruleset (backup its params); (2) merge the language-removal PR; (3) let `main`'s CodeQL re-run on the remaining matrix; (4) delete the retired language's CodeQL analysis chain on `main` (`DELETE /code-scanning/analyses/{id}?confirm_delete=true`, newest-first; the go chain was 67 analyses, 0 open alerts); (5) re-add the identical `code_scanning` rule. PRs then evaluate CLEAN against the remaining languages.
+- **tessl bulk `manage` / `publish-check`** ([#247](https://github.com/pantheon-org/tekhne/issues/247)) — B5 removed these npm scripts with no successor owner (no tessl crate/`scripts` owns bulk `plugin.json` management); direct `tessl:import/lint/publish/review` scripts survive. Re-home if bulk management is still wanted.
+- **C1 python-inventory wording** ([#248](https://github.com/pantheon-org/tekhne/issues/248)) — `.context/plans/python-inventory.md` has stale wording superseded by `python-allowlist.txt`.
+- **CodeQL language-retirement playbook** ([#249](https://github.com/pantheon-org/tekhne/issues/249)) — when a language leaves the CodeQL matrix, GitHub's `code_scanning` merge protection keeps requiring it ("N configurations not found") and even `--admin` cannot bypass it. A6c resolution, to repeat for `python` in C3: (1) temporarily remove the `code_scanning` rule from the `main` ruleset (backup its params); (2) merge the language-removal PR; (3) let `main`'s CodeQL re-run on the remaining matrix; (4) delete the retired language's CodeQL analysis chain on `main` (`DELETE /code-scanning/analyses/{id}?confirm_delete=true`, newest-first; the go chain was 67 analyses, 0 open alerts); (5) re-add the identical `code_scanning` rule. PRs then evaluate CLEAN against the remaining languages.
 
 ## v4 review findings (21-07-2026)
 
