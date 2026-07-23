@@ -1,20 +1,14 @@
 name: PR Agent
 
-# General-purpose LLM PR review (auto-describe + auto-review) for NON-skill PRs.
+# General-purpose LLM PR review (auto-describe + auto-review) for non-skill PRs.
 #
-# ┌───────────────────────────────────────────────────────────────────────────┐
-# │ DATA GOVERNANCE — READ BEFORE ENABLING                                     │
-# │                                                                            │
-# │ This workflow sends the PR diff and metadata to an EXTERNAL LLM provider   │
-# │ (Gemini / Mistral / Cerebras, via litellm). Under this project's data-handling      │
-# │ rules, repository contents are potentially confidential, so turning this   │
-# │ on is a deliberate data-flow decision that must be signed off by whoever   │
-# │ owns AI-tooling data governance — it is not a routine CI toggle.           │
-# │                                                                            │
-# │ It ships INERT: the agent step is gated on a provider API-key secret being │
-# │ present, and NONE is configured. Adding a *_API_KEY secret is the switch   │
-# │ that turns it on. Do not add one without that sign-off.                    │
-# └───────────────────────────────────────────────────────────────────────────┘
+# The review step runs only when a provider API-key secret is configured
+# (GEMINI_API_KEY / MISTRAL_API_KEY / CEREBRAS_API_KEY); with none present it
+# skips cleanly. It sends the PR diff and metadata to an external LLM — Gemini
+# primary, Mistral then Cerebras as litellm fallbacks — and posts a description
+# and review. Advisory only (continue-on-error), so a provider outage or
+# rate-limit never turns this into a red, blocking check. Remove the secrets to
+# turn it off.
 #
 # Skill PRs are excluded (paths-ignore: skills/**) — they are already covered by
 # the Skill Audit gate, Tessl Review, and Copilot review. A second LLM opinion
@@ -47,9 +41,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # Inert switch. The agent only runs when a provider key is configured; with
-      # none present (the default, by design) this skips cleanly and posts a
-      # notice explaining why. See the DATA GOVERNANCE note in the header.
+      # The agent step runs only when a provider key is configured; with none
+      # present it skips cleanly and posts a notice. Remove the secrets to
+      # disable the review entirely.
       - name: Check for a provider key
         id: key
         env:
@@ -61,7 +55,7 @@ jobs:
             echo "present=true" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::PR Agent is inert — no provider API key is configured. This is intentional. Enabling it ships PR diffs to an external LLM and requires a data-governance sign-off (see the workflow header)."
+            echo "::notice::PR Agent skipped — no provider API key configured (GEMINI_API_KEY / MISTRAL_API_KEY / CEREBRAS_API_KEY)."
           fi
 
       # Digest-pinned image (this repo pins every third-party action by immutable

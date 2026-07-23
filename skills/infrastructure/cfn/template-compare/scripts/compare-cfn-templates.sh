@@ -250,7 +250,7 @@ analyze_renamed_resources() {
         return 0
     fi
     
-    # Check if only difference is stack name suffix (e.g., examplemonitoringst vs examplemonitoringstthoroc)
+    # Check if only difference is stack name suffix (e.g., examplemonitoringst vs examplemonitoringstuser)
     local deployed_normalized
     deployed_normalized=$(echo "$deployed_res" | sed -E 's/examplemonitoringst[a-z0-9]*/examplemonitoringst/' | sed -E 's/[A-F0-9]{16}$//' | sed -E 's/[a-f0-9]{8}$//')
     local local_normalized
@@ -352,7 +352,7 @@ EOF
             local_type=$(jq -r ".Resources[\"$local_res\"].Type" "$WORK_DIR/local.json")
             
             # Extract base resource name (everything before the hash pattern)
-            # For resources like "ExampleAccessSecurityGrouptoexamplemonitoringstthorocExampleDbSecurityGroup6B95C6C8543226F10A21"
+            # For resources like "ExampleAccessSecurityGrouptoexamplemonitoringstuserExampleDbSecurityGroup6B95C6C8543226F10A21"
             # We want to match on the functional part, ignoring stack refs and hashes
             local local_base
             local_base=$(echo "$local_res" | sed -E 's/examplemonitoringst[a-z0-9]*/STACKREF/g' | sed -E 's/[A-F0-9]{4,16}//g' | sed -E 's/[a-f0-9]{8}//g')
@@ -708,7 +708,7 @@ generate_report() {
     echo "Region:         $REGION"
     echo "Profile:        $PROFILE"
     echo "Local Branch:   $CURRENT_BRANCH"
-    echo "Deploy Ref:     $DEPLOY_REF"
+    echo "Deploy ref:     $DEPLOY_REF"
     echo ""
     
     if [ "$exit_code" -eq 0 ]; then
