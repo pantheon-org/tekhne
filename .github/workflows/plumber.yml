@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - id: plumber
-        uses: getplumber/plumber@fdd2a2d0555bb3b33cbb2efff3b955dea5a6bbf0 # v0.4.3
+        uses: getplumber/plumber@7970e5df1e7d217de41b2880832b63a6f2152b97 # v0.4.8
         # soft-fail: the action never fails on its own A-E score. continue-on-error:
         # a transient runtime error must not block either — the Critical gate below
         # is the only blocking signal. SARIF upload to Code Scanning is left on
