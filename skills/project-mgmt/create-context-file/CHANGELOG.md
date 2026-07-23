@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.0](https://github.com/pantheon-org/tekhne/compare/v0.4.0...v1.0.0) (2026-07-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **create-context-file:** filenames are now date-prefixed (YYYY-MM-DD-slug.md) instead of three-word IDs, and types are an open typology set instead of the fixed plan/justification/scratch enum.
+
+### Features
+
+* **create-context-file:** organize by typology with date-prefixed filenames ([#170](https://github.com/pantheon-org/tekhne/issues/170)) ([36edf85](https://github.com/pantheon-org/tekhne/commit/36edf85b08d49de6f814f6f08c9a06611f3d57a5))
+
 ## [0.4.0](https://github.com/pantheon-org/tekhne/compare/v0.3.0...v0.4.0) (2026-07-10)
 
 

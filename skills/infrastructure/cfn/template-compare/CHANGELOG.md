@@ -6,10 +6,3 @@
 ### Bug Fixes
 
 * **skills:** clean up 53 artifact-convention violations ([#216](https://github.com/pantheon-org/tekhne/issues/216)) ([#218](https://github.com/pantheon-org/tekhne/issues/218)) ([c8e1718](https://github.com/pantheon-org/tekhne/commit/c8e1718abc7c982e1d42437bead290ef20e0ead9))
-
-## [0.2.0](https://github.com/pantheon-org/tekhne/compare/v0.1.2...v0.2.0) (2026-05-15)
-
-
-### Features
-
-* **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([e6da355](https://github.com/pantheon-org/tekhne/commit/e6da355d773aa5646dea9ec6128af0fee0a43ebb))

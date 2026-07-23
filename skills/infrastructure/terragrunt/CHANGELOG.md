@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.0.1](https://github.com/pantheon-org/tekhne/compare/v4.0.0...v4.0.1) (2026-07-23)
+
+
+### Bug Fixes
+
+* **aislop:** clear all 30 aislop errors (Wave 1 of cleanup-to-green) ([#231](https://github.com/pantheon-org/tekhne/issues/231)) ([7c706d2](https://github.com/pantheon-org/tekhne/commit/7c706d294ef12a66a123916587fd59d17610c96c))
+* **skills:** clean up 53 artifact-convention violations ([#216](https://github.com/pantheon-org/tekhne/issues/216)) ([#218](https://github.com/pantheon-org/tekhne/issues/218)) ([c8e1718](https://github.com/pantheon-org/tekhne/commit/c8e1718abc7c982e1d42437bead290ef20e0ead9))
+
 ## [4.0.0](https://github.com/pantheon-org/tekhne/compare/v3.0.0...v4.0.0) (2026-07-10)
 
 

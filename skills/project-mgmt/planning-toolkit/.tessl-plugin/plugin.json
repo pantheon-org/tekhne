@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/planning-toolkit",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "End-to-end project planning toolkit: converts requirements into structured phased implementation plans, groups phases into dependency-ordered waves for parallel subagent execution, executes wave plans by spawning parallel agents with correct model tiers, and decomposes large branches into focused pull requests.",
   "private": false,
   "skills": [

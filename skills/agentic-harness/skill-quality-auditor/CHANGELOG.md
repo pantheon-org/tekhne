@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/pantheon-org/tekhne/compare/v0.2.0...v0.3.0) (2026-07-23)
+
+
+### Features
+
+* **skill-validator-rs:** port validate-skill-artifacts; retire check-consistency (Wave 2) ([#211](https://github.com/pantheon-org/tekhne/issues/211)) ([de31ce4](https://github.com/pantheon-org/tekhne/commit/de31ce42cfdc8a4d0e3e1c91f6ce64fc103dcda3))
+
 ## [0.2.0](https://github.com/pantheon-org/tekhne/compare/v0.1.4...v0.2.0) (2026-05-15)
 
 
