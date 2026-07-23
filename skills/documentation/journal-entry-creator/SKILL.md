@@ -44,7 +44,7 @@ Use journal-entry-creator when:
 **Do NOT use for:**
 - Quick markdown notes without frontmatter (use simple file creation instead)
 - External documentation systems (Confluence, Notion) — this skill is for local .md files only
-- Retrospective backdating of dozens of old entries — use batch import scripts instead
+- Retrospective backfilling of frontmatter across many old entries: use `pantheon-journal backfill` for that one-pass batch repair instead
 
 ## Entry Type Selection
 

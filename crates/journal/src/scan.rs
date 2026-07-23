@@ -67,7 +67,7 @@ pub struct ScanResult {
 }
 
 /// True when a path segment is a `YYYY-MM-DD-` dated stem.
-fn is_dated(segment: &str) -> bool {
+pub(crate) fn is_dated(segment: &str) -> bool {
     let b = segment.as_bytes();
     b.len() >= 11
         && b[0..4].iter().all(u8::is_ascii_digit)
@@ -86,7 +86,7 @@ fn is_year_dir(name: &str) -> bool {
 
 /// Collect repo-relative forward-slash paths of every `.md` file under the
 /// corpus's year directories.
-fn list_markdown(root: &Path) -> Vec<String> {
+pub(crate) fn list_markdown(root: &Path) -> Vec<String> {
     let mut out = Vec::new();
     let Ok(top) = std::fs::read_dir(root) else {
         return out;
@@ -213,7 +213,7 @@ pub fn frontmatter_tags(content: &str) -> Vec<String> {
 }
 
 /// The first body H1 (`# Title`), trimmed, else empty.
-fn first_h1(body: &str) -> String {
+pub(crate) fn first_h1(body: &str) -> String {
     for line in body.split('\n') {
         if let Some(rest) = line.strip_prefix("# ") {
             return rest.trim().to_string();
