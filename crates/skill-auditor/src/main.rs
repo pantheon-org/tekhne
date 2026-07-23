@@ -6,9 +6,12 @@ use clap::{Args, Parser, Subcommand, ValueEnum};
 use skill_auditor::aggregation;
 use skill_auditor::duplication;
 use skill_auditor::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
+use skill_auditor::pattern_analysis;
 use skill_auditor::prune;
+use skill_auditor::quality_signals;
 use skill_auditor::reporter;
 use skill_auditor::scorer::{self, grade_rank, Result as AuditResult};
+use skill_auditor::semantic;
 use skill_auditor::skill_bundle;
 use skill_auditor::tessl;
 use skill_install::agents::all as all_agents;
@@ -16,6 +19,8 @@ use skill_install::env::Environment;
 use skill_install::install::InstallMode;
 use std::path::{Path, PathBuf};
 use std::process;
+
+mod reports;
 
 const VERSION: &str = "0.1.0";
 
@@ -75,6 +80,12 @@ enum Command {
     PlanAggregation(PlanAggregationArgs),
     /// Check a skill for Tessl registry compliance (agent-agnostic, metrics).
     TesslCheck(TesslCheckArgs),
+    /// Score per-skill quality signals (structural, content, quality markers).
+    QualitySignals(AnalysisArgs),
+    /// Report pairwise semantic similarity between skills.
+    SemanticAnalysis(AnalysisArgs),
+    /// Combined pattern analysis: duplication + semantic + quality health score.
+    PatternAnalysis(AnalysisArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -116,6 +127,17 @@ struct TesslCheckArgs {
     /// Root directory the skill name is resolved against.
     #[arg(long = "skills-dir", default_value = "skills")]
     skills_dir: String,
+}
+
+/// Shared args for the whole-tree analysis subcommands.
+#[derive(Args)]
+struct AnalysisArgs {
+    /// Root directory to scan for `SKILL.md` files.
+    #[arg(default_value = "skills")]
+    skills_dir: String,
+    /// Emit JSON instead of a Markdown/text report.
+    #[arg(long)]
+    json: bool,
 }
 
 #[derive(Args)]
@@ -248,6 +270,9 @@ fn main() {
         Command::PruneAudits(args) => run_prune_audits(args),
         Command::PlanAggregation(args) => run_plan_aggregation(args),
         Command::TesslCheck(args) => run_tessl_check(args),
+        Command::QualitySignals(args) => run_quality_signals(args),
+        Command::SemanticAnalysis(args) => run_semantic_analysis(args),
+        Command::PatternAnalysis(args) => run_pattern_analysis(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -565,6 +590,54 @@ fn run_plan_aggregation(args: PlanAggregationArgs) -> std::result::Result<(), St
     Ok(())
 }
 
+/// Load the skills under `dir`, erroring if the directory is missing.
+fn load_analysis_skills(dir: &str) -> std::result::Result<Vec<duplication::SkillDoc>, String> {
+    let root = Path::new(dir);
+    if !root.is_dir() {
+        return Err(format!("skills directory not found: {dir}"));
+    }
+    Ok(duplication::load_skills(root))
+}
+
+/// Score per-skill quality signals across the tree.
+fn run_quality_signals(args: AnalysisArgs) -> std::result::Result<(), String> {
+    let skills = load_analysis_skills(&args.skills_dir)?;
+    let report = quality_signals::analyze(&skills);
+    if args.json {
+        let json = serde_json::to_string_pretty(&report).map_err(|e| format!("marshal: {e}"))?;
+        println!("{json}");
+    } else {
+        print!("{}", reports::quality(&report));
+    }
+    Ok(())
+}
+
+/// Report pairwise semantic similarity across the tree.
+fn run_semantic_analysis(args: AnalysisArgs) -> std::result::Result<(), String> {
+    let skills = load_analysis_skills(&args.skills_dir)?;
+    let report = semantic::analyze(&skills);
+    if args.json {
+        let json = serde_json::to_string_pretty(&report).map_err(|e| format!("marshal: {e}"))?;
+        println!("{json}");
+    } else {
+        print!("{}", reports::semantic(&report, skills.len()));
+    }
+    Ok(())
+}
+
+/// Combined duplication + semantic + quality pipeline with a health score.
+fn run_pattern_analysis(args: AnalysisArgs) -> std::result::Result<(), String> {
+    let skills = load_analysis_skills(&args.skills_dir)?;
+    let report = pattern_analysis::run(&skills);
+    if args.json {
+        let json = serde_json::to_string_pretty(&report).map_err(|e| format!("marshal: {e}"))?;
+        println!("{json}");
+    } else {
+        print!("{}", reports::pattern(&report));
+    }
+    Ok(())
+}
+
 /// Detect and report duplication across the skills under `--skills-dir`.
 fn run_duplication(args: DuplicationArgs) -> std::result::Result<(), String> {
     let root = Path::new(&args.skills_dir);
@@ -581,7 +654,7 @@ fn run_duplication(args: DuplicationArgs) -> std::result::Result<(), String> {
         } else {
             print!(
                 "{}",
-                render_enhanced(&args.skills_dir, skills.len(), &pairs)
+                reports::duplication_enhanced(&args.skills_dir, skills.len(), &pairs)
             );
         }
     } else {
@@ -592,78 +665,11 @@ fn run_duplication(args: DuplicationArgs) -> std::result::Result<(), String> {
         } else {
             print!(
                 "{}",
-                render_basic(&args.skills_dir, skills.len(), args.threshold, &pairs)
+                reports::duplication_basic(&args.skills_dir, skills.len(), args.threshold, &pairs)
             );
         }
     }
     Ok(())
-}
-
-/// Render the basic (line-overlap) duplication report as Markdown.
-fn render_basic(
-    dir: &str,
-    count: usize,
-    threshold: u32,
-    pairs: &[duplication::BasicPair],
-) -> String {
-    let mut s = String::new();
-    s.push_str("# Skill Duplication Report\n\n## Summary\n");
-    s.push_str(&format!("- Skills analyzed: {count}\n"));
-    s.push_str(&format!("- Directory: {dir}\n"));
-    s.push_str(&format!("- Threshold: >{threshold}% similarity\n\n"));
-    s.push_str("## High Duplication Pairs\n\n");
-    if pairs.is_empty() {
-        s.push_str("None above threshold.\n");
-    } else {
-        for p in pairs {
-            s.push_str(&format!("### {} \u{2194} {}\n", p.name1, p.name2));
-            s.push_str(&format!("- Similarity: {}%\n", p.similarity));
-            s.push_str(&format!("- Common lines: {}\n", p.common_lines));
-            s.push_str("- Recommendation: Consider aggregation\n\n");
-        }
-    }
-    s
-}
-
-/// Render the enhanced (composite) duplication report as Markdown, grouped by
-/// similarity band.
-fn render_enhanced(dir: &str, count: usize, pairs: &[duplication::EnhancedPair]) -> String {
-    use duplication::Band;
-
-    let mut s = String::new();
-    s.push_str("# Enhanced Skill Duplication Report\n\n## Executive Summary\n");
-    s.push_str(&format!("- Skills analyzed: {count}\n"));
-    s.push_str(&format!("- Directory: {dir}\n"));
-    s.push_str(&format!(
-        "- Thresholds: Moderate >={}%, High >={}%, Critical >={}%\n\n",
-        duplication::MODERATE_THRESHOLD,
-        duplication::HIGH_THRESHOLD,
-        duplication::CRITICAL_THRESHOLD
-    ));
-
-    for band in [Band::Critical, Band::High, Band::Moderate] {
-        s.push_str(&format!("## {} Duplications\n\n", band.label()));
-        let group: Vec<&duplication::EnhancedPair> =
-            pairs.iter().filter(|p| p.band == band).collect();
-        if group.is_empty() {
-            s.push_str("None.\n\n");
-            continue;
-        }
-        for p in group {
-            s.push_str(&format!("### {} \u{2194} {}\n", p.name1, p.name2));
-            s.push_str(&format!(
-                "**Overall Similarity**: {}% {}\n\n",
-                p.composite,
-                band.label()
-            ));
-            s.push_str("| Metric | Score | Weight |\n|--------|-------|--------|\n");
-            s.push_str(&format!("| Semantic | {}% | 40% |\n", p.semantic));
-            s.push_str(&format!("| Structural | {}% | 35% |\n", p.structural));
-            s.push_str(&format!("| Lexical | {}% | 25% |\n\n", p.lexical));
-            s.push_str(&format!("**Action Required**: {}\n\n", band.action()));
-        }
-    }
-    s
 }
 
 /// Install the bundled companion skill into agent directories.
