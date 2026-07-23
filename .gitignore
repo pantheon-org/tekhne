@@ -34,5 +34,8 @@ hk.local.pkl
 /target/
 
 .tokensave/
-.aislop/
+# Ignore aislop local state but keep the committed config (scan excludes) so CI
+# reads it; baseline.json / session.jsonl / history.jsonl stay ignored.
+.aislop/*
+!.aislop/config.yml
 .tmp/

@@ -31,7 +31,8 @@ try:
     from dotenv import load_dotenv
     load_dotenv()
 except ImportError:
-    pass  # 如果没有安装 python-dotenv，跳过加载
+    # python-dotenv is optional; skip .env loading when it is not installed.
+    pass
 
 
 # ============================================

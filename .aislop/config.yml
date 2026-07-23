@@ -1,0 +1,13 @@
+# aislop configuration (committed; CI reads this).
+#
+# Exclude illustrative skill content from the scan. Files under references/,
+# templates/, and examples/ are teaching material meant to be copied into a
+# user's own project, not tekhne's own buildable source. For example the
+# opencode-toolkit references import "@opencode-ai/plugin" (the real OpenCode
+# SDK), which is correctly absent from this repo's package.json and so trips the
+# hallucinated-import rule as a false positive. Skill scripts/ (real, runnable
+# deliverables) are deliberately NOT excluded and remain scanned.
+exclude:
+  - "skills/**/references/**"
+  - "skills/**/templates/**"
+  - "skills/**/examples/**"

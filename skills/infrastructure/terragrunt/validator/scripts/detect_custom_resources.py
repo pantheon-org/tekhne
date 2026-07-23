@@ -14,6 +14,7 @@ import os
 import re
 import json
 import argparse
+import logging
 import sys
 from pathlib import Path
 from typing import Dict, List, Set, Tuple
@@ -262,7 +263,7 @@ class ResourceDetector:
                     self.extract_providers(content, filepath)
                     self.extract_modules(content, filepath)
             except Exception as e:
-                print(f"Error reading {filepath}: {e}", file=sys.stderr)
+                logging.getLogger(__name__).error("Error reading %s: %s", filepath, e)
 
     def generate_report(self, output_format: str = 'text') -> str:
         """Generate a report of custom resources found."""

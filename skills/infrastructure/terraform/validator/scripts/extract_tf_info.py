@@ -30,6 +30,7 @@ Requirements:
 import json
 import os
 import sys
+import logging
 from pathlib import Path
 from typing import Any
 
@@ -76,9 +77,9 @@ class TerraformParser:
             self._extract_locals(parsed, filepath)
 
         except hcl2.lark_parser.UnexpectedToken as e:
-            print(f"HCL syntax error in {filepath}: {e}", file=sys.stderr)
+            logging.getLogger(__name__).error("HCL syntax error in %s: %s", filepath, e)
         except Exception as e:
-            print(f"Error parsing {filepath}: {e}", file=sys.stderr)
+            logging.getLogger(__name__).error("Error parsing %s: %s", filepath, e)
 
     def parse_directory(self, dirpath: str) -> None:
         """Parse all .tf files in a directory recursively."""
