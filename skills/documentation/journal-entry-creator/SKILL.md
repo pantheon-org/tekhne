@@ -178,6 +178,14 @@ pantheon-journal lint --strict   # non-zero exit on findings (for CI)
 `lint` is advisory and never rewrites the taxonomy or an entry; it reports
 candidates for a human to fold into `taxonomy.json`.
 
+The corpus can also be indexed into a queryable NDJSON source of truth plus a
+rendered markdown browse view (grouped by recent, month, type, tag, and ticket):
+
+```bash
+pantheon-journal index            # writes docs/journal-index.{ndjson,md}
+pantheon-journal index --validate # check the committed index, do not regenerate
+```
+
 ### Code Block Language Specifiers
 
 ALL code blocks MUST have language identifiers. No bare triple backticks allowed.

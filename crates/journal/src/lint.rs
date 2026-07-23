@@ -194,7 +194,16 @@ mod tests {
     fn entry(file: &str, tags: &[&str]) -> Entry {
         Entry {
             file: file.to_string(),
+            files: vec![file.to_string()],
+            slug: String::new(),
+            date: String::new(),
+            title: String::new(),
             tags: tags.iter().map(|s| s.to_string()).collect(),
+            entry_type: "general".to_string(),
+            tickets: vec![],
+            authors: vec![],
+            status: String::new(),
+            summary: String::new(),
         }
     }
 

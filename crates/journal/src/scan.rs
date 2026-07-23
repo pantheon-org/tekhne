@@ -1,30 +1,51 @@
-//! Scan a journal corpus into logical entries with normalised tags.
+//! Scan a journal corpus into logical entries.
 //!
-//! Port of the journal CLI's `scan-entries.ts` plus the tag-extraction slice of
-//! `parse-frontmatter.ts`. Only the year directories (`20NN/`) are walked, which
-//! naturally excludes `node_modules`, `.git`, `docs`, and the like. A dated
-//! entry file and a sibling spike folder of the same slug collapse into one
-//! logical entry so their tags are not double-counted.
+//! Port of the journal CLI's `scan-entries.ts`, `parse-frontmatter.ts`,
+//! `extract-summary.ts`, `derive-type.ts`, and `derive-tickets.ts`. Only the
+//! year directories (`20NN/`) are walked, which naturally excludes
+//! `node_modules`, `.git`, `docs`, and the like. A dated entry file and a
+//! sibling spike folder of the same slug collapse into one logical entry so
+//! their tags are not double-counted.
 //!
-//! Frontmatter tags are extracted with a focused, dependency-light parser
-//! (matching how `validate.rs` hand-parses frontmatter) rather than a full YAML
-//! dependency. It understands the two shapes the corpus uses: a block sequence
-//! (`tags:` then `  - item` lines) and an inline flow sequence
-//! (`tags: [a, b]`).
+//! Frontmatter is parsed with a focused, dependency-light parser (matching how
+//! `validate.rs` hand-parses frontmatter) rather than a full YAML dependency. It
+//! understands the two shapes the corpus uses: a block sequence (`tags:` then
+//! `  - item` lines) and an inline flow sequence (`tags: [a, b]`).
 
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::Path;
 
+use regex::Regex;
+
 use crate::taxonomy::{normalise_tag, Taxonomy};
 
-/// A logical journal entry: its primary file and the union of normalised tags
-/// across every file grouped under it.
+/// One logical journal entry. A nested spike folder collapses to a single
+/// entry: `file` is the entry point, `files` lists every member. Tags are
+/// normalised; `entry_type` and `tickets` are derived from them.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Entry {
     /// Repo-relative forward-slash path of the entry's primary file.
     pub file: String,
+    /// Every file grouped under this logical entry, sorted.
+    pub files: Vec<String>,
+    /// The `YYYY-MM-DD-slug` stem of the entry.
+    pub slug: String,
+    /// `YYYY-MM-DD` taken from the slug prefix.
+    pub date: String,
+    /// Frontmatter `title`, falling back to the body H1, else empty.
+    pub title: String,
     /// Sorted, de-duplicated, alias-normalised tags.
     pub tags: Vec<String>,
+    /// Derived entry type (a `type` facet tag, else `general`).
+    pub entry_type: String,
+    /// Ticket keys among the tags (matching the taxonomy `ticketPattern`).
+    pub tickets: Vec<String>,
+    /// Frontmatter `authors`, else empty.
+    pub authors: Vec<String>,
+    /// Frontmatter `status`, else empty.
+    pub status: String,
+    /// First paragraph under `## Session Overview`, else empty.
+    pub summary: String,
 }
 
 /// A file that could not be read, kept rather than silently dropped.
@@ -39,7 +60,7 @@ pub struct ScanError {
 /// The result of a corpus scan.
 #[derive(Debug, Clone, Default)]
 pub struct ScanResult {
-    /// Logical entries, sorted by file path for determinism.
+    /// Logical entries, newest first (date descending, then slug ascending).
     pub entries: Vec<Entry>,
     /// Files that could not be read.
     pub errors: Vec<ScanError>,
@@ -99,31 +120,44 @@ fn walk_md(dir: &Path, rel: &str, out: &mut Vec<String>) {
     }
 }
 
-/// Extract the raw frontmatter `tags` list from a markdown document. Returns an
-/// empty list when there is no frontmatter or no `tags` key.
-pub fn frontmatter_tags(content: &str) -> Vec<String> {
+/// The frontmatter fields the index cares about, parsed from a document.
+#[derive(Debug, Default, Clone)]
+pub struct Frontmatter {
+    /// `tags` as written (not yet normalised).
+    pub tags: Vec<String>,
+    /// `title` (trimmed), else empty.
+    pub title: String,
+    /// `authors` (trimmed, non-empty), else empty.
+    pub authors: Vec<String>,
+    /// `status` (trimmed), else empty.
+    pub status: String,
+}
+
+/// Split a document into its frontmatter block lines and body. Returns
+/// `(None, whole_document)` when there is no `---` fenced frontmatter.
+fn split_frontmatter(content: &str) -> (Option<Vec<&str>>, String) {
     if !content.starts_with("---") {
-        return Vec::new();
+        return (None, content.to_string());
     }
     let lines: Vec<&str> = content.split('\n').collect();
-    let mut end = None;
     for (i, line) in lines.iter().enumerate().skip(1) {
         if line.trim() == "---" {
-            end = Some(i);
-            break;
+            let block = lines[1..i].to_vec();
+            let body = lines[i + 1..].join("\n");
+            return (Some(block), body);
         }
     }
-    let Some(end) = end else {
-        return Vec::new();
-    };
+    (None, content.to_string())
+}
 
-    for (i, line) in lines[1..end].iter().enumerate() {
-        let trimmed = line.trim_start();
-        let Some(rest) = trimmed.strip_prefix("tags:") else {
+/// Extract an inline or block sequence for `key` from frontmatter block lines.
+fn fm_sequence(block: &[&str], key: &str) -> Vec<String> {
+    let prefix = format!("{key}:");
+    for (i, line) in block.iter().enumerate() {
+        let Some(rest) = line.trim_start().strip_prefix(&prefix) else {
             continue;
         };
         let rest = rest.trim();
-        // Inline flow sequence: tags: [a, b]
         if let Some(inner) = rest.strip_prefix('[').and_then(|s| s.strip_suffix(']')) {
             return inner
                 .split(',')
@@ -131,21 +165,107 @@ pub fn frontmatter_tags(content: &str) -> Vec<String> {
                 .filter(|t| !t.is_empty())
                 .collect();
         }
-        // Block sequence: subsequent `  - item` lines until dedent / next key.
-        let mut tags = Vec::new();
-        for follow in &lines[1 + i + 1..end] {
+        let mut items = Vec::new();
+        for follow in &block[i + 1..] {
             let ft = follow.trim();
             if let Some(item) = ft.strip_prefix("- ") {
-                tags.push(unquote(item));
+                items.push(unquote(item));
             } else if ft.is_empty() {
                 continue;
             } else {
                 break;
             }
         }
-        return tags.into_iter().filter(|t| !t.is_empty()).collect();
+        return items.into_iter().filter(|t| !t.is_empty()).collect();
     }
     Vec::new()
+}
+
+/// Extract an inline scalar value for `key` from frontmatter block lines.
+fn fm_scalar(block: &[&str], key: &str) -> String {
+    let prefix = format!("{key}:");
+    for line in block {
+        if let Some(rest) = line.trim_start().strip_prefix(&prefix) {
+            return unquote(rest);
+        }
+    }
+    String::new()
+}
+
+/// Parse the frontmatter fields the index needs, plus the body text.
+pub fn parse_frontmatter(content: &str) -> (Frontmatter, String) {
+    let (block, body) = split_frontmatter(content);
+    let Some(block) = block else {
+        return (Frontmatter::default(), body);
+    };
+    let fm = Frontmatter {
+        tags: fm_sequence(&block, "tags"),
+        title: fm_scalar(&block, "title"),
+        authors: fm_sequence(&block, "authors"),
+        status: fm_scalar(&block, "status"),
+    };
+    (fm, body)
+}
+
+/// The raw frontmatter `tags` list (kept for callers that only need tags).
+pub fn frontmatter_tags(content: &str) -> Vec<String> {
+    parse_frontmatter(content).0.tags
+}
+
+/// The first body H1 (`# Title`), trimmed, else empty.
+fn first_h1(body: &str) -> String {
+    for line in body.split('\n') {
+        if let Some(rest) = line.strip_prefix("# ") {
+            return rest.trim().to_string();
+        }
+    }
+    String::new()
+}
+
+/// Extract a one-line summary: the first paragraph under `## Session Overview`,
+/// its lines joined by spaces. Empty when there is no such section or prose.
+pub fn extract_summary(body: &str) -> String {
+    let lines: Vec<&str> = body.split('\n').collect();
+    let Some(start) = lines.iter().position(|l| l.trim() == "## Session Overview") else {
+        return String::new();
+    };
+    let mut paragraph: Vec<&str> = Vec::new();
+    for line in &lines[start + 1..] {
+        let t = line.trim();
+        if t.is_empty() {
+            if !paragraph.is_empty() {
+                break;
+            }
+            continue;
+        }
+        if t.starts_with('#') {
+            break;
+        }
+        paragraph.push(t);
+    }
+    paragraph.join(" ").trim().to_string()
+}
+
+/// Derive an entry's type: the first `type`-facet tag (in declared order, other
+/// than `general`) the entry carries, else `general`.
+pub fn derive_type(tags: &[String], type_facet: &[String]) -> String {
+    for candidate in type_facet {
+        if candidate != "general" && tags.iter().any(|t| t == candidate) {
+            return candidate.clone();
+        }
+    }
+    "general".to_string()
+}
+
+/// Derive ticket keys: tags matching `ticket_re`, sorted and de-duplicated.
+pub fn derive_tickets(tags: &[String], ticket_re: &Regex) -> Vec<String> {
+    let mut set: BTreeSet<String> = BTreeSet::new();
+    for tag in tags {
+        if ticket_re.is_match(tag) {
+            set.insert(tag.clone());
+        }
+    }
+    set.into_iter().collect()
 }
 
 /// Strip surrounding single/double quotes and whitespace from a scalar.
@@ -163,9 +283,14 @@ fn unquote(s: &str) -> String {
 }
 
 /// Scan every dated entry under `root`, grouping a nested spike folder into one
-/// logical entry. Tags are normalised through the taxonomy aliases.
+/// logical entry. Tags are normalised through the taxonomy aliases; type and
+/// tickets are derived. Entries are returned newest first.
 pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
     let all = list_markdown(root);
+    let ticket_re = taxonomy
+        .ticket_regex()
+        .unwrap_or_else(|_| Regex::new("$^").expect("empty regex compiles"));
+    let type_facet = taxonomy.facets.get("type").cloned().unwrap_or_default();
 
     // Key every file by its slug-stem path so a top-level `slug.md` and a
     // sibling `slug/` spike folder collapse into one logical entry.
@@ -195,6 +320,7 @@ pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
         files.sort();
         let mut tag_set: BTreeSet<String> = BTreeSet::new();
         let mut parsed_files: Vec<String> = Vec::new();
+        let mut fm_by_file: BTreeMap<String, (Frontmatter, String)> = BTreeMap::new();
         for rel in &files {
             let content = match std::fs::read_to_string(root.join(rel)) {
                 Ok(c) => c,
@@ -207,12 +333,14 @@ pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
                 }
             };
             parsed_files.push(rel.clone());
-            for raw in frontmatter_tags(&content) {
-                let n = normalise_tag(&raw, &taxonomy.aliases);
+            let (fm, body) = parse_frontmatter(&content);
+            for raw in &fm.tags {
+                let n = normalise_tag(raw, &taxonomy.aliases);
                 if !n.is_empty() {
                     tag_set.insert(n);
                 }
             }
+            fm_by_file.insert(rel.clone(), (fm, body));
         }
         if parsed_files.is_empty() {
             continue;
@@ -224,13 +352,36 @@ pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
             .or_else(|| parsed_files.iter().find(|f| f.contains("inventory")))
             .unwrap_or(&parsed_files[0])
             .clone();
+
+        let slug = key.split('/').next_back().unwrap_or(&key).to_string();
+        let date = slug.chars().take(10).collect::<String>();
+        let tags: Vec<String> = tag_set.into_iter().collect();
+        let (fm, body) = fm_by_file.get(&primary).cloned().unwrap_or_default();
+        let title = if fm.title.is_empty() {
+            first_h1(&body)
+        } else {
+            fm.title
+        };
+
         result.entries.push(Entry {
             file: primary,
-            tags: tag_set.into_iter().collect(),
+            files: parsed_files,
+            slug,
+            date,
+            title,
+            entry_type: derive_type(&tags, &type_facet),
+            tickets: derive_tickets(&tags, &ticket_re),
+            tags,
+            authors: fm.authors,
+            status: fm.status,
+            summary: extract_summary(&body),
         });
     }
 
-    result.entries.sort_by(|a, b| a.file.cmp(&b.file));
+    // Newest first: date descending, then slug ascending (mirrors the CLI).
+    result
+        .entries
+        .sort_by(|a, b| b.date.cmp(&a.date).then_with(|| a.slug.cmp(&b.slug)));
     result
 }
 
@@ -240,7 +391,7 @@ mod tests {
 
     fn tax() -> Taxonomy {
         Taxonomy::from_json(
-            r#"{ "threshold": 3, "aliases": { "teams": "ms-teams" }, "facets": {}, "ticketPattern": "^x-[0-9]+$" }"#,
+            r#"{ "threshold": 3, "aliases": { "teams": "ms-teams" }, "facets": { "type": ["troubleshooting", "general"] }, "ticketPattern": "^x-[0-9]+$" }"#,
             "test",
         )
         .unwrap()
@@ -259,30 +410,56 @@ mod tests {
     }
 
     #[test]
-    fn stops_at_next_key() {
-        let content = "---\ntags:\n  - alpha\nauthors:\n  - me\n---\n# T\n";
-        assert_eq!(frontmatter_tags(content), vec!["alpha"]);
+    fn parses_title_authors_status() {
+        let content = "---\ntitle: \"My Entry\"\nauthors:\n  - Alice\n  - Bob\nstatus: published\ntags:\n  - x\n---\n# Fallback\n";
+        let (fm, _body) = parse_frontmatter(content);
+        assert_eq!(fm.title, "My Entry");
+        assert_eq!(fm.authors, vec!["Alice", "Bob"]);
+        assert_eq!(fm.status, "published");
     }
 
     #[test]
-    fn no_frontmatter_no_tags() {
-        assert!(frontmatter_tags("# Just a heading\n").is_empty());
-        assert!(frontmatter_tags("---\ntitle: T\n---\n# T\n").is_empty());
+    fn title_falls_back_to_h1() {
+        let content = "---\ntags:\n  - x\n---\n\n# The Heading - July 1, 2026\n\ntext\n";
+        let (fm, body) = parse_frontmatter(content);
+        assert_eq!(fm.title, "");
+        assert_eq!(first_h1(&body), "The Heading - July 1, 2026");
     }
 
     #[test]
-    fn scan_normalises_and_dedupes_across_spike_folder() {
+    fn summary_from_session_overview() {
+        let body =
+            "# T\n\n## Session Overview\n\nFirst line.\nSecond line.\n\n## Next\n\nignored\n";
+        assert_eq!(extract_summary(body), "First line. Second line.");
+        assert_eq!(extract_summary("# T\n\nno overview\n"), "");
+    }
+
+    #[test]
+    fn derive_type_and_tickets() {
+        let type_facet = vec!["troubleshooting".to_string(), "general".to_string()];
+        let re = Regex::new("^x-[0-9]+$").unwrap();
+        assert_eq!(
+            derive_type(&["a".into(), "troubleshooting".into()], &type_facet),
+            "troubleshooting"
+        );
+        assert_eq!(derive_type(&["a".into()], &type_facet), "general");
+        assert_eq!(
+            derive_tickets(&["x-2".into(), "a".into(), "x-1".into(), "x-1".into()], &re),
+            vec!["x-1", "x-2"]
+        );
+    }
+
+    #[test]
+    fn scan_builds_full_entry_and_collapses_spike_folder() {
         let tmp = tempfile::tempdir().unwrap();
         let root = tmp.path();
         let month = root.join("2026/07");
         std::fs::create_dir_all(&month).unwrap();
-        // Top-level entry file.
         std::fs::write(
             month.join("2026-07-01-example.md"),
-            "---\ntags:\n  - Teams\n  - alpha\n---\n# Example - July 1, 2026\n",
+            "---\ntitle: Example\nauthors:\n  - Alice\nstatus: published\ntags:\n  - Teams\n  - alpha\n  - troubleshooting\n  - x-42\n---\n\n# Example - July 1, 2026\n\n## Session Overview\n\nA short summary.\n",
         )
         .unwrap();
-        // Sibling spike folder file for the same slug.
         let spike = month.join("2026-07-01-example");
         std::fs::create_dir_all(&spike).unwrap();
         std::fs::write(
@@ -293,15 +470,38 @@ mod tests {
 
         let result = scan_entries(root, &tax());
         assert!(result.errors.is_empty());
-        assert_eq!(
-            result.entries.len(),
-            1,
-            "spike folder collapses into one entry"
-        );
-        let entry = &result.entries[0];
-        assert_eq!(entry.file, "2026/07/2026-07-01-example.md");
-        // "Teams" -> "ms-teams" (alias + lowercase); alpha de-duplicated.
-        assert_eq!(entry.tags, vec!["alpha", "beta", "ms-teams"]);
+        assert_eq!(result.entries.len(), 1);
+        let e = &result.entries[0];
+        assert_eq!(e.file, "2026/07/2026-07-01-example.md");
+        assert_eq!(e.files.len(), 2);
+        assert_eq!(e.slug, "2026-07-01-example");
+        assert_eq!(e.date, "2026-07-01");
+        assert_eq!(e.title, "Example");
+        assert_eq!(e.authors, vec!["Alice"]);
+        assert_eq!(e.status, "published");
+        assert_eq!(e.summary, "A short summary.");
+        assert_eq!(e.entry_type, "troubleshooting");
+        assert_eq!(e.tickets, vec!["x-42"]);
+        // "Teams" -> "ms-teams" alias; alpha de-duplicated across files.
+        assert!(e.tags.contains(&"ms-teams".to_string()));
+        assert!(e.tags.contains(&"beta".to_string()));
+    }
+
+    #[test]
+    fn scan_sorts_newest_first() {
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path();
+        std::fs::create_dir_all(root.join("2026/07")).unwrap();
+        for (name, _) in [("2026-07-01-older", ()), ("2026-07-09-newer", ())] {
+            std::fs::write(
+                root.join(format!("2026/07/{name}.md")),
+                "---\ntags:\n  - x\n---\n# T\n",
+            )
+            .unwrap();
+        }
+        let result = scan_entries(root, &tax());
+        assert_eq!(result.entries[0].slug, "2026-07-09-newer");
+        assert_eq!(result.entries[1].slug, "2026-07-01-older");
     }
 
     #[test]

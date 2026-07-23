@@ -10,6 +10,7 @@
 
 pub mod date;
 pub mod entry;
+pub mod index;
 pub mod install_cmd;
 pub mod lint;
 pub mod scan;

@@ -8,6 +8,7 @@ use std::process;
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use journal::date::Timestamp;
 use journal::entry::{EntrySpec, EntryType};
+use journal::index;
 use journal::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
 use journal::lint;
 use journal::scan;
@@ -43,6 +44,8 @@ enum Command {
     },
     /// Lint corpus tags against the taxonomy (advisory).
     Lint(LintArgs),
+    /// Generate the browse index (NDJSON source of truth + markdown view).
+    Index(IndexArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -91,6 +94,29 @@ struct LintArgs {
     /// Exit non-zero when any suggestion or unfaceted tag is found (for CI).
     #[arg(long)]
     strict: bool,
+}
+
+#[derive(Args)]
+struct IndexArgs {
+    /// Journal root to scan for entries and a `taxonomy.json`.
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Explicit taxonomy file, overriding `<root>/taxonomy.json` and the default.
+    #[arg(long)]
+    taxonomy: Option<PathBuf>,
+    /// NDJSON output path (default: docs/journal-index.ndjson).
+    #[arg(long)]
+    data: Option<PathBuf>,
+    /// Markdown output path (default: docs/journal-index.md).
+    #[arg(long)]
+    view: Option<PathBuf>,
+    /// Print the generated index to stdout instead of writing files.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
+    /// Validate the existing NDJSON against the schema and invariants; do not
+    /// regenerate.
+    #[arg(long)]
+    validate: bool,
 }
 
 #[derive(Subcommand)]
@@ -170,6 +196,7 @@ fn main() {
         Command::New(args) => run_new(args),
         Command::Validate { file } => run_validate(&file),
         Command::Lint(args) => run_lint(args),
+        Command::Index(args) => run_index(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -293,6 +320,72 @@ fn print_lint_report(
             );
         }
     }
+}
+
+/// Generate (or validate) the browse index: an NDJSON source of truth and a
+/// markdown view rendered from the same scanned entries.
+fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
+    let (taxonomy, _source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
+        .map_err(|e| format!("cannot load taxonomy: {e}"))?;
+    let data = args
+        .data
+        .unwrap_or_else(|| PathBuf::from(index::INDEX_DATA_PATH));
+    let view = args
+        .view
+        .unwrap_or_else(|| PathBuf::from(index::INDEX_VIEW_PATH));
+
+    // Validate-only: check the committed NDJSON without regenerating.
+    if args.validate {
+        let text = std::fs::read_to_string(&data)
+            .map_err(|e| format!("cannot read {}: {e}", data.display()))?;
+        let probe = index::file_exists_under(&args.root);
+        let errors = index::validate_ndjson(&text, Some(&probe));
+        if !errors.is_empty() {
+            for e in &errors {
+                eprintln!("  x {e}");
+            }
+            return Err(format!(
+                "index validation failed with {} error(s)",
+                errors.len()
+            ));
+        }
+        let n = text.lines().filter(|l| !l.trim().is_empty()).count();
+        println!("OK: {} is valid ({n} records)", data.display());
+        return Ok(());
+    }
+
+    let scan = scan::scan_entries(&args.root, &taxonomy);
+    for err in &scan.errors {
+        eprintln!("  warning: {}: {}", err.file, err.error);
+    }
+    let today = Timestamp::now().date.iso();
+    let (ndjson, view_content) = index::build_index(&scan.entries, &taxonomy, &today)
+        .map_err(|e| format!("cannot build index: {e}"))?;
+
+    if args.dry_run {
+        print!("{ndjson}");
+        println!("{view_content}");
+        return Ok(());
+    }
+
+    for path in [&data, &view] {
+        if let Some(parent) = path.parent() {
+            if !parent.as_os_str().is_empty() {
+                std::fs::create_dir_all(parent)
+                    .map_err(|e| format!("cannot create {}: {e}", parent.display()))?;
+            }
+        }
+    }
+    std::fs::write(&data, &ndjson).map_err(|e| format!("cannot write {}: {e}", data.display()))?;
+    std::fs::write(&view, &view_content)
+        .map_err(|e| format!("cannot write {}: {e}", view.display()))?;
+    println!(
+        "Wrote {} and {} ({} entries)",
+        data.display(),
+        view.display(),
+        scan.entries.len()
+    );
+    Ok(())
 }
 
 /// Install the bundled companion skill into agent directories.
