@@ -271,9 +271,11 @@ mod tests {
 
     #[test]
     fn platform_paths_warn_but_do_not_fail() {
+        // Otherwise-compliant skill (agent-agnostic; a `performance` metrics
+        // section + a quantified claim) that also has a platform-specific path.
         let tmp = skill_with(&[(
             "SKILL.md",
-            "# Skill\n\nInstall to /usr/local/bin.\n\n## Metrics\n\n25% reduction.\n",
+            "# Skill\n\nInstall to /usr/local/bin.\n\n## Performance\n\n25% reduction.\n",
         )]);
         let r = check(tmp.path());
         assert_eq!(r.platform_path_files.len(), 1);
