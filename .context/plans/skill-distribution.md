@@ -104,3 +104,18 @@ physically possible.
 **Rule for future embedded-skill features:** any SKILL.md instruction that
 invokes the companion binary MUST sit behind the Prerequisites check, so the
 skill never assumes a tool it cannot guarantee is installed.
+
+**Parity-gate coupling (systemic, needs a proper fix).** The skill-auditor
+(`grade_parity`) and skill-validator-rs (`golden_parity`) tests freeze the
+*entire* `skills/**` tree against a Go reference scorer. That Go reference was
+retired in #198, so the goldens can no longer be regenerated: any edit to any
+skill's SKILL.md breaks both gates with no supported way to refresh them. The
+taxonomy+lint PR was the first content edit to hit this; the fix there was to
+drop `journal-entry-creator` from both corpora (with an exclusion note in each
+`corpus.txt`). The same drop is required for `adr-creator` and
+`skill-quality-auditor` when the rename+harden PR edits them. This is a latent
+trap for the whole repo, not just the embedded skills: **recommend a dedicated
+follow-up** to re-baseline both gates from the Rust scorers (now the
+authoritative implementations post-Go-retirement) and re-frame them as Rust
+regression baselines, or make them advisory, so routine skill edits stop
+breaking CI.

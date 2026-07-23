@@ -6,9 +6,9 @@ surface the skill-auditor consumes.
 
 ## Verdict: PARITY OK
 
-152/152 corpus skills match the Go reference: counts, enums, strings and
-per-file token counts exact; the full `Results[]` set matches; the six derived
-4dp floats match within absolute `5e-5`.
+The Rust validator matched the Go reference on all corpus skills at freeze time
+(152/152): counts, enums, strings and per-file token counts exact; the full
+`Results[]` set matches; the six derived 4dp floats match within absolute `5e-5`.
 
 ## Parity surface (why these two calls)
 
@@ -36,7 +36,7 @@ independent (every `File` field is already relative to the skill dir).
   plus `boundary/` fixtures built for the section-6 threshold inventory.
 - `../golden_parity.rs` — the Rust integration test.
 
-## Corpus (152 skills)
+## Corpus (151 skills)
 
 - 12 module `testdata`/`examples` fixtures (valid, invalid, broken-frontmatter,
   flat, rich, warnings-only, auxiliary-only, allowed-dirs, the three
@@ -47,10 +47,11 @@ independent (every `File` field is already relative to the skill dir).
   rune-length); name at 64 bytes (valid) and 65 bytes (error); SKILL.md body at
   500 lines (no warn) and 501 lines (warn); an unclosed code fence; an internal
   `../` traversal link (Links warning); and a keyword-stuffed description.
-- 130 real tekhne skills, the entire `skills/**/SKILL.md` tree across every
-  populated domain (agentic-harness, ci-cd, development, documentation,
-  infrastructure, observability, package-mgmt, project-mgmt, repository-mgmt,
-  software-engineering, specialized, testing). Nothing was truncated.
+- 129 real tekhne skills, the `skills/**/SKILL.md` tree across every populated
+  domain (agentic-harness, ci-cd, development, documentation, infrastructure,
+  observability, package-mgmt, project-mgmt, repository-mgmt,
+  software-engineering, specialized, testing), minus the crate-embedded skills
+  that are actively co-developed (see the exclusion note in `corpus.txt`).
 
 Token-threshold boundaries above 5000 body tokens and the reference-file /
 reference-total / other-total thresholds are not hand-tuned N/N+1 fixtures here:

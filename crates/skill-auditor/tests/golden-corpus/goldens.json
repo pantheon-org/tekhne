@@ -54,7 +54,7 @@
       "warningDetails": [
         {
           "dimension": "D7",
-          "message": "description is only 27 chars — aim for \u003e60 for a useful pattern signal"
+          "message": "description is only 27 chars — aim for >60 for a useful pattern signal"
         },
         {
           "dimension": "D9",
@@ -1680,47 +1680,6 @@
       "referenceSectionCompliant": true,
       "errors": 0,
       "warnings": 0
-    }
-  },
-  {
-    "dir": "skills/documentation/journal-entry-creator",
-    "result": {
-      "skill": "skills/documentation/journal-entry-creator",
-      "date": "",
-      "dimensions": {
-        "antiPatternQuality": 9,
-        "evalValidation": 4,
-        "freedomCalibration": 14,
-        "knowledgeDelta": 18,
-        "mindsetProcedures": 13,
-        "patternRecognition": 10,
-        "practicalUsability": 11,
-        "progressiveDisclosure": 10,
-        "specificationCompliance": 12
-      },
-      "total": 101,
-      "maxTotal": 140,
-      "grade": "C",
-      "lines": 391,
-      "hasReferences": true,
-      "referenceCount": 5,
-      "referenceSectionCompliant": false,
-      "errors": 0,
-      "warnings": 3,
-      "warningDetails": [
-        {
-          "dimension": "D4",
-          "message": "agent-specific reference found: opencode"
-        },
-        {
-          "dimension": "D4",
-          "message": "absolute skill path outside code blocks: skills/journal-entry-creator/references"
-        },
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
     }
   },
   {

@@ -2,6 +2,13 @@
 # Generated for A4a chunk 2. Lines are validated by BOTH the Go reference
 # harness (goref) and the Rust golden_parity integration test.
 #
+# Excluded: skills/documentation/journal-entry-creator is embedded in and
+# co-developed with the `journal` crate. The Go reference was retired (#198),
+# so its golden cannot be regenerated; it is left out of this frozen gate so
+# routine SKILL.md edits do not break parity. Other crate-embedded skills
+# (adr-creator, skill-quality-auditor) will be excluded likewise when their
+# content changes. See .context/plans/skill-distribution.md section 7.
+#
 # --- Module testdata fixtures (skill-validator v1.5.6 testdata/examples) ---
 crates/skill-validator-rs/tests/golden-corpus/fixtures/examples/review-skill
 crates/skill-validator-rs/tests/golden-corpus/fixtures/testdata/allowed-dirs-skill
@@ -77,7 +84,6 @@ skills/documentation/astro-starlight/skills/starlight-custom-component
 skills/documentation/astro-starlight/skills/starlight-theme
 skills/documentation/conventional-commits
 skills/documentation/humanizer
-skills/documentation/journal-entry-creator
 skills/documentation/markdown-authoring
 skills/documentation/mermaid-diagrams
 skills/documentation/obsidian/defuddle

@@ -6,7 +6,8 @@ across the whole corpus.
 
 ## Verdict: PARITY OK
 
-132/132 corpus skills match the Go auditor: `Total`, `Grade`, every `Dimensions`
+The Rust auditor matched the Go auditor on all corpus skills at freeze time
+(132/132): `Total`, `Grade`, every `Dimensions`
 entry, `Errors`, `Warnings`, `Lines`, `HasReferences`, `ReferenceCount`,
 `ReferenceSectionCompliant` are all exact, and the `ErrorDetails`/`WarningDetails`
 sets match. All 132 are grade-exact AND dimension-exact.
@@ -28,21 +29,21 @@ to the repo-root-relative corpus directory so goldens are machine independent.
   `replace` onto `tools/skill-auditor`).
 - `../grade_parity.rs` — the Rust integration test.
 
-## Corpus (132 skills)
+## Corpus (131 skills)
 
 - 2 of the crate's own testdata fixtures under
   `crates/skill-auditor/testdata/fixtures/`: `skill-full` (an A-grade skill with
   `evals/` and `references/`) and `skill-minimal` (a near-empty F-grade skill).
-- 130 real tekhne skills: the entire `skills/**/SKILL.md` tree across every
-  populated domain (agentic-harness, ci-cd, development, documentation,
-  infrastructure, observability, package-mgmt, project-mgmt, repository-mgmt,
-  software-engineering, specialized, testing). This is the identical real-skill
-  set the A4a validator golden corpus used. Nothing was truncated.
+- 129 real tekhne skills: the `skills/**/SKILL.md` tree across every populated
+  domain (agentic-harness, ci-cd, development, documentation, infrastructure,
+  observability, package-mgmt, project-mgmt, repository-mgmt,
+  software-engineering, specialized, testing). Frozen from the same real-skill
+  set the A4a validator golden corpus used, minus the crate-embedded skills that
+  are actively co-developed (see the exclusion note in `corpus.txt`).
 
-The realised grade spread runs A through F (1 A, 3 B+, 12 B, 24 C+, 42 C, 36 D,
-14 F), and includes `skills/documentation/conventional-commits`, whose
-frontmatter fails to load, exercising the nil-content path across every
-content-driven dimension.
+The realised grade spread runs A through F, and includes
+`skills/documentation/conventional-commits`, whose frontmatter fails to load,
+exercising the nil-content path across every content-driven dimension.
 
 ## Comparison rules
 
