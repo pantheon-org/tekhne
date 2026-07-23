@@ -9,7 +9,7 @@ Checks for correct metric names, label matchers, operators, functions, and time 
 import re
 import sys
 import json
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List
 
 
 class PromQLSyntaxValidator:

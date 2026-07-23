@@ -13,8 +13,8 @@ from pathlib import Path
 # Add lib to path
 sys.path.insert(0, str(Path(__file__).parent / 'lib'))
 
-from common_patterns import PipelinePatterns, StageTemplates, PostConditions, EnvironmentTemplates
-from syntax_helpers import DeclarativeSyntax, FormattingHelpers, ValidationHelpers
+from common_patterns import PipelinePatterns, StageTemplates, PostConditions
+from syntax_helpers import DeclarativeSyntax, FormattingHelpers
 
 
 class DeclarativePipelineGenerator:

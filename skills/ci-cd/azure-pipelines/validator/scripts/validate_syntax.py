@@ -17,7 +17,6 @@ import yaml
 import re
 from pathlib import Path
 from typing import Dict, List, Any, Tuple, Set
-from collections import defaultdict
 
 
 class ValidationError:

@@ -33,19 +33,17 @@ jobs:
         with:
           node-version: 22
 
-      # Advisory rollout. `aislop ci` exits 1 below ci.failBelow (or aislop's
-      # default) or on any error-severity diagnostic, and a full-repo scan today
-      # reports 30 errors / 3 confirmed defects — so gating hard right now would
-      # block every PR. continue-on-error keeps this non-blocking while the
-      # findings are surfaced in the run log; the local PostToolUse hook still
-      # enforces quality per-edit. Promote to a hard gate (drop
-      # continue-on-error) once a full-repo scan is clean. Mirrors the staged
-      # rollout of the cargo-audit step in rust-ci.yml.
+      # Blocking gate. `aislop ci` exits 1 below ci.failBelow (default 70) or on
+      # any error-severity diagnostic. Scope is tekhne's own code (crates/,
+      # scripts/, features/, docs/); curated skill scripts are excluded in
+      # .aislop/config.yml and cleaned incrementally (tracked in issue #233), so
+      # they do not block. Core scores 78/100 with zero errors. When the skill
+      # scripts subtree is clean, drop the skills/**/scripts/** exclude to bring
+      # them under this gate too.
       #
       # aislop is unpinned (@latest) to match the local PostToolUse hook, which
       # also tracks latest; there is no aislop version pin in mise.toml. If CI
       # reproducibility later requires it, pin a specific version here and in the
       # hook together.
       - name: aislop ci
-        continue-on-error: true
         run: npx --yes aislop@latest ci .

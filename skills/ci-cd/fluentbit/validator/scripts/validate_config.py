@@ -7,15 +7,13 @@ Checks syntax, semantics, security, performance, and best practices.
 """
 
 import argparse
-import configparser
 import json
 import os
 import re
 import shutil
 import subprocess
 import sys
-from collections import defaultdict
-from typing import Dict, List, Tuple, Optional
+from typing import Dict
 
 
 class FluentBitValidator:
