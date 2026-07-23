@@ -1,5 +1,5 @@
 {
-  "$schema": "./taxonomy.schema.json",
+  "$schema": "./schemas/taxonomy.schema.json",
   "threshold": 3,
   "aliases": {},
   "facets": {

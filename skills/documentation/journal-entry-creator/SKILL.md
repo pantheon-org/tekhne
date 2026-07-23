@@ -134,7 +134,7 @@ Beyond tag *shape*, this system maintains a controlled tag *vocabulary* to keep
 the corpus queryable and prevent tag sprawl. The vocabulary lives in a
 `taxonomy.json` at the journal root (a generic default ships with the skill under
 `assets/taxonomy.default.json`; its shape is documented in
-`assets/taxonomy.schema.json`).
+`assets/schemas/taxonomy.schema.json`).
 
 The taxonomy defines:
 
