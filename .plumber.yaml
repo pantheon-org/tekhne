@@ -838,8 +838,17 @@ github:
     # only read access is NOT enough. Without scope the collector
     # returns an empty branch list and the rule emits no findings,
     # same degraded contract as missing API auth elsewhere.
+    #
+    # DISABLED (see issue #230, ISSUE-505): `main` is protected by a GitHub
+    # *ruleset* (id 13518481), not classic branch protection. It enforces linear
+    # history, required status checks, pull-request + thread resolution, blocks
+    # force-push and deletion, and has no bypass actors. Plumber v0.4.x only
+    # reads the classic branch-protection API (which returns 404 for a
+    # ruleset-protected branch), so this control emits a false-positive High
+    # finding regardless of how strong the ruleset is. Re-enable if/when Plumber
+    # gains GitHub-ruleset support, or if classic branch protection is adopted.
     branchMustBeProtected:
-      enabled: true
+      enabled: false
       defaultMustBeProtected: true
       namePatterns:
         - main
