@@ -1,0 +1,91 @@
+name: PR Agent
+
+# General-purpose LLM PR review (auto-describe + auto-review) for NON-skill PRs.
+#
+# ┌───────────────────────────────────────────────────────────────────────────┐
+# │ DATA GOVERNANCE — READ BEFORE ENABLING                                     │
+# │                                                                            │
+# │ This workflow sends the PR diff and metadata to an EXTERNAL LLM provider   │
+# │ (Gemini / Mistral / Cerebras, via litellm). Under PLG's data-handling      │
+# │ rules, repository contents are potentially confidential, so turning this   │
+# │ on is a deliberate data-flow decision that must be signed off by whoever   │
+# │ owns AI-tooling data governance — it is not a routine CI toggle.           │
+# │                                                                            │
+# │ It ships INERT: the agent step is gated on a provider API-key secret being │
+# │ present, and NONE is configured. Adding a *_API_KEY secret is the switch   │
+# │ that turns it on. Do not add one without that sign-off.                    │
+# └───────────────────────────────────────────────────────────────────────────┘
+#
+# Skill PRs are excluded (paths-ignore: skills/**) — they are already covered by
+# the Skill Audit gate, Tessl Review, and Copilot review. A second LLM opinion
+# on the same diff would be redundant.
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+    # paths-ignore only skips a run when EVERY changed file matches, so a mixed
+    # PR (skills + non-skills) still runs.
+    paths-ignore:
+      - "skills/**"
+  issue_comment:
+
+permissions:
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  pr-agent:
+    # Skip bot senders and fork PRs (fork PRs never see secrets on a plain
+    # pull_request trigger — GitHub redacts them). `!= true` (not `== false`)
+    # because issue_comment events leave pull_request.head.repo.fork null, and
+    # this job must still run for that event.
+    if: ${{ github.event.sender.type != 'Bot' && github.event.pull_request.head.repo.fork != true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Inert switch. The agent only runs when a provider key is configured; with
+      # none present (the default, by design) this skips cleanly and posts a
+      # notice explaining why. See the DATA GOVERNANCE note in the header.
+      - name: Check for a provider key
+        id: key
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+        run: |
+          if [ -n "$GEMINI_API_KEY" ] || [ -n "$MISTRAL_API_KEY" ] || [ -n "$CEREBRAS_API_KEY" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::PR Agent is inert — no provider API key is configured. This is intentional. Enabling it ships PR diffs to an external LLM and requires a data-governance sign-off (see the workflow header)."
+          fi
+
+      # Digest-pinned image (this repo pins every third-party action by immutable
+      # reference; .plumber.yaml enforces actionsMustBePinnedByCommitSha).
+      # continue-on-error: advisory only — a provider outage, rate-limit, or bad
+      # response must never turn this into a red, blocking check.
+      - name: PR Agent action step
+        if: steps.key.outputs.present == 'true'
+        continue-on-error: true
+        uses: docker://pragent/pr-agent@sha256:ea2ea90f072fd97708755e59827a317272f66097a1ef349eca23d39160bb0baf
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Model IDs on every provider are point-in-time; expect to bump these
+          # as providers retire models. Gemini primary, Mistral then Cerebras as
+          # litellm fallbacks so a single provider's rate limit is not a SPOF.
+          config.model: "gemini/gemini-3.5-flash"
+          config.fallback_models: '["mistral/mistral-small-2603", "cerebras/gpt-oss-120b"]'
+          GOOGLE_AI_STUDIO.GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # PR-Agent maps MISTRAL.KEY to MISTRAL_API_KEY; Cerebras has no
+          # PR-Agent-specific key, litellm reads CEREBRAS_API_KEY from the env.
+          MISTRAL.KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          # describe + review only. auto_improve must be an explicit "false" — if
+          # left unset, PR-Agent still runs /improve.
+          github_action_config.auto_describe: "true"
+          github_action_config.auto_review: "true"
+          github_action_config.auto_improve: "false"
