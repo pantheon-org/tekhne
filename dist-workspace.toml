@@ -14,7 +14,7 @@ members = ["cargo:."]
 # Config for 'dist'
 [dist]
 # The preferred dist version to use in CI (Cargo.toml SemVer syntax)
-cargo-dist-version = "0.28.0"
+cargo-dist-version = "0.32.0"
 # The installers to generate for each app
 installers = ["shell"]
 # Target platforms to build apps for (Rust target-triple syntax)
@@ -47,3 +47,14 @@ aarch64-unknown-linux-gnu = "ubuntu-22.04"
 x86_64-unknown-linux-gnu = "ubuntu-22.04"
 aarch64-apple-darwin = "macos-latest"
 x86_64-apple-darwin = "macos-latest"
+
+# Pin the GitHub Actions dist generates to exact commit SHAs instead of floating
+# tags (dist >= 0.29 feature), matching this repo's SHA-pinning convention and
+# .plumber.yaml's actionsMustBePinnedByCommitSha. dist emits `<action>@<sha>`;
+# keep the `# vX` comment here so the pin stays human-readable and Dependabot can
+# still bump it. Refresh these when bumping cargo-dist (new default tags) or when
+# Dependabot proposes a newer action release. See issue #227.
+[dist.github-action-commits]
+"actions/checkout" = "d23441a48e516b6c34aea4fa41551a30e30af803"       # v6
+"actions/upload-artifact" = "043fb46d1a93c77aae656e7c1c64a875d1fc6a0a" # v7
+"actions/download-artifact" = "3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c" # v8
