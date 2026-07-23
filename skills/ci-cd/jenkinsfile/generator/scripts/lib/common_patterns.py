@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 Common Jenkins pipeline patterns and templates
 """

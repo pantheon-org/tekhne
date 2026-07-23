@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091
+# ^ SC1091: sourced paths are resolved at runtime, not statically
 # YAML Lint Check Script for Azure Pipelines
 # Runs yamllint with Azure Pipelines-specific configuration
 #

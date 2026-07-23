@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 # Generate a production-ready Go Dockerfile with multi-stage build
 
 set -euo pipefail

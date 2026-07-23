@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2034
+# ^ SC2034: vars consumed by scripts that source this file
 # GitHub Actions Validator - Workflow Validation Script
 # Validates GitHub Actions workflows using actionlint and act
 # Includes version checking and reference file hints
@@ -131,8 +134,10 @@ check_action_versions() {
                     local current_version="${version_info%%:*}"
                     local minimum_version="${version_info##*:}"
 
-                    local current_major=$(get_major_version "$current_version")
-                    local minimum_major=$(get_major_version "$minimum_version")
+                    local current_major
+                    current_major=$(get_major_version "$current_version")
+                    local minimum_major
+                    minimum_major=$(get_major_version "$minimum_version")
 
                     # Handle SHA pinning - extract version from comment if present
                     local used_major=""
@@ -298,7 +303,8 @@ validate_with_actionlint() {
     local workflow_path=$1
     log_section "Running actionlint"
 
-    local actionlint_path=$(get_tool_path "actionlint")
+    local actionlint_path
+    actionlint_path=$(get_tool_path "actionlint")
 
     if [ -f "$workflow_path" ]; then
         log_info "Validating: $workflow_path"
@@ -353,7 +359,8 @@ test_with_act() {
         return 1
     fi
 
-    local act_path=$(get_tool_path "act")
+    local act_path
+    act_path=$(get_tool_path "act")
 
     # Convert workflow_path to absolute path
     local abs_workflow_path="$workflow_path"
@@ -411,7 +418,7 @@ test_with_act() {
         # Check if the file is inside .github/workflows
         if [[ "$abs_workflow_path" == *"/.github/workflows/"* ]]; then
             # File is in .github/workflows - use -W flag with relative path
-            workflow_flag="-W ${abs_workflow_path#$repo_root/}"
+            workflow_flag="-W ${abs_workflow_path#"$repo_root"/}"
             target_description="workflow: $(basename "$abs_workflow_path")"
         else
             # File is outside .github/workflows (e.g., examples/)
@@ -438,7 +445,8 @@ test_with_act() {
     fi
 
     # Save current directory
-    local original_dir="$(pwd)"
+    local original_dir
+    original_dir="$(pwd)"
 
     # Change to repository root for act
     cd "$repo_root" || {
@@ -497,7 +505,7 @@ test_with_act() {
     # Interpret results
     if [ $act_exit_code -eq 0 ]; then
         log_info "✓ act validation passed"
-        cd "$original_dir"
+        cd "$original_dir" || return 1
         return 0
     else
         # Check for specific error conditions
@@ -505,12 +513,12 @@ test_with_act() {
             log_error "✗ act encountered EOF error"
             log_warn "This should not happen with -P flags set"
             log_info "Try running: act --list manually to diagnose"
-            cd "$original_dir"
+            cd "$original_dir" || return 1
             return 1
         elif echo "$act_output" | grep -q "unable to get git repo"; then
             log_warn "Not a git repository - some act features limited"
             log_info "act validation completed with warnings"
-            cd "$original_dir"
+            cd "$original_dir" || return 1
             return 0
         elif echo "$act_output" | grep -qi "pull access denied\|image.*not found"; then
             log_error "✗ Docker image pull failed"
@@ -518,7 +526,7 @@ test_with_act() {
             log_warn "  - Docker registry connectivity issues"
             log_warn "  - Rate limiting"
             log_warn "First-time run will download ~500MB of images"
-            cd "$original_dir"
+            cd "$original_dir" || return 1
             return 1
         elif echo "$act_output" | grep -qi "error\|failed"; then
             log_error "✗ act validation failed (exit code: $act_exit_code)"
@@ -527,11 +535,11 @@ test_with_act() {
             log_warn "  - Invalid action references"
             log_warn "  - Docker image issues"
             log_warn "  - Configuration problems"
-            cd "$original_dir"
+            cd "$original_dir" || return 1
             return 1
         else
             log_warn "act completed with warnings (exit code: $act_exit_code)"
-            cd "$original_dir"
+            cd "$original_dir" || return 1
             return 0
         fi
     fi

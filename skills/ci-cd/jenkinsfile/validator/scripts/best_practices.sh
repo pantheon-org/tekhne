@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 
 # Best Practices Checker
 # Checks Jenkins pipelines against best practices from official documentation
@@ -126,9 +127,10 @@ get_code_without_comments() {
 check_combined_shell_commands() {
     local file=$1
     # Only count actual sh/bat steps, not comments
-    local sh_count=$(get_code_without_comments "$file" | grep -cE '^\s*(sh|bat)\s+["\047]' || true)
+    local sh_count
+    sh_count=$(get_code_without_comments "$file" | grep -cE '^\s*(sh|bat)\s+["\047]' || true)
 
-    if [ $sh_count -gt 5 ]; then
+    if [ "$sh_count" -gt 5 ]; then
         log_warning "Performance" "Found $sh_count individual sh/bat steps - consider combining them"
         log_warning "Performance" "  → Use single sh step with triple-quoted multi-line string"
         log_warning "Performance" "  → This reduces overhead and improves performance"
@@ -200,7 +202,8 @@ check_credential_management() {
 check_parallel_execution() {
     local file=$1
     # Only count actual stage definitions, not comments
-    local stage_count=$(get_code_without_comments "$file" | grep -cE '^\s*stage[\s\(]' || true)
+    local stage_count
+    stage_count=$(get_code_without_comments "$file" | grep -cE '^\s*stage[\s\(]' || true)
 
     # Check for actual parallel block usage, not just mentions in comments
     if get_code_without_comments "$file" | grep -qE '^\s*parallel\s*[\(\{]|parallel\s*:'; then
@@ -220,7 +223,7 @@ check_parallel_execution() {
                 log_info "Optimization" "  → Stops remaining parallel tasks on first failure"
             fi
         fi
-    elif [ $stage_count -gt 4 ]; then
+    elif [ "$stage_count" -gt 4 ]; then
         log_info "Optimization" "Found $stage_count stages - consider parallel execution for independent stages"
         log_info "Optimization" "  → Can significantly reduce build time"
     fi
@@ -419,20 +422,22 @@ check_security_practices() {
 # 15. Check for maintainability
 check_maintainability() {
     local file=$1
-    local line_count=$(wc -l < "$file" | tr -d ' ')
+    local line_count
+    line_count=$(wc -l < "$file" | tr -d ' ')
 
-    if [ $line_count -gt 500 ]; then
+    if [ "$line_count" -gt 500 ]; then
         log_warning "Maintainability" "Pipeline is $line_count lines - consider breaking into shared libraries"
         log_warning "Maintainability" "  → Use @Library for reusable code"
-    elif [ $line_count -gt 300 ]; then
+    elif [ "$line_count" -gt 300 ]; then
         log_info "Maintainability" "Pipeline is $line_count lines - watch for complexity growth"
     else
         log_pass "Pipeline size is manageable ($line_count lines)"
     fi
 
     # Check for comments
-    local comment_count=$(grep -cE '^\s*//' "$file" || true)
-    if [ $comment_count -lt 3 ] && [ $line_count -gt 100 ]; then
+    local comment_count
+    comment_count=$(grep -cE '^\s*//' "$file" || true)
+    if [ "$comment_count" -lt 3 ] && [ "$line_count" -gt 100 ]; then
         log_info "Maintainability" "Few comments detected - add comments for complex logic"
     fi
 }

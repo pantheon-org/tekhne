@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2034,SC2329
+# ^ SC2034: vars consumed by scripts that source this file; SC2329: functions invoked by scripts that source this file
 
 ################################################################################
 # Dockerfile Validator - Complete Lifecycle Management
@@ -63,7 +66,7 @@ cleanup() {
         echo -e "${GREEN}✓ Cleanup complete${NC}"
     fi
 
-    exit $exit_code
+    exit "$exit_code"
 }
 
 # Set trap for cleanup on any exit
@@ -85,10 +88,10 @@ check_python() {
 
     # Verify Python version (need 3.8+)
     PYTHON_VERSION=$($PYTHON_CMD --version 2>&1 | awk '{print $2}')
-    MAJOR=$(echo $PYTHON_VERSION | cut -d. -f1)
-    MINOR=$(echo $PYTHON_VERSION | cut -d. -f2)
+    MAJOR=$(echo "$PYTHON_VERSION" | cut -d. -f1)
+    MINOR=$(echo "$PYTHON_VERSION" | cut -d. -f2)
 
-    if [ "$MAJOR" -lt 3 ] || ([ "$MAJOR" -eq 3 ] && [ "$MINOR" -lt 8 ]); then
+    if [ "$MAJOR" -lt 3 ] || { [ "$MAJOR" -eq 3 ] && [ "$MINOR" -lt 8 ]; }; then
         echo -e "${RED}ERROR: Python 3.8+ required (found $PYTHON_VERSION)${NC}" >&2
         exit 2
     fi

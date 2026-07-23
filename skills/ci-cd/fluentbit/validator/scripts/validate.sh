@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shell: bash
 #
 # Fluent Bit Config Validator - Convenience Wrapper Script
 #

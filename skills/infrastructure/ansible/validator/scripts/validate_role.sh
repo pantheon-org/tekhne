@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091,SC2034,SC2329
+# ^ SC1091: sourced paths are resolved at runtime, not statically; SC2034: vars consumed by scripts that source this file; SC2329: functions invoked by scripts that source this file
 
 # Comprehensive Ansible Role Validation Script
 # Automatically installs ansible and ansible-lint in temporary venv if not available
@@ -96,7 +99,7 @@ if [ $USE_SYSTEM_ANSIBLE -eq 0 ] || [ $USE_SYSTEM_ANSIBLE_LINT -eq 0 ]; then
 
     # Setup cleanup trap
     cleanup() {
-        if [ $CLEANUP_VENV -eq 1 ] && [ -n "$TEMP_VENV" ]; then
+        if [ "$CLEANUP_VENV" -eq 1 ] && [ -n "$TEMP_VENV" ]; then
             echo ""
             echo "Cleaning up temporary environment..."
             rm -rf "$TEMP_VENV"
@@ -205,6 +208,7 @@ if [ -n "$YAMLLINT_CMD" ]; then
     if [ -n "$YAML_FILES" ]; then
         YAML_ERRORS=0
         for file in $YAML_FILES; do
+            # shellcheck disable=SC2086  # word-splitting of the config/flag var is intentional
             if ! $YAMLLINT_CMD $YAMLLINT_CONFIG "$file" 2>&1 | grep -v "warning  found forbidden document start"; then
                 YAML_ERRORS=$((YAML_ERRORS + 1))
             fi
@@ -280,6 +284,7 @@ if [ $USE_SYSTEM_ANSIBLE_LINT -eq 1 ] || [ -n "$TEMP_VENV" ]; then
     fi
 
     # Run ansible-lint on the role
+    # shellcheck disable=SC2086  # word-splitting of the config/flag var is intentional
     if run_ansible_lint $ANSIBLE_LINT_CONFIG "$ROLE_ABS_PATH" 2>&1; then
         echo -e "${COLOR_GREEN}✓ Ansible lint check passed${COLOR_RESET}"
     else

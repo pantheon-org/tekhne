@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 
 # Script to generate standard Helm helpers (_helpers.tpl)
 # Usage: bash generate_standard_helpers.sh <chart-name> <chart-directory> [options]

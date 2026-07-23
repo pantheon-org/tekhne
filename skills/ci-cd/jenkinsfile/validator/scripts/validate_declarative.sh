@@ -1,4 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2034
+# ^ SC2034: vars consumed by scripts that source this file
+# shellcheck disable=SC2094
+# ^ SC2094: reads the same file in several commands; every access is a read, none writes it
 
 # Declarative Pipeline Validator
 # Validates Jenkins Declarative Pipeline syntax and structure
@@ -56,7 +61,8 @@ validate_pipeline_block() {
     local file=$1
 
     # Remove comments and empty lines for checking
-    local first_meaningful=$(grep -v '^\s*//' "$file" | grep -v '^\s*$' | head -1)
+    local first_meaningful
+    first_meaningful=$(grep -v '^\s*//' "$file" | grep -v '^\s*$' | head -1)
 
     if ! echo "$first_meaningful" | grep -q '^\s*pipeline\s*{'; then
         log_error 1 "Declarative pipeline must start with 'pipeline {' block"
@@ -72,7 +78,8 @@ validate_required_sections() {
 
     # Check for agent section
     if ! grep -q '^\s*agent\s' "$file"; then
-        local line=$(grep -n 'pipeline\s*{' "$file" | head -1 | cut -d: -f1)
+        local line
+        line=$(grep -n 'pipeline\s*{' "$file" | head -1 | cut -d: -f1)
         # Default to line 1 if pipeline block not found
         line=${line:-1}
         log_error "$line" "Missing required section 'agent' - must be defined at pipeline or stage level"
@@ -81,7 +88,8 @@ validate_required_sections() {
 
     # Check for stages section
     if ! grep -q '^\s*stages\s*{' "$file"; then
-        local line=$(grep -n 'pipeline\s*{' "$file" | head -1 | cut -d: -f1)
+        local line
+        line=$(grep -n 'pipeline\s*{' "$file" | head -1 | cut -d: -f1)
         # Default to line 1 if pipeline block not found
         line=${line:-1}
         log_error "$line" "Missing required section 'stages'"
@@ -91,7 +99,8 @@ validate_required_sections() {
     # If stages exists, check for at least one stage
     if grep -q '^\s*stages\s*{' "$file"; then
         if ! grep -q '^\s*stage(' "$file"; then
-            local line=$(grep -n 'stages\s*{' "$file" | head -1 | cut -d: -f1)
+            local line
+            line=$(grep -n 'stages\s*{' "$file" | head -1 | cut -d: -f1)
             line=${line:-1}
             log_error "$line" "stages block must contain at least one stage"
             log_error "$line" "  → Add 'stage('name') { ... }' inside stages block"
@@ -123,15 +132,18 @@ validate_stages() {
 
             # Initialize brace depth - account for opening brace on stage line itself
             # e.g., stage('Build') { has one opening brace
-            local stage_open_braces=$(echo "$line" | grep -o '{' | wc -l)
-            local stage_close_braces=$(echo "$line" | grep -o '}' | wc -l)
+            local stage_open_braces
+            stage_open_braces=$(echo "$line" | grep -o '{' | wc -l)
+            local stage_close_braces
+            stage_close_braces=$(echo "$line" | grep -o '}' | wc -l)
             local brace_depth=$((stage_open_braces - stage_close_braces))
 
             # Look for steps, parallel, or script blocks within this stage
             # Use brace depth tracking to find the stage boundary correctly
             for ((i=0; i<100; i++)); do
                 ((check_line++))
-                local next_line=$(sed -n "${check_line}p" "$file")
+                local next_line
+                next_line=$(sed -n "${check_line}p" "$file")
 
                 # Skip empty lines and comments
                 if echo "$next_line" | grep -qE '^\s*(//.*)?$'; then
@@ -139,8 +151,10 @@ validate_stages() {
                 fi
 
                 # Track brace depth
-                local open_braces=$(echo "$next_line" | grep -o '{' | wc -l)
-                local close_braces=$(echo "$next_line" | grep -o '}' | wc -l)
+                local open_braces
+                open_braces=$(echo "$next_line" | grep -o '{' | wc -l)
+                local close_braces
+                close_braces=$(echo "$next_line" | grep -o '}' | wc -l)
                 brace_depth=$((brace_depth + open_braces - close_braces))
 
                 # Check for valid stage body types at the stage level (brace_depth == 1)
@@ -185,7 +199,8 @@ validate_stages() {
 
                 for ((j=0; j<50 && look_back>1; j++)); do
                     ((look_back--))
-                    local prev_line=$(sed -n "${look_back}p" "$file")
+                    local prev_line
+                    prev_line=$(sed -n "${look_back}p" "$file")
 
                     if echo "$prev_line" | grep -qE '^\s*parallel\s*\{'; then
                         is_nested_in_parallel=true
@@ -277,9 +292,12 @@ validate_syntax() {
         fi
 
         # Remove escaped quotes before counting
-        local clean_line=$(echo "$line" | sed "s/\\\\'//g" | sed 's/\\"//g')
-        local single_quotes=$(echo "$clean_line" | grep -o "'" | wc -l)
-        local double_quotes=$(echo "$clean_line" | grep -o '"' | wc -l)
+        local clean_line
+        clean_line=$(echo "$line" | sed "s/\\\\'//g" | sed 's/\\"//g')
+        local single_quotes
+        single_quotes=$(echo "$clean_line" | grep -o "'" | wc -l)
+        local double_quotes
+        double_quotes=$(echo "$clean_line" | grep -o '"' | wc -l)
 
         # Only flag truly unbalanced quotes (not in multi-line contexts)
         # Skip if line has shell command patterns that commonly span lines
@@ -301,7 +319,8 @@ validate_syntax() {
         # Only flag when followed by { (not function calls like step([...]))
         # Note: 'stage' is valid as stage('name'), so we check specifically for 'stage {'
         if echo "$line" | grep -qE '^\s*(option|parameter|trigger|tool)\s*\{'; then
-            local typo=$(echo "$line" | grep -oE '(option|parameter|trigger|tool)')
+            local typo
+            typo=$(echo "$line" | grep -oE '(option|parameter|trigger|tool)')
             log_error "$line_num" "Possible typo: '$typo' (did you mean '${typo}s'?)"
         fi
         # Special check for 'step {' (not step( which is valid)
@@ -345,7 +364,8 @@ validate_parallel() {
     local file=$1
 
     if grep -q '^\s*parallel\s*{' "$file"; then
-        local line=$(grep -n 'parallel\s*{' "$file" | head -1 | cut -d: -f1)
+        local line
+        line=$(grep -n 'parallel\s*{' "$file" | head -1 | cut -d: -f1)
 
         # Check for parallelsAlwaysFailFast() in pipeline options (global setting)
         local has_global_failfast=false
@@ -391,7 +411,8 @@ validate_when() {
 
             for ((i=0; i<10; i++)); do
                 ((check_line++))
-                local next_line=$(sed -n "${check_line}p" "$file")
+                local next_line
+                next_line=$(sed -n "${check_line}p" "$file")
 
                 if echo "$next_line" | grep -qE '^\s*(branch|environment|expression|tag|not|allOf|anyOf)'; then
                     has_condition=true
@@ -429,11 +450,14 @@ validate_matrix() {
             # Check matrix block structure
             for ((i=0; i<50; i++)); do
                 ((check_line++))
-                local next_line=$(sed -n "${check_line}p" "$file")
+                local next_line
+                next_line=$(sed -n "${check_line}p" "$file")
 
                 # Track braces
-                local open=$(echo "$next_line" | grep -o '{' | wc -l)
-                local close=$(echo "$next_line" | grep -o '}' | wc -l)
+                local open
+                open=$(echo "$next_line" | grep -o '{' | wc -l)
+                local close
+                close=$(echo "$next_line" | grep -o '}' | wc -l)
                 brace_count=$((brace_count + open - close))
 
                 if echo "$next_line" | grep -q '^\s*axes\s*{'; then
@@ -477,7 +501,8 @@ validate_matrix() {
 
             for ((i=0; i<10; i++)); do
                 ((check_line++))
-                local next_line=$(sed -n "${check_line}p" "$file")
+                local next_line
+                next_line=$(sed -n "${check_line}p" "$file")
 
                 if echo "$next_line" | grep -q '^\s*name\s'; then
                     has_name=true
@@ -511,7 +536,8 @@ validate_matrix() {
 
             for ((i=0; i<20; i++)); do
                 ((check_line++))
-                local next_line=$(sed -n "${check_line}p" "$file")
+                local next_line
+                next_line=$(sed -n "${check_line}p" "$file")
 
                 if echo "$next_line" | grep -q '^\s*exclude\s*{'; then
                     has_exclude=true

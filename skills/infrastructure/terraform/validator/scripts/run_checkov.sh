@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 
 # Checkov Terraform Security Scanner Wrapper Script
 # This script provides a convenient interface for running Checkov security scans

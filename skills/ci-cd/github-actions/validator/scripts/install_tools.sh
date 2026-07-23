@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
 # GitHub Actions Validator - Tool Installation Script
 # Installs act and actionlint tools locally in the current directory
 

@@ -1,4 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091
+# ^ SC1091: sourced paths are resolved at runtime, not statically
 # Wrapper script for detect_crd.py that handles PyYAML dependency
 # Creates a temporary venv if PyYAML is not available
 
@@ -24,7 +27,7 @@ fi
 
 # PyYAML not available, create temporary venv
 TEMP_VENV=$(mktemp -d -t helm-validator.XXXXXX)
-trap "rm -rf $TEMP_VENV" EXIT
+trap 'rm -rf "$TEMP_VENV"' EXIT
 
 echo "PyYAML not found in system Python. Creating temporary environment..." >&2
 

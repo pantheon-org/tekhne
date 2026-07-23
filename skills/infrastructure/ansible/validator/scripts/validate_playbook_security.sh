@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091,SC2034,SC2329
+# ^ SC1091: sourced paths are resolved at runtime, not statically; SC2034: vars consumed by scripts that source this file; SC2329: functions invoked by scripts that source this file
 
 # Ansible Playbook Security Validation Script using Checkov
 # Automatically installs checkov in temporary venv if not available
@@ -74,7 +77,7 @@ if [ $USE_SYSTEM_CHECKOV -eq 0 ]; then
 
     # Setup cleanup trap
     cleanup() {
-        if [ $CLEANUP_VENV -eq 1 ] && [ -n "$TEMP_VENV" ]; then
+        if [ "$CLEANUP_VENV" -eq 1 ] && [ -n "$TEMP_VENV" ]; then
             echo ""
             echo "Cleaning up temporary environment..."
             rm -rf "$TEMP_VENV"

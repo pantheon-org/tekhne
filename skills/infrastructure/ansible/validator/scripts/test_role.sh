@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC1091,SC2329
+# ^ SC1091: sourced paths are resolved at runtime, not statically; SC2329: functions invoked by scripts that source this file
 
 # Ansible Role Testing Script with Molecule
 # Automatically installs molecule in temporary venv if not available
@@ -86,7 +89,7 @@ else
 
     # Setup cleanup trap
     cleanup() {
-        if [ $CLEANUP_VENV -eq 1 ] && [ -n "$TEMP_VENV" ]; then
+        if [ "$CLEANUP_VENV" -eq 1 ] && [ -n "$TEMP_VENV" ]; then
             echo ""
             echo "Cleaning up temporary environment..."
             rm -rf "$TEMP_VENV"

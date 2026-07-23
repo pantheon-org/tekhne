@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shell: bash
+# shellcheck disable=SC2012
+# ^ SC2012: ls is used for time-sorted / formatted listing; find -printf is non-portable (macOS)
 # Compare CloudFormation Resource Properties
 # Compares a specific resource's properties before and after a change
 
