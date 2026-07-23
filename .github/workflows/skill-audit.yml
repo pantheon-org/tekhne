@@ -79,6 +79,21 @@ jobs:
             duplication.json > duplication-relevant.json
           n=$(jq 'length' duplication-relevant.json)
           echo "relevant=$n" >> "$GITHUB_OUTPUT"
+          # Render a Markdown summary for the PR comment (surfaced in the
+          # "Cross-skill duplication" details block of the Skill Audit comment).
+          {
+            echo "summary<<DUP_EOF"
+            if [ "$n" -gt 0 ]; then
+              echo "**${n} high-similarity (>=70%) pair(s) involving a skill changed in this PR** — check for accidental copy-paste:"
+              echo ""
+              echo "| Skill A | Skill B | Similarity | Common lines |"
+              echo "| --- | --- | --- | --- |"
+              jq -r '.[] | "| `\(.name1)` | `\(.name2)` | \(.similarity)% | \(.common_lines) |"' duplication-relevant.json
+            else
+              echo "No high-similarity (>=70%) pairs involving skills changed in this PR."
+            fi
+            echo "DUP_EOF"
+          } >> "$GITHUB_OUTPUT"
           if [ "$n" -gt 0 ]; then
             echo "::warning::${n} high-similarity (>=70%) skill pair(s) involve a skill changed in this PR — check for accidental copy-paste. Advisory only; see the Skill Audit comment."
           fi
@@ -146,10 +161,17 @@ jobs:
 
             ${{ steps.audit.outputs.table }}
 
-            **Gate:** 
+            **Gate:**
             - ✅ pass = A / A+ (≥126)
             - ⚠️ warning = C – B+ (98–125, non-blocking)
             - ❌ fail = D / F (<98, blocks merge)
+
+            <details>
+            <summary>Cross-skill duplication (advisory)</summary>
+
+            ${{ steps.dup.outputs.summary }}
+
+            </details>
 
       - name: Enforce gate (fail on D/F)
         if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail != '0'
