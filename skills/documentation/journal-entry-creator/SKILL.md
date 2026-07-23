@@ -109,6 +109,7 @@ Tags must:
 1. Match between frontmatter array and final `## Tags` section
 2. Be lowercase with hyphens (not underscores, not camelCase)
 3. Include entry type tag when required (troubleshooting, learning, article/video/podcast/talk)
+4. Prefer the canonical vocabulary defined in the taxonomy (see below)
 
 **Example:**
 
@@ -126,6 +127,34 @@ Must match:
 
 `troubleshooting` | `api-gateway` | `aws-lambda`
 ```
+
+### Tag Taxonomy (Controlled Vocabulary)
+
+Beyond tag *shape*, this system maintains a controlled tag *vocabulary* to keep
+the corpus queryable and prevent tag sprawl. The vocabulary lives in a
+`taxonomy.json` at the journal root (a generic default ships with the skill under
+`assets/taxonomy.default.json`; its shape is documented in
+`assets/taxonomy.schema.json`).
+
+The taxonomy defines:
+
+- `facets`: named groups of canonical tags (for example `type`, `tech`, `topic`).
+- `aliases`: non-canonical spellings that collapse onto a canonical one (for
+  example `teams` becomes `ms-teams`).
+- `threshold`: how many times an unfaceted tag may appear before it is flagged.
+- `ticketPattern`: the regex that marks issue-tracker keys, which are exempt.
+
+When choosing tags for an entry, prefer a tag already listed in a facet, and
+prefer a canonical spelling over a near-duplicate. Corpus-wide tag hygiene is
+checked separately from single-entry validation by the CLI:
+
+```bash
+journal lint            # advisory: alias suggestions and unfaceted tags
+journal lint --strict   # non-zero exit on findings (for CI)
+```
+
+`lint` is advisory and never rewrites the taxonomy or an entry; it reports
+candidates for a human to fold into `taxonomy.json`.
 
 ### Code Block Language Specifiers
 

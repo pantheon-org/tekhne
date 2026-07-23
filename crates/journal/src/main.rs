@@ -1,6 +1,6 @@
 //! `journal` CLI: create structured entries (`new`), check them
-//! (`validate <file>`), and install the bundled companion skill
-//! (`skill install`).
+//! (`validate <file>`), lint corpus tags against the taxonomy (`lint`), and
+//! install the bundled companion skill (`skill install`).
 
 use std::path::{Path, PathBuf};
 use std::process;
@@ -9,7 +9,10 @@ use clap::{Args, Parser, Subcommand, ValueEnum};
 use journal::date::Timestamp;
 use journal::entry::{EntrySpec, EntryType};
 use journal::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
+use journal::lint;
+use journal::scan;
 use journal::skill_bundle;
+use journal::taxonomy::{Taxonomy, TaxonomySource};
 use journal::validate::{self, Outcome};
 use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
@@ -38,6 +41,8 @@ enum Command {
         /// Path to the entry markdown file.
         file: String,
     },
+    /// Lint corpus tags against the taxonomy (advisory).
+    Lint(LintArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -66,6 +71,26 @@ struct NewArgs {
     /// Source URL, recorded for article summaries.
     #[arg(long)]
     source: Option<String>,
+}
+
+#[derive(Args)]
+struct LintArgs {
+    /// Restrict linting to entries whose path contains one of these substrings.
+    /// Empty lints the whole corpus. Tag frequency is always corpus-wide.
+    files: Vec<String>,
+    /// Journal root to scan for entries and a `taxonomy.json`.
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Explicit taxonomy file, overriding `<root>/taxonomy.json` and the
+    /// embedded default.
+    #[arg(long)]
+    taxonomy: Option<PathBuf>,
+    /// Emit the lint report as JSON instead of human-readable text.
+    #[arg(long)]
+    json: bool,
+    /// Exit non-zero when any suggestion or unfaceted tag is found (for CI).
+    #[arg(long)]
+    strict: bool,
 }
 
 #[derive(Subcommand)]
@@ -144,6 +169,7 @@ fn main() {
     let result = match cli.command {
         Command::New(args) => run_new(args),
         Command::Validate { file } => run_validate(&file),
+        Command::Lint(args) => run_lint(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -195,6 +221,77 @@ fn run_validate(file: &str) -> std::result::Result<(), String> {
             Ok(())
         }
         Err(violation) => Err(format!("{}: {violation}", path.display())),
+    }
+}
+
+/// Lint corpus tags against the taxonomy and report advisory findings.
+fn run_lint(args: LintArgs) -> std::result::Result<(), String> {
+    let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
+        .map_err(|e| format!("cannot load taxonomy: {e}"))?;
+    let scan = scan::scan_entries(&args.root, &taxonomy);
+    let report = lint::lint(&scan.entries, &taxonomy, &args.files)
+        .map_err(|e| format!("lint failed: {e}"))?;
+
+    if args.json {
+        let json = serde_json::to_string_pretty(&report)
+            .map_err(|e| format!("cannot serialise report: {e}"))?;
+        println!("{json}");
+    } else {
+        print_lint_report(&taxonomy, &source, &scan, &report);
+    }
+
+    // Advisory by default; --strict turns findings into a non-zero exit (2, to
+    // distinguish a lint finding from a hard error, which exits 1).
+    if args.strict && !report.is_clean() {
+        process::exit(2);
+    }
+    Ok(())
+}
+
+/// Print a human-readable lint report. Read failures go to stderr as warnings
+/// so they are visible without polluting the findings on stdout.
+fn print_lint_report(
+    taxonomy: &Taxonomy,
+    source: &TaxonomySource,
+    scan: &scan::ScanResult,
+    report: &lint::LintReport,
+) {
+    let n = scan.entries.len();
+    println!(
+        "Linted {n} entr{} against taxonomy: {source}",
+        if n == 1 { "y" } else { "ies" }
+    );
+    for err in &scan.errors {
+        eprintln!("  warning: {}: {}", err.file, err.error);
+    }
+
+    if report.is_clean() {
+        println!("No tag issues found.");
+        return;
+    }
+
+    if !report.alias_suggestions.is_empty() {
+        println!("\nAlias suggestions ({}):", report.alias_suggestions.len());
+        for s in &report.alias_suggestions {
+            println!(
+                "  \"{}\" looks like \"{}\"; add an alias?",
+                s.tag, s.suggestion
+            );
+        }
+    }
+
+    if !report.unfaceted.is_empty() {
+        println!(
+            "\nUnfaceted tags at or over threshold {} ({}):",
+            taxonomy.threshold,
+            report.unfaceted.len()
+        );
+        for u in &report.unfaceted {
+            println!(
+                "  \"{}\" ({}); assign a facet or suppress it",
+                u.tag, u.count
+            );
+        }
     }
 }
 

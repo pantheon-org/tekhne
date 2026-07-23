@@ -22,6 +22,15 @@ pub fn file_count() -> usize {
     EMBEDDED_SKILL_FILES.len()
 }
 
+/// The bytes of an embedded skill file by its forward-slash relative path
+/// (e.g. `assets/taxonomy.default.json`), or `None` if it is not embedded.
+pub fn embedded_file(rel: &str) -> Option<&'static [u8]> {
+    EMBEDDED_SKILL_FILES
+        .iter()
+        .find(|(r, _)| *r == rel)
+        .map(|(_, bytes)| *bytes)
+}
+
 /// Write the embedded skill tree into `dest_root`.
 ///
 /// Creates `dest_root/<skill-name>` (and any parent directories per file),

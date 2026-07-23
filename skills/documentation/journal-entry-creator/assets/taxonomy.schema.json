@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pantheon-org.github.io/tekhne/journal-entry-creator/taxonomy.schema.json",
+  "title": "Journal tag taxonomy",
+  "description": "Overrides-only controlled vocabulary for journal tags. The effective canonical tag set is computed from tag frequency; this file holds only what frequency cannot infer (aliases, facet membership, thresholds, and the ticket-key pattern).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["threshold", "aliases", "facets", "ticketPattern"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional reference to this schema."
+    },
+    "threshold": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Minimum occurrence count before an unfaceted tag is flagged by lint."
+    },
+    "aliases": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Map of non-canonical tag spellings onto their canonical form (e.g. \"teams\": \"ms-teams\")."
+    },
+    "facets": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "description": "Named groups of canonical tags (e.g. type, tech, topic). A tag that appears in no facet above the threshold is flagged."
+    },
+    "pin": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags kept in the canonical set regardless of frequency."
+    },
+    "suppress": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags excluded from the canonical set and from lint flagging."
+    },
+    "ticketPattern": {
+      "type": "string",
+      "description": "Regular expression identifying issue-tracker key tags, which are exempt from unfaceted flagging."
+    }
+  }
+}
