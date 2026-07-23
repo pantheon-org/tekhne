@@ -74,6 +74,7 @@ const tools: Tool[] = [
       { usage: "pantheon-journal validate <file>", summary: "Validate an existing entry for compliance." },
       { usage: "pantheon-journal lint", summary: "Advisory tag lint against the taxonomy: alias suggestions and unfaceted tags." },
       { usage: "pantheon-journal index", summary: "Generate the browse index (NDJSON source of truth + rendered markdown view)." },
+      { usage: "pantheon-journal backfill", summary: "Inject missing title/date frontmatter across existing dated entries." },
       { usage: "pantheon-journal skill install", summary: "Register the bundled skill into detected agent directories." },
     ],
     bundledSkill: "journal-entry-creator",

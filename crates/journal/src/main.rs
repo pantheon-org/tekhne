@@ -1,11 +1,13 @@
-//! `journal` CLI: create structured entries (`new`), check them
-//! (`validate <file>`), lint corpus tags against the taxonomy (`lint`), and
-//! install the bundled companion skill (`skill install`).
+//! `pantheon-journal` CLI: create structured entries (`new`), check them
+//! (`validate <file>`), lint corpus tags against the taxonomy (`lint`),
+//! generate the browse index (`index`), backfill missing frontmatter
+//! (`backfill`), and install the bundled companion skill (`skill install`).
 
 use std::path::{Path, PathBuf};
 use std::process;
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
+use journal::backfill;
 use journal::date::Timestamp;
 use journal::entry::{EntrySpec, EntryType};
 use journal::index;
@@ -46,6 +48,8 @@ enum Command {
     Lint(LintArgs),
     /// Generate the browse index (NDJSON source of truth + markdown view).
     Index(IndexArgs),
+    /// Backfill missing frontmatter (title, date) across existing entries.
+    Backfill(BackfillArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -117,6 +121,16 @@ struct IndexArgs {
     /// regenerate.
     #[arg(long)]
     validate: bool,
+}
+
+#[derive(Args)]
+struct BackfillArgs {
+    /// Journal root to scan for dated entries.
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Preview changes without writing any files.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
 }
 
 #[derive(Subcommand)]
@@ -197,6 +211,7 @@ fn main() {
         Command::Validate { file } => run_validate(&file),
         Command::Lint(args) => run_lint(args),
         Command::Index(args) => run_index(args),
+        Command::Backfill(args) => run_backfill(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -385,6 +400,34 @@ fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
         view.display(),
         scan.entries.len()
     );
+    Ok(())
+}
+
+/// Backfill missing `title` / `date` frontmatter across dated entries.
+fn run_backfill(args: BackfillArgs) -> std::result::Result<(), String> {
+    let report = backfill::backfill(&args.root, args.dry_run)
+        .map_err(|e| format!("backfill failed: {e}"))?;
+
+    for w in &report.warnings {
+        eprintln!("  warning: {w}");
+    }
+
+    let verb = if args.dry_run {
+        "would inject"
+    } else {
+        "injected"
+    };
+    println!(
+        "Processed {} file(s): {verb} {} title(s), {} date(s)",
+        report.processed, report.titles_injected, report.dates_injected
+    );
+
+    if !report.missing_tags.is_empty() {
+        eprintln!("\n{} file(s) have no tags:", report.missing_tags.len());
+        for f in &report.missing_tags {
+            eprintln!("  {f}");
+        }
+    }
     Ok(())
 }
 

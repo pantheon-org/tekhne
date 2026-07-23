@@ -8,6 +8,7 @@
 //! at build time and can be installed into agent directories via the shared
 //! `skill-install` crate. No network or LLM access is involved.
 
+pub mod backfill;
 pub mod date;
 pub mod entry;
 pub mod index;
