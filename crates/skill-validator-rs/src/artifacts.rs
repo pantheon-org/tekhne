@@ -358,6 +358,11 @@ fn check_subdirs(dir: &Path, dir_rel: &str, report: &mut ArtifactReport) {
     };
     for entry in entries.flatten().filter(is_dir) {
         let name = entry.file_name().to_string_lossy().into_owned();
+        // Dot-directories (e.g. `.tessl-plugin`) are skipped: the shell's `*/`
+        // glob does not match hidden entries, so they were never flagged.
+        if name.starts_with('.') {
+            continue;
+        }
         if !ALLOWED_SKILL_DIRS.contains(&name.as_str()) {
             report.error(
                 dir_rel,
@@ -378,6 +383,10 @@ fn check_assets(dir: &Path, dir_rel: &str, report: &mut ArtifactReport) {
     };
     for entry in entries.flatten() {
         let name = entry.file_name().to_string_lossy().into_owned();
+        // Hidden entries are skipped by the shell's `*/` and `*.yaml` globs.
+        if name.starts_with('.') {
+            continue;
+        }
         if is_dir(&entry) {
             if !ALLOWED_ASSETS_DIRS.contains(&name.as_str()) {
                 report.error(
@@ -587,6 +596,20 @@ mod tests {
         assert!(report.results[0]
             .message
             .contains("non-standard directory 'weird'"));
+    }
+
+    #[test]
+    fn dot_directories_are_not_flagged() {
+        // `.tessl-plugin` (and any hidden dir) is skipped, matching the shell's
+        // `*/` glob which never matched dot-directories.
+        let dir = tempdir().unwrap();
+        let skill = dir.path().join("skills/d/my-skill");
+        write(&skill.join("SKILL.md"), "---\nname: my-skill\n---\nBody\n");
+        fs::create_dir_all(skill.join(".tessl-plugin")).unwrap();
+        write(&skill.join(".tessl-plugin/plugin.json"), "{}\n");
+        let mut report = ArtifactReport::default();
+        check_skill_dir(&skill, &mut report);
+        assert_eq!(report.errors(), 0, "{:?}", report.results);
     }
 
     #[test]
