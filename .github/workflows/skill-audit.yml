@@ -61,32 +61,61 @@ jobs:
         if: steps.dirs.outputs.found == 'true'
         run: cargo build --release --locked -p skill-auditor
 
+      # Cross-skill duplication scan over the whole skills/ tree. Advisory here:
+      # skill families legitimately share structure (the tree-wide maximum today
+      # is ~54% similarity), so a hard tree-wide gate would be permanently red.
+      # Instead this only warns when a skill *changed in this PR* is involved in
+      # a high-similarity (>=70%) pair — the signal for an accidental copy-paste
+      # of an existing skill. The JSON artifacts feed the PR-comment step.
+      - name: Duplication check (advisory)
+        id: dup
+        if: steps.dirs.outputs.found == 'true'
+        run: |
+          set -euo pipefail
+          target/release/skill-auditor duplication skills --threshold 70 --json > duplication.json || echo '[]' > duplication.json
+          changed=$(for dir in ${{ steps.dirs.outputs.dirs }}; do basename "$dir"; done | sort -u | jq -R . | jq -cs .)
+          jq -c --argjson names "$changed" \
+            '[.[] | select((.name1 as $a | $names | index($a)) or (.name2 as $b | $names | index($b)))]' \
+            duplication.json > duplication-relevant.json
+          n=$(jq 'length' duplication-relevant.json)
+          echo "relevant=$n" >> "$GITHUB_OUTPUT"
+          if [ "$n" -gt 0 ]; then
+            echo "::warning::${n} high-similarity (>=70%) skill pair(s) involve a skill changed in this PR — check for accidental copy-paste. Advisory only; see the Skill Audit comment."
+          fi
+
+      # Consolidated grade audit via a single `batch` call (replaces a per-skill
+      # `evaluate` loop). Blocking policy is unchanged: only D/F fails the gate;
+      # C..B+ are non-blocking warnings. A skill missing from the JSON (audit
+      # error) counts as a failure too.
       - name: Audit changed skills
         id: audit
         if: steps.dirs.outputs.found == 'true'
         run: |
-          set +e
-          rows=""
-          fail=0
+          set -euo pipefail
+          rels=()
           for dir in ${{ steps.dirs.outputs.dirs }}; do
-            rel="${dir#skills/}"
-            json=$(target/release/skill-auditor evaluate "$rel" --json 2>/dev/null)
-            grade=$(printf '%s' "$json" | jq -r '.grade // "?"' 2>/dev/null)
-            total=$(printf '%s' "$json" | jq -r '.total // "?"' 2>/dev/null)
-            [ -z "$grade" ] && grade="?"
-            case "$grade" in
-              A|A+) tier="✅ pass";;
-              B+|B|C+|C) tier="⚠️ warning";;
-              D|F) tier="❌ fail"; fail=1;;
-              *) tier="❓ error"; fail=1;;
-            esac
-            rows="${rows}| \`${rel}\` | ${grade} | ${total}/140 | ${tier} |\n"
+            rels+=("${dir#skills/}")
           done
+          target/release/skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
+          rows=$(jq -r '
+            .[]
+            | (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; "")) as $rel
+            | (if (.grade == "A" or .grade == "A+") then "✅ pass"
+               elif (.grade == "D" or .grade == "F") then "❌ fail"
+               else "⚠️ warning" end) as $tier
+            | "| `\($rel)` | \(.grade) | \(.total)/\(.maxTotal) | \($tier) |"
+          ' batch.json)
+          fail=$(jq '[.[] | select(.grade == "D" or .grade == "F")] | length' batch.json)
+          got=$(jq 'length' batch.json)
+          want=${#rels[@]}
+          if [ "$got" -lt "$want" ]; then
+            fail=$((fail + want - got))
+          fi
           {
             echo "table<<AUDIT_EOF"
             printf '| Skill | Grade | Score | Tier |\n'
             printf '| --- | --- | --- | --- |\n'
-            printf "%b" "$rows"
+            printf '%s\n' "$rows"
             echo "AUDIT_EOF"
             echo "fail=$fail"
           } >> "$GITHUB_OUTPUT"
@@ -123,7 +152,7 @@ jobs:
             - ❌ fail = D / F (<98, blocks merge)
 
       - name: Enforce gate (fail on D/F)
-        if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail == '1'
+        if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail != '0'
         run: |
           echo "::error::One or more changed skills scored below C (D/F) or could not be audited. Raise them to at least grade C to pass; grade A for a green pass."
           exit 1
