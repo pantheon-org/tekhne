@@ -1,17 +1,17 @@
 {
   "instructions": [
     {
-      "content": "Run `adr new \"<Title>\"` to create the next-numbered ADR from the house template.",
+      "content": "Run `pantheon-adr new \"<Title>\"` to create the next-numbered ADR from the house template.",
       "type": "workflow",
       "why_given": "new knowledge"
     },
     {
-      "content": "Run `adr list` to show every ADR as number, status, and title.",
+      "content": "Run `pantheon-adr list` to show every ADR as number, status, and title.",
       "type": "workflow",
       "why_given": "new knowledge"
     },
     {
-      "content": "Run `adr supersede <number> \"<New Title>\"` to mark an old ADR superseded and create a linked replacement.",
+      "content": "Run `pantheon-adr supersede <number> \"<New Title>\"` to mark an old ADR superseded and create a linked replacement.",
       "type": "workflow",
       "why_given": "new knowledge"
     },

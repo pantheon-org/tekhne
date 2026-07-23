@@ -131,13 +131,13 @@ exit $rc
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
         check = #"""
-if [ ! -x target/release/skill-auditor ]; then
-  cargo build --release -q -p skill-auditor || { echo "skill-auditor build failed; skipping local audit (CI enforces the gate)"; exit 0; }
+if [ ! -x target/release/pantheon-skill-auditor ]; then
+  cargo build --release -q -p pantheon-skill-auditor || { echo "pantheon-skill-auditor build failed; skipping local audit (CI enforces the gate)"; exit 0; }
 fi
 rc=0
 for f in {{files}}; do
   rel="$(dirname "$f")"; rel="${rel#skills/}"
-  grade=$(target/release/skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
+  grade=$(target/release/pantheon-skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
   case "$grade" in
     A|A+) echo "PASS $rel: $grade";;
     B+|B|C+|C) echo "WARN $rel: $grade (warning -- CI non-blocking)";;

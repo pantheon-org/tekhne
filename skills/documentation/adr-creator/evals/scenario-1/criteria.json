@@ -3,8 +3,8 @@
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "Uses adr new for creation",
-      "description": "Creates the record with `adr new \"Adopt event-driven ingestion\"` rather than hand-writing a file.",
+      "name": "Uses pantheon-adr new for creation",
+      "description": "Creates the record with `pantheon-adr new \"Adopt event-driven ingestion\"` rather than hand-writing a file.",
       "max_score": 20
     },
     {

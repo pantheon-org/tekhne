@@ -36,6 +36,9 @@ hk.local.pkl
 .tokensave/
 # Ignore aislop local state but keep the committed config (scan excludes) so CI
 # reads it; baseline.json / session.jsonl / history.jsonl stay ignored.
+# The root rule is anchored to the repo root; the `**` rule also catches the
+# nested `.aislop/` directories aislop creates when it scans subdirectories.
 .aislop/*
+**/.aislop/*
 !.aislop/config.yml
 .tmp/

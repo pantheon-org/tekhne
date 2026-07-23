@@ -1,12 +1,12 @@
 {
   "instructions": [
     {
-      "content": "Run `skill-auditor evaluate <domain>/<skill-name> --json --store` to score a skill on the 9-dimension framework.",
+      "content": "Run `pantheon-skill-auditor evaluate <domain>/<skill-name> --json --store` to score a skill on the 9-dimension framework.",
       "type": "workflow",
       "why_given": "new knowledge"
     },
     {
-      "content": "Use `skill-auditor batch <skill1> <skill2> --store` to audit multiple skills in one pass.",
+      "content": "Use `pantheon-skill-auditor batch <skill1> <skill2> --store` to audit multiple skills in one pass.",
       "type": "workflow",
       "why_given": "new knowledge"
     },

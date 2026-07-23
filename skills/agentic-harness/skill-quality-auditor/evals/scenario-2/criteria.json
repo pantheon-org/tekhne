@@ -1,10 +1,10 @@
 {
-  "context": "Tests whether the agent uses skill-auditor batch for collection-wide audits, stores results in the correct directory structure, compares against baselines, and produces a trend-aware report.",
+  "context": "Tests whether the agent uses pantheon-skill-auditor batch for collection-wide audits, stores results in the correct directory structure, compares against baselines, and produces a trend-aware report.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "skill-auditor batch used",
-      "description": "Uses `skill-auditor batch` (not individual evaluate calls per skill) to audit the collection",
+      "name": "pantheon-skill-auditor batch used",
+      "description": "Uses `pantheon-skill-auditor batch` (not individual evaluate calls per skill) to audit the collection",
       "max_score": 15
     },
     {

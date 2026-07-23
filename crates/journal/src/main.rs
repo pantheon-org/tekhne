@@ -22,10 +22,10 @@ const VERSION: &str = "0.1.0";
 
 #[derive(Parser)]
 #[command(
-    name = "journal",
+    name = "pantheon-journal",
     version = VERSION,
     about = "Create and validate structured journal entries",
-    long_about = "journal creates timestamped markdown entries with YAML frontmatter, triple-synced dates, and template-based sections, then validates them for compliance. It promotes the journal-entry-creator skill into a self-contained CLI."
+    long_about = "pantheon-journal creates timestamped markdown entries with YAML frontmatter, triple-synced dates, and template-based sections, then validates them for compliance. It promotes the journal-entry-creator skill into a self-contained CLI."
 )]
 struct Cli {
     #[command(subcommand)]

@@ -10,7 +10,7 @@
     "check:biome": "bunx @biomejs/biome check .",
     "check:markdown": "markdownlint-cli2 \"**/*.md\"",
     "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
-    "audit:skill": "cargo build --release -q -p skill-auditor && target/release/skill-auditor evaluate",
+    "audit:skill": "cargo build --release -q -p pantheon-skill-auditor && target/release/pantheon-skill-auditor evaluate",
     "readme:update": "bun scripts/catalog/update.ts",
     "readme:update:dry-run": "bun scripts/catalog/update.ts --dry-run",
     "tessl:import": "tessl skill import",
@@ -19,7 +19,7 @@
     "tessl:review": "tessl review run",
     "test": "bun test scripts/",
     "test:integration": "cucumber-js",
-    "build:skill-auditor": "cargo build --release -p skill-auditor"
+    "build:skill-auditor": "cargo build --release -p pantheon-skill-auditor"
   },
   "keywords": [],
   "author": "",

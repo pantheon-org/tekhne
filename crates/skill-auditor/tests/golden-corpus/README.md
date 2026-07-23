@@ -79,5 +79,5 @@ grep -v '^#' corpus.txt | (cd goref && GOTOOLCHAIN=auto GOPROXY=off \
 ## Run the gate
 
 ```bash
-cargo test -p skill-auditor --test grade_parity -- --nocapture
+cargo test -p pantheon-skill-auditor --test grade_parity -- --nocapture
 ```
