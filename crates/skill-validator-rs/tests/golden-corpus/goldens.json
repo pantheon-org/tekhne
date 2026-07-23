@@ -8790,7 +8790,7 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 3594
+          "Tokens": 3591
         },
         {
           "File": "references/compliance.md",
@@ -8806,7 +8806,7 @@
         },
         {
           "File": "references/example-with-frontmatter.md",
-          "Tokens": 4608
+          "Tokens": 4586
         },
         {
           "File": "references/journal-command.md",
@@ -12902,7 +12902,7 @@
         },
         {
           "File": "evals/scenario-02.md",
-          "Tokens": 584
+          "Tokens": 572
         },
         {
           "File": "evals/scenario-03.md",
@@ -13091,7 +13091,7 @@
         },
         {
           "File": "references/sns-testing-guide.md",
-          "Tokens": 1737
+          "Tokens": 1735
         },
         {
           "File": "CHANGELOG.md",
@@ -13199,21 +13199,21 @@
         },
         {
           "File": "references/compare-cfn-templates.md",
-          "Tokens": 3190
+          "Tokens": 3136
         },
         {
           "File": "references/markdown-report-example.md",
-          "Tokens": 2138
+          "Tokens": 2133
         }
       ],
       "other_token_counts": [
         {
           "File": "evals/scenario-01.md",
-          "Tokens": 957
+          "Tokens": 956
         },
         {
           "File": "evals/scenario-02.md",
-          "Tokens": 859
+          "Tokens": 858
         },
         {
           "File": "evals/scenario-03.md",
@@ -14119,7 +14119,7 @@
         },
         {
           "File": "evals/scenario-05.md",
-          "Tokens": 1186
+          "Tokens": 1187
         }
       ],
       "errors": 1,
