@@ -2125,13 +2125,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"build-plugins\", got \"opencode-build-plugins\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"opencode-build-plugins\" (valid)",
@@ -2256,7 +2249,7 @@
           "Tokens": 409
         }
       ],
-      "errors": 5,
+      "errors": 4,
       "warnings": 2
     }
   },
@@ -2298,13 +2291,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"build-tool\", got \"opencode-build-tool\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2436,7 +2422,7 @@
           "Tokens": 431
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 2
     }
   },
@@ -2481,13 +2467,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"configure\", got \"opencode-configure\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2590,7 +2569,7 @@
           "Tokens": 365
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 1
     }
   },
@@ -2630,13 +2609,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"design-agents\", got \"opencode-design-agents\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2728,7 +2700,7 @@
           "Tokens": 413
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 1
     }
   },
@@ -2770,13 +2742,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"design-commands\", got \"opencode-design-commands\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2875,7 +2840,7 @@
           "Tokens": 405
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 2
     }
   },
@@ -13425,13 +13390,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"behavior-validator\", got \"cfn-behavior-validator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"cfn-behavior-validator\" (valid)",
@@ -13489,7 +13447,7 @@
           "Tokens": 658
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13530,13 +13488,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"template-compare\", got \"cfn-template-compare\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -13597,7 +13548,7 @@
           "Tokens": 816
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13975,13 +13926,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"debug\", got \"k8s-debug\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"k8s-debug\" (valid)",
@@ -14053,7 +13997,7 @@
           "Tokens": 874
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -14112,13 +14056,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"yaml-generator\", got \"k8s-yaml-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"k8s-yaml-generator\" (valid)",
@@ -14168,7 +14105,7 @@
           "Tokens": 648
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -14227,13 +14164,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"yaml-validator\", got \"k8s-yaml-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -14306,7 +14236,7 @@
           "Tokens": 852
         }
       ],
-      "errors": 2,
+      "errors": 1,
       "warnings": 1
     }
   },
@@ -17285,13 +17215,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"biome-integration\", got \"nx-biome-integration\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"nx-biome-integration\" (valid)",
@@ -17353,7 +17276,7 @@
           "Tokens": 713
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -17394,13 +17317,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 4 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"bun-integration\", got \"nx-bun-integration\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -17504,7 +17420,7 @@
           "Tokens": 667
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -17823,13 +17739,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"vite-integration\", got \"nx-vite-integration\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"nx-vite-integration\" (valid)",
@@ -17934,7 +17843,7 @@
           "Tokens": 909
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -17977,13 +17886,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 4 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"workspace-patterns\", got \"nx-workspace-patterns\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -18080,7 +17982,7 @@
           "Tokens": 720
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },

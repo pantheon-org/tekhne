@@ -186,18 +186,25 @@ fn base_name(dir: &str) -> String {
         .unwrap_or_else(|| ".".to_string())
 }
 
-/// The consolidated skill name for a `<tool>/{generator,validator}` layout, or
-/// `None` for any other directory. Consolidated generator/validator pairs live in
-/// a `generator`/`validator` directory under a shared `<tool>` dir and name
-/// themselves `<tool>-generator` / `<tool>-validator`, so `<parent>-<dir>` is
-/// accepted alongside the bare directory name. Mirrors the same exemption in the
-/// artifacts check (see `artifacts::consolidated_skill_name`).
+/// The consolidated skill name for a skill nested inside a toolkit directory, or
+/// `None` for an ordinary skill. Consolidated skills (generator/validator pairs
+/// and multi-skill toolkits like `cfn`, `k8s`, `nx`, `opencode-toolkit`) live in
+/// a sub-directory of a shared toolkit dir that carries the tool-level
+/// `.tessl-plugin/plugin.json`, and name themselves `<prefix>-<dir>`, so that
+/// form is accepted alongside the bare directory name. The prefix is the toolkit
+/// directory name with a trailing `-toolkit` removed (`terraform` -> `terraform`,
+/// `opencode-toolkit` -> `opencode`). Ordinary skills sit directly under a domain
+/// directory, which has no such plugin, so they return `None` and keep the strict
+/// `name == directory` rule. Mirrors the same exemption in the artifacts check
+/// (see `artifacts::consolidated_skill_name`).
 fn consolidated_name(dir: &str, dir_name: &str) -> Option<String> {
-    if !matches!(dir_name, "generator" | "validator") {
+    let parent = Path::new(dir).parent()?;
+    if !parent.join(".tessl-plugin").join("plugin.json").is_file() {
         return None;
     }
-    let parent = Path::new(dir).parent()?.file_name()?.to_str()?;
-    Some(format!("{parent}-{dir_name}"))
+    let parent_name = parent.file_name()?.to_str()?;
+    let prefix = parent_name.strip_suffix("-toolkit").unwrap_or(parent_name);
+    Some(format!("{prefix}-{dir_name}"))
 }
 
 fn check_description_keyword_stuffing(ctx: &ResultContext, desc: &str) -> Vec<ValidationResult> {
@@ -297,10 +304,23 @@ mod tests {
     use super::*;
     use crate::skill::{Frontmatter, Skill};
     use serde_yaml_ng::Value;
+    use std::fs;
+    use tempfile::tempdir;
 
-    fn skill_with(dir: &str, name: &str) -> Skill {
+    /// Build a skill on disk at `root/rel_dir`. When `toolkit` is set, the
+    /// parent directory is marked as a consolidated toolkit by writing a
+    /// tool-level `.tessl-plugin/plugin.json`, so the consolidated-name exemption
+    /// applies (matching the on-disk layout the validator sees at runtime).
+    fn skill_at(root: &Path, rel_dir: &str, name: &str, toolkit: bool) -> Skill {
+        let dir = root.join(rel_dir);
+        fs::create_dir_all(&dir).unwrap();
+        if toolkit {
+            let plugin = dir.parent().unwrap().join(".tessl-plugin");
+            fs::create_dir_all(&plugin).unwrap();
+            fs::write(plugin.join("plugin.json"), "{}").unwrap();
+        }
         Skill {
-            dir: dir.to_string(),
+            dir: dir.to_string_lossy().into_owned(),
             frontmatter: Frontmatter {
                 name: name.to_string(),
                 description: "A sufficiently descriptive description for the test.".to_string(),
@@ -323,38 +343,88 @@ mod tests {
     #[test]
     fn consolidated_generator_validator_name_accepted() {
         // A `<tool>/{generator,validator}` pair names itself `<tool>-generator` /
-        // `<tool>-validator`; the `<parent>-<dir>` form must not trip the
+        // `<tool>-validator`; the `<prefix>-<dir>` form must not trip the
         // name-vs-directory check (issue #243, structure validator).
+        let root = tempdir().unwrap();
         for (dir, name) in [
-            (
-                "skills/infrastructure/terraform/generator",
-                "terraform-generator",
-            ),
-            (
-                "skills/infrastructure/terraform/validator",
-                "terraform-validator",
-            ),
+            ("infrastructure/terraform/generator", "terraform-generator"),
+            ("infrastructure/terraform/validator", "terraform-validator"),
         ] {
-            let errs = name_errors(&skill_with(dir, name));
+            let errs = name_errors(&skill_at(root.path(), dir, name, true));
             assert!(errs.is_empty(), "{dir}: {errs:?}");
         }
     }
 
     #[test]
+    fn consolidated_toolkit_names_accepted() {
+        // Multi-skill toolkits prefix each skill with the toolkit name, and a
+        // trailing `-toolkit` is dropped from the prefix (issue #260).
+        let root = tempdir().unwrap();
+        for (dir, name) in [
+            (
+                "infrastructure/cfn/behavior-validator",
+                "cfn-behavior-validator",
+            ),
+            ("infrastructure/k8s/yaml-generator", "k8s-yaml-generator"),
+            ("repository-mgmt/nx/biome-integration", "nx-biome-integration"),
+            (
+                "agentic-harness/opencode-toolkit/build-plugins",
+                "opencode-build-plugins",
+            ),
+        ] {
+            let errs = name_errors(&skill_at(root.path(), dir, name, true));
+            assert!(errs.is_empty(), "{dir}: {errs:?}");
+        }
+    }
+
+    #[test]
+    fn consolidated_dir_name_still_accepted() {
+        // A toolkit skill whose name equals its own directory (e.g.
+        // `nx-plugin-authoring`) still passes via the bare directory-name branch.
+        let root = tempdir().unwrap();
+        let errs = name_errors(&skill_at(
+            root.path(),
+            "repository-mgmt/nx/nx-plugin-authoring",
+            "nx-plugin-authoring",
+            true,
+        ));
+        assert!(errs.is_empty(), "{errs:?}");
+    }
+
+    #[test]
     fn plain_skill_name_mismatch_still_flagged() {
         // An ordinary skill whose name differs from its directory is still an error.
-        let errs = name_errors(&skill_with("skills/d/my-skill", "wrong-name"));
+        let root = tempdir().unwrap();
+        let errs = name_errors(&skill_at(root.path(), "development/my-skill", "wrong-name", false));
+        assert_eq!(errs.len(), 1, "{errs:?}");
+    }
+
+    #[test]
+    fn non_toolkit_prefixed_name_still_flagged() {
+        // Robustness: without a tool-level plugin the parent is not a toolkit, so a
+        // `<parent>-<dir>` name is not a valid consolidated form and is still
+        // flagged. The exemption must not silently accept prefixed names anywhere.
+        let root = tempdir().unwrap();
+        let errs = name_errors(&skill_at(
+            root.path(),
+            "development/commanderjs",
+            "development-commanderjs",
+            false,
+        ));
         assert_eq!(errs.len(), 1, "{errs:?}");
     }
 
     #[test]
     fn consolidated_wrong_name_still_flagged() {
-        // The exemption only accepts `<parent>-<dir>`: a wrong name in a
+        // The exemption only accepts `<prefix>-<dir>`: a wrong name in a
         // generator/validator directory is still flagged, and the message offers
         // the accepted consolidated form.
-        let errs = name_errors(&skill_with(
-            "skills/infrastructure/terraform/generator",
+        let root = tempdir().unwrap();
+        let errs = name_errors(&skill_at(
+            root.path(),
+            "infrastructure/terraform/generator",
             "terraform-gen",
+            true,
         ));
         assert_eq!(errs.len(), 1);
         assert!(errs[0].contains("terraform-generator"), "{errs:?}");

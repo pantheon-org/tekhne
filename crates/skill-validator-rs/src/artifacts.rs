@@ -456,18 +456,24 @@ fn check_skill_md(dir: &Path, dir_rel: &str, skill_name: &str, report: &mut Arti
     }
 }
 
-/// The consolidated skill name for a `<tool>/{generator,validator}` layout, or
-/// `None` for any other directory. Generator/validator pairs live under a shared
-/// `<tool>` directory (carrying the tool-level `.tessl-plugin/plugin.json`) and
-/// name themselves `<tool>-generator` / `<tool>-validator`, so `<parent>-<dir>`
-/// is accepted alongside the bare directory name. Ordinary skills return `None`
-/// and keep the strict `name == directory` rule.
+/// The consolidated skill name for a skill nested inside a toolkit directory, or
+/// `None` for an ordinary skill. Consolidated skills (generator/validator pairs
+/// and multi-skill toolkits like `cfn`, `k8s`, `nx`, `opencode-toolkit`) live in
+/// a sub-directory of a shared toolkit directory that carries the tool-level
+/// `.tessl-plugin/plugin.json`, and name themselves `<prefix>-<dir>`, so that
+/// form is accepted alongside the bare directory name. The prefix is the toolkit
+/// directory name with a trailing `-toolkit` removed (`terraform` -> `terraform`,
+/// `opencode-toolkit` -> `opencode`). Ordinary skills sit directly under a domain
+/// directory, which has no such plugin, so they return `None` and keep the strict
+/// `name == directory` rule.
 fn consolidated_skill_name(dir: &Path, skill_name: &str) -> Option<String> {
-    if !matches!(skill_name, "generator" | "validator") {
+    let parent = dir.parent()?;
+    if !parent.join(".tessl-plugin").join("plugin.json").is_file() {
         return None;
     }
-    let parent = dir.parent()?.file_name()?.to_string_lossy();
-    Some(format!("{parent}-{skill_name}"))
+    let parent_name = parent.file_name()?.to_string_lossy();
+    let prefix = parent_name.strip_suffix("-toolkit").unwrap_or(&parent_name);
+    Some(format!("{prefix}-{skill_name}"))
 }
 
 /// Extract the first `name:` frontmatter value, stripped of surrounding quotes
@@ -679,14 +685,17 @@ mod tests {
     fn consolidated_generator_validator_not_flagged() {
         // A `<tool>/{generator,validator}` pair names itself `<tool>-generator` /
         // `<tool>-validator` while living in a `generator` / `validator` directory
-        // under the shared `<tool>` dir. Both are correctly structured and must
-        // not trip the name-vs-directory rule (issue #243).
+        // under the shared `<tool>` dir, which carries the tool-level
+        // `.tessl-plugin/plugin.json`. Both are correctly structured and must not
+        // trip the name-vs-directory rule (issue #243).
         let dir = tempdir().unwrap();
+        let toolkit = dir.path().join("skills/infrastructure/terraform");
+        write(&toolkit.join(".tessl-plugin/plugin.json"), "{}");
         for (sub, name) in [
             ("generator", "terraform-generator"),
             ("validator", "terraform-validator"),
         ] {
-            let skill = dir.path().join("skills/infrastructure/terraform").join(sub);
+            let skill = toolkit.join(sub);
             write(
                 &skill.join("SKILL.md"),
                 &format!("---\nname: {name}\n---\nBody\n"),
@@ -698,12 +707,68 @@ mod tests {
     }
 
     #[test]
+    fn consolidated_toolkit_names_not_flagged() {
+        // Multi-skill toolkits prefix each skill with the toolkit name, and a
+        // trailing `-toolkit` is dropped from the prefix (issue #260).
+        let dir = tempdir().unwrap();
+        for (rel, name) in [
+            (
+                "skills/infrastructure/cfn/behavior-validator",
+                "cfn-behavior-validator",
+            ),
+            (
+                "skills/infrastructure/k8s/yaml-generator",
+                "k8s-yaml-generator",
+            ),
+            (
+                "skills/repository-mgmt/nx/biome-integration",
+                "nx-biome-integration",
+            ),
+            (
+                "skills/agentic-harness/opencode-toolkit/build-plugins",
+                "opencode-build-plugins",
+            ),
+        ] {
+            let skill = dir.path().join(rel);
+            write(
+                &skill.parent().unwrap().join(".tessl-plugin/plugin.json"),
+                "{}",
+            );
+            write(
+                &skill.join("SKILL.md"),
+                &format!("---\nname: {name}\n---\nBody\n"),
+            );
+            let mut report = ArtifactReport::default();
+            check_skill_dir(&skill, &mut report);
+            assert_eq!(report.errors(), 0, "{rel}: {:?}", report.results);
+        }
+    }
+
+    #[test]
+    fn non_toolkit_prefixed_name_still_flagged() {
+        // Robustness: without a tool-level plugin the parent is not a toolkit, so a
+        // `<parent>-<dir>` name is not a valid consolidated form and is still an
+        // error. The exemption must not silently accept prefixed names anywhere.
+        let dir = tempdir().unwrap();
+        let skill = dir.path().join("skills/development/commanderjs");
+        write(
+            &skill.join("SKILL.md"),
+            "---\nname: development-commanderjs\n---\nBody\n",
+        );
+        let mut report = ArtifactReport::default();
+        check_skill_dir(&skill, &mut report);
+        assert_eq!(report.errors(), 1, "{:?}", report.results);
+    }
+
+    #[test]
     fn consolidated_wrong_name_still_flagged() {
-        // The consolidated exemption only accepts `<parent>-<dir>`: a genuinely
+        // The consolidated exemption only accepts `<prefix>-<dir>`: a genuinely
         // wrong name in a generator/validator directory is still an error, and the
         // message surfaces the accepted consolidated form.
         let dir = tempdir().unwrap();
-        let skill = dir.path().join("skills/infrastructure/terraform/generator");
+        let toolkit = dir.path().join("skills/infrastructure/terraform");
+        write(&toolkit.join(".tessl-plugin/plugin.json"), "{}");
+        let skill = toolkit.join("generator");
         write(
             &skill.join("SKILL.md"),
             "---\nname: terraform-gen\n---\nBody\n",
