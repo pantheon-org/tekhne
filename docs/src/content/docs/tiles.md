@@ -724,7 +724,7 @@ Comprehensive toolkit for validating, optimizing, and understanding Prometheus Q
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [promql-validator](/tekhne/skills/observability/promql/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 4 |
+| [promql-validator](/tekhne/skills/observability/promql/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 7 |
 
 ### promql-generator
 
@@ -732,7 +732,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [promql-generator](/tekhne/skills/observability/promql/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [promql-generator](/tekhne/skills/observability/promql/generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 8 |
 
 ---
 

@@ -5,6 +5,28 @@ description: Generate PromQL queries for calculating error rates, aggregating me
 
 # PromQL Query Generator
 
+## When to Use This Skill
+
+Use this skill when you need to:
+
+- Write a PromQL query for error rates, latency percentiles, or availability.
+- Author recording rules or SLO burn-rate alerting rules.
+- Aggregate metrics across labels using RED or USE monitoring patterns.
+- Build queries for Prometheus counters, gauges, histograms, or summaries.
+
+When NOT to use this skill:
+
+- Validating or optimising an existing query — use `promql-validator` instead.
+- Non-Prometheus query languages (LogQL, MetricsQL dialect specifics, SQL) — use the matching tool.
+- Configuring Prometheus scrape targets or storage — that is server config, not query authoring.
+
+## Mindset
+
+- **Match the function to the metric type.** rate() is for counters, histogram_quantile() for histograms; applying rate() to a gauge is meaningless.
+- **Error rate is a ratio.** Express it as rated errors over rated totals across the same window, not as raw counts.
+- **Control cardinality on purpose.** Choose by()/without() labels deliberately so a query cannot explode a dashboard.
+- **Alert on sustained burn.** SLO alerts use multi-window burn rates and a for clause, not a single instantaneous threshold.
+
 ## Interactive Query Planning Workflow
 
 **CRITICAL**: Always engage the user in collaborative planning **before** generating any query. Never skip the planning phase.

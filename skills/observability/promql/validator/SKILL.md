@@ -5,6 +5,28 @@ description: Comprehensive toolkit for validating, optimizing, and understanding
 
 # PromQL Validator
 
+## When to Use This Skill
+
+Use this skill when you need to:
+
+- Validate PromQL query syntax and semantics.
+- Detect anti-patterns and high-cardinality risks in queries or dashboards.
+- Review alerting or recording rules before they ship.
+- Explain what a query does and compare it against the intended goal.
+
+When NOT to use this skill:
+
+- Authoring a new query from scratch — use `promql-generator` instead.
+- Non-PromQL query languages — use the tool that matches that language.
+- Diagnosing Prometheus server health or scrape failures — that is an operations concern, not query validation.
+
+## Mindset
+
+- **Valid is not production-ready.** Syntactic validity says nothing about correctness, cost, or intent.
+- **Know the metric type first.** A query cannot be judged without knowing whether its series are counters, gauges, or histograms.
+- **Guard cardinality.** A dashboard query that keeps a high-cardinality label can overload the TSDB; flag it.
+- **Alerts need a for clause.** An expression with no sustain window flaps; check for one where it is warranted.
+
 ## Workflow
 
 This skill uses a **two-phase interactive workflow**: Phase 1 (Steps 1-4) presents validation results and asks clarifying questions, then **stops and waits** for user response before proceeding to Phase 2 (Steps 5-7) for tailored recommendations.

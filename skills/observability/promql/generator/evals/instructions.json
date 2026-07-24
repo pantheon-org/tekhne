@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Match the aggregation to the metric type: rate() over counters, histogram_quantile() over histograms; NEVER rate() a gauge.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Compute error rate as a ratio of rated counters over the same window, not raw counts.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use multi-window, multi-burn-rate conditions for SLO alerts rather than a single threshold.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Aggregate with by()/without() deliberately to control label cardinality.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Prefer recording rules for expensive expressions reused across dashboards/alerts.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

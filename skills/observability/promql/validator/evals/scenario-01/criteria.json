@@ -1,0 +1,21 @@
+{
+  "context": "A query applies rate() to a gauge metric. Validate it and report the problem.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Confirms syntax then checks the metric type",
+      "description": "Confirms syntax then checks the metric type",
+      "max_score": 40
+    },
+    {
+      "name": "Flags rate() applied to a gauge",
+      "description": "Flags rate() applied to a gauge",
+      "max_score": 40
+    },
+    {
+      "name": "Explains the correct function for a gauge",
+      "description": "Explains the correct function for a gauge",
+      "max_score": 20
+    }
+  ]
+}

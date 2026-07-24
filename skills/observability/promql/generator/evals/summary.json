@@ -1,0 +1,18 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Generates an error-rate ratio over counters": ["scenario-01"],
+      "Generates a histogram percentile": ["scenario-02"],
+      "Generates a multi-window SLO burn-rate alert": ["scenario-03"]
+    }
+  }
+}

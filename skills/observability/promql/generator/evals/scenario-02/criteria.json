@@ -1,0 +1,21 @@
+{
+  "context": "Generate a PromQL query for P95 request latency from a histogram metric.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses histogram_quantile(0.95, ...)",
+      "description": "Uses histogram_quantile(0.95, ...)",
+      "max_score": 45
+    },
+    {
+      "name": "Applies rate() to the _bucket series over a window",
+      "description": "Applies rate() to the _bucket series over a window",
+      "max_score": 35
+    },
+    {
+      "name": "Aggregates by le correctly",
+      "description": "Aggregates by le correctly",
+      "max_score": 20
+    }
+  ]
+}

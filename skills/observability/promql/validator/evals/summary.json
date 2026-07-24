@@ -1,0 +1,18 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Validates syntax and checks metric type": ["scenario-01"],
+      "Flags a high-cardinality dashboard query": ["scenario-02"],
+      "Checks the for clause on an alert expression": ["scenario-03"]
+    }
+  }
+}

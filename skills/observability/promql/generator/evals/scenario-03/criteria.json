@@ -1,0 +1,21 @@
+{
+  "context": "Generate a multi-window burn-rate alert for a 99.9% availability SLO that pages on a fast burn.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses multi-window multi-burn-rate conditions",
+      "description": "Uses multi-window multi-burn-rate conditions",
+      "max_score": 45
+    },
+    {
+      "name": "Burn-rate math matches the 99.9% SLO",
+      "description": "Burn-rate math matches the 99.9% SLO",
+      "max_score": 35
+    },
+    {
+      "name": "Includes a for clause to avoid flapping",
+      "description": "Includes a for clause to avoid flapping",
+      "max_score": 20
+    }
+  ]
+}
