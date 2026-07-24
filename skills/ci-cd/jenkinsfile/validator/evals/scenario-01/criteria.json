@@ -1,0 +1,21 @@
+{
+  "context": "A Declarative Jenkinsfile has a misplaced steps block. Detect the type and validate it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the pipeline is Declarative",
+      "description": "Detects the pipeline is Declarative",
+      "max_score": 30
+    },
+    {
+      "name": "Runs the Declarative Linter",
+      "description": "Runs the Declarative Linter",
+      "max_score": 40
+    },
+    {
+      "name": "Reports the misplaced block with the stage",
+      "description": "Reports the misplaced block with the stage",
+      "max_score": 30
+    }
+  ]
+}

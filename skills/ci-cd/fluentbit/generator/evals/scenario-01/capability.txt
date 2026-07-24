@@ -1,0 +1,1 @@
+Generates a Kubernetes log pipeline with metadata and bounded buffers

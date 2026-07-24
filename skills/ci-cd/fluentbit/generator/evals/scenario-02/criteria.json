@@ -1,0 +1,21 @@
+{
+  "context": "Configure an OUTPUT to an authenticated backend with TLS and a retry policy, keeping credentials out of the config file.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Enables TLS on the output",
+      "description": "Enables TLS on the output",
+      "max_score": 35
+    },
+    {
+      "name": "References credentials via env/secret, not plaintext",
+      "description": "References credentials via env/secret, not plaintext",
+      "max_score": 45
+    },
+    {
+      "name": "Sets a bounded retry policy",
+      "description": "Sets a bounded retry policy",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "context": "Generate a job that builds and pushes a Docker image, keeping registry credentials out of the committed file.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses masked/protected variables for credentials",
+      "description": "Uses masked/protected variables for credentials",
+      "max_score": 45
+    },
+    {
+      "name": "Does not hardcode registry secrets in the YAML",
+      "description": "Does not hardcode registry secrets in the YAML",
+      "max_score": 35
+    },
+    {
+      "name": "Scopes the push to the intended branch/tag",
+      "description": "Scopes the push to the intended branch/tag",
+      "max_score": 20
+    }
+  ]
+}

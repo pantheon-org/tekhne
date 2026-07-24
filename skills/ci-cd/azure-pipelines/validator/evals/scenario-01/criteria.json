@@ -1,0 +1,21 @@
+{
+  "context": "An azure-pipelines.yml has an indentation error under steps. Validate it and report the problem.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs YAML syntax validation first",
+      "description": "Runs YAML syntax validation first",
+      "max_score": 40
+    },
+    {
+      "name": "Reports the error with file and line",
+      "description": "Reports the error with file and line",
+      "max_score": 40
+    },
+    {
+      "name": "Suggests the fix",
+      "description": "Suggests the fix",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "context": "A job defines a token as a plain variable in the YAML. Run the security audit and report it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the unmasked secret variable",
+      "description": "Detects the unmasked secret variable",
+      "max_score": 50
+    },
+    {
+      "name": "Explains the exposure risk",
+      "description": "Explains the exposure risk",
+      "max_score": 30
+    },
+    {
+      "name": "Recommends a masked/protected variable",
+      "description": "Recommends a masked/protected variable",
+      "max_score": 20
+    }
+  ]
+}

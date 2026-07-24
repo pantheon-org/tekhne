@@ -1,0 +1,22 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Validates an azure-pipelines.yml and reports syntax errors with location": [
+        "scenario-01"
+      ],
+      "Runs a security audit before merge and flags secret exposure": [
+        "scenario-02"
+      ],
+      "Identifies pipeline optimisation opportunities": ["scenario-03"]
+    }
+  }
+}

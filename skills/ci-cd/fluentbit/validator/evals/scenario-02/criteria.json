@@ -1,0 +1,21 @@
+{
+  "context": "An OUTPUT enables TLS but disables certificate verification. Validate and report the security finding.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies TLS with verification disabled",
+      "description": "Identifies TLS with verification disabled",
+      "max_score": 50
+    },
+    {
+      "name": "Explains the MITM risk",
+      "description": "Explains the MITM risk",
+      "max_score": 30
+    },
+    {
+      "name": "Recommends enabling verification",
+      "description": "Recommends enabling verification",
+      "max_score": 20
+    }
+  ]
+}

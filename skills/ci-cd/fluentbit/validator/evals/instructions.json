@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Check tag routing (INPUT tag reaches an OUTPUT Match) as part of validation; NEVER validate syntax alone.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER pass an output using TLS without certificate validation enabled.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run syntax validation before semantic and security checks.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report unroutable tags (logs that match no output) as errors, with the offending section.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When a tool is missing, inform the user, offer the install command, and ask before skipping.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

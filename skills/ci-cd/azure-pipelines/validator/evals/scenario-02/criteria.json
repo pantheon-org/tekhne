@@ -1,0 +1,21 @@
+{
+  "context": "A pipeline echoes $(mySecret) in a script step. Run a pre-merge security audit and report the issue.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the secret being echoed/exposed",
+      "description": "Detects the secret being echoed/exposed",
+      "max_score": 50
+    },
+    {
+      "name": "Explains the exposure risk",
+      "description": "Explains the exposure risk",
+      "max_score": 30
+    },
+    {
+      "name": "Recommends secret-masking or a secure variable",
+      "description": "Recommends secret-masking or a secure variable",
+      "max_score": 20
+    }
+  ]
+}

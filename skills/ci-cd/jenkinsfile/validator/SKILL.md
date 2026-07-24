@@ -7,6 +7,28 @@ description: Comprehensive toolkit for validating, linting, testing, and automat
 
 Comprehensive toolkit for validating, linting, and testing Jenkinsfile pipelines (both Declarative and Scripted). This skill applies when working with Jenkins pipeline files, validating pipeline syntax, checking best practices, debugging pipeline issues, or working with custom plugins that require documentation lookup.
 
+## When to Use This Skill
+
+Use this skill when you need to:
+
+- Validate a Jenkinsfile (Declarative or Scripted) for syntax and best practices.
+- Run the Declarative Linter against a Declarative pipeline.
+- Check Shared Library calls the pipeline depends on.
+- Detect hardcoded credentials or controller-heavy operations in a pipeline.
+
+When NOT to use this skill:
+
+- Authoring a new Jenkinsfile from scratch — use `jenkinsfile-generator` instead.
+- CI configuration for a non-Jenkins system (GitHub Actions, GitLab CI) — use that system's skill.
+- Diagnosing a failed build's application logs rather than the pipeline definition.
+
+## Mindset
+
+- **Detect the type first.** Declarative and Scripted have different rules; validate against the right one.
+- **Lint even when it looks fine.** Run the Declarative Linter rather than eyeballing syntax.
+- **Follow the calls.** A Jenkinsfile is incomplete without the Shared Library steps it invokes; validate those too.
+- **Look up unfamiliar steps.** Judge a non-core plugin step against its documentation, not an assumption.
+
 ## Validation Capabilities
 
 **Declarative**: Required sections, directive placement, parallel execution, credential management, combined shell commands.

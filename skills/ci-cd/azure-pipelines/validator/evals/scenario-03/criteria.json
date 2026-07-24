@@ -1,0 +1,21 @@
+{
+  "context": "A pipeline installs dependencies from scratch every run with no caching. Analyse it and recommend optimisations.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Flags the missing dependency cache",
+      "description": "Flags the missing dependency cache",
+      "max_score": 50
+    },
+    {
+      "name": "Suggests caching or parallelism concretely",
+      "description": "Suggests caching or parallelism concretely",
+      "max_score": 30
+    },
+    {
+      "name": "Does not change build correctness",
+      "description": "Does not change build correctness",
+      "max_score": 20
+    }
+  ]
+}

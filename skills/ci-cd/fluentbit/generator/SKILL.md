@@ -5,6 +5,28 @@ description: Generates, validates, and optimizes Fluent Bit configurations for p
 
 # Fluent Bit Config Generator
 
+## When to Use This Skill
+
+Use this skill when you need to:
+
+- Create a new Fluent Bit configuration with INPUT, FILTER, and OUTPUT sections.
+- Build a Kubernetes log-collection pipeline with pod and namespace metadata enrichment.
+- Forward logs to a destination (Elasticsearch, Loki, S3, Kafka, CloudWatch, OpenTelemetry).
+- Add multi-line parsing or convert an existing logging config to Fluent Bit.
+
+When NOT to use this skill:
+
+- Validating or debugging an existing config — use `fluentbit-validator` instead.
+- Log processing that belongs in Fluentd or Logstash rather than Fluent Bit.
+- Application-level structured logging — that is a code concern, not a Fluent Bit config concern.
+
+## Mindset
+
+- **Bound every buffer.** Each INPUT sets `Mem_Buf_Limit` so a burst cannot exhaust memory.
+- **Route explicitly.** Every OUTPUT matches a specific tag; `Match *` on all outputs duplicates and misroutes logs.
+- **Secrets never live in the file.** Credentials and tokens come from environment variables or mounted secrets, not `fluent-bit.conf`.
+- **Generate, then validate.** Hand the output to `fluentbit-validator` before calling it done.
+
 ## Workflow: 4 Essential Steps
 
 ### Step 1: Gather Requirements

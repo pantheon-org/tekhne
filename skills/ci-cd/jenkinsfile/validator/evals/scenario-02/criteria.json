@@ -1,0 +1,21 @@
+{
+  "context": "A Jenkinsfile calls a shared library step. Validate the pipeline including that call.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the shared library call",
+      "description": "Identifies the shared library call",
+      "max_score": 40
+    },
+    {
+      "name": "Validates the call, not just the Jenkinsfile body",
+      "description": "Validates the call, not just the Jenkinsfile body",
+      "max_score": 40
+    },
+    {
+      "name": "Reports any unresolved library step",
+      "description": "Reports any unresolved library step",
+      "max_score": 20
+    }
+  ]
+}

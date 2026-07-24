@@ -1,0 +1,18 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Generates a Declarative pipeline with a post section": ["scenario-01"],
+      "Generates a parallel pipeline": ["scenario-02"],
+      "Adds a security-scanning stage with managed credentials": ["scenario-03"]
+    }
+  }
+}

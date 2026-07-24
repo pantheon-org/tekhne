@@ -1,0 +1,21 @@
+{
+  "context": "Generate a .gitlab-ci.yml with build, test, and deploy stages and a job in each.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Declares explicit stages",
+      "description": "Declares explicit stages",
+      "max_score": 40
+    },
+    {
+      "name": "Assigns each job to a stage",
+      "description": "Assigns each job to a stage",
+      "max_score": 35
+    },
+    {
+      "name": "Deploy runs only on the default branch",
+      "description": "Deploy runs only on the default branch",
+      "max_score": 25
+    }
+  ]
+}

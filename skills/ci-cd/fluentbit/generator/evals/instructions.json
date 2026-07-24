@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Give each OUTPUT a specific Match tag; NEVER use `Match *` on all outputs simultaneously.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always set Mem_Buf_Limit on INPUT plugins to bound memory use.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER store sensitive values directly in fluent-bit.conf; reference environment variables or secrets.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Enrich Kubernetes logs with the kubernetes filter for pod/namespace metadata.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate the generated configuration with the fluentbit-validator skill before finishing.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

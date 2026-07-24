@@ -1,0 +1,21 @@
+{
+  "context": "A chart references an undefined value in a template. Run helm lint and template rendering and report the failure.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs helm lint",
+      "description": "Runs helm lint",
+      "max_score": 30
+    },
+    {
+      "name": "Renders templates and catches the undefined value",
+      "description": "Renders templates and catches the undefined value",
+      "max_score": 45
+    },
+    {
+      "name": "Reports the failing template with location",
+      "description": "Reports the failing template with location",
+      "max_score": 25
+    }
+  ]
+}

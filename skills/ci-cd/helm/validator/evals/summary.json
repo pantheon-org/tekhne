@@ -1,0 +1,18 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Lints and renders a chart": ["scenario-01"],
+      "Validates values against the schema": ["scenario-02"],
+      "Runs the security best-practices check": ["scenario-03"]
+    }
+  }
+}

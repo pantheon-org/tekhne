@@ -1,0 +1,21 @@
+{
+  "context": "A repo has .github/actions/setup/action.yml. Validate the custom action definition, not just the workflows.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Validates the action.yml definition",
+      "description": "Validates the action.yml definition",
+      "max_score": 50
+    },
+    {
+      "name": "Checks required fields (name, runs, inputs)",
+      "description": "Checks required fields (name, runs, inputs)",
+      "max_score": 30
+    },
+    {
+      "name": "Reports findings with location",
+      "description": "Reports findings with location",
+      "max_score": 20
+    }
+  ]
+}

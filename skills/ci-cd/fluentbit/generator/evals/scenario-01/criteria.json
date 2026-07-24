@@ -1,0 +1,21 @@
+{
+  "context": "Generate a Fluent Bit config that tails container logs, enriches them with Kubernetes metadata, and ships them to Elasticsearch.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "INPUT tails logs and sets Mem_Buf_Limit",
+      "description": "INPUT tails logs and sets Mem_Buf_Limit",
+      "max_score": 35
+    },
+    {
+      "name": "Uses the kubernetes filter for metadata",
+      "description": "Uses the kubernetes filter for metadata",
+      "max_score": 35
+    },
+    {
+      "name": "OUTPUT targets Elasticsearch with a specific Match tag",
+      "description": "OUTPUT targets Elasticsearch with a specific Match tag",
+      "max_score": 30
+    }
+  ]
+}

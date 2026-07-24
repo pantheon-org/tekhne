@@ -1,0 +1,1 @@
+Validates syntax and tag routing together

@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run syntax validation first; NEVER report best-practice or security findings before syntax is confirmed valid.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Detect deprecated keywords and flag them with their replacement.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER pass a pipeline that exposes secrets as unmasked variables.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Verify stage ordering is coherent (jobs depend only on earlier stages).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report each finding with the job name and the concrete fix.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

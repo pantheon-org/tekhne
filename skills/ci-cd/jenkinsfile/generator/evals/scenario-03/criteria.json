@@ -1,0 +1,21 @@
+{
+  "context": "Add a security-scanning stage that needs an API token, injecting the token via Jenkins credentials rather than hardcoding it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Adds a scanning stage",
+      "description": "Adds a scanning stage",
+      "max_score": 30
+    },
+    {
+      "name": "Injects the token via credentials()/withCredentials",
+      "description": "Injects the token via credentials()/withCredentials",
+      "max_score": 50
+    },
+    {
+      "name": "No secret literal in the Jenkinsfile",
+      "description": "No secret literal in the Jenkinsfile",
+      "max_score": 20
+    }
+  ]
+}

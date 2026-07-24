@@ -1,0 +1,16 @@
+{
+  "context": "Route application logs and audit logs to two different outputs. Ensure each output matches only its intended stream.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Each OUTPUT uses a specific Match tag, not Match *",
+      "description": "Each OUTPUT uses a specific Match tag, not Match *",
+      "max_score": 55
+    },
+    {
+      "name": "Tags on INPUT/FILTER align with OUTPUT matches",
+      "description": "Tags on INPUT/FILTER align with OUTPUT matches",
+      "max_score": 45
+    }
+  ]
+}
