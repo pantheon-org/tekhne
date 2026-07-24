@@ -1,0 +1,22 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Generates a DRY root configuration with remote_state and generate blocks": [
+        "scenario-01"
+      ],
+      "Generates a child module with a dependency block and mock_outputs": [
+        "scenario-02"
+      ],
+      "Generates a multi-environment structure": ["scenario-03"]
+    }
+  }
+}

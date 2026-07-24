@@ -1,0 +1,1 @@
+Runs ansible-lint and reports idempotency findings with rule ids

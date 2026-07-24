@@ -1,0 +1,21 @@
+{
+  "context": "Configure remote state for an S3 backend with locking, for a configuration a team will share.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses a remote backend, not local state",
+      "description": "Uses a remote backend, not local state",
+      "max_score": 45
+    },
+    {
+      "name": "Configures state locking (dynamodb_table or native lockfile)",
+      "description": "Configures state locking (dynamodb_table or native lockfile)",
+      "max_score": 35
+    },
+    {
+      "name": "Enables backend encryption",
+      "description": "Enables backend encryption",
+      "max_score": 20
+    }
+  ]
+}

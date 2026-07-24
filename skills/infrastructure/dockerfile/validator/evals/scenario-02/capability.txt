@@ -1,0 +1,1 @@
+Detects a hardcoded secret in ENV

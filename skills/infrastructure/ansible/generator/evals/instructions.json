@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Generate idempotent tasks; NEVER use shell/command modules where a purpose-built module exists.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER store plaintext secrets in playbooks or inventory; use Ansible Vault or a secrets lookup.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use handlers for service restarts triggered by notify, not unconditional restart tasks.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Scaffold roles with the standard directory layout (tasks/, handlers/, defaults/, templates/, meta/).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Pin collection versions in requirements.yml for any non-builtin module used.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Set become only where privilege escalation is required, not globally by default.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

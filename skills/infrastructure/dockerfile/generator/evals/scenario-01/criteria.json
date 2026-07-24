@@ -1,0 +1,21 @@
+{
+  "context": "Generate a production Dockerfile for a Node.js app using multi-stage build and a non-root runtime user.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses a multi-stage build (builder + slim runtime)",
+      "description": "Uses a multi-stage build (builder + slim runtime)",
+      "max_score": 35
+    },
+    {
+      "name": "Creates and switches to a non-root USER before CMD",
+      "description": "Creates and switches to a non-root USER before CMD",
+      "max_score": 35
+    },
+    {
+      "name": "Pins the base image to an explicit version, not :latest",
+      "description": "Pins the base image to an explicit version, not :latest",
+      "max_score": 30
+    }
+  ]
+}

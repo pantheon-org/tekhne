@@ -1,0 +1,1 @@
+Performs a check-mode dry run and handles a missing tool

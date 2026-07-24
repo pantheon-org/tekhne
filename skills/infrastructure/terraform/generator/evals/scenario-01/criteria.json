@@ -1,0 +1,26 @@
+{
+  "context": "Generate an S3 bucket with versioning and server-side encryption. Split into main.tf/variables.tf/outputs.tf/versions.tf and validate.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Splits config into main/variables/outputs/versions files",
+      "description": "Splits config into main/variables/outputs/versions files",
+      "max_score": 25
+    },
+    {
+      "name": "Enables versioning and encryption, no hardcoded secrets",
+      "description": "Enables versioning and encryption, no hardcoded secrets",
+      "max_score": 35
+    },
+    {
+      "name": "Pins provider versions in a required_providers block",
+      "description": "Pins provider versions in a required_providers block",
+      "max_score": 20
+    },
+    {
+      "name": "Validates with terraform-validator before finishing",
+      "description": "Validates with terraform-validator before finishing",
+      "max_score": 20
+    }
+  ]
+}

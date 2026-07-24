@@ -1,0 +1,1 @@
+Generates a multi-stage Dockerfile running as a non-root user

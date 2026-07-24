@@ -1,0 +1,21 @@
+{
+  "context": "Trivy is not installed. Security-scan the Terragrunt configuration and decide how to proceed, excluding cached modules.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Attempts the Trivy scan and excludes downloaded modules",
+      "description": "Attempts the Trivy scan and excludes downloaded modules",
+      "max_score": 40
+    },
+    {
+      "name": "Detects the missing scanner and offers the install command",
+      "description": "Detects the missing scanner and offers the install command",
+      "max_score": 40
+    },
+    {
+      "name": "Asks before skipping rather than silently continuing",
+      "description": "Asks before skipping rather than silently continuing",
+      "max_score": 20
+    }
+  ]
+}

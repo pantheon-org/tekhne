@@ -1,0 +1,21 @@
+{
+  "context": "Generate a child terragrunt.hcl for an app module that depends on a network module, so plan works before the dependency is applied.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Includes the root config via include",
+      "description": "Includes the root config via include",
+      "max_score": 30
+    },
+    {
+      "name": "Declares a dependency block with mock_outputs",
+      "description": "Declares a dependency block with mock_outputs",
+      "max_score": 45
+    },
+    {
+      "name": "Pins the Terraform source to a versioned ref",
+      "description": "Pins the Terraform source to a versioned ref",
+      "max_score": 25
+    }
+  ]
+}

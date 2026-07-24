@@ -1,0 +1,16 @@
+{
+  "context": "Generate a .dockerignore for the Node.js project so node_modules, git, and CI files stay out of the build context.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Excludes node_modules, .git, and CI/config files",
+      "description": "Excludes node_modules, .git, and CI/config files",
+      "max_score": 55
+    },
+    {
+      "name": "Does not exclude files the build needs (package.json, src)",
+      "description": "Does not exclude files the build needs (package.json, src)",
+      "max_score": 45
+    }
+  ]
+}

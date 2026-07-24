@@ -1,0 +1,21 @@
+{
+  "context": "hadolint is not installed and the Dockerfile sets USER after CMD with no HEALTHCHECK. Validate and decide how to proceed.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects USER set after CMD and the missing HEALTHCHECK",
+      "description": "Detects USER set after CMD and the missing HEALTHCHECK",
+      "max_score": 40
+    },
+    {
+      "name": "Detects the missing tool and offers the install/Docker fallback",
+      "description": "Detects the missing tool and offers the install/Docker fallback",
+      "max_score": 40
+    },
+    {
+      "name": "Asks before skipping rather than silently continuing",
+      "description": "Asks before skipping rather than silently continuing",
+      "max_score": 20
+    }
+  ]
+}

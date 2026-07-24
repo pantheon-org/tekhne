@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run hclfmt --check and terragrunt validate as the first structural validation steps.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Detect custom providers/modules and look up their documentation before validating usage.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER treat a clean hclfmt result as full validation; run terragrunt validate as well.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run a security scan (Trivy) and report findings with their check ids.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When a validation tool is missing, inform the user, offer the install command, and ask before skipping.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Exclude downloaded/cached modules from security scans to avoid noise.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

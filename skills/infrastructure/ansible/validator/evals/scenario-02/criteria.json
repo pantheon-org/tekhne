@@ -1,0 +1,21 @@
+{
+  "context": "A task passes a password to a module without no_log. Validate and report the security issue.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the task handling a secret",
+      "description": "Identifies the task handling a secret",
+      "max_score": 40
+    },
+    {
+      "name": "Flags the missing no_log and explains the leak risk",
+      "description": "Flags the missing no_log and explains the leak risk",
+      "max_score": 40
+    },
+    {
+      "name": "Suggests the concrete fix",
+      "description": "Suggests the concrete fix",
+      "max_score": 20
+    }
+  ]
+}

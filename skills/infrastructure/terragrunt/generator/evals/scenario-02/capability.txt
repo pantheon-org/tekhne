@@ -1,0 +1,1 @@
+Generates a child module with a dependency block and mock_outputs

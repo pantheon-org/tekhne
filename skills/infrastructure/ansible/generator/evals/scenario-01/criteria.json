@@ -1,0 +1,21 @@
+{
+  "context": "Generate a playbook that installs nginx, deploys a config template, and restarts nginx only when the config changes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses the package and template modules, not shell/command",
+      "description": "Uses the package and template modules, not shell/command",
+      "max_score": 35
+    },
+    {
+      "name": "Restart happens via a handler triggered by notify",
+      "description": "Restart happens via a handler triggered by notify",
+      "max_score": 35
+    },
+    {
+      "name": "Tasks are idempotent (no unconditional changes)",
+      "description": "Tasks are idempotent (no unconditional changes)",
+      "max_score": 30
+    }
+  ]
+}

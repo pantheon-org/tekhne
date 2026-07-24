@@ -1,0 +1,1 @@
+Adds a HEALTHCHECK and validates the result

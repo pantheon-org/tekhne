@@ -1,0 +1,21 @@
+{
+  "context": "A Dockerfile uses FROM node:latest and never sets USER. Validate it and report the issues.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs hadolint and reports the :latest tag issue",
+      "description": "Runs hadolint and reports the :latest tag issue",
+      "max_score": 40
+    },
+    {
+      "name": "Flags that the container runs as root (no USER)",
+      "description": "Flags that the container runs as root (no USER)",
+      "max_score": 40
+    },
+    {
+      "name": "Reports findings with rule/check ids",
+      "description": "Reports findings with rule/check ids",
+      "max_score": 20
+    }
+  ]
+}

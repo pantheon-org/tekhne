@@ -1,0 +1,1 @@
+Scaffolds a role with the standard directory structure

@@ -1,0 +1,21 @@
+{
+  "context": "Generate inventory for prod and staging with group_vars, keeping any credentials in Vault rather than plaintext.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Separates hosts into groups with group_vars",
+      "description": "Separates hosts into groups with group_vars",
+      "max_score": 40
+    },
+    {
+      "name": "Secrets are referenced via Vault, not stored in plaintext",
+      "description": "Secrets are referenced via Vault, not stored in plaintext",
+      "max_score": 40
+    },
+    {
+      "name": "No secrets committed to inventory files",
+      "description": "No secrets committed to inventory files",
+      "max_score": 20
+    }
+  ]
+}

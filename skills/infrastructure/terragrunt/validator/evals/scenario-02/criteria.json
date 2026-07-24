@@ -1,0 +1,21 @@
+{
+  "context": "A configuration uses a third-party provider. Validate it, detecting that provider docs are needed.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the custom/third-party provider",
+      "description": "Detects the custom/third-party provider",
+      "max_score": 45
+    },
+    {
+      "name": "Looks up the provider documentation before judging usage",
+      "description": "Looks up the provider documentation before judging usage",
+      "max_score": 35
+    },
+    {
+      "name": "Reports provider guidance in the validation output",
+      "description": "Reports provider guidance in the validation output",
+      "max_score": 20
+    }
+  ]
+}

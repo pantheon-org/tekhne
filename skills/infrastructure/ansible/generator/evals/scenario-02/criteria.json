@@ -1,0 +1,21 @@
+{
+  "context": "Scaffold an Ansible role named webserver with the standard directory layout and sensible defaults.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Creates tasks/, handlers/, defaults/, templates/, meta/",
+      "description": "Creates tasks/, handlers/, defaults/, templates/, meta/",
+      "max_score": 45
+    },
+    {
+      "name": "Defaults live in defaults/main.yml, not hardcoded in tasks",
+      "description": "Defaults live in defaults/main.yml, not hardcoded in tasks",
+      "max_score": 30
+    },
+    {
+      "name": "meta/main.yml declares platforms and dependencies",
+      "description": "meta/main.yml declares platforms and dependencies",
+      "max_score": 25
+    }
+  ]
+}

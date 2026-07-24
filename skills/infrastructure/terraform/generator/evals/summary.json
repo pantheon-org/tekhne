@@ -1,0 +1,22 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Generates a secure S3 bucket config and validates it before finishing": [
+        "scenario-01"
+      ],
+      "Configures a remote state backend with locking instead of local state": [
+        "scenario-02"
+      ],
+      "Uses for_each for named resources rather than count": ["scenario-03"]
+    }
+  }
+}

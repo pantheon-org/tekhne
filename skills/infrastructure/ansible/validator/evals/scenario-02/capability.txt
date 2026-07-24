@@ -1,0 +1,1 @@
+Detects a secret-handling task missing no_log

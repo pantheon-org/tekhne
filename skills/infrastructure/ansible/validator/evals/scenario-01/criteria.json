@@ -1,0 +1,21 @@
+{
+  "context": "A playbook uses the command module to create a directory. Validate it and report the idempotency finding.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs syntax check then ansible-lint",
+      "description": "Runs syntax check then ansible-lint",
+      "max_score": 30
+    },
+    {
+      "name": "Flags the command-vs-module idempotency issue with its rule id",
+      "description": "Flags the command-vs-module idempotency issue with its rule id",
+      "max_score": 40
+    },
+    {
+      "name": "Reports the finding with file and line",
+      "description": "Reports the finding with file and line",
+      "max_score": 30
+    }
+  ]
+}

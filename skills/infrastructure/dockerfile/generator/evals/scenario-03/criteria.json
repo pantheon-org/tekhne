@@ -1,0 +1,21 @@
+{
+  "context": "Add a HEALTHCHECK to the service Dockerfile and validate the final image definition.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Adds a HEALTHCHECK appropriate to the service",
+      "description": "Adds a HEALTHCHECK appropriate to the service",
+      "max_score": 40
+    },
+    {
+      "name": "Validates with dockerfile-validator and fixes findings",
+      "description": "Validates with dockerfile-validator and fixes findings",
+      "max_score": 40
+    },
+    {
+      "name": "Keeps USER set before ENTRYPOINT/CMD",
+      "description": "Keeps USER set before ENTRYPOINT/CMD",
+      "max_score": 20
+    }
+  ]
+}

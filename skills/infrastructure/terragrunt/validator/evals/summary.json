@@ -1,0 +1,18 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Runs hclfmt check and terragrunt validate": ["scenario-01"],
+      "Detects a custom provider needing documentation lookup": ["scenario-02"],
+      "Runs a security scan and handles a missing tool": ["scenario-03"]
+    }
+  }
+}

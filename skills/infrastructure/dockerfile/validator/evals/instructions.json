@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run hadolint for syntax and best-practice linting as the first validation step.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER pass a Dockerfile using the :latest base tag; flag it and require an explicit version.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER ignore hardcoded secrets in ENV/ARG; flag them as a security finding.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Verify USER is set before CMD/ENTRYPOINT so the container does not run as root.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run a Checkov scan and report findings with their check ids.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When hadolint or Checkov is missing, inform the user, offer the install/Docker command, and ask before skipping.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}
