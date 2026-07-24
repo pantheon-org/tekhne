@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run `terraform validate` before `tflint` so provider-schema and type errors are caught first; NEVER treat a clean tflint result as complete validation.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Read references/security_checklist.md and references/best_practices.md BEFORE running any security scan, so findings can be remediated with the documented patterns.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report every security finding with an exact file:line and a cross-reference to the security_checklist.md section that explains it; never report an untraceable warning.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate from the root configuration that calls a module, using realistic variable values; ALWAYS avoid validating modules in isolation as the sole check.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When a validation tool is missing, inform the user what is missing and why, provide the install command, and ask before continuing; do not silently skip a required step.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Route HIGH and CRITICAL security findings to a human review step before merge; NEVER use Checkov or tfsec exit codes as the sole security gate.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    }
+  ]
+}

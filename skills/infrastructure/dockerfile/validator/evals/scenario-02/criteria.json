@@ -1,0 +1,21 @@
+{
+  "context": "A Dockerfile sets ENV API_TOKEN to a literal value. Validate and report the security finding.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the hardcoded secret in ENV",
+      "description": "Identifies the hardcoded secret in ENV",
+      "max_score": 50
+    },
+    {
+      "name": "Explains the leak risk and suggests build-time secrets or runtime injection",
+      "description": "Explains the leak risk and suggests build-time secrets or runtime injection",
+      "max_score": 30
+    },
+    {
+      "name": "Reports the finding with file and line",
+      "description": "Reports the finding with file and line",
+      "max_score": 20
+    }
+  ]
+}

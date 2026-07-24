@@ -1,0 +1,20 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Flags :latest base tag and root user via hadolint": ["scenario-01"],
+      "Detects a hardcoded secret in ENV": ["scenario-02"],
+      "Flags ordering and missing HEALTHCHECK, handles missing tool": [
+        "scenario-03"
+      ]
+    }
+  }
+}

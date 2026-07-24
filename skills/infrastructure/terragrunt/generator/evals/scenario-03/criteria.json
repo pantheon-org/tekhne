@@ -1,0 +1,21 @@
+{
+  "context": "Generate a multi-environment layout with per-environment env.hcl values and a shared root, for prod and staging.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Separates environments with their own env.hcl values",
+      "description": "Separates environments with their own env.hcl values",
+      "max_score": 45
+    },
+    {
+      "name": "Shares the root configuration across environments",
+      "description": "Shares the root configuration across environments",
+      "max_score": 35
+    },
+    {
+      "name": "Keeps environment-specific values out of the shared root",
+      "description": "Keeps environment-specific values out of the shared root",
+      "max_score": 20
+    }
+  ]
+}

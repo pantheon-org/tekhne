@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use for_each with a map or set for named resources; NEVER use count for resources that differ by configuration.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER hardcode provider credentials or region in .tf files; use environment variables or IAM roles and var.region.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER store Terraform state in a local backend for team or CI use; configure a remote backend with state locking.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate every generated configuration with the terraform-validator skill before presenting it as complete.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Add prevent_destroy lifecycle rules on stateful resources (KMS keys, RDS, S3 buckets with data).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Never hardcode sensitive values; declare them as variables and mark them sensitive.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "context": "ansible-lint is not installed. Dry-run the playbook in check mode and decide how to proceed with linting.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs the playbook in check mode without changing hosts",
+      "description": "Runs the playbook in check mode without changing hosts",
+      "max_score": 40
+    },
+    {
+      "name": "Detects the missing linter and offers the install command",
+      "description": "Detects the missing linter and offers the install command",
+      "max_score": 40
+    },
+    {
+      "name": "Asks before skipping rather than silently continuing",
+      "description": "Asks before skipping rather than silently continuing",
+      "max_score": 20
+    }
+  ]
+}

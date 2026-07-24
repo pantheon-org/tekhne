@@ -1,0 +1,22 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Runs ansible-lint and reports idempotency findings with rule ids": [
+        "scenario-01"
+      ],
+      "Detects a secret-handling task missing no_log": ["scenario-02"],
+      "Performs a check-mode dry run and handles a missing tool": [
+        "scenario-03"
+      ]
+    }
+  }
+}

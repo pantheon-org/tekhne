@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Use multi-stage builds so build tooling never ships in the runtime image.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER run the container as root; create and switch to a non-root USER before CMD/ENTRYPOINT.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER use the :latest base image tag; pin an explicit version (ideally a digest).",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Generate a .dockerignore alongside every Dockerfile to keep build context small.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Add a HEALTHCHECK for long-running services.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate the generated Dockerfile with the dockerfile-validator skill and fix findings before finishing.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Generates an idempotent playbook using purpose-built modules and handlers": [
+        "scenario-01"
+      ],
+      "Scaffolds a role with the standard directory structure": ["scenario-02"],
+      "Generates inventory with grouped vars and no plaintext secrets": [
+        "scenario-03"
+      ]
+    }
+  }
+}

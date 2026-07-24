@@ -1,0 +1,1 @@
+Generates a DRY root configuration with remote_state and generate blocks

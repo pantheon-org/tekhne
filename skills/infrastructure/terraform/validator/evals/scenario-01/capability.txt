@@ -1,0 +1,1 @@
+Validates from the calling root and runs terraform validate before tflint

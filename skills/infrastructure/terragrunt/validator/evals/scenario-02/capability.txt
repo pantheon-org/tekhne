@@ -1,0 +1,1 @@
+Detects a custom provider needing documentation lookup

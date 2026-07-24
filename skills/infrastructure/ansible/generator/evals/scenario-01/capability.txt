@@ -1,0 +1,1 @@
+Generates an idempotent playbook using purpose-built modules and handlers

@@ -1,0 +1,21 @@
+{
+  "context": "Generate a root.hcl that centralises remote_state (S3 with locking) and a provider generate block for child modules to inherit.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Defines remote_state with locking in the root",
+      "description": "Defines remote_state with locking in the root",
+      "max_score": 40
+    },
+    {
+      "name": "Uses a generate block for the provider so children inherit it",
+      "description": "Uses a generate block for the provider so children inherit it",
+      "max_score": 35
+    },
+    {
+      "name": "Children inherit via include rather than duplicating config",
+      "description": "Children inherit via include rather than duplicating config",
+      "max_score": 25
+    }
+  ]
+}

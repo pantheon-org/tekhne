@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Generate a root configuration that centralises remote_state and provider generate blocks for DRY reuse.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use dependency blocks with mock_outputs so plans work before dependencies are applied.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER use a dynamic reference in a feature-flag default; feature-flag defaults must be static.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER duplicate backend configuration in every child; inherit it from the root via include.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Pin the Terraform source in each child terragrunt.hcl to a versioned ref.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate generated configurations with the terragrunt-validator skill before finishing.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

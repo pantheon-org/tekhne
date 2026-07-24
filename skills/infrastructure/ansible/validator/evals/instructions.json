@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run ansible-lint even when the playbook runs successfully; NEVER treat a successful run as validation.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER commit playbooks with no_log missing on tasks that handle secrets.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run yamllint/syntax check before ansible-lint so structural errors surface first.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use check mode (--check) for a dry run before applying changes to real hosts.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When a linter or Molecule is missing, inform the user, offer the install command, and ask before skipping.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report each finding with the file and line, mapped to the ansible-lint rule id.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

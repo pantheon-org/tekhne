@@ -1,0 +1,21 @@
+{
+  "context": "A terragrunt.hcl is misformatted. Run the structural validation steps and report what is wrong.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs hclfmt --check and reports the formatting issue",
+      "description": "Runs hclfmt --check and reports the formatting issue",
+      "max_score": 40
+    },
+    {
+      "name": "Runs terragrunt validate for structural checks",
+      "description": "Runs terragrunt validate for structural checks",
+      "max_score": 40
+    },
+    {
+      "name": "Does not treat a clean format as complete validation",
+      "description": "Does not treat a clean format as complete validation",
+      "max_score": 20
+    }
+  ]
+}

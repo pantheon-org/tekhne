@@ -1,0 +1,21 @@
+{
+  "context": "Create three named EC2 instances (web, api, worker) whose identities survive removing one from the middle of the list.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses for_each over a map/set, not count",
+      "description": "Uses for_each over a map/set, not count",
+      "max_score": 50
+    },
+    {
+      "name": "Resource addresses are keyed by name, not index",
+      "description": "Resource addresses are keyed by name, not index",
+      "max_score": 30
+    },
+    {
+      "name": "Declares inputs as variables without environment-specific defaults",
+      "description": "Declares inputs as variables without environment-specific defaults",
+      "max_score": 20
+    }
+  ]
+}

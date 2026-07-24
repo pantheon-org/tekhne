@@ -1,0 +1,20 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Generates a multi-stage Dockerfile running as a non-root user": [
+        "scenario-01"
+      ],
+      "Generates a matching .dockerignore": ["scenario-02"],
+      "Adds a HEALTHCHECK and validates the result": ["scenario-03"]
+    }
+  }
+}

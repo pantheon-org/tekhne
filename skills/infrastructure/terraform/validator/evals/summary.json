@@ -1,0 +1,25 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 6,
+    "covered": 6,
+    "scenarios": {
+      "Run terraform validate before tflint": ["scenario-01"],
+      "Read reference files before security scan": ["scenario-02"],
+      "Report findings with file:line and checklist cross-reference": [
+        "scenario-02"
+      ],
+      "Validate from the calling root, not modules in isolation": [
+        "scenario-01"
+      ],
+      "Handle missing tools by informing and asking first": ["scenario-03"],
+      "Route HIGH/CRITICAL findings to human review": ["scenario-02"]
+    }
+  }
+}

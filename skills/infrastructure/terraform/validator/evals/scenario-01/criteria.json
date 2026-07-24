@@ -1,0 +1,26 @@
+{
+  "context": "A root configuration in environments/prod/ calls a local module in modules/network/. The module declares a variable the root never passes, and one file is unformatted. Validate and report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs terraform validate from the root before tflint",
+      "description": "Initializes and validates from environments/prod/ (the calling root), not from inside modules/network/ in isolation.",
+      "max_score": 35
+    },
+    {
+      "name": "Detects the undeclared/unpassed variable",
+      "description": "Identifies that the module input is never supplied by the root and flags it rather than treating it as null.",
+      "max_score": 30
+    },
+    {
+      "name": "Reports the formatting issue with file:line",
+      "description": "Runs terraform fmt -check and names the unformatted file with a location.",
+      "max_score": 20
+    },
+    {
+      "name": "Orders the workflow correctly",
+      "description": "fmt and validate precede tflint; a clean tflint alone is not treated as complete validation.",
+      "max_score": 15
+    }
+  ]
+}

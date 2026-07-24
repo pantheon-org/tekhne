@@ -7,6 +7,29 @@ description: Comprehensive toolkit for validating, linting, testing, and automat
 
 Comprehensive toolkit for validating, linting, and testing Terraform configurations with automated workflows for syntax validation, security scanning, and intelligent documentation lookup.
 
+## When to Use This Skill
+
+Use this skill when you need to:
+
+- Validate `.tf` or `.tfvars` files for syntax, provider-schema, and type correctness.
+- Lint Terraform against style and correctness rules with `tflint`.
+- Run a security scan (Checkov/Trivy) and produce an evidence-cited findings report.
+- Dry-run a change with `terraform plan` before it is applied.
+- Diagnose a validation or provider error against a known-error database.
+
+When NOT to use this skill:
+
+- Generating new Terraform from scratch — use `terraform-generator` instead.
+- Applying changes to real infrastructure (`terraform apply`) — validation stops at plan; apply is an operator decision, not a validation step.
+- Non-Terraform IaC (CloudFormation, Pulumi, Bicep) — the parsers and rule sets here are Terraform-specific.
+
+## Mindset
+
+- **Fail closed on required steps.** A step marked Required is a gate, not a suggestion. If a required tool is unavailable, surface it and ask before continuing rather than silently skipping.
+- **Evidence over assertion.** Every finding cites an exact `file:line` and the reference-file section that explains it. Never report an untraceable warning.
+- **Validate from the root, not the module.** A module that passes in isolation can still fail when called with the root's real inputs; test the way it is actually consumed.
+- **Machines gate the known-bad; humans judge the risk.** Automated scanners block known violations, but HIGH and CRITICAL findings route to a human before merge.
+
 ## Validation Workflow
 
 Execute these steps in order. Steps marked **Required** must not be skipped.
@@ -148,7 +171,7 @@ When a validation tool is not installed:
 
 **If checkov is missing:** Ask to install via `bash scripts/install_checkov.sh install`, then rerun security scan.
 
-**If tflint is missing:** Ask to install (`brew install tflint` on macOS or equivalent), note as skipped if declined.
+**If tflint is missing:** Ask to install (`brew install tflint` on macOS or equivalent), note as skipped if the user opts out.
 
 **If python-hcl2 is missing:** `extract_tf_info_wrapper.sh` handles this automatically via a temporary venv — no user action required.
 

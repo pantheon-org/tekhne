@@ -1,0 +1,1 @@
+Runs hclfmt check and terragrunt validate
