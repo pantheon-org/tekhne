@@ -2,7 +2,7 @@
   {
     "dir": "crates/skill-auditor/testdata/fixtures/skill-full",
     "result": {
-      "skill": "crates/skill-auditor/testdata/fixtures/skill-full",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/testdata/fixtures/skill-full/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -29,7 +29,7 @@
   {
     "dir": "crates/skill-auditor/testdata/fixtures/skill-minimal",
     "result": {
-      "skill": "crates/skill-auditor/testdata/fixtures/skill-minimal",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/testdata/fixtures/skill-minimal/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 0,
@@ -70,7 +70,7 @@
   {
     "dir": "skills/agentic-harness/agents-md",
     "result": {
-      "skill": "skills/agentic-harness/agents-md",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/agents-md/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -103,7 +103,7 @@
   {
     "dir": "skills/agentic-harness/cache-audit",
     "result": {
-      "skill": "skills/agentic-harness/cache-audit",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/cache-audit/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -140,7 +140,7 @@
   {
     "dir": "skills/agentic-harness/create-context",
     "result": {
-      "skill": "skills/agentic-harness/create-context",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/create-context/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 8,
@@ -185,7 +185,7 @@
   {
     "dir": "skills/agentic-harness/load-context",
     "result": {
-      "skill": "skills/agentic-harness/load-context",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/load-context/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 8,
@@ -230,7 +230,7 @@
   {
     "dir": "skills/agentic-harness/opencode-toolkit/build-plugins",
     "result": {
-      "skill": "skills/agentic-harness/opencode-toolkit/build-plugins",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -267,7 +267,7 @@
   {
     "dir": "skills/agentic-harness/opencode-toolkit/build-tool",
     "result": {
-      "skill": "skills/agentic-harness/opencode-toolkit/build-tool",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -304,7 +304,7 @@
   {
     "dir": "skills/agentic-harness/opencode-toolkit/configure",
     "result": {
-      "skill": "skills/agentic-harness/opencode-toolkit/configure",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/opencode-toolkit/configure/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -341,7 +341,7 @@
   {
     "dir": "skills/agentic-harness/opencode-toolkit/design-agents",
     "result": {
-      "skill": "skills/agentic-harness/opencode-toolkit/design-agents",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -378,7 +378,7 @@
   {
     "dir": "skills/agentic-harness/opencode-toolkit/design-commands",
     "result": {
-      "skill": "skills/agentic-harness/opencode-toolkit/design-commands",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -415,7 +415,7 @@
   {
     "dir": "skills/agentic-harness/pick-model",
     "result": {
-      "skill": "skills/agentic-harness/pick-model",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/pick-model/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 8,
@@ -448,7 +448,7 @@
   {
     "dir": "skills/agentic-harness/pin",
     "result": {
-      "skill": "skills/agentic-harness/pin",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/pin/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -485,7 +485,7 @@
   {
     "dir": "skills/agentic-harness/professional-honesty",
     "result": {
-      "skill": "skills/agentic-harness/professional-honesty",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/professional-honesty/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -512,7 +512,7 @@
   {
     "dir": "skills/agentic-harness/save-context",
     "result": {
-      "skill": "skills/agentic-harness/save-context",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/save-context/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 8,
@@ -555,9 +555,36 @@
     }
   },
   {
+    "dir": "skills/agentic-harness/skill-quality-auditor",
+    "result": {
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/skill-quality-auditor/SKILL.md",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 11,
+        "evalValidation": 17,
+        "freedomCalibration": 15,
+        "knowledgeDelta": 19,
+        "mindsetProcedures": 14,
+        "patternRecognition": 10,
+        "practicalUsability": 15,
+        "progressiveDisclosure": 11,
+        "specificationCompliance": 9
+      },
+      "total": 121,
+      "maxTotal": 140,
+      "grade": "B+",
+      "lines": 132,
+      "hasReferences": true,
+      "referenceCount": 24,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 0
+    }
+  },
+  {
     "dir": "skills/agentic-harness/socratic-method",
     "result": {
-      "skill": "skills/agentic-harness/socratic-method",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/socratic-method/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -590,7 +617,7 @@
   {
     "dir": "skills/agentic-harness/tessl/publish-public",
     "result": {
-      "skill": "skills/agentic-harness/tessl/publish-public",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/tessl/publish-public/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -623,7 +650,7 @@
   {
     "dir": "skills/agentic-harness/vault-capture",
     "result": {
-      "skill": "skills/agentic-harness/vault-capture",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/vault-capture/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -656,7 +683,7 @@
   {
     "dir": "skills/agentic-harness/vault-consolidate",
     "result": {
-      "skill": "skills/agentic-harness/vault-consolidate",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/vault-consolidate/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -689,7 +716,7 @@
   {
     "dir": "skills/agentic-harness/vault-fetch",
     "result": {
-      "skill": "skills/agentic-harness/vault-fetch",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/vault-fetch/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 3,
@@ -722,7 +749,7 @@
   {
     "dir": "skills/agentic-harness/vault-search",
     "result": {
-      "skill": "skills/agentic-harness/vault-search",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/agentic-harness/vault-search/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -749,7 +776,7 @@
   {
     "dir": "skills/ci-cd/azure-pipelines/generator",
     "result": {
-      "skill": "skills/ci-cd/azure-pipelines/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/azure-pipelines/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -782,7 +809,7 @@
   {
     "dir": "skills/ci-cd/azure-pipelines/validator",
     "result": {
-      "skill": "skills/ci-cd/azure-pipelines/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/azure-pipelines/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -819,7 +846,7 @@
   {
     "dir": "skills/ci-cd/fluentbit/generator",
     "result": {
-      "skill": "skills/ci-cd/fluentbit/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/fluentbit/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -856,7 +883,7 @@
   {
     "dir": "skills/ci-cd/fluentbit/validator",
     "result": {
-      "skill": "skills/ci-cd/fluentbit/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/fluentbit/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -893,7 +920,7 @@
   {
     "dir": "skills/ci-cd/github-actions/generator",
     "result": {
-      "skill": "skills/ci-cd/github-actions/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/github-actions/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -926,7 +953,7 @@
   {
     "dir": "skills/ci-cd/github-actions/validator",
     "result": {
-      "skill": "skills/ci-cd/github-actions/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/github-actions/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -963,7 +990,7 @@
   {
     "dir": "skills/ci-cd/gitlab-ci/generator",
     "result": {
-      "skill": "skills/ci-cd/gitlab-ci/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/gitlab-ci/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -996,7 +1023,7 @@
   {
     "dir": "skills/ci-cd/gitlab-ci/validator",
     "result": {
-      "skill": "skills/ci-cd/gitlab-ci/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/gitlab-ci/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -1033,7 +1060,7 @@
   {
     "dir": "skills/ci-cd/helm/generator",
     "result": {
-      "skill": "skills/ci-cd/helm/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/helm/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1066,7 +1093,7 @@
   {
     "dir": "skills/ci-cd/helm/validator",
     "result": {
-      "skill": "skills/ci-cd/helm/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/helm/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1099,7 +1126,7 @@
   {
     "dir": "skills/ci-cd/jenkinsfile/generator",
     "result": {
-      "skill": "skills/ci-cd/jenkinsfile/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/jenkinsfile/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1132,7 +1159,7 @@
   {
     "dir": "skills/ci-cd/jenkinsfile/validator",
     "result": {
-      "skill": "skills/ci-cd/jenkinsfile/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/ci-cd/jenkinsfile/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -1165,7 +1192,7 @@
   {
     "dir": "skills/development/biome-complete",
     "result": {
-      "skill": "skills/development/biome-complete",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/biome-complete/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1198,7 +1225,7 @@
   {
     "dir": "skills/development/bun-development",
     "result": {
-      "skill": "skills/development/bun-development",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/bun-development/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -1231,7 +1258,7 @@
   {
     "dir": "skills/development/commanderjs",
     "result": {
-      "skill": "skills/development/commanderjs",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/commanderjs/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1264,7 +1291,7 @@
   {
     "dir": "skills/development/front-end/web-reference-sheet-generator",
     "result": {
-      "skill": "skills/development/front-end/web-reference-sheet-generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/front-end/web-reference-sheet-generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1297,7 +1324,7 @@
   {
     "dir": "skills/development/front-end/website-theme-porter",
     "result": {
-      "skill": "skills/development/front-end/website-theme-porter",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/front-end/website-theme-porter/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1334,7 +1361,7 @@
   {
     "dir": "skills/development/scripting/bash-script/generator",
     "result": {
-      "skill": "skills/development/scripting/bash-script/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/scripting/bash-script/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1367,7 +1394,7 @@
   {
     "dir": "skills/development/scripting/bash-script/validator",
     "result": {
-      "skill": "skills/development/scripting/bash-script/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/scripting/bash-script/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1400,7 +1427,7 @@
   {
     "dir": "skills/development/scripting/makefile/generator",
     "result": {
-      "skill": "skills/development/scripting/makefile/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/scripting/makefile/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1433,7 +1460,7 @@
   {
     "dir": "skills/development/scripting/makefile/validator",
     "result": {
-      "skill": "skills/development/scripting/makefile/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/scripting/makefile/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -1466,7 +1493,7 @@
   {
     "dir": "skills/development/typescript-advanced",
     "result": {
-      "skill": "skills/development/typescript-advanced",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/development/typescript-advanced/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -1499,7 +1526,7 @@
   {
     "dir": "skills/documentation/astro-starlight/skills/starlight-base",
     "result": {
-      "skill": "skills/documentation/astro-starlight/skills/starlight-base",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/astro-starlight/skills/starlight-base/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1532,7 +1559,7 @@
   {
     "dir": "skills/documentation/astro-starlight/skills/starlight-custom-component",
     "result": {
-      "skill": "skills/documentation/astro-starlight/skills/starlight-custom-component",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/astro-starlight/skills/starlight-custom-component/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1565,7 +1592,7 @@
   {
     "dir": "skills/documentation/astro-starlight/skills/starlight-theme",
     "result": {
-      "skill": "skills/documentation/astro-starlight/skills/starlight-theme",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/astro-starlight/skills/starlight-theme/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1598,7 +1625,7 @@
   {
     "dir": "skills/documentation/conventional-commits",
     "result": {
-      "skill": "skills/documentation/conventional-commits",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/conventional-commits/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -1631,7 +1658,7 @@
   {
     "dir": "skills/documentation/humanizer",
     "result": {
-      "skill": "skills/documentation/humanizer",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/humanizer/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1656,9 +1683,50 @@
     }
   },
   {
+    "dir": "skills/documentation/journal-entry-creator",
+    "result": {
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/journal-entry-creator/SKILL.md",
+      "date": "",
+      "dimensions": {
+        "antiPatternQuality": 9,
+        "evalValidation": 4,
+        "freedomCalibration": 13,
+        "knowledgeDelta": 18,
+        "mindsetProcedures": 13,
+        "patternRecognition": 10,
+        "practicalUsability": 11,
+        "progressiveDisclosure": 10,
+        "specificationCompliance": 12
+      },
+      "total": 100,
+      "maxTotal": 140,
+      "grade": "C",
+      "lines": 450,
+      "hasReferences": true,
+      "referenceCount": 5,
+      "referenceSectionCompliant": false,
+      "errors": 0,
+      "warnings": 3,
+      "warningDetails": [
+        {
+          "dimension": "D4",
+          "message": "agent-specific reference found: opencode"
+        },
+        {
+          "dimension": "D4",
+          "message": "absolute skill path outside code blocks: skills/journal-entry-creator/references"
+        },
+        {
+          "dimension": "D9",
+          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+        }
+      ]
+    }
+  },
+  {
     "dir": "skills/documentation/markdown-authoring",
     "result": {
-      "skill": "skills/documentation/markdown-authoring",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/markdown-authoring/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1685,7 +1753,7 @@
   {
     "dir": "skills/documentation/mermaid-diagrams",
     "result": {
-      "skill": "skills/documentation/mermaid-diagrams",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/mermaid-diagrams/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1712,7 +1780,7 @@
   {
     "dir": "skills/documentation/obsidian/defuddle",
     "result": {
-      "skill": "skills/documentation/obsidian/defuddle",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/obsidian/defuddle/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1745,7 +1813,7 @@
   {
     "dir": "skills/documentation/obsidian/json-canvas",
     "result": {
-      "skill": "skills/documentation/obsidian/json-canvas",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/obsidian/json-canvas/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1778,7 +1846,7 @@
   {
     "dir": "skills/documentation/obsidian/obsidian-bases",
     "result": {
-      "skill": "skills/documentation/obsidian/obsidian-bases",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/obsidian/obsidian-bases/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1811,7 +1879,7 @@
   {
     "dir": "skills/documentation/obsidian/obsidian-cli",
     "result": {
-      "skill": "skills/documentation/obsidian/obsidian-cli",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/obsidian/obsidian-cli/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1848,7 +1916,7 @@
   {
     "dir": "skills/documentation/obsidian/obsidian-markdown",
     "result": {
-      "skill": "skills/documentation/obsidian/obsidian-markdown",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/obsidian/obsidian-markdown/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1881,7 +1949,7 @@
   {
     "dir": "skills/documentation/plain-english",
     "result": {
-      "skill": "skills/documentation/plain-english",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/plain-english/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1914,7 +1982,7 @@
   {
     "dir": "skills/documentation/professional-communication",
     "result": {
-      "skill": "skills/documentation/professional-communication",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/professional-communication/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -1941,7 +2009,7 @@
   {
     "dir": "skills/documentation/proof-of-work/skills/proof-of-work",
     "result": {
-      "skill": "skills/documentation/proof-of-work/skills/proof-of-work",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/proof-of-work/skills/proof-of-work/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -1974,7 +2042,7 @@
   {
     "dir": "skills/documentation/research/google-scholar-search",
     "result": {
-      "skill": "skills/documentation/research/google-scholar-search",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/google-scholar-search/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2017,7 +2085,7 @@
   {
     "dir": "skills/documentation/research/notebooklm",
     "result": {
-      "skill": "skills/documentation/research/notebooklm",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/notebooklm/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2050,7 +2118,7 @@
   {
     "dir": "skills/documentation/research/pubmed-search",
     "result": {
-      "skill": "skills/documentation/research/pubmed-search",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/pubmed-search/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2093,7 +2161,7 @@
   {
     "dir": "skills/documentation/research/reproduce-benchmark",
     "result": {
-      "skill": "skills/documentation/research/reproduce-benchmark",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/reproduce-benchmark/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2130,7 +2198,7 @@
   {
     "dir": "skills/documentation/research/scholar-evaluation",
     "result": {
-      "skill": "skills/documentation/research/scholar-evaluation",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/scholar-evaluation/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 10,
@@ -2163,7 +2231,7 @@
   {
     "dir": "skills/documentation/research/sci-data-extractor",
     "result": {
-      "skill": "skills/documentation/research/sci-data-extractor",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/sci-data-extractor/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2206,7 +2274,7 @@
   {
     "dir": "skills/documentation/research/sci-hub-search",
     "result": {
-      "skill": "skills/documentation/research/sci-hub-search",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/sci-hub-search/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2249,7 +2317,7 @@
   {
     "dir": "skills/documentation/research/scientific-schematics",
     "result": {
-      "skill": "skills/documentation/research/scientific-schematics",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/scientific-schematics/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 10,
@@ -2282,7 +2350,7 @@
   {
     "dir": "skills/documentation/research/semantic-scholar-search",
     "result": {
-      "skill": "skills/documentation/research/semantic-scholar-search",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/semantic-scholar-search/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2325,7 +2393,7 @@
   {
     "dir": "skills/documentation/research/triage-paper",
     "result": {
-      "skill": "skills/documentation/research/triage-paper",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/triage-paper/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2362,7 +2430,7 @@
   {
     "dir": "skills/documentation/research/triage-tool",
     "result": {
-      "skill": "skills/documentation/research/triage-tool",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/research/triage-tool/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 10,
@@ -2395,7 +2463,7 @@
   {
     "dir": "skills/documentation/sop-structure",
     "result": {
-      "skill": "skills/documentation/sop-structure",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/documentation/sop-structure/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -2422,7 +2490,7 @@
   {
     "dir": "skills/infrastructure/ansible/generator",
     "result": {
-      "skill": "skills/infrastructure/ansible/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/ansible/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2455,7 +2523,7 @@
   {
     "dir": "skills/infrastructure/ansible/validator",
     "result": {
-      "skill": "skills/infrastructure/ansible/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/ansible/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2488,7 +2556,7 @@
   {
     "dir": "skills/infrastructure/aws-cdk/cdk-nag",
     "result": {
-      "skill": "skills/infrastructure/aws-cdk/cdk-nag",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/aws-cdk/cdk-nag/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2521,7 +2589,7 @@
   {
     "dir": "skills/infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder",
     "result": {
-      "skill": "skills/infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -2554,7 +2622,7 @@
   {
     "dir": "skills/infrastructure/aws/investigation-toolkit/skills/aws-console-navigator",
     "result": {
-      "skill": "skills/infrastructure/aws/investigation-toolkit/skills/aws-console-navigator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/aws/investigation-toolkit/skills/aws-console-navigator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2587,7 +2655,7 @@
   {
     "dir": "skills/infrastructure/cfn/behavior-validator",
     "result": {
-      "skill": "skills/infrastructure/cfn/behavior-validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/cfn/behavior-validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -2620,7 +2688,7 @@
   {
     "dir": "skills/infrastructure/cfn/template-compare",
     "result": {
-      "skill": "skills/infrastructure/cfn/template-compare",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/cfn/template-compare/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2653,7 +2721,7 @@
   {
     "dir": "skills/infrastructure/dockerfile/generator",
     "result": {
-      "skill": "skills/infrastructure/dockerfile/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/dockerfile/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2694,7 +2762,7 @@
   {
     "dir": "skills/infrastructure/dockerfile/validator",
     "result": {
-      "skill": "skills/infrastructure/dockerfile/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/dockerfile/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2727,7 +2795,7 @@
   {
     "dir": "skills/infrastructure/k8s/debug",
     "result": {
-      "skill": "skills/infrastructure/k8s/debug",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/k8s/debug/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2760,7 +2828,7 @@
   {
     "dir": "skills/infrastructure/k8s/yaml-generator",
     "result": {
-      "skill": "skills/infrastructure/k8s/yaml-generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/k8s/yaml-generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2797,7 +2865,7 @@
   {
     "dir": "skills/infrastructure/k8s/yaml-validator",
     "result": {
-      "skill": "skills/infrastructure/k8s/yaml-validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/k8s/yaml-validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2830,7 +2898,7 @@
   {
     "dir": "skills/infrastructure/terraform/generator",
     "result": {
-      "skill": "skills/infrastructure/terraform/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/terraform/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2867,7 +2935,7 @@
   {
     "dir": "skills/infrastructure/terraform/validator",
     "result": {
-      "skill": "skills/infrastructure/terraform/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/terraform/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2904,7 +2972,7 @@
   {
     "dir": "skills/infrastructure/terragrunt/generator",
     "result": {
-      "skill": "skills/infrastructure/terragrunt/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/terragrunt/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2941,7 +3009,7 @@
   {
     "dir": "skills/infrastructure/terragrunt/validator",
     "result": {
-      "skill": "skills/infrastructure/terragrunt/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/terragrunt/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -2974,7 +3042,7 @@
   {
     "dir": "skills/observability/logql-generator",
     "result": {
-      "skill": "skills/observability/logql-generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/observability/logql-generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3011,7 +3079,7 @@
   {
     "dir": "skills/observability/promql/generator",
     "result": {
-      "skill": "skills/observability/promql/generator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/observability/promql/generator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3044,7 +3112,7 @@
   {
     "dir": "skills/observability/promql/validator",
     "result": {
-      "skill": "skills/observability/promql/validator",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/observability/promql/validator/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3081,7 +3149,7 @@
   {
     "dir": "skills/package-mgmt/mise-complete",
     "result": {
-      "skill": "skills/package-mgmt/mise-complete",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/package-mgmt/mise-complete/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3114,7 +3182,7 @@
   {
     "dir": "skills/project-mgmt/create-context-file",
     "result": {
-      "skill": "skills/project-mgmt/create-context-file",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/create-context-file/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -3147,7 +3215,7 @@
   {
     "dir": "skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria",
     "result": {
-      "skill": "skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 10,
@@ -3174,7 +3242,7 @@
   {
     "dir": "skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup",
     "result": {
-      "skill": "skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -3201,7 +3269,7 @@
   {
     "dir": "skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization",
     "result": {
-      "skill": "skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 10,
@@ -3228,7 +3296,7 @@
   {
     "dir": "skills/project-mgmt/plan-execute",
     "result": {
-      "skill": "skills/project-mgmt/plan-execute",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/plan-execute/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3265,7 +3333,7 @@
   {
     "dir": "skills/project-mgmt/planning-toolkit/implementation-planner",
     "result": {
-      "skill": "skills/project-mgmt/planning-toolkit/implementation-planner",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/planning-toolkit/implementation-planner/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3306,7 +3374,7 @@
   {
     "dir": "skills/project-mgmt/planning-toolkit/pr-stacker",
     "result": {
-      "skill": "skills/project-mgmt/planning-toolkit/pr-stacker",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/planning-toolkit/pr-stacker/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -3343,7 +3411,7 @@
   {
     "dir": "skills/project-mgmt/planning-toolkit/wave-execution-planner",
     "result": {
-      "skill": "skills/project-mgmt/planning-toolkit/wave-execution-planner",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/planning-toolkit/wave-execution-planner/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3384,7 +3452,7 @@
   {
     "dir": "skills/project-mgmt/planning-toolkit/wave-executor",
     "result": {
-      "skill": "skills/project-mgmt/planning-toolkit/wave-executor",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/project-mgmt/planning-toolkit/wave-executor/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3421,7 +3489,7 @@
   {
     "dir": "skills/repository-mgmt/nx/biome-integration",
     "result": {
-      "skill": "skills/repository-mgmt/nx/biome-integration",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/repository-mgmt/nx/biome-integration/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3454,7 +3522,7 @@
   {
     "dir": "skills/repository-mgmt/nx/bun-integration",
     "result": {
-      "skill": "skills/repository-mgmt/nx/bun-integration",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/repository-mgmt/nx/bun-integration/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3487,7 +3555,7 @@
   {
     "dir": "skills/repository-mgmt/nx/nx-plugin-authoring",
     "result": {
-      "skill": "skills/repository-mgmt/nx/nx-plugin-authoring",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/repository-mgmt/nx/nx-plugin-authoring/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3528,7 +3596,7 @@
   {
     "dir": "skills/repository-mgmt/nx/vite-integration",
     "result": {
-      "skill": "skills/repository-mgmt/nx/vite-integration",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/repository-mgmt/nx/vite-integration/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -3561,7 +3629,7 @@
   {
     "dir": "skills/repository-mgmt/nx/workspace-patterns",
     "result": {
-      "skill": "skills/repository-mgmt/nx/workspace-patterns",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/repository-mgmt/nx/workspace-patterns/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3594,7 +3662,7 @@
   {
     "dir": "skills/software-engineering/bridge",
     "result": {
-      "skill": "skills/software-engineering/bridge",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/bridge/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3631,7 +3699,7 @@
   {
     "dir": "skills/software-engineering/challenge",
     "result": {
-      "skill": "skills/software-engineering/challenge",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/challenge/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3668,7 +3736,7 @@
   {
     "dir": "skills/software-engineering/codebase-alignment",
     "result": {
-      "skill": "skills/software-engineering/codebase-alignment",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/codebase-alignment/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -3695,7 +3763,7 @@
   {
     "dir": "skills/software-engineering/design-principles/clean-architecture",
     "result": {
-      "skill": "skills/software-engineering/design-principles/clean-architecture",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/design-principles/clean-architecture/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3728,7 +3796,7 @@
   {
     "dir": "skills/software-engineering/design-principles/design-patterns",
     "result": {
-      "skill": "skills/software-engineering/design-principles/design-patterns",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/design-principles/design-patterns/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3761,7 +3829,7 @@
   {
     "dir": "skills/software-engineering/design-principles/solid-principles",
     "result": {
-      "skill": "skills/software-engineering/design-principles/solid-principles",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/design-principles/solid-principles/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3798,7 +3866,7 @@
   {
     "dir": "skills/software-engineering/design-principles/testable-design",
     "result": {
-      "skill": "skills/software-engineering/design-principles/testable-design",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/design-principles/testable-design/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -3831,7 +3899,7 @@
   {
     "dir": "skills/software-engineering/fp-higher-order-functions",
     "result": {
-      "skill": "skills/software-engineering/fp-higher-order-functions",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/fp-higher-order-functions/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3858,7 +3926,7 @@
   {
     "dir": "skills/software-engineering/fp-immutability",
     "result": {
-      "skill": "skills/software-engineering/fp-immutability",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/fp-immutability/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -3885,7 +3953,7 @@
   {
     "dir": "skills/software-engineering/fp-pure-functions",
     "result": {
-      "skill": "skills/software-engineering/fp-pure-functions",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/fp-pure-functions/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 3,
@@ -3912,7 +3980,7 @@
   {
     "dir": "skills/software-engineering/frame-problem",
     "result": {
-      "skill": "skills/software-engineering/frame-problem",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/frame-problem/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -3949,7 +4017,7 @@
   {
     "dir": "skills/software-engineering/probe",
     "result": {
-      "skill": "skills/software-engineering/probe",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/probe/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -3986,7 +4054,7 @@
   {
     "dir": "skills/software-engineering/simplicity-principles",
     "result": {
-      "skill": "skills/software-engineering/simplicity-principles",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/simplicity-principles/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -4013,7 +4081,7 @@
   {
     "dir": "skills/software-engineering/standards-review",
     "result": {
-      "skill": "skills/software-engineering/standards-review",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/standards-review/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -4050,7 +4118,7 @@
   {
     "dir": "skills/software-engineering/standards-to-tooling",
     "result": {
-      "skill": "skills/software-engineering/standards-to-tooling",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/standards-to-tooling/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 6,
@@ -4083,7 +4151,7 @@
   {
     "dir": "skills/software-engineering/troubleshoot",
     "result": {
-      "skill": "skills/software-engineering/troubleshoot",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/software-engineering/troubleshoot/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 8,
@@ -4120,7 +4188,7 @@
   {
     "dir": "skills/specialized/chezmoi/chezmoi-assistant",
     "result": {
-      "skill": "skills/specialized/chezmoi/chezmoi-assistant",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/specialized/chezmoi/chezmoi-assistant/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -4153,7 +4221,7 @@
   {
     "dir": "skills/specialized/chezmoi/managing-chezmoi-packages",
     "result": {
-      "skill": "skills/specialized/chezmoi/managing-chezmoi-packages",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/specialized/chezmoi/managing-chezmoi-packages/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 8,
@@ -4180,7 +4248,7 @@
   {
     "dir": "skills/specialized/colyseus-multiplayer",
     "result": {
-      "skill": "skills/specialized/colyseus-multiplayer",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/specialized/colyseus-multiplayer/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -4213,7 +4281,7 @@
   {
     "dir": "skills/specialized/github-copilot-models",
     "result": {
-      "skill": "skills/specialized/github-copilot-models",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/specialized/github-copilot-models/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -4254,7 +4322,7 @@
   {
     "dir": "skills/specialized/gitlab-api",
     "result": {
-      "skill": "skills/specialized/gitlab-api",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/specialized/gitlab-api/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -4307,7 +4375,7 @@
   {
     "dir": "skills/specialized/retrospect-collab",
     "result": {
-      "skill": "skills/specialized/retrospect-collab",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/specialized/retrospect-collab/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -4340,7 +4408,7 @@
   {
     "dir": "skills/specialized/retrospect-domain",
     "result": {
-      "skill": "skills/specialized/retrospect-domain",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/specialized/retrospect-domain/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -4373,7 +4441,7 @@
   {
     "dir": "skills/testing/bdd-testing",
     "result": {
-      "skill": "skills/testing/bdd-testing",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/testing/bdd-testing/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
@@ -4406,7 +4474,7 @@
   {
     "dir": "skills/testing/test-driven-development",
     "result": {
-      "skill": "skills/testing/test-driven-development",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/testing/test-driven-development/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -4439,7 +4507,7 @@
   {
     "dir": "skills/testing/ui-debug-workflow",
     "result": {
-      "skill": "skills/testing/ui-debug-workflow",
+      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/testing/ui-debug-workflow/SKILL.md",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,

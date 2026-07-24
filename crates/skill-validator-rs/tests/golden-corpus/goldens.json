@@ -18,7 +18,7 @@
       "information_density": 0.0995,
       "strong_markers": 6,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 10,
       "list_item_count": 6
     },
@@ -116,7 +116,7 @@
     "content": {
       "word_count": 109,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 11,
       "imperative_count": 2,
@@ -124,7 +124,7 @@
       "information_density": 0.1818,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 2,
       "list_item_count": 0
     },
@@ -254,7 +254,7 @@
       "information_density": 0.2765,
       "strong_markers": 1,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 3,
       "list_item_count": 0
     },
@@ -315,7 +315,7 @@
         {
           "Level": 3,
           "Category": "Frontmatter",
-          "Message": "parsing frontmatter YAML: yaml: line 2: found a tab character that violates indentation",
+          "Message": "parsing frontmatter YAML: found a tab character that violates indentation at line 2 column 1, while scanning a plain scalar at line 1 column 7",
           "File": "SKILL.md",
           "Line": 0
         }
@@ -331,7 +331,7 @@
     "content": {
       "word_count": 64,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 6,
       "imperative_count": 1,
@@ -339,7 +339,7 @@
       "information_density": 0.1667,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 1,
       "list_item_count": 0
     },
@@ -409,7 +409,7 @@
     "content": {
       "word_count": 44,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 4,
       "imperative_count": 1,
@@ -417,7 +417,7 @@
       "information_density": 0.25,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -507,15 +507,15 @@
     "content": {
       "word_count": 32,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 4,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -584,15 +584,15 @@
     "content": {
       "word_count": 20,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 3,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 1,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -643,15 +643,15 @@
     "content": {
       "word_count": 16,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 2,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -780,7 +780,7 @@
     "content": {
       "word_count": 79,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 9,
       "imperative_count": 2,
@@ -788,7 +788,7 @@
       "information_density": 0.2222,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 2,
       "list_item_count": 0
     },
@@ -889,7 +889,7 @@
     "content": {
       "word_count": 72,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 8,
       "imperative_count": 1,
@@ -897,7 +897,7 @@
       "information_density": 0.125,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 2,
       "list_item_count": 0
     },
@@ -1002,7 +1002,7 @@
     "content": {
       "word_count": 18,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 3,
       "imperative_count": 1,
@@ -1010,7 +1010,7 @@
       "information_density": 0.3333,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1061,7 +1061,7 @@
     "content": {
       "word_count": 18,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 3,
       "imperative_count": 1,
@@ -1069,7 +1069,7 @@
       "information_density": 0.3333,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1127,15 +1127,15 @@
     "content": {
       "word_count": 2514,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 501,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1186,15 +1186,15 @@
     "content": {
       "word_count": 2520,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 502,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1252,7 +1252,7 @@
     "content": {
       "word_count": 17,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 2,
       "imperative_count": 1,
@@ -1260,7 +1260,7 @@
       "information_density": 0.5,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1311,7 +1311,7 @@
     "content": {
       "word_count": 17,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 2,
       "imperative_count": 1,
@@ -1319,7 +1319,7 @@
       "information_density": 0.5,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1370,17 +1370,17 @@
     "content": {
       "word_count": 22,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [
         "bash"
       ],
       "sentence_count": 3,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 1,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1431,7 +1431,7 @@
     "content": {
       "word_count": 32,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 4,
       "imperative_count": 2,
@@ -1439,7 +1439,7 @@
       "information_density": 0.5,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -1497,15 +1497,15 @@
     "content": {
       "word_count": 24,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 3,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 0,
       "weak_markers": 0,
-      "instruction_specificity": 0,
+      "instruction_specificity": 0.0,
       "section_count": 0,
       "list_item_count": 0
     },
@@ -2280,7 +2280,7 @@
       "information_density": 0.2026,
       "strong_markers": 3,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 6,
       "list_item_count": 10
     },
@@ -2612,7 +2612,7 @@
       "information_density": 0.1644,
       "strong_markers": 7,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 6,
       "list_item_count": 9
     },
@@ -2752,7 +2752,7 @@
       "information_density": 0.2105,
       "strong_markers": 5,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 5,
       "list_item_count": 8
     },
@@ -3004,7 +3004,7 @@
       "information_density": 0.1568,
       "strong_markers": 17,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 16,
       "list_item_count": 58
     },
@@ -3338,16 +3338,390 @@
     }
   },
   {
+    "dir": "skills/agentic-harness/skill-quality-auditor",
+    "content": {
+      "word_count": 847,
+      "code_block_count": 7,
+      "code_block_ratio": 0.1063,
+      "code_languages": [
+        "bash",
+        "bash",
+        "bash",
+        "bash",
+        "bash",
+        "bash",
+        "bash"
+      ],
+      "sentence_count": 44,
+      "imperative_count": 14,
+      "imperative_ratio": 0.3182,
+      "information_density": 0.2122,
+      "strong_markers": 9,
+      "weak_markers": 0,
+      "instruction_specificity": 1.0,
+      "section_count": 12,
+      "list_item_count": 19
+    },
+    "structure": {
+      "results": [
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "SKILL.md found",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "unknown directory: evals/ (contains 7 files) — agents using the standard skill structure won't discover these files",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "deep nesting detected: assets/requirements/",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "deep nesting detected: assets/schemas/",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "deep nesting detected: assets/templates/",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Frontmatter",
+          "Message": "name: \"skill-quality-auditor\" (valid)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Frontmatter",
+          "Message": "description: (988 chars)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Frontmatter",
+          "Message": "description has 11 comma-separated segments, most very short — this looks like a keyword list; per the spec, the description should concisely describe what the skill does and when to use it",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Tokens",
+          "Message": "total reference files: 46694 tokens — agents may load multiple references in one session, consider whether all this content is essential",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Markdown",
+          "Message": "no unclosed code fences found",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/detailed-anti-patterns.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/examples-audit-workflows.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/framework-dimensions.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/framework-scoring-rubric.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/framework-quality-standards.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/advanced-pattern-recognition.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/skill-template.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/quality-thresholds-scoring.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/remediation-planning.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/duplication-detection-algorithm.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/scripts-audit-workflow.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/tessl-compliance-framework.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        }
+      ],
+      "token_counts": [
+        {
+          "File": "SKILL.md body",
+          "Tokens": 1257
+        },
+        {
+          "File": "references/advanced-custom-metrics.md",
+          "Tokens": 1878
+        },
+        {
+          "File": "references/advanced-pattern-recognition.md",
+          "Tokens": 1727
+        },
+        {
+          "File": "references/advanced-trends-analysis.md",
+          "Tokens": 1912
+        },
+        {
+          "File": "references/aggregation-implementation.md",
+          "Tokens": 3234
+        },
+        {
+          "File": "references/aggregation-pattern.md",
+          "Tokens": 3215
+        },
+        {
+          "File": "references/detailed-anti-patterns.md",
+          "Tokens": 1532
+        },
+        {
+          "File": "references/dimension-analysis-template.md",
+          "Tokens": 141
+        },
+        {
+          "File": "references/duplication-detection-algorithm.md",
+          "Tokens": 1053
+        },
+        {
+          "File": "references/duplication-remediation.md",
+          "Tokens": 1226
+        },
+        {
+          "File": "references/eval-format.md",
+          "Tokens": 401
+        },
+        {
+          "File": "references/examples-audit-workflows.md",
+          "Tokens": 647
+        },
+        {
+          "File": "references/framework-dimensions.md",
+          "Tokens": 6143
+        },
+        {
+          "File": "references/framework-quality-standards.md",
+          "Tokens": 1389
+        },
+        {
+          "File": "references/framework-scoring-rubric.md",
+          "Tokens": 1676
+        },
+        {
+          "File": "references/quality-thresholds-scoring.md",
+          "Tokens": 729
+        },
+        {
+          "File": "references/remediation-planning.md",
+          "Tokens": 1055
+        },
+        {
+          "File": "references/reporting-analysis.md",
+          "Tokens": 1532
+        },
+        {
+          "File": "references/reporting-dashboards.md",
+          "Tokens": 2230
+        },
+        {
+          "File": "references/scoring-rubric.md",
+          "Tokens": 350
+        },
+        {
+          "File": "references/scripts-audit-workflow.md",
+          "Tokens": 1837
+        },
+        {
+          "File": "references/scripts-ci-integration.md",
+          "Tokens": 1884
+        },
+        {
+          "File": "references/skill-taxonomy.md",
+          "Tokens": 4227
+        },
+        {
+          "File": "references/skill-template.md",
+          "Tokens": 1165
+        },
+        {
+          "File": "references/tessl-compliance-framework.md",
+          "Tokens": 1707
+        },
+        {
+          "File": "AGENTS.md",
+          "Tokens": 2549
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 1255
+        },
+        {
+          "File": "assets/templates/remediation-plan-template.yaml",
+          "Tokens": 950
+        },
+        {
+          "File": "assets/templates/review-report-template.yaml",
+          "Tokens": 1272
+        }
+      ],
+      "other_token_counts": [
+        {
+          "File": "evals/instructions.json",
+          "Tokens": 936
+        },
+        {
+          "File": "evals/scenario-1/capability.txt",
+          "Tokens": 4
+        },
+        {
+          "File": "evals/scenario-1/criteria.json",
+          "Tokens": 452
+        },
+        {
+          "File": "evals/scenario-1/task.md",
+          "Tokens": 289
+        },
+        {
+          "File": "evals/scenario-2/capability.txt",
+          "Tokens": 5
+        },
+        {
+          "File": "evals/scenario-2/criteria.json",
+          "Tokens": 428
+        },
+        {
+          "File": "evals/scenario-2/task.md",
+          "Tokens": 253
+        },
+        {
+          "File": "evals/scenario-3/capability.txt",
+          "Tokens": 4
+        },
+        {
+          "File": "evals/scenario-3/criteria.json",
+          "Tokens": 451
+        },
+        {
+          "File": "evals/scenario-3/task.md",
+          "Tokens": 254
+        },
+        {
+          "File": "evals/scenario-4/capability.txt",
+          "Tokens": 4
+        },
+        {
+          "File": "evals/scenario-4/criteria.json",
+          "Tokens": 362
+        },
+        {
+          "File": "evals/scenario-4/task.md",
+          "Tokens": 183
+        },
+        {
+          "File": "evals/scenario-5/capability.txt",
+          "Tokens": 4
+        },
+        {
+          "File": "evals/scenario-5/criteria.json",
+          "Tokens": 392
+        },
+        {
+          "File": "evals/scenario-5/task.md",
+          "Tokens": 244
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 264
+        }
+      ],
+      "errors": 0,
+      "warnings": 6
+    }
+  },
+  {
     "dir": "skills/agentic-harness/socratic-method",
     "content": {
       "word_count": 850,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 57,
       "imperative_count": 0,
-      "imperative_ratio": 0,
-      "information_density": 0,
+      "imperative_ratio": 0.0,
+      "information_density": 0.0,
       "strong_markers": 12,
       "weak_markers": 3,
       "instruction_specificity": 0.8,
@@ -3627,7 +4001,7 @@
       "information_density": 0.1318,
       "strong_markers": 11,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 6,
       "list_item_count": 11
     },
@@ -3775,7 +4149,7 @@
       "information_density": 0.0832,
       "strong_markers": 12,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 6,
       "list_item_count": 8
     },
@@ -3925,7 +4299,7 @@
       "information_density": 0.0697,
       "strong_markers": 5,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 6,
       "list_item_count": 10
     },
@@ -4766,7 +5140,7 @@
       "information_density": 0.1152,
       "strong_markers": 17,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 23,
       "list_item_count": 70
     },
@@ -5179,7 +5553,7 @@
       "information_density": 0.2223,
       "strong_markers": 17,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 25,
       "list_item_count": 63
     },
@@ -6233,7 +6607,7 @@
       "information_density": 0.123,
       "strong_markers": 7,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 18,
       "list_item_count": 28
     },
@@ -6998,7 +7372,7 @@
       "information_density": 0.2263,
       "strong_markers": 13,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 24,
       "list_item_count": 61
     },
@@ -7121,7 +7495,7 @@
       "information_density": 0.1397,
       "strong_markers": 8,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 24,
       "list_item_count": 45
     },
@@ -7850,7 +8224,7 @@
       "information_density": 0.1343,
       "strong_markers": 6,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 13,
       "list_item_count": 15
     },
@@ -8183,7 +8557,7 @@
         {
           "Level": 3,
           "Category": "Frontmatter",
-          "Message": "parsing frontmatter YAML: yaml: unmarshal errors:\n  line 9: cannot unmarshal !!seq into string",
+          "Message": "parsing frontmatter YAML: cannot unmarshal non-scalar metadata value into string",
           "File": "SKILL.md",
           "Line": 0
         }
@@ -8199,7 +8573,7 @@
     "content": {
       "word_count": 2806,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 240,
       "imperative_count": 7,
@@ -8328,6 +8702,176 @@
       ],
       "errors": 0,
       "warnings": 1
+    }
+  },
+  {
+    "dir": "skills/documentation/journal-entry-creator",
+    "content": {
+      "word_count": 2481,
+      "code_block_count": 17,
+      "code_block_ratio": 0.0593,
+      "code_languages": [
+        "bash",
+        "bash",
+        "markdown",
+        "yaml",
+        "markdown",
+        "bash",
+        "bash",
+        "markdown",
+        "bash",
+        "markdown",
+        "text",
+        "markdown",
+        "markdown",
+        "markdown",
+        "bash",
+        "bash",
+        "bash"
+      ],
+      "sentence_count": 177,
+      "imperative_count": 24,
+      "imperative_ratio": 0.1356,
+      "information_density": 0.0974,
+      "strong_markers": 50,
+      "weak_markers": 6,
+      "instruction_specificity": 0.8929,
+      "section_count": 34,
+      "list_item_count": 123
+    },
+    "structure": {
+      "results": [
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "SKILL.md found",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "deep nesting detected: assets/schemas/",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "deep nesting detected: assets/templates/",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Frontmatter",
+          "Message": "name: \"journal-entry-creator\" (valid)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Frontmatter",
+          "Message": "description: (585 chars)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Frontmatter",
+          "Message": "description has 10 comma-separated segments, most very short — this looks like a keyword list; per the spec, the description should concisely describe what the skill does and when to use it",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Markdown",
+          "Message": "no unclosed code fences found",
+          "File": "",
+          "Line": 0
+        }
+      ],
+      "token_counts": [
+        {
+          "File": "SKILL.md body",
+          "Tokens": 4202
+        },
+        {
+          "File": "references/compliance.md",
+          "Tokens": 843
+        },
+        {
+          "File": "references/edge-cases.md",
+          "Tokens": 825
+        },
+        {
+          "File": "references/example-journal-entry.md",
+          "Tokens": 1875
+        },
+        {
+          "File": "references/example-with-frontmatter.md",
+          "Tokens": 4586
+        },
+        {
+          "File": "references/journal-command.md",
+          "Tokens": 728
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 766
+        },
+        {
+          "File": "assets/templates/article-summary.yaml",
+          "Tokens": 2671
+        },
+        {
+          "File": "assets/templates/journal-entry.yaml",
+          "Tokens": 1924
+        },
+        {
+          "File": "assets/templates/learning.yaml",
+          "Tokens": 2124
+        },
+        {
+          "File": "assets/templates/ticket-refinement.yaml",
+          "Tokens": 2687
+        },
+        {
+          "File": "assets/templates/troubleshooting.yaml",
+          "Tokens": 2886
+        }
+      ],
+      "other_token_counts": [
+        {
+          "File": "evals/scenario-01.md",
+          "Tokens": 818
+        },
+        {
+          "File": "evals/scenario-02.md",
+          "Tokens": 796
+        },
+        {
+          "File": "evals/scenario-03.md",
+          "Tokens": 1048
+        },
+        {
+          "File": "evals/scenario-04.md",
+          "Tokens": 855
+        },
+        {
+          "File": "evals/scenario-05.md",
+          "Tokens": 958
+        }
+      ],
+      "errors": 0,
+      "warnings": 4
     }
   },
   {
@@ -8709,7 +9253,7 @@
       "information_density": 0.1535,
       "strong_markers": 5,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 17,
       "list_item_count": 76
     },
@@ -9367,7 +9911,7 @@
       "information_density": 0.1597,
       "strong_markers": 7,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 15,
       "list_item_count": 15
     },
@@ -9818,7 +10362,7 @@
       "information_density": 0.1185,
       "strong_markers": 5,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 18,
       "list_item_count": 15
     },
@@ -11365,7 +11909,7 @@
       "information_density": 0.1381,
       "strong_markers": 17,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 23,
       "list_item_count": 24
     },
@@ -11575,7 +12119,7 @@
       "information_density": 0.3134,
       "strong_markers": 15,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 39,
       "list_item_count": 109
     },
@@ -11719,7 +12263,7 @@
       "information_density": 0.2045,
       "strong_markers": 18,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 25,
       "list_item_count": 70
     },
@@ -12295,7 +12839,7 @@
     "content": {
       "word_count": 735,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 50,
       "imperative_count": 3,
@@ -12502,7 +13046,7 @@
       "information_density": 0.1709,
       "strong_markers": 7,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 14,
       "list_item_count": 35
     },
@@ -12610,7 +13154,7 @@
       "information_density": 0.196,
       "strong_markers": 12,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 24,
       "list_item_count": 39
     },
@@ -14501,7 +15045,7 @@
       "information_density": 0.1499,
       "strong_markers": 7,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 19,
       "list_item_count": 39
     },
@@ -14683,7 +15227,7 @@
       "information_density": 0.1004,
       "strong_markers": 15,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 13,
       "list_item_count": 17
     },
@@ -14824,7 +15368,7 @@
       "information_density": 0.1814,
       "strong_markers": 9,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 14,
       "list_item_count": 29
     },
@@ -15777,7 +16321,7 @@
       "information_density": 0.0928,
       "strong_markers": 17,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 12,
       "list_item_count": 35
     },
@@ -15929,7 +16473,7 @@
     "content": {
       "word_count": 1064,
       "code_block_count": 0,
-      "code_block_ratio": 0,
+      "code_block_ratio": 0.0,
       "code_languages": [],
       "sentence_count": 96,
       "imperative_count": 13,
@@ -15937,7 +16481,7 @@
       "information_density": 0.1354,
       "strong_markers": 8,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 21,
       "list_item_count": 26
     },
@@ -16178,7 +16722,7 @@
       "information_density": 0.1017,
       "strong_markers": 5,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 17,
       "list_item_count": 33
     },
@@ -16604,7 +17148,7 @@
       "information_density": 0.1345,
       "strong_markers": 12,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 18,
       "list_item_count": 44
     },
@@ -16761,7 +17305,7 @@
       "information_density": 0.0983,
       "strong_markers": 10,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 18,
       "list_item_count": 34
     },
@@ -17343,7 +17887,7 @@
       "information_density": 0.1378,
       "strong_markers": 5,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 18,
       "list_item_count": 33
     },
@@ -18068,7 +18612,7 @@
       "information_density": 0.1825,
       "strong_markers": 5,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 22,
       "list_item_count": 31
     },
@@ -19443,7 +19987,7 @@
       "information_density": 0.0494,
       "strong_markers": 15,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 17,
       "list_item_count": 50
     },
@@ -19581,7 +20125,7 @@
       "information_density": 0.1155,
       "strong_markers": 8,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 10,
       "list_item_count": 11
     },
@@ -19949,7 +20493,7 @@
       "information_density": 0.2763,
       "strong_markers": 12,
       "weak_markers": 0,
-      "instruction_specificity": 1,
+      "instruction_specificity": 1.0,
       "section_count": 17,
       "list_item_count": 15
     },

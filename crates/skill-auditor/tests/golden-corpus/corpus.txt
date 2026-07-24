@@ -1,15 +1,12 @@
 # Golden-corpus manifest: repo-root-relative skill directories.
-# Generated for A4b chunk 2 (grade parity vs the Go skill-auditor).
-# Read by BOTH the Go reference harness (goref) and the Rust grade_parity test.
-# Blank lines and lines beginning with '#' are ignored.
+# Read by the Rust grade_parity test. Blank lines and '#' comments are ignored.
 #
-# Excluded: the crate-embedded skills journal-entry-creator and
-# skill-quality-auditor are co-developed with their crates (`pantheon-journal`,
-# `pantheon-skill-auditor`). The Go reference scorer was retired (#198), so their
-# goldens cannot be regenerated; they are left out of this frozen gate so routine
-# SKILL.md edits do not break parity. (adr-creator was added after this corpus
-# was frozen and was never present.) See
-# .context/plans/skill-distribution.md section 7.
+# goldens.json is a Rust regression baseline, regenerated from the Rust scorer
+# (the reference of record now that Go is retired; #212) via:
+#   BLESS_GOLDENS=1 cargo test -p pantheon-skill-auditor --test grade_parity
+# Editing a corpus skill therefore no longer breaks the gate irrecoverably:
+# re-bless and review the diff. The original Go-parity proof is banked in git
+# history.
 #
 # --- skill-auditor's own testdata fixtures (skill-full, skill-minimal) ---
 crates/skill-auditor/testdata/fixtures/skill-full
@@ -29,6 +26,7 @@ skills/agentic-harness/pick-model
 skills/agentic-harness/pin
 skills/agentic-harness/professional-honesty
 skills/agentic-harness/save-context
+skills/agentic-harness/skill-quality-auditor
 skills/agentic-harness/socratic-method
 skills/agentic-harness/tessl/publish-public
 skills/agentic-harness/vault-capture
@@ -62,6 +60,7 @@ skills/documentation/astro-starlight/skills/starlight-custom-component
 skills/documentation/astro-starlight/skills/starlight-theme
 skills/documentation/conventional-commits
 skills/documentation/humanizer
+skills/documentation/journal-entry-creator
 skills/documentation/markdown-authoring
 skills/documentation/mermaid-diagrams
 skills/documentation/obsidian/defuddle

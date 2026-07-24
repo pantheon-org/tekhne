@@ -29,9 +29,9 @@ independent (every `File` field is already relative to the skill dir).
 ## Layout
 
 - `corpus.txt` — repo-root-relative skill directories, one per line (`#`
-  comments and blanks ignored). Read by BOTH the Go harness and the Rust test.
-- `goldens.json` — index of records frozen from the Go reference.
-- `goref/` — self-contained Go module that runs the two bridge calls.
+  comments and blanks ignored). Read by the Rust golden_parity test.
+- `goldens.json` — index of records; the Rust regression baseline (originally
+  frozen from the Go reference, now regenerated from Rust).
 - `fixtures/` — committed copies of the module's own `testdata/`/`examples/`
   plus `boundary/` fixtures built for the section-6 threshold inventory.
 - `../golden_parity.rs` — the Rust integration test.
@@ -78,10 +78,11 @@ its prefix while still asserting its presence, Level, Category, File and Line.
 
 ## Regenerate
 
+`goldens.json` is a Rust regression baseline (Go is retired; #212). Regenerate
+it from the Rust validator, then review the diff before committing:
+
 ```bash
-# from this directory; requires a Go toolchain >= 1.25.5 (auto via GOTOOLCHAIN)
-grep -v '^#' corpus.txt | (cd goref && GOPROXY=off GOFLAGS=-mod=mod \
-    go run . <repo-root>) > goldens.json
+BLESS_GOLDENS=1 cargo test -p skill-validator-rs --test golden_parity
 ```
 
 ## Run the gate

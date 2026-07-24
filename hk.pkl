@@ -10,7 +10,7 @@ import "package://github.com/jdx/hk/releases/download/v1.49.0/hk@1.49.0#/Builtin
 local preCommit = new Mapping<String, Step> {
     ["biome"] {
         glob = List("*.js", "*.cjs", "*.mjs", "*.ts", "*.tsx", "*.jsx", "*.json", "*.jsonc")
-        // Golden-corpus test data (Go-generated goldens + copied fixtures) is
+        // Golden-corpus test data (Rust-blessed goldens + copied fixtures) is
         // reference data, not source; do not reformat it.
         exclude = List(
             "crates/skill-validator-rs/tests/golden-corpus/**",

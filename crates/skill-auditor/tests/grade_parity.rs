@@ -2,15 +2,12 @@
 //!
 //! Proves the Rust `skill-auditor` scorer reproduces the Go auditor
 //! (`tools/skill-auditor/scorer`) grade-for-grade and dimension-for-dimension
-//! across the whole corpus. The goldens under
-//! `tests/golden-corpus/goldens.json` were frozen by running the Go scorer
-//! (`scorer.Score`, the same entry the `evaluate` subcommand uses) over the
-//! corpus in `tests/golden-corpus/corpus.txt`. Regenerate with (from
-//! `tests/golden-corpus/`):
+//! across the whole corpus at freeze time. Go is now retired (#212), so
+//! `tests/golden-corpus/goldens.json` is a Rust regression baseline: regenerate
+//! it from the Rust scorer (the reference of record) and review the diff:
 //!
 //! ```text
-//! grep -v '^#' corpus.txt | (cd goref && GOTOOLCHAIN=auto GOPROXY=off \
-//!     GOFLAGS=-mod=mod go run -buildvcs=false . <repo-root>) > goldens.json
+//! BLESS_GOLDENS=1 cargo test -p pantheon-skill-auditor --test grade_parity
 //! ```
 //!
 //! Tolerance: grades and dimension scores are integers, so parity is EXACT for
@@ -28,17 +25,44 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::PathBuf;
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use skill_auditor::scorer::{score_with_date, Diagnostic, Result as ScoreResult};
 
 /// Fixed date injected into the Rust scorer so scoring is deterministic. Its
 /// value is irrelevant to parity because `date` is excluded from the diff.
 const PINNED_DATE: &str = "2026-07-22";
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Golden {
     dir: String,
     result: ScoreResult,
+}
+
+/// When `BLESS_GOLDENS` is set, regenerate `goldens.json` from the Rust scorer
+/// (the authoritative implementation now that the Go reference is retired) and
+/// return true so the caller skips the assertions. `date` is zeroed to match
+/// the historical Go output and keep the baseline stable across runs.
+fn bless_if_requested(corpus: &[String], root: &std::path::Path) -> bool {
+    if std::env::var_os("BLESS_GOLDENS").is_none() {
+        return false;
+    }
+    let goldens: Vec<Golden> = corpus
+        .iter()
+        .map(|rel| {
+            let skill_path = root.join(rel).join("SKILL.md");
+            let mut result = score_with_date(&skill_path, PINNED_DATE)
+                .unwrap_or_else(|e| panic!("score {}: {e}", skill_path.display()));
+            result.date = String::new();
+            Golden {
+                dir: rel.clone(),
+                result,
+            }
+        })
+        .collect();
+    let json = serde_json::to_string_pretty(&goldens).expect("serialize goldens") + "\n";
+    fs::write(corpus_dir().join("goldens.json"), json).expect("write goldens.json");
+    eprintln!("BLESSED {} goldens from the Rust scorer", goldens.len());
+    true
 }
 
 fn corpus_dir() -> PathBuf {
@@ -145,9 +169,13 @@ fn diff_result(dir: &str, want: &ScoreResult, got: &ScoreResult, out: &mut Vec<S
 #[test]
 fn rust_auditor_matches_go_golden_corpus() {
     let corpus = read_corpus();
-    let goldens = read_goldens();
     let root = repo_root();
 
+    if bless_if_requested(&corpus, &root) {
+        return;
+    }
+
+    let goldens = read_goldens();
     assert_eq!(
         corpus.len(),
         goldens.len(),
