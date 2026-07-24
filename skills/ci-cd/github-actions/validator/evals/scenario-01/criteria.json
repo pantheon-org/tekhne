@@ -1,0 +1,21 @@
+{
+  "context": "A .github/workflows/ci.yml uses an invalid job key. Validate it and explain the fix.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs the validation script first",
+      "description": "Runs the validation script first",
+      "max_score": 35
+    },
+    {
+      "name": "Maps the error to the reference and explains the fix",
+      "description": "Maps the error to the reference and explains the fix",
+      "max_score": 40
+    },
+    {
+      "name": "Quotes the corrected YAML",
+      "description": "Quotes the corrected YAML",
+      "max_score": 25
+    }
+  ]
+}

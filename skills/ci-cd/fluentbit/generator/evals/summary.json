@@ -1,0 +1,20 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Generates a Kubernetes log pipeline with metadata and bounded buffers": [
+        "scenario-01"
+      ],
+      "Configures a secure output without plaintext secrets": ["scenario-02"],
+      "Routes with specific tags rather than Match *": ["scenario-03"]
+    }
+  }
+}

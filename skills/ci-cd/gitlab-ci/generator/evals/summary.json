@@ -1,0 +1,20 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Generates a staged pipeline": ["scenario-01"],
+      "Generates a Docker build pipeline without leaking secrets": [
+        "scenario-02"
+      ],
+      "Generates a reusable template": ["scenario-03"]
+    }
+  }
+}

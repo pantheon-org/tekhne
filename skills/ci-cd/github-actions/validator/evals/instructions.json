@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run the validation script first, then consult the matching reference file for each error.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Verify third-party actions are pinned to a full commit SHA; NEVER accept a floating tag like @v4 or @main.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Quote the exact fix to the user for each finding.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate custom local actions (action.yml) as well as workflow files.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Provide a complete summary of findings and their fixes at the end.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

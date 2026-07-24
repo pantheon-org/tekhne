@@ -1,0 +1,21 @@
+{
+  "context": "Generate a Declarative Jenkinsfile with build, test, and deploy stages and a post section for notifications.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses Declarative syntax with an agent and stages",
+      "description": "Uses Declarative syntax with an agent and stages",
+      "max_score": 40
+    },
+    {
+      "name": "Includes a post section (success/failure/always)",
+      "description": "Includes a post section (success/failure/always)",
+      "max_score": 35
+    },
+    {
+      "name": "Deploy is gated to the main branch",
+      "description": "Deploy is gated to the main branch",
+      "max_score": 25
+    }
+  ]
+}

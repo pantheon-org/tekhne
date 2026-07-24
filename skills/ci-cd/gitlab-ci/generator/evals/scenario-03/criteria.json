@@ -1,0 +1,21 @@
+{
+  "context": "Two jobs share most of their config. Generate a reusable template and have both jobs extend it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Defines a reusable template (hidden job or include)",
+      "description": "Defines a reusable template (hidden job or include)",
+      "max_score": 45
+    },
+    {
+      "name": "Both jobs use extends/!reference",
+      "description": "Both jobs use extends/!reference",
+      "max_score": 35
+    },
+    {
+      "name": "No duplicated job bodies",
+      "description": "No duplicated job bodies",
+      "max_score": 20
+    }
+  ]
+}

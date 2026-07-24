@@ -1,0 +1,21 @@
+{
+  "context": "The fluent-bit binary is not installed. Dry-run the config and decide how to proceed.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Attempts a dry run of the configuration",
+      "description": "Attempts a dry run of the configuration",
+      "max_score": 40
+    },
+    {
+      "name": "Detects the missing binary and offers the install command",
+      "description": "Detects the missing binary and offers the install command",
+      "max_score": 40
+    },
+    {
+      "name": "Asks before skipping rather than silently continuing",
+      "description": "Asks before skipping rather than silently continuing",
+      "max_score": 20
+    }
+  ]
+}

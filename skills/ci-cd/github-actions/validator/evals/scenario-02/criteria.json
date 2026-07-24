@@ -1,0 +1,21 @@
+{
+  "context": "A workflow uses actions/checkout@v4 and a third-party action@main. Validate and report the pinning risk.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Flags the floating tag / @main reference",
+      "description": "Flags the floating tag / @main reference",
+      "max_score": 45
+    },
+    {
+      "name": "Explains the supply-chain risk",
+      "description": "Explains the supply-chain risk",
+      "max_score": 30
+    },
+    {
+      "name": "Recommends pinning to a full commit SHA",
+      "description": "Recommends pinning to a full commit SHA",
+      "max_score": 25
+    }
+  ]
+}

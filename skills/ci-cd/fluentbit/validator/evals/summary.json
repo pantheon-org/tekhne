@@ -1,0 +1,18 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Validates syntax and tag routing together": ["scenario-01"],
+      "Detects TLS without certificate validation": ["scenario-02"],
+      "Performs a dry-run and handles a missing tool": ["scenario-03"]
+    }
+  }
+}

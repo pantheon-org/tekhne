@@ -1,0 +1,21 @@
+{
+  "context": "A .gitlab-ci.yml has a job missing its script key. Validate it and report the error.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs syntax validation first",
+      "description": "Runs syntax validation first",
+      "max_score": 40
+    },
+    {
+      "name": "Reports the missing script with the job name",
+      "description": "Reports the missing script with the job name",
+      "max_score": 40
+    },
+    {
+      "name": "Suggests the fix",
+      "description": "Suggests the fix",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "context": "A config has an INPUT tagged app.* but every OUTPUT matches sys.*. Validate it and report the routing problem.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs syntax validation",
+      "description": "Runs syntax validation",
+      "max_score": 30
+    },
+    {
+      "name": "Detects that app.* logs reach no OUTPUT",
+      "description": "Detects that app.* logs reach no OUTPUT",
+      "max_score": 45
+    },
+    {
+      "name": "Reports the unroutable tag with its section",
+      "description": "Reports the unroutable tag with its section",
+      "max_score": 25
+    }
+  ]
+}

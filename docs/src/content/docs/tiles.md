@@ -18,7 +18,7 @@ Validates, lints, and security-scans Azure DevOps Pipeline configurations (azure
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [azure-pipelines-validator](/tekhne/skills/ci-cd/azure-pipelines/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [azure-pipelines-validator](/tekhne/skills/ci-cd/azure-pipelines/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 8 |
 
 ### azure-pipelines-generator
 
@@ -34,7 +34,7 @@ Validates .gitlab-ci.yml syntax, detects security misconfigurations in job defin
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [gitlab-ci-validator](/tekhne/skills/ci-cd/gitlab-ci/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [gitlab-ci-validator](/tekhne/skills/ci-cd/gitlab-ci/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 8 |
 
 ### gitlab-ci-generator
 
@@ -42,7 +42,7 @@ Creates .gitlab-ci.yml files, configures pipeline stages, defines CI jobs and ru
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [gitlab-ci-generator](/tekhne/skills/ci-cd/gitlab-ci/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [gitlab-ci-generator](/tekhne/skills/ci-cd/gitlab-ci/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 8 |
 
 ### fluentbit-validator
 
@@ -50,7 +50,7 @@ Validates syntax, checks pipeline tag connections, detects security misconfigura
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 3 |
+| [fluentbit-validator](/tekhne/skills/ci-cd/fluentbit/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 6 |
 
 ### fluentbit-generator
 
@@ -58,7 +58,7 @@ Generates, validates, and optimizes Fluent Bit configurations for production use
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [fluentbit-generator](/tekhne/skills/ci-cd/fluentbit/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [fluentbit-generator](/tekhne/skills/ci-cd/fluentbit/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 8 |
 
 ### jenkinsfile-validator
 
@@ -66,7 +66,7 @@ Comprehensive toolkit for validating, linting, testing, and automating Jenkinsfi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [jenkinsfile-validator](/tekhne/skills/ci-cd/jenkinsfile/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [jenkinsfile-validator](/tekhne/skills/ci-cd/jenkinsfile/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 8 |
 
 ### jenkinsfile-generator
 
@@ -74,7 +74,7 @@ Generates Jenkinsfiles with stages, agents, parallel builds, post-build actions,
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [jenkinsfile-generator](/tekhne/skills/ci-cd/jenkinsfile/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 5 |
+| [jenkinsfile-generator](/tekhne/skills/ci-cd/jenkinsfile/generator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 8 |
 
 ### helm-validator
 
@@ -82,7 +82,7 @@ Comprehensive toolkit for validating, linting, testing, and analyzing Helm chart
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [helm-validator](/tekhne/skills/ci-cd/helm/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [helm-validator](/tekhne/skills/ci-cd/helm/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 8 |
 
 ### helm-generator
 
@@ -98,7 +98,7 @@ Comprehensive toolkit for validating, linting, and testing GitHub Actions workfl
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [github-actions-validator](/tekhne/skills/ci-cd/github-actions/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [github-actions-validator](/tekhne/skills/ci-cd/github-actions/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 8 |
 
 ### github-actions-generator
 

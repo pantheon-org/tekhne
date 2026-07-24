@@ -1,0 +1,1 @@
+Runs a security audit before merge and flags secret exposure

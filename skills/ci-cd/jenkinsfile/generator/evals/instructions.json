@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Prefer Declarative pipeline syntax over Scripted unless the user needs Scripted's flexibility.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER hardcode credentials in a Jenkinsfile; use the credentials() helper or withCredentials.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Include a post section to handle success/failure/cleanup.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Use parallel stages for independent work to shorten pipeline duration.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate the generated Jenkinsfile with the jenkinsfile-validator skill before finishing.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

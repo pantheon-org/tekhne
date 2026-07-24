@@ -1,0 +1,18 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "",
+    "eval_runner_timestamp": "",
+    "provider": ""
+  },
+  "scenario_count": 3,
+  "instructions": {
+    "total": 5,
+    "covered": 5,
+    "scenarios": {
+      "Validates a workflow and maps errors to references": ["scenario-01"],
+      "Flags unpinned third-party actions": ["scenario-02"],
+      "Validates a custom local action": ["scenario-03"]
+    }
+  }
+}

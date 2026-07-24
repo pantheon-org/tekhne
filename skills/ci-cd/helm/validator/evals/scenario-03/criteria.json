@@ -1,0 +1,21 @@
+{
+  "context": "A chart's Deployment has no securityContext and runs as root. Run the security check and report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Flags the container running as root / missing securityContext",
+      "description": "Flags the container running as root / missing securityContext",
+      "max_score": 50
+    },
+    {
+      "name": "Explains the risk",
+      "description": "Explains the risk",
+      "max_score": 25
+    },
+    {
+      "name": "Recommends runAsNonRoot and a securityContext",
+      "description": "Recommends runAsNonRoot and a securityContext",
+      "max_score": 25
+    }
+  ]
+}

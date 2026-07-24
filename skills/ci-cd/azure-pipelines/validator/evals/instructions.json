@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Run YAML syntax validation before any semantic or security check so structural errors surface first.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER approve a pipeline that echoes a secret or maps a secret into a script without protection.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report each finding with the file and line and the concrete fix, not a vague warning.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Flag pipelines missing caching or job parallelism as optimisation opportunities.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "When a validation tool is missing, inform the user, offer the install command, and ask before skipping.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

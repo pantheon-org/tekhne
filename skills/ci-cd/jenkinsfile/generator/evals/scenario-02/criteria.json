@@ -1,0 +1,21 @@
+{
+  "context": "Generate a Jenkinsfile that runs unit tests and lint in parallel, then a sequential deploy.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses a parallel block for the independent stages",
+      "description": "Uses a parallel block for the independent stages",
+      "max_score": 50
+    },
+    {
+      "name": "Deploy runs after the parallel block completes",
+      "description": "Deploy runs after the parallel block completes",
+      "max_score": 30
+    },
+    {
+      "name": "Structure stays valid Declarative",
+      "description": "Structure stays valid Declarative",
+      "max_score": 20
+    }
+  ]
+}

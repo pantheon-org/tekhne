@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Check required tools exist before validating, and tell the user which are missing.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run helm lint and render templates before deeper checks.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate rendered manifests against values.schema.json when present.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER pass a chart whose workloads run as root or lack a securityContext.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report findings per template file with the fix, not a single opaque pass/fail.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Generates a Docker build pipeline without leaking secrets

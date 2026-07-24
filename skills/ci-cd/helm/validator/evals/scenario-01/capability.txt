@@ -1,0 +1,1 @@
+Lints and renders a chart

@@ -1,0 +1,21 @@
+{
+  "context": "A pipeline uses a deprecated keyword. Validate and report it with the modern replacement.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the deprecated keyword",
+      "description": "Detects the deprecated keyword",
+      "max_score": 50
+    },
+    {
+      "name": "Names the current replacement",
+      "description": "Names the current replacement",
+      "max_score": 30
+    },
+    {
+      "name": "Reports with the job/location",
+      "description": "Reports with the job/location",
+      "max_score": 20
+    }
+  ]
+}

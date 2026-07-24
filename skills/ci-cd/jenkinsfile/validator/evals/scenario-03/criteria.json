@@ -1,0 +1,21 @@
+{
+  "context": "A pipeline uses a non-core plugin step. Validate it, looking up the plugin's documentation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises the step is not core",
+      "description": "Recognises the step is not core",
+      "max_score": 40
+    },
+    {
+      "name": "Looks up the plugin documentation",
+      "description": "Looks up the plugin documentation",
+      "max_score": 40
+    },
+    {
+      "name": "Judges the usage against the docs",
+      "description": "Judges the usage against the docs",
+      "max_score": 20
+    }
+  ]
+}

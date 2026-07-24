@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Detect whether the pipeline is Declarative or Scripted and validate accordingly.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Run the Declarative Linter for Declarative pipelines; NEVER skip it because syntax looks fine.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER validate only the Jenkinsfile without checking Shared Library calls it depends on.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Look up plugin documentation for any non-core step before judging its usage.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Report findings with the stage/step and the concrete fix.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "Load the required reference files before generating a pipeline.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Define explicit stages and assign every job to a stage.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER expose secrets as plain CI variables in .gitlab-ci.yml; use masked/protected project variables.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Prefer extends/include for reuse over copy-pasted job definitions.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate the generated pipeline with the gitlab-ci-validator skill before finishing.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "context": "A chart has values.schema.json; a user override sets replicaCount to a string. Validate and report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects values.schema.json and validates against it",
+      "description": "Detects values.schema.json and validates against it",
+      "max_score": 50
+    },
+    {
+      "name": "Flags the type mismatch",
+      "description": "Flags the type mismatch",
+      "max_score": 30
+    },
+    {
+      "name": "Reports the offending value path",
+      "description": "Reports the offending value path",
+      "max_score": 20
+    }
+  ]
+}
