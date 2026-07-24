@@ -61,10 +61,16 @@ pub fn check_frontmatter(s: &Skill, opts: &Options) -> Vec<ValidationResult> {
             )));
         }
         let dir_name = base_name(&s.dir);
-        if name != &dir_name {
+        let consolidated = consolidated_name(&s.dir, &dir_name);
+        let name_ok = name == &dir_name || consolidated.as_deref() == Some(name.as_str());
+        if !name_ok {
+            let expected = match &consolidated {
+                Some(alt) => format!("{} or {}", go_quote(&dir_name), go_quote(alt)),
+                None => go_quote(&dir_name),
+            };
             results.push(ctx.error(format!(
                 "name does not match directory name (expected {}, got {})",
-                go_quote(&dir_name),
+                expected,
                 go_quote(name)
             )));
         }
@@ -180,6 +186,20 @@ fn base_name(dir: &str) -> String {
         .unwrap_or_else(|| ".".to_string())
 }
 
+/// The consolidated skill name for a `<tool>/{generator,validator}` layout, or
+/// `None` for any other directory. Consolidated generator/validator pairs live in
+/// a `generator`/`validator` directory under a shared `<tool>` dir and name
+/// themselves `<tool>-generator` / `<tool>-validator`, so `<parent>-<dir>` is
+/// accepted alongside the bare directory name. Mirrors the same exemption in the
+/// artifacts check (see `artifacts::consolidated_skill_name`).
+fn consolidated_name(dir: &str, dir_name: &str) -> Option<String> {
+    if !matches!(dir_name, "generator" | "validator") {
+        return None;
+    }
+    let parent = Path::new(dir).parent()?.file_name()?.to_str()?;
+    Some(format!("{parent}-{dir_name}"))
+}
+
 fn check_description_keyword_stuffing(ctx: &ResultContext, desc: &str) -> Vec<ValidationResult> {
     // Heuristic 1: many quoted strings with little surrounding prose.
     let quote_count = QUOTED_STRING.find_iter(desc).count();
@@ -275,14 +295,75 @@ fn split_sentences(text: &str) -> Vec<String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::skill::{Frontmatter, Skill};
+    use serde_yaml_ng::Value;
+
+    fn skill_with(dir: &str, name: &str) -> Skill {
+        Skill {
+            dir: dir.to_string(),
+            frontmatter: Frontmatter {
+                name: name.to_string(),
+                description: "A sufficiently descriptive description for the test.".to_string(),
+                ..Frontmatter::default()
+            },
+            raw_frontmatter: Value::Null,
+            body: String::new(),
+            raw_content: String::new(),
+        }
+    }
+
+    fn name_errors(s: &Skill) -> Vec<String> {
+        check_frontmatter(s, &Options::default())
+            .into_iter()
+            .filter(|r| r.message.contains("does not match directory name"))
+            .map(|r| r.message)
+            .collect()
+    }
+
+    #[test]
+    fn consolidated_generator_validator_name_accepted() {
+        // A `<tool>/{generator,validator}` pair names itself `<tool>-generator` /
+        // `<tool>-validator`; the `<parent>-<dir>` form must not trip the
+        // name-vs-directory check (issue #243, structure validator).
+        for (dir, name) in [
+            (
+                "skills/infrastructure/terraform/generator",
+                "terraform-generator",
+            ),
+            (
+                "skills/infrastructure/terraform/validator",
+                "terraform-validator",
+            ),
+        ] {
+            let errs = name_errors(&skill_with(dir, name));
+            assert!(errs.is_empty(), "{dir}: {errs:?}");
+        }
+    }
+
+    #[test]
+    fn plain_skill_name_mismatch_still_flagged() {
+        // An ordinary skill whose name differs from its directory is still an error.
+        let errs = name_errors(&skill_with("skills/d/my-skill", "wrong-name"));
+        assert_eq!(errs.len(), 1, "{errs:?}");
+    }
+
+    #[test]
+    fn consolidated_wrong_name_still_flagged() {
+        // The exemption only accepts `<parent>-<dir>`: a wrong name in a
+        // generator/validator directory is still flagged, and the message offers
+        // the accepted consolidated form.
+        let errs = name_errors(&skill_with(
+            "skills/infrastructure/terraform/generator",
+            "terraform-gen",
+        ));
+        assert_eq!(errs.len(), 1);
+        assert!(errs[0].contains("terraform-generator"), "{errs:?}");
+    }
 
     #[test]
     fn split_sentences_protects_abbrev_and_numbers() {
-        // Matches the Go TestSplitSentences cases: the abbreviation and the
-        // version-number periods do not create sentence boundaries. Go protects
-        // only the first period of "e.g."; the boundary regex additionally
-        // requires a capital letter after the period, so "e.g. vector" never
-        // splits regardless.
+        // Go TestSplitSentences parity: abbreviation and version-number periods do not
+        // create sentence boundaries ("e.g. vector" never splits, needing a capital after).
         let s = split_sentences("Use for e.g. vector search and embeddings. Next sentence here.");
         assert_eq!(
             s,

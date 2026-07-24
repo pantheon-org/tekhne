@@ -4641,13 +4641,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"azure-pipelines-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"azure-pipelines-generator\" (valid)",
@@ -4760,7 +4753,7 @@
           "Tokens": 1296
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 3
     }
   },
@@ -4813,13 +4806,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/examples/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"azure-pipelines-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -4900,7 +4886,7 @@
           "Tokens": 945
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -4948,13 +4934,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: references/output/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"fluentbit-generator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -5007,7 +4986,7 @@
           "Tokens": 795
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -5056,13 +5035,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: references/test-fixtures/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"fluentbit-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -5115,7 +5087,7 @@
           "Tokens": 774
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -5172,13 +5144,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/templates/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"github-actions-generator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -5342,7 +5307,7 @@
           "Tokens": 757
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 4
     }
   },
@@ -5389,13 +5354,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"github-actions-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -5530,7 +5488,7 @@
           "Tokens": 823
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -5578,13 +5536,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/templates/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"gitlab-ci-generator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -5673,7 +5624,7 @@
           "Tokens": 856
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -5719,13 +5670,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"gitlab-ci-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -5810,7 +5754,7 @@
           "Tokens": 1120
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -5849,13 +5793,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"helm-generator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -5927,7 +5864,7 @@
           "Tokens": 1105
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -5981,13 +5918,6 @@
           "Category": "Structure",
           "Message": "unknown directory: test/ (contains 1 file) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"helm-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -6076,7 +6006,7 @@
           "Tokens": 28
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -6152,13 +6082,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: scripts/lib/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"jenkinsfile-generator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -6259,7 +6182,7 @@
           "Tokens": 362
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 4
     }
   },
@@ -6306,13 +6229,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/examples/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"jenkinsfile-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -6431,7 +6347,7 @@
           "Tokens": 692
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -7400,13 +7316,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"bash-script-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"bash-script-generator\" (valid)",
@@ -7472,7 +7381,7 @@
           "Tokens": 787
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -7513,13 +7422,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"bash-script-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -7604,7 +7506,7 @@
           "Tokens": 805
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -7666,13 +7568,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/templates/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"makefile-generator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -7753,7 +7648,7 @@
           "Tokens": 857
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -7794,13 +7689,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"makefile-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -7886,7 +7774,7 @@
           "Tokens": 928
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -12291,13 +12179,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"ansible-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"ansible-generator\" (valid)",
@@ -12415,7 +12296,7 @@
           "Tokens": 871
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -12466,13 +12347,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/test/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"ansible-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -12661,7 +12535,7 @@
           "Tokens": 1258
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 2
     }
   },
@@ -13280,13 +13154,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"dockerfile-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"dockerfile-generator\" (valid)",
@@ -13356,7 +13223,7 @@
           "Tokens": 930
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13404,13 +13271,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"dockerfile-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -13475,7 +13335,7 @@
           "Tokens": 915
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13932,13 +13792,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"terraform-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"terraform-generator\" (valid)",
@@ -14015,7 +13868,7 @@
           "Tokens": 882
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 3
     }
   },
@@ -14058,13 +13911,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"terraform-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -14133,7 +13979,7 @@
           "Tokens": 1187
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -14190,13 +14036,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/templates/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"terragrunt-generator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -14274,7 +14113,7 @@
           "Tokens": 803
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 4
     }
   },
@@ -14353,13 +14192,6 @@
           "Category": "Structure",
           "Message": "deep nesting detected: assets/test/",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"terragrunt-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -14542,7 +14374,7 @@
           "Tokens": 335
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 5
     }
   },
@@ -14726,13 +14558,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"generator\", got \"promql-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"promql-generator\" (valid)",
@@ -14883,7 +14708,7 @@
           "Tokens": 997
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -14921,13 +14746,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 4 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"validator\", got \"promql-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -15019,7 +14837,7 @@
           "Tokens": 875
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
