@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.0](https://github.com/pantheon-org/tekhne/compare/v1.7.0...v1.8.0) (2026-07-24)
+
+
+### Features
+
+* **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([2d4c8cf](https://github.com/pantheon-org/tekhne/commit/2d4c8cfb0a57290e20e70e72186b8021bf802687))
+
 ## [1.7.0](https://github.com/pantheon-org/tekhne/compare/v1.6.0...v1.7.0) (2026-07-10)
 
 

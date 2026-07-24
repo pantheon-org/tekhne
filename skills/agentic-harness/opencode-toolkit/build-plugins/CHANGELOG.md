@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/pantheon-org/tekhne/compare/v0.4.0...v0.5.0) (2026-07-24)
+
+
+### Features
+
+* **agentic-harness:** introduce opencode-toolkit tile with 5 A-grade skills ([#12](https://github.com/pantheon-org/tekhne/issues/12)) ([95ea1b2](https://github.com/pantheon-org/tekhne/commit/95ea1b204fd8267416dcbb70d8d746fafac01ef4))
+
 ## [0.4.0](https://github.com/pantheon-org/tekhne/compare/v0.3.0...v0.4.0) (2026-07-10)
 
 

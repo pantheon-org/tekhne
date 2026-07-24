@@ -1,7 +1,10 @@
 {
   "name": "pantheon-ai/github-actions-toolkit",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "Complete GitHub Actions toolkit with generation and validation capabilities for workflows, custom actions, and CI/CD configurations",
   "private": false,
-  "skills": ["generator", "validator"]
+  "skills": [
+    "generator",
+    "validator"
+  ]
 }

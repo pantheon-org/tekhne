@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://github.com/pantheon-org/tekhne/compare/v0.2.1...v0.3.0) (2026-07-24)
+
+
+### Features
+
+* **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([2d4c8cf](https://github.com/pantheon-org/tekhne/commit/2d4c8cfb0a57290e20e70e72186b8021bf802687))
+
+
+### Bug Fixes
+
+* **skills:** clean up 53 artifact-convention violations ([#216](https://github.com/pantheon-org/tekhne/issues/216)) ([#218](https://github.com/pantheon-org/tekhne/issues/218)) ([e088188](https://github.com/pantheon-org/tekhne/commit/e0881884ffac97c7fc6fe813d42b5c2872e70333))
+
 ## [0.2.0](https://github.com/pantheon-org/tekhne/compare/v0.1.2...v0.2.0) (2026-05-15)
 
 
