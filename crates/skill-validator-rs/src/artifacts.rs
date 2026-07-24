@@ -434,12 +434,16 @@ fn check_skill_md(dir: &Path, dir_rel: &str, skill_name: &str, report: &mut Arti
     }
 
     if let Some(name_val) = frontmatter_name(&content) {
-        if !name_val.is_empty() && name_val != skill_name {
+        let consolidated = consolidated_skill_name(dir, skill_name);
+        let matches = name_val == skill_name || consolidated.as_deref() == Some(name_val.as_str());
+        if !name_val.is_empty() && !matches {
+            let expected = match &consolidated {
+                Some(alt) => format!("directory name '{skill_name}' (or consolidated '{alt}')"),
+                None => format!("directory name '{skill_name}'"),
+            };
             report.error(
                 &md_rel,
-                format!(
-                    "{md_rel}: frontmatter name '{name_val}' does not match directory name '{skill_name}'"
-                ),
+                format!("{md_rel}: frontmatter name '{name_val}' does not match {expected}"),
             );
         }
     }
@@ -450,6 +454,20 @@ fn check_skill_md(dir: &Path, dir_rel: &str, skill_name: &str, report: &mut Arti
             format!("{md_rel}: contains '../' path reference outside code blocks (skills must be self-contained)"),
         );
     }
+}
+
+/// The consolidated skill name for a `<tool>/{generator,validator}` layout, or
+/// `None` for any other directory. Generator/validator pairs live under a shared
+/// `<tool>` directory (carrying the tool-level `.tessl-plugin/plugin.json`) and
+/// name themselves `<tool>-generator` / `<tool>-validator`, so `<parent>-<dir>`
+/// is accepted alongside the bare directory name. Ordinary skills return `None`
+/// and keep the strict `name == directory` rule.
+fn consolidated_skill_name(dir: &Path, skill_name: &str) -> Option<String> {
+    if !matches!(skill_name, "generator" | "validator") {
+        return None;
+    }
+    let parent = dir.parent()?.file_name()?.to_string_lossy();
+    Some(format!("{parent}-{skill_name}"))
 }
 
 /// Extract the first `name:` frontmatter value, stripped of surrounding quotes
@@ -655,6 +673,47 @@ mod tests {
         assert!(report.results[0]
             .message
             .contains("does not match directory name"));
+    }
+
+    #[test]
+    fn consolidated_generator_validator_not_flagged() {
+        // A `<tool>/{generator,validator}` pair names itself `<tool>-generator` /
+        // `<tool>-validator` while living in a `generator` / `validator` directory
+        // under the shared `<tool>` dir. Both are correctly structured and must
+        // not trip the name-vs-directory rule (issue #243).
+        let dir = tempdir().unwrap();
+        for (sub, name) in [
+            ("generator", "terraform-generator"),
+            ("validator", "terraform-validator"),
+        ] {
+            let skill = dir.path().join("skills/infrastructure/terraform").join(sub);
+            write(
+                &skill.join("SKILL.md"),
+                &format!("---\nname: {name}\n---\nBody\n"),
+            );
+            let mut report = ArtifactReport::default();
+            check_skill_dir(&skill, &mut report);
+            assert_eq!(report.errors(), 0, "{sub}: {:?}", report.results);
+        }
+    }
+
+    #[test]
+    fn consolidated_wrong_name_still_flagged() {
+        // The consolidated exemption only accepts `<parent>-<dir>`: a genuinely
+        // wrong name in a generator/validator directory is still an error, and the
+        // message surfaces the accepted consolidated form.
+        let dir = tempdir().unwrap();
+        let skill = dir.path().join("skills/infrastructure/terraform/generator");
+        write(
+            &skill.join("SKILL.md"),
+            "---\nname: terraform-gen\n---\nBody\n",
+        );
+        let mut report = ArtifactReport::default();
+        check_skill_dir(&skill, &mut report);
+        assert_eq!(report.errors(), 1);
+        assert!(report.results[0]
+            .message
+            .contains("consolidated 'terraform-generator'"));
     }
 
     #[test]
