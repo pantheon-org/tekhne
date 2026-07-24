@@ -1,0 +1,26 @@
+{
+  "context": "A configuration defines an aws_security_group allowing SSH from 0.0.0.0/0. Run the security workflow and report the finding.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Reads reference files before scanning",
+      "description": "Consults references/security_checklist.md and references/best_practices.md before running the Checkov scan.",
+      "max_score": 25
+    },
+    {
+      "name": "Reports the finding with resource and file:line",
+      "description": "Names the check (e.g. CKV_AWS_24), the resource, and an exact file:line location.",
+      "max_score": 30
+    },
+    {
+      "name": "Cross-references the checklist section",
+      "description": "Cites the security_checklist.md section for the finding and includes the documented remediation pattern.",
+      "max_score": 25
+    },
+    {
+      "name": "Routes HIGH severity to human review",
+      "description": "Flags the finding as HIGH and states it must go to human review before merge rather than being auto-approved on exit code.",
+      "max_score": 20
+    }
+  ]
+}

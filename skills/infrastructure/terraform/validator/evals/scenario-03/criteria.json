@@ -1,0 +1,21 @@
+{
+  "context": "tflint is not installed. Run the validation workflow and decide how to proceed with the linting step.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the missing tool and explains why it matters",
+      "description": "Identifies that tflint is unavailable and states what the linting step would have caught.",
+      "max_score": 35
+    },
+    {
+      "name": "Offers the install command and asks before continuing",
+      "description": "Provides the install command (e.g. brew install tflint) and asks the user rather than silently skipping.",
+      "max_score": 40
+    },
+    {
+      "name": "Continues required steps and notes the skip in the report",
+      "description": "Completes the Required steps (fmt, validate, checkov) and records tflint as skipped in the report if the user opts out.",
+      "max_score": 25
+    }
+  ]
+}

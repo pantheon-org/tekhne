@@ -120,7 +120,7 @@ Comprehensive toolkit for validating, linting, testing, and automating Terraform
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [terraform-validator](/tekhne/skills/infrastructure/terraform/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 5 |
+| [terraform-validator](/tekhne/skills/infrastructure/terraform/validator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-03-02 | 8 |
 
 ### terraform-generator
 

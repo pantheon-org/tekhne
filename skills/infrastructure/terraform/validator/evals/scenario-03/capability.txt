@@ -1,0 +1,1 @@
+Handles a missing tool by informing the user, offering the install command, and asking before skipping
