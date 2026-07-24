@@ -24,9 +24,8 @@ to the repo-root-relative corpus directory so goldens are machine independent.
 
 - `corpus.txt` — repo-root-relative skill directories, one per line (`#`
   comments and blanks ignored). Read by BOTH the Go harness and the Rust test.
-- `goldens.json` — index of `{dir, result}` records frozen from the Go auditor.
-- `goref/` — self-contained Go module that calls `scorer.Score` (via a local
-  `replace` onto `tools/skill-auditor`).
+- `goldens.json` — index of `{dir, result}` records; the Rust regression
+  baseline (originally frozen from the Go auditor, now regenerated from Rust).
 - `../grade_parity.rs` — the Rust integration test.
 
 ## Corpus (131 skills)
@@ -70,10 +69,11 @@ integer, string or boolean and is asserted exactly.
 
 ## Regenerate
 
+`goldens.json` is a Rust regression baseline (Go is retired; #212). Regenerate
+it from the Rust scorer, then review the diff before committing:
+
 ```bash
-# from this directory; requires a Go toolchain >= 1.25.5 (auto via GOTOOLCHAIN)
-grep -v '^#' corpus.txt | (cd goref && GOTOOLCHAIN=auto GOPROXY=off \
-    GOFLAGS=-mod=mod go run -buildvcs=false . <repo-root>) > goldens.json
+BLESS_GOLDENS=1 cargo test -p pantheon-skill-auditor --test grade_parity
 ```
 
 ## Run the gate

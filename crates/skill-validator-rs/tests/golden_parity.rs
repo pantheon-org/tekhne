@@ -9,13 +9,13 @@
 //!   2. `structure.Validate(dir, {SkipOrphans, AllowFlatLayouts,
 //!      AllowExtraFrontmatter})`
 //!
-//! The goldens under `tests/golden-corpus/goldens.json` were frozen by running
-//! the pinned Go module over the corpus in `tests/golden-corpus/corpus.txt`.
-//! Regenerate with (from `tests/golden-corpus/`):
+//! The goldens matched the pinned Go module at freeze time. Go is now retired
+//! (#212), so `tests/golden-corpus/goldens.json` is a Rust regression baseline:
+//! regenerate it from the Rust validator (the reference of record) and review
+//! the diff:
 //!
 //! ```text
-//! grep -v '^#' corpus.txt | (cd goref && GOPROXY=off GOFLAGS=-mod=mod \
-//!     go run . <repo-root>) > goldens.json
+//! BLESS_GOLDENS=1 cargo test -p skill-validator-rs --test golden_parity
 //! ```
 //!
 //! Tolerance (spec section 6): counts, enums, strings, token counts and the
@@ -26,7 +26,7 @@ use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use skill_validator_rs::{
     analyze_content, validate, ContentReport, Options, TokenCount, ValidationResult,
 };
@@ -34,7 +34,7 @@ use skill_validator_rs::{
 /// Absolute tolerance for derived 4dp floats (spec section 6).
 const FLOAT_TOL: f64 = 5e-5;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct StructOut {
     results: Vec<ValidationResult>,
     token_counts: Vec<TokenCount>,
@@ -43,11 +43,35 @@ struct StructOut {
     warnings: usize,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Golden {
     dir: String,
     content: Option<ContentReport>,
     structure: StructOut,
+}
+
+/// When `BLESS_GOLDENS` is set, regenerate `goldens.json` from the Rust
+/// validator (the reference of record now that Go is retired; #212) and return
+/// true so the caller skips the assertions.
+fn bless_if_requested(corpus: &[String], root: &Path) -> bool {
+    if std::env::var_os("BLESS_GOLDENS").is_none() {
+        return false;
+    }
+    let goldens: Vec<Golden> = corpus
+        .iter()
+        .map(|rel| {
+            let dir = root.join(rel);
+            Golden {
+                dir: rel.clone(),
+                content: actual_content(&dir),
+                structure: actual_structure(&dir),
+            }
+        })
+        .collect();
+    let json = serde_json::to_string_pretty(&goldens).expect("serialize goldens") + "\n";
+    fs::write(corpus_dir().join("goldens.json"), json).expect("write goldens.json");
+    eprintln!("BLESSED {} goldens from the Rust validator", goldens.len());
+    true
 }
 
 fn corpus_dir() -> PathBuf {
@@ -277,9 +301,13 @@ fn diff_results(
 #[test]
 fn rust_validator_matches_go_golden_corpus() {
     let corpus = read_corpus();
-    let goldens = read_goldens();
     let root = repo_root();
 
+    if bless_if_requested(&corpus, &root) {
+        return;
+    }
+
+    let goldens = read_goldens();
     assert_eq!(
         corpus.len(),
         goldens.len(),

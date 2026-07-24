@@ -119,3 +119,12 @@ follow-up** to re-baseline both gates from the Rust scorers (now the
 authoritative implementations post-Go-retirement) and re-frame them as Rust
 regression baselines, or make them advisory, so routine skill edits stop
 breaking CI.
+
+**Resolved (#212, option 2).** Both gates now self-bless from the Rust scorers
+via `BLESS_GOLDENS=1 cargo test -p <crate> --test <gate>`; both `goref/` Go
+modules are deleted, the corpus manifests document the bless command, and the
+previously-excluded skills (`journal-entry-creator`, `skill-quality-auditor`)
+are back in both corpora. Editing a skill now just needs a re-bless plus a diff
+review, not a Go toolchain. The separate `token-parity` gate keeps its goref
+deliberately: its input is a frozen `corpus.jsonl`, not live skills, so skill
+edits never affect it.
