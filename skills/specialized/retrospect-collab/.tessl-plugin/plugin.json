@@ -1,7 +1,9 @@
 {
   "name": "pantheon-ai/retrospect-collab",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Analyse human-AI collaboration patterns and compute quality metrics from captured session data.",
   "private": false,
-  "skills": ["SKILL.md"]
+  "skills": [
+    "SKILL.md"
+  ]
 }
