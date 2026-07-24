@@ -1,0 +1,29 @@
+{
+  "instructions": [
+    {
+      "instruction": "NEVER accept 'syntactically valid' as 'production-ready'; check semantics and cost too.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER validate a query without understanding its metric type (counter/gauge/histogram).",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Flag high-cardinality aggregations that will overload dashboards.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER pass an alerting expression that omits a for clause where one is warranted.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Explain the query's intent and compare it against the user's stated goal.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

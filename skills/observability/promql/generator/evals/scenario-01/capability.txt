@@ -1,0 +1,1 @@
+Generates an error-rate ratio over counters

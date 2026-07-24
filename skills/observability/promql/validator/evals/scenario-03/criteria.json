@@ -1,0 +1,21 @@
+{
+  "context": "An alerting expression has no for clause. Validate it and report the flapping risk.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the missing for clause",
+      "description": "Detects the missing for clause",
+      "max_score": 50
+    },
+    {
+      "name": "Explains the flapping risk",
+      "description": "Explains the flapping risk",
+      "max_score": 30
+    },
+    {
+      "name": "Recommends an appropriate for duration",
+      "description": "Recommends an appropriate for duration",
+      "max_score": 20
+    }
+  ]
+}

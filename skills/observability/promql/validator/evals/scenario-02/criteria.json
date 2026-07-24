@@ -1,0 +1,21 @@
+{
+  "context": "A dashboard query aggregates without dropping a high-cardinality label. Validate and warn.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the high-cardinality aggregation",
+      "description": "Detects the high-cardinality aggregation",
+      "max_score": 45
+    },
+    {
+      "name": "Explains the dashboard/TSDB load risk",
+      "description": "Explains the dashboard/TSDB load risk",
+      "max_score": 35
+    },
+    {
+      "name": "Suggests dropping or grouping the label",
+      "description": "Suggests dropping or grouping the label",
+      "max_score": 20
+    }
+  ]
+}

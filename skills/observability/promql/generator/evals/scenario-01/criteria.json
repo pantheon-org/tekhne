@@ -1,0 +1,21 @@
+{
+  "context": "Generate a PromQL query for the HTTP 5xx error rate as a ratio of 5xx requests to total requests over 5 minutes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses rate() over the counter with a 5m window",
+      "description": "Uses rate() over the counter with a 5m window",
+      "max_score": 40
+    },
+    {
+      "name": "Expresses error rate as a ratio, not raw counts",
+      "description": "Expresses error rate as a ratio, not raw counts",
+      "max_score": 40
+    },
+    {
+      "name": "Aggregates labels appropriately",
+      "description": "Aggregates labels appropriately",
+      "max_score": 20
+    }
+  ]
+}
