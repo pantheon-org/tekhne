@@ -1,7 +1,9 @@
 {
   "name": "pantheon-ai/plain-english",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Write technical content in plain English for non-technical stakeholders by translating jargon into business language, surfacing decisions and impact early, and producing actionable recommendations with clear ownership and timeline.",
   "private": false,
-  "skills": ["SKILL.md"]
+  "skills": [
+    "SKILL.md"
+  ]
 }

@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.0.0](https://github.com/pantheon-org/tekhne/compare/v4.0.0...v5.0.0) (2026-07-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **tiles:** remove 31 individual skill tiles
+* **tiles:** Individual skill tiles replaced with sub-domain tiles
+
+### Features
+
+* **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([2d4c8cf](https://github.com/pantheon-org/tekhne/commit/2d4c8cfb0a57290e20e70e72186b8021bf802687))
+* **skills:** raise observability promql skills to C+ ([#244](https://github.com/pantheon-org/tekhne/issues/244)) ([#263](https://github.com/pantheon-org/tekhne/issues/263)) ([be80716](https://github.com/pantheon-org/tekhne/commit/be8071634d3d1bf3f6de5a39d0d8bf3c9a2babfe))
+* **tiles:** add 15 consolidated sub-domain tiles ([358d4c3](https://github.com/pantheon-org/tekhne/commit/358d4c3f7bfc1e226940166aa6b84d3d2b02bec2))
+
+
+### Code Refactoring
+
+* **tiles:** remove 31 individual skill tiles ([df9f016](https://github.com/pantheon-org/tekhne/commit/df9f0168e48bfd4c179c90997139dc622309abe5))
+
 ## [4.0.0](https://github.com/pantheon-org/tekhne/compare/v3.0.0...v4.0.0) (2026-07-10)
 
 

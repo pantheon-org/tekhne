@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.4.0](https://github.com/pantheon-org/tekhne/compare/v1.3.0...v1.4.0) (2026-07-24)
+
+
+### Features
+
+* **design-principles:** apply tessl optimizations to all 4 skills ([5d73d82](https://github.com/pantheon-org/tekhne/commit/5d73d8275db092a663e1bcbc5d782b87430298cd))
+* **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([2d4c8cf](https://github.com/pantheon-org/tekhne/commit/2d4c8cfb0a57290e20e70e72186b8021bf802687))
+* **software-engineering:** split software-design-principles into 4 focused skills ([7766492](https://github.com/pantheon-org/tekhne/commit/77664920fffe77becb04b991af6d04a085b4959c))
+
 ## [1.3.0](https://github.com/pantheon-org/tekhne/compare/v1.2.0...v1.3.0) (2026-07-10)
 
 
