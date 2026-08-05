@@ -813,32 +813,28 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 12,
-        "knowledgeDelta": 18,
+        "knowledgeDelta": 20,
         "mindsetProcedures": 2,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 12
       },
-      "total": 90,
+      "total": 105,
       "maxTotal": 140,
-      "grade": "F",
+      "grade": "C+",
       "lines": 205,
       "hasReferences": true,
       "referenceCount": 1,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
         {
           "dimension": "D4",
           "message": "harness-specific path found: .claude/"
-        },
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
@@ -850,29 +846,25 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 19,
-        "mindsetProcedures": 2,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 13,
         "patternRecognition": 10,
         "practicalUsability": 9,
         "progressiveDisclosure": 7,
         "specificationCompliance": 14
       },
-      "total": 85,
+      "total": 110,
       "maxTotal": 140,
-      "grade": "F",
-      "lines": 321,
+      "grade": "C+",
+      "lines": 343,
       "hasReferences": false,
       "referenceCount": 0,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        },
         {
           "dimension": "D5",
           "message": "no references/ directory (progressive disclosure missing)"
@@ -887,32 +879,28 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 10,
-        "knowledgeDelta": 18,
+        "knowledgeDelta": 20,
         "mindsetProcedures": 2,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 14
       },
-      "total": 90,
+      "total": 105,
       "maxTotal": 140,
-      "grade": "F",
+      "grade": "C+",
       "lines": 258,
       "hasReferences": true,
       "referenceCount": 2,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
         {
           "dimension": "D4",
           "message": "agent-specific reference found: cline"
-        },
-        {
-          "dimension": "D9",
-          "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
@@ -957,32 +945,28 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 19,
+        "knowledgeDelta": 20,
         "mindsetProcedures": 8,
         "patternRecognition": 10,
         "practicalUsability": 11,
         "progressiveDisclosure": 10,
         "specificationCompliance": 12
       },
-      "total": 94,
+      "total": 108,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 323,
       "hasReferences": true,
       "referenceCount": 6,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
         {
           "dimension": "D4",
           "message": "harness-specific path found: .claude/"
-        },
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
@@ -994,30 +978,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 15,
-        "knowledgeDelta": 19,
+        "knowledgeDelta": 20,
         "mindsetProcedures": 4,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 12
       },
-      "total": 96,
+      "total": 110,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 289,
       "hasReferences": true,
       "referenceCount": 5,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -1027,32 +1005,28 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 17,
+        "knowledgeDelta": 19,
         "mindsetProcedures": 4,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 12
       },
-      "total": 90,
+      "total": 105,
       "maxTotal": 140,
-      "grade": "F",
+      "grade": "C+",
       "lines": 201,
       "hasReferences": true,
       "referenceCount": 3,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
         {
           "dimension": "D4",
           "message": "harness-specific path found: .claude/"
-        },
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
@@ -1097,30 +1071,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 19,
+        "knowledgeDelta": 20,
         "mindsetProcedures": 2,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 14
       },
-      "total": 94,
+      "total": 108,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 274,
       "hasReferences": true,
       "referenceCount": 3,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -1130,30 +1098,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 14,
-        "knowledgeDelta": 17,
+        "knowledgeDelta": 19,
         "mindsetProcedures": 4,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 13
       },
-      "total": 94,
+      "total": 109,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 374,
       "hasReferences": true,
       "referenceCount": 2,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -1163,30 +1125,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 18,
-        "mindsetProcedures": 2,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 13,
         "patternRecognition": 10,
         "practicalUsability": 9,
         "progressiveDisclosure": 10,
         "specificationCompliance": 14
       },
-      "total": 85,
+      "total": 111,
       "maxTotal": 140,
-      "grade": "F",
-      "lines": 187,
+      "grade": "C+",
+      "lines": 209,
       "hasReferences": true,
       "referenceCount": 6,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -2494,30 +2450,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 15,
-        "knowledgeDelta": 18,
+        "knowledgeDelta": 20,
         "mindsetProcedures": 4,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 12
       },
-      "total": 95,
+      "total": 110,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 301,
       "hasReferences": true,
       "referenceCount": 2,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -2527,30 +2477,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 17,
+        "knowledgeDelta": 19,
         "mindsetProcedures": 4,
         "patternRecognition": 10,
         "practicalUsability": 11,
         "progressiveDisclosure": 10,
         "specificationCompliance": 13
       },
-      "total": 89,
+      "total": 104,
       "maxTotal": 140,
-      "grade": "F",
+      "grade": "C",
       "lines": 256,
       "hasReferences": true,
       "referenceCount": 4,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -2725,24 +2669,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 14,
-        "knowledgeDelta": 15,
+        "knowledgeDelta": 17,
         "mindsetProcedures": 6,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 10
       },
-      "total": 91,
+      "total": 106,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 475,
       "hasReferences": true,
       "referenceCount": 5,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 3,
+      "warnings": 2,
       "warningDetails": [
         {
           "dimension": "D4",
@@ -2751,10 +2695,6 @@
         {
           "dimension": "D4",
           "message": "agent-specific reference found: claude code"
-        },
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
@@ -2766,30 +2706,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 17,
+        "knowledgeDelta": 19,
         "mindsetProcedures": 2,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 14
       },
-      "total": 92,
+      "total": 107,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 407,
       "hasReferences": true,
       "referenceCount": 3,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -2901,8 +2835,8 @@
       "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/terraform/generator/SKILL.md",
       "date": "",
       "dimensions": {
-        "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "antiPatternQuality": 8,
+        "evalValidation": 17,
         "freedomCalibration": 12,
         "knowledgeDelta": 20,
         "mindsetProcedures": 4,
@@ -2911,23 +2845,19 @@
         "progressiveDisclosure": 10,
         "specificationCompliance": 12
       },
-      "total": 94,
+      "total": 108,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 507,
       "hasReferences": true,
       "referenceCount": 3,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
         {
           "dimension": "D4",
           "message": "harness-specific path found: .claude/"
-        },
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
@@ -2938,35 +2868,25 @@
       "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/infrastructure/terraform/validator/SKILL.md",
       "date": "",
       "dimensions": {
-        "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "antiPatternQuality": 8,
+        "evalValidation": 17,
         "freedomCalibration": 14,
-        "knowledgeDelta": 19,
-        "mindsetProcedures": 4,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 13,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
-        "specificationCompliance": 11
+        "specificationCompliance": 12
       },
-      "total": 94,
+      "total": 119,
       "maxTotal": 140,
-      "grade": "D",
-      "lines": 246,
+      "grade": "B+",
+      "lines": 269,
       "hasReferences": true,
       "referenceCount": 4,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 2,
-      "warningDetails": [
-        {
-          "dimension": "D4",
-          "message": "agent-specific reference found: cline"
-        },
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -2976,32 +2896,28 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 13,
-        "knowledgeDelta": 19,
+        "knowledgeDelta": 20,
         "mindsetProcedures": 4,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 11
       },
-      "total": 93,
+      "total": 107,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 508,
       "hasReferences": true,
       "referenceCount": 2,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
         {
           "dimension": "D4",
           "message": "../ reference outside code blocks (self-containment violation)"
-        },
-        {
-          "dimension": "D9",
-          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
@@ -3013,30 +2929,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 12,
-        "knowledgeDelta": 17,
+        "knowledgeDelta": 19,
         "mindsetProcedures": 2,
         "patternRecognition": 10,
         "practicalUsability": 15,
         "progressiveDisclosure": 10,
         "specificationCompliance": 14
       },
-      "total": 91,
+      "total": 106,
       "maxTotal": 140,
-      "grade": "D",
+      "grade": "C+",
       "lines": 658,
       "hasReferences": true,
       "referenceCount": 6,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -3083,30 +2993,24 @@
       "date": "",
       "dimensions": {
         "antiPatternQuality": 7,
-        "evalValidation": 4,
+        "evalValidation": 17,
         "freedomCalibration": 12,
-        "knowledgeDelta": 18,
-        "mindsetProcedures": 2,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
         "patternRecognition": 10,
         "practicalUsability": 9,
         "progressiveDisclosure": 10,
         "specificationCompliance": 13
       },
-      "total": 85,
+      "total": 109,
       "maxTotal": 140,
-      "grade": "F",
-      "lines": 202,
+      "grade": "C+",
+      "lines": 224,
       "hasReferences": true,
       "referenceCount": 4,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 1,
-      "warningDetails": [
-        {
-          "dimension": "D9",
-          "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
-        }
-      ]
+      "warnings": 0
     }
   },
   {
@@ -3115,33 +3019,29 @@
       "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/skills/observability/promql/validator/SKILL.md",
       "date": "",
       "dimensions": {
-        "antiPatternQuality": 5,
-        "evalValidation": 4,
+        "antiPatternQuality": 6,
+        "evalValidation": 17,
         "freedomCalibration": 9,
-        "knowledgeDelta": 19,
-        "mindsetProcedures": 2,
+        "knowledgeDelta": 20,
+        "mindsetProcedures": 11,
         "patternRecognition": 10,
         "practicalUsability": 13,
         "progressiveDisclosure": 10,
         "specificationCompliance": 14
       },
-      "total": 86,
+      "total": 110,
       "maxTotal": 140,
-      "grade": "F",
-      "lines": 163,
+      "grade": "C+",
+      "lines": 185,
       "hasReferences": true,
       "referenceCount": 2,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 2,
+      "warnings": 1,
       "warningDetails": [
         {
           "dimension": "D4",
           "message": "harness-specific path found: .claude/"
-        },
-        {
-          "dimension": "D9",
-          "message": "4 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
         }
       ]
     }
