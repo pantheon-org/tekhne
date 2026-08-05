@@ -366,7 +366,10 @@ mod tests {
                 "cfn-behavior-validator",
             ),
             ("infrastructure/k8s/yaml-generator", "k8s-yaml-generator"),
-            ("repository-mgmt/nx/biome-integration", "nx-biome-integration"),
+            (
+                "repository-mgmt/nx/biome-integration",
+                "nx-biome-integration",
+            ),
             (
                 "agentic-harness/opencode-toolkit/build-plugins",
                 "opencode-build-plugins",
@@ -395,7 +398,12 @@ mod tests {
     fn plain_skill_name_mismatch_still_flagged() {
         // An ordinary skill whose name differs from its directory is still an error.
         let root = tempdir().unwrap();
-        let errs = name_errors(&skill_at(root.path(), "development/my-skill", "wrong-name", false));
+        let errs = name_errors(&skill_at(
+            root.path(),
+            "development/my-skill",
+            "wrong-name",
+            false,
+        ));
         assert_eq!(errs.len(), 1, "{errs:?}");
     }
 
