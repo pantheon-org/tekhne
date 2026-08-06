@@ -2125,13 +2125,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"build-plugins\", got \"opencode-build-plugins\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"opencode-build-plugins\" (valid)",
@@ -2256,7 +2249,7 @@
           "Tokens": 409
         }
       ],
-      "errors": 5,
+      "errors": 4,
       "warnings": 2
     }
   },
@@ -2298,13 +2291,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"build-tool\", got \"opencode-build-tool\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2436,7 +2422,7 @@
           "Tokens": 431
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 2
     }
   },
@@ -2481,13 +2467,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"configure\", got \"opencode-configure\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2590,7 +2569,7 @@
           "Tokens": 365
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 1
     }
   },
@@ -2630,13 +2609,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"design-agents\", got \"opencode-design-agents\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2728,7 +2700,7 @@
           "Tokens": 413
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 1
     }
   },
@@ -2770,13 +2742,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"design-commands\", got \"opencode-design-commands\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -2875,7 +2840,7 @@
           "Tokens": 405
         }
       ],
-      "errors": 4,
+      "errors": 3,
       "warnings": 2
     }
   },
@@ -4797,7 +4762,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -4866,12 +4831,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 221
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 14
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 147
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 36
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 992
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 166
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 38
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 829
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 6
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 151
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 28
         },
         {
           "File": "evals/scenario-03.md",
@@ -4884,6 +4889,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 945
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 137
         }
       ],
       "errors": 0,
@@ -4893,9 +4902,9 @@
   {
     "dir": "skills/ci-cd/fluentbit/generator",
     "content": {
-      "word_count": 1390,
+      "word_count": 1565,
       "code_block_count": 5,
-      "code_block_ratio": 0.2784,
+      "code_block_ratio": 0.2473,
       "code_languages": [
         "bash",
         "bash",
@@ -4903,15 +4912,15 @@
         "ini",
         "ini"
       ],
-      "sentence_count": 63,
-      "imperative_count": 4,
-      "imperative_ratio": 0.0635,
-      "information_density": 0.171,
-      "strong_markers": 14,
+      "sentence_count": 78,
+      "imperative_count": 8,
+      "imperative_ratio": 0.1026,
+      "information_density": 0.1749,
+      "strong_markers": 15,
       "weak_markers": 2,
-      "instruction_specificity": 0.875,
-      "section_count": 15,
-      "list_item_count": 37
+      "instruction_specificity": 0.8824,
+      "section_count": 17,
+      "list_item_count": 48
     },
     "structure": {
       "results": [
@@ -4925,7 +4934,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -4961,17 +4970,57 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 2902
+          "Tokens": 3151
         }
       ],
       "other_token_counts": [
+        {
+          "File": "evals/instructions.json",
+          "Tokens": 216
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 12
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 171
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 37
+        },
         {
           "File": "evals/scenario-01.md",
           "Tokens": 804
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 9
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 158
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 34
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 816
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 8
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 132
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 31
         },
         {
           "File": "evals/scenario-03.md",
@@ -4984,6 +5033,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 795
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 132
         }
       ],
       "errors": 0,
@@ -5026,7 +5079,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 3 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
+          "Message": "unknown directory: evals/ (contains 8 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
           "Line": 0
         },
@@ -5075,16 +5128,60 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 218
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 8
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 161
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 34
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 1202
+        },
+        {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 7
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 146
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 26
         },
         {
           "File": "evals/scenario-02.md",
           "Tokens": 1158
         },
         {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 164
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 31
+        },
+        {
           "File": "evals/scenario-03.md",
           "Tokens": 774
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 124
         }
       ],
       "errors": 0,
@@ -5352,7 +5449,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -5468,12 +5565,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 214
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 10
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 155
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 34
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 849
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 8
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 169
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 36
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 871
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 7
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 155
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 31
         },
         {
           "File": "evals/scenario-03.md",
@@ -5486,6 +5623,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 823
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 123
         }
       ],
       "errors": 0,
@@ -5527,7 +5668,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -5604,12 +5745,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 204
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 6
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 153
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 29
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 832
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 10
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 164
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 32
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 795
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 6
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 155
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 27
         },
         {
           "File": "evals/scenario-03.md",
@@ -5622,6 +5803,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 856
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 124
         }
       ],
       "errors": 0,
@@ -5668,7 +5853,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -5734,12 +5919,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 204
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 7
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 149
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 31
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 1075
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 7
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 157
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 31
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 908
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 5
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 140
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 24
         },
         {
           "File": "evals/scenario-03.md",
@@ -5752,6 +5977,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 1120
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 117
         }
       ],
       "errors": 0,
@@ -5909,7 +6138,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -5962,12 +6191,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 203
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 7
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 151
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 31
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 869
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 7
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 153
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 31
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 782
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 9
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 166
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 32
         },
         {
           "File": "evals/scenario-03.md",
@@ -5980,6 +6249,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 1023
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 121
         },
         {
           "File": "test/test-crd-chart/Chart.yaml",
@@ -6059,7 +6332,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -6122,12 +6395,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 209
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 169
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 34
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 676
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 6
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 154
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 26
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 615
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 10
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 160
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 37
         },
         {
           "File": "evals/scenario-03.md",
@@ -6140,6 +6453,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 676
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 125
         },
         {
           "File": "examples/declarative-ci-basic.Jenkinsfile",
@@ -6189,24 +6506,24 @@
   {
     "dir": "skills/ci-cd/jenkinsfile/validator",
     "content": {
-      "word_count": 1004,
+      "word_count": 1169,
       "code_block_count": 5,
-      "code_block_ratio": 0.1604,
+      "code_block_ratio": 0.1377,
       "code_languages": [
         "bash",
         "bash",
         "bash",
         "bash"
       ],
-      "sentence_count": 64,
-      "imperative_count": 5,
-      "imperative_ratio": 0.0781,
-      "information_density": 0.1192,
+      "sentence_count": 79,
+      "imperative_count": 10,
+      "imperative_ratio": 0.1266,
+      "information_density": 0.1322,
       "strong_markers": 6,
       "weak_markers": 1,
       "instruction_specificity": 0.8571,
-      "section_count": 17,
-      "list_item_count": 50
+      "section_count": 19,
+      "list_item_count": 61
     },
     "structure": {
       "results": [
@@ -6220,7 +6537,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -6298,7 +6615,7 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 1811
+          "Tokens": 2041
         },
         {
           "File": "references/best_practices.md",
@@ -6327,12 +6644,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 211
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 12
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 154
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 33
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 730
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 5
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 156
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 24
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 737
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 7
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 153
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 29
         },
         {
           "File": "evals/scenario-03.md",
@@ -6345,6 +6702,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 692
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 122
         }
       ],
       "errors": 0,
@@ -12167,7 +12528,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -12276,12 +12637,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 264
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 15
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 176
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 41
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 945
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 172
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 32
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 892
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 163
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 32
         },
         {
           "File": "evals/scenario-03.md",
@@ -12294,6 +12695,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 871
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 143
         }
       ],
       "errors": 0,
@@ -12338,7 +12743,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -12515,12 +12920,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 275
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 15
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 176
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 40
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 1218
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 159
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 33
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 1212
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 13
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 179
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 40
         },
         {
           "File": "evals/scenario-03.md",
@@ -12533,6 +12978,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 1258
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 145
         }
       ],
       "errors": 0,
@@ -12941,13 +13390,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"behavior-validator\", got \"cfn-behavior-validator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"cfn-behavior-validator\" (valid)",
@@ -13005,7 +13447,7 @@
           "Tokens": 658
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13046,13 +13488,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"template-compare\", got \"cfn-template-compare\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -13113,7 +13548,7 @@
           "Tokens": 816
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13149,7 +13584,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -13203,12 +13638,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 259
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 14
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 181
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 37
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 943
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 8
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 146
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 36
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 780
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 9
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 164
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 28
         },
         {
           "File": "evals/scenario-03.md",
@@ -13221,6 +13696,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 930
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 133
         }
       ],
       "errors": 0,
@@ -13269,7 +13748,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -13315,12 +13794,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 275
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 13
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 170
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 36
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 646
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 9
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 171
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 31
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 680
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 184
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 40
         },
         {
           "File": "evals/scenario-03.md",
@@ -13333,6 +13852,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 915
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 135
         }
       ],
       "errors": 0,
@@ -13400,13 +13923,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"debug\", got \"k8s-debug\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -13481,7 +13997,7 @@
           "Tokens": 874
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13540,13 +14056,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"yaml-generator\", got \"k8s-yaml-generator\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"k8s-yaml-generator\" (valid)",
@@ -13596,7 +14105,7 @@
           "Tokens": 648
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -13655,13 +14164,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"yaml-validator\", got \"k8s-yaml-validator\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -13734,7 +14236,7 @@
           "Tokens": 852
         }
       ],
-      "errors": 2,
+      "errors": 1,
       "warnings": 1
     }
   },
@@ -13780,7 +14282,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -13848,12 +14350,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 284
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 14
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 227
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 45
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 988
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 13
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 163
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 35
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 778
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 10
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 177
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 38
         },
         {
           "File": "evals/scenario-03.md",
@@ -13866,6 +14408,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 882
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 143
         }
       ],
       "errors": 0,
@@ -13875,9 +14421,9 @@
   {
     "dir": "skills/infrastructure/terraform/validator",
     "content": {
-      "word_count": 1329,
+      "word_count": 1566,
       "code_block_count": 9,
-      "code_block_ratio": 0.2325,
+      "code_block_ratio": 0.1973,
       "code_languages": [
         "markdown",
         "markdown",
@@ -13887,15 +14433,15 @@
         "bash",
         "bash"
       ],
-      "sentence_count": 63,
-      "imperative_count": 7,
-      "imperative_ratio": 0.1111,
-      "information_density": 0.1718,
-      "strong_markers": 26,
+      "sentence_count": 81,
+      "imperative_count": 11,
+      "imperative_ratio": 0.1358,
+      "information_density": 0.1666,
+      "strong_markers": 31,
       "weak_markers": 2,
-      "instruction_specificity": 0.9286,
-      "section_count": 23,
-      "list_item_count": 34
+      "instruction_specificity": 0.9394,
+      "section_count": 25,
+      "list_item_count": 46
     },
     "structure": {
       "results": [
@@ -13909,7 +14455,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -13938,7 +14484,7 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 2270
+          "Tokens": 2601
         },
         {
           "File": "references/advanced_features.md",
@@ -13959,12 +14505,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 350
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 15
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 265
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 64
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 1117
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 21
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 261
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 54
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 1239
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 19
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 215
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 35
         },
         {
           "File": "evals/scenario-03.md",
@@ -13977,6 +14563,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 1187
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 183
         }
       ],
       "errors": 0,
@@ -14027,7 +14617,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 4 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 9 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -14097,12 +14687,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 262
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 14
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 179
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 43
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 980
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 13
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 170
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 43
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 973
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 8
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 172
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 34
         },
         {
           "File": "evals/scenario-03.md",
@@ -14111,6 +14741,10 @@
         {
           "File": "evals/scenario-04.md",
           "Tokens": 803
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 141
         }
       ],
       "errors": 0,
@@ -14176,7 +14810,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -14262,12 +14896,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 261
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 173
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 35
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 932
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 9
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 160
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 30
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 819
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 10
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 174
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 37
         },
         {
           "File": "evals/scenario-03.md",
@@ -14280,6 +14954,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 1262
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 128
         },
         {
           "File": "test/infrastructure/common.hcl",
@@ -14524,22 +15202,22 @@
   {
     "dir": "skills/observability/promql/generator",
     "content": {
-      "word_count": 1236,
+      "word_count": 1419,
       "code_block_count": 3,
-      "code_block_ratio": 0.165,
+      "code_block_ratio": 0.1438,
       "code_languages": [
         "promql",
         "yaml"
       ],
-      "sentence_count": 65,
-      "imperative_count": 4,
-      "imperative_ratio": 0.0615,
-      "information_density": 0.1133,
+      "sentence_count": 80,
+      "imperative_count": 7,
+      "imperative_ratio": 0.0875,
+      "information_density": 0.1156,
       "strong_markers": 10,
       "weak_markers": 2,
       "instruction_specificity": 0.8333,
-      "section_count": 20,
-      "list_item_count": 50
+      "section_count": 22,
+      "list_item_count": 61
     },
     "structure": {
       "results": [
@@ -14553,7 +15231,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 10 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -14659,7 +15337,7 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 2394
+          "Tokens": 2652
         },
         {
           "File": "references/best_practices.md",
@@ -14688,12 +15366,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 224
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 9
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 179
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 40
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 896
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 6
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 165
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 23
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 831
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 11
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 176
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 37
         },
         {
           "File": "evals/scenario-03.md",
@@ -14706,6 +15424,10 @@
         {
           "File": "evals/scenario-05.md",
           "Tokens": 997
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 124
         }
       ],
       "errors": 0,
@@ -14715,22 +15437,22 @@
   {
     "dir": "skills/observability/promql/validator",
     "content": {
-      "word_count": 1139,
+      "word_count": 1311,
       "code_block_count": 3,
-      "code_block_ratio": 0.0193,
+      "code_block_ratio": 0.0168,
       "code_languages": [
         "bash",
         "bash"
       ],
-      "sentence_count": 75,
-      "imperative_count": 6,
-      "imperative_ratio": 0.08,
-      "information_density": 0.0497,
+      "sentence_count": 90,
+      "imperative_count": 8,
+      "imperative_ratio": 0.0889,
+      "information_density": 0.0528,
       "strong_markers": 7,
       "weak_markers": 5,
       "instruction_specificity": 0.5833,
-      "section_count": 21,
-      "list_item_count": 47
+      "section_count": 23,
+      "list_item_count": 58
     },
     "structure": {
       "results": [
@@ -14744,7 +15466,7 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 4 files) — agents using the standard skill structure won't discover these files",
+          "Message": "unknown directory: evals/ (contains 9 files) — agents using the standard skill structure won't discover these files",
           "File": "",
           "Line": 0
         },
@@ -14808,7 +15530,7 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 1743
+          "Tokens": 1975
         },
         {
           "File": "references/anti_patterns.md",
@@ -14821,12 +15543,52 @@
       ],
       "other_token_counts": [
         {
+          "File": "evals/instructions.json",
+          "Tokens": 219
+        },
+        {
+          "File": "evals/scenario-01/capability.txt",
+          "Tokens": 8
+        },
+        {
+          "File": "evals/scenario-01/criteria.json",
+          "Tokens": 159
+        },
+        {
+          "File": "evals/scenario-01/task.md",
+          "Tokens": 28
+        },
+        {
           "File": "evals/scenario-01.md",
           "Tokens": 708
         },
         {
+          "File": "evals/scenario-02/capability.txt",
+          "Tokens": 8
+        },
+        {
+          "File": "evals/scenario-02/criteria.json",
+          "Tokens": 158
+        },
+        {
+          "File": "evals/scenario-02/task.md",
+          "Tokens": 27
+        },
+        {
           "File": "evals/scenario-02.md",
           "Tokens": 701
+        },
+        {
+          "File": "evals/scenario-03/capability.txt",
+          "Tokens": 9
+        },
+        {
+          "File": "evals/scenario-03/criteria.json",
+          "Tokens": 152
+        },
+        {
+          "File": "evals/scenario-03/task.md",
+          "Tokens": 30
         },
         {
           "File": "evals/scenario-03.md",
@@ -14835,6 +15597,10 @@
         {
           "File": "evals/scenario-04.md",
           "Tokens": 875
+        },
+        {
+          "File": "evals/summary.json",
+          "Tokens": 123
         }
       ],
       "errors": 0,
@@ -16449,13 +17215,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"biome-integration\", got \"nx-biome-integration\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"nx-biome-integration\" (valid)",
@@ -16517,7 +17276,7 @@
           "Tokens": 713
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -16558,13 +17317,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 4 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"bun-integration\", got \"nx-bun-integration\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -16668,7 +17420,7 @@
           "Tokens": 667
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -16987,13 +17739,6 @@
           "Line": 0
         },
         {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"vite-integration\", got \"nx-vite-integration\")",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
           "Level": 0,
           "Category": "Frontmatter",
           "Message": "name: \"nx-vite-integration\" (valid)",
@@ -17098,7 +17843,7 @@
           "Tokens": 909
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
@@ -17141,13 +17886,6 @@
           "Category": "Structure",
           "Message": "unknown directory: evals/ (contains 4 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
           "File": "",
-          "Line": 0
-        },
-        {
-          "Level": 3,
-          "Category": "Frontmatter",
-          "Message": "name does not match directory name (expected \"workspace-patterns\", got \"nx-workspace-patterns\")",
-          "File": "SKILL.md",
           "Line": 0
         },
         {
@@ -17244,7 +17982,7 @@
           "Tokens": 720
         }
       ],
-      "errors": 1,
+      "errors": 0,
       "warnings": 1
     }
   },
