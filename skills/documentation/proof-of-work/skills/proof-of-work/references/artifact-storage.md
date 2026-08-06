@@ -1,8 +1,12 @@
 # Artifact Storage Reference
 
-## Default Storage Location
+## Check for a Project-Specific Convention First
 
-All proof-of-work artifacts are stored under `.context/evidence/` in the repository root.
+Before defaulting to `.context/evidence/`, check whether the project already has its own established location for evidence tied to a specific document (a journal entry, a report, a ticket write-up). A generic cross-cutting bucket is wrong for evidence that belongs to one specific artifact — e.g. a project that documents work as dated entries may already store an entry's supporting files in a directory named after that entry (`<entry-slug>/assets/`), sitting next to it, rather than in a shared `.context/evidence/` folder. Look for an existing sibling directory pattern near similar past documents before assuming the default below applies, and check that project's own skill/instruction docs for an explicit convention.
+
+## Default Storage Location (no project-specific convention found)
+
+Otherwise, proof-of-work artifacts are stored under `.context/evidence/` in the repository root.
 
 ```
 .context/
