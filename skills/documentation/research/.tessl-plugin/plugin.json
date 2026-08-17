@@ -1,6 +1,6 @@
 {
   "name": "pantheon-ai/research",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "Research toolkit for triaging academic papers and GitHub projects. Triage papers and tools, reproduce benchmark claims, search Google Scholar, Semantic Scholar, PubMed, or Sci-Hub, extract structured data from scientific PDFs, evaluate scholarly work, generate publication-quality scientific diagrams, and query Google NotebookLM notebooks for source-grounded answers.",
   "private": false,
   "skills": [
