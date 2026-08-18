@@ -10,7 +10,8 @@ Top-level metadata identifying the Jira ticket being readied up.
 
 | Field | Purpose | Example value |
 |---|---|---|
-| `ticket.key` | Jira issue key | `PROJ-NNN` |
+| `ticket.key` | Jira issue key. Required unless `ticket.new_ticket` is `true`, in which case it must be absent (schema-enforced) | `PROJ-NNN` |
+| `ticket.new_ticket` | Set to `true` for a brand-new backlog item with no Jira key yet — creating the ticket and assigning a key is a separate, human-confirmed step outside this skill. Defaults to `false` | `true` |
 | `ticket.summary` | Ticket title as it appears in Jira | `Handle invalid input in the address-lookup service` |
 | `ticket.type` | Issue type — controls markdown heading and linked-incident line | `Bug` / `Feature` / `Maintenance` / `Investigation` |
 | `ticket.linked_incident` | Key of the incident that triggered this ticket; omit or leave blank if none | `INC-NNN` |

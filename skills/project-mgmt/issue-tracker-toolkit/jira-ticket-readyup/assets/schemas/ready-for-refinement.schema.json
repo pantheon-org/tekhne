@@ -13,13 +13,18 @@
   "properties": {
     "ticket": {
       "type": "object",
-      "required": ["key", "summary", "type"],
+      "required": ["summary", "type"],
       "additionalProperties": false,
       "properties": {
         "key": {
           "type": "string",
           "pattern": "^[A-Z][A-Z0-9]+-[0-9]+$",
-          "description": "Jira issue key, e.g. PROJ-NNN"
+          "description": "Jira issue key, e.g. PROJ-NNN. Must be absent when new_ticket is true (no key exists yet)."
+        },
+        "new_ticket": {
+          "type": "boolean",
+          "description": "True when this is a brand-new backlog item with no Jira key yet — creating the ticket and assigning a key is a separate, human-confirmed step outside this skill. When true, ticket.key must be absent.",
+          "default": false
         },
         "summary": {
           "type": "string",
@@ -36,7 +41,17 @@
           "pattern": "^[A-Z][A-Z0-9]+-[0-9]+$",
           "description": "Linked incident key, e.g. INC-NNN"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "new_ticket": { "const": true } },
+            "required": ["new_ticket"]
+          },
+          "then": { "not": { "required": ["key"] } },
+          "else": { "required": ["key"] }
+        }
+      ]
     },
     "context": {
       "type": "object",
