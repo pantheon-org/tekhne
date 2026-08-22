@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "User supplies a draft confessional bit that is purely victim-framed, announces its voice switch explicitly, and ends on a stated moral; agent must revise it against the craft anti-patterns.",
+  "checklist": [
+    {
+      "name": "adds_self_implication",
+      "description": "Revision gives the narrator a genuine share of fault or complicity in the incident, not just an unfair reaction from the other party.",
+      "max_score": 25
+    },
+    {
+      "name": "removes_voice_switch_label",
+      "description": "Revision removes the explicit stage-direction label announcing the voice switch, while the switched voice remains legible on its own.",
+      "max_score": 25
+    },
+    {
+      "name": "replaces_stated_moral",
+      "description": "Revision replaces the explicit stated lesson at the end with a blunter, unresolved observation.",
+      "max_score": 20
+    },
+    {
+      "name": "preserves_existing_detail",
+      "description": "Concrete details already present in the draft (e.g. the vase, the scream) survive into the revision rather than being discarded wholesale.",
+      "max_score": 15
+    },
+    {
+      "name": "explains_changes",
+      "description": "Response explains what was changed and ties each change back to the relevant craft principle.",
+      "max_score": 15
+    }
+  ]
+}

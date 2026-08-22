@@ -1,0 +1,1 @@
+Tests whether the agent recognizes a monologue request doesn't fit this skill's two-voice format instead of force-fitting it.

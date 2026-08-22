@@ -1,0 +1,71 @@
+{
+  "skill": "pryor-esque-confessional-standup",
+  "description": "Generate original confessional stand-up storytelling that mines painful, autobiographical material for comedy through multi-voice character embodiment, rhythmic repetition, and unflinching honesty.",
+  "queries": [
+    {
+      "prompt": "Write a stand-up bit about a painful childhood memory where the narrator does different voices for each family member",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "I want a confessional comedy story about a run-in with a cop, told with total honesty and no sugarcoating",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Give me an autobiographical stand-up story about addiction that's genuinely funny and genuinely painful at the same time",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Write a bit where the narrator switches between their own voice and other characters' voices mid-story without announcing it",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Can you write something like a Richard Pryor routine but with entirely original stories and wording?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write a personal storytelling bit about poverty that implicates the narrator as much as anyone else",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "I need a stand-up story that builds through rhythmic repetition of a phrase and swings between painful and funny",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write a blunt observational bit about the difference between rich people and poor people, building to a quotable line",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a cringe comedy scene about an oblivious boss who doesn't realise how badly a meeting is going",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a mockumentary interview where the host asks an expert a wildly ignorant question",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Write a dystopian short story about a technology that escalates into a nightmare",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "What naming convention should I use for my feature branch?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Help me configure backup policies for our RDS databases",
+      "should_trigger": false,
+      "tag": "unrelated"
+    }
+  ]
+}

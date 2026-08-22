@@ -1,0 +1,1 @@
+Tests whether the agent diagnoses a randomly-escalating draft and fixes it to follow one consistent comic engine.

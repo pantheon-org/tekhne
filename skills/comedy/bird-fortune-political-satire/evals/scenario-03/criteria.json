@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Grading an original briefing-scene sketch about a corporate executive defending a post-scandal rebrand, judged for scene framing, dry character-driven tone, escalation, and a landed ending.",
+  "checklist": [
+    {
+      "name": "scene_framed_as_briefing",
+      "description": "The output is written as a scene (briefing address plus at least one questioner/interjection), not prose narration or a description of the rebrand.",
+      "max_score": 20
+    },
+    {
+      "name": "dry_character_driven_tone",
+      "description": "Humour comes from the executive's evasive, formal self-justification rather than slapstick or random unconnected jokes.",
+      "max_score": 25
+    },
+    {
+      "name": "escalation_and_euphemism",
+      "description": "The scene builds across more than one beat and includes at least one clear euphemistic substitution for the scandal or its cover story.",
+      "max_score": 25
+    },
+    {
+      "name": "landed_ending",
+      "description": "The sketch closes on a definite beat: revealing admission, self-contradiction, or calmly stated absurdity.",
+      "max_score": 15
+    },
+    {
+      "name": "sincerity_maintained",
+      "description": "The executive never explicitly acknowledges, in their own voice, that the rebrand is a cover-up.",
+      "max_score": 15
+    }
+  ]
+}

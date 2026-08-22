@@ -1,0 +1,1 @@
+Tests whether the agent detects and fixes two specific mechanism-breaking flaws in a user-supplied draft — an emotional interviewer line and a resolved ending — while explaining why each fix matters.

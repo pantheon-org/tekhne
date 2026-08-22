@@ -1,0 +1,1 @@
+Tests whether the agent identifies and fixes a reassuringly-resolved ending that closes the discomfort gap.

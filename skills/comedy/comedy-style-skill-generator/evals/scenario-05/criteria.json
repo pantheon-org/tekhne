@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct diagnosis and fix of the skip-the-conversion-step anti-pattern.",
+  "checklist": [
+    {
+      "name": "identifies_raw_notes",
+      "description": "Identifies the draft as unconverted analysis notes, not instructions.",
+      "max_score": 35
+    },
+    {
+      "name": "rewrites_as_rules",
+      "description": "The rewritten section contains concrete, actionable rules rather than descriptive observations.",
+      "max_score": 40
+    },
+    {
+      "name": "references_anti_pattern",
+      "description": "References the specific anti-pattern being corrected.",
+      "max_score": 25
+    }
+  ]
+}

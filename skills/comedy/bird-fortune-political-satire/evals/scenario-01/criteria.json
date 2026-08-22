@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Grading an original two-character satirical interview sketch about a minister and a data breach.",
+  "checklist": [
+    {
+      "name": "interview_frame_present",
+      "description": "Output is structured as a two-character interview/briefing/consultation exchange, not a monologue or narration.",
+      "max_score": 20
+    },
+    {
+      "name": "euphemistic_concealment",
+      "description": "The minister uses euphemism or bureaucratic language to describe the breach rather than stating the failure plainly or crudely.",
+      "max_score": 25
+    },
+    {
+      "name": "escalation_present",
+      "description": "The exchange builds across multiple turns, with later lines conceding more than earlier ones, rather than one flat repeated joke.",
+      "max_score": 20
+    },
+    {
+      "name": "sincere_non_self_aware_character",
+      "description": "The minister remains sincerely convinced their reasoning is sound throughout; no wink-to-audience self-awareness of hypocrisy.",
+      "max_score": 20
+    },
+    {
+      "name": "original_and_landed_ending",
+      "description": "The sketch is original (no reproduced dialogue/characters) and closes on a clear admission, contradiction, or calmly stated absurdity.",
+      "max_score": 15
+    }
+  ]
+}

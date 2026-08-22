@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct scope recognition for a non-autobiographical sketch request against this skill's personal-narrator requirement.",
+  "checklist": [
+    {
+      "name": "recognizes_no_narrator",
+      "description": "Identifies the absence of a personal narrator/anecdote and doesn't apply this skill's mechanics.",
+      "max_score": 60
+    },
+    {
+      "name": "no_fabricated_memory",
+      "description": "No fabricated personal-memory framing is grafted onto the premise-driven sketch.",
+      "max_score": 40
+    }
+  ]
+}

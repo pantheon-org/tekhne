@@ -1,0 +1,71 @@
+{
+  "skill": "brooker-esque-media-satire",
+  "description": "Generate original misanthropic media and technology satire using extended grotesque metaphor, self-loathing narration, and premises that escalate one logical step at a time into a bleak, deflating conclusion.",
+  "queries": [
+    {
+      "prompt": "Write a cynical monologue tearing apart a reality TV show using one extended grotesque metaphor",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "I want a savage, self-loathing takedown of rolling news coverage",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Write a short story where a new social media feature escalates logically into a nightmarish outcome, Black Mirror style but original",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Give me a misanthropic bit mocking corporate tech jargon by translating it into what it actually means",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Can you write something like a Charlie Brooker column but with entirely original wording and no copied material?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write a piece about a gadget that starts mundane and builds into an increasingly violent metaphor before a flat, bleak ending",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "I need a dystopian near-future scenario about a phone app that follows a believable chain of consequences to a horrifying place",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write a documentary sketch where the presenter asks an expert a hopelessly ignorant question with total confidence",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a stand-up bit about family dysfunction told in multiple character voices",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a two-person deadpan political satire interview about a border policy",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Write an observational stand-up bit about the difference between how men and women argue",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "What conventional commit type should I use for a bug fix?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Help me write an IAM policy for cross-account S3 access",
+      "should_trigger": false,
+      "tag": "unrelated"
+    }
+  ]
+}

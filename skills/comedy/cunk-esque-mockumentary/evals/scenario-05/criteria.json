@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct diagnosis and fix of a broken-deadpan anti-pattern in presenter narration.",
+  "checklist": [
+    {
+      "name": "removes_uncertainty_ack",
+      "description": "The revised line contains no acknowledgment of uncertainty from the presenter.",
+      "max_score": 40
+    },
+    {
+      "name": "flat_confident_delivery",
+      "description": "The garbled claim is stated as flat, confident fact.",
+      "max_score": 35
+    },
+    {
+      "name": "names_real_issue",
+      "description": "The response names broken deadpan as the specific issue being fixed.",
+      "max_score": 25
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "skill": "gervais-esque-cringe-satire",
+  "description": "Generate original cringe comedy and provocateur stand-up using oblivious self-important characters, awkward social miscalculation, and blunt taboo-puncturing statements delivered without cushioning.",
+  "queries": [
+    {
+      "prompt": "Write a cringe comedy scene where a boss thinks he's hilarious and broad-minded but the room is dying of embarrassment",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "I want a stand-up bit that states a taboo truth bluntly and then makes it worse instead of softening it",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Give me an awkward office sketch where a self-important manager digs a deeper hole trying to explain a social misstep",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Write a flippant bit about death or illness delivered in a matter-of-fact, mildly surprised tone",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Can you write something like a Ricky Gervais roast monologue but entirely original, no copied jokes?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write an awkward scene with long uncomfortable silences after a celebrity says something they think is clever",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "I need a provocateur stand-up bit mocking organised religion with mock self-congratulation about being open-minded",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write a rhythmic observational bit about the difference between how bosses and employees see the same meeting",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a confessional stand-up story about a painful childhood memory with multiple character voices",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a deadpan two-person interview sketch about a bureaucratic border policy",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Write a misanthropic monologue about reality TV using one extended grotesque metaphor",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Is it 'colour' or 'color' in our commit messages?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Help me write a Kubernetes deployment manifest for a new service",
+      "should_trigger": false,
+      "tag": "unrelated"
+    }
+  ]
+}

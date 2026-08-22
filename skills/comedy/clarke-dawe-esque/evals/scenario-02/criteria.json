@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "User's draft sketch has an outraged interviewer line and a resolved ending that both break the deadpan mechanic; agent must fix both.",
+  "checklist": [
+    {
+      "name": "flattens_interviewer_line",
+      "description": "The outraged/emotional interviewer line is rewritten to be flat and reasonable-sounding, with no exclamation or overt emotion.",
+      "max_score": 30
+    },
+    {
+      "name": "keeps_ending_unresolved",
+      "description": "The ending no longer has the spokesperson concede or reverse the decision; the absurd position is maintained calmly.",
+      "max_score": 30
+    },
+    {
+      "name": "gradual_escalation_preserved",
+      "description": "The rewritten exchange escalates in incremental steps rather than jumping straight between extremes.",
+      "max_score": 15
+    },
+    {
+      "name": "contradiction_via_question",
+      "description": "The contradiction is exposed via the interviewer's follow-up questions rather than direct narration or a stated 'that doesn't make sense'.",
+      "max_score": 15
+    },
+    {
+      "name": "explains_the_fix",
+      "description": "Agent briefly explains, in its own words, why flattening the interviewer and leaving the ending unresolved improves the sketch.",
+      "max_score": 10
+    }
+  ]
+}

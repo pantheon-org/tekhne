@@ -1,0 +1,1 @@
+Tests whether the agent diagnoses and fixes a draft that violates the self-implication, unannounced-voice-switch, and blunt-ending craft rules, while preserving the draft's existing concrete material.

@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Misanthropic bit mocking invented corporate tech jargon by quoting and translating it.",
+  "checklist": [
+    {
+      "name": "jargon_translation",
+      "description": "Quotes an invented corporate phrase then translates it plainly into what it actually means.",
+      "max_score": 30
+    },
+    {
+      "name": "hyperbole_bathos",
+      "description": "Uses hyperbole followed by bathos at least once elsewhere in the piece.",
+      "max_score": 20
+    },
+    {
+      "name": "single_metaphor_system",
+      "description": "Stays anchored to one coherent metaphor system rather than switching images.",
+      "max_score": 20
+    },
+    {
+      "name": "no_real_material",
+      "description": "No reproduction of a real company's actual material or a real writer's column.",
+      "max_score": 15
+    },
+    {
+      "name": "original_wording",
+      "description": "All wording is freshly invented rather than paraphrased from an identifiable source.",
+      "max_score": 15
+    }
+  ]
+}

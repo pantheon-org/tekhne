@@ -1,0 +1,1 @@
+Tests whether the agent consolidates a request for unrelated one-liners into one sustained extended metaphor instead of a joke list.

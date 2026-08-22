@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluate a blunt stand-up bit about wedding speeches for unhedged delivery, genuine escalation, and originality.",
+  "checklist": [
+    {
+      "name": "unhedged_opening_line",
+      "description": "The opening line is a single sentence stated as settled fact, with no softening qualifiers.",
+      "max_score": 25
+    },
+    {
+      "name": "escalating_followup",
+      "description": "The line after the opening claim extends or worsens the claim rather than softening, hedging, or apologizing for it.",
+      "max_score": 30
+    },
+    {
+      "name": "no_reproduction",
+      "description": "No line matches or closely paraphrases an identifiable real comedian's specific routine or wording.",
+      "max_score": 20
+    },
+    {
+      "name": "sustained_bluntness",
+      "description": "The bit maintains flat, matter-of-fact delivery throughout, with no reassurance or disclaimer inserted anywhere after the blunt claim.",
+      "max_score": 25
+    }
+  ]
+}

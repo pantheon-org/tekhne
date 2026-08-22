@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Frame the bit as a first-person story the narrator actually lived through, with the specificity of a real memory, not a generic setup."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Switch voice mid-story to embody other people in the scene, then return to the narrator's voice without announcing the switch."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Let the narrator implicate themselves as much as anyone else in the story; the comedy comes from self-exposure, not from punching only at others."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Build momentum through rhythmic, escalating repetition of a key phrase or reaction, with each pass changing rather than repeating identically."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Escalate the story's stakes so the ending exceeds what the opening implied, then land on a blunt, honest observation rather than a tidy moral conclusion."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER reproduce a real performer's actual bits, routines, or specific phrasing verbatim or near-verbatim; decline and offer to build original material instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let the narrator come off as purely a victim with no self-implication."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER announce a voice-switch explicitly (e.g. a stage-direction label like 'now doing my dad's voice'); the switch should be audible from rhythm and word choice alone."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER resolve the story with a tidy, comforting moral lesson; restate the discomfort instead of resolving it."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Consider drawing subject matter from family dysfunction, poverty, addiction, racism, run-ins with authority, or the narrator's own past mistakes, but treat these as optional starting points, not a required checklist."
+    }
+  ]
+}

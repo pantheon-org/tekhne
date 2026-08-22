@@ -1,0 +1,71 @@
+{
+  "skill": "rock-esque-observational-standup",
+  "description": "Generate original high-energy observational stand-up using bold contrastive claims about society and relationships, rhythmic repetition, and rising-volume escalation toward a quotable punchline.",
+  "queries": [
+    {
+      "prompt": "Write a stand-up bit structured as 'there's a difference between X and Y' that escalates through examples",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "I want a high-energy observational bit about relationships that builds rhythmically to a quotable punchline",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Give me a bold, blunt stand-up claim about class and money argued through escalating everyday examples",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Write a bit that repeats a contrastive refrain across the routine, getting sharper each time it comes back",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Can you write something like a Chris Rock stand-up special bit but entirely original, no copied lines?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write an observational routine on respectability politics that gets louder and more worked up as it goes, then lands a sharp closing line",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "I need a stand-up bit that voices an imagined objector briefly and then knocks the argument down",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write a confessional storytelling bit about poverty told in multiple character voices",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a cringe comedy sketch about an oblivious boss who thinks he's being progressive",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a mockumentary bit where a presenter asks an expert a wildly ignorant question",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Write a bleak short story about a technology that escalates into a dystopian outcome",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "GitLab rejected my push because the branch name doesn't match the push rules",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "How do I version our EventBridge event schema?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    }
+  ]
+}

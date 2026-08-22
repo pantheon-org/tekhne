@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct scope recognition for a one-liner request against this skill's two-hander scene format.",
+  "checklist": [
+    {
+      "name": "recognizes_mismatch",
+      "description": "Recognizes the mismatch between a one-line request and this skill's scene-based scope.",
+      "max_score": 50
+    },
+    {
+      "name": "no_forced_frame",
+      "description": "Does not manufacture a second character or full scene just to force this skill's mechanics.",
+      "max_score": 50
+    }
+  ]
+}

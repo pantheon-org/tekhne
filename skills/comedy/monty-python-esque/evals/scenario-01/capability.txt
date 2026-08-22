@@ -1,0 +1,1 @@
+Tests whether the agent can generate an original pedantry-driven sketch that escalates through internally consistent logic to an abrupt ending without breaking deadpan or reproducing existing Monty Python material.

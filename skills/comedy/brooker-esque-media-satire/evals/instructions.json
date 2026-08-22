@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER reproduce Charlie Brooker's actual columns, Screenwipe/Newswipe scripts, Black Mirror episodes, or specific lines verbatim or near-verbatim."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let the escalation break plausible cause-and-effect logic; each step must follow believably from the one before it."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER end on a triumphant or hopeful note; the bleak, deflating ending is the punchline."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Set the form first: follow the rant branch (one extended metaphor) for a column or monologue, otherwise follow the story branch (one escalating cause-and-effect chain) for a short story."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Run a final check against the anti-patterns before calling a draft finished: confirm no near-verbatim borrowing, no illogical escalation jump, and no hopeful ending crept in."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Return to the central metaphor or premise near the end in a worse form rather than introducing something new."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Call out corporate or institutional jargon by quoting it dryly and translating it into what it actually means, keeping the translation shorter and blunter than the quote."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Use hyperbole and bathos together: describe a trivial annoyance in apocalyptic terms, then undercut it by returning to how small the actual problem is."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "PREFER a single scaling metaphor system over switching to an unrelated image mid-piece."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Give the narrator open contempt for the subject and, optionally, equally sharp contempt for themselves or the audience — weight it however suits the piece."
+    }
+  ]
+}

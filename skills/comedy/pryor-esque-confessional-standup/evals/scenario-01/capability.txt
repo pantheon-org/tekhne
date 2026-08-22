@@ -1,0 +1,1 @@
+Tests whether the agent generates an original confessional stand-up story from a real user anecdote using unannounced voice-switching, narrator self-implication, escalating repetition, and a blunt-truth ending.

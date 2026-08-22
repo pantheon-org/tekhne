@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent builds a pedantry/semantic-argument-driven sketch that escalates through consistent logic and ends abruptly without breaking deadpan or reusing real Python material.",
+  "checklist": [
+    {
+      "name": "pedantry_engine_present",
+      "description": "The sketch is driven primarily by a definitional/semantic dispute over what counts as a chair, not by an unrelated plot device.",
+      "max_score": 20
+    },
+    {
+      "name": "consistent_escalation",
+      "description": "At least two escalating beats appear, each a logical consequence of the previous beat, rather than a repeated restatement or an unrelated random event.",
+      "max_score": 25
+    },
+    {
+      "name": "deadpan_maintained",
+      "description": "No character breaks character, winks at the audience, or otherwise comments that the scene is absurd or a joke.",
+      "max_score": 20
+    },
+    {
+      "name": "no_reproduction",
+      "description": "No dialogue, character name, or scene structure is reused from an actual existing Monty Python sketch.",
+      "max_score": 20
+    },
+    {
+      "name": "abrupt_ending",
+      "description": "The sketch ends with a dry anticlimax, sudden cut, or reversal rather than a tidy resolution, apology, or stated moral.",
+      "max_score": 15
+    }
+  ]
+}

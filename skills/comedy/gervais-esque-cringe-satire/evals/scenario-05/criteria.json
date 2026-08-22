@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct diagnosis and fix of a reassuring-resolution anti-pattern in a draft ending.",
+  "checklist": [
+    {
+      "name": "identifies_reassuring_resolution",
+      "description": "Identifies the apology-and-applause ending as the core problem.",
+      "max_score": 40
+    },
+    {
+      "name": "proposes_unresolved_fix",
+      "description": "The proposed fix keeps obliviousness intact or avoids a clean resolution.",
+      "max_score": 35
+    },
+    {
+      "name": "references_mindset",
+      "description": "References the discomfort-held-open Mindset principle as the reason for the fix.",
+      "max_score": 25
+    }
+  ]
+}

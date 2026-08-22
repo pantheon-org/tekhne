@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct scope recognition for a warm request against this skill's discomfort-based modes.",
+  "checklist": [
+    {
+      "name": "recognizes_tone_mismatch",
+      "description": "Recognizes the tone mismatch and does not force cringe/provocateur mechanics onto a warm request.",
+      "max_score": 60
+    },
+    {
+      "name": "stays_warm_if_produced",
+      "description": "If a piece is produced, it stays warm rather than introducing obliviousness or taboo bluntness.",
+      "max_score": 40
+    }
+  ]
+}

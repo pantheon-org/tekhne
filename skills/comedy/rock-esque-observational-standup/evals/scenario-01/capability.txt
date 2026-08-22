@@ -1,0 +1,1 @@
+Tests whether the agent generates an original, structurally correct contrastive-and-escalating stand-up bit with an unhedged closing line, rather than an unstructured list of unrelated jokes.

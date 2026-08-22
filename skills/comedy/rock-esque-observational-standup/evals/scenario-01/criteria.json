@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "User asked for an original stand-up bit about class and money with a strong build and a quotable close.",
+  "checklist": [
+    {
+      "name": "single contrastive claim",
+      "description": "The bit is organized around one bold 'there's a difference between X and Y' claim rather than a disconnected list of jokes.",
+      "max_score": 25
+    },
+    {
+      "name": "concrete escalating examples",
+      "description": "Examples are concrete everyday scenes, not abstract statements, and later examples are more pointed or specific than earlier ones.",
+      "max_score": 30
+    },
+    {
+      "name": "objector voiced and defeated",
+      "description": "A brief imagined counter-argument appears and is knocked down without derailing the escalation.",
+      "max_score": 15
+    },
+    {
+      "name": "unhedged aphoristic close",
+      "description": "The bit ends on one tight, quotable line with no qualifier, disclaimer, or softening added after it.",
+      "max_score": 15
+    },
+    {
+      "name": "originality",
+      "description": "No line or example closely matches or paraphrases an identifiable existing comedian's material.",
+      "max_score": 15
+    }
+  ]
+}
