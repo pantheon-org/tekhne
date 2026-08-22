@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Agent generates an original confessional stand-up story from a user-supplied painful memory (getting caught shoplifting as a teenager).",
+  "checklist": [
+    {
+      "name": "memory_specific_framing",
+      "description": "Story is told in first person with concrete sensory or situational detail rather than a generic setup.",
+      "max_score": 15
+    },
+    {
+      "name": "unannounced_voice_switch",
+      "description": "At least one other person in the scene is embodied in a distinct voice, entered and exited without an explicit stage-direction label announcing the switch.",
+      "max_score": 20
+    },
+    {
+      "name": "narrator_self_implication",
+      "description": "Narrator is shown to be at least partly at fault or complicit, not purely a victim of circumstance.",
+      "max_score": 20
+    },
+    {
+      "name": "escalating_repetition",
+      "description": "A phrase or reaction recurs two or more times, shifting rather than repeating identically, contributing to a sense of build.",
+      "max_score": 15
+    },
+    {
+      "name": "blunt_truth_ending",
+      "description": "Story ends on a plain, unresolved observation rather than an explicit stated moral or lesson.",
+      "max_score": 20
+    },
+    {
+      "name": "no_verbatim_borrowing",
+      "description": "No text is lifted or closely imitated from any real comedian's known material.",
+      "max_score": 10
+    }
+  ]
+}

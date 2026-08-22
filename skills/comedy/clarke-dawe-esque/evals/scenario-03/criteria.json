@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "User requests a brand-new original sketch about a fictional transport 'on time' redefinition policy, exercising the core generation workflow end to end.",
+  "checklist": [
+    {
+      "name": "correct_two_hander_structure",
+      "description": "Exactly two alternating speaking roles (interviewer and a generic spokesperson), no stage direction or physical comedy.",
+      "max_score": 20
+    },
+    {
+      "name": "literal_confident_answers",
+      "description": "The spokesperson answers with literal, confident logic rather than nervousness or emotional defensiveness.",
+      "max_score": 20
+    },
+    {
+      "name": "incremental_escalation",
+      "description": "The exchange escalates one logical step at a time rather than front-loading the most absurd consequence.",
+      "max_score": 20
+    },
+    {
+      "name": "flat_deadpan_maintained",
+      "description": "Neither character shows outrage, sarcasm-with-a-wink, or explicit moralizing at any point.",
+      "max_score": 20
+    },
+    {
+      "name": "unresolved_understated_close",
+      "description": "The sketch ends on a flat, understated line and the absurd policy is not resolved, apologized for, or reversed.",
+      "max_score": 20
+    }
+  ]
+}

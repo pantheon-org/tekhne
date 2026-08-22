@@ -1,0 +1,1 @@
+Recognize a regulatory or prize-dispute request as out of scope for this skill and decline to use it as authority.

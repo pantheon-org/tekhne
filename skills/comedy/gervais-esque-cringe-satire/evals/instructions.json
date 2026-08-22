@@ -1,0 +1,59 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never reproduce a real performer's actual scripts, characters, routines, or specific lines verbatim or near-verbatim, including Ricky Gervais's; always generate original material using the underlying structure instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never let the oblivious character realize how they come across mid-scene; the comedy depends on the gap between the character's self-image and reality staying open until after the comeuppance."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never hedge or apologize immediately after the blunt stand-up line; the follow-up line must escalate the taboo statement rather than soften it."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never let an onlooker narrate the joke by stating outright that the oblivious character's behavior was inappropriate or offensive; withheld reactions must carry the meaning instead, or the audience's interpretive work gets done for them and the scene flattens."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never escalate a stand-up bit by raising volume or crudeness alone without extending the claim's underlying logic; shock without escalating logic numbs the audience instead of building the bit."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Before drafting, confirm which mode fits the request (character-cringe scene, stand-up bit, or a blend) and pin down a specific target subject or setting rather than a vague one."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "For character-cringe mode, give the authority figure one specific, nameable delusion and a verbal tic, cast one to three onlookers whose restrained reactions carry the audience's read, and build an escalation ladder of missteps and recovery attempts before the comeuppance."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "For provocateur stand-up mode, state the taboo claim in one unhedged sentence as settled fact, then follow it with a line that escalates the claim (personalizes it, extends the logic, or removes the listener's excuse) rather than softening it."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "After drafting, verify the character stays unaware until after the comeuppance and the stand-up punchline has no hedge or apology immediately after it, before treating the draft as final."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Use flexible, optional language (e.g. 'consider', 'you can', 'optionally', 'either/or') for most structural technique choices rather than treating every technique as mandatory, reserving hard rules for the anti-reproduction rule."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Useful subjects (workplace hierarchy, celebrity vanity, organised religion, social pretension, death or illness treated flippantly) are a starting point, not an exhaustive or mandatory menu."
+    }
+  ]
+}

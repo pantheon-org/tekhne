@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent states a best-guess interpretation and proceeds rather than blocking on a clarifying question.",
+  "checklist": [
+    {
+      "name": "states_interpretation",
+      "description": "Explicitly states which interpretation it picked and why, before the explanation.",
+      "max_score": 40
+    },
+    {
+      "name": "no_blocking_question",
+      "description": "Does not ask a clarifying question and wait for a reply before any exploration.",
+      "max_score": 35
+    },
+    {
+      "name": "coherent_explanation",
+      "description": "The explanation that follows is coherent and grounded in the actual code.",
+      "max_score": 25
+    }
+  ]
+}

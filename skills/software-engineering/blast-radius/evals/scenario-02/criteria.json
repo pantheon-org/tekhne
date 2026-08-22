@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent goes beyond a caller list for a dependency bump, routes in-repo lookups through tokensave, and cites only what was actually found.",
+  "checklist": [
+    {
+      "name": "not_stopping_at_caller_list",
+      "description": "The response goes beyond listing direct callers into what a caller sweep can't show (format changes, downstream consumers, version-specific behavior).",
+      "max_score": 30
+    },
+    {
+      "name": "tokensave_first_for_in_repo_source",
+      "description": "Lookups of in-repo code (vendored copies, local patches) are attributed to tokensave tools, with raw Read reserved for source genuinely outside the repo's graph.",
+      "max_score": 25
+    },
+    {
+      "name": "downstream_effects_considered",
+      "description": "The response considers what reads the validator's output/wire shape several hops downstream, not just direct callers.",
+      "max_score": 20
+    },
+    {
+      "name": "real_citations_no_invention",
+      "description": "Every named caller, API, or behavior change was actually located by a described search; a null search is reported honestly rather than omitted or guessed.",
+      "max_score": 25
+    }
+  ]
+}

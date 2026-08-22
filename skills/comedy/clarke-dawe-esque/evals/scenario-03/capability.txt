@@ -1,0 +1,1 @@
+Tests the agent's ability to generate a brand-new deadpan two-person satire sketch from scratch, correctly applying escalation, flat delivery, and an unresolved understated ending.

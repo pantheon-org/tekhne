@@ -1,0 +1,1 @@
+Tests whether the agent can generate a structurally complete, deadpan-consistent mockumentary segment with a sincere non-hostile expert and no reproduction of a real copyrighted presenter persona.

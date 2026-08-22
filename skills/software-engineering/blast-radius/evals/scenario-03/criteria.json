@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent spawns a varied model/effort panel for a wide change and acts as a critical lead over the panel's findings rather than concatenating them.",
+  "checklist": [
+    {
+      "name": "distinct_model_effort_combinations",
+      "description": "At least two distinct model/effort combinations are named for the spawned agents, not one combination repeated.",
+      "max_score": 25
+    },
+    {
+      "name": "lead_exercises_judgment",
+      "description": "The final output shows a risk being dropped, downgraded, or specifically confirmed by the lead, not a raw concatenation of every agent's findings.",
+      "max_score": 30
+    },
+    {
+      "name": "safety_fact_still_present",
+      "description": "The writeup still identifies one fact the change is safe because of (or marks it explicitly unproven), rather than degenerating into an undifferentiated risk list.",
+      "max_score": 25
+    },
+    {
+      "name": "confidence_differentiated_by_corroboration",
+      "description": "A risk flagged by only one agent and not independently confirmed is distinguished from a corroborated or lead-verified risk.",
+      "max_score": 20
+    }
+  ]
+}

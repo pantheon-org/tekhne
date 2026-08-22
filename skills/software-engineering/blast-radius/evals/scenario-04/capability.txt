@@ -1,0 +1,1 @@
+Tests whether the agent honestly marks an unprovable safety fact as unproven instead of rounding up to "probably fine."

@@ -1,0 +1,1 @@
+Tests whether the agent states a best-guess interpretation of an ambiguous question and proceeds, instead of blocking on a clarifying question.

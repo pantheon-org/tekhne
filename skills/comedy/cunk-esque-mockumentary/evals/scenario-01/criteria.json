@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluate a generated mockumentary segment about the invention of the wheel for structure, deadpan discipline, and anti-pattern avoidance.",
+  "checklist": [
+    {
+      "name": "Segment structure",
+      "description": "Segment follows narration beats plus an interview cutaway, escalates wrongness across beats, and closes on a pseudo-profound trivial line.",
+      "max_score": 25
+    },
+    {
+      "name": "Deadpan discipline",
+      "description": "The presenter never breaks character, hedges, or acknowledges their own ignorance anywhere in the output.",
+      "max_score": 25
+    },
+    {
+      "name": "Expert sincerity",
+      "description": "The expert's answers stay patient and sincere throughout, with no sarcasm, irritation, or hostility toward the presenter.",
+      "max_score": 25
+    },
+    {
+      "name": "Original persona",
+      "description": "No real presenter name, catchphrase, or verbatim/near-verbatim broadcast lines are reproduced; the presenter is an original character.",
+      "max_score": 25
+    }
+  ]
+}

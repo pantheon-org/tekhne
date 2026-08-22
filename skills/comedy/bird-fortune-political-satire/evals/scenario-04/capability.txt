@@ -1,0 +1,1 @@
+Tests whether the agent recognizes a one-liner request doesn't fit this skill's two-hander scene format instead of force-fitting it.

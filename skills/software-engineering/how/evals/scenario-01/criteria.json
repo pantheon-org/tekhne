@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent takes the simple single-pass path for a narrow question, explores via tokensave only, and explains in prose grounded in the actual source rather than the function's name.",
+  "checklist": [
+    {
+      "name": "treated_as_simple_single_pass",
+      "description": "The agent takes the single-pass explain path for this narrow question rather than decomposing into parallel explorer agents.",
+      "max_score": 15
+    },
+    {
+      "name": "tokensave_only_exploration",
+      "description": "Exploration is attributed to tokensave_context (or its companion tools), with no mention of Glob, Grep, Read, or list_directory as the discovery mechanism.",
+      "max_score": 25
+    },
+    {
+      "name": "prose_not_pseudocode",
+      "description": "The explanation is prose referencing specific files/functions, following the Overview/How It Works/Gotchas shape, not pseudocode or a code dump.",
+      "max_score": 20
+    },
+    {
+      "name": "no_large_code_dump",
+      "description": "No large block of the function's raw source is pasted in place of an explanation.",
+      "max_score": 20
+    },
+    {
+      "name": "no_name_only_inference",
+      "description": "Claims about the backoff's actual behavior are grounded in the returned source, not inferred from the function's name alone.",
+      "max_score": 20
+    }
+  ]
+}

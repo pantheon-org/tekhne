@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "covered_instructions": 10,
+    "total_instructions": 10,
+    "notes": "All 10 extracted instructions are exercised by at least one of the six scenarios below."
+  }
+}

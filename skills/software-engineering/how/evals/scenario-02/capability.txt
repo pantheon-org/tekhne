@@ -1,0 +1,1 @@
+Tests whether the agent decomposes a cross-cutting subsystem question into parallel explorers and synthesizes their findings into one coherent explanation.

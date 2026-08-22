@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct scope recognition for a monologue request against this skill's two-voice requirement.",
+  "checklist": [
+    {
+      "name": "recognizes_mismatch",
+      "description": "Identifies the mismatch between a monologue request and the two-voice requirement.",
+      "max_score": 50
+    },
+    {
+      "name": "no_fabricated_character",
+      "description": "No fabricated second character is introduced just to satisfy the format.",
+      "max_score": 50
+    }
+  ]
+}

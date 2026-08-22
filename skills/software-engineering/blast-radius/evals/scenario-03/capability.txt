@@ -1,0 +1,1 @@
+Tests whether the agent uses a multi-agent panel to reason about a wide change rather than guessing alone or listing every conceivable risk.

@@ -1,0 +1,1 @@
+Tests whether the agent can build a jargon-mockery bit that quotes invented corporate language and translates it plainly, anchored in one metaphor system.

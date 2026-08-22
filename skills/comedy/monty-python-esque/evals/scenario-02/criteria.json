@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent builds a bureaucratic-procedure-driven sketch that uses understatement and pompous/trivial register contrast, escalates consistently, and ends abruptly.",
+  "checklist": [
+    {
+      "name": "bureaucratic_engine_present",
+      "description": "The scene is clearly driven by bureaucratic procedure (forms, referrals, a process) applied to the biscuit complaint.",
+      "max_score": 20
+    },
+    {
+      "name": "register_contrast",
+      "description": "At least one line mixes pompous or formal register with the trivial biscuit subject matter.",
+      "max_score": 15
+    },
+    {
+      "name": "understatement_maintained",
+      "description": "No line narrates or announces that the situation is ridiculous or silly; the humour is left implicit.",
+      "max_score": 20
+    },
+    {
+      "name": "consistent_escalation",
+      "description": "The procedural complications build logically from one another rather than resetting or drifting into unrelated randomness.",
+      "max_score": 20
+    },
+    {
+      "name": "no_reproduction",
+      "description": "No dialogue, character, or structure is reused from an actual existing Monty Python sketch.",
+      "max_score": 15
+    },
+    {
+      "name": "abrupt_ending",
+      "description": "The scene ends on a cut, anticlimax, or reversal rather than a resolved complaint or a stated lesson.",
+      "max_score": 10
+    }
+  ]
+}

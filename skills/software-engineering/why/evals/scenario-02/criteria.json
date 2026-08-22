@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent spawns one investigator per category, honestly reports gaps from missing MCPs rather than anticipatory skipping, and produces a specific Sources Consulted map.",
+  "checklist": [
+    {
+      "name": "one_investigator_per_category",
+      "description": "No category is merged into another investigator's scope; each investigator owns exactly one category.",
+      "max_score": 25
+    },
+    {
+      "name": "gaps_named_not_skipped_by_anticipation",
+      "description": "Every skipped category has a concrete justification (no MCP available, or provable irrelevance), never a bare assumption that it wouldn't have anything.",
+      "max_score": 25
+    },
+    {
+      "name": "coverage_map_complete",
+      "description": "All seven evidence categories are addressed in the output, each marked searched, empty, or skipped-with-reason.",
+      "max_score": 25
+    },
+    {
+      "name": "sources_consulted_specific",
+      "description": "The \"Sources Consulted\" section gives a specific, per-category account rather than a single vague sentence.",
+      "max_score": 25
+    }
+  ]
+}

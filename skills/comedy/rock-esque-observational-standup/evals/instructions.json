@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Pick one bold, sweeping claim about the given subject and frame it as 'there's a difference between X and Y' before drafting any examples."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Draft 3-5 escalating examples that prove the contrast, ordered so each one is more pointed and concrete than the last."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Insert exactly one imagined objector partway through the bit, voice its counter-argument briefly, and knock it down before continuing the escalation."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Land the bit on a tight, quotable, aphoristic single-sentence closing line that reframes the whole bit."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER reproduce a real performer's actual routines, bits, or specific phrasing verbatim or near-verbatim; generate wholly original claims and wording instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let the examples stay abstract — ground every escalating example in a small, concrete, everyday scenario rather than abstract argument."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER soften the closing line with a qualifier or disclaimer after it lands — let the aphoristic line stand alone."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer subjects where the claim is about a behaviour or hypocrisy rather than a group identity, and where at least one example implicates the audience or narrator rather than only an outside target."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Treat the core mechanics (refrain, mock outrage, direct address) as optional techniques to weight by tone and length; avoid forcing every one of them into a short bit."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "When a request asks to imitate an existing comedian's actual special, do not fulfil that specific request as asked; offer original material built on the same structural techniques instead."
+    }
+  ]
+}

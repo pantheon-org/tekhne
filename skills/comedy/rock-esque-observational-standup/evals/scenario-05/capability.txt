@@ -1,0 +1,1 @@
+Tests whether the agent identifies and removes hedging language from a draft closer to make it a tight, unhedged aphorism.

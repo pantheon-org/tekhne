@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates handling of two sources that give different reasons for the same fact.",
+  "checklist": [
+    {
+      "name": "both_sources_present",
+      "description": "Both the code-comment and Slack-thread explanations appear, each with its own citation.",
+      "max_score": 40
+    },
+    {
+      "name": "framed_as_competing",
+      "description": "The two explanations are explicitly framed as competing/divergent, not merged into one confident narrative.",
+      "max_score": 35
+    },
+    {
+      "name": "no_silent_drop",
+      "description": "Neither source is silently dropped in favor of the other.",
+      "max_score": 25
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never reproduce the actual 'Cunk' character name, her real interview lines, or any specific real broadcast segment verbatim or near-verbatim; use an original, unnamed or differently named presenter character instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never let the presenter acknowledge their own ignorance or break deadpan; the comedy depends on total, unbroken sincerity."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never make the expert's answers exasperated or hostile; the expert's strained but patient sincerity is what makes the presenter's ignorance land as absurd rather than cruel."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never let an escalation happen through the presenter's delivery instead of the content; confidence must stay flat while only the claims get worse."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never let the presenter's confidently wrong claim turn out to be secretly correct as a 'gotcha' twist; a hidden correct answer implies the presenter knew better all along, which collapses the sincere-ignorance premise retroactively."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Pick a subject with real-world weight (history, science, art, technology, civic institutions) before drafting narration, since sincere misunderstanding of something people take seriously is what lands as funny."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Structure a segment as scene-setting narration followed by a cutaway interview with a credentialed expert, escalate each beat to be slightly more wrong than the last, then close on a pseudo-profound one-liner that is actually trivial or meaningless."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Favour short, declarative sentences delivered with total certainty over long comic set-pieces."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Either escalate wrongness gradually across a whole segment, or front-load one large misunderstanding and explore its implications afterward; both are valid depending on requested length."
+    }
+  ]
+}

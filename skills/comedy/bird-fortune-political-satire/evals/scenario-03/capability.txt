@@ -1,0 +1,1 @@
+Tests whether the agent produces a properly-framed, escalating, euphemism-driven briefing sketch with a clear ending rather than defaulting to slapstick or narrated prose when the user asks for "clever, not just silly" comedy.

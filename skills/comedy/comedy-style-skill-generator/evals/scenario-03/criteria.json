@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Agent is asked to generate a comedy skill from a request that names no tradition, genre, performer, or example — only a mood.",
+  "checklist": [
+    {
+      "name": "Recognises the request lacks an analysable tradition",
+      "description": "Agent identifies that 'funny and absurd' names a mood, not a comedic tradition with describable mechanics, before attempting to produce a skill.",
+      "max_score": 25
+    },
+    {
+      "name": "Asks for clarification or explicitly names a chosen tradition",
+      "description": "Agent either asks the user which tradition/style/example to use, or explicitly states and analyses a specific tradition of its own choosing rather than proceeding on the mood alone.",
+      "max_score": 25
+    },
+    {
+      "name": "No bare-adjective Core mechanics",
+      "description": "If a skill is produced, its Core mechanics section contains concrete, actionable rules rather than restated mood adjectives.",
+      "max_score": 30
+    },
+    {
+      "name": "No fabricated analysis",
+      "description": "Agent does not claim to have performed the checklist analysis without naming what tradition or example it was analysing.",
+      "max_score": 15
+    },
+    {
+      "name": "Fidelity sections present if a skill is produced",
+      "description": "If a skill is produced, it includes a Mindset statement, per-mechanic BAD/GOOD failure-mode pairs, a Troubleshooting section, and labelled worked examples.",
+      "max_score": 5
+    }
+  ]
+}

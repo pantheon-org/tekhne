@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Agent is asked to generate a full SKILL.md for an invented, non-real comedic tradition with no living performer involved.",
+  "checklist": [
+    {
+      "name": "Completes analysis before writing",
+      "description": "Agent works through (or visibly reflects) the analysis checklist for the requested tradition before producing final instructions, rather than jumping straight to prose.",
+      "max_score": 15
+    },
+    {
+      "name": "Concrete mechanics, not adjectives",
+      "description": "The generated skill's Core mechanics section contains specific, imperative, tradition-specific rules rather than vague adjectives like 'funny' or 'dark'.",
+      "max_score": 25
+    },
+    {
+      "name": "Required structural elements present",
+      "description": "Delivered SKILL.md includes name, description with negative anchor and workflow anchor, a title, Core mechanics, and a Structure/Workflow section.",
+      "max_score": 20
+    },
+    {
+      "name": "Fidelity sections present",
+      "description": "Delivered SKILL.md includes a Mindset statement of the comic engine, a BAD/GOOD failure-mode pair per core mechanic, a Troubleshooting section of symptom-to-fix branches, and labelled worked examples per mechanic.",
+      "max_score": 20
+    },
+    {
+      "name": "Original-material instruction included",
+      "description": "The generated skill explicitly instructs producing original material rather than reproducing existing text.",
+      "max_score": 10
+    },
+    {
+      "name": "No unnecessary living-performer hedging",
+      "description": "Agent does not incorrectly apply or discuss the living-performer conversion rule for a style that names no real performer.",
+      "max_score": 10
+    }
+  ]
+}

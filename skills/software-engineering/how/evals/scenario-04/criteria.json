@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent answers a placement/ownership question with a concrete, evidence-grounded recommendation rather than abstract non-answer.",
+  "checklist": [
+    {
+      "name": "concrete_recommendation",
+      "description": "A specific placement recommendation is given, not a non-answer.",
+      "max_score": 35
+    },
+    {
+      "name": "grounded_in_codebase",
+      "description": "The recommendation cites actual current package boundaries and conventions found via exploration.",
+      "max_score": 35
+    },
+    {
+      "name": "exploration_attributed",
+      "description": "Exploration is attributed to a code-graph tool or explicit file search, not asserted without evidence.",
+      "max_score": 30
+    }
+  ]
+}

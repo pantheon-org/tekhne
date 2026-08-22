@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct scope recognition for a slapstick request against this skill's escalating-logic mechanism.",
+  "checklist": [
+    {
+      "name": "recognizes_mismatch",
+      "description": "Identifies that slapstick relies on physical timing, not escalating-logic mechanics.",
+      "max_score": 50
+    },
+    {
+      "name": "no_forced_dialogue_sketch",
+      "description": "Does not misapply bureaucratic-pedantry dialogue to a physical-comedy request.",
+      "max_score": 50
+    }
+  ]
+}

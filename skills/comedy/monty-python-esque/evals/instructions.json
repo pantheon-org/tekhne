@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER reproduce actual Monty Python sketch dialogue, scene structure, or character names verbatim or near-verbatim, even if the user asks for a version of or a sketch like a specific one."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER just label a scene 'surreal' or 'random' and drop in unrelated strange events without each one following from the sketch's own established rules."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER let a character break character, wink at the audience, or comment on the absurdity to signal that a joke is happening."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER resolve the escalating absurdity with a tidy explanation, apology, or stated moral."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Pick an ordinary, recognisable premise, then apply absurd literal precision to a phrase or rule within it rather than its intended meaning."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Escalate through internally consistent logic, where each new absurdity follows from the last by the sketch's own rules rather than arriving at random."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Choose a comic engine (bureaucratic procedure, pedantry and semantic argument, or pointless officialdom) that fits the premise, or blend two engines deliberately."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "End the sketch abruptly with a dry anticlimax, an absurd non-conclusion, or a sudden non sequitur or reversal, rather than a resolution."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer British understatement: let the absurdity speak for itself through dialogue and situation rather than narration or dialogue that announces the humour."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Optionally mix pompous, formal register with trivial or ludicrous subject matter to sharpen the comic contrast."
+    }
+  ]
+}

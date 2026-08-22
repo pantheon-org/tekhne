@@ -1,0 +1,71 @@
+{
+  "skill": "cunk-esque-mockumentary",
+  "description": "Generate original mockumentary satire using a supremely confident, credential-free presenter who interviews genuine experts with sincere, garbled ignorance, deadpan malapropism, and faux-profound documentary narration.",
+  "queries": [
+    {
+      "prompt": "Write a mockumentary sketch where a clueless presenter interviews a historian and completely misunderstands everything",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "I want a bit where a documentary host asks an expert a deeply stupid question with total confidence",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Give me a faux-documentary narration about the history of the wheel delivered by someone who knows nothing about it",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Write a satirical interview segment where the interviewer's questions reveal they've misunderstood the expert's entire field",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Can you write something like Cunk on Earth but with original jokes and no copied lines?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "I need a comedy bit where a TV presenter treats a garbled historical claim as flat, unremarkable fact",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Write a scene where a documentary narrator connects two unrelated things with a confident but nonsensical link",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Give me a two-person deadpan political interview sketch with terse literal answers",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a Monty Python style sketch about a bureaucratic complaints office",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Write a stand-up bit about race and family using multiple character voices",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Write a cynical monologue tearing apart a reality TV show with an extended grotesque metaphor",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "How should I name my feature branch for the auth migration?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Help me write a Terraform module for an S3 bucket with versioning enabled",
+      "should_trigger": false,
+      "tag": "unrelated"
+    }
+  ]
+}

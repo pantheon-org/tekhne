@@ -1,0 +1,1 @@
+Tests whether the agent identifies and fixes a presenter line that breaks deadpan sincerity.

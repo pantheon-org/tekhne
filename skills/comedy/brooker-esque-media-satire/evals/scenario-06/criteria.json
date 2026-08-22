@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "User asks for a list of unrelated one-liners; the skill should consolidate this into one extended metaphor instead.",
+  "checklist": [
+    {
+      "name": "consolidates_into_one_metaphor",
+      "description": "Consolidates the request into one extended, escalating metaphor rather than a list of unrelated jokes.",
+      "max_score": 35
+    },
+    {
+      "name": "build_then_puncture",
+      "description": "At least one sentence builds in length then is punctured by a short, blunt clause.",
+      "max_score": 20
+    },
+    {
+      "name": "jargon_beat_optional",
+      "description": "Optionally includes a jargon-mockery beat if it fits; not required for a short piece.",
+      "max_score": 15
+    },
+    {
+      "name": "original_wording",
+      "description": "Original invented wording throughout, with no copied lines from a real source.",
+      "max_score": 15
+    },
+    {
+      "name": "flat_or_bleak_ending",
+      "description": "Ends flat or bleak rather than triumphant.",
+      "max_score": 15
+    }
+  ]
+}

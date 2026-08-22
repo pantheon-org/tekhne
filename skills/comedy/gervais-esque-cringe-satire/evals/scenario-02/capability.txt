@@ -1,0 +1,1 @@
+Tests whether the agent drafts a stand-up bit with an unhedged blunt opening line followed by genuine escalation rather than a hedge, using only original wording.

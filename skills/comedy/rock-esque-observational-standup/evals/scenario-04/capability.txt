@@ -1,0 +1,1 @@
+Tests whether the agent recognizes a multi-character sketch request doesn't fit this skill's single-narrator form.
