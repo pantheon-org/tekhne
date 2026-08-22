@@ -1,0 +1,1 @@
+Tests whether the agent correctly skips this skill entirely for a request with no genuine trigger match.

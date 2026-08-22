@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct non-triggering of the skill for a request with no genuine category match.",
+  "checklist": [
+    {
+      "name": "no_aphorism_forced",
+      "description": "No Madden aphorism, LLIS citation, or NASA PM framing appears anywhere in the response.",
+      "max_score": 45
+    },
+    {
+      "name": "no_category_loaded",
+      "description": "No references/*.md category file is loaded.",
+      "max_score": 30
+    },
+    {
+      "name": "addresses_actual_request",
+      "description": "The response addresses the actual naming question without forcing an unrelated skill's framing.",
+      "max_score": 25
+    }
+  ]
+}
