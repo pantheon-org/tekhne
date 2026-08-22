@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER write a claim into \"What We Found\" without a citation, no matter how plausible it sounds."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER cite the code itself as evidence for why it exists; motivation only comes from an external source."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER assume the most recent commit is the authoritative reason for the current shape; trace back."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER treat a hypothesis embedded in the user's own question as already confirmed; check it against the evidence independently."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER omit the \"What We Don't Know\" section, even when the investigation felt thorough."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip an investigator because you assume its category won't have anything; a null result is a data point, a skipped search is a blind spot."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER pool multiple evidence categories into a single investigator agent; always one investigator per category."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Establish the code anchor first (tokensave_blame/tokensave_log for structural history, PR/MR context where a remote exists) before spawning any investigator."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Spawn one investigator per available evidence category in a single concurrent message, each given the base investigator prompt plus its category's playbook."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "The synthesizer tiers every claim as Direct/Supported/Inferred/Speculative/Unknown and produces a Sources Consulted coverage map naming what was searched, found empty, or skipped and why."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer hedged language (\"appears to\", \"likely\") for inferred claims; reserve confident language (\"because\") for direct, explicit evidence only."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer presenting competing hypotheses with evidence for and against each over forcing a single winner when the record doesn't clearly support one."
+    }
+  ]
+}

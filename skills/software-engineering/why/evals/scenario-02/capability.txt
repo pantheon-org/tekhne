@@ -1,0 +1,1 @@
+Tests whether the agent names and honestly reports evidence categories with no connected MCP as skipped gaps rather than silent omissions.

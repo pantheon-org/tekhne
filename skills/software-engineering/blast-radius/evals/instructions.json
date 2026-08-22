@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER hand back the writeup as the final answer without proving the one fact the change's safety depends on."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER treat a caller list as the deliverable; that's a lookup tokensave/code-review-graph can do in a second."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER write an unproven safety fact up as settled; mark it unproven instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER invent a caller, an API, or a search result that wasn't actually found."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER round an unproven claim up to \"probably fine\" because proving it looked expensive."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Read the change and pull surrounding context via tokensave_context rather than opening files cold; use why's Step 2 (tokensave_blame/tokensave_log) for history beyond the diff."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Find the one fact the change is safe because of before enumerating a long list of maybes."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Look past what a caller list shows: check the pinned library version and any local patch, timing/lifecycle quirks, wire formats, and effects several hops downstream."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Prove the one fact by writing and running a real script or test, and paste what actually happened rather than describing what should happen."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "For a big or wide change, spawn 2-4 independent general-purpose agents with distinct model/effort combinations and merge their answers as the lead, keeping a risk only if it survives your own read of the evidence."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer citing a real file:line over a paraphrase; a search that finds nothing is still a valid, citable answer."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer marking a fact unproven over spending disproportionate effort to force a proof that isn't cheap to get."
+    }
+  ]
+}

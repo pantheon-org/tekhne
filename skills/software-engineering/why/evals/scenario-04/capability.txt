@@ -1,0 +1,1 @@
+Tests whether the agent correctly falls back to local-only source-control history and names the missing-remote gap explicitly, rather than silently failing or skipping the investigation.

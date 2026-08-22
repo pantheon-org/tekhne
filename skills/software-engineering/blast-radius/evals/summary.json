@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "eval_runner_judge_version": "sha256:8104e4d8f9424f875d922491b0065f990b6761de234300e63ee8ee2ca5690f96",
+    "eval_runner_timestamp": "2026-08-21T12:56:27Z",
+    "provider": ""
+  }
+}

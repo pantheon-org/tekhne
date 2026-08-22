@@ -1,0 +1,1 @@
+Tests whether the agent treats a hypothesis embedded in the user's own question as a candidate to verify, not a conclusion to confirm.

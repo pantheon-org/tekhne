@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER conclude what a symbol does from its name alone; trust the source tokensave_context returns instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER dump a large code block into the explanation just because you have it; reference files/functions instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let critics see each other's findings before each submits their own, in critique mode."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER do line-level code review in critique mode; it is scoped to architectural problems only."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER flag missing abstraction, or suggest a rewrite, without naming the concrete problem it would solve."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "NEVER flag a deliberate, well-reasoned tradeoff as an architectural issue just because an alternative exists."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Assess complexity first: a narrow single-module question is explained in one pass; a subsystem spanning multiple files gets decomposed into 2-4 parallel exploration angles."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Every explorer's only exploration tool is tokensave_context (supplemented by tokensave_search/tokensave_callees/tokensave_callers/tokensave_impact for depth), never Glob, Grep, Read, or list_directory."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "The synthesizer reconciles overlapping explorer findings and resolves contradictions rather than concatenating them, then writes the explanation in Overview/Key Concepts/How It Works/Where Things Live/Gotchas."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "In critique mode, explain first and let it stand on its own, then spawn several independent critics with varied model/effort combinations, then categorize findings as Act on/Consider/Noted/Dismissed."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer prose over pseudocode when describing how something works; a code snippet earns its place only when it clarifies something prose genuinely can't."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer a mermaid diagram only when a flow's multi-component interaction genuinely needs one to clarify; skip it if prose already covers the flow."
+    }
+  ]
+}
