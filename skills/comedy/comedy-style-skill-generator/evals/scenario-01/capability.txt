@@ -1,0 +1,1 @@
+Tests whether the agent can analyse an invented comedic tradition against the checklist and convert the findings into a complete, mechanics-based SKILL.md rather than vague prose or a single piece of comedy.

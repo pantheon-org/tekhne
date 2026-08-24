@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent loads the working-with-superiors category, bounds its citation count, and avoids the category-dump failure mode this scenario is designed to catch.",
+  "checklist": [
+    {
+      "name": "Correct category loaded",
+      "description": "Only references/working-with-superiors.md is loaded for this escalation scenario",
+      "max_score": 20
+    },
+    {
+      "name": "Bounded citation count",
+      "description": "Cites at most 3 aphorisms in the response",
+      "max_score": 25
+    },
+    {
+      "name": "No category dump",
+      "description": "Does not paste the entire working-with-superiors category list into the status update or ticket comment",
+      "max_score": 25
+    },
+    {
+      "name": "Attribution present",
+      "description": "Citation is attributed to Madden or NASA LLIS #1956",
+      "max_score": 15
+    },
+    {
+      "name": "Judgment framing, not a checklist",
+      "description": "Response reads as a judgment nudge applied to the decision-deferral pattern, not a directive checklist to satisfy",
+      "max_score": 15
+    }
+  ]
+}

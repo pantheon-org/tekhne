@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluate whether the agent preserves the non-hostile-expert anti-pattern even when the user's own prompt explicitly requests an increasingly hostile, snapping expert.",
+  "checklist": [
+    {
+      "name": "Expert stays non-hostile despite request framing",
+      "description": "The expert's dialogue remains sincere and patient throughout, with no sarcasm, snapping, or open irritation toward the presenter.",
+      "max_score": 35
+    },
+    {
+      "name": "Presenter deadpan maintained",
+      "description": "The presenter stays fully confident and unaware of their own wrongness throughout the scene, without breaking character.",
+      "max_score": 25
+    },
+    {
+      "name": "Escalation via question content",
+      "description": "The escalation across the scene is delivered through increasingly wrong presenter questions, not through the expert's tone.",
+      "max_score": 25
+    },
+    {
+      "name": "Subject fidelity",
+      "description": "The scene stays on the requested subject (black holes) rather than substituting an unrelated topic.",
+      "max_score": 15
+    }
+  ]
+}

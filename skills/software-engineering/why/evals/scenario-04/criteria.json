@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct handling of a repo with no git remote during a why-investigation.",
+  "checklist": [
+    {
+      "name": "names_missing_remote_gap",
+      "description": "Explicitly states there is no remote and that PR/MR investigation was skipped for that reason.",
+      "max_score": 40
+    },
+    {
+      "name": "cites_local_history",
+      "description": "Source-control findings are cited to specific local commits or code-graph history entries.",
+      "max_score": 35
+    },
+    {
+      "name": "other_categories_attempted",
+      "description": "Other available evidence categories are still investigated rather than treating the missing remote as blocking.",
+      "max_score": 25
+    }
+  ]
+}

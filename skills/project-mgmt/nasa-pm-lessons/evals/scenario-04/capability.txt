@@ -1,0 +1,1 @@
+Tests whether the agent correctly loads only the contractor-relations category for a vendor-friction trigger and applies a cited aphorism to the specific situation.

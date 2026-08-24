@@ -1,0 +1,1 @@
+Tests whether the agent recognizes a premise-driven sketch request has no personal narrator and doesn't fit this skill.

@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct diagnosis and fix of a sincerity/self-awareness anti-pattern violation in a draft.",
+  "checklist": [
+    {
+      "name": "removes_self_awareness",
+      "description": "The revised line no longer contains confession or fourth-wall breaking.",
+      "max_score": 40
+    },
+    {
+      "name": "uses_euphemism",
+      "description": "The revised line uses euphemistic, confident language for the same underlying fact.",
+      "max_score": 35
+    },
+    {
+      "name": "names_anti_pattern",
+      "description": "The response names the specific anti-pattern being fixed.",
+      "max_score": 25
+    }
+  ]
+}

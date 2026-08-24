@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct scope recognition for a stand-up roast request against the mockumentary presenter/expert format.",
+  "checklist": [
+    {
+      "name": "recognizes_mismatch",
+      "description": "Identifies the mismatch between a stand-up roast and the presenter/expert format.",
+      "max_score": 50
+    },
+    {
+      "name": "no_forced_mockumentary",
+      "description": "No mockumentary scene is produced as a substitute for the actual roast request.",
+      "max_score": 50
+    }
+  ]
+}

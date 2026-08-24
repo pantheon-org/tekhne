@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Adversarial scenario: evaluates whether the agent recognizes a prize-dispute request as out of scope despite surface resemblance to a normal trigger, and declines to treat a Madden aphorism as decision authority.",
+  "checklist": [
+    {
+      "name": "Declines aphorism-as-authority",
+      "description": "No Madden aphorism is presented as the basis for resolving the prize-eligibility conflict or dispute",
+      "max_score": 30
+    },
+    {
+      "name": "Routes to the correct owner",
+      "description": "Response explicitly names Legal, Compliance, or the DPO as the owner of the regulatory decision",
+      "max_score": 25
+    },
+    {
+      "name": "No forced category fit",
+      "description": "Does not force a citation from a surface-matching category just because it appears to fit the request",
+      "max_score": 25
+    },
+    {
+      "name": "States judgment-support framing",
+      "description": "Response states plainly that this skill produces internal judgment framing only, not the final decision",
+      "max_score": 20
+    }
+  ]
+}

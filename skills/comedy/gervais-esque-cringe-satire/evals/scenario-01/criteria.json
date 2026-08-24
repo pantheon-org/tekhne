@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluate a character-cringe workplace toast sketch for obliviousness, onlooker restraint, escalation, and originality.",
+  "checklist": [
+    {
+      "name": "obliviousness_maintained",
+      "description": "The manager never becomes self-aware of how he sounds during the escalation; any dawning realization, if present at all, occurs only at the very end.",
+      "max_score": 25
+    },
+    {
+      "name": "onlooker_restraint",
+      "description": "Onlookers signal the gap through silence, glances, or strained politeness rather than dialogue that explicitly names the problem.",
+      "max_score": 20
+    },
+    {
+      "name": "escalation_ladder",
+      "description": "At least one recovery-digging beat occurs between the setup misstep and the ending, rather than a single misstep followed immediately by resolution.",
+      "max_score": 20
+    },
+    {
+      "name": "original_material",
+      "description": "No line reproduces or closely paraphrases an identifiable real comedian's specific routine, character, or wording.",
+      "max_score": 20
+    },
+    {
+      "name": "proportionate_ending",
+      "description": "The ending costs the manager the self-image he was chasing (being liked/seen as inclusive) rather than an unrelated or excessively harsh consequence.",
+      "max_score": 15
+    }
+  ]
+}

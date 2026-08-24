@@ -1,0 +1,1 @@
+Tests whether the agent recognizes a physical-slapstick request doesn't fit this skill's escalating-logic mechanism.

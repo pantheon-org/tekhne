@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent loads only the matching design-engineering category, cites a small number of attributed aphorisms, and applies them to the specific incident rather than reciting the category.",
+  "checklist": [
+    {
+      "name": "Correct category loaded",
+      "description": "Only references/design-engineering.md is loaded for this root-cause scenario, not another category",
+      "max_score": 25
+    },
+    {
+      "name": "Bounded citation count",
+      "description": "Cites 1-3 aphorisms, not the full category list, in the response",
+      "max_score": 25
+    },
+    {
+      "name": "Attribution present",
+      "description": "Citation is attributed to Madden or NASA LLIS #1956",
+      "max_score": 20
+    },
+    {
+      "name": "Applied to the concrete case",
+      "description": "The aphorism is applied explicitly to the KahaDB root-cause detail, not stated as a floating generic quote",
+      "max_score": 20
+    },
+    {
+      "name": "No category dump",
+      "description": "Response does not paste the entire design-engineering category list into the incident journal entry",
+      "max_score": 10
+    }
+  ]
+}

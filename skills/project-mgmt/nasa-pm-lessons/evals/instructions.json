@@ -1,0 +1,34 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER paste an entire category's list into a journal entry, ticket comment, or status update — cite only the 1-3 aphorisms that actually fit the situation."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER treat this skill as authority for a stakeholder-facing regulatory, legal, or prize-dispute decision — route those to Legal, Compliance, or the DPO."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER force a citation when nothing in the matched category actually fits the situation — say so plainly and skip it."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Identify the trigger scenario first, then load only the matching references/*.md category file — never load more than one category per invocation."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Attribute any quoted aphorism to Madden/LLIS #1956 and apply it explicitly to the concrete case at hand, not as a floating quote."
+    },
+    {
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "Skip this skill entirely when the situation doesn't match a trigger scenario in the When to Use table, rather than forcing a fit."
+    }
+  ]
+}

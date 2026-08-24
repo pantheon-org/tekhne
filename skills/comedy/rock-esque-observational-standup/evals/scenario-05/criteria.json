@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct diagnosis and fix of a hedged closing line.",
+  "checklist": [
+    {
+      "name": "removes_hedging",
+      "description": "The rewritten closer contains no hedging language at all.",
+      "max_score": 45
+    },
+    {
+      "name": "tight_quotable_statement",
+      "description": "The rewritten closer is a single, tight, quotable statement of the same contrast.",
+      "max_score": 35
+    },
+    {
+      "name": "names_hedging_problem",
+      "description": "The response names hedging as the specific problem with the original.",
+      "max_score": 20
+    }
+  ]
+}

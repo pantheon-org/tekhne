@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct category selection and application for a vendor/contractor-friction trigger.",
+  "checklist": [
+    {
+      "name": "correct_category_only",
+      "description": "Only references/contractor-relations.md is loaded; no other category file is referenced.",
+      "max_score": 35
+    },
+    {
+      "name": "brief_attributed_citation",
+      "description": "1-3 aphorisms are cited, attributed to Madden and/or LLIS #1956, not the full category list.",
+      "max_score": 35
+    },
+    {
+      "name": "applied_to_situation",
+      "description": "The aphorism is tied to the specific vendor-sync framing need, not stated generically.",
+      "max_score": 30
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Tests whether the agent can diagnose and fix a flat, abstract draft bit by grounding it in a contrastive claim, concrete escalating examples, and an unhedged close, while treating other techniques as optional.

@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates citation discipline, confidence-tier phrasing, and honest gap-reporting when investigating a design decision.",
+  "checklist": [
+    {
+      "name": "direct_claims_cited",
+      "description": "Every claim placed in \"What We Found\" carries an explicit citation.",
+      "max_score": 25
+    },
+    {
+      "name": "inferred_claims_hedged",
+      "description": "Claims in \"What We Can Reasonably Infer\" use hedged language and make the inference chain explicit.",
+      "max_score": 20
+    },
+    {
+      "name": "no_code_as_self_evidence",
+      "description": "No claim treats the code's own shape or value as evidence of its own intent.",
+      "max_score": 20
+    },
+    {
+      "name": "dont_know_section_present",
+      "description": "\"What We Don't Know\" is present and names specific unanswered questions or empty searches.",
+      "max_score": 20
+    },
+    {
+      "name": "no_fabricated_certainty",
+      "description": "No claim is stated with confident language (\"because\", \"the reason is\") when the underlying evidence is indirect.",
+      "max_score": 15
+    }
+  ]
+}

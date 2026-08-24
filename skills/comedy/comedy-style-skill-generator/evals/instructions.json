@@ -1,0 +1,59 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER produce a generated skill that names a living performer's exact voice, catchphrases, or persona as something to imitate directly; extract the underlying mechanics instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER produce a generated skill whose instructions are vague adjectives ('be funny', 'make it absurd') instead of concrete, actionable mechanics."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip the 'convert mechanics to writing rules' step and hand back raw analysis notes as the SKILL.md body."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Analyse the requested tradition against the full checklist (premise, roles, dialogue structure, rhythm, escalation, repetition, rhetorical devices, targets, endings, what makes it work, format and medium constraints, object of parody, audience contract, fixed-vs-variable skeleton) before writing any instructions."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "If the named target is a living performer (or a duo/ensemble/role involving one), apply the living-performer conversion rule before continuing with the default workflow."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Assemble the generated SKILL.md with, at minimum: a name, a description with a negative anchor and a workflow anchor, a title, a Mindset section stating the single comic engine, a Core mechanics section, a Structure/Workflow section, an explicit instruction to generate original material rather than reproduce existing text, a BAD/GOOD failure-mode pair for every core mechanic, a Troubleshooting section of symptom-to-fix branches, and at least one labelled worked example per core mechanic."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Verify the assembled skill before returning it: no bare adjectives in place of mechanics, no instruction to imitate a living performer's exact voice, an explicit original-material instruction present, and the skill reads coherently without the original conversation for context. Run the style-fidelity pass: draft one short piece with the assembled skill and revise the skill (not the piece) until a fresh reader would recognise the trial piece as the tradition."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "When converting a living performer, extract mechanics at maximum structural specificity — exact beat counts, device names, escalation step-sizes, and forbidden moves are not voice imitation and must be preserved, not sanded off."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "When checklist points overlap or conflict, prioritise whichever are most distinctive to the specific tradition over generic observations that would apply to most comedy."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "If the request is too vague to analyse (a mood or platform rather than a tradition with describable structure), ask a clarifying question instead of guessing at mechanics that were never described."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Return only the finished SKILL.md unless the user explicitly asks for the analysis notes or additional explanation alongside it."
+    }
+  ]
+}

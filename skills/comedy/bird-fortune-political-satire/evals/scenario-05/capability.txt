@@ -1,0 +1,1 @@
+Tests whether the agent fixes a draft that breaks the sincerity anti-pattern by restoring euphemistic self-justification.

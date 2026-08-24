@@ -1,0 +1,1 @@
+Tests whether the agent can generate an original bureaucratic-procedure sketch that uses understatement and register contrast while escalating consistently to an abrupt ending.

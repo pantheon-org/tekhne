@@ -1,0 +1,1 @@
+Tests whether the agent maintains the non-hostile-expert anti-pattern even when the user's own prompt explicitly requests an increasingly hostile, snapping expert.

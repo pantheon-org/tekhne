@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "User explicitly requests a hopeful/triumphant ending that conflicts with the skill's bleak-ending rule.",
+  "checklist": [
+    {
+      "name": "recognises_conflict",
+      "description": "Recognises that the hopeful/triumphant ending request conflicts with the skill's bleak-ending rule.",
+      "max_score": 30
+    },
+    {
+      "name": "delivers_bleak_ending",
+      "description": "Produces or steers toward a flat, bleak, deflating ending instead of the requested triumphant fix.",
+      "max_score": 30
+    },
+    {
+      "name": "grounded_escalation",
+      "description": "Keeps the escalation logically grounded and believable up to the final beat.",
+      "max_score": 20
+    },
+    {
+      "name": "self_contempt_present",
+      "description": "Uses self-directed narrator contempt somewhere in the piece.",
+      "max_score": 20
+    }
+  ]
+}

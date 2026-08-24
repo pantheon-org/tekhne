@@ -1,0 +1,44 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER reproduce actual Clarke and Dawe interview scripts, exchanges, or their character setup verbatim or near-verbatim; it is copyrighted material and defeats the purpose of a generative skill."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let the interviewer character express outrage, disbelief, or overt emotion; the comedy depends on both voices staying flat while the content becomes absurd."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER resolve the contradiction the sketch builds toward; an unresolved, calmly-stated absurdity is the punchline."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Escalate one logical step at a time — each question should extend the previous answer by a single increment rather than jumping straight to the most absurd version of the premise."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Close on understatement — end the exchange on a flat, calmly delivered line rather than a signalled punchline."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Pick a generic institutional role (e.g. 'a housing minister', 'a bank spokesperson') as the interviewee rather than a named real person."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Repeating a key word or phrase as its implications become more absurd is a strong default escalation tool, but not mandatory — a rephrase or a numeric/factual escalation can work just as well depending on the premise."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Expose contradictions through the interviewer's follow-up questions, not through narration or either character stating outright that something doesn't make sense."
+    }
+  ]
+}

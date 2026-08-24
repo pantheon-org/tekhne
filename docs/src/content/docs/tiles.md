@@ -572,7 +572,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 ---
 
-## Software Engineering (16 skills)
+## Software Engineering (19 skills)
 
 Software engineering principles
 
@@ -616,6 +616,22 @@ Review a saved standards document via a one-standard-at-a-time interview. Prompt
 | --- | --- | --- | --- |
 | [standards-review](/tekhne/skills/software-engineering/standards-review/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
 
+### why
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### why
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
 ### troubleshoot
 
 Use when user reports an error, bug, or something not working. Search-first trou...
@@ -632,6 +648,22 @@ Sense-making before action. Classify problem using Cynefin triangulation (3 test
 | --- | --- | --- | --- |
 | [frame-problem](/tekhne/skills/software-engineering/frame-problem/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
 
+### how
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### how
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
 ### simplicity-principles
 
 Use when designing solutions, adding features, or refactoring by applying KISS, ...
@@ -639,6 +671,22 @@ Use when designing solutions, adding features, or refactoring by applying KISS, 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [simplicity-principles](/tekhne/skills/software-engineering/simplicity-principles/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+
+### blast-radius
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### blast-radius
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### bridge
 
@@ -988,7 +1036,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (9 skills)
+## Project Management (10 skills)
 
 Planning & organization
 
@@ -1063,6 +1111,22 @@ MoSCoW prioritization: categorize requirements into Must Should Could Won't tier
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [issue-tracker-toolkit-moscow-prioritization](/tekhne/skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
+
+### nasa-pm-lessons
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### nasa-pm-lessons
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ---
 

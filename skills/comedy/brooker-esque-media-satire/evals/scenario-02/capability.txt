@@ -1,0 +1,1 @@
+Tests whether the agent can build a near-future dystopian short story that escalates through believable cause-and-effect steps and closes on a bleak, unresolved note.

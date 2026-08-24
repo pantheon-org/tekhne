@@ -1,0 +1,1 @@
+Tests whether the agent correctly detects a request with no analysable comedic tradition and avoids producing a skill whose instructions are bare mood adjectives instead of concrete mechanics.

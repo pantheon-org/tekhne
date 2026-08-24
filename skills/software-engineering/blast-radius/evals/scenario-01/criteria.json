@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent identifies the one safety fact, attempts real proof, and marks the fact unproven rather than settled when proof isn't cheaply available.",
+  "checklist": [
+    {
+      "name": "one_fact_identified",
+      "description": "A single, specific safety fact is stated before any risk enumeration, not a list of hypothetical risks.",
+      "max_score": 25
+    },
+    {
+      "name": "proof_attempted_real_script",
+      "description": "A concrete attempt to prove the fact is described — a script or test that exercises the real code, with actual output pasted if it was run.",
+      "max_score": 30
+    },
+    {
+      "name": "unproven_marked_if_not_provable",
+      "description": "If the fact wasn't cheaply provable, the writeup explicitly says so rather than implying it's settled.",
+      "max_score": 25
+    },
+    {
+      "name": "ladder_step_named",
+      "description": "The response states which rung of the how-sure-are-you ladder the fact reached.",
+      "max_score": 20
+    }
+  ]
+}

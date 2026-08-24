@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "User has a flat, lecture-y draft bit about respectability politics and wants it punched up to build and land rather than just argue a point.",
+  "checklist": [
+    {
+      "name": "identifies one contrastive claim",
+      "description": "The revision is organized around a single identifiable 'there's a difference between X and Y' claim rather than a general opinion statement.",
+      "max_score": 25
+    },
+    {
+      "name": "converts abstraction to concrete scenes",
+      "description": "Abstract statements are replaced with, or paired with, concrete everyday scenes or images.",
+      "max_score": 25
+    },
+    {
+      "name": "visible escalation",
+      "description": "Examples are ordered or rewritten so later ones are more pointed or specific than earlier ones.",
+      "max_score": 25
+    },
+    {
+      "name": "unhedged close",
+      "description": "The revised bit ends on a tight quotable line with no softening qualifier attached afterward.",
+      "max_score": 15
+    },
+    {
+      "name": "flexible use of optional techniques",
+      "description": "Refrain, direct address, and imagined objector are treated as optional additions suited to the material, not forced in as a mandatory checklist.",
+      "max_score": 10
+    }
+  ]
+}

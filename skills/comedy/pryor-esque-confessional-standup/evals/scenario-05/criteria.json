@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct diagnosis and fix of a missing self-implication in a confessional draft.",
+  "checklist": [
+    {
+      "name": "identifies_pure_victim_gap",
+      "description": "Identifies narrator-as-pure-victim as the specific craft gap, citing self-implication.",
+      "max_score": 40
+    },
+    {
+      "name": "proposes_self_implicating_beat",
+      "description": "The proposed fix adds a genuine self-implicating beat rather than more detail about the landlord.",
+      "max_score": 40
+    },
+    {
+      "name": "preserves_real_wrongdoing",
+      "description": "The fix doesn't erase the landlord's real wrongdoing while adding self-implication.",
+      "max_score": 20
+    }
+  ]
+}

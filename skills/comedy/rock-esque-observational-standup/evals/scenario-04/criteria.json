@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct scope recognition for a multi-character sketch request against this skill's single-narrator form.",
+  "checklist": [
+    {
+      "name": "recognizes_mismatch",
+      "description": "Identifies the mismatch between a three-character sketch and the single-narrator form.",
+      "max_score": 60
+    },
+    {
+      "name": "no_forced_collapse",
+      "description": "Does not collapse three arguing characters into one stand-up voice just to use this skill.",
+      "max_score": 40
+    }
+  ]
+}

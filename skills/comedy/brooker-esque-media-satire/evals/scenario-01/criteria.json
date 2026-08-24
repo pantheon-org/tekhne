@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Cynical column about an invented streaming talent show, using one extended metaphor rather than a joke list.",
+  "checklist": [
+    {
+      "name": "single_metaphor",
+      "description": "Uses one extended metaphor consistently instead of a list of unrelated jokes.",
+      "max_score": 25
+    },
+    {
+      "name": "self_and_subject_contempt",
+      "description": "Narrator directs contempt at both the subject and themselves or the audience.",
+      "max_score": 20
+    },
+    {
+      "name": "no_reproduction",
+      "description": "No verbatim or near-verbatim reproduction of real Brooker material or any other real column.",
+      "max_score": 25
+    },
+    {
+      "name": "bleak_ending",
+      "description": "Ends on a flat or bleak note rather than a hopeful or triumphant one.",
+      "max_score": 15
+    },
+    {
+      "name": "sentence_rhythm",
+      "description": "At least one build-then-puncture sentence pattern, long elaborate clause followed by a short blunt one.",
+      "max_score": 15
+    }
+  ]
+}

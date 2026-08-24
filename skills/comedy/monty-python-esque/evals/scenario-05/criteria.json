@@ -1,0 +1,22 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct diagnosis and fix of random (vs. logical) escalation in a draft sketch.",
+  "checklist": [
+    {
+      "name": "identifies_randomness",
+      "description": "Identifies the dragon/ghost turns as random rather than logically escalating.",
+      "max_score": 40
+    },
+    {
+      "name": "proposes_consistent_engine",
+      "description": "The proposed fix keeps a single consistent comic engine running through to the end.",
+      "max_score": 40
+    },
+    {
+      "name": "no_new_random_element",
+      "description": "Does not fix the problem by adding yet another unrelated random element.",
+      "max_score": 20
+    }
+  ]
+}

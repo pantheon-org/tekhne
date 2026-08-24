@@ -1,0 +1,17 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates correct handling of a Prerequisites failure (no analysable tradition named).",
+  "checklist": [
+    {
+      "name": "asks_for_specifics",
+      "description": "Asks for the missing specifics before attempting any analysis.",
+      "max_score": 50
+    },
+    {
+      "name": "no_fabricated_skill",
+      "description": "No generated skill is produced from an invented, arbitrary tradition.",
+      "max_score": 50
+    }
+  ]
+}

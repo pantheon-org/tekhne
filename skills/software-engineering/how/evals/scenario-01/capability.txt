@@ -1,0 +1,1 @@
+Tests whether the agent takes the simple single-pass explain path for a narrow question, exploring via a code-graph tool rather than raw file search.

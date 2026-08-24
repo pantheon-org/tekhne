@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent decomposes a complex subsystem into distinct parallel exploration angles, keeps every explorer tokensave-only, and produces a reconciled explanation in the documented output structure.",
+  "checklist": [
+    {
+      "name": "decomposed_into_distinct_angles",
+      "description": "The question is split into 2-4 distinct exploration angles with no significant overlap between them.",
+      "max_score": 20
+    },
+    {
+      "name": "explorers_tokensave_only",
+      "description": "Every explorer is described as using tokensave_context (and companion tools) exclusively, with no Glob/Grep/Read mentioned.",
+      "max_score": 25
+    },
+    {
+      "name": "synthesizer_reconciles_findings",
+      "description": "The final explanation reads as one unified account that resolves overlaps/contradictions between explorers, not a concatenation of raw per-explorer output.",
+      "max_score": 25
+    },
+    {
+      "name": "output_structure_followed",
+      "description": "The response follows Overview / Key Concepts / How It Works / Where Things Live / Gotchas in that order, adapted sensibly to the question.",
+      "max_score": 20
+    },
+    {
+      "name": "diagram_used_judiciously",
+      "description": "A diagram appears only if the multi-component flow genuinely needs one to be clear, not decoratively.",
+      "max_score": 10
+    }
+  ]
+}

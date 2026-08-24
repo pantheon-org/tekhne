@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether critique mode explains first, spawns independent varied critics without cross-contamination, stays scoped to architecture, avoids unsupported tradeoff-flagging, and categorizes findings.",
+  "checklist": [
+    {
+      "name": "explanation_stands_alone_first",
+      "description": "The explanation is complete and presented before any critique content, and would satisfy a reader who only wants to understand the system.",
+      "max_score": 15
+    },
+    {
+      "name": "independent_varied_critics",
+      "description": "Several critics are used with distinct model/effort combinations, and nothing indicates they saw each other's findings before submitting.",
+      "max_score": 25
+    },
+    {
+      "name": "no_line_level_nits",
+      "description": "No critique finding is a line-level style or naming nitpick; findings stay scoped to architectural concerns.",
+      "max_score": 20
+    },
+    {
+      "name": "no_unsupported_tradeoff_flagging",
+      "description": "A deliberate tradeoff is not flagged as a problem without a demonstrated concrete cost.",
+      "max_score": 20
+    },
+    {
+      "name": "findings_categorized",
+      "description": "The final output sorts findings into Act on / Consider / Noted / Dismissed.",
+      "max_score": 20
+    }
+  ]
+}

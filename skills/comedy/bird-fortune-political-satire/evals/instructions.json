@@ -1,0 +1,44 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER reproduce actual Bird & Fortune sketch content, character names, or dialogue verbatim or near-verbatim; create original characters and material instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER give the establishment character genuine self-awareness of their own hypocrisy; they must sincerely believe their reasoning is sound."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER use crude or direct insults in place of euphemism; the comic tension depends on polished, evasive language concealing an indefensible position."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Frame the sketch as a formal interview, briefing, consultation, or discussion before writing any dialogue."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Escalate slowly across the exchanges (concession creep, escalating justification, or escalating stakes) rather than making every line a fresh, unrelated joke."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Finish the sketch with a revealing admission, an elegant self-contradiction, or a calmly stated absurdity."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Use euphemism and bureaucratic terminology to disguise absurd implications rather than stating them plainly, matching the register to the institution being satirised."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Keep the humour sophisticated, dry, political, and character-driven rather than random or slapstick."
+    }
+  ]
+}

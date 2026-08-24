@@ -1,0 +1,1 @@
+Tests whether the agent asks a clarifying question when the request names no analysable comic structure, instead of inventing one.

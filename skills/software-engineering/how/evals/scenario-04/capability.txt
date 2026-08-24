@@ -1,0 +1,1 @@
+Tests whether the agent gives a concrete, codebase-grounded placement/ownership recommendation instead of an abstract non-answer.
