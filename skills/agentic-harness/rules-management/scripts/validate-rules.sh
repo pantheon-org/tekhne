@@ -36,10 +36,10 @@ case "$MODE" in
           if [ -n "$current_rule" ]; then
             if [ "$has_directive" = false ] || [ "$has_rationale" = false ]; then
               echo "FAIL: Rule '$current_rule' missing sections (directive=$has_directive, rationale=$has_rationale)"
-              ((errors++))
+              ((++errors))
             elif [ -z "${dir_value// }" ] || [ -z "${rat_value// }" ]; then
               echo "FAIL: Rule '$current_rule' has empty directive or rationale"
-              ((errors++))
+              ((++errors))
             fi
           fi
           current_rule="${line#\#\#\# Rule: }"
@@ -55,10 +55,10 @@ case "$MODE" in
       if [ -n "$current_rule" ]; then
         if [ "$has_directive" = false ] || [ "$has_rationale" = false ]; then
           echo "FAIL: Rule '$current_rule' missing sections (directive=$has_directive, rationale=$has_rationale)"
-          ((errors++))
+          ((++errors))
         elif [ -z "${dir_value// }" ] || [ -z "${rat_value// }" ]; then
           echo "FAIL: Rule '$current_rule' has empty directive or rationale"
-          ((errors++))
+          ((++errors))
         fi
       fi
       return "$errors"
@@ -73,7 +73,7 @@ case "$MODE" in
         if [[ "$line" =~ ^###\ Rule:\  ]]; then
           if [ -n "$title" ]; then
             $first && first=false || entries_json+=","
-            entries_json+="{\"title\":$(echo "$title" | jq -R -s .),\"directive\":$(echo "$directive" | jq -R -s .),\"rationale\":$(echo "$rationale" | jq -R -s .)}"
+            entries_json+="{\"title\":$(printf %s "$title" | jq -R -s .),\"directive\":$(printf %s "$directive" | jq -R -s .),\"rationale\":$(printf %s "$rationale" | jq -R -s .)}"
           fi
           title="${line#\#\#\# Rule: }"; directive=""; rationale=""
         elif [[ "$line" == "**Directive:**"* ]]; then
@@ -85,11 +85,11 @@ case "$MODE" in
 
       if [ -n "$title" ]; then
         $first && first=false || entries_json+=","
-        entries_json+="{\"title\":$(echo "$title" | jq -R -s .),\"directive\":$(echo "$directive" | jq -R -s .),\"rationale\":$(echo "$rationale" | jq -R -s .)}"
+        entries_json+="{\"title\":$(printf %s "$title" | jq -R -s .),\"directive\":$(printf %s "$directive" | jq -R -s .),\"rationale\":$(printf %s "$rationale" | jq -R -s .)}"
       fi
       entries_json+="]"
 
-      echo "$entries_json" | jq -c '.[]' | while read -r entry; do
+      while read -r entry; do
         if ! echo "$entry" | jq -e --slurpfile s "$SCHEMA_FILE" '
           . as $e | .title as $t | .directive as $d | .rationale as $r
           | if ($s[0].required | map(. as $f | $e | has($f)) | all | not) then error("missing required field") else . end
@@ -98,16 +98,18 @@ case "$MODE" in
           | if ($r | type) != "string" or ($r | length) == 0 then error("invalid rationale") else . end
         ' > /dev/null 2>&1; then
           echo "FAIL: schema violation for rule: $(echo "$entry" | jq -r '.title')"
-          ((errors++))
+          ((++errors))
         fi
-      done
+      done < <(echo "$entries_json" | jq -c '.[]')
       return "$errors"
     }
 
     echo "--- Structural check ---"
-    structural_check "$RULES_FILE"; struct_err=$?
+    struct_err=0
+    structural_check "$RULES_FILE" || struct_err=$?
     echo "--- Schema validation ---"
-    schema_check "$RULES_FILE"; schema_err=$?
+    schema_err=0
+    schema_check "$RULES_FILE" || schema_err=$?
     total=$((struct_err + schema_err))
     [ "$total" -gt 0 ] && echo "FAIL: $total violation(s)" && exit 1
     echo "PASS: All rules validate against $SCHEMA_FILE"
