@@ -1,0 +1,21 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent correctly recognizes a frontmatter-repair request on already-in-repo entries as out of scope for journal-entry-import and redirects to pantheon-journal backfill, rather than forcing the request into Mode A/B/C or inventing content.",
+  "checklist": [
+    {
+      "name": "Correctly identifies out of scope",
+      "description": "Does not treat the request as a Mode A, B, or C task",
+      "max_score": 35
+    },
+    {
+      "name": "Names the correct tool",
+      "description": "Points to pantheon-journal backfill as the right command for repairing missing frontmatter on existing entries",
+      "max_score": 35
+    },
+    {
+      "name": "No fabrication",
+      "description": "Does not invent title/date values or reconstruct content from assumption; does not run an import against non-external files",
+      "max_score": 30
+    }
+  ]
+}

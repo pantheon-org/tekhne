@@ -1,0 +1,143 @@
+# Ticket-detail journal entry schema (journal-entry-import Mode B)
+#
+# A self-contained entry reconstructed from an issue-tracker ticket (description
+# + comments) that elaborates a mention in an existing log entry. Extends the
+# base journal entry rules in journal-entry-creator; the base validator
+# (validate-journal-entry.sh) still applies, and validate-ticket-detail.sh adds
+# the ticket-detail-specific checks.
+
+template_name: ticket-detail
+description: Self-contained detail entry reconstructed from an issue-tracker ticket, cross-linked to the log entry that mentioned it
+filename_pattern: "YYYY-MM-DD-<key-lowercased>-<slug>.md"
+location_pattern: "YYYY/MM/"
+extends: journal-entry
+
+# YAML frontmatter (REQUIRED at top of file)
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: 'Ticket key and summary, e.g. "PROJ-2058 - Move to fetching credentials at run time"'
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: "Entry date, must match filename. Prefer the ticket's resolution/closed date; else its last-updated date; else the date of the log entry that mentioned it."
+    - name: authors
+      type: array
+      example:
+        - Alex Rivera
+    - name: tags
+      type: array
+      description: "Lowercase hyphenated. MUST include the key lowercased (e.g. proj-2058), topic tags, ticket-detail, and the year as a quoted string."
+      example:
+        - proj-2058
+        - credentials
+        - ticket-detail
+        - "2020"
+    - name: source
+      type: string
+      description: "The issue tracker's permalink to the ticket (Jira browse URL, Linear issue URL, GitHub issue URL, etc.)."
+    - name: status
+      type: enum
+      values: [draft, published, superseded]
+      default: published
+  forbidden_fields:
+    - name: refinement_ticket
+      reason: >
+        Ticket-detail entries document a closed historical ticket and must NOT set refinement_ticket, because
+        that is journal-entry-creator's field for an in-progress ticket-refinement draft - setting it makes the
+        base validator require a '## Proposed Ticket Description' section, which does not apply to a closed
+        ticket. tekhne's base frontmatter schema has no continuation/supersession field either; do not invent
+        one to express the cross-link back to the log entry (use plain markdown links instead).
+
+# Document structure (REQUIRED sections, in order)
+structure:
+  - section: h1_title
+    level: 1
+    required: true
+    format: "# <KEY> - <summary> - <Month D, YYYY>"
+    validation:
+      - "Exactly one H1"
+      - "Starts with the ticket key (e.g. 'PROJ-2058 - ')"
+      - "Ends with the date formatted 'Month D, YYYY'"
+
+  - section: metadata_block
+    required: true
+    format: "**Key:** Value"
+    fields:
+      - "Date: Month D, YYYY"
+      - "Ticket: [<KEY>](url) - <summary>"
+      - "Status: <status> (created DD-MM-YYYY, resolved DD-MM-YYYY)"
+      - "Reporter / Assignee / Contributors: real names kept"
+      - "System: service/component"
+
+  - section: related_entries
+    level: 2
+    heading: "## Related Entries"
+    required: true
+    description: "Bidirectional link to the log entry(ies) that mention the ticket. Plain markdown relative link, NOT a supersession field."
+    example: "- **Mentioned in:** [Weekly Journal - July 3, 2020](2020-07-03-weekly-journal.md) (03-07-2020)"
+
+  - section: session_overview
+    level: 2
+    heading: "## Session Overview"
+    required: true
+    description: "2-4 sentences: what the thing did before, what changed, outcome and date. Self-contained."
+
+  - section: task_and_context
+    level: 2
+    heading: "## Task and Context"
+    required: true
+    description: "Plain-language narrative of the problem, why it mattered, the approach. Reader understands without opening the ticket."
+
+  - section: ticket_description
+    level: 2
+    heading: "## Ticket Description"
+    required: true
+    description: "The verbatim ticket description as a blockquote."
+
+  - section: decisions_and_resolution
+    level: 2
+    heading: "## Decisions and Resolution"
+    required: true
+    description: >
+      Synthesised narrative of what was decided and how it resolved. NOT a per-comment 'he said, she said'
+      transcript. Names live in the metadata Contributors line.
+
+  - section: decisive_contribution
+    level: 2
+    required: false
+    format: "> **Decisive contribution (<name>):** <one sentence>"
+    placement: "Blockquote at the end of the Decisions and Resolution section."
+    description: >
+      Include ONLY when the author was the pivotal actor (the diagnosis, the design call, the implementation
+      that shipped). OMIT entirely on team efforts. When present, must use the exact blockquote-bold form.
+
+  - section: compliance
+    level: 2
+    heading: "## Compliance"
+    required: true
+    description: "Filename check, H1 check, provenance line (derived from the tracker, personal/bulk identifiers summarised out), lint status."
+
+  - section: tags
+    level: 2
+    heading: "## Tags"
+    required: true
+    description: "Bulleted list matching the frontmatter tags array."
+
+# Data policy (enforced by review, not the validator)
+data_policy:
+  - "Keep colleague and requestor names."
+  - "Do not reproduce end-user/customer identifiers or raw data dumps (SQL/XML/CSV exports); summarise them out and note it in Compliance."
+  - "Never write credentials/tokens/passwords; mask them."
+
+validation:
+  scripts:
+    - "journal-entry-creator/scripts/validate-journal-entry.sh (base)"
+    - "journal-entry-import/scripts/validate-ticket-detail.sh (ticket-detail specific)"
+  required_checks:
+    - "Base checks pass (single dated H1, Session Overview + Compliance + Tags, tags match, code fences)"
+    - "H1 starts with the ticket key and ends with 'Month D, YYYY'"
+    - "Required sections present: Related Entries, Task and Context, Ticket Description, Decisions and Resolution"
+    - "Frontmatter has a tracker source URL and does NOT set refinement_ticket"
+    - "If a decisive-contribution line exists, it uses the '> **Decisive contribution (' blockquote form"

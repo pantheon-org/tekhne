@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to regenerate the context index after adding new context files across different typologies, verify all entries are present, and understand the index is a cache.",
+  "checklist": [
+    {
+      "name": "Regeneration command",
+      "description": "regenerate-context-index.sh run to update the index",
+      "max_score": 30
+    },
+    {
+      "name": "New files indexed under correct typology",
+      "description": "Newly added context files appear in the regenerated index, grouped under the correct plural typology section (plans:, decisions:)",
+      "max_score": 30
+    },
+    {
+      "name": "No frontmatter warnings",
+      "description": "No missing frontmatter warnings shown during regeneration",
+      "max_score": 20
+    },
+    {
+      "name": "Index as cache",
+      "description": "Correctly states the index is regenerated and the source of truth is frontmatter in each .md file",
+      "max_score": 20
+    }
+  ]
+}

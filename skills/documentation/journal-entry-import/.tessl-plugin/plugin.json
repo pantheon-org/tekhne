@@ -1,0 +1,7 @@
+{
+  "name": "pantheon-ai/journal-entry-import",
+  "version": "0.1.0",
+  "description": "Reconstructs journal entries from external systems: bulk-imports a historical work log from a legacy source system, enriches ticket references with self-contained detail entries reconstructed from an issue tracker, and annotates links to systems that have since moved. Use when asked to import an old journal, migrate a log into the journal format, turn ticket mentions into entries, or point old links at a new host. Produces entries compatible with journal-entry-creator's frontmatter and tag taxonomy.",
+  "private": true,
+  "skills": ["SKILL.md"]
+}

@@ -624,14 +624,6 @@ Review a saved standards document via a one-standard-at-a-time interview. Prompt
 | --- | --- | --- | --- |
 | [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
-### why
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
-
 ### troubleshoot
 
 Use when user reports an error, bug, or something not working. Search-first trou...
@@ -656,14 +648,6 @@ Sense-making before action. Classify problem using Cynefin triangulation (3 test
 | --- | --- | --- | --- |
 | [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
-### how
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
-
 ### simplicity-principles
 
 Use when designing solutions, adding features, or refactoring by applying KISS, ...
@@ -671,14 +655,6 @@ Use when designing solutions, adding features, or refactoring by applying KISS, 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [simplicity-principles](/tekhne/skills/software-engineering/simplicity-principles/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
-
-### blast-radius
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### blast-radius
 
@@ -784,7 +760,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (29 skills)
+## Documentation (30 skills)
 
 Writing & communication
 
@@ -964,6 +940,14 @@ Set up a new Astro Starlight documentation site from scratch. Use when creating 
 | --- | --- | --- | --- |
 | [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
 
+### journal-entry-import
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [journal-entry-import](/tekhne/skills/documentation/journal-entry-import/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
 ### conventional-commits
 
 Generates and formats git commit messages following the Conventional Commits spe...
@@ -1036,7 +1020,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (10 skills)
+## Project Management (11 skills)
 
 Planning & organization
 
@@ -1080,6 +1064,14 @@ Splits a large feature branch into smaller, focused pull requests using stacked 
 | --- | --- | --- | --- |
 | [planning-toolkit-pr-stacker](/tekhne/skills/project-mgmt/planning-toolkit/pr-stacker/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 5 |
 
+### context-index
+
+Regenerates the project's context index (index.yaml) from the YAML frontmatter a...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
 ### create-context-file
 
 Creates a structured, date-stamped context file filed by typology (findings, pla...
@@ -1111,14 +1103,6 @@ MoSCoW prioritization: categorize requirements into Must Should Could Won't tier
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [issue-tracker-toolkit-moscow-prioritization](/tekhne/skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
-
-### nasa-pm-lessons
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### nasa-pm-lessons
 

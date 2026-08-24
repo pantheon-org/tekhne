@@ -1,0 +1,298 @@
+# Ticket Kickoff Entry Template Schema
+# Describes the REQUIRED structure for ticket-kickoff session entries.
+#
+# A ticket-kickoff entry documents the work of understanding an issue-tracker ticket BEFORE
+# implementation starts: pulling its Conditions of Satisfaction / Acceptance Criteria and
+# supporting information, surfacing any gaps or open questions that block starting cleanly,
+# breaking the work into a discrete checklist, and planning what evidence will be collected
+# to prove the ticket is done (Proof of Work).
+#
+# Distinct from ticket-refinement: a kickoff entry does NOT propose amended ticket content —
+# it assumes the ticket is (or is being confirmed to be) implementation-ready, and plans the
+# work and its evidence. If the kickoff surfaces gaps serious enough that the ticket itself
+# needs rewriting, do a ticket-refinement entry instead (or first).
+
+template_name: ticket-kickoff
+description: Documentation of understanding an issue-tracker ticket before implementation — CoS/AC, gaps, supporting information, a work checklist, and a Proof of Work plan
+filename_pattern: "YYYY-MM-DD-slug.md"
+location_pattern: "YYYY/MM/"
+
+# Extends journal-entry template with ticket-kickoff-specific requirements
+extends: journal-entry
+
+# YAML frontmatter (inherits from journal-entry with additions)
+frontmatter:
+  required_fields:
+    - name: kickoff_ticket
+      type: string
+      description: >
+        Issue-tracker key being kicked off (e.g. "TICKET-123"). REQUIRED for this entry type. When
+        present, five sections become REQUIRED (enforced by the validator) and a no-op otherwise, so
+        existing entries are unaffected: '## Conditions of Satisfaction & Acceptance Criteria',
+        '## Open Questions & Gaps', '## Supporting Information', '## Work Checklist', and
+        '## Proof of Work Plan'.
+      example: "TICKET-123"
+
+    - name: tags
+      type: array
+      description: "Must include the 'ticket-kickoff' tag"
+      validation: "Must contain 'ticket-kickoff' in array"
+      example:
+        - ticket-kickoff
+        - ticket-123
+        - infrastructure
+
+# Document structure (REQUIRED sections in order)
+structure:
+  # H1 Title
+  - section: h1_title
+    level: 1
+    format: "# [Ticket Key] Kickoff: [Short Title] - [Month D, YYYY]"
+    required: true
+    example: "# TICKET-123 Kickoff: Service Scaffold - August 5, 2026"
+
+  # Metadata block
+  - section: metadata_block
+    required: true
+    format: "**Key:** Value (NO bullet points, NO list formatting)"
+    fields:
+      - Date: "Month D, YYYY"
+      - Ticket: "Issue-tracker key being kicked off (e.g. TICKET-123)"
+      - Epic: "Parent epic/ticket key or link, if any"
+      - Context: "Why this ticket is being kicked off now"
+      - System: "System/Service the ticket concerns"
+    example: |
+      **Date:** August 5, 2026
+      **Ticket:** TICKET-123
+      **Epic:** TICKET-100
+      **Context:** Starting implementation of the new service scaffold
+      **System:** example-service (new), source repo, cloud infra
+
+  # Session Overview
+  - section: session_overview
+    level: 2
+    heading: "## Session Overview"
+    required: true
+    description: "High-level summary: what the ticket asks for, and what this kickoff session established"
+
+  # Ticket Summary
+  - section: ticket_summary
+    level: 2
+    heading: "## Ticket Summary"
+    required: true
+    description: >
+      What the ticket currently says, pulled directly from the tracker: type, status,
+      reporter/assignee, parent epic, and a plain restatement of the ticket's context/problem in your
+      own words. This is the "understand the ticket" step — ground it in what was actually retrieved,
+      not assumptions.
+    example: |
+      TICKET-123, Task, In Progress, assigned to the requester, reported by a teammate, created
+      2026-07-31. Part of Epic TICKET-100 (service migration). No service exists yet; this ticket
+      creates the empty skeleton only (repo, infra, CI/CD) — every later phase depends on this
+      landing first.
+
+  # Conditions of Satisfaction & Acceptance Criteria (enforced by validator when kickoff_ticket is set)
+  - section: conditions_of_satisfaction
+    level: 2
+    heading: "## Conditions of Satisfaction & Acceptance Criteria"
+    required: true
+    description: >
+      Pulled directly from the ticket (verbatim or lightly reformatted for readability — do not
+      paraphrase away specifics). If the ticket only has one of the two (CoS or AC), include that one
+      and note the other is absent. REQUIRED whenever frontmatter sets kickoff_ticket (enforced by
+      validate-journal-entry.sh).
+    example: |
+      **Conditions of Satisfaction:**
+
+      - [ ] Developer can clone the repo, install dependencies, and lint/type-check/test all pass on an empty codebase
+      - [ ] Deploying to the staging environment creates a dispatcher queue with a dedicated dead-letter queue
+      - [ ] An alarm fires when the dead-letter queue depth is greater than zero
+      - [ ] The CI pipeline runs and passes
+
+      **Acceptance Criteria:**
+
+      - New repo created following the reference service's structure and conventions
+      - Infra stack: dispatcher queue + dead-letter queue
+      - Placeholder handlers for router, dispatcher, and metrics — no business logic, handlers return 200
+      - Alarm skeleton wired to an alert topic
+      - API stub (`POST /example` -> entrypoint handler)
+      - CI/CD pipeline following the reference service pattern
+    validation:
+      - "Required if frontmatter sets kickoff_ticket (checked by validate-journal-entry.sh)"
+
+  # Open Questions & Gaps (enforced by validator when kickoff_ticket is set)
+  - section: open_questions
+    level: 2
+    heading: "## Open Questions & Gaps"
+    required: true
+    description: >
+      Anything ambiguous, missing, or undecided that could block starting the work cleanly — naming,
+      ownership, an unclear dependency, a decision the ticket owner needs to make. REQUIRED whenever
+      frontmatter sets kickoff_ticket. If the ticket is genuinely complete and nothing is open, state
+      that explicitly rather than omitting the section or leaving it blank — a reader must be able to
+      tell "checked, nothing open" apart from "not checked".
+
+      Checking the ticket TEXT for ambiguity is not sufficient on its own. Before writing "None
+      identified", verify execution mechanics for at least the first Work Checklist item: is it
+      actually self-service, or does it require a process/tool/permission you have not confirmed (an
+      infrastructure-as-code-managed resource, an approval gate, an access level you don't hold)? A
+      ticket can be perfectly well-specified and still have an unresolved gap in HOW to do the work or
+      WHO can do it — that gap belongs here too, not just gaps in what the ticket says.
+    format: |
+      A bulleted list of open items, OR (if none) an explicit one-line statement that none were found.
+    example: |
+      - None identified — CoS and Acceptance Criteria are both present and unambiguous; the ticket is
+        implementation-ready as written.
+
+      (Alternative when gaps exist:)
+
+      - Sub-group name "Example Integration Services" is specified but no target account/region is
+        stated for the staging deployment — confirm before deploying.
+      - Ticket does not say whether the reference service's existing alert topic should be reused or a
+        new one created for this service — raise with the ticket owner before wiring alarms.
+    validation:
+      - "Required if frontmatter sets kickoff_ticket (checked by validate-journal-entry.sh)"
+      - "Must not be silently blank: state 'None identified' explicitly when there is nothing open"
+
+  # Supporting Information (enforced by validator when kickoff_ticket is set)
+  - section: supporting_information
+    level: 2
+    heading: "## Supporting Information"
+    required: true
+    description: >
+      Every link relevant to understanding or doing the work, pulled from the ticket and
+      cross-referenced: parent epic, reference repos, related tickets/incidents, docs, standards.
+      REQUIRED whenever frontmatter sets kickoff_ticket. Always hyperlink references with
+      [text](url) — no bare keys or paths.
+    example: |
+      - Epic: [TICKET-100](https://tracker.example.com/browse/TICKET-100)
+      - Ticket: [TICKET-123](https://tracker.example.com/browse/TICKET-123)
+      - Reference repo: [example-service](https://example.com/org/example-service)
+    validation:
+      - "Required if frontmatter sets kickoff_ticket (checked by validate-journal-entry.sh)"
+      - "Every reference must be a hyperlink, not a bare key/path"
+
+  # Work Checklist (enforced by validator when kickoff_ticket is set)
+  - section: work_checklist
+    level: 2
+    heading: "## Work Checklist"
+    required: true
+    description: >
+      Every discrete step needed to complete the ticket, as GitHub-flavored checkbox items (`- [ ]`)
+      so progress is trackable across sessions. Should be granular enough that each item is
+      independently completable and verifiable, and should trace back to the Conditions of
+      Satisfaction / Acceptance Criteria (one or more checklist items per CoS/AC item is normal).
+      REQUIRED whenever frontmatter sets kickoff_ticket. Update the checkboxes in place in later
+      sessions on this same ticket rather than duplicating the list in a new entry — see
+      "Continuation Links" for how to link a later session back to this one if the work spans
+      multiple dated entries.
+    example: |
+      - [ ] Create the sub-group/namespace for the new service in the source-code host
+      - [ ] Create the repo inside the new sub-group
+      - [ ] Scaffold repo structure mirroring the reference service (lint, type-check, test config)
+      - [ ] Write infra stack: dispatcher queue + dead-letter queue
+      - [ ] Add placeholder handlers (router, dispatcher, metrics) returning `200`
+      - [ ] Wire alarms (errors, dead-letter depth > 0, latency) to an alert topic
+      - [ ] Add API stub: `POST /example` -> entrypoint handler
+      - [ ] Port CI/CD pipeline from the reference service
+      - [ ] Verify install + lint/type-check/test pass on the empty codebase
+      - [ ] Verify deploying to staging creates the queue + dead-letter queue
+      - [ ] Verify the dead-letter-depth alarm fires
+      - [ ] Verify the CI pipeline runs green
+    validation:
+      - "Required if frontmatter sets kickoff_ticket (checked by validate-journal-entry.sh)"
+      - "Items must be checkbox list items (- [ ]) so progress is trackable"
+
+  # Proof of Work Plan (enforced by validator when kickoff_ticket is set)
+  - section: proof_of_work_plan
+    level: 2
+    heading: "## Proof of Work Plan"
+    required: true
+    description: >
+      What evidence will be collected to prove each Condition of Satisfaction / Acceptance Criterion
+      is actually met — not just "done" self-report. REQUIRED whenever frontmatter sets
+      kickoff_ticket. A table mapping CoS/AC item -> evidence type -> where it will be captured. Use
+      the existing "Entry-Attached Evidence" convention (a `<entry-slug>/assets/` sibling directory)
+      for any raw artifact (screenshot, log excerpt, command output) collected once the work is done.
+    format: |
+      A table: | CoS / AC item | Evidence to collect | How/where captured |
+    example: |
+      | CoS / AC item | Evidence to collect | How/where captured |
+      | --- | --- | --- |
+      | Install + lint/type-check/test pass | Terminal output of all commands, zero failures | Captured log in `<slug>/assets/`, linked from an `## Evidence` section in the completion entry |
+      | Deploying to staging creates queue + DLQ | Deploy output plus console/CLI confirmation of both resources | CLI output + screenshot, in `<slug>/assets/` |
+      | Dead-letter-depth alarm fires | Alarm state transition to ALARM after a synthetic message, then back to OK | Alarm history screenshot |
+      | CI pipeline runs and passes | Green pipeline run link | Pipeline URL + status screenshot |
+    validation:
+      - "Required if frontmatter sets kickoff_ticket (checked by validate-journal-entry.sh)"
+      - "Must cover every CoS/AC item from the Conditions of Satisfaction & Acceptance Criteria section"
+      - "This is a PLAN — the evidence itself is collected and attached in a later, completion-focused entry, not fabricated here"
+
+  # Session Outcome
+  - section: session_outcome
+    level: 2
+    heading: "## Session Outcome"
+    required: true
+    format: |
+      **[Status]** — one-line outcome (e.g. scoped, not started; blocked; in progress).
+      No emojis - the validator rejects them.
+
+      **Next steps:**
+      - Action item 1
+      - Action item 2
+    example: |
+      **Scoped, not yet started** — TICKET-123 is implementation-ready; work checklist and Proof of
+      Work plan are set.
+
+      **Next steps:**
+      - Start on the first unchecked Work Checklist item
+      - Open a completion entry once the ticket is done, attaching the Proof of Work evidence planned above
+
+  # Future Reference/Notes
+  - section: future_reference
+    level: 2
+    heading: "## Future Reference / Notes"
+    required: true
+    description: "Any additional links, related entries, or context not already captured in Supporting Information"
+
+  # Tags (at end of document)
+  - section: tags
+    level: 2
+    heading: "## Tags"
+    required: true
+    description: "Backtick-separated tags matching frontmatter; must include ticket-kickoff"
+    format: "`ticket-kickoff` | `ticket-123` | `tag3`"
+    validation: "Must match tags in frontmatter and include ticket-kickoff"
+
+# Ticket-kickoff-specific validation
+validation:
+  required_sections:
+    - ticket_summary
+    - conditions_of_satisfaction
+    - open_questions
+    - supporting_information
+    - work_checklist
+    - proof_of_work_plan
+    - future_reference
+
+  required_tags:
+    - ticket-kickoff
+
+  required_frontmatter:
+    - kickoff_ticket
+
+  kickoff_ticket_sections:
+    - "Enforced by validator when kickoff_ticket is set"
+    - "Five sections required: Conditions of Satisfaction & Acceptance Criteria, Open Questions & Gaps, Supporting Information, Work Checklist, Proof of Work Plan"
+
+# Best practices for ticket-kickoff entries
+best_practices:
+  - "Ground the Ticket Summary and Conditions of Satisfaction & Acceptance Criteria in what was actually pulled from the tracker, not assumptions — quote or closely paraphrase the ticket"
+  - "Never leave Open Questions & Gaps silently empty — state 'None identified' explicitly when the ticket is genuinely complete, so a reader can tell 'checked' from 'not checked'"
+  - "'None identified' means the ticket TEXT is unambiguous, not that every checklist item is known to be executable — before writing it, check whether the first Work Checklist item requires a process, tool, or permission level you have not yet confirmed (self-service vs. infrastructure-as-code-managed, an approval gate, an access level you don't hold). A well-specified ticket can still hide an execution-mechanics gap"
+  - "Always hyperlink references with [text](url): ticket/incident keys to their tracker URL, repos and source files to their source-host URL"
+  - "Make the Work Checklist granular enough that each item is independently completable and verifiable, and trace it back to specific CoS/AC items"
+  - "The Proof of Work Plan is evidence PLANNING, not evidence capture — the actual artifacts (screenshots, logs, command output) are collected and attached in a later entry once the work is done"
+  - "If the kickoff surfaces gaps serious enough that the ticket description itself needs rewriting, do a ticket-refinement entry (or amend the ticket) before treating this ticket as kickoff-ready"
+  - "If the work touches regulated or personal data, flag the constraint in Ticket Summary or Open Questions and route sign-off to the appropriate function"
+  - "This entry plans the work; it does not itself constitute proof of work — do not mark Work Checklist items done in this entry unless they were genuinely completed in this same session"

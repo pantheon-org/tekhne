@@ -1,0 +1,27 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "covered_instructions": [
+      "Mode A splits a legacy source into dated sections and emits verbatim entries",
+      "Mode B fetch, enough-data bar, resolution-date dating, plain-markdown cross-link",
+      "refinement_ticket is forbidden on ticket-detail entries",
+      "No invented supersession frontmatter field for cross-linking",
+      "Data and privacy policy: keep names, mask credentials, summarise bulk identifiers",
+      "Decisions section is synthesised, not transcribed; decisive-contribution callout rules",
+      "Batch runs: trust the filesystem, stage every year directory touched",
+      "Mode C: annotate not replace, repo-root for deep links, unmigrated repos untouched",
+      "Scope boundary against pantheon-journal backfill"
+    ],
+    "uncovered_instructions": []
+  },
+  "scenario_coverage": {
+    "total_scenarios": 5,
+    "capabilities_covered": [
+      "bulk-import",
+      "ticket-enrichment",
+      "data-privacy-handling",
+      "link-migration",
+      "scope-boundary-negative"
+    ]
+  }
+}

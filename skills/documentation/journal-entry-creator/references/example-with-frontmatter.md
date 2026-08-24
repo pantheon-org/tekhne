@@ -2,7 +2,7 @@
 title: "FOSS Enterprise Evaluation Process - Automated Vetting and Registry System"
 date: 2025-11-11
 authors:
-  - Thomas Roche
+  - Alex Rivera
 tags:
   - foss
   - enterprise-architecture

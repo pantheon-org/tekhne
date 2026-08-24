@@ -1,0 +1,49 @@
+{
+  "instructions": [
+    {
+      "type": "workflow",
+      "why_given": "new knowledge",
+      "content": "Mode A splits a legacy source into its own dated sections and emits one journal-entry-creator-compatible file per non-empty section, preserving content verbatim and normalising only formatting."
+    },
+    {
+      "type": "workflow",
+      "why_given": "new knowledge",
+      "content": "Mode B fetches the ticket with comments, applies the 'enough data' bar (skip a ticket with nothing to narrate), dates the detail entry by the ticket's resolution date (fallback: last-updated, then the mentioning entry's date), and cross-links it back to the mentioning entry with plain markdown."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER set refinement_ticket on a ticket-detail entry - it makes journal-entry-creator's base validator require a '## Proposed Ticket Description' section, which does not apply to a closed historical ticket. Put the ticket link in source and the metadata block only."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER invent a frontmatter field (e.g. continues_from/continued_by) to express the cross-link between a detail entry and the entry that mentioned it - tekhne's base frontmatter schema has no such field. Use plain-markdown bidirectional links instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER redact colleague names on your own judgement - ask the author first. The exceptions you do not ask about first: never write credentials/tokens/passwords into the repo (mask them), and summarise out bulk end-user/customer identifiers and raw data dumps."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Write the Decisions and Resolution section as a synthesised narrative of what was decided and how it resolved, not a per-comment transcript. Add the '> **Decisive contribution (<name>):**' callout only when the author was the pivotal actor; omit it on team efforts."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "In a batch run, NEVER trust an agent's 'written' status without confirming the file exists on disk, and NEVER stage only the batch's own year directory - resolution-date dating can land a file in a different year, so stage every year directory the batch touched."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "For migrated external links (Mode C), annotate - keep the original archived URL and append the resolved current home. Deep links (PR numbers, commits) do not translate; point to the repo root. A repo-mapping manifest entry that still points at the old host means the repo was NOT migrated."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "preference",
+      "content": "This skill is for reconstructing entries from external systems, not for repairing frontmatter on entries that already exist in the repo's format - that is pantheon-journal's own 'backfill' command. Do not treat an in-repo frontmatter-repair request as a Mode A/B/C task."
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to read and summarise the context index by typology and status when asked what context files exist.",
+  "checklist": [
+    {
+      "name": "Index consulted",
+      "description": ".context/index.yaml read to answer the question",
+      "max_score": 30
+    },
+    {
+      "name": "Summary by typology",
+      "description": "Context files summarised by typology section (plans, findings, decisions, tickets)",
+      "max_score": 25
+    },
+    {
+      "name": "Status breakdown",
+      "description": "Status breakdown (active, done) included for each typology",
+      "max_score": 25
+    },
+    {
+      "name": "No manual edits, frontmatter is truth",
+      "description": "Correctly states not to edit index.yaml by hand, and that the source of truth is each file's frontmatter",
+      "max_score": 20
+    }
+  ]
+}

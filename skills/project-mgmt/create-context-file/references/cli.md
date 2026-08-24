@@ -18,6 +18,7 @@ scripts/create-context-file.sh --type <typology> --title "<title>" [options]
 | `-T`, `--title` | `TITLE` | Human-readable title (required); also seeds the slug. |
 | `-s`, `--slug` | `SLUG` | Override the auto-derived slug. |
 | `-g`, `--tags` | `TAGS` | Comma-separated tags for frontmatter. |
+| `-R`, `--related` | `PATHS` | Comma-separated relative paths to related `.context` files. Omitted entirely from frontmatter when empty — never written as `related: []`. |
 | `-d`, `--date` | `DATE` | Override the date (`YYYY-MM-DD`); defaults to today. |
 | `-r`, `--root` | `DIR` | Context root; defaults to `.context`. |
 | `-A`, `--allow-new-type` | | Permit a typology not in `KNOWN_TYPES`. |
@@ -41,6 +42,10 @@ scripts/create-context-file.sh --type <typology> --title "<title>" [options]
 # Finding with tags
 scripts/create-context-file.sh --type findings --title "Auth token analysis" \
   --tags "auth,oauth"
+
+# Finding that references an existing plan
+scripts/create-context-file.sh --type findings --title "Auth token analysis" \
+  --related "../plans/2026-03-16-auth-rollout.md"
 
 # Plan with a heredoc body
 scripts/create-context-file.sh --type plans --title "Retriever rollout" << 'EOF'

@@ -1,7 +1,7 @@
 ---
 name: journal-entry-creator
 description:
-  "Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports five entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, and ticket-refinement sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, refine ticket, YAML frontmatter, template schemas, validation."
+  "Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports six entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, ticket-refinement sessions, and ticket-kickoff sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, ticket-kickoff, YAML frontmatter, template schemas, validation."
 ---
 
 # Journal Entry Creator
@@ -53,6 +53,7 @@ Use journal-entry-creator when:
 - **New knowledge/skills?** → Learning  
 - **External content summary?** → Article Summary
 - **Fleshing out or amending a ticket (refinement prep, backlog grooming)?** → Ticket Refinement
+- **Understanding a ticket before starting work on it (pull CoS/AC, spot gaps, build a work checklist and Proof of Work plan)?** → Ticket Kickoff
 - **Otherwise** → Journal Entry
 
 | User Intent Signals | Type | Template | Required Tag |
@@ -61,9 +62,12 @@ Use journal-entry-creator when:
 | "learned", "tutorial", "discovered" | Learning | `learning.yaml` | `learning` |
 | URL/source, "read", "watched", "summarize" | Article Summary | `article-summary.yaml` | `article`/`video`/`podcast`/`talk` |
 | "refine", "flesh out", "groom", "amend ticket" | Ticket Refinement | `ticket-refinement.yaml` | `ticket-refinement` |
+| "pull the ticket", "kickoff", "start [ticket]", "what needs to happen", "work checklist", "proof of work" | Ticket Kickoff | `ticket-kickoff.yaml` | `ticket-kickoff` |
 | General documentation, investigation | Journal Entry | `journal-entry.yaml` | (flexible) |
 
-**Trade-off:** When intent is ambiguous, prefer the more specific type (Troubleshooting > Ticket Refinement > Learning > General).
+**Trade-off:** When intent is ambiguous, prefer the more specific type (Troubleshooting > Ticket Refinement > Ticket Kickoff > Learning > General).
+
+**Ticket Refinement vs Ticket Kickoff:** Refinement rewrites an under-specified ticket's *description* (the ticket is the problem). Kickoff assumes the ticket is already implementation-ready and instead plans the work — a checklist and a Proof of Work plan (the work ahead is the subject). If a kickoff surfaces gaps serious enough to need rewriting, switch to — or first do — a Ticket Refinement.
 
 ## Template Schema System
 
@@ -77,6 +81,7 @@ skills/journal-entry-creator/assets/templates/troubleshooting.yaml
 skills/journal-entry-creator/assets/templates/learning.yaml
 skills/journal-entry-creator/assets/templates/article-summary.yaml
 skills/journal-entry-creator/assets/templates/ticket-refinement.yaml
+skills/journal-entry-creator/assets/templates/ticket-kickoff.yaml
 skills/journal-entry-creator/assets/templates/journal-entry.yaml
 ```
 
@@ -263,6 +268,18 @@ Rules for the proposed description:
 
 The validator (`validate-journal-entry.sh`) enforces this: when `refinement_ticket` is present in frontmatter, a `## Proposed Ticket Description` section is required. It is a no-op when the field is absent, so other entries are unaffected.
 
+### Ticket Kickoff (Understanding a Ticket Before Starting Work)
+
+Applies to ticket-kickoff sessions: understanding an issue-tracker ticket before implementation, distinct from Ticket Refinement (kickoff plans work assuming the ticket is implementation-ready; it never rewrites the ticket description). Use `ticket-kickoff.yaml`. Setting `kickoff_ticket: <KEY>` makes five sections REQUIRED (enforced by the validator, no-op otherwise). Full requirements, examples, and the "never leave Open Questions blank" rule: [Ticket Kickoff Rules](references/compliance.md#ticket-kickoff-rules).
+
+### Continuation Links (Multi-Entry Investigations)
+
+Applies to ANY entry type when work spans more than one dated entry. Never fold a later day's narrative into an earlier entry inline — create a new dated entry and link both directions with `continues_from`/`continued_by` frontmatter so a reader landing on either finds the other. Validated bidirectionally, no-op when unset. Full frontmatter/banner/section requirements and the markdown pattern: [Continuation Links](references/compliance.md#continuation-links).
+
+### Executive Summary (Optional, Any Entry Type)
+
+Optional, at the author's discretion. Fixed placement: MUST be the H2 immediately after `## Session Overview`, before every other section — enforced by the validator, no-op when absent. Keep it short: problem, why it's non-trivial, options, ask.
+
 ## Success Criteria & Validation Rules
 
 Entry is complete when ALL criteria are met:
@@ -277,7 +294,7 @@ Entry is complete when ALL criteria are met:
 - ✅ YAML frontmatter with all required fields  
 - ✅ Date consistency: filename = frontmatter = H1 title
 - ✅ Tag consistency: frontmatter array = Tags section
-- ✅ All required sections present per schema
+- ✅ All required sections present per schema, including type-specific ones (`refinement_ticket`/`kickoff_ticket` sections; reciprocal `continues_from`/`continued_by` links; `## Executive Summary` immediately after `## Session Overview` if present)
 - ✅ Validation script passes with zero errors
 - ✅ Prettier formatting and markdownlint pass
 
@@ -306,7 +323,7 @@ Entry is complete when ALL criteria are met:
 **Low freedom - exact steps:**
 
 1. Determine entry type from Phase 1
-2. Read complete template schema file (troubleshooting.yaml, learning.yaml, article-summary.yaml, or journal-entry.yaml)
+2. Read complete template schema file (troubleshooting.yaml, learning.yaml, article-summary.yaml, ticket-refinement.yaml, ticket-kickoff.yaml, or journal-entry.yaml)
 3. Review required sections, frontmatter fields, and structure order
 4. Do NOT proceed without schema loaded
 
@@ -424,6 +441,18 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - **BAD**: refine a ticket and push the edit straight to the issue tracker.
 - **GOOD**: set `refinement_ticket` and put the amended content in a `## Proposed Ticket Description` fenced block; the user applies it separately.
 
+### NEVER skip a required ticket-kickoff section or fold a later day's work into an old entry
+
+- **WHY**: a kickoff entry's value is a complete, checkable record; a folded-in "Update (DD-MM-YYYY)" paragraph breaks the single-date H1 and buries current status.
+- **BAD**: skip `## Open Questions & Gaps`; append today's continued work as a new paragraph in yesterday's entry.
+- **GOOD**: set `kickoff_ticket` and populate all five required sections (`None identified` when nothing is open); for multi-day work, create a new dated entry and link both directions per "Continuation Links".
+
+### NEVER place Executive Summary anywhere other than immediately after Session Overview
+
+- **WHY**: a fixed position means a reader always finds it in the same place across every entry; the validator fails otherwise.
+- **BAD**: add `## Executive Summary` after `## Context` or near the end of the document.
+- **GOOD**: place it as the H2 immediately following `## Session Overview`, before every other section.
+
 ## References
 
 ### Template Schemas (assets/templates/)
@@ -433,6 +462,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - `learning.yaml` - Knowledge acquisition documentation
 - `article-summary.yaml` - External content summaries
 - `ticket-refinement.yaml` - Issue-tracker ticket refinement (amended ticket captured in-entry, never written to the tracker)
+- `ticket-kickoff.yaml` - Issue-tracker ticket kickoff (CoS/AC, gaps, supporting info, work checklist, Proof of Work plan)
 
 Load with relative paths: `skills/journal-entry-creator/assets/templates/[file]`
 

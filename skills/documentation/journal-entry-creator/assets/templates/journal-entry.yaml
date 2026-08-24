@@ -22,9 +22,9 @@ frontmatter:
 
     - name: authors
       type: array
-      description: "List of authors (typically Thomas Roche)"
+      description: "List of authors (typically Alex Rivera)"
       example:
-        - Thomas Roche
+        - Alex Rivera
 
     - name: tags
       type: array
@@ -45,6 +45,26 @@ frontmatter:
     - name: source
       type: string
       description: "URL or reference if applicable"
+
+    - name: continues_from
+      type: string
+      description: >
+        Applies to ANY entry type. Set on a NEWER entry to link back to an OLDER entry it continues
+        (e.g. day two of a multi-day investigation). Value is a relative path to the older entry, e.g.
+        "../07/2026-07-30-slug.md". When set, a '## Related Entries' section is REQUIRED immediately
+        after the metadata block, and the older entry MUST reciprocally set `continued_by` back to this
+        entry (enforced by validate-journal-entry.sh). See "Continuation Links" in SKILL.md.
+      example: "../07/2026-07-30-service-migration-spike.md"
+
+    - name: continued_by
+      type: string
+      description: >
+        Applies to ANY entry type. Set on an OLDER entry to link forward to the NEWER entry that
+        continues it. Value is a relative path to the newer entry. When set, `status: superseded` and a
+        "Superseded — see latest" banner immediately after the H1 are REQUIRED, and the newer entry MUST
+        reciprocally set `continues_from` back to this entry (enforced by validate-journal-entry.sh). See
+        "Continuation Links" in SKILL.md.
+      example: "../08/2026-08-01-service-migration-spike-continued.md"
 
 # Document structure (REQUIRED sections in order)
 structure:
@@ -83,6 +103,20 @@ structure:
     example: |
       Investigation into API performance degradation affecting production users. 
       Analyzed CloudWatch metrics, traced requests, and identified database query bottleneck.
+
+  # Executive Summary (optional, any entry type)
+  - section: executive_summary
+    level: 2
+    heading: "## Executive Summary"
+    required: false
+    description: >
+      Optional, at the author's discretion — not tied to a frontmatter field. Add it when the entry's
+      finding or decision needs to be presented to an audience that will not read the full write-up.
+      FIXED PLACEMENT: when present, it MUST be the H2 immediately after '## Session Overview', before
+      every other section. Enforced by validate-journal-entry.sh. Keep it short: state the problem, why
+      it is not trivial, the options, and the ask — do not restate detail the sections below cover.
+    validation:
+      - "If present, must immediately follow '## Session Overview' (checked by validate-journal-entry.sh)"
 
   # Context
   - section: context

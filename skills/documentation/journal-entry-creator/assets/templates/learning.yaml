@@ -22,7 +22,7 @@ frontmatter:
     - name: authors
       type: array
       example:
-        - Thomas Roche
+        - Alex Rivera
 
     - name: tags
       type: array

@@ -1,0 +1,21 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "covered_instructions": [
+      "regenerate-context-index.sh regenerates the index and is never hand-edited",
+      "Missing frontmatter is checked before regeneration and fixed at the source",
+      "Index staged alongside .context/ changes",
+      "Typology set (findings/plans/guides/follow-ups/merge-requests/tickets/decisions/notes/research) and singular type: mapping",
+      "Type/directory mismatches are surfaced, not silently routed into a catch-all"
+    ]
+  },
+  "scenario_coverage": {
+    "total_scenarios": 4,
+    "capabilities_covered": [
+      "index-regeneration",
+      "frontmatter-repair",
+      "index-summarization",
+      "type-directory-mismatch-detection"
+    ]
+  }
+}

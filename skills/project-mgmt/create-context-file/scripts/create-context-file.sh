@@ -16,16 +16,19 @@
 #   ... optional body content is read from stdin (e.g. via heredoc)
 #
 # Options:
-#   -t, --type   TYPE     Typology / subfolder (required). See KNOWN_TYPES.
-#   -T, --title  TITLE    Human-readable title (required).
-#   -s, --slug   SLUG     Override the auto-generated slug (kebab-case).
-#   -g, --tags   TAGS     Comma-separated tags (e.g. "auth,oauth").
-#   -d, --date   DATE     Override the date (YYYY-MM-DD). Defaults to today.
-#   -r, --root   DIR      Context root. Defaults to .context.
-#   -A, --allow-new-type  Permit a typology not in KNOWN_TYPES.
-#   -n, --dry-run         Print the target path and file body; write nothing.
-#   -f, --force           Overwrite if the target file already exists.
-#   -h, --help            Show this help.
+#   -t, --type    TYPE     Typology / subfolder (required). See KNOWN_TYPES.
+#   -T, --title   TITLE    Human-readable title (required).
+#   -s, --slug    SLUG     Override the auto-generated slug (kebab-case).
+#   -g, --tags    TAGS     Comma-separated tags (e.g. "auth,oauth").
+#   -R, --related PATHS    Comma-separated relative paths to related .context
+#                          files. Omitted entirely from frontmatter when empty
+#                          -- never emitted as `related: []`.
+#   -d, --date    DATE     Override the date (YYYY-MM-DD). Defaults to today.
+#   -r, --root    DIR      Context root. Defaults to .context.
+#   -A, --allow-new-type   Permit a typology not in KNOWN_TYPES.
+#   -n, --dry-run          Print the target path and file body; write nothing.
+#   -f, --force            Overwrite if the target file already exists.
+#   -h, --help             Show this help.
 
 set -eu
 
@@ -75,6 +78,7 @@ type=""
 title=""
 slug=""
 tags=""
+related=""
 date=""
 root=".context"
 allow_new=0
@@ -87,6 +91,7 @@ while [ $# -gt 0 ]; do
 		-T|--title)          title="${2:-}"; shift 2 ;;
 		-s|--slug)           slug="${2:-}"; shift 2 ;;
 		-g|--tags)           tags="${2:-}"; shift 2 ;;
+		-R|--related)        related="${2:-}"; shift 2 ;;
 		-d|--date)           date="${2:-}"; shift 2 ;;
 		-r|--root)           root="${2:-}"; shift 2 ;;
 		-A|--allow-new-type) allow_new=1; shift ;;
@@ -141,12 +146,39 @@ else
 	tags_block="tags: []"
 fi
 
+# Build related block. Unlike tags, an empty related list is omitted
+# entirely from the frontmatter -- never emitted as `related: []`.
+related_block=""
+if [ -n "$related" ]; then
+	_ifs="$IFS"; IFS=','
+	for _rel in $related; do
+		_rel="$(printf '%s' "$_rel" | sed 's/^[[:space:]]\{1,\}//; s/[[:space:]]\{1,\}$//')"
+		if [ -n "$_rel" ]; then
+			if [ -z "$related_block" ]; then
+				related_block="related:
+  - ${_rel}"
+			else
+				related_block="${related_block}
+  - ${_rel}"
+			fi
+		fi
+	done
+	IFS="$_ifs"
+fi
+
 body="---
 title: \"${title}\"
 type: $(singular_of "$type")
 date: ${date}
 status: active
-${tags_block}
+${tags_block}"
+
+if [ -n "$related_block" ]; then
+	body="${body}
+${related_block}"
+fi
+
+body="${body}
 ---
 
 # ${title}

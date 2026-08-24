@@ -65,6 +65,16 @@ collides.
 Expected result: a new dated finding file, printed as the only stdout line.
 
 ```bash
+# Link a finding back to the plan it informed
+./scripts/create-context-file.sh --type findings --title "Auth token analysis" \
+  --related "../plans/2026-03-16-auth-rollout.md"
+```
+
+Expected result: a dated finding file whose frontmatter includes a `related:`
+list; when no `--related` is given, the key is omitted entirely rather than
+written as `related: []`.
+
+```bash
 # Multi-line body via heredoc
 ./scripts/create-context-file.sh --type plans --title "Retriever rollout" << 'EOF'
 ## Phase 1
@@ -130,6 +140,18 @@ repositories.
 
 **Consequence:** broken chronological ordering plus frontmatter parse failures.
 
+### NEVER emit `related: []` when there are no related files
+
+**WHY:** an empty list is noise; the field should be absent when there is
+nothing to link.
+
+**BAD:** `related: []` in the frontmatter.
+**GOOD:** omit the `related` key entirely; pass `--related` only when there is
+at least one path to list.
+
+**Consequence:** frontmatter clutter that trains readers (and tooling) to
+ignore the field, masking the times it actually carries a link.
+
 ### NEVER invent a new typology for a one-off
 
 **WHY:** ad-hoc folders erode the curated set that makes context navigable.
@@ -143,3 +165,4 @@ repositories.
 
 - [Typologies](references/typologies.md) — the curated catalog, selection rule, and how to extend the set; load when choosing or adding a typology.
 - [CLI reference](references/cli.md) — full generator flags, behavior, and examples; load when you need an option beyond the Quick Commands.
+- [Frontmatter schema](assets/schemas/context-frontmatter.schema.json) — the JSON Schema for `title`, `type`, `date`, `status`, `tags`, and `related`; load when validating a context file's frontmatter or wiring a lint check.
