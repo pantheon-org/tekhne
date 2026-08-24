@@ -50,6 +50,27 @@ type_known() {
 	return 1
 }
 
+# The typology (and the subfolder it maps to) is plural, e.g. "follow-ups".
+# The frontmatter `type:` field is the singular form, e.g. "follow-up" - that's
+# what downstream consumers (regenerate-context-index.sh's type_group_key)
+# match against. Curated pairs for KNOWN_TYPES; a typology added later via
+# --allow-new-type falls back to stripping a trailing "s", which is correct
+# for every typology in the set today.
+singular_of() {
+	case "$1" in
+		findings)       echo "finding" ;;
+		plans)          echo "plan" ;;
+		guides)         echo "guide" ;;
+		follow-ups)     echo "follow-up" ;;
+		merge-requests) echo "merge-request" ;;
+		tickets)        echo "ticket" ;;
+		decisions)      echo "decision" ;;
+		notes)          echo "note" ;;
+		research)       echo "research" ;;
+		*)              printf '%s' "$1" | sed 's/s$//' ;;
+	esac
+}
+
 type=""
 title=""
 slug=""
@@ -122,7 +143,7 @@ fi
 
 body="---
 title: \"${title}\"
-type: ${type}
+type: $(singular_of "$type")
 date: ${date}
 status: active
 ${tags_block}

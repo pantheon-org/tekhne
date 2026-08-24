@@ -18,7 +18,8 @@ The file must:
 2. Use the date-prefixed filename `2026-03-16-feature-flag-rollout.md` with the
    specific slug `feature-flag-rollout` (not a generic slug).
 3. Start with valid YAML frontmatter containing `title: "Feature Flag Rollout"`,
-   `type: plans`, `date: 2026-03-16`, `status: active`, and `tags`.
+   `type: plan` (singular - the folder is `plans`, but the frontmatter field is
+   singular), `date: 2026-03-16`, `status: active`, and `tags`.
 4. Follow the frontmatter with a `# Feature Flag Rollout` heading.
 5. Contain the three rollout steps as the body content.
 
@@ -28,7 +29,7 @@ The file must:
 2. Name the file `2026-03-16-feature-flag-rollout.md` (date prefix + specific
    slug, not a generic term like `notes` or `plan`)
 3. Begin with valid YAML frontmatter including `date: 2026-03-16` (ISO 8601),
-   `type: plans`, and a formatted `title`
+   `type: plan` (singular), and a formatted `title`
 4. Include a `# Feature Flag Rollout` top-level heading after the frontmatter
 5. Include all three rollout steps in the body: SDK addition, feature flag gate,
    and canary rollout
@@ -39,7 +40,7 @@ The file must:
 - **Date-prefixed filename**: the filename is `2026-03-16-feature-flag-rollout.md`
   (ISO date prefix + specific slug)
 - **Valid frontmatter with ISO date and type**: frontmatter contains
-  `date: 2026-03-16`, `type: plans`, and a formatted `title`
+  `date: 2026-03-16`, `type: plan` (singular), and a formatted `title`
 - **Title heading present**: a `# Feature Flag Rollout` heading follows the
   frontmatter
 - **Content includes all three steps**: the body contains SDK addition, feature
