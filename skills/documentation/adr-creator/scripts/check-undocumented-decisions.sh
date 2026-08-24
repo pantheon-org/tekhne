@@ -18,10 +18,18 @@ SOURCE_DIR=".context"
 while [ $# -gt 0 ]; do
   case "$1" in
     --adr-dir)
+      if [ $# -lt 2 ]; then
+        echo "--adr-dir requires a value" >&2
+        exit 2
+      fi
       ADR_DIR="$2"
       shift 2
       ;;
     --source-dir)
+      if [ $# -lt 2 ]; then
+        echo "--source-dir requires a value" >&2
+        exit 2
+      fi
       SOURCE_DIR="$2"
       shift 2
       ;;
