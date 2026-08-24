@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates external-link migration (Mode C): annotate-not-replace, repo-root pointer for non-mapping deep links, correct handling of markdown link/autolink forms, and correctly leaving an unmigrated repo untouched.",
+  "checklist": [
+    {
+      "name": "Annotate, not replace",
+      "description": "Original Bitbucket URL retained; GitLab pointer appended, not swapped in",
+      "max_score": 25
+    },
+    {
+      "name": "Repo-root for deep link",
+      "description": "order-service PR link points to the repo root, not a fabricated MR number",
+      "max_score": 20
+    },
+    {
+      "name": "Unmigrated repo left alone",
+      "description": "sql-file-executor is not given a GitLab link (correctly identified as not migrated)",
+      "max_score": 30
+    },
+    {
+      "name": "Markdown forms handled",
+      "description": "Annotation placed after autolink '>' or link ')' - never inside display text; link syntax intact",
+      "max_score": 15
+    },
+    {
+      "name": "Validates and lints",
+      "description": "Touched entries pass their validators and markdownlint",
+      "max_score": 10
+    }
+  ]
+}

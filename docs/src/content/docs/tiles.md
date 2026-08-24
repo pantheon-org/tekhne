@@ -760,7 +760,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (29 skills)
+## Documentation (30 skills)
 
 Writing & communication
 
@@ -939,6 +939,14 @@ Set up a new Astro Starlight documentation site from scratch. Use when creating 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
+
+### journal-entry-import
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [journal-entry-import](/tekhne/skills/documentation/journal-entry-import/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### conventional-commits
 

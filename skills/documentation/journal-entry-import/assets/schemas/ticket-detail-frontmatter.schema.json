@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ticket-detail-frontmatter",
+  "title": "Ticket-detail journal entry",
+  "description": "Contract for a journal-entry-import Mode B ticket-detail entry (YYYY/MM/YYYY-MM-DD-<key-lowercased>-<slug>.md): frontmatter properties plus structural expectations (x-* keywords) read by validate-ticket-detail.sh. Extends the base journal-entry-creator frontmatter contract with ticket-detail-specific rules.",
+  "type": "object",
+  "required": ["title", "date", "authors", "tags", "source", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9]+-[0-9]+ - .+",
+      "description": "Ticket key and summary, e.g. 'PROJ-2058 - Move to fetching credentials at run time'. Matches the H1 (minus the date suffix). Trackers whose keys are not PROJECT-NUMBER (e.g. a purely numeric issue number) need a locally adapted pattern."
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Entry date (matches filename). Prefer the ticket's resolution/closed date; else its last-updated date; else the date of the log entry that mentioned it."
+    },
+    "authors": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Entry authors (typically the journal's usual author, e.g. Alex Rivera)."
+    },
+    "tags": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9][a-z0-9-]*$|^[0-9]{4}$"
+      },
+      "description": "Lowercase hyphenated tags. MUST include the key lowercased (e.g. proj-2058), topic tags, 'ticket-detail', and the four-digit year. Must match the ## Tags section. 'ticket-detail' extends the journal-entry-creator taxonomy's type facet alongside troubleshooting/learning/article/ticket-refinement."
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "The issue tracker's permalink to the ticket (e.g. a Jira browse URL, a Linear issue URL, a GitHub issue URL)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "published", "superseded"],
+      "default": "published",
+      "description": "Publication status. Historical ticket-detail entries are normally 'published'."
+    }
+  },
+  "not": {
+    "anyOf": [{ "required": ["refinement_ticket"] }]
+  },
+  "$comment": "refinement_ticket is forbidden: tekhne's base validator (validate-journal-entry.sh) requires a '## Proposed Ticket Description' section whenever refinement_ticket is set in frontmatter. That section is for an in-progress ticket-refinement draft (see journal-entry-creator's ticket-refinement type), not a reconstructed detail entry for a ticket that is already resolved. Cross-linking to the originating log entry uses plain markdown links; tekhne's base frontmatter schema has no continuation/supersession field, so do not invent one to express it.",
+  "x-forbidden-fields": ["refinement_ticket"],
+  "x-h1-pattern": "^# [A-Z][A-Z0-9]+-[0-9]+ - .+ - [A-Z][a-z]+ [0-9]{1,2}, [0-9]{4}$",
+  "x-required-sections": [
+    "## Related Entries",
+    "## Session Overview",
+    "## Task and Context",
+    "## Ticket Description",
+    "## Decisions and Resolution",
+    "## Compliance",
+    "## Tags"
+  ],
+  "x-decisive-contribution-pattern": "^> \\*\\*Decisive contribution \\("
+}

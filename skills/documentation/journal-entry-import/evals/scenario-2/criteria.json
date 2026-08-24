@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates reconstructing a self-contained ticket-detail entry from a log mention plus tracker data: correct path/date, schema-valid frontmatter with no forbidden field, all required sections including a verbatim Ticket Description, a synthesised Decisions section with a warranted decisive-contribution callout, and a bidirectional cross-link that passes the validator.",
+  "checklist": [
+    {
+      "name": "Path and date",
+      "description": "File at YYYY/MM/YYYY-MM-DD-proj-4001-<slug>.md dated by resolution date (2020-09-25), single dated H1 starting with the key",
+      "max_score": 15
+    },
+    {
+      "name": "Frontmatter, no forbidden field",
+      "description": "Schema-valid frontmatter; refinement_ticket not set",
+      "max_score": 20
+    },
+    {
+      "name": "Required sections present and ordered",
+      "description": "Metadata block, Related Entries, Session Overview, Task and Context, verbatim Ticket Description, Decisions and Resolution, Compliance, Tags",
+      "max_score": 20
+    },
+    {
+      "name": "Synthesised Decisions + decisive callout",
+      "description": "Decisions is synthesised prose (not a comment transcript) with a correctly formatted decisive-contribution callout for Alex Rivera",
+      "max_score": 20
+    },
+    {
+      "name": "Bidirectional cross-link (plain markdown)",
+      "description": "Related Entries links to the original entry; that entry gains a nested 'Detailed entry:' bullet; no invented supersession field used",
+      "max_score": 15
+    },
+    {
+      "name": "Validator passes",
+      "description": "Entry passes validate-ticket-detail.sh",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates Mode A bulk import: correct dated section splitting, an empty section correctly skipped, journal-entry-creator-compatible frontmatter, verbatim content preservation, and validation before completion.",
+  "checklist": [
+    {
+      "name": "Correct files, correct paths and dates",
+      "description": "2024/03/2024-03-08-imported-entry.md and 2024/03/2024-03-22-imported-entry.md created, dated by each section's own date",
+      "max_score": 20
+    },
+    {
+      "name": "Empty section skipped",
+      "description": "No file written for the empty March 15 week",
+      "max_score": 20
+    },
+    {
+      "name": "Frontmatter compatible with journal-entry-creator",
+      "description": "title/date/authors/tags/source/status present; tags include imported, legacy-import, and \"2024\"; tags match the ## Tags section",
+      "max_score": 20
+    },
+    {
+      "name": "Verbatim content, no invention",
+      "description": "Bullet content matches the source; no summarising or added interpretation",
+      "max_score": 25
+    },
+    {
+      "name": "Validated before done",
+      "description": "Generated files run through journal-entry-creator's validate-journal-entry.sh (and formatting/lint) before being presented as complete",
+      "max_score": 15
+    }
+  ]
+}
