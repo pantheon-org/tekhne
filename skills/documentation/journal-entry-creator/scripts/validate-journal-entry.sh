@@ -41,6 +41,17 @@ frontmatter_field() {
     || true
 }
 
+# Helper: resolve a path relative to a base directory, portably (no realpath dependency).
+# Prints nothing (not an error) if the directory component doesn't exist.
+resolve_path() {
+  local base_dir="$1" rel="$2"
+  local dir base abs
+  dir="$(dirname "$rel")"
+  base="$(basename "$rel")"
+  abs="$(cd "$base_dir/$dir" 2>/dev/null && pwd)" || true
+  [[ -n "$abs" ]] && echo "$abs/$base"
+}
+
 # Helper: validate a single file
 validate_single() {
   local file="$1"
@@ -251,6 +262,88 @@ validate_single() {
       echo "Invalid: refinement_ticket ($refinement_ticket) is set but no '## Proposed Ticket Description' section in $file" >&2
       rm -f "$tmp_out"
       return 16
+    fi
+  fi
+
+  # 9) Continuation link consistency — only runs when frontmatter declares continues_from/continued_by.
+  # Applies to ANY entry type linking a multi-day investigation across dated entries. No-op for
+  # entries without these fields, so pre-existing entries are unaffected.
+  local file_dir continues_from continued_by
+  file_dir="$(dirname "$file")"
+  continues_from="$(frontmatter_field "$file" "continues_from")"
+  continued_by="$(frontmatter_field "$file" "continued_by")"
+
+  if [[ -n "$continues_from" ]]; then
+    local target target_dir target_continued_by target_continued_by_abs file_abs
+    target="$(resolve_path "$file_dir" "$continues_from")"
+    if [[ -z "$target" || ! -f "$target" ]]; then
+      echo "Invalid: continues_from target does not exist: $continues_from in $file" >&2
+      rm -f "$tmp_out"
+      return 17
+    fi
+    target_dir="$(dirname "$target")"
+    target_continued_by="$(frontmatter_field "$target" "continued_by")"
+    file_abs="$(cd "$file_dir" && pwd)/$(basename "$file")"
+    target_continued_by_abs=""
+    if [[ -n "$target_continued_by" ]]; then
+      target_continued_by_abs="$(resolve_path "$target_dir" "$target_continued_by")"
+    fi
+    if [[ -z "$target_continued_by_abs" || "$target_continued_by_abs" != "$file_abs" ]]; then
+      echo "Invalid: $target does not link back to $file via continued_by in $file" >&2
+      rm -f "$tmp_out"
+      return 18
+    fi
+    if ! awk -F"\t" '$2 == "## Related Entries" { found=1; exit } END{ if(!found) exit 1 }' "$tmp_out"; then
+      echo "Invalid: continues_from is set but no '## Related Entries' section in $file" >&2
+      rm -f "$tmp_out"
+      return 19
+    fi
+  fi
+
+  if [[ -n "$continued_by" ]]; then
+    local target
+    target="$(resolve_path "$file_dir" "$continued_by")"
+    if [[ -z "$target" || ! -f "$target" ]]; then
+      echo "Invalid: continued_by target does not exist: $continued_by in $file" >&2
+      rm -f "$tmp_out"
+      return 20
+    fi
+    if ! grep -qE '^> \*\*Superseded' "$file"; then
+      echo "Invalid: continued_by is set but no 'Superseded — see latest' banner after the H1 in $file" >&2
+      rm -f "$tmp_out"
+      return 21
+    fi
+  fi
+
+  # 10) Ticket kickoff sections — only run when frontmatter declares kickoff_ticket.
+  # A kickoff entry documents understanding a ticket before implementation: CoS/AC, gaps,
+  # supporting info, a work checklist, and a Proof of Work plan. No-op for entries without
+  # the field, so pre-existing entries are unaffected.
+  local kickoff_ticket
+  kickoff_ticket="$(frontmatter_field "$file" "kickoff_ticket")"
+  if [[ -n "$kickoff_ticket" ]]; then
+    for title in "## Conditions of Satisfaction & Acceptance Criteria" "## Open Questions & Gaps" "## Supporting Information" "## Work Checklist" "## Proof of Work Plan"; do
+      if ! awk -F"\t" -v t="$title" '$2 == t { found=1; exit } END{ if(!found) exit 1 }' "$tmp_out"; then
+        echo "Invalid: kickoff_ticket ($kickoff_ticket) is set but no '$title' section in $file" >&2
+        rm -f "$tmp_out"
+        return 22
+      fi
+    done
+  fi
+
+  # 11) Executive Summary placement — only runs when the entry has an '## Executive Summary' section.
+  # It must be the H2 immediately following '## Session Overview', so a reader always finds it in the
+  # same place across every entry. No-op for entries without the section.
+  if awk -F"\t" '$2 == "## Executive Summary" { found=1; exit } END{ if(!found) exit 1 }' "$tmp_out"; then
+    local h2_after_overview
+    h2_after_overview=$(awk -F"\t" '
+      $2 == "## Session Overview" { seen=1; next }
+      seen && $2 ~ /^## / { print $2; exit }
+    ' "$tmp_out")
+    if [[ "$h2_after_overview" != "## Executive Summary" ]]; then
+      echo "Invalid: '## Executive Summary' must immediately follow '## Session Overview' (found '$h2_after_overview' instead) in $file" >&2
+      rm -f "$tmp_out"
+      return 23
     fi
   fi
 

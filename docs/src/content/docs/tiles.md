@@ -622,7 +622,7 @@ Review a saved standards document via a one-standard-at-a-time interview. Prompt
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
+| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### troubleshoot
 
@@ -646,7 +646,7 @@ Sense-making before action. Classify problem using Cynefin triangulation (3 test
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
+| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### simplicity-principles
 
@@ -662,7 +662,7 @@ Use when designing solutions, adding features, or refactoring by applying KISS, 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
+| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ### bridge
 
@@ -760,7 +760,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (30 skills)
+## Documentation (29 skills)
 
 Writing & communication
 
@@ -940,14 +940,6 @@ Set up a new Astro Starlight documentation site from scratch. Use when creating 
 | --- | --- | --- | --- |
 | [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
 
-### journal-entry-import
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [journal-entry-import](/tekhne/skills/documentation/journal-entry-import/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
-
 ### conventional-commits
 
 Generates and formats git commit messages following the Conventional Commits spe...
@@ -1110,7 +1102,7 @@ MoSCoW prioritization: categorize requirements into Must Should Could Won't tier
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
+| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
 
 ---
 
