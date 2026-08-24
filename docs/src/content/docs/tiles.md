@@ -622,15 +622,7 @@ Review a saved standards document via a one-standard-at-a-time interview. Prompt
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
-
-### why
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ### troubleshoot
 
@@ -654,15 +646,7 @@ Sense-making before action. Classify problem using Cynefin triangulation (3 test
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
-
-### how
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ### simplicity-principles
 
@@ -678,15 +662,7 @@ Use when designing solutions, adding features, or refactoring by applying KISS, 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
-
-### blast-radius
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ### bridge
 
@@ -1036,7 +1012,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (10 skills)
+## Project Management (11 skills)
 
 Planning & organization
 
@@ -1080,6 +1056,14 @@ Splits a large feature branch into smaller, focused pull requests using stacked 
 | --- | --- | --- | --- |
 | [planning-toolkit-pr-stacker](/tekhne/skills/project-mgmt/planning-toolkit/pr-stacker/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-06 | 5 |
 
+### context-index
+
+Regenerates .context/index.yaml from the YAML frontmatter across every .context/...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
 ### create-context-file
 
 Creates a structured, date-stamped context file filed by typology (findings, pla...
@@ -1118,15 +1102,7 @@ MoSCoW prioritization: categorize requirements into Must Should Could Won't tier
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
-
-### nasa-pm-lessons
-
--
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ---
 

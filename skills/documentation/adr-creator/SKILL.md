@@ -33,6 +33,7 @@ is no self-contained fallback for these commands.
 - A significant, hard-to-reverse choice was just made (framework, data store, protocol, boundary) and needs a durable rationale.
 - An earlier decision is being replaced and the old record must be marked superseded while keeping its history.
 - A repository needs an ADR log bootstrapped under `docs/adr`.
+- A decision already exists in an existing planning or review document (a design doc, a review, a retrospective) and needs to be captured as an ADR after the fact, rather than authored fresh — see [Deriving an ADR from an Existing Document](references/context-extraction.md).
 
 ## When Not to Use
 
@@ -56,6 +57,18 @@ is no self-contained fallback for these commands.
 4. **Record alternatives honestly.** For each option not chosen, give its pros, cons, and the specific reason it was rejected. An empty Alternatives section fails review.
 5. **Set the final status.** Change `Proposed` to `Accepted` once the decision is ratified. Do not touch any other field after acceptance.
 6. **Supersede when the decision changes.** Run `pantheon-adr supersede <old-number> "<New Title>"`. This flips the old record's Status to `Superseded by ADR-NNNN` and creates a new Accepted record that references the old one. **Verify:** `pantheon-adr list` shows the old record as superseded and the new record directly after it.
+
+### Deriving an ADR from an existing document
+
+Sometimes step 3 isn't a blank page: the decision was already made and
+written down in a design doc, review, or planning note, and the task is to
+capture it as an ADR rather than author it from scratch. The steps above
+still apply — the record is still created with `pantheon-adr new` and still
+goes through the same statuses — but recognizing that a document actually
+contains a binding decision, and linking the new ADR back to it for
+provenance, takes more care than filling in a decision you just made
+yourself. See [Deriving an ADR from an Existing Document](references/context-extraction.md)
+for how to spot the decision and record the source link.
 
 ## Quick Commands
 
@@ -135,5 +148,6 @@ Expected result: the record is created under `architecture/decisions`.
 
 - [ADR Lifecycle](references/adr-lifecycle.md) — status transitions, superseding chains, and why accepted records are immutable
 - [CLI Usage](references/cli-usage.md) — every adr command, its flags, the ADR_DIR variable, and exit behaviour
+- [Deriving an ADR from an Existing Document](references/context-extraction.md) — recognizing a binding decision already written down in a design doc, review, or planning note, and linking the new ADR back to it for provenance
 - [Documenting Architecture Decisions](https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions) — Michael Nygard's original essay grounding the ADR practice
 - [MADR templates](https://adr.github.io/madr/) — widely used Markdown ADR template variants for comparison
