@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "context-frontmatter",
+  "title": "Context file frontmatter",
+  "description": "YAML frontmatter required on every .context/<typology>/*.md file produced by scripts/create-context-file.sh.",
+  "type": "object",
+  "required": ["title", "type", "date", "status", "tags"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable title matching the H1 heading."
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "finding",
+        "plan",
+        "guide",
+        "follow-up",
+        "merge-request",
+        "ticket",
+        "decision",
+        "note",
+        "research"
+      ],
+      "description": "Singular form of the typology folder (findings/ -> finding, plans/ -> plan, guides/ -> guide, follow-ups/ -> follow-up, merge-requests/ -> merge-request, tickets/ -> ticket, decisions/ -> decision, notes/ -> note, research/ -> research). Must stay in sync with KNOWN_TYPES and singular_of() in scripts/create-context-file.sh. A one-off typology created with --allow-new-type intentionally falls outside this enum; extend it only when that typology is promoted into KNOWN_TYPES."
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Creation date in ISO 8601 format (YYYY-MM-DD), set once by the generator. Do not update on subsequent edits."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "done"],
+      "description": "Lifecycle status. The generator always writes active; flip to done once the file is retired, closed, or actioned (see the lifecycle column in references/typologies.md)."
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Free-form tags. The generator always emits this key, writing an empty array (tags: []) when no --tags were given."
+    },
+    "related": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Relative paths to related .context files. Omit the field entirely if there are no related files -- never emit related: []."
+    }
+  }
+}
