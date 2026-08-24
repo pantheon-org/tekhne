@@ -10,7 +10,7 @@ interface AuditInfo {
 export const getLatestAuditInfo = async (
   skillRelativePath: string,
 ): Promise<AuditInfo | null> => {
-  const auditBase = join(".context/audits", skillRelativePath);
+  const auditBase = join("skills", skillRelativePath, ".audits");
 
   if (!existsSync(auditBase)) {
     return null;

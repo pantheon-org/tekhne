@@ -47,7 +47,7 @@ enum Command {
         /// Emit JSON output.
         #[arg(long)]
         json: bool,
-        /// Persist result to .context/audits/.
+        /// Persist result to skills/<domain>/<skill>/.audits/.
         #[arg(long)]
         store: bool,
         /// Repo root (auto-detected if empty).
@@ -62,7 +62,7 @@ enum Command {
         /// Emit JSON array output.
         #[arg(long)]
         json: bool,
-        /// Persist each result to .context/audits/.
+        /// Persist each result to skills/<domain>/<skill>/.audits/.
         #[arg(long)]
         store: bool,
         /// Exit 1 if any skill scores below this grade (e.g. B+).
@@ -74,7 +74,7 @@ enum Command {
     },
     /// Detect duplication across skills (line-overlap or composite similarity).
     Duplication(DuplicationArgs),
-    /// Prune old audit snapshots under .context/audits, keeping the most recent.
+    /// Prune old audit snapshots under skills/**/.audits, keeping the most recent.
     PruneAudits(PruneAuditsArgs),
     /// Draft an aggregation plan for a skill family (skills sharing a prefix).
     PlanAggregation(PlanAggregationArgs),
@@ -98,7 +98,7 @@ struct PruneAuditsArgs {
     /// Number of snapshots to keep per skill.
     #[arg(long, default_value_t = prune::DEFAULT_KEEP)]
     keep: usize,
-    /// Audits root (defaults to `<repo-root>/.context/audits`).
+    /// Audits root (defaults to `<repo-root>/skills`).
     #[arg(long = "audits-dir")]
     audits_dir: Option<String>,
     /// Report what would be removed without deleting anything.
@@ -426,15 +426,15 @@ fn print_batch_table(entries: &mut [Entry]) {
     println!("Total: {} skill(s)  Average: {avg}/140", entries.len());
 }
 
-/// Prune old audit snapshots under `.context/audits`, keeping the most recent
-/// `--keep` per skill.
+/// Prune old audit snapshots under each skill's `.audits/` directory,
+/// keeping the most recent `--keep` per skill.
 fn run_prune_audits(args: PruneAuditsArgs) -> std::result::Result<(), String> {
     let audits_root = match &args.audits_dir {
         Some(dir) => PathBuf::from(dir),
         None => {
             let repo_root = resolve_repo_root(args.repo_root.as_deref())
                 .map_err(|e| format!("cannot determine repo root: {e}"))?;
-            repo_root.join(".context").join("audits")
+            repo_root.join("skills")
         }
     };
 

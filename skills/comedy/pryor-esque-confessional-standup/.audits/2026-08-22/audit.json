@@ -1,0 +1,24 @@
+{
+  "skill": "comedy/pryor-esque-confessional-standup",
+  "date": "2026-08-22",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 124,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 149,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

@@ -1,4 +1,4 @@
-//! Persist audit artefacts to `.context/audits/` (Go `reporter.Store`).
+//! Persist audit artefacts next to the audited skill (Go `reporter.Store`).
 
 use super::{analysis, remediation};
 use crate::scorer::Result;
@@ -6,14 +6,17 @@ use std::io;
 use std::path::Path;
 
 /// Write `audit.json`, `Analysis.md` and `Remediation.md` to
-/// `<repo_root>/.context/audits/<skill_path>/<date>/`, each via a temp file
+/// `<repo_root>/skills/<skill_path>/.audits/<date>/`, each via a temp file
 /// and atomic rename (Go `Store`). `audit.json` uses 2-space indentation to
-/// match Go's `json.MarshalIndent`.
+/// match Go's `json.MarshalIndent`. The leading dot on `.audits` keeps it
+/// exempt from the skill-structure validator's allowed-subdirectory check
+/// (see `skill-validator-rs`'s dot-directory skip), the same way
+/// `.tessl-plugin` already is.
 pub fn store(repo_root: &Path, skill_path: &str, r: &Result) -> io::Result<()> {
     let dir = repo_root
-        .join(".context")
-        .join("audits")
+        .join("skills")
         .join(skill_path)
+        .join(".audits")
         .join(&r.date);
 
     std::fs::create_dir_all(&dir)?;
@@ -75,9 +78,9 @@ mod tests {
         store(root.path(), skill, &make_store_result()).unwrap();
         let expected = root
             .path()
-            .join(".context")
-            .join("audits")
+            .join("skills")
             .join(skill)
+            .join(".audits")
             .join(TEST_DATE)
             .join("audit.json");
         assert!(expected.exists());
@@ -90,9 +93,9 @@ mod tests {
         store(root.path(), skill, &make_store_result()).unwrap();
         let dest = root
             .path()
-            .join(".context")
-            .join("audits")
+            .join("skills")
             .join(skill)
+            .join(".audits")
             .join(TEST_DATE)
             .join("audit.json");
         let data = std::fs::read_to_string(&dest).unwrap();

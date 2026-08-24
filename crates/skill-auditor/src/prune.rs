@@ -1,10 +1,10 @@
-//! Prune old audit snapshots under `.context/audits`.
+//! Prune old audit snapshots under each skill's `.audits/` directory.
 //!
 //! Ports `prune-audits.sh`, reconciled to the Rust reporter's on-disk layout.
 //! The shell assumed `.context/audits/skill-audit/<date>/` with a `latest`
-//! symlink; the Rust reporter (see `reporter::store`) writes
-//! `.context/audits/<skill>/<date>/`, where `<skill>` is a `domain/skill-name`
-//! path. This walks any depth and, for every directory that directly contains
+//! symlink; the Rust reporter (see `reporter::store`) now writes
+//! `skills/<domain>/<skill>/.audits/<date>/`, next to the skill it audited.
+//! This walks any depth and, for every directory that directly contains
 //! date-named snapshot subdirectories, keeps the `keep` most recent and removes
 //! the rest. ISO `YYYY-MM-DD` names sort lexicographically in date order, so
 //! "most recent" is a reverse name sort.
@@ -17,7 +17,7 @@ pub const DEFAULT_KEEP: usize = 5;
 /// A directory of dated snapshots and the prune decision for it.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PrunePlan {
-    /// The directory holding the dated snapshots (e.g. `.context/audits/d/s`).
+    /// The directory holding the dated snapshots (e.g. `skills/d/s/.audits`).
     pub dir: PathBuf,
     /// Snapshot dates retained, most recent first.
     pub kept: Vec<String>,

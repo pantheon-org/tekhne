@@ -1,0 +1,24 @@
+{
+  "skill": "software-engineering/how",
+  "date": "2026-08-22",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 118,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 279,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

@@ -654,7 +654,7 @@ Review a saved standards document via a one-standard-at-a-time interview. Prompt
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [why](/tekhne/skills/software-engineering/why/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ### troubleshoot
 
@@ -678,7 +678,7 @@ Sense-making before action. Classify problem using Cynefin triangulation (3 test
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [how](/tekhne/skills/software-engineering/how/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ### simplicity-principles
 
@@ -694,7 +694,7 @@ Use when designing solutions, adding features, or refactoring by applying KISS, 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [blast-radius](/tekhne/skills/software-engineering/blast-radius/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ### bridge
 
@@ -1158,7 +1158,7 @@ Write clear, testable acceptance criteria for user stories and feature delivery;
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [issue-tracker-toolkit-acceptance-criteria](/tekhne/skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
+| [issue-tracker-toolkit-acceptance-criteria](/tekhne/skills/project-mgmt/issue-tracker-toolkit/acceptance-criteria/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-03-02 | 8 |
 
 ### issue-tracker-toolkit-moscow-prioritization
 
@@ -1166,7 +1166,7 @@ MoSCoW prioritization: categorize requirements into Must Should Could Won't tier
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [issue-tracker-toolkit-moscow-prioritization](/tekhne/skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 8 |
+| [issue-tracker-toolkit-moscow-prioritization](/tekhne/skills/project-mgmt/issue-tracker-toolkit/moscow-prioritization/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-02 | 8 |
 
 ### nasa-pm-lessons
 
@@ -1174,7 +1174,7 @@ MoSCoW prioritization: categorize requirements into Must Should Could Won't tier
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+| [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-08-22 | 5 |
 
 ### plan-review
 
