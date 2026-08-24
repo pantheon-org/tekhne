@@ -1,0 +1,1 @@
+Run a fully grounded, parallel, multi-role design debate on a multi-file decision and produce a synthesized, schema-valid, explicitly-persisted verdict.

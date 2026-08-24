@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Evaluates whether the agent respects design-debate's scope boundary when a plan file already exists, redirecting to plan-review instead of running a debate.",
+  "checklist": [
+    {
+      "name": "Detects existing plan file",
+      "description": "Agent notices the referenced path is an already-written plan file, not an undecided idea",
+      "max_score": 16
+    },
+    {
+      "name": "States scope mismatch explicitly",
+      "description": "Agent explicitly says this request falls outside design-debate's scope",
+      "max_score": 16
+    },
+    {
+      "name": "Names plan-review",
+      "description": "Agent names plan-review by name as the correct tool for reviewing an existing plan",
+      "max_score": 14
+    },
+    {
+      "name": "No roles spawned",
+      "description": "No Advocate/Skeptic/Migration-Risk subagents are spawned",
+      "max_score": 12
+    },
+    {
+      "name": "No brief composed",
+      "description": "No identical-brief grounding step is performed for a debate that shouldn't run",
+      "max_score": 8
+    },
+    {
+      "name": "No verdict synthesized",
+      "description": "No proceed/do_not_proceed_for_now/proceed_with_modification verdict is fabricated",
+      "max_score": 12
+    },
+    {
+      "name": "No finding persisted",
+      "description": "No context-file finding is written for this request",
+      "max_score": 8
+    },
+    {
+      "name": "No known-issue persisted",
+      "description": "No context-file KNOWN_ISSUE is written for this request",
+      "max_score": 6
+    },
+    {
+      "name": "No silent redirect",
+      "description": "The redirect is stated to the user, not just silently assumed",
+      "max_score": 4
+    },
+    {
+      "name": "No adr-capture invoked",
+      "description": "adr-capture is not triggered since no debate verdict exists to reveal a decision",
+      "max_score": 4
+    }
+  ]
+}

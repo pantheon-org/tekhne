@@ -1,0 +1,1 @@
+Infer this repo's plan section and naming conventions from existing .context/plans/ files instead of hardcoding a generic template.

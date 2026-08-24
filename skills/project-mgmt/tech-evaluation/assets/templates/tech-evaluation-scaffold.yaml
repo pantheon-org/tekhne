@@ -1,0 +1,52 @@
+# Tech evaluation scaffold template
+# Schema: ../schemas/tech-evaluation.schema.json
+#
+# Produced by a research subagent dispatched by the tech-evaluation skill, then
+# validated against the schema before being rendered into a human-readable
+# .context/findings/*.md FINDING (via the context-file skill's template).
+#
+# Sections:
+# - title / technology / alternatives_considered : what is being evaluated and against what
+# - questions       : one entry per evaluation dimension, each with a verdict AND cited evidence
+# - recommendation  : exactly one verdict, a non-hedging rationale, and one concrete next action
+
+evaluation:
+  title: "Evaluating <technology> as <the role it would play>"
+  technology: "<name> (<npm package / repo URL / spec link>)"
+  alternatives_considered:
+    - "<other option already ruled out or compared against>"
+  questions:
+    - id: "correctness"
+      question: "Does it produce correct output for this specific use case (escaping, encoding, type handling)?"
+      verdict: "<direct answer, not a restatement of the question>"
+      evidence:
+        - claim: "<what was found>"
+          source: "<file:line, URL, or specific doc reference -- not 'the docs'>"
+    - id: "integration_fit"
+      question: "Does its API/output shape map cleanly onto what the calling code actually needs?"
+      verdict: "<...>"
+      evidence:
+        - claim: "<...>"
+          source: "<...>"
+    - id: "footprint"
+      question: "What does adopting it cost in dependencies, bundle size, and build/runtime constraints?"
+      verdict: "<...>"
+      evidence:
+        - claim: "<...>"
+          source: "<...>"
+    - id: "maturity"
+      question: "Is it actively maintained, adopted, and free of known security advisories?"
+      verdict: "<...>"
+      evidence:
+        - claim: "<...>"
+          source: "<...>"
+    - id: "practical_fit"
+      question: "Given the actual scale of this problem, does the tool's complexity match the need?"
+      verdict: "<...>"
+      evidence:
+        - claim: "<...>"
+          source: "<...>"
+  recommendation:
+    verdict: "adopt" # adopt | keep_current | reject | needs_more_research
+    rationale: "<why, referencing the questions above -- no hedging ('it depends') allowed>"
+    single_action: "<one imperative sentence: what to do next>"

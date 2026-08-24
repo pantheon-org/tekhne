@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 90,
+    "total_instructions": 20,
+    "covered_instructions": 18,
+    "notes": "scenario-1 exercises the full happy-path flow (grounding, brief, roles, parallel spawn, synthesis, persistence, handoff); scenario-2 exercises the scope boundary against plan-review; scenario-3 exercises the do_not_proceed_for_now / revisit-trigger / known-issue path; scenario-4 exercises the per-role known-issue rule under an otherwise proceed verdict. Not separately scenario-tested: the socratic-method scope boundary and the single-model preference note, both narrow preference-type instructions."
+  }
+}

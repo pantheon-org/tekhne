@@ -1,0 +1,79 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER mutate the register, the tech-debt list, or a follow-up's status from inside this skill (Rule 1) -- report and recommend only, then hand off to follow-up-triage's flow, risk-register, tech-debt, or plan-create for the actual write."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "Zero ACTIVE follow-ups is not 'nothing to do' (Rule 2) -- fall through to Open register/tech-debt rows and the context index's DRAFT/ACTIVE PLAN/FINDING/KNOWN_ISSUE entries rather than reporting an empty follow-up list as the whole answer."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "Ground the 'next best item' pick in the value-rubric read protocol wherever it applies (Rule 3); a pick sourced from the register or tech-debt list instead is a qualitative judgment call and must be labeled as such, since those rows carry no value field."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "If the context index looks stale, regenerate it via the context-index skill before trusting it (Rule 4) -- compare its header entry count against the actual file count under .context/."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "An ACTIVE follow-up outranks a silently-pending backlog row (Rule 5) -- lead the recommendation with it rather than the value-rubric or register/tech-debt pools."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Workflow step 1: run the freshness check (index header count vs. actual file count) before building the candidate pool."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Workflow step 2: sweep .context/follow-ups/*.md for status: ACTIVE entries; for each, read Context + Outstanding Work, check for an existing matching Open register/tech-debt row, and classify its disposal without filing anything."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Workflow step 3: build the wider candidate pool -- apply the value-rubric read protocol over PLAN/FINDING/KNOWN_ISSUE entries, and separately collect Open rows from the register and the tech-debt list."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Workflow step 4: synthesize exactly one recommendation in Rule 5's priority order (ACTIVE follow-up, then value-rubric top pick, then a labeled qualitative judgment call), always stating why the pick beats the runner-up."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Workflow step 5: report using the Follow-up status / Wider backlog / Recommended next item structure, then stop -- offer the relevant handoff skill rather than acting on the recommendation."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER report 'no open follow-ups' as the complete answer to /follow-up -- an empty follow-up list is the expected steady state once items are promoted or closed, and the real backlog usually still lives in the register and tech-debt list."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER invent a value ranking (HIGH/MEDIUM/LOW) for a register or tech-debt row -- those rows have no value field and were never graded against the value-rubric protocol."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER promote, close, or edit a row or follow-up from inside this skill, even when the right disposition is obvious -- always propose the action and wait for the user to confirm before any write happens."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip the freshness check and trust a possibly-stale context index -- a stale-but-present index never errors the way a missing file would, so a newly filed or newly closed follow-up can silently go unnoticed."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER present a register/tech-debt-sourced pick with the same confidence as a value-rubric-sorted pick -- always flag the former as this skill's own qualitative judgment call, not rubric output."
+    }
+  ]
+}

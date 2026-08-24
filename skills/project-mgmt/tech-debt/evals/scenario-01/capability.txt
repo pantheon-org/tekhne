@@ -1,0 +1,1 @@
+File a genuine tech-debt row in docs/TECH_DEBT.md with correct due diligence, numbering, description, and schema validation.

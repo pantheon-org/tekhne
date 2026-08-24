@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent applies Rule 3's resolving-direction check: promoting a revealed risk to risk-register before deleting the tech-debt row that surfaced it.",
+  "checklist": [
+    {
+      "name": "Checks for revealed risk before deleting",
+      "description": "Agent explicitly applies Rule 3 and identifies the flaky/uncovered test suite as a real risk",
+      "max_score": 17
+    },
+    {
+      "name": "Does not delete silently",
+      "description": "Does not immediately delete row #1 without the check",
+      "max_score": 14
+    },
+    {
+      "name": "Promotes to risk-register",
+      "description": "A new docs/RISK_REGISTER.md row is added or explicitly recommended for the flaky/uncovered test suite",
+      "max_score": 17
+    },
+    {
+      "name": "Cross-references by name",
+      "description": "The new risk-register row references tech-debt item #1 by name so the discovery isn't lost",
+      "max_score": 10
+    },
+    {
+      "name": "Row #1 deleted, not marked Resolved",
+      "description": "docs/TECH_DEBT.md row #1 is deleted entirely -- no Resolved status invented",
+      "max_score": 12
+    },
+    {
+      "name": "Explains the two-step reasoning",
+      "description": "Agent tells the user why a second doc got a new row, not just silently doing more than asked",
+      "max_score": 9
+    },
+    {
+      "name": "No append-only invented",
+      "description": "Does not add append-only machinery to tech-debt itself",
+      "max_score": 5
+    },
+    {
+      "name": "Ordering correct",
+      "description": "Risk-register row added before (or atomically with) tech-debt row deletion, not after",
+      "max_score": 5
+    },
+    {
+      "name": "Names the specific finding",
+      "description": "Describes the flaky/uncovered fixture-file test suite concretely, not vaguely",
+      "max_score": 6
+    },
+    {
+      "name": "Validation still run",
+      "description": "Still runs or mentions validate-tech-debt-schema.sh for whatever tech-debt edit remains",
+      "max_score": 5
+    }
+  ]
+}

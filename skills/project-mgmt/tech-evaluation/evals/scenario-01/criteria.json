@@ -1,0 +1,41 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent fixes a proper question set, dispatches a research subagent with evidence-citation and repository-source-checking instructions, validates the schema output, and ends with exactly one non-hedging recommendation.",
+  "checklist": [
+    {
+      "name": "Question set fixed",
+      "description": "Uses the default five dimensions or explicitly justifies a substitution",
+      "max_score": 10
+    },
+    {
+      "name": "Subagent given exact identifiers and alternatives",
+      "description": "Research subagent briefed with the concrete package names and the alternatives already considered",
+      "max_score": 10
+    },
+    {
+      "name": "Evidence-citation instruction given",
+      "description": "Subagent explicitly told to cite a file/line, URL, or doc section for every verdict",
+      "max_score": 15
+    },
+    {
+      "name": "Repository-source check required",
+      "description": "Subagent explicitly told to check the actual Terraform/bundling config rather than assume how Lambda bundling works",
+      "max_score": 20
+    },
+    {
+      "name": "Schema validation run",
+      "description": "validate-tech-evaluation.sh run against the subagent's YAML output before trusting it",
+      "max_score": 15
+    },
+    {
+      "name": "Validation failure handling",
+      "description": "If validation fails, sends it back to the subagent rather than hand-patching",
+      "max_score": 10
+    },
+    {
+      "name": "Single non-hedging recommendation",
+      "description": "Ends with exactly one of adopt/keep_current/reject/needs_more_research and a real rationale, not a comparison table",
+      "max_score": 20
+    }
+  ]
+}

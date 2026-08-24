@@ -1,0 +1,1 @@
+Apply Rule 3's resolving-direction check: promote a risk revealed while fixing a tech-debt row to risk-register before deleting the row.

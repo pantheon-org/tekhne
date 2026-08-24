@@ -1,0 +1,1 @@
+Detect a stale context index via the freshness check and regenerate it before building the candidate pool from it.

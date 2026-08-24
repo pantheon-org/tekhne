@@ -376,7 +376,7 @@ Generate a project-specific web design reference sheet (docs/design/design-refer
 
 ---
 
-## Agentic Harness (20 skills)
+## Agentic Harness (23 skills)
 
 Agent framework configurations
 
@@ -484,6 +484,14 @@ Audit your Claude Code setup against prompt caching best practices. Checks order
 | --- | --- | --- | --- |
 | [cache-audit](/tekhne/skills/agentic-harness/cache-audit/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
+### guided-interview
+
+Conduct a structured, one-question-at-a-time interview to explore a specific top...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [guided-interview](/tekhne/skills/agentic-harness/guided-interview/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
 ### load-context
 
 Resume session from CONTEXT-llm.md. Use when resuming work, loading saved contex...
@@ -491,6 +499,14 @@ Resume session from CONTEXT-llm.md. Use when resuming work, loading saved contex
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [load-context](/tekhne/skills/agentic-harness/load-context/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
+
+### session-reflection
+
+Conduct a two-question session-end reflection to catch blind spots and under-inv...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [session-reflection](/tekhne/skills/agentic-harness/session-reflection/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### agents-md
 
@@ -540,6 +556,14 @@ Recommend optimal Claude model (haiku/sonnet/opus) for a task. Use when user ask
 | --- | --- | --- | --- |
 | [pick-model](/tekhne/skills/agentic-harness/pick-model/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
 
+### rules-management
+
+Manage project-level agent behavioural rules recorded in a single rules file. Us...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [rules-management](/tekhne/skills/agentic-harness/rules-management/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
 ---
 
 ## Testing (3 skills)
@@ -572,7 +596,7 @@ Debug UI changes with a repeatable evidence-first workflow. Use when validating 
 
 ---
 
-## Software Engineering (19 skills)
+## Software Engineering (20 skills)
 
 Software engineering principles
 
@@ -607,6 +631,14 @@ Apply Clean Architecture principles to define layer boundaries, identify depende
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [design-principles-clean-architecture](/tekhne/skills/software-engineering/design-principles/clean-architecture/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-03-04 | 5 |
+
+### design-debate
+
+Stress-test an unwritten idea or decision by spawning independent subagents in g...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [design-debate](/tekhne/skills/software-engineering/design-debate/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### standards-review
 
@@ -1020,9 +1052,17 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (11 skills)
+## Project Management (17 skills)
 
 Planning & organization
+
+### risk-register
+
+Maintain docs/RISK_REGISTER.md, the living, append-only list of every deferred i...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [risk-register](/tekhne/skills/project-mgmt/risk-register/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
 
 ### plan-execute
 
@@ -1031,6 +1071,14 @@ Execute an implementation plan with rigorous checklist-driven verification. Ever
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [plan-execute](/tekhne/skills/project-mgmt/plan-execute/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
+### tech-debt
+
+Maintain docs/TECH_DEBT.md, the living list of code-level cleanup that isn't a r...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [tech-debt](/tekhne/skills/project-mgmt/tech-debt/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### planning-toolkit-wave-executor
 
@@ -1072,6 +1120,22 @@ Regenerates the project's context index (index.yaml) from the YAML frontmatter a
 | --- | --- | --- | --- |
 | [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
+### tech-evaluation
+
+Investigate a candidate library, dependency, or file format against a fixed ques...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [tech-evaluation](/tekhne/skills/project-mgmt/tech-evaluation/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
+### plan-create
+
+Create `.context/plans/*.md` files with standard YAML frontmatter, phases/tasks/...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [plan-create](/tekhne/skills/project-mgmt/plan-create/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
 ### create-context-file
 
 Creates a structured, date-stamped context file filed by typology (findings, pla...
@@ -1111,6 +1175,22 @@ MoSCoW prioritization: categorize requirements into Must Should Could Won't tier
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [nasa-pm-lessons](/tekhne/skills/project-mgmt/nasa-pm-lessons/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### plan-review
+
+Review .context/plans/*.md files using 3 independent subagent reviewers: Technic...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [plan-review](/tekhne/skills/project-mgmt/plan-review/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
+### follow-up
+
+Read-only status check across the follow-up backlog: lists every ACTIVE follow-u...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [follow-up](/tekhne/skills/project-mgmt/follow-up/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ---
 

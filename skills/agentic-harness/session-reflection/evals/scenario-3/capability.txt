@@ -1,0 +1,1 @@
+Withhold the reflection for brief queries, and for deep sessions choose and correctly execute the sub-agent spawn pattern with attribution.

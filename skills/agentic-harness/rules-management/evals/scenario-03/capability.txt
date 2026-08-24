@@ -1,0 +1,1 @@
+Distinguish a memory/ephemeral note from a binding rule, decline to append it as-is, and redirect to the correct home.

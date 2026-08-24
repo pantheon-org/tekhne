@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "debate-verdict",
+  "title": "Design Debate verdict",
+  "description": "Structure for the synthesized output of the design-debate skill.",
+  "type": "object",
+  "required": ["decision", "grounding_facts", "roles", "verdict", "rationale"],
+  "additionalProperties": false,
+  "properties": {
+    "decision": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Precise yes/no or A-vs-B question being debated."
+    },
+    "grounding_facts": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Concrete, checkable facts gathered before spawning reviewers, given identically to all of them."
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["role", "summary", "key_argument"],
+        "additionalProperties": false,
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": ["advocate", "skeptic", "migration_risk"]
+          },
+          "summary": { "type": "string", "minLength": 1 },
+          "key_argument": { "type": "string", "minLength": 1 }
+        }
+      },
+      "description": "At least advocate and skeptic; migration_risk is optional but recommended when the change has real implementation surface."
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["proceed", "do_not_proceed_for_now", "proceed_with_modification"]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Which argument won and why — must reference specific points from the roles, not restate all positions with no resolution."
+    },
+    "revisit_trigger": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Required when verdict is do_not_proceed_for_now: a concrete condition that would reopen the decision."
+    },
+    "persisted_as": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Relative path to the .context/findings/*.md entry this verdict was persisted as, if any."
+    }
+  }
+}

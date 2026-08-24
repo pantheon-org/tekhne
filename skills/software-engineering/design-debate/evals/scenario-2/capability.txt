@@ -1,0 +1,1 @@
+Recognize when a decision is already captured in a written plan file and redirect to plan-review instead of running a debate.

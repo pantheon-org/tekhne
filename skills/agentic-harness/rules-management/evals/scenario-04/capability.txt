@@ -1,0 +1,1 @@
+Detect a near-duplicate rule against the existing file and offer amendment over blind duplication.

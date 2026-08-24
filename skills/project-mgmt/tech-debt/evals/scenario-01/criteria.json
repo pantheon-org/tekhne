@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent files a genuine, well-formed tech-debt row: correct due diligence, correct next-#, self-contained description, correct enum values, and validation.",
+  "checklist": [
+    {
+      "name": "Due diligence stated",
+      "description": "Agent confirms this is genuinely cleanup, not risk/shortcut/decision, before filing",
+      "max_score": 14
+    },
+    {
+      "name": "Correct next #",
+      "description": "New row uses last row's # + 1, not an arbitrary or reused number",
+      "max_score": 14
+    },
+    {
+      "name": "Self-contained description",
+      "description": "Names the file, the unused import, and why the existing gate (warning not error) missed it",
+      "max_score": 16
+    },
+    {
+      "name": "Correct Area",
+      "description": "Area: Code quality from the current taxonomy",
+      "max_score": 10
+    },
+    {
+      "name": "Correct Effort",
+      "description": "Effort: S for a one-line deletion",
+      "max_score": 9
+    },
+    {
+      "name": "Correct Status/Since",
+      "description": "Status: Open, Since is today's date in YYYY-MM-DD",
+      "max_score": 9
+    },
+    {
+      "name": "Validation run",
+      "description": "validate-tech-debt-schema.sh run or its command shown before declaring done",
+      "max_score": 12
+    },
+    {
+      "name": "No append-only ceremony",
+      "description": "Does not add a Resolved status or append-only guard for this row",
+      "max_score": 6
+    },
+    {
+      "name": "Filed in the right doc",
+      "description": "Row filed in docs/TECH_DEBT.md, not RISK_REGISTER.md or skipped entirely",
+      "max_score": 6
+    },
+    {
+      "name": "Template shape matched",
+      "description": "Row matches tech-debt-row-template.yaml's field shapes",
+      "max_score": 4
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent correctly identifies a real risk masquerading as a cleanup request and redirects to risk-register instead of silently filing it as tech debt.",
+  "checklist": [
+    {
+      "name": "Identifies as risk, not cleanup",
+      "description": "Agent explicitly states this carries a real cost/failure mode, not just tidiness",
+      "max_score": 17
+    },
+    {
+      "name": "Declines silent filing",
+      "description": "Does not file the row in docs/TECH_DEBT.md just because asked",
+      "max_score": 17
+    },
+    {
+      "name": "Explains the mechanism reason",
+      "description": "Cites the no-append-only-guard / no-audit-trail distinction as why tech-debt is the wrong home",
+      "max_score": 14
+    },
+    {
+      "name": "Redirects to risk-register",
+      "description": "Offers or performs filing via the risk-register skill / docs/RISK_REGISTER.md instead",
+      "max_score": 16
+    },
+    {
+      "name": "Pushes back once, not silently compliant",
+      "description": "If the user insists, the agent still states the reasoning before doing anything, rather than complying immediately",
+      "max_score": 9
+    },
+    {
+      "name": "Does not double-file",
+      "description": "Does not file the same item redundantly in both docs",
+      "max_score": 6
+    },
+    {
+      "name": "Still helpful",
+      "description": "Does not simply refuse -- offers a concrete path forward",
+      "max_score": 6
+    },
+    {
+      "name": "Correct doc boundary language used",
+      "description": "Uses this skill's own When NOT to Use framing rather than inventing new reasoning",
+      "max_score": 5
+    },
+    {
+      "name": "Names the concrete failure mode",
+      "description": "States what actually breaks (silent rejection/spam-foldering to real recipients), not a vague 'it's risky'",
+      "max_score": 6
+    },
+    {
+      "name": "No fabricated confidence",
+      "description": "Does not claim the risk is already tracked elsewhere without checking",
+      "max_score": 4
+    }
+  ]
+}

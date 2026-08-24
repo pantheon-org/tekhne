@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent infers section conventions from existing plans rather than hardcoding a generic template, and follows the majority file-naming convention.",
+  "checklist": [
+    {
+      "name": "Convention scan performed",
+      "description": "grep-based H2 frequency scan run or explicitly described before drafting",
+      "max_score": 16
+    },
+    {
+      "name": "Core/common/rare classification",
+      "description": "Sections classified by the >=40% / 20-39% / <20% thresholds",
+      "max_score": 12
+    },
+    {
+      "name": "No hardcoded skeleton",
+      "description": "Does not default to Goal->Steps->Open Questions without evidence",
+      "max_score": 13
+    },
+    {
+      "name": "File naming follows majority",
+      "description": "Timestamped vs topic-only chosen based on the scan, not arbitrarily",
+      "max_score": 10
+    },
+    {
+      "name": "Required sections always present",
+      "description": "Goal, Phases, Open Questions present regardless of scan result",
+      "max_score": 11
+    },
+    {
+      "name": "Optional sections justified",
+      "description": "Any included optional section (Scope, Risks, Verification) is tied to the frequency evidence",
+      "max_score": 9
+    },
+    {
+      "name": "Template referenced",
+      "description": "assets/templates/plan-scaffold.yaml used as the drafting structure",
+      "max_score": 7
+    },
+    {
+      "name": "No invented conventions",
+      "description": "No section names presented as 'the convention' without evidence from real plans",
+      "max_score": 7
+    },
+    {
+      "name": "Frontmatter still valid",
+      "description": "effort/value/themes/status/date still present despite the open-ended prompt",
+      "max_score": 8
+    },
+    {
+      "name": "Reasoning shown",
+      "description": "Agent states why it picked the sections/name it picked, not just the result",
+      "max_score": 7
+    }
+  ]
+}

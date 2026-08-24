@@ -1,0 +1,1 @@
+Recognize a real risk disguised as a cleanup request and redirect it to risk-register instead of silently filing it as tech debt.

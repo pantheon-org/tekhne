@@ -1,0 +1,30 @@
+# Template for a Design Debate verdict. Fields map 1:1 to
+# assets/schemas/debate-verdict.schema.json — validate a filled-in copy with
+# scripts/validate-debate-verdict.sh before presenting or persisting it.
+
+decision: "Precise yes/no or A-vs-B question being debated"
+
+grounding_facts:
+  - "Concrete, checkable fact gathered before spawning reviewers"
+  - "Another one — every reviewer received these verbatim"
+
+roles:
+  - role: advocate
+    summary: "The strongest real case for the change, in one or two sentences"
+    key_argument: "The single sharpest point this role raised"
+  - role: skeptic
+    summary: "The strongest real case against, in one or two sentences"
+    key_argument: "The single sharpest point this role raised"
+  - role: migration_risk
+    summary: "What would concretely break or need updating if the change happened (omit this role if not used)"
+    key_argument: "The single sharpest point this role raised"
+
+verdict: "proceed | do_not_proceed_for_now | proceed_with_modification"
+
+rationale: >
+  Which argument won and why, referencing the specific points above — not a
+  restatement of all three positions with no resolution.
+
+revisit_trigger: "Concrete condition that would reopen this decision (required if verdict is do_not_proceed_for_now, omit otherwise)"
+
+persisted_as: "relative/path/to/.context/findings/*.md (omit if not persisted)"

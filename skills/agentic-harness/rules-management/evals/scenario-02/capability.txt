@@ -1,0 +1,1 @@
+Refuse to copy a vague instruction verbatim as a rule; clarify or reformat it into a precise, checkable directive first.

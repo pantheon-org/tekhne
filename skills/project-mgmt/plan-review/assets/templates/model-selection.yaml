@@ -1,0 +1,20 @@
+# Model selection question template
+# Schema: ../schemas/model-selection.schema.json
+#
+# Used by the plan-review skill in step 5 to ask the user which models
+# to assign to the 3 subagent reviewers. The main agent fills in the
+# options based on the user's environment (Zen, Go, Claude Code, BYOK).
+#
+# environment         : opencode-zen | opencode-go | claude-code | byok
+# question_text       : shown to the user as the question header
+# options             : list of selectable model pair options
+
+model_selection:
+  environment: "<zen | go | claude | byok>"
+  question_text: "I'll use 3 subagent reviewers (Technical, Strategic, Risk). Which models should they use? Technical and Strategic share one model ('general' type), Risk uses a different one ('explore' type) for fresh perspective."
+  options:
+    - label: "<option-label>"
+      description: "<cost and rationale>"
+      recommended: false
+      technical_strategic: "<model>"
+      risk: "<model>"

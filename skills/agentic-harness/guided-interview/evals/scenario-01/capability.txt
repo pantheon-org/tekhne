@@ -1,0 +1,1 @@
+Run a fully adaptive, one-question-at-a-time interview with concrete options, and recap-and-confirm before synthesizing an answer.

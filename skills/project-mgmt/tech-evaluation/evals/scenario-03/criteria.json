@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent correctly recognizes a decision already settled by an existing ADR as out of scope for this skill, checks for the ADR before doing any research work, and redirects to the ADR-supersession path instead of producing a duplicate evaluation.",
+  "checklist": [
+    {
+      "name": "Checks for an existing ADR first",
+      "description": "Looks for a governing ADR before dispatching any research",
+      "max_score": 25
+    },
+    {
+      "name": "Recognizes out-of-scope condition",
+      "description": "Explicitly identifies this as the 'already settled by an ADR' non-use case",
+      "max_score": 25
+    },
+    {
+      "name": "No subagent dispatched",
+      "description": "Does not run the research/validation workflow for an already-settled decision",
+      "max_score": 20
+    },
+    {
+      "name": "Correct redirect",
+      "description": "Points to superseding the ADR as the correct path, not a new finding",
+      "max_score": 20
+    },
+    {
+      "name": "Handles new-evidence case correctly",
+      "description": "If new evidence is claimed, still routes to ADR supersession rather than a duplicate finding",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Treat schema validation as a hard gate on a tech-evaluation YAML, correctly diagnosing failures and refusing to hand-patch them into a cosmetic pass.

@@ -1,0 +1,10 @@
+# Shape of a single docs/TECH_DEBT.md row -- the human-readable illustration.
+# Enforced constraints live in assets/schemas/tech-debt-row.schema.json; keep this
+# template's shape and that schema in sync if either changes.
+id: 1 # integer, a simple row number -- freely reused after a row is deleted, no permanence claim
+item: "Short name, not a sentence"
+area: "Code quality" # from a small evolving taxonomy tracked in SKILL.md, not a closed enum
+description: "Self-contained: what's wrong, where, and why existing gates didn't catch it."
+effort: "S" # one of: S | M | L -- sizing only; put a suggested fix approach in description
+since: "2026-07-31" # YYYY-MM-DD, the date the row was created
+status: "Open" # "Open" | "In Progress" -- no "Resolved": a resolved row is deleted, not archived

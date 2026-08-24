@@ -1,0 +1,1 @@
+Split a flat, oversized task list into properly sized phases (<=8 tasks each) with waves and exit criteria, instead of transcribing it unchanged.

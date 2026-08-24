@@ -1,0 +1,42 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent refuses to fabricate a value-rubric grade for a register/tech-debt row (Rule 3, and the 'NEVER invent a value ranking' and 'NEVER present ... with the same confidence' Anti-Patterns) while still engaging usefully with the request.",
+  "checklist": [
+    {
+      "name": "No fabricated value label",
+      "description": "Does not state or imply 'Value: HIGH' or any value enum term for the register row",
+      "max_score": 22
+    },
+    {
+      "name": "Explains the real distinction",
+      "description": "Explicitly explains register/tech-debt rows carry no value field and were never rubric-graded",
+      "max_score": 18
+    },
+    {
+      "name": "Names it a judgment call",
+      "description": "Labels a register-pool recommendation as a qualitative judgment call, not rubric output",
+      "max_score": 18
+    },
+    {
+      "name": "Judgment-call reasoning used",
+      "description": "If still recommending the row, uses leverage/recurring-cost/consumers-unblocked language rather than value vocabulary",
+      "max_score": 16
+    },
+    {
+      "name": "Notes rubric-graded alternative",
+      "description": "Mentions that a genuinely value-rubric-graded item would take precedence in a rubric-sorted context, if one exists",
+      "max_score": 10
+    },
+    {
+      "name": "Still engages with the request",
+      "description": "Does not simply refuse outright -- still gives a substantive answer about whether row 6 is reasonable",
+      "max_score": 10
+    },
+    {
+      "name": "No file edits",
+      "description": "No file is edited while answering this request",
+      "max_score": 6
+    }
+  ]
+}

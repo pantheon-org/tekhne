@@ -1,0 +1,5 @@
+# Rule Entry Template
+# Usage: yq eval ".title = \"$TITLE\" | .directive = \"$DIRECTIVE\" | .rationale = \"$RATIONALE\"" assets/templates/rule-entry.yaml | ./scripts/validate-rules.sh
+title: ""
+directive: ""
+rationale: ""

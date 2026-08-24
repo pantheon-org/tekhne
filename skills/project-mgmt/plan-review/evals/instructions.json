@@ -1,0 +1,79 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip the plan brief and just pass the file path to a reviewer -- subagents cannot read files unless they have general-type file access, so each reviewer needs a self-contained brief."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER spawn the 3 reviewers sequentially -- they are fully independent, so sequential spawning wastes time and context. Always use parallel tool calls."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER proceed without asking the user which models to use for the 3 reviewers -- model diversity is the main lever for catching different blind spots, and skipping the question silently defaults to a single model for all reviewers."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER present raw subagent output without attribution -- the user needs to know which perspective (Technical/Strategic/Risk) produced each finding."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER give a different plan brief to different reviewers -- the whole point is that different reviewers reach different conclusions from the same information."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER use the same subagent type for all 3 reviewers -- mix general and explore, since model/agent diversity is what prevents all 3 converging on the same blind spots."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER leave a decision-type finding sitting in Open Questions after presenting the report -- Step 10's classify-and-resolve step is not optional; a report is a snapshot, not a commitment."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Compose a self-contained plan brief (title, status, date, goal, steps, dependencies, open questions, risks) before spawning any reviewer."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Validate the plan's frontmatter and infer its body-section conventions from existing plans before compiling the brief; include structural issues in the brief so all 3 reviewers can reference them."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Check opencode.json for existing subAgents configuration before asking the user anything about model selection -- skip the question if at least two distinct models are already configured."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Spawn Technical (general), Strategic (general), and Risk (explore) in a single message with 3 parallel tool calls, each with the same brief prefixed by a role-specific prompt."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "After presenting the consolidated report, classify every critical_issues/moderate_concerns item as Editorial (apply directly) or Decision (run a one-question-at-a-time interview, then record in a ## Decisions section) before treating the review as finished."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "A ## Decisions heading is an adr-capture trigger -- run adr-capture before treating a Step 10 amendment as done, since the pre-commit hook blocks the commit otherwise."
+    },
+    {
+      "type": "guidance",
+      "why_given": "preference",
+      "content": "A plan review is a service to the plan author, not a judgement -- findings should be actionable, not critical."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "If a reviewer fails to return results, re-spawn it individually with the same brief; if it fails twice, proceed with the remaining reviews and note the missing perspective."
+    }
+  ]
+}

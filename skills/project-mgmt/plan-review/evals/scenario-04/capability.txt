@@ -1,0 +1,1 @@
+Handle a failed reviewer subagent by re-spawning once, then proceeding with the remaining reviewers and disclosing the missing perspective rather than fabricating it.

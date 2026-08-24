@@ -1,0 +1,79 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Ask exactly ONE question per turn via AskUserQuestion -- never bundle multiple questions into one call even though the tool nominally supports up to four."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Every question offers 3-4 concrete, mutually exclusive options, each with a short description of what picking it implies or its main tradeoff -- never a bare label alone."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "The free-text/\"Other\" path must always remain open, whether via AskUserQuestion's automatic handling or an explicit invitation in plain chat."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Let the previous answer choose the next question -- work adaptively instead of marching through a fixed list irrespective of what was answered."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Stop as soon as you have enough to act; most interviews resolve in 3-6 questions."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Recap every answer in a short bulleted list and get explicit confirmation before finalizing, unless the user has explicitly waived the recap."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Only after confirmation, produce the output -- default to a synthesized chat answer; write a file only when the interview is clearly feeding downstream work the user already asked for."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER ask more than one question per turn, even as a single AskUserQuestion call bundling several -- it forces the user to hold several decisions in mind and breaks the adaptive chain."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER offer fewer than 3 or more than 4 options on a question that has a real decision space -- two options force a false binary, five or more overloads working memory."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER hide or omit the free-text path -- concrete options speed up the common case but the user's actual answer may not be listed."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER keep asking after the user gives a clear \"here's my answer, let's move on\" or \"just decide\" signal."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let the recap silently drop, merge, or reinterpret an answer -- the recap is the user's only checkpoint before the output is produced."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER produce a written file the user did not ask for and that isn't clearly needed by downstream work."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "PREFER a direct answer instead of opening the interview when the ask is mechanical or the user is visibly time-constrained."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "TYPICALLY the whole interview resolves in 3-6 questions -- treat that as a rough budget, not a hard cap."
+    }
+  ]
+}

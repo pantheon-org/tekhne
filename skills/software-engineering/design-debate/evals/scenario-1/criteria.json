@@ -1,0 +1,62 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent runs the full design-debate flow correctly on a multi-file, downstream-consumer decision: precise framing, grounding, identical briefs, opposing roles including Migration/Risk, parallel spawn, synthesized verdict, schema validation, explicit persistence, and handoff.",
+  "checklist": [
+    {
+      "name": "Precise decision framing",
+      "description": "Decision restated as an explicit A-vs-B choice before roles are assigned",
+      "max_score": 10
+    },
+    {
+      "name": "Grounding before positions",
+      "description": "Concrete investigation (call sites, size, blast radius) performed before the debate starts",
+      "max_score": 12
+    },
+    {
+      "name": "Identical brief",
+      "description": "All reviewers receive the same decision and the same grounding facts",
+      "max_score": 8
+    },
+    {
+      "name": "Opposing roles assigned",
+      "description": "Advocate and Skeptic assigned with genuinely opposing stances, not neutral framing",
+      "max_score": 10
+    },
+    {
+      "name": "Migration/Risk role included",
+      "description": "Migration/Risk role added because the change touches multiple files and a downstream consumer",
+      "max_score": 10
+    },
+    {
+      "name": "Parallel spawn",
+      "description": "All reviewers spawned in a single message/batch rather than sequentially",
+      "max_score": 12
+    },
+    {
+      "name": "Synthesized verdict",
+      "description": "A verdict names which argument held up and picks one of proceed/do_not_proceed_for_now/proceed_with_modification",
+      "max_score": 14
+    },
+    {
+      "name": "No raw opinion dump",
+      "description": "Reviewer output is not presented as the final answer without synthesis",
+      "max_score": 8
+    },
+    {
+      "name": "Schema validation run",
+      "description": "The verdict is checked against the debate-verdict schema before being treated as final",
+      "max_score": 8
+    },
+    {
+      "name": "Explicit persistence ask",
+      "description": "The agent asks the user explicitly before persisting the outcome",
+      "max_score": 4
+    },
+    {
+      "name": "Correct artifact + handoff",
+      "description": "Outcome recorded as finding/known-issue per verdict, and a proceed verdict hands off to plan-create with facts carried forward",
+      "max_score": 4
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent skips a redundant model-selection question, handles a failed reviewer by re-spawning once, and discloses a persisting gap rather than fabricating or silently omitting it.",
+  "checklist": [
+    {
+      "name": "Skips redundant question",
+      "description": "Does not ask about model selection since the user already specified models",
+      "max_score": 16
+    },
+    {
+      "name": "Parallel spawn maintained",
+      "description": "All 3 reviewers still spawned together initially",
+      "max_score": 12
+    },
+    {
+      "name": "Re-spawns failed reviewer",
+      "description": "Risk reviewer is re-spawned at least once with the identical brief after failing",
+      "max_score": 20
+    },
+    {
+      "name": "Proceeds with 2/3 if still failing",
+      "description": "If Risk fails twice, proceeds with Technical + Strategic rather than blocking entirely",
+      "max_score": 14
+    },
+    {
+      "name": "Discloses the gap",
+      "description": "Final report explicitly states the Risk perspective is missing and why",
+      "max_score": 16
+    },
+    {
+      "name": "No fabricated findings",
+      "description": "No invented Risk-section findings used to paper over the missing perspective",
+      "max_score": 12
+    },
+    {
+      "name": "Correct attribution preserved",
+      "description": "Technical and Strategic findings are still correctly attributed in the final report",
+      "max_score": 6
+    },
+    {
+      "name": "No premature abandonment",
+      "description": "The whole review is not abandoned the moment one reviewer fails",
+      "max_score": 2
+    },
+    {
+      "name": "Retry uses same brief",
+      "description": "The re-spawn attempt uses the identical brief, not a modified or shortened one",
+      "max_score": 1
+    },
+    {
+      "name": "Clear final structure",
+      "description": "The report is still organised by reviewer/section despite the gap, not degraded into an unstructured note",
+      "max_score": 1
+    }
+  ]
+}

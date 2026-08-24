@@ -1,0 +1,1 @@
+Recognize an item already owned by aislop's baseline (.aislop/baseline.json) and decline to duplicate it into docs/TECH_DEBT.md.

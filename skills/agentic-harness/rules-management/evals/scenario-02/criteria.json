@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent refuses to copy a vague instruction verbatim into a rule and instead reformats or clarifies it into an actionable ALWAYS/NEVER directive.",
+  "checklist": [
+    {
+      "name": "Recognizes the instruction is not actionable",
+      "description": "The agent identifies that 'be more careful with error handling' lacks a precise, checkable directive",
+      "max_score": 30
+    },
+    {
+      "name": "Does not copy verbatim",
+      "description": "No rule entry is created with the vague phrase as the literal directive text",
+      "max_score": 25
+    },
+    {
+      "name": "Clarifies or proposes a concrete reformulation",
+      "description": "The agent asks a clarifying question or proposes a specific ALWAYS/NEVER candidate directive grounded in the user's intent",
+      "max_score": 25
+    },
+    {
+      "name": "Final entry is complete",
+      "description": "Once settled, the resulting entry has a title, a precise directive, and a rationale",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the read-first, duplicate-check, schema-validated append workflow for a genuinely new, well-formed rule request.",
+  "checklist": [
+    {
+      "name": "Reads existing rules first",
+      "description": "The existing rules file is read and checked for a duplicate directive before any append happens",
+      "max_score": 25
+    },
+    {
+      "name": "Three-part entry structure",
+      "description": "The new entry includes a Rule title, a Directive in ALWAYS/NEVER phrasing, and a Rationale",
+      "max_score": 25
+    },
+    {
+      "name": "Uses the generate/validate tooling",
+      "description": "The entry is produced via the validation script's generate mode and checked with its validate mode rather than hand-typed and eyeballed",
+      "max_score": 30
+    },
+    {
+      "name": "Directive is actionable",
+      "description": "The directive is a precise, checkable ALWAYS/NEVER statement rather than a vague paraphrase",
+      "max_score": 10
+    },
+    {
+      "name": "User informed",
+      "description": "The user is told the rule was added, only after validation actually passed",
+      "max_score": 10
+    }
+  ]
+}

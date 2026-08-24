@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent correctly classifies findings as Editorial vs Decision, applies editorial fixes directly, and runs an interview for decision-type findings instead of leaving them in Open Questions.",
+  "checklist": [
+    {
+      "name": "SNS topic classified Editorial",
+      "description": "The DLQ alarm's SNS topic ambiguity is classified as Editorial (one clearly correct fix)",
+      "max_score": 14
+    },
+    {
+      "name": "Editorial fix applied directly",
+      "description": "The SNS topic fix is applied to the plan file, not left as a suggestion",
+      "max_score": 14
+    },
+    {
+      "name": "Hard-fail question classified Decision",
+      "description": "The hard-fail-vs-continue question is classified as Decision (genuine tradeoff)",
+      "max_score": 14
+    },
+    {
+      "name": "One-question interview run",
+      "description": "A one-question-at-a-time interview is run for the Decision item rather than summarizing and moving on",
+      "max_score": 16
+    },
+    {
+      "name": "Decisions section proposed",
+      "description": "A ## Decisions section is created/proposed recording the interview outcome",
+      "max_score": 12
+    },
+    {
+      "name": "Alternative's rejection stated",
+      "description": "The Decisions entry states why the losing alternative didn't win",
+      "max_score": 8
+    },
+    {
+      "name": "adr-capture flagged",
+      "description": "adr-capture is mentioned as the required next step once ## Decisions exists",
+      "max_score": 10
+    },
+    {
+      "name": "Does not stop at presentation",
+      "description": "The agent does not treat presenting the report as the end of the review",
+      "max_score": 8
+    },
+    {
+      "name": "No unilateral resolution",
+      "description": "The Decision-type item is not resolved without asking the user",
+      "max_score": 3
+    },
+    {
+      "name": "Revisit trigger considered",
+      "description": "If the decision is time-boxed, a concrete revisit condition is stated, not 'revisit later'",
+      "max_score": 1
+    }
+  ]
+}

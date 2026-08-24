@@ -1,0 +1,1 @@
+Detect a mismatched curated option set from repeated free-text answers and surface a contradicting answer explicitly instead of silently resolving it.

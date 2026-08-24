@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "plan-review-report",
+  "title": "Consolidated Review Report",
+  "description": "Output artifact produced by the plan-review skill after 3 subagent reviewers complete.",
+  "type": "object",
+  "required": ["report"],
+  "additionalProperties": false,
+  "properties": {
+    "report": {
+      "type": "object",
+      "required": ["title", "sections"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Report title, e.g. 'Consolidated Review: <plan-title>'"
+        },
+        "sections": {
+          "type": "object",
+          "required": [
+            "model_configuration",
+            "structural_validation",
+            "implementation_architecture",
+            "scores",
+            "critical_issues",
+            "moderate_concerns",
+            "strengths",
+            "next_actions"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "model_configuration": {
+              "type": "object",
+              "required": ["technical_strategic", "risk"],
+              "additionalProperties": false,
+              "properties": {
+                "technical_strategic": {
+                  "type": "object",
+                  "required": ["model", "via"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "model": { "type": "string" },
+                    "via": { "type": "string", "enum": ["general", "explore"] }
+                  }
+                },
+                "risk": {
+                  "type": "object",
+                  "required": ["model", "via"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "model": { "type": "string" },
+                    "via": { "type": "string", "enum": ["general", "explore"] }
+                  }
+                }
+              }
+            },
+            "structural_validation": {
+              "type": "object",
+              "required": [
+                "frontmatter_schema",
+                "validation_script",
+                "body_structure"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "frontmatter_schema": {
+                  "type": "string",
+                  "enum": ["pass", "fail"]
+                },
+                "frontmatter_details": { "type": "string" },
+                "validation_script": {
+                  "type": "string",
+                  "enum": ["pass", "fail"]
+                },
+                "validation_output": { "type": "string" },
+                "body_structure": {
+                  "type": "object",
+                  "required": ["inferred_from", "core_sections"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "inferred_from": { "type": "integer", "minimum": 0 },
+                    "core_sections": {
+                      "type": "object",
+                      "required": ["goal", "steps", "open_questions"],
+                      "additionalProperties": false,
+                      "properties": {
+                        "goal": {
+                          "type": "string",
+                          "enum": ["present", "missing"]
+                        },
+                        "steps": {
+                          "type": "string",
+                          "enum": ["present", "missing"]
+                        },
+                        "open_questions": {
+                          "type": "string",
+                          "enum": ["present", "missing"]
+                        }
+                      }
+                    },
+                    "common_sections": {
+                      "type": "object",
+                      "properties": {
+                        "scope": {
+                          "type": "string",
+                          "enum": ["present", "missing"]
+                        },
+                        "related": {
+                          "type": "string",
+                          "enum": ["present", "missing"]
+                        },
+                        "verification": {
+                          "type": "string",
+                          "enum": ["present", "missing"]
+                        },
+                        "risks": {
+                          "type": "string",
+                          "enum": ["present", "missing"]
+                        }
+                      }
+                    },
+                    "unusual_sections": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  }
+                }
+              }
+            },
+            "implementation_architecture": {
+              "type": "object",
+              "required": ["phases", "task_granularity", "parallelisation"],
+              "additionalProperties": false,
+              "properties": {
+                "phases": {
+                  "type": "object",
+                  "required": ["count", "dependencies"],
+                  "properties": {
+                    "count": { "type": "integer", "minimum": 0 },
+                    "names": { "type": "array", "items": { "type": "string" } },
+                    "dependencies": {
+                      "type": "string",
+                      "enum": ["explicit", "implicit", "missing"]
+                    },
+                    "exit_criteria": { "type": "string" }
+                  }
+                },
+                "task_granularity": {
+                  "type": "string",
+                  "enum": ["good", "too_vague", "too_large"]
+                },
+                "actionable_tasks": { "type": "string" },
+                "parallelisation": {
+                  "type": "object",
+                  "required": ["waves_identified"],
+                  "properties": {
+                    "waves_identified": { "type": "boolean" },
+                    "tasks_flagged_parallel": { "type": "string" },
+                    "parallelism_opportunity": { "type": "string" }
+                  }
+                }
+              }
+            },
+            "scores": {
+              "type": "object",
+              "required": ["technical", "strategic", "risk"],
+              "additionalProperties": false,
+              "properties": {
+                "technical": { "type": "string" },
+                "strategic": { "type": "string" },
+                "risk": { "type": "string" }
+              }
+            },
+            "critical_issues": {
+              "type": "object",
+              "required": ["technical", "strategic", "risk"],
+              "additionalProperties": false,
+              "properties": {
+                "technical": { "type": "array", "items": { "type": "string" } },
+                "strategic": { "type": "array", "items": { "type": "string" } },
+                "risk": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "moderate_concerns": {
+              "type": "object",
+              "required": ["technical", "strategic", "risk"],
+              "additionalProperties": false,
+              "properties": {
+                "technical": { "type": "array", "items": { "type": "string" } },
+                "strategic": { "type": "array", "items": { "type": "string" } },
+                "risk": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "strengths": {
+              "type": "object",
+              "required": ["technical", "strategic", "risk"],
+              "additionalProperties": false,
+              "properties": {
+                "technical": { "type": "array", "items": { "type": "string" } },
+                "strategic": { "type": "array", "items": { "type": "string" } },
+                "risk": { "type": "array", "items": { "type": "string" } }
+              }
+            },
+            "next_actions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["action", "addresses"],
+                "additionalProperties": false,
+                "properties": {
+                  "action": { "type": "string" },
+                  "addresses": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

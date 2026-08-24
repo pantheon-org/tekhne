@@ -1,0 +1,1 @@
+Recognize a trivially small plan and skip the full 3-reviewer audit and model-selection question, giving a proportionate single-pass opinion instead.

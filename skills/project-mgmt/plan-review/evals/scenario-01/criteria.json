@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent asks about model selection before reviewing, composes one shared self-contained brief, and spawns all 3 reviewers in parallel with mixed subagent types.",
+  "checklist": [
+    {
+      "name": "Asks before reviewing",
+      "description": "Agent asks the user about model selection before producing any review content",
+      "max_score": 18
+    },
+    {
+      "name": "Checks opencode.json first",
+      "description": "Agent checks for existing subAgents config before asking, per Step 4",
+      "max_score": 10
+    },
+    {
+      "name": "Single shared brief",
+      "description": "Exactly one self-contained plan brief is composed and reused for all 3 reviewers",
+      "max_score": 16
+    },
+    {
+      "name": "Brief includes structural validation",
+      "description": "The brief carries frontmatter validation and body-section inference results, not just prose",
+      "max_score": 10
+    },
+    {
+      "name": "Parallel spawn",
+      "description": "All 3 reviewers spawned in a single message/batch, not sequentially",
+      "max_score": 16
+    },
+    {
+      "name": "Mixed subagent types",
+      "description": "general/general/explore used, not the same type for all 3",
+      "max_score": 12
+    },
+    {
+      "name": "No file-path-only prompt",
+      "description": "Reviewers receive the extracted brief, not just the plan file path",
+      "max_score": 8
+    },
+    {
+      "name": "Environment-adapted question",
+      "description": "The model-selection question adapts to the detected/assumed environment rather than a blind default",
+      "max_score": 6
+    },
+    {
+      "name": "Attribution ready",
+      "description": "Agent signals it will label findings by reviewer once results return",
+      "max_score": 2
+    },
+    {
+      "name": "No premature conclusion",
+      "description": "Agent does not declare the review complete before reviewers actually run",
+      "max_score": 2
+    }
+  ]
+}

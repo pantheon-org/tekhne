@@ -1,0 +1,104 @@
+{
+  "instructions": [
+    {
+      "type": "scope",
+      "why_given": "new knowledge",
+      "content": "Use design-debate for a decision not yet written as a plan file. If a plan file already exists, use plan-review instead."
+    },
+    {
+      "type": "scope",
+      "why_given": "new knowledge",
+      "content": "Do not use design-debate when the question needs narrowing before it is even debatable -- use socratic-method first."
+    },
+    {
+      "type": "scope",
+      "why_given": "preference",
+      "content": "Avoid manufacturing debate when there is only one reasonable answer."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "State the decision precisely as a yes/no or A-vs-B choice, not a vague topic, before doing anything else."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Unless hard numbers are already in hand, always investigate current scale, consumers, and blast radius before assigning debate positions -- an ungrounded debate produces confident conclusions built on guessed facts."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Compose one identical brief (decision, grounding facts, candidate designs) for every reviewer so differing conclusions come from role, not from unequal information."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never assign all reviewers a balanced or neutral framing -- neutral reviewers converge toward consensus that reads as validation but is really unopposed agreement."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Prefer two genuinely opposing roles (Advocate, Skeptic) as the minimum, and always add a Migration/Risk role when the change touches multiple files or downstream consumers."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "By default use diverse models across reviewers to catch different blind spots; a single model is acceptable for lower-stakes debates."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never spawn reviewers sequentially -- spawn all of them in a single message so independent reviews run in parallel instead of tripling wall-clock time."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Synthesize a verdict that names which argument holds up under the others' scrutiny and renders an actual recommendation: proceed, do_not_proceed_for_now, or proceed_with_modification."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never present raw reviewer output as the final answer -- an unsynthesized list of opinions pushes the decision back onto the user instead of resolving it."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "Never let a do_not_proceed_for_now verdict omit a revisit trigger -- a concrete, checkable condition, never 'revisit later' -- or it silently becomes 'never' by default."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Run scripts/validate-debate-verdict.sh against the verdict file to confirm it conforms to the debate-verdict schema before it ships or gets persisted."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Always persist the outcome and always ask explicitly before doing so -- never decide silently, and never skip recording just because the main question got resolved in chat."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Choose the artifact by the verdict: proceed or proceed_with_modification becomes a context-file finding; do_not_proceed_for_now becomes a context-file KNOWN_ISSUE with the revisit trigger as its fix condition."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "The same recording rule applies to any individual role's surfaced concern, not just the overall verdict -- a separate concrete gap raised by one role (commonly Migration/Risk) is its own known-issue even under an otherwise proceed verdict."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "If the verdict reveals a binding architectural decision, use adr-capture in addition to the finding or known-issue."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "If the verdict is proceed, hand off to plan-create using the debate's grounding facts and chosen design as input rather than re-deriving them from scratch."
+    },
+    {
+      "type": "mindset",
+      "why_given": "new knowledge",
+      "content": "The value of the debate is real disagreement, not the appearance of thoroughness -- a well-run debate can end in 'no' and that is success, not a failure to reach consensus."
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Fall through from an empty follow-up list to the register/tech-debt/value-rubric pools and recommend one next item, per Rule 2.

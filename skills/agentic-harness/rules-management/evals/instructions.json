@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Read the existing rules file first and check every ### Rule: heading to avoid duplicates before appending anything."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "If a rule with the same directive already exists, inform the user and do NOT create a duplicate."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Every rule entry MUST include a Rule title, a Directive (ALWAYS/NEVER phrasing preferred), and a Rationale."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "PREFER scripts/validate-rules.sh generate over hand-typing the three-line rule block, and run scripts/validate-rules.sh validate to confirm the file still has valid structure before treating the change as done."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Only invoke this skill when the user explicitly requests a new rule -- do not infer rule creation from unrelated conversation."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER add a rule without reading the existing rules file first -- blind appending creates duplicate or conflicting directives."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER accept a vague user instruction as the rule body -- every rule must have a precise ALWAYS/NEVER directive and a rationale."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER create a rule for memory or ephemeral notes -- route those to vault-capture or a context finding instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "reminder",
+      "content": "Do not use rules-management for instructions that belong in the project's own agent-facing docs (repo map, workflow, tool conventions), or for personal preferences that don't affect agent behaviour."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "PREFER merging related rules into a single entry TYPICALLY over scattering them across multiple entries."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "If the user asks for a rule that overlaps with an existing one, suggest amending rather than duplicating."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Rules should be few and high-signal -- avoid documenting the obvious."
+    }
+  ]
+}

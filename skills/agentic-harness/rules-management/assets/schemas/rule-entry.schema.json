@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/pantheon-org/tekhne/refs/heads/main/skills/agentic-harness/rules-management/assets/schemas/rule-entry.json",
+  "title": "Rule Entry",
+  "description": "A single behavioural rule entry in .claude/RULES.md",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Imperative title of the rule"
+    },
+    "directive": {
+      "type": "string",
+      "description": "ALWAYS/NEVER behavioural directive"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Why this rule exists"
+    }
+  },
+  "required": ["title", "directive", "rationale"],
+  "additionalProperties": false
+}

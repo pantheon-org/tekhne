@@ -1,0 +1,1 @@
+Render a validated tech evaluation into a context-file finding record with the correct section layout, then regenerate and confirm the context index.

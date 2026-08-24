@@ -1,0 +1,1 @@
+Keep a role-surfaced gap that is unrelated to the main verdict as its own known-issue, instead of letting it get absorbed or dropped once the main question resolves.

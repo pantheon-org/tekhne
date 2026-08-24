@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent resists guessing an effort estimate under explicit user pressure, using TBD with a stated blocker instead, while still grading value and themes normally.",
+  "checklist": [
+    {
+      "name": "effort: TBD used",
+      "description": "Frontmatter sets effort: TBD rather than a guessed S/M/L",
+      "max_score": 18
+    },
+    {
+      "name": "Blocker stated in Open Questions",
+      "description": "An Open Questions entry names the vendor-response blocker as the reason sizing is deferred",
+      "max_score": 17
+    },
+    {
+      "name": "Resists user pressure",
+      "description": "Does not comply with 'just pick something reasonable' by fabricating a size",
+      "max_score": 15
+    },
+    {
+      "name": "Value still graded",
+      "description": "value is populated with a real HIGH/MEDIUM/LOW grade, not also left TBD",
+      "max_score": 10
+    },
+    {
+      "name": "Themes still tagged",
+      "description": "themes populated from the closed vocabulary, primary-first",
+      "max_score": 9
+    },
+    {
+      "name": "TBD explained to user",
+      "description": "Response explicitly explains why TBD was chosen over a guess",
+      "max_score": 9
+    },
+    {
+      "name": "Frontmatter otherwise valid",
+      "description": "title/type/status/date still present and well-formed",
+      "max_score": 6
+    },
+    {
+      "name": "No silent validation bypass",
+      "description": "Does not skip frontmatter validation just because effort is TBD",
+      "max_score": 6
+    },
+    {
+      "name": "Open Question is specific",
+      "description": "The blocker is named concretely (vendor model-access answer), not a vague 'unclear scope'",
+      "max_score": 6
+    },
+    {
+      "name": "Rubric referenced",
+      "description": "Agent references the effort/value/themes grading reference rather than asserting grades from gut feel",
+      "max_score": 4
+    }
+  ]
+}

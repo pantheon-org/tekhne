@@ -1,0 +1,1 @@
+Run a multi-topic adaptive interview that feeds a downstream plan, gating the artifact behind a confirmed recap rather than producing it unconfirmed.
