@@ -18,6 +18,15 @@ stays mostly static but may evolve deliberately.
 | `notes` | General working notes | Prune when stale |
 | `research` | Longer-running research logs | Keep while active |
 
+## Frontmatter `type:` is singular, the folder is plural
+
+The typology above names the subfolder and is plural (`plans`, `follow-ups`,
+`decisions`, ...). The generated file's frontmatter `type:` field is the
+singular form (`plan`, `follow-up`, `decision`, ...) — that's what consuming
+tooling (e.g. an index generator's type-to-group lookup) matches against. The
+script's `singular_of()` holds the curated mapping; don't assume the two
+strings are interchangeable when writing or reading a context file by hand.
+
 ## Selection rule
 
 Pick the typology by **what the artifact is**, not by how long it will live. An
@@ -31,5 +40,8 @@ inventing a new folder. Introduce a new typology only when it will recur.
 
 The generator validates the requested typology against `KNOWN_TYPES` in
 `scripts/create-context-file.sh`. To add a permanent typology, add it to that
-list. For a genuine one-off, pass `--allow-new-type` instead of editing the
-list, which keeps the curated set intentional.
+list **and** add its singular form to `singular_of()` in the same script — the
+fallback there (strip a trailing `s`) is correct for every typology in the set
+today, but check it holds for whatever you add. For a genuine one-off, pass
+`--allow-new-type` instead of editing the list, which keeps the curated set
+intentional.
