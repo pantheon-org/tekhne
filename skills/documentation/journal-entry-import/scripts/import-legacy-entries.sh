@@ -43,6 +43,27 @@ awk -v repo="$REPO" -v srcurl="$SRC_URL" -v author="$AUTHOR" '
     curyear = ""; have = 0; n = 0; written = 0; skipped = 0
   }
 
+  # Double-quote a string for safe use in a shell command line, escaping the
+  # four characters meaningful inside double quotes (backslash first, so it
+  # does not double-escape the others). Neutralises $, `, ", and spaces in
+  # --repo-root/--source-url, which are operator-supplied CLI args this
+  # script otherwise interpolates unescaped into system().
+  function shquote(s) {
+    gsub(/\\/, "\\\\", s)
+    gsub(/"/, "\\\"", s)
+    gsub(/\$/, "\\$", s)
+    gsub(/`/, "\\`", s)
+    return "\"" s "\""
+  }
+
+  # Escape embedded double quotes so an operator-supplied author/source-url
+  # value cannot break out of a YAML double-quoted scalar in the frontmatter.
+  function yamlquote(s) {
+    gsub(/\\/, "\\\\", s)
+    gsub(/"/, "\\\"", s)
+    return s
+  }
+
   # Flush the buffered section to a file (if it has content).
   function flush(   iso, mm, dd, nonblank, i, dir, path, fdate) {
     if (!have) return
@@ -55,15 +76,15 @@ awk -v repo="$REPO" -v srcurl="$SRC_URL" -v author="$AUTHOR" '
     iso = sprintf("%04d-%s-%s", year, mm, dd)
     fdate = mn[mon] " " day ", " year
     dir = repo "/" year "/" mm
-    system("mkdir -p \"" dir "\"")
+    system("mkdir -p " shquote(dir))
     path = dir "/" iso "-imported-entry.md"
 
     printf("---\n") > path
     printf("title: \"Imported Entry - %s\"\n", fdate) >> path
     printf("date: %s\n", iso) >> path
-    printf("authors:\n  - %s\n", author) >> path
+    printf("authors:\n  - %s\n", yamlquote(author)) >> path
     printf("tags:\n  - imported\n  - legacy-import\n  - \"%04d\"\n", year) >> path
-    printf("source: \"%s\"\n", srcurl) >> path
+    printf("source: \"%s\"\n", yamlquote(srcurl)) >> path
     printf("status: published\n---\n\n") >> path
     printf("# Imported Entry - %s\n\n", fdate) >> path
     printf("**Date:** %s\n", fdate) >> path

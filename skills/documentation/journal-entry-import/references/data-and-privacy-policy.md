@@ -18,6 +18,9 @@ can skip because a script did not flag it.
   Mask them with a short marker, e.g. `` `[access token value withheld]` ``.
 - Flag the masking in your reply and offer the masked or described alternative. This is the one item you do not
   ask about first - you withhold, then tell.
+- This applies to the `source:` field Mode A writes on every imported entry, not just the body. A legacy system's
+  URL can carry a query-string token, a session key, or an internal hostname that leaks more than intended -
+  check it before it goes into frontmatter, same as any other credential-shaped string.
 
 ## End-user/customer identifiers and raw dumps - summarise out by default
 
