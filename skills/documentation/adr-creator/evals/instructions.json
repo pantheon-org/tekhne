@@ -49,6 +49,16 @@
       "content": "Flip Status from Proposed to Accepted only once the team ratifies the decision.",
       "type": "workflow",
       "why_given": "new knowledge"
+    },
+    {
+      "content": "Run scripts/check-undocumented-decisions.sh to find planning documents with a decision that no ADR's Source: line references yet.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Link an ADR extracted from an existing document back to it with a `- Source: <path>` bullet under Context.",
+      "type": "reference",
+      "why_given": "new knowledge"
     }
   ]
 }

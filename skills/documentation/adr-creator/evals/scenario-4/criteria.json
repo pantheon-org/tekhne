@@ -1,0 +1,31 @@
+{
+  "context": "Tests whether the agent uses check-undocumented-decisions.sh to find a planning document with an unlinked decision, correctly leaves already-linked and purely-observational documents alone, and recommends the extraction workflow for the flagged file.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs the undocumented-decisions check",
+      "description": "Runs scripts/check-undocumented-decisions.sh (optionally with --source-dir .context) rather than manually diffing the two directories.",
+      "max_score": 25
+    },
+    {
+      "name": "Flags the correct file",
+      "description": "Identifies 2026-02-03-caching-spike.md as undocumented, citing its '## Decision' / 'We will use Redis' content.",
+      "max_score": 25
+    },
+    {
+      "name": "Leaves the linked file alone",
+      "description": "Does not flag 2026-01-10-db-choice.md, since it is already referenced via ADR-0001's Source: line.",
+      "max_score": 20
+    },
+    {
+      "name": "Leaves the observational file alone",
+      "description": "Does not flag 2026-02-20-log-format-notes.md, since its Findings section states no direction.",
+      "max_score": 15
+    },
+    {
+      "name": "Recommends extraction",
+      "description": "Points at the context-extraction workflow (pantheon-adr new, then fill from the source, then add the Source: link) as the next step for the flagged file.",
+      "max_score": 15
+    }
+  ]
+}
