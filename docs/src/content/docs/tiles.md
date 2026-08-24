@@ -760,7 +760,7 @@ Generate PromQL queries for calculating error rates, aggregating metrics across 
 
 ---
 
-## Documentation (29 skills)
+## Documentation (30 skills)
 
 Writing & communication
 
@@ -940,6 +940,14 @@ Set up a new Astro Starlight documentation site from scratch. Use when creating 
 | --- | --- | --- | --- |
 | [journal-entry-creator](/tekhne/skills/documentation/journal-entry-creator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-03-03 | 5 |
 
+### journal-entry-import
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [journal-entry-import](/tekhne/skills/documentation/journal-entry-import/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
 ### conventional-commits
 
 Generates and formats git commit messages following the Conventional Commits spe...
@@ -1058,7 +1066,7 @@ Splits a large feature branch into smaller, focused pull requests using stacked 
 
 ### context-index
 
-Regenerates .context/index.yaml from the YAML frontmatter across every .context/...
+Regenerates the project's context index (index.yaml) from the YAML frontmatter a...
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |

@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to detect and correctly resolve a mismatch between a file's frontmatter type: value and the typology implied by its own directory, rather than ignoring the warning or inventing a new catch-all category.",
+  "checklist": [
+    {
+      "name": "Regeneration run and mismatch warning surfaced",
+      "description": "regenerate-context-index.sh is run and its stderr type/directory mismatch warning is reported to the user, not silently discarded",
+      "max_score": 30
+    },
+    {
+      "name": "Root cause correctly identified",
+      "description": "Correctly identifies that .context/decisions/2026-06-30-cache-strategy.md has type: finding while living under decisions/",
+      "max_score": 25
+    },
+    {
+      "name": "Fixed at the source",
+      "description": "Fixes the file's type: field to decision (matching its directory) rather than moving the file or editing index.yaml directly",
+      "max_score": 25
+    },
+    {
+      "name": "Clean re-regeneration",
+      "description": "Re-runs regenerate-context-index.sh after the fix and confirms the mismatch warning is gone and the entry appears under decisions:",
+      "max_score": 20
+    }
+  ]
+}

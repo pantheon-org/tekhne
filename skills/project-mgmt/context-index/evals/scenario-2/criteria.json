@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates the agent's ability to run the frontmatter check scripts, identify files missing required frontmatter, fix them using the correct typology/type mapping, then regenerate a clean index.",
+  "checklist": [
+    {
+      "name": "Check script used",
+      "description": "check-context-frontmatter.sh (or validate-context-frontmatter.sh) run against .context/ files",
+      "max_score": 25
+    },
+    {
+      "name": "Missing frontmatter identified",
+      "description": "Files missing frontmatter correctly identified",
+      "max_score": 25
+    },
+    {
+      "name": "Frontmatter added with correct singular type",
+      "description": "Missing frontmatter added with all required fields, using the singular type matching the file's directory (e.g. guides/ -> type: guide)",
+      "max_score": 25
+    },
+    {
+      "name": "Clean regenerate",
+      "description": "Index regenerated with zero warnings",
+      "max_score": 15
+    },
+    {
+      "name": "Valid file untouched",
+      "description": "The file that already had valid frontmatter is not modified",
+      "max_score": 10
+    }
+  ]
+}
