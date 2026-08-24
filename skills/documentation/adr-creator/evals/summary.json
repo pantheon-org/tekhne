@@ -1,6 +1,6 @@
 {
   "instructions_coverage": {
-    "coverage_percentage": 90,
+    "coverage_percentage": 92,
     "covered_instructions": [
       "pantheon-adr new command creates the next-numbered ADR",
       "pantheon-adr list shows number, status, and title",
@@ -10,18 +10,21 @@
       "Directory resolution: --dir, ADR_DIR, docs/adr default",
       "Template headings kept verbatim and in order",
       "One decision per ADR",
-      "Alternatives Considered must be populated"
+      "Alternatives Considered must be populated",
+      "check-undocumented-decisions.sh finds planning documents with no linked ADR",
+      "Extracted ADRs link back to their source with a Source: bullet under Context"
     ],
     "uncovered_instructions": [
       "Flip Status from Proposed to Accepted on ratification"
     ]
   },
   "scenario_coverage": {
-    "total_scenarios": 3,
+    "total_scenarios": 4,
     "capabilities_covered": [
       "adr-creation",
       "adr-superseding",
-      "adr-log-listing"
+      "adr-log-listing",
+      "undocumented-decision-detection"
     ]
   }
 }

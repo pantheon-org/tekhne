@@ -142,10 +142,15 @@ that feels self-explanatory today.
 
 If a team accumulates design docs, reviews, or planning notes as a matter of
 course, it can be worth periodically checking whether any of them contain a
-decision (per the signals above) that never got an ADR. `pantheon-adr` has
-no built-in command for this — it only knows about files already under the
-ADR directory — so this is a manual or repo-scripted check: skim recent
-planning documents for the decision-shaped headings and phrasing listed
-above, cross-reference against `pantheon-adr list`, and create the missing
-records. There is no house tooling for this today; treat it as a periodic
-review habit rather than something to automate ahead of need.
+decision (per the signals above) that never got an ADR.
+`scripts/check-undocumented-decisions.sh` automates this: it scans a
+planning-document directory (`.context` by default) for the same
+decision-shaped headings and phrasing listed above, cross-references them
+against every existing ADR's `Source:` line, and reports any document that
+looks decided but isn't linked from an ADR yet (exit 2), or confirms
+everything is covered (exit 0). Pass `--source-dir` if planning documents
+live somewhere other than `.context`, or `--adr-dir` to match a non-default
+`pantheon-adr new --dir`. Like the `Source:` convention itself, this is a
+documentation-side check, not something `pantheon-adr` runs internally —
+wire it into CI or a pre-commit hook if you want it enforced rather than
+run on demand.

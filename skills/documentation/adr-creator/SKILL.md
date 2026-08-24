@@ -100,6 +100,15 @@ pantheon-adr new "Split the monolith" --dir architecture/decisions
 
 Expected result: the record is created under `architecture/decisions`.
 
+```bash
+# Find planning documents with a decision that has no ADR pointing back at it.
+scripts/check-undocumented-decisions.sh
+```
+
+Expected result: exit 0 with a confirmation line when everything is covered, or exit 2 with a
+list of undocumented files when it finds decision-shaped documents that no ADR's `Source:` line
+references. See [Deriving an ADR from an Existing Document](references/context-extraction.md).
+
 ## Anti-Patterns
 
 ### NEVER hand-number a new ADR

@@ -906,7 +906,7 @@ Creates, lists, and supersedes Architecture Decision Records with the adr CLI, f
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### astro-starlight-skills-starlight-theme
 
