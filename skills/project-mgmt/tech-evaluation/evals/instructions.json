@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER accept a recommendation with an empty or single-word rationale -- the schema's minLength on rationale exists because 'it's better' gives the next reader nothing to check the reasoning against."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let a subagent answer from memory when the claim concerns this repository -- a generic claim about how bundling usually works is not evidence about this project's actual Terraform/build config."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip the schema validation step because the YAML looks right -- ALWAYS run validate-tech-evaluation.sh before rendering the human-readable finding."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Fix the question set to five default dimensions (correctness, integration_fit, footprint, maturity, practical_fit); substitute or add a dimension when the default five don't fit the technology under review."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Dispatch a research subagent in the foreground (the result is needed before continuing), giving it the exact identifier, the alternatives already ruled out, the question set verbatim, and an instruction to cite evidence for every verdict."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "The final recommendation must be exactly one of adopt / keep_current / reject / needs_more_research, with a non-hedging rationale and a single imperative next action, never a menu of options."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Run the validator and check its exit code before trusting the YAML; if validation fails, send it back to the subagent rather than manually patching the YAML into shape."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Render the human-readable finding with the context-file skill (type: FINDING) once validation passes, following the Summary table / Detail subsections / Recommended Action layout."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Regenerate the context index (context-index skill) after writing the finding, and confirm the new file appears in the regenerated index before reporting the evaluation complete."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "If the evaluation feeds a plan or ADR decision, link the finding from there via related: -- this skill produces evidence, not a decision record in its own right."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "needs_more_research is a legitimate recommendation when evidence is genuinely inconclusive, but must never be used to avoid picking a side when the evidence already points one way."
+    },
+    {
+      "type": "new knowledge",
+      "why_given": "new knowledge",
+      "content": "Check claims against this repository's actual source when the claim is about this repository (a bundling constraint, an existing convention, a call site) -- reading the actual Terraform/build config is evidence, a subagent's assumption is not."
+    }
+  ]
+}

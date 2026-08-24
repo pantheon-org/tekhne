@@ -1,0 +1,1 @@
+Initiate an inline session-end reflection with two sequential, concrete questions instead of skipping it or combining them.

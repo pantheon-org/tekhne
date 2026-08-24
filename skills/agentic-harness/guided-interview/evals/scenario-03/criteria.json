@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent correctly identifies that this interview feeds a downstream artifact, still gates that artifact behind a confirmed recap, and stays adaptive rather than mechanically covering three named topics.",
+  "checklist": [
+    {
+      "name": "One question at a time across topics",
+      "description": "Scope, rollback, and timeline are each explored one question at a time, never bundled into one multi-part question",
+      "max_score": 20
+    },
+    {
+      "name": "Adaptive across topics",
+      "description": "The rollback or timeline question changes shape based on an earlier answer rather than being pre-scripted regardless of input",
+      "max_score": 20
+    },
+    {
+      "name": "Recap confirmed before artifact",
+      "description": "A recap is presented and confirmed by the user before any plan file is created",
+      "max_score": 30
+    },
+    {
+      "name": "File produced when warranted",
+      "description": "A plan file is ultimately produced, since the interview was clearly feeding downstream work the user already asked for",
+      "max_score": 20
+    },
+    {
+      "name": "Reasonable question budget",
+      "description": "The interview stays roughly within a 3-6 question budget despite covering three named topics",
+      "max_score": 10
+    }
+  ]
+}

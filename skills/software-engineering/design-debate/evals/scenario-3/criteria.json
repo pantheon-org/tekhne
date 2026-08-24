@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Evaluates whether the agent correctly handles a do_not_proceed_for_now verdict: grounding, correct verdict value, a concrete revisit trigger, schema validation, and recording as a known-issue rather than a finding.",
+  "checklist": [
+    {
+      "name": "Grounds before assigning roles",
+      "description": "Uses the supplied facts (GSI count, write volume, no team experience) rather than assuming",
+      "max_score": 10
+    },
+    {
+      "name": "Migration/Risk role included",
+      "description": "Migration/Risk role assigned given the subject is a database migration",
+      "max_score": 8
+    },
+    {
+      "name": "Parallel spawn",
+      "description": "Reviewers spawned together, not sequentially",
+      "max_score": 8
+    },
+    {
+      "name": "Correct verdict value",
+      "description": "Verdict is do_not_proceed_for_now given the facts, not proceed or a hedge",
+      "max_score": 16
+    },
+    {
+      "name": "Concrete revisit trigger",
+      "description": "A specific, checkable revisit condition is named, not 'revisit later'",
+      "max_score": 18
+    },
+    {
+      "name": "Schema validation run",
+      "description": "The verdict is validated against the debate-verdict schema before finalizing",
+      "max_score": 12
+    },
+    {
+      "name": "Validation confirms revisit trigger",
+      "description": "The validation step is used to confirm the revisit trigger is actually present",
+      "max_score": 8
+    },
+    {
+      "name": "Recorded as known-issue",
+      "description": "Outcome recorded via context-file as a KNOWN_ISSUE, not a finding",
+      "max_score": 12
+    },
+    {
+      "name": "Revisit trigger becomes fix condition",
+      "description": "The known-issue's fix condition is the same revisit trigger from the verdict",
+      "max_score": 4
+    },
+    {
+      "name": "Explicit persistence ask",
+      "description": "User is asked explicitly before the known-issue is written",
+      "max_score": 4
+    }
+  ]
+}

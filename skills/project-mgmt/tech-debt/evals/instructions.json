@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER add an append-only guard or a Resolved status value to docs/TECH_DEBT.md -- that machinery exists in risk-register to preserve a decision audit trail, and tech debt carries no decision to preserve evidence of."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER file a real risk or open decision in docs/TECH_DEBT.md because it's less ceremony than risk-register -- there is no append-only guard here, so a real risk can be silently lost the moment its row is deleted."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER delete a row without checking whether the fix revealed a real cost or risk (Rule 3) -- deletion is irreversible in practice, with no technical backstop."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER invent placeholder rows to make the doc look more populated than it is -- a fabricated row wastes the next reader's time chasing cleanup that doesn't exist."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Before filing a row, confirm the item is genuinely just cleanup, not a risk/shortcut/open decision that belongs in docs/RISK_REGISTER.md instead (Rule 3, due diligence in the filing direction)."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Read the current last row's # in docs/TECH_DEBT.md; the new row's # is that value + 1 -- rows are freely reused after deletion, so use the max currently present, not the max ever assigned."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Run scripts/validate-tech-debt-schema.sh before committing a new or edited row, even though pre-commit also runs it -- catch a bounced commit early."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "When resolving an entry, confirm the fix didn't reveal a real cost or risk (Rule 3, due diligence in the resolving direction). If it did, add a row to docs/RISK_REGISTER.md first, referencing this tech-debt item by name, before deleting the row."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Delete the row entirely once resolved -- there is no Resolved status to flip to, unlike risk-register."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "area is a small, tech-debt-specific taxonomy (Code quality, Testing), not the .context/ themes vocabulary and not a closed JSON Schema enum. Add a new value only when an item genuinely doesn't fit an existing one."
+    },
+    {
+      "type": "guidance",
+      "why_given": "preference",
+      "content": "This is a PoC-phase project: a docs/TECH_DEBT.md with one honest row is more useful than an empty one or no doc at all -- proportionate is fine."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "Do NOT use this doc for anything with a real cost/risk if left unaddressed (risk-register's job), aislop baseline findings, or anything confidential."
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Classify review findings as Editorial or Decision, apply editorial fixes directly, and run a one-question interview for decision-type findings instead of leaving them in Open Questions.

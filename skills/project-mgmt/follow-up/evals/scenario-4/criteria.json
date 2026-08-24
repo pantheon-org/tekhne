@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent runs the freshness check (Workflow step 1, Rule 4) and regenerates a stale context index before building the candidate pool, rather than silently trusting stale data.",
+  "checklist": [
+    {
+      "name": "Runs the freshness check",
+      "description": "Explicitly compares the index's header entry count against the actual file count before reporting",
+      "max_score": 20
+    },
+    {
+      "name": "Detects the mismatch",
+      "description": "States that the index is stale, with the specific discrepancy",
+      "max_score": 18
+    },
+    {
+      "name": "Regenerates before proceeding",
+      "description": "Runs (or clearly commits to running) context-index before building the candidate pool",
+      "max_score": 22
+    },
+    {
+      "name": "Does not report from stale data first",
+      "description": "No follow-up sweep or value-rubric ranking is presented as final before regeneration happens",
+      "max_score": 16
+    },
+    {
+      "name": "Final report reflects the refresh",
+      "description": "The eventual report is explicitly based on the refreshed index, not the stale one",
+      "max_score": 14
+    },
+    {
+      "name": "States what changed",
+      "description": "Mentions that the index was stale and was regenerated, rather than silently fixing it with no explanation",
+      "max_score": 10
+    }
+  ]
+}

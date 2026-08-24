@@ -1,0 +1,41 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent runs a genuinely adaptive, one-question-at-a-time interview with concrete options and a confirmed recap, rather than a bundled questionnaire or an open-ended chat.",
+  "checklist": [
+    {
+      "name": "One question per turn",
+      "description": "Exactly one question asked per turn via AskUserQuestion, never bundled with a second question in the same call",
+      "max_score": 20
+    },
+    {
+      "name": "3-4 concrete options",
+      "description": "Each question offers 3-4 mutually exclusive options with a short tradeoff description, not a bare label",
+      "max_score": 20
+    },
+    {
+      "name": "Free-text path preserved",
+      "description": "The free-text or Other path remains available on every question",
+      "max_score": 10
+    },
+    {
+      "name": "Adaptive branching",
+      "description": "A later question demonstrably changes based on the answer to an earlier question, rather than following a fixed script",
+      "max_score": 20
+    },
+    {
+      "name": "Reasonable question budget",
+      "description": "The interview stops once enough is known, roughly within a 3-6 question budget rather than padding",
+      "max_score": 10
+    },
+    {
+      "name": "Recap presented and confirmed",
+      "description": "A bulleted recap of every answer is presented and the user is explicitly asked to confirm it before any output is finalized",
+      "max_score": 15
+    },
+    {
+      "name": "No unrequested file",
+      "description": "Output is a synthesized chat answer; no file is written since nothing in the request implied downstream artifact work",
+      "max_score": 5
+    }
+  ]
+}

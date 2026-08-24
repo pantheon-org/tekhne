@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent correctly distinguishes a memory/ephemeral note from a binding rule and redirects appropriately instead of appending the narrative as-is.",
+  "checklist": [
+    {
+      "name": "Declines to append the note as a rule",
+      "description": "The incident narrative is not appended directly into the rules file as an entry",
+      "max_score": 30
+    },
+    {
+      "name": "Explains the distinction",
+      "description": "The agent explains why 'remember this' style requests don't map directly to a rules-file entry",
+      "max_score": 20
+    },
+    {
+      "name": "Redirects appropriately",
+      "description": "The agent offers vault-capture or a context finding as the right home for the memory itself",
+      "max_score": 20
+    },
+    {
+      "name": "Confirms before inventing a directive",
+      "description": "If a genuine actionable directive is proposed from the narrative, the user is asked to confirm it before it is appended",
+      "max_score": 20
+    },
+    {
+      "name": "Final entry well-formed if confirmed",
+      "description": "If the user confirms a directive, it is appended using the full three-part, schema-validated format",
+      "max_score": 10
+    }
+  ]
+}

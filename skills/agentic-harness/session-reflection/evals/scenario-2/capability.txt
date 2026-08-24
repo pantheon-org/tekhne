@@ -1,0 +1,1 @@
+Convert a verified, deferred reflection gap into an actual known-issue document with honest severity, instead of leaving it as a chat mention.

@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates edge-case handling: repeated free-text 'Other' answers signaling a mismatched curated set, and a later answer that conflicts with an earlier one.",
+  "checklist": [
+    {
+      "name": "Pivots after repeated Other",
+      "description": "After two consecutive free-text 'Other' answers, the next question shifts to an open question instead of a third curated guess",
+      "max_score": 25
+    },
+    {
+      "name": "Contradiction surfaced plainly",
+      "description": "The Turn 1 versus Turn 3 conflict is surfaced explicitly to the user rather than silently resolved",
+      "max_score": 30
+    },
+    {
+      "name": "User asked which holds",
+      "description": "The agent asks the user which of the two conflicting answers should stand, rather than guessing",
+      "max_score": 20
+    },
+    {
+      "name": "Recap reflects resolution only",
+      "description": "The recap reflects only the answer the user confirms after the contradiction is raised, with no invented compromise",
+      "max_score": 15
+    },
+    {
+      "name": "Protocol maintained under edge case",
+      "description": "One-question-at-a-time and free-text availability are preserved throughout the edge case",
+      "max_score": 10
+    }
+  ]
+}

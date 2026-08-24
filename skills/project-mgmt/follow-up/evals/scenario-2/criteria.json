@@ -1,0 +1,47 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent correctly finds and prioritizes a genuine ACTIVE follow-up (Rule 5), classifies its disposal, and hands off the promotion rather than mutating anything itself (Rule 1).",
+  "checklist": [
+    {
+      "name": "Finds the ACTIVE follow-up",
+      "description": "Correctly identifies the single ACTIVE entry among the otherwise-DONE follow-ups",
+      "max_score": 14
+    },
+    {
+      "name": "Checks for existing coverage",
+      "description": "Confirms neither the register nor the tech-debt list already has a matching row before recommending promotion",
+      "max_score": 12
+    },
+    {
+      "name": "Correct disposal classification",
+      "description": "Classifies the item as register-bound (real cost if unaddressed), not tech-debt-bound",
+      "max_score": 14
+    },
+    {
+      "name": "Leads the recommendation with it",
+      "description": "Presents the ACTIVE follow-up as the top pick, ahead of value-rubric or register/tech-debt pool items (Rule 5)",
+      "max_score": 16
+    },
+    {
+      "name": "No row filed",
+      "description": "Does not file a docs/RISK_REGISTER.md or docs/TECH_DEBT.md row",
+      "max_score": 14
+    },
+    {
+      "name": "No status mutation",
+      "description": "Does not flip the follow-up's status field itself",
+      "max_score": 12
+    },
+    {
+      "name": "Proposes and waits",
+      "description": "Proposes the promotion action (or names the exact skill to run) and waits for confirmation rather than acting",
+      "max_score": 10
+    },
+    {
+      "name": "States the reason",
+      "description": "Gives a concrete reason for the register-bound classification, not just the verdict",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent correctly renders a validated evaluation into a finding record using context-file, preserves the recommendation verbatim, regenerates the index, and confirms discoverability before reporting completion.",
+  "checklist": [
+    {
+      "name": "Uses context-file skill",
+      "description": "Finding written via context-file, not a hand-rolled file bypassing it",
+      "max_score": 20
+    },
+    {
+      "name": "All four sections present",
+      "description": "Blockquote summary, Summary table, Detail subsections, Recommended Action all present in order",
+      "max_score": 25
+    },
+    {
+      "name": "Citations in Detail",
+      "description": "Each Detail subsection carries its citation, not just a restated verdict",
+      "max_score": 15
+    },
+    {
+      "name": "Verbatim recommendation",
+      "description": "single_action reproduced verbatim, not paraphrased or softened",
+      "max_score": 15
+    },
+    {
+      "name": "Index regenerated",
+      "description": "context-index run after writing the finding",
+      "max_score": 15
+    },
+    {
+      "name": "Discoverability confirmed",
+      "description": "New finding confirmed present in the regenerated index before reporting done",
+      "max_score": 10
+    }
+  ]
+}

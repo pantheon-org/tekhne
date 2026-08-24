@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tech-evaluation",
+  "title": "Technology Evaluation",
+  "description": "Structured output of the tech-evaluation skill: a subagent's investigation of a library, dependency, or file format against a fixed question set, ending in one unambiguous recommendation.",
+  "type": "object",
+  "required": ["evaluation"],
+  "additionalProperties": false,
+  "properties": {
+    "evaluation": {
+      "type": "object",
+      "required": ["title", "technology", "questions", "recommendation"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "e.g. 'Evaluating usage-rs as the CLI argument-parsing crate'"
+        },
+        "technology": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The library, dependency, or format under evaluation (name + where to find it, e.g. an npm package or repo URL)"
+        },
+        "alternatives_considered": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Other options already ruled out or being compared against, so the reader knows the field was actually surveyed"
+        },
+        "questions": {
+          "type": "array",
+          "minItems": 1,
+          "description": "One entry per evaluation dimension. Defaults to five (correctness, integration_fit, footprint, maturity, practical_fit) but a caller may substitute its own set when the default doesn't fit the technology.",
+          "items": {
+            "type": "object",
+            "required": ["id", "question", "verdict", "evidence"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "description": "Short slug, e.g. 'correctness', 'integration_fit', 'footprint', 'maturity', 'practical_fit'"
+              },
+              "question": {
+                "type": "string",
+                "minLength": 1
+              },
+              "verdict": {
+                "type": "string",
+                "minLength": 1,
+                "description": "A direct answer to the question, not a restatement of it"
+              },
+              "evidence": {
+                "type": "array",
+                "minItems": 1,
+                "description": "What was actually checked to reach this verdict -- a claim without a source is a guess, not a finding",
+                "items": {
+                  "type": "object",
+                  "required": ["claim", "source"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "claim": { "type": "string", "minLength": 1 },
+                    "source": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "File path with line number, a URL, or a specific doc/API reference -- not 'the docs' or 'general knowledge'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "recommendation": {
+          "type": "object",
+          "required": ["verdict", "rationale", "single_action"],
+          "additionalProperties": false,
+          "properties": {
+            "verdict": {
+              "type": "string",
+              "enum": [
+                "adopt",
+                "keep_current",
+                "reject",
+                "needs_more_research"
+              ],
+              "description": "'needs_more_research' is a legitimate verdict when evidence is genuinely inconclusive -- it must not be used to avoid picking a side when the evidence already supports one"
+            },
+            "rationale": {
+              "type": "string",
+              "minLength": 40,
+              "description": "Why this verdict, referencing the questions/evidence above. Must not hedge -- 'it depends' or 'both are valid' is not a rationale, it's a refusal to conclude"
+            },
+            "single_action": {
+              "type": "string",
+              "minLength": 10,
+              "description": "One imperative sentence: what the reader should do next. Exactly one action, not a menu of options"
+            }
+          }
+        }
+      }
+    }
+  }
+}

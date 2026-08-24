@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Confirm a discovered gap is genuinely unresolved -- search the project's root agent-guidance file and instructions directory for an existing rule before treating it as an open item -- before filing a row."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Read the register's current last row `#` and assign the new row `#` as that value + 1; never insert out of order and never renumber existing rows."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Write a self-contained Description and Risk if unaddressed for every new row -- a reader with no other context must understand it without needing a linked scratch note."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Run scripts/validate-risk-register-append-only.sh and scripts/validate-risk-register-schema.sh and confirm both exit 0 with no output before committing a register change."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "When resolving an entry, change Status to Resolved, Date to the resolution date, and Decision to a self-contained sentence, all three in the same edit."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER delete a row or renumber an existing # -- the # is the permanent identity other docs and conversations reference; mark it Resolved instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER edit a committed row's Item, Type, Description, Risk if unaddressed, or Added -- only Status, Date, and Decision may change, and only together, when resolving."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER file a vague row such as \"investigate later\" -- every row needs a concrete description and a concrete, one-sentence risk if left unaddressed."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER put confidential or personal data in a register row -- this file is committed and visible to everyone with repo access; reference a scratch note or ticket instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER mention a shortcut, deferred item, or open decision in a reply without filing the register row in the same turn -- hedge language like \"worth flagging separately\" is the trigger to file immediately, not later."
+    },
+    {
+      "type": "knowledge",
+      "why_given": "new knowledge",
+      "content": "Use this register for deferred items, interim shortcuts, accepted risks, and open decisions -- NOT for finalized architecture decisions (use adr-capture), ephemeral single-session notes, or anything confidential."
+    },
+    {
+      "type": "knowledge",
+      "why_given": "preference",
+      "content": "This is a PoC-phase project: proportionate is fine. Not every minor TODO needs a row -- reserve rows for things that could genuinely be forgotten and cause a real problem."
+    }
+  ]
+}

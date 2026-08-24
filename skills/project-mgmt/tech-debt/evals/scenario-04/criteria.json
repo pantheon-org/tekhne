@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent recognises an item already owned by aislop's baseline (.aislop/baseline.json) and declines to duplicate it into docs/TECH_DEBT.md.",
+  "checklist": [
+    {
+      "name": "Identifies aislop baseline overlap",
+      "description": "Agent explicitly names aislop's baseline as already owning this item type",
+      "max_score": 17
+    },
+    {
+      "name": "Declines duplicate filing",
+      "description": "Does not create a new docs/TECH_DEBT.md row for the same finding",
+      "max_score": 18
+    },
+    {
+      "name": "States the reason",
+      "description": "Explains this doc is not a second home for an item type aislop already tracks",
+      "max_score": 13
+    },
+    {
+      "name": "Points back to the baseline file",
+      "description": "Directs the user to .aislop/baseline.json as the system of record",
+      "max_score": 12
+    },
+    {
+      "name": "No silent refusal",
+      "description": "Does not simply refuse without explanation",
+      "max_score": 9
+    },
+    {
+      "name": "No orphaned duplicate",
+      "description": "Does not leave two disconnected trackers for the same item",
+      "max_score": 8
+    },
+    {
+      "name": "Correct scope citation",
+      "description": "References the specific When NOT to Use bullet about aislop, not generic reasoning",
+      "max_score": 6
+    },
+    {
+      "name": "Offers alternative help",
+      "description": "Offers a concrete next step (e.g. checking the baseline entry's status) rather than a dead end",
+      "max_score": 5
+    },
+    {
+      "name": "Distinguishes from risk-register case too",
+      "description": "Does not conflate this with the separate risk-register promotion rule, keeping the reasoning specific to aislop",
+      "max_score": 7
+    },
+    {
+      "name": "No fabricated baseline details",
+      "description": "Does not invent baseline entry IDs or statuses it wasn't given",
+      "max_score": 5
+    }
+  ]
+}

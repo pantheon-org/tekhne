@@ -1,0 +1,1 @@
+Refuse to fabricate a value-rubric grade for a register or tech-debt row, while still engaging with the underlying request.

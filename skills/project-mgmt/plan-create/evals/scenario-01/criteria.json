@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent drafts a new .context/plans/ file with valid frontmatter, correctly graded effort/value/themes, phased task decomposition, and the required verification/handoff steps.",
+  "checklist": [
+    {
+      "name": "Frontmatter complete",
+      "description": "title, type: PLAN, status: DRAFT, date all present",
+      "max_score": 12
+    },
+    {
+      "name": "Effort graded, not guessed",
+      "description": "effort: M with a stated rationale tied to the rubric (file/subsystem count)",
+      "max_score": 10
+    },
+    {
+      "name": "Value graded, not guessed",
+      "description": "value: HIGH with a stated rationale (unblocks manual recovery)",
+      "max_score": 10
+    },
+    {
+      "name": "Themes primary-first",
+      "description": "themes list starts with DELIVERY, includes INFRA, drawn from the closed vocabulary",
+      "max_score": 10
+    },
+    {
+      "name": "Phased decomposition",
+      "description": "2-5 phases, each with 2-5 tasks, not a flat step list",
+      "max_score": 12
+    },
+    {
+      "name": "Exit criteria present",
+      "description": "Each phase states what 'done' means",
+      "max_score": 10
+    },
+    {
+      "name": "Wave annotation",
+      "description": "Parallelisable tasks explicitly marked, or explicitly stated none exist",
+      "max_score": 8
+    },
+    {
+      "name": "Core sections present",
+      "description": "## Goal, ## Phases, ## Open Questions all present",
+      "max_score": 10
+    },
+    {
+      "name": "Validation run",
+      "description": "Frontmatter validation script run or its command shown before declaring done",
+      "max_score": 10
+    },
+    {
+      "name": "Review handoff offered",
+      "description": "plan-review offered as the next step",
+      "max_score": 8
+    }
+  ]
+}

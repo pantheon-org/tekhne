@@ -1,0 +1,1 @@
+Run a full tech evaluation of a templating library candidate, requiring cited evidence (including a repository-source check) and ending in exactly one recommendation.

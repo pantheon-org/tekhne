@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent correctly recognises a trivially small plan and skips the full 3-reviewer audit and model-selection question instead of over-applying the heavyweight process.",
+  "checklist": [
+    {
+      "name": "No subagents spawned",
+      "description": "Technical/Strategic/Risk reviewers are not spawned for this plan",
+      "max_score": 20
+    },
+    {
+      "name": "No model-selection question",
+      "description": "Agent does not ask which models to use, since no reviewers run",
+      "max_score": 17
+    },
+    {
+      "name": "Reason for skipping stated",
+      "description": "Agent explicitly states the plan is too small to justify 3-subagent overhead",
+      "max_score": 14
+    },
+    {
+      "name": "Frontmatter still checked",
+      "description": "Frontmatter validity is still confirmed even though the full audit is skipped",
+      "max_score": 12
+    },
+    {
+      "name": "Single direct opinion given",
+      "description": "Agent gives one direct, proportionate opinion rather than a fabricated multi-section report",
+      "max_score": 12
+    },
+    {
+      "name": "No fabricated report sections",
+      "description": "No Model Configuration / Critical Issues / Scores sections invented for a review that didn't happen",
+      "max_score": 8
+    },
+    {
+      "name": "Still useful",
+      "description": "The direct opinion is substantive, not just 'looks fine' with no reasoning",
+      "max_score": 6
+    },
+    {
+      "name": "Does not misclassify size",
+      "description": "Agent does not claim this plan needs phases/waves it doesn't have",
+      "max_score": 4
+    },
+    {
+      "name": "Consistent with skill's own threshold",
+      "description": "Cites the '1 paragraph, no steps' / H2-count threshold from When NOT to Use rather than inventing a new rule",
+      "max_score": 5
+    },
+    {
+      "name": "Offers full audit if wanted",
+      "description": "Agent notes the user can ask for the full 3-reviewer audit if they actually want it",
+      "max_score": 2
+    }
+  ]
+}

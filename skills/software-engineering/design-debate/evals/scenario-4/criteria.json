@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Evaluates whether the agent separates the overall proceed verdict from a distinct, unrelated gap surfaced by one reviewer role, recording each as its own artifact.",
+  "checklist": [
+    {
+      "name": "Grounds before positions",
+      "description": "Uses rule count, duplication, and cron facts before assigning roles",
+      "max_score": 8
+    },
+    {
+      "name": "Parallel spawn with identical brief",
+      "description": "All three roles spawned together with the same brief",
+      "max_score": 8
+    },
+    {
+      "name": "Correct main verdict",
+      "description": "Main verdict is proceed or proceed_with_modification on the consolidation question",
+      "max_score": 12
+    },
+    {
+      "name": "Cron-overlap gap identified",
+      "description": "The Migration/Risk role's cron-overlap observation is explicitly identified as a separate concrete gap",
+      "max_score": 14
+    },
+    {
+      "name": "Gap not treated as resolved by verdict",
+      "description": "The agent does not treat the cron overlap as fixed just because the main verdict is proceed",
+      "max_score": 14
+    },
+    {
+      "name": "Two distinct artifacts produced",
+      "description": "A finding for the main verdict and a separate known-issue for the cron gap are both produced",
+      "max_score": 14
+    },
+    {
+      "name": "No merging into main finding",
+      "description": "The cron-overlap gap is not folded into the main finding as a footnote",
+      "max_score": 10
+    },
+    {
+      "name": "No chat-only mention",
+      "description": "The gap is not left only as a spoken aside ('worth flagging separately') without an artifact",
+      "max_score": 8
+    },
+    {
+      "name": "Explicit persistence ask per artifact",
+      "description": "User is asked explicitly before each of the two artifacts is written",
+      "max_score": 4
+    },
+    {
+      "name": "Verdict names winning argument",
+      "description": "The synthesis states which argument (Advocate's or Skeptic's) held up, not just a bare recommendation",
+      "max_score": 8
+    }
+  ]
+}

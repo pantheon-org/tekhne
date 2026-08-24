@@ -1,0 +1,1 @@
+Recognize when a requested evaluation is actually a decision already settled by an existing ADR, and redirect to ADR supersession instead of re-litigating it.

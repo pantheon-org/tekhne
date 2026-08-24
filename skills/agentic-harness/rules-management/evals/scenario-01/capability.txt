@@ -1,0 +1,1 @@
+Append a new, well-formed rule entry only after reading existing rules for duplicates and validating the result against the schema.

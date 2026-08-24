@@ -1,0 +1,1 @@
+Append a new, well-formed row to docs/RISK_REGISTER.md for a shortcut just taken, and verify it with the validation scripts before committing.

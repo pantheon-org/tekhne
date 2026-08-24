@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent splits a flat 15-step list the user handed over as-is into properly sized phases with waves and exit criteria, rather than transcribing it unchanged.",
+  "checklist": [
+    {
+      "name": "No oversized phase",
+      "description": "No single phase contains more than 8 tasks",
+      "max_score": 20
+    },
+    {
+      "name": "2-5 phases",
+      "description": "Work split into 2-5 phases total",
+      "max_score": 15
+    },
+    {
+      "name": "2-5 tasks per phase",
+      "description": "Each phase has 2-5 tasks, not 1 or 10+",
+      "max_score": 13
+    },
+    {
+      "name": "Wave identified",
+      "description": "At least one group of parallelisable tasks explicitly marked as a wave",
+      "max_score": 13
+    },
+    {
+      "name": "Exit criteria stated",
+      "description": "Each phase states a concrete deliverable or check, not just 'items ticked'",
+      "max_score": 12
+    },
+    {
+      "name": "Ordering justified",
+      "description": "Phase order is justified by a real dependency, not just the user's listing order",
+      "max_score": 10
+    },
+    {
+      "name": "Frontmatter complete",
+      "description": "title/type/status/date/effort/value/themes all present",
+      "max_score": 8
+    },
+    {
+      "name": "Does not transcribe as-is",
+      "description": "Does not honour 'just turn this into a plan as-is' by leaving one flat unsplit list",
+      "max_score": 5
+    },
+    {
+      "name": "Task language actionable",
+      "description": "Tasks retain concrete, actionable phrasing rather than being vaguely paraphrased",
+      "max_score": 2
+    },
+    {
+      "name": "Open Questions present",
+      "description": "A ## Open Questions section exists even if short",
+      "max_score": 2
+    }
+  ]
+}

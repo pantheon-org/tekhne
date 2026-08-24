@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 90,
+    "total_instructions": 12,
+    "covered_instructions": 11,
+    "notes": "scenario-01 covers the read-first, no-duplicate, schema-validated append workflow; scenario-02 covers rejecting a vague directive and reformatting it correctly; scenario-03 covers refusing an ephemeral-note rule and redirecting it; scenario-04 covers detecting near-duplicate/overlapping rules and suggesting amendment over duplication. The 'only invoke when explicitly requested' scoping instruction is exercised implicitly by every scenario's framing rather than as a standalone check."
+  }
+}

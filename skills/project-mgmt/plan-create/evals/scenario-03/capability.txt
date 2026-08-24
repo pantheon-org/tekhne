@@ -1,0 +1,1 @@
+Resist guessing a plan's effort estimate under user pressure; use effort: TBD with a concrete Open Question stating the real blocker.

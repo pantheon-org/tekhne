@@ -1,0 +1,42 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Evaluates whether the agent correctly appends a new risk register row: never-reused id assigned as last # + 1, never renumbering an existing row, a concrete non-vague Description and Risk if unaddressed, correct Added/Status/Date/Decision starting values, no confidential data, and running both validation scripts before committing.",
+  "checklist": [
+    {
+      "name": "Correct next id, no renumbering",
+      "description": "New row assigned # as the current max # + 1; existing row # is never reused or renumbered",
+      "max_score": 20
+    },
+    {
+      "name": "Concrete description",
+      "description": "Description is self-contained and concrete, not a vague restatement",
+      "max_score": 15
+    },
+    {
+      "name": "Concrete risk statement",
+      "description": "Risk if unaddressed states a specific, concrete failure mode, not a vague could-be-a-problem phrase",
+      "max_score": 15
+    },
+    {
+      "name": "Correct lifecycle fields",
+      "description": "Added is a real date, Status starts Open, Date and Decision both start as --",
+      "max_score": 15
+    },
+    {
+      "name": "Type classification",
+      "description": "Type is classified correctly as Shortcut for an interim workaround already in place",
+      "max_score": 10
+    },
+    {
+      "name": "Validation before commit",
+      "description": "Agent runs validate-risk-register-append-only.sh and validate-risk-register-schema.sh and confirms both pass before committing",
+      "max_score": 15
+    },
+    {
+      "name": "No confidential data",
+      "description": "No confidential or personal data put in the register row",
+      "max_score": 10
+    }
+  ]
+}

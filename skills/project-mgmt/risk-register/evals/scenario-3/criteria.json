@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Evaluates whether the agent files a register row in the same turn a deferred item, shortcut, or open decision is noticed mid-task, instead of only mentioning it in prose and moving on -- the exact hedge-language failure mode the skill's strongest anti-pattern targets.",
+  "checklist": [
+    {
+      "name": "Row actually filed, not just mentioned",
+      "description": "An actual row is added to docs/RISK_REGISTER.md, not only described in the reply text",
+      "max_score": 30
+    },
+    {
+      "name": "Filed same turn, not deferred",
+      "description": "The row is filed in the same turn the gap was noticed, with no promise to file it later",
+      "max_score": 20
+    },
+    {
+      "name": "No unfiled hedge language",
+      "description": "No side-note or worth-flagging-separately phrasing appears without an accompanying filed row",
+      "max_score": 20
+    },
+    {
+      "name": "Concrete row content",
+      "description": "Description and Risk if unaddressed are concrete and self-contained, not vague restatements",
+      "max_score": 15
+    },
+    {
+      "name": "Original task still completed",
+      "description": "The unrelated Terraform task in progress is still completed in the same response",
+      "max_score": 15
+    }
+  ]
+}

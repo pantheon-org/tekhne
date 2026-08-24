@@ -1,0 +1,12 @@
+# Shape of a single docs/RISK_REGISTER.md row -- the human-readable illustration.
+# Enforced constraints live in assets/schemas/risk-register-row.schema.json; keep this
+# template's shape and that schema in sync if either changes.
+id: 1 # integer, permanent once assigned, never reused or renumbered
+item: "Short name, not a sentence"
+type: "Deferred" # one of: Deferred | Shortcut | Accepted Risk | Open Decision
+description: "Self-contained: what it is and why it exists. A reader with no other context should understand it."
+risk: "One concrete sentence: the failure mode if this stays unaddressed, not a vague concern."
+added: "2026-07-31" # YYYY-MM-DD, the date the row was created; never changes
+status: "Open" # "Open" until resolved, then "Resolved" -- lifecycle state only, nothing else appended here
+date: "--" # "--" while Open; the resolution date (YYYY-MM-DD) once Resolved. Set together with decision.
+decision: "--" # "--" while Open; a self-contained sentence on how it was resolved once Resolved. Set together with date.

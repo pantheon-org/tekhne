@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Evaluates whether the agent correctly withholds the reflection for a brief single-answer query, and for a deep multi-file session considers the sub-agent spawn pattern with a concrete summary and clear attribution rather than defaulting to inline mode or a vague spawn prompt.",
+  "checklist": [
+    {
+      "name": "No reflection for brief query",
+      "description": "The reflection is not triggered for the short, single-answer Prompt A",
+      "max_score": 30
+    },
+    {
+      "name": "Session depth considered for Prompt B",
+      "description": "Agent recognizes the deep multi-file session and considers or uses the sub-agent spawn pattern rather than treating it identically to a short session",
+      "max_score": 25
+    },
+    {
+      "name": "Concrete spawn summary if sub-agent used",
+      "description": "If sub-agent mode is used, the spawn prompt includes a concrete session summary, not a vague instruction",
+      "max_score": 25
+    },
+    {
+      "name": "Clear attribution of sub-agent output",
+      "description": "Any sub-agent findings are presented with clear attribution as an independent review, not blended into the main agent's own voice",
+      "max_score": 20
+    }
+  ]
+}

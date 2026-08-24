@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Evaluates whether the agent correctly initiates an inline session-end reflection when the user signals completion, asks the two questions sequentially rather than combined, produces at least one concrete (not vague) confidence item, and does not deflect low-confidence items.",
+  "checklist": [
+    {
+      "name": "Reflection actually initiated",
+      "description": "Agent initiates the reflection rather than skipping it because the session feels complete",
+      "max_score": 25
+    },
+    {
+      "name": "Questions asked sequentially",
+      "description": "Confidence-audit and blind-spot questions are asked one at a time, not combined into a single message",
+      "max_score": 25
+    },
+    {
+      "name": "Concrete confidence item",
+      "description": "At least one confidence item names the specific unverified assumption (the GSI) and the resource/file involved, not a vague feeling",
+      "max_score": 25
+    },
+    {
+      "name": "No deflection or excuse",
+      "description": "No low-confidence item is accompanied by an excuse or blame directed at the user",
+      "max_score": 15
+    },
+    {
+      "name": "3-7 items generated",
+      "description": "The confidence audit produces roughly 3-7 specific items, not a single item or an unbounded list",
+      "max_score": 10
+    }
+  ]
+}

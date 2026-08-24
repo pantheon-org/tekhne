@@ -1,0 +1,74 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER create a plan without YAML frontmatter -- it renders fine but never appears in .context/index.yaml, so the plan is orphaned until someone manually finds it."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip the convention-inference step (scanning existing plans for section frequency) -- hardcoding Goal/Steps/Open Questions produces a plan that doesn't match this repo's actual conventions."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER create a phase with more than 8 tasks -- an oversized phase has no meaningful checkpoint and cannot be shipped independently."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER omit or guess the effort field -- a fake S/M/L to satisfy validation is worse than an honest TBD with an Open Question stating what blocks sizing."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Gather goal, scope, phases, tasks, dependencies, risks, effort, value, and themes from the user before drafting -- effort, value, and themes are required frontmatter fields, not optional extras."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Run `grep -r '^## ' .context/plans/*.md | sed 's/.*## //' | sort | uniq -c | sort -rn` to infer core (>=40%), common (20-39%), and rare (<20%) sections before drafting."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Construct the plan from assets/templates/plan-scaffold.yaml, validated against assets/schemas/plan-scaffold.schema.json."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Run the frontmatter validation script on the created file and do not proceed until it passes -- a plan with invalid frontmatter is invisible to the index."
+    },
+    {
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "Offer to run the plan-review skill on the newly created plan once validation passes, completing the create -> review -> iterate loop."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Grade effort (S/M/L/TBD) and value (HIGH/MEDIUM/LOW) against the value rubric rather than guessing; tag themes primary-first from the closed six-value vocabulary."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "A plan is a communication tool first, a todo list second -- write for the next person who reads it cold."
+    },
+    {
+      "type": "guidance",
+      "why_given": "new knowledge",
+      "content": "Phases are about sequencing (Phase N must finish before Phase N+1); two groups that don't depend on each other are waves within a phase, not separate phases."
+    },
+    {
+      "type": "guidance",
+      "why_given": "preference",
+      "content": "Default a new plan to status: DRAFT; promote to READY only after review and approval (ACTIVE is entered automatically once a worktree/branch for the plan exists)."
+    },
+    {
+      "type": "guidance",
+      "why_given": "reminder",
+      "content": "Tasks should be single-session-sized -- a multi-day task is too large, a 5-minute task is too small."
+    }
+  ]
+}

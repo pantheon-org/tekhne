@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/pantheon-org/tekhne/refs/heads/main/skills/project-mgmt/tech-debt/assets/schemas/tech-debt-row.schema.json",
+  "title": "Tech Debt Row",
+  "description": "Shape of a single row in docs/TECH_DEBT.md. Enforced by scripts/validate-tech-debt-schema.sh; illustrated by assets/templates/tech-debt-row-template.yaml. Unlike risk-register-row.schema.json, this schema has no append-only companion script -- rows are deleted, not archived, once resolved (see SKILL.md Rules).",
+  "type": "object",
+  "required": [
+    "id",
+    "item",
+    "area",
+    "description",
+    "effort",
+    "since",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "A simple row number, not a permanence claim -- freely reused once a row is deleted, since there is no audit requirement to anchor against (unlike risk-register's append-only-backed id)."
+    },
+    "item": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short name, not a sentence."
+    },
+    "area": {
+      "type": "string",
+      "minLength": 1,
+      "description": "A small, tech-debt-specific taxonomy tracked in SKILL.md, not a closed enum here -- starts minimal and grows only when an item genuinely doesn't fit an existing value. See SKILL.md's Area Taxonomy section for the current set."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Self-contained: what's wrong, where, and why existing gates didn't catch it. A reader with no other context should understand it."
+    },
+    "effort": {
+      "type": "string",
+      "enum": ["S", "M", "L"],
+      "description": "Sizing only, matching this project's existing effort convention (.context/plans/ frontmatter, skill-auditor remediation plans). A suggested fix approach belongs in description, not here."
+    },
+    "since": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "YYYY-MM-DD, the date the row was created."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Open", "In Progress"],
+      "description": "No \"Resolved\" value -- a resolved row is deleted (see SKILL.md Rules), so that state is never observed by construction. \"In Progress\" distinguishes filed-but-not-started from actively-being-worked."
+    }
+  }
+}

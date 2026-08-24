@@ -1,0 +1,1 @@
+Recognize an explicit "just decide for me" override, stop questioning immediately, state default assumptions, and still recap before finalizing.

@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Evaluates whether the agent correctly resolves an existing risk register row: Status/Date/Decision all changed together, every other column left untouched, the row never deleted or renumbered, and the schema validation script re-run to confirm the edit.",
+  "checklist": [
+    {
+      "name": "Status/Date/Decision changed together",
+      "description": "Status becomes Resolved, Date becomes a real date, and Decision becomes a self-contained sentence, all three in the same edit",
+      "max_score": 30
+    },
+    {
+      "name": "Other columns untouched",
+      "description": "Item, Type, Description, Risk if unaddressed, and Added are never edited beyond an optional short clarifying clause",
+      "max_score": 25
+    },
+    {
+      "name": "Row never deleted or renumbered",
+      "description": "The row keeps its original # and is not deleted or reordered",
+      "max_score": 20
+    },
+    {
+      "name": "Re-validation confirmed",
+      "description": "Agent re-runs validate-risk-register-schema.sh and confirms it passes after the edit",
+      "max_score": 15
+    },
+    {
+      "name": "Self-contained decision text",
+      "description": "The Decision sentence stands alone without requiring the reader to already know the resolution",
+      "max_score": 10
+    }
+  ]
+}

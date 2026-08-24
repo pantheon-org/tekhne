@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent correctly stops questioning the moment the user gives an explicit override, rather than persisting with a planned question sequence.",
+  "checklist": [
+    {
+      "name": "First question well-formed",
+      "description": "The first question offers 3-4 concrete options with tradeoffs before the override happens",
+      "max_score": 15
+    },
+    {
+      "name": "Stops immediately on override",
+      "description": "No further branching question is asked after the user says 'just decide for me'",
+      "max_score": 30
+    },
+    {
+      "name": "States default assumptions",
+      "description": "The agent explicitly states the assumptions it will use in place of the unanswered questions",
+      "max_score": 25
+    },
+    {
+      "name": "Recap still produced",
+      "description": "A recap combining actual answers and stated assumptions is presented before the final recommendation",
+      "max_score": 20
+    },
+    {
+      "name": "Acknowledges the override",
+      "description": "The response acknowledges the user's 'just decide' signal rather than silently changing behavior",
+      "max_score": 10
+    }
+  ]
+}

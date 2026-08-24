@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "plan-review-model-selection",
+  "title": "Model Selection Question",
+  "description": "Template for the question tool call that asks the user which models to assign to reviewers.",
+  "type": "object",
+  "required": ["model_selection"],
+  "additionalProperties": false,
+  "properties": {
+    "model_selection": {
+      "type": "object",
+      "required": ["environment", "question_text", "options"],
+      "additionalProperties": false,
+      "properties": {
+        "environment": {
+          "type": "string",
+          "enum": ["opencode-zen", "opencode-go", "claude-code", "byok"]
+        },
+        "question_text": { "type": "string", "minLength": 1 },
+        "options": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["label", "description", "technical_strategic", "risk"],
+            "additionalProperties": false,
+            "properties": {
+              "label": { "type": "string" },
+              "description": { "type": "string" },
+              "recommended": { "type": "boolean", "default": false },
+              "technical_strategic": { "type": "string" },
+              "risk": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

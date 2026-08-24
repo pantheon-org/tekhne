@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/pantheon-org/tekhne/refs/heads/main/skills/project-mgmt/risk-register/assets/schemas/risk-register-row.schema.json",
+  "title": "Risk Register Row",
+  "description": "Shape of a single row in docs/RISK_REGISTER.md. Enforced by scripts/validate-risk-register-schema.sh; illustrated by assets/templates/risk-register-row-template.yaml.",
+  "type": "object",
+  "required": [
+    "id",
+    "item",
+    "type",
+    "description",
+    "risk",
+    "added",
+    "status",
+    "date",
+    "decision"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Permanent id, assigned once, never reused or renumbered."
+    },
+    "item": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short name, not a sentence."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["Deferred", "Shortcut", "Accepted Risk", "Open Decision"]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Self-contained: what it is and why it exists, with no assumed prior context."
+    },
+    "risk": {
+      "type": "string",
+      "minLength": 1,
+      "description": "One concrete sentence: the failure mode if this stays unaddressed, not a vague concern."
+    },
+    "added": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "YYYY-MM-DD, the date the row was created. Never changes."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Open", "Resolved"],
+      "description": "Lifecycle state only. The resolution date and rationale live in the separate date/decision columns, not appended here."
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^--$|^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+      "description": "\"--\" while status is Open; the resolution date (YYYY-MM-DD) once status flips to Resolved. Set together with decision, never independently."
+    },
+    "decision": {
+      "type": "string",
+      "minLength": 1,
+      "description": "\"--\" while status is Open; a self-contained sentence on how it was resolved once status flips to Resolved. Set together with date, never independently."
+    }
+  }
+}

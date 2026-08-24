@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent detects a near-duplicate/overlapping rule against the existing file and offers amendment before defaulting to a second entry.",
+  "checklist": [
+    {
+      "name": "Reads existing rules before acting",
+      "description": "The existing rules file is read and the near-duplicate rule is located before any decision is made",
+      "max_score": 20
+    },
+    {
+      "name": "Surfaces the overlap explicitly",
+      "description": "The agent explicitly tells the user the new request overlaps with an existing rule rather than silently proceeding",
+      "max_score": 30
+    },
+    {
+      "name": "Suggests amending over duplicating",
+      "description": "Amending the existing rule is offered as the default suggestion rather than immediately appending a second entry",
+      "max_score": 30
+    },
+    {
+      "name": "New entry only with confirmation",
+      "description": "A genuinely separate new entry is only created if the user confirms it's warranted after seeing the overlap",
+      "max_score": 15
+    },
+    {
+      "name": "Existing rule not silently altered",
+      "description": "The existing rule is not deleted or rewritten without the user's explicit input",
+      "max_score": 5
+    }
+  ]
+}

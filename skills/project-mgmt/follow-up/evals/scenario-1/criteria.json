@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent correctly falls through from an empty follow-up list to the register/tech-debt/value-rubric pools instead of stopping at 'nothing to report', per Rule 2 and the first Anti-Pattern.",
+  "checklist": [
+    {
+      "name": "States zero ACTIVE explicitly",
+      "description": "Report states the follow-up count is zero ACTIVE, out of 15 total, all DONE",
+      "max_score": 12
+    },
+    {
+      "name": "Falls through to wider backlog",
+      "description": "Does not stop at the zero-follow-up result; proceeds to the register and tech-debt pools",
+      "max_score": 16
+    },
+    {
+      "name": "Accurate open-row counts",
+      "description": "38 open RISK_REGISTER rows and 7 open TECH_DEBT rows (or an equivalent accurate count) appear",
+      "max_score": 12
+    },
+    {
+      "name": "Freshness check performed",
+      "description": "Compares the index's header count against the actual file count before trusting it",
+      "max_score": 8
+    },
+    {
+      "name": "Value-rubric pool considered",
+      "description": "Applies the value-rubric read protocol over PLAN/FINDING/KNOWN_ISSUE entries as part of the wider pool",
+      "max_score": 10
+    },
+    {
+      "name": "Single named recommendation",
+      "description": "Exactly one recommended next item is named, not a list of equally-weighted options",
+      "max_score": 10
+    },
+    {
+      "name": "Rationale beats runner-up",
+      "description": "States why the pick beats the next-best alternative, not just that it won",
+      "max_score": 10
+    },
+    {
+      "name": "Judgment-call labeling",
+      "description": "If the pick is register/tech-debt-sourced, explicitly labels it a qualitative judgment call, not rubric-sorted",
+      "max_score": 10
+    },
+    {
+      "name": "No mutation performed",
+      "description": "No file is edited; no register/tech-debt row filed or modified; no follow-up status changed",
+      "max_score": 8
+    },
+    {
+      "name": "Handoff offered, not executed",
+      "description": "Offers a next-step handoff (risk-register / tech-debt / plan-create) rather than performing it",
+      "max_score": 4
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 93,
+    "total_instructions": 15,
+    "covered_instructions": 14,
+    "notes": "scenario-01 covers the adaptive one-question protocol and recap confirmation; scenario-02 covers the early-exit/'just decide' override; scenario-03 covers the downstream-artifact file-output gate and question-count budget; scenario-04 covers contradiction handling and repeated free-text ('Other') signal. The single uncovered instruction is the general free-text-path preservation instruction, which is implicit in AskUserQuestion's tooling behaviour rather than agent-authored per scenario."
+  }
+}

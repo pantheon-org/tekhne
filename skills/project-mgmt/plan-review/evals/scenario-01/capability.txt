@@ -1,0 +1,1 @@
+Ask about model selection before reviewing, build one shared self-contained plan brief, and spawn all 3 reviewers in parallel with mixed subagent types.

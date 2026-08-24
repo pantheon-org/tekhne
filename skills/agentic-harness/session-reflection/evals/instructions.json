@@ -1,0 +1,69 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Ask the confidence-audit question and the blind-spot question sequentially, never both in the same message -- wait for the user's response to each before asking the next."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Generate 3-7 specific confidence items, each naming what was done, what was not verified, and why confidence is low -- not a vague feeling."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "For the blind-spot check, target assumptions the user stated but that went unverified, alternatives not explored, and signals dropped mid-conversation."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "If a flagged item is a verified, concrete gap not being fixed in this session, create a known-issue document via context-file with an honest severity rating -- do not leave it as only a chat mention."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Before treating the session as closed, confirm with the user that the reflection addressed their concerns and explicitly ask if anything else needs addressing."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER skip the reflection because the session feels complete -- the agent is a poor judge of its own completeness."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER give a vague confidence item such as \"not confident about performance\" -- name the specific file, function, or assumption."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER ask both reflection questions in one breath -- combining them reduces the thoughtfulness of each answer."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER deflect or make excuses for a low-confidence item -- excuses undermine the honesty the reflection depends on."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER spawn a sub-agent reflection without a concrete session summary -- a vague prompt produces vague output."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER let a verified-but-deferred gap live only as a chat mention -- file it as a known-issue document in the same turn."
+    },
+    {
+      "type": "knowledge",
+      "why_given": "new knowledge",
+      "content": "Do NOT trigger this skill for brief single-answer queries, CI/automated contexts, or in the middle of active work -- only when a session appears to be concluding."
+    },
+    {
+      "type": "knowledge",
+      "why_given": "preference",
+      "content": "LOW and MEDIUM severity ratings on a known-issue entry are legitimate, honest outcomes -- do not inflate severity just to make an item feel actioned."
+    }
+  ]
+}

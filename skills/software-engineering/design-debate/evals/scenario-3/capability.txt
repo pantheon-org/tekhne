@@ -1,0 +1,1 @@
+Recognize when the grounding facts favor not proceeding, render a do_not_proceed_for_now verdict with a concrete revisit trigger, and record it as a known-issue rather than a finding.

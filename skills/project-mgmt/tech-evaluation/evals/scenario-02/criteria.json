@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates whether the agent treats schema validation as a hard gate, correctly identifies both validation failures, refuses to patch the YAML itself, and only renders the finding after a re-validated pass.",
+  "checklist": [
+    {
+      "name": "Validation run before rendering",
+      "description": "Validation script run and read before any finding is drafted",
+      "max_score": 20
+    },
+    {
+      "name": "Both errors identified",
+      "description": "Empty evidence array AND too-short rationale both explicitly called out",
+      "max_score": 25
+    },
+    {
+      "name": "No self-patching",
+      "description": "Agent does not invent evidence or rationale text itself to force the validator to pass",
+      "max_score": 25
+    },
+    {
+      "name": "Sent back to subagent",
+      "description": "Corrected YAML requested from the research subagent, not authored by the reviewing agent",
+      "max_score": 20
+    },
+    {
+      "name": "Re-validation before rendering",
+      "description": "Finding only rendered after a fresh validation pass succeeds",
+      "max_score": 10
+    }
+  ]
+}
