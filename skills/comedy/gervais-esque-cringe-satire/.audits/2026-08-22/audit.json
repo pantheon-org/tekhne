@@ -1,0 +1,24 @@
+{
+  "skill": "comedy/gervais-esque-cringe-satire",
+  "date": "2026-08-22",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 14,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 126,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 318,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

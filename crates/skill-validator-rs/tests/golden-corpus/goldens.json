@@ -8956,9 +8956,9 @@
   {
     "dir": "skills/documentation/journal-entry-creator",
     "content": {
-      "word_count": 2481,
+      "word_count": 2966,
       "code_block_count": 17,
-      "code_block_ratio": 0.0593,
+      "code_block_ratio": 0.0499,
       "code_languages": [
         "bash",
         "bash",
@@ -8978,15 +8978,15 @@
         "bash",
         "bash"
       ],
-      "sentence_count": 177,
-      "imperative_count": 24,
-      "imperative_ratio": 0.1356,
-      "information_density": 0.0974,
-      "strong_markers": 50,
-      "weak_markers": 6,
-      "instruction_specificity": 0.8929,
-      "section_count": 34,
-      "list_item_count": 123
+      "sentence_count": 201,
+      "imperative_count": 25,
+      "imperative_ratio": 0.1244,
+      "information_density": 0.0871,
+      "strong_markers": 60,
+      "weak_markers": 8,
+      "instruction_specificity": 0.8824,
+      "section_count": 39,
+      "list_item_count": 131
     },
     "structure": {
       "results": [
@@ -9028,7 +9028,7 @@
         {
           "Level": 0,
           "Category": "Frontmatter",
-          "Message": "description: (585 chars)",
+          "Message": "description: (610 chars)",
           "File": "SKILL.md",
           "Line": 0
         },
@@ -9045,16 +9045,30 @@
           "Message": "no unclosed code fences found",
           "File": "",
           "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/compliance.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: references/compliance.md (exists)",
+          "File": "SKILL.md",
+          "Line": 0
         }
       ],
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 4202
+          "Tokens": 4991
         },
         {
           "File": "references/compliance.md",
-          "Tokens": 843
+          "Tokens": 2200
         },
         {
           "File": "references/edge-cases.md",
@@ -9082,11 +9096,15 @@
         },
         {
           "File": "assets/templates/journal-entry.yaml",
-          "Tokens": 1924
+          "Tokens": 2408
         },
         {
           "File": "assets/templates/learning.yaml",
           "Tokens": 2124
+        },
+        {
+          "File": "assets/templates/ticket-kickoff.yaml",
+          "Tokens": 3567
         },
         {
           "File": "assets/templates/ticket-refinement.yaml",
@@ -10674,7 +10692,7 @@
         },
         {
           "File": "references/artifact-storage.md",
-          "Tokens": 493
+          "Tokens": 653
         }
       ],
       "other_token_counts": [
@@ -15795,25 +15813,26 @@
   {
     "dir": "skills/project-mgmt/create-context-file",
     "content": {
-      "word_count": 795,
-      "code_block_count": 5,
-      "code_block_ratio": 0.0717,
+      "word_count": 944,
+      "code_block_count": 6,
+      "code_block_ratio": 0.0816,
       "code_languages": [
+        "bash",
         "bash",
         "bash",
         "bash",
         "bash",
         "bash"
       ],
-      "sentence_count": 62,
+      "sentence_count": 69,
       "imperative_count": 8,
-      "imperative_ratio": 0.129,
-      "information_density": 0.1004,
-      "strong_markers": 15,
+      "imperative_ratio": 0.1159,
+      "information_density": 0.0988,
+      "strong_markers": 16,
       "weak_markers": 0,
       "instruction_specificity": 1.0,
-      "section_count": 13,
-      "list_item_count": 17
+      "section_count": 14,
+      "list_item_count": 18
     },
     "structure": {
       "results": [
@@ -15827,7 +15846,14 @@
         {
           "Level": 2,
           "Category": "Structure",
-          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files; should this be assets/?",
+          "Message": "unknown directory: evals/ (contains 5 files) — agents using the standard skill structure won't discover these files",
+          "File": "",
+          "Line": 0
+        },
+        {
+          "Level": 2,
+          "Category": "Structure",
+          "Message": "deep nesting detected: assets/schemas/",
           "File": "",
           "Line": 0
         },
@@ -15886,20 +15912,27 @@
           "Message": "internal link: references/cli.md (exists)",
           "File": "SKILL.md",
           "Line": 0
+        },
+        {
+          "Level": 0,
+          "Category": "Structure",
+          "Message": "internal link: assets/schemas/context-frontmatter.schema.json (exists)",
+          "File": "SKILL.md",
+          "Line": 0
         }
       ],
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 1123
+          "Tokens": 1376
         },
         {
           "File": "references/cli.md",
-          "Tokens": 542
+          "Tokens": 628
         },
         {
           "File": "references/typologies.md",
-          "Tokens": 389
+          "Tokens": 560
         },
         {
           "File": "CHANGELOG.md",
@@ -15913,7 +15946,7 @@
         },
         {
           "File": "evals/scenario-02.md",
-          "Tokens": 658
+          "Tokens": 686
         },
         {
           "File": "evals/scenario-03.md",
@@ -15929,7 +15962,7 @@
         }
       ],
       "errors": 0,
-      "warnings": 2
+      "warnings": 3
     }
   },
   {

@@ -34,7 +34,6 @@ import matter from "gray-matter";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const skillsRoot = resolve(__dirname, "../../skills");
 const destRoot = resolve(__dirname, "../src/content/docs/skills");
-const auditsRoot = resolve(__dirname, "../../.context/audits");
 
 /** Directories inside a skill that contain non-renderable content. */
 const SKIP_DIRS = new Set([
@@ -219,13 +218,13 @@ const buildReferencesList = (skillSrcDir, skillRelPath) => {
 };
 
 /**
- * Load all audit snapshots for a skill from .context/audits/<domain>/<skill>/.
+ * Load all audit snapshots for a skill from skills/<domain>/<skill>/.audits/.
  * Returns an array of { date, ...auditData } objects sorted by date descending,
  * or an empty array if none exist.
  * @param {string} skillRelPath - e.g. "documentation/markdown-authoring"
  */
 const loadAllAuditSnapshots = (skillRelPath) => {
-  const auditSkillDir = join(auditsRoot, skillRelPath);
+  const auditSkillDir = join(skillsRoot, skillRelPath, ".audits");
   if (!existsSync(auditSkillDir)) return [];
 
   const snapshots = [];
@@ -253,12 +252,18 @@ const loadAllAuditSnapshots = (skillRelPath) => {
 };
 
 /**
- * Load audit data for a skill from .context/audits/<domain>/<skill>/latest/audit.json.
+ * Load audit data for a skill from skills/<domain>/<skill>/.audits/latest/audit.json.
  * Returns the parsed JSON object, or null if not found.
  * @param {string} skillRelPath - e.g. "documentation/markdown-authoring"
  */
 const loadAuditData = (skillRelPath) => {
-  const auditPath = join(auditsRoot, skillRelPath, "latest", "audit.json");
+  const auditPath = join(
+    skillsRoot,
+    skillRelPath,
+    ".audits",
+    "latest",
+    "audit.json",
+  );
   if (!existsSync(auditPath)) return null;
   try {
     return JSON.parse(readFileSync(auditPath, "utf-8"));

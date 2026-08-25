@@ -14,9 +14,9 @@ afterEach(() => {
   Bun.spawnSync(["rm", "-rf", tmp]);
 });
 
-// Helper: create a fake audit directory structure under tmp/.context/audits/<skill>/<date>/
+// Helper: create a fake audit directory structure under tmp/skills/<skill>/.audits/<date>/
 const makeAuditDir = (skillPath: string, date: string, grade: string) => {
-  const dir = join(tmp, ".context", "audits", skillPath, date);
+  const dir = join(tmp, "skills", skillPath, ".audits", date);
   mkdirSync(dir, { recursive: true });
   writeFileSync(join(dir, "audit.json"), JSON.stringify({ grade }));
   return dir;
@@ -50,7 +50,7 @@ describe("getLatestAuditInfo", () => {
   });
 
   test("falls back to grade '?' when audit.json has no grade field", async () => {
-    const dir = join(tmp, ".context", "audits", "my/skill", "2026-03-15");
+    const dir = join(tmp, "skills", "my/skill", ".audits", "2026-03-15");
     mkdirSync(dir, { recursive: true });
     writeFileSync(join(dir, "audit.json"), JSON.stringify({}));
 
@@ -65,7 +65,7 @@ describe("getLatestAuditInfo", () => {
   });
 
   test("skips directories without audit.json and returns null if none found", async () => {
-    const dir = join(tmp, ".context", "audits", "my/skill", "2026-03-15");
+    const dir = join(tmp, "skills", "my/skill", ".audits", "2026-03-15");
     mkdirSync(dir, { recursive: true }); // no audit.json
 
     const orig = process.cwd();
@@ -78,7 +78,7 @@ describe("getLatestAuditInfo", () => {
   });
 
   test("skips date dirs with corrupt audit.json and falls back to null", async () => {
-    const dir = join(tmp, ".context", "audits", "my/skill", "2026-03-15");
+    const dir = join(tmp, "skills", "my/skill", ".audits", "2026-03-15");
     mkdirSync(dir, { recursive: true });
     writeFileSync(join(dir, "audit.json"), "not-valid-json{{{{");
 

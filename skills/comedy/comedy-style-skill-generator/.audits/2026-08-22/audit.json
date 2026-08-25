@@ -1,0 +1,24 @@
+{
+  "skill": "comedy/comedy-style-skill-generator",
+  "date": "2026-08-22",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 15
+  },
+  "total": 125,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 199,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

@@ -1,10 +1,10 @@
-//! Prune old audit snapshots under `.context/audits`.
+//! Prune old audit snapshots under each skill's `.audits/` directory.
 //!
 //! Ports `prune-audits.sh`, reconciled to the Rust reporter's on-disk layout.
 //! The shell assumed `.context/audits/skill-audit/<date>/` with a `latest`
-//! symlink; the Rust reporter (see `reporter::store`) writes
-//! `.context/audits/<skill>/<date>/`, where `<skill>` is a `domain/skill-name`
-//! path. This walks any depth and, for every directory that directly contains
+//! symlink; the Rust reporter (see `reporter::store`) now writes
+//! `skills/<domain>/<skill>/.audits/<date>/`, next to the skill it audited.
+//! This walks any depth and, for every directory that directly contains
 //! date-named snapshot subdirectories, keeps the `keep` most recent and removes
 //! the rest. ISO `YYYY-MM-DD` names sort lexicographically in date order, so
 //! "most recent" is a reverse name sort.
@@ -17,7 +17,7 @@ pub const DEFAULT_KEEP: usize = 5;
 /// A directory of dated snapshots and the prune decision for it.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PrunePlan {
-    /// The directory holding the dated snapshots (e.g. `.context/audits/d/s`).
+    /// The directory holding the dated snapshots (e.g. `skills/d/s/.audits`).
     pub dir: PathBuf,
     /// Snapshot dates retained, most recent first.
     pub kept: Vec<String>,
@@ -57,10 +57,36 @@ fn subdirs(dir: &Path) -> Vec<(String, PathBuf)> {
 /// first `keep` retained and the remainder marked for removal. Non-date
 /// subdirectories are recursed into (so nested `domain/skill/<date>` layouts are
 /// found); date subdirectories are treated as leaf snapshots.
+///
+/// Callers that point this at a directory containing non-audit content (e.g.
+/// the whole `skills/` tree) should use [`plan_under_skills_root`] instead —
+/// this function has no notion of what an audit directory is and will happily
+/// group and prune any date-named subdirectories it finds, audit or not.
 pub fn plan(audits_root: &Path, keep: usize) -> Vec<PrunePlan> {
     let mut plans = Vec::new();
     walk(audits_root, keep, &mut plans);
     plans
+}
+
+/// Compute prune plans across a `skills/` tree (or similar) that contains more
+/// than just audits. Only directories literally named `.audits` are treated as
+/// snapshot roots; everything else under `skills_root` — skill content,
+/// `references/`, `evals/`, test fixtures, anything else that might coincidentally
+/// use a date-named directory — is walked past without being touched.
+pub fn plan_under_skills_root(skills_root: &Path, keep: usize) -> Vec<PrunePlan> {
+    let mut plans = Vec::new();
+    find_audit_dirs(skills_root, keep, &mut plans);
+    plans
+}
+
+fn find_audit_dirs(dir: &Path, keep: usize, plans: &mut Vec<PrunePlan>) {
+    for (name, path) in subdirs(dir) {
+        if name == ".audits" {
+            walk(&path, keep, plans);
+        } else {
+            find_audit_dirs(&path, keep, plans);
+        }
+    }
 }
 
 fn walk(dir: &Path, keep: usize, plans: &mut Vec<PrunePlan>) {
@@ -93,8 +119,26 @@ fn walk(dir: &Path, keep: usize, plans: &mut Vec<PrunePlan>) {
 /// Execute the prune under `audits_root`. When `dry_run` is true the plans are
 /// computed but nothing is deleted. Returns the plans (including those with an
 /// empty `removed` list, so callers can report what was kept).
+///
+/// Same audits-only caveat as [`plan`]: prefer [`prune_under_skills_root`] when
+/// `audits_root` may contain non-audit content.
 pub fn prune(audits_root: &Path, keep: usize, dry_run: bool) -> std::io::Result<Vec<PrunePlan>> {
-    let plans = plan(audits_root, keep);
+    apply(plan(audits_root, keep), dry_run)
+}
+
+/// Execute the prune across a `skills/` tree, touching only `.audits/`
+/// directories. See [`plan_under_skills_root`].
+pub fn prune_under_skills_root(
+    skills_root: &Path,
+    keep: usize,
+    dry_run: bool,
+) -> std::io::Result<Vec<PrunePlan>> {
+    apply(plan_under_skills_root(skills_root, keep), dry_run)
+}
+
+/// Delete each plan's `removed` snapshots unless `dry_run` is set. Returns the
+/// plans unchanged so callers can report what was kept/removed either way.
+fn apply(plans: Vec<PrunePlan>, dry_run: bool) -> std::io::Result<Vec<PrunePlan>> {
     if !dry_run {
         for p in &plans {
             for date in &p.removed {
@@ -185,5 +229,43 @@ mod tests {
         assert!(!root.join("domain/skill/2026-01-01").exists());
         assert!(!root.join("domain/skill/2026-02-01").exists());
         assert!(root.join("domain/skill/2026-03-01").exists());
+    }
+
+    #[test]
+    fn plan_under_skills_root_ignores_dates_outside_dot_audits() {
+        let tmp = tempdir().unwrap();
+        let root = tmp.path();
+        // A real audit history, nested under a skill's .audits/.
+        for d in ["2026-01-01", "2026-02-01", "2026-03-01"] {
+            mk_snapshot(root, "domain/skill/.audits", d);
+        }
+        // A date-named directory that is NOT an audit snapshot — e.g. a test
+        // fixture or versioned asset living directly under the skill.
+        fs::create_dir_all(root.join("domain/skill/fixtures/2026-01-01")).unwrap();
+
+        let plans = plan_under_skills_root(root, 1);
+        assert_eq!(plans.len(), 1);
+        assert_eq!(plans[0].dir, root.join("domain/skill/.audits"));
+        assert_eq!(plans[0].removed.len(), 2);
+        // The look-alike fixture directory is never considered, so it survives
+        // even a real (non-dry-run) prune.
+        prune_under_skills_root(root, 1, false).unwrap();
+        assert!(root.join("domain/skill/fixtures/2026-01-01").exists());
+    }
+
+    #[test]
+    fn plan_under_skills_root_handles_nested_legacy_subdirs() {
+        let tmp = tempdir().unwrap();
+        let root = tmp.path();
+        for d in ["2026-01-01", "2026-02-01", "2026-03-01"] {
+            mk_snapshot(root, "domain/skill/.audits/legacy/sub-skill", d);
+        }
+        let plans = plan_under_skills_root(root, 1);
+        assert_eq!(plans.len(), 1);
+        assert_eq!(
+            plans[0].dir,
+            root.join("domain/skill/.audits/legacy/sub-skill")
+        );
+        assert_eq!(plans[0].removed.len(), 2);
     }
 }

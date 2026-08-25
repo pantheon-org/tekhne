@@ -1,0 +1,24 @@
+{
+  "skill": "project-mgmt/nasa-pm-lessons",
+  "date": "2026-08-22",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 14
+  },
+  "total": 117,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 101,
+  "hasReferences": true,
+  "referenceCount": 6,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}
