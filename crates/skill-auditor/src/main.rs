@@ -429,12 +429,16 @@ fn print_batch_table(entries: &mut [Entry]) {
 /// Prune old audit snapshots under each skill's `.audits/` directory,
 /// keeping the most recent `--keep` per skill.
 fn run_prune_audits(args: PruneAuditsArgs) -> std::result::Result<(), String> {
-    let audits_root = match &args.audits_dir {
-        Some(dir) => PathBuf::from(dir),
+    // An explicit --audits-dir names the audits root directly (e.g. a single
+    // skill's .audits/, or a pre-migration .context/audits/ tree), so it's
+    // pruned as-is. The default root is the whole skills/ tree, which holds
+    // far more than audits, so only its .audits/ subdirectories are touched.
+    let (audits_root, restrict_to_dot_audits) = match &args.audits_dir {
+        Some(dir) => (PathBuf::from(dir), false),
         None => {
             let repo_root = resolve_repo_root(args.repo_root.as_deref())
                 .map_err(|e| format!("cannot determine repo root: {e}"))?;
-            repo_root.join("skills")
+            (repo_root.join("skills"), true)
         }
     };
 
@@ -443,7 +447,12 @@ fn run_prune_audits(args: PruneAuditsArgs) -> std::result::Result<(), String> {
         return Ok(());
     }
 
-    let plans = prune::prune(&audits_root, args.keep, args.dry_run).map_err(|e| e.to_string())?;
+    let plans = if restrict_to_dot_audits {
+        prune::prune_under_skills_root(&audits_root, args.keep, args.dry_run)
+    } else {
+        prune::prune(&audits_root, args.keep, args.dry_run)
+    }
+    .map_err(|e| e.to_string())?;
 
     if args.dry_run {
         println!(
