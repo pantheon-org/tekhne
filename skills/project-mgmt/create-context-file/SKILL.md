@@ -75,6 +75,20 @@ list; when no `--related` is given, the key is omitted entirely rather than
 written as `related: []`.
 
 ```bash
+# Follow-up that can't start until a plan lands
+./scripts/create-context-file.sh --type follow-ups --title "Wire up token refresh" \
+  --blocked-by "../plans/2026-03-16-auth-rollout.md"
+```
+
+Expected result: a dated follow-up file whose frontmatter includes a
+`blocked-by:` list, in the same "omitted when empty" style as `related`. The
+`context-index` skill's `scripts/context-ready.sh` reads this field across
+every context file to report which active files have zero open blockers —
+set `--blocks` on the file being depended on, `--blocked-by` on the file
+doing the depending, or both if the relationship is worth recording from
+either side.
+
+```bash
 # Multi-line body via heredoc
 ./scripts/create-context-file.sh --type plans --title "Retriever rollout" << 'EOF'
 ## Phase 1
@@ -140,17 +154,36 @@ repositories.
 
 **Consequence:** broken chronological ordering plus frontmatter parse failures.
 
-### NEVER emit `related: []` when there are no related files
+### NEVER emit `related: []`, `blocks: []`, or `blocked-by: []` when there is nothing to list
 
 **WHY:** an empty list is noise; the field should be absent when there is
 nothing to link.
 
-**BAD:** `related: []` in the frontmatter.
-**GOOD:** omit the `related` key entirely; pass `--related` only when there is
-at least one path to list.
+**BAD:** `related: []` (or `blocks: []` / `blocked-by: []`) in the frontmatter.
+**GOOD:** omit the key entirely; pass `--related`/`--blocks`/`--blocked-by`
+only when there is at least one path to list.
 
 **Consequence:** frontmatter clutter that trains readers (and tooling) to
 ignore the field, masking the times it actually carries a link.
+
+### NEVER set `blocked-by` on a file whose blocker is unlikely to ever reach `status: done`
+
+**WHY:** `context-ready.sh` fails closed — an unresolvable blocker path, or
+one that sits at a status other than `done` indefinitely, keeps the
+dependent file reported as blocked forever, with no automatic timeout.
+
+**BAD:** pointing `blocked-by` at a typology whose typical lifecycle is "keep
+indefinitely" or "keep while active" rather than a discrete close (see the
+lifecycle column in [Typologies](references/typologies.md)) — e.g. a
+`guide` or `research` file nobody plans to ever mark `done`.
+**GOOD:** point `blocked-by` at a typology whose lifecycle is a real
+close event (`plan` retiring, `follow-up` closing, `ticket` tracked to
+resolution, `merge-request` retiring after merge) — or record the
+relationship in prose instead if it isn't really "done-or-not-done" shaped.
+
+**Consequence:** a file that can never actually be reported ready, with
+nothing in `context-ready.sh`'s output explaining that the blocker itself is
+the problem rather than the work.
 
 ### NEVER invent a new typology for a one-off
 
@@ -165,4 +198,4 @@ ignore the field, masking the times it actually carries a link.
 
 - [Typologies](references/typologies.md) — the curated catalog, selection rule, and how to extend the set; load when choosing or adding a typology.
 - [CLI reference](references/cli.md) — full generator flags, behavior, and examples; load when you need an option beyond the Quick Commands.
-- [Frontmatter schema](assets/schemas/context-frontmatter.schema.json) — the JSON Schema for `title`, `type`, `date`, `status`, `tags`, and `related`; load when validating a context file's frontmatter or wiring a lint check.
+- [Frontmatter schema](assets/schemas/context-frontmatter.schema.json) — the JSON Schema for `title`, `type`, `date`, `status`, `tags`, `related`, `blocks`, and `blocked-by`; load when validating a context file's frontmatter or wiring a lint check.

@@ -53,6 +53,24 @@
         "minLength": 1
       },
       "description": "Relative paths to related .context files. Omit the field entirely if there are no related files -- never emit related: []."
+    },
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Relative paths to other .context files that cannot be considered ready until THIS file reaches status: done. Inverse of blocked-by; the two are not auto-reconciled, so set both sides when the relationship is known. Paths are relative to this file's own directory, the same convention as related. Omit the field entirely if nothing is blocked -- never emit blocks: []."
+    },
+    "blocked-by": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "description": "Relative paths to other .context files that must reach status: done before THIS file is considered ready. Inverse of blocks. Paths are relative to this file's own directory, the same convention as related. Read by context-index's scripts/context-ready.sh to compute which active files have zero open blockers. Omit the field entirely if nothing blocks this file -- never emit blocked-by: []."
     }
   }
 }

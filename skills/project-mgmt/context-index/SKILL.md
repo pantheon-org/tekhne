@@ -1,6 +1,6 @@
 ---
 name: context-index
-description: "Regenerates the project's context index (index.yaml) from the YAML frontmatter across every context file, grouping entries by typology (findings/plans/guides/follow-ups/merge-requests/tickets/decisions/notes/research), and validates that each file carries the required frontmatter fields. Use when the index is stale, context files were added, renamed, or removed, or a pre-commit gate blocks a commit because a context file is missing frontmatter. Do not use it to create new context files (use create-context-file instead), to hand-edit the index, or as a substitute for fixing frontmatter at the source."
+description: "Regenerates the project's context index (index.yaml) from the YAML frontmatter across every context file, grouping entries by typology (findings/plans/guides/follow-ups/merge-requests/tickets/decisions/notes/research), and validates that each file carries the required frontmatter fields. Also computes which active files are ready to work on, from optional typed `blocks`/`blocked-by` dependency links (scripts/context-ready.sh). Use when the index is stale, context files were added, renamed, or removed, a pre-commit gate blocks a commit because a context file is missing frontmatter, or someone asks what's ready/unblocked/blocked across the context backlog. Do not use it to create new context files (use create-context-file instead), to hand-edit the index, or as a substitute for fixing frontmatter at the source."
 ---
 
 # Context Index
@@ -65,6 +65,10 @@ status: active | done
 tags: []
 related:
   - ../relative/path/to/related.md # omit the whole key if there is nothing related
+blocks:
+  - ../relative/path/to/dependent.md # omit if this file blocks nothing
+blocked-by:
+  - ../relative/path/to/blocker.md # omit if nothing blocks this file
 ---
 ```
 
@@ -72,8 +76,9 @@ related:
 under (`findings/` → `finding`, `follow-ups/` → `follow-up`, `research/` →
 `research`). The index groups entries back into the plural form for display.
 `title`, `type`, `status`, and `date` are required for a file to appear in
-the index; `tags` and `related` are optional and only rendered when
-non-empty.
+the index; `tags`, `related`, `blocks`, and `blocked-by` are optional and
+only rendered when non-empty. `blocked-by` is read by `scripts/context-ready.sh`
+to compute which active files have zero open blockers.
 
 ## Procedure
 
@@ -129,6 +134,21 @@ Expected result: `context filenames OK`, or a list of naming violations.
 Expected result: a notice listing entries older than the threshold (default
 60 days via `CONTEXT_STALENESS_THRESHOLD_DAYS`), or no output. Always exits 0
 — this is a nudge, not a gate.
+
+```bash
+# What's ready to work on right now, computed from blocked-by
+./scripts/context-ready.sh
+
+# What's blocked, and by what
+./scripts/context-ready.sh --blocked
+```
+
+Expected result: a list of active files with zero open blockers (or a notice
+that none are), read straight from the index — no mutation, always exits 0.
+A blocker is "open" when the file it points at is missing from the index or
+not `status: done`; an unresolvable reference fails closed rather than being
+treated as satisfied. Run `regenerate-context-index.sh` first if the index
+might be stale (this script warns, but does not regenerate, on a mismatch).
 
 ## Anti-Patterns
 
@@ -193,4 +213,5 @@ looks, which is functionally the same as it not existing.
 | Topic | Reference | When to Use |
 | --- | --- | --- |
 | Technical details, parsing rules, exit codes, and CI integration | [Regeneration Reference](references/regeneration-reference.md) | Debugging index regeneration, wiring the check into a pre-commit hook, or writing a new script against the same frontmatter shape |
+| `blocks`/`blocked-by` semantics and `context-ready.sh`'s readiness computation | [Regeneration Reference](references/regeneration-reference.md) | Modelling a dependency between two context files, or debugging why a file is (or isn't) reported ready |
 | Typology catalog and the plural-folder / singular-`type:` mapping | The `create-context-file` skill's typologies reference (companion skill) | Choosing or extending the typology set this skill indexes against |

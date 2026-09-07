@@ -108,6 +108,12 @@ for md in sorted(context_dir.rglob("*.md")):
     related = parse_list_block(fm["_raw"], "related")
     if related:
         entry["related"] = related
+    blocks = parse_list_block(fm["_raw"], "blocks")
+    if blocks:
+        entry["blocks"] = blocks
+    blocked_by = parse_list_block(fm["_raw"], "blocked-by")
+    if blocked_by:
+        entry["blocked-by"] = blocked_by
     entries.append(entry)
 
 if missing:
@@ -229,6 +235,14 @@ for t in type_order:
             lines.append("    related:")
             for r in e["related"]:
                 lines.append(f"      - {emit_scalar(r)}")
+        if e.get("blocks"):
+            lines.append("    blocks:")
+            for b in e["blocks"]:
+                lines.append(f"      - {emit_scalar(b)}")
+        if e.get("blocked-by"):
+            lines.append("    blocked-by:")
+            for b in e["blocked-by"]:
+                lines.append(f"      - {emit_scalar(b)}")
     lines.append("")
 
 output = "\n".join(lines) + "\n"

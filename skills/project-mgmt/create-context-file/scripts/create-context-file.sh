@@ -23,6 +23,13 @@
 #   -R, --related PATHS    Comma-separated relative paths to related .context
 #                          files. Omitted entirely from frontmatter when empty
 #                          -- never emitted as `related: []`.
+#   -b, --blocks     PATHS Comma-separated relative paths to .context files
+#                          that cannot be ready until THIS file is done.
+#                          Same omit-when-empty rule as --related.
+#   -k, --blocked-by PATHS Comma-separated relative paths to .context files
+#                          that must be done before THIS file is ready. Same
+#                          omit-when-empty rule as --related. Read by
+#                          context-index's scripts/context-ready.sh.
 #   -d, --date    DATE     Override the date (YYYY-MM-DD). Defaults to today.
 #   -r, --root    DIR      Context root. Defaults to .context.
 #   -A, --allow-new-type   Permit a typology not in KNOWN_TYPES.
@@ -79,6 +86,8 @@ title=""
 slug=""
 tags=""
 related=""
+blocks=""
+blocked_by=""
 date=""
 root=".context"
 allow_new=0
@@ -92,6 +101,8 @@ while [ $# -gt 0 ]; do
 		-s|--slug)           slug="${2:-}"; shift 2 ;;
 		-g|--tags)           tags="${2:-}"; shift 2 ;;
 		-R|--related)        related="${2:-}"; shift 2 ;;
+		-b|--blocks)         blocks="${2:-}"; shift 2 ;;
+		-k|--blocked-by)     blocked_by="${2:-}"; shift 2 ;;
 		-d|--date)           date="${2:-}"; shift 2 ;;
 		-r|--root)           root="${2:-}"; shift 2 ;;
 		-A|--allow-new-type) allow_new=1; shift ;;
@@ -146,25 +157,41 @@ else
 	tags_block="tags: []"
 fi
 
-# Build related block. Unlike tags, an empty related list is omitted
-# entirely from the frontmatter -- never emitted as `related: []`.
-related_block=""
-if [ -n "$related" ]; then
-	_ifs="$IFS"; IFS=','
-	for _rel in $related; do
-		_rel="$(printf '%s' "$_rel" | sed 's/^[[:space:]]\{1,\}//; s/[[:space:]]\{1,\}$//')"
-		if [ -n "$_rel" ]; then
-			if [ -z "$related_block" ]; then
-				related_block="related:
-  - ${_rel}"
-			else
-				related_block="${related_block}
-  - ${_rel}"
+# Build a path-list block for a frontmatter key from a comma-separated value,
+# e.g. build_path_list_block related "../plans/x.md,../plans/y.md" prints:
+#   related:
+#     - ../plans/x.md
+#     - ../plans/y.md
+# Unlike tags, these keys are omitted entirely from the frontmatter when
+# empty -- never emitted as `related: []` / `blocks: []` / `blocked-by: []`.
+# Shared by --related, --blocks, and --blocked-by, which all follow the same
+# file-relative-path, omit-when-empty convention.
+build_path_list_block() {
+	_key="$1"
+	_value="$2"
+	_block=""
+	if [ -n "$_value" ]; then
+		_ifs="$IFS"; IFS=','
+		for _item in $_value; do
+			_item="$(printf '%s' "$_item" | sed 's/^[[:space:]]\{1,\}//; s/[[:space:]]\{1,\}$//')"
+			if [ -n "$_item" ]; then
+				if [ -z "$_block" ]; then
+					_block="${_key}:
+  - ${_item}"
+				else
+					_block="${_block}
+  - ${_item}"
+				fi
 			fi
-		fi
-	done
-	IFS="$_ifs"
-fi
+		done
+		IFS="$_ifs"
+	fi
+	printf '%s' "$_block"
+}
+
+related_block="$(build_path_list_block related "$related")"
+blocks_block="$(build_path_list_block blocks "$blocks")"
+blocked_by_block="$(build_path_list_block blocked-by "$blocked_by")"
 
 body="---
 title: \"${title}\"
@@ -173,10 +200,12 @@ date: ${date}
 status: active
 ${tags_block}"
 
-if [ -n "$related_block" ]; then
-	body="${body}
-${related_block}"
-fi
+for _pl_block in "$related_block" "$blocks_block" "$blocked_by_block"; do
+	if [ -n "$_pl_block" ]; then
+		body="${body}
+${_pl_block}"
+	fi
+done
 
 body="${body}
 ---
