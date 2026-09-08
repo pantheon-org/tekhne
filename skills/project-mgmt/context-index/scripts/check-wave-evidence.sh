@@ -42,7 +42,7 @@ flagged = []
 for path in sorted(plans_dir.rglob("*.md")):
     rel = path.relative_to(plans_dir.parent.parent)
     try:
-        lines = path.read_text().splitlines()
+        lines = path.read_text(encoding="utf-8").splitlines()
     except OSError:
         continue
     for lineno, line in enumerate(lines, start=1):
