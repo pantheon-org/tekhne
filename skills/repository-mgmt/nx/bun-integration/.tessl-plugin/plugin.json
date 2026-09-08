@@ -1,7 +1,9 @@
 {
   "name": "pantheon-ai/nx-bun-integration",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Integrate Bun runtime into Nx monorepos with deterministic plugin setup, executor configuration, migration from Node.js toolchains, and cache-aware build/test workflows; use when adding the nx-bun plugin, converting projects, or standardizing Bun targets across Nx workspaces.",
   "private": false,
-  "skills": ["SKILL.md"]
+  "skills": [
+    "SKILL.md"
+  ]
 }

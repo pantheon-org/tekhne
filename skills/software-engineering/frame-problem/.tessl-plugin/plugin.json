@@ -1,7 +1,9 @@
 {
   "name": "pantheon-ai/frame-problem",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Classify a problem using Cynefin triangulation before acting — routes to the right skill chain (investigate, brainstorm, probe, troubleshoot).",
   "private": false,
-  "skills": ["SKILL.md"]
+  "skills": [
+    "SKILL.md"
+  ]
 }
