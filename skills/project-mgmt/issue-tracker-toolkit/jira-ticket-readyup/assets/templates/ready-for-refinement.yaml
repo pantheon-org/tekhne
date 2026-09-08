@@ -3,7 +3,8 @@
 # Validate with: scripts/validate-ticket.sh <your-ticket.yaml>
 
 ticket:
-  key: ""               # e.g. PROJ-NNN
+  key: ""               # e.g. PROJ-NNN. Omit this whole line for a brand-new, not-yet-keyed ticket — set new_ticket: true instead
+  new_ticket: false      # Set to true only for a brand-new backlog item with no Jira key yet; then omit the key line above entirely
   summary: ""           # The ticket title/summary
   type: ""              # Bug | Feature | Maintenance | Investigation
   linked_incident: ""   # e.g. INC-NNN (omit if none)
