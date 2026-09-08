@@ -15813,10 +15813,11 @@
   {
     "dir": "skills/project-mgmt/create-context-file",
     "content": {
-      "word_count": 944,
-      "code_block_count": 6,
-      "code_block_ratio": 0.0816,
+      "word_count": 1200,
+      "code_block_count": 7,
+      "code_block_ratio": 0.0808,
       "code_languages": [
+        "bash",
         "bash",
         "bash",
         "bash",
@@ -15824,14 +15825,14 @@
         "bash",
         "bash"
       ],
-      "sentence_count": 69,
+      "sentence_count": 77,
       "imperative_count": 8,
-      "imperative_ratio": 0.1159,
-      "information_density": 0.0988,
-      "strong_markers": 16,
+      "imperative_ratio": 0.1039,
+      "information_density": 0.0924,
+      "strong_markers": 18,
       "weak_markers": 0,
       "instruction_specificity": 1.0,
-      "section_count": 14,
+      "section_count": 15,
       "list_item_count": 18
     },
     "structure": {
@@ -15924,11 +15925,11 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 1376
+          "Tokens": 1826
         },
         {
           "File": "references/cli.md",
-          "Tokens": 628
+          "Tokens": 790
         },
         {
           "File": "references/typologies.md",
@@ -16161,24 +16162,24 @@
   {
     "dir": "skills/project-mgmt/issue-tracker-toolkit/jira-ticket-readyup",
     "content": {
-      "word_count": 1069,
+      "word_count": 2336,
       "code_block_count": 11,
-      "code_block_ratio": 0.1151,
+      "code_block_ratio": 0.0527,
       "code_languages": [
         "bash",
         "bash",
         "markdown",
         "bash"
       ],
-      "sentence_count": 62,
-      "imperative_count": 9,
-      "imperative_ratio": 0.1452,
-      "information_density": 0.1301,
-      "strong_markers": 23,
-      "weak_markers": 2,
-      "instruction_specificity": 0.92,
-      "section_count": 22,
-      "list_item_count": 32
+      "sentence_count": 105,
+      "imperative_count": 11,
+      "imperative_ratio": 0.1048,
+      "information_density": 0.0787,
+      "strong_markers": 54,
+      "weak_markers": 4,
+      "instruction_specificity": 0.931,
+      "section_count": 26,
+      "list_item_count": 39
     },
     "structure": {
       "results": [
@@ -16220,14 +16221,7 @@
         {
           "Level": 0,
           "Category": "Frontmatter",
-          "Message": "description: (481 chars)",
-          "File": "SKILL.md",
-          "Line": 0
-        },
-        {
-          "Level": 2,
-          "Category": "Frontmatter",
-          "Message": "description has 10 comma-separated segments, most very short — this looks like a keyword list; per the spec, the description should concisely describe what the skill does and when to use it",
+          "Message": "description: (520 chars)",
           "File": "SKILL.md",
           "Line": 0
         },
@@ -16242,15 +16236,15 @@
       "token_counts": [
         {
           "File": "SKILL.md body",
-          "Tokens": 1689
+          "Tokens": 3465
         },
         {
           "File": "references/yaml-field-guide.md",
-          "Tokens": 853
+          "Tokens": 930
         },
         {
           "File": "assets/templates/ready-for-refinement.yaml",
-          "Tokens": 449
+          "Tokens": 504
         }
       ],
       "other_token_counts": [
@@ -16300,7 +16294,7 @@
         }
       ],
       "errors": 0,
-      "warnings": 4
+      "warnings": 3
     }
   },
   {
