@@ -7,8 +7,10 @@ Technical details and edge cases for the scripts in `scripts/`.
 1. Recursively finds every `.md` file under `.context/`.
 2. Parses YAML frontmatter (the text between the opening and closing `---`
    delimiters) from each file.
-3. Extracts `title`, `type`, `status`, `date`, plus `tags` and `related` when
-   present.
+3. Extracts `title`, `type`, `status`, `date`, plus `tags`, `related`,
+   `blocks`, and `blocked-by` when present. `blocked-by` is what
+   `scripts/context-ready.sh` reads to compute which active files have zero
+   open blockers.
 4. Skips files with missing or malformed frontmatter, printing them to
    stderr.
 5. Groups the remaining entries by typology (the plural directory name) and
@@ -60,11 +62,18 @@ findings:
     date: "2026-06-30"
     related:
       - "../plans/add-structured-logging.md"
+    blocked-by:
+      - "../plans/add-structured-logging.md"
 ```
 
-`tags` and `related` are only emitted when the source file's frontmatter has
-at least one item; an empty `tags: []` in the source produces no `tags:` key
-in the index entry.
+`tags`, `related`, `blocks`, and `blocked-by` are only emitted when the
+source file's frontmatter has at least one item; an empty `tags: []` in the
+source produces no `tags:` key in the index entry, and `blocks`/`blocked-by`
+are never emitted empty at all (see the frontmatter schema's `minItems: 1`).
+`blocks`/`blocked-by` values are carried through exactly as authored --
+relative to the *source file's own directory*, the same convention `related`
+already uses. Resolving them against the repo root (to check whether a
+blocker is `done`) is `context-ready.sh`'s job, not this script's.
 
 ## Exit Codes
 
@@ -80,6 +89,8 @@ in the index entry.
 | `check-context-filenames.sh` | 0 | Every file in a known typology directory follows the naming convention |
 | `check-context-filenames.sh` | 1 | At least one filename or date mismatch found |
 | `check-plan-staleness.sh` | 0 | Always — this check is advisory, never blocking |
+| `context-ready.sh` | 0 | Always (even with an unresolvable blocker, a stale index, or a missing index) — this is a read-only query, never a gate |
+| `context-ready.sh` | 2 | Called with an argument other than `--blocked` |
 
 ## Common Issues
 

@@ -19,6 +19,8 @@ scripts/create-context-file.sh --type <typology> --title "<title>" [options]
 | `-s`, `--slug` | `SLUG` | Override the auto-derived slug. |
 | `-g`, `--tags` | `TAGS` | Comma-separated tags for frontmatter. |
 | `-R`, `--related` | `PATHS` | Comma-separated relative paths to related `.context` files. Omitted entirely from frontmatter when empty — never written as `related: []`. |
+| `-b`, `--blocks` | `PATHS` | Comma-separated relative paths to `.context` files that cannot be ready until **this** file is done. Same omit-when-empty rule as `--related`. |
+| `-k`, `--blocked-by` | `PATHS` | Comma-separated relative paths to `.context` files that must be done before **this** file is ready. Same omit-when-empty rule as `--related`. Read by the `context-index` skill's `scripts/context-ready.sh`. |
 | `-d`, `--date` | `DATE` | Override the date (`YYYY-MM-DD`); defaults to today. |
 | `-r`, `--root` | `DIR` | Context root; defaults to `.context`. |
 | `-A`, `--allow-new-type` | | Permit a typology not in `KNOWN_TYPES`. |
@@ -46,6 +48,10 @@ scripts/create-context-file.sh --type findings --title "Auth token analysis" \
 # Finding that references an existing plan
 scripts/create-context-file.sh --type findings --title "Auth token analysis" \
   --related "../plans/2026-03-16-auth-rollout.md"
+
+# Follow-up that can't start until a plan is done
+scripts/create-context-file.sh --type follow-ups --title "Wire up token refresh" \
+  --blocked-by "../plans/2026-03-16-auth-rollout.md"
 
 # Plan with a heredoc body
 scripts/create-context-file.sh --type plans --title "Retriever rollout" << 'EOF'
