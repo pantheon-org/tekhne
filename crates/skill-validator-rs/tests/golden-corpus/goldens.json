@@ -1711,7 +1711,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 230
+          "Tokens": 461
         }
       ],
       "other_token_counts": [
@@ -1937,6 +1937,10 @@
           "Tokens": 1614
         },
         {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
+        },
+        {
           "File": "reference.md",
           "Tokens": 1077
         }
@@ -2048,6 +2052,10 @@
         {
           "File": "SKILL.md body",
           "Tokens": 1382
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         },
         {
           "File": "reference.md",
@@ -2232,7 +2240,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 272
+          "Tokens": 402
         }
       ],
       "other_token_counts": [
@@ -2405,7 +2413,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 138
+          "Tokens": 268
         }
       ],
       "other_token_counts": [
@@ -2552,7 +2560,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 221
+          "Tokens": 440
         }
       ],
       "other_token_counts": [
@@ -2683,7 +2691,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 438
+          "Tokens": 657
         }
       ],
       "other_token_counts": [
@@ -2823,7 +2831,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 272
+          "Tokens": 402
         }
       ],
       "other_token_counts": [
@@ -2918,6 +2926,10 @@
         {
           "File": "references/reference.md",
           "Tokens": 1616
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         }
       ],
       "other_token_counts": [
@@ -3022,6 +3034,10 @@
         {
           "File": "SKILL.md body",
           "Tokens": 2261
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         }
       ],
       "other_token_counts": [
@@ -3266,6 +3282,10 @@
         {
           "File": "SKILL.md body",
           "Tokens": 1514
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         },
         {
           "File": "reference.md",
@@ -3782,7 +3802,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 213
+          "Tokens": 422
         }
       ],
       "other_token_counts": [
@@ -3904,7 +3924,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 394
+          "Tokens": 530
         }
       ],
       "other_token_counts": [
@@ -6829,7 +6849,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -6996,7 +7016,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -7176,7 +7196,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -7434,7 +7454,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -7598,7 +7618,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -8209,7 +8229,7 @@
         {
           "Level": 3,
           "Category": "Tokens",
-          "Message": "total reference files: 63014 tokens — this will consume 25-40% of a typical context window; reduce content or split into a skill with fewer references",
+          "Message": "total reference files: 63150 tokens — this will consume 25-40% of a typical context window; reduce content or split into a skill with fewer references",
           "File": "",
           "Line": 0
         },
@@ -8424,7 +8444,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -9399,7 +9419,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 684
+          "Tokens": 900
         }
       ],
       "other_token_counts": [
@@ -10429,7 +10449,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 229
+          "Tokens": 454
         }
       ],
       "other_token_counts": [
@@ -13142,7 +13162,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         },
         {
           "File": "skill.json",
@@ -13440,7 +13460,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 370
         }
       ],
       "other_token_counts": [
@@ -13542,6 +13562,10 @@
         {
           "File": "references/markdown-report-example.md",
           "Tokens": 2133
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 148
         }
       ],
       "other_token_counts": [
@@ -15188,7 +15212,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -15698,7 +15722,7 @@
         {
           "Level": 2,
           "Category": "Tokens",
-          "Message": "total reference files: 27921 tokens — agents may load multiple references in one session, consider whether all this content is essential",
+          "Message": "total reference files: 28057 tokens — agents may load multiple references in one session, consider whether all this content is essential",
           "File": "",
           "Line": 0
         },
@@ -15785,7 +15809,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -15937,7 +15961,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 264
+          "Tokens": 788
         }
       ],
       "other_token_counts": [
@@ -17282,7 +17306,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -17426,7 +17450,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -17849,7 +17873,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -17988,7 +18012,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
@@ -18092,6 +18116,10 @@
         {
           "File": "SKILL.md body",
           "Tokens": 3140
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 215
         }
       ],
       "other_token_counts": [
@@ -18236,6 +18264,10 @@
         {
           "File": "references/reference.md",
           "Tokens": 1355
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         }
       ],
       "other_token_counts": [
@@ -19884,6 +19916,10 @@
         {
           "File": "references/frame-problem-to-troubleshoot-llm.md",
           "Tokens": 514
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         }
       ],
       "other_token_counts": [
@@ -20027,6 +20063,10 @@
         {
           "File": "references/reference.md",
           "Tokens": 1137
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         }
       ],
       "other_token_counts": [
@@ -20659,6 +20699,10 @@
         {
           "File": "references/troubleshoot-to-frame-problem-llm.md",
           "Tokens": 492
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         }
       ],
       "other_token_counts": [
@@ -21172,7 +21216,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 212
+          "Tokens": 428
         }
       ],
       "other_token_counts": [
@@ -21273,7 +21317,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 264
+          "Tokens": 400
         }
       ],
       "other_token_counts": [
@@ -21369,7 +21413,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 524
+          "Tokens": 660
         }
       ],
       "other_token_counts": [
@@ -21483,6 +21527,10 @@
         {
           "File": "references/reference.md",
           "Tokens": 975
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         },
         {
           "File": "reference.md",
@@ -21600,6 +21648,10 @@
         {
           "File": "references/reference.md",
           "Tokens": 482
+        },
+        {
+          "File": "CHANGELOG.md",
+          "Tokens": 127
         },
         {
           "File": "reference.md",
@@ -22064,7 +22116,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 264
+          "Tokens": 400
         }
       ],
       "other_token_counts": [
@@ -22229,7 +22281,7 @@
         },
         {
           "File": "CHANGELOG.md",
-          "Tokens": 134
+          "Tokens": 270
         }
       ],
       "other_token_counts": [
