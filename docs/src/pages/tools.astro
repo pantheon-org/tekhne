@@ -1,5 +1,6 @@
 ---
 import DocsLayout from "../layouts/DocsLayout.astro";
+import { crateVersions } from "../lib/crate-versions";
 
 const base = import.meta.env.BASE_URL;
 const repo = "pantheon-org/tekhne";
@@ -11,7 +12,6 @@ interface ToolCommand {
 
 interface Tool {
   name: string;
-  version: string;
   icon: string;
   tagline: string;
   description: string;
@@ -25,7 +25,6 @@ interface Tool {
 const tools: Tool[] = [
   {
     name: "pantheon-skill-auditor",
-    version: "0.1.0",
     icon: "🔍",
     tagline: "Audit skill quality using the 9-dimension framework.",
     description:
@@ -48,7 +47,6 @@ const tools: Tool[] = [
   },
   {
     name: "pantheon-adr",
-    version: "0.1.0",
     icon: "🧭",
     tagline: "Create and manage Architecture Decision Records.",
     description:
@@ -64,7 +62,6 @@ const tools: Tool[] = [
   },
   {
     name: "pantheon-journal",
-    version: "0.1.0",
     icon: "📓",
     tagline: "Create and validate structured journal entries.",
     description:
@@ -82,8 +79,11 @@ const tools: Tool[] = [
   },
 ];
 
+const versions = crateVersions();
+const versionOf = (tool: Tool) => versions.get(tool.name) ?? "0.0.0";
+
 const installerUrl = (tool: Tool) =>
-  `https://github.com/${repo}/releases/download/tool/${tool.name}-v${tool.version}/${tool.name}-installer.sh`;
+  `https://github.com/${repo}/releases/download/tool/${tool.name}-v${versionOf(tool)}/${tool.name}-installer.sh`;
 ---
 
 <DocsLayout title="Tools" description="The shipped Tekhne tool CLIs: skill-auditor, adr, and journal. Standalone Rust binaries you install with a single curl command, each bundling a companion skill." sidebar={false}>
@@ -103,7 +103,7 @@ const installerUrl = (tool: Tool) =>
         Installers follow the cargo-dist shell installer shape and are published under the
         <code>tool/</code> tag namespace, so every release tag looks like
         <code>tool/&lt;package&gt;-v&lt;semver&gt;</code> (for example
-        <code>tool/skill-auditor-v0.1.0</code>). Binaries land in <code>CARGO_HOME</code>.
+        <code>tool/pantheon-skill-auditor-v0.2.0</code>). Binaries land in <code>CARGO_HOME</code>.
         Looking for the validators or the other skills? They ship as plain Markdown skills in the
         <a href={`${base}/tiles/`}>Skills catalog</a>.
       </p>
@@ -117,7 +117,7 @@ const installerUrl = (tool: Tool) =>
         <div class="tool-titles">
           <h2 class="tool-name">
             {tool.name}
-            <span class="tool-version">v{tool.version}</span>
+            <span class="tool-version">v{versionOf(tool)}</span>
           </h2>
           <p class="tool-tagline">{tool.tagline}</p>
         </div>
