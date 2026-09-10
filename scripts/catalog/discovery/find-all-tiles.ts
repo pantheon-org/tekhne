@@ -1,23 +1,23 @@
-import { dirname } from "node:path";
 import { $ } from "bun";
 import { parseShortName } from "../parsing";
 import type { TileEntry } from "../types";
 import { buildTileSkills } from "./build-tile-skills";
 import { isChildTile } from "./is-child-tile";
 import { parsePublishedStatus } from "./parse-published-status";
+import { tileRoot } from "./tile-root";
 
 export const findAllTiles = async (): Promise<TileEntry[]> => {
   const output =
     await $`find skills -name "plugin.json" -path "*/.tessl-plugin/*" -o -name "tile.json" -type f`.text();
   const files = output.trim().split("\n").filter(Boolean);
 
-  const tileDirs = new Set(files.map((f) => dirname(f)));
+  const tileDirs = new Set(files.map(tileRoot));
   const tiles: TileEntry[] = [];
 
   for (const file of files) {
     try {
       const rawData = (await Bun.file(file).json()) as Record<string, unknown>;
-      const tileDir = dirname(file);
+      const tileDir = tileRoot(file);
 
       if (isChildTile(tileDir, tileDirs, rawData.private === true)) continue;
 
