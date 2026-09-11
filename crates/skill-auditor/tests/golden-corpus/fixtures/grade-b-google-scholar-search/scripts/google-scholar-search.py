@@ -13,7 +13,6 @@ import logging
 from typing import Dict, Any, List, Optional
 import requests
 from bs4 import BeautifulSoup
-import time
 
 
 class GoogleScholarSearch:
