@@ -7,6 +7,11 @@ on:
     paths:
       - "docs/**"
       - "skills/**"
+      # The Tools page reads each tool's version from its crate manifest,
+      # so a version bump changes the rendered install URLs without
+      # touching docs/. Without this the site keeps publishing the URL of
+      # a superseded tag.
+      - "crates/*/Cargo.toml"
   workflow_dispatch:
 
 # Allow only one concurrent deployment; cancel in-progress runs.
