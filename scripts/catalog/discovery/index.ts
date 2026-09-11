@@ -11,3 +11,4 @@ export * from "./parse-published-status";
 export * from "./parse-skill-description";
 export * from "./resolve-skill-dir";
 export * from "./tessl-status";
+export * from "./tile-root";

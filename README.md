@@ -10,7 +10,7 @@ domain knowledge, workflows, and best practices that can be loaded on-demand.
 ## Skill Catalog
 
 <!-- skill-catalog-stats -->
-Browse all **0 skills across 0 tiles** in the [Skill Catalog](https://pantheon-org.github.io/tekhne/tiles/).
+Browse all **117 skills across 71 tiles** in the [Skill Catalog](https://pantheon-org.github.io/tekhne/tiles/).
 
 ## Installing skills
 
@@ -18,18 +18,25 @@ Skills are plain Markdown, so any ecosystem installer can add the whole
 collection to an agent configuration:
 
 ```bash
+git clone https://github.com/pantheon-org/tekhne.git
+cd tekhne
+
 # Install all skills into your project
 npx skills add ./skills --all
 ```
 
-Each bundled Rust tool can also install (or remove) its own companion skill in
-detected agents:
+Three of the skills also ship as standalone Rust binaries for macOS and Linux,
+each of which installs its own companion skill. These need no clone:
 
 ```bash
+curl --proto '=https' --tlsv1.2 -LsSf \
+  https://github.com/pantheon-org/tekhne/releases/download/tool/pantheon-skill-auditor-v0.2.0/pantheon-skill-auditor-installer.sh | sh
+
 pantheon-skill-auditor skill install     # or: skill uninstall
-pantheon-adr skill install
-pantheon-journal skill install
 ```
+
+See the [Tools page](https://pantheon-org.github.io/tekhne/tools/) for `pantheon-adr`
+and `pantheon-journal`, and for what each command does.
 
 ## Maintaining the catalog
 
