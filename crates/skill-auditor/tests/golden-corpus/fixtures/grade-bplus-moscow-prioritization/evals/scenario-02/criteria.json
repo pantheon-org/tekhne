@@ -1,0 +1,40 @@
+{
+  "checklist": [
+    {
+      "criterion": "Explicitly identifies the Must overload: 9 weeks of Must work exceeds the 6-week capacity.",
+      "max_score": 12
+    },
+    {
+      "criterion": "Applies the failure-focused test to each of the five Must items individually.",
+      "max_score": 14
+    },
+    {
+      "criterion": "Downgrades at least one item from Must to Should or Could with written justification.",
+      "max_score": 12
+    },
+    {
+      "criterion": "Resulting Must tier is at or below 6 weeks of effort (100% of capacity, matching the 60% rule floor).",
+      "max_score": 12
+    },
+    {
+      "criterion": "Explicit rationale provided for each demotion (not just a new label).",
+      "max_score": 12
+    },
+    {
+      "criterion": "No item is demoted arbitrarily; every demotion is justified by the failure-focused test result.",
+      "max_score": 12
+    },
+    {
+      "criterion": "Outputs a corrected MoSCoW table with updated categories.",
+      "max_score": 10
+    },
+    {
+      "criterion": "Table includes business rationale and risk-if-omitted for each item.",
+      "max_score": 8
+    },
+    {
+      "criterion": "All five original items appear in the corrected table (none silently dropped).",
+      "max_score": 8
+    }
+  ]
+}

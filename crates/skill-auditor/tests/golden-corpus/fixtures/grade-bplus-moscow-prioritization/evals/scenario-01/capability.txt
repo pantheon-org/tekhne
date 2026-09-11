@@ -1,0 +1,1 @@
+Prioritize a constrained feature backlog using MoSCoW, applying the failure-focused test and the 60% Must-effort cap to produce a release-ready table saved to a named file.

@@ -8,6 +8,11 @@ on:
       - "Cargo.toml"
       - "Cargo.lock"
       - "crates/**"
+      # The parity gates score live skills under skills/**. They assert
+      # invariants there rather than pinned output, so a skill edit cannot
+      # break them, but a new or malformed skill can still trip one and CI
+      # should say so on that PR rather than on somebody else's.
+      - "skills/**"
       - "rust-toolchain.toml"
       - ".github/workflows/rust-ci.yml"
   push:
@@ -16,6 +21,11 @@ on:
       - "Cargo.toml"
       - "Cargo.lock"
       - "crates/**"
+      # The parity gates score live skills under skills/**. They assert
+      # invariants there rather than pinned output, so a skill edit cannot
+      # break them, but a new or malformed skill can still trip one and CI
+      # should say so on that PR rather than on somebody else's.
+      - "skills/**"
       - "rust-toolchain.toml"
       - ".github/workflows/rust-ci.yml"
 

@@ -26,11 +26,15 @@ use std::fs;
 use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
-use skill_auditor::scorer::{score_with_date, Diagnostic, Result as ScoreResult};
+use skill_auditor::scorer::{grade, score_with_date, Diagnostic, Result as ScoreResult};
 
 /// Fixed date injected into the Rust scorer so scoring is deterministic. Its
 /// value is irrelevant to parity because `date` is excluded from the diff.
 const PINNED_DATE: &str = "2026-07-22";
+
+/// The 9-dimension rubric, scored out of 140.
+const DIMENSION_COUNT: usize = 9;
+const MAX_TOTAL: i32 = 140;
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Golden {
@@ -48,6 +52,7 @@ fn bless_if_requested(corpus: &[String], root: &std::path::Path) -> bool {
     }
     let goldens: Vec<Golden> = corpus
         .iter()
+        .filter(|rel| !is_live_skill(rel))
         .map(|rel| {
             let skill_path = root.join(rel).join("SKILL.md");
             let mut result = score_with_date(&skill_path, PINNED_DATE)
@@ -85,6 +90,17 @@ fn read_corpus() -> Vec<String> {
         .filter(|l| !l.is_empty() && !l.starts_with('#'))
         .map(str::to_string)
         .collect()
+}
+
+/// Corpus entries split into two tiers by whether their input can change.
+///
+/// Fixtures under this crate are frozen, so their score is pinned exactly.
+/// Entries under `skills/` are live repository content that any skill edit
+/// legitimately rescores; pinning those made the gate a change-detector for
+/// skill text rather than for scorer behaviour. They are checked for invariants
+/// instead.
+fn is_live_skill(rel: &str) -> bool {
+    rel.starts_with("skills/")
 }
 
 fn read_goldens() -> Vec<Golden> {
@@ -166,6 +182,51 @@ fn diff_result(dir: &str, want: &ScoreResult, got: &ScoreResult, out: &mut Vec<S
     }
 }
 
+/// Invariants every score must satisfy whatever the skill says.
+///
+/// These are properties of the scorer, not of any skill's content, so editing a
+/// skill cannot break them. A scorer whose total stops matching its dimensions,
+/// whose grade stops matching its total, or that drops a dimension still fails.
+/// Verified to hold across all live corpus entries at the time of the split.
+fn check_invariants(rel: &str, got: &ScoreResult, out: &mut Vec<String>) {
+    let summed: i32 = got.dimensions.values().sum();
+    if summed != got.total {
+        out.push(format!(
+            "  [{rel}] total={} but dimensions sum to {summed}",
+            got.total
+        ));
+    }
+
+    let expected = grade(got.total);
+    if expected != got.grade {
+        out.push(format!(
+            "  [{rel}] grade={} but total={} grades as {expected}",
+            got.grade, got.total
+        ));
+    }
+
+    if got.dimensions.len() != DIMENSION_COUNT {
+        out.push(format!(
+            "  [{rel}] {} dimension(s), expected {DIMENSION_COUNT}",
+            got.dimensions.len()
+        ));
+    }
+
+    if got.max_total != MAX_TOTAL {
+        out.push(format!(
+            "  [{rel}] maxTotal={}, expected {MAX_TOTAL}",
+            got.max_total
+        ));
+    }
+
+    if got.total < 0 || got.total > got.max_total {
+        out.push(format!(
+            "  [{rel}] total={} outside 0..={}",
+            got.total, got.max_total
+        ));
+    }
+}
+
 #[test]
 fn rust_auditor_matches_go_golden_corpus() {
     let corpus = read_corpus();
@@ -175,28 +236,35 @@ fn rust_auditor_matches_go_golden_corpus() {
         return;
     }
 
+    let (live, frozen): (Vec<&String>, Vec<&String>) =
+        corpus.iter().partition(|rel| is_live_skill(rel));
+
     let goldens = read_goldens();
     assert_eq!(
-        corpus.len(),
+        frozen.len(),
         goldens.len(),
-        "corpus ({}) and goldens.json ({}) are not aligned; regenerate goldens",
-        corpus.len(),
+        "frozen corpus entries ({}) and goldens.json ({}) are not aligned; regenerate goldens",
+        frozen.len(),
         goldens.len(),
     );
 
     let by_dir: HashMap<&str, &Golden> = goldens.iter().map(|g| (g.dir.as_str(), g)).collect();
 
+    let score = |rel: &str| {
+        let skill_path = root.join(rel).join("SKILL.md");
+        score_with_date(&skill_path, PINNED_DATE)
+            .unwrap_or_else(|e| panic!("score {}: {e}", skill_path.display()))
+    };
+
     let mut diffs: Vec<String> = Vec::new();
-    let mut compared = 0usize;
     let mut grade_and_dim_exact = 0usize;
-    for rel in &corpus {
+
+    // Frozen fixtures: every Result field pinned.
+    for rel in &frozen {
         let golden = by_dir
             .get(rel.as_str())
             .unwrap_or_else(|| panic!("no golden for corpus entry {rel}"));
-        let skill_path = root.join(rel).join("SKILL.md");
-        let got = score_with_date(&skill_path, PINNED_DATE)
-            .unwrap_or_else(|e| panic!("score {}: {e}", skill_path.display()));
-        compared += 1;
+        let got = score(rel);
 
         let before = diffs.len();
         diff_result(rel, &golden.result, &got, &mut diffs);
@@ -208,18 +276,26 @@ fn rust_auditor_matches_go_golden_corpus() {
         }
     }
 
+    // Live skills: invariants only, so a skill edit cannot break the gate.
+    for rel in &live {
+        check_invariants(rel, &score(rel), &mut diffs);
+    }
+
     if !diffs.is_empty() {
         panic!(
-            "PARITY FAIL: {} divergence(s) across {} corpus skills vs Go auditor:\n{}",
+            "PARITY FAIL: {} divergence(s) across {} frozen fixture(s) and {} live skill(s):\n{}",
             diffs.len(),
-            compared,
+            frozen.len(),
+            live.len(),
             diffs.join("\n"),
         );
     }
 
     eprintln!(
-        "PARITY OK: {grade_and_dim_exact}/{compared} corpus skills grade-exact AND \
-         dimension-exact vs the Go skill-auditor (all Result fields exact bar the \
-         excluded date; detail lists compared as sorted multisets)."
+        "PARITY OK: {grade_and_dim_exact}/{} frozen fixture(s) grade-exact AND dimension-exact \
+         (all Result fields exact bar the excluded date; detail lists compared as sorted \
+         multisets); {} live skill(s) satisfy the scorer invariants.",
+        frozen.len(),
+        live.len(),
     );
 }

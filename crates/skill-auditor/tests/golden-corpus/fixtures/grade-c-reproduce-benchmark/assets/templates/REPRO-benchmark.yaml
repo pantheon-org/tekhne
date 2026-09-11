@@ -1,0 +1,104 @@
+template_name: repro-benchmark
+description: Structured benchmark reproduction record for a tool or paper in the research repo
+filename_pattern: "benchmarks/sources/<slug>-repro.md"
+schema: "../schemas/repro-benchmark.schema.json"
+
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: "<slug> — Benchmark Reproduction"
+      example: "context-mode — Benchmark Reproduction"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: Date the reproduction was attempted
+
+    - name: type
+      type: enum
+      values: [repro]
+      description: Must be "repro"
+
+    - name: slug
+      type: string
+      description: Slug of the tool or paper being reproduced
+      example: "context-mode"
+
+    - name: source
+      type: array
+      items: string
+      description: Relative paths to the reference and/or analysis files for this subject
+      example:
+        - "references/web/context-mode.md"
+        - "analysis/ANALYSIS-context-mode.md"
+
+    - name: environment
+      type: object
+      description: Runtime environment in which the reproduction was attempted
+      fields:
+        - name: os
+          type: string
+          example: "macOS Darwin 25.4.0"
+        - name: runtime
+          type: string
+          description: Primary runtime version (Node.js, Python, Go, etc.)
+          example: "Node.js v24.14.1"
+
+    - name: outcome
+      type: enum
+      values: [verified, partially-verified, unverified, failed]
+      description: |
+        verified          — all reported figures reproduced within tolerance
+        partially-verified — some figures reproduced; others could not be confirmed
+        unverified        — harness exists but was not run (e.g. missing infra)
+        failed            — harness exists but errors prevented completion
+
+  optional_fields:
+    - name: pinned_commit
+      type: string
+      description: Git commit SHA of the vendored tool at time of reproduction
+      example: "601aaf1"
+
+    - name: links
+      type: array
+      items: string
+      description: Additional URLs (benchmark README, raw output gist, etc.)
+
+sections:
+  required:
+    - heading: "Harness location"
+      marker: "## Harness location"
+      description: File paths and npm/make/cargo scripts needed to run the benchmark
+
+    - heading: "Reproduction attempt"
+      marker: "## Reproduction attempt"
+      description: |
+        Environment details, what was run, verified results vs. reported figures.
+        Use sub-tables: one for verified metrics, one for unverified.
+        All reported numbers must be marked "(as reported)".
+
+    - heading: "How to reproduce"
+      marker: "## How to reproduce"
+      description: Step-by-step shell commands to replicate this reproduction attempt
+
+    - heading: "Reported figures (as reported)"
+      marker: "## Reported figures (as reported)"
+      description: Figures quoted verbatim from README/paper; every value marked "(as reported)"
+
+  optional:
+    - heading: "Notes"
+      marker: "## Notes"
+      description: Caveats, fixture quality, environment-specific quirks, follow-up pointers
+
+validation:
+  script: "../../scripts/validate-repro-benchmark.sh"
+  required_checks:
+    - "YAML frontmatter present and valid"
+    - "Required fields: title, date, type, slug, source, environment, outcome"
+    - "type == repro"
+    - "outcome is one of: verified, partially-verified, unverified, failed"
+    - "environment.os and environment.runtime present"
+    - "source is a non-empty array"
+    - "Required sections present"
+    - "No unfilled angle-bracket placeholders"
