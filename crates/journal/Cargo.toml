@@ -1,6 +1,6 @@
 [package]
 name = "pantheon-journal"
-version = "0.2.2"
+version = "0.2.5"
 edition.workspace = true
 license.workspace = true
 repository.workspace = true
