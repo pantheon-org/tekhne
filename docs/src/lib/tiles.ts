@@ -1,5 +1,5 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative, resolve } from "node:path";
+import { basename, dirname, join, relative, resolve, sep } from "node:path";
 
 const SKILLS_ROOT = resolve(process.cwd(), "../skills");
 
@@ -19,7 +19,7 @@ export interface TileData {
   tilePath: string;
 }
 
-const MANIFEST_SUFFIXES = ["/.tessl-plugin/plugin.json", "/tile.json"];
+const PLUGIN_DIR = ".tessl-plugin";
 
 const findTileManifests = (dir: string, results: string[] = []): string[] => {
   for (const entry of readdirSync(dir)) {
@@ -28,7 +28,7 @@ const findTileManifests = (dir: string, results: string[] = []): string[] => {
       findTileManifests(full, results);
     } else if (
       entry === "tile.json" ||
-      (entry === "plugin.json" && dir.endsWith("/.tessl-plugin"))
+      (entry === "plugin.json" && basename(dir) === PLUGIN_DIR)
     ) {
       results.push(full);
     }
@@ -36,12 +36,16 @@ const findTileManifests = (dir: string, results: string[] = []): string[] => {
   return results;
 };
 
+/**
+ * The tile directory holding a manifest, relative to SKILLS_ROOT and always
+ * "/"-separated. Compared and sliced with path calls rather than string
+ * suffixes, because join()/relative() emit "\" on Windows and a hardcoded "/"
+ * would match nothing there.
+ */
 const manifestToTilePath = (file: string): string => {
-  const rel = relative(SKILLS_ROOT, file);
-  for (const suffix of MANIFEST_SUFFIXES) {
-    if (rel.endsWith(suffix)) return rel.slice(0, -suffix.length);
-  }
-  return rel;
+  const dir = dirname(file);
+  const tileDir = basename(dir) === PLUGIN_DIR ? dirname(dir) : dir;
+  return relative(SKILLS_ROOT, tileDir).split(sep).join("/");
 };
 
 /**
