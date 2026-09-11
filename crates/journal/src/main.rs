@@ -21,7 +21,7 @@ use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
 use skill_install::install::InstallMode;
 
-const VERSION: &str = "0.1.0";
+const VERSION: &str = env!("CARGO_PKG_VERSION");
 
 #[derive(Parser)]
 #[command(

@@ -22,7 +22,8 @@ use std::process;
 
 mod reports;
 
-const VERSION: &str = "0.1.0";
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+const NAME: &str = env!("CARGO_PKG_NAME");
 
 #[derive(Parser)]
 #[command(
@@ -244,7 +245,7 @@ fn main() {
     let cli = Cli::parse();
     let result = match cli.command {
         Command::Version => {
-            println!("skill-auditor v{VERSION}");
+            println!("{NAME} v{VERSION}");
             Ok(())
         }
         Command::Evaluate {

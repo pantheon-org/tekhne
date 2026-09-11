@@ -14,7 +14,8 @@ use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
 use skill_install::install::InstallMode;
 
-const VERSION: &str = "0.1.0";
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+const NAME: &str = env!("CARGO_PKG_NAME");
 
 #[derive(Parser)]
 #[command(
@@ -138,7 +139,7 @@ fn main() {
     let cli = Cli::parse();
     let result = match cli.command {
         Command::Version => {
-            println!("adr v{VERSION}");
+            println!("{NAME} v{VERSION}");
             Ok(())
         }
         Command::New { title, dir } => run_new(&title, dir.as_deref()),
