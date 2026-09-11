@@ -21,7 +21,7 @@ local preCommit = new Mapping<String, Step> {
     }
     ["markdownlint"] {
         glob = List("*.md")
-        exclude = List(".context/**", "docs/src/content/docs/tiles.md", "crates/skill-validator-rs/tests/golden-corpus/fixtures/**")
+        exclude = List(".context/**", "docs/src/content/docs/tiles.md", "crates/*/tests/golden-corpus/fixtures/**")
         check = "markdownlint-cli2 --config .markdownlint-cli2.jsonc {{files}}"
         fix = "markdownlint-cli2 --fix --config .markdownlint-cli2.jsonc {{files}}"
     }
@@ -63,13 +63,13 @@ target/release/skill-validator-rs validate artifacts {{files}}
     }
     ["yamllint"] {
         glob = List("*.yml", "*.yaml")
-        exclude = List("crates/skill-validator-rs/tests/golden-corpus/fixtures/**")
+        exclude = List("crates/*/tests/golden-corpus/fixtures/**")
         shell = "sh -c"
         check = "command -v yq >/dev/null 2>&1 && yq eval '.' {{files}} >/dev/null"
     }
     ["shellcheck"] {
         glob = List("*.sh")
-        exclude = List("crates/skill-validator-rs/tests/golden-corpus/fixtures/**")
+        exclude = List("crates/*/tests/golden-corpus/fixtures/**")
         shell = "sh -c"
         check = "command -v shellcheck >/dev/null 2>&1 && shellcheck {{files}}"
     }

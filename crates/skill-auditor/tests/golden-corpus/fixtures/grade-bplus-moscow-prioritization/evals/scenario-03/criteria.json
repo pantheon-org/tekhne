@@ -1,0 +1,36 @@
+{
+  "checklist": [
+    {
+      "criterion": "Explicitly applies the failure-focused test: asks whether the release fails without dark mode.",
+      "max_score": 14
+    },
+    {
+      "criterion": "Identifies the product owner's argument as stakeholder preference, not a release-critical need.",
+      "max_score": 14
+    },
+    {
+      "criterion": "Classifies dark mode as Could or Won't — not Must or Should — with justification.",
+      "max_score": 14
+    },
+    {
+      "criterion": "Written rationale explicitly cites the failure-focused test result as the basis for the decision.",
+      "max_score": 12
+    },
+    {
+      "criterion": "Decision log records the product owner's original argument verbatim or in faithful summary.",
+      "max_score": 10
+    },
+    {
+      "criterion": "Decision log records the adjudication reasoning that overrides the preference claim.",
+      "max_score": 12
+    },
+    {
+      "criterion": "No emotional, political, or seniority-based justification is used to reach the final classification.",
+      "max_score": 12
+    },
+    {
+      "criterion": "Decision log format includes: item, stakeholder position, adjudication finding, final category, and owner.",
+      "max_score": 12
+    }
+  ]
+}

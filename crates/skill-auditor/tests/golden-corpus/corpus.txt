@@ -143,3 +143,12 @@ skills/specialized/retrospect-domain
 skills/testing/bdd-testing
 skills/testing/test-driven-development
 skills/testing/ui-debug-workflow
+
+# Frozen copies of live skills, one per grade band, so the strict tier
+# keeps real grade-band coverage without tracking skill edits.
+crates/skill-auditor/tests/golden-corpus/fixtures/grade-b-google-scholar-search
+crates/skill-auditor/tests/golden-corpus/fixtures/grade-bplus-moscow-prioritization
+crates/skill-auditor/tests/golden-corpus/fixtures/grade-c-reproduce-benchmark
+crates/skill-auditor/tests/golden-corpus/fixtures/grade-cplus-scholar-evaluation
+crates/skill-auditor/tests/golden-corpus/fixtures/grade-d-chezmoi-assistant
+crates/skill-auditor/tests/golden-corpus/fixtures/grade-f-gitlab-api

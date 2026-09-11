@@ -1,0 +1,9 @@
+{
+  "instructions": [
+    "Check whether a semantic-scholar or google-scholar MCP server is configured before invoking the Python script.",
+    "Use the correct subcommand (search, advanced, author) based on the user's request.",
+    "Handle blocked responses by retrying once after a delay, then offering the MCP fallback — never retry in a loop.",
+    "Present search results as a candidate list and wait for the user to choose which papers to triage.",
+    "Never auto-triage — always require explicit user confirmation before passing a result to triage-paper."
+  ]
+}
