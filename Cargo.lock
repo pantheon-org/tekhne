@@ -283,7 +283,7 @@ checksum = "384b8ab6d37215f3c5301a95a4accb5d64aa607f1fcb26a11b5303878451b4fe"
 
 [[package]]
 name = "pantheon-adr"
-version = "0.2.1"
+version = "0.2.4"
 dependencies = [
  "clap",
  "common",
@@ -293,7 +293,7 @@ dependencies = [
 
 [[package]]
 name = "pantheon-journal"
-version = "0.2.2"
+version = "0.2.5"
 dependencies = [
  "clap",
  "common",
@@ -306,7 +306,7 @@ dependencies = [
 
 [[package]]
 name = "pantheon-skill-auditor"
-version = "0.2.0"
+version = "0.2.3"
 dependencies = [
  "clap",
  "common",

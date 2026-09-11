@@ -30,7 +30,7 @@ each of which installs its own companion skill. These need no clone:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -LsSf \
-  https://github.com/pantheon-org/tekhne/releases/download/tool/pantheon-skill-auditor-v0.2.0/pantheon-skill-auditor-installer.sh | sh
+  https://github.com/pantheon-org/tekhne/releases/download/tool/pantheon-skill-auditor-v0.2.3/pantheon-skill-auditor-installer.sh | sh
 
 pantheon-skill-auditor skill install     # or: skill uninstall
 ```
