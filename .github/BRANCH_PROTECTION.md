@@ -38,11 +38,51 @@ Accepting this finding does not leave `main` unprotected. The active ruleset
 - No force-push (non-fast-forward) and no branch deletion
 - Linear history
 - Pull request required before merge, with review-thread resolution
-- Required status checks: Skill Audit, CodeQL, code quality (errors)
+- Required status checks: see the table below
 - Code-scanning gate (CodeQL, high-or-higher)
 
 The single residual gap is code-owner review, which carries no security value
 for a solo maintainer.
+
+## Required status checks
+
+Verified against ruleset `13518481` on 13-09-2026. The ruleset requires
+exactly one check today:
+
+| Check | Required now | Should be required |
+| --- | --- | --- |
+| `Skill Audit` | yes | yes |
+| `Build, test, lint` (Rust CI) | no | yes |
+| `zizmor` | no | yes |
+| `conventional commit title` | no | yes |
+
+An earlier revision of this document listed "Skill Audit, CodeQL, code
+quality (errors)" as required. That was not accurate: the ruleset names only
+`Skill Audit`. CodeQL runs and reports, and the separate code-scanning gate
+is configured independently of the status-check list, but neither appears as
+a required status check.
+
+The three unrequired rows matter because a check that runs but is not
+required blocks nothing. A pull request can go red on Rust CI, on the
+workflow security scan, or on a malformed title that will produce a wrong
+version bump, and still be merged.
+
+Adding them is a repository settings change rather than a file in this
+repository, so it is not applied by the commit that added this table. To
+apply:
+
+```sh
+gh api repos/pantheon-org/tekhne/rulesets/13518481 --method PUT \
+  --input ruleset.json   # with the contexts added to required_status_checks
+```
+
+Then verify by opening a pull request that deliberately fails one of them
+and confirming it cannot be merged. A required check that was never tested
+against a real failure has not been shown to work.
+
+Note that `actionlint` is deliberately absent: it runs as a pre-commit hook
+via `hk`, not as a workflow, so there is no status check to require. If it
+should also gate merges it needs a CI workflow first.
 
 ## Impact
 

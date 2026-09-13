@@ -23,6 +23,8 @@ concurrency:
 
 jobs:
   title:
+    # Names the required status check; keep it stable, the ruleset matches on it.
+    name: conventional commit title
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:

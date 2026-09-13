@@ -27,6 +27,8 @@ concurrency:
 
 jobs:
   zizmor:
+    # Names the required status check; keep it stable, the ruleset matches on it.
+    name: zizmor
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
