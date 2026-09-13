@@ -61,6 +61,15 @@ target/release/skill-validator-rs validate artifacts {{files}}
         fix = "bun scripts/catalog/update.ts && markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md"
         stage = List("README.md", "docs/src/content/docs/tiles.md")
     }
+    // Workflow linting: bad expressions, unknown runner labels, invalid
+    // `needs:` references, and shell problems inside `run:` blocks. Scoped to
+    // workflow files so it only runs when one changes. Config, including the
+    // tool-release.yml exclusions, lives in .github/actionlint.yaml.
+    ["actionlint"] {
+        glob = List(".github/workflows/*.yml", ".github/workflows/*.yaml")
+        shell = "sh -c"
+        check = "command -v actionlint >/dev/null 2>&1 && actionlint {{files}}"
+    }
     ["yamllint"] {
         glob = List("*.yml", "*.yaml")
         exclude = List("crates/*/tests/golden-corpus/fixtures/**")

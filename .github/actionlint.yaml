@@ -1,0 +1,20 @@
+# actionlint configuration.
+#
+# No self-hosted runners: every job in this repository runs on a
+# GitHub-hosted runner, so the `self-hosted-runner.labels` list stays empty.
+# It is declared explicitly so a future self-hosted label has an obvious home
+# rather than being added as an unexplained exception.
+self-hosted-runner:
+  labels: []
+
+paths:
+  # dist owns and regenerates tool-release.yml, so its embedded shell cannot
+  # be corrected here: a fix would be reverted on the next `dist init`. Only
+  # the shellcheck findings are ignored, and only for this file, so a real
+  # actionlint error in the generated workflow (a bad expression, an unknown
+  # runner) would still fail. The findings are style and quoting advice
+  # (SC2086, SC2129) in dist's own scripts.
+  .github/workflows/tool-release.yml:
+    ignore:
+      - 'shellcheck reported issue in this script: SC2086'
+      - 'shellcheck reported issue in this script: SC2129'
