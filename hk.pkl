@@ -85,7 +85,18 @@ target/release/skill-validator-rs validate artifacts {{files}}
     }
     ["yamllint"] {
         glob = List("*.yml", "*.yaml")
-        exclude = List("crates/*/tests/golden-corpus/fixtures/**")
+        // Template directories hold files that are deliberately not valid
+        // YAML: the generator skills use [PLACEHOLDER] tokens and the Helm
+        // fixture chart uses Go templating, neither of which parses. `yq`
+        // aborts the whole run on the first such file, which had been
+        // breaking `hk check --all` on main. Their structure is covered by
+        // the skill-artifacts validator instead.
+        exclude = List(
+            "crates/*/tests/golden-corpus/fixtures/**",
+            "skills/ci-cd/github-actions/generator/assets/templates/**",
+            "skills/infrastructure/ansible/generator/assets/templates/**",
+            "skills/ci-cd/helm/validator/test/**"
+        )
         shell = "sh -c"
         check = "command -v yq >/dev/null 2>&1 && yq eval '.' {{files}} >/dev/null"
     }
