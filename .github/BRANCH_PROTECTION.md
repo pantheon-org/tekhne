@@ -9,7 +9,7 @@ The Plumber CI/CD security scan reports one open finding on `main`:
 
 - Rule `ISSUE-505`, severity high: `Branch 'main' has non-compliant protection settings`
 - Reason reported: `Code owner approval is not required`
-- Docs: https://getplumber.io/docs/cli/issues/ISSUE-505
+- Docs: <https://getplumber.io/docs/cli/issues/ISSUE-505>
 
 It is the only finding left after the authorized-sources tuning; the score is
 otherwise **B (85/100)**.
