@@ -1,0 +1,27 @@
+# Baseline whitespace conventions. Biome owns JS/TS/JSON formatting and
+# markdownlint owns Markdown; this covers the file types neither formats,
+# so an editor does not have to guess.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+# Markdown uses trailing double-space for hard line breaks.
+trim_trailing_whitespace = false
+
+[*.toml]
+indent_style = space
+indent_size = 4
+
+[{*.yml,*.yaml,*.sh,*.pkl}]
+indent_style = space
+indent_size = 2
+
+[*.rs]
+indent_style = space
+indent_size = 4

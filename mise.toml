@@ -8,6 +8,7 @@ shellcheck = "latest"
 hk = "latest"
 pkl = "latest"
 markdownlint-cli2 = "latest"
+taplo = "0.10.0"
 cargo-dist = "0.32.0"
 
 [env]

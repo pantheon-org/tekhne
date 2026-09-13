@@ -1,0 +1,17 @@
+# Repository-wide shellcheck configuration.
+#
+# Deliberately empty of suppressions: the repository's own scripts under
+# scripts/ carry no inline `shellcheck disable` directives, so there is
+# nothing to centralise here.
+#
+# The 76 inline disables elsewhere in the tree live under
+# skills/**/scripts/. Those are NOT centralised here on purpose. AGENTS.md
+# requires skills to be self-contained, and a skill copied into another
+# repository has to bring its own suppressions with it. Moving them here
+# would make those skills lint differently at home and abroad.
+#
+# Add a suppression here only when it applies to the repository's own
+# tooling, and say which script and why.
+
+# Allow `source`/`.` of files shellcheck cannot follow (resolved at runtime).
+external-sources=true
