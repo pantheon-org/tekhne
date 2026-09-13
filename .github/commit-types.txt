@@ -1,0 +1,31 @@
+# Canonical conventional-commit types for this repository.
+#
+# This is the single source of truth. Two consumers must agree with it:
+#
+#   1. .github/workflows/conventional-commits.yml -- the PR title gate
+#   2. release-please -- which types produce a release and a changelog entry
+#
+# scripts/check-commit-types.sh fails if the workflow's regex drifts from
+# this list. Two lists that must agree is the pattern behind the version
+# drift in #290 and #292, so the check exists to make divergence loud.
+#
+# The list mirrors release-please's DEFAULT changelog-sections, because
+# release-please-config.json declares none and therefore inherits them. A
+# type absent from this list is silently ignored by release-please: the
+# commit lands, no changelog entry appears, and no version bump happens.
+# That is why the gate must not allow types release-please does not know.
+#
+# One type per line. Comments and blank lines ignored.
+
+build
+chore
+ci
+deps
+docs
+feat
+fix
+perf
+refactor
+revert
+style
+test

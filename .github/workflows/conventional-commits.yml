@@ -1,0 +1,43 @@
+name: conventional-commits
+
+# Pull requests are squash-merged, so the PR title becomes the commit
+# message on main and is what release-please parses to decide the version
+# bump and the changelog entry. A malformed title therefore produces a wrong
+# bump or no release at all, silently.
+#
+# The allowed types are duplicated into the regex below from
+# .github/commit-types.txt. scripts/check-commit-types.sh fails if the two
+# drift apart. The list is NOT read at runtime on purpose: this workflow
+# runs on pull_request_target, and parsing repository files in that context
+# widens the trust boundary for no real benefit.
+
+on: # zizmor: ignore[dangerous-triggers] reads only the PR title and executes no untrusted code
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  title:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check pull request title
+        env:
+          # Via env rather than direct interpolation: a title is
+          # attacker-controlled text and must never be expanded into the
+          # shell.
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          pattern='^(build|chore|ci|deps|docs|feat|fix|perf|refactor|revert|style|test)(\([[:alnum:]][[:alnum:]./_-]*\))?!?: [[:lower:]](.*[[:graph:]])?$'
+          if [[ ! "$PR_TITLE" =~ $pattern ]]; then
+            echo "::error title=Invalid pull request title::The title does not match the required format."
+            printf 'Received title: %q\n' "$PR_TITLE"
+            echo "Use: <type>[optional scope][optional !]: <description starting lowercase>"
+            echo "Allowed types: build chore ci deps docs feat fix perf refactor revert style test"
+            exit 1
+          fi

@@ -105,6 +105,37 @@ evals, audits, and quality tooling on their `SKILL.md` as normal; only the regis
 publish step is retired. Install them with `pantheon-journal skill install`, `adr skill
 install`, or `pantheon-skill-auditor skill install`.
 
+## Commit Conventions
+
+Pull requests are squash-merged, so the PR title becomes the commit message
+on `main` and is what release-please parses to pick the version bump and
+write the changelog. A malformed title produces a wrong bump or no release
+at all, so CI checks it.
+
+Format: `<type>[optional scope][optional !]: <description>`, description
+starting lowercase. Use `!` for a breaking change and explain it in a
+`BREAKING CHANGE:` footer.
+
+Allowed types, which are release-please's defaults:
+
+```text
+build  chore  ci  deps  docs  feat  fix  perf  refactor  revert  style  test
+```
+
+A type outside this list is ignored by release-please: the commit lands, no
+changelog entry appears, and no version bump happens. That is why the gate
+rejects them rather than letting them through.
+
+The canonical list lives in `.github/commit-types.txt`. The gate's regex in
+`.github/workflows/conventional-commits.yml` duplicates it on purpose, since
+the gate runs on `pull_request_target` and should not read repository files
+in that context. `scripts/check-commit-types.sh` fails if the two drift
+apart, and `scripts/test-commit-title-regex.sh` exercises the regex against
+real titles. Both run as pre-commit steps.
+
+Intermediate commit subjects on a branch are not checked, because the
+squash-merge discards them.
+
 ## Git Hooks
 
 Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, skill structure validation, and the Python allowlist guardrail. Pre-push runs unit tests (`bun test scripts/`), integration tests (cucumber), and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`. The Python allowlist guardrail (`scripts/check-python-allowlist.sh`) is also enforced in CI by the Python Allowlist workflow, so a stray `.py` outside `python-allowlist.txt` cannot land by skipping the local hook.

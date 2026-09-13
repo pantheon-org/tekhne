@@ -61,6 +61,19 @@ target/release/skill-validator-rs validate artifacts {{files}}
         fix = "bun scripts/catalog/update.ts && markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md"
         stage = List("README.md", "docs/src/content/docs/tiles.md")
     }
+    // The PR-title gate duplicates its type list from
+    // .github/commit-types.txt by design. These two keep the duplication
+    // honest: one fails on drift, the other exercises the regex against real
+    // titles including release-please's, since a mistake there blocks every
+    // pull request.
+    ["commit-types"] {
+        glob = List(".github/commit-types.txt", ".github/workflows/conventional-commits.yml")
+        check = "./scripts/check-commit-types.sh"
+    }
+    ["commit-title-regex"] {
+        glob = List(".github/workflows/conventional-commits.yml")
+        check = "./scripts/test-commit-title-regex.sh"
+    }
     // Workflow linting: bad expressions, unknown runner labels, invalid
     // `needs:` references, and shell problems inside `run:` blocks. Scoped to
     // workflow files so it only runs when one changes. Config, including the
