@@ -10,7 +10,8 @@
     "includes": [
       "**",
       "!crates/skill-validator-rs/tests/golden-corpus",
-      "!crates/skill-auditor/tests/golden-corpus"
+      "!crates/skill-auditor/tests/golden-corpus",
+      "!**/*.astro"
     ]
   },
   "formatter": {
