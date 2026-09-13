@@ -8,10 +8,10 @@ on:
       - "skills/**"
   workflow_dispatch:
 
+# Comment scopes are declared per job. All three currently need them, but at
+# workflow level a job added later would inherit write access silently.
 permissions:
   contents: read
-  pull-requests: write
-  issues: write
 
 concurrency:
   # Supersede an in-flight run when the ref updates (e.g. a rebase), so
@@ -21,6 +21,10 @@ concurrency:
 
 jobs:
   tessl-lint:
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     name: Tessl Plugin Lint
     # Advisory, opt-in hosted plugin lint (mirrors the Tessl Review job). Runs ONLY on a 'run-eval' label,
     # never on every PR, and never blocks; the deterministic Skill Validator and Skill Audit checks are the
@@ -145,6 +149,10 @@ jobs:
           echo "::warning::Tessl plugin lint reported issues or could not authenticate (advisory only, does not block this PR). See the 'Tessl Plugin Lint' comment. The required gates are Skill Validator and Skill Audit."
 
   tessl-review:
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     name: Tessl Review
     # Advisory, opt-in LLM/hosted review (mirrors skill-quality-auditor ADR-007 Tier 2).
     # Runs ONLY when a PR carries the 'run-eval' label (or via workflow_dispatch), never on every PR,
@@ -259,6 +267,10 @@ jobs:
           echo "::warning::Tessl review reported issues or could not authenticate (advisory only, does not block this PR). See the 'Tessl Review' comment. The required structural gate is the Skill Validator check."
 
   request-eval-scenarios:
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
     name: Request Eval Scenarios from Copilot
     if: github.event.pull_request.state == 'open' && github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-latest
