@@ -1,0 +1,45 @@
+name: zizmor
+
+# Static analysis for GitHub Actions security anti-patterns: credential
+# persistence, template injection, over-broad permissions, unpinned actions.
+#
+# This runs alongside the existing Plumber scan rather than replacing it.
+# Plumber is configured soft-fail with continue-on-error, so it reports but
+# never blocks, and its ruleset covers action pinning and permissions
+# declarations. zizmor blocks, and covers credential persistence and
+# template injection, which Plumber does not.
+
+on:
+  pull_request:
+    paths: [".github/workflows/**", ".github/zizmor.yml"]
+  push:
+    branches: [main]
+    paths: [".github/workflows/**", ".github/zizmor.yml"]
+
+permissions: {}
+
+# Superseded pushes to a pull request have nothing to say: this only reads
+# the workflow files, so cancelling an in-flight run costs a result nobody
+# wanted and frees the runner.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  zizmor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: zizmorcore/zizmor-action@70fb788f84895a7701f5643d103d587e460b5c99 # v0.6.3
+        with:
+          # This repository does not use GitHub Advanced Security, so upload
+          # to the code-scanning API would fail. Findings surface in the job
+          # log and the job fails on them.
+          advanced-security: false
+          min-severity: high
