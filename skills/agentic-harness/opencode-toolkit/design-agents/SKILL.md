@@ -89,9 +89,9 @@ NEVER add `permission:` block for standard tools. WHY: It creates noise and can 
 
 ## Eval Scenarios
 
-- [Scenario 0: Create specialized agent with permissions](evals/scenario-0/task.md)
-- [Scenario 1: Configure skill permission allowlist](evals/scenario-1/task.md)
-- [Scenario 2: Fix broken agent triggers and system prompt](evals/scenario-2/task.md)
+- [Scenario 0: Create specialized agent with permissions](evals/scenario-01.md)
+- [Scenario 1: Configure skill permission allowlist](evals/scenario-02.md)
+- [Scenario 2: Fix broken agent triggers and system prompt](evals/scenario-03.md)
 
 ## References
 

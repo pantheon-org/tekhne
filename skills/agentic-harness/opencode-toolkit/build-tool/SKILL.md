@@ -86,6 +86,6 @@ description: custom tools opencode SDK plugin execute handler abort signal Zod s
 
 ## Eval Scenarios
 
-- [Scenario 0: Create a custom todo-search tool with schema validation](evals/scenario-0/task.md)
-- [Scenario 1: Use SDK client to create session and send prompt](evals/scenario-1/task.md)
-- [Scenario 2: Implement abort signal handling in long-running tools](evals/scenario-2/task.md)
+- [Scenario 0: Create a custom todo-search tool with schema validation](evals/scenario-01.md)
+- [Scenario 1: Use SDK client to create session and send prompt](evals/scenario-02.md)
+- [Scenario 2: Implement abort signal handling in long-running tools](evals/scenario-03.md)

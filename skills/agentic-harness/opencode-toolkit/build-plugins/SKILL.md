@@ -82,6 +82,6 @@ See [`references/hook-patterns.md`](references/hook-patterns.md) for complete an
 
 ## Eval Scenarios
 
-- [Scenario 0: Block dangerous bash commands with tool.execute.before](evals/scenario-0/task.md)
-- [Scenario 1: Show toast notifications on file edit events](evals/scenario-1/task.md)
-- [Scenario 2: Add custom tool to plugin using tool key](evals/scenario-2/task.md)
+- [Scenario 0: Block dangerous bash commands with tool.execute.before](evals/scenario-01.md)
+- [Scenario 1: Show toast notifications on file edit events](evals/scenario-02.md)
+- [Scenario 2: Add custom tool to plugin using tool key](evals/scenario-03.md)

@@ -215,9 +215,9 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 
 ## Eval Scenarios
 
-- [Scenario 0: Configure Anthropic provider with env variable](evals/scenario-0/task.md)
-- [Scenario 1: Place behavioral rules in AGENTS.md vs opencode.json](evals/scenario-1/task.md)
-- [Scenario 2: Fix global vs project-level config scope issue](evals/scenario-2/task.md)
+- [Scenario 0: Configure Anthropic provider with env variable](evals/scenario-01.md)
+- [Scenario 1: Place behavioral rules in AGENTS.md vs opencode.json](evals/scenario-02.md)
+- [Scenario 2: Fix global vs project-level config scope issue](evals/scenario-03.md)
 
 ## References
 

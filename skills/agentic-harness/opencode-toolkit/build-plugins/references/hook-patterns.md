@@ -343,3 +343,4 @@ const lookupUser = tool({
 export const DirectoryPlugin: Plugin = async () => ({
   tool: { "lookup-user": lookupUser }
 })
+```

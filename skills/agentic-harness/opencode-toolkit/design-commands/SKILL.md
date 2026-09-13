@@ -93,4 +93,4 @@ Create a new file called output.md with the results.
 - [`references/command-patterns.md`](references/command-patterns.md) — Creation phases, example commands (/test, /review, /commit, /deploy, /spellcheck), pattern library
 - [`references/frontmatter-reference.md`](references/frontmatter-reference.md) — Complete frontmatter fields and placeholder reference
 
-**Eval Scenarios**: [Scenario 0: Deploy](evals/scenario-0/task.md) | [Scenario 1: Spellcheck](evals/scenario-1/task.md) | [Scenario 2: Fix anti-patterns](evals/scenario-2/task.md)
+**Eval Scenarios**: [Scenario 0: Deploy](evals/scenario-01.md) | [Scenario 1: Spellcheck](evals/scenario-02.md) | [Scenario 2: Fix anti-patterns](evals/scenario-03.md)
