@@ -3,7 +3,5 @@
   "version": "1.0.0",
   "description": "Create context files under .context/<typology>/ (findings, plans, guides, follow-ups, merge-requests, tickets, ...) with date-prefixed YYYY-MM-DD-slug.md filenames and YAML frontmatter",
   "private": false,
-  "skills": [
-    "SKILL.md"
-  ]
+  "skills": ["SKILL.md"]
 }

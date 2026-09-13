@@ -3,8 +3,5 @@
   "version": "5.0.0",
   "description": "Complete GitLab CI/CD toolkit with generation and validation capabilities for pipelines and configurations",
   "private": false,
-  "skills": [
-    "generator",
-    "validator"
-  ]
+  "skills": ["generator", "validator"]
 }

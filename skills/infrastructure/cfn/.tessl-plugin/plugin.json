@@ -3,8 +3,5 @@
   "version": "5.0.0",
   "description": "Complete CloudFormation toolkit with generation and validation capabilities",
   "private": false,
-  "skills": [
-    "behavior-validator/SKILL.md",
-    "template-compare/SKILL.md"
-  ]
+  "skills": ["behavior-validator/SKILL.md", "template-compare/SKILL.md"]
 }

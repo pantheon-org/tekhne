@@ -3,7 +3,5 @@
   "version": "0.2.0",
   "description": "Search-first troubleshooting with a diagnostic phase — use when an error, bug, or unexpected behaviour is reported.",
   "private": false,
-  "skills": [
-    "SKILL.md"
-  ]
+  "skills": ["SKILL.md"]
 }

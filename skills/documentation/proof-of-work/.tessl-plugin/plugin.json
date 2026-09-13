@@ -3,7 +3,5 @@
   "version": "0.2.0",
   "description": "Instructs agents to document findings as proof-of-work artifacts: screenshots via agent-browser or playwright-mcp, captured logs, and script output",
   "private": true,
-  "skills": [
-    "skills/proof-of-work"
-  ]
+  "skills": ["skills/proof-of-work"]
 }

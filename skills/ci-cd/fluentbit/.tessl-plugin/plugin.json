@@ -3,8 +3,5 @@
   "version": "5.0.0",
   "description": "Complete fluentbit toolkit with generation and validation capabilities",
   "private": false,
-  "skills": [
-    "generator",
-    "validator"
-  ]
+  "skills": ["generator", "validator"]
 }

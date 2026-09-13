@@ -3,7 +3,5 @@
   "version": "0.2.0",
   "description": "Recommend the optimal Claude model (Haiku/Sonnet/Opus) for a task using a decision matrix with complexity escalators.",
   "private": false,
-  "skills": [
-    "SKILL.md"
-  ]
+  "skills": ["SKILL.md"]
 }

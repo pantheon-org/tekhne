@@ -3,7 +3,5 @@
   "version": "0.2.0",
   "description": "Run a safe-to-fail experiment for Complex domain problems where cause-and-effect is only visible in retrospect.",
   "private": false,
-  "skills": [
-    "SKILL.md"
-  ]
+  "skills": ["SKILL.md"]
 }

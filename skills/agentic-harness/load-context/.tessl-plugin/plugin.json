@@ -3,7 +3,5 @@
   "version": "0.2.0",
   "description": "Resume a previous session from .context/session/CONTEXT-llm.md with optional full resource expansion.",
   "private": false,
-  "skills": [
-    "SKILL.md"
-  ]
+  "skills": ["SKILL.md"]
 }
