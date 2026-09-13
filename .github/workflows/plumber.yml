@@ -41,6 +41,7 @@ jobs:
   plumber:
     name: Plumber Score
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     permissions:
       contents: read
       security-events: write # upload SARIF to Code Scanning

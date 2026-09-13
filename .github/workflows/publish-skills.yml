@@ -13,6 +13,7 @@ jobs:
   detect-plugins:
     name: Detect Changed Plugins
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     outputs:
       matrix: ${{ steps.plugins.outputs.matrix }}
       has-plugins: ${{ steps.plugins.outputs.has-plugins }}
@@ -68,6 +69,7 @@ jobs:
     needs: detect-plugins
     if: needs.detect-plugins.outputs.has-plugins == 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix: ${{ fromJson(needs.detect-plugins.outputs.matrix) }}
       fail-fast: false

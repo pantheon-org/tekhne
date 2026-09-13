@@ -24,6 +24,7 @@ jobs:
   rebase:
     name: Rebase behind PR branches
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Mint pantheon-ai-bot token
         id: app-token
