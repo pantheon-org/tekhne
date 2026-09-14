@@ -136,6 +136,42 @@ real titles. Both run as pre-commit steps.
 Intermediate commit subjects on a branch are not checked, because the
 squash-merge discards them.
 
+## cargo-deny licence failures
+
+`cargo-deny` runs as a hard gate in Rust CI: advisories, licences, bans and
+sources. A dependency whose licence is not in `deny.toml`'s allowlist fails
+the build rather than warning, so the first time this fires it will be
+blocking a pull request.
+
+The allowlist is deliberately minimal (`Apache-2.0`, `MIT`, `Unicode-3.0`,
+`ISC`). It records what the tree actually needs rather than a broad
+permissive set, so a new licence appearing is a real signal, not noise.
+
+When the gate fails on a licence:
+
+1. **Read which crate pulled it in.** cargo-deny names the crate and its
+   dependency path. An unexpected licence deep in a transitive chain is
+   worth more scrutiny than one on a direct dependency you just added.
+2. **Check whether it is actually required.** An SPDX `OR` expression means
+   you may pick either side, so `MIT OR GPL-3.0` is satisfied by MIT and
+   needs no change. Only an `AND` makes both binding. This is why
+   `Unicode-3.0` is on the list and `BSL-1.0` is not.
+3. **Decide: exempt or reject.**
+   - *Exempt* if the licence is permissive and compatible with this
+     repository shipping ISC-licensed binaries. Add it to `deny.toml`'s
+     `allow` list **with a comment naming the crate that needs it**, so the
+     entry can be removed when that dependency goes.
+   - *Reject* if it is copyleft, ambiguous, or unlicensed. Find an
+     alternative crate, or drop the feature.
+4. **Escalate anything you are unsure about.** Licence compatibility is a
+   legal question, not an engineering one. If the answer is not obvious from
+   the two categories above, route it rather than guessing.
+
+Never silence the gate by widening the allowlist to a broad category, and
+never add `continue-on-error` to the workflow step. The advisory-only
+posture is exactly how the previous `cargo audit` step ended up never
+blocking anything.
+
 ## Git Hooks
 
 Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, skill structure validation, and the Python allowlist guardrail. Pre-push runs unit tests (`bun test scripts/`), integration tests (cucumber), and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`. The Python allowlist guardrail (`scripts/check-python-allowlist.sh`) is also enforced in CI by the Python Allowlist workflow, so a stray `.py` outside `python-allowlist.txt` cannot land by skipping the local hook.

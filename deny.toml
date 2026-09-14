@@ -1,0 +1,49 @@
+# cargo-deny configuration.
+#
+# Runs as a hard gate in rust-ci.yml (advisories, licences, bans, sources)
+# and on a daily schedule in advisories.yml (advisories only, since the
+# advisory database changes on its own while the rest cannot change without
+# a commit).
+#
+# See the "cargo-deny licence failures" section of AGENTS.md before adding
+# anything to the allowlist below.
+
+[advisories]
+yanked = "deny"
+
+[licenses]
+confidence-threshold = 0.8
+# Deliberately minimal: this records what the dependency tree actually needs
+# rather than a broad permissive set. A licence not listed here blocks the
+# build, which is the point. Adding one is a decision, not a formality.
+allow = [
+    # The overwhelming majority of the tree is dual MIT / Apache-2.0.
+    "Apache-2.0",
+    "MIT",
+    # Required, not optional: one package is
+    # "(MIT OR Apache-2.0) AND Unicode-3.0", so the Unicode terms apply on
+    # top of whichever of the first two is chosen. Comes in via the
+    # Unicode character tables used for text segmentation.
+    "Unicode-3.0",
+    # This repository's own licence. No dependency needs it today; listed so
+    # a future internal crate published from here does not trip the gate.
+    "ISC",
+]
+
+[bans]
+# Duplicate versions are noise more often than a problem, so warn rather
+# than deny. A wildcard dependency is different: it makes the build
+# non-reproducible.
+multiple-versions = "warn"
+wildcards = "deny"
+# Intra-workspace path dependencies (common = { path = "../common" }) carry
+# no version and so read as wildcards. They are not a reproducibility risk:
+# the source is in this repository at the committed revision. This exempts
+# path dependencies only; a wildcard on a crates.io dependency still fails.
+allow-wildcard-paths = true
+highlight = "all"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
