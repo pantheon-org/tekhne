@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent runs the clarity test before recording a goal, and routes a goal with no verifiable end state to socratic-method rather than writing a file with invented content. Covers Workflow step 1 and the 'record' half of the skill.",
+  "checklist": [
+    {
+      "name": "No goal file created",
+      "description": "The agent does not write a goal file in this turn",
+      "max_score": 16
+    },
+    {
+      "name": "Clarity test applied",
+      "description": "The response shows the goal was assessed against a clarity standard before recording, not recorded first and questioned later",
+      "max_score": 12
+    },
+    {
+      "name": "Names the missing end state",
+      "description": "The stated reason is that nothing checkable distinguishes done from not done, not merely that the goal is 'vague' or 'unclear'",
+      "max_score": 14
+    },
+    {
+      "name": "Routes to socratic-method",
+      "description": "Routes to socratic-method, or asks open questions in that manner, rather than presenting curated options",
+      "max_score": 14
+    },
+    {
+      "name": "Does not route to guided-interview",
+      "description": "Does not present a 3-to-4 option multiple-choice set, which would be the wrong instrument for an undefined problem",
+      "max_score": 10
+    },
+    {
+      "name": "No invented items",
+      "description": "Does not enumerate items the user never stated and present them as the goal's contents",
+      "max_score": 10
+    },
+    {
+      "name": "No invented end state",
+      "description": "Does not write a placeholder or guessed 'Done looks like' sentence on the user's behalf",
+      "max_score": 8
+    },
+    {
+      "name": "Does not start work",
+      "description": "Does not silently begin working on whichever GitLab issue seems most likely",
+      "max_score": 6
+    },
+    {
+      "name": "Question count restrained",
+      "description": "Asks a small number of questions rather than a questionnaire",
+      "max_score": 5
+    },
+    {
+      "name": "Question targets the end state",
+      "description": "At least one question aims at what a finished GitLab situation would actually look like",
+      "max_score": 5
+    }
+  ]
+}

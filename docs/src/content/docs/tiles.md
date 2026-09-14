@@ -1001,11 +1001,11 @@ Create `.context/plans/*.md` files with standard YAML frontmatter, phases/tasks/
 
 ### goal-tracker
 
-Records the goal for a working session as a .context/goals/ file with items and ...
+Record a session goal as a dated file with items plus evidence, keep its status ...
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [goal-tracker](/tekhne/skills/project-mgmt/goal-tracker/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | - |
+| [goal-tracker](/tekhne/skills/project-mgmt/goal-tracker/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### nasa-pm-lessons
 

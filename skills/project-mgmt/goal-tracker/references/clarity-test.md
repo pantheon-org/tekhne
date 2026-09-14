@@ -1,3 +1,9 @@
+---
+category: procedures
+priority: CRITICAL
+load_when: Run before a goal is recorded
+---
+
 # The clarity test
 
 A stated goal is recordable when it passes three checks. The test exists to

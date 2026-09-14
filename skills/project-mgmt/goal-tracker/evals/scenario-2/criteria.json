@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent answers \"what's left\" from the goal file and reports the rendered summary verbatim, preserving the cap, the ordering, and the awaiting/parked distinctions, rather than expanding it into prose. Covers Workflow step 4 and the 'never paraphrase the summary' anti-pattern.",
+  "checklist": [
+    {
+      "name": "Reads the goal file",
+      "description": "Status is sourced from the active goal file rather than reconstructed from conversation memory",
+      "max_score": 14
+    },
+    {
+      "name": "Next action leads",
+      "description": "The single next action appears first in the response, before any context or counts",
+      "max_score": 14
+    },
+    {
+      "name": "Counts match the file",
+      "description": "Reports 2 of 4 done, matching the file rather than a recount",
+      "max_score": 12
+    },
+    {
+      "name": "Awaiting item surfaced as needing confirmation",
+      "description": "The awaiting item is described as needing the user's confirmation, not as done",
+      "max_score": 14
+    },
+    {
+      "name": "Awaiting not buried in todo",
+      "description": "The awaiting item is distinguished from ordinary outstanding work rather than listed among the todo items",
+      "max_score": 8
+    },
+    {
+      "name": "Parked work reported",
+      "description": "The parked item is reported as parked to follow-ups, so the user can see work left the goal",
+      "max_score": 10
+    },
+    {
+      "name": "Summary not expanded to prose",
+      "description": "The summary is not rewritten into paragraphs or a session narrative",
+      "max_score": 12
+    },
+    {
+      "name": "No unrequested detail added",
+      "description": "No per-item status table or commentary on each item is added beyond what was rendered",
+      "max_score": 6
+    },
+    {
+      "name": "Length stays within the cap",
+      "description": "Summary content stays at or below roughly 100 words",
+      "max_score": 6
+    },
+    {
+      "name": "File path offered, not pasted",
+      "description": "The goal file path is offered for detail rather than its contents being reproduced",
+      "max_score": 4
+    }
+  ]
+}

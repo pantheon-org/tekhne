@@ -1,3 +1,9 @@
+---
+category: procedures
+priority: HIGH
+load_when: Run when an item is added
+---
+
 # Promotion: when a goal becomes a plan
 
 Every piece of work starts as a goal. Nothing is classified as a plan up

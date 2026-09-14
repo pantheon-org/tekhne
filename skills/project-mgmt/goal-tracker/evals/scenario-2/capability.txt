@@ -1,0 +1,1 @@
+Answer "what's left" by reporting the rendered summary verbatim rather than expanding it into prose, per Workflow step 4.

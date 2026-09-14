@@ -1,3 +1,9 @@
+---
+category: principles
+priority: CRITICAL
+load_when: Run before any item is closed
+---
+
 # Evidence
 
 No item reaches `done` without evidence. What counts depends on the item's
@@ -13,7 +19,7 @@ present. The evidence cell holds the pointer, not a description of it.
 | Code change | Commit SHA, plus the test result if tests cover it |
 | File produced | Repository-relative path |
 | Check passed | The command and its decisive output (`0 failed`, not `done`) |
-| Decision recorded | Path to the `.context/decisions/` file |
+| Decision recorded | Path to the decision file, filed under the decisions typology |
 
 A pointer that cannot be re-checked is not a pointer. "Tests pass" fails.
 "`bun test`: 20 pass, 0 fail" passes. Copy the number from the actual output at
