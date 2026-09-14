@@ -34,6 +34,22 @@ die() { printf 'error: %s\n' "$1" >&2; exit 1; }
 
 usage() { sed -n '3,/^# *-h/p' "$0" | sed 's/^#\{0,1\} \{0,1\}//'; }
 
+# substitute LINE NEEDLE REPLACEMENT - literal replacement of every occurrence.
+#
+# A goal title is arbitrary user text, so neither of the obvious tools is safe:
+# sed's replacement expands & to the matched text and a | in the title collides
+# with the s||| delimiter, and bash 5.2's ${var//x/y} likewise expands an
+# unescaped & in the replacement. Prefix and suffix expansion has no such
+# surface: nothing in the replacement is interpreted.
+substitute() {
+	_s="$1"; _needle="$2"; _repl="$3"; _out=""
+	while [ "${_s#*"$_needle"}" != "$_s" ]; do
+		_out="$_out${_s%%"$_needle"*}$_repl"
+		_s="${_s#*"$_needle"}"
+	done
+	printf '%s' "$_out$_s"
+}
+
 slugify() {
 	printf '%s' "$1" \
 		| tr '[:upper:]' '[:lower:]' \
@@ -90,8 +106,16 @@ case "$cmd" in
 		if [ -n "$TAGS" ]; then
 			tags_yaml="[$(printf '%s' "$TAGS" | sed 's/ *, */, /g')]"
 		fi
-		sed -e "s|__TITLE__|$title|g" -e "s|__DATE__|$date_str|g" "$TEMPLATE" \
-			| sed -e "s|^tags: \[\]$|tags: $tags_yaml|" > "$target"
+		: > "$target"
+		while IFS= read -r line || [ -n "$line" ]; do
+			# Date before title. substitute() never rescans what it inserted,
+			# so doing the title last lets a title containing a literal
+			# __DATE__ survive intact.
+			line="$(substitute "$line" "__DATE__" "$date_str")"
+			line="$(substitute "$line" "__TITLE__" "$title")"
+			[ "$line" = "tags: []" ] && line="tags: $tags_yaml"
+			printf '%s\n' "$line" >> "$target"
+		done < "$TEMPLATE"
 		printf '%s\n' "$target"
 		;;
 
