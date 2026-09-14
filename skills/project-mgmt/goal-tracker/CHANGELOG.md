@@ -5,6 +5,22 @@ All notable changes to the goal-tracker skill.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this skill adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-09-14
+
+### Changed
+
+- Template is now `assets/templates/goal.yaml`, a declarative schema, matching the
+  convention used across the estate. The 1.1.0 `assets/goal-template.md.tmpl` broke it
+  on both format and location.
+- `scripts/goal.sh new` emits the goal structure as printf arguments instead of
+  substituting into a template file. No replacement mechanism is involved, so no
+  character is reserved in the title.
+
+### Removed
+
+- `assets/goal-template.md.tmpl`.
+- The `substitute()` helper, no longer needed once nothing is substituted.
+
 ## [1.1.0] - 2026-09-14
 
 ### Added
@@ -26,7 +42,8 @@ and this skill adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - SKILL.md trimmed from 197 to 131 lines and made a navigation hub.
 - Description rewritten to drop keyword-stuffing conjunctions.
 - Template renamed to `goal-template.md.tmpl` so markdownlint stops reading a
-  template's placeholder heading as a second H1.
+  template's placeholder heading as a second H1. Superseded in 1.2.0: that rename
+  was the wrong reading of the lint failure.
 
 ### Fixed
 

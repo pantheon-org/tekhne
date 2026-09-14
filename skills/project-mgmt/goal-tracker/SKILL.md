@@ -3,7 +3,7 @@ name: goal-tracker
 description: "Record a session goal as a dated file with items plus evidence, keep its status current, then answer \"what's left\" in under 100 words: achieved, parked, still open. Use when the user states a session goal, asks what's left, what's outstanding, what's still open, whether the goal is met, are we done, where the session got to. Also use to park an item, to promote an overgrown goal into a plan, to close a goal out."
 license: MIT
 metadata:
-  version: "1.1.0"
+  version: "1.2.0"
   audience: agents
   workflow: planning, tracking, session-management
 ---
@@ -11,12 +11,12 @@ metadata:
 # Goal Tracker
 
 Write down the one thing this session is for, keep it honest as work lands, and answer
-"what's left" without reconstructing the session from memory.
+"what's left" without reconstructing it from memory.
 
 ## Mindset
 
 **An unevidenced status is worse than no status.** A goal claiming an item is done, with
-nothing anyone can point at, turns an open question into a false answer. The reader stops
+nothing anyone can point at, turns an open question into a false answer and the reader stops
 checking. Trade convenience for provability everywhere.
 
 Trust asymmetrically. Anyone can re-check work done inside the repository, so close it
@@ -125,7 +125,8 @@ Then confirm each of these:
 
 | Topic | Reference | When to Use |
 | --- | --- | --- |
-| The three clarity checks and where each failure routes | [Clarity Test](references/clarity-test.md) | Recording a new goal. Skip when it already names a checkable end state and a short item list. |
+| The three clarity checks and where each failure routes | [Clarity Test](references/clarity-test.md) | Recording a new goal. Skip when it already names a checkable end state. |
 | Local versus outside reach, and the hard confirmation rule | [Evidence](references/evidence.md) | Closing any item. Skip when only rendering a summary. |
-| Promotion triggers and the goal-to-plan handover | [Promotion](references/promotion.md) | An item was just added, or the goal holds five. Skip during ordinary status updates. |
-| Frontmatter fields, the items table, and a worked example | [File Shape](references/file-shape.md) | Hand-editing a goal, or diagnosing a failing check. Skip when the script is writing. |
+| Promotion triggers and the goal-to-plan handover | [Promotion](references/promotion.md) | An item was just added, or the goal holds five. |
+| The goal schema: frontmatter, sections, table columns, rules | [Goal Schema](assets/templates/goal.yaml) | Hand-authoring or repairing a goal, or changing what the script emits. |
+| Worked example, and what each check failure means | [File Shape](references/file-shape.md) | Diagnosing a failing check. |

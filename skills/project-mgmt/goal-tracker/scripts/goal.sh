@@ -13,7 +13,7 @@
 #   goal.sh park <item-number> <reason> [--root DIR]
 #
 # Subcommands:
-#   new     Scaffold a goal file from assets/goal-template.md.tmpl.
+#   new     Scaffold a goal file matching assets/templates/goal.yaml.
 #   status  Render the "what's left" summary. Capped at 100 words, led by the
 #           single next action. Exits 0 with a notice when no goal is active.
 #   check   Validate the active goal against the evidence rules. Non-zero exit
@@ -28,27 +28,16 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TEMPLATE="$SCRIPT_DIR/../assets/goal-template.md.tmpl"
+
+# The authoritative structure is assets/templates/goal.yaml, a declarative
+# schema an agent reads before hand-authoring or repairing a goal, matching the
+# convention the rest of the estate uses. This script scaffolds that same
+# structure; it does not parse the schema, and nothing else does either.
+SCHEMA="$SCRIPT_DIR/../assets/templates/goal.yaml"
 
 die() { printf 'error: %s\n' "$1" >&2; exit 1; }
 
 usage() { sed -n '3,/^# *-h/p' "$0" | sed 's/^#\{0,1\} \{0,1\}//'; }
-
-# substitute LINE NEEDLE REPLACEMENT - literal replacement of every occurrence.
-#
-# A goal title is arbitrary user text, so neither of the obvious tools is safe:
-# sed's replacement expands & to the matched text and a | in the title collides
-# with the s||| delimiter, and bash 5.2's ${var//x/y} likewise expands an
-# unescaped & in the replacement. Prefix and suffix expansion has no such
-# surface: nothing in the replacement is interpreted.
-substitute() {
-	_s="$1"; _needle="$2"; _repl="$3"; _out=""
-	while [ "${_s#*"$_needle"}" != "$_s" ]; do
-		_out="$_out${_s%%"$_needle"*}$_repl"
-		_s="${_s#*"$_needle"}"
-	done
-	printf '%s' "$_out$_s"
-}
 
 slugify() {
 	printf '%s' "$1" \
@@ -95,7 +84,7 @@ case "$cmd" in
 	new)
 		title="${args[0]:-}"
 		[ -n "$title" ] || die "new needs a title"
-		[ -f "$TEMPLATE" ] || die "template missing: $TEMPLATE"
+		[ -f "$SCHEMA" ] || die "schema missing: $SCHEMA"
 		date_str="$(date +%Y-%m-%d)"
 		slug="$(slugify "$title")"
 		[ -n "$slug" ] || die "title produced an empty slug: $title"
@@ -106,16 +95,45 @@ case "$cmd" in
 		if [ -n "$TAGS" ]; then
 			tags_yaml="[$(printf '%s' "$TAGS" | sed 's/ *, */, /g')]"
 		fi
-		: > "$target"
-		while IFS= read -r line || [ -n "$line" ]; do
-			# Date before title. substitute() never rescans what it inserted,
-			# so doing the title last lets a title containing a literal
-			# __DATE__ survive intact.
-			line="$(substitute "$line" "__DATE__" "$date_str")"
-			line="$(substitute "$line" "__TITLE__" "$title")"
-			[ "$line" = "tags: []" ] && line="tags: $tags_yaml"
-			printf '%s\n' "$line" >> "$target"
-		done < "$TEMPLATE"
+		# Emitted as printf arguments, never substituted into a pattern. A goal
+		# title is arbitrary user text, and every replacement mechanism in
+		# reach reserves a character in the replacement: sed expands & to the
+		# matched text, and bash 5.2 onward does the same in ${var//x/y}. A
+		# %s argument reserves nothing.
+		printf '%s\n' \
+			'---' \
+			"title: $title" \
+			'type: goal' \
+			"date: $date_str" \
+			'status: active' \
+			'goal-status: new' \
+			"tags: $tags_yaml" \
+			'---' \
+			'' \
+			"# $title" \
+			'' \
+			'## Done looks like' \
+			'' \
+			'<!-- One sentence, containing something checkable by someone who was not in' \
+			'     the room. If you cannot write it, the goal has not passed the clarity' \
+			'     test: see references/clarity-test.md. -->' \
+			'' \
+			'## Items' \
+			'' \
+			'<!-- State is todo, awaiting, or done. Use awaiting for an outside-reach item' \
+			'     whose work is performed but which the user has not yet confirmed. Reach' \
+			'     is local or outside, declared now, not at close time. An outside item' \
+			'     needs the user'"'"'s express confirmation before it can be marked done:' \
+			'     see references/evidence.md. -->' \
+			'' \
+			'| # | Item | State | Reach | Evidence |' \
+			'| - | ---- | ----- | ----- | -------- |' \
+			'| 1 |      | todo  |       |          |' \
+			'' \
+			'## Log' \
+			'' \
+			"- $date_str created, goal-status new" \
+			> "$target"
 		printf '%s\n' "$target"
 		;;
 
