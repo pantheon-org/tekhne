@@ -66,8 +66,9 @@ breaking those consumers.
 distinguishes a goal that finished from one that grew into a plan, which is exactly the
 distinction a later reader needs and the one most often lost.
 
-The machine-readable contract is
-[`goal-frontmatter.schema.json`](../assets/schemas/goal-frontmatter.schema.json).
+The authoritative contract is the template schema,
+[`goal.yaml`](../assets/templates/goal.yaml), which declares every frontmatter field, the
+required sections, the items-table columns, and the rules `check` enforces.
 
 ## The items table
 

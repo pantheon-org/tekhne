@@ -1,0 +1,137 @@
+# Goal Template Schema
+# Describes the REQUIRED structure for a session goal file.
+#
+# Read this before hand-authoring or repairing a goal. scripts/goal.sh new
+# scaffolds the same structure; this schema is the contract both it and
+# scripts/goal.sh check are written against.
+
+template_name: goal
+description: "A session goal: one stated end state, its items, and the evidence closing each one"
+filename_pattern: "YYYY-MM-DD-slug.md"
+location_pattern: "<context-root>/goals/"
+
+# YAML frontmatter structure (REQUIRED at top of file)
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      description: "Human-readable goal title"
+      example: "Rotate the exposed token and unblock Phase 1"
+      validation: "Must match the H1 heading exactly"
+
+    - name: type
+      type: string
+      description: "Singular form of the goals typology"
+      value: goal
+      validation: "Always the literal string 'goal'"
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: "Creation date, must match the filename date"
+      validation: "Set once at creation; never updated on later edits"
+
+    - name: status
+      type: string
+      description: "Index-facing lifecycle, shared with every other context file"
+      allowed: [active, done]
+      validation: >-
+        active while goal-status is new or in-progress;
+        done once goal-status is completed or promoted
+
+    - name: goal-status
+      type: string
+      description: "Goal lifecycle. Distinguishes a goal that finished from one that grew into a plan"
+      allowed: [new, in-progress, completed, promoted]
+      validation: >-
+        new at creation; in-progress on the first item to gain evidence;
+        completed when no todo or awaiting items remain; promoted when a
+        trigger moved the work to a plan. A promoted goal is never recorded
+        as completed
+
+    - name: tags
+      type: array
+      description: "Free-form tags; empty list when none"
+      example: [security, engineering-health]
+
+  optional_fields:
+    - name: related
+      type: array
+      description: "Relative paths to related context files. On promotion, carries the plan's path"
+      validation: "Omit the field entirely when empty; never emit an empty list"
+
+# Required body sections, in this order
+sections:
+  - heading: "# <title>"
+    level: 1
+    required: true
+    description: "Single H1, matching the frontmatter title exactly"
+
+  - heading: "## Done looks like"
+    level: 2
+    required: true
+    description: >-
+      One sentence containing something checkable by someone who was not in
+      the room. If it cannot be written, the goal has not passed the clarity
+      test and must not be recorded yet
+    example: "Phase 1 steps 4 to 8 complete against a valid credential, with no exposed token in the environment."
+
+  - heading: "## Items"
+    level: 2
+    required: true
+    description: "A five-column markdown table, one row per item"
+    table:
+      columns:
+        - name: "#"
+          type: integer
+          description: "Row number. Renumber the rows below when one is parked out"
+
+        - name: Item
+          type: string
+          description: >-
+            One finishable thing. If the text needs the word "and", it is
+            probably two items
+
+        - name: State
+          type: string
+          allowed: [todo, awaiting, done]
+          description: >-
+            awaiting means outside-reach work that is performed but not yet
+            confirmed by the person who owns it
+
+        - name: Reach
+          type: string
+          allowed: [local, outside]
+          description: >-
+            Declared when the item is written, never decided at close time.
+            local is re-checkable by anyone; outside left the repository
+
+        - name: Evidence
+          type: string
+          description: >-
+            Required for state done. A re-checkable pointer for local reach
+            (commit SHA plus test result, a path, a command and its decisive
+            output). A dated user confirmation for outside reach
+      constraints:
+        - "Maximum 5 rows. A sixth fires promotion to a plan"
+        - "A row with an empty Item cell is an unfilled template row and is ignored"
+
+  - heading: "## Log"
+    level: 2
+    required: true
+    description: >-
+      One dated line per state change, appended and never rewritten. Carries
+      what the table cannot: the order things happened, why an item was
+      parked, and which trigger fired a promotion
+    example: "- 14-09-2026 item 1 done, goal-status in-progress"
+
+# Enforced by scripts/goal.sh check; see references/file-shape.md for the messages
+validation_rules:
+  - "Exactly one goal file carries status: active"
+  - "No item is state done with an empty Evidence cell"
+  - "No item with reach outside is done without a recorded user confirmation"
+  - "State is one of todo, awaiting, done; reach is one of local, outside"
+  - "Item count is 5 or fewer, or promotion has fired"
+  - "goal-status is not completed while any item remains open"
+  - "goal-status is completed or promoted once no item remains open"
+  - "The items table is not empty"
