@@ -4,7 +4,7 @@
 # frontmatter of every .context/**/*.md file.
 #
 # The index is a generated cache grouped by typology (the plural directory
-# name a file lives under: findings/, plans/, guides/, follow-ups/,
+# name a file lives under: findings/, plans/, goals/, guides/, follow-ups/,
 # merge-requests/, tickets/, decisions/, notes/, research/). The source of
 # truth is always the frontmatter in each .md file, never this output.
 #
@@ -131,6 +131,7 @@ if missing:
 type_group_key = {
     "finding": "findings",
     "plan": "plans",
+    "goal": "goals",
     "guide": "guides",
     "follow-up": "follow-ups",
     "merge-request": "merge-requests",
@@ -142,6 +143,7 @@ type_group_key = {
 type_order = [
     "findings",
     "plans",
+    "goals",
     "guides",
     "follow-ups",
     "merge-requests",
@@ -153,6 +155,7 @@ type_order = [
 type_label = {
     "findings": "Findings",
     "plans": "Plans",
+    "goals": "Goals",
     "guides": "Guides",
     "follow-ups": "Follow-ups",
     "merge-requests": "Merge Requests",

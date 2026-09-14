@@ -10,6 +10,7 @@ stays mostly static but may evolve deliberately.
 | --- | --- | --- |
 | `findings` | Investigation results, analysis, research output | Keep for reference |
 | `plans` | Implementation plans, task breakdowns | Retire when the work lands |
+| `goals` | Session goals: a stated end state plus its items and evidence | Close when the goal is met or promoted to a plan |
 | `guides` | Reusable how-tos and reference material | Keep and maintain |
 | `follow-ups` | Deferred work, open threads, TODO capture | Close when actioned |
 | `merge-requests` | MR/PR notes, descriptions, review context | Retire after merge |
