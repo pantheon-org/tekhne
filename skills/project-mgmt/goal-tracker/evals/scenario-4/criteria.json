@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates the two rules that keep a goal bounded: discovered work is a follow-up unless the end state is unreachable without it, and a goal that outgrows the five-item threshold is promoted to a plan and recorded as promoted rather than completed. Covers Workflow steps 2 and 5, Core Rule 4, and the scope-growth anti-pattern.",
+  "checklist": [
+    {
+      "name": "Discovered-work test applied",
+      "description": "The agent checks whether the stated end state is reachable without the new work before adding it",
+      "max_score": 16
+    },
+    {
+      "name": "Test result stated",
+      "description": "The response says the end state is reachable without the cache work, so the default is a follow-up",
+      "max_score": 12
+    },
+    {
+      "name": "Not appended silently",
+      "description": "The sixth row is not added without comment, leaving the goal over threshold with no promotion",
+      "max_score": 12
+    },
+    {
+      "name": "Threshold crossing named",
+      "description": "The response notes that a sixth item crosses the five-item promotion threshold",
+      "max_score": 14
+    },
+    {
+      "name": "Recorded as promoted not completed",
+      "description": "If promotion happens, goal-status is set to promoted; it is never set to completed",
+      "max_score": 16
+    },
+    {
+      "name": "Evidence carried across",
+      "description": "Items 1 and 2 move to the plan as completed tasks with their commit SHAs intact",
+      "max_score": 12
+    },
+    {
+      "name": "Completed work not re-opened",
+      "description": "Already-proved work is not re-planned as outstanding",
+      "max_score": 6
+    },
+    {
+      "name": "Trigger logged",
+      "description": "The promotion is logged with the specific trigger that fired",
+      "max_score": 6
+    },
+    {
+      "name": "Plan linked from related",
+      "description": "The new plan's path is recorded in the goal's related frontmatter",
+      "max_score": 4
+    },
+    {
+      "name": "No silent threshold gaming",
+      "description": "Existing items are not parked or deleted purely to stay under the threshold without telling the user",
+      "max_score": 2
+    }
+  ]
+}

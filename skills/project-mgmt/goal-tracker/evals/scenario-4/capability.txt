@@ -1,0 +1,1 @@
+Promote an overgrown goal to a plan and record it as promoted, not completed, per Core Rule 4.

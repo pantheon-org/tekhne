@@ -1,0 +1,1 @@
+Set an outside-reach item to awaiting rather than done when the agent has only its own observation, per Core Rule 2.

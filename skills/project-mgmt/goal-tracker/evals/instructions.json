@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "content": "An unevidenced status is worse than no status: a goal claiming an item is done, with nothing anyone can point at to prove it, converts an open question into a false answer.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Trust is asymmetric by reach. Work performed inside the repository can be re-checked by anyone, so an agent may close it. Work that left the repository cannot be re-checked, so only the person who owns it may close it.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Core Rule 1: exactly one goal is active at a time. A second stated goal either replaces the first or becomes an item within it, because two active goals leave \"what's left\" with no single answer.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Core Rule 2: no item reaches done without evidence. Outside-reach work that is performed but unconfirmed sits at awaiting, never done.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Core Rule 3: parking an item files a follow-up in the same turn and removes the item from the goal, so the goal shrinks to what is still in play.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Core Rule 4: promotion is not completion. A goal that became a plan is recorded with goal-status promoted, never completed.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 1: run the clarity test before recording. No verifiable end state or unenumerable items routes to socratic-method; items hinging on an unmade choice between known options routes to guided-interview; a passing goal is recorded and work starts.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 2: flip goal-status to in-progress on the first item to gain evidence, and record evidence in the same turn the item closes, never a turn later.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 2: discovered work is a follow-up by default and joins the goal only when the stated end state is unreachable without it.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 4: report the rendered summary verbatim. It is already capped and ordered; offer the file path rather than expanding it.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Workflow step 5: more than five items, a second worktree, or wave structure fires promotion to plan-create, carrying existing evidence across as completed tasks.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 6: scripts/goal.sh check must exit zero before a goal is landed.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER mark an outside-reach item done on your own observation: an agent can watch a tool call succeed and still be wrong about the world, and nothing re-checks it afterwards.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER record a status change without its evidence in the same turn; the intention to add a commit SHA later does not survive a context reset, and the row then looks deliberately evidenced.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER let discovered work join the goal by default, or the goal never closes and \"what's left\" degrades into a second follow-up backlog.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER paraphrase or expand the rendered summary; the cap and the ordering are the product, and prose loses the lead-with-the-next-action property.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Do not use this skill for work already driven by a plan file, for a mechanical request with no end state worth recording, or for deferred work that was never part of a goal.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "An item declares its reach when it is written, not when it closes, so the confirmation rule cannot be quietly dropped by deciding reach in whichever direction lets the item close.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Route a goal with no verifiable end state to socratic-method instead of recording it, per Workflow step 1.

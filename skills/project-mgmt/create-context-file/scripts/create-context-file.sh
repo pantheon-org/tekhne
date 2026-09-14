@@ -3,7 +3,7 @@
 # create-context-file.sh - create a context file under <root>/<typology>/
 # using a date-prefixed filename: <YYYY-MM-DD>-<slug>.md
 #
-# The typology is an open, curated set (findings, plans, guides, follow-ups,
+# The typology is an open, curated set (findings, plans, goals, guides, follow-ups,
 # merge-requests, tickets, ...). It maps directly to the subfolder name. The
 # set is meant to stay mostly static; extend KNOWN_TYPES below when a genuinely
 # new typology is needed, or pass --allow-new-type for a one-off.
@@ -40,7 +40,7 @@
 set -eu
 
 # Curated, mostly-static typology set. Extend deliberately.
-KNOWN_TYPES="findings plans guides follow-ups merge-requests tickets decisions notes research"
+KNOWN_TYPES="findings plans goals guides follow-ups merge-requests tickets decisions notes research"
 
 die() { printf 'error: %s\n' "$1" >&2; exit 1; }
 
@@ -70,6 +70,7 @@ singular_of() {
 	case "$1" in
 		findings)       echo "finding" ;;
 		plans)          echo "plan" ;;
+		goals)          echo "goal" ;;
 		guides)         echo "guide" ;;
 		follow-ups)     echo "follow-up" ;;
 		merge-requests) echo "merge-request" ;;

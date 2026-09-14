@@ -910,7 +910,7 @@ Configure and operate Mise for deterministic developer environments. Use when in
 
 ---
 
-## Project Management (4 tiles, 8 skills)
+## Project Management (4 tiles, 9 skills)
 
 Planning & organization
 
@@ -998,6 +998,14 @@ Create `.context/plans/*.md` files with standard YAML frontmatter, phases/tasks/
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [plan-create](/tekhne/skills/project-mgmt/plan-create/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+
+### goal-tracker
+
+Record a session goal as a dated file with items plus evidence, keep its status ...
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [goal-tracker](/tekhne/skills/project-mgmt/goal-tracker/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### nasa-pm-lessons
 

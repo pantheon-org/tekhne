@@ -17,6 +17,7 @@
       "enum": [
         "finding",
         "plan",
+        "goal",
         "guide",
         "follow-up",
         "merge-request",
@@ -25,7 +26,7 @@
         "note",
         "research"
       ],
-      "description": "Singular form of the typology folder (findings/ -> finding, plans/ -> plan, guides/ -> guide, follow-ups/ -> follow-up, merge-requests/ -> merge-request, tickets/ -> ticket, decisions/ -> decision, notes/ -> note, research/ -> research). Must stay in sync with KNOWN_TYPES and singular_of() in scripts/create-context-file.sh. A one-off typology created with --allow-new-type intentionally falls outside this enum; extend it only when that typology is promoted into KNOWN_TYPES."
+      "description": "Singular form of the typology folder (findings/ -> finding, plans/ -> plan, goals/ -> goal, guides/ -> guide, follow-ups/ -> follow-up, merge-requests/ -> merge-request, tickets/ -> ticket, decisions/ -> decision, notes/ -> note, research/ -> research). Must stay in sync with KNOWN_TYPES and singular_of() in scripts/create-context-file.sh. A one-off typology created with --allow-new-type intentionally falls outside this enum; extend it only when that typology is promoted into KNOWN_TYPES."
     },
     "date": {
       "type": "string",
