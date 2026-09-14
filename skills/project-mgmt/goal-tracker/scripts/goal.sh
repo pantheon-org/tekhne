@@ -167,7 +167,11 @@ rows = []
 for line in text.splitlines():
     if not line.startswith("|"):
         continue
-    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+    # Slice the pipes off, do not strip them. strip("|") removes a whole run,
+    # so a row ending "||" loses both and yields four cells, which fails the
+    # length guard below and drops the item silently. A dropped row is a lost
+    # goal item: status under-reports and check passes a goal that is not done.
+    cells = [c.strip() for c in line.strip().split("|")[1:-1]]
     if len(cells) != 5:
         continue
     if cells[0] in ("#", "-") or set(cells[0]) <= {"-"}:
