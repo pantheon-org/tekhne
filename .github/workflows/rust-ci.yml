@@ -55,6 +55,14 @@ jobs:
           rustup toolchain install 1.96.1 --profile minimal --component rustfmt,clippy
           rustup default 1.96.1
 
+      # Restores the registry, the git checkouts, and target/ from a cache
+      # seeded on main. `save-if` is the important half: without it every
+      # pull request writes its own entry and the 10GB per-repository budget
+      # thrashes, evicting the entry everything else restores from.
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.8.1
+        with:
+          save-if: ${{ github.ref == 'refs/heads/main' }}
+
       - name: Format check
         run: cargo fmt --all --check
 
@@ -67,15 +75,20 @@ jobs:
       - name: Test
         run: cargo test --workspace --locked
 
-      # RUSTSEC advisory scan (A6c). Installed from crates.io and pinned by the
-      # workspace Cargo.lock. Advisory-only for now: it surfaces findings via a
-      # workflow warning without failing the job, so a newly published advisory
-      # cannot block unrelated merges before triage. Promote to a hard gate
-      # (drop continue-on-error) once the tree is confirmed clean and any
-      # accepted advisories are pinned in an audit.toml ignore list.
-      - name: Install cargo-audit
-        run: cargo install cargo-audit --locked
-
-      - name: Cargo audit (RUSTSEC advisories)
-        continue-on-error: true
-        run: cargo audit
+      # Supply-chain gate: advisories, licences, bans and sources. This
+      # replaces `cargo install cargo-audit` followed by `cargo audit`, which
+      # compiled the auditor from source on every run and then declined to
+      # fail on what it found.
+      #
+      # A hard gate deliberately, with no continue-on-error. The tree was
+      # confirmed clean before this landed (advisories ok, bans ok, licenses
+      # ok, sources ok), and the advisory-only posture is precisely how the
+      # previous step ended up never blocking anything. See the cargo-deny
+      # section of AGENTS.md for what to do when it fails.
+      #
+      # Advisory coverage is unchanged: cargo-deny reads the same RustSec
+      # advisory database cargo-audit did.
+      - name: Check dependencies (advisories, licences, bans, sources)
+        uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
+        with:
+          command: check
