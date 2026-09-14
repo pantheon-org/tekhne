@@ -1,0 +1,39 @@
+name: advisories
+
+# Rust CI checks advisories on every pull request and push that touches
+# Rust, which leaves a quiet period unaudited: an advisory published against
+# a dependency of a released tool would wait for the next unrelated Rust
+# change to surface. This is the standing watch for that case.
+#
+# Advisories only. Licences, bans and sources are policy over the manifests
+# and cannot change without a commit, which Rust CI already gates. The
+# advisory database changes on its own.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Daily, away from the top of the hour so it does not queue behind
+    # everything else that runs on a round number.
+    - cron: "37 7 * * *"
+
+permissions: {}
+
+concurrency:
+  group: advisories
+  cancel-in-progress: false
+
+jobs:
+  advisories:
+    name: advisories
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: EmbarkStudios/cargo-deny-action@3c6349835b2b7b196a839186cb8b78e02f7b5f25 # v2.1.1
+        with:
+          command: check advisories
