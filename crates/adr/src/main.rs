@@ -15,7 +15,8 @@ use adr_core::date;
 use adr_core::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
 use adr_core::record;
 use adr_core::skill_bundle;
-use clap::{Args, Parser, Subcommand, ValueEnum};
+use clap::{Args, CommandFactory, Parser, Subcommand, ValueEnum};
+use clap_complete::{generate, Shell};
 use common::{Error, Result};
 use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
@@ -165,6 +166,11 @@ enum Command {
     },
     /// Wire the ADR hooks into the agent configs this project uses.
     Sync,
+    /// Print a shell completion script for `pantheon-adr`.
+    Completion {
+        /// The shell to generate for.
+        shell: Shell,
+    },
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -373,6 +379,11 @@ fn main() {
             &date::today(),
         )),
         Command::Sync => emit(commands::sync_cmd(&cwd())),
+        Command::Completion { shell } => {
+            let mut cmd = Cli::command();
+            generate(shell, &mut cmd, NAME, &mut std::io::stdout());
+            Ok(())
+        }
 
         // Hook commands. Three of these print and never fail, because a hook
         // that breaks a session over an untidy ADR gets uninstalled.
@@ -664,4 +675,54 @@ fn print_uninstall_report(
 
     let verb = if opts.dry_run { "planned" } else { "removed" };
     println!("\n{removed} {verb}, {absent} already absent, {failed} failed.");
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn the_cli_definition_is_internally_consistent() {
+        // clap's own audit: duplicate flags, conflicting names, bad defaults.
+        Cli::command().debug_assert();
+    }
+
+    #[test]
+    fn completion_generates_for_every_supported_shell() {
+        for shell in [
+            Shell::Bash,
+            Shell::Zsh,
+            Shell::Fish,
+            Shell::PowerShell,
+            Shell::Elvish,
+        ] {
+            let mut out = Vec::new();
+            generate(shell, &mut Cli::command(), NAME, &mut out);
+            let script = String::from_utf8(out).expect("completion scripts are UTF-8");
+            assert!(
+                script.contains(NAME),
+                "{shell} script should name the binary"
+            );
+        }
+    }
+
+    #[test]
+    fn the_completion_script_covers_every_subcommand() {
+        let mut out = Vec::new();
+        generate(Shell::Bash, &mut Cli::command(), NAME, &mut out);
+        let script = String::from_utf8(out).expect("utf-8");
+
+        // Hidden hook commands are deliberately absent: they are called by
+        // machinery, and offering them for tab completion invites a human to
+        // run one by hand.
+        for visible in [
+            "init", "create", "draft", "check", "review", "list", "status", "update", "index",
+            "sync", "skill",
+        ] {
+            assert!(
+                script.contains(visible),
+                "bash completion should offer {visible}"
+            );
+        }
+    }
 }
