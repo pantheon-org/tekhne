@@ -32,9 +32,10 @@ Install a `tekhne` release binary (cargo-dist), or build from a checkout:
 cargo install --path crates/adr   # from the tekhne repository root
 ```
 
-There is no self-contained fallback for these commands. Do not substitute a
-different binary named `adr`: an unrelated Go CLI of that name has an
-incompatible command set and record format.
+There is no self-contained fallback for these commands. The binary is
+`pantheon-adr`, not `adr`: do not substitute another binary whose name looks
+close, because a different tool will have an incompatible command set and record
+format and will fail on the first command.
 
 ## When to Use
 

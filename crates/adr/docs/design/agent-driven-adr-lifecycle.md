@@ -1,9 +1,8 @@
-<!-- Preserved verbatim from the retired standalone Go adr CLI
-(~/Projects/github/pantheon-org/adr, no git remote, last commit 2026-05-14).
-This is the design rationale for the check/draft/review lifecycle that
-pantheon-adr now implements. Kept as history: the code it describes is Go and
-no longer exists, and the shapes it proposes were reworked during the port.
-See crates/adr/src/ for what was actually built. -->
+<!-- Preserved design rationale for the check/draft/review lifecycle that
+pantheon-adr implements. Written against an earlier prototype that was never
+published; the code it describes no longer exists, and several of the shapes it
+proposes were reworked during implementation. Kept as history: see
+crates/adr/src/ for what was actually built. -->
 
 # Plan: Agent-Driven ADR Lifecycle
 

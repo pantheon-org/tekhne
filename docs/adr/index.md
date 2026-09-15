@@ -8,4 +8,4 @@
 
 | Decision | Type | Date | Notes |
 | --- | --- | --- | --- |
-| [Absorb the standalone Go adr CLI into pantheon-adr](absorb-go-adr-cli.md) | feat | 2026-09-15 |  |
+| [Consolidate ADR tooling into pantheon-adr](consolidate-adr-tooling.md) | feat | 2026-09-15 |  |

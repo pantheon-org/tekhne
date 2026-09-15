@@ -41,7 +41,7 @@ type: decision
 branch_type: feat
 status: accepted
 date: 2026-09-15
-author: Thomas Roche
+author: A. Engineer
 branch: feat/adopt-opentelemetry
 pr: 42
 tags:
@@ -302,8 +302,7 @@ pantheon-adr check my-slug \
 
 ## Not available
 
-Two capabilities of the retired standalone Go CLI were deliberately not carried
-over. `draft --with-analysis` built a Go import graph with `go list`, which says
-nothing about a Rust or TypeScript codebase. Shell completion would need a
-dependency no sibling CLI in this repository uses. Ask before assuming either
-exists.
+Two capabilities of a retired predecessor were deliberately not carried over.
+An `--with-analysis` flag on `draft` built a Go import graph, which says nothing
+about a Rust or TypeScript codebase. Shell completion would need a dependency no
+sibling CLI in this repository uses. Ask before assuming either exists.
