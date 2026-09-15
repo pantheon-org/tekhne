@@ -1,36 +1,31 @@
 {
-  "context": "Tests whether the agent creates a correctly-numbered ADR with the adr CLI and completes the house template with all required sections and a real rejected alternative.",
+  "context": "Tests whether the agent creates a record with pantheon-adr, lets the branch supply the slug and type, completes the Branch ADR template, and verifies completeness with check rather than declaring it done by eye.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "Uses pantheon-adr new for creation",
-      "description": "Creates the record with `pantheon-adr new \"Adopt event-driven ingestion\"` rather than hand-writing a file.",
+      "name": "Uses pantheon-adr create",
+      "description": "Creates the record with `pantheon-adr create` rather than hand-writing a markdown file. Does not invent a `new` subcommand or a `pantheon-adr`-unrelated `adr` binary.",
       "max_score": 20
     },
     {
-      "name": "Correct next number",
-      "description": "The new record is numbered 0002 (max existing 0001 plus one), not 0001 or a guessed number.",
-      "max_score": 15
-    },
-    {
-      "name": "Kebab-case file name",
-      "description": "The file is named 0002-adopt-event-driven-ingestion.md under docs/adr.",
-      "max_score": 10
+      "name": "Slug and type derived from the branch",
+      "description": "The record is written to docs/adr/adopt-event-driven-ingestion.md with frontmatter branch_type: feat, taken from the branch feat/adopt-event-driven-ingestion. No NNNN- number prefix is invented.",
+      "max_score": 20
     },
     {
       "name": "All template headings present and ordered",
-      "description": "The ADR contains Context, Decision, Consequences (with Positive, Negative, Neutral), Alternatives Considered, and Compliance in that order.",
-      "max_score": 25
-    },
-    {
-      "name": "Alternatives populated",
-      "description": "At least one rejected alternative is recorded with pros, cons, and a concrete reason for rejection.",
+      "description": "The body contains Problem Statement (Context, Goals, Non-Goals), Decision Record (Options Considered, Chosen Solution, Rationale), Implementation (Key Changes, Testing Strategy), Challenges & Solutions, Impact Assessment, Risks & Pitfalls and Outcome & Lessons, verbatim and in that order. No metadata block is added to the body.",
       "max_score": 20
     },
     {
-      "name": "Status and date set correctly",
-      "description": "The record carries a Status line and a YYYY-MM-DD Date; a freshly created record starts as Proposed.",
-      "max_score": 10
+      "name": "Options Considered populated and placeholders cleared",
+      "description": "At least one rejected alternative with a concrete reason, and no `<!-- ... -->` comments left anywhere in the record.",
+      "max_score": 20
+    },
+    {
+      "name": "Completeness verified with check",
+      "description": "Runs `pantheon-adr check adopt-event-driven-ingestion` with the slug supplied, and reports a score of at least 80.",
+      "max_score": 20
     }
   ]
 }

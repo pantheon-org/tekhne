@@ -1,63 +1,83 @@
 {
   "instructions": [
     {
-      "content": "Run `pantheon-adr new \"<Title>\"` to create the next-numbered ADR from the house template.",
+      "content": "Run `pantheon-adr create [slug] -d \"<description>\"` to create a record from the Branch ADR template; with no slug the branch name supplies both the slug and the type.",
       "type": "workflow",
       "why_given": "new knowledge"
     },
     {
-      "content": "Run `pantheon-adr list` to show every ADR as number, status, and title.",
-      "type": "workflow",
-      "why_given": "new knowledge"
-    },
-    {
-      "content": "Run `pantheon-adr supersede <number> \"<New Title>\"` to mark an old ADR superseded and create a linked replacement.",
-      "type": "workflow",
-      "why_given": "new knowledge"
-    },
-    {
-      "content": "The next ADR number is max(existing) + 1 and gap-tolerant; never reuse or hand-type a number.",
-      "type": "anti-pattern",
-      "why_given": "new knowledge"
-    },
-    {
-      "content": "Never rewrite an accepted ADR to change its decision; always supersede it so the history is preserved.",
-      "type": "anti-pattern",
-      "why_given": "preference"
-    },
-    {
-      "content": "Resolve the ADR directory from --dir, then ADR_DIR, then the docs/adr default.",
+      "content": "A record's YAML frontmatter is the single source of truth for its status, author, tags, supersede links and status history. There is no index file to keep in step.",
       "type": "reference",
       "why_given": "new knowledge"
     },
     {
-      "content": "Never rename or reorder the template headings; keep Context, Decision, Consequences, Alternatives Considered, and Compliance verbatim and in order.",
-      "type": "anti-pattern",
-      "why_given": "preference"
-    },
-    {
-      "content": "Never record multiple unrelated decisions in one ADR; split them into separate records.",
-      "type": "anti-pattern",
-      "why_given": "preference"
-    },
-    {
-      "content": "Always populate Alternatives Considered with pros, cons, and the reason each option was rejected; avoid leaving it empty.",
-      "type": "anti-pattern",
-      "why_given": "preference"
-    },
-    {
-      "content": "Flip Status from Proposed to Accepted only once the team ratifies the decision.",
-      "type": "workflow",
-      "why_given": "new knowledge"
-    },
-    {
-      "content": "Run scripts/check-undocumented-decisions.sh to find planning documents with a decision that no ADR's Source: line references yet.",
-      "type": "workflow",
-      "why_given": "new knowledge"
-    },
-    {
-      "content": "Link an ADR extracted from an existing document back to it with a `- Source: <path>` bullet under Context.",
+      "content": "Records are identified by slug and stored as <slug>.md; there is no NNNN- number prefix and no next-number arithmetic.",
       "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Run `pantheon-adr check <slug>` before requesting review. The slug is required, and the record must score at least 80 of 100.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never hand-edit `status:` in frontmatter. `review` and `update` append a timestamped history entry as they move the status; editing it directly skips the audit trail.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Supersede in two steps: create the replacement with `create`, then run `pantheon-adr update <old-slug> --superseded-by <new-slug>`, which also writes the reverse `supersedes` link. There is no `supersede` command.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never rewrite an accepted record to change its decision; supersede it so the history is preserved.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "The ADR directory resolves from `--dir` (after the subcommand), then ADR_DIR, then the default docs/adr. The default is a committed path on purpose.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never rename or reorder the template headings; `check` scores sections by heading name, so renaming one drops its weight and caps the score.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Never leave `<!-- ... -->` placeholders in a finished record: any remaining comment forfeits 20 points and three or more cap the score at 70.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Always populate Options Considered with real alternatives and the reason each lost; a boilerplate filter scores filler text as if the section were empty.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Never record multiple unrelated decisions in one record; split them so each can be superseded independently.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "content": "Valid statuses are proposed, review-requested, accepted, deprecated and superseded. There is no rejected status.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "`pantheon-adr index` regenerates index.md from the records' frontmatter. It is derived output: never hand-edit it.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Record an extracted decision's provenance in the frontmatter `related` list, not as a duplicate Source: bullet in the prose.",
+      "type": "reference",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Run scripts/check-undocumented-decisions.sh to find planning documents with a decision that no record's `related` list points at.",
+      "type": "workflow",
       "why_given": "new knowledge"
     }
   ]

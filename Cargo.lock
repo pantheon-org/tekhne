@@ -287,6 +287,9 @@ version = "0.2.4"
 dependencies = [
  "clap",
  "common",
+ "serde",
+ "serde_json",
+ "serde_yaml_ng",
  "skill-install",
  "tempfile",
 ]

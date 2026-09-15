@@ -102,8 +102,8 @@ from `release-please-config.json` and `.release-please-manifest.json`, so the cr
 version is canonical and `tessl:publish` skips them. Their previously published
 registry versions were archived with `tessl plugin archive`. Continue running
 evals, audits, and quality tooling on their `SKILL.md` as normal; only the registry
-publish step is retired. Install them with `pantheon-journal skill install`, `adr skill
-install`, or `pantheon-skill-auditor skill install`.
+publish step is retired. Install them with `pantheon-journal skill install`,
+`pantheon-adr skill install`, or `pantheon-skill-auditor skill install`.
 
 ## Git Hooks
 

@@ -1,31 +1,31 @@
 {
-  "context": "Tests whether the agent supersedes an existing ADR using the CLI, preserving the old record's text while marking it superseded and creating a linked, correctly-numbered replacement.",
+  "context": "Tests whether the agent supersedes a record with the real two-step flow, understands that both records end up linked, and leaves the retired record's prose and history intact.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "Uses pantheon-adr supersede",
-      "description": "Performs the transition with `pantheon-adr supersede 2 \"Adopt gRPC for internal services\"` rather than manual edits.",
+      "name": "Creates the replacement first",
+      "description": "Runs `pantheon-adr create` for the new decision before retiring the old one, rather than expecting one command to produce both.",
+      "max_score": 20
+    },
+    {
+      "name": "Uses update --superseded-by",
+      "description": "Retires the old record with `pantheon-adr update use-rest-for-internal-services --superseded-by adopt-grpc-for-internal-services`. Does not invent a `supersede` subcommand.",
       "max_score": 25
     },
     {
-      "name": "Old record marked superseded",
-      "description": "ADR-0002 Status becomes `Superseded by ADR-0004` (or the correct new number).",
+      "name": "Describes both sides of the link",
+      "description": "Reports that the old record's status becomes superseded with superseded_by set, and that the replacement gains a supersedes link back, so the chain is navigable from either end.",
+      "max_score": 20
+    },
+    {
+      "name": "History entry noted",
+      "description": "Notes that the transition is appended to the old record's frontmatter history with a UTC timestamp, and that hand-editing status: would have skipped it.",
       "max_score": 20
     },
     {
       "name": "Old decision text preserved",
-      "description": "The Context and Decision prose of ADR-0002 is left unchanged; only the Status line is altered.",
-      "max_score": 20
-    },
-    {
-      "name": "New record correctly numbered",
-      "description": "The replacement is numbered 0004 (max existing 0003 plus one), not a reused or guessed number.",
+      "description": "The retired record's prose is left unedited; superseding changes metadata only.",
       "max_score": 15
-    },
-    {
-      "name": "New record is Accepted and cross-references the old",
-      "description": "The new ADR has Status Accepted and references ADR-0002 (for example, Supersedes ADR-0002).",
-      "max_score": 20
     }
   ]
 }
