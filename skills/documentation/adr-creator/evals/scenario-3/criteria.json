@@ -1,30 +1,30 @@
 {
-  "context": "Tests whether the agent lists ADRs from a non-default directory resolved via ADR_DIR, correctly reads each record's status, distinguishes in-force from retired decisions, and excludes non-ADR files.",
+  "context": "Tests whether the agent lists records from a non-default directory with the --dir flag in the right position, reads status from frontmatter, distinguishes in-force from retired decisions, and knows the JSON command a CI gate consumes.",
   "type": "weighted_checklist",
   "checklist": [
     {
-      "name": "Uses pantheon-adr list against the configured directory",
-      "description": "Runs `pantheon-adr list` honouring ADR_DIR (or passes --dir architecture/decisions) rather than reading files manually.",
-      "max_score": 25
+      "name": "Uses list with --dir after the subcommand",
+      "description": "Runs `pantheon-adr list --dir architecture/decisions` rather than reading files by hand. Credit ADR_DIR as an equivalent. Does not place --dir before the subcommand, and does not invent an index-file flag.",
+      "max_score": 30
     },
     {
-      "name": "Reads status per record",
-      "description": "Reports the Status of each ADR, including that ADR-0002 is Superseded by ADR-0004.",
+      "name": "Reads status from frontmatter",
+      "description": "Reports each record's status from its own frontmatter, including that use-rest-for-internal-services is superseded by adopt-grpc-for-internal-services.",
       "max_score": 20
     },
     {
       "name": "Groups in force vs retired",
-      "description": "Summary separates in-force records (0001, 0003, 0004) from the retired one (0002).",
-      "max_score": 25
-    },
-    {
-      "name": "Excludes non-ADR files",
-      "description": "Notes that README.md is not an ADR and is excluded from the listing.",
+      "description": "Separates the three accepted records from the superseded one, naming each by slug.",
       "max_score": 20
     },
     {
-      "name": "Records identified by number and title",
-      "description": "Each record in the summary is named by its number and title.",
+      "name": "Names the CI gate command",
+      "description": "Gives `pantheon-adr status --json` and its shape, {total, by_status, by_type}. Credit `list -s <status>` as a partial answer.",
+      "max_score": 20
+    },
+    {
+      "name": "Explains the non-record files correctly",
+      "description": "Notes that README.md and the generated index.md are skipped because they are not records, and does not claim the CLI filters by a NNNN- naming pattern.",
       "max_score": 10
     }
   ]

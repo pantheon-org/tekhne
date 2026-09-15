@@ -1,10 +1,10 @@
 {
-  "context": "Tests whether the agent uses check-undocumented-decisions.sh to find a planning document with an unlinked decision, correctly leaves already-linked and purely-observational documents alone, and recommends the extraction workflow for the flagged file.",
+  "context": "Tests whether the agent uses check-undocumented-decisions.sh to find a planning document with an unlinked decision, leaves already-linked and purely observational documents alone, and recommends the extraction workflow with frontmatter provenance.",
   "type": "weighted_checklist",
   "checklist": [
     {
       "name": "Runs the undocumented-decisions check",
-      "description": "Runs scripts/check-undocumented-decisions.sh (optionally with --source-dir .context) rather than manually diffing the two directories.",
+      "description": "Runs scripts/check-undocumented-decisions.sh (optionally with --adr-dir or --source-dir) rather than manually diffing the two directories.",
       "max_score": 25
     },
     {
@@ -14,7 +14,7 @@
     },
     {
       "name": "Leaves the linked file alone",
-      "description": "Does not flag 2026-01-10-db-choice.md, since it is already referenced via ADR-0001's Source: line.",
+      "description": "Does not flag 2026-01-10-db-choice.md, since it already appears in the Postgres record's frontmatter `related` list.",
       "max_score": 20
     },
     {
@@ -23,8 +23,8 @@
       "max_score": 15
     },
     {
-      "name": "Recommends extraction",
-      "description": "Points at the context-extraction workflow (pantheon-adr new, then fill from the source, then add the Source: link) as the next step for the flagged file.",
+      "name": "Recommends extraction with frontmatter provenance",
+      "description": "Points at the context-extraction workflow: `pantheon-adr create <slug>`, fill the Branch ADR template from the source document, add the source to the frontmatter `related` list (not a duplicate Source: bullet), then `pantheon-adr check <slug>`.",
       "max_score": 15
     }
   ]

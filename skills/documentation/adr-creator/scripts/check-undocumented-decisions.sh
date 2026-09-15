@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # shell: bash
 # Scans a planning-document directory (default: .context) for decision
-# indicators and cross-references them against the Source: links already
-# recorded in existing ADRs (the provenance convention documented in
-# references/context-extraction.md). Reports any planning document that
-# looks like it contains a decision but has no ADR pointing back at it.
+# indicators and cross-references them against the `related` lists in existing
+# ADRs' YAML frontmatter (the provenance convention documented in
+# references/context-extraction.md). Reports any planning document that looks
+# like it contains a decision but has no record pointing back at it.
 #
 # Usage: check-undocumented-decisions.sh [--adr-dir DIR] [--source-dir DIR]
-#   --adr-dir DIR      Where ADRs live (default: $ADR_DIR, else docs/adr,
-#                       matching pantheon-adr's own resolve_dir default).
+#   --adr-dir DIR      Where records live (default: $ADR_DIR, else docs/adr,
+#                       matching pantheon-adr's own resolution order). This
+#                       directory is excluded from the planning-document scan.
 #   --source-dir DIR   Where planning documents live (default: .context).
 set -euo pipefail
 
@@ -48,30 +49,55 @@ if [ ! -d "$ROOT/$SOURCE_DIR" ]; then
 fi
 
 python3 - "$ROOT" "$ADR_DIR" "$SOURCE_DIR" <<'PYEOF'
-import sys
 import re
+import sys
 from pathlib import Path
 
 root = Path(sys.argv[1])
-adr_dir = root / sys.argv[2]
+adr_dir = (root / sys.argv[2]).resolve()
 source_dir = root / sys.argv[3]
 
-# --- Collect every source document already linked from an ADR's Source: line ---
+FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
+RELATED_ITEM = re.compile(r"^\s*-\s*(.+?)\s*$")
+
+
+def related_paths(record):
+    """Every existing path listed under a record's frontmatter `related` key.
+
+    Parsed line by line rather than with a YAML library so the script stays
+    dependency-free; `related` is a flat list of scalars by construction.
+    """
+    match = FRONTMATTER.match(record.read_text())
+    if not match:
+        return
+    in_related = False
+    for line in match.group(1).splitlines():
+        if re.match(r"^related:\s*(\[\s*\])?\s*$", line):
+            in_related = True
+            continue
+        if in_related:
+            item = RELATED_ITEM.match(line)
+            if item:
+                value = item.group(1).strip().strip('"').strip("'")
+                resolved = (record.parent / value).resolve()
+                if resolved.exists():
+                    yield str(resolved)
+                continue
+            # Any other key at column zero ends the list.
+            if line and not line[0].isspace():
+                in_related = False
+
+
 referenced = set()
-
 if adr_dir.is_dir():
-    for adr_file in adr_dir.glob("*.md"):
-        content = adr_file.read_text()
-        for m in re.finditer(r"^\s*-\s*Source:\s*(.+)$", content, re.MULTILINE):
-            path_val = m.group(1).strip().strip('"').strip("'")
-            resolved = (root / path_val).resolve()
-            if resolved.exists():
-                referenced.add(str(resolved))
+    for record in adr_dir.glob("*.md"):
+        referenced.update(related_paths(record))
 
-# --- Decision-indicating signals, matching the guidance in
-# references/context-extraction.md's "Recognizing a binding decision" table ---
+# Decision-indicating signals, matching the guidance in
+# references/context-extraction.md's "Recognising a binding decision" table.
 DECISION_KEYWORDS = [
     r"^##\s*Decision\b",
+    r"^###\s*Chosen Solution\b",
     r"^##\s*Recommendation\b",
     r"^##\s*Recommended Approach\b",
     r"^##\s*Proposed Approach\b",
@@ -85,29 +111,27 @@ DECISION_KEYWORDS = [
 undocumented = []
 
 for md_file in sorted(source_dir.rglob("*.md")):
-    resolved = str(md_file.resolve())
-    if resolved in referenced:
-        continue  # already linked from an ADR
+    resolved = md_file.resolve()
+    if str(resolved) in referenced:
+        continue  # already linked from a record
+    if adr_dir == resolved.parent or adr_dir in resolved.parents:
+        continue  # the records themselves are not planning documents
 
     content = md_file.read_text()
-
-    found_keyword = None
-    for kw in DECISION_KEYWORDS:
-        if re.search(kw, content, re.MULTILINE):
-            found_keyword = kw
-            break
-
-    if found_keyword:
-        rel = str(md_file.relative_to(root))
-        undocumented.append((rel, found_keyword))
+    found = next(
+        (kw for kw in DECISION_KEYWORDS if re.search(kw, content, re.MULTILINE)),
+        None,
+    )
+    if found:
+        undocumented.append((str(md_file.relative_to(root)), found))
 
 if not undocumented:
-    print("All planning documents with decision indicators are linked from an ADR.")
+    print("All planning documents with decision indicators are linked from a record.")
     sys.exit(0)
 
-print("WARNING: the following documents contain decision indicators but are")
-print("not linked as a Source: from any ADR. Consider extracting an ADR for each")
-print("(see references/context-extraction.md):")
+print("WARNING: the following documents contain decision indicators but are not")
+print("listed under any record's `related` frontmatter. Consider extracting an ADR")
+print("for each (see references/context-extraction.md):")
 print()
 for path, keyword in undocumented:
     print(f"  {path}")
@@ -115,6 +139,6 @@ for path, keyword in undocumented:
     print()
 
 print(f"Total: {len(undocumented)} undocumented decision(s)")
-print("Run `pantheon-adr list` to see existing ADRs before creating new ones.")
+print("Run `pantheon-adr list` to see existing records before creating new ones.")
 sys.exit(2)
 PYEOF

@@ -1,21 +1,25 @@
 {
   "instructions_coverage": {
-    "coverage_percentage": 92,
+    "coverage_percentage": 88,
     "covered_instructions": [
-      "pantheon-adr new command creates the next-numbered ADR",
-      "pantheon-adr list shows number, status, and title",
-      "pantheon-adr supersede marks the old ADR and links the replacement",
-      "Numbering is max(existing) + 1 and gap-tolerant",
-      "Accepted ADRs are immutable except for Status",
-      "Directory resolution: --dir, ADR_DIR, docs/adr default",
-      "Template headings kept verbatim and in order",
-      "One decision per ADR",
-      "Alternatives Considered must be populated",
-      "check-undocumented-decisions.sh finds planning documents with no linked ADR",
-      "Extracted ADRs link back to their source with a Source: bullet under Context"
+      "pantheon-adr create makes a record, slug and type from the branch",
+      "Frontmatter is the single source of truth; there is no index file",
+      "Records are identified by slug, with no NNNN- number prefix",
+      "check <slug> requires the slug and gates review at 80 of 100",
+      "Status moves through review and update, which append history entries",
+      "Superseding is two steps and links both records",
+      "Accepted records are immutable except for their status",
+      "Directory resolution: --dir, ADR_DIR, then the committed docs/adr default",
+      "Branch ADR template headings kept verbatim and in order",
+      "Placeholders forfeit points and cap the score",
+      "Options Considered must be populated, and boilerplate does not count",
+      "One decision per record",
+      "index.md is generated, never hand-edited",
+      "Extracted records record provenance in frontmatter `related`",
+      "check-undocumented-decisions.sh finds planning documents with no linked record"
     ],
     "uncovered_instructions": [
-      "Flip Status from Proposed to Accepted on ratification"
+      "Valid statuses are proposed, review-requested, accepted, deprecated, superseded, with no rejected status"
     ]
   },
   "scenario_coverage": {
