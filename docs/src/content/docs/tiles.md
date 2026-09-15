@@ -796,7 +796,7 @@ Instructs agents to document findings as proof-of-work artifacts: screenshots vi
 
 ### adr-creator
 
-Creates, lists, and supersedes Architecture Decision Records with the adr CLI, following the house ADR template; use when recording an architectural decision, writing an ADR, documenting a technical choice, superseding a prior decision, numbering a new record, or bootstrapping an ADR log under docs/adr.
+Creates, lists, and supersedes Architecture Decision Records with the pantheon-adr CLI, following the house ADR template; use when recording an architectural decision, writing an ADR, documenting a technical choice, superseding a prior decision, numbering a new record, or bootstrapping an ADR log under docs/adr.
 
 **Published:** - | **Version:** 0.1.0
 

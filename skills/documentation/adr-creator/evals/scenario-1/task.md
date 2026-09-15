@@ -14,7 +14,7 @@ docs/adr/0001-use-postgresql-for-primary-store.md
 ## What to do
 
 Create a new ADR for the decision "Adopt event-driven ingestion" using the
-`adr` CLI, then fill in the template with the decision's context, the decision
+`pantheon-adr` CLI, then fill in the template with the decision's context, the decision
 itself, and its consequences. Record at least one realistic alternative that
 was rejected.
 

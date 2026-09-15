@@ -1,6 +1,6 @@
-# adr CLI Usage
+# pantheon-adr CLI Usage
 
-The `adr` binary creates and manages Architecture Decision Records from the
+The `pantheon-adr` binary creates and manages Architecture Decision Records from the
 house template, and installs this companion skill into agent directories. It is
 offline and deterministic: every command is a pure function of the ADR
 directory's contents plus the current date.

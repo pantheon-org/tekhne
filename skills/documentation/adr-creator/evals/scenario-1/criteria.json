@@ -1,5 +1,5 @@
 {
-  "context": "Tests whether the agent creates a correctly-numbered ADR with the adr CLI and completes the house template with all required sections and a real rejected alternative.",
+  "context": "Tests whether the agent creates a correctly-numbered ADR with the pantheon-adr CLI and completes the house template with all required sections and a real rejected alternative.",
   "type": "weighted_checklist",
   "checklist": [
     {

@@ -1,6 +1,6 @@
 ---
 name: adr-creator
-description: "Creates, lists, and supersedes Architecture Decision Records with the adr CLI, following the house ADR template. Use when recording an architectural decision, writing an ADR, documenting a technical choice, superseding a prior decision, numbering a new decision record, bootstrapping an ADR log under docs/adr."
+description: "Creates, lists, and supersedes Architecture Decision Records with the pantheon-adr CLI, following the house ADR template. Use when recording an architectural decision, writing an ADR, documenting a technical choice, superseding a prior decision, numbering a new decision record, bootstrapping an ADR log under docs/adr."
 ---
 
 # Authoring Architecture Decision Records
@@ -9,7 +9,7 @@ description: "Creates, lists, and supersedes Architecture Decision Records with 
 
 An ADR is a dated, immutable record of one decision and the forces that shaped it, not living documentation. Its value is archaeological: a reader six months from now must understand *why* a choice was made without asking anyone. Once accepted, an ADR is never edited to change its meaning. When the decision changes, you write a new ADR and mark the old one superseded, preserving the chain of reasoning.
 
-Two rules make an ADR log trustworthy over time. First, **numbering is append-only and gap-tolerant**: the next number is always `max(existing) + 1`, never a count of files, so deleting or archiving a record never reuses an identifier. Second, **status is the only mutable field**: an accepted decision's Context and Decision text are frozen; only its Status flips to `Superseded` when a later ADR replaces it. The `adr` CLI enforces both rules, which is why you should reach for it rather than hand-writing files that drift from the template.
+Two rules make an ADR log trustworthy over time. First, **numbering is append-only and gap-tolerant**: the next number is always `max(existing) + 1`, never a count of files, so deleting or archiving a record never reuses an identifier. Second, **status is the only mutable field**: an accepted decision's Context and Decision text are frozen; only its Status flips to `Superseded` when a later ADR replaces it. The `pantheon-adr` CLI enforces both rules, which is why you should reach for it rather than hand-writing files that drift from the template.
 
 Treat the template's section order as a contract. Downstream tooling and reviewers scan for `## Context`, `## Decision`, and `## Consequences` in that order. Reordering or renaming them breaks that expectation even when the prose is good.
 
@@ -23,9 +23,19 @@ be on `PATH`. Confirm before proceeding:
 pantheon-adr --version
 ```
 
-If it is not found, the skill was installed without its companion CLI. Install
-the `pantheon-adr` CLI (its release binary, or `cargo install`) and retry; there
-is no self-contained fallback for these commands.
+Expected output is `pantheon-adr <version>`. If it is not found, the skill was
+installed without its companion CLI. It is not published to crates.io, so
+`cargo install pantheon-adr` will fail. Install it from a `tekhne` release
+binary (cargo-dist), or build it from a checkout:
+
+```bash
+cargo install --path crates/adr   # from the tekhne repository root
+```
+
+There is no self-contained fallback for these commands. Do not substitute a
+different binary named `adr`: an unrelated Go CLI of that name exists with an
+incompatible command set, index file, and template, and following this skill
+against it will fail on the first command.
 
 ## When to Use
 
