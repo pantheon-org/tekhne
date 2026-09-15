@@ -177,6 +177,25 @@ mod tests {
     }
 
     #[test]
+    fn a_crlf_record_does_not_break_the_whole_directory() {
+        let tmp = TempDir::new().unwrap();
+        save(tmp.path(), &record("lf-record", BranchType::Feat)).unwrap();
+
+        let crlf = record("crlf-record", BranchType::Feat);
+        let path = crlf.path_in(tmp.path());
+        fs::write(&path, crlf.render().unwrap().replace('\n', "\r\n")).unwrap();
+
+        // Before CRLF was handled, one converted file made `load_all` fail,
+        // which took down list, status, check and every hook with it.
+        let slugs: Vec<String> = load_all(tmp.path())
+            .expect("a CRLF record must not fail the load")
+            .into_iter()
+            .map(|r| r.slug)
+            .collect();
+        assert_eq!(slugs, vec!["crlf-record", "lf-record"]);
+    }
+
+    #[test]
     fn load_all_surfaces_a_malformed_record() {
         let tmp = TempDir::new().unwrap();
         save(tmp.path(), &record("good", BranchType::Feat)).unwrap();

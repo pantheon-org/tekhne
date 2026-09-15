@@ -295,14 +295,22 @@ impl Record {
 /// Returns `None` when the content does not open with a `---` fence, so a file
 /// without frontmatter is reported as such rather than silently parsed as an
 /// empty record.
+///
+/// Both `\n` and `\r\n` line endings are accepted. Records are always written
+/// with `\n`, but a clone on a machine with `core.autocrlf=true` converts them
+/// on checkout, and refusing those would make every command fail on a
+/// repository that is otherwise perfectly valid.
 fn split_frontmatter(content: &str) -> Option<(&str, &str)> {
-    let rest = content
-        .strip_prefix(FENCE)
-        .and_then(|r| r.strip_prefix('\n'))?;
+    let rest = strip_line_break(content.strip_prefix(FENCE)?)?;
     let end = find_closing_fence(rest)?;
     let yaml = &rest[..end];
     let after = &rest[end + FENCE.len()..];
-    Some((yaml, after.trim_start_matches('\n')))
+    Some((yaml, after.trim_start_matches(['\r', '\n'])))
+}
+
+/// Strip one leading line break, in either convention.
+fn strip_line_break(text: &str) -> Option<&str> {
+    text.strip_prefix("\r\n").or_else(|| text.strip_prefix('\n'))
 }
 
 /// The byte offset of the closing `---` fence, which must start its own line.
@@ -590,6 +598,37 @@ mod tests {
         assert_eq!(r.meta.history[0].from, Status::Proposed);
         assert_eq!(r.meta.history[0].to, Status::ReviewRequested);
         assert_eq!(r.meta.history[1].to, Status::Accepted);
+    }
+
+    #[test]
+    fn parse_accepts_crlf_line_endings() {
+        let original = sample();
+        let crlf = original.render().unwrap().replace('\n', "\r\n");
+        let parsed = Record::parse("adopt-otel", &crlf).expect("CRLF records must parse");
+
+        assert_eq!(
+            parsed.meta, original.meta,
+            "frontmatter must survive a CRLF checkout"
+        );
+        assert!(
+            parsed.body.starts_with("# Adopt OpenTelemetry for tracing"),
+            "the body must start at the heading, not at a stray carriage return: {:?}",
+            &parsed.body[..40.min(parsed.body.len())]
+        );
+    }
+
+    #[test]
+    fn a_crlf_record_still_scores_the_same() {
+        let original = sample();
+        let crlf = original.render().unwrap().replace('\n', "\r\n");
+        let parsed = Record::parse("adopt-otel", &crlf).expect("parse");
+
+        // `str::lines` drops a trailing carriage return, so heading detection
+        // and word counts are unaffected once the frontmatter fence is past.
+        assert_eq!(
+            crate::completeness::check(&parsed.body, crate::completeness::PASS_THRESHOLD).score,
+            crate::completeness::check(&original.body, crate::completeness::PASS_THRESHOLD).score,
+        );
     }
 
     #[test]
