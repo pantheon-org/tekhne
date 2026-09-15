@@ -18,6 +18,26 @@ pub fn today() -> String {
     format_date(secs.div_euclid(86_400))
 }
 
+/// The current UTC instant as an RFC 3339 timestamp, used for history entries.
+///
+/// Seconds resolution is deliberate: a status transition is a human-scale
+/// event, and a whole-second stamp keeps frontmatter diffs readable.
+pub fn now_rfc3339() -> String {
+    let secs = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|d| d.as_secs() as i64)
+        .unwrap_or(0);
+    format_timestamp(secs)
+}
+
+/// Format a count of seconds since the Unix epoch as `YYYY-MM-DDTHH:MM:SSZ`.
+pub fn format_timestamp(secs_since_epoch: i64) -> String {
+    let days = secs_since_epoch.div_euclid(86_400);
+    let rem = secs_since_epoch.rem_euclid(86_400);
+    let (h, m, s) = (rem / 3_600, (rem % 3_600) / 60, rem % 60);
+    format!("{}T{h:02}:{m:02}:{s:02}Z", format_date(days))
+}
+
 /// Format a count of days since the Unix epoch as a `YYYY-MM-DD` string.
 pub fn format_date(days_since_epoch: i64) -> String {
     let (y, m, d) = civil_from_days(days_since_epoch);
@@ -59,6 +79,22 @@ mod tests {
         assert_eq!(format_date(19_782), "2024-02-29");
         // The task reference date.
         assert_eq!(format_date(20_656), "2026-07-22");
+    }
+
+    #[test]
+    fn timestamps_include_the_time_of_day() {
+        assert_eq!(format_timestamp(0), "1970-01-01T00:00:00Z");
+        // 2000-01-01 is 10957 days after the epoch, plus 13:45:07.
+        let secs = 10_957 * 86_400 + 13 * 3_600 + 45 * 60 + 7;
+        assert_eq!(format_timestamp(secs), "2000-01-01T13:45:07Z");
+    }
+
+    #[test]
+    fn now_has_timestamp_shape() {
+        let t = now_rfc3339();
+        assert_eq!(t.len(), 20);
+        assert!(t.ends_with('Z'), "{t}");
+        assert_eq!(t.as_bytes()[10], b'T');
     }
 
     #[test]

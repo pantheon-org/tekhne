@@ -7,6 +7,11 @@
 //! an injectable "today", so behaviour is fully testable without a clock.
 
 pub mod adr;
+pub mod completeness;
 pub mod date;
+pub mod git;
+pub mod index;
+pub mod record;
+pub mod store;
 pub mod install_cmd;
 pub mod skill_bundle;
