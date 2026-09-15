@@ -310,7 +310,8 @@ fn split_frontmatter(content: &str) -> Option<(&str, &str)> {
 
 /// Strip one leading line break, in either convention.
 fn strip_line_break(text: &str) -> Option<&str> {
-    text.strip_prefix("\r\n").or_else(|| text.strip_prefix('\n'))
+    text.strip_prefix("\r\n")
+        .or_else(|| text.strip_prefix('\n'))
 }
 
 /// The byte offset of the closing `---` fence, which must start its own line.
