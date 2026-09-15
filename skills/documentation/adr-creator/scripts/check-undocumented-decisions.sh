@@ -57,8 +57,18 @@ root = Path(sys.argv[1])
 adr_dir = (root / sys.argv[2]).resolve()
 source_dir = root / sys.argv[3]
 
-FRONTMATTER = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
+FRONTMATTER = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n", re.DOTALL)
 RELATED_ITEM = re.compile(r"^\s*-\s*(.+?)\s*$")
+
+
+def read_utf8(path):
+    """Read a markdown file as UTF-8.
+
+    `Path.read_text()` with no encoding uses the locale's, which on Windows is
+    the ANSI code page and raises UnicodeDecodeError on any non-ASCII character.
+    Markdown here is always UTF-8, so say so.
+    """
+    return path.read_text(encoding="utf-8")
 
 
 def related_paths(record):
@@ -67,7 +77,7 @@ def related_paths(record):
     Parsed line by line rather than with a YAML library so the script stays
     dependency-free; `related` is a flat list of scalars by construction.
     """
-    match = FRONTMATTER.match(record.read_text())
+    match = FRONTMATTER.match(read_utf8(record))
     if not match:
         return
     in_related = False
@@ -117,7 +127,7 @@ for md_file in sorted(source_dir.rglob("*.md")):
     if adr_dir == resolved.parent or adr_dir in resolved.parents:
         continue  # the records themselves are not planning documents
 
-    content = md_file.read_text()
+    content = read_utf8(md_file)
     found = next(
         (kw for kw in DECISION_KEYWORDS if re.search(kw, content, re.MULTILINE)),
         None,
