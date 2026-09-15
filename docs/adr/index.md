@@ -4,7 +4,7 @@
 
 1 decision recorded.
 
-## Awaiting review
+## In force
 
 | Decision | Type | Date | Notes |
 | --- | --- | --- | --- |

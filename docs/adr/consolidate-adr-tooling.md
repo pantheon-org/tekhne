@@ -2,7 +2,7 @@
 title: Consolidate ADR tooling into pantheon-adr
 type: decision
 branch_type: feat
-status: review-requested
+status: accepted
 date: 2026-09-15
 author: thoroc
 branch: feat/consolidate-adr-tooling
@@ -47,6 +47,9 @@ history:
 - from: proposed
   to: review-requested
   at: 2026-09-15T08:23:17Z
+- from: review-requested
+  to: accepted
+  at: 2026-09-15T09:14:50Z
 ---
 
 # Consolidate ADR tooling into pantheon-adr
