@@ -5,7 +5,7 @@ branch_type: feat
 status: review-requested
 date: 2026-09-15
 author: thoroc
-branch: feat/absorb-go-adr-cli
+branch: feat/consolidate-adr-tooling
 tags: []
 related:
 - ../../crates/adr/docs/design/agent-driven-adr-lifecycle.md
