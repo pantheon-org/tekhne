@@ -300,9 +300,19 @@ pantheon-adr check my-slug \
   && git commit -m "docs(adr): record decision"
 ```
 
+### `pantheon-adr completion <shell>`
+
+Prints a completion script for `bash`, `zsh`, `fish`, `powershell` or `elvish`.
+The hidden hook commands are deliberately absent from it: they are called by
+machinery, and offering them for tab completion invites running one by hand.
+
+```bash
+pantheon-adr completion zsh > "${fpath[1]}/_pantheon-adr"
+pantheon-adr completion bash > /etc/bash_completion.d/pantheon-adr
+```
+
 ## Not available
 
-Two capabilities of a retired predecessor were deliberately not carried over.
-An `--with-analysis` flag on `draft` built a Go import graph, which says nothing
-about a Rust or TypeScript codebase. Shell completion would need a dependency no
-sibling CLI in this repository uses. Ask before assuming either exists.
+One capability of a retired predecessor was deliberately not carried over: an
+`--with-analysis` flag on `draft` built a Go import graph, which says nothing
+about a Rust or TypeScript codebase. Ask before assuming it exists.

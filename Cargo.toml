@@ -28,6 +28,7 @@ tiktoken-rs = "0.12"
 regex = "1"
 serde_yaml_ng = "0.10"
 clap = { version = "4", features = ["derive"] }
+clap_complete = "4"
 # skill-validator-rs is consumed by the Rust auditor (A4b).
 skill-validator-rs = { path = "crates/skill-validator-rs" }
 # skill-install backs the auditor's self-contained `skill install` command (A5).
