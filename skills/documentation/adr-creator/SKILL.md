@@ -1,19 +1,19 @@
 ---
 name: adr-creator
-description: "Creates, scores, reviews and supersedes Architecture Decision Records with the pantheon-adr CLI. Use when recording an architectural decision, writing an ADR, documenting a technical choice, checking whether an ADR is finished, superseding a prior decision, or bootstrapping an ADR log under docs/adr."
+description: "Creates, scores, reviews, supersedes Architecture Decision Records with the pantheon-adr CLI. Use when recording an architectural decision, writing an ADR, documenting a technical choice, checking whether an ADR is finished, superseding a prior decision, bootstrapping an ADR log under docs/adr."
 ---
 
 # Authoring Architecture Decision Records
 
 ## Mindset
 
-An ADR is a dated, immutable record of one decision and the forces that shaped it, not living documentation. Its value is archaeological: a reader six months from now must understand *why* a choice was made without asking anyone. Once accepted, an ADR is never edited to change its meaning. When the decision changes you write a new record and point the old one at it, preserving the chain of reasoning.
+Treat a record as a dated, immutable account of one decision and the forces that shaped it, not as living documentation. Write for a reader six months out who must understand *why* a choice was made without asking anyone. Never edit an accepted record to change its meaning. When the decision changes, write a new record and point the old one at it, preserving the chain of reasoning.
 
-**A record's YAML frontmatter is the single source of truth.** Status, author, branch, tags, supersede links and the full history of status transitions all live in the file's own frontmatter. There is no separate index to keep in step, so the metadata cannot contradict the prose. `pantheon-adr index` regenerates a browsable catalogue *from* that frontmatter, which makes the catalogue derived and safe to overwrite, never authored.
+**Read metadata from the frontmatter, which is the single source of truth.** Status, author, branch, tags, supersede links and the full history of status transitions all live in the file's own frontmatter. Keep no separate index in step, so the metadata cannot contradict the prose. `pantheon-adr index` regenerates a browsable catalogue *from* that frontmatter, which makes the catalogue derived and safe to overwrite, never authored.
 
-**Records are identified by slug, not by number.** `pantheon-adr create` on branch `feat/adopt-otel` writes `docs/adr/adopt-otel.md` and types the record `feat`. There is no `max(existing) + 1` to compute and no numbering to collide when two branches each add a decision.
+**Name records by slug, never by number.** Run `pantheon-adr create` on branch `feat/adopt-otel` and it writes `docs/adr/adopt-otel.md`, typing the record `feat`. Compute no `max(existing) + 1` and no numbering to collide when two branches each add a decision.
 
-**Completeness is machine-checked, not a matter of taste.** `pantheon-adr check <slug>` scores the prose 0 to 100 against a fixed rubric and `pantheon-adr review <slug>` refuses to run below 80. Treat the score as the definition of "finished" and write to satisfy the rubric rather than arguing with it. The point of the tool is that "is this ADR done?" has an answer a hook can enforce.
+**Check completeness rather than judging it.** Run `pantheon-adr check <slug>` to score the prose 0 to 100 against a fixed rubric; `pantheon-adr review <slug>` refuses to run below 80. Take the score as the definition of "finished" and write to satisfy the rubric rather than arguing with it. The point of the tool is that "is this ADR done?" has an answer a hook can enforce.
 
 ## Prerequisites
 
@@ -144,11 +144,11 @@ pantheon-adr sync
 pantheon-adr init --install-hooks
 ```
 
-Expected result: `sync` patches `.claude/settings.json` or the OpenCode plugin and is idempotent; `--install-hooks` adds a pre-push hook that blocks while any proposed record scores below 80.
+Expected result: `sync` patches whichever agent harness configuration the project uses and is idempotent, leaving unrelated settings intact; `--install-hooks` adds a pre-push hook that blocks while any proposed record scores below 80.
 
 ```bash
 # Find planning documents with a decision that no record points back at.
-scripts/check-undocumented-decisions.sh
+./scripts/check-undocumented-decisions.sh
 ```
 
 Expected result: exit 0 with a confirmation line when everything is covered, or exit 2 with a list of undocumented files. See [Deriving an ADR from an Existing Document](references/context-extraction.md).

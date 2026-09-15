@@ -1,0 +1,24 @@
+{
+  "skill": "documentation/adr-creator",
+  "date": "2026-09-15",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 120,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 221,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}
