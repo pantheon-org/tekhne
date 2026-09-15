@@ -66,13 +66,13 @@ pub fn check(body: &str, threshold: u32) -> Report {
     let sections = parse_sections(body);
     let placeholders = count_placeholders(body);
 
-    let (problem_ok, problem_words) = section_check(&sections, &["Problem Statement", "Context"], 30);
+    let (problem_ok, problem_words) =
+        section_check(&sections, &["Problem Statement", "Context"], 30);
     let (solution_ok, solution_words) = section_check(&sections, &["Chosen Solution"], 30);
     let (rationale_ok, _) = section_check(&sections, &["Rationale"], 20);
 
     // A section with words in it still fails when those words are boilerplate.
-    let problem_ok =
-        problem_ok && !is_boilerplate(&sections, &["Problem Statement", "Context"]);
+    let problem_ok = problem_ok && !is_boilerplate(&sections, &["Problem Statement", "Context"]);
     let solution_ok = solution_ok && !is_boilerplate(&sections, &["Chosen Solution"]);
     let rationale_ok = rationale_ok && !is_boilerplate(&sections, &["Rationale"]);
     let impact_ok = impact_check(&sections);
@@ -281,7 +281,10 @@ fn is_boilerplate(sections: &BTreeMap<String, String>, names: &[&str]) -> bool {
     }
     let matches = tokens
         .iter()
-        .map(|t| t.trim_matches(|c: char| ".,;:!?\"'()".contains(c)).to_ascii_lowercase())
+        .map(|t| {
+            t.trim_matches(|c: char| ".,;:!?\"'()".contains(c))
+                .to_ascii_lowercase()
+        })
         .filter(|t| BOILERPLATE.contains(&t.as_str()))
         .count();
     matches as f64 / tokens.len() as f64 > BOILERPLATE_RATIO
@@ -390,7 +393,10 @@ mod tests {
         let report = check(&body, PASS_THRESHOLD);
 
         assert_eq!(report.score, 60);
-        assert!(report.caps_applied.iter().any(|c| c.contains("Problem Statement")));
+        assert!(report
+            .caps_applied
+            .iter()
+            .any(|c| c.contains("Problem Statement")));
     }
 
     #[test]
@@ -402,7 +408,10 @@ mod tests {
         let report = check(&body, PASS_THRESHOLD);
 
         assert_eq!(report.score, 60);
-        assert!(report.caps_applied.iter().any(|c| c.contains("Chosen Solution")));
+        assert!(report
+            .caps_applied
+            .iter()
+            .any(|c| c.contains("Chosen Solution")));
     }
 
     #[test]
@@ -436,7 +445,10 @@ mod tests {
         let report = check(&body, PASS_THRESHOLD);
 
         assert_eq!(report.score, 60);
-        assert!(report.caps_applied.iter().any(|c| c.contains("Chosen Solution")));
+        assert!(report
+            .caps_applied
+            .iter()
+            .any(|c| c.contains("Chosen Solution")));
     }
 
     #[test]
@@ -469,7 +481,10 @@ mod tests {
              ### Rationale\n{PROSE}\n\n## Impact Assessment\n- **Security**: real\n"
         );
         let report = check(&body, PASS_THRESHOLD);
-        assert!(report.missing.iter().any(|m| m.name == "Problem Statement / Context"));
+        assert!(report
+            .missing
+            .iter()
+            .any(|m| m.name == "Problem Statement / Context"));
     }
 
     #[test]

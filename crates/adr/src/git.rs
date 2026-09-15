@@ -158,6 +158,19 @@ pub fn diffstat(dir: &Path, base: &str) -> Diffstat {
     stat
 }
 
+/// The paths the current branch changed against `base`.
+pub fn changed_files(dir: &Path, base: &str) -> Vec<String> {
+    let range = format!("{base}...HEAD");
+    git(dir, &["diff", "--name-only", &range])
+        .map(|out| {
+            out.lines()
+                .filter(|l| !l.is_empty())
+                .map(str::to_string)
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
 /// Gather everything `draft` needs in one pass.
 pub fn context(dir: &Path, explicit_base: Option<&str>, default_base: &str) -> BranchContext {
     let base = resolve_base(dir, explicit_base, &[default_base, "main", "master"]);
@@ -247,6 +260,24 @@ mod tests {
         assert_eq!(stat.insertions, 2);
         assert_eq!(stat.deletions, 0);
         assert_eq!(stat.by_dir, vec![("src".to_string(), 1, 2)]);
+    }
+
+    #[test]
+    fn changed_files_lists_the_paths_the_branch_touched() {
+        let Some((_tmp, path)) = repo() else { return };
+        git(&path, &["checkout", "-q", "-b", "feat/z"]).unwrap();
+        fs::create_dir_all(path.join("src")).unwrap();
+        fs::write(path.join("src/a.rs"), "fn a() {}\n").unwrap();
+        git(&path, &["add", "-A"]).unwrap();
+        git(&path, &["commit", "-qm", "feat: add a"]).unwrap();
+
+        assert_eq!(changed_files(&path, "main"), vec!["src/a.rs".to_string()]);
+    }
+
+    #[test]
+    fn changed_files_is_empty_outside_a_repository() {
+        let tmp = TempDir::new().unwrap();
+        assert!(changed_files(tmp.path(), "main").is_empty());
     }
 
     #[test]

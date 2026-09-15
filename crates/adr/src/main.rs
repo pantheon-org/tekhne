@@ -1,15 +1,22 @@
-//! `adr` CLI: create, list, and supersede Architecture Decision Records, plus
-//! install the bundled `adr-creator` companion skill into agent directories
-//! (the A5 distribution surface shared with `skill-auditor`).
+//! `pantheon-adr` CLI: create, score, review and supersede Architecture
+//! Decision Records, wire the ADR hooks into agent harnesses, and install the
+//! bundled `adr-creator` companion skill into agent directories (the A5
+//! distribution surface shared with `skill-auditor`).
+//!
+//! Argument parsing lives here; every command body lives in
+//! [`adr_core::commands`], which returns text rather than printing, so the
+//! output is asserted in tests.
 
 use std::path::{Path, PathBuf};
 use std::process;
 
-use adr_core::adr as core;
+use adr_core::commands;
 use adr_core::date;
 use adr_core::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
+use adr_core::record;
 use adr_core::skill_bundle;
 use clap::{Args, Parser, Subcommand, ValueEnum};
+use common::{Error, Result};
 use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
 use skill_install::install::InstallMode;
@@ -22,45 +29,171 @@ const NAME: &str = env!("CARGO_PKG_NAME");
     name = "pantheon-adr",
     version = VERSION,
     about = "Create and manage Architecture Decision Records",
-    long_about = "pantheon-adr creates, lists, and supersedes Architecture Decision Records from the house template, and installs the bundled adr-creator skill into agent directories."
+    long_about = "pantheon-adr creates, scores, reviews and supersedes Architecture Decision Records. Each record is a markdown file whose YAML frontmatter holds its status and history, so there is no separate index to keep in step. `check` scores a record against a fixed rubric and `review` gates on it; `sync` wires the same checks into agent harnesses, and `skill install` installs the bundled adr-creator skill."
 )]
 struct Cli {
     #[command(subcommand)]
     command: Command,
 }
 
+/// The ADR directory, shared by every command that touches records.
+#[derive(Args, Clone)]
+struct DirArgs {
+    /// The ADR directory (default `docs/adr`, or the ADR_DIR env var).
+    #[arg(long, global = true)]
+    dir: Option<String>,
+}
+
 #[derive(Subcommand)]
 enum Command {
     /// Print the version.
     Version,
-    /// Create the next-numbered ADR from the house template.
-    New {
-        /// The ADR title (used for the heading and kebab-case file name).
-        title: String,
-        /// The ADR directory (default `docs/adr`, or the ADR_DIR env var).
+    /// Create the ADR directory, and optionally the pre-push hook.
+    Init {
+        /// Project name shown in hook output (auto-detected from git if omitted).
         #[arg(long)]
-        dir: Option<String>,
+        project: Option<String>,
+        /// Install a pre-push hook that blocks on incomplete records.
+        #[arg(long = "install-hooks")]
+        install_hooks: bool,
+        /// Remove that hook.
+        #[arg(long = "uninstall-hooks", conflicts_with = "install_hooks")]
+        uninstall_hooks: bool,
+        #[command(flatten)]
+        dir: DirArgs,
     },
-    /// List existing ADRs (number, status, title).
+    /// Create an ADR for the current branch, or for the given slug.
+    Create {
+        /// The record's slug; taken from the branch name when omitted.
+        slug: Option<String>,
+        /// One-line description, used as the record's title.
+        #[arg(short = 'd', long)]
+        description: Option<String>,
+        /// Branch type: feat, fix, docs or chore (from the branch prefix if omitted).
+        #[arg(short = 't', long = "type")]
+        branch_type: Option<String>,
+        /// Author name (defaults to git config user.name).
+        #[arg(long)]
+        author: Option<String>,
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Gather branch context for filling an ADR in.
+    Draft {
+        /// The record's slug; inferred from the branch when omitted.
+        slug: Option<String>,
+        /// Emit a numbered question set instead of the context summary.
+        #[arg(long)]
+        bootstrap: bool,
+        /// Base branch for the commit list and diff.
+        #[arg(long)]
+        base: Option<String>,
+        /// Include pull request comments as reviewer feedback (needs `gh`).
+        #[arg(long)]
+        pr: bool,
+        /// Machine-readable output.
+        #[arg(long)]
+        json: bool,
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Score an ADR for completeness (0-100; exits non-zero below 80).
+    Check {
+        /// The record's slug.
+        slug: String,
+        /// Require 95 rather than 80.
+        #[arg(long)]
+        strict: bool,
+        /// Machine-readable score and missing list.
+        #[arg(long)]
+        json: bool,
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Mark an ADR as ready for human review (requires a score of 80).
+    Review {
+        /// The record's slug.
+        slug: String,
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// List ADRs.
     List {
-        /// The ADR directory (default `docs/adr`, or the ADR_DIR env var).
+        /// Filter by status: proposed, review-requested, accepted, deprecated, superseded.
+        #[arg(short = 's', long)]
+        status: Option<String>,
+        /// Filter by type: feat, fix, docs, chore.
+        #[arg(short = 't', long = "type")]
+        branch_type: Option<String>,
+        /// Machine-readable output.
         #[arg(long)]
-        dir: Option<String>,
+        json: bool,
+        #[command(flatten)]
+        dir: DirArgs,
     },
-    /// Supersede an existing ADR with a new one.
-    Supersede {
-        /// The number of the ADR being superseded.
-        number: u32,
-        /// The title of the new ADR.
-        new_title: String,
-        /// The ADR directory (default `docs/adr`, or the ADR_DIR env var).
+    /// Summarise the ADR collection.
+    Status {
+        /// Machine-readable output.
         #[arg(long)]
-        dir: Option<String>,
+        json: bool,
+        #[command(flatten)]
+        dir: DirArgs,
     },
+    /// Update an ADR's metadata.
+    Update {
+        /// The record's slug.
+        slug: String,
+        /// Replacement one-line description.
+        #[arg(short = 'd', long)]
+        description: Option<String>,
+        /// New status.
+        #[arg(short = 's', long)]
+        status: Option<String>,
+        /// Replacement comma-separated tag list.
+        #[arg(long)]
+        tags: Option<String>,
+        /// Slug of the ADR that supersedes this one (also sets the status).
+        #[arg(long = "superseded-by")]
+        superseded_by: Option<String>,
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Regenerate the browsable catalogue from the records' frontmatter.
+    Index {
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Wire the ADR hooks into the agent configs this project uses.
+    Sync,
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
         action: SkillAction,
+    },
+
+    /// Print ADR context for agent session injection.
+    #[command(hide = true)]
+    SessionStart {
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Suggest creating an ADR when the current branch has none.
+    #[command(hide = true)]
+    PostToolUse {
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Remind about ADRs that are not finished.
+    #[command(hide = true)]
+    SessionEnd {
+        #[command(flatten)]
+        dir: DirArgs,
+    },
+    /// Block a push while any proposed ADR scores below 80.
+    #[command(hide = true)]
+    PrePush {
+        #[command(flatten)]
+        dir: DirArgs,
     },
 }
 
@@ -142,73 +275,193 @@ fn main() {
             println!("{NAME} v{VERSION}");
             Ok(())
         }
-        Command::New { title, dir } => run_new(&title, dir.as_deref()),
-        Command::List { dir } => run_list(dir.as_deref()),
-        Command::Supersede {
-            number,
-            new_title,
+        Command::Init {
+            project,
+            install_hooks,
+            uninstall_hooks,
             dir,
-        } => run_supersede(number, &new_title, dir.as_deref()),
+        } => emit(commands::init(
+            &adr_dir(dir.dir.as_deref()),
+            &cwd(),
+            project.as_deref(),
+            install_hooks,
+            uninstall_hooks,
+        )),
+        Command::Create {
+            slug,
+            description,
+            branch_type,
+            author,
+            dir,
+        } => emit(commands::create(
+            &adr_dir(dir.dir.as_deref()),
+            &cwd(),
+            &date::today(),
+            &commands::CreateArgs {
+                slug: slug.as_deref(),
+                description: description.as_deref(),
+                branch_type: branch_type.as_deref(),
+                author: author.as_deref(),
+            },
+        )),
+        Command::Draft {
+            slug,
+            bootstrap,
+            base,
+            pr,
+            json,
+            dir,
+        } => emit(commands::draft_cmd(
+            &adr_dir(dir.dir.as_deref()),
+            &cwd(),
+            slug.as_deref(),
+            bootstrap,
+            base.as_deref(),
+            pr,
+            json,
+        )),
+        Command::Check {
+            slug,
+            strict,
+            json,
+            dir,
+        } => emit_gated(commands::check(
+            &adr_dir(dir.dir.as_deref()),
+            &slug,
+            strict,
+            json,
+        )),
+        Command::Review { slug, dir } => emit(commands::review(
+            &adr_dir(dir.dir.as_deref()),
+            &slug,
+            &date::now_rfc3339(),
+        )),
+        Command::List {
+            status,
+            branch_type,
+            json,
+            dir,
+        } => emit(commands::list(
+            &adr_dir(dir.dir.as_deref()),
+            status.as_deref(),
+            branch_type.as_deref(),
+            json,
+        )),
+        Command::Status { json, dir } => {
+            emit(commands::status(&adr_dir(dir.dir.as_deref()), &cwd(), json))
+        }
+        Command::Update {
+            slug,
+            description,
+            status,
+            tags,
+            superseded_by,
+            dir,
+        } => emit(commands::update(
+            &adr_dir(dir.dir.as_deref()),
+            &slug,
+            &date::now_rfc3339(),
+            &commands::UpdateArgs {
+                description: description.as_deref(),
+                status: status.as_deref(),
+                tags: tags.as_deref(),
+                superseded_by: superseded_by.as_deref(),
+            },
+        )),
+        Command::Index { dir } => emit(commands::index_cmd(
+            &adr_dir(dir.dir.as_deref()),
+            &date::today(),
+        )),
+        Command::Sync => emit(commands::sync_cmd(&cwd())),
+
+        // Hook commands. Three of these print and never fail, because a hook
+        // that breaks a session over an untidy ADR gets uninstalled.
+        Command::SessionStart { dir } => {
+            print!(
+                "{}",
+                commands::session_start(&adr_dir(dir.dir.as_deref()), &cwd())
+            );
+            Ok(())
+        }
+        Command::PostToolUse { dir } => {
+            print!(
+                "{}",
+                commands::post_tool_use(&adr_dir(dir.dir.as_deref()), &cwd())
+            );
+            Ok(())
+        }
+        Command::SessionEnd { dir } => {
+            print!("{}", commands::session_end(&adr_dir(dir.dir.as_deref())));
+            Ok(())
+        }
+        Command::PrePush { dir } => {
+            let (text, verdict) = commands::pre_push(&adr_dir(dir.dir.as_deref()));
+            print!("{text}");
+            verdict.map_err(classify)
+        }
+
         Command::Skill {
             action: SkillAction::Install(args),
-        } => run_skill_install(args),
+        } => run_skill_install(args).map_err(|e| (e, EXIT_GENERAL)),
         Command::Skill {
             action: SkillAction::Uninstall(args),
-        } => run_skill_uninstall(args),
+        } => run_skill_uninstall(args).map_err(|e| (e, EXIT_GENERAL)),
     };
 
-    if let Err(e) = result {
-        eprintln!("Error: {e}");
-        process::exit(1);
+    if let Err((message, code)) = result {
+        eprintln!("Error: {message}");
+        process::exit(code);
     }
+}
+
+/// A general failure.
+const EXIT_GENERAL: i32 = 1;
+
+/// A record or directory that does not exist.
+const EXIT_NOT_FOUND: i32 = 3;
+
+/// The failure message and exit code for an error.
+fn classify(e: Error) -> (String, i32) {
+    let code = match e {
+        Error::NotFound(_) => EXIT_NOT_FOUND,
+        _ => EXIT_GENERAL,
+    };
+    (e.to_string(), code)
+}
+
+/// Print a command's output, or turn its error into a message and exit code.
+fn emit(result: Result<String>) -> std::result::Result<(), (String, i32)> {
+    match result {
+        Ok(text) => {
+            print!("{text}");
+            Ok(())
+        }
+        Err(e) => Err(classify(e)),
+    }
+}
+
+/// Print a gating command's report, then honour its verdict.
+fn emit_gated(
+    result: Result<(String, std::result::Result<(), Error>)>,
+) -> std::result::Result<(), (String, i32)> {
+    match result {
+        Ok((text, verdict)) => {
+            print!("{text}");
+            verdict.map_err(classify)
+        }
+        Err(e) => Err(classify(e)),
+    }
+}
+
+/// The working directory, used to locate the repository and its branch.
+fn cwd() -> PathBuf {
+    std::env::current_dir().unwrap_or_else(|_| PathBuf::from("."))
 }
 
 /// Resolve the ADR directory from the flag or the `ADR_DIR` env var.
 fn adr_dir(flag: Option<&str>) -> PathBuf {
-    let env_value = std::env::var(core::DIR_ENV).ok();
-    core::resolve_dir(flag, env_value.as_deref())
-}
-
-fn run_new(title: &str, dir_flag: Option<&str>) -> std::result::Result<(), String> {
-    let dir = adr_dir(dir_flag);
-    let path = core::create_new(&dir, title, &date::today()).map_err(|e| e.to_string())?;
-    println!("Created {}", path.display());
-    Ok(())
-}
-
-fn run_list(dir_flag: Option<&str>) -> std::result::Result<(), String> {
-    let dir = adr_dir(dir_flag);
-    let entries = core::list(&dir).map_err(|e| e.to_string())?;
-    if entries.is_empty() {
-        println!("No ADRs found in {}", dir.display());
-        return Ok(());
-    }
-    let width = entries
-        .iter()
-        .map(|e| e.status.len())
-        .max()
-        .unwrap_or(0)
-        .max(6);
-    for entry in entries {
-        println!(
-            "ADR-{:04}  {:<width$}  {}",
-            entry.number, entry.status, entry.title
-        );
-    }
-    Ok(())
-}
-
-fn run_supersede(
-    number: u32,
-    new_title: &str,
-    dir_flag: Option<&str>,
-) -> std::result::Result<(), String> {
-    let dir = adr_dir(dir_flag);
-    let (old_path, new_path) =
-        core::supersede(&dir, number, new_title, &date::today()).map_err(|e| e.to_string())?;
-    println!("Superseded {}", old_path.display());
-    println!("Created {}", new_path.display());
-    Ok(())
+    let env_value = std::env::var(record::DIR_ENV).ok();
+    record::resolve_dir(flag, env_value.as_deref())
 }
 
 /// Install the bundled companion skill into agent directories.

@@ -185,6 +185,13 @@ pub struct Frontmatter {
     /// Paths or links to related records and documents.
     #[serde(default)]
     pub related: Vec<String>,
+    /// The files the branch touched, as a snapshot taken at creation.
+    ///
+    /// This is history rather than live state, so it does not go stale: it
+    /// records what the decision changed at the time it was made, and lets
+    /// `draft` surface earlier decisions that touched the same files.
+    #[serde(default)]
+    pub changed_files: Vec<String>,
     /// Every status change, oldest first.
     #[serde(default)]
     pub history: Vec<Transition>,
@@ -226,6 +233,7 @@ impl Record {
                 supersedes: None,
                 superseded_by: None,
                 related: Vec::new(),
+                changed_files: Vec::new(),
                 history: Vec::new(),
             },
             body: render_template(title),
@@ -536,7 +544,10 @@ mod tests {
     fn rendered_file_opens_with_a_frontmatter_fence() {
         let text = sample().render().unwrap();
         assert!(text.starts_with("---\n"), "{text}");
-        assert!(text.contains("\n---\n\n# Adopt OpenTelemetry for tracing"), "{text}");
+        assert!(
+            text.contains("\n---\n\n# Adopt OpenTelemetry for tracing"),
+            "{text}"
+        );
     }
 
     #[test]
@@ -583,13 +594,17 @@ mod tests {
 
     #[test]
     fn parse_rejects_a_file_with_no_frontmatter() {
-        let err = Record::parse("x", "# Just a heading\n").unwrap_err().to_string();
+        let err = Record::parse("x", "# Just a heading\n")
+            .unwrap_err()
+            .to_string();
         assert!(err.contains("frontmatter"), "{err}");
     }
 
     #[test]
     fn parse_rejects_an_unterminated_fence() {
-        let err = Record::parse("x", "---\ntitle: nope\n").unwrap_err().to_string();
+        let err = Record::parse("x", "---\ntitle: nope\n")
+            .unwrap_err()
+            .to_string();
         assert!(err.contains("frontmatter"), "{err}");
     }
 
