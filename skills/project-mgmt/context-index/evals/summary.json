@@ -5,7 +5,7 @@
       "regenerate-context-index.sh regenerates the index and is never hand-edited",
       "Missing frontmatter is checked before regeneration and fixed at the source",
       "Index staged alongside .context/ changes",
-      "Typology set (findings/plans/guides/follow-ups/merge-requests/tickets/decisions/notes/research) and singular type: mapping",
+      "Typology set (findings/plans/goals/evidence/guides/follow-ups/merge-requests/tickets/decisions/notes/research) and singular type: mapping",
       "Type/directory mismatches are surfaced, not silently routed into a catch-all"
     ]
   },

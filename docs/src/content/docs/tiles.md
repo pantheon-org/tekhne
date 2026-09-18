@@ -802,7 +802,7 @@ Creates, scores, reviews and supersedes Architecture Decision Records with the p
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-09-15 | 4 |
 
 ### astro-starlight
 
@@ -929,7 +929,7 @@ End-to-end project planning toolkit: converts requirements into structured phase
 
 ### context-index
 
-Regenerates .context/index.yaml from the YAML frontmatter across every .context/**/*.md file, grouped by typology (findings, plans, guides, follow-ups, merge-requests, tickets, decisions, notes, research), and validates that each file carries the required frontmatter fields; use when the index is stale, context files were added or removed, or a pre-commit gate blocks on missing frontmatter.
+Regenerates .context/index.yaml from the YAML frontmatter across every .context/**/*.md file, grouped by typology (findings, plans, goals, evidence, guides, follow-ups, merge-requests, tickets, decisions, notes, research), and validates that each file carries the required frontmatter fields; use when the index is stale, context files were added or removed, or a pre-commit gate blocks on missing frontmatter.
 
 **Published:** - | **Version:** 0.1.0
 

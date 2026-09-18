@@ -11,6 +11,7 @@ stays mostly static but may evolve deliberately.
 | `findings` | Investigation results, analysis, research output | Keep for reference |
 | `plans` | Implementation plans, task breakdowns | Retire when the work lands |
 | `goals` | Session goals: a stated end state plus its items and evidence | Close when the goal is met or promoted to a plan |
+| `evidence` | Work offered as evidence against a progression or performance framework | Close when cited in an assessment |
 | `guides` | Reusable how-tos and reference material | Keep and maintain |
 | `follow-ups` | Deferred work, open threads, TODO capture | Close when actioned |
 | `merge-requests` | MR/PR notes, descriptions, review context | Retire after merge |
@@ -27,6 +28,8 @@ singular form (`plan`, `follow-up`, `decision`, ...) — that's what consuming
 tooling (e.g. an index generator's type-to-group lookup) matches against. The
 script's `singular_of()` holds the curated mapping; don't assume the two
 strings are interchangeable when writing or reading a context file by hand.
+`evidence` is the exception that proves the rule: it is uncountable, so its
+folder and its `type:` are the same word.
 
 ## Selection rule
 
