@@ -28,7 +28,7 @@
     {
       "type": "reference",
       "why_given": "new knowledge",
-      "content": "The typology set is findings, plans, guides, follow-ups, merge-requests, tickets, decisions, notes, research — the frontmatter `type:` field is the singular form of the plural directory name."
+      "content": "The typology set is findings, plans, goals, evidence, guides, follow-ups, merge-requests, tickets, decisions, notes, research — the frontmatter `type:` field is the singular form of the plural directory name."
     },
     {
       "type": "anti-pattern",

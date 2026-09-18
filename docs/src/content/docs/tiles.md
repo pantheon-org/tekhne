@@ -929,7 +929,7 @@ End-to-end project planning toolkit: converts requirements into structured phase
 
 ### context-index
 
-Regenerates .context/index.yaml from the YAML frontmatter across every .context/**/*.md file, grouped by typology (findings, plans, guides, follow-ups, merge-requests, tickets, decisions, notes, research), and validates that each file carries the required frontmatter fields; use when the index is stale, context files were added or removed, or a pre-commit gate blocks on missing frontmatter.
+Regenerates .context/index.yaml from the YAML frontmatter across every .context/**/*.md file, grouped by typology (findings, plans, goals, evidence, guides, follow-ups, merge-requests, tickets, decisions, notes, research), and validates that each file carries the required frontmatter fields; use when the index is stale, context files were added or removed, or a pre-commit gate blocks on missing frontmatter.
 
 **Published:** - | **Version:** 0.1.0
 
