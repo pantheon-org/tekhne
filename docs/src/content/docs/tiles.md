@@ -802,7 +802,7 @@ Creates, scores, reviews and supersedes Architecture Decision Records with the p
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
+| [adr-creator](/tekhne/skills/documentation/adr-creator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-09-15 | 4 |
 
 ### astro-starlight
 

@@ -3,10 +3,11 @@
 # create-context-file.sh - create a context file under <root>/<typology>/
 # using a date-prefixed filename: <YYYY-MM-DD>-<slug>.md
 #
-# The typology is an open, curated set (findings, plans, goals, guides, follow-ups,
-# merge-requests, tickets, ...). It maps directly to the subfolder name. The
-# set is meant to stay mostly static; extend KNOWN_TYPES below when a genuinely
-# new typology is needed, or pass --allow-new-type for a one-off.
+# The typology is an open, curated set (findings, plans, goals, evidence,
+# guides, follow-ups, merge-requests, tickets, ...). It maps directly to the
+# subfolder name. The set is meant to stay mostly static; extend KNOWN_TYPES
+# below when a genuinely new typology is needed, or pass --allow-new-type for
+# a one-off.
 #
 # Files are written to <root>/<typology>/ where <root> defaults to .context in
 # the CURRENT working directory (the consuming project), not the skill package.
@@ -40,7 +41,7 @@
 set -eu
 
 # Curated, mostly-static typology set. Extend deliberately.
-KNOWN_TYPES="findings plans goals guides follow-ups merge-requests tickets decisions notes research"
+KNOWN_TYPES="findings plans goals evidence guides follow-ups merge-requests tickets decisions notes research"
 
 die() { printf 'error: %s\n' "$1" >&2; exit 1; }
 
@@ -65,12 +66,15 @@ type_known() {
 # what downstream consumers (regenerate-context-index.sh's type_group_key)
 # match against. Curated pairs for KNOWN_TYPES; a typology added later via
 # --allow-new-type falls back to stripping a trailing "s", which is correct
-# for every typology in the set today.
+# for every typology in the set today. Note "evidence" is uncountable: plural
+# and singular are the same word, which is why it is listed explicitly rather
+# than left to the fallback.
 singular_of() {
 	case "$1" in
 		findings)       echo "finding" ;;
 		plans)          echo "plan" ;;
 		goals)          echo "goal" ;;
+		evidence)       echo "evidence" ;;
 		guides)         echo "guide" ;;
 		follow-ups)     echo "follow-up" ;;
 		merge-requests) echo "merge-request" ;;

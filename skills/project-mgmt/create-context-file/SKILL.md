@@ -1,6 +1,6 @@
 ---
 name: create-context-file
-description: "Creates a structured, date-stamped context file filed by typology (findings, plans, guides, follow-ups, merge-requests, tickets, decisions, notes, research) with YAML frontmatter. Use when saving a finding, writing a plan, capturing a guide, recording a decision, logging a follow-up, filing a merge-request note, plus ticket write-ups."
+description: "Creates a structured, date-stamped context file filed by typology (findings, plans, goals, evidence, guides, follow-ups, merge-requests, tickets, decisions, notes, research) with YAML frontmatter. Use when saving a finding, writing a plan, capturing a guide, recording a decision, logging a follow-up, filing a merge-request note, capturing work as progression evidence, plus ticket write-ups."
 license: MIT
 metadata:
   version: "1.0.0"
