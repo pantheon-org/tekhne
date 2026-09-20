@@ -37,6 +37,13 @@ cp -RL "$SKILL_DIR" "$WORK_DIR/$SKILL_NAME"
 find "$WORK_DIR/$SKILL_NAME" -mindepth 1 -name '.*' -prune -exec rm -rf {} +
 find "$WORK_DIR/$SKILL_NAME" -name 'CHANGELOG.md' -exec rm -f {} +
 
+REMAINING_LINKS="$(find "$WORK_DIR/$SKILL_NAME" -type l)"
+if [ -n "$REMAINING_LINKS" ]; then
+  echo "Warning: unresolved symlinks remain after dereferencing:" >&2
+  echo "$REMAINING_LINKS" >&2
+  exit 1
+fi
+
 ZIP_PATH="$OUT_DIR/$SKILL_NAME.zip"
 rm -f "$ZIP_PATH"
 
@@ -44,12 +51,5 @@ rm -f "$ZIP_PATH"
   cd "$WORK_DIR"
   zip -r -X "$ZIP_PATH" "$SKILL_NAME"
 )
-
-REMAINING_LINKS="$(find "$WORK_DIR/$SKILL_NAME" -type l)"
-if [ -n "$REMAINING_LINKS" ]; then
-  echo "Warning: unresolved symlinks remain after dereferencing:" >&2
-  echo "$REMAINING_LINKS" >&2
-  exit 1
-fi
 
 echo "$ZIP_PATH"
