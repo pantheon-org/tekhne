@@ -34,3 +34,10 @@ run = "markdownlint-cli2 '**/*.md'"
 
 [tasks.lint-fix]
 run = "markdownlint-cli2 --fix '**/*.md'"
+
+# Zip a skill directory for upload (e.g. to claude.ai), dereferencing any
+# symlinks so the archive contains only real files.
+# Usage: mise run zip-skill -- /full/path/to/skills/<domain>/<skill-name>
+[tasks.zip-skill]
+description = "Zip a skill directory for upload, dereferencing symlinks"
+run = "./scripts/zip-skill.sh"

@@ -11,6 +11,7 @@
 # Carve-outs (not skill Python; mirror the linter exclusions already in hk.pkl):
 #   - target/, node_modules/, .git/   build output, dependencies, VCS metadata
 #   - .agents/                        vendored installed-skill copies (gitignored)
+#   - .claude/                        agent worktrees and local state (gitignored)
 #   - */tests/golden-corpus/*         skill-validator-rs / skill-auditor fixtures
 #
 # Usage: ./scripts/check-python-allowlist.sh
@@ -59,6 +60,7 @@ done < <(
     -not -path './target/*' \
     -not -path '*/node_modules/*' \
     -not -path './.agents/*' \
+    -not -path './.claude/*' \
     -not -path './.git/*' \
     -not -path '*/tests/golden-corpus/*' \
   | sort
