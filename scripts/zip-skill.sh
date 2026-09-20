@@ -34,7 +34,7 @@ cp -RL "$SKILL_DIR" "$WORK_DIR/$SKILL_NAME"
 
 # Drop dotfiles/dotfolders (audits, tessl plugin metadata, .git, etc.) and
 # CHANGELOG.md — none of these belong in the uploaded skill bundle.
-find "$WORK_DIR/$SKILL_NAME" -mindepth 1 -name '.*' -exec rm -rf {} +
+find "$WORK_DIR/$SKILL_NAME" -mindepth 1 -name '.*' -prune -exec rm -rf {} +
 find "$WORK_DIR/$SKILL_NAME" -name 'CHANGELOG.md' -exec rm -f {} +
 
 ZIP_PATH="$OUT_DIR/$SKILL_NAME.zip"
