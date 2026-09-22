@@ -41,3 +41,37 @@ run = "markdownlint-cli2 --fix '**/*.md'"
 [tasks.zip-skill]
 description = "Zip a skill directory for upload, dereferencing symlinks"
 run = "./scripts/zip-skill.sh"
+
+# Cargo builds for the crate-distributed skill tools (see AGENTS.md § Skills
+# distributed via crate installers). mise already pins the rust toolchain
+# these build against, so the build step lives here rather than in package.json.
+[tasks."build:skill-auditor"]
+description = "Build the pantheon-skill-auditor CLI from source"
+run = "cargo build --release -p pantheon-skill-auditor"
+
+[tasks."build:adr"]
+description = "Build the pantheon-adr CLI from source"
+run = "cargo build --release -p pantheon-adr"
+
+[tasks."build:journal"]
+description = "Build the pantheon-journal CLI from source"
+run = "cargo build --release -p pantheon-journal"
+
+[tasks."audit:skill"]
+description = "Build pantheon-skill-auditor from source and run it (pass skill args after --)"
+run = ["cargo build --release -q -p pantheon-skill-auditor", "target/release/pantheon-skill-auditor evaluate"]
+
+# Build a crate-distributed skill tool from the working tree and install its
+# skill from that build, instead of waiting on the PR -> merge -> release loop
+# for a released binary to pick up a SKILL.md edit (see AGENTS.md).
+[tasks."install-skill:adr"]
+description = "Build pantheon-adr from source and install its skill from that build"
+run = ["cargo build --release -q -p pantheon-adr", "target/release/pantheon-adr skill install"]
+
+[tasks."install-skill:journal"]
+description = "Build pantheon-journal from source and install its skill from that build"
+run = ["cargo build --release -q -p pantheon-journal", "target/release/pantheon-journal skill install"]
+
+[tasks."install-skill:skill-auditor"]
+description = "Build pantheon-skill-auditor from source and install its skill from that build"
+run = ["cargo build --release -q -p pantheon-skill-auditor", "target/release/pantheon-skill-auditor skill install"]

@@ -69,4 +69,4 @@ cargo run -p pantheon-skill-auditor -- batch infrastructure/terraform-generator 
 cargo run -p pantheon-skill-auditor -- batch --fail-below B+ agentic-harness/skill-quality-auditor
 ```
 
-`bun run build:skill-auditor` is a shortcut for the `cargo build` above. See `crates/skill-auditor/` for source.
+`mise run build:skill-auditor` is a shortcut for the `cargo build` above. See `crates/skill-auditor/` for source.
