@@ -63,6 +63,29 @@ Checklist (run for every new or updated entry)
 - [ ] Prettier-format and markdownlint report zero errors
 - [ ] Commit message follows convention: `Add journal entry: [Brief Description] (YYYY-MM-DD)`
 
+## Compliance Section
+
+Every dated, non-template entry MUST include a `## Compliance` section (validate-journal-entry.sh returns exit code 8 if it's missing — this applies regardless of entry type). It is a self-assessed
+checklist, placed near the end of the entry (conventionally just before `## Tags`), using GitHub-flavored checkboxes:
+
+```markdown
+## Compliance
+
+- [x] Filename matches the entry date (ISO 8601, `YYYY-MM-DD-slug.md`)
+- [x] Location matches YYYY/MM from the filename
+- [x] Single H1 with the full date
+- [x] Session Overview present
+- [x] All fenced code blocks have language specifiers
+- [x] Tags present, lowercase/hyphenated, matching frontmatter
+- [x] No special-category or third-party personal data recorded (or the entry states what is involved and why recording it is permitted)
+- [x] No credentials, tokens, secrets, or account/org identifiers included verbatim
+- [x] Any code or ticket changes made during this session are disclosed
+- [x] No proprietary third-party source code was inspected or reproduced without confirming license terms
+```
+
+Check an item honestly against what the entry actually contains — don't tick a box that doesn't hold. If an item doesn't apply (e.g. no personal data was ever in scope), tick it and say so briefly
+rather than leaving it unchecked.
+
 Common validator failures & fixes
 
 - `Single H1` errors: remove extra H1s or convert them to H2 (`##`) and ensure date is present in the H1.

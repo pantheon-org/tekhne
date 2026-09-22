@@ -213,6 +213,28 @@ structure:
     required: true
     description: "Links (ticket, parent incident, repo, key files) and any decisions or open questions carried forward"
 
+  # Compliance checklist (validator hard-requires this: validate-journal-entry.sh exits 8 if absent)
+  - section: compliance
+    level: 2
+    heading: "## Compliance"
+    required: true
+    description: >
+      Checklist confirming the entry meets this skill's structural and disclosure rules. Full item
+      list and rationale: references/compliance.md#compliance-section.
+    format: "- [x] <item>"
+    example: |
+      - [x] Filename matches the entry date (ISO 8601, `YYYY-MM-DD-slug.md`)
+      - [x] Location matches YYYY/MM from the filename
+      - [x] Single H1 with the full date
+      - [x] Session Overview present
+      - [x] All fenced code blocks have language specifiers
+      - [x] Tags present, lowercase/hyphenated, matching frontmatter
+      - [x] No special-category or third-party personal data recorded (or the entry states what is involved and why recording it is permitted)
+      - [x] No credentials, tokens, secrets, or account/org identifiers included verbatim
+      - [x] Any code or ticket changes made during this session are disclosed
+      - [x] No proprietary third-party source code was inspected or reproduced without confirming license terms
+    validation: "Must be titled exactly '## Compliance' (validate-journal-entry.sh returns exit code 8 if missing)"
+
   # Tags (at end of document)
   - section: tags
     level: 2
