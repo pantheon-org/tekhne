@@ -217,7 +217,7 @@ Each entry that includes screenshots or attachments MUST use an **entry-specific
 
 ```text
 YYYY/MM/YYYY-MM-DD-slug.md          ← entry file
-YYYY/MM/YYYY-MM-DD-slug/assets/     ← entry assets (gitignored, local-only)
+YYYY/MM/YYYY-MM-DD-slug/assets/     ← entry assets
 ```
 
 Reference assets in markdown with a relative path from the entry file:
@@ -230,8 +230,13 @@ Reference assets in markdown with a relative path from the entry file:
 when multiple entries use the same numbering scheme (e.g. `01-cloudwatch-alarm.png`). Scoping assets
 under the entry slug directory makes every path unique.
 
-**Note:** The `assets/` directories are gitignored — screenshots are local-only. The markdown image
-references are tracked in git as documentation of what evidence was captured.
+**Note:** Whether `assets/` directories are tracked in git depends on this project's own `.gitignore`
+— check before assuming either way, and check for extension-specific ignore rules (a repo that
+ignores `*.csv` or `*.zip` repo-wide will silently drop an export in exactly that format). If assets
+are committed, treat the directory as version control: never place unreviewed secret-bearing output
+there. If assets are gitignored, treat them as ephemeral and local-only, and never rely on them
+surviving to a later session or another machine. Either way, the markdown image references stay
+tracked in git as a record of what evidence was captured, whether or not the files themselves are.
 
 ### Proposed Ticket Description (Ticket-Refinement Entries)
 
