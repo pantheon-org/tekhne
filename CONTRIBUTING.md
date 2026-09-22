@@ -38,7 +38,7 @@ or runs with Bun, so there is no separate install step.
 
 ```bash
 # Audit a single skill (builds the auditor from source, then evaluates)
-bun run audit:skill <domain>/<skill-name>
+mise run audit:skill <domain>/<skill-name>
 
 # Validate a skill's structure
 cargo run -p skill-validator-rs -- validate structure skills/<domain>/<skill-name>

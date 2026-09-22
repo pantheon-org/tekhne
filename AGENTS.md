@@ -73,7 +73,7 @@ pantheon-skill-auditor evaluate <domain>/<skill-name> --json --store
 
 Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (blocked from publishing).
 
-Build the auditor from source with `bun run build:skill-auditor` (a shortcut for `cargo build --release -p pantheon-skill-auditor`), then invoke `target/release/pantheon-skill-auditor evaluate`.
+Build the auditor from source with `mise run build:skill-auditor` (a shortcut for `cargo build --release -p pantheon-skill-auditor`), then invoke `target/release/pantheon-skill-auditor evaluate`.
 
 ## Skill Management with Tessl
 
@@ -104,6 +104,24 @@ registry versions were archived with `tessl plugin archive`. Continue running
 evals, audits, and quality tooling on their `SKILL.md` as normal; only the registry
 publish step is retired. Install them with `pantheon-journal skill install`,
 `pantheon-adr skill install`, or `pantheon-skill-auditor skill install`.
+
+**A released binary only has the `SKILL.md` that existed when it was built.** Editing
+`skills/documentation/adr-creator/SKILL.md` (or either of the other two) does not change
+what a `PATH`-installed release binary installs until a new release is cut — the content
+is embedded at compile time, not read from disk. During development, build from source
+and install from that build instead of waiting on the PR → merge → release loop:
+
+```bash
+mise run install-skill:adr             # cargo build --release -p pantheon-adr && pantheon-adr skill install
+mise run install-skill:journal         # same, for pantheon-journal
+mise run install-skill:skill-auditor   # same, for pantheon-skill-auditor
+```
+
+Each builds the crate and immediately runs its `skill install`, so the copies it writes
+(`~/.claude/skills/<name>`, and the other installed agents' skill dirs) reflect your
+working tree, not the last release. `mise run build:adr` / `build:journal` /
+`build:skill-auditor` do the build step alone, for when you just need the binary at
+`target/release/`.
 
 ## Git Hooks
 
