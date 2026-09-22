@@ -14,7 +14,7 @@ use std::path::{Path, PathBuf};
 
 use common::{Error, Result};
 use regex::Regex;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::skill_bundle;
 
@@ -27,7 +27,7 @@ const TAXONOMY_FILE: &str = "taxonomy.json";
 /// An overrides-only controlled vocabulary. The effective canonical tag set is
 /// computed from tag frequency at lint time; this struct holds only what
 /// frequency cannot infer.
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
 pub struct Taxonomy {
     /// Optional self-reference to the JSON Schema; ignored at runtime.
@@ -147,6 +147,50 @@ impl Taxonomy {
             .values()
             .any(|list| list.iter().any(|t| t == tag))
     }
+
+    /// Promote `tag` into `facet`'s canonical list, keeping it sorted and
+    /// deduplicated. Errors if `facet` does not already exist (a typo'd facet
+    /// name should not silently create a new one) or if `tag` is already
+    /// faceted anywhere (would create a duplicate membership, not a move).
+    pub fn add_tag_to_facet(&mut self, tag: &str, facet: &str) -> Result<()> {
+        if self.is_faceted(tag) {
+            return Err(Error::Config(format!(
+                "tag \"{tag}\" is already faceted; remove it from its current facet first if you meant to move it"
+            )));
+        }
+        if !self.facets.contains_key(facet) {
+            let known: Vec<&str> = self.facets.keys().map(String::as_str).collect();
+            return Err(Error::Config(format!(
+                "no such facet \"{facet}\" (known facets: {})",
+                known.join(", ")
+            )));
+        }
+        let list = self.facets.get_mut(facet).expect("checked above");
+        list.push(tag.to_string());
+        list.sort();
+        list.dedup();
+        Ok(())
+    }
+
+    /// Serialize back to the on-disk JSON shape, pretty-printed with a
+    /// trailing newline to match the embedded default's formatting.
+    pub fn to_json_pretty(&self) -> Result<String> {
+        let mut json =
+            serde_json::to_string_pretty(self).map_err(|e| Error::json("taxonomy", e))?;
+        json.push('\n');
+        Ok(json)
+    }
+
+    /// Write this taxonomy to `path`, creating parent directories if needed.
+    pub fn write_to_path(&self, path: &Path) -> Result<()> {
+        if let Some(parent) = path.parent() {
+            if !parent.as_os_str().is_empty() {
+                std::fs::create_dir_all(parent).map_err(|e| Error::io(parent, e))?;
+            }
+        }
+        let json = self.to_json_pretty()?;
+        std::fs::write(path, json).map_err(|e| Error::io(path, e))
+    }
 }
 
 /// Lower-case and trim a tag, then resolve it through the alias map so
@@ -215,6 +259,64 @@ mod tests {
         assert_eq!(normalise_tag("  Teams ", &tax.aliases), "ms-teams");
         assert_eq!(normalise_tag("AWS-Lambda", &tax.aliases), "aws-lambda");
         assert_eq!(normalise_tag("unmapped", &tax.aliases), "unmapped");
+    }
+
+    #[test]
+    fn add_tag_to_facet_appends_sorted() {
+        let mut tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        tax.add_tag_to_facet("api-gateway", "tech").unwrap();
+        assert_eq!(
+            tax.facets.get("tech"),
+            Some(&vec!["api-gateway".to_string(), "aws-lambda".to_string()])
+        );
+    }
+
+    #[test]
+    fn add_tag_to_facet_rejects_unknown_facet() {
+        let mut tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        let err = tax
+            .add_tag_to_facet("api-gateway", "nonexistent")
+            .unwrap_err();
+        assert!(err.to_string().contains("no such facet"));
+    }
+
+    #[test]
+    fn add_tag_to_facet_rejects_already_faceted() {
+        let mut tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        let err = tax.add_tag_to_facet("aws-lambda", "type").unwrap_err();
+        assert!(err.to_string().contains("already faceted"));
+    }
+
+    #[test]
+    fn add_tag_to_facet_dedups() {
+        let mut tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        // Faceting "aws-lambda" again onto "tech" (where it already lives) is
+        // rejected by the already-faceted guard, not silently deduped away.
+        assert!(tax.add_tag_to_facet("aws-lambda", "tech").is_err());
+    }
+
+    #[test]
+    fn to_json_pretty_round_trips() {
+        let tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        let json = tax.to_json_pretty().unwrap();
+        assert!(json.ends_with('\n'));
+        let reparsed = Taxonomy::from_json(&json, "round-trip").unwrap();
+        assert_eq!(reparsed.threshold, tax.threshold);
+        assert_eq!(reparsed.facets, tax.facets);
+    }
+
+    #[test]
+    fn write_to_path_creates_parent_dirs() {
+        let dir = std::env::temp_dir().join(format!(
+            "pantheon-journal-taxonomy-test-{}",
+            std::process::id()
+        ));
+        let path = dir.join("nested").join("taxonomy.json");
+        let tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        tax.write_to_path(&path).unwrap();
+        let reloaded = Taxonomy::from_path(&path).unwrap();
+        assert_eq!(reloaded.threshold, tax.threshold);
+        std::fs::remove_dir_all(&dir).ok();
     }
 
     #[test]
