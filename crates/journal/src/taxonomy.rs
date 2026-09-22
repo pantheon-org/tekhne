@@ -153,7 +153,11 @@ impl Taxonomy {
     /// name should not silently create a new one) or if `tag` is already
     /// faceted anywhere (would create a duplicate membership, not a move).
     pub fn add_tag_to_facet(&mut self, tag: &str, facet: &str) -> Result<()> {
-        if self.is_faceted(tag) {
+        // Normalize first: trims, lower-cases, and resolves aliases, so
+        // " AWS-Lambda " or a known alias can't bypass the already-faceted
+        // check or land in the taxonomy in a form lint would never produce.
+        let tag = normalise_tag(tag, &self.aliases);
+        if self.is_faceted(&tag) {
             return Err(Error::Config(format!(
                 "tag \"{tag}\" is already faceted; remove it from its current facet first if you meant to move it"
             )));
@@ -166,7 +170,7 @@ impl Taxonomy {
             )));
         }
         let list = self.facets.get_mut(facet).expect("checked above");
-        list.push(tag.to_string());
+        list.push(tag);
         list.sort();
         list.dedup();
         Ok(())
@@ -269,6 +273,26 @@ mod tests {
             tax.facets.get("tech"),
             Some(&vec!["api-gateway".to_string(), "aws-lambda".to_string()])
         );
+    }
+
+    #[test]
+    fn add_tag_to_facet_normalizes_whitespace_and_case() {
+        let mut tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        tax.add_tag_to_facet(" API-Gateway ", "tech").unwrap();
+        assert_eq!(
+            tax.facets.get("tech"),
+            Some(&vec!["api-gateway".to_string(), "aws-lambda".to_string()])
+        );
+    }
+
+    #[test]
+    fn add_tag_to_facet_resolves_aliases_before_checking() {
+        // MINIMAL aliases "teams" -> "ms-teams"; faceting the alias spelling
+        // must not bypass the already-faceted check against the canonical form.
+        let mut tax = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        tax.add_tag_to_facet("ms-teams", "tech").unwrap();
+        let err = tax.add_tag_to_facet("Teams", "tech").unwrap_err();
+        assert!(err.to_string().contains("already faceted"));
     }
 
     #[test]
