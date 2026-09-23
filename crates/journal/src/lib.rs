@@ -6,8 +6,12 @@
 //! the five entry types, and it validates entries against the same rules the
 //! skill's `validate-journal-entry.sh` enforces. The bundled skill is embedded
 //! at build time and can be installed into agent directories via the shared
-//! `skill-install` crate. No network or LLM access is involved.
+//! `skill-install` crate. No LLM access is involved. One deliberate exception
+//! to an otherwise offline toolset: `archive_media` fetches already-discovered
+//! media URLs over HTTP (see that module for why network access is scoped to
+//! just this one command).
 
+pub mod archive_media;
 pub mod backfill;
 pub mod date;
 pub mod entry;
