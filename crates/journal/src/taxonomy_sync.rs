@@ -294,7 +294,6 @@ pub fn check_append_only(baseline: &Taxonomy, current: &Taxonomy) -> Vec<AppendO
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::collections::BTreeMap;
 
     fn taxonomy(facets: &[(&str, &[&str])], aliases: &[(&str, &str)]) -> Taxonomy {
         Taxonomy {
