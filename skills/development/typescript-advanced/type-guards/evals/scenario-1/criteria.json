@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "No `as` assertions remain in function bodies: The output file contains zero uses of the `as` keyword in function bodies (comments excluded)",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Each function throws a descriptive `TypeError` on invalid input: Every parser function has a runtime check that throws a `TypeError` with a message identifying which value was invalid",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Type predicate functions are used for object-shape validation: At least one `is*` type predicate function (with `value is T` return type annotation) is defined and used",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "TypeScript narrows to the correct type after guard: After each runtime check, TypeScript's control-flow analysis narrows the type correctly without further assertions",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "No new `any` or `@ts-ignore` introduced: The rewritten file introduces no `any` annotations, `@ts-ignore`, or `// @ts-nocheck` directives",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Capture a People-Bridge",
+  "checklist": [
+    {
+      "name": "YAML file has direction: bidirectional",
+      "description": "YAML file has `direction: bidirectional`.",
+      "max_score": 17
+    },
+    {
+      "name": "YAML file has archetype: people and",
+      "description": "YAML file has `archetype: people` and `emoji: 👤`.",
+      "max_score": 17
+    },
+    {
+      "name": "YAML file has strength: active",
+      "description": "YAML file has `strength: active`.",
+      "max_score": 17
+    },
+    {
+      "name": "Response line uses ↔ to indicate",
+      "description": "Response line uses `↔` to indicate bidirectional direction.",
+      "max_score": 17
+    },
+    {
+      "name": "Description is stored verbatim from the",
+      "description": "Description is stored verbatim from the user's input.",
+      "max_score": 16
+    },
+    {
+      "name": "No extra commentary is added beyond",
+      "description": "No extra commentary is added beyond the one-line response.",
+      "max_score": 16
+    }
+  ]
+}

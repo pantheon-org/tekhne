@@ -1,0 +1,1 @@
+Tests whether the agent blocks a dangerous bash command from an OpenCode plugin using tool.execute.before and throw, rather than returning false or hooking after execution.

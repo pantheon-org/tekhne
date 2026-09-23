@@ -1,0 +1,1 @@
+Extract validation, calculation and persistence logic out of a fat controller into a use case, leaving the controller a thin adapter.

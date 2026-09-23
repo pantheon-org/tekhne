@@ -19,6 +19,7 @@ use journal::lint;
 use journal::scan;
 use journal::skill_bundle;
 use journal::taxonomy::{Taxonomy, TaxonomySource};
+use journal::taxonomy_sync::{check_append_only, classify_tag, ClassifyConfidence};
 use journal::validate::{self, Outcome};
 use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
@@ -72,6 +73,22 @@ enum Command {
 enum TaxonomyAction {
     /// Promote a tag into a facet's canonical list.
     Add(TaxonomyAddArgs),
+    /// Auto-facet confidently classifiable unfaceted tags; report the rest.
+    Sync(TaxonomySyncArgs),
+}
+
+#[derive(Args)]
+struct TaxonomySyncArgs {
+    /// Journal root to discover `taxonomy.json` at.
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Explicit taxonomy file to read and write, overriding `<root>/taxonomy.json`.
+    #[arg(long)]
+    taxonomy: Option<PathBuf>,
+    /// Never write; fail if any tag would still be unfaceted or any
+    /// append-only violation is found (for CI's check step).
+    #[arg(long = "check")]
+    check_only: bool,
 }
 
 #[derive(Args)]
@@ -280,6 +297,9 @@ fn main() {
         Command::Taxonomy {
             action: TaxonomyAction::Add(args),
         } => run_taxonomy_add(args),
+        Command::Taxonomy {
+            action: TaxonomyAction::Sync(args),
+        } => run_taxonomy_sync(args),
     };
 
     if let Err(e) = result {
@@ -602,6 +622,143 @@ fn run_taxonomy_add(args: TaxonomyAddArgs) -> std::result::Result<(), String> {
         args.facet,
         target.display()
     );
+    Ok(())
+}
+
+/// Read `taxonomy.json` as it existed at `sha`, via `git show`. Returns
+/// `Ok(None)` (not an error) when the commit or path can't be resolved, so a
+/// missing or unreachable baseline just skips the append-only check rather
+/// than failing the whole command.
+fn read_baseline_taxonomy(
+    sha: &str,
+    taxonomy_path: &Path,
+) -> std::result::Result<Option<Taxonomy>, String> {
+    let toplevel = process::Command::new("git")
+        .args(["rev-parse", "--show-toplevel"])
+        .output()
+        .map_err(|e| format!("cannot run git: {e}"))?;
+    if !toplevel.status.success() {
+        return Ok(None);
+    }
+    let repo_root = PathBuf::from(String::from_utf8_lossy(&toplevel.stdout).trim().to_string());
+
+    let abs_taxonomy = match taxonomy_path.canonicalize() {
+        Ok(p) => p,
+        Err(_) => return Ok(None),
+    };
+    let rel = match abs_taxonomy.strip_prefix(&repo_root) {
+        Ok(r) => r,
+        Err(_) => return Ok(None),
+    };
+
+    let output = process::Command::new("git")
+        .args(["show", &format!("{sha}:{}", rel.display())])
+        .current_dir(&repo_root)
+        .output()
+        .map_err(|e| format!("cannot run git show: {e}"))?;
+    if !output.status.success() {
+        return Ok(None);
+    }
+    let json = String::from_utf8_lossy(&output.stdout);
+    let baseline = Taxonomy::from_json(&json, "append-only baseline")
+        .map_err(|e| format!("cannot parse baseline taxonomy at {sha}: {e}"))?;
+    Ok(Some(baseline))
+}
+
+/// Auto-facet every confidently-classifiable unfaceted tag (per
+/// `lint::lint`'s threshold/ticket-pattern detection and `classify_tag`'s
+/// heuristics), write the result unless `--check`, and check the append-only
+/// invariant against `appendOnlyBaseline` if the taxonomy declares one.
+/// `--check` never writes and exits non-zero if anything is still
+/// outstanding, matching the journal CLI's `taxonomy sync --check` semantics
+/// this repo's `hk.pkl` gate relies on.
+fn run_taxonomy_sync(args: TaxonomySyncArgs) -> std::result::Result<(), String> {
+    let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
+        .map_err(|e| format!("cannot load taxonomy: {e}"))?;
+
+    let scan = scan::scan_entries(&args.root, &taxonomy);
+    let report =
+        lint::lint(&scan.entries, &taxonomy, &[]).map_err(|e| format!("lint failed: {e}"))?;
+
+    let mut next_taxonomy = taxonomy.clone();
+    let mut auto_faceted: Vec<(String, String)> = Vec::new();
+    let mut ambiguous_tags: Vec<String> = Vec::new();
+    let mut still_unfaceted: Vec<(String, u32)> = Vec::new();
+
+    for u in &report.unfaceted {
+        let classification = classify_tag(&u.tag, &taxonomy);
+        let confidently_faceted =
+            matches!(classification.confidence, ClassifyConfidence::Confident)
+                .then_some(classification.facet.as_deref())
+                .flatten()
+                .filter(|facet| next_taxonomy.facets.contains_key(*facet));
+
+        match confidently_faceted {
+            Some(facet) if !args.check_only => {
+                let facet = facet.to_string();
+                next_taxonomy
+                    .add_tag_to_facet(&u.tag, &facet)
+                    .map_err(|e| e.to_string())?;
+                auto_faceted.push((u.tag.clone(), facet));
+            }
+            Some(_) => still_unfaceted.push((u.tag.clone(), u.count)),
+            None => {
+                ambiguous_tags.push(u.tag.clone());
+                still_unfaceted.push((u.tag.clone(), u.count));
+            }
+        }
+    }
+
+    let target = match &source {
+        TaxonomySource::Explicit(path) | TaxonomySource::Root(path) => path.clone(),
+        TaxonomySource::EmbeddedDefault => args.root.join("taxonomy.json"),
+    };
+
+    if !args.check_only && !auto_faceted.is_empty() {
+        next_taxonomy
+            .write_to_path(&target)
+            .map_err(|e| format!("cannot write {}: {e}", target.display()))?;
+    }
+
+    let append_only_violations = match &taxonomy.append_only_baseline {
+        Some(sha) => match read_baseline_taxonomy(sha, &target) {
+            Ok(Some(baseline)) => check_append_only(&baseline, &next_taxonomy),
+            Ok(None) => Vec::new(),
+            Err(e) => {
+                eprintln!("warning: cannot read append-only baseline {sha}: {e}");
+                Vec::new()
+            }
+        },
+        None => Vec::new(),
+    };
+
+    if args.check_only {
+        for (tag, count) in &still_unfaceted {
+            if ambiguous_tags.contains(tag) {
+                eprintln!(
+                    "tag \"{tag}\" ({count}) is ambiguous - run: pantheon-journal taxonomy add {tag} --facet <facet>"
+                );
+            } else {
+                eprintln!(
+                    "tag \"{tag}\" ({count}) crossed the threshold but has no facet - run: pantheon-journal taxonomy sync"
+                );
+            }
+        }
+        for v in &append_only_violations {
+            eprintln!("append-only violation: {}", v.detail);
+        }
+        if !still_unfaceted.is_empty() || !append_only_violations.is_empty() {
+            process::exit(1);
+        }
+    } else {
+        for (tag, facet) in &auto_faceted {
+            println!("assigned \"{tag}\" to \"{facet}\"");
+        }
+        if auto_faceted.is_empty() {
+            println!("Nothing to sync.");
+        }
+    }
+
     Ok(())
 }
 

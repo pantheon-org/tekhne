@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 91,
+    "covered_instructions": 10,
+    "total_instructions": 11,
+    "notes": "10 of 11 extracted instructions are exercised by at least one of the 5 eval scenarios. The 'never hardcode without verifying' anti-pattern is only indirectly touched (scenario-3's validate-before-default flow) rather than directly tested."
+  }
+}

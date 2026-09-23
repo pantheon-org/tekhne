@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 6,
+    "covered_instructions": 6,
+    "coverage_percentage": 100,
+    "notes": "All 6 instructions.json entries are exercised by at least one scenario's criteria.json: no unchecked as assertions (scenario-1), exhaustive switch with a never guard (scenario-0), discriminated unions for illegal states (scenario-0), is* type predicates (scenario-1), explicit undefined guards (scenario-2), and choosing default-vs-throw per function (scenario-2)."
+  },
+  "scenario_count": 3
+}

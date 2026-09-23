@@ -1,0 +1,1 @@
+Tests whether the agent builds an MR review summary tool that correctly uses get_mr_comments.sh, validates the response shape, and parses all four output fields (Author, Date, Type, System) to filter out bot messages.

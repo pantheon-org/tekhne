@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Proactively Detect and Capture a Bridge Opportunity",
+  "checklist": [
+    {
+      "name": "Bridge is captured without the user",
+      "description": "Bridge is captured without the user issuing an explicit `/bridge` command.",
+      "max_score": 17
+    },
+    {
+      "name": "YAML file is written with archetype:",
+      "description": "YAML file is written with `archetype: complexity` and `emoji: 🔬`.",
+      "max_score": 17
+    },
+    {
+      "name": "Source and target aliases are correctly",
+      "description": "Source and target aliases are correctly resolved from project names.",
+      "max_score": 17
+    },
+    {
+      "name": "Response is one line in the",
+      "description": "Response is one line in the canonical `🔗 Bridge #N:` format.",
+      "max_score": 17
+    },
+    {
+      "name": "Agent does not ask the user",
+      "description": "Agent does not ask the user for confirmation before capturing.",
+      "max_score": 16
+    },
+    {
+      "name": "Agent resumes the conversation immediately after",
+      "description": "Agent resumes the conversation immediately after the capture line.",
+      "max_score": 16
+    }
+  ]
+}

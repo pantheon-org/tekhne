@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Reloads plugin with plugin:reload: Uses `obsidian plugin:reload id=my-task-tracker` to pick up the code changes",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Checks errors with dev:errors: Runs `obsidian dev:errors` to detect any errors thrown during plugin load",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Verifies visually with dev:screenshot or dev:dom: Captures a screenshot with `dev:screenshot` or inspects a DOM element with `dev:dom` to confirm the UI rendered correctly",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Checks console output with dev:console: Uses `obsidian dev:console` to inspect console logs for unexpected warnings or errors",
+      "max_score": 25
+    }
+  ]
+}

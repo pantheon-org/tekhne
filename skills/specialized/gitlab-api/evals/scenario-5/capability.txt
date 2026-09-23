@@ -1,0 +1,1 @@
+Tests whether the agent documents a complete, accurate GitLab API integration starter kit covering authentication scope, URL format, dependencies, and URL-encoding of nested group paths.

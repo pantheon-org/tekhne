@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 31,
+    "covered_instructions": 25,
+    "coverage_percentage": 81,
+    "notes": "25 of 31 instructions in instructions.json are exercised by at least one scenario's criteria.json (parseAsync+await, process.argv avoidance, try/catch, typed options passed whole, addCommand, kebab-case, program.opts() subcommand scoping, exitOverride, requiredOption, choices(), version-from-package.json). Not covered: ambiguous positional/option ordering, help-text suppression, global state in handlers, and generic reminders about descriptions/validation not tied to a specific checkable behavior."
+  },
+  "scenario_count": 5
+}

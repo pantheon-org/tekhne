@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "`Order` is derived, not hand-written: `Order` (or its replacement) is defined using `ReturnType`/`Awaited` (or an equivalent `infer`-based conditional type) applied to `typeof fetchOrder`",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "`ItemsParam` is derived, not hand-written: `ItemsParam` is defined using `Parameters<typeof firstItem>` (or equivalent indexed access), not a duplicated literal type",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`ItemElement<T>` uses `infer` correctly: The conditional type extracts the array element type via an `infer` clause and resolves correctly for `string[]`",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "No new `any` or unsafe assertions: The rewritten file introduces no `any`, `@ts-ignore`, or unchecked `as` assertions",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Original function implementations are unchanged: `fetchOrder` and `firstItem` keep their original bodies and behaviour",
+      "max_score": 10
+    }
+  ]
+}

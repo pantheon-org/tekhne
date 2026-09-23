@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Identifies global config bleed problem: Explains that global config applies to ALL projects, not just the intended one",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Recommends project-level opencode.json: Suggests moving the permission to the project-root `opencode.json` instead of global config",
+      "max_score": 30
+    },
+    {
+      "id": "c3",
+      "criterion": "Removes from global config: Explains to remove the deploy command from `~/.config/opencode/opencode.json`",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Shows correct project config: Shows the correct JSON structure for project-scoped bash permission",
+      "max_score": 20
+    }
+  ]
+}

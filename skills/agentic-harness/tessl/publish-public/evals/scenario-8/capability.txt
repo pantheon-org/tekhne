@@ -1,0 +1,1 @@
+Validates invalid tile.json field detection against tessl public-publication requirements.

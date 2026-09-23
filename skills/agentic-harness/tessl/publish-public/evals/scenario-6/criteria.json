@@ -1,0 +1,36 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent identifies 86% is below 90% threshold",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent uses `--optimize` flag correctly",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent runs review twice (before and after optimization)",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent reports score improvement (e.g., 86% \u2192 94%)",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent explains optimization impact clearly",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent confirms next steps based on final score",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent documents the optimization results",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent doesn't proceed to publish if still <90%",
+      "weight": 12
+    }
+  ]
+}

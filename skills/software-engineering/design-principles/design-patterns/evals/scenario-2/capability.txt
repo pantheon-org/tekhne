@@ -1,0 +1,1 @@
+Wrap an incompatible external library behind the Adapter pattern so the domain keeps depending only on its own interface.

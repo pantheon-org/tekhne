@@ -9,6 +9,10 @@ description: Generate GNU Make build systems that define build targets, configur
 
 Generate production-ready Makefiles with best practices for C/C++, Python, Go, Java, and generic projects. Features GNU Coding Standards compliance, standard targets, security hardening, and automatic validation via devops-skills:makefile-validator skill.
 
+## Mindset
+
+Treat every target as a promise about a file, not a label for a command. Make decides whether to run a recipe by comparing file timestamps, so a target that does not correspond to a real output file must always be declared `.PHONY`, or Make will silently skip it the day a file with that name happens to exist. Never write a recipe that depends on inherited shell state; each recipe line runs in its own subshell, so a `cd` or `export` on one line has no effect on the next unless `.ONESHELL` is set or the lines are joined with `\`. Always prefer an explicit rule over an implicit one for anything that matters to the build's correctness — implicit rules are pattern-matched and order-dependent, which makes a broken build far harder to diagnose than an explicit prerequisite list. Verify that recipes never assume an environment variable exists; recipe shells do not always inherit the invoking shell's exported variables, so anything the recipe needs must be declared as a Make variable instead.
+
 ## When to Use
 
 - Creating new Makefiles from scratch
@@ -17,7 +21,9 @@ Generate production-ready Makefiles with best practices for C/C++, Python, Go, J
 - Converting manual build processes to Makefiles
 - The user asks to "create", "generate", or "write" a Makefile
 
-**Do NOT use for:** Validating existing Makefiles (use devops-skills:makefile-validator), debugging (use `make -d`), or running builds.
+## When NOT to Use
+
+Do not use this skill for validating or linting an existing Makefile — that is the `makefile-validator` skill's job, not this one. Do not use it for debugging a build that is already failing (`make -d` and manual tracing are the right tool there), and do not use it as a substitute for actually running the build; generating a Makefile is not the same as verifying it builds successfully.
 
 ## Generation Workflow
 
@@ -393,31 +399,31 @@ Detailed guides in `references/`:
 
 ### NEVER declare phony targets without `.PHONY`
 
-- **WHY**: If a file named `clean` or `test` exists in the directory, Make treats the target as up-to-date and silently skips it.
+- **WHY:** If a file named `clean` or `test` exists in the directory, Make treats the target as up-to-date and silently skips it.
 - **BAD**: `clean:\n\trm -rf dist/` without `.PHONY: clean`
 - **GOOD**: Declare all non-file targets in `.PHONY: clean test build install` at the top of the Makefile.
 
 ### NEVER use `make` recursively instead of `$(MAKE)`
 
-- **WHY**: Bare `make` in a recipe does not inherit the parent's `-j` jobserver, `-n` dry-run, or `-k` keep-going flags, causing inconsistent behavior in parallel and CI builds.
+- **WHY:** Bare `make` in a recipe does not inherit the parent's `-j` jobserver, `-n` dry-run, or `-k` keep-going flags, causing inconsistent behavior in parallel and CI builds.
 - **BAD**: `dist:\n\tmake -C subdir all`
 - **GOOD**: `dist:\n\t$(MAKE) -C subdir all`
 
 ### NEVER rely on shell environment variables in recipes without declaring them as Make variables
 
-- **WHY**: Recipe shells are non-interactive and may not inherit all environment variables; undeclared variables expand to empty strings silently.
+- **WHY:** Recipe shells are non-interactive and may not inherit all environment variables; undeclared variables expand to empty strings silently.
 - **BAD**: `deploy:\n\techo "Deploying to $$ENVIRONMENT"` expecting `ENVIRONMENT` from the shell environment without a fallback.
 - **GOOD**: Declare `ENVIRONMENT ?= staging` at the top, then use `$(ENVIRONMENT)` in recipes.
 
 ### NEVER use implicit rules for critical build targets
 
-- **WHY**: Implicit rules are order-dependent and hard to debug; explicit rules make the build graph transparent and reproducible.
+- **WHY:** Implicit rules are order-dependent and hard to debug; explicit rules make the build graph transparent and reproducible.
 - **BAD**: Relying on the built-in `%.o: %.c` implicit rule without declaring it explicitly for project sources.
 - **GOOD**: Define explicit pattern rules or list all build targets explicitly.
 
 ### NEVER put multi-line logic in recipe shells without `.ONESHELL` or explicit line continuations
 
-- **WHY**: Each recipe line runs in a separate shell; `cd` in one line does not affect the next.
+- **WHY:** Each recipe line runs in a separate shell; `cd` in one line does not affect the next.
 - **BAD**: `deploy:\n\tcd dist\n\tnpm publish` (`cd` has no effect on the second line).
 - **GOOD**: Chain commands with `&&` in a single line: `cd dist && npm publish`, or add `.ONESHELL:` at the top.
 

@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Group commits by what kind of thing changed (infrastructure, application logic, tests, housekeeping), not by when they were written or which ticket they belong to."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Present the proposed grouping as a table and wait for explicit user approval before creating any branches or cherry-picking."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER name branches with sequence numbers (wave-1, phase-2, part-1) -- sequence names lose meaning after any rebase or reorder, and a reviewer cannot determine scope without reading the full diff."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER create branches or cherry-pick before the user approves the grouping -- grouping requires domain knowledge the agent does not have, and a misassigned commit means deleting and recreating branches."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER split commits that share a single failing test / broken intermediate state -- if PR 1 removes a handler and PR 2 adds its replacement, PR 1 alone fails CI and the merge queue blocks."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER write MR descriptions as file lists or commit logs -- a reviewer can already read the diff; use the What/Why format instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER leave cherry-pick conflicts unresolved before reporting completion -- always resolve every conflict and verify the branch actually builds (not just that cherry-pick exited 0) before reporting success."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Stack each subsequent PR's branch on the previous PR's branch (PR 1 targets base, PR 2 targets PR 1, etc.) and use cherry-pick to distribute the approved commits into each branch in order."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "After creating branches, remind the user which target branch each MR must be opened against, and that they must be merged in stack order."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Adapt concern labels to the codebase -- collapse to two groups (application logic + tests) when there is no infrastructure layer, or use the codebase's own taxonomy (frontend/backend/data) if that fits better."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Do not decompose when the branch has only 2-4 commits touching the same component, when all files are tests for one feature, when the work is already in review, or when commits are tightly coupled such that cherry-pick reordering would break intermediate branches."
+    },
+    {
+      "type": "reminder",
+      "why_given": "reminder",
+      "content": "Use this skill when the user says a PR is too big, asks to split a PR, wants to decompose a branch, or needs to break work into reviewable chunks."
+    }
+  ]
+}

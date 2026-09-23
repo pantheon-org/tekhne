@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Uses tool.execute.before hook: Plugin uses the `tool.execute.before` hook to intercept execution",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Throws to block (not returns false): Uses `throw new Error(...)` to block execution, NOT `return false`",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Plugin is async factory returning hooks: Plugin is an async function that returns a hooks object",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Correct import from @opencode-ai/plugin: Imports `Plugin` type from `@opencode-ai/plugin`",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Async hook handler: The `tool.execute.before` handler is declared as `async`",
+      "max_score": 15
+    }
+  ]
+}

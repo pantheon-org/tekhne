@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER trust external data without validating it at the boundary",
+      "content": "Never trust external data (an API response, form input) without validating it at the boundary where it enters the typed world; a type annotation on parsed JSON is a claim, not a check."
+    },
+    {
+      "id": "i2",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Derive the type from the Zod schema with z.infer rather than declaring it separately",
+      "content": "Derive a type from its Zod schema with z.infer<typeof Schema> rather than declaring the type separately, so the compile-time type and the runtime check cannot drift apart."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER model a set of mutually exclusive fields as independent optionals",
+      "content": "Never model mutually exclusive fields as independent optional properties on one interface; unify them into a discriminated union so an impossible combination cannot be constructed."
+    },
+    {
+      "id": "i4",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Design types before writing the implementation",
+      "content": "When redesigning a type to remove an illegal state, look for every field pair that only makes sense together and unify each pair into its own discriminated union before combining them."
+    },
+    {
+      "id": "i5",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER let implementation details leak past a module's intended public surface",
+      "content": "Never let a grab-bag module keep growing; split it into single-function modules with a barrel index.ts so each function's file is unambiguous and existing import paths keep working."
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Separate file per command: Each of the three subcommands is defined in its own dedicated file",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "Barrel export in commands/index.ts: A `commands/index.ts` barrel file exists that re-exports all three command instances",
+      "max_score": 10
+    },
+    {
+      "id": "c3",
+      "criterion": "Commands exported as Command instances: Each command file exports its `Command` instance as a named export",
+      "max_score": 10
+    },
+    {
+      "id": "c4",
+      "criterion": "addCommand() in main program: The main entry point uses `.addCommand()` to attach each subcommand",
+      "max_score": 10
+    },
+    {
+      "id": "c5",
+      "criterion": "TypeScript interfaces defined: At least two of the three subcommands have a dedicated TypeScript interface or type for their options",
+      "max_score": 10
+    },
+    {
+      "id": "c6",
+      "criterion": "choices() for format option: The `info` command's `--format` option uses `.choices()` or `new Option(...).choices([...])` to constrain to `json` and `table`",
+      "max_score": 10
+    },
+    {
+      "id": "c7",
+      "criterion": "requiredOption for reason: The `deprecate` command's `--reason` option is declared with `.requiredOption()`",
+      "max_score": 10
+    },
+    {
+      "id": "c8",
+      "criterion": "kebab-case flags: All multi-word option flags use kebab-case",
+      "max_score": 10
+    },
+    {
+      "id": "c9",
+      "criterion": "parseAsync with await: The main entry point calls `await program.parseAsync(process.argv)`",
+      "max_score": 10
+    },
+    {
+      "id": "c10",
+      "criterion": "Version from package.json: The program version is loaded from `package.json` rather than a hardcoded string literal",
+      "max_score": 10
+    }
+  ]
+}

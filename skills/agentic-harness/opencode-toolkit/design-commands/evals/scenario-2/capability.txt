@@ -1,0 +1,1 @@
+Tests whether the agent diagnoses a broken command template's read-only agent mode, illegal slash-command invocation, and duplicated $ARGUMENTS usage.

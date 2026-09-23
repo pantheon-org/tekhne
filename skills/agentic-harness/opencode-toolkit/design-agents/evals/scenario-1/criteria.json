@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Skill wildcard denied first: Permission block includes `skill: { '*': 'deny' }` before whitelisting",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Bash restricted or denied: Bash commands are blocked or set to ask (not allow-all)",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Specific skill whitelisted: After the deny, `'markdown-authoring': 'allow'` is added",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Read permission configured: Read access is configured to allow file reading",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Description has triggers: The description includes concrete trigger phrases for documentation tasks",
+      "max_score": 10
+    }
+  ]
+}

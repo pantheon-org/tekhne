@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Apply Strategy Pattern to Eliminate an If/Else Chain",
+  "checklist": [
+    {
+      "name": "IShippingStrategy interface produced: IShippingStrategy.ts exists and",
+      "description": "**IShippingStrategy interface produced**: `IShippingStrategy.ts` exists and exports an interface with a `calculate` method taking `weightKg` and `distanceKm` returning `number`",
+      "max_score": 17
+    },
+    {
+      "name": "Four strategy implementations produced: StandardShipping.ts, ExpressShipping.ts,",
+      "description": "**Four strategy implementations produced**: `StandardShipping.ts`, `ExpressShipping.ts`, `OvernightShipping.ts`, and `EconomyShipping.ts` each exist and implement `IShippingStrategy`",
+      "max_score": 17
+    },
+    {
+      "name": "Calculation formulas preserved in implementations: Each",
+      "description": "**Calculation formulas preserved in implementations**: Each implementation contains the same arithmetic formula as the corresponding branch in the original code",
+      "max_score": 17
+    },
+    {
+      "name": "Refactored ShippingCalculator contains no arithmetic: ShippingCalculator.ts",
+      "description": "**Refactored ShippingCalculator contains no arithmetic**: `ShippingCalculator.ts` delegates to the injected strategy and contains no `+`, `*`, or numeric literals",
+      "max_score": 17
+    },
+    {
+      "name": "pattern-analysis.md states problem and win condition:",
+      "description": "**pattern-analysis.md states problem and win condition**: `pattern-analysis.md` describes the if/else chain as the problem and states that new shipping methods can now be added without editing `ShippingCalculator`",
+      "max_score": 16
+    },
+    {
+      "name": "pattern-analysis.md acknowledges cost: pattern-analysis.md mentions the",
+      "description": "**pattern-analysis.md acknowledges cost**: `pattern-analysis.md` mentions the added complexity (one interface + four classes) as the cost of the pattern",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 03: MR Description Generation",
+  "checklist": [
+    {
+      "name": "Both PRs have a title in conventional commit format",
+      "description": "Each title follows `<type>(<ticket>): <imperative summary>` with a valid type and `PROJ-42` present",
+      "max_score": 10
+    },
+    {
+      "name": "PR 1 title uses an appropriate type",
+      "description": "PR 1 title type should be `chore` or `feat`, not `fix` or `test`",
+      "max_score": 9
+    },
+    {
+      "name": "PR 2 title uses an appropriate type",
+      "description": "PR 2 title type should be `feat`, not `chore` or `fix`",
+      "max_score": 9
+    },
+    {
+      "name": "Both PRs have a What field",
+      "description": "Each description contains a clearly labelled **What:** field",
+      "max_score": 9
+    },
+    {
+      "name": "Both PRs have a Why field",
+      "description": "Each description contains a clearly labelled **Why:** field",
+      "max_score": 9
+    },
+    {
+      "name": "What field describes the diff in plain English",
+      "description": "The What field summarises what changed in one sentence \u2014 not a file list and not a commit log message",
+      "max_score": 9
+    },
+    {
+      "name": "Why field explains motivation or consequence",
+      "description": "The Why field explains why this change was necessary or what would happen without it",
+      "max_score": 9
+    },
+    {
+      "name": "PR 1 description references its role as prerequisite for PR 2",
+      "description": "PR 1 description mentions that it provisions infrastructure the application logic in PR 2 depends on",
+      "max_score": 9
+    },
+    {
+      "name": "Neither description lists files or commit hashes",
+      "description": "Neither MR description contains raw file paths, commit SHAs, or a changelog-style list",
+      "max_score": 9
+    },
+    {
+      "name": "What and Why fields are each one sentence",
+      "description": "Each What field is a single sentence; each Why field is a single sentence",
+      "max_score": 9
+    },
+    {
+      "name": "Descriptions are written for a reviewer with no prior context",
+      "description": "A reviewer unfamiliar with the codebase could understand what changed and why",
+      "max_score": 9
+    }
+  ]
+}

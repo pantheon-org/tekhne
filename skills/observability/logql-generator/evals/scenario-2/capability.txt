@@ -1,0 +1,1 @@
+Author rate()-based alerting expressions with a vector(0) no-data fallback and correct fractional thresholds for a ratio alert.

@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER write a JSDoc comment that only restates the type signature",
+      "content": "Never write a JSDoc comment that only restates a parameter or return type the signature already shows; document behavior, intent, and edge cases the signature can't express."
+    },
+    {
+      "id": "i2",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Include a realistic @example in JSDoc for non-trivial functions",
+      "content": "Include a realistic @example block in JSDoc for a non-trivial function so a reader sees a plausible call site, not just a type signature."
+    },
+    {
+      "id": "i3",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Exclude internal members from generated TypeDoc output",
+      "content": "Configure TypeDoc to exclude private and internal members so generated documentation only covers the intended public API surface."
+    },
+    {
+      "id": "i4",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER write an ADR that only justifies a decision already made",
+      "content": "Never write an ADR that only justifies a decision already made; record the alternatives considered and the consequences accepted, not just the chosen option's benefits."
+    },
+    {
+      "id": "i5",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Follow a standard ADR structure (Context, Decision, Alternatives, Consequences)",
+      "content": "Follow a standard ADR structure (Title, Status, Context, Decision, Alternatives Considered, Consequences) so a future reader who wasn't in the room can find and judge the reasoning."
+    }
+  ]
+}

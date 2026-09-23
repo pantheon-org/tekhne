@@ -1,0 +1,34 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Four-part format applied to every issue: For each issue the response includes all four parts: (a) problematic code, (b) explanation with ShellCheck code, (c) corrected code, (d) explanation of improvement",
+      "max_score": 17
+    },
+    {
+      "id": "c2",
+      "criterion": "Unquoted variables identified: Agent identifies unquoted `$CONFIG` in grep, cut subshells, and `[ ]` comparison; unquoted `$LOG_FILE` in redirect; and unquoted `$key`/`$value` in export",
+      "max_score": 17
+    },
+    {
+      "id": "c3",
+      "criterion": "== in [ ] identified: Agent identifies that `[ $CONFIG == \"\" ]` uses `==` which is not POSIX-compliant in `[ ]`",
+      "max_score": 17
+    },
+    {
+      "id": "c4",
+      "criterion": "Useless use of cat or piping anti-pattern flagged: Agent identifies that `grep ... | while read line` with unquoted `$line` is unsafe; suggests `IFS= read -r line`",
+      "max_score": 17
+    },
+    {
+      "id": "c5",
+      "criterion": "export key=value injection risk flagged: Agent identifies that `export $key=$value` can overwrite critical environment variables if config is attacker-controlled",
+      "max_score": 16
+    },
+    {
+      "id": "c6",
+      "criterion": "Summary section with counts and verdict: Response ends with a summary section listing error count, warning count, info count, and a clear PASSED or FAILED verdict",
+      "max_score": 16
+    }
+  ]
+}

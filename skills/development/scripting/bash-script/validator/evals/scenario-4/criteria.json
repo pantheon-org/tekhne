@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Global suppression anti-pattern explained: Agent explains that a file-level `# shellcheck disable=` hides all future instances and the original rationale is lost",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Intentional vs accidental word splitting distinguished: Agent correctly identifies `for f in $FILES_TO_PROCESS` as intentional and all other unquoted variables as accidental",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Global directive removed in corrected script: The corrected script does not contain a file-level `# shellcheck disable=` directive",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Per-line suppression with reason comment added: The corrected script adds a per-line suppression with a reason comment only on the `for f in $FILES_TO_PROCESS` line",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "All other variables quoted in corrected script: `$f`, `$WORKSPACE`, `$WORKSPACE/processed/$f`, and `$WORKSPACE/tmp` are all quoted; `find \"$WORKSPACE\"` uses a quoted argument",
+      "max_score": 20
+    }
+  ]
+}

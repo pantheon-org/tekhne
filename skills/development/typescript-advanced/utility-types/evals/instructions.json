@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER hand-write a type that a built-in utility already provides",
+      "content": "Never hand-write a type that duplicates what Pick, Omit, Partial, or Readonly already provide; a hand-written copy drifts out of sync with the source type."
+    },
+    {
+      "id": "i2",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Combine utilities rather than inventing a new named type for every combination",
+      "content": "Compose built-in utility types directly (e.g. Partial<Omit<T, K>>) rather than inventing a bespoke named type that hides the same composition."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use ReturnType<fn> when you mean ReturnType<typeof fn>",
+      "content": "Use typeof when passing a function or class value into a type-extraction utility (ReturnType<typeof fn>, ConstructorParameters<typeof Ctor>), not the value's name directly."
+    },
+    {
+      "id": "i4",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Extract a constructor's parameter and instance types with ConstructorParameters and InstanceType",
+      "content": "Use ConstructorParameters<T> and InstanceType<T> to type a generic factory function's arguments and return value instead of any[] and any."
+    },
+    {
+      "id": "i5",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Key remapping with an as clause in a mapped type",
+      "content": "Use an as clause in a mapped type to remap keys (e.g. renaming foo to getFoo) when generating a derived interface, instead of hand-writing the derived interface."
+    }
+  ]
+}

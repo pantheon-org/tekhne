@@ -187,7 +187,32 @@ Upgrade one tier if task has ANY of these signals:
 - **NEVER default to the most powerful model for every task** — Oversized models inflate costs without quality gain on simple tasks. **Why:** A haiku/flash-class model handles classification and routing at 10x lower cost.
 - **NEVER pick a model based on benchmark leaderboards alone** — Benchmark tasks often differ from production workloads. **Why:** Real task performance depends on prompt structure, context length, and domain specificity.
 - **NEVER hardcode model names in agent workflows** — Providers rename and deprecate models frequently. **Why:** Hardcoded names break silently on deprecation; use model tier aliases (fast/balanced/reasoning).
+
+  ```yaml
+  # BAD - pinned to a specific model id; breaks silently when the vendor retires it
+  routing:
+    summarizer: claude-3-haiku-20240307
+    reviewer: claude-3-opus-20240229
+
+  # GOOD - tier alias resolved to a current model id at runtime
+  routing:
+    summarizer: fast    # resolves to whichever model is the current fast tier
+    reviewer: reasoning  # resolves to whichever model is the current reasoning tier
+  ```
+
 - **NEVER skip escalator checks for ambiguous tasks** — Underestimating complexity leads to poor output requiring costly reruns. **Why:** A single missed escalator (e.g. multi-stakeholder, security risk) can push a task from Sonnet to Opus quality requirements.
+
+  ```text
+  # BAD - classifies on task label alone, ignores escalator signals
+  Task: "refactor the auth module"
+  -> Sonnet (looks like "single-file coding")
+
+  # GOOD - checks escalators before committing to a tier
+  Task: "refactor the auth module"
+  Escalators checked: touches 3+ files (Scope) + handles credentials (Stakes)
+  -> Opus (two escalators fired; Sonnet would under-resource this)
+  ```
+
 - **NEVER conflate speed preference with model tier** — Choosing Haiku solely for latency on a reasoning-heavy task produces wrong answers. **Why:** Speed and capability are separate dimensions; use the decision matrix first, then consider latency constraints.
 
 ## Usage Examples
@@ -220,6 +245,3 @@ Upgrade one tier if task has ANY of these signals:
 ## References
 
 - [Reference](references/reference.md) — extended decision matrix by file type and domain, cost/latency tradeoffs, edge cases, hybrid task patterns, and common mistakes
-
-</content>
-</invoke>

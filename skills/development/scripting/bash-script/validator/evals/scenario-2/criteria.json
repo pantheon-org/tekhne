@@ -1,0 +1,34 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "eval $PLUGIN_CMD identified as command injection: Agent identifies that `eval` with an unvalidated variable allows arbitrary command execution; describes a concrete example attack",
+      "max_score": 17
+    },
+    {
+      "id": "c2",
+      "criterion": "rm -rf with unquoted variable identified: Agent identifies that `rm -rf /tmp/deploy_$DEPLOY_ENV` is dangerous when `DEPLOY_ENV` is empty or contains spaces",
+      "max_score": 17
+    },
+    {
+      "id": "c3",
+      "criterion": "|| true error suppression anti-pattern identified: Agent identifies that `check_prereqs || true` always returns success, hiding failures",
+      "max_score": 17
+    },
+    {
+      "id": "c4",
+      "criterion": "cd without error handling identified: Agent identifies that `cd $WORK_DIR` without `|| exit` means subsequent commands run in the wrong directory",
+      "max_score": 17
+    },
+    {
+      "id": "c5",
+      "criterion": "Hardened script produced: Agent produces a corrected script that removes `eval`, quotes the `rm -rf` variable, removes `|| true` suppression, and adds `cd || exit`",
+      "max_score": 16
+    },
+    {
+      "id": "c6",
+      "criterion": "Attack vectors explained: For each security issue, agent describes a concrete attack scenario",
+      "max_score": 16
+    }
+  ]
+}

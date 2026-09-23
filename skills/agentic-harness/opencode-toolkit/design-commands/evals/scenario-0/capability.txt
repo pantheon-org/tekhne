@@ -1,0 +1,1 @@
+Tests whether the agent builds a parameterized OpenCode slash command using $ARGUMENTS and shell-injected git context, without invoking itself recursively.

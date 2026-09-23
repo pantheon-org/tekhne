@@ -1,0 +1,39 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Removes program.opts() from upload action: In the fixed upload command, `program.opts()` is NOT used to read upload-specific options; the action's own options parameter is used instead",
+      "max_score": 15
+    },
+    {
+      "id": "c2",
+      "criterion": "Removes program.opts() from list action: In the fixed list command, `program.opts()` is NOT used to read list-specific options; the action's own options parameter is used instead",
+      "max_score": 15
+    },
+    {
+      "id": "c3",
+      "criterion": "Action parameter used for options: Both fixed action handlers receive options as an action parameter and read from that object",
+      "max_score": 14
+    },
+    {
+      "id": "c4",
+      "criterion": "await on parseAsync: The fixed `cli-fixed.ts` calls `await program.parseAsync(...)` (the original was missing the `await`)",
+      "max_score": 14
+    },
+    {
+      "id": "c5",
+      "criterion": "Explanation identifies program.opts() bug: `explanation.md` identifies that reading `program.opts()` inside a subcommand returns the parent program options, not the subcommand's options",
+      "max_score": 14
+    },
+    {
+      "id": "c6",
+      "criterion": "Explanation identifies missing await: `explanation.md` identifies that `parseAsync` was called without `await`, causing the process to exit before async actions complete",
+      "max_score": 14
+    },
+    {
+      "id": "c7",
+      "criterion": "try/catch added: The fixed code wraps async action logic in `try/catch`",
+      "max_score": 14
+    }
+  ]
+}

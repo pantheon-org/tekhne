@@ -1,0 +1,109 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "content": "Apply JSON Canvas when creating/editing .canvas files, mind maps, or flowcharts; do not apply it for a Markdown note, a database view, or a diagram meant to render to image/PDF.",
+      "type": "scope-boundary",
+      "why_given": "new knowledge",
+      "original_snippets": "When to apply: Creating or editing .canvas files ... When NOT to apply: The user wants a Markdown note, a database view (use Bases), or a diagram format that outputs to image/PDF"
+    },
+    {
+      "id": "i2",
+      "content": "A canvas file's two top-level arrays are nodes and edges; both are optional but the file must contain this base structure.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "A canvas file (.canvas) contains two top-level arrays ... {\"nodes\": [], \"edges\": []}"
+    },
+    {
+      "id": "i3",
+      "content": "Generate a unique 16-character lowercase hexadecimal ID for every node and edge.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Generate unique 16-character hex IDs for each node (e.g., \"6f0ad84f44ce9c17\")"
+    },
+    {
+      "id": "i4",
+      "content": "When adding a node, choose a position that does not overlap existing nodes, leaving 50-100px spacing.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Choose position (x, y) that avoids overlapping existing nodes (leave 50-100px spacing)"
+    },
+    {
+      "id": "i5",
+      "content": "After creating or editing a canvas, validate that all IDs are unique and every fromNode/toNode reference resolves to an existing node ID.",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "original_snippets": "Validate: Confirm all IDs are unique and all edge references resolve to existing nodes"
+    },
+    {
+      "id": "i6",
+      "content": "Array order of nodes determines z-index: the first node is the bottom layer and the last is the top layer.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Nodes are objects placed on the canvas. Array order determines z-index: first node = bottom layer, last node = top layer."
+    },
+    {
+      "id": "i7",
+      "content": "Each node type has an extra required field: text nodes need text, file nodes need file, link nodes need url, group nodes need none.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "text | text (string) | Markdown content ... file | file (path) ... link | url (string) ... group | none"
+    },
+    {
+      "id": "i8",
+      "content": "NEVER embed a literal newline in a JSON string value; use the \\n escape instead.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER embed literal newlines in JSON string values -- use \\n."
+    },
+    {
+      "id": "i9",
+      "content": "NEVER use a literal double-backslash-n (\\\\n); it renders as a literal backslash-n on screen instead of a line break.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use \\\\n -- it renders as literal backslash-n on screen."
+    },
+    {
+      "id": "i10",
+      "content": "NEVER reuse the same id across nodes or edges; duplicates silently overwrite each other with no error.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER reuse the same id across nodes or edges -- duplicates silently overwrite each other with no error."
+    },
+    {
+      "id": "i11",
+      "content": "NEVER reference a fromNode/toNode ID that does not exist in nodes; the edge renders invisibly with no error.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER reference a fromNode/toNode ID that does not exist in nodes -- the edge renders invisibly."
+    },
+    {
+      "id": "i12",
+      "content": "NEVER place child nodes outside the group's coordinate bounds; they appear as free-floating items instead of being contained.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER place child nodes outside the group's coordinate bounds -- they appear as free-floating items."
+    },
+    {
+      "id": "i13",
+      "content": "NEVER set fromEnd/toEnd to anything other than none or arrow; other values are silently discarded.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER set fromEnd/toEnd to anything other than \"none\" or \"arrow\" -- other values are silently discarded."
+    },
+    {
+      "id": "i14",
+      "content": "NEVER supply a bare integer for color; the canvasColor type requires a quoted string such as \"1\", not 1.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER supply a bare integer for color -- the canvasColor type requires a quoted string (\"1\", not 1)."
+    },
+    {
+      "id": "i15",
+      "content": "Run the full validation checklist after any edit: unique IDs, resolvable edge references, required fields present per node type, enumerated field values valid, and the JSON itself parseable.",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "original_snippets": "After creating or editing a canvas file, verify: 1. All id values are unique ... 8. JSON is valid and parseable"
+    }
+  ]
+}

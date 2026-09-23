@@ -1,0 +1,1 @@
+Tests whether the agent builds a diagnostic tool that checks for GITLAB_TOKEN, validates URL format, and correctly distinguishes 401 auth failures from 404 not-found errors with actionable guidance.

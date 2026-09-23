@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Group node present with type=group: The canvas contains at least one node with `type` set to `group` and a `label` field",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Three text nodes inside group bounds: All three text nodes have x and y coordinates that place them fully within the group's x/y/width/height rectangle",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "All node IDs are unique 16-char hex: Every node has an `id` that is exactly 16 lowercase hexadecimal characters, and all four IDs are distinct",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Valid JSON output: The canvas file content is syntactically valid JSON with no parse errors",
+      "max_score": 25
+    }
+  ]
+}

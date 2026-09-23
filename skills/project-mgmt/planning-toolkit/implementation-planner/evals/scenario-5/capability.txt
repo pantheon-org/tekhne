@@ -1,0 +1,1 @@
+Design a well-scoped Mode 1 plan (2-8 phases) with concrete, non-vague, exit-code-based verification gates for a mid-sized e-commerce project.

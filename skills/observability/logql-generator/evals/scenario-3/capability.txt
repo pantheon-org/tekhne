@@ -1,0 +1,1 @@
+Use Loki 3.x structured metadata and detected_level correctly, keeping high-cardinality values out of the stream selector.

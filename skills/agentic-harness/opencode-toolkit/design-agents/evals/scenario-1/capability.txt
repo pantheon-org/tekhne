@@ -1,0 +1,1 @@
+Tests whether the agent locks an OpenCode agent down to one whitelisted skill via a deny-all-then-allow pattern, with bash access restricted.

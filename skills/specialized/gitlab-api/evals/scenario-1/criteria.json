@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a script that generates an MR review summary from GitLab comment data.",
+  "checklist": [
+    {
+      "name": "uses_get_mr_comments",
+      "description": "Calls get_mr_comments.sh or includes equivalent API integration.",
+      "max_score": 10
+    },
+    {
+      "name": "validates_response",
+      "description": "Checks for expected fields like Author: or Date: in the output before processing.",
+      "max_score": 10
+    },
+    {
+      "name": "filters_system_true",
+      "description": "Explicitly filters out comments where System: true to remove automated messages.",
+      "max_score": 10
+    },
+    {
+      "name": "groups_by_author",
+      "description": "Organizes comments by author name or username in the summary.",
+      "max_score": 10
+    },
+    {
+      "name": "parses_author_field",
+      "description": "Extracts and uses the Author field from the output format.",
+      "max_score": 10
+    },
+    {
+      "name": "parses_date_field",
+      "description": "Extracts and uses the Date field from the output format.",
+      "max_score": 10
+    },
+    {
+      "name": "parses_type_field",
+      "description": "Extracts and uses the Type field (DiffNote or comment) from the output format.",
+      "max_score": 10
+    },
+    {
+      "name": "parses_system_field",
+      "description": "Extracts and uses the System field to identify automated vs human comments.",
+      "max_score": 10
+    },
+    {
+      "name": "handles_gitlab_token",
+      "description": "References, sets, or documents the need for GITLAB_TOKEN or GITLAB_PAT.",
+      "max_score": 10
+    },
+    {
+      "name": "error_handling",
+      "description": "Includes error handling for invalid URLs or authentication failures.",
+      "max_score": 10
+    }
+  ]
+}

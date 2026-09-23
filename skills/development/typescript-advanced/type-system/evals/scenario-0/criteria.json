@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "No `any` annotations remain: The output file contains zero occurrences of `: any` or `<any>` (excluding comments)",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "No unsafe workarounds introduced: The output does not introduce `@ts-ignore`, `// @ts-nocheck`, or unchecked `as` assertions",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Generic constraints are meaningful: Each generic parameter carries a constraint (`extends object`, `extends { value: unknown }`, etc.) rather than being unconstrained `<T>`",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Return types are explicit and correct: Every function has an explicit return type annotation that reflects the actual return value",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Inline comments explain each constraint: A comment above each function briefly explains why that generic constraint was chosen",
+      "max_score": 20
+    }
+  ]
+}

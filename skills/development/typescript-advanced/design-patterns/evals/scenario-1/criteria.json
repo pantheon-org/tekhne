@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Emitter is generic over an event map: `NotificationEmitter` (or its replacement) is parameterized by a `Record<string, (...args: any[]) => void>`-shaped type defining `user:created` and `user:deleted`",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "`on` checks handler against the specific event's signature: `on<K extends keyof T>(event: K, handler: T[K])` (or equivalent) rejects a handler with the wrong parameter shape for that event",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`emit` checks args against the specific event's signature: `emit<K extends keyof T>(event: K, ...args: Parameters<T[K]>)` (or equivalent) rejects args with the wrong shape for that event",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Compile-error case is demonstrated: A commented-out `emitter.emit(\"user:created\", { id: \"1\" })` (missing `name`) is included with a note that it fails to compile",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "No `any` leaks into the public event/handler signatures: `any` may remain only in the generic constraint's own definition (e.g. `(...args: any[]) => void` as the bound), not in how a specific event's handler or args are typed",
+      "max_score": 10
+    }
+  ]
+}

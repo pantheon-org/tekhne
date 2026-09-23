@@ -1,0 +1,1 @@
+Tests whether the agent fixes a vague, third-person agent description and system prompt into concrete trigger phrases and second-person voice, without adding redundant permission config.

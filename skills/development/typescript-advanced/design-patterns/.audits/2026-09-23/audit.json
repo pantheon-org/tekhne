@@ -1,0 +1,24 @@
+{
+  "skill": "development/typescript-advanced/design-patterns",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 13
+  },
+  "total": 121,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 158,
+  "hasReferences": true,
+  "referenceCount": 12,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

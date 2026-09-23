@@ -1,0 +1,24 @@
+{
+  "criteria": [
+    {
+      "criterion": "Enters questioning mode without scaffolding",
+      "weight": 20
+    },
+    {
+      "criterion": "Phase 1 establishes context",
+      "weight": 20
+    },
+    {
+      "criterion": "Surfaces hidden assumptions",
+      "weight": 20
+    },
+    {
+      "criterion": "Three questions per turn max",
+      "weight": 20
+    },
+    {
+      "criterion": "Synthesises before implementing",
+      "weight": 20
+    }
+  ]
+}

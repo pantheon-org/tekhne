@@ -1,0 +1,61 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 01: Full Decomposition Workflow",
+  "checklist": [
+    {
+      "name": "Commit list and files are analysed before grouping",
+      "description": "The agent demonstrates awareness of which files each commit touches before assigning commits to concern groups",
+      "max_score": 10
+    },
+    {
+      "name": "Commits are grouped into 2-4 concern buckets",
+      "description": "The proposal contains between 2 and 4 PR groups",
+      "max_score": 9
+    },
+    {
+      "name": "Infrastructure commits are correctly separated",
+      "description": "Commits `a1b2c3` and `d4e5f6` (CDK stack, IAM role) appear together in an infrastructure group",
+      "max_score": 9
+    },
+    {
+      "name": "Tests travel with the application logic they cover",
+      "description": "Test commits are placed in the same group as the source they test",
+      "max_score": 9
+    },
+    {
+      "name": "Supporting commits go with the group they enable",
+      "description": "The lock file commit `y5z6a7` is placed with the group it supports",
+      "max_score": 9
+    },
+    {
+      "name": "Proposal is presented as a Markdown table",
+      "description": "The agent outputs a markdown table with PR number, branch name, commits, and concern columns",
+      "max_score": 9
+    },
+    {
+      "name": "Proposed branch names are descriptive, not sequential",
+      "description": "No branch name uses `wave-N`, `phase-N`, `part-N`, or `step-N`",
+      "max_score": 9
+    },
+    {
+      "name": "Branch names include the ticket prefix",
+      "description": "All proposed branch names include `PROJ-42` as the ticket identifier prefix",
+      "max_score": 9
+    },
+    {
+      "name": "Agent explicitly asks for user approval before proceeding",
+      "description": "The agent ends its response with a clear request for confirmation",
+      "max_score": 9
+    },
+    {
+      "name": "No git commands are described as already executed",
+      "description": "The agent does not report creating branches, running cherry-pick, or executing any git command",
+      "max_score": 9
+    },
+    {
+      "name": "Stacked branch structure is referenced or implied",
+      "description": "The proposal indicates PR 1 targets the base branch and subsequent PRs target the previous one",
+      "max_score": 9
+    }
+  ]
+}

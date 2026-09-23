@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Specifies vault=\"Work\" parameter: The command includes `vault=\"Work\"` as the first parameter to explicitly target the Work vault rather than relying on the most recently focused vault",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Uses daily:append command: Uses the `daily:append` subcommand to append content to today's daily note",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Content is a valid Markdown checkbox task: The content parameter contains a Markdown checkbox task in the format `- [ ] <task text>`",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Does not target Personal vault: The command does not use `vault=\"Personal\"` or omit the vault parameter in a way that could target the wrong vault",
+      "max_score": 25
+    }
+  ]
+}

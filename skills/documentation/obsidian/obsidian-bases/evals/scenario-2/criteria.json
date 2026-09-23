@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Book tag filter present: The global filters include `file.hasTag(\"book\")` to scope the base to book-tagged notes.",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "Cards view used: The primary view has `type: cards`, not `type: table` or `type: list`.",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": "reading_time formula defined in formulas section: A formula that computes estimated reading time from pages is defined under the top-level `formulas` key.",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "reading_time formula guards against missing pages: The formula wraps the pages arithmetic in `if(pages, ..., \"\")` or equivalent to handle notes without a pages property.",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "Cards view groups by status: The cards view includes a `groupBy` clause that groups by the `status` property.",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": "file.basename used in order (not file.name): The order list in both views uses `file.basename` rather than `file.name` for displaying note titles.",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": "Stats table view present with Sum summary: A second view of type `table` named \"Stats\" (or similar) is present, includes the reading-time formula in its order list, and applies a Sum summary to the pages column.",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": "Valid YAML structure: The output is syntactically valid YAML. All special characters in strings are quoted. Indentation is consistent.",
+      "max_score": 12
+    }
+  ]
+}

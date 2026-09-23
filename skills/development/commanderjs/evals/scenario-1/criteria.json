@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "TypeScript interface for deploy options: A TypeScript interface (or type alias) is defined for the deploy command's options (covering `env`, `branch`, `dryRun` or equivalent)",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "TypeScript interface for rollback options: A TypeScript interface (or type alias) is defined for the rollback command's options (covering `steps`, `force` or equivalent)",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": "Complete options object passed to deploy service: The deploy action handler passes the entire options object to its service function, NOT individual properties",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "Complete options object passed to rollback service: The rollback action handler passes the entire options object to its service function, NOT individual properties",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "Service function signature accepts typed object: The deploy or rollback service function signature accepts the options as a typed parameter (e.g., `options: DeployOptions`), not as individual string/boolean parameters",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": "addCommand() used: The main program uses `.addCommand()` to attach the deploy and rollback subcommands",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": "kebab-case option flags: Multi-word options use kebab-case in their flag definition (e.g., `--dry-run` not `--dryRun`)",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": "parseAsync with await: The entry point calls `await program.parseAsync(process.argv)`",
+      "max_score": 12
+    }
+  ]
+}

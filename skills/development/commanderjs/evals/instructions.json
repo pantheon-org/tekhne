@@ -1,0 +1,221 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER access process.argv directly when Commander.js is available",
+      "content": "Never read process.argv directly for a value Commander.js already parses; declare it as an argument or option instead."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use .action() callback without handling errors",
+      "content": "Never leave an async action handler without try/catch; unhandled rejections crash the process with no useful message."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER add .parseAsync() without await",
+      "content": "Never call parseAsync() without await; Commander v8+ needs the await or the process exits before async actions finish."
+    },
+    {
+      "id": "i4",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER define commands with positional arguments and options that share ambiguous prefixes",
+      "content": "Never leave positional arguments and options in an order where Commander could misparse an option value as a positional argument."
+    },
+    {
+      "id": "i5",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use program.opts() to read option values inside a subcommand",
+      "content": "Never read program.opts() inside a subcommand action; each .command() has its own option scope and the parent's opts() silently returns the wrong values."
+    },
+    {
+      "id": "i6",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "ALWAYS pass complete typed options objects to services (never individual properties)",
+      "content": "Always pass the complete typed options object into a service function rather than individual properties."
+    },
+    {
+      "id": "i7",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Define TypeScript interfaces for all options",
+      "content": "Define a TypeScript interface for every command's options object."
+    },
+    {
+      "id": "i8",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Export commands as Command instances from subcommand modules",
+      "content": "Export each subcommand as a named Command instance from its own module."
+    },
+    {
+      "id": "i9",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Use .addCommand() to attach subcommands to parent Command",
+      "content": "Attach subcommands to the parent program with .addCommand()."
+    },
+    {
+      "id": "i10",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Use parseAsync() for async action handlers",
+      "content": "Use parseAsync() instead of parse() whenever any action handler is async."
+    },
+    {
+      "id": "i11",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Validate options in action handlers",
+      "content": "Validate option values inside the action handler before acting on them."
+    },
+    {
+      "id": "i12",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Provide clear descriptions for all commands/options",
+      "content": "Give every command and option a clear description string."
+    },
+    {
+      "id": "i13",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Use TypeScript for type safety",
+      "content": "Write the CLI in TypeScript for type safety."
+    },
+    {
+      "id": "i14",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Handle errors gracefully with try/catch",
+      "content": "Wrap action handler logic in try/catch."
+    },
+    {
+      "id": "i15",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Use kebab-case for option names",
+      "content": "Use kebab-case for multi-word option flags, not camelCase."
+    },
+    {
+      "id": "i16",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Provide sensible defaults for optional options",
+      "content": "Give optional options sensible defaults rather than making everything required."
+    },
+    {
+      "id": "i17",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Create barrel exports for commands (commands/index.ts)",
+      "content": "Re-export all command modules from a commands/index.ts barrel file."
+    },
+    {
+      "id": "i18",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Test CLI with different argument combinations",
+      "content": "Exercise the CLI with a range of valid and invalid argument combinations in tests."
+    },
+    {
+      "id": "i19",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Use .exitOverride() for testing",
+      "content": "Call program.exitOverride() in tests so Commander throws instead of calling process.exit()."
+    },
+    {
+      "id": "i20",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER pass individual option properties to services (pass complete typed object)",
+      "content": "Never destructure the options object and forward individual properties to a service function."
+    },
+    {
+      "id": "i21",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "DON'T pass options piecemeal (e.g., service(opts.a, opts.b, opts.c))",
+      "content": "Do not call a service with a long list of individual option arguments."
+    },
+    {
+      "id": "i22",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "Don't use parse() with async handlers (use parseAsync())",
+      "content": "Do not use parse() when any action handler is async; use parseAsync()."
+    },
+    {
+      "id": "i23",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Don't ignore error handling in action handlers",
+      "content": "Do not leave action handler errors unhandled."
+    },
+    {
+      "id": "i24",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Don't use camelCase in CLI flags (use kebab-case)",
+      "content": "Do not define CLI flags in camelCase."
+    },
+    {
+      "id": "i25",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "Don't forget to specify option argument types (<required> vs [optional])",
+      "content": "Do not omit angle-bracket/square-bracket argument-type markers when declaring arguments."
+    },
+    {
+      "id": "i26",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "Don't mix positional arguments with options ambiguously",
+      "content": "Do not order positional arguments and options so that parsing becomes ambiguous."
+    },
+    {
+      "id": "i27",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "Don't forget to call program.parse() or program.parseAsync()",
+      "content": "Do not omit the call to program.parse() or program.parseAsync(); without it, no arguments are ever processed."
+    },
+    {
+      "id": "i28",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Don't use global state in action handlers",
+      "content": "Do not rely on module-level mutable state inside action handlers."
+    },
+    {
+      "id": "i29",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "Don't suppress built-in help text without good reason",
+      "content": "Do not disable Commander's built-in help output without a specific reason."
+    },
+    {
+      "id": "i30",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Don't forget to version your CLI",
+      "content": "Do not ship a CLI without a --version flag."
+    },
+    {
+      "id": "i31",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Don't make all options required (use sensible defaults)",
+      "content": "Do not mark every option as required; prefer sensible defaults."
+    }
+  ]
+}

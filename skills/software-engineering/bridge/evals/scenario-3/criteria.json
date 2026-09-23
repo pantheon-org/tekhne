@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: List All Bridges",
+  "checklist": [
+    {
+      "name": "Output header is 🔗 Bridges (last",
+      "description": "Output header is `🔗 Bridges (last 10)` (or fewer if less than 10 exist).",
+      "max_score": 17
+    },
+    {
+      "name": "Each line shows date, emoji, source,",
+      "description": "Each line shows date, emoji, source, arrow notation, target, description, and strength.",
+      "max_score": 17
+    },
+    {
+      "name": "List is sorted by date descending",
+      "description": "List is sorted by date descending (most recent first).",
+      "max_score": 17
+    },
+    {
+      "name": "Bidirectional bridges use ↔ arrow, one-way",
+      "description": "Bidirectional bridges use `↔` arrow, one-way bridges use `→`.",
+      "max_score": 17
+    },
+    {
+      "name": "Empty-directory case returns the correct empty-state",
+      "description": "Empty-directory case returns the correct empty-state message with usage hint.",
+      "max_score": 16
+    },
+    {
+      "name": "No YAML files are created or",
+      "description": "No YAML files are created or modified during listing.",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent correctly calculates percentage score (79.2%)",
+      "weight": 15
+    },
+    {
+      "criterion": "Agent identifies the skill is below A-grade threshold",
+      "weight": 15
+    },
+    {
+      "criterion": "Agent explicitly blocks publication with clear reasoning",
+      "weight": 14
+    },
+    {
+      "criterion": "Agent provides path to remediation-plan.md",
+      "weight": 14
+    },
+    {
+      "criterion": "Agent suggests specific next steps to improve quality",
+      "weight": 14
+    },
+    {
+      "criterion": "Agent references the \u2265108/120 requirement clearly",
+      "weight": 14
+    },
+    {
+      "criterion": "No `tessl skill publish` command is executed",
+      "weight": 14
+    }
+  ]
+}

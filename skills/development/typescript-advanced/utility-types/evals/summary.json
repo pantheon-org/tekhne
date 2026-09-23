@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 5,
+    "covered_instructions": 5,
+    "coverage_percentage": 100,
+    "notes": "All 5 instructions.json entries are exercised by at least one scenario's criteria.json: deriving Pick/Omit/Partial/Readonly instead of hand-writing duplicates and composing utilities directly (scenario-0), using typeof and ConstructorParameters/InstanceType for a factory function (scenario-1), and key remapping with an as clause (scenario-2)."
+  },
+  "scenario_count": 3
+}

@@ -1,0 +1,34 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "declare -a identified as bashism: Agent identifies that `declare -a` is bash-specific and explains that POSIX sh has no arrays",
+      "max_score": 17
+    },
+    {
+      "id": "c2",
+      "criterion": "local identified as bashism: Agent identifies that `local` is a bash extension and suggests removing it or restructuring",
+      "max_score": 17
+    },
+    {
+      "id": "c3",
+      "criterion": "[[ ]] identified as bashism: Agent identifies that `[[ ]]` double-bracket syntax is bash-specific and replaces with POSIX `[ ]` constructs",
+      "max_score": 17
+    },
+    {
+      "id": "c4",
+      "criterion": "Array operations replaced with POSIX alternative: Agent replaces `FAILED_TESTS+=()` and `${FAILED_TESTS[@]}` with a POSIX-compatible alternative",
+      "max_score": 17
+    },
+    {
+      "id": "c5",
+      "criterion": "Corrected POSIX sh script produced: Agent produces a complete corrected script using only POSIX sh features; shebang remains `#!/bin/sh`",
+      "max_score": 16
+    },
+    {
+      "id": "c6",
+      "criterion": "Each change explained: Agent provides an explanation for each substitution referencing why the original fails on dash/POSIX sh",
+      "max_score": 16
+    }
+  ]
+}

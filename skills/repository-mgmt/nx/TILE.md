@@ -86,7 +86,7 @@ tessl install pantheon-ai/nx-plugin-toolkit
 
 ## Related Tiles
 
-- `pantheon-ai/typescript-advanced` - TypeScript compiler and type system
+- `pantheon-ai/typescript-advanced` - advanced TypeScript guidance (type guards, the type system, design patterns, utility types, compiler configuration)
 - `pantheon-ai/biome-complete` - Biome linting and formatting
 
 ## License

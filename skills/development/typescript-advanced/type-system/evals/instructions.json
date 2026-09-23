@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use any as a default escape hatch",
+      "content": "Never use any as a shortcut past a type error; it disables checking entirely and hides the design bug the error was pointing at."
+    },
+    {
+      "id": "i2",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Every generic parameter should carry a meaningful constraint",
+      "content": "Give every generic type parameter a meaningful constraint (extends object, extends Record<string, unknown>, etc.) rather than leaving it unconstrained."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER hand-write a type that duplicates what infer or a mapped type could derive",
+      "content": "Never hand-write a type that duplicates what ReturnType, Parameters, or an infer-based conditional type could derive directly from the source; a hand-written copy drifts out of sync."
+    },
+    {
+      "id": "i4",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Use infer within conditional types to extract nested type information",
+      "content": "Use the infer keyword inside a conditional type's extends clause to extract a type from a function, array, promise, or other generic structure instead of writing a separate extraction by hand."
+    },
+    {
+      "id": "i5",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Template literal types can parse structure out of a string literal at the type level",
+      "content": "Use a template literal type to parse structure (like route parameters) out of a string literal type, so a typo in the literal is a compile error rather than a runtime miss."
+    }
+  ]
+}

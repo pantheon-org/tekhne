@@ -1,0 +1,1 @@
+Tests whether the agent writes a filtering script that queries the live GitHub Copilot API with structured JSON output and filters on the correct nested policy/capability fields, rather than using OpenCode's registry or parsing model names.

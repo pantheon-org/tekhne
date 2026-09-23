@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Known Technical Bug Routes to Troubleshoot",
+  "checklist": [
+    {
+      "name": "Auto-classification attempted: Agent identifies the \"was",
+      "description": "**Auto-classification attempted**: Agent identifies the \"was working, now failing\" pattern and classifies at ≥80% confidence.",
+      "max_score": 17
+    },
+    {
+      "name": "Complicated-Degraded correctly identified: Route is troubleshoot,",
+      "description": "**Complicated-Degraded correctly identified**: Route is troubleshoot, not investigate or brainstorm.",
+      "max_score": 17
+    },
+    {
+      "name": "Adjacent challenge run: Agent explicitly considers",
+      "description": "**Adjacent challenge run**: Agent explicitly considers whether the failure could be Complex before confirming Complicated.",
+      "max_score": 17
+    },
+    {
+      "name": "Handoff template used: Agent references or",
+      "description": "**Handoff template used**: Agent references or fills `references/frame-problem-to-troubleshoot-llm.md`.",
+      "max_score": 17
+    },
+    {
+      "name": "No brainstorm route: Agent does not",
+      "description": "**No brainstorm route**: Agent does not route to brainstorm (no divergent exploration needed for a known regression).",
+      "max_score": 16
+    },
+    {
+      "name": "OpenSpec correctly set to No: Agent",
+      "description": "**OpenSpec correctly set to No**: Agent marks OpenSpec=No per routing table for Complicated-Degraded.",
+      "max_score": 16
+    }
+  ]
+}

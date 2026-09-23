@@ -1,0 +1,1 @@
+Reject sequence-numbered or vague branch names and produce descriptive, scope-revealing names instead.

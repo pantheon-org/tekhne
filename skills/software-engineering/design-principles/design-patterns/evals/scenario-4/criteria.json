@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Apply Factory Pattern to Encapsulate Conditional Object Creation",
+  "checklist": [
+    {
+      "name": "INotificationSender interface produced: INotificationSender.ts exists with",
+      "description": "**INotificationSender interface produced**: `INotificationSender.ts` exists with a `send` method returning `Promise<void>`",
+      "max_score": 20
+    },
+    {
+      "name": "Three sender implementations produced: EmailSender.ts, SmsSender.ts,",
+      "description": "**Three sender implementations produced**: `EmailSender.ts`, `SmsSender.ts`, and `SlackSender.ts` each exist and implement `INotificationSender`",
+      "max_score": 20
+    },
+    {
+      "name": "Factory class has create method with",
+      "description": "**Factory class has create method with conditional logic**: `NotificationSenderFactory.ts` has a `create` method containing the channel-based branching logic",
+      "max_score": 20
+    },
+    {
+      "name": "Refactored NotificationService accepts sender via constructor:",
+      "description": "**Refactored NotificationService accepts sender via constructor**: `NotificationService` constructor parameter is typed to `INotificationSender`, not a concrete sender class",
+      "max_score": 20
+    },
+    {
+      "name": "NotificationService contains no conditional creation logic:",
+      "description": "**NotificationService contains no conditional creation logic**: The refactored `NotificationService.ts` has no `if/else` or `switch` statements for channel selection",
+      "max_score": 20
+    }
+  ]
+}

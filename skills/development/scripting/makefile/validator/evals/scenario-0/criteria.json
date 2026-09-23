@@ -1,0 +1,39 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": ".PHONY declared: The corrected Makefile includes a `.PHONY` declaration listing the non-file targets",
+      "max_score": 15
+    },
+    {
+      "id": "c2",
+      "criterion": ".PHONY issue explained: `audit-notes.md` explains that without `.PHONY`, a file named `clean` would cause Make to silently skip the target",
+      "max_score": 15
+    },
+    {
+      "id": "c3",
+      "criterion": "Tab indentation in recipes: The corrected Makefile uses hard tab characters at the start of recipe lines",
+      "max_score": 14
+    },
+    {
+      "id": "c4",
+      "criterion": "Tab issue explained: `audit-notes.md` explains that spaces instead of tabs cause `missing separator` errors",
+      "max_score": 14
+    },
+    {
+      "id": "c5",
+      "criterion": "rm unquoted variable noted: `audit-notes.md` identifies or the corrected Makefile quotes the `$(VENV)` variable in `rm -rf`",
+      "max_score": 14
+    },
+    {
+      "id": "c6",
+      "criterion": "All non-file targets covered: The `.PHONY` declaration includes at least `clean` and `test`",
+      "max_score": 14
+    },
+    {
+      "id": "c7",
+      "criterion": "Validation approach mentioned: `audit-notes.md` or the agent output references using `make -n` or a validation tool",
+      "max_score": 14
+    }
+  ]
+}

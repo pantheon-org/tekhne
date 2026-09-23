@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Uses obsidian read command: The agent invokes the obsidian CLI with the `read` subcommand",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Uses file= parameter: The agent uses `file=` to target the note by name (wikilink-style), not `path=`",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Note name is quoted: The note name value is quoted because it contains spaces: `file=\"Meeting Notes 2024-01-15\"`",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Does not use path= parameter: The agent does not use `path=` since the exact vault-root path is not known",
+      "max_score": 25
+    }
+  ]
+}

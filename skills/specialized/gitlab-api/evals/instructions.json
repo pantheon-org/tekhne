@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER hardcode personal access tokens in scripts; read from environment variables or a secrets manager instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER assume a single page has all the results; loop on the `X-Next-Page` response header until it is empty."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER call the GitLab API without respecting rate limits; check for `429` responses and back off, honoring `Retry-After`."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER use the API `v3` endpoint path; GitLab removed v3 in GitLab 11.0, use `v4`."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Validate the shape of the API response before processing it, since GitLab can return HTTP 200 with an error object in the body."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Treat `System` (bot vs human) and `Type` (DiffNote vs comment) as two independent classification axes; do not conflate them."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Re-fetch rather than cache when the analysis is time-sensitive, since comments can be edited or deleted between fetches."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "URL-encode nested group paths, replacing `/` with `%2F`, when building GitLab API project paths."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Use `jq` for JSON parsing; never grep on raw API JSON."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Handle UTC timestamps with proper timezone conversion when displaying them to users in another timezone."
+    }
+  ]
+}

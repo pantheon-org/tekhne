@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 03: Wave 0 Agents Have Finished \u2014 What Happens Next?",
+  "checklist": [
+    {
+      "name": "does-not-spawn-wave-1-immediately",
+      "description": "The agent does NOT spawn a Wave 1 Agent call in its response \u2014 it explicitly stops before doing so",
+      "max_score": 20
+    },
+    {
+      "name": "asks-user-to-merge-branches",
+      "description": "The response asks the user to merge the three Wave 0 branches to main before proceeding",
+      "max_score": 20
+    },
+    {
+      "name": "verification-checklist-provided",
+      "description": "The response includes the Wave 0 Verification checklist items verbatim so the user knows what to run before confirming",
+      "max_score": 20
+    },
+    {
+      "name": "waits-for-user-confirmation",
+      "description": "The response explicitly states it will wait for user confirmation before starting Wave 1",
+      "max_score": 20
+    },
+    {
+      "name": "lists-all-three-branches",
+      "description": "All three branch names (`feat/remove-terraform`, `feat/update-consumers`, `feat/cleanup-vars`) are listed in the merge request",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "skill": "documentation/obsidian/obsidian-cli",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 14,
+    "freedomCalibration": 11,
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 12
+  },
+  "total": 108,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 190,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 2,
+  "warningDetails": [
+    {
+      "dimension": "D9",
+      "message": "summary.json coverage is 73% (below 80% threshold)"
+    },
+    {
+      "dimension": "D5",
+      "message": "no references/ directory (progressive disclosure missing)"
+    }
+  ]
+}

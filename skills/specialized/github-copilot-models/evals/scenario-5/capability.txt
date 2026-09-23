@@ -1,0 +1,1 @@
+Tests whether the agent diagnoses a "model stopped working" incident by checking live policy.state and auth validity rather than trusting OpenCode's possibly-stale registry, and correctly attributes the root cause to a provider-side policy change.

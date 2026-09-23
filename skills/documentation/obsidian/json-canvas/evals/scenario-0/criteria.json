@@ -1,0 +1,34 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Valid JSON output: The canvas file content is syntactically valid JSON with no parse errors",
+      "max_score": 17
+    },
+    {
+      "id": "c2",
+      "criterion": "Correct file extension: The output file is named with a `.canvas` extension (e.g., `flowchart.canvas`)",
+      "max_score": 17
+    },
+    {
+      "id": "c3",
+      "criterion": "16-character hex IDs on all nodes: Every node object has an `id` field that is exactly 16 lowercase hexadecimal characters",
+      "max_score": 17
+    },
+    {
+      "id": "c4",
+      "criterion": "16-character hex IDs on all edges: Every edge object has an `id` field that is exactly 16 lowercase hexadecimal characters",
+      "max_score": 17
+    },
+    {
+      "id": "c5",
+      "criterion": "All edge references resolve: Both `fromNode` and `toNode` values on every edge match an `id` present in the nodes array",
+      "max_score": 16
+    },
+    {
+      "id": "c6",
+      "criterion": "Three nodes present: Canvas contains exactly three text nodes representing Start, Decision, and End",
+      "max_score": 16
+    }
+  ]
+}

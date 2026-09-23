@@ -1,0 +1,1 @@
+Execute the first wave of a wave document: parse phases, build verbatim per-agent prompts, spawn agents in parallel, and stop at the merge gate.

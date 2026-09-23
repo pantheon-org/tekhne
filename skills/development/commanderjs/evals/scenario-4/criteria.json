@@ -1,0 +1,49 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "exitOverride() in test setup: The test setup (or test program factory) calls `program.exitOverride()` so Commander throws instead of calling `process.exit` during tests",
+      "max_score": 12
+    },
+    {
+      "id": "c2",
+      "criterion": "choices() for format option: The `--format` option uses `.choices()` or `new Option(...).choices([...])` to enforce the `pdf`/`csv`/`html` constraint",
+      "max_score": 11
+    },
+    {
+      "id": "c3",
+      "criterion": "Invalid format test: At least one test verifies that an invalid `--format` value causes an error",
+      "max_score": 11
+    },
+    {
+      "id": "c4",
+      "criterion": "parseAsync with await in tests: In `cli.test.ts`, all calls to `parseAsync` are awaited",
+      "max_score": 11
+    },
+    {
+      "id": "c5",
+      "criterion": "TypeScript interface for options: A TypeScript interface or type is defined for the `generate` command's options in `cli.ts`",
+      "max_score": 11
+    },
+    {
+      "id": "c6",
+      "criterion": "kebab-case flags: Multi-word options use kebab-case in their flag definition in `cli.ts`",
+      "max_score": 11
+    },
+    {
+      "id": "c7",
+      "criterion": "Defaults test: At least one test invokes the command without optional arguments and asserts that defaults are applied",
+      "max_score": 11
+    },
+    {
+      "id": "c8",
+      "criterion": "try/catch in action handler: The action handler in `cli.ts` wraps its logic in a `try/catch` block",
+      "max_score": 11
+    },
+    {
+      "id": "c9",
+      "criterion": "Typed options to service: The action handler passes the complete options object to the service function, not individual properties",
+      "max_score": 11
+    }
+  ]
+}

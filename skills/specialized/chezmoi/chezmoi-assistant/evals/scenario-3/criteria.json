@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Grading a response that writes a chezmoi run script installing Homebrew packages only on first setup.",
+  "checklist": [
+    {
+      "name": "correct_prefix_used",
+      "description": "Response uses the `run_once_before_` prefix (not bare `run_` or `once_` alone) on the script filename.",
+      "max_score": 30
+    },
+    {
+      "name": "explains_content_hashing",
+      "description": "Response correctly explains that `once_` re-run detection is based on hashing the script's content, not on elapsed time.",
+      "max_score": 25
+    },
+    {
+      "name": "distinguishes_once_vs_onchange",
+      "description": "Response distinguishes `run_once_` from `run_onchange_` and states when each is appropriate.",
+      "max_score": 20
+    },
+    {
+      "name": "correct_prefix_ordering",
+      "description": "Any multi-prefix filename shown uses correct ordering (`run_once_before_...`), not a scrambled order like `before_run_once_`.",
+      "max_score": 15
+    },
+    {
+      "name": "no_external_runner_suggested",
+      "description": "Response does not suggest a cron job or external script runner instead of chezmoi's own run-script mechanism.",
+      "max_score": 10
+    }
+  ]
+}

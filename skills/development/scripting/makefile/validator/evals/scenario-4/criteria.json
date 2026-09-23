@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Validation script referenced: The GitHub Actions workflow or `setup-guide.md` references `bash scripts/validate_makefile.sh` or the validation script as the tool",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "Exit codes documented: `setup-guide.md` documents the three exit codes (0/1/2 or pass/warn/fail semantics)",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": "CI workflow triggers on Makefile changes: The workflow is triggered on `pull_request` with a `paths` filter for `Makefile` or `*.mk` files",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "Checks explained: `setup-guide.md` lists at least three categories of issues the validation catches",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "Self-validating Makefile target: `Makefile.snippet` includes a `validate` or `lint` target that runs the validation script",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": "Validate target is .PHONY: The validate/lint target in `Makefile.snippet` is declared in `.PHONY`",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": "Local run instructions: `setup-guide.md` explains how to run validation locally",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": "Input Makefile issues noted: `setup-guide.md` or workflow output notes issues in the provided example Makefile (spaces, missing `.PHONY`, bare `make` call)",
+      "max_score": 12
+    }
+  ]
+}

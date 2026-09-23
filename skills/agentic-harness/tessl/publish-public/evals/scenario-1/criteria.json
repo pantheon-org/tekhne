@@ -1,0 +1,32 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent creates evaluation-scenarios/ directory",
+      "weight": 15
+    },
+    {
+      "criterion": "Agent generates minimum 5 scenario files (scenario-01.md to ",
+      "weight": 15
+    },
+    {
+      "criterion": "Each scenario file has all four required sections (prompt, b",
+      "weight": 14
+    },
+    {
+      "criterion": "Scenarios are specific to the skill domain (Docker container",
+      "weight": 14
+    },
+    {
+      "criterion": "Success criteria are measurable (files created, commands run",
+      "weight": 14
+    },
+    {
+      "criterion": "Failure conditions clearly indicate when skill was not appli",
+      "weight": 14
+    },
+    {
+      "criterion": "Scenarios cover breadth of skill capabilities (basic \u2192 advan",
+      "weight": 14
+    }
+  ]
+}

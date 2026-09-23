@@ -1,0 +1,54 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "feat for new feature: The corrected message for the new export endpoint uses `feat` type (not `chore`, `build`, or another type)",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "fix for bug correction: The corrected message for the null pointer crash uses `fix` type (not `chore`)",
+      "max_score": 10
+    },
+    {
+      "id": "c3",
+      "criterion": "test for test addition: The corrected message for the test coverage update uses `test` type",
+      "max_score": 10
+    },
+    {
+      "id": "c4",
+      "criterion": "ci for pipeline update: The corrected message for the CI pipeline changes uses `ci` type",
+      "max_score": 10
+    },
+    {
+      "id": "c5",
+      "criterion": "refactor for restructuring: The corrected message for the authentication module restructuring uses `refactor` type",
+      "max_score": 10
+    },
+    {
+      "id": "c6",
+      "criterion": "Imperative mood: All corrected headers use imperative mood (e.g., `add`, `fix`, `extract`) rather than past tense (`added`, `fixed`, `updated`)",
+      "max_score": 10
+    },
+    {
+      "id": "c7",
+      "criterion": "No trailing period: None of the corrected headers end with a period",
+      "max_score": 10
+    },
+    {
+      "id": "c8",
+      "criterion": "Header <= 72 chars: All corrected headers (type + scope + description) are 72 characters or fewer",
+      "max_score": 10
+    },
+    {
+      "id": "c9",
+      "criterion": "Lowercase description: All corrected description portions are lowercase (the text after the colon and space)",
+      "max_score": 10
+    },
+    {
+      "id": "c10",
+      "criterion": "No chore misuse flagged: The explanation for message #2 identifies that `chore` was used incorrectly (it was a bug fix, not maintenance)",
+      "max_score": 10
+    }
+  ]
+}

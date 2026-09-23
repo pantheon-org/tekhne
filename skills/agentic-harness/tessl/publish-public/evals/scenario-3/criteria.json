@@ -1,0 +1,52 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent validates all 5 required fields (private, name, versio",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent catches `private: true` as blocker (must be `false`)",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent validates name format matches `workspace/tile-name` re",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent validates version matches `x.y.z` regex pattern",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent checks summary length (100-500 chars) and quality (not",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent verifies skills object is not empty",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent confirms all skill paths point to existing SKILL.md fi",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent checks SKILL.md frontmatter for required fields",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent reports specific error messages for each validation fa",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent provides concrete examples of correct format for each ",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent does NOT proceed to publishing if any required field i",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent references tile-json-schema.md for detailed documentat",
+      "weight": 8
+    }
+  ]
+}

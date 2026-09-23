@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Tag filter present: The global or view-level filters include `file.hasTag(\"task\")` (or equivalent) to scope the base to task-tagged notes.",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "file.basename used for display: The file name column uses `file.basename` (not `file.name`) so the `.md` extension is not shown.",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": "days_until_due formula defined in formulas section: A formula that computes days until due is defined under the top-level `formulas` key.",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "days_until_due formula guards against empty due date: The formula wraps the date arithmetic in `if(due, ..., \"\")` or equivalent to avoid errors when the due property is absent.",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "Formula referenced correctly in order: The days-until-due formula is referenced as `formula.<name>` in the view's order list, and this name matches the key defined in `formulas`.",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": "Incomplete view uses view-level filter: The \"Incomplete\" view has a `filters` clause that excludes done tasks at the view level, not via a global filter that would affect all views.",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": "Summary on days-until-due formula: The \"All Tasks\" view includes a `summaries` entry that applies Average (or another numeric summary) to the days-until-due formula column.",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": "Valid YAML structure: The output is syntactically valid YAML. All strings containing colons or special characters are quoted. Indentation is consistent.",
+      "max_score": 12
+    }
+  ]
+}

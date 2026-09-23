@@ -1,0 +1,1 @@
+Tests whether the agent correctly applies the skill's guidance in the following scenario: Scenario 01: Scaffold a Deployment CLI with Service Layer.

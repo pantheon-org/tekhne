@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Entry point and output directory set correctly: `entryPoints` includes `src/index.ts` and `out` (or equivalent) is `docs/`",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Internal/private members are excluded: The config sets an option (e.g. `excludePrivate`, `excludeInternal`, `excludeNotDocumented`) so only the re-exported public API is documented",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Output format is chosen and justified: `docs-setup.md` names a specific format suited to being committed and browsed statically (e.g. HTML) and explains why",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Exact run command documented: `docs-setup.md` states the exact command to generate the docs (e.g. `npx typedoc`)",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Post-generation verification steps listed: `docs-setup.md` lists concrete things to check in the output (both exports present, no leaked internal API), not just \"check it looks right\"",
+      "max_score": 15
+    }
+  ]
+}

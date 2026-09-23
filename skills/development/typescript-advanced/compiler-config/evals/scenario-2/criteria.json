@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Correct diagnostic-first command named: `tsc --noEmit --extendedDiagnostics` (or equivalent, e.g. `--generateTrace`) is named as the first step, before any config change",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Explains why diagnosing first is correct: The document explains that changing `include`/`exclude` before profiling risks missing the actual cause",
+      "max_score": 15
+    },
+    {
+      "id": "c3",
+      "criterion": "Lists at least three concrete diagnostic outputs: e.g. files checked, instantiation count, memory usage, or check time breakdown",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Recommends at least two concrete, non-destructive responses: e.g. project references, capping recursion depth, or narrowing scope deliberately based on evidence",
+      "max_score": 25
+    },
+    {
+      "id": "c5",
+      "criterion": "Explicitly rules out disabling strict checks for speed: The document states that disabling `strict` or a strictness flag to improve performance is not an acceptable fix",
+      "max_score": 15
+    }
+  ]
+}

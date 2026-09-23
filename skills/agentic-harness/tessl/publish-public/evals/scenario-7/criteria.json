@@ -1,0 +1,36 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent checks for tile.json existence",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent identifies missing tile.json as blocker",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent suggests `tessl skill import` command",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent explains import process and purpose",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent does NOT attempt publication without tile.json",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent provides complete workflow for new skill publishing",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent mentions configuring `private: false` after import",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent sets proper expectations for multi-step process",
+      "weight": 12
+    }
+  ]
+}

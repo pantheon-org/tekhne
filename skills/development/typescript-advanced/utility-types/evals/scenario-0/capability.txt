@@ -1,0 +1,1 @@
+Tests whether the agent correctly applies the skill's guidance in the following scenario: Replace Hand-Written Duplicate Types with Built-In Utility Types.

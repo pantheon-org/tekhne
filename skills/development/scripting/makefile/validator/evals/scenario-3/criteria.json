@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "$(MAKE) in build target: The corrected `build` target uses `$(MAKE) -C` instead of bare `make -C`",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "$(MAKE) in test target: The corrected `test` target uses `$(MAKE) -C` instead of bare `make`",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": "$(MAKE) in deploy target: The corrected `deploy` target uses `$(MAKE) -C` instead of bare `make`",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "$(MAKE) in clean target: The corrected `clean` target uses `$(MAKE) -C` instead of bare `make`",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "Bare make risk explained: `fix-notes.md` explains that bare `make` does not inherit jobserver flags and breaks parallel builds with `-j`",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": ".ONESHELL or equivalent addressed: The corrected Makefile adds `.ONESHELL` OR `fix-notes.md` explains that `.ONESHELL` would prevent the multi-step script from continuing past failures",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": ".ONESHELL benefit explained: `fix-notes.md` explains how `.ONESHELL` affects multi-step recipe error handling",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": "All recursive calls fixed: All four targets that contained bare `make -C` calls are updated to `$(MAKE) -C`",
+      "max_score": 12
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Checks abort.aborted or passes signal: Either checks `abort.aborted` early or passes `{ signal: abort }` to the shell command",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Accepts abort signal from context: Destructures `abort` from the context parameter in execute",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Execute returns string: Returns a string (`.text()` or equivalent), not an object",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Correct import and tool structure: Uses `tool` from `@opencode-ai/plugin` with proper description and args",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Schema arg has .describe(): The `file` argument has a `.describe()` call",
+      "max_score": 10
+    }
+  ]
+}

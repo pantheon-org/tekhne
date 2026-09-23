@@ -1,0 +1,76 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 02: Add a New Phase to an Existing Implementation Plan",
+  "checklist": [
+    {
+      "name": "phase-03-directory-created",
+      "description": "A new directory `phases/phase-03-<slug>/` was created inside the existing plan",
+      "max_score": 8
+    },
+    {
+      "name": "existing-phases-untouched",
+      "description": "`phase-01` and `phase-02` directories and their contents were not modified, moved, or deleted",
+      "max_score": 8
+    },
+    {
+      "name": "phase-readme-has-gate",
+      "description": "The phase-03 `README.md` includes a gate section with a concrete pass/fail shell command",
+      "max_score": 7
+    },
+    {
+      "name": "task-count-matches-scope",
+      "description": "The number of task files in `phase-03/tasks/` is appropriate for the 6 endpoints described",
+      "max_score": 7
+    },
+    {
+      "name": "task-ids-continue-sequence",
+      "description": "Task identifiers use `P03` prefix (e.g. `task-P03T01-*.md`) with zero-padded 1-based numbering",
+      "max_score": 7
+    },
+    {
+      "name": "task-scoped-to-single-handler",
+      "description": "Each task file covers a single route handler file or closely related pair",
+      "max_score": 7
+    },
+    {
+      "name": "task-verification-is-runnable",
+      "description": "Every task file includes a verification section with a specific shell command that exits 0 on success",
+      "max_score": 7
+    },
+    {
+      "name": "no-vague-verification",
+      "description": "No task verification uses vague phrases without specifying the exact command and expected output",
+      "max_score": 7
+    },
+    {
+      "name": "dependencies-declared",
+      "description": "The phase-03 `README.md` explicitly declares dependencies on phase-02 and any specific artefacts needed",
+      "max_score": 7
+    },
+    {
+      "name": "scaffold-scripts-used",
+      "description": "Agent used `new-phase.sh` and `new-task.sh` scripts to create the phase and task files",
+      "max_score": 7
+    },
+    {
+      "name": "validate-plan-run",
+      "description": "Agent ran `validate-plan.sh` after adding phase-03 and fixed any issues",
+      "max_score": 7
+    },
+    {
+      "name": "root-readme-updated",
+      "description": "The plan root `README.md` was updated to include phase-03 in its phase listing",
+      "max_score": 7
+    },
+    {
+      "name": "slug-format-correct",
+      "description": "All new directory names and file slugs use lowercase kebab-case",
+      "max_score": 7
+    },
+    {
+      "name": "completion-summary-reported",
+      "description": "Agent reported a completion summary listing the new phase README and all new task files",
+      "max_score": 7
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Design a use case with explicit input and output ports so it depends only on abstractions and stays free of presentation logic.

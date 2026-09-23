@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Discriminant field is present on every variant: Each member of the union has a literal `status` field with a distinct string value",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Impossible combination is structurally prevented: No single union member type includes both a `data` field and an `error` field simultaneously",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Exhaustive switch with `never` guard: The `handleState` function uses a `switch` on the discriminant with a `default` branch assigning to `never`",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "No `any` or unsafe assertions introduced: The output contains no `any`, `@ts-ignore`, or unchecked `as` casts",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Explanation comment included: A comment in the file explains why discriminated unions prevent illegal states",
+      "max_score": 20
+    }
+  ]
+}

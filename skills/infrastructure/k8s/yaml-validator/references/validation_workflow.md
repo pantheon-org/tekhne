@@ -282,7 +282,7 @@ Generate a comprehensive validation report with all findings. Do NOT modify file
 
 ### Example Report Format
 
-```
+````
 ## Validation Report - 7 issues found
 
 File: deployment.yaml
@@ -330,7 +330,7 @@ Suggested Fix:
 1. Fix the 4 errors listed above (deployment will fail without these)
 2. Consider addressing the 3 warnings for best practices
 3. Re-run validation to confirm all issues resolved
-```
+````
 
 ### Report Best Practices
 

@@ -1,0 +1,34 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Top-level uses $(MAKE) exclusively: All recursive sub-directory calls in the top-level Makefile use `$(MAKE) -C <dir>`, never bare `make`",
+      "max_score": 17
+    },
+    {
+      "id": "c2",
+      "criterion": "Build order enforced: The top-level `all` target builds `engine` before `renderer` before `app`",
+      "max_score": 17
+    },
+    {
+      "id": "c3",
+      "criterion": "app/Makefile modern header: `app/Makefile` includes the full modern header",
+      "max_score": 17
+    },
+    {
+      "id": "c4",
+      "criterion": "Order-only prerequisite for build directory: `app/Makefile` object pattern rule uses `| $(BUILDDIR)` as an order-only prerequisite",
+      "max_score": 17
+    },
+    {
+      "id": "c5",
+      "criterion": "Dependency tracking in app/Makefile: `app/Makefile` compile rule includes `-MMD -MP` and the Makefile includes `.d` files with `-include`",
+      "max_score": 16
+    },
+    {
+      "id": "c6",
+      "criterion": ".PHONY in both files: Both top-level Makefile and `app/Makefile` declare all non-file targets in `.PHONY`",
+      "max_score": 16
+    }
+  ]
+}

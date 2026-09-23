@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Complex Domain with Hypothesis Routes to Probe",
+  "checklist": [
+    {
+      "name": "Hypothesis carried forward: Agent extracts and",
+      "description": "**Hypothesis carried forward**: Agent extracts and preserves the specific hypothesis (session length differences in feature extraction) in the handoff.",
+      "max_score": 17
+    },
+    {
+      "name": "Correctly classified as Complex with hypothesis:",
+      "description": "**Correctly classified as Complex with hypothesis**: Route is probe, not brainstorm (brainstorm is for no hypothesis).",
+      "max_score": 17
+    },
+    {
+      "name": "Adjacent Domain Challenge run: Agent considers",
+      "description": "**Adjacent Domain Challenge run**: Agent considers Complicated before confirming Complex.",
+      "max_score": 17
+    },
+    {
+      "name": "Handoff template used: Agent references or",
+      "description": "**Handoff template used**: Agent references or fills `references/frame-problem-to-probe-llm.md` (not brainstorm template).",
+      "max_score": 17
+    },
+    {
+      "name": "OpenSpec flag set to Yes: Per",
+      "description": "**OpenSpec flag set to Yes**: Per routing table for Complex + Boulder.",
+      "max_score": 16
+    },
+    {
+      "name": "Confirmation sought: Agent uses AskUserQuestion before",
+      "description": "**Confirmation sought**: Agent uses AskUserQuestion before invoking probe.",
+      "max_score": 16
+    }
+  ]
+}

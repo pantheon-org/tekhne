@@ -1,0 +1,34 @@
+{
+  "skill": "agentic-harness/create-context",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 7,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 11
+  },
+  "total": 99,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 174,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 2,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    },
+    {
+      "dimension": "D9",
+      "message": "5 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+    }
+  ]
+}

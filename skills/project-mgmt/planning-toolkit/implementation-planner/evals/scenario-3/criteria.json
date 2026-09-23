@@ -1,0 +1,76 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 03: Restructure a Flat Planning Document into a Navigable Hierarchy",
+  "checklist": [
+    {
+      "name": "output-under-correct-path",
+      "description": "The restructured hierarchy was created under `docs/refactoring/phases/` as specified",
+      "max_score": 8
+    },
+    {
+      "name": "each-phase-has-directory",
+      "description": "Each of the 5 phases from the source document has its own directory inside `docs/refactoring/phases/`",
+      "max_score": 8
+    },
+    {
+      "name": "no-numeric-only-directory-names",
+      "description": "No directory uses a numeric-only name \u2014 all directories include a descriptive kebab-case suffix",
+      "max_score": 7
+    },
+    {
+      "name": "no-generic-vague-names",
+      "description": "No directory or file uses a generic or meaningless name; names are outcome-oriented and descriptive",
+      "max_score": 7
+    },
+    {
+      "name": "every-directory-has-readme",
+      "description": "Every non-leaf directory contains a `README.md` explaining its purpose and listing its children",
+      "max_score": 7
+    },
+    {
+      "name": "leaf-files-have-required-sections",
+      "description": "Every leaf step/activity file contains: title, description, checklist, acceptance criteria, and status fields",
+      "max_score": 7
+    },
+    {
+      "name": "flatten-vs-subdivide-heuristics-applied",
+      "description": "Grouping decisions respect the 3\u20137 items sweet spot",
+      "max_score": 7
+    },
+    {
+      "name": "numbering-prefix-grouping-respected",
+      "description": "Items with the same prefix stay in the same parent directory",
+      "max_score": 7
+    },
+    {
+      "name": "source-not-deleted-before-validation",
+      "description": "The agent created the new structure and validated it before removing the original flat source file",
+      "max_score": 7
+    },
+    {
+      "name": "validate-structure-script-run",
+      "description": "Agent ran `validate-structure.sh docs/refactoring/phases` after creating the structure",
+      "max_score": 7
+    },
+    {
+      "name": "readme-links-resolve",
+      "description": "README files at phase and group level use relative links that correctly point to their child files/directories",
+      "max_score": 7
+    },
+    {
+      "name": "max-depth-respected",
+      "description": "The hierarchy does not exceed 4 levels of nesting",
+      "max_score": 7
+    },
+    {
+      "name": "activities-or-steps-subdirectory",
+      "description": "Each phase directory uses either an `activities/` or `steps/` subdirectory to organise its children",
+      "max_score": 7
+    },
+    {
+      "name": "readme-minimum-content",
+      "description": "Every `README.md` contains at least 3 lines of meaningful content",
+      "max_score": 7
+    }
+  ]
+}

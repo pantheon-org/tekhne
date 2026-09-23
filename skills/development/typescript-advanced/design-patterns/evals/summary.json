@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 6,
+    "covered_instructions": 6,
+    "coverage_percentage": 100,
+    "notes": "All 6 instructions.json entries are exercised by at least one scenario's criteria.json: compile-time-enforced builders and constrained generics (scenario-0), typed event emitters over an event map (scenario-1), and discriminated-union state machines with exhaustive transitions and Extract-narrowed operations (scenario-2)."
+  },
+  "scenario_count": 3
+}

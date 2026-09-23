@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 88,
+    "total_instructions": 12,
+    "covered_instructions": 11,
+    "notes": "scenario-1 covers gate-checking, verbatim per-agent prompt building, and parallel spawn plus stopping at the merge gate; scenario-2 covers model-tier resolution across mixed-tier phases; scenario-3 covers correctly enforcing the merge gate instead of auto-advancing; scenario-4 covers detecting and skipping a dependency-blocked phase. The Mode B status-update follow-through after user confirmation is exercised implicitly rather than as its own scenario."
+  }
+}

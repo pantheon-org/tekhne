@@ -29,20 +29,7 @@ If config missing → `⚠️ No project config found. Create it with your proje
 
 ## Archetypes
 
-Every bridge has a type. The 10 archetypes:
-
-| Code | Archetype | One-liner |
-|---|---|---|
-| `flywheel` | 🔄 Flywheel loop | Output of A feeds B feeds C → back to A |
-| `knowledge` | 🧠 Knowledge cascade | Framework/learning from one domain reusable in another |
-| `people` | 👤 People-bridge | Same person carries context across projects |
-| `terrain` | 🌱 Terrain d'essai | One project is live lab for methods used in another |
-| `narrative` | 📖 Narrative amplifier | One project generates stories that make another credible |
-| `identity` | 🎭 Identity coherence | Projects collectively tell a story about who you are |
-| `complexity` | 🔬 Complexity lab | Managing complexity in one domain trains patterns for another |
-| `local` | 🤝 Local network overlay | Geographic proximity creates compound serendipity |
-| `option` | ⚡ Option value | One project creates future optionality for another |
-| `mirror` | 🪞 Mirror project | Introspective insights reshape how other projects are framed |
+Every bridge has a type — one of 10 archetypes (`flywheel`, `knowledge`, `people`, `terrain`, `narrative`, `identity`, `complexity`, `local`, `option`, `mirror`). Full descriptions and the keyword/context heuristics used to auto-detect them live in [references/archetype-detection.md](references/archetype-detection.md) — load it before auto-detecting an archetype from a description, or when a user asks what an archetype code means.
 
 ## Commands
 
@@ -102,26 +89,7 @@ Input: `/bridge HP → BR: philosopher encounters reframe human-centric position
 
 ### Auto-Detect Archetype
 
-If no explicit type, use two signals:
-
-**Signal 1 — Keywords in description:**
-- "pattern", "framework", "method", "learned", "reusable" → `knowledge`
-- Person name (check config stakeholders) or "carries context", "cross-pollinates" → `people`
-- "story", "credibility", "proof", "case study" → `narrative`
-- "test ground", "lab", "experiment", "tried in" → `terrain`
-- "loop", "feeds back", "cycle" → `flywheel`
-- "brand", "who I am", "positioning", "identity" → `identity`
-- "admin", "bureaucracy", "same skill", "transfers" → `complexity`
-- "local", "geographic" → `local`
-- "future", "optionality", "if it works", "unlocks" → `option`
-- "introspect", "philosopher", "reframe", "reshape" → `mirror`
-
-**Signal 2 — Config context:**
-- If source or target has `flywheel_role: terrain` → lean toward `terrain`
-- If source or target has `flywheel_role: mirror` → lean toward `mirror`
-- If a stakeholder name appears in description and has `also_in` → `people`
-
-If ambiguous, default to `knowledge` and mention in response.
+If no explicit type, apply the keyword and config-context signals in [references/archetype-detection.md](references/archetype-detection.md). If ambiguous after both signals, default to `knowledge` and say so in the response — NEVER silently guess a rarer archetype on weak signal.
 
 ### Detect Direction & Strength
 
@@ -241,6 +209,23 @@ graph LR
 - **NEVER write to GTD task files or project artifacts** — only write to the bridges directory. **Why:** mixing bridge captures into task lists pollutes both systems and breaks single-responsibility.
 - **NEVER guess a project alias that is not in config** — warn and prompt the user to add it. **Why:** silent alias invention creates inconsistent data that breaks `/bridge list`, `/bridge map`, and stats aggregation.
 - **NEVER skip the seq check** — always count existing files for the day before assigning a sequence number. **Why:** collisions overwrite existing bridge captures with no warning.
+- **NEVER default direction/strength without checking for their explicit signals** — skipping the detection step and hardcoding `one-way` + `potential` regardless of what the description says throws away information the user gave you.
+
+  **BAD:**
+  ```yaml
+  # User wrote "Matthieu carries context both ways" but skill wrote:
+  direction: one-way
+  strength: potential
+  ```
+
+  **GOOD:**
+  ```yaml
+  # Detected "both ways" -> bidirectional; "carries context" is present-tense -> active
+  direction: bidirectional
+  strength: active
+  ```
+
+  **Why:** a bridge with the wrong direction or strength misrepresents the actual relationship, and `/bridge stats` and `/bridge map` silently propagate the error into aggregate counts.
 
 ## Usage Examples
 
@@ -274,5 +259,8 @@ graph LR
 
 ## References
 
-- [Personal Knowledge Management — Linking Your Thinking](https://www.linkingyourthinking.com/)
-- [YAML Specification — Block Scalars](https://yaml.org/spec/1.2-old/spec.html#id2794534)
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Full archetype table and keyword/context auto-detection heuristics | [Archetype Detection](references/archetype-detection.md) | Auto-detecting an archetype from a description, or explaining what an archetype code means |
+| PKM linking conventions this skill's cross-project model draws on | [Linking Your Thinking](https://www.linkingyourthinking.com/) | Background reading on why bridges are captured as atomic links, not folded into project notes |
+| YAML block scalar syntax for multi-line `description`/`context` fields | [YAML Spec — Block Scalars](https://yaml.org/spec/1.2-old/spec.html#id2794534) | Writing a bridge YAML file with a multi-line context field |

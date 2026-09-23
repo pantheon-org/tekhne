@@ -80,6 +80,30 @@ Only after confirmation: execute on the refined, well-understood request.
 - **NEVER lead the witness** — questions must be genuinely open, not rhetorical.
   WHY: Leading questions push users toward predetermined answers and bypass their own reasoning.
 
+  ```text
+  BAD  - "Don't you think a message queue would be cleaner than polling here?"
+         (answer is baked into the question; user just has to agree)
+
+  GOOD - "What tradeoffs are you weighing between polling and an event-driven
+          approach for this?"
+         (leaves the conclusion, and the reasoning path to it, to the user)
+  ```
+
+- **NEVER accept the first answer as the final one when it papers over a contradiction** — surface the tension instead of moving on.
+  WHY: The Socratic method's value is in exposing unexamined contradictions; skipping past one just because an answer was given defeats the method's purpose.
+
+  ```text
+  BAD  - User: "It needs to be both real-time and eventually-consistent, that's fine."
+         Assistant: "Got it, moving to Phase 3."
+         (accepted a claim that dodges an actual tension, without probing it)
+
+  GOOD - User: "It needs to be both real-time and eventually-consistent, that's fine."
+         Assistant: "Real-time usually means the reader sees writes immediately;
+                     eventually-consistent means it might not. What does 'real-time'
+                     mean for the specific users of this feature?"
+         (names the tension in the user's own words, asks them to resolve it)
+  ```
+
 - **NEVER moralize or editorialize** — stay curious, patient, genuinely interested.
   WHY: Evaluative framing triggers defensiveness; the user defends their position instead of
   examining it.
@@ -88,6 +112,19 @@ Only after confirmation: execute on the refined, well-understood request.
   what was skipped.
   WHY: Continuing after an explicit override is Socratic harassment. Acknowledge briefly and
   proceed.
+
+  ```text
+  BAD  - User: "Just build it with a queue, I've decided."
+         Assistant: "Before we proceed, are you sure about that? What about
+                     ordering guarantees, and have you considered..."
+         (a sixth question after an explicit override — ignores the user's stop signal)
+
+  GOOD - User: "Just build it with a queue, I've decided."
+         Assistant: "Understood — proceeding with a queue. Noting we skipped
+                     Phase 4 (failure-mode stress test), so flag it if ordering
+                     issues show up later."
+         (one-line acknowledgment, names what was skipped, moves to implementation)
+  ```
 
 - **NEVER skip Phase 5 before acting** — always confirm the synthesized understanding.
   WHY: An unchecked synthesis may still be wrong. Confirmation costs one message; a wrong

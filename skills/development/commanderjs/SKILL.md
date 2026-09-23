@@ -11,6 +11,18 @@ allowed-tools: Read, Write, Edit, Bash
 
 Complete Commander.js framework guidance for building robust command-line interfaces with proper argument parsing, subcommands, options, and TypeScript support.
 
+## Mindset
+
+Treat Commander.js as a declarative contract, not an argv reader. Model every input the CLI accepts as a `.argument()`, `.option()`, or subcommand before writing a single line of handler logic — the declaration is what generates `--help` output, coerces types, and produces Commander's own validation errors for free. Never reach for `process.argv[n]` as a shortcut past that declaration: every value read directly from argv is a value Commander no longer validates, documents, or reports errors for consistently with the rest of the program. Keep action handlers thin. Parse into a fully typed options object first, then pass that single object into a service function — never scatter individual `opts.foo`, `opts.bar` properties across a call site, because a service that grows a fourth or fifth positional parameter loses the compiler's ability to catch an argument-order mistake. Verify subcommand option scope before trusting `program.opts()` inside a subcommand action: each `.command()` owns its own option scope, and reading the parent program's `opts()` from inside a child action silently returns the wrong values instead of failing loudly.
+
+## When to Use
+
+Use this skill when building a new CLI tool with Commander.js, adding subcommands, options, or arguments to an existing Commander.js program, migrating a CLI from raw `process.argv` parsing or another framework (yargs, meow) onto Commander.js, or diagnosing an option/argument/action handler that is not behaving as declared (wrong scope, a missing `await`, argv leaking through, help text not matching actual parsing behavior).
+
+## When NOT to Use
+
+Do not reach for this skill when the target CLI deliberately avoids third-party argument-parsing dependencies, when the runtime's own built-in flag parser is the project's stated convention, or when the task is building a terminal UI (menus, prompts, live-updating panes) rather than parsing arguments — a TUI is a different problem from argument parsing and needs different tooling.
+
 ## How to Use
 
 Read individual reference files for detailed guidance:
@@ -168,31 +180,31 @@ program.addCommand(buildCommand);
 
 ### NEVER access `process.argv` directly when Commander.js is available
 
-- **WHY**: Commander.js handles argument parsing, validation, and help generation; bypassing it for any argument creates inconsistency in error handling and help output.
+- **WHY:** Commander.js handles argument parsing, validation, and help generation; bypassing it for any argument creates inconsistency in error handling and help output.
 - **BAD**: `const url = process.argv[2]` alongside Commander.js commands.
 - **GOOD**: Define all arguments as Commander.js options or arguments: `program.argument('<url>', 'Target URL')`.
 
 ### NEVER use `.action()` callback without handling errors
 
-- **WHY**: Unhandled rejections in async action callbacks crash the process without helpful error messages.
+- **WHY:** Unhandled rejections in async action callbacks crash the process without helpful error messages.
 - **BAD**: `program.command('fetch').action(async (opts) => { await riskyOp(); })`
 - **GOOD**: Wrap in try/catch and call `program.error(err.message)` for Commander-formatted error output.
 
 ### NEVER add `.parseAsync()` without `await`
 
-- **WHY**: Commander.js v8+ requires `await program.parseAsync()` for async actions; without await, the process exits before async actions complete.
+- **WHY:** Commander.js v8+ requires `await program.parseAsync()` for async actions; without await, the process exits before async actions complete.
 - **BAD**: `program.parseAsync(process.argv)` without await.
 - **GOOD**: `await program.parseAsync(process.argv)` inside an async IIFE or main function.
 
 ### NEVER define commands with positional arguments and options that share ambiguous prefixes
 
-- **WHY**: Commander.js can misparse `--option` values as positional arguments when options are not consumed before positional parsing.
+- **WHY:** Commander.js can misparse `--option` values as positional arguments when options are not consumed before positional parsing.
 - **BAD**: `program.argument('<file>').option('--format <fmt>')` with ambiguous ordering in usage examples.
 - **GOOD**: Always place options before positional arguments in usage examples and validate input explicitly.
 
 ### NEVER use `program.opts()` to read option values inside a subcommand
 
-- **WHY**: Each subcommand has its own option scope; reading `program.opts()` in a subcommand returns the parent options, not the subcommand options.
+- **WHY:** Each subcommand has its own option scope; reading `program.opts()` in a subcommand returns the parent options, not the subcommand options.
 - **BAD**: Reading `program.opts().verbose` inside a `program.command('deploy').action()`.
 - **GOOD**: Use `command.opts()` (the action's first argument when using `.action((opts) =>)`) to access subcommand-specific options.
 

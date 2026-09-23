@@ -1,0 +1,1 @@
+Restructure a monolithic planning document into a navigable phase/activity hierarchy (Mode 2), grouping and naming correctly.

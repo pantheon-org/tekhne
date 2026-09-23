@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 5,
+    "covered_instructions": 5,
+    "coverage_percentage": 100,
+    "notes": "All 5 instructions.json entries are exercised by at least one scenario's criteria.json: JSDoc that adds real information plus a realistic @example (scenario-0), excluding internal members from TypeDoc output (scenario-1), and an ADR with real alternatives, accepted consequences, and standard structure (scenario-2)."
+  },
+  "scenario_count": 3
+}

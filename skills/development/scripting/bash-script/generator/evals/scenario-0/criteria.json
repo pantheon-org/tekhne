@@ -1,0 +1,59 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Env shebang: Shebang line uses `#!/usr/bin/env bash`",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "Strict mode set: Script contains `set -euo pipefail` (all three flags present)",
+      "max_score": 9
+    },
+    {
+      "id": "c3",
+      "criterion": "IFS override: Script sets `IFS=$'\\n\\t'` after the strict mode line",
+      "max_score": 9
+    },
+    {
+      "id": "c4",
+      "criterion": "Trap cleanup registered: Script registers a `trap` on EXIT that calls a cleanup function",
+      "max_score": 9
+    },
+    {
+      "id": "c5",
+      "criterion": "Cleanup removes partial file: The cleanup/trap handler removes any in-progress or partial output file",
+      "max_score": 9
+    },
+    {
+      "id": "c6",
+      "criterion": "die() or equivalent helper: Script defines a `die` (or equivalent) function that prints to stderr and exits non-zero",
+      "max_score": 9
+    },
+    {
+      "id": "c7",
+      "criterion": "check_command used: Script verifies required external commands exist before use",
+      "max_score": 9
+    },
+    {
+      "id": "c8",
+      "criterion": "readonly for constants: Script uses `readonly` for at least one script-level constant",
+      "max_score": 9
+    },
+    {
+      "id": "c9",
+      "criterion": "Logging to stderr: Status/progress messages are written to stderr (`>&2`)",
+      "max_score": 9
+    },
+    {
+      "id": "c10",
+      "criterion": "Timestamped log messages: Log/status messages include a timestamp",
+      "max_score": 9
+    },
+    {
+      "id": "c11",
+      "criterion": "No hardcoded credentials: Script does NOT contain hardcoded passwords or connection strings",
+      "max_score": 9
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "content": "Apply Bases for dynamic views of vault notes by tag/folder/property (task trackers, reading lists, dashboards); do not apply it for one-off note organisation, static Markdown tables, or content that does not come from frontmatter properties.",
+      "type": "scope-boundary",
+      "why_given": "new knowledge",
+      "original_snippets": "When to apply: Creating dynamic views of vault notes by tag, folder, or property ... When NOT to apply: One-off note organisation, static Markdown tables, or displaying content that does not come from frontmatter properties."
+    },
+    {
+      "id": "i2",
+      "content": "Build a base by creating the file, defining scope with filters, optionally adding formulas, configuring one or more views, then validating the YAML and testing it in Obsidian.",
+      "type": "procedure",
+      "why_given": "reminder",
+      "original_snippets": "1. Create the file ... 2. Define scope ... 3. Add formulas (optional) ... 4. Configure views ... 5. Validate ... 6. Test in Obsidian"
+    },
+    {
+      "id": "i3",
+      "content": "Filters can be applied globally (top-level filters key, affecting every view) or per-view (a filters key inside one view entry).",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Global filters apply to ALL views in the base ... View-specific filters"
+    },
+    {
+      "id": "i4",
+      "content": "There are three kinds of properties: note properties (from frontmatter), file properties (file.* metadata), and formula properties (computed, referenced as formula.<name>).",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Three Types of Properties: 1. Note properties ... 2. File properties ... 3. Formula properties - Computed values: formula.my_formula"
+    },
+    {
+      "id": "i5",
+      "content": "NEVER use file.name for a display column when file.basename is available; file.name includes the .md extension and clutters the output.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use file.name as a display column in table or cards views when you want clean note titles ... file.basename returns only the title without the extension"
+    },
+    {
+      "id": "i6",
+      "content": "NEVER call .round(), .floor(), or .ceil() directly on the result of a date subtraction; that result is a Duration, not a Number, so those methods are undefined on it. Access a numeric field like .days first.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER call .round(), .floor(), or .ceil() directly on the result of a date subtraction ... Access .days, .hours, .minutes, etc. before applying any Number methods."
+    },
+    {
+      "id": "i7",
+      "content": "NEVER call a property-dependent function such as date(due_date) without first guarding for the property being missing; wrap it in if(property, ..., fallback) or the entire formula column blanks out for every row.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER call property-dependent functions such as date(due_date) without first checking that the property exists ... Always wrap property-dependent expressions in if(property, ..., fallback)."
+    },
+    {
+      "id": "i8",
+      "content": "NEVER reference formula.X in order or properties without a matching key X under the top-level formulas block; Obsidian silently drops the column with no error.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER reference formula.X in order or properties without a matching key in the formulas block ... Obsidian silently drops the column."
+    },
+    {
+      "id": "i9",
+      "content": "NEVER leave a YAML string value unquoted when it contains a structural character such as : { } [ ] , & * # ? | - < > = ! % @ or a backtick; quote it or the whole base fails to load.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER leave strings unquoted when they contain characters that YAML treats as structural syntax ... An unquoted value containing them causes a parse error and the entire base fails to load."
+    },
+    {
+      "id": "i10",
+      "content": "NEVER put status- or state-specific conditions in the top-level global filters block when different views need to show different subsets; a global filter silently excludes those notes from every view, including ones that should show them.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER place status- or state-specific conditions in the top-level filters block when your base contains views that need to show different subsets ... Move status-specific conditions to view-level filters."
+    },
+    {
+      "id": "i11",
+      "content": "Use single quotes for formula strings that themselves contain double quotes, and double quotes for simple strings.",
+      "type": "style-preference",
+      "why_given": "preference",
+      "original_snippets": "Use single quotes for formulas containing double quotes ... Use double quotes for simple strings"
+    },
+    {
+      "id": "i12",
+      "content": "View types are table, cards, list, or map; a map view additionally requires latitude/longitude properties and the Maps community plugin.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "type: table | cards | list | map ... Requires latitude/longitude properties and the Maps community plugin."
+    },
+    {
+      "id": "i13",
+      "content": "When validating a base, check that all referenced properties and formulas exist and that quoting/indentation matches YAML syntax rules.",
+      "type": "procedure",
+      "why_given": "reminder",
+      "original_snippets": "Validate: Verify the file is valid YAML with no syntax errors. Check that all referenced properties and formulas exist. Common issues: unquoted strings containing special YAML characters, mismatched quotes in formula expressions, referencing formula.X without defining X in formulas"
+    },
+    {
+      "id": "i14",
+      "content": "A summaries entry maps a property or formula column to an aggregation function (Average, Sum, Min, Max, etc.) shown in the view footer.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Define custom summary formulas ... Map properties to summary formulas"
+    }
+  ]
+}

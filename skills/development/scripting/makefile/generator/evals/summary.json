@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 13,
+    "covered_instructions": 9,
+    "coverage_percentage": 69,
+    "notes": "9 of 13 instructions.json entries are exercised by at least one scenario's criteria.json (.PHONY completeness, $(MAKE) for recursion, .ONESHELL/no split cd+command, ?= for user-overridable variables, order-only build-directory prerequisites, tab indentation, ## help comments, install target correctness, -MMD -MP dependency tracking). Not covered by a checkable scenario: declaring shell env vars as Make variables, avoiding implicit rules for critical targets, := for project-internal variables, and quoting variables inside recipes -- these are real practices in the skill but none of the five scenarios currently exercises them as a distinct pass/fail check."
+  },
+  "scenario_count": 5
+}

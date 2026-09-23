@@ -2,7 +2,6 @@
 name: implementation-planner
 description: "Converts a PRD or requirements document into a structured, phased implementation plan with individual phase files and granular per-task files written to .context/plans/. Also restructures existing monolithic planning documents into digestible, hierarchical directory structures. Creates a root plan index summarising all phases, a numbered phase file per phase, and a numbered task file per task inside each phase directory. Use when the user asks to create an implementation plan, break down a PRD, convert requirements to tasks, structure project phases, generate a roadmap, plan a project in sprints, organise task breakdown, split a monolithic planning doc, or decompose a spec into phases and tasks."
 license: MIT
-compatibility: opencode
 metadata:
   version: 3.0.0
   audience: agents
@@ -11,7 +10,7 @@ metadata:
 
 # Implementation Planner
 
-## Mental model
+## Mindset
 
 An implementation plan is a **navigable contract between an agent and a codebase**.
 Each file answers a single question: "What do I need to do next, how do I do it,
@@ -428,36 +427,30 @@ See [references/worked-examples.md](references/worked-examples.md) for URL short
 
 ---
 
-## Reference
+## Notes
 
-### Deep dives
-
-| Topic | Location |
-|---|---|
-| Anti-patterns (Mode 1, Mode 2, NEVER rules) | [references/anti-patterns.md](references/anti-patterns.md) |
-| Worked examples (URL shortener, scope guardrail, restructure) | [references/worked-examples.md](references/worked-examples.md) |
-| Mode 2 automation, error recovery, legacy naming | [references/mode2-advanced.md](references/mode2-advanced.md) |
-| Before/after structure transformation example | [references/example-transformation.md](references/example-transformation.md) |
-| File format templates and schemas | below |
-
-### File Format Reference
-
-| Template | Schema | Purpose |
-|---|---|---|
-| `references/templates/plan.yaml` | `references/schemas/plan.schema.json` | Root index structure (Mode 1) |
-| `references/templates/phase.yaml` | `references/schemas/phase.schema.json` | Phase overview structure (Mode 1) |
-| `references/templates/task.yaml` | `references/schemas/task.schema.json` | Individual task structure (Mode 1) |
-| `references/templates/phase-readme.yaml` | `references/schemas/readme-file.schema.json` | Phase directory README (Mode 2) |
-| `references/templates/group-readme.yaml` | `references/schemas/readme-file.schema.json` | Group/intermediate README (Mode 2) |
-| `references/templates/intermediate-readme.yaml` | `references/schemas/readme-file.schema.json` | Activities/steps dir README (Mode 2) |
-| `references/templates/step-file.yaml` | `references/schemas/step-file.schema.json` | Leaf step/activity file (Mode 2) |
-
-See [references/example-transformation.md](references/example-transformation.md) for a before/after structure comparison.
-See [references/mode2-advanced.md](references/mode2-advanced.md) for automation, error recovery, and legacy naming guidance.
+- Existing plan output is never deleted; new files are additive.
+- If a plan already exists, append new phases rather than overwriting.
 
 ---
 
-## Notes
+## References
 
-- Existing `.context/plans/` content is never deleted; new files are additive.
-- If a plan already exists, append new phases rather than overwriting.
+### Deep dives
+
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Mode 1, Mode 2, and cross-cutting NEVER rules | [Anti-Patterns](references/anti-patterns.md) | Before scaffolding, to check a planned action isn't a known failure mode |
+| URL shortener (Mode 1), scope guardrail, and restructure migration examples | [Worked Examples](references/worked-examples.md) | Unsure how a finished plan or restructure should look end-to-end |
+| Mode 2 automation, error recovery, legacy naming | [Mode 2 Advanced](references/mode2-advanced.md) | Only when using the JSON generation script or recovering from a failed split |
+| Before/after structure transformation example | [Example Transformation](references/example-transformation.md) | Explaining the restructuring outcome to the user |
+
+### File format templates and schemas
+
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Root plan index structure and its schema | [plan.yaml](references/templates/plan.yaml) | Filling in the root README.md stub right after running the plan-creation script |
+| Phase overview structure and its schema | [phase.yaml](references/templates/phase.yaml) | Filling in a phase README.md stub right after running the phase-creation script |
+| Task file structure and its schema | [task.yaml](references/templates/task.yaml) | Filling in a task file stub right after running the task-creation script |
+| Mode 2 README templates (phase/group/intermediate) | [phase-readme.yaml](references/templates/phase-readme.yaml) | Writing directory READMEs during a manual Mode 2 split |
+| Mode 2 leaf file structure | [step-file.yaml](references/templates/step-file.yaml) | Writing a single leaf step or activity file during a manual Mode 2 split |

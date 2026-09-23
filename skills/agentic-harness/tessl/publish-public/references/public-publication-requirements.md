@@ -4,9 +4,9 @@ This document defines the complete set of requirements a Tessl plugin must meet 
 
 ## Critical Requirements (Must Pass)
 
-### 1. Quality Threshold: A-Grade Minimum (>=108/120)
+### 1. Quality Threshold: A-Grade Minimum (>=126/140)
 
-**Source**: skill-quality-auditor eight-dimension scoring system
+**Source**: skill-quality-auditor nine-dimension scoring system
 
 **Rationale**: Between 2025-2026, 63 plugins were published using only `tessl review run`, resulting in average score of 98.3/120 (82%) with 37% in C+/C range. This required 40-60 hours of remediation work to lift to acceptable levels.
 
@@ -17,7 +17,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<sk
 cat .context/audits/<domain>/<skill-name>/latest/analysis.md | grep "Total Score"
 ```
 
-**Remediation**: If score < 108/120, review remediation plan
+**Remediation**: If score < 126/140, review remediation plan
 
 ```bash
 cat .context/audits/<domain>/<skill-name>/latest/remediation-plan.md
@@ -206,7 +206,7 @@ tessl review run skills/domain/skill-name
 
 ### Phase 1: Pre-Publication Audit
 
-1. Run skill-quality-auditor -> verify >=108/120
+1. Run skill-quality-auditor -> verify >=126/140
 2. Review remediation plan if needed
 3. Fix critical dimensions (D1, D2, D3, D5)
 4. Re-audit until A-grade achieved
@@ -249,7 +249,7 @@ tessl review run skills/domain/skill-name
 
 | Gate | Requirement | Validation Command | Blocker |
 |------|-------------|-------------------|---------|
-| Quality Audit | >=108/120 (A-grade) | `sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill> --json --store` | YES |
+| Quality Audit | >=126/140 (A-grade) | `sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill> --json --store` | YES |
 | Eval Scenarios | 5-8 comprehensive scenarios | `ls skills/<domain>/<skill>/evals/` | YES |
 | Plugin Config | `private: false` | `jq '.private' skills/<domain>/<skill>/.tessl-plugin/plugin.json` | YES |
 | Agent-Agnostic | No harness-specific tools | Manual SKILL.md scan | YES |
@@ -281,7 +281,7 @@ tessl review run skills/domain/skill-name
 
 **Cause**: Skipped skill-quality-auditor or published below A-grade threshold
 
-**Fix**: Run audit, address remediation plan, re-audit until >=108/120
+**Fix**: Run audit, address remediation plan, re-audit until >=126/140
 
 ### Failure 4: Agent-Specific Tools Break Cross-Platform
 

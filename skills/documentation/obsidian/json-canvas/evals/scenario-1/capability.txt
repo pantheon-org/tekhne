@@ -1,0 +1,1 @@
+Tests whether the agent correctly applies the skill's guidance in the following scenario: Scenario 02: Add a Node to an Existing Canvas.

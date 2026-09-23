@@ -1,0 +1,1 @@
+Tests whether the agent writes a correctly-prefixed run-once script and explains chezmoi's content-hash-based re-run semantics rather than confusing run_once_ with run_onchange_ or getting prefix ordering wrong.

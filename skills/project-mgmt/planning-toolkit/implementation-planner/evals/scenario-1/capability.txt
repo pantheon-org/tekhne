@@ -1,0 +1,1 @@
+Create a full Mode 1 implementation plan (root README, phase READMEs with goal/gate/deps, task files with runnable verification) using the scaffold scripts and validating before reporting.

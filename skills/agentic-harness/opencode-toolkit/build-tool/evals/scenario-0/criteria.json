@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Correct import from @opencode-ai/plugin: Imports `tool` from `@opencode-ai/plugin`, NOT from `@opencode-ai/sdk`",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Correct file location: File placed in `.opencode/tool/` directory",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "All schema args have .describe(): Both `directory` and `pattern` arguments include `.describe()` calls",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Execute returns a string: The execute handler returns a string (not an object or Promise<object>)",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Optional args with defaults: Uses `.optional()` or `.default(...)` for the optional arguments",
+      "max_score": 20
+    }
+  ]
+}

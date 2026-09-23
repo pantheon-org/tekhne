@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Resolve a Circular Dependency",
+  "checklist": [
+    {
+      "name": "Circular import eliminated: The refactored code",
+      "description": "**Circular import eliminated**: The refactored code has no import cycle: neither module directly imports the other",
+      "max_score": 20
+    },
+    {
+      "name": "Interface or event-based decoupling used: The",
+      "description": "**Interface or event-based decoupling used**: The solution introduces an interface (e.g. `IPaymentHistoryProvider`) or event/callback mechanism rather than keeping direct class coupling",
+      "max_score": 20
+    },
+    {
+      "name": "REFACTOR.md identifies root cause: REFACTOR.md explains",
+      "description": "**REFACTOR.md identifies root cause**: REFACTOR.md explains that the cycle arose because two modules depend on each other's concrete classes",
+      "max_score": 20
+    },
+    {
+      "name": "REFACTOR.md explains resolution approach: REFACTOR.md describes",
+      "description": "**REFACTOR.md explains resolution approach**: REFACTOR.md describes the chosen approach (interface extraction, dependency inversion, shared contract module, or event decoupling)",
+      "max_score": 20
+    },
+    {
+      "name": "Both services remain functional: PaymentService can",
+      "description": "**Both services remain functional**: `PaymentService` can still trigger payment confirmation and `NotificationService` can still access payment history (behavior preserved)",
+      "max_score": 20
+    }
+  ]
+}

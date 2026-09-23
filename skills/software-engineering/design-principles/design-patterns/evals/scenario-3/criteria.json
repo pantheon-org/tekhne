@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Apply Anti-Corruption Layer to Isolate an External System",
+  "checklist": [
+    {
+      "name": "CrmGateway.ts produces a Customer domain object:",
+      "description": "**CrmGateway.ts produces a Customer domain object**: The `getCustomer` method (or equivalent) returns a `Customer` object with all five fields: `id`, `fullName`, `email`, `isPremium`, `createdAt`",
+      "max_score": 17
+    },
+    {
+      "name": "Full name is assembled from f_name",
+      "description": "**Full name is assembled from f_name and l_name**: `CrmGateway.ts` concatenates `f_name` and `l_name` into `fullName` — not just using one field",
+      "max_score": 17
+    },
+    {
+      "name": "acct_type is correctly mapped to isPremium:",
+      "description": "**acct_type is correctly mapped to isPremium**: `CrmGateway.ts` maps `'PRE'` to `true` and `'STD'` to `false` for the `isPremium` field",
+      "max_score": 17
+    },
+    {
+      "name": "reg_ts is converted to a Date:",
+      "description": "**reg_ts is converted to a Date**: `CrmGateway.ts` converts the `reg_ts` string to a `Date` object for the `createdAt` field (e.g. `new Date(reg_ts)`)",
+      "max_score": 17
+    },
+    {
+      "name": "No CrmApiResponse fields leak outside CrmGateway.ts:",
+      "description": "**No CrmApiResponse fields leak outside CrmGateway.ts**: `CrmGateway.ts` does not export `CrmApiResponse` or return it; only `Customer` is returned to callers",
+      "max_score": 16
+    },
+    {
+      "name": "acl-analysis.md explains domain pollution risk and",
+      "description": "**acl-analysis.md explains domain pollution risk and ACL resolution**: `acl-analysis.md` contains one paragraph on what pollution would look like (e.g. `cust_id` and `acct_type` used in domain code) and one paragraph on how the ACL isolates it",
+      "max_score": 16
+    }
+  ]
+}

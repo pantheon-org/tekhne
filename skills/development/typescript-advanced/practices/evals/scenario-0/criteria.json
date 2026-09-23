@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "`UserSchema` is a Zod schema matching `User`'s shape: Defines `id`, `name`, `email` as strings and `age` as a non-negative number using Zod's schema API",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "`User` is derived with `z.infer`: `User` is defined as `z.infer<typeof UserSchema>`, not declared as a separate interface",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`getUser` parses with `UserSchema.parse`: The fetched JSON is passed through `UserSchema.parse(...)` (or `.safeParse` with explicit error handling) before being returned",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "No `as` assertion remains: `getUser` contains zero `as` type assertions",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Invalid input throws descriptively: An invalid payload (e.g. negative age, missing field) results in a thrown error surfaced by Zod's parse, not a silently wrong object",
+      "max_score": 10
+    }
+  ]
+}

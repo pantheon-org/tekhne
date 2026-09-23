@@ -1,0 +1,54 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "awk for structured parsing: Script uses `awk` to parse the structured log fields from the access log",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "Single-pass awk for multiple stats: Status code counts are computed in a single `awk` invocation rather than separate passes over the file",
+      "max_score": 10
+    },
+    {
+      "id": "c3",
+      "criterion": "No useless cat: Script does NOT use `cat file | awk` or `cat file | grep` patterns",
+      "max_score": 10
+    },
+    {
+      "id": "c4",
+      "criterion": "No ls pipe to grep: Script does NOT use `ls | grep` to filter files",
+      "max_score": 10
+    },
+    {
+      "id": "c5",
+      "criterion": "Quoted file path variable: The log file path variable is quoted when used in commands to handle paths with spaces",
+      "max_score": 10
+    },
+    {
+      "id": "c6",
+      "criterion": "validate_file or equivalent: Script checks that the input file exists and is readable before processing",
+      "max_score": 10
+    },
+    {
+      "id": "c7",
+      "criterion": "Strict mode present: Script includes `set -euo pipefail`",
+      "max_score": 10
+    },
+    {
+      "id": "c8",
+      "criterion": "Env shebang: Shebang uses `#!/usr/bin/env bash`",
+      "max_score": 10
+    },
+    {
+      "id": "c9",
+      "criterion": "Correct output produced: Running against the sample log produces output including total request count and status class breakdown",
+      "max_score": 10
+    },
+    {
+      "id": "c10",
+      "criterion": "Usage function present: Script defines a `usage()` or `help()` function invoked when the file argument is missing",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER rely only on ShellCheck for validation",
+      "content": "Never treat a clean ShellCheck run as sufficient; it is static analysis and does not execute the script, so runtime failures (missing files, permissions, exit codes) can still slip through."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER disable ShellCheck rules globally with a file-level directive",
+      "content": "Never add a file-level shellcheck disable directive; it silences every future violation of that rule, not just the intended one."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER treat POSIX sh and bash scripts identically",
+      "content": "Never validate a #!/bin/sh script as if it were bash; POSIX sh lacks arrays, [[ ]], and $(()) arithmetic, and bash-only syntax fails silently on strict sh implementations."
+    },
+    {
+      "id": "i4",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use exit 0 or || true to suppress error propagation",
+      "content": "Never flag exit 0 or || true as harmless; either one breaks set -e propagation and hides a real failure from the caller."
+    },
+    {
+      "id": "i5",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "For EACH issue found: show the problematic code, explain the issue, provide the corrected code, explain why the fix improves the script",
+      "content": "For every issue found, follow the four-part format: show the problem, explain it, show the fix, explain why the fix helps."
+    },
+    {
+      "id": "i6",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Custom security checks: unsafe eval, command injection, rm -rf, unquoted variables",
+      "content": "Run custom security checks beyond ShellCheck: unsafe eval, command injection via unvalidated variables, unquoted rm -rf targets."
+    },
+    {
+      "id": "i7",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Custom portability checks: bashisms in sh scripts",
+      "content": "Check scripts declared as #!/bin/sh for bash-only constructs (declare -a, local, [[ ]], array operations) that will fail on strict POSIX sh."
+    },
+    {
+      "id": "i8",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Summary generation: color-coded report with counts",
+      "content": "End the response with a summary of error, warning, and info counts and a clear pass/fail verdict."
+    },
+    {
+      "id": "i9",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Automatic shell detection from shebang determines validation dialect",
+      "content": "Detect the shell dialect from the shebang before validating, since bash-specific and POSIX-sh checks are not interchangeable."
+    },
+    {
+      "id": "i10",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Add per-line suppressions only where the behavior is intentional and documented",
+      "content": "When a ShellCheck warning is a deliberate, correct choice, suppress it per line with a reason comment rather than globally."
+    }
+  ]
+}

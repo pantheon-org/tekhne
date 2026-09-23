@@ -1,0 +1,1 @@
+Judge whether a proposed architectural boundary is justified now or is speculative YAGNI-violating work for a requirement that has not appeared.

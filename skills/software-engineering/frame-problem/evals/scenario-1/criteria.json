@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Vague Problem Routes to Brainstorm",
+  "checklist": [
+    {
+      "name": "Triangulation runs: All three tests (T1,",
+      "description": "**Triangulation runs**: All three tests (T1, T2, T3) and Q-Scale are asked before classification.",
+      "max_score": 17
+    },
+    {
+      "name": "Domain correctly identified: Agent classifies as",
+      "description": "**Domain correctly identified**: Agent classifies as Complex (not Complicated).",
+      "max_score": 17
+    },
+    {
+      "name": "Route matches table: Agent selects brainstorm",
+      "description": "**Route matches table**: Agent selects brainstorm → probe chain, not investigate or troubleshoot.",
+      "max_score": 17
+    },
+    {
+      "name": "Handoff template used: Agent references or",
+      "description": "**Handoff template used**: Agent references or fills `references/frame-problem-to-brainstorm-llm.md`.",
+      "max_score": 17
+    },
+    {
+      "name": "Confirmation sought: Agent uses AskUserQuestion to",
+      "description": "**Confirmation sought**: Agent uses AskUserQuestion to confirm before invoking the next skill.",
+      "max_score": 16
+    },
+    {
+      "name": "No premature solution: Agent does not",
+      "description": "**No premature solution**: Agent does not propose implementation steps or diagnoses during framing.",
+      "max_score": 16
+    }
+  ]
+}

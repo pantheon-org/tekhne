@@ -1,0 +1,52 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a script that separates inline code comments from general discussion comments on a GitLab MR.",
+  "checklist": [
+    {
+      "name": "uses_get_mr_comments",
+      "description": "Calls get_mr_comments.sh in the solution.",
+      "max_score": 15
+    },
+    {
+      "name": "checks_type_field",
+      "description": "Extracts and uses the Type field to distinguish between comment types, treating DiffNote as inline and comment as general discussion.",
+      "max_score": 15
+    },
+    {
+      "name": "filters_system_true",
+      "description": "Excludes comments where System: true to remove automated bot messages, using the System field.",
+      "max_score": 10
+    },
+    {
+      "name": "parses_author_field",
+      "description": "Extracts author information from the Author field in output.",
+      "max_score": 10
+    },
+    {
+      "name": "auth_handling",
+      "description": "References or handles the GITLAB_TOKEN/GITLAB_PAT environment variable.",
+      "max_score": 10
+    },
+    {
+      "name": "error_messages",
+      "description": "Includes error handling with clear messages for access issues.",
+      "max_score": 10
+    },
+    {
+      "name": "produces_two_output_files",
+      "description": "Produces two distinct outputs (inline vs discussion comments) rather than one combined file.",
+      "max_score": 10
+    },
+    {
+      "name": "identifies_diffnote_inline",
+      "description": "Treats Type: DiffNote as inline/code-level comments specifically (not merged with general comments).",
+      "max_score": 10
+    },
+    {
+      "name": "identifies_comment_general",
+      "description": "Treats Type: comment as general discussion comments specifically.",
+      "max_score": 10
+    }
+  ]
+}

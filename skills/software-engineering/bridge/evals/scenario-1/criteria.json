@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Capture a Shared Pattern Between Two Projects",
+  "checklist": [
+    {
+      "name": "YAML file is created in the",
+      "description": "YAML file is created in the configured bridges directory with the correct filename pattern.",
+      "max_score": 17
+    },
+    {
+      "name": "File contains all required fields: source,",
+      "description": "File contains all required fields: `source`, `target`, `archetype`, `emoji`, `description`, `direction`, `strength`, `date`.",
+      "max_score": 17
+    },
+    {
+      "name": "archetype is knowledge and emoji is",
+      "description": "`archetype` is `knowledge` and `emoji` is `🧠`.",
+      "max_score": 17
+    },
+    {
+      "name": "direction is one-way and strength is",
+      "description": "`direction` is `one-way` and `strength` is `potential`.",
+      "max_score": 17
+    },
+    {
+      "name": "Response is a single line matching",
+      "description": "Response is a single line matching the `🔗 Bridge #N:` format.",
+      "max_score": 16
+    },
+    {
+      "name": "Agent does not add commentary beyond",
+      "description": "Agent does not add commentary beyond the one-line response.",
+      "max_score": 16
+    }
+  ]
+}

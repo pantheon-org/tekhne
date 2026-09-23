@@ -1,0 +1,1 @@
+Apply the >=9-phase guardrail: detect an over-scoped PRD, stop before creating files, and present consolidation options to the user.

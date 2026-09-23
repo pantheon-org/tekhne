@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Unquoted $SOURCE and $DEST identified: Agent identifies that `$SOURCE` and `$DEST` are used unquoted; references SC2086 or equivalent; explains word-splitting risk",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "$(ls $BACKUP_DIR) anti-pattern identified: Agent identifies that `for file in $(ls ...)` is unreliable and suggests glob expansion instead",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Four-part issue format used: For each issue the agent shows: (a) the problematic code, (b) the issue explanation with ShellCheck code, (c) the corrected code, (d) why the fix is better",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Corrected script produced: Agent produces a complete corrected script where all identified issues are fixed",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Validation result stated: Agent states a clear PASSED or FAILED result with error and warning counts",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "parseAsync used: The entry point calls `program.parseAsync()` (not `program.parse()`)",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "await on parseAsync: The call to `parseAsync` is preceded by `await`",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": "No direct process.argv access: The code does NOT directly read `process.argv[2]` or similar indices to extract argument values; all arguments go through Commander.js `.argument()` declarations",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "try/catch in action handler: The async action handler wraps its logic in a `try/catch` block",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "Error handling with exit code: The catch block exits with a non-zero code (e.g., `process.exit(1)`) or calls `program.error()`",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": "Async action handler: The action handler is declared as `async`",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": "Required argument declared: The input file is declared as a required argument using `.argument('<input>', ...)` with angle brackets",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": "Optional argument declared: The output file is declared as an optional argument using `.argument('[output]', ...)` with square brackets",
+      "max_score": 12
+    }
+  ]
+}

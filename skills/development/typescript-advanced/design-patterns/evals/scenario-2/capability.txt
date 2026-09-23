@@ -1,0 +1,1 @@
+Tests whether the agent correctly applies the skill's guidance in the following scenario: Model a Connection Lifecycle as a Type-Safe State Machine.

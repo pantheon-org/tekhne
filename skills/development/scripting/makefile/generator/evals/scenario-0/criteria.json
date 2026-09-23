@@ -1,0 +1,49 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Modern header present: Makefile begins with `SHELL := bash`, `.ONESHELL:`, `.SHELLFLAGS := -eu -o pipefail -c`, `.DELETE_ON_ERROR:`, `.SUFFIXES:`, and both `MAKEFLAGS +=` lines",
+      "max_score": 12
+    },
+    {
+      "id": "c2",
+      "criterion": ".PHONY declaration: All non-file targets are declared in a single `.PHONY` line",
+      "max_score": 11
+    },
+    {
+      "id": "c3",
+      "criterion": "User-overridable variables use ?=: `CC`, `CFLAGS`, `PREFIX`, and `DESTDIR` use `?=`; project-internal variables use `:=`",
+      "max_score": 11
+    },
+    {
+      "id": "c4",
+      "criterion": "Automatic dependency tracking: Compile rule includes `-MMD -MP` flags and the Makefile includes generated `.d` files",
+      "max_score": 11
+    },
+    {
+      "id": "c5",
+      "criterion": "Order-only prerequisite for build directory: Object file pattern rule uses `| $(BUILDDIR)` order-only prerequisite",
+      "max_score": 11
+    },
+    {
+      "id": "c6",
+      "criterion": "install target correctness: `install` target uses the `install` command (not `cp`), creates the target directory with `install -d`, applies `-m 755`, and respects `DESTDIR`",
+      "max_score": 11
+    },
+    {
+      "id": "c7",
+      "criterion": "help target with ## comments: Each user-facing target has a `##` comment; the `help` target extracts and prints them",
+      "max_score": 11
+    },
+    {
+      "id": "c8",
+      "criterion": "Tab indentation in recipes: All recipe lines are indented with tab characters, not spaces",
+      "max_score": 11
+    },
+    {
+      "id": "c9",
+      "criterion": "Validation checklist comment: The Makefile includes a comment block at the end listing which validation checklist items were verified",
+      "max_score": 11
+    }
+  ]
+}

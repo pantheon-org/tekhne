@@ -1,0 +1,30 @@
+{
+  "skill": "documentation/obsidian/obsidian-bases",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 14,
+    "freedomCalibration": 11,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 111,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 635,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D9",
+      "message": "summary.json coverage is 64% (below 80% threshold)"
+    }
+  ]
+}
