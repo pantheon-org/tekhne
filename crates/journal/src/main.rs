@@ -1,7 +1,8 @@
 //! `pantheon-journal` CLI: create structured entries (`new`), check them
 //! (`validate <file>`), lint corpus tags against the taxonomy (`lint`),
-//! generate the browse index (`index`), backfill missing frontmatter
-//! (`backfill`), and install the bundled companion skill (`skill install`).
+//! promote a tag into a facet (`taxonomy add`), generate the browse index
+//! (`index`), backfill missing frontmatter (`backfill`), and install the
+//! bundled companion skill (`skill install`).
 
 use std::path::{Path, PathBuf};
 use std::process;
@@ -55,6 +56,36 @@ enum Command {
         #[command(subcommand)]
         action: SkillAction,
     },
+    /// Manage the tag taxonomy (write path; `lint` is the read-only/advisory check).
+    Taxonomy {
+        #[command(subcommand)]
+        action: TaxonomyAction,
+    },
+}
+
+#[derive(Subcommand)]
+enum TaxonomyAction {
+    /// Promote a tag into a facet's canonical list.
+    Add(TaxonomyAddArgs),
+}
+
+#[derive(Args)]
+struct TaxonomyAddArgs {
+    /// The tag to promote (must not already belong to any facet).
+    tag: String,
+    /// The facet to add it to (must already exist in the taxonomy).
+    #[arg(long)]
+    facet: String,
+    /// Journal root to discover `taxonomy.json` at (also where a new one is
+    /// written if none exists yet).
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Explicit taxonomy file to read and write, overriding `<root>/taxonomy.json`.
+    #[arg(long)]
+    taxonomy: Option<PathBuf>,
+    /// Show the resulting taxonomy without writing it.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
 }
 
 #[derive(Args)]
@@ -218,6 +249,9 @@ fn main() {
         Command::Skill {
             action: SkillAction::Uninstall(args),
         } => run_skill_uninstall(args),
+        Command::Taxonomy {
+            action: TaxonomyAction::Add(args),
+        } => run_taxonomy_add(args),
     };
 
     if let Err(e) = result {
@@ -428,6 +462,44 @@ fn run_backfill(args: BackfillArgs) -> std::result::Result<(), String> {
             eprintln!("  {f}");
         }
     }
+    Ok(())
+}
+
+/// Promote a tag into a facet, writing the taxonomy back to disk (or previewing
+/// the result with `--dry-run`). Errors if the tag is already faceted or the
+/// facet does not exist -- see [`journal::taxonomy::Taxonomy::add_tag_to_facet`].
+fn run_taxonomy_add(args: TaxonomyAddArgs) -> std::result::Result<(), String> {
+    let (mut taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
+        .map_err(|e| format!("cannot load taxonomy: {e}"))?;
+
+    taxonomy
+        .add_tag_to_facet(&args.tag, &args.facet)
+        .map_err(|e| e.to_string())?;
+
+    let target = match &source {
+        TaxonomySource::Explicit(path) | TaxonomySource::Root(path) => path.clone(),
+        // No taxonomy.json exists yet; start one at the conventional location
+        // rather than pretending to write into the embedded, read-only default.
+        TaxonomySource::EmbeddedDefault => args.root.join("taxonomy.json"),
+    };
+
+    if args.dry_run {
+        let json = taxonomy
+            .to_json_pretty()
+            .map_err(|e| format!("cannot serialise taxonomy: {e}"))?;
+        println!("Dry run: would write {}:\n\n{json}", target.display());
+        return Ok(());
+    }
+
+    taxonomy
+        .write_to_path(&target)
+        .map_err(|e| format!("cannot write {}: {e}", target.display()))?;
+    println!(
+        "Added \"{}\" to facet \"{}\" in {}",
+        args.tag,
+        args.facet,
+        target.display()
+    );
     Ok(())
 }
 
