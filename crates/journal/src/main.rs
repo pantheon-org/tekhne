@@ -107,8 +107,8 @@ struct NewArgs {
     /// Author recorded in the frontmatter.
     #[arg(long, default_value = "Unknown")]
     author: String,
-    /// Issue-tracker key: the refinement target, or a troubleshooting slug
-    /// prefix.
+    /// Issue-tracker key: the refinement target, the ticket being kicked off,
+    /// or a troubleshooting slug prefix.
     #[arg(long)]
     ticket: Option<String>,
     /// Source URL, recorded for article summaries.

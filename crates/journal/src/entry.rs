@@ -18,7 +18,7 @@ use common::{Error, Result};
 
 use crate::date::Timestamp;
 
-/// The five entry types supported by the skill.
+/// The six entry types supported by the skill.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, ValueEnum)]
 pub enum EntryType {
     /// General-purpose documentation entry.
@@ -31,6 +31,8 @@ pub enum EntryType {
     ArticleSummary,
     /// Issue-tracker ticket refinement session.
     TicketRefinement,
+    /// Understanding an issue-tracker ticket before starting work on it.
+    TicketKickoff,
 }
 
 impl EntryType {
@@ -44,6 +46,7 @@ impl EntryType {
             EntryType::Learning => "learning",
             EntryType::ArticleSummary => "article",
             EntryType::TicketRefinement => "ticket-refinement",
+            EntryType::TicketKickoff => "ticket-kickoff",
         }
     }
 
@@ -55,6 +58,7 @@ impl EntryType {
             EntryType::Learning => "Learning Notes",
             EntryType::ArticleSummary => "Article Summary",
             EntryType::TicketRefinement => "Ticket Refinement",
+            EntryType::TicketKickoff => "Ticket Kickoff",
         }
     }
 }
@@ -70,8 +74,9 @@ pub struct EntrySpec {
     pub author: String,
     /// The injected instant used for the date and time fields.
     pub timestamp: Timestamp,
-    /// Issue-tracker key: the refinement target (ticket-refinement) or the
-    /// ticket that prefixes a troubleshooting slug.
+    /// Issue-tracker key: the refinement target (ticket-refinement), the
+    /// ticket being started (ticket-kickoff), or the ticket that prefixes a
+    /// troubleshooting slug.
     pub ticket: Option<String>,
     /// Source URL, recorded for article summaries.
     pub source: Option<String>,
@@ -108,7 +113,8 @@ impl EntrySpec {
     pub fn tags(&self) -> Vec<String> {
         let mut tags = vec![self.entry_type.primary_tag().to_string()];
         let secondary = match (self.entry_type, &self.ticket) {
-            (EntryType::TicketRefinement, Some(ticket)) => slugify(ticket),
+            (EntryType::TicketRefinement, Some(ticket))
+            | (EntryType::TicketKickoff, Some(ticket)) => slugify(ticket),
             _ => slugify(&self.title)
                 .split('-')
                 .next()
@@ -177,6 +183,9 @@ impl EntrySpec {
         if self.entry_type == EntryType::TicketRefinement {
             fm.push_str(&format!("refinement_ticket: {}\n", self.ticket_key()));
         }
+        if self.entry_type == EntryType::TicketKickoff {
+            fm.push_str(&format!("kickoff_ticket: {}\n", self.ticket_key()));
+        }
         fm.push_str("status: draft\n");
         fm.push_str("---\n");
         fm
@@ -218,6 +227,11 @@ impl EntrySpec {
                 block.push_str("**Context:** Why this ticket is being refined.\n");
                 block.push_str("**System:** System or service the ticket concerns.\n");
             }
+            EntryType::TicketKickoff => {
+                block.push_str(&format!("**Ticket:** {}\n", self.ticket_key()));
+                block.push_str("**Context:** Why work on this ticket is starting now.\n");
+                block.push_str("**System:** System or service the ticket concerns.\n");
+            }
         }
         block.push('\n');
         block
@@ -230,6 +244,7 @@ impl EntrySpec {
             EntryType::Learning => self.learning_body(),
             EntryType::ArticleSummary => self.article_body(),
             EntryType::TicketRefinement => self.ticket_refinement_body(),
+            EntryType::TicketKickoff => self.ticket_kickoff_body(),
         }
     }
 
@@ -369,6 +384,45 @@ impl EntrySpec {
         out.push_str(&section(
             "Future Reference / Notes",
             "Links to the ticket, parent incident, repo, and key files.",
+        ));
+        out
+    }
+
+    fn ticket_kickoff_body(&self) -> String {
+        let ticket = self.ticket_key();
+        let mut out = String::new();
+        out.push_str(&section("Session Overview", OVERVIEW));
+        out.push_str(&section(
+            "Ticket Summary",
+            &format!("What {ticket} asks for, in one or two sentences."),
+        ));
+        out.push_str(&section(
+            "Conditions of Satisfaction & Acceptance Criteria",
+            "Quote or closely paraphrase what was pulled from the tracker - do not lose specifics.",
+        ));
+        out.push_str(&section(
+            "Open Questions & Gaps",
+            "None identified, or the specific gaps found - including execution-mechanics gaps (an unconfirmed process, tool, or permission), not just missing ticket text.",
+        ));
+        out.push_str(&section(
+            "Supporting Information",
+            "Links to the epic, related tickets or incidents, and reference repos or docs.",
+        ));
+        out.push_str(&section(
+            "Work Checklist",
+            "- [ ] Granular, independently completable item, traceable back to a specific CoS/AC item.",
+        ));
+        out.push_str(&section(
+            "Proof of Work Plan",
+            "| CoS/AC item | Evidence | Where captured |\n| --- | --- | --- |\n| Item | What will prove it | Path or convention |",
+        ));
+        out.push_str(&section(
+            "Session Outcome",
+            "State the outcome and the next steps: start on the first unchecked Work Checklist item.",
+        ));
+        out.push_str(&section(
+            "Future Reference / Notes",
+            "Any additional links, related entries, or context not already captured above.",
         ));
         out
     }
@@ -521,6 +575,20 @@ mod tests {
     }
 
     #[test]
+    fn ticket_kickoff_sets_field_and_all_five_required_sections() {
+        let mut s = spec(EntryType::TicketKickoff);
+        s.ticket = Some("TICKET-456".to_string());
+        let doc = s.render();
+        assert!(doc.contains("kickoff_ticket: TICKET-456"));
+        assert!(doc.contains("## Conditions of Satisfaction & Acceptance Criteria"));
+        assert!(doc.contains("## Open Questions & Gaps"));
+        assert!(doc.contains("## Supporting Information"));
+        assert!(doc.contains("## Work Checklist"));
+        assert!(doc.contains("## Proof of Work Plan"));
+        assert!(doc.contains("- ticket-456\n"));
+    }
+
+    #[test]
     fn every_type_has_the_validator_required_sections() {
         for t in [
             EntryType::Journal,
@@ -528,6 +596,7 @@ mod tests {
             EntryType::Learning,
             EntryType::ArticleSummary,
             EntryType::TicketRefinement,
+            EntryType::TicketKickoff,
         ] {
             let doc = spec(t).render();
             assert!(doc.contains("\n## Session Overview\n"), "{t:?} overview");
