@@ -2,7 +2,8 @@
 //! (`validate <file>`), lint corpus tags against the taxonomy (`lint`),
 //! promote a tag into a facet (`taxonomy add`), generate the browse index
 //! (`index`) or a separate knowledge-base index (`kb-index`), backfill
-//! missing frontmatter (`backfill`), and install the bundled companion skill
+//! missing frontmatter (`backfill`), audit a consuming repo's own follow-ups
+//! and plans (`status`), and install the bundled companion skill
 //! (`skill install`).
 
 use std::path::{Path, PathBuf};
@@ -19,6 +20,7 @@ use journal::kb;
 use journal::lint;
 use journal::scan;
 use journal::skill_bundle;
+use journal::status;
 use journal::taxonomy::{Taxonomy, TaxonomySource};
 use journal::taxonomy_sync::{check_append_only, classify_tag, ClassifyConfidence};
 use journal::validate::{self, Outcome};
@@ -61,6 +63,9 @@ enum Command {
     /// Download already-discovered media URLs (found via a browser) into an
     /// existing entry's assets/ directory, at original resolution.
     ArchiveMedia(ArchiveMediaCliArgs),
+    /// Audit status fields across a consuming repo's own follow-ups, plans,
+    /// merge-queue entries, and superseded journal-entry pairs.
+    Status(StatusArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -233,6 +238,20 @@ struct ArchiveMediaCliArgs {
     root: PathBuf,
 }
 
+#[derive(Args)]
+struct StatusArgs {
+    /// Journal root to read follow-ups, plans, merge-queue state, and the
+    /// journal index from.
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+    /// Digest output path.
+    #[arg(long)]
+    output: Option<PathBuf>,
+    /// Print the digest instead of writing it.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
+}
+
 #[derive(Subcommand)]
 enum SkillAction {
     /// Install the bundled skill into detected (or selected) agent directories.
@@ -314,6 +333,7 @@ fn main() {
         Command::KbIndex(args) => run_kb_index(args),
         Command::Backfill(args) => run_backfill(args),
         Command::ArchiveMedia(args) => run_archive_media(args),
+        Command::Status(args) => run_status(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -639,6 +659,33 @@ fn run_archive_media(args: ArchiveMediaCliArgs) -> std::result::Result<(), Strin
     for asset in &saved {
         println!("{} ({} bytes)", asset.path.display(), asset.bytes);
     }
+    Ok(())
+}
+
+fn run_status(args: StatusArgs) -> std::result::Result<(), String> {
+    let (digest, count) = status::generate_digest(&args.root).map_err(|e| e.to_string())?;
+
+    if args.dry_run {
+        println!("{digest}");
+        return Ok(());
+    }
+
+    let output = args
+        .output
+        .unwrap_or_else(|| args.root.join(status::DEFAULT_OUTPUT_PATH));
+    if let Some(parent) = output.parent() {
+        if !parent.as_os_str().is_empty() {
+            std::fs::create_dir_all(parent)
+                .map_err(|e| format!("cannot create {}: {e}", parent.display()))?;
+        }
+    }
+    std::fs::write(&output, &digest)
+        .map_err(|e| format!("cannot write {}: {e}", output.display()))?;
+    println!(
+        "Wrote {}: {count} item{} flagged",
+        output.display(),
+        if count == 1 { "" } else { "s" }
+    );
     Ok(())
 }
 
