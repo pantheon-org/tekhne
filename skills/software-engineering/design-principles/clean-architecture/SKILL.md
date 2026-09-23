@@ -158,25 +158,52 @@ Risks: Network calls add latency; requires distributed transaction handling.
 **BAD:** Module A imports B and B imports A.  
 **GOOD:** Extract shared contract/module and invert dependencies.
 
+**WHY:** a cycle means neither module can be understood, tested, or deployed independently — changing one always risks breaking the other, and most build/bundler tools cannot even guarantee a deterministic load order across the cycle.
+
 ### NEVER let entities depend on frameworks
 
 **BAD:** Entity imports ORM decorators, framework types, or infrastructure.  
 **GOOD:** Entities are plain objects; adapters handle framework mapping.
+
+**WHY:** once an entity carries an `@Entity` decorator or a framework base class, every business-rule test must boot that framework too, and swapping the ORM means rewriting the domain model instead of one adapter.
 
 ### NEVER put business logic in controllers
 
 **BAD:** Controller validates, calculates, and persists data.  
 **GOOD:** Controller calls use case; use case orchestrates business logic.
 
+**WHY:** business logic trapped in a controller can only be exercised through an HTTP request — it MUST be re-implemented for a CLI, a queue consumer, or a test that wants to skip the transport layer entirely.
+
 ### NEVER bypass interface contracts
 
 **BAD:** Use case instantiates concrete PostgresRepository.  
 **GOOD:** Use case depends on IRepository interface; DI provides implementation.
 
+**WHY:** a use case that names a concrete repository class can never be unit-tested without a real (or heavily mocked) database, and swapping storage engines means editing every use case instead of one adapter.
+
 ### NEVER design boundaries for imagined future requirements
 
 **BAD:** Add full hexagonal architecture "in case" of future DB migration.  
 **GOOD:** Solve current need; refactor when trigger appears (YAGNI).
+
+**WHY:** a boundary drawn for a migration that never happens is pure ongoing tax — every future change must thread through an abstraction layer that protects against a scenario nobody triggered.
+
+### NEVER let a repository interface leak persistence details into the domain
+
+**BAD:**
+```typescript
+interface IOrderRepository {
+  findByRawSql(query: string): Promise<OrderRow[]>
+}
+```
+**GOOD:**
+```typescript
+interface IOrderRepository {
+  findById(id: string): Promise<Order | null>
+}
+```
+
+**WHY:** a port that exposes SQL, ORM query builders, or database row shapes ensures the use case layer is coupled to the storage engine even though it depends only on an "abstraction" — the interface must be defined entirely in domain terms, never in persistence terms.
 
 ## Quick Commands
 

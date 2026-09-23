@@ -1,0 +1,1 @@
+Tests whether the agent correctly separates inline (DiffNote) from general (comment) feedback using the Type field, while independently filtering out bot messages using the System field.

@@ -1,0 +1,30 @@
+{
+  "skill": "agentic-harness/opencode-toolkit/design-agents",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 7,
+    "evalValidation": 8,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "progressiveDisclosure": 13,
+    "specificationCompliance": 13
+  },
+  "total": 110,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 100,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: opencode"
+    }
+  ]
+}

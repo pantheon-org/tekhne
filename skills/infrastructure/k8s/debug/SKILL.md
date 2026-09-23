@@ -1,19 +1,19 @@
 ---
 name: k8s-debug
-description: Inspect pod logs, analyze resource quotas, trace network policies, check deployment rollout status, and run cluster health checks for Kubernetes. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, or performing cluster health checks.
+description: Inspect pod logs, analyze resource quotas, trace network policies, check deployment rollout status, run cluster health checks for Kubernetes. Use this skill when diagnosing Kubernetes cluster issues, debugging failing pods, investigating network connectivity problems, analyzing resource usage, troubleshooting deployments, performing cluster health checks.
 ---
 
 # Kubernetes Debugging Skill
 
-## Debugging Mindset
+## Mindset
 
-**Mental Model**: Kubernetes debugging follows a layered approach—start broad (cluster health), narrow to affected components (pods, services), then drill into specific failures (logs, events, resource constraints).
+**Mental Model**: Kubernetes debugging follows a layered approach—start broad (cluster health), narrow to affected components (pods, services), then drill into specific failures (logs, events, resource constraints). A pod's status is always a summary, never the diagnosis — `CrashLoopBackOff` and `ImagePullBackOff` name the symptom, not the root cause, and you must read events and logs before acting on the label alone.
 
 **Decision Framework**:
-1. **Gather context** before jumping to solutions. Check `kubectl get events` and `describe` resources first.
-2. **Verify assumptions** about selectors, labels, and namespaces—label mismatches are the most common root cause.
+1. **Gather context** before jumping to solutions. Check `kubectl get events` and `describe` resources first — this step is mandatory, never optional, even when the fix seems obvious.
+2. **Verify assumptions** about selectors, labels, and namespaces—label mismatches are the most common root cause and must never be assumed away.
 3. **Test hypotheses** systematically: network → resource → configuration → application.
-4. **Document findings** as you go—Kubernetes issues often involve multiple interacting failures.
+4. **Document findings** as you go—Kubernetes issues often involve multiple interacting failures, and an undocumented fix is one nobody else can verify. A common pitfall: treating a restart as a fix when it only cleared a transient symptom — the same gotcha resurfaces on the next scheduling cycle if the root cause was never found.
 
 **When to use this skill**:
 - Pods stuck in Pending, CrashLoopBackOff, ImagePullBackOff, or Error states
@@ -21,6 +21,11 @@ description: Inspect pod logs, analyze resource quotas, trace network policies, 
 - Resource exhaustion (OOMKilled, CPU throttling)
 - Deployments failing to roll out or stuck in progress
 - Network policies blocking expected traffic
+
+**When NOT to use this skill**:
+- The failure is already fully explained by a known recent change (a deploy minutes ago introduced a bad config) — roll back directly rather than running the full diagnostic funnel.
+- The question is capacity planning (steady-state resource sizing, autoscaler tuning) rather than an active failure — that is a design decision, not a debugging session.
+- You lack read access to the affected namespace — request access first; guessing from an adjacent namespace produces false leads.
 
 ## Quick Diagnostic Patterns
 
@@ -336,25 +341,25 @@ After any debugging intervention:
 
 ### NEVER exec into a running production pod before checking logs
 
-- **WHY**: Interactive exec changes the live state and may affect running workloads; logs and describe output are safe to read without impact and usually contain the root cause.
+- **WHY:** Interactive exec changes the live state and may affect running workloads; logs and describe output are safe to read without impact and usually contain the root cause.
 - **BAD**: Immediately running `kubectl exec -it pod-name -- bash` on a production pod for any issue.
 - **GOOD**: Start with `kubectl logs pod-name --previous` and `kubectl describe pod pod-name` to gather context before considering exec.
 
 ### NEVER delete and recreate pods to fix issues without understanding the cause
 
-- **WHY**: Blindly recycling pods hides the root cause and may leave a resource in a broken state for the next incident.
+- **WHY:** Blindly recycling pods hides the root cause and may leave a resource in a broken state for the next incident.
 - **BAD**: `kubectl delete pod pod-name` as a first troubleshooting step.
 - **GOOD**: Diagnose with logs and events first; identify whether the issue is a crash loop, OOM kill, config error, or node failure before taking corrective action.
 
 ### NEVER use `kubectl get pods` without `-n` or `--all-namespaces` in multi-tenant clusters
 
-- **WHY**: Missing pods often means you are looking in the wrong namespace; always specify scope explicitly to avoid false negatives.
+- **WHY:** Missing pods often means you are looking in the wrong namespace; always specify scope explicitly to avoid false negatives.
 - **BAD**: `kubectl get pods` returning "No resources found" and assuming the workload does not exist.
 - **GOOD**: `kubectl get pods -n <namespace>` or `kubectl get pods -A | grep <app>`
 
 ### NEVER port-forward to a single pod as a proxy for full service testing
 
-- **WHY**: Port-forwarding targets one pod; issues may be pod-specific or service-routing-specific and require testing both paths independently.
+- **WHY:** Port-forwarding targets one pod; issues may be pod-specific or service-routing-specific and require testing both paths independently.
 - **BAD**: Testing all application behavior via `kubectl port-forward pod/name 8080:80` and assuming the result represents the service.
 - **GOOD**: Use pod port-forward to isolate pod-specific behavior; use `kubectl port-forward svc/<name>` to test service routing separately.
 

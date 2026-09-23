@@ -1,0 +1,95 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER declare phony targets without .PHONY",
+      "content": "Never leave a non-file target undeclared in .PHONY; if a file with that name exists, Make treats the target as up to date and silently skips it."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use make recursively instead of $(MAKE)",
+      "content": "Never call bare make inside a recipe; use $(MAKE) so the parent's -j jobserver, -n, and -k flags propagate to the sub-make."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER rely on shell environment variables in recipes without declaring them as Make variables",
+      "content": "Never assume a recipe inherits an environment variable; declare anything the recipe needs as a Make variable instead."
+    },
+    {
+      "id": "i4",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use implicit rules for critical build targets",
+      "content": "Never rely on Make's implicit pattern rules for a target whose build correctness matters; write an explicit rule instead."
+    },
+    {
+      "id": "i5",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER put multi-line logic in recipe shells without .ONESHELL or explicit line continuations",
+      "content": "Never write a cd on one recipe line expecting it to affect the next line; each recipe line is its own subshell unless .ONESHELL is set or lines are joined with a backslash."
+    },
+    {
+      "id": "i6",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "?= for user-overridable (CC, CFLAGS, PREFIX)",
+      "content": "Declare user-overridable variables (CC, CFLAGS, PREFIX, DESTDIR) with ?=, not plain =."
+    },
+    {
+      "id": "i7",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": ":= for project-specific (SOURCES, OBJECTS)",
+      "content": "Declare project-internal computed variables (SOURCES, OBJECTS) with :=, not =, to avoid repeated re-evaluation."
+    },
+    {
+      "id": "i8",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Use order-only prerequisites (|) for large projects with many targets",
+      "content": "Use an order-only prerequisite (|) for a build-directory dependency so directory-timestamp changes don't trigger unnecessary rebuilds."
+    },
+    {
+      "id": "i9",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Use tabs, never spaces",
+      "content": "Indent every recipe line with a real tab character, never spaces."
+    },
+    {
+      "id": "i10",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Quote variables in shell: $(RM) \"$(TARGET)\"",
+      "content": "Quote Make variables when they are expanded inside a recipe's shell command."
+    },
+    {
+      "id": "i11",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Document with ## comments for help target",
+      "content": "Tag every user-facing target with a trailing ## comment so a help target can extract and list them."
+    },
+    {
+      "id": "i12",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "install target uses the install command, not cp, and creates the target directory first",
+      "content": "Use the install command for the install target rather than cp, and create the destination directory first."
+    },
+    {
+      "id": "i13",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Automatic dependency tracking with -MMD -MP flags and generated .d file includes",
+      "content": "Enable automatic header dependency tracking with -MMD -MP and include the generated .d files."
+    }
+  ]
+}

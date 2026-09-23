@@ -1,0 +1,1 @@
+Resolve cherry-pick conflicts and verify each stacked branch actually builds before reporting completion; remind the user of correct target branches.

@@ -1,0 +1,88 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use spaces instead of tabs for recipe indentation",
+      "content": "Never accept space-indented recipe lines; GNU Make requires a hard tab, and spaces produce a confusing 'missing separator' error."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER omit .PHONY for non-file targets",
+      "content": "Never leave a non-file target out of .PHONY; if a same-named file exists, Make silently treats the target as already up to date."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use bare $(shell ...) calls in recipe variables without quoting",
+      "content": "Never flag an unquoted $(VAR) expansion inside rm, sudo, or curl as safe; it enables command injection exactly like an unquoted shell variable."
+    },
+    {
+      "id": "i4",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use recursive make with a bare make command",
+      "content": "Never accept a bare make -C call inside a recipe; it drops the parent's jobserver flags and can break parallel builds. Use $(MAKE) instead."
+    },
+    {
+      "id": "i5",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER export all variables globally with .EXPORT_ALL_VARIABLES",
+      "content": "Never treat .EXPORT_ALL_VARIABLES as harmless; it exports every variable in scope, including secrets loaded from .env files, to every sub-process."
+    },
+    {
+      "id": "i6",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Syntax: GNU make -n --dry-run validation; catches errors with line numbers",
+      "content": "Run GNU make's own -n dry-run to catch dependency-graph and syntax errors with line numbers."
+    },
+    {
+      "id": "i7",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Formatting: mbake tab indentation, variable assignment consistency, trailing whitespace, line continuations",
+      "content": "Check formatting consistency: tab indentation, variable assignment style, trailing whitespace, line continuations."
+    },
+    {
+      "id": "i8",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Best practices: .DELETE_ON_ERROR, .PHONY declarations, $(MAKE) for recursive calls, .ONESHELL error handling",
+      "content": "Check for .DELETE_ON_ERROR, complete .PHONY coverage, $(MAKE) for recursion, and .ONESHELL where multi-step recipes need shared shell state."
+    },
+    {
+      "id": "i9",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Security: hardcoded credentials, unsafe variable expansion, command injection, .EXPORT_ALL_VARIABLES leakage",
+      "content": "Scan for hardcoded credentials, unsafe variable expansion in dangerous commands, and .EXPORT_ALL_VARIABLES leakage."
+    },
+    {
+      "id": "i10",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "mbake doesn't recognize some valid GNU Make special targets -- the validator filters these false positives",
+      "content": "Filter known mbake false positives (.DELETE_ON_ERROR, .SUFFIXES, .ONESHELL, .POSIX) rather than reporting them as errors."
+    },
+    {
+      "id": "i11",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Exit codes: 0 no issues, 1 warnings, 2 errors",
+      "content": "Map validation results to exit codes 0 (clean), 1 (warnings), 2 (errors) for CI/CD integration."
+    },
+    {
+      "id": "i12",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "For each finding, report the location, the risk, and the fix",
+      "content": "Report every finding as a concrete line reference, the risk it creates, and the specific fix -- not just that an issue exists."
+    }
+  ]
+}

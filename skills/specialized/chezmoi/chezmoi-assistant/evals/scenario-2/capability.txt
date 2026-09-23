@@ -1,0 +1,1 @@
+Tests whether the agent bootstraps chezmoi on a new machine with the single-command `init --apply` flow and correctly explains what happens during that step, rather than proposing manual clone-then-apply.

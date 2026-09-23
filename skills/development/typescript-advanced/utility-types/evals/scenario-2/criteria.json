@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "`Getters<T>` uses key remapping with `as`: The mapped type remaps each key `K` to `get${Capitalize<string & K>}` (or equivalent) via an `as` clause, not a separate lookup structure",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Method signatures are correct: Each remapped key's value type is a zero-argument function returning `T[K]` (e.g. `() => T[K]`)",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`ConfigGetters` is derived, not hand-written: Defined as `Getters<Config>`, and structurally matches the original hand-written interface's method names and return types",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Generalizes to a second type: A second example object type and its `Getters<...>` derivation are included, demonstrating the mapped type isn't `Config`-specific",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "No `any` or unsafe assertions introduced: The solution contains no `any`, `@ts-ignore`, or unchecked `as` assertions (the `as` clause in the mapped type's key position is expected and does not count against this)",
+      "max_score": 10
+    }
+  ]
+}

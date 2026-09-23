@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Uses event hook: Plugin implements the `event` hook to listen for events",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Filters for file edit events: Checks event type to handle only file edit/write events",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Uses client.tui.showToast or equivalent: Calls the appropriate TUI API to display the toast notification",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Async event handler: The event handler is async",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Plugin structure is correct: Async factory function returning hooks object with proper TypeScript typing",
+      "max_score": 15
+    }
+  ]
+}

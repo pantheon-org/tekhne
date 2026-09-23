@@ -1,0 +1,46 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER silence type errors with unchecked assertions",
+      "content": "Never use an unchecked `as` assertion to silence a type error; narrow with a runtime check first so the guarantee is real, not asserted."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER leave a switch over a union without an exhaustiveness check",
+      "content": "Never leave a switch over a discriminated union without a `never`-typed default branch, so adding a new variant without handling it is a compile error."
+    },
+    {
+      "id": "i3",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Making illegal states unrepresentable with discriminated unions",
+      "content": "Model impossible field combinations out of existence with a discriminated union rather than checking for them at runtime."
+    },
+    {
+      "id": "i4",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Type predicate functions (is* functions) for object-shape validation",
+      "content": "Write an `is*` type predicate function to validate an object's shape at runtime and narrow its type afterward."
+    },
+    {
+      "id": "i5",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Guard against undefined with an explicit conditional check before access",
+      "content": "Add an explicit guard before accessing a possibly-undefined value instead of forcing access with a non-null assertion."
+    },
+    {
+      "id": "i6",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Choose default value vs throw per function based on whether absence is expected or an error",
+      "content": "When guarding against undefined, return a sensible default when absence is a normal case, and throw a descriptive error when absence indicates a bug."
+    }
+  ]
+}

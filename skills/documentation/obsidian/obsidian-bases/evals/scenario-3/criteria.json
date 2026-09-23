@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Explains global filter applies to all views: The response explains that the top-level `filters` block restricts every view in the base, so the `status != \"archived\"` condition prevents the Archived view from ever matching any notes.",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Global filter retains only the tag scope: The corrected global `filters` block contains only the tag constraint (`file.hasTag(\"project\")` or equivalent) and does not include any status-based exclusion.",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Active view has view-level filter for active status: The \"Active\" view contains a view-level `filters` clause that matches `status == \"active\"` (or equivalent).",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Archived view has view-level filter for archived status: The \"Archived\" view contains a view-level `filters` clause that matches `status == \"archived\"` (or equivalent).",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Valid YAML structure: The corrected file is syntactically valid YAML with no unquoted special characters and consistent indentation.",
+      "max_score": 20
+    }
+  ]
+}

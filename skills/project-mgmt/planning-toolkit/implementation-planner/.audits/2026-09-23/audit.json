@@ -1,0 +1,30 @@
+{
+  "skill": "project-mgmt/planning-toolkit/implementation-planner",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 9
+  },
+  "total": 110,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 457,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    }
+  ]
+}

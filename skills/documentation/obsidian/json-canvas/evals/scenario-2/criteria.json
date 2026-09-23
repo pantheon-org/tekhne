@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Duplicate ID resolved: The two nodes that shared the id `deadbeefdeadbeef` now have distinct IDs",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Dangling edge fixed: The edge that referenced `toNode` `9999999999999999` has been removed or updated to point to a valid node ID",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "All IDs unique: Every `id` value across nodes and edges in the output is unique \u2014 no duplicates remain",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Valid JSON output: The corrected canvas content is syntactically valid JSON with no parse errors",
+      "max_score": 25
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Correctly stop after agents complete and enforce the merge gate rather than auto-advancing to the next wave.

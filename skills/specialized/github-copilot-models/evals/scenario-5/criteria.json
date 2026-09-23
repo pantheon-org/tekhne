@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a diagnostic script and incident report for a GitHub Copilot default model that suddenly stopped responding.",
+  "checklist": [
+    {
+      "name": "api_query_for_status",
+      "description": "diagnose.sh queries the GitHub Copilot API directly (via fetch-models.sh or curl) to check the target model's status, not relying on `opencode models` output.",
+      "max_score": 20
+    },
+    {
+      "name": "policy_state_checked",
+      "description": "Script inspects policy.state for the affected model to determine whether it is active.",
+      "max_score": 20
+    },
+    {
+      "name": "auth_verification_step",
+      "description": "Script includes a step to verify auth token validity.",
+      "max_score": 15
+    },
+    {
+      "name": "registry_staleness_noted",
+      "description": "The incident report or script explicitly states that OpenCode's model list may be stale and should not be trusted as definitive.",
+      "max_score": 15
+    },
+    {
+      "name": "replacement_model_found",
+      "description": "Script discovers and outputs at least one alternative enabled model as a suggested replacement.",
+      "max_score": 15
+    },
+    {
+      "name": "root_cause_in_report",
+      "description": "incident-report.md identifies the root cause as a model policy change (disabled/deprecated), not a generic unknown error.",
+      "max_score": 15
+    }
+  ]
+}

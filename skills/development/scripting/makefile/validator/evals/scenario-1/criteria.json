@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Hardcoded password removed: The corrected Makefile does NOT contain the literal value `hunter2`",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "Hardcoded API key removed: The corrected Makefile does NOT contain the literal value `sk-live-abc123def456`",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": ".EXPORT_ALL_VARIABLES removed: The `.EXPORT_ALL_VARIABLES:` directive is removed from the corrected Makefile",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "EXPORT_ALL risk explained: `security-audit.md` explains that `.EXPORT_ALL_VARIABLES` exports all variables (including secrets) to every subprocess",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "Unquoted rm fixed: The `rm -rf $(DEPLOY_DIR)` and/or `rm -rf $(BUILD_DIR)` commands are updated to quote the variable",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": "Bare make replaced: Bare `make deploy` in the rollback target is replaced with `$(MAKE) deploy`",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": "Credentials risk explained: `security-audit.md` explains the risk of hardcoded credentials",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": "Bare make risk explained: `security-audit.md` explains why `$(MAKE)` should be used instead of bare `make`",
+      "max_score": 12
+    }
+  ]
+}

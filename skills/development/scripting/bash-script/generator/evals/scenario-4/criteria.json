@@ -1,0 +1,54 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "No eval used: Script does NOT use `eval` anywhere in the substitution or rendering logic",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "Safe substitution method: Script uses `sed`, `envsubst`, `awk`, or another safe method for placeholder substitution",
+      "max_score": 10
+    },
+    {
+      "id": "c3",
+      "criterion": "Multi-word values handled: Substitution correctly handles config values containing spaces without breaking the output",
+      "max_score": 10
+    },
+    {
+      "id": "c4",
+      "criterion": "Quoted variable expansions: Variables derived from config values are quoted when passed to commands",
+      "max_score": 10
+    },
+    {
+      "id": "c5",
+      "criterion": "Correct output produced: Running with the provided sample files replaces all four `{{KEY}}` placeholders correctly",
+      "max_score": 10
+    },
+    {
+      "id": "c6",
+      "criterion": "Strict mode present: Script includes `set -euo pipefail`",
+      "max_score": 10
+    },
+    {
+      "id": "c7",
+      "criterion": "Env shebang: Shebang uses `#!/usr/bin/env bash`",
+      "max_score": 10
+    },
+    {
+      "id": "c8",
+      "criterion": "Input validation: Script validates that both template and config files exist before processing",
+      "max_score": 10
+    },
+    {
+      "id": "c9",
+      "criterion": "readonly or local constants: Script uses `readonly` for at least one script-level constant or `local` for function-scoped variables",
+      "max_score": 10
+    },
+    {
+      "id": "c10",
+      "criterion": "Logging or status messages: Script emits at least one status message indicating progress or completion",
+      "max_score": 10
+    }
+  ]
+}

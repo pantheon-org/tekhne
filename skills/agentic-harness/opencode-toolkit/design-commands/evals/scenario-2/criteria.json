@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Removes or fixes slash command reference: Removes `run /test` (agents can't invoke slash commands) and replaces with `npm test` or similar",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Fixes double $ARGUMENTS usage: Does not use `$ARGUMENTS` twice in the same template; restructures to avoid duplication",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Identifies agent: plan issue: Explains that `agent: plan` is read-only and cannot fix bugs/modify files",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Fixes agent to build or removes it: Either removes `agent:` (uses default) or changes to `agent: build` for file-modifying work",
+      "max_score": 20
+    }
+  ]
+}

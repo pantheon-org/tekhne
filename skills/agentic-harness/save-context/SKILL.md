@@ -16,10 +16,10 @@ Save current session state to `.context/session/CONTEXT-{stream}-llm.md` with LL
 
 ## AskUserQuestion Guard
 
-**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known Claude Code bug: outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.
+**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known harness bug affecting several agentic CLIs: outside Plan Mode, the AskUserQuestion tool can silently return empty answers without showing UI.
 
 **If answers are empty**: DO NOT proceed with assumptions. Instead:
-1. Output: "Questions didn't display (known Claude Code bug outside Plan Mode)."
+1. Output: "Questions didn't display (known AskUserQuestion bug outside Plan Mode)."
 2. Present the options as a **numbered text list** and ask user to reply with their choice number.
 3. WAIT for user reply before continuing.
 
@@ -42,7 +42,7 @@ Bash: rtk ls .context/session/ + rtk ls -t .context/session/CONTEXT-*llm.md
 ### Phase 2: Analyze & Synthesize (single pass)
 
 From conversation (last 15-20 messages):
-1. **Next** — infer 3 tasks from conversation (IMPORTANT: use heading "Next" — Claude Code compaction grep-matches `next`/`todo`/`pending`/`remaining` keywords for survival priority)
+1. **Next** — infer 3 tasks from conversation (IMPORTANT: use heading "Next" — several agentic CLIs' compaction routines grep-match `next`/`todo`/`pending`/`remaining` keywords for survival priority)
 2. **Session** — progression, decisions, thinking, unexpected (780 tokens max)
 3. **Hot Files** — max 10 discussed/edited
 4. **Focus & Goal** — 1-2 sentence focus + goal
@@ -61,7 +61,7 @@ Bash: mkdir -p .context/session/done && mv .context/session/CONTEXT-{stream}-llm
 ```
 Report: `"Archived to .context/session/done/ (status: {status})"`
 
-See `reference.md` for CONTEXT file template, quality self-check, status mapping, done/ archival rules, and INDEX.md upsert logic.
+See `references/reference.md` for CONTEXT file template, quality self-check, status mapping, done/ archival rules, and INDEX.md upsert logic.
 
 ## Philosophy
 
@@ -73,7 +73,7 @@ See `reference.md` for CONTEXT file template, quality self-check, status mapping
 ## When to Use
 
 - **Before ending a multi-hour session** — preserve decisions and next steps before the conversation closes.
-- **Before a context window reset or compaction** — Claude Code compacts long conversations; save first to survive the reset.
+- **Before a context window reset or compaction** — most agentic CLIs compact long conversations; save first to survive the reset.
 - **After completing a discrete milestone** — a working feature, a passing test suite, a completed PR review.
 - **When switching streams or workspaces** — checkpoint the current stream before pivoting to a different task.
 - **When you've made non-obvious architectural decisions** — lock in the reasoning so future sessions don't relitigate it.
@@ -89,7 +89,29 @@ See `reference.md` for CONTEXT file template, quality self-check, status mapping
 ## Anti-Patterns
 
 - **NEVER overwrite an existing context file without reading it first** — Silent overwrites lose prior session decisions. **Why:** The INDEX.md may reference decisions that inform current architecture; discarding them breaks traceability.
+
+  ```bash
+  # BAD - blind overwrite, prior decisions gone with no diff
+  echo "$new_summary" > .context/session/CONTEXT-llm.md
+
+  # GOOD - read first, merge forward, then write
+  old=$(cat .context/session/CONTEXT-llm.md 2>/dev/null || echo "")
+  # ...fold decisions still relevant from $old into the new summary...
+  echo "$merged_summary" > .context/session/CONTEXT-llm.md
+  ```
+
 - **NEVER save with a generic or missing stream name when multiple streams are active** — Ambiguous names cause the wrong file to be loaded next session. **Why:** `CONTEXT-llm.md` collides across unrelated workstreams and forces manual disambiguation.
+
+  ```bash
+  # BAD - two unrelated workstreams both save to the default stream
+  /save-context                 # auth-refactor work lands in CONTEXT-llm.md
+  /save-context                 # billing-migration work overwrites it minutes later
+
+  # GOOD - each workstream gets its own named stream
+  /save-context auth-refactor "JWT middleware extraction done"
+  /save-context billing-migration "Stripe webhook handler drafted"
+  ```
+
 - **NEVER skip the INDEX.md upsert step** — Omitting it leaves the index out of sync. **Why:** `load-context` relies on `INDEX.md` to discover the latest file; a stale index means the wrong snapshot is loaded.
 - **NEVER archive to `done/` prematurely** — Moving an active context to `done/` hides it from future loads. **Why:** Auto-archive is only correct when status is explicitly `done` or `parked`; applying it to in-progress work severs continuity.
 - **NEVER exceed the 1500-token budget** — Bloated context files slow down load and waste model capacity. **Why:** The target is 1200-1500 tokens; beyond that the signal-to-noise ratio degrades and compaction may truncate critical sections.
@@ -131,4 +153,4 @@ See `reference.md` for CONTEXT file template, quality self-check, status mapping
 
 ## References
 
-- [Reference](reference.md) — CONTEXT file template, status mapping, INDEX.md upsert logic, auto-archive rules, and token budget constraints
+- [Reference](references/reference.md) — CONTEXT file template, status mapping, INDEX.md upsert logic, auto-archive rules, and token budget constraints

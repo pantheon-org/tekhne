@@ -1,0 +1,64 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Before executing a wave, check its Gate blockquote and confirm any prior wave's Verification checklist is fully ticked; if not, stop and report the unmet gate to the user instead of proceeding."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Resolve each phase's model tier to a concrete model ID via references/model-map.yaml before spawning, defaulting to the standard entry when a tier is absent from the map."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Spawn one Agent tool call per unblocked phase inside a single response, setting subagent_type, the resolved model ID, isolation, description, and the filled per-agent prompt on every call."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Do not proceed past a wave until every agent in it has returned, then stop and report the merge gate to the user, copying the wave's Verification checklist verbatim so they can run each item."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER paraphrase the task description -- copy the verbatim focus or phase file content into the per-agent prompt, since summaries drop constraints, tool names, and scope boundaries."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER omit the model parameter on an Agent call -- omitting it silently defaults to the orchestrator's model and wastes cost on fast-tier mechanical tasks."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER start the next wave before the gate passes -- consolidation agents read files written by prior waves, so unmerged branches produce stale reads and hard-to-detect incorrect output."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER spawn wave agents sequentially -- send a single response with all parallel agents in one message, or the parallelism wave planning was designed for is defeated."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER spawn agents for phases blocked by unmet dependencies -- check each phase's gate/blocked-on annotation and skip and report blocked phases instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER trust a merged branch without checking it actually builds -- a merge exiting 0 only proves the text merged, not that the result runs; run the project's own build/test command on main after the merge before ticking the gate."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "After the user confirms verification, run wave-execution-planner Mode B on the wave document to tick the checkboxes and mark the wave DONE, then report which wave is now unblocked and continue the loop."
+    },
+    {
+      "type": "reminder",
+      "why_given": "reminder",
+      "content": "Use this skill when the user says run the plan, execute the plan, start wave N, or launch the agents, for a wave document produced by wave-execution-planner."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Sends prompt via client.session.prompt: Uses `client.session.prompt` with parts array containing text message",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Creates a session: Calls `client.session.create()` to create a new session",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Correct client initialization: Uses `createOpencode` with hostname/port or `createOpencodeClient` with baseUrl",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Handles response data: Accesses `.data` from the response and prints/logs it",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Imports from @opencode-ai/sdk: Imports `createOpencode` or `createOpencodeClient` from `@opencode-ai/sdk`",
+      "max_score": 15
+    }
+  ]
+}

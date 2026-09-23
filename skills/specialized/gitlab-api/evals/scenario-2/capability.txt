@@ -1,0 +1,1 @@
+Tests whether the agent builds a review-activity monitor that correctly distinguishes DiffNote from general comments, handles ISO8601 timestamps without reformatting, and validates the response before processing.

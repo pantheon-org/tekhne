@@ -1,0 +1,52 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a script that monitors GitLab MR review activity and pending inline comments.",
+  "checklist": [
+    {
+      "name": "uses_get_mr_comments",
+      "description": "Calls get_mr_comments.sh in the solution.",
+      "max_score": 15
+    },
+    {
+      "name": "identifies_diffnote_type",
+      "description": "Checks the Type field to distinguish DiffNote (inline) from general comments, and specifically counts/flags DiffNote as pending inline reviews.",
+      "max_score": 15
+    },
+    {
+      "name": "compares_timestamps",
+      "description": "Includes logic to compare or sort comment timestamps to identify recent activity.",
+      "max_score": 10
+    },
+    {
+      "name": "processes_date_field",
+      "description": "Extracts and uses the Date field from the comment output.",
+      "max_score": 10
+    },
+    {
+      "name": "handles_iso8601",
+      "description": "Treats or references timestamps as ISO8601 format without manual conversion to another format.",
+      "max_score": 10
+    },
+    {
+      "name": "validates_response",
+      "description": "Checks that fetched data contains expected fields before processing.",
+      "max_score": 10
+    },
+    {
+      "name": "auth_setup",
+      "description": "Documents or handles the GITLAB_TOKEN/GITLAB_PAT environment variable requirement.",
+      "max_score": 10
+    },
+    {
+      "name": "error_handling",
+      "description": "Includes checks for missing credentials or invalid MR URLs with appropriate error messages.",
+      "max_score": 10
+    },
+    {
+      "name": "identifies_inline_reviews",
+      "description": "Counts or flags Type: DiffNote comments specifically as pending inline reviews (distinct from just detecting the type).",
+      "max_score": 10
+    }
+  ]
+}

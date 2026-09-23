@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Description includes specific trigger phrases: Improved description contains concrete phrases like 'review my code', 'check for bugs', 'find issues', 'LGTM', 'code quality'",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "System prompt converted to second person: System prompt uses 'You check for bugs...' or 'You provide feedback...' — NOT 'The agent should...'",
+      "max_score": 30
+    },
+    {
+      "id": "c3",
+      "criterion": "Description includes examples block: Description has example user phrases mapped to agent actions",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "No unnecessary permission config added: Does not add redundant `read: allow, write: allow` permissions (defaults are sufficient)",
+      "max_score": 20
+    }
+  ]
+}

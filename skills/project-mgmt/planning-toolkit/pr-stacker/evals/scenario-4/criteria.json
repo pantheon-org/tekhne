@@ -1,0 +1,41 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 04: Cherry-Pick Conflict Handling and Post-Creation Checklist",
+  "checklist": [
+    {
+      "name": "Agent does not report completion while conflict is unresolved",
+      "description": "The agent does not say the branch is ready, the PR can be opened, or the decomposition is complete while the cherry-pick conflict is still active",
+      "max_score": 15
+    },
+    {
+      "name": "Agent instructs how to resolve the conflict",
+      "description": "The agent provides concrete guidance: edit the conflicting file, stage it with `git add`, then run `git cherry-pick --continue` (or equivalent)",
+      "max_score": 15
+    },
+    {
+      "name": "Agent verifies the branch is in a buildable state after resolution",
+      "description": "After resolving the conflict, the agent mentions verifying the build before proceeding to the next cherry-pick",
+      "max_score": 14
+    },
+    {
+      "name": "Agent produces the target-branch reminder after all branches are created",
+      "description": "The agent outputs a clear reminder listing which target branch each PR should open against",
+      "max_score": 14
+    },
+    {
+      "name": "Reminder lists all three PRs with their correct targets",
+      "description": "The reminder covers all three PRs, not just the first or last; each PR's correct target branch is explicitly named",
+      "max_score": 14
+    },
+    {
+      "name": "Agent does not suggest abandoning the decomposition due to the conflict",
+      "description": "The agent treats the cherry-pick conflict as normal and expected, not a reason to revert to a single PR",
+      "max_score": 14
+    },
+    {
+      "name": "Agent explains why the conflict occurred",
+      "description": "The agent explains that the conflict happened because the same file was modified in an earlier commit now in PR 1",
+      "max_score": 14
+    }
+  ]
+}

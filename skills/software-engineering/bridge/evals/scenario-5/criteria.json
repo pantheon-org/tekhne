@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Bridge a Current Project to a Long-Term Goal",
+  "checklist": [
+    {
+      "name": "YAML file has archetype: option and",
+      "description": "YAML file has `archetype: option` and `emoji: ⚡`.",
+      "max_score": 17
+    },
+    {
+      "name": "YAML file has strength: potential",
+      "description": "YAML file has `strength: potential`.",
+      "max_score": 17
+    },
+    {
+      "name": "YAML file has direction: one-way",
+      "description": "YAML file has `direction: one-way`.",
+      "max_score": 17
+    },
+    {
+      "name": "No files written outside the bridges",
+      "description": "No files written outside the bridges directory.",
+      "max_score": 17
+    },
+    {
+      "name": "Response is a single line in",
+      "description": "Response is a single line in the `🔗 Bridge #N:` format.",
+      "max_score": 16
+    },
+    {
+      "name": "Description is stored verbatim (no reformulation)",
+      "description": "Description is stored verbatim (no reformulation).",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Tests whether the agent drives the OpenCode SDK client end-to-end: connect, create a session, send a prompt, and read the response data.

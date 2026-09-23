@@ -1,0 +1,1 @@
+Move complex conditional object-construction logic out of a constructor into a Factory that encapsulates the creation decision.

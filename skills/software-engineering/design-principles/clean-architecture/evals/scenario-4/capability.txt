@@ -1,0 +1,1 @@
+Diagnose a circular dependency between two modules and resolve it by extracting a shared contract rather than adding a workaround import.

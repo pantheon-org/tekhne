@@ -1,13 +1,13 @@
 ---
 name: k8s-yaml-generator
-description: Comprehensive toolkit for generating, validating, and managing Kubernetes YAML resources. Use this skill when creating Kubernetes manifests (Deployments, Services, ConfigMaps, StatefulSets, etc.), working with Custom Resource Definitions (CRDs), or generating production-ready K8s configurations.
+description: Comprehensive toolkit for generating, validating, managing Kubernetes YAML resources. Use this skill when creating Kubernetes manifests (Deployments, Services, ConfigMaps, StatefulSets, etc.), working with Custom Resource Definitions (CRDs), generating production-ready K8s configurations.
 ---
 
 # K8s YAML Generator
 
-## Generation Mindset
+## Mindset
 
-**Mental Model**: Kubernetes YAML generation is about translating application requirements into declarative infrastructure. Think in terms of desired state, not imperative commands.
+**Mental Model**: Kubernetes YAML generation is about translating application requirements into declarative infrastructure. Think in terms of desired state, not imperative commands. A manifest that merely "applies without error" is not the bar — it must also survive a node restart, a rolling update, and a resource crunch without silently degrading, so generation and validation are never separable steps. The recurring pitfall is generating a manifest that validates cleanly today but hits a gotcha under load six months later, because a default (an inferred `imagePullPolicy`, an unset resource limit) was never made explicit.
 
 **Decision Framework**:
 1. **Start with the workload** (Pod, Deployment, StatefulSet)—this defines what runs
@@ -22,7 +22,12 @@ description: Comprehensive toolkit for generating, validating, and managing Kube
 - Building templates for Helm charts or Kustomize bases
 - Scaffolding multi-resource applications
 
-**Generation philosophy**: Generate correct, complete, validated YAML on first pass. Never output YAML that hasn't been validated.
+**When NOT to use this skill**:
+- The task is validating an already-written manifest rather than producing a new one — use `k8s-yaml-validator` directly instead.
+- The target is a Helm chart's templating logic itself (`{{ }}` expressions, `_helpers.tpl`) rather than the rendered resource — that is chart authoring, not resource generation.
+- A near-identical resource already exists in the repository — copy and adapt it so labels, annotations, and conventions stay consistent, rather than generating a fresh one that drifts from house style.
+
+**Generation philosophy**: Generate correct, complete, validated YAML on first pass. Never output YAML that hasn't been validated — this is a mandatory, non-negotiable gate, not a suggestion.
 
 ## Core Workflow
 
@@ -163,7 +168,7 @@ The validator runs `yamllint` (syntax), `kubeconform` (schema/API compliance), b
 Present the validated YAML with a brief summary, key configuration choices, and next steps:
 
 ```bash
-kubectl apply -f <filename>.yaml
+kubectl apply -f ./<filename>.yaml
 kubectl get <resource-type> <name> -n <namespace>
 kubectl describe <resource-type> <name> -n <namespace>
 ```
@@ -254,7 +259,7 @@ containers:
     limits:   { memory: "128Mi", cpu: "500m" }
 ```
 
-**Why**: Unlimited resources lead to noisy neighbor issues and OOMKilled pods.
+**WHY:** Unlimited resources lead to noisy neighbor issues and OOMKilled pods.
 
 ### NEVER: Hardcode Secrets in ConfigMaps
 
@@ -401,38 +406,36 @@ Before delivering generated YAML, confirm:
 
 ### NEVER omit `resources:` limits and requests from container specs
 
-- **WHY**: Containers without resource constraints are evicted under node pressure, cannot be autoscaled predictably, and fail Kubernetes best-practice audits (Polaris, kube-score).
+- **WHY:** Containers without resource constraints are evicted under node pressure, cannot be autoscaled predictably, and fail Kubernetes best-practice audits (Polaris, kube-score).
 - **BAD**: A container spec with no `resources:` block.
 - **GOOD**: Set `requests` for scheduling and `limits` for protection: `resources: {requests: {cpu: 100m, memory: 128Mi}, limits: {cpu: 500m, memory: 512Mi}}`
 
 ### NEVER use `latest` as the image tag in Kubernetes manifests
 
-- **WHY**: `imagePullPolicy: Always` with `:latest` makes every pod start non-deterministic; `imagePullPolicy: IfNotPresent` with `:latest` uses a stale local image silently.
+- **WHY:** `imagePullPolicy: Always` with `:latest` makes every pod start non-deterministic; `imagePullPolicy: IfNotPresent` with `:latest` uses a stale local image silently.
 - **BAD**: `image: myapp:latest`
 - **GOOD**: `image: myapp:v1.2.3` with a specific, immutable tag and `imagePullPolicy: IfNotPresent`
 
 ### NEVER expose sensitive configuration as plain environment variables
 
-- **WHY**: Config mounted from a literal `env` value appears in pod descriptions, process listings, and logs; it bypasses Kubernetes RBAC for Secret objects.
+- **WHY:** Config mounted from a literal `env` value appears in pod descriptions, process listings, and logs; it bypasses Kubernetes RBAC for Secret objects.
 - **BAD**: `env: [{name: DB_PASSWORD, value: "mysecret"}]`
 - **GOOD**: `env: [{name: DB_PASSWORD, valueFrom: {secretKeyRef: {name: db-secret, key: password}}}]`
 
 ### NEVER create Deployments without liveness and readiness probes
 
-- **WHY**: Without probes, Kubernetes cannot detect unhealthy pods and continues routing traffic to them even when the application is broken or deadlocked.
+- **WHY:** Without probes, Kubernetes cannot detect unhealthy pods and continues routing traffic to them even when the application is broken or deadlocked.
 - **BAD**: A Deployment spec with no `livenessProbe` or `readinessProbe`.
 - **GOOD**: Add `readinessProbe` to control traffic routing and `livenessProbe` to trigger pod restarts on deadlocks.
 
 ### NEVER inline secret values in CI pipeline commands using heredocs
 
-- **WHY**: Heredoc content containing environment variable expansions appears in CI logs and shell history, leaking secrets.
+- **WHY:** Heredoc content containing environment variable expansions appears in CI logs and shell history, leaking secrets.
 - **BAD**: `kubectl apply -f - <<EOF\nenv:\n  value: $SECRET\nEOF`
 - **GOOD**: Use Kubernetes Secrets, Sealed Secrets, or external-secrets-operator; reference secrets by name rather than inlining values in pipeline commands.
 
 ## References
 
-For detailed examples and templates:
-- Standard resource templates: See "Deployment template", "Service template", "ConfigMap template" sections above
-- CRD examples: See "Common CRD Examples" section (ArgoCD, Istio, Cert-Manager)
-- Validation: See `yaml-validator/SKILL.md` in this tile
-- Debugging: See `debug/SKILL.md` in this tile for troubleshooting deployed resources
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| QoS classes, `imagePullPolicy` defaults, probe-threshold interaction, `SIGTERM` propagation to child processes | [Production Readiness](references/production-readiness.md) | Before generating any Deployment or Pod spec bound for a shared or production cluster |

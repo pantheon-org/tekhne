@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "All `!` non-null assertions removed: The output file contains zero non-null assertion operators (`!`) on optional property accesses",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Each function has an explicit undefined guard: Every function contains a conditional check before accessing the potentially undefined value",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Guard strategy is appropriate per function: Functions that can reasonably return a default value use a default; functions where absence is an error throw a `TypeError` or `RangeError`",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Inline comments justify each strategy: Each function has an inline comment explaining why the chosen strategy (default vs. throw) was used",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "No `any`, `@ts-ignore`, or new `as` assertions introduced: The fix does not introduce any unsafe workarounds",
+      "max_score": 20
+    }
+  ]
+}

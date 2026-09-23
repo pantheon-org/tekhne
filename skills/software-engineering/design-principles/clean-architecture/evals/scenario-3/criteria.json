@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Separate Business Logic from a Fat Controller",
+  "checklist": [
+    {
+      "name": "Controller is thin: order-controller.ts contains no",
+      "description": "**Controller is thin**: `order-controller.ts` contains no business logic — it extracts `req.body` fields and delegates to the use case, then formats the HTTP response",
+      "max_score": 20
+    },
+    {
+      "name": "Business logic moved to use case:",
+      "description": "**Business logic moved to use case**: `place-order.ts` contains the inventory validation, price calculation, order creation, and email notification logic",
+      "max_score": 20
+    },
+    {
+      "name": "Use case has no HTTP imports:",
+      "description": "**Use case has no HTTP imports**: `place-order.ts` does not import from `express` and does not accept `Request` or `Response` parameters",
+      "max_score": 20
+    },
+    {
+      "name": "Use case accepts typed input: place-order.ts",
+      "description": "**Use case accepts typed input**: `place-order.ts` function accepts a typed input (`userId` and `items`) rather than the raw HTTP request object",
+      "max_score": 20
+    },
+    {
+      "name": "Same observable behavior preserved: The controller",
+      "description": "**Same observable behavior preserved**: The controller still returns 400 on insufficient stock and 201 with `orderId` and `total` on success",
+      "max_score": 20
+    }
+  ]
+}

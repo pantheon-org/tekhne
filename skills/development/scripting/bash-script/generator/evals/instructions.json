@@ -1,0 +1,123 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER start a bash script without set -euo pipefail",
+      "content": "Never start a bash script without set -euo pipefail; without all three flags, errors, unset variables, and pipeline failures are silently ignored."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use unquoted variable expansions in command arguments",
+      "content": "Never leave a variable expansion unquoted in a command argument; word splitting and glob expansion cause subtle bugs on values with spaces or special characters."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use ls | grep to filter files",
+      "content": "Never pipe ls into grep to filter files; ls output is not reliably parseable and breaks on filenames with special characters."
+    },
+    {
+      "id": "i4",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER hardcode absolute paths for tools like python, node, or bash",
+      "content": "Never hardcode an absolute interpreter path; paths differ across operating systems and distributions."
+    },
+    {
+      "id": "i5",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use eval to execute dynamically constructed commands",
+      "content": "Never use eval on dynamically constructed commands; it enables code injection when any part comes from user input or external data."
+    },
+    {
+      "id": "i6",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Register a trap on EXIT (and ideally ERR, INT, TERM) that calls a cleanup function",
+      "content": "Register a trap on EXIT (and ideally ERR, INT, TERM) before doing anything destructive, so a failed run cleans up after itself."
+    },
+    {
+      "id": "i7",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Verify that required external commands exist using command -v or equivalent",
+      "content": "Verify every required external command exists with command -v before using it."
+    },
+    {
+      "id": "i8",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Use readonly for at least one script-level constant",
+      "content": "Use readonly for script-level constants that must not change after initialization."
+    },
+    {
+      "id": "i9",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Write status/progress messages to stderr, not stdout",
+      "content": "Write status and log messages to stderr so they never get piped into a script's actual output."
+    },
+    {
+      "id": "i10",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Include timestamps in log/status messages using date",
+      "content": "Timestamp log and status messages."
+    },
+    {
+      "id": "i11",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "No hardcoded passwords, connection strings, or tokens -- rely on environment variables",
+      "content": "Never hardcode credentials in a script; read them from the environment instead."
+    },
+    {
+      "id": "i12",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Always quote variables: \"${var}\" not $var",
+      "content": "Always quote variable expansions."
+    },
+    {
+      "id": "i13",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Validate inputs with a regex allowlist and die on mismatch",
+      "content": "Validate user-supplied input against an explicit allowlist pattern and die on mismatch, rather than trusting it."
+    },
+    {
+      "id": "i14",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Avoid useless cat: grep pattern file not cat file | grep pattern",
+      "content": "Avoid a useless use of cat piped into another command that can read the file itself."
+    },
+    {
+      "id": "i15",
+      "type": "practice",
+      "why_given": "reminder",
+      "original_snippets": "Functions follow single responsibility",
+      "content": "Keep each function focused on one responsibility."
+    },
+    {
+      "id": "i16",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Avoid bash arrays, [[ ]], $BASH_SOURCE for POSIX sh portability; test with sh -n script.sh",
+      "content": "For POSIX sh portability, avoid bash-only constructs (arrays, [[ ]], $BASH_SOURCE) and verify with sh -n."
+    },
+    {
+      "id": "i17",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "die() function that prints to stderr and exits non-zero",
+      "content": "Define a die() helper that logs to stderr and exits non-zero, and call it from every failure path."
+    }
+  ]
+}

@@ -1,13 +1,13 @@
 ---
 name: k8s-yaml-validator
-description: Comprehensive toolkit for validating, linting, and testing Kubernetes YAML resources. Use this skill when validating Kubernetes manifests, debugging YAML syntax errors, performing dry-run tests on clusters, or working with Custom Resource Definitions (CRDs) that require documentation lookup.
+description: Comprehensive toolkit for validating, linting, testing Kubernetes YAML resources. Use this skill when validating Kubernetes manifests, debugging YAML syntax errors, performing dry-run tests on clusters, working with Custom Resource Definitions (CRDs) that require documentation lookup.
 ---
 
 # Kubernetes YAML Validator
 
-## Validation Mindset
+## Mindset
 
-**Mental Model**: Validation is a layered funnel—syntax → schema → cluster constraints → runtime behavior. Each layer catches different classes of errors.
+**Mental Model**: Validation is a layered funnel—syntax → schema → cluster constraints → runtime behavior. Each layer catches different classes of errors, and a pass at one layer must never be read as a pass at the next: `yamllint` clean says nothing about schema compliance, and `kubeconform` clean says nothing about whether an admission webhook will reject the resource. You must always run every applicable layer, never stop at the first one that returns clean. The classic pitfall this catches: a manifest that is syntactically perfect and schema-valid but still gets rejected by a PodSecurity admission webhook — a gotcha that only the cluster-constraints layer can surface.
 
 **Decision Framework**:
 1. **Syntax first**: Fix YAML structure before schema issues (broken YAML can't be validated)
@@ -22,7 +22,12 @@ description: Comprehensive toolkit for validating, linting, and testing Kubernet
 - When working with unfamiliar CRDs (validation guides learning)
 - After generating YAML with k8s-yaml-generator
 
-**Validation philosophy**: Report all issues, prioritize by severity, suggest fixes but never apply them automatically.
+**When NOT to use this skill**:
+- The manifest has already passed server-side dry-run against the exact target cluster and namespace in this same session, and nothing has changed since — re-running the full funnel adds no new information.
+- The task is generating a new resource rather than checking an existing one — use `k8s-yaml-generator` and let its own validation step call into this skill.
+- Only a single, well-understood field is in question (e.g. confirming a typo) — a direct `kubectl explain` lookup is faster and does not require the full workflow.
+
+**Validation philosophy**: Report all issues, prioritize by severity, suggest fixes but never apply them automatically — this is a hard constraint, not a stylistic preference, and it must never be relaxed even when a fix is obvious.
 
 ## Overview
 
@@ -359,25 +364,25 @@ After the user applies fixes:
 
 ### NEVER use only `kubectl apply --dry-run=client` for validation
 
-- **WHY**: Client-side dry run only checks schema syntax locally; it does not contact the API server and misses server-side admission webhook rejections, quota violations, and custom resource validation.
+- **WHY:** Client-side dry run only checks schema syntax locally; it does not contact the API server and misses server-side admission webhook rejections, quota violations, and custom resource validation.
 - **BAD**: `kubectl apply --dry-run=client -f manifest.yaml` as the sole validation step.
 - **GOOD**: Run `kubectl apply --dry-run=server -f manifest.yaml` to include server-side validation against the real API server.
 
 ### NEVER skip namespace-specific validation when resources use ClusterRole or PodSecurityAdmission
 
-- **WHY**: Cluster-level policies differ by namespace; a manifest that validates in one namespace may be rejected in another due to different PodSecurity admission levels or RBAC configurations.
+- **WHY:** Cluster-level policies differ by namespace; a manifest that validates in one namespace may be rejected in another due to different PodSecurity admission levels or RBAC configurations.
 - **BAD**: Validate in the `default` namespace and deploy to a hardened production namespace without re-validating.
 - **GOOD**: Validate against the target namespace explicitly: `kubectl apply --dry-run=server --namespace=production -f manifest.yaml`.
 
 ### NEVER treat kubeconform/kubeval "unknown fields" warnings as acceptable for CRDs
 
-- **WHY**: These warnings mean the schema is not available and validation of those fields was skipped entirely; unknown CRD fields can still cause runtime failures even when kubeconform exits 0.
+- **WHY:** These warnings mean the schema is not available and validation of those fields was skipped entirely; unknown CRD fields can still cause runtime failures even when kubeconform exits 0.
 - **BAD**: Ignore `--strict` mode warnings for custom resources and ship the manifest assuming it is valid.
 - **GOOD**: Provide the CRD schema file with `--schema-location` so custom resource fields are validated: `kubeconform --schema-location 'https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/{{.Group}}/{{.ResourceKind}}_{{.ResourceAPIVersion}}.json' --strict manifest.yaml`.
 
 ### NEVER validate manifests without also running a policy checker
 
-- **WHY**: kubeconform validates schema but not best practices; Polaris or kube-score flags missing resource limits, missing liveness/readiness probes, privilege escalation, and host-path mounts that schema validation cannot detect.
+- **WHY:** kubeconform validates schema but not best practices; Polaris or kube-score flags missing resource limits, missing liveness/readiness probes, privilege escalation, and host-path mounts that schema validation cannot detect.
 - **BAD**: Pass kubeconform with zero errors and ship the manifest without policy scanning.
 - **GOOD**: Run both kubeconform (schema) and Polaris or kube-score (policy) in the validation pipeline before applying to any cluster.
 

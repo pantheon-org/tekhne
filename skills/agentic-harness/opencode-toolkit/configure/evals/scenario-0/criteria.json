@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Uses baseEnv not hardcoded key: Uses `baseEnv: 'ANTHROPIC_API_KEY'` — NOT the actual key value in the config",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Config placed in opencode.json: Provider config goes in `opencode.json`, not in `AGENTS.md`",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Correct JSON structure: opencode.json has valid JSON with `providers` array containing id, baseEnv, models",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Model marked as default: The claude-sonnet-4-5 model has `default: true`",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Includes validation step: Shows `jq . opencode.json` or `opencode run 'test'` to verify configuration",
+      "max_score": 15
+    }
+  ]
+}

@@ -6,12 +6,7 @@ metadata:
   type: skill
   category: Development
   version: 1.0.0
-  tags:
-    - git
-    - commits
-    - version-control
-    - semantic-versioning
-    - best-practices
+  tags: git, commits, version-control, semantic-versioning, best-practices
   last_updated: 2026-01-26
 ---
 

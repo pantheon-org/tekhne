@@ -1,0 +1,1 @@
+Tests whether the agent tracks a file with chezmoi, converts it to a template, and uses a chezmoi data variable to differentiate machine-specific values instead of maintaining separate files or hardcoding a branch.

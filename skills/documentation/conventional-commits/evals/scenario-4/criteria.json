@@ -1,0 +1,54 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "feat for MFA: Change #1 (multi-factor authentication) uses `feat` type",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "build for tooling updates: Change #2 (eslint/prettier upgrade) uses `build` or `style` type, NOT `chore`",
+      "max_score": 10
+    },
+    {
+      "id": "c3",
+      "criterion": "fix for session bug: Change #3 (session cookie security) uses `fix` type",
+      "max_score": 10
+    },
+    {
+      "id": "c4",
+      "criterion": "docs for README: Change #4 (README update) uses `docs` type",
+      "max_score": 10
+    },
+    {
+      "id": "c5",
+      "criterion": "Appropriate type for script: Change #5 (migrate:rollback script) uses a semantically precise type such as `build`, `feat`, or `chore` \u2014 if `chore`, there is no better-fitting type that applies",
+      "max_score": 10
+    },
+    {
+      "id": "c6",
+      "criterion": "Imperative mood all five: All five headers use imperative mood (`add`, `upgrade`, `fix`, `update`) not past tense",
+      "max_score": 10
+    },
+    {
+      "id": "c7",
+      "criterion": "Header <= 72 chars all five: All five headers are 72 characters or fewer",
+      "max_score": 10
+    },
+    {
+      "id": "c8",
+      "criterion": "No trailing periods: None of the five headers end with a period",
+      "max_score": 10
+    },
+    {
+      "id": "c9",
+      "criterion": "Lowercase descriptions: All five description portions begin with a lowercase letter",
+      "max_score": 10
+    },
+    {
+      "id": "c10",
+      "criterion": "No implementation details in headers: None of the five headers include specific implementation details (e.g., specific package version numbers, specific file names)",
+      "max_score": 10
+    }
+  ]
+}

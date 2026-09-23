@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "`strict: true` is set: The tsconfig.json baseline strict flag is enabled",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Target/module suit Node 20 ESM: `target` and `module` are set to values that support native ESM on Node 20 (e.g. `es2022`/`nodenext` or equivalent)",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "At least two additional strictness flags beyond `strict` are enabled: e.g. `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitReturns`, or `noFallthroughCasesInSwitch`",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "`rootDir`/`outDir` are set correctly: `rootDir` is `src` and `outDir` is `dist`",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "No strict check is disabled and notes file explains choices: No option sets `strict: false` or disables a default strict check, and `tsconfig-notes.md` explains each non-obvious option",
+      "max_score": 20
+    }
+  ]
+}

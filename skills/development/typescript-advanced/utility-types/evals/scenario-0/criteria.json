@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "`UserPreview` uses `Pick`: Defined as `Pick<User, \"id\" | \"name\" | \"role\">` (or equivalent), including `role`, not a hand-written interface",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "`UserUpdate` uses `Omit` and `Partial` together: Defined as `Partial<Omit<User, \"id\" | \"createdAt\">>` (or equivalent composition), not a hand-written interface",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`ReadonlyUser` uses the built-in `Readonly<T>`: Defined as `Readonly<User>`, not a hand-written duplicate with `readonly` on every field",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "`User` is unchanged: The original `User` interface's shape is not modified",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "No new hand-written duplicate types introduced: No new interface duplicates a subset or variant of `User` by hand instead of deriving it",
+      "max_score": 10
+    }
+  ]
+}

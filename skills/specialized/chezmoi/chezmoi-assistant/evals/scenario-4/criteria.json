@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Grading a response about tracking ~/.aws/credentials with chezmoi safely.",
+  "checklist": [
+    {
+      "name": "flags_private_insufficient",
+      "description": "Response explicitly states that `private_` alone (permissions only) is not sufficient protection for a secret file.",
+      "max_score": 25
+    },
+    {
+      "name": "recommends_encrypted_prefix",
+      "description": "Response recommends the `encrypted_` prefix or `chezmoi add --encrypt`.",
+      "max_score": 30
+    },
+    {
+      "name": "explains_git_history_risk",
+      "description": "Response explains that plaintext committed without encryption remains recoverable from git history even after later removal.",
+      "max_score": 25
+    },
+    {
+      "name": "no_plain_tracking_suggested",
+      "description": "Response does not suggest tracking the credentials file as a plain or private_-only file.",
+      "max_score": 20
+    }
+  ]
+}

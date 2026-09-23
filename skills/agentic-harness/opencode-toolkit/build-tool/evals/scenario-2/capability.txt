@@ -1,0 +1,1 @@
+Tests whether the agent propagates an OpenCode tool's abort signal to a long-running subprocess and still returns a plain string result.

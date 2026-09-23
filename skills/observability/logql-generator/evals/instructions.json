@@ -1,0 +1,79 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Always engage the user in collaborative planning before generating queries: gather requirements across goal, log sources, query type, filtering, parsing, aggregation, and time range using AskUserQuestion."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Before generating code, present a plain-English query plan and confirm it with the user via AskUserQuestion."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Once the plan is confirmed, consult references/best_practices.md, references/function_reference.md, or assets/common_queries.logql before generating the query rather than relying on prior knowledge."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "When local references do not cover the topic (Loki 3.x features, recording rules, version-specific behavior), use the context7 MCP or WebSearch rather than guessing."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Offer incremental, step-by-step query construction when the user is learning LogQL, debugging, or working with a complex multi-stage query."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "After generating the final query, explain what it does, how to interpret results, and how to run it (Grafana panel, alerting rule, logcli, HTTP API), plus which labels or thresholds to customize."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER use a broad stream selector without label filters -- on high-volume streams this reads all log lines before any filtering, causing I/O blowups and query timeouts."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER place parsers before line filters -- parsers are CPU-intensive, so a line filter must run first to cut data volume before parsing."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER use regexp when logfmt or json applies -- parser performance order is pattern > logfmt > json > regexp; regexp is 5-20x slower and brittle to format changes."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER put high-cardinality values (user_id, trace_id, request_id) in stream selectors -- Loki indexes stream selectors, so high-cardinality labels there cause index bloat and degraded performance. Use structured metadata label filters after the stream selector instead."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER use count_over_time() when rate() is needed for alerting -- count_over_time returns a raw count that breaks when the time range changes, whereas rate() gives a stable per-second threshold."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "For Loki 3.x structured metadata, place the structured-metadata or detected_level filter BEFORE parsers so the query is bloom-filter accelerated; filtering after the parser is NOT accelerated."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Use vector(0) as a fallback (e.g. `... or vector(0)`) on alerting expressions so the series evaluates to 0 instead of showing 'no data' when nothing matches."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Prefer specific stream selectors with multiple label matchers (e.g. namespace and app) over a single broad label."
+    },
+    {
+      "type": "reminder",
+      "why_given": "reminder",
+      "content": "Use this skill when creating new LogQL queries, implementing log analysis dashboards, alerting rules, or troubleshooting with Loki."
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 05: Create an Implementation Plan for an E-commerce Checkout Redesign",
+  "checklist": [
+    {
+      "name": "plan-slug-is-kebab-case",
+      "description": "The plan root directory slug is lowercase kebab-case",
+      "max_score": 8
+    },
+    {
+      "name": "phase-slugs-are-kebab-case",
+      "description": "All phase directory slugs are lowercase kebab-case and describe the phase outcome; no numeric-only slugs",
+      "max_score": 8
+    },
+    {
+      "name": "task-identifier-format-all-files",
+      "description": "Every task file uses the `P{NN}T{NN}` format with zero-padded 1-based numbers for both phase and task",
+      "max_score": 8
+    },
+    {
+      "name": "task-numbering-starts-at-01",
+      "description": "Task numbering starts at `T01` (not `T00`); phase numbering starts at `P01` (not `P00`)",
+      "max_score": 8
+    },
+    {
+      "name": "task-numbering-sequential-no-gaps",
+      "description": "Task numbers within each phase are sequential with no gaps",
+      "max_score": 8
+    },
+    {
+      "name": "phase-numbering-sequential-no-gaps",
+      "description": "Phase numbers are sequential with no gaps across the plan",
+      "max_score": 8
+    },
+    {
+      "name": "no-spaces-or-underscores-in-slugs",
+      "description": "No directory or file name contains spaces, underscores, or mixed case; all paths use hyphens",
+      "max_score": 8
+    },
+    {
+      "name": "phase-and-task-zero-padding-two-digits",
+      "description": "All phase and task numbers use two-digit zero-padding (01, 02, \u2026 10, 11)",
+      "max_score": 8
+    },
+    {
+      "name": "task-slug-after-identifier-is-descriptive",
+      "description": "The slug portion of each task filename is descriptive and reflects the task content",
+      "max_score": 8
+    },
+    {
+      "name": "root-readme-is-index",
+      "description": "Root `README.md` links to phases but contains no task-level implementation detail",
+      "max_score": 7
+    },
+    {
+      "name": "phase-readmes-include-goal-gate",
+      "description": "Every phase `README.md` includes a goal statement and a concrete, runnable gate",
+      "max_score": 7
+    },
+    {
+      "name": "validate-plan-run",
+      "description": "Agent ran `validate-plan.sh <plan-slug>` after creating all files",
+      "max_score": 7
+    },
+    {
+      "name": "completion-summary-includes-paths",
+      "description": "Completion summary lists all file paths including directory-separated structure",
+      "max_score": 7
+    }
+  ]
+}

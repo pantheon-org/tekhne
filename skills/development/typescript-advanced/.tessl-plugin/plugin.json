@@ -1,9 +1,15 @@
 {
   "name": "pantheon-ai/typescript-advanced",
   "version": "0.3.0",
-  "description": "Comprehensive TypeScript guidance covering compiler configuration, advanced types, utility types, type guards, strict mode workflows, and documentation patterns; use when configuring tsconfig, designing complex generics, making illegal states unrepresentable, fixing type errors, or writing testable and maintainable type-safe APIs.",
+  "description": "Comprehensive TypeScript toolkit split into topic-scoped skills covering compiler configuration, type guards and narrowing, the core type system, utility types, design patterns, coding practices, and documentation tooling.",
   "private": false,
   "skills": [
-    "SKILL.md"
+    "type-guards",
+    "type-system",
+    "design-patterns",
+    "utility-types",
+    "compiler-config",
+    "practices",
+    "docs"
   ]
 }

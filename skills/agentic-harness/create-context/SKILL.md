@@ -13,10 +13,10 @@ Bootstrap project context from `.context/session/in/` folder → `.context/sessi
 
 ## ⚠️ AskUserQuestion Guard
 
-**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known Claude Code bug: outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.
+**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known harness bug affecting several agentic CLIs: outside Plan Mode, the AskUserQuestion tool can silently return empty answers without showing UI.
 
 **If answers are empty**: DO NOT proceed with assumptions. Instead:
-1. Output: "⚠️ Questions didn't display (known Claude Code bug outside Plan Mode)."
+1. Output: "⚠️ Questions didn't display (known AskUserQuestion bug outside Plan Mode)."
 2. Present the options as a **numbered text list** and ask user to reply with their choice number.
 3. WAIT for user reply before continuing.
 
@@ -43,7 +43,7 @@ Skip security-sensitive files: `.env*`, `*credentials*`, `*secrets*`, `*token*`,
 
 ### 3. Create .context/session/ctx/ and Generate Manifest
 
-Write `.context/session/ctx/manifest.yaml` — see `reference.md` for schema.
+Write `.context/session/ctx/manifest.yaml` — see `references/reference.md` for schema.
 
 ### 4. Context Sizing & Copy
 
@@ -71,7 +71,7 @@ Target: ≤2000 tokens.
 
 Report: file counts, RISEN INPUT table, suggest `/save-context baseline`.
 
-See `reference.md` for manifest schema, baseline template, and validation rules.
+See `references/reference.md` for manifest schema, baseline template, and validation rules.
 
 ## Philosophy
 
@@ -99,8 +99,38 @@ See `reference.md` for manifest schema, baseline template, and validation rules.
 ## Anti-Patterns
 
 - **NEVER create context without scanning `.context/session/in/`** — Skipping the input scan produces incomplete context. **Why:** Source materials in the in-folder define the scope; a context built without them is speculative and will mislead downstream agents.
+
+  ```yaml
+  # BAD - manifest fabricated from conversation memory, no scan performed
+  high_priority: []
+  medium_priority: []
+  low_priority: []
+  # (skill never globbed .context/session/in/**/*.{md,txt,csv,yaml,json})
+
+  # GOOD - manifest reflects an actual glob of the in-folder
+  high_priority:
+    - path: design-doc.md
+      reason: "architecture decisions referenced throughout the session"
+  medium_priority:
+    - path: requirements.csv
+      reason: "acceptance criteria, read once for scope"
+  low_priority: []
+  ```
+
 - **NEVER write a manifest without all three priority sections (high/medium/low)** — Omitting a section causes validation failures in `validate-manifest.sh`. **Why:** The schema requires all three arrays to be present, even if empty, so that consumers can iterate predictably.
 - **NEVER copy security-sensitive files into `.context/session/ctx/`** — Files matching `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`, `*.crt` must be skipped. **Why:** The ctx snapshot may be committed or shared; leaking credentials through it is a serious security risk.
+
+  ```bash
+  # BAD - copies everything, including a real secrets file, into a folder that may get committed
+  cp -r .context/session/in/* .context/session/ctx/
+
+  # GOOD - skip security-sensitive patterns before copying
+  find .context/session/in/ -type f \
+    ! -name '.env*' ! -name '*credentials*' ! -name '*secrets*' \
+    ! -name '*token*' ! -name '*.key' ! -name '*.pem' ! -name '*.crt' \
+    -exec cp {} .context/session/ctx/ \;
+  ```
+
 - **NEVER inline files that exceed the token threshold** — Files above 1500 tokens (HIGH) or 2500 tokens (MEDIUM) must be summarized, not inlined verbatim. **Why:** Over-sized baselines break the 2000-token budget and degrade agent performance on every subsequent load.
 - **NEVER run the skill concurrently with `save-context` or `load-context`** — Parallel writes to `.context/session/ctx/` corrupt the manifest. **Why:** There is no locking mechanism; the last writer wins and partial manifests are silently invalid.
 
@@ -140,4 +170,4 @@ cat .context/session/CONTEXT-baseline-llm.md
 
 ## References
 
-- [Reference](reference.md) — manifest schema, context sizing rules, baseline template, validation rules, and security skip patterns
+- [Reference](references/reference.md) — manifest schema, context sizing rules, baseline template, validation rules, and security skip patterns

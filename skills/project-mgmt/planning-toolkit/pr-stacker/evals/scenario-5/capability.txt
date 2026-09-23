@@ -1,0 +1,1 @@
+Correctly decide NOT to decompose a branch when splitting would add more overhead than benefit.

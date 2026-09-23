@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 17,
+    "covered_instructions": 15,
+    "coverage_percentage": 88,
+    "notes": "15 of 17 instructions.json entries are exercised by at least one scenario's criteria.json (strict mode, quoting, trap cleanup, check_command, readonly, stderr logging, timestamps, no hardcoded credentials, input validation, no useless cat, no ls|grep, no eval, die() helper, env shebang). Not covered by a checkable scenario: single-responsibility function structure and POSIX sh portability -- both are structural/portability preferences without a scriptable pass/fail signal in the current scenario set."
+  },
+  "scenario_count": 5
+}

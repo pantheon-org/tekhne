@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Permission uses ask for unknown bash: Permission config uses `'*': 'ask'` (not `'*': 'allow'`) for bash commands",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Description has concrete trigger phrases: The `description` field includes specific phrases like 'write a query', 'optimize SQL', 'explain schema', etc.",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "System prompt uses second person: System prompt uses 'You are...' and 'You must...' — NOT 'The agent should...' or 'This assistant...'",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Specific bash commands whitelisted: Specific safe commands (psql, explain analyze) are allowed, not all commands",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Correct file location noted: Agent file is placed in `.opencode/agent/sql-expert.md`",
+      "max_score": 15
+    }
+  ]
+}

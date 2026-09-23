@@ -1,0 +1,1 @@
+Capture a mid-conversation cross-project bridge verbatim, auto-detecting archetype, direction and strength, then resume prior work without added commentary.

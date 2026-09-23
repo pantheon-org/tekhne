@@ -1,6 +1,6 @@
 ---
 name: publish-public
-description: "Ensure Tessl plugins meet all requirements for public registry publication with comprehensive validation. Use when publishing skills to public registry, validating .tessl-plugin/plugin.json configuration, creating evaluation scenarios, checking quality thresholds (A-grade >=108/120), or preparing plugins for release. Validates eval scenario coverage, plugin.json fields (name, version, private, description, skills), agent-agnostic compliance, and publication readiness."
+description: "Ensure Tessl plugins meet all requirements for public registry publication with comprehensive validation. Use when publishing skills to public registry, validating .tessl-plugin/plugin.json configuration, creating evaluation scenarios, checking quality thresholds (A-grade >=126/140 on the nine-dimension skill-quality-auditor scale), or preparing plugins for release. Validates eval scenario coverage, plugin.json fields (name, version, private, description, skills), agent-agnostic compliance, and publication readiness."
 ---
 
 # Tessl Public Publication Skill
@@ -17,7 +17,7 @@ Public plugins represent a quality commitment to every agent that installs them.
 
 The three non-negotiable gates are:
 
-1. Quality audit passes (>=108/120 A-grade via skill-quality-auditor)
+1. Quality audit passes (>=126/140 A-grade via skill-quality-auditor's nine-dimension framework)
 2. Evaluation scenarios exist (minimum 5 scenarios with measurable success criteria)
 3. plugin.json is correctly configured (`private: false`, valid fields)
 
@@ -81,12 +81,40 @@ tessl search <skill-name>
 ## Anti-Patterns
 
 - **NEVER skip evaluation scenarios** -- WHY: public registry requires proof of effectiveness via measurable scenarios
-- **NEVER publish below A-grade (108/120)** -- WHY: sub-threshold plugins erode registry quality and may be flagged
+
+  ```bash
+  # BAD - publish with no evals/ directory at all
+  tessl plugin publish --workspace pantheon-ai skills/domain/skill-name --bump patch
+
+  # GOOD - scenarios exist and pass before publishing
+  ls skills/domain/skill-name/evals/scenario-*/  # >= 5 scenarios present
+  tessl plugin publish --workspace pantheon-ai skills/domain/skill-name --bump patch
+  ```
+
+- **NEVER publish below A-grade (126/140)** -- WHY: sub-threshold plugins erode registry quality and may be flagged
+
+  ```bash
+  # BAD - trusts memory of a score from a previous session
+  tessl plugin publish --workspace pantheon-ai skills/domain/skill-name --bump patch
+
+  # GOOD - re-run the audit immediately before publishing, on the current content
+  sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh domain/skill-name --json --store
+  # confirm total >= 126/140 before proceeding
+  tessl plugin publish --workspace pantheon-ai skills/domain/skill-name --bump patch
+  ```
+
 - **NEVER set `private: true`** -- WHY: plugin.json defaults to private; must be explicitly set to `false`
+
+  ```json
+  // BAD - field omitted, defaults to private and publish is a no-op for the public registry
+  { "name": "workspace/skill-name", "version": "1.0.0" }
+
+  // GOOD - explicitly false
+  { "name": "workspace/skill-name", "version": "1.0.0", "private": false }
+  ```
+
 - **NEVER skip `--optimize` when below 90%** -- WHY: optimization routinely lifts scores from 85% to 99%
 - **NEVER use harness-specific tool calls** -- WHY: public plugins must work across all agent platforms
-
-See `references/anti-patterns.md` for detailed examples with remediation steps.
 
 ## Gotchas
 

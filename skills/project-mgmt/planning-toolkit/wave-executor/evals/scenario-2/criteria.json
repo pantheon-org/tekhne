@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 02: Execute a Wave with Mixed Model Tiers",
+  "checklist": [
+    {
+      "name": "haiku-for-delete-scripts",
+      "description": "The Agent call for `feat/delete-scripts` uses model: 'haiku'",
+      "max_score": 17
+    },
+    {
+      "name": "opus-for-cross-analysis",
+      "description": "The Agent call for `feat/cross-analysis` uses model: 'opus'",
+      "max_score": 17
+    },
+    {
+      "name": "sonnet-for-update-docs",
+      "description": "The Agent call for `feat/update-docs` uses model: 'sonnet'",
+      "max_score": 17
+    },
+    {
+      "name": "sonnet-default-for-index-rebuild",
+      "description": "The Agent call for `feat/index-rebuild` uses model: 'sonnet' (the default when Model cell is blank)",
+      "max_score": 17
+    },
+    {
+      "name": "all-four-agents-spawned-in-parallel",
+      "description": "All four Agent calls appear in a single response (parallel spawning)",
+      "max_score": 16
+    },
+    {
+      "name": "no-model-override-or-substitution",
+      "description": "No agent is given a model tier that differs from what is specified in the wave document",
+      "max_score": 16
+    }
+  ]
+}

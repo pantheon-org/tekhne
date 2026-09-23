@@ -1,0 +1,30 @@
+{
+  "skill": "agentic-harness/opencode-toolkit/build-tool",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 5,
+    "evalValidation": 8,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 15,
+    "specificationCompliance": 12
+  },
+  "total": 110,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 92,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: opencode"
+    }
+  ]
+}

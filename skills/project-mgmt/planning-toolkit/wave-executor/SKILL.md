@@ -11,7 +11,7 @@ Execute a wave document by spawning parallel agents per wave, pausing at merge g
 ## When to Use
 
 - User says "run the plan", "execute the plan", "start wave N", "launch the agents"
-- A wave document exists at `.context/plans/<slug>.md`
+- A wave document exists in the project's plans directory
 - The plan was produced by `wave-execution-planner` (or follows the same format)
 
 ## When Not to Use
@@ -24,7 +24,11 @@ Execute a wave document by spawning parallel agents per wave, pausing at merge g
 
 ### 1. Locate the plan
 
-Ask for the plan slug if not provided. Load `.context/plans/<slug>.md`.
+Ask for the plan slug if not provided. Load the wave document from the project's plans directory (for example `.context/plans/<slug>.md` in a repo using that convention):
+
+```
+Read(".context/plans/<slug>.md")
+```
 
 Read the full document. Identify all waves in order and their current status. Skip waves already marked `— DONE`.
 
@@ -109,38 +113,53 @@ After all waves are done:
 
 ### NEVER paraphrase the task description
 
-**WHY**: Information loss — the verbatim focus or phase file contains constraints, tool names, and scope boundaries that summaries drop.
+**WHY:** Information loss — the verbatim focus or phase file contains constraints, tool names, and scope boundaries that summaries drop.
 
 **BAD** Summarise "Triage Mem0, Zep, MemoryOS, Letta via `tessl__triage-tool`" as "triage memory tools".
-**GOOD** Copy the full text verbatim into the per-agent prompt.
+**GOOD** Copy the full text verbatim into the per-agent prompt. ALWAYS paste the focus text unedited, even if it looks redundant with the branch name.
 
 ### NEVER omit the `model` parameter on Agent calls
 
-**WHY**: Omitting it silently defaults to the orchestrator's model. For `fast`-tier mechanical tasks, this wastes significant cost with no quality benefit.
+**WHY:** Omitting it silently defaults to the orchestrator's model. For `fast`-tier mechanical tasks, this wastes significant cost with no quality benefit.
 
 **BAD** `Agent(subagent_type="general-purpose", prompt=...)` with no `model`.
-**GOOD** `Agent(model="haiku", ...)` — resolved from the `fast` tier in `model-map.yaml`.
+**GOOD** `Agent(model="haiku", ...)` — resolved from the `fast` tier in `model-map.yaml`. ALWAYS resolve the tier to a concrete model ID before spawning.
 
 ### NEVER start the next wave before the gate passes
 
-**WHY**: Consolidation agents read files written by prior waves. Unmerged branches mean stale reads and incorrect output that is hard to detect.
+**WHY:** Consolidation agents read files written by prior waves. Unmerged branches mean stale reads and incorrect output that is hard to detect.
 
 **BAD** Proceed to Wave N+1 as soon as Wave N agents return their results.
-**GOOD** STOP, ask the user to merge and verify, confirm gate before advancing.
+**GOOD** STOP, ask the user to merge and verify, confirm gate before advancing. ALWAYS treat an un-ticked `Verification:` checklist item as a blocked gate, never as a formality.
 
 ### NEVER spawn wave agents sequentially
 
-**WHY**: Defeats the parallelism that wave planning was designed to achieve.
+**WHY:** Defeats the parallelism that wave planning was designed to achieve.
 
 **BAD** Spawn one agent, wait for it, then spawn the next.
 **GOOD** Send a single response with all parallel agents in one message.
 
 ### NEVER spawn agents for phases blocked by unmet dependencies
 
-**WHY**: A phase that needs a prior branch merged will read stale state and produce incorrect output.
+**WHY:** A phase that needs a prior branch merged will read stale state and produce incorrect output.
 
 **BAD** Spawn `feat/synthesis` before `feat/rubric` is merged (it's in the `Blocked on` note).
 **GOOD** Check each phase's gate / blocked-on annotation; skip and report blocked phases.
+
+### NEVER trust a merged branch without checking it actually builds
+
+**WHY:** A merge can succeed with no conflicts and still leave the codebase broken — a renamed export, a missing migration, a config drift between branches. `git merge` exiting 0 only proves the text merged, not that the result runs.
+
+**BAD** Accept the user's "verified" reply at face value with no build evidence attached.
+**GOOD** Before ticking the gate, ask for (or run) the project's own build/test command on `main` after the merge:
+
+```bash
+git checkout main && git pull
+make build && make test
+# or, in a Node project: npm run build && npm test
+```
+
+**Consequence:** Skipping this means the next wave's agents branch from a `main` that looks merged but doesn't actually compile, and the failure only surfaces several waves later when it's much harder to trace back.
 
 ## References
 

@@ -1,0 +1,1 @@
+Replace an if/else chain that selects behaviour with the Strategy pattern, extracting each branch into its own interchangeable implementation.

@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Documents actual behavior, not just types: The JSDoc explains the exponential-backoff retry behavior in prose, not just parameter type restatements",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Documents the exhaustion case: The comment states that the last error is thrown (not swallowed) once `maxAttempts` is reached",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "`@param` entries add information beyond the type: Each `@param` explains role or behavior (e.g. what `baseDelayMs` scales, what counts as an attempt), not just the parameter's type in words",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Includes a realistic `@example`: A `@example` block shows a plausible call site with real-looking arguments",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "No pure type-restatement noise: No `@param` line consists only of the parameter's type re-stated in words with no further detail",
+      "max_score": 15
+    }
+  ]
+}

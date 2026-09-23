@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a script and notes file that discover currently-usable vision-capable GitHub Copilot models.",
+  "checklist": [
+    {
+      "name": "uses_api_query",
+      "description": "Script queries models via fetch-models.sh or a direct GitHub Copilot API call, not `opencode models` or hardcoded IDs.",
+      "max_score": 20
+    },
+    {
+      "name": "filters_by_vision_capability",
+      "description": "Script filters using capabilities.supports.vision (or equivalent nested field), not by model name or vendor string matching.",
+      "max_score": 25
+    },
+    {
+      "name": "filters_by_policy_state",
+      "description": "Script additionally filters for policy.state == 'enabled', not just any model advertising vision support.",
+      "max_score": 20
+    },
+    {
+      "name": "no_name_based_inference",
+      "description": "Script does not use grep/contains checks on model IDs or names to infer vision capability.",
+      "max_score": 20
+    },
+    {
+      "name": "pitfall_documented",
+      "description": "NOTES.md mentions that disabled/preview-state models should be excluded even if they advertise vision capability.",
+      "max_score": 15
+    }
+  ]
+}

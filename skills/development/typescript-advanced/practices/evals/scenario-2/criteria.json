@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Each function has its own file: `slugify.ts`, `truncate.ts`, and `capitalize.ts` each contain exactly one of the three functions, named after the file",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Each file has a single named export and nothing unrelated: No file exports more than its one function",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "`index.ts` re-exports all three: A barrel file re-exports `slugify`, `truncate`, and `capitalize` so `import { slugify, truncate, capitalize } from \"./string-utils\"` still works",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Behavior is unchanged: Each function's implementation is functionally identical to the original (same logic, same output for the same input)",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "No circular imports introduced: None of `slugify.ts`, `truncate.ts`, or `capitalize.ts` imports from `index.ts` or from each other",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 02: Branch Naming Quality",
+  "checklist": [
+    {
+      "name": "Agent rejects the wave/sequence naming",
+      "description": "The agent explicitly states that names like `wave-1`, `wave-2`, `wave-3` are not acceptable",
+      "max_score": 12
+    },
+    {
+      "name": "Agent explains why sequence names are problematic",
+      "description": "The agent gives a reason for rejecting sequence names",
+      "max_score": 11
+    },
+    {
+      "name": "Proposed branch names describe actual content",
+      "description": "Each replacement branch name reflects what the PR changes; names are not generic or placeholder",
+      "max_score": 11
+    },
+    {
+      "name": "All three PRs get replacement branch names",
+      "description": "The agent provides a descriptive branch name for all three PRs",
+      "max_score": 11
+    },
+    {
+      "name": "Branch names retain the ticket prefix",
+      "description": "All proposed branch names include the ticket identifier `PROJ-42` as a prefix",
+      "max_score": 11
+    },
+    {
+      "name": "Branch names are kebab-case with no spaces or underscores",
+      "description": "All proposed branch names use lowercase letters and hyphens only",
+      "max_score": 11
+    },
+    {
+      "name": "Branch names are sufficiently specific",
+      "description": "Names describe what specifically changes, not just the concern category",
+      "max_score": 11
+    },
+    {
+      "name": "Agent does not create branches as part of this response",
+      "description": "The agent proposes names but does not execute git commands",
+      "max_score": 11
+    },
+    {
+      "name": "Proposed names are consistent in style",
+      "description": "All three branch names follow the same naming convention",
+      "max_score": 11
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Introduce an Anti-Corruption Layer that translates a poorly-shaped external API's data into the domain's own clean model.

@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: \"I Don't Know Where to Start\" — Triangulation Before Routing",
+  "checklist": [
+    {
+      "name": "Question Refinement applied: Agent generates clarifying",
+      "description": "**Question Refinement applied**: Agent generates clarifying sub-questions before or alongside triangulation.",
+      "max_score": 17
+    },
+    {
+      "name": "Single AskUserQuestion call: All questions (clarifying",
+      "description": "**Single AskUserQuestion call**: All questions (clarifying + T1/T2/T3/Q-Scale) batched into one call.",
+      "max_score": 17
+    },
+    {
+      "name": "Decompose step triggered: Step 1.5 is",
+      "description": "**Decompose step triggered**: Step 1.5 is invoked because triangulation doesn't converge on a single domain.",
+      "max_score": 17
+    },
+    {
+      "name": "Domain map produced: All 4 sub-problems",
+      "description": "**Domain map produced**: All 4 sub-problems are mapped with domain, verb, and skill.",
+      "max_score": 17
+    },
+    {
+      "name": "Sequencing follows risk guidance: Complex sub-problems",
+      "description": "**Sequencing follows risk guidance**: Complex sub-problems appear first in the suggested sequence.",
+      "max_score": 16
+    },
+    {
+      "name": "Confirmation before routing: Agent uses AskUserQuestion",
+      "description": "**Confirmation before routing**: Agent uses AskUserQuestion to confirm decomposition before proceeding.",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Context section states the prior problem: Explains concretely what was wrong with hand-written checks before Zod (inconsistency, drift, or similar), not a vague statement",
+      "max_score": 20
+    },
+    {
+      "id": "c2",
+      "criterion": "Decision section is specific: States that Zod is adopted for boundary validation and that types are derived via `z.infer`, not a vague \"we use a validation library\"",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "At least two real alternatives with reasons: Lists two or more concrete alternatives (e.g. hand-written predicates, Yup, io-ts) each with a specific reason it wasn't chosen",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Consequences include at least one real cost: States a cost accepted by the decision (dependency weight, learning curve, migration effort), not only benefits",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "Standard ADR structure is followed: Includes Title, Status, Context, Decision, Alternatives Considered, and Consequences as identifiable sections",
+      "max_score": 15
+    }
+  ]
+}

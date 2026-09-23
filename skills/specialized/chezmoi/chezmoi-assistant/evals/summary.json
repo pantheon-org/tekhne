@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 90,
+    "covered_instructions": 9,
+    "total_instructions": 10,
+    "notes": "9 of 10 extracted instructions are exercised by at least one eval scenario (scenario-1 through scenario-5). The chezmoi.toml-secrets anti-pattern is not yet covered by a dedicated scenario."
+  }
+}

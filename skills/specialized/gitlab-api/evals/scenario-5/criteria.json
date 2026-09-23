@@ -1,0 +1,52 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading documentation and example code for a GitLab MR integration starter kit.",
+  "checklist": [
+    {
+      "name": "documents_gitlab_token",
+      "description": "README or documentation mentions setting GITLAB_TOKEN or GITLAB_PAT.",
+      "max_score": 15
+    },
+    {
+      "name": "specifies_read_api_scope",
+      "description": "Documentation states that the token needs read_api scope/permission.",
+      "max_score": 15
+    },
+    {
+      "name": "documents_url_format",
+      "description": "Specifies the expected merge request URL format.",
+      "max_score": 10
+    },
+    {
+      "name": "references_get_mr_comments",
+      "description": "Uses or references get_mr_comments.sh in the solution.",
+      "max_score": 10
+    },
+    {
+      "name": "mentions_curl_requirement",
+      "description": "Documents that curl is needed as a dependency.",
+      "max_score": 10
+    },
+    {
+      "name": "mentions_jq_requirement",
+      "description": "Documents that jq is needed for JSON parsing.",
+      "max_score": 10
+    },
+    {
+      "name": "shows_url_encoding",
+      "description": "Demonstrates or mentions URL-encoding project paths (replacing / with %2F).",
+      "max_score": 10
+    },
+    {
+      "name": "token_creation_guidance",
+      "description": "Explains how to create a GitLab token.",
+      "max_score": 10
+    },
+    {
+      "name": "exit_code_documentation",
+      "description": "Documents script exit codes (0 for success, 1 for errors).",
+      "max_score": 10
+    }
+  ]
+}

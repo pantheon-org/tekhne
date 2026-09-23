@@ -1,0 +1,1 @@
+Notice an unprompted cross-project connection surfacing in conversation and offer to capture it as a bridge rather than staying silent.

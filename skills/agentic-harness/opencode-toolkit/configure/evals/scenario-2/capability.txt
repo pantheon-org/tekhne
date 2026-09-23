@@ -1,0 +1,1 @@
+Tests whether the agent recognises global-vs-project OpenCode config scope bleed and rescopes a permission to the project.

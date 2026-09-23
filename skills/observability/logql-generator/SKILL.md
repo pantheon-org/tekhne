@@ -5,6 +5,14 @@ description: Generate label matchers, line filters, log aggregations, and metric
 
 # LogQL Query Generator
 
+## Mindset
+
+LogQL queries are cheap to write and expensive to run wrong. A query that reads fine in isolation can take down a Loki cluster in production because stream selectors and filter ordering determine how much raw data gets scanned before anything is discarded — the query planner does not reorder your pipeline for you. Treat query construction as a performance decision first and a syntax exercise second: every stage you add either narrows the data Loki has to touch or forces it to touch more of it.
+
+**When to Use**: creating new LogQL queries, log-filter or metric queries for dashboards, Loki alerting rules, or troubleshooting a production Loki instance where filter ordering or label cardinality is suspected as the cause of slow or timing-out queries.
+
+**When NOT to Use**: writing PromQL for a Prometheus-native metric (LogQL only applies to Loki log streams, not scraped metrics), or when the user already has a working, performant query and only wants a syntax explanation — in that case answer directly rather than running the full planning workflow.
+
 ## Interactive Query Planning Workflow
 
 **CRITICAL**: Always engage the user in collaborative planning before generating queries.
@@ -44,11 +52,11 @@ Once confirmed, **MANDATORY**: consult references before generating. Do NOT rely
 | **Function/parser syntax** | `references/function_reference.md` |
 | **IP filtering, pattern extraction, regex** | `assets/common_queries.logql` |
 
-**Example paths**:
+**Example paths** (relative to this skill's own directory, wherever it is installed):
 
 ```
-Read(".claude/skills/logql-generator/assets/common_queries.logql")
-Read(".claude/skills/logql-generator/references/best_practices.md")
+Read("assets/common_queries.logql")
+Read("references/best_practices.md")
 ```
 
 #### External Documentation (context7 MCP / WebSearch)

@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Method and its field are unified into a discriminated union: A `\"card\"` variant carries only `cardLast4`, a `\"bank_transfer\"` variant carries only `bankReference` — no member has both or neither field ambiguously optional",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Status and its field are unified into a discriminated union: A `\"failed\"` variant carries `failureReason`, a `\"refunded\"` variant carries `refundedAt`, and `\"pending\"`/`\"completed\"` carry neither",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "The combined type rejects the original nonsensical example: The redesigned `Payment` type structurally prevents constructing a value with `method: \"bank_transfer\"` and `cardLast4` set, or `status: \"completed\"` and `failureReason` set",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Compile-error case is demonstrated: A comment shows that the original `bad` example (or an equivalent) no longer compiles against the redesigned type",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "No `any` or unsafe assertions introduced: The redesign contains no `any`, `@ts-ignore`, or unchecked `as` assertions",
+      "max_score": 10
+    }
+  ]
+}

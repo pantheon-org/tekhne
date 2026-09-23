@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Valid JSON after modification: The resulting canvas JSON is syntactically valid with no parse errors",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "New node has unique ID: The new Risks node has an `id` that does not match any existing node or edge ID in the original canvas",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "New node does not overlap existing nodes: The new node position and dimensions do not spatially overlap either of the two existing nodes, with at least 50px spacing",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Existing nodes and edges preserved: All two original nodes and the original edge are still present and unchanged in the output",
+      "max_score": 25
+    }
+  ]
+}

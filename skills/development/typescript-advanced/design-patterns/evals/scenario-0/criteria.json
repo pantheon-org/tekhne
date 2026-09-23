@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Compile-time tracking of required setters: The builder uses a generic type parameter (or equivalent type-level mechanism) to track whether `setUrl` and `setMethod` have been called, not just a runtime flag",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "`build()` is only callable when both required setters have run: The type signature of `build()` (e.g. via a `this` parameter type) makes it uncallable until both required fields are tracked as set",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`setBody` stays optional and order-independent: `setBody` can be called at any point without affecting whether `build()` is callable",
+      "max_score": 15
+    },
+    {
+      "id": "c4",
+      "criterion": "Compile-error case is demonstrated: A commented-out line calling `.build()` after only `setUrl` is included with a note that it fails to compile",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "No `any` or unsafe assertions introduced: The solution contains no `any`, `@ts-ignore`, or unchecked `as` assertions beyond what's minimally needed to track the type-level state (e.g. a single documented internal cast is acceptable, undocumented ones are not)",
+      "max_score": 15
+    }
+  ]
+}

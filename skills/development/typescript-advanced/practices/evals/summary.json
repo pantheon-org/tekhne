@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 5,
+    "covered_instructions": 5,
+    "coverage_percentage": 100,
+    "notes": "All 5 instructions.json entries are exercised by at least one scenario's criteria.json: validating external data at the boundary and deriving the type from the Zod schema with z.infer (scenario-0), unifying mutually exclusive fields into discriminated unions (scenario-1), and splitting a grab-bag module into single-function modules with a barrel export (scenario-2)."
+  },
+  "scenario_count": 3
+}

@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Uses subtask: true: Command frontmatter includes `subtask: true` for fire-and-forget behavior",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Clear single-output instruction: Template instructs the agent to produce one final consolidated report",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Has description in frontmatter: YAML frontmatter contains a `description` field",
+      "max_score": 15
+    },
+    {
+      "id": "c4",
+      "criterion": "Correct file location: Command is in `.opencode/command/spellcheck.md`",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Does not use $ARGUMENTS unnecessarily: Does not use argument placeholders since this command takes no arguments",
+      "max_score": 15
+    }
+  ]
+}

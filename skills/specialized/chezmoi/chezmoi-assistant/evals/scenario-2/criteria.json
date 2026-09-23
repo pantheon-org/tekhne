@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Grading a response that bootstraps chezmoi from scratch on a new machine from an existing dotfiles repo.",
+  "checklist": [
+    {
+      "name": "single_command_bootstrap",
+      "description": "Response uses `chezmoi init --apply $GITHUB_USERNAME` as a single bootstrap command rather than a manual `git clone` followed by a separate apply.",
+      "max_score": 30
+    },
+    {
+      "name": "explains_clone_and_apply",
+      "description": "Response explains that the command both clones the source repo and applies it in one step.",
+      "max_score": 20
+    },
+    {
+      "name": "mentions_run_once_firing",
+      "description": "Response mentions that any `run_once_` scripts in the repo will execute during this first apply.",
+      "max_score": 25
+    },
+    {
+      "name": "suggests_doctor_verification",
+      "description": "Response suggests `chezmoi doctor` (or equivalent) to verify the environment after setup.",
+      "max_score": 15
+    },
+    {
+      "name": "includes_install_step",
+      "description": "Response includes installing the chezmoi binary itself before running `init`, since this is a brand-new machine.",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "content": "file= resolves a note like a wikilink (name only, no path or extension needed); path= requires the exact path from vault root including extension.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "file=<name> -- resolves like a wikilink (name only, no path or extension needed); path=<path> -- exact path from vault root, e.g. folder/note.md"
+    },
+    {
+      "id": "i2",
+      "content": "NEVER use path= when the note name is unique across the vault; prefer file= since path= tightly couples commands to folder structure and breaks silently if the file moves.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use path= when the note name is unique across the vault ... Prefer file= unless you need to disambiguate files with the same name in different folders."
+    },
+    {
+      "id": "i3",
+      "content": "NEVER pass a parameter value containing spaces without quotes; the CLI tokenises on whitespace and an unquoted value is parsed as separate tokens.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER pass parameter values that contain spaces without surrounding quotes ... the CLI tokenises on whitespace"
+    },
+    {
+      "id": "i4",
+      "content": "NEVER omit the silent flag when creating or updating files from an agent workflow; without it Obsidian opens the file and hijacks the user's editor focus.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER omit the silent flag when creating or updating files from an agent workflow ... Without silent, Obsidian opens the created or updated file in the editor."
+    },
+    {
+      "id": "i5",
+      "content": "NEVER embed obsidian eval calls in production plugin code; eval runs arbitrary JavaScript in the app context and is a development/debugging tool only.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER embed obsidian eval calls in production plugin code ... It is a development and debugging tool only."
+    },
+    {
+      "id": "i6",
+      "content": "Always specify vault=<name> as the first parameter when the user may have more than one vault open and vault identity matters, since focus can shift silently between vaults.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER omit vault=<name> when the user may have more than one vault open and vault identity matters ... Always specify vault=<name> as the first parameter when vault identity matters."
+    },
+    {
+      "id": "i7",
+      "content": "Parameters take a value with =; flags are boolean switches with no value.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Parameters take a value with =. Quote values with spaces ... Flags are boolean switches with no value"
+    },
+    {
+      "id": "i8",
+      "content": "For multiline content passed as a single CLI parameter value, encode newlines as \\n and tabs as \\t.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "For multiline content use \\n for newline and \\t for tab."
+    },
+    {
+      "id": "i9",
+      "content": "Plugin develop/test cycle after a code change: reload the plugin, check for errors, verify visually with a screenshot or DOM inspection, then check console output; repeat from reload if errors appear.",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "original_snippets": "1. Reload the plugin to pick up changes ... 2. Check for errors -- if errors appear, fix and repeat from step 1 ... 3. Verify visually ... 4. Check console output"
+    },
+    {
+      "id": "i10",
+      "content": "Commands target the most recently focused vault by default when no vault= parameter is given.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Commands target the most recently focused vault by default. Use vault=<name> as the first parameter to target a specific vault"
+    },
+    {
+      "id": "i11",
+      "content": "Use --copy on any command to copy output to the clipboard, and total on list commands to get a count.",
+      "type": "style-preference",
+      "why_given": "preference",
+      "original_snippets": "Use --copy on any command to copy output to clipboard. Use silent to prevent files from opening. Use total on list commands to get a count."
+    }
+  ]
+}

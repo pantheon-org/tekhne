@@ -1,0 +1,44 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Modern header present: Makefile begins with the full modern header",
+      "max_score": 13
+    },
+    {
+      "id": "c2",
+      "criterion": "Version and commit ldflags: The build recipe passes `-ldflags` with `-X` flags embedding both `VERSION` and the git commit hash",
+      "max_score": 13
+    },
+    {
+      "id": "c3",
+      "criterion": "REGISTRY variable uses ?=: `REGISTRY` is declared with `?=`; `VERSION` also uses `?=` or is overridable",
+      "max_score": 13
+    },
+    {
+      "id": "c4",
+      "criterion": "docker-push depends on docker-build: `docker-push` lists `docker-build` as a prerequisite",
+      "max_score": 13
+    },
+    {
+      "id": "c5",
+      "criterion": "docker-push error handling: `docker-push` recipe uses `|| { echo ...; exit 1; }` or equivalent for both push operations",
+      "max_score": 12
+    },
+    {
+      "id": "c6",
+      "criterion": "Parallel safety for Docker targets: `.NOTPARALLEL` is declared or dependency ordering prevents parallel `docker-build` and `docker-push`",
+      "max_score": 12
+    },
+    {
+      "id": "c7",
+      "criterion": "No hardcoded credentials: Makefile contains no tokens, passwords, or secret values",
+      "max_score": 12
+    },
+    {
+      "id": "c8",
+      "criterion": ".PHONY completeness: All non-file targets including Docker targets are listed in `.PHONY`",
+      "max_score": 12
+    }
+  ]
+}

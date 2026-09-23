@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Identify and Fix Dependency Direction Violations",
+  "checklist": [
+    {
+      "name": "TypeORM decorator violation identified: VIOLATIONS.md identifies",
+      "description": "**TypeORM decorator violation identified**: VIOLATIONS.md identifies that the `Order` entity importing TypeORM decorators violates the dependency rule (inner layer importing from framework/outer layer)",
+      "max_score": 20
+    },
+    {
+      "name": "Concrete repository instantiation violation identified: VIOLATIONS.md",
+      "description": "**Concrete repository instantiation violation identified**: VIOLATIONS.md identifies that `CreateOrderUseCase` directly instantiates `PostgresOrderRepository`, bypassing interface abstraction",
+      "max_score": 20
+    },
+    {
+      "name": "Entity fix: remove decorators and persist",
+      "description": "**Entity fix: remove decorators and persist logic**: VIOLATIONS.md explains that `Order` should be a plain TypeScript class with no TypeORM imports; the repository adapter handles mapping",
+      "max_score": 20
+    },
+    {
+      "name": "Use case fix: depend on interface",
+      "description": "**Use case fix: depend on interface not implementation**: VIOLATIONS.md explains the use case should receive `IOrderRepository` via constructor injection, not instantiate `PostgresOrderRepository` directly",
+      "max_score": 20
+    },
+    {
+      "name": "Inward dependency rule stated: VIOLATIONS.md states",
+      "description": "**Inward dependency rule stated**: VIOLATIONS.md states the general principle (dependencies point inward; inner layers must not import outer layers)",
+      "max_score": 20
+    }
+  ]
+}

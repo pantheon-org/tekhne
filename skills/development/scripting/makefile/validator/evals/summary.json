@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 12,
+    "covered_instructions": 11,
+    "coverage_percentage": 92,
+    "notes": "11 of 12 instructions.json entries are exercised by at least one scenario's criteria.json (tab indentation, .PHONY completeness, unquoted variable expansion in dangerous commands, bare make vs $(MAKE), .EXPORT_ALL_VARIABLES leakage, make -n / validation-script usage, formatting checks, .DELETE_ON_ERROR and .ONESHELL, hardcoded-credential detection, exit-code semantics, and reporting each finding with an explanation). Not covered: filtering mbake's known false positives for GNU Make special targets -- no scenario's sample Makefile exercises that specific known-limitation path."
+  },
+  "scenario_count": 5
+}

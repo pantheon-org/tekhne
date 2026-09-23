@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 40,
+    "covered_instructions": 4,
+    "total_instructions": 10,
+    "notes": "4 of 10 extracted instructions (response validation, System/Type field handling, URL-encoding, UTC timestamp handling) are directly exercised by the 5 eval scenarios. The pagination, rate-limiting, v3-endpoint, and PAT-hardcoding anti-patterns are documented in SKILL.md but not yet covered by a dedicated scenario -- a candidate for a future scenario addition."
+  }
+}

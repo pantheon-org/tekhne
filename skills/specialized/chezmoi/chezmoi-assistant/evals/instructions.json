@@ -1,0 +1,54 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER manually rename or mv files inside the source directory; use `chezmoi chattr` or `chezmoi re-add` instead, because filenames encode target path, permissions, template status, and encryption."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER store plaintext secrets in source state without the `encrypted_` prefix; `private_` only sets target-machine permissions and does nothing to protect plaintext committed to git history."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER apply `exact_` to the home directory itself; scope it to a specific subtree, since it deletes every unmanaged file under its target with no extra confirmation."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER commit `chezmoi.toml` with literal secret values; use a template function (e.g. `onepasswordRead`) to pull secrets from a password manager at apply time."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Track a new dotfile with `chezmoi add <path>` before making it a template or encrypting it."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Convert a tracked file to a template with `chezmoi chattr +template` (or `chezmoi add --template`), which appends the `.tmpl` suffix chezmoi renders through Go's template engine."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Preview a template's rendered output with `chezmoi cat` or `chezmoi execute-template` before running `chezmoi apply`."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Bootstrap a new machine with the single command `chezmoi init --apply $GITHUB_USERNAME`, which clones the source repo and applies it in one step, including firing any `run_once_` scripts."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Use `run_once_` for scripts that must fire only on first setup (content-hash-based re-run detection) and `run_onchange_` for idempotent config reloads that should re-fire whenever the script content changes."
+    },
+    {
+      "type": "preference",
+      "why_given": "new knowledge",
+      "content": "Prefix order matters when combining source-state attributes: `run_once_before_` is correct, `before_run_once_` is not."
+    }
+  ]
+}

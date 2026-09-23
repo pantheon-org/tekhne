@@ -1,0 +1,1 @@
+Filter and rate-aggregate a semi-structured (pattern-parsed) log stream, applying line-filter-before-parser ordering and per-method rate grouping.

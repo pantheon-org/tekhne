@@ -1,0 +1,59 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "getopts used: Argument parsing is implemented using the `getopts` built-in",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "Invalid option handler: The `getopts` case statement includes a `\\?)` branch that prints an error to stderr and exits non-zero",
+      "max_score": 9
+    },
+    {
+      "id": "c3",
+      "criterion": "Missing-argument handler: The `getopts` case statement includes a `:)` branch that detects options given without their required argument",
+      "max_score": 9
+    },
+    {
+      "id": "c4",
+      "criterion": "shift after getopts: Script calls `shift $((OPTIND - 1))` after the `getopts` loop",
+      "max_score": 9
+    },
+    {
+      "id": "c5",
+      "criterion": "usage() function present: Script defines a `usage` (or `help`) function that prints a usage block",
+      "max_score": 9
+    },
+    {
+      "id": "c6",
+      "criterion": "Usage includes examples: The usage/help text contains at least one concrete example invocation",
+      "max_score": 9
+    },
+    {
+      "id": "c7",
+      "criterion": "usage() called from -h: The `-h` option calls the `usage` function and exits 0",
+      "max_score": 9
+    },
+    {
+      "id": "c8",
+      "criterion": "Required arg validation: Script checks that the required service name argument is non-empty after parsing",
+      "max_score": 9
+    },
+    {
+      "id": "c9",
+      "criterion": "Strict mode present: Script includes `set -euo pipefail`",
+      "max_score": 9
+    },
+    {
+      "id": "c10",
+      "criterion": "Env shebang: Shebang uses `#!/usr/bin/env bash`",
+      "max_score": 9
+    },
+    {
+      "id": "c11",
+      "criterion": "Errors to stderr: Error messages are written to stderr (`>&2`)",
+      "max_score": 9
+    }
+  ]
+}

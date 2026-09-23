@@ -1,0 +1,1 @@
+Tests whether the agent correctly applies the skill's guidance in the following scenario: Split a God-Module into Single-Function Modules with a Barrel Export.

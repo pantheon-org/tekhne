@@ -1,0 +1,1 @@
+Tests whether the agent correctly reasons over a provided models API response to exclude disabled models, flag preview-state restrictions, and base capability-driven recommendations (vision, speed) on the actual JSON fields rather than model names.

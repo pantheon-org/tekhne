@@ -1,0 +1,1 @@
+Run the full decomposition workflow: analyse commits, group by concern, propose and wait for approval, name branches descriptively, stack via cherry-pick, and write What/Why descriptions.

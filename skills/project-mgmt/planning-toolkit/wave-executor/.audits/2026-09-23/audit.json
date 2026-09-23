@@ -1,0 +1,30 @@
+{
+  "skill": "project-mgmt/planning-toolkit/wave-executor",
+  "date": "2026-09-23",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 120,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 171,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    }
+  ]
+}

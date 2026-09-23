@@ -1,0 +1,32 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Grading a response that walks a user through tracking ~/.gitconfig with chezmoi and making the git email machine-specific.",
+  "checklist": [
+    {
+      "name": "tracks_with_add",
+      "description": "Response uses `chezmoi add` to start tracking the file.",
+      "max_score": 15
+    },
+    {
+      "name": "converts_to_template",
+      "description": "Response converts the source file to a template (`.tmpl` suffix via `chezmoi chattr +template` or `chezmoi add --template`).",
+      "max_score": 25
+    },
+    {
+      "name": "uses_data_variable",
+      "description": "Response uses a chezmoi template variable or custom `[data]` value to differentiate the two machines, not a hardcoded per-machine copy.",
+      "max_score": 25
+    },
+    {
+      "name": "previews_before_apply",
+      "description": "Response shows `chezmoi cat` or `chezmoi execute-template` to preview the rendered result before applying.",
+      "max_score": 20
+    },
+    {
+      "name": "no_dual_repo_suggestion",
+      "description": "Response does not suggest maintaining two separate dotfile repos or files for the two machines.",
+      "max_score": 15
+    }
+  ]
+}

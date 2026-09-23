@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 92,
+    "total_instructions": 12,
+    "covered_instructions": 11,
+    "notes": "scenario-1 covers the full analyse-group-propose-name-stack-describe workflow; scenario-2 covers rejecting sequence-numbered branch names; scenario-3 covers What/Why MR description generation; scenario-4 covers conflict resolution, build verification, and target-branch reminders; scenario-5 covers correctly declining to decompose. Only the concern-label adaptation preference is not exercised as a standalone check."
+  }
+}

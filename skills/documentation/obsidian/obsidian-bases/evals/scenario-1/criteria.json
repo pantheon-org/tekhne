@@ -1,0 +1,39 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Identifies Duration.round() bug: The agent correctly identifies that `(now() - file.ctime).round(0)` fails because date subtraction returns a Duration, not a Number, and `.round()` is not available on Duration.",
+      "max_score": 15
+    },
+    {
+      "id": "c2",
+      "criterion": "Fixes Duration bug by accessing .days first: The corrected formula accesses a numeric field (e.g., `.days`) on the Duration before calling `.round(0)`: `(now() - file.ctime).days.round(0)`.",
+      "max_score": 15
+    },
+    {
+      "id": "c3",
+      "criterion": "Identifies undefined formula.priority reference: The agent correctly identifies that `formula.priority` appears in `properties` and `order` but `priority` is not defined under `formulas`.",
+      "max_score": 14
+    },
+    {
+      "id": "c4",
+      "criterion": "Fixes undefined formula reference: The fix either adds a `priority` formula definition under `formulas`, or removes the `formula.priority` reference from `properties` and `order`.",
+      "max_score": 14
+    },
+    {
+      "id": "c5",
+      "criterion": "Identifies unquoted colon in displayName: The agent correctly identifies that `displayName: Status: Current` is invalid YAML because the second colon is not inside a quoted string.",
+      "max_score": 14
+    },
+    {
+      "id": "c6",
+      "criterion": "Fixes displayName quoting: The corrected `displayName` wraps the value in double quotes: `displayName: \"Status: Current\"`.",
+      "max_score": 14
+    },
+    {
+      "id": "c7",
+      "criterion": "Provides complete corrected file: The response includes a complete, syntactically valid YAML file that incorporates all three fixes without introducing new errors.",
+      "max_score": 14
+    }
+  ]
+}

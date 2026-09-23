@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 86,
+    "total_instructions": 14,
+    "covered_instructions": 12,
+    "notes": "scenario-1 covers full Mode 1 scaffolding, verification, and validation; scenario-2 covers additive-only phase appends; scenario-3 covers Mode 2 restructuring and naming heuristics; scenario-4 covers the >=9-phase stop guardrail; scenario-5 covers well-scoped Mode 1 plans with concrete gates. The lazy-loading (load only when needed) preference is exercised implicitly across scenarios rather than as a standalone check."
+  }
+}

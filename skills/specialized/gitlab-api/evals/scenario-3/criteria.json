@@ -1,0 +1,52 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a diagnostic tool for troubleshooting GitLab MR API access issues.",
+  "checklist": [
+    {
+      "name": "uses_get_mr_comments",
+      "description": "Calls or integrates get_mr_comments.sh in the solution.",
+      "max_score": 15
+    },
+    {
+      "name": "checks_gitlab_token",
+      "description": "Verifies that GITLAB_TOKEN or GITLAB_PAT exists before making requests.",
+      "max_score": 15
+    },
+    {
+      "name": "validates_url_format",
+      "description": "Checks that the URL matches the expected merge_requests URL pattern.",
+      "max_score": 10
+    },
+    {
+      "name": "handles_401",
+      "description": "Detects authentication failures (HTTP 401) and provides feedback about token issues.",
+      "max_score": 10
+    },
+    {
+      "name": "handles_404",
+      "description": "Detects project-not-found errors (HTTP 404) and provides feedback about URL or access issues.",
+      "max_score": 10
+    },
+    {
+      "name": "checks_exit_codes",
+      "description": "Examines script exit codes (0 for success, 1 for errors) to detect failures.",
+      "max_score": 10
+    },
+    {
+      "name": "mentions_read_api_scope",
+      "description": "References or checks that the token has read_api scope as part of diagnostics.",
+      "max_score": 10
+    },
+    {
+      "name": "validates_response_format",
+      "description": "Checks that the response contains expected fields like Author: or Date: to ensure valid output.",
+      "max_score": 10
+    },
+    {
+      "name": "actionable_suggestions",
+      "description": "Includes suggestions for fixing detected problems.",
+      "max_score": 10
+    }
+  ]
+}

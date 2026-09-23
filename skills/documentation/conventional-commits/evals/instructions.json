@@ -1,0 +1,144 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "content": "Inspect the diff or description to identify whether it adds new behaviour, fixes existing behaviour, or neither.",
+      "type": "procedure",
+      "why_given": "reminder",
+      "original_snippets": "Inspect the change — read the diff or the user's description. Identify whether it adds new behaviour, fixes existing behaviour, or neither."
+    },
+    {
+      "id": "i2",
+      "content": "Use the type decision rules to disambiguate refactor vs feat, fix vs refactor, perf vs refactor, and treat chore as the last resort.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "refactor vs feat: does the user gain new capability? If yes -> feat ... chore vs anything else: if another type fits, use it -- chore is the last resort"
+    },
+    {
+      "id": "i3",
+      "content": "Split a change spanning multiple types into multiple atomic commits instead of picking one type for all of it.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Multiple types needed? Split into multiple commits (see Atomic Commits)"
+    },
+    {
+      "id": "i4",
+      "content": "Pick the scope from the module, package, or layer name; omit scope when the change is cross-cutting; use the project's fixed scope vocabulary when one exists.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Pick the scope - use the module, package, or layer name (e.g. auth, checkout, api). Omit scope when the change is truly cross-cutting."
+    },
+    {
+      "id": "i5",
+      "content": "Draft the header in imperative mood, lowercase, at or under 72 characters, and verify it completes 'If applied, this commit will <header>.'",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Draft the header - imperative mood, lowercase, <= 72 characters. Verify with: \"If applied, this commit will <header>.\""
+    },
+    {
+      "id": "i6",
+      "content": "Add a commit body only when the why is not obvious from the diff, and wrap body lines at 72 characters.",
+      "type": "style-preference",
+      "why_given": "preference",
+      "original_snippets": "Add a body if needed - only when the why is not obvious. Explain the reasoning, not the implementation. Wrap at 72 characters."
+    },
+    {
+      "id": "i7",
+      "content": "Add a Closes footer for issue references and a BREAKING CHANGE footer whenever the public API surface changes; always pair '!' with a BREAKING CHANGE footer.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Add footers - Closes: #N for issue references; BREAKING CHANGE: <description> whenever the public API surface changes. Always pair ! with a BREAKING CHANGE: footer."
+    },
+    {
+      "id": "i8",
+      "content": "Verify the message before committing with git commit --dry-run or the project's commitlint hook.",
+      "type": "procedure",
+      "why_given": "reminder",
+      "original_snippets": "Verify before committing - run git commit --dry-run or your local commitlint hook to catch formatting violations before they enter history."
+    },
+    {
+      "id": "i9",
+      "content": "Present the finished commit message in a fenced code block with no extra commentary, ready to paste.",
+      "type": "output-format",
+      "why_given": "preference",
+      "original_snippets": "Agent output format: Present the commit message in a fenced code block with no extra commentary, ready to paste"
+    },
+    {
+      "id": "i10",
+      "content": "NEVER write the header in past tense; it completes the sentence 'If applied, this commit will...' and past tense breaks that contract.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use past tense in the description - WHY: The header completes the sentence \"If applied, this commit will...\" - past tense breaks that contract"
+    },
+    {
+      "id": "i11",
+      "content": "NEVER use chore as a catch-all type for features, refactors, or docs, since it hides semantic meaning from changelog generators.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER use chore as a catch-all - WHY: chore is for maintenance tasks not covered by other types ... Using it for features, refactors, or docs hides semantic meaning from changelog generators."
+    },
+    {
+      "id": "i12",
+      "content": "NEVER exceed 72 characters in the header, because git log, GitHub PR titles, and CI tools truncate longer headers.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER exceed 72 characters in the header - WHY: Git log, GitHub PR titles, and most CI tools truncate at 72 characters."
+    },
+    {
+      "id": "i13",
+      "content": "NEVER omit the BREAKING CHANGE footer when the API surface changes; the '!' suffix alone is not sufficient for all tooling.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER omit BREAKING CHANGE: footer when the API surface changes - WHY: The ! suffix alone is not sufficient for all tooling."
+    },
+    {
+      "id": "i14",
+      "content": "NEVER put implementation details in the header; the header is the summary visible in git log --oneline, details belong in the body.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER put implementation details in the header - WHY: The header is the commit summary visible in git log --oneline. Implementation details belong in the body."
+    },
+    {
+      "id": "i15",
+      "content": "NEVER bundle unrelated changes in one commit; a commit spanning multiple concerns cannot be cherry-picked or reverted cleanly.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER bundle unrelated changes in one commit - WHY: A commit that spans multiple concerns can't be cherry-picked or reverted cleanly."
+    },
+    {
+      "id": "i16",
+      "content": "The description portion of the header must be imperative mood, lowercase, with no trailing period.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Description: imperative mood (add not added), lowercase, no trailing period, <= 72 characters"
+    },
+    {
+      "id": "i17",
+      "content": "Separate the body from the header by exactly one blank line, wrap body lines at 72 characters, and explain why not what.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Body: separated by one blank line, lines wrapped at 72 characters, explains why not what"
+    },
+    {
+      "id": "i18",
+      "content": "Write footers in 'Token: value' format, e.g. Closes: #123 or BREAKING CHANGE: description.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Footers: Token: value format (e.g. Closes: #123, BREAKING CHANGE: description)"
+    },
+    {
+      "id": "i19",
+      "content": "Signal breaking changes by appending '!' after type/scope and/or adding a BREAKING CHANGE footer, which triggers a MAJOR version bump.",
+      "type": "domain-knowledge",
+      "why_given": "new knowledge",
+      "original_snippets": "Breaking changes: append ! after type/scope (feat!:) and/or add a BREAKING CHANGE: footer - triggers a MAJOR version bump."
+    },
+    {
+      "id": "i20",
+      "content": "Skip this skill when the project explicitly avoids Conventional Commits or enforces a custom pattern via a project-specific hook; do not override confirmed project conventions.",
+      "type": "scope-boundary",
+      "why_given": "new knowledge",
+      "original_snippets": "When not to use: skip this skill if the project explicitly avoids Conventional Commits ... Do not override confirmed project conventions."
+    }
+  ]
+}

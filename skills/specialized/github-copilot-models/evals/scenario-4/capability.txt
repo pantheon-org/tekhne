@@ -1,0 +1,1 @@
+Tests whether the agent discovers vision-capable models via the correct API capability field combined with a policy.state filter, rather than inferring vision support from model names or vendor strings.

@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Tool registered via tool key (not client.registerTool): Plugin uses `tool: { 'jira-lookup': tool({...}) }` in returned hooks, NOT `client.registerTool()`",
+      "max_score": 30
+    },
+    {
+      "id": "c2",
+      "criterion": "Uses tool.schema for argument validation: Uses `tool.schema.string()` (or Zod equivalent) for the ticket_id argument",
+      "max_score": 20
+    },
+    {
+      "id": "c3",
+      "criterion": "Execute returns string: The execute function returns a string value",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Imports tool helper correctly: Imports `tool` from `@opencode-ai/plugin`",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "Schema field has .describe(): The ticket_id schema field includes a `.describe()` call",
+      "max_score": 15
+    }
+  ]
+}

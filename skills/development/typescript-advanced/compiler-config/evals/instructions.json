@@ -1,0 +1,39 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "practice",
+      "why_given": "preference",
+      "original_snippets": "Enable strict: true plus additional strictness flags (noUncheckedIndexedAccess, exactOptionalPropertyTypes, etc.)",
+      "content": "Enable strict: true and layer on additional strictness flags beyond the baseline for stronger guarantees."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER disable a strict-mode finding instead of fixing the underlying type model",
+      "content": "Never disable a strict-mode finding with @ts-ignore or strict: false; fix the type model or configuration instead, since the defect is still there either way."
+    },
+    {
+      "id": "i3",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "module and moduleResolution must be a matching pair for the project's runtime module system",
+      "content": "Set module and moduleResolution as a matching pair appropriate to the project's actual runtime module system (CommonJS vs native ESM); a mismatched pair causes resolution errors even when each option looks individually reasonable."
+    },
+    {
+      "id": "i4",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER guess at a performance fix before profiling",
+      "content": "Never change include/exclude patterns or restructure code to fix slow type-checking before running tsc --extendedDiagnostics (or --generateTrace) to see what is actually slow."
+    },
+    {
+      "id": "i5",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Diagnose before changing configuration",
+      "content": "Diagnose a compiler performance problem with the compiler's own diagnostic output before changing configuration, since the actual bottleneck (e.g. type instantiation from a recursive conditional type) is often not what intuition suggests."
+    }
+  ]
+}

@@ -2,7 +2,6 @@
 name: pr-stacker
 description: "Splits a large feature branch into smaller, focused pull requests using stacked branches and cherry-pick. Groups commits by concern (infrastructure, application logic, tests, housekeeping), proposes descriptive branch names for user approval, creates stacked branches, and generates What/Why MR titles and descriptions. Use when the user says a PR is too big, asks to split a PR, wants to decompose a branch, or needs to break work into reviewable chunks."
 license: MIT
-compatibility: opencode
 metadata:
   version: 1.0.0
   audience: agents
@@ -129,7 +128,15 @@ problematic changes.
 
 WHY: A branch with conflicts is not buildable. The user discovers this only when CI runs.
 
-ALWAYS resolve every conflict and verify the branch compiles before reporting success.
+ALWAYS resolve every conflict and verify the branch actually builds before reporting success —
+do not just check that `git cherry-pick` exited 0:
+
+```bash
+git checkout feature/PROJ-123-add-cdk-stack-and-iam
+npm run build && npm test
+# or, for a Makefile-based repo:
+make build && make test
+```
 
 **Consequence:** The entire decomposition must restart. Partial branches pollute the remote.
 

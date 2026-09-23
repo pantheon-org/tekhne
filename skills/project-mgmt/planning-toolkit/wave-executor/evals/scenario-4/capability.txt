@@ -1,0 +1,1 @@
+Detect a phase blocked by an unmerged dependency and skip/report it instead of spawning it alongside the unblocked phases.

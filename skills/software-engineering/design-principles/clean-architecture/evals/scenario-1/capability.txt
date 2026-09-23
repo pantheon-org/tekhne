@@ -1,0 +1,1 @@
+Identify a dependency-direction violation between architectural layers and prescribe the inversion needed to restore the inward-only rule.

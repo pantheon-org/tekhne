@@ -1,0 +1,10 @@
+{
+  "skill": "documentation/obsidian/obsidian-bases",
+  "instructions_coverage": {
+    "total_instructions": 14,
+    "covered_instructions": 9,
+    "coverage_percentage": 64,
+    "notes": "9 of 14 instructions are exercised by at least one scenario's criteria.json checklist: all six Common Mistakes anti-patterns (file.basename, Duration.round, null-guard, formula.X reference, YAML quoting, global-vs-view filters) are each covered by a dedicated scenario-1 or scenario-3 criterion, plus view-type selection and summaries usage. Not covered: the when-to/not-apply scope boundary (i1), the general authoring workflow (i2, i13), the three-property-type taxonomy (i4), and the single/double quote style preference (i11) -- these are meta or stylistic rather than independently checkable output behaviours in the current 5 scenarios."
+  },
+  "scenario_count": 5
+}

@@ -1,0 +1,1 @@
+Tests whether the agent wires an OpenCode plugin's event hook to filter file-edit events and surface a toast via the TUI client, rather than reacting to all events or only logging.

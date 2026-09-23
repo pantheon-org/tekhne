@@ -1,0 +1,1 @@
+Tests whether the agent correctly applies the skill's guidance in the following scenario: Enforce Required Fields at Compile Time with the Builder Pattern.

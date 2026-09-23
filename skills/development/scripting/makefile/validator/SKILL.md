@@ -5,6 +5,18 @@ description: Comprehensive toolkit for validating, linting, and optimizing Makef
 
 # Makefile Validator
 
+## Mindset
+
+Treat a Makefile as a dependency graph that happens to be readable, not a list of shell commands with headings. Always check what a target actually depends on before trusting its recipe, because a missing prerequisite makes Make skip work it should have done, and a stale `.PHONY` list makes Make skip a target entirely the moment a same-named file appears on disk. Never accept "the recipe looks right" as validation; run `make -n` to confirm the dependency graph itself resolves the way the author intended, since a Makefile can have flawless shell inside every recipe and still be broken by an incorrect dependency edge. Verify variable expansion the same way you would in a shell script: unquoted `$(VAR)` inside `rm`, `sudo`, or `curl` is exactly as dangerous as unquoted `$VAR` in bash, because Make substitutes the text and then hands it to the shell verbatim. Ensure every finding is reported as a concrete line, the risk it creates, and the fix — a validator that only says "found an issue" without location and remedy is not more useful than reading the Makefile by hand.
+
+## When to Use
+
+Use this skill when validating an existing Makefile for correctness, running it through syntax and best-practice checks before a commit, auditing a Makefile for security issues (unquoted variable expansion, hardcoded credentials, `.EXPORT_ALL_VARIABLES` leakage), diagnosing why a target is skipped or rebuilt unexpectedly, or converting a legacy Makefile to modern conventions (`.PHONY`, `$(MAKE)`, formatting).
+
+## When NOT to Use
+
+Do not use this skill to generate a new Makefile from scratch — that is the `makefile-generator` skill's job; this one only validates and explains what is already there. Do not use it to debug a build failure that is purely a compiler or toolchain error unrelated to the Makefile's own structure (a missing header, a linker error) — those need the language's own build diagnostics, not Makefile validation.
+
 ## Validation Capabilities
 
 - **Syntax**: GNU make `-n --dry-run` validation; catches errors with line numbers
@@ -150,32 +162,32 @@ makefile-validator/
 
 ### NEVER use spaces instead of tabs for recipe indentation
 
-- **WHY**: GNU Make requires a hard tab character to start recipe lines. Spaces silently produce `missing separator` errors that are notoriously confusing.
+- **WHY:** GNU Make requires a hard tab character to start recipe lines. Spaces silently produce `missing separator` errors that are notoriously confusing.
 - **BAD**: two spaces then `echo "building"` (spaces instead of tab)
 - **GOOD**: `\techo "building"` (hard tab — `\t`)
 - **DETECTION**: `scripts/validate_makefile.sh` catches this; run `make -n` to surface the error.
 
 ### NEVER omit `.PHONY` for non-file targets
 
-- **WHY**: Without `.PHONY`, if a file named `clean` or `test` exists, Make will silently skip the target because it considers it up-to-date.
+- **WHY:** Without `.PHONY`, if a file named `clean` or `test` exists, Make will silently skip the target because it considers it up-to-date.
 - **BAD**: `clean:` with no `.PHONY` declaration
 - **GOOD**: `.PHONY: clean test build all` declared at the top
 
 ### NEVER use bare `$(shell ...)` calls in recipe variables without quoting
 
-- **WHY**: Unquoted shell variable expansion in `rm`, `sudo`, or `curl` commands enables command injection when variable values contain spaces or special characters.
+- **WHY:** Unquoted shell variable expansion in `rm`, `sudo`, or `curl` commands enables command injection when variable values contain spaces or special characters.
 - **BAD**: `rm -rf $(DIR)` when `DIR` can be user-controlled
 - **GOOD**: `rm -rf "$(DIR)"` or validate that `DIR` does not contain path separators
 
 ### NEVER use recursive `make` with a bare `make` command
 
-- **WHY**: Bare `make` in a recipe does not inherit the jobserver flags passed by the parent make, breaking parallel builds and potentially starting a separate build chain with different settings.
+- **WHY:** Bare `make` in a recipe does not inherit the jobserver flags passed by the parent make, breaking parallel builds and potentially starting a separate build chain with different settings.
 - **BAD**: `make -C subdir`
 - **GOOD**: `$(MAKE) -C subdir`
 
 ### NEVER export all variables globally with `.EXPORT_ALL_VARIABLES`
 
-- **WHY**: Every variable in scope (including secrets loaded from `.env` files) gets exported to every sub-process, creating credential leakage risk.
+- **WHY:** Every variable in scope (including secrets loaded from `.env` files) gets exported to every sub-process, creating credential leakage risk.
 - **BAD**: `.EXPORT_ALL_VARIABLES:` at top of Makefile
 - **GOOD**: Use explicit `export VAR` only for variables that need sub-process visibility
 

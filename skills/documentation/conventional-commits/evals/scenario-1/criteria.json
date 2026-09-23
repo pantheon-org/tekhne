@@ -1,0 +1,49 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Breaking change `!` suffix: The commit header uses `!` after the type (or type/scope) to signal a breaking change, e.g., `refactor!:` or `feat!:`",
+      "max_score": 12
+    },
+    {
+      "id": "c2",
+      "criterion": "BREAKING CHANGE footer present: The commit message includes a `BREAKING CHANGE:` footer (not just the `!` suffix)",
+      "max_score": 11
+    },
+    {
+      "id": "c3",
+      "criterion": "Footer describes migration: The `BREAKING CHANGE:` footer value describes what changed (old paths, new paths, or removed header) rather than being empty or generic",
+      "max_score": 11
+    },
+    {
+      "id": "c4",
+      "criterion": "Footer token:value format: Footers are written as `Token: value` (colon-space separated), e.g., `BREAKING CHANGE: ...`",
+      "max_score": 11
+    },
+    {
+      "id": "c5",
+      "criterion": "Blank line before footer: There is exactly one blank line separating the body (or header) from the footer section",
+      "max_score": 11
+    },
+    {
+      "id": "c6",
+      "criterion": "Correct type selection: The type is `refactor`, `feat`, or another semantically appropriate type \u2014 NOT `chore`",
+      "max_score": 11
+    },
+    {
+      "id": "c7",
+      "criterion": "Imperative header: The header description uses imperative mood (e.g., `migrate`, `consolidate`, `move`) not past tense",
+      "max_score": 11
+    },
+    {
+      "id": "c8",
+      "criterion": "Header <= 72 chars: The header line is 72 characters or fewer",
+      "max_score": 11
+    },
+    {
+      "id": "c9",
+      "criterion": "Body explains why: If a body is included, it explains the motivation or context for the change rather than listing the files changed",
+      "max_score": 11
+    }
+  ]
+}

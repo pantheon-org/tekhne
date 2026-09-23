@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Novel Architecture Question Routes to Investigate",
+  "checklist": [
+    {
+      "name": "Correctly classified as Complicated-Evolving: Route is",
+      "description": "**Correctly classified as Complicated-Evolving**: Route is investigate, not brainstorm or troubleshoot.",
+      "max_score": 17
+    },
+    {
+      "name": "Adjacent Domain Challenge run: Agent considers",
+      "description": "**Adjacent Domain Challenge run**: Agent considers Complex before confirming Complicated.",
+      "max_score": 17
+    },
+    {
+      "name": "Q-Scale identified as Boulder: Agent notes",
+      "description": "**Q-Scale identified as Boulder**: Agent notes OpenSpec=Yes for the investigation phase.",
+      "max_score": 17
+    },
+    {
+      "name": "Handoff template used: Agent references or",
+      "description": "**Handoff template used**: Agent references or fills `references/frame-problem-to-investigate-llm.md`.",
+      "max_score": 17
+    },
+    {
+      "name": "LLM bias check applied: Agent actively",
+      "description": "**LLM bias check applied**: Agent actively looks for signs the problem could be Complex (expertise bias warning honored).",
+      "max_score": 16
+    },
+    {
+      "name": "OpenSpec flag set: Agent notes openspec-plan",
+      "description": "**OpenSpec flag set**: Agent notes openspec-plan is in the chain.",
+      "max_score": 16
+    }
+  ]
+}

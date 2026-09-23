@@ -1,0 +1,59 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Leveled log functions: Script defines separate logging functions for at least three levels",
+      "max_score": 10
+    },
+    {
+      "id": "c2",
+      "criterion": "Timestamps in logs: Log messages include a timestamp using `date`",
+      "max_score": 9
+    },
+    {
+      "id": "c3",
+      "criterion": "Logs written to stderr: All logging functions write to stderr (`>&2`)",
+      "max_score": 9
+    },
+    {
+      "id": "c4",
+      "criterion": "Level prefix in messages: Log messages include a level label such as `[INFO]`, `[WARN]`, or `[ERROR]`",
+      "max_score": 9
+    },
+    {
+      "id": "c5",
+      "criterion": "Username regex validation: Script validates each username against a restrictive regex pattern before using it in system commands",
+      "max_score": 9
+    },
+    {
+      "id": "c6",
+      "criterion": "Bad username rejected: Script rejects or skips usernames containing special characters like `;`",
+      "max_score": 9
+    },
+    {
+      "id": "c7",
+      "criterion": "Quoted variable expansions: Variables derived from CSV fields are quoted when used in commands",
+      "max_score": 9
+    },
+    {
+      "id": "c8",
+      "criterion": "Strict mode present: Script includes `set -euo pipefail`",
+      "max_score": 9
+    },
+    {
+      "id": "c9",
+      "criterion": "Dry-run support: Script implements a dry-run mode that logs intended actions without executing them",
+      "max_score": 9
+    },
+    {
+      "id": "c10",
+      "criterion": "check_command or equivalent: Script verifies required commands are available before processing the CSV",
+      "max_score": 9
+    },
+    {
+      "id": "c11",
+      "criterion": "Env shebang: Shebang uses `#!/usr/bin/env bash`",
+      "max_score": 9
+    }
+  ]
+}

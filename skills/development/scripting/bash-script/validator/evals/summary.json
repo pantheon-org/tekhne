@@ -1,0 +1,9 @@
+{
+  "instructions_coverage": {
+    "total_instructions": 10,
+    "covered_instructions": 8,
+    "coverage_percentage": 80,
+    "notes": "8 of 10 instructions.json entries are exercised by at least one scenario's criteria.json (global-suppression anti-pattern, POSIX-vs-bash bashism detection, || true / exit 0 error-suppression detection, the four-part issue format, eval/rm -rf/command-injection security checks, portability bashism checks, summary with counts, and per-line suppression with a reason comment). Not covered by a checkable scenario: the 'ShellCheck alone is not enough, also run it' guidance and shell-dialect auto-detection from the shebang -- both are process guidance rather than a defect the agent identifies in a sample script."
+  },
+  "scenario_count": 5
+}

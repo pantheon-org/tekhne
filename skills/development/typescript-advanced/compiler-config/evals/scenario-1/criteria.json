@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Root cause correctly identified: `resolution-notes.md` identifies that `module: commonjs` conflicts with the project's native-ESM runtime (`package.json` `type: module`) and its `.js`-suffixed relative imports",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "`module` is set to a Node-ESM-aware value: `module` is `nodenext` (or `node16`), not `commonjs`",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`moduleResolution` matches `module`: `moduleResolution` is `nodenext` (or `node16`), matching the chosen `module` value rather than left as `node`",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Explanation is accurate and plain-language: `resolution-notes.md` explains why the mismatched pair caused the specific `.js`-extension import to fail, and why the fix resolves it, without hand-waving",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "`rootDir`/`outDir` preserved: The corrected config keeps `rootDir: src` and `outDir: dist` unchanged",
+      "max_score": 10
+    }
+  ]
+}

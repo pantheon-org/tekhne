@@ -1,0 +1,49 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "fix type on all three: All three commit messages use the `fix` type",
+      "max_score": 12
+    },
+    {
+      "id": "c2",
+      "criterion": "Issue references present: All three commit messages include a footer that references the relevant issue number (#301, #178, #412)",
+      "max_score": 11
+    },
+    {
+      "id": "c3",
+      "criterion": "Footer token:value format: Issue references use `Token: value` format (e.g., `Closes: #301` or `Fixes: #301`), not inline mentions in the header or body",
+      "max_score": 11
+    },
+    {
+      "id": "c4",
+      "criterion": "Blank line before footer: Each commit message with a footer has exactly one blank line separating the body (or header) from the footer",
+      "max_score": 11
+    },
+    {
+      "id": "c5",
+      "criterion": "Imperative mood all three: All three headers use imperative mood (e.g., `prevent`, `invalidate`, `return`) not past tense (`fixed`, `prevented`)",
+      "max_score": 11
+    },
+    {
+      "id": "c6",
+      "criterion": "Header <= 72 chars all three: All three header lines are 72 characters or fewer",
+      "max_score": 11
+    },
+    {
+      "id": "c7",
+      "criterion": "Lowercase descriptions: All three description portions (after the colon and space) begin with a lowercase letter",
+      "max_score": 11
+    },
+    {
+      "id": "c8",
+      "criterion": "No trailing periods: None of the three headers end with a period",
+      "max_score": 11
+    },
+    {
+      "id": "c9",
+      "criterion": "No implementation details in header: None of the three headers mention specific implementation details (e.g., `300ms debounce`, `HTTP 422 status code`)",
+      "max_score": 11
+    }
+  ]
+}

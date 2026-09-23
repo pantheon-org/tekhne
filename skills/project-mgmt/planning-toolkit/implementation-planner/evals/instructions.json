@@ -1,0 +1,74 @@
+{
+  "instructions": [
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Before designing phases, count the natural phases in the PRD first. If the count is 9 or more, STOP immediately -- do not design phases, do not run any scripts, do not create any files."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "When the phase-count guardrail triggers, message the user with the count and 2-3 concrete consolidation options, and wait for their answer before doing anything else."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER silently cap at 8 phases and omit scope, and NEVER proceed with any number of phases without the user choosing when the natural phase count is 9 or more."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "MUST use the scaffold scripts (new-plan.sh, new-phase.sh, new-task.sh) to create the plan structure -- never create directories or files manually, since the scripts stamp the stubs validate-plan.sh expects."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER modify, rename, or delete existing files when appending phases to an existing plan -- all operations are additive only; existing content must remain byte-for-byte identical except for new entries appended to the root README's phase listing."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "MUST run validate-plan.sh (or validate-structure.sh for Mode 2) before reporting completion to the user -- no exceptions. If any file fails, fix the violation and re-run until exit 0."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Every task file MUST include a verification section with a concrete, runnable shell command; gates MUST be exit-code-based, not vague language like 'works correctly' or 'tests pass'."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER embed implementation detail in the root plan README.md -- keep it as a navigation index only; detail belongs in phase and task files."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER use numeric-only directory names (step-1/, activity-2/) or generic names (step-1-stuff/) when restructuring a plan -- contributors cannot navigate without opening every file."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "In Mode 2, create the new hierarchy first, validate it, then remove the old flat files -- never delete the source before the new structure is confirmed valid."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Apply the flatten-vs-subdivide heuristics when restructuring: flatten items with fewer than 3 children or where all children fit one README screen; subdivide items with more than 10 children or that cluster into distinct semantic groups."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Rule of thumb: aim for 3-7 items per group when organizing a restructured hierarchy."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Load scripts, templates, and schemas only when needed for the mode in use -- do not load scripts, schemas, or templates when doing a purely manual split."
+    },
+    {
+      "type": "reminder",
+      "why_given": "reminder",
+      "content": "Use this skill when the user asks to create an implementation plan, break down a PRD, convert requirements to tasks, split a monolithic planning document, or decompose a spec into phases and tasks."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 2048,
+  "context": "Grading a response about renaming a chezmoi-tracked source file and reviewing exact_ scope safety.",
+  "checklist": [
+    {
+      "name": "warns_against_manual_rename",
+      "description": "Response warns against a raw `mv`/rename inside the source directory and names `chezmoi chattr` (or `re-add`) as the safe alternative.",
+      "max_score": 30
+    },
+    {
+      "name": "confirms_scoped_exact_safe",
+      "description": "Response confirms that `exact_dot_config/nvim/` is a safely scoped use of `exact_`.",
+      "max_score": 25
+    },
+    {
+      "name": "warns_top_level_exact_danger",
+      "description": "Response explicitly warns that a top-level (home-directory-root) `exact_` would delete unmanaged files with no extra confirmation.",
+      "max_score": 30
+    },
+    {
+      "name": "distinguishes_scope_risk",
+      "description": "Response distinguishes the safely-scoped case from the dangerous top-level case rather than treating all `exact_` usage identically.",
+      "max_score": 15
+    }
+  ]
+}

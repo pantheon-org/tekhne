@@ -1,0 +1,24 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "Uses obsidian create command: The agent invokes the obsidian CLI with the `create` subcommand",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Includes silent flag: The command includes the silent flag so Obsidian does not open the note in the editor",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Note name is quoted: The `name=` parameter value is quoted because it contains a space: `name=\"Project Alpha\"`",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Content encodes newlines: The content parameter uses `\\n` to represent newlines within the single-line CLI parameter value",
+      "max_score": 25
+    }
+  ]
+}

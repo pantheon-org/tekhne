@@ -1,0 +1,10 @@
+{
+  "skill": "documentation/obsidian/obsidian-cli",
+  "instructions_coverage": {
+    "total_instructions": 11,
+    "covered_instructions": 8,
+    "coverage_percentage": 73,
+    "notes": "8 of 11 instructions are exercised by at least one scenario's criteria.json checklist: file= vs path= targeting, quoting values with spaces, the silent flag, vault targeting, the develop/test cycle, newline encoding, and default-vault behaviour are each checked by a scenario. Not covered: the eval-in-production anti-pattern (i5, no plugin-authoring scenario exercises it), the parameter/flag syntax distinction (i7), and the --copy/total conveniences (i11), which are reference facts rather than scenario-graded behaviours in the current 4 scenarios."
+  },
+  "scenario_count": 4
+}

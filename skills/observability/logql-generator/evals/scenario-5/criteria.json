@@ -1,0 +1,46 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Scenario 05: LogQL Query for a New Team Member",
+  "checklist": [
+    {
+      "name": "Incremental steps present",
+      "description": "The document shows at least 3 distinct intermediate queries, each building on the previous step (stream selector \u2192 line filter \u2192 parser \u2192 label filter)",
+      "max_score": 13
+    },
+    {
+      "name": "Line filter before parser in steps",
+      "description": "The step that adds a line filter (`|= \"error\"` or similar) appears BEFORE the step that adds the json parser",
+      "max_score": 13
+    },
+    {
+      "name": "Each step explained",
+      "description": "Each intermediate step is accompanied by a plain-English explanation of what it adds and why",
+      "max_score": 13
+    },
+    {
+      "name": "line_format used for output",
+      "description": "The final query uses `line_format` or `label_format` to surface the `error_type` and `message` fields prominently",
+      "max_score": 13
+    },
+    {
+      "name": "Filter ordering correct in final query",
+      "description": "In the final query, line filter comes before json parser, and label filters (`level`, `component`) come after the parser",
+      "max_score": 12
+    },
+    {
+      "name": "Two usage methods provided",
+      "description": "The document mentions at least two ways to run the query (e.g. Grafana Explore UI and `logcli`, or HTTP API)",
+      "max_score": 12
+    },
+    {
+      "name": "Customization notes present",
+      "description": "The document identifies at least one label or value to change when moving from staging to production",
+      "max_score": 12
+    },
+    {
+      "name": "Specific stream selector",
+      "description": "The final query stream selector includes at least two label matchers",
+      "max_score": 12
+    }
+  ]
+}

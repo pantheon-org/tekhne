@@ -1,0 +1,10 @@
+{
+  "skill": "documentation/conventional-commits",
+  "instructions_coverage": {
+    "total_instructions": 20,
+    "covered_instructions": 16,
+    "coverage_percentage": 80,
+    "notes": "16 of 20 instructions are exercised by at least one scenario's criteria.json checklist (type selection, imperative mood, header length, casing, footer format, BREAKING CHANGE handling, scope, body content, issue-closing keywords). Uncovered: output-format presentation (i9), dry-run verification (i8), the project-override scope boundary (i20), and the general body-length-wrapping style preference (i6), which are procedural/meta rather than independently checkable outcomes."
+  },
+  "scenario_count": 5
+}

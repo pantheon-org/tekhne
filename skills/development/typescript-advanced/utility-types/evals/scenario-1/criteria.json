@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "`ctor` parameter is constrained to a constructor type: Typed as `T extends new (...args: any[]) => any`, not `any`",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "`args` uses `ConstructorParameters<T>`: The rest parameter's type is `ConstructorParameters<T>`, not `any[]`",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "Return type uses `InstanceType<T>`: The function's return type is `InstanceType<T>`, not `any`",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Compile-error case is demonstrated: A commented-out call missing a required constructor argument is included with a note that it fails to compile",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "`ApiClient` is unchanged: The class definition is not modified",
+      "max_score": 10
+    }
+  ]
+}

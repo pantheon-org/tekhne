@@ -1,0 +1,10 @@
+{
+  "skill": "documentation/obsidian/json-canvas",
+  "instructions_coverage": {
+    "total_instructions": 15,
+    "covered_instructions": 8,
+    "coverage_percentage": 53,
+    "notes": "8 of 15 instructions are exercised by at least one scenario's criteria.json checklist (ID generation/uniqueness, edge reference resolution, node spacing, group containment, JSON validity). Not covered by the current 4 scenarios: z-index/array-order (i6), per-type required fields (i7), the \\n vs \\\\n escaping rules (i8, i9), the fromEnd/toEnd enum constraint (i13), color-value quoting (i14), and the when-to/not-apply scope boundary (i1), which is a meta-instruction rather than an output-checkable behaviour. Adding scenarios that exercise multiline text escaping and edge-arrow enums would close most of this gap."
+  },
+  "scenario_count": 4
+}

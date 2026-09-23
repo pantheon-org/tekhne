@@ -45,7 +45,7 @@ Adding new processors requires editing existing code (OCP violation).
 
 **Output:** Pattern choice with explicit win condition.
 
-Ask before choosing a pattern:
+ALWAYS ask before choosing a pattern, and ensure the win condition is measurable, not aspirational:
 
 - Does this pattern solve the concrete problem?
 - What complexity does it remove vs. add?
@@ -240,20 +240,48 @@ class CreateOrderUseCase {
 **BAD:** Add Factory pattern "in case" we need multiple implementations.  
 **GOOD:** Wait for concrete need (second implementation) before extracting pattern.
 
+**WHY:** an interface designed for an imagined second implementation almost never matches the shape the real one turns out to need — you pay the abstraction cost twice, once for the guess and once to fix it.
+
 ### NEVER use patterns to hide complexity
 
 **BAD:** Wrap simple logic in Strategy/Factory/Builder for "future flexibility."  
 **GOOD:** Start simple; refactor to pattern when complexity justifies it.
+
+**WHY:** an unnecessary layer of indirection makes a reader trace through an interface and a registry to find one branch of logic that a plain `if` would have shown in one place.
 
 ### NEVER cargo-cult patterns from other codebases
 
 **BAD:** Copy design patterns because they "look professional."  
 **GOOD:** Apply patterns to solve concrete problems in your codebase.
 
+**WHY:** a pattern copied without its originating constraint (the reason Gang-of-Four Visitor exists, for instance) adds ceremony with none of the payoff, and the next maintainer inherits the ceremony without the context.
+
 ### NEVER optimize before measurement
 
 **BAD:** Add cache or pool because function "might be slow."  
 **GOOD:** Measure baseline, optimize when threshold is exceeded.
+
+**WHY:** an unmeasured cache adds invalidation bugs and memory overhead for a bottleneck that may not exist; the fix is frequently slower than the code it "optimizes."
+
+### NEVER use Singleton for state shared across tests
+
+**BAD:**
+```typescript
+class ConfigStore {
+  private static instance: ConfigStore
+  static get(): ConfigStore { return this.instance ??= new ConfigStore() }
+}
+```
+**GOOD:** Inject the config as a constructor dependency; construct a fresh instance per test.
+
+**WHY:** a module-level singleton persists mutated state between test cases unless every test remembers to reset it — the resulting flaky failures depend on run order and are effectively required to reproduce.
+
+### NEVER reach for Observer/pub-sub for a direct two-party call
+
+**BAD:** Emit a named event and have exactly one listener react to it, when a direct method call would do.  
+**GOOD:** Call the method directly; introduce Observer only when multiple, decoupled listeners genuinely need to react independently.
+
+**WHY:** a single-listener event turns a traceable call stack into a stringly-typed contract — the reader has to grep for the event name across the codebase to find the one place that handles it, instead of following a function call.
 
 ## Quick Commands
 

@@ -1,0 +1,59 @@
+{
+  "instructions": [
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER hardcode model IDs without verifying availability first; GitHub Copilot access varies by subscription tier and region, so a hardcoded ID can fail silently."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER rely on OpenCode's model registry alone; it is a release-time snapshot and does not track live per-account policy changes."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER ignore `policy.state` when selecting a model; `disabled` or `preview` models can appear in a listing yet still reject requests at runtime."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER assume context window size from a model's name; check `capabilities.limits.max_context_window_tokens` explicitly."
+    },
+    {
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER treat a `preview` model as production-safe; preview access can be restricted or withdrawn without the standard deprecation notice a stable model would get."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Query models via `fetch-models.sh` (or an equivalent direct GitHub Copilot API call) rather than trusting OpenCode's bundled registry."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Filter for `policy.state == \"enabled\"` before selecting a model for unattended or production use."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Check the `capabilities.limits.max_context_window_tokens` field explicitly rather than guessing context size from the model name."
+    },
+    {
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Check the `capabilities.supports.vision` field explicitly when a task requires image/vision input, rather than inferring it from the model name or vendor."
+    },
+    {
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Test a newly selected model with a per-command validation call before setting it as the project default."
+    },
+    {
+      "type": "preference",
+      "why_given": "preference",
+      "content": "Use per-command model selection while testing; only set a project default after the model has been validated as stable."
+    }
+  ]
+}

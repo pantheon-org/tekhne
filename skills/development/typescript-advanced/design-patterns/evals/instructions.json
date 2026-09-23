@@ -1,0 +1,46 @@
+{
+  "instructions": [
+    {
+      "id": "i1",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER let a builder's build() compile with missing required fields",
+      "content": "Never let a builder pattern's build() method compile before its required fields are set; track required-field state at the type level, not just at runtime."
+    },
+    {
+      "id": "i2",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER type an event emitter's emit/on with a loose string and any[]",
+      "content": "Never type an event emitter's emit/on with a bare string event name and any[] payload; parameterize the emitter over an event map so each event's payload is checked against its name."
+    },
+    {
+      "id": "i3",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "original_snippets": "NEVER leave a generic type parameter unconstrained when the pattern relies on it having a shape",
+      "content": "Never leave a generic type parameter unconstrained when the pattern's logic assumes a shape; an unconstrained <T> degrades the pattern to any the moment a caller passes something unexpected."
+    },
+    {
+      "id": "i4",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Discriminated Unions: Use discriminated unions for states",
+      "content": "Model a state machine's states as a discriminated union so each state only carries the fields valid for it, rather than a single class with many optional fields."
+    },
+    {
+      "id": "i5",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Exhaustive Checking: Use switch statements with never for exhaustive checking",
+      "content": "Use a switch on the state's discriminant with a never-typed default branch when writing a state machine's transition function, so a new state added later is a compile error until handled."
+    },
+    {
+      "id": "i6",
+      "type": "practice",
+      "why_given": "new knowledge",
+      "original_snippets": "Restrict an operation to only the state(s) where it's valid using Extract",
+      "content": "When an operation is only valid for one member of a state union, type its parameter as that narrowed member (e.g. via Extract), not the whole union, so calling it with the wrong state is a compile error."
+    }
+  ]
+}

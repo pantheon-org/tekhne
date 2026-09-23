@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a validation script and project config that safely onboard a new default GitHub Copilot model.",
+  "checklist": [
+    {
+      "name": "api_query_in_validation_script",
+      "description": "validate-model.sh fetches models from the GitHub Copilot API (via fetch-models.sh or direct curl), not from `opencode models` or a hardcoded list.",
+      "max_score": 20
+    },
+    {
+      "name": "policy_state_check",
+      "description": "Script verifies the target model has policy.state == 'enabled' before proceeding.",
+      "max_score": 20
+    },
+    {
+      "name": "auth_from_correct_path",
+      "description": "Script reads the auth token from ~/.local/share/opencode/auth.json.",
+      "max_score": 15
+    },
+    {
+      "name": "exits_on_unavailable_model",
+      "description": "Script exits with a non-zero code or clear error message if the model is not found or not enabled.",
+      "max_score": 20
+    },
+    {
+      "name": "per_command_test_step",
+      "description": "A per-command test (e.g. `opencode run --model ... 'test prompt'`) is included before setting the project default.",
+      "max_score": 15
+    },
+    {
+      "name": "opencode_json_default_model",
+      "description": "opencode.json contains a \"defaultModel\" key set to the target model ID.",
+      "max_score": 10
+    }
+  ]
+}

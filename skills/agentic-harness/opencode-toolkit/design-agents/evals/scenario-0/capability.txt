@@ -1,0 +1,1 @@
+Tests whether the agent designs a restricted-permission OpenCode agent with concrete trigger phrases, a second-person system prompt, and an ask-by-default bash allowlist.

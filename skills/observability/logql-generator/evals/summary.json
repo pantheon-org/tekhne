@@ -1,0 +1,8 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 87,
+    "total_instructions": 15,
+    "covered_instructions": 13,
+    "notes": "scenario-1 covers pattern-parser filter/rate queries; scenario-2 covers rate()+vector(0) alerting with correct thresholds; scenario-3 covers Loki 3.x structured metadata and detected_level, keeping high-cardinality values out of the stream selector; scenario-4 covers logfmt, quantile_over_time, topk, and the offset modifier across a multi-panel dashboard; scenario-5 covers incremental step-by-step query construction and multiple execution methods. The context7/WebSearch fallback instruction and the general activation reminder are not independently exercised by a scenario."
+  }
+}

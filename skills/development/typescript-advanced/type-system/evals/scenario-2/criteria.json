@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "`RouteParams<T>` is a template literal / conditional type: It parses `:param` segments out of the path string type at the type level, not at runtime",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "Correctly extracts multiple parameters: `RouteParams<\"/users/:userId/posts/:postId\">` resolves to an object type with both `userId` and `postId` keys as `string`",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`registerRoute` propagates the literal path type: The `handler`'s `params` argument is typed via `RouteParams<Path>` for the specific path literal, not a generic `Record<string, string>`",
+      "max_score": 20
+    },
+    {
+      "id": "c4",
+      "criterion": "Handles zero or one parameter paths: The type does not error or resolve to `never` for a path with no `:param` segments or exactly one",
+      "max_score": 20
+    },
+    {
+      "id": "c5",
+      "criterion": "No `any` or unsafe assertions introduced: The solution contains no `any`, `@ts-ignore`, or unchecked `as` assertions",
+      "max_score": 10
+    }
+  ]
+}

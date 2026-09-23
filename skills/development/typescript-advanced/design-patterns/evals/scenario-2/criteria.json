@@ -1,0 +1,29 @@
+{
+  "checklist": [
+    {
+      "id": "c1",
+      "criterion": "State is a discriminated union: The four states are modelled as a union with a `status` discriminant, each carrying only the fields valid for that state (no shared optional fields for `socket`/`error`/`retryCount` on other members)",
+      "max_score": 25
+    },
+    {
+      "id": "c2",
+      "criterion": "`transition` is exhaustive with a `never` guard: `transition` switches on `status` and its default branch assigns to a `never`-typed variable",
+      "max_score": 25
+    },
+    {
+      "id": "c3",
+      "criterion": "`send` only accepts the `\"connected\"` member: `send`'s state parameter is typed as `Extract<ConnectionState, { status: \"connected\" }>` (or equivalent narrowed type), not the full union",
+      "max_score": 25
+    },
+    {
+      "id": "c4",
+      "criterion": "Compile-error case is demonstrated: A commented-out call passing a full-union-typed state to `send` is included with a note that it fails to compile",
+      "max_score": 15
+    },
+    {
+      "id": "c5",
+      "criterion": "No `any` or unsafe assertions introduced: The solution contains no `any`, `@ts-ignore`, or unchecked `as` assertions",
+      "max_score": 10
+    }
+  ]
+}

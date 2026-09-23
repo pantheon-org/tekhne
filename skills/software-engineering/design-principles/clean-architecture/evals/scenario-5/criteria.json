@@ -1,0 +1,31 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Evaluate Whether an Architectural Boundary Is Justified",
+  "checklist": [
+    {
+      "name": "Full hexagonal architecture not recommended at",
+      "description": "**Full hexagonal architecture not recommended at this stage**: ADVICE.md recommends against implementing full hexagonal architecture immediately for a 2-person, 3-route internal tool",
+      "max_score": 20
+    },
+    {
+      "name": "Cost-vs-benefit reasoning provided: ADVICE.md explains why",
+      "description": "**Cost-vs-benefit reasoning provided**: ADVICE.md explains why the boundary cost outweighs the benefit at this scale (small team, simple domain, no complex testing requirements yet)",
+      "max_score": 20
+    },
+    {
+      "name": "Appropriate current structure recommended: ADVICE.md suggests",
+      "description": "**Appropriate current structure recommended**: ADVICE.md suggests a simpler, pragmatic structure appropriate for the current stage (e.g. basic service layer, simple folder structure)",
+      "max_score": 20
+    },
+    {
+      "name": "Trigger for future boundary introduction identified:",
+      "description": "**Trigger for future boundary introduction identified**: ADVICE.md names a concrete trigger that would justify adding proper layer boundaries (e.g. needing to swap database, adding a second client, team growth, complex domain logic)",
+      "max_score": 20
+    },
+    {
+      "name": "YAGNI principle referenced or applied: ADVICE.md",
+      "description": "**YAGNI principle referenced or applied**: ADVICE.md applies the principle of solving the current need and refactoring when the trigger appears — not designing for imagined future requirements",
+      "max_score": 20
+    }
+  ]
+}

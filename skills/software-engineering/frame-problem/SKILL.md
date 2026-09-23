@@ -17,10 +17,10 @@ Sense-make → triangulate → decompose if needed → route. Domain determines 
 
 ## ⚠️ AskUserQuestion Guard
 
-**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known Claude Code bug: outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.
+**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known harness bug in some agentic coding tools: outside their planning mode, `AskUserQuestion`-style prompts can silently return empty answers without showing UI.
 
 **If answers are empty**: DO NOT proceed with assumptions. Instead:
-1. Output: "⚠️ Questions didn't display (known Claude Code bug outside Plan Mode)."
+1. Output: "⚠️ Questions didn't display (known harness bug outside planning mode)."
 2. Present the options as a **numbered text list** and ask user to reply with their choice number.
 3. WAIT for user reply before continuing.
 
@@ -173,6 +173,24 @@ On confirm → invoke first skill with $ARGUMENTS (or first sub-problem for comp
 - **NEVER accept the user's first framing at face value** — Initial problem statements are often symptoms. **Why:** The real constraint or goal is usually one "why?" deeper; accepting the surface framing wastes effort.
 - **NEVER classify as Complicated just because you have knowledge** — LLMs have expert-level knowledge on nearly everything and will over-index on Complicated. **Why:** This systematically bypasses the probe/experiment path that Complex problems require, leading to confident but wrong solutions.
 - **NEVER skip the Adjacent Domain Challenge when auto-classifying** — A single-domain verdict without challenging the nearest boundary is premature. **Why:** Liminal problems handled with the wrong verb (analyze vs. probe) consistently fail at the boundary.
+
+### NEVER let T1 (expertise) alone override a T2/T3 disagreement
+
+**BAD:**
+```
+T1: "our team has done this before" -> Complicated
+T2: "results vary heavily by customer segment" -> Complex
+T3: "entangled, changing one part changes the whole" -> Complex
+Verdict: Complicated (T1 wins because "we have expertise")
+```
+
+**GOOD:**
+```
+T1: Complicated, T2: Complex, T3: Complex -> 2 of 3 agree -> Complex
+Route: probe, with T1 noted as a liminal signal (some governing constraints may exist)
+```
+
+**Why:** T1 measures whether expertise exists, not whether the outcome is predictable — expertise bias makes engineers over-select Complicated on T1 even when T2 and T3 both say the problem is genuinely Complex; majority vote across all three tests must decide, never T1 alone.
 
 ## Usage Examples
 

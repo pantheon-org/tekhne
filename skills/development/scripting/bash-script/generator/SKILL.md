@@ -9,6 +9,18 @@ description: Creates bash scripts with argument parsing, error handling, logging
 
 This skill generates production-ready bash scripts with best practices built-in: strict mode, error handling, logging, argument parsing, input validation, and cleanup traps. Use for system administration, text processing, API clients, automation workflows, and scheduled tasks.
 
+## Mindset
+
+Treat every generated script as if it will run unattended, at 3am, on a machine nobody is watching. Assume any command can fail and any variable can be empty; the script's job is to fail loudly and safely rather than continue silently on bad data. Never trust `set -e` alone to make a script safe — always pair it with `-u` and `-o pipefail`, because a script that only sets `-e` still lets pipeline failures and unset-variable typos through undetected. Always register a `trap` before doing anything destructive, because a script that creates temp files or partial output without a cleanup trap leaves garbage (or worse, corrupt state) behind on every failure path, not just the happy path. Verify every external dependency (`command -v`) before using it rather than letting a missing binary produce a cryptic "command not found" three functions deep into execution. Write status output to stderr, not stdout, so a script's logs never get accidentally piped into whatever consumes its actual output.
+
+## When to Use
+
+Use this skill when writing a new bash or POSIX sh script, converting an ad-hoc one-liner or cron job into a maintainable script, adding argument parsing, logging, or error handling to an existing script, or when a script needs to run unattended (cron, CI, systemd timer) and must fail safely instead of silently.
+
+## When NOT to Use
+
+Do not use this skill to write a script in a general-purpose language (Python, TypeScript, Go) — reach for bash only when the task is genuinely shell-shaped (orchestrating other commands, simple text pipelines, filesystem operations). Do not use it for a one-off interactive command typed directly at a prompt; the strict-mode and trap-handling ceremony this skill teaches is overhead that only pays off once a script is going to be saved, reused, or scheduled.
+
 ## Pre-Generation Checklist (REQUIRED)
 
 Before writing any script, complete these steps:
@@ -266,31 +278,31 @@ After every script, provide:
 
 ### NEVER start a bash script without `set -euo pipefail`
 
-- **WHY**: Without these flags, errors are silently ignored: `-e` causes exit on error, `-u` errors on unset variables, `-o pipefail` catches pipeline failures.
+- **WHY:** Without these flags, errors are silently ignored: `-e` causes exit on error, `-u` errors on unset variables, `-o pipefail` catches pipeline failures.
 - **BAD**: `#!/usr/bin/env bash` with no error flags and silent failures.
 - **GOOD**: `#!/usr/bin/env bash` followed immediately by `set -euo pipefail` as the first two lines of every script.
 
 ### NEVER use unquoted variable expansions in command arguments
 
-- **WHY**: Word splitting and glob expansion on unquoted `$VAR` cause subtle bugs when values contain spaces or special characters.
+- **WHY:** Word splitting and glob expansion on unquoted `$VAR` cause subtle bugs when values contain spaces or special characters.
 - **BAD**: `cp $SOURCE $DEST`
 - **GOOD**: `cp "$SOURCE" "$DEST"`
 
 ### NEVER use `ls | grep` to filter files
 
-- **WHY**: `ls` output is not reliably parseable; it is locale-dependent and breaks on filenames with special characters.
+- **WHY:** `ls` output is not reliably parseable; it is locale-dependent and breaks on filenames with special characters.
 - **BAD**: `ls *.log | grep error`
 - **GOOD**: `for f in *.log; do grep error "$f"; done` or `find . -name "*.log" -exec grep error {} +`
 
 ### NEVER hardcode absolute paths for tools like `python`, `node`, or `bash`
 
-- **WHY**: Paths differ across operating systems and distributions, making scripts non-portable.
+- **WHY:** Paths differ across operating systems and distributions, making scripts non-portable.
 - **BAD**: `#!/usr/bin/python3` or `/usr/local/bin/node script.js`
 - **GOOD**: Use `#!/usr/bin/env python3`, rely on PATH for `node script.js`, or guard with `command -v python3 || { echo "python3 required"; exit 1; }`.
 
 ### NEVER use `eval` to execute dynamically constructed commands
 
-- **WHY**: `eval` enables code injection when any part of the command comes from user input or external data.
+- **WHY:** `eval` enables code injection when any part of the command comes from user input or external data.
 - **BAD**: `eval "rm -rf $USER_INPUT"`
 - **GOOD**: Use arrays for command construction: `cmd=(rm -rf "$USER_INPUT"); "${cmd[@]}"`
 

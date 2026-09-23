@@ -1,0 +1,1 @@
+Tests whether the agent configures an Anthropic provider via an environment-variable reference rather than a hardcoded key, and includes a way to verify it.

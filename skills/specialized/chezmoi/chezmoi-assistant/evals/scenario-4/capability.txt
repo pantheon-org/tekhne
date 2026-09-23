@@ -1,0 +1,1 @@
+Tests whether the agent flags plaintext secrets tracked without the encrypted_ prefix and recommends chezmoi's encryption mechanism instead of relying on private_ permissions alone.

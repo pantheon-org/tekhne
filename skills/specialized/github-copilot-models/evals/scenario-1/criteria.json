@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 3072,
+  "context": "Grading a shell script that finds large-context, currently-enabled GitHub Copilot models.",
+  "checklist": [
+    {
+      "name": "uses_fetch_models_or_api",
+      "description": "Script invokes fetch-models.sh (or an equivalent direct API query) rather than `opencode models` or OpenCode's built-in listing.",
+      "max_score": 20
+    },
+    {
+      "name": "uses_json_flag",
+      "description": "Script requests structured JSON output suitable for `jq` parsing.",
+      "max_score": 15
+    },
+    {
+      "name": "filters_policy_state",
+      "description": "Script filters models using `.policy.state == 'enabled'` rather than listing all models.",
+      "max_score": 20
+    },
+    {
+      "name": "reads_context_field",
+      "description": "Script reads `.capabilities.limits.max_context_window_tokens` (or equivalent) rather than inferring context size from the model name.",
+      "max_score": 20
+    },
+    {
+      "name": "correct_output_format",
+      "description": "Script outputs the model ID and context window size per qualifying model, one per line.",
+      "max_score": 15
+    },
+    {
+      "name": "applies_threshold",
+      "description": "Script filters for a context window of at least 100,000 tokens.",
+      "max_score": 10
+    }
+  ]
+}

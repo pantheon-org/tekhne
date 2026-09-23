@@ -1,0 +1,1 @@
+Recognise when a requested pattern is not warranted for the code shown and recommend against premature abstraction instead of applying it anyway.

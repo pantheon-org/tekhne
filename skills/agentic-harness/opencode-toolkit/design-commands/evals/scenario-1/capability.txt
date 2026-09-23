@@ -1,0 +1,1 @@
+Tests whether the agent configures a no-argument OpenCode command for fire-and-forget execution via subtask: true with a single consolidated report.

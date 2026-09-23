@@ -1,0 +1,1 @@
+Tests whether the agent registers a custom plugin tool via the tool key with schema-validated, described arguments and a string return, rather than client.registerTool().
