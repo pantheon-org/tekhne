@@ -170,8 +170,9 @@ struct IndexArgs {
     /// Print the generated index to stdout instead of writing files.
     #[arg(long = "dry-run")]
     dry_run: bool,
-    /// Validate the existing NDJSON against the schema and invariants; do not
-    /// regenerate.
+    /// Check the committed NDJSON is byte-identical to a fresh regeneration;
+    /// do not write. Any difference at all -- a stale entry, a missing new
+    /// one, a manual edit -- is stale.
     #[arg(long)]
     validate: bool,
 }
@@ -191,9 +192,8 @@ struct KbIndexArgs {
     #[arg(long = "dry-run")]
     dry_run: bool,
     /// Check the committed ndjson is byte-identical to a fresh regeneration;
-    /// do not write. Unlike `index --validate` (which checks structural
-    /// invariants), this mirrors the consuming repo's own semantics: any
-    /// difference at all, including field reordering, is stale.
+    /// do not write. Same semantics as `index --validate`: any difference at
+    /// all, including field reordering, is stale.
     #[arg(long)]
     validate: bool,
 }
@@ -431,26 +431,6 @@ fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
         .view
         .unwrap_or_else(|| PathBuf::from(index::INDEX_VIEW_PATH));
 
-    // Validate-only: check the committed NDJSON without regenerating.
-    if args.validate {
-        let text = std::fs::read_to_string(&data)
-            .map_err(|e| format!("cannot read {}: {e}", data.display()))?;
-        let probe = index::file_exists_under(&args.root);
-        let errors = index::validate_ndjson(&text, Some(&probe));
-        if !errors.is_empty() {
-            for e in &errors {
-                eprintln!("  x {e}");
-            }
-            return Err(format!(
-                "index validation failed with {} error(s)",
-                errors.len()
-            ));
-        }
-        let n = text.lines().filter(|l| !l.trim().is_empty()).count();
-        println!("OK: {} is valid ({n} records)", data.display());
-        return Ok(());
-    }
-
     let scan = scan::scan_entries(&args.root, &taxonomy);
     for err in &scan.errors {
         eprintln!("  warning: {}: {}", err.file, err.error);
@@ -458,6 +438,31 @@ fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
     let today = Timestamp::now().date.iso();
     let (ndjson, view_content) = index::build_index(&scan.entries, &taxonomy, &today)
         .map_err(|e| format!("cannot build index: {e}"))?;
+
+    // Byte-identical to a fresh regeneration, not just a structural check on
+    // whatever is already committed: mirrors kb-index's --validate. A check
+    // that only inspected records already in the index would pass for a
+    // brand-new, not-yet-indexed entry and suppress the fix that should run.
+    if args.validate {
+        let committed = std::fs::read_to_string(&data)
+            .map_err(|e| format!("cannot read {}: {e}", data.display()))?;
+        if committed != ndjson {
+            let probe = index::file_exists_under(&args.root);
+            for e in index::validate_ndjson(&committed, Some(&probe)) {
+                eprintln!("  x {e}");
+            }
+            return Err(format!(
+                "{} is stale relative to the entries on disk",
+                data.display()
+            ));
+        }
+        println!(
+            "OK: {} is valid and up to date ({} entries)",
+            data.display(),
+            scan.entries.len()
+        );
+        return Ok(());
+    }
 
     if args.dry_run {
         print!("{ndjson}");

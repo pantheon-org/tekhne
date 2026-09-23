@@ -107,3 +107,48 @@ fn validate_rejects_broken_ndjson() {
         .unwrap();
     assert!(!status.success(), "broken ndjson must fail validation");
 }
+
+/// A committed index that is well-formed but stale (a new entry landed on
+/// disk after it was last regenerated) must fail --validate. Checking each
+/// record in isolation would pass here, since every existing record is
+/// internally valid; only a fresh-regen comparison catches the missing one.
+#[test]
+fn validate_rejects_a_stale_index_missing_a_new_entry() {
+    let tmp = tempfile::tempdir().unwrap();
+    build_corpus(tmp.path());
+    let data = tmp.path().join("out/index.ndjson");
+    let view = tmp.path().join("out/index.md");
+
+    let status = Command::new(BIN)
+        .args(["index", "--root"])
+        .arg(tmp.path())
+        .arg("--data")
+        .arg(&data)
+        .arg("--view")
+        .arg(&view)
+        .status()
+        .unwrap();
+    assert!(status.success());
+    assert_eq!(std::fs::read_to_string(&data).unwrap().lines().count(), 2);
+
+    // A third entry lands on disk after the index was generated -- the
+    // committed ndjson is now stale, even though every record it already
+    // has is still perfectly valid on its own.
+    write(
+        tmp.path(),
+        "2026/07/2026-07-15-newest.md",
+        "---\ntitle: Newest\ntags:\n  - aws\n---\n\n# Newest - July 15, 2026\n",
+    );
+
+    let status = Command::new(BIN)
+        .args(["index", "--validate", "--root"])
+        .arg(tmp.path())
+        .arg("--data")
+        .arg(&data)
+        .status()
+        .unwrap();
+    assert!(
+        !status.success(),
+        "a stale index missing a new entry must fail validation"
+    );
+}
