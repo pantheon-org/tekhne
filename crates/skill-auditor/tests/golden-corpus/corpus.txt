@@ -54,7 +54,13 @@ skills/development/scripting/bash-script/generator
 skills/development/scripting/bash-script/validator
 skills/development/scripting/makefile/generator
 skills/development/scripting/makefile/validator
-skills/development/typescript-advanced
+skills/development/typescript-advanced/type-guards
+skills/development/typescript-advanced/type-system
+skills/development/typescript-advanced/design-patterns
+skills/development/typescript-advanced/utility-types
+skills/development/typescript-advanced/compiler-config
+skills/development/typescript-advanced/practices
+skills/development/typescript-advanced/docs
 skills/documentation/astro-starlight/skills/starlight-base
 skills/documentation/astro-starlight/skills/starlight-custom-component
 skills/documentation/astro-starlight/skills/starlight-theme
