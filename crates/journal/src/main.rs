@@ -1,8 +1,9 @@
 //! `pantheon-journal` CLI: create structured entries (`new`), check them
 //! (`validate <file>`), lint corpus tags against the taxonomy (`lint`),
 //! promote a tag into a facet (`taxonomy add`), generate the browse index
-//! (`index`), backfill missing frontmatter (`backfill`), and install the
-//! bundled companion skill (`skill install`).
+//! (`index`) or a separate knowledge-base index (`kb-index`), backfill
+//! missing frontmatter (`backfill`), and install the bundled companion skill
+//! (`skill install`).
 
 use std::path::{Path, PathBuf};
 use std::process;
@@ -13,6 +14,7 @@ use journal::date::Timestamp;
 use journal::entry::{EntrySpec, EntryType};
 use journal::index;
 use journal::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
+use journal::kb;
 use journal::lint;
 use journal::scan;
 use journal::skill_bundle;
@@ -49,6 +51,9 @@ enum Command {
     Lint(LintArgs),
     /// Generate the browse index (NDJSON source of truth + markdown view).
     Index(IndexArgs),
+    /// Generate the knowledge-base browse index (a separate, frontmatter-only
+    /// corpus grouped by top-level directory, not by date).
+    KbIndex(KbIndexArgs),
     /// Backfill missing frontmatter (title, date) across existing entries.
     Backfill(BackfillArgs),
     /// Manage the bundled companion skill.
@@ -155,6 +160,28 @@ struct IndexArgs {
 }
 
 #[derive(Args)]
+struct KbIndexArgs {
+    /// Directory scanned for articles.
+    #[arg(long, default_value = kb::KB_INDEX_ROOT)]
+    root: PathBuf,
+    /// NDJSON output path.
+    #[arg(long)]
+    data: Option<PathBuf>,
+    /// Markdown output path.
+    #[arg(long)]
+    view: Option<PathBuf>,
+    /// Print the generated index to stdout instead of writing files.
+    #[arg(long = "dry-run")]
+    dry_run: bool,
+    /// Check the committed ndjson is byte-identical to a fresh regeneration;
+    /// do not write. Unlike `index --validate` (which checks structural
+    /// invariants), this mirrors the consuming repo's own semantics: any
+    /// difference at all, including field reordering, is stale.
+    #[arg(long)]
+    validate: bool,
+}
+
+#[derive(Args)]
 struct BackfillArgs {
     /// Journal root to scan for dated entries.
     #[arg(long, default_value = ".")]
@@ -242,6 +269,7 @@ fn main() {
         Command::Validate { file } => run_validate(&file),
         Command::Lint(args) => run_lint(args),
         Command::Index(args) => run_index(args),
+        Command::KbIndex(args) => run_kb_index(args),
         Command::Backfill(args) => run_backfill(args),
         Command::Skill {
             action: SkillAction::Install(args),
@@ -433,6 +461,80 @@ fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
         data.display(),
         view.display(),
         scan.entries.len()
+    );
+    Ok(())
+}
+
+/// Generate (or validate) the knowledge-base index. Any article that fails to
+/// scan (missing/malformed frontmatter) fails the whole run, matching the
+/// journal-entry validator's stance that a bad record should never blend in
+/// silently.
+fn run_kb_index(args: KbIndexArgs) -> std::result::Result<(), String> {
+    let data = args
+        .data
+        .unwrap_or_else(|| PathBuf::from(kb::KB_INDEX_DATA_PATH));
+    let view = args
+        .view
+        .unwrap_or_else(|| PathBuf::from(kb::KB_INDEX_VIEW_PATH));
+
+    let scan = kb::scan_kb_articles(&args.root);
+    for err in &scan.errors {
+        eprintln!("  x {}: {}", err.file, err.error);
+    }
+    if !scan.errors.is_empty() {
+        return Err(format!(
+            "kb-index scan failed with {} error(s)",
+            scan.errors.len()
+        ));
+    }
+    let ndjson = kb::records_to_ndjson(&scan.records);
+
+    // Byte-identical to a fresh regeneration, not a structural check: this
+    // mirrors the consuming repo's own `--validate`, which hk's check step
+    // relies on to know a fix is actually needed.
+    if args.validate {
+        let committed = std::fs::read_to_string(&data)
+            .map_err(|e| format!("cannot read {}: {e}", data.display()))?;
+        if committed != ndjson {
+            return Err(format!(
+                "{} is stale relative to the articles on disk",
+                data.display()
+            ));
+        }
+        println!(
+            "OK: {} is valid and up to date ({} records)",
+            data.display(),
+            scan.records.len()
+        );
+        return Ok(());
+    }
+
+    let today = Timestamp::now().date.iso();
+    let link_prefix = kb::compute_link_prefix(&args.root, &view);
+    let view_content = kb::render_kb_index(&scan.records, &today, &link_prefix);
+
+    if args.dry_run {
+        print!("{ndjson}");
+        println!("{view_content}");
+        return Ok(());
+    }
+
+    for path in [&data, &view] {
+        if let Some(parent) = path.parent() {
+            if !parent.as_os_str().is_empty() {
+                std::fs::create_dir_all(parent)
+                    .map_err(|e| format!("cannot create {}: {e}", parent.display()))?;
+            }
+        }
+    }
+    std::fs::write(&data, &ndjson).map_err(|e| format!("cannot write {}: {e}", data.display()))?;
+    std::fs::write(&view, &view_content)
+        .map_err(|e| format!("cannot write {}: {e}", view.display()))?;
+    println!(
+        "Wrote {} and {} ({} records)",
+        data.display(),
+        view.display(),
+        scan.records.len()
     );
     Ok(())
 }
