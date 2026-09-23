@@ -2,9 +2,10 @@
 //! injectable "now" so entry generation is deterministic under test.
 //!
 //! Only the conversions the journal needs are implemented: a UTC instant to a
-//! civil `(year, month, day, hour, minute)`, an ISO `YYYY-MM-DD` rendering, and
-//! a long `Month D, YYYY` rendering (matching the shell validator's
-//! `date "+%B %-d, %Y"`).
+//! civil `(year, month, day, hour, minute)`, an ISO `YYYY-MM-DD` rendering, a
+//! long `Month D, YYYY` rendering (matching the shell validator's
+//! `date "+%B %-d, %Y"`), and a weekday name (for the entry path's
+//! `DD-Weekday` segment).
 
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -21,6 +22,16 @@ const MONTHS: [&str; 12] = [
     "October",
     "November",
     "December",
+];
+
+const WEEKDAYS: [&str; 7] = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
 ];
 
 /// A calendar date in the proleptic Gregorian calendar.
@@ -48,8 +59,26 @@ impl Date {
     /// Long `Month D, YYYY` form used in the H1 title, with no leading zero on
     /// the day (matches `date "+%B %-d, %Y"`).
     pub fn long(&self) -> String {
-        let month = MONTHS.get((self.month.saturating_sub(1)) as usize).copied();
-        format!("{} {}, {}", month.unwrap_or("Unknown"), self.day, self.year)
+        format!("{} {}, {}", self.month_name(), self.day, self.year)
+    }
+
+    /// Full month name, e.g. `"September"`.
+    pub fn month_name(&self) -> &'static str {
+        MONTHS
+            .get((self.month.saturating_sub(1)) as usize)
+            .copied()
+            .unwrap_or("Unknown")
+    }
+
+    /// Full weekday name, e.g. `"Wednesday"`, per the proleptic Gregorian
+    /// calendar (the same one `civil_from_days` assumes).
+    pub fn weekday_name(&self) -> &'static str {
+        let days = days_from_civil(self.year, self.month, self.day);
+        // 1970-01-01 (day 0) was a Thursday; WEEKDAYS is Sunday-first, so the
+        // offset from day 0 to Sunday-indexed is +4. `rem_euclid` keeps the
+        // index correct for dates before the epoch.
+        let idx = (days + 4).rem_euclid(7) as usize;
+        WEEKDAYS[idx]
     }
 }
 
@@ -112,6 +141,19 @@ fn civil_from_days(days: i64) -> Date {
     Date::new(year as i32, month, day)
 }
 
+/// Convert a civil date to a day count relative to the Unix epoch -- the
+/// inverse of [`civil_from_days`], via the same source (Howard Hinnant's
+/// `days_from_civil`).
+fn days_from_civil(y: i32, m: u32, d: u32) -> i64 {
+    let y = if m <= 2 { y as i64 - 1 } else { y as i64 };
+    let era = if y >= 0 { y } else { y - 399 } / 400;
+    let yoe = y - era * 400; // [0, 399]
+    let mp = if m > 2 { m - 3 } else { m + 9 } as i64; // [0, 11]
+    let doy = (153 * mp + 2) / 5 + d as i64 - 1; // [0, 365]
+    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy; // [0, 146096]
+    era * 146_097 + doe - 719_468
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -148,5 +190,38 @@ mod tests {
         // 2024-02-29T00:00:00Z == 1709164800 seconds since the epoch.
         let ts = Timestamp::from_unix(1_709_164_800);
         assert_eq!(ts.date, Date::new(2024, 2, 29));
+    }
+
+    #[test]
+    fn month_name_matches_long() {
+        assert_eq!(Date::new(2026, 9, 23).month_name(), "September");
+        assert_eq!(Date::new(2026, 1, 1).month_name(), "January");
+        assert_eq!(Date::new(2026, 12, 31).month_name(), "December");
+    }
+
+    #[test]
+    fn weekday_name_matches_known_dates() {
+        // 2000-01-01 is a well-known reference Saturday.
+        assert_eq!(Date::new(2000, 1, 1).weekday_name(), "Saturday");
+        // 1970-01-01 (the epoch itself) was a Thursday.
+        assert_eq!(Date::new(1970, 1, 1).weekday_name(), "Thursday");
+        // 2026-09-23, this repo's own worked example in the path-restructuring
+        // plan (`2026/09-September/23-Wednesday/...`).
+        assert_eq!(Date::new(2026, 9, 23).weekday_name(), "Wednesday");
+    }
+
+    #[test]
+    fn days_from_civil_round_trips_through_civil_from_days() {
+        for (y, m, d) in [
+            (1970, 1, 1),
+            (2000, 1, 1),
+            (2024, 2, 29),
+            (2026, 7, 22),
+            (2026, 12, 31),
+            (1969, 12, 31),
+        ] {
+            let days = days_from_civil(y, m, d);
+            assert_eq!(civil_from_days(days), Date::new(y, m, d), "{y}-{m}-{d}");
+        }
     }
 }

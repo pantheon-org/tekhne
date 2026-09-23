@@ -127,7 +127,7 @@ struct NewArgs {
     /// The entry title (used in the H1 and to derive the slug).
     #[arg(long)]
     title: Option<String>,
-    /// Base directory the `YYYY/MM/` tree is created under.
+    /// Base directory the `YYYY/MM-Month/DD-Weekday/` tree is created under.
     #[arg(long, default_value = ".")]
     dir: PathBuf,
     /// Author recorded in the frontmatter.
