@@ -9,6 +9,7 @@ use std::path::{Path, PathBuf};
 use std::process;
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
+use journal::archive_media::{self, ArchiveMediaArgs as ArchiveMediaCoreArgs};
 use journal::backfill;
 use journal::date::Timestamp;
 use journal::entry::{EntrySpec, EntryType};
@@ -57,6 +58,9 @@ enum Command {
     KbIndex(KbIndexArgs),
     /// Backfill missing frontmatter (title, date) across existing entries.
     Backfill(BackfillArgs),
+    /// Download already-discovered media URLs (found via a browser) into an
+    /// existing entry's assets/ directory, at original resolution.
+    ArchiveMedia(ArchiveMediaCliArgs),
     /// Manage the bundled companion skill.
     Skill {
         #[command(subcommand)]
@@ -208,6 +212,27 @@ struct BackfillArgs {
     dry_run: bool,
 }
 
+#[derive(Args)]
+struct ArchiveMediaCliArgs {
+    /// The entry's dated slug, e.g. `2026-09-22-jev-ai-memory-longmemeval-benchmark`.
+    slug: String,
+    /// Media URLs to download, already discovered (e.g. via a browser).
+    urls: Vec<String>,
+    /// Filename stem for the URL at the same position (repeatable; must be
+    /// given once per URL, or not at all).
+    #[arg(short = 'n', long = "name")]
+    name: Vec<String>,
+    /// Filename prefix.
+    #[arg(short = 'p', long = "prefix", default_value = "media")]
+    prefix: String,
+    /// Overwrite a destination file that already exists.
+    #[arg(short = 'f', long)]
+    force: bool,
+    /// Journal root the entry lives under.
+    #[arg(long, default_value = ".")]
+    root: PathBuf,
+}
+
 #[derive(Subcommand)]
 enum SkillAction {
     /// Install the bundled skill into detected (or selected) agent directories.
@@ -288,6 +313,7 @@ fn main() {
         Command::Index(args) => run_index(args),
         Command::KbIndex(args) => run_kb_index(args),
         Command::Backfill(args) => run_backfill(args),
+        Command::ArchiveMedia(args) => run_archive_media(args),
         Command::Skill {
             action: SkillAction::Install(args),
         } => run_skill_install(args),
@@ -588,6 +614,30 @@ fn run_backfill(args: BackfillArgs) -> std::result::Result<(), String> {
         for f in &report.missing_tags {
             eprintln!("  {f}");
         }
+    }
+    Ok(())
+}
+
+fn run_archive_media(args: ArchiveMediaCliArgs) -> std::result::Result<(), String> {
+    let names = if args.name.is_empty() {
+        None
+    } else {
+        Some(args.name.as_slice())
+    };
+    let core_args = ArchiveMediaCoreArgs {
+        slug: &args.slug,
+        urls: &args.urls,
+        names,
+        prefix: &args.prefix,
+        force: args.force,
+    };
+    let saved =
+        archive_media::archive_media(&args.root, &core_args, archive_media::fetch_bytes, |line| {
+            eprintln!("{line}")
+        })
+        .map_err(|e| e.to_string())?;
+    for asset in &saved {
+        println!("{} ({} bytes)", asset.path.display(), asset.bytes);
     }
     Ok(())
 }
