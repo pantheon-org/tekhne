@@ -71,6 +71,14 @@ pub enum Violation {
     /// `refinement_ticket` is set but the proposed-description section is
     /// missing.
     MissingProposedTicketDescription(String),
+    /// `kickoff_ticket` is set but one of the five required kickoff sections
+    /// is missing.
+    MissingKickoffSection {
+        /// The ticket key from the frontmatter.
+        ticket: String,
+        /// The missing section's heading.
+        section: &'static str,
+    },
 }
 
 impl std::fmt::Display for Violation {
@@ -120,6 +128,10 @@ impl std::fmt::Display for Violation {
                 f,
                 "refinement_ticket ({ticket}) is set but there is no '## Proposed Ticket Description' section"
             ),
+            Violation::MissingKickoffSection { ticket, section } => write!(
+                f,
+                "kickoff_ticket ({ticket}) is set but there is no '{section}' section"
+            ),
         }
     }
 }
@@ -133,6 +145,15 @@ fn join_lines(lines: &[usize]) -> String {
 }
 
 const REQUIRED_SECTIONS: [&str; 3] = ["## Session Overview", "## Compliance", "## Tags"];
+
+/// Sections required whenever the frontmatter sets `kickoff_ticket`.
+const KICKOFF_SECTIONS: [&str; 5] = [
+    "## Conditions of Satisfaction & Acceptance Criteria",
+    "## Open Questions & Gaps",
+    "## Supporting Information",
+    "## Work Checklist",
+    "## Proof of Work Plan",
+];
 
 /// Validate the file at `path`, returning the outcome or the first violation.
 pub fn validate(path: &Path) -> Result<Outcome, Violation> {
@@ -224,6 +245,16 @@ pub fn validate(path: &Path) -> Result<Outcome, Violation> {
                 .any(|l| l.text == "## Proposed Ticket Description")
         {
             return Err(Violation::MissingProposedTicketDescription(ticket));
+        }
+    }
+
+    if let Some(ticket) = frontmatter_field(&content, "kickoff_ticket") {
+        if !ticket.is_empty() {
+            for section in KICKOFF_SECTIONS {
+                if !scan.outside.iter().any(|l| l.text == section) {
+                    return Err(Violation::MissingKickoffSection { ticket, section });
+                }
+            }
         }
     }
 
@@ -511,6 +542,34 @@ mod tests {
             validate(&path),
             Err(Violation::MissingProposedTicketDescription(_))
         ));
+    }
+
+    #[test]
+    fn missing_kickoff_section_rejected() {
+        let tmp = tempfile::tempdir().unwrap();
+        let body = GOOD.replace(
+            "date: 2026-07-22\n",
+            "date: 2026-07-22\nkickoff_ticket: TICKET-1\n",
+        );
+        let path = write(tmp.path(), "2026/07/2026-07-22-example.md", &body);
+        assert!(matches!(
+            validate(&path),
+            Err(Violation::MissingKickoffSection { .. })
+        ));
+    }
+
+    #[test]
+    fn kickoff_entry_with_all_five_sections_validates() {
+        let tmp = tempfile::tempdir().unwrap();
+        let body = GOOD.replace(
+            "date: 2026-07-22\n",
+            "date: 2026-07-22\nkickoff_ticket: TICKET-1\n",
+        ).replace(
+            "## Compliance",
+            "## Conditions of Satisfaction & Acceptance Criteria\n\nText.\n\n## Open Questions & Gaps\n\nNone identified.\n\n## Supporting Information\n\nText.\n\n## Work Checklist\n\n- [ ] Item\n\n## Proof of Work Plan\n\nText.\n\n## Compliance",
+        );
+        let path = write(tmp.path(), "2026/07/2026-07-22-example.md", &body);
+        assert_eq!(validate(&path), Ok(Outcome::Validated));
     }
 
     #[test]
