@@ -18,4 +18,5 @@ pub mod lint;
 pub mod scan;
 pub mod skill_bundle;
 pub mod taxonomy;
+pub mod taxonomy_sync;
 pub mod validate;
