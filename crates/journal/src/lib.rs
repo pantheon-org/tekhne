@@ -13,6 +13,7 @@ pub mod date;
 pub mod entry;
 pub mod index;
 pub mod install_cmd;
+pub mod kb;
 pub mod lint;
 pub mod scan;
 pub mod skill_bundle;

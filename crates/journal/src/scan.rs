@@ -135,7 +135,7 @@ pub struct Frontmatter {
 
 /// Split a document into its frontmatter block lines and body. Returns
 /// `(None, whole_document)` when there is no `---` fenced frontmatter.
-fn split_frontmatter(content: &str) -> (Option<Vec<&str>>, String) {
+pub(crate) fn split_frontmatter(content: &str) -> (Option<Vec<&str>>, String) {
     if !content.starts_with("---") {
         return (None, content.to_string());
     }
@@ -151,7 +151,7 @@ fn split_frontmatter(content: &str) -> (Option<Vec<&str>>, String) {
 }
 
 /// Extract an inline or block sequence for `key` from frontmatter block lines.
-fn fm_sequence(block: &[&str], key: &str) -> Vec<String> {
+pub(crate) fn fm_sequence(block: &[&str], key: &str) -> Vec<String> {
     let prefix = format!("{key}:");
     for (i, line) in block.iter().enumerate() {
         let Some(rest) = line.trim_start().strip_prefix(&prefix) else {
@@ -181,13 +181,42 @@ fn fm_sequence(block: &[&str], key: &str) -> Vec<String> {
     Vec::new()
 }
 
-/// Extract an inline scalar value for `key` from frontmatter block lines.
-fn fm_scalar(block: &[&str], key: &str) -> String {
+/// Extract a scalar value for `key` from frontmatter block lines: either
+/// inline (`key: value`), or a plain/quoted scalar YAML folds onto indented
+/// continuation lines when the key's own line ends with nothing after the
+/// colon (common for a long `topic:` sentence). Continuation lines are joined
+/// with a single space, matching YAML's line-folding, then unquoted as a
+/// whole so a value split mid-quote (`"Legacy ...` / `...rather than\nGitLab"`)
+/// still resolves to one clean string.
+pub(crate) fn fm_scalar(block: &[&str], key: &str) -> String {
     let prefix = format!("{key}:");
-    for line in block {
-        if let Some(rest) = line.trim_start().strip_prefix(&prefix) {
+    for (i, line) in block.iter().enumerate() {
+        let Some(rest) = line.trim_start().strip_prefix(&prefix) else {
+            continue;
+        };
+        let rest = rest.trim();
+        if !rest.is_empty() {
             return unquote(rest);
         }
+        let key_indent = line.len() - line.trim_start().len();
+        let mut parts: Vec<&str> = Vec::new();
+        for follow in &block[i + 1..] {
+            if follow.trim().is_empty() {
+                break;
+            }
+            let follow_indent = follow.len() - follow.trim_start().len();
+            // A sequence item, or a line back at or above the key's own
+            // indent (a sibling key, or the end of a nested mapping): the
+            // value was empty/null, not a folded continuation.
+            if follow_indent <= key_indent || follow.trim_start().starts_with("- ") {
+                break;
+            }
+            parts.push(follow.trim());
+        }
+        if parts.is_empty() {
+            return String::new();
+        }
+        return unquote(&parts.join(" "));
     }
     String::new()
 }
@@ -272,10 +301,10 @@ pub fn derive_tickets(tags: &[String], ticket_re: &Regex) -> Vec<String> {
 fn unquote(s: &str) -> String {
     let s = s.trim();
     let bytes = s.as_bytes();
-    if bytes.len() >= 2
-        && ((bytes[0] == b'"' && bytes[bytes.len() - 1] == b'"')
-            || (bytes[0] == b'\'' && bytes[bytes.len() - 1] == b'\''))
-    {
+    if bytes.len() >= 2 && bytes[0] == b'\'' && bytes[bytes.len() - 1] == b'\'' {
+        // YAML single-quoted scalars escape a literal `'` as `''`.
+        s[1..s.len() - 1].replace("''", "'")
+    } else if bytes.len() >= 2 && bytes[0] == b'"' && bytes[bytes.len() - 1] == b'"' {
         s[1..s.len() - 1].to_string()
     } else {
         s.to_string()
@@ -410,12 +439,59 @@ mod tests {
     }
 
     #[test]
+    fn fm_scalar_unescapes_doubled_single_quote() {
+        // YAML single-quoted scalars escape a literal `'` as `''`.
+        let block: Vec<&str> = vec!["topic: 'the function''s exit status'"];
+        assert_eq!(fm_scalar(&block, "topic"), "the function's exit status");
+    }
+
+    #[test]
     fn parses_title_authors_status() {
         let content = "---\ntitle: \"My Entry\"\nauthors:\n  - Alice\n  - Bob\nstatus: published\ntags:\n  - x\n---\n# Fallback\n";
         let (fm, _body) = parse_frontmatter(content);
         assert_eq!(fm.title, "My Entry");
         assert_eq!(fm.authors, vec!["Alice", "Bob"]);
         assert_eq!(fm.status, "published");
+    }
+
+    #[test]
+    fn fm_scalar_folds_quoted_multiline_value() {
+        // Real shape from docs/knowledge-base/projects/rosa.md: a long quoted
+        // scalar YAML wraps across lines under the key.
+        let block: Vec<&str> = vec![
+            "title: \"ROSA (Existing Beehive)\"",
+            "topic:",
+            "  \"Legacy Beehive scheduler/event-dispatch service; unusual among Beehive components in still living in Bitbucket rather than",
+            "  GitLab\"",
+        ];
+        assert_eq!(
+            fm_scalar(&block, "topic"),
+            "Legacy Beehive scheduler/event-dispatch service; unusual among Beehive components in still living in Bitbucket rather than GitLab"
+        );
+    }
+
+    #[test]
+    fn fm_scalar_folds_plain_multiline_value() {
+        let block: Vec<&str> = vec!["topic:", "  An unquoted value that", "  wraps too"];
+        assert_eq!(
+            fm_scalar(&block, "topic"),
+            "An unquoted value that wraps too"
+        );
+    }
+
+    #[test]
+    fn fm_scalar_empty_key_followed_by_sequence_is_not_a_continuation() {
+        // "authors:" with no inline value, followed by a sequence for a
+        // DIFFERENT purpose (list items), must not be slurped as a folded
+        // scalar -- fm_sequence handles this shape, fm_scalar should see null.
+        let block: Vec<&str> = vec!["authors:", "  - Alice", "  - Bob"];
+        assert_eq!(fm_scalar(&block, "authors"), "");
+    }
+
+    #[test]
+    fn fm_scalar_stops_at_next_sibling_key() {
+        let block: Vec<&str> = vec!["topic:", "status: draft"];
+        assert_eq!(fm_scalar(&block, "topic"), "");
     }
 
     #[test]
