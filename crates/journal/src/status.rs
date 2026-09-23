@@ -181,7 +181,10 @@ pub fn check_superseded_link(root: &Path, path: &str) -> SupersededLinkResult {
         Err(e) => return broken(format!("{path} could not be read: {e}"), None),
     };
     let (block, _) = split_frontmatter(&content);
-    let continued_by = block.as_deref().map(|b| fm_scalar(b, "continued_by")).unwrap_or_default();
+    let continued_by = block
+        .as_deref()
+        .map(|b| fm_scalar(b, "continued_by"))
+        .unwrap_or_default();
     if continued_by.is_empty() {
         return broken(
             format!("{path} has no continued_by despite status: superseded"),
@@ -443,8 +446,8 @@ pub fn build_digest(
         let candidate = to_candidate(&item.title, filename, ticket_pattern);
         let m = match_commit_on_main(&candidate, commits);
         let evidence = describe_match(&m, candidate.value());
-        let proposed_status = (!m.commits.is_empty() && m.confidence == Confidence::High)
-            .then(|| "done".to_string());
+        let proposed_status =
+            (!m.commits.is_empty() && m.confidence == Confidence::High).then(|| "done".to_string());
 
         items.push(DigestItem {
             path: item.path.clone(),
@@ -520,7 +523,8 @@ fn render_item(item: &DigestItem) -> String {
 /// out to decide whether today's run already happened).
 pub fn render_digest(items: &[DigestItem], generated_at: &str) -> String {
     let sections = if items.is_empty() {
-        "No active follow-ups, plans, merge-queue entries, or superseded pairs needed review today.".to_string()
+        "No active follow-ups, plans, merge-queue entries, or superseded pairs needed review today."
+            .to_string()
     } else {
         items
             .iter()
@@ -656,7 +660,10 @@ queue:
         let branches: Vec<&str> = items.iter().map(|i| i.branch.as_str()).collect();
         assert_eq!(
             branches,
-            vec!["feature/CC-1400-pending-work", "feature/CC-1401-blocked-work"]
+            vec![
+                "feature/CC-1400-pending-work",
+                "feature/CC-1401-blocked-work"
+            ]
         );
         assert!(items.iter().all(|i| i.status != "merged"));
     }
@@ -952,8 +959,16 @@ queue:
     #[test]
     fn build_digest_flags_broken_superseded_link_and_passes_a_good_one() {
         let tmp = tempfile::tempdir().unwrap();
-        write(tmp.path(), "old2.md", "---\ntitle: \"Old2\"\nstatus: superseded\ncontinued_by: \"new2.md\"\n---\n");
-        write(tmp.path(), "new2.md", "---\ntitle: \"New2\"\ncontinues_from: \"old2.md\"\n---\n");
+        write(
+            tmp.path(),
+            "old2.md",
+            "---\ntitle: \"Old2\"\nstatus: superseded\ncontinued_by: \"new2.md\"\n---\n",
+        );
+        write(
+            tmp.path(),
+            "new2.md",
+            "---\ntitle: \"New2\"\ncontinues_from: \"old2.md\"\n---\n",
+        );
         // old.md is deliberately never written, so its continued_by read fails.
         let gathered = GatheredItems {
             superseded_candidates: vec![
