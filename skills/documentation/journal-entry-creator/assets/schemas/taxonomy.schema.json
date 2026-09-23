@@ -42,6 +42,10 @@
     "ticketPattern": {
       "type": "string",
       "description": "Regular expression identifying issue-tracker key tags, which are exempt from unfaceted flagging."
+    },
+    "appendOnlyBaseline": {
+      "type": "string",
+      "description": "Opaque to this schema and never read by any tool here: a consuming project's own marker for an append-only taxonomy policy (e.g. a git commit sha this file must only grow since). Reserved so a project-specific append-only mechanism doesn't have to fork this schema to add its own marker."
     }
   }
 }

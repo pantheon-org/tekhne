@@ -48,6 +48,17 @@ pub struct Taxonomy {
     /// Regular expression identifying issue-tracker key tags.
     #[serde(rename = "ticketPattern")]
     pub ticket_pattern: String,
+    /// A consuming project's own marker for an append-only taxonomy policy
+    /// (e.g. a git commit sha the taxonomy must only grow since). Opaque to
+    /// this crate: never read or validated, only preserved on round-trip, so
+    /// a project-specific append-only-taxonomy mechanism built on top of this
+    /// file doesn't have to fork the schema to add its own marker.
+    #[serde(
+        rename = "appendOnlyBaseline",
+        default,
+        skip_serializing_if = "Option::is_none"
+    )]
+    pub append_only_baseline: Option<String>,
 }
 
 /// Where a resolved taxonomy came from, for reporting to the user.
@@ -341,6 +352,32 @@ mod tests {
         let reloaded = Taxonomy::from_path(&path).unwrap();
         assert_eq!(reloaded.threshold, tax.threshold);
         std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn append_only_baseline_round_trips_but_is_never_required() {
+        let with_baseline = r#"{
+            "threshold": 3,
+            "aliases": {},
+            "facets": { "type": ["general"] },
+            "pin": [],
+            "suppress": [],
+            "ticketPattern": "^[a-z]+-?[0-9]+$",
+            "appendOnlyBaseline": "30d80d4"
+        }"#;
+        let tax = Taxonomy::from_json(with_baseline, "test").unwrap();
+        assert_eq!(tax.append_only_baseline.as_deref(), Some("30d80d4"));
+        let json = tax.to_json_pretty().unwrap();
+        assert!(json.contains("\"appendOnlyBaseline\": \"30d80d4\""));
+
+        // Absent entirely (the common case) must still parse and round-trip
+        // without emitting the key.
+        let without = Taxonomy::from_json(MINIMAL, "test").unwrap();
+        assert_eq!(without.append_only_baseline, None);
+        assert!(!without
+            .to_json_pretty()
+            .unwrap()
+            .contains("appendOnlyBaseline"));
     }
 
     #[test]
