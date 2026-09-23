@@ -370,7 +370,7 @@ Refine vague or high-stakes prompts through Socratic questioning — surfaces hi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | - |
+| [socratic-method](/tekhne/skills/agentic-harness/socratic-method/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | 4 |
 
 ### pin
 
@@ -440,7 +440,7 @@ Ensure Tessl plugins meet all requirements for public registry publishing with c
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | - |
+| [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | 9 |
 
 ### pick-model
 

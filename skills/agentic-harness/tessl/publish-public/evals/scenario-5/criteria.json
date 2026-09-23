@@ -1,0 +1,36 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent executes all workflow steps in correct order",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent blocks at any failed gate (quality, evals, tile config",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent runs optimization if Tessl score < 90%",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent provides clear status updates at each step",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent only publishes after ALL requirements met",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent verifies publication success",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent handles errors gracefully at each step",
+      "weight": 12
+    },
+    {
+      "criterion": "Total workflow completes end-to-end for publication-ready sk",
+      "weight": 12
+    }
+  ]
+}

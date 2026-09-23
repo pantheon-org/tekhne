@@ -1,0 +1,1 @@
+Validates comprehensive tile.json validation against tessl public-publication requirements.

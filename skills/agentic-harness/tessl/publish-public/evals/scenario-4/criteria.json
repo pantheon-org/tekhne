@@ -1,0 +1,36 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent thoroughly scans SKILL.md content",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent identifies any agent-specific tool references",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent identifies any harness-specific instructions",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent verifies universal tool usage",
+      "weight": 13
+    },
+    {
+      "criterion": "Agent provides specific line numbers for violations (if any)",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent suggests concrete alternatives for violations",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent confirms cross-platform compatibility",
+      "weight": 12
+    },
+    {
+      "criterion": "Agent reports clear pass/fail compliance status",
+      "weight": 12
+    }
+  ]
+}

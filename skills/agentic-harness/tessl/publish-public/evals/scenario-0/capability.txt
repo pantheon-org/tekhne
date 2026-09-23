@@ -1,0 +1,1 @@
+Validates basic publication readiness check against tessl public-publication requirements.

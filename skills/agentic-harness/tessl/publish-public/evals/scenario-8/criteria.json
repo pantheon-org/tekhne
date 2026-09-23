@@ -1,0 +1,52 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent identifies all 5 validation errors (not partial)",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent explains the specific problem with each field",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent provides correct format examples for each error",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent shows corrected tile.json with all fixes applied",
+      "weight": 9
+    },
+    {
+      "criterion": "Agent explains the requirements clearly (references tile-jso",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent confirms tile.json is NOT ready for publishing",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent does NOT suggest workarounds or \"it might work anyway\"",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent emphasizes boolean vs string for `private` field",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent shows correct name format: `myworkspace/cool-skill`",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent shows correct version format: `1.0.0`",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent shows example of descriptive summary with use cases",
+      "weight": 8
+    },
+    {
+      "criterion": "Agent shows example of skills object with at least one skill",
+      "weight": 8
+    }
+  ]
+}

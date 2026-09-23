@@ -1,0 +1,1 @@
+Validates full publication workflow execution against tessl public-publication requirements.

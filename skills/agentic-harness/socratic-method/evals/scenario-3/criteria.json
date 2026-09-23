@@ -1,0 +1,28 @@
+{
+  "criteria": [
+    {
+      "criterion": "No premature refactoring plan",
+      "weight": 17
+    },
+    {
+      "criterion": "Phase 1 defines mess concretely",
+      "weight": 17
+    },
+    {
+      "criterion": "Phase 2 identifies who is blocked",
+      "weight": 17
+    },
+    {
+      "criterion": "Phase 3 surfaces deadline constraint",
+      "weight": 17
+    },
+    {
+      "criterion": "Phase 4 narrows scope",
+      "weight": 16
+    },
+    {
+      "criterion": "Bounded synthesis with out-of-scope items",
+      "weight": 16
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "criteria": [
+    {
+      "criterion": "No premature optimization suggestions",
+      "weight": 20
+    },
+    {
+      "criterion": "Phase 1 establishes baseline",
+      "weight": 20
+    },
+    {
+      "criterion": "Phase 2 probes where time is spent",
+      "weight": 20
+    },
+    {
+      "criterion": "Phase 3 explores data/query root cause",
+      "weight": 20
+    },
+    {
+      "criterion": "Synthesis identifies root cause category",
+      "weight": 20
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "criteria": [
+    {
+      "criterion": "Agent identifies evaluation scenarios directory (exists or m",
+      "weight": 17
+    },
+    {
+      "criterion": "Agent checks tile.json for `private: false` setting",
+      "weight": 17
+    },
+    {
+      "criterion": "Agent checks for quality audit results (\u2265108/120 A-grade req",
+      "weight": 17
+    },
+    {
+      "criterion": "Agent provides specific checklist of what's missing",
+      "weight": 17
+    },
+    {
+      "criterion": "Agent does NOT attempt to publish if requirements are unmet",
+      "weight": 16
+    },
+    {
+      "criterion": "Agent reports clear pass/fail status for each requirement",
+      "weight": 16
+    }
+  ]
+}
