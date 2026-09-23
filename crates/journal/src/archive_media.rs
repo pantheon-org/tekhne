@@ -14,10 +14,12 @@ use std::path::PathBuf;
 use common::{Error, Result};
 use url::Url;
 
+use crate::date::Date;
+
 /// Where an existing entry (found by its dated slug) lives, and where its
-/// assets directory is. Mirrors `entry.rs`'s `YYYY/MM` convention from the
-/// slug string alone, since archiving media targets an entry that already
-/// exists -- there is no `EntrySpec` to ask.
+/// assets directory is. Mirrors `entry.rs`'s `YYYY/MM-Month/DD-Weekday`
+/// convention from the slug string alone, since archiving media targets an
+/// entry that already exists -- there is no `EntrySpec` to ask.
 pub fn resolve_entry_paths(slug: &str) -> Result<(PathBuf, PathBuf)> {
     let bytes = slug.as_bytes();
     let valid = slug.len() >= 11
@@ -32,10 +34,17 @@ pub fn resolve_entry_paths(slug: &str) -> Result<(PathBuf, PathBuf)> {
             "\"{slug}\" is not a dated entry slug (expected YYYY-MM-DD-<rest>)"
         )));
     }
-    let year = &slug[0..4];
-    let month = &slug[5..7];
-    let entry_path = PathBuf::from(year).join(month).join(format!("{slug}.md"));
-    let assets_dir = PathBuf::from(year).join(month).join(slug).join("assets");
+    // Digits were just validated above, so these parses cannot fail.
+    let year: i32 = slug[0..4].parse().expect("validated digits");
+    let month: u32 = slug[5..7].parse().expect("validated digits");
+    let day: u32 = slug[8..10].parse().expect("validated digits");
+    let date = Date::new(year, month, day);
+
+    let dir = PathBuf::from(format!("{year:04}"))
+        .join(format!("{month:02}-{}", date.month_name()))
+        .join(format!("{day:02}-{}", date.weekday_name()));
+    let entry_path = dir.join(format!("{slug}.md"));
+    let assets_dir = dir.join(slug).join("assets");
     Ok((entry_path, assets_dir))
 }
 
@@ -265,12 +274,16 @@ mod tests {
     use super::*;
 
     #[test]
-    fn resolve_entry_paths_splits_year_month_from_slug() {
+    fn resolve_entry_paths_splits_year_month_day_weekday_from_slug() {
+        // 2026-09-22 is a Tuesday.
         let (entry, assets) = resolve_entry_paths("2026-09-22-jev-ai-memory").unwrap();
-        assert_eq!(entry, PathBuf::from("2026/09/2026-09-22-jev-ai-memory.md"));
+        assert_eq!(
+            entry,
+            PathBuf::from("2026/09-September/22-Tuesday/2026-09-22-jev-ai-memory.md")
+        );
         assert_eq!(
             assets,
-            PathBuf::from("2026/09/2026-09-22-jev-ai-memory/assets")
+            PathBuf::from("2026/09-September/22-Tuesday/2026-09-22-jev-ai-memory/assets")
         );
     }
 
@@ -364,7 +377,7 @@ mod tests {
     #[test]
     fn archive_media_downloads_and_writes_into_assets_dir() {
         let tmp = tempfile::tempdir().unwrap();
-        let entry_dir = tmp.path().join("2026/09");
+        let entry_dir = tmp.path().join("2026/09-September/22-Tuesday");
         std::fs::create_dir_all(&entry_dir).unwrap();
         std::fs::write(entry_dir.join("2026-09-22-slug.md"), "# Slug\n").unwrap();
 
@@ -397,10 +410,12 @@ mod tests {
     #[test]
     fn archive_media_refuses_to_overwrite_without_force() {
         let tmp = tempfile::tempdir().unwrap();
-        let entry_dir = tmp.path().join("2026/09");
+        let entry_dir = tmp.path().join("2026/09-September/22-Tuesday");
         std::fs::create_dir_all(&entry_dir).unwrap();
         std::fs::write(entry_dir.join("2026-09-22-slug.md"), "# Slug\n").unwrap();
-        let assets_dir = tmp.path().join("2026/09/2026-09-22-slug/assets");
+        let assets_dir = tmp
+            .path()
+            .join("2026/09-September/22-Tuesday/2026-09-22-slug/assets");
         std::fs::create_dir_all(&assets_dir).unwrap();
         std::fs::write(assets_dir.join("media-01-photo.jpg"), b"existing").unwrap();
 
@@ -428,10 +443,12 @@ mod tests {
     #[test]
     fn archive_media_overwrites_when_forced() {
         let tmp = tempfile::tempdir().unwrap();
-        let entry_dir = tmp.path().join("2026/09");
+        let entry_dir = tmp.path().join("2026/09-September/22-Tuesday");
         std::fs::create_dir_all(&entry_dir).unwrap();
         std::fs::write(entry_dir.join("2026-09-22-slug.md"), "# Slug\n").unwrap();
-        let assets_dir = tmp.path().join("2026/09/2026-09-22-slug/assets");
+        let assets_dir = tmp
+            .path()
+            .join("2026/09-September/22-Tuesday/2026-09-22-slug/assets");
         std::fs::create_dir_all(&assets_dir).unwrap();
         std::fs::write(assets_dir.join("media-01-photo.jpg"), b"existing").unwrap();
 

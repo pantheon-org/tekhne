@@ -103,10 +103,16 @@ impl EntrySpec {
         format!("{}-{}.md", self.timestamp.date.iso(), self.slug())
     }
 
-    /// The date-partitioned directory the entry lives in, `YYYY/MM`.
+    /// The date-partitioned directory the entry lives in,
+    /// `YYYY/MM-MonthName/DD-Weekday` (e.g. `2026/09-September/23-Wednesday`).
+    /// Only the directory nesting carries the month/weekday names -- the
+    /// entry's filename stays the plain `YYYY-MM-DD-slug.md` from
+    /// [`Self::file_name`].
     pub fn relative_dir(&self) -> PathBuf {
         let date = self.timestamp.date;
-        PathBuf::from(format!("{:04}", date.year)).join(format!("{:02}", date.month))
+        PathBuf::from(format!("{:04}", date.year))
+            .join(format!("{:02}-{}", date.month, date.month_name()))
+            .join(format!("{:02}-{}", date.day, date.weekday_name()))
     }
 
     /// The frontmatter and section tags, primary tag first.
@@ -147,9 +153,9 @@ impl EntrySpec {
         out
     }
 
-    /// Write the rendered entry under `base_dir/YYYY/MM/`, creating the
-    /// directory tree. Fails if the target file already exists so an existing
-    /// entry is never silently overwritten.
+    /// Write the rendered entry under `base_dir/YYYY/MM-Month/DD-Weekday/`,
+    /// creating the directory tree. Fails if the target file already exists so
+    /// an existing entry is never silently overwritten.
     pub fn create(&self, base_dir: &Path) -> Result<PathBuf> {
         let dir = base_dir.join(self.relative_dir());
         std::fs::create_dir_all(&dir).map_err(|e| Error::io(&dir, e))?;
@@ -529,7 +535,11 @@ mod tests {
     fn file_name_and_dir_are_date_partitioned() {
         let s = spec(EntryType::Journal);
         assert_eq!(s.file_name(), "2026-07-22-example-title.md");
-        assert_eq!(s.relative_dir(), PathBuf::from("2026").join("07"));
+        // 2026-07-22 is a Wednesday.
+        assert_eq!(
+            s.relative_dir(),
+            PathBuf::from("2026").join("07-July").join("22-Wednesday")
+        );
     }
 
     #[test]
@@ -606,10 +616,10 @@ mod tests {
     }
 
     #[test]
-    fn create_writes_into_year_month_tree() {
+    fn create_writes_into_the_nested_date_tree() {
         let tmp = tempfile::tempdir().unwrap();
         let path = spec(EntryType::Journal).create(tmp.path()).unwrap();
-        assert!(path.ends_with("2026/07/2026-07-22-example-title.md"));
+        assert!(path.ends_with("2026/07-July/22-Wednesday/2026-07-22-example-title.md"));
         assert!(path.is_file());
     }
 

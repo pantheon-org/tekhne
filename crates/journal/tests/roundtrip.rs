@@ -1,6 +1,6 @@
 //! End-to-end checks: every entry type the CLI can create must render into
-//! `YYYY/MM/` and then pass the validator, and each type carries the right
-//! required tag and template sections.
+//! `YYYY/MM-Month/DD-Weekday/` and then pass the validator, and each type
+//! carries the right required tag and template sections.
 
 use journal::date::{Date, Timestamp};
 use journal::entry::{EntrySpec, EntryType};
@@ -36,11 +36,11 @@ fn each_type_creates_a_compliant_entry() {
         let s = spec(entry_type, ticket, source);
         let path = s.create(tmp.path()).unwrap();
 
-        // The entry lands in the date-partitioned tree.
+        // The entry lands in the date-partitioned tree. 2026-07-22 is a Wednesday.
         let rel = path.strip_prefix(tmp.path()).unwrap();
         assert!(
-            rel.starts_with("2026/07"),
-            "{entry_type:?} not under 2026/07: {rel:?}"
+            rel.starts_with("2026/07-July/22-Wednesday"),
+            "{entry_type:?} not under 2026/07-July/22-Wednesday: {rel:?}"
         );
 
         // And it passes every compliance check.
