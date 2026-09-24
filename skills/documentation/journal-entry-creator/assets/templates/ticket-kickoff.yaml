@@ -15,7 +15,7 @@
 template_name: ticket-kickoff
 description: Documentation of understanding an issue-tracker ticket before implementation — CoS/AC, gaps, supporting information, a work checklist, and a Proof of Work plan
 filename_pattern: "YYYY-MM-DD-slug.md"
-location_pattern: "YYYY/MM/"
+location_pattern: "YYYY/MM-Month/DD-Weekday/"
 
 # Extends journal-entry template with ticket-kickoff-specific requirements
 extends: journal-entry
@@ -266,7 +266,7 @@ structure:
     format: "- [x] <item>"
     example: |
       - [x] Filename matches the entry date (ISO 8601, `YYYY-MM-DD-slug.md`)
-      - [x] Location matches YYYY/MM from the filename
+      - [x] Location matches YYYY/MM/DD from the filename
       - [x] Single H1 with the full date
       - [x] Session Overview present
       - [x] All fenced code blocks have language specifiers

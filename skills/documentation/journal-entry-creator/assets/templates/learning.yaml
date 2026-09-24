@@ -4,7 +4,7 @@
 template_name: learning
 description: Documentation of new skills, tools, or concepts learned
 filename_pattern: "YYYY-MM-DD-slug.md"
-location_pattern: "YYYY/MM/"
+location_pattern: "YYYY/MM-Month/DD-Weekday/"
 
 # YAML frontmatter structure
 frontmatter:
@@ -238,7 +238,7 @@ structure:
     format: "- [x] <item>"
     example: |
       - [x] Filename matches the entry date (ISO 8601, `YYYY-MM-DD-slug.md`)
-      - [x] Location matches YYYY/MM from the filename
+      - [x] Location matches YYYY/MM/DD from the filename
       - [x] Single H1 with the full date
       - [x] Session Overview present
       - [x] All fenced code blocks have language specifiers

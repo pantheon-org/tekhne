@@ -21,7 +21,7 @@ The documentation should be well-organized and include appropriate metadata for 
 ## Expected Behavior
 
 1. Show evidence of loading the `journal-entry.yaml` template before generation
-2. Create the `YYYY/MM/` directory structure using `mkdir -p` if needed
+2. Create the `YYYY/MM-Month/DD-Weekday/` directory structure using `mkdir -p` if needed
 3. Use a filename following `YYYY-MM-DD-slug.md` with no spaces and all-lowercase slug
 4. Ensure the date matches exactly across filename, frontmatter, and H1 title
 5. Format the H1 title using exact `Month D, YYYY` format (e.g., `February 3, 2025`, not `February 03`)
@@ -36,7 +36,7 @@ The documentation should be well-organized and include appropriate metadata for 
 ## Success Criteria
 
 - **Journal-entry schema**: Shows evidence of loading journal-entry.yaml template before generation
-- **Directory creation**: Creates YYYY/MM/ directory structure using mkdir -p if needed
+- **Directory creation**: Creates YYYY/MM-Month/DD-Weekday/ directory structure using mkdir -p if needed
 - **Filename constraints**: Filename follows YYYY-MM-DD-slug.md with no spaces, all-lowercase slug
 - **Date triple sync**: Date consistency across filename, frontmatter, and H1 exactly matching
 - **H1 date precision**: H1 title uses exact `Month D, YYYY` format (February 3, not February 03)
@@ -51,7 +51,7 @@ The documentation should be well-organized and include appropriate metadata for 
 ## Failure Conditions
 
 - No evidence of loading the journal-entry.yaml template before generation
-- File placed in wrong directory or YYYY/MM/ structure not created
+- File placed in wrong directory or YYYY/MM-Month/DD-Weekday/ structure not created
 - Filename contains spaces, uppercase letters, or underscores in the slug
 - Date is inconsistent between filename, frontmatter, or H1 title
 - H1 uses zero-padded day (`February 03`) instead of `February 3`
