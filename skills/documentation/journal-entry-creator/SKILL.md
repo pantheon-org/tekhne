@@ -238,6 +238,12 @@ there. If assets are gitignored, treat them as ephemeral and local-only, and nev
 surviving to a later session or another machine. Either way, the markdown image references stay
 tracked in git as a record of what evidence was captured, whether or not the files themselves are.
 
+### Jira Comment Draft (Ticket-Linked Entries)
+
+Applies to ANY entry type whose work maps to a Jira ticket (a review, an incident, a spike, a piece of learning done under a ticket). Setting `jira_ticket: <KEY>` makes a `## Jira Comment Draft`
+section REQUIRED (enforced by the validator, no-op otherwise): a ready-to-paste draft comment for that ticket, never posted from this skill. Full rules, the required banner, and a worked example:
+[Jira Comment Draft](references/compliance.md#jira-comment-draft).
+
 ### Proposed Ticket Description (Ticket-Refinement Entries)
 
 Applies to ticket-refinement sessions: fleshing out or amending an issue-tracker ticket (refinement prep, backlog grooming, turning a one-line ticket into a refinement-ready one). Use the `ticket-refinement.yaml` type.
@@ -290,7 +296,9 @@ Optional, at the author's discretion. Fixed placement: MUST be the H2 immediatel
 Entry is complete when ALL criteria are met:
 
 **Critical violations (NEVER):**
-- Using emojis, bare code blocks (without language), or skipping heading levels
+- Using emojis, bare code blocks (without language), or skipping heading levels. **Enforced:** `validate-journal-entry.sh` fails on any emoji outside a fenced code block and lists the offending line
+  numbers. Use a bold status word instead (`**Resolved**`, `**Scoped, not yet started**`). Emojis inside fenced code blocks are exempt, so an entry that captures real tool output can reproduce it
+  verbatim.
 - Creating entries without reading template schema first
 - Proceeding with failed validation or overwriting files without confirmation
 
@@ -299,7 +307,8 @@ Entry is complete when ALL criteria are met:
 - ✅ YAML frontmatter with all required fields  
 - ✅ Date consistency: filename = frontmatter = H1 title
 - ✅ Tag consistency: frontmatter array = Tags section
-- ✅ All required sections present per schema, including type-specific ones (`refinement_ticket`/`kickoff_ticket` sections; reciprocal `continues_from`/`continued_by` links; `## Executive Summary` immediately after `## Session Overview` if present)
+- ✅ All required sections present per schema, including type-specific ones (`jira_ticket`'s `## Jira Comment Draft`; `refinement_ticket`/`kickoff_ticket` sections; reciprocal
+  `continues_from`/`continued_by` links; `## Executive Summary` immediately after `## Session Overview` if present)
 - ✅ Validation script passes with zero errors
 - ✅ Prettier formatting and markdownlint pass
 
@@ -445,6 +454,13 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - **WHY**: this skill produces a reviewable draft; applying changes to the tracker is a separate, user-confirmed step outside the skill.
 - **BAD**: refine a ticket and push the edit straight to the issue tracker.
 - **GOOD**: set `refinement_ticket` and put the amended content in a `## Proposed Ticket Description` fenced block; the user applies it separately.
+
+### NEVER post a Jira comment draft to the tracker, or create a ticket-linked entry without one
+
+- **WHY**: the draft is a reviewable artifact; posting to a live ticket is a separate, user-confirmed step, and an entry claiming ticket association with nothing to show for it breaks the pattern
+  future entries rely on.
+- **BAD**: set `jira_ticket` with no `## Jira Comment Draft` section, or push the drafted comment to Jira from this skill.
+- **GOOD**: set `jira_ticket` and add a self-contained `## Jira Comment Draft` section led by a `Draft for [TICKET] - review before posting; not yet posted.` banner; the user posts it separately.
 
 ### NEVER skip a required ticket-kickoff section or fold a later day's work into an old entry
 

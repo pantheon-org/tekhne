@@ -46,15 +46,24 @@ frontmatter:
       type: string
       description: "URL or reference if applicable"
 
+    - name: jira_ticket
+      type: string
+      description: >
+        Applies to ANY entry type. Jira ticket key this entry relates to (e.g. "CC-1218"). Set it whenever
+        the work documented here maps to a ticket. When present, a '## Jira Comment Draft' section becomes
+        REQUIRED (enforced by validate-journal-entry.sh) and a no-op otherwise, so existing entries are
+        unaffected. See "Jira Comment Draft" in SKILL.md.
+      example: "CC-1218"
+
     - name: continues_from
       type: string
       description: >
         Applies to ANY entry type. Set on a NEWER entry to link back to an OLDER entry it continues
         (e.g. day two of a multi-day investigation). Value is a relative path to the older entry, e.g.
-        "../07/2026-07-30-slug.md". When set, a '## Related Entries' section is REQUIRED immediately
+        "../../07-July/30-Thursday/2026-07-30-slug.md". When set, a '## Related Entries' section is REQUIRED immediately
         after the metadata block, and the older entry MUST reciprocally set `continued_by` back to this
         entry (enforced by validate-journal-entry.sh). See "Continuation Links" in SKILL.md.
-      example: "../07/2026-07-30-service-migration-spike.md"
+      example: "../../07-July/30-Thursday/2026-07-30-service-migration-spike.md"
 
     - name: continued_by
       type: string
@@ -64,7 +73,7 @@ frontmatter:
         "Superseded — see latest" banner immediately after the H1 are REQUIRED, and the newer entry MUST
         reciprocally set `continues_from` back to this entry (enforced by validate-journal-entry.sh). See
         "Continuation Links" in SKILL.md.
-      example: "../08/2026-08-01-service-migration-spike-continued.md"
+      example: "../../08-August/01-Saturday/2026-08-01-service-migration-spike-continued.md"
 
 # Document structure (REQUIRED sections in order)
 structure:

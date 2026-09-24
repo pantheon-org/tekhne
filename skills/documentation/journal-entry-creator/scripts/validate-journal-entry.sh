@@ -347,6 +347,34 @@ validate_single() {
     fi
   fi
 
+  # 12) Emojis in prose (outside fenced code blocks)
+  # The skill bans emojis in journal entries. Checked against tmp_out, so emojis inside fenced
+  # code blocks stay legal: an entry that captures real tool output must reproduce it verbatim.
+  # Ranges: pictographs (1F000-1FAFF), misc symbols and dingbats (2600-27BF), arrows/misc
+  # symbols (2B00-2BFF), and the variation selector (FE0F). Plain arrows (2190-21FF) and the
+  # em dash are deliberately NOT matched -- they are punctuation, not decoration.
+  local bad_emoji
+  bad_emoji=$(perl -CSD -ne 'next unless /^(\d+)\t(.*)$/; my ($n, $t) = ($1, $2); push @b, $n if $t =~ /[\x{1F000}-\x{1FAFF}\x{2600}-\x{27BF}\x{2B00}-\x{2BFF}\x{FE0F}]/; END { print join(" ", @b) }' -- "$tmp_out")
+  if [[ -n "$bad_emoji" ]]; then
+    echo "Invalid: found emoji(s) at lines: $bad_emoji in $file" >&2
+    echo "  Emojis are banned in journal entries. Use plain text or bold instead (e.g. '**Resolved**' not a tick)." >&2
+    echo "  Emojis inside fenced code blocks are exempt, so captured tool output is unaffected." >&2
+    rm -f "$tmp_out"
+    return 24
+  fi
+
+  # 13) Jira comment draft — only runs when frontmatter declares jira_ticket.
+  # No-op for entries without the field, so pre-existing entries are unaffected.
+  local jira_ticket
+  jira_ticket="$(frontmatter_field "$file" "jira_ticket")"
+  if [[ -n "$jira_ticket" ]]; then
+    if ! awk -F"\t" '$2 == "## Jira Comment Draft" { found=1; exit } END{ if(!found) exit 1 }' "$tmp_out"; then
+      echo "Invalid: jira_ticket ($jira_ticket) is set but no '## Jira Comment Draft' section in $file" >&2
+      rm -f "$tmp_out"
+      return 25
+    fi
+  fi
+
   # All checks passed
   echo "OK: $file passes enhanced checks"
   rm -f "$tmp_out"
