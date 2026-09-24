@@ -20,7 +20,7 @@ The documentation should be created as a markdown file with appropriate metadata
 ## Expected Behavior
 
 1. Consult the `troubleshooting.yaml` template schema before generating the entry
-2. Place the file in a `YYYY/MM/` directory matching the date
+2. Place the file in a `YYYY/MM-Month/DD-Weekday/` directory matching the date
 3. Use a filename slug with only lowercase letters and hyphens, no uppercase or underscores
 4. Ensure the date matches exactly across filename, frontmatter, and H1 title
 5. Format the H1 title using `Month D, YYYY` format (not `Month DD`)
@@ -35,7 +35,7 @@ The documentation should be created as a markdown file with appropriate metadata
 ## Success Criteria
 
 - **Template schema loaded**: Evidence shows troubleshooting.yaml template was consulted before generation
-- **Correct directory structure**: File placed in YYYY/MM/ directory matching the date
+- **Correct directory structure**: File placed in YYYY/MM-Month/DD-Weekday/ directory matching the date
 - **Lowercase filename slug**: Filename slug uses only lowercase letters and hyphens, no uppercase or underscores
 - **Triple date sync**: Date matches exactly across filename, frontmatter, and H1 title
 - **H1 date format**: H1 title uses `Month D, YYYY` format (not `Month DD`)
@@ -50,7 +50,7 @@ The documentation should be created as a markdown file with appropriate metadata
 ## Failure Conditions
 
 - No evidence of consulting the troubleshooting.yaml template before generation
-- File placed in wrong directory or without the YYYY/MM/ structure
+- File placed in wrong directory or without the YYYY/MM-Month/DD-Weekday/ structure
 - Filename slug contains uppercase letters or underscores
 - Date is inconsistent between filename, frontmatter, or H1 title
 - H1 uses `Month 0D` zero-padded format instead of `Month D`

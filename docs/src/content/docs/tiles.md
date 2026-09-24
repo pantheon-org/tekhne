@@ -824,7 +824,7 @@ Skills for setting up and customizing Astro Starlight documentation sites, cover
 
 ### journal-entry-creator
 
-Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports six entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, ticket-refinement sessions, and ticket-kickoff sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, ticket-kickoff, YAML frontmatter, template schemas, validation.
+Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM-Month/DD-Weekday/ directories. Supports six entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, ticket-refinement sessions, and ticket-kickoff sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, ticket-kickoff, YAML frontmatter, template schemas, validation.
 
 **Published:** - | **Version:** 0.5.0
 

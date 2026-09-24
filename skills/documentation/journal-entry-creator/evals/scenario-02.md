@@ -22,7 +22,7 @@ The documentation should be structured for easy reference and knowledge sharing 
 
 1. Show evidence of loading the `learning.yaml` template before generation
 2. Demonstrate a systematic approach with gathering, schema loading, generation, and validation phases
-3. Create the proper `YYYY/MM/` directory structure for the file location
+3. Create the proper `YYYY/MM-Month/DD-Weekday/` directory structure for the file location
 4. Use `YYYY-MM-DD-slug.md` format with a lowercase-only slug and hyphens
 5. Maintain exact date consistency across filename, frontmatter, and H1 header
 6. Include the required `learning` tag in the frontmatter tags array
@@ -36,7 +36,7 @@ The documentation should be structured for easy reference and knowledge sharing 
 
 - **Schema consultation**: Shows evidence of loading learning.yaml template before generation
 - **Four-phase workflow**: Demonstrates systematic approach with gathering, schema loading, generation, validation phases
-- **File organization**: Creates proper YYYY/MM/ directory structure for the file location
+- **File organization**: Creates proper YYYY/MM-Month/DD-Weekday/ directory structure for the file location
 - **Filename compliance**: Uses YYYY-MM-DD-slug.md format with lowercase-only slug and hyphens
 - **Date synchronization**: Maintains exact date match across filename, frontmatter, and H1 header
 - **Learning tag inclusion**: Includes required `learning` tag in frontmatter tags array
@@ -50,7 +50,7 @@ The documentation should be structured for easy reference and knowledge sharing 
 
 - No evidence of loading the learning.yaml template schema before generation
 - Skips one or more of the four workflow phases (gather, schema, generate, validate)
-- File placed in wrong directory or missing the YYYY/MM/ structure
+- File placed in wrong directory or missing the YYYY/MM-Month/DD-Weekday/ structure
 - Filename does not follow YYYY-MM-DD-slug.md, or slug contains uppercase or underscores
 - Date is inconsistent between filename, frontmatter, or H1 header
 - `learning` tag is absent from the frontmatter tags array

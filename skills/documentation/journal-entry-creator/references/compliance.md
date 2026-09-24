@@ -45,7 +45,7 @@ status: draft
 Checklist (run for every new or updated entry)
 
 - [ ] Filename: `YYYY-MM-DD-slug.md` (ISO 8601 date prefix must match entry date)
-- [ ] Location: placed under `YYYY/MM/` where YYYY and MM match the filename
+- [ ] Location: placed under `YYYY/MM-Month/DD-Weekday/` where YYYY, MM, and DD match the filename
 - [ ] Single H1 with full date: `# Title - Month D, YYYY` (exactly one H1)
 - [ ] `## Session Overview` (or an equivalent short context section) present
 - [ ] Required sections for the entry type present:
@@ -72,7 +72,7 @@ checklist, placed near the end of the entry (conventionally just before `## Tags
 ## Compliance
 
 - [x] Filename matches the entry date (ISO 8601, `YYYY-MM-DD-slug.md`)
-- [x] Location matches YYYY/MM from the filename
+- [x] Location matches YYYY/MM/DD from the filename
 - [x] Single H1 with the full date
 - [x] Session Overview present
 - [x] All fenced code blocks have language specifiers

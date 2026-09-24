@@ -47,7 +47,7 @@ The following content represents key points from the article you read. Extract t
 1. Show evidence of loading the `article-summary.yaml` template schema
 2. Correctly identify the entry type as an article summary based on the URL/source context
 3. Include the required `article` tag in frontmatter (not video/podcast/talk)
-4. Create the file in the correct `YYYY/MM/` directory structure
+4. Create the file in the correct `YYYY/MM-Month/DD-Weekday/` directory structure
 5. Use a lowercase slug with hyphens, no uppercase letters or underscores in the filename
 6. Ensure the date matches exactly in filename, frontmatter date field, and H1 title
 7. Format the H1 using the correct `Topic - Month D, YYYY` format (not `Month DD`)
@@ -62,7 +62,7 @@ The following content represents key points from the article you read. Extract t
 - **Article-summary schema**: Shows evidence of loading article-summary.yaml template schema
 - **Entry type identification**: Correctly identified as article summary type based on URL/source context
 - **Article tag inclusion**: Includes required `article` tag in frontmatter (not video/podcast/talk)
-- **Directory placement**: File created in correct YYYY/MM/ directory structure
+- **Directory placement**: File created in correct YYYY/MM-Month/DD-Weekday/ directory structure
 - **Filename slug format**: Uses lowercase slug with hyphens, no uppercase letters or underscores
 - **Triple date consistency**: Date matches exactly in filename, frontmatter date field, and H1 title
 - **H1 format compliance**: H1 uses correct `Topic - Month D, YYYY` format (not `Month DD`)
@@ -77,7 +77,7 @@ The following content represents key points from the article you read. Extract t
 - No evidence of loading the article-summary.yaml template schema
 - Entry type is misidentified (e.g., treated as a learning entry instead of article summary)
 - `article` tag absent; a different tag type (video, podcast, talk) used instead
-- File placed in wrong directory or missing the YYYY/MM/ structure
+- File placed in wrong directory or missing the YYYY/MM-Month/DD-Weekday/ structure
 - Filename slug contains uppercase letters or underscores
 - Date is inconsistent between filename, frontmatter, or H1 title
 - H1 uses zero-padded day (`Month 01`) instead of `Month 1`

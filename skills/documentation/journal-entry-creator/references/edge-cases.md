@@ -97,13 +97,13 @@ Detailed resolution strategies for common edge cases when creating journal entri
 **Resolution:**
 
 1. Confirm the intended date explicitly
-2. Ensure directory exists: `mkdir -p YYYY/MM`
+2. Ensure directory exists: `mkdir -p YYYY/MM-Month/DD-Weekday`
 3. Triple-check date consistency across all three locations
 4. Add note in commit message: `(retroactive entry for YYYY-MM-DD)`
 
 ## Directory Permission Issues
 
-**Problem:** Cannot create YYYY/MM directory or write file
+**Problem:** Cannot create the YYYY/MM-Month/DD-Weekday directory or write file
 
 **Resolution:**
 

@@ -1,7 +1,7 @@
 ---
 name: journal-entry-creator
 description:
-  "Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM/ directories. Supports six entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, ticket-refinement sessions, and ticket-kickoff sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, ticket-kickoff, YAML frontmatter, template schemas, validation."
+  "Create structured journal entries with YAML frontmatter, template-based sections, and compliance validation. Use when user asks to 'create journal entry', 'new journal', 'document [topic]', 'journal about [topic]', or needs to create timestamped .md files in YYYY/MM-Month/DD-Weekday/ directories. Supports six entry types: general journal entries, troubleshooting sessions, learning notes, article summaries, ticket-refinement sessions, and ticket-kickoff sessions. Keywords: journal, documentation, troubleshooting, learning, article-summary, ticket-refinement, ticket-kickoff, YAML frontmatter, template schemas, validation."
 ---
 
 # Journal Entry Creator
@@ -109,10 +109,10 @@ All three must match exactly:
 
 ### Location Hierarchy
 
-File must be in `YYYY/MM/` directory matching its date:
+File must be in `YYYY/MM-Month/DD-Weekday/` directory matching its date:
 
-- `2025-02-24-*.md` → Must be in `2025/02/`
-- `2025-11-05-*.md` → Must be in `2025/11/`
+- `2025-02-24-*.md` → Must be in `2025/02-February/24-Monday/`
+- `2025-11-05-*.md` → Must be in `2025/11-November/05-Wednesday/`
 
 ### Single H1 Format
 
@@ -216,8 +216,8 @@ git status
 Each entry that includes screenshots or attachments MUST use an **entry-specific sibling directory**:
 
 ```text
-YYYY/MM/YYYY-MM-DD-slug.md          ← entry file
-YYYY/MM/YYYY-MM-DD-slug/assets/     ← entry assets
+YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md          ← entry file
+YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug/assets/     ← entry assets
 ```
 
 Reference assets in markdown with a relative path from the entry file:
@@ -295,7 +295,7 @@ Entry is complete when ALL criteria are met:
 - Proceeding with failed validation or overwriting files without confirmation
 
 **Triple sync validation:**
-- ✅ File location: `YYYY/MM/YYYY-MM-DD-slug.md` (or `YYYY/MM/YYYY-MM-DD-JIRA-TICKET-slug.md` for troubleshooting with ticket)
+- ✅ File location: `YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md` (or `YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-JIRA-TICKET-slug.md` for troubleshooting with ticket)
 - ✅ YAML frontmatter with all required fields  
 - ✅ Date consistency: filename = frontmatter = H1 title
 - ✅ Tag consistency: frontmatter array = Tags section
@@ -338,7 +338,7 @@ Entry is complete when ALL criteria are met:
 
 **Medium freedom - guided by schema:**
 
-1. Create directory if needed: `mkdir -p YYYY/MM`
+1. Create directory if needed: `mkdir -p YYYY/MM-Month/DD-Weekday`
 2. Generate filename using slug principles below:
    - Troubleshooting with Jira ticket: `YYYY-MM-DD-JIRA-TICKET-slug.md` (e.g. `2026-04-07-proj-1234-verify-details-alarm.md`)
    - All other entries: `YYYY-MM-DD-slug.md`
@@ -365,16 +365,16 @@ Entry is complete when ALL criteria are met:
 
 ```bash
 # 1. Validate structure
-bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM/YYYY-MM-DD-slug.md
+bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md
 
 # 2. Format (only if validation passes)
-npx prettier --write YYYY/MM/YYYY-MM-DD-slug.md
+npx prettier --write YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md
 
 # 3. Lint and auto-fix
-npx markdownlint-cli2 YYYY/MM/YYYY-MM-DD-slug.md --fix
+npx markdownlint-cli2 YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md --fix
 
 # 4. Re-validate to confirm
-bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM/YYYY-MM-DD-slug.md
+bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md
 ```
 
 **If validation fails:**
@@ -403,7 +403,7 @@ bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM/YYYY
 After successful validation, offer to commit:
 
 ```bash
-git add YYYY/MM/YYYY-MM-DD-slug.md
+git add YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md
 git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 ```
 
