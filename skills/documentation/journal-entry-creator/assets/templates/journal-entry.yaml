@@ -49,11 +49,11 @@ frontmatter:
     - name: jira_ticket
       type: string
       description: >
-        Applies to ANY entry type. Jira ticket key this entry relates to (e.g. "CC-1218"). Set it whenever
+        Applies to ANY entry type. Jira ticket key this entry relates to (e.g. "TICKET-123"). Set it whenever
         the work documented here maps to a ticket. When present, a '## Jira Comment Draft' section becomes
         REQUIRED (enforced by validate-journal-entry.sh) and a no-op otherwise, so existing entries are
         unaffected. See "Jira Comment Draft" in SKILL.md.
-      example: "CC-1218"
+      example: "TICKET-123"
 
     - name: continues_from
       type: string

@@ -136,7 +136,7 @@ If a kickoff surfaces gaps serious enough to need rewriting the ticket descripti
 
 Applies to ANY entry type whose work maps to a Jira ticket (a review, an incident, a spike, a piece of learning done under a ticket). When an entry relates to a ticket, you MUST:
 
-1. Set `jira_ticket: <KEY>` in the frontmatter (e.g. `jira_ticket: CC-1218`).
+1. Set `jira_ticket: <KEY>` in the frontmatter (e.g. `jira_ticket: TICKET-123`).
 2. Add a `## Jira Comment Draft` section, placed after the narrative sections and before `## Tags`.
 
 The section holds a ready-to-paste draft comment for that ticket, written in the voice you would post to it:
@@ -144,9 +144,9 @@ The section holds a ready-to-paste draft comment for that ticket, written in the
 ```markdown
 ## Jira Comment Draft
 
-> Draft for CC-1218 - review before posting; not yet posted.
+> Draft for TICKET-123 - review before posting; not yet posted.
 
-Reviewed the runbook against the acceptance criteria: five of seven MUST conditions are fully met... [and so on]
+Summarizes what was done, the key finding, and the recommendation, in the voice you'd post to the ticket -- self-contained, since the reader hasn't seen the journal entry.
 ```
 
 Rules for the draft:
