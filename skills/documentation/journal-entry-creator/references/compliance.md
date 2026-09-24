@@ -114,6 +114,8 @@ Common validator failures & fixes
 | 21 | `continued_by` set but no "Superseded" banner after the H1 | Add the banner (see Continuation Links in SKILL.md) |
 | 22 | `kickoff_ticket` set but a required section is missing | Add all five sections (see Ticket Kickoff in SKILL.md) |
 | 23 | `## Executive Summary` present but not immediately after `## Session Overview` | Move it to directly follow `## Session Overview` |
+| 24 | Emoji found outside a fenced code block | Remove it; use bold plain text instead (e.g. `**Resolved**`) |
+| 25 | `jira_ticket` set but no `## Jira Comment Draft` | Add the section (see Jira Comment Draft below) |
 
 ## Ticket Kickoff Rules
 
@@ -129,6 +131,31 @@ When an entry kicks off a ticket, you MUST:
 6. Make `## Proof of Work Plan` a table (CoS/AC item -> evidence -> where captured). It's a PLAN, not the evidence itself — the artifacts are collected in a later completion entry, using the `<slug>/assets/` convention in SKILL.md.
 
 If a kickoff surfaces gaps serious enough to need rewriting the ticket description, do a Ticket Refinement instead (or first).
+
+## Jira Comment Draft
+
+Applies to ANY entry type whose work maps to a Jira ticket (a review, an incident, a spike, a piece of learning done under a ticket). When an entry relates to a ticket, you MUST:
+
+1. Set `jira_ticket: <KEY>` in the frontmatter (e.g. `jira_ticket: CC-1218`).
+2. Add a `## Jira Comment Draft` section, placed after the narrative sections and before `## Tags`.
+
+The section holds a ready-to-paste draft comment for that ticket, written in the voice you would post to it:
+
+```markdown
+## Jira Comment Draft
+
+> Draft for CC-1218 - review before posting; not yet posted.
+
+Reviewed the runbook against the acceptance criteria: five of seven MUST conditions are fully met... [and so on]
+```
+
+Rules for the draft:
+
+- It is a DRAFT. Lead with the `> Draft for [TICKET] - review before posting; not yet posted.` banner and never post it to Jira from this skill. Posting to a ticket is a separate step the user
+  explicitly confirms.
+- It must be self-contained. A ticket reader has not seen the journal entry, so restate what was done, the key findings, the recommendation, and any decision the ticket owner needs to make — do not
+  write "see the journal".
+- Keep it concise and ticket-appropriate; the journal entry holds the full detail, the comment is the summary.
 
 ## Continuation Links
 
