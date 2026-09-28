@@ -1,0 +1,1 @@
+Write a new dated handover with supersedes set when a second session hands off again on the same topic, instead of editing the original handover in place.

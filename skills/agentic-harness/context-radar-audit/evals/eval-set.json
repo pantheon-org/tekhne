@@ -1,0 +1,71 @@
+{
+  "skill": "context-radar-audit",
+  "description": "Audit a project's Claude Code tool stack against Context Radar's curated recommendations",
+  "queries": [
+    {
+      "prompt": "Check our Claude Code tool stack against the Context Radar comparison and tell me what to change",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Are we running any redundant MCP servers for code navigation?",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "I'm thinking about installing headroom, will it conflict with anything we already have?",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "What context-reduction tools should this project actually be using?",
+      "should_trigger": true,
+      "tag": "exact"
+    },
+    {
+      "prompt": "Do a tool stack review: what's installed, what's missing, what's dead config?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Compare our MCP servers and plugins against the thoroc.github.io context-radar list",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Is running both code-review-graph and codebase-memory-mcp a problem?",
+      "should_trigger": true,
+      "tag": "paraphrase"
+    },
+    {
+      "prompt": "Add a new npm dependency for date formatting to the CLI",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "Review this pull request for code quality issues",
+      "should_trigger": false,
+      "tag": "adjacent"
+    },
+    {
+      "prompt": "How do I format a commit message for this repo?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Write a journal entry about today's troubleshooting session",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "Set up a GitLab CI pipeline for this project",
+      "should_trigger": false,
+      "tag": "unrelated"
+    },
+    {
+      "prompt": "What's the naming convention for feature branches here?",
+      "should_trigger": false,
+      "tag": "unrelated"
+    }
+  ]
+}

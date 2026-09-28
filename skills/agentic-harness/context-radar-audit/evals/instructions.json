@@ -1,0 +1,99 @@
+{
+  "instructions": [
+    {
+      "content": "A plain WebFetch or curl of the comparison page returns an empty table because the page is rendered client-side. Read the published data/context-reduction-tools.json dataset with the fetch script instead.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "layers[].cardinality is the load-bearing field: pick-one/either-or means install exactly one tool for that layer, stackable means several may coexist, install-both is zero-config and always-on, reference is a curated list and not itself installable.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 1: fetch the dataset first and note meta.last_updated, so any finding is dated against a known snapshot.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 2: run collect-active-tools.sh to enumerate what is actually active at both project and global scope, including tools wired as raw hook binaries, not just MCP server registrations.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 3: mapping an active tool to a dataset id needs judgement, not string matching. A hook command's path can map to a dataset id that shares little or no substring with it.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 4: for every pick-one/either-or layer, count active tools mapped to it. More than one is a redundancy finding, cited against that layer's cardinality and note field, not against personal preference.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 4: a tool with verdict.decision of drop is a removal finding on its own. A tool with verdict watch and activityStatus.band dormant is a staleness finding to note, not a standalone removal recommendation.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 4: a layer with a curatedPick and zero active coverage is an optional-add note, not a finding, because absence is not a defect.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 4: check permission allowlist entries (mcp__<server>__* prefixes) against the actual mcpServers registrations for that server name in both project and global .mcp.json. Allowlisted but unregistered is a phantom-tool finding, since any rule mandating that tool is currently unenforceable.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 4: if a rule file mandates a tool, verify that the tool it names actually resolves to something active. A mandate pointing at a phantom or absent tool is worth surfacing on its own.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 5: report findings as a list and let the user decide what to action. Do not edit global config as part of running the audit.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow step 6: file findings via the create-context-file skill, then regenerate the index via the context-index skill. Findings left only in the chat response do not survive a session reset.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Mindset: the dataset is a snapshot with a stated freshness date. Treat star counts and watch-tier verdicts as time-bound, not permanent.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Mindset: a tool being active and a tool being wired in are different things. Hooks, MCP registration, and permission allowlists can drift independently, which is exactly how a phantom-tool finding happens.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Mindset: redundancy findings are about layer cardinality, not personal preference. Cite the layer's cardinality and note field as the reasoning, never that something merely seems duplicative.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Mindset: default to reporting. Treat global-config edits as requiring explicit user sign-off every time, not just the first time a redundancy is found.",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "content": "NEVER treat an empty table returned from fetching the comparison page directly as evidence that there is no data. The fetch tool never runs the page's client-side rendering, so the raw HTML genuinely has no rows regardless of what the page shows in a browser.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER treat a tool's absence from any .mcp.json as proof it is inactive. Some dataset tools run as hook-invoked CLI binaries with no MCP server registration at all.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER edit global Claude Code config as part of running this audit. Those files apply to every project on the machine, so an unrequested edit has a blast radius far beyond the project being audited.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    }
+  ]
+}

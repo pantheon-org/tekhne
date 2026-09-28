@@ -1,0 +1,1 @@
+Pick up an existing handover, verify its Current State against reality before acting, resolve the outstanding work, and flip status to done in the same change without deleting the file.

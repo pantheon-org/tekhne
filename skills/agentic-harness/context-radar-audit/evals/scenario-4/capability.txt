@@ -1,0 +1,1 @@
+Refuse to edit global Claude Code config on a vague go-ahead, requiring an explicit, specific confirmation instead, per Workflow step 5.

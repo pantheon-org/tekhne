@@ -1,0 +1,1 @@
+Recognize a hook-invoked CLI binary as an active tool rather than treating its absence from .mcp.json as proof of inactivity, per the hook-wiring anti-pattern.

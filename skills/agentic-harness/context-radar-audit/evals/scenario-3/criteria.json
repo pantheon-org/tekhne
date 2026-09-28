@@ -1,0 +1,47 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent detects an allowlisted-but-unregistered MCP server and reports it as a distinct phantom-tool finding, connecting it to a rule file that mandates the same unresolvable tool, rather than folding it into redundancy or staleness findings. Covers Workflow step 4's phantom-tool and rule-mandate checks.",
+  "checklist": [
+    {
+      "name": "Phantom mismatch identified",
+      "description": "ghostqueue is identified as allowlisted in permissions but not registered in either .mcp.json",
+      "max_score": 18
+    },
+    {
+      "name": "Named as phantom-tool finding",
+      "description": "The finding is presented as its own phantom-tool category, not a generic misconfiguration note",
+      "max_score": 16
+    },
+    {
+      "name": "Rule-mandate connection made",
+      "description": "The response connects the finding to the rule file that mandates mcp__ghostqueue__enqueue",
+      "max_score": 16
+    },
+    {
+      "name": "Unenforceability stated",
+      "description": "The response states that the rule's mandate is currently unenforceable because the tool is not wired anywhere",
+      "max_score": 12
+    },
+    {
+      "name": "Not conflated with redundancy",
+      "description": "The finding is not presented as a pick-one redundancy, since there is no cardinality conflict here",
+      "max_score": 10
+    },
+    {
+      "name": "Not conflated with staleness",
+      "description": "The finding is not presented as a watch/dormant staleness note, which is a different signal",
+      "max_score": 8
+    },
+    {
+      "name": "codelantern not misflagged",
+      "description": "codelantern, which is both allowlisted and registered, is not incorrectly flagged as phantom",
+      "max_score": 10
+    },
+    {
+      "name": "No silent remediation",
+      "description": "The agent does not register a ghostqueue server or remove the permission entry in this turn",
+      "max_score": 10
+    }
+  ]
+}
