@@ -1,0 +1,84 @@
+{
+  "instructions": [
+    {
+      "content": "A handover is a point-in-time snapshot filed under .context/handovers/ so a different agent or a future session can resume work cold, without needing this conversation's context.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Use this skill when a session is ending with work still in progress, when the user asks to write a handover or hand this off, or when work is moving between worktrees, branches, or agents.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Do not use this skill when the session's work is fully complete, when there is a single outstanding item with no broader session context (file a follow-up instead), or when a journal entry, tool assessment, or plan already covers the need.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "One dated file per handover (YYYY-MM-DD-<slug>.md). A handover is a snapshot, not a living document: a second handover on the same topic is a new dated file with supersedes set, never an in-place edit of the first.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "This differs deliberately from the tool-review-assessment skill's in-place-edit convention: a tool assessment tracks one evolving verdict, but a handover is a record of a specific session's end state and should not be silently rewritten by whoever picks it up.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Required frontmatter fields: title, type (fixed to 'handover'), date (ISO YYYY-MM-DD, must match the filename's date segment), branch, status (active | done | superseded).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Required document structure, in order: frontmatter, an '# Handover:' title, Session Summary, Completed, Outstanding, Current State, Next Steps, an optional Gotchas / Context, and References.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Completed items must be load-bearing: what changed AND the evidence it happened (commit SHA, file path, test count, PR/MR link). 'Ran the tests' is not evidence; 'bun test: 42 pass, 0 fail' is.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "If an Outstanding item already has a .context/follow-ups/ entry, link it instead of duplicating the description; if it doesn't and probably should, say so explicitly rather than leaving it to exist only in this file.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow for writing a handover: gather the facts first (git status, git log -1, git stash list, list follow-ups filed this session), write the file, cross-link rather than duplicate outstanding work, run the validator, then commit.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never use a bare 'git stash' or 'git stash pop' while gathering Current State facts, because the stash stack is shared by every worktree of a repository and a bare pop can steal another session's in-progress work. Use git stash list, and if something must be set aside, git stash push -u -m \"<unique-tag>\" with the SHA captured immediately.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Workflow for picking up a handover: read the whole file (not just Next Steps) before touching code, verify Current State still matches reality, do the outstanding work, flip status to done in the same change that resolves it, then re-run the validator.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Never delete a handover file when its work is resolved; flip status to done in the same change. If only some outstanding items were resolved, leave status active and update Outstanding to reflect what remains, rather than marking the whole handover done prematurely.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Run scripts/validate-handover.sh against the handover file (or the whole .context/handovers/ directory) before considering a write or a pickup done; fix anything it flags.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": ".context/handovers/ is a distinct, standalone typology from .context/follow-ups/, .context/plans/, and .context/findings/, and is not tracked in the auto-generated .context/index.yaml. Do not try to register a handover in that index; link it from a related follow-up/plan entry instead.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Evidence beats self-report: a Completed item without a commit SHA, test count, or file path is a claim, not a record. Write for a reader who was not in this conversation and never will be.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    }
+  ]
+}

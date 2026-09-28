@@ -1,0 +1,12 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 87.5,
+    "total_instructions": 16,
+    "covered_instructions": 14,
+    "scenario_count": 3
+  },
+  "uncovered_instructions": [
+    "Do not use this skill when the session's work is fully complete, when there is a single outstanding item with no broader session context (file a follow-up instead), or when a journal entry, tool assessment, or plan already covers the need.",
+    ".context/handovers/ is a distinct, standalone typology from .context/follow-ups/, .context/plans/, and .context/findings/, and is not tracked in the auto-generated .context/index.yaml. Do not try to register a handover in that index; link it from a related follow-up/plan entry instead."
+  ]
+}

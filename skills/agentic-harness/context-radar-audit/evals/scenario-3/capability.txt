@@ -1,0 +1,1 @@
+Raise an allowlisted-but-unregistered MCP server as a distinct phantom-tool finding, and connect it to any rule file that mandates the same tool, per Workflow step 4.

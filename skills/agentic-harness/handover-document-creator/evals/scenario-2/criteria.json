@@ -1,0 +1,47 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent writes a new superseding handover for a second session's hand-off, rather than editing the original handover in place, matching the skill's core snapshot-not-living-document rule.",
+  "checklist": [
+    {
+      "name": "Original file left untouched",
+      "description": "The 2026-09-01-ticket-789-example-gateway-migration.md file's own Session Summary/Completed/Outstanding narrative is not rewritten to describe the second session's work",
+      "max_score": 20
+    },
+    {
+      "name": "New dated file created",
+      "description": "A new, separate handover file with a later date segment is created for this hand-off",
+      "max_score": 14
+    },
+    {
+      "name": "Supersedes field set correctly",
+      "description": "The new file's frontmatter includes supersedes pointing at the original file's repo-relative path",
+      "max_score": 18
+    },
+    {
+      "name": "New Completed cites evidence",
+      "description": "The new file's Completed section cites commit 9c8b7a6 and the bun test gateway/ result, not a bare claim",
+      "max_score": 14
+    },
+    {
+      "name": "New Outstanding reflects current state",
+      "description": "The new file's Outstanding lists the 1 remaining original item plus the 2 new items, not the full original 4-item list unchanged",
+      "max_score": 16
+    },
+    {
+      "name": "New file has required frontmatter",
+      "description": "title, type: handover, date matching filename, branch, status are all present in the new file",
+      "max_score": 8
+    },
+    {
+      "name": "Full required sections present",
+      "description": "The new file includes all required sections, not just Completed/Outstanding",
+      "max_score": 6
+    },
+    {
+      "name": "Validator run",
+      "description": "The response runs, or explicitly shows the command for, the validator against the new file",
+      "max_score": 4
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent correctly identifies a pick-one layer redundancy and cites the layer's cardinality and note field as the reasoning, rather than a vague impression of duplication. Covers Workflow step 4's redundancy check and the cardinality-not-preference mindset.",
+  "checklist": [
+    {
+      "name": "Both tools mapped to the layer",
+      "description": "graphnav and codelantern are both identified as mapping to the Code Navigation layer",
+      "max_score": 14
+    },
+    {
+      "name": "Redundancy finding raised",
+      "description": "The response raises a redundancy finding for the two tools sharing a layer",
+      "max_score": 16
+    },
+    {
+      "name": "Cardinality named explicitly",
+      "description": "The finding names the layer's cardinality value, pick-one, explicitly",
+      "max_score": 16
+    },
+    {
+      "name": "Note field cited as reasoning",
+      "description": "The layer's note field is quoted or closely paraphrased as the reason two active tools conflict",
+      "max_score": 14
+    },
+    {
+      "name": "No vague duplication language in place of the field",
+      "description": "The finding is not justified only by a general impression such as seems duplicative, in place of citing cardinality and note",
+      "max_score": 10
+    },
+    {
+      "name": "Drop verdict surfaced separately",
+      "description": "codelantern's drop verdict is raised as an additional, distinct reason to remove it",
+      "max_score": 10
+    },
+    {
+      "name": "Dataset freshness reported",
+      "description": "meta.last_updated or an equivalent freshness statement appears in the response",
+      "max_score": 8
+    },
+    {
+      "name": "No silent edit",
+      "description": "Neither .mcp.json entry is edited or removed by the agent in this turn",
+      "max_score": 8
+    },
+    {
+      "name": "Findings presented as a list",
+      "description": "Findings are presented as a list for the user to act on, not folded into a single vague paragraph",
+      "max_score": 4
+    }
+  ]
+}

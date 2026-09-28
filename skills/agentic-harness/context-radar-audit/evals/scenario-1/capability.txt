@@ -1,0 +1,1 @@
+Identify a pick-one layer redundancy and cite the layer's cardinality and note field as the reasoning, per Workflow step 4.

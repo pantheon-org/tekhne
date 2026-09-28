@@ -344,7 +344,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 ---
 
-## Agentic Harness (10 tiles, 9 skills)
+## Agentic Harness (10 tiles, 11 skills)
 
 Agent framework configurations
 
@@ -515,6 +515,22 @@ Captures an important insight, decision, constraint, pattern, or discovery to pe
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [vault-capture](/tekhne/skills/agentic-harness/vault-capture/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 5 |
+
+### handover-document-creator
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [handover-document-creator](/tekhne/skills/agentic-harness/handover-document-creator/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 3 |
+
+### context-radar-audit
+
+-
+
+| Skill | Rating | Audit | Evals |
+| --- | --- | --- | --- |
+| [context-radar-audit](/tekhne/skills/agentic-harness/context-radar-audit/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 4 |
 
 ### rules-management
 

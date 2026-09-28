@@ -1,0 +1,140 @@
+# Handover Document Template Schema
+# Describes the REQUIRED structure for .context/handovers/YYYY-MM-DD-<slug>.md
+# Purpose: let an outgoing session write, gracefully and completely, what happened and what
+# is still outstanding, so another agent/session can resume without re-deriving context.
+
+template_name: handover-document
+description: A point-in-time snapshot of a session's work, written so another agent/session can pick up where it left off
+filename_pattern: "YYYY-MM-DD-<slug>.md"
+location_pattern: ".context/handovers/"
+
+# YAML frontmatter structure (REQUIRED at top of file)
+# Full contract: assets/schemas/handover-frontmatter.schema.json
+frontmatter:
+  required_fields:
+    - name: title
+      type: string
+      example: "TICKET-123 example-service dev rollout - mid-migration"
+
+    - name: type
+      type: const
+      value: handover
+      description: "Fixed discriminator, always the literal string 'handover'."
+
+    - name: date
+      type: date
+      format: "YYYY-MM-DD"
+      description: "Date the handover was written. Must match the filename's date segment."
+      example: "2026-09-08"
+
+    - name: branch
+      type: string
+      description: "Git branch (or worktree branch) the outgoing session worked on."
+      example: "feat/ticket-123-example-service-dev"
+
+    - name: status
+      type: enum
+      values: [active, done, superseded]
+      description: "active until a session picks up the outstanding work and resolves it, then flip to done in the same change (never delete the file). superseded when a newer handover replaces this one."
+      example: "active"
+
+  optional_fields:
+    - name: session_id
+      type: string
+      description: "Outgoing session/worktree identifier, e.g. matching a .context/logs/<session_id>/ directory."
+
+    - name: author
+      type: string
+      description: "Who or what wrote the handover."
+
+    - name: tags
+      type: array
+      description: "Free-text tags for search, same convention as .context/follow-ups/ frontmatter."
+
+    - name: related
+      type: array
+      description: "Repo-relative paths to related plans, follow-ups, tickets, or PRs/MRs."
+
+    - name: supersedes
+      type: string
+      description: "Repo-relative path to an earlier handover this one replaces."
+
+# Document structure (REQUIRED sections in order)
+structure:
+  - section: h1_title
+    level: 1
+    format: "# Handover: <short description matching frontmatter title>"
+    required: true
+
+  - section: session_summary
+    level: 2
+    heading: "## Session Summary"
+    required: true
+    description: "One paragraph: what this session set out to do and why. Enough for a reader with zero prior context to orient."
+
+  - section: completed
+    level: 2
+    heading: "## Completed"
+    required: true
+    description: >
+      Bulleted list of what was actually done. Each item load-bearing, not a narration of tool calls: what changed,
+      and evidence it happened (commit SHA, file path, test result, PR/MR link) - a claim without evidence is worth
+      less than no claim, per this repo's wave-based-implementation proof-of-work rule.
+
+  - section: outstanding
+    level: 2
+    heading: "## Outstanding"
+    required: true
+    description: >
+      What is NOT done: open items, blockers, decisions still needed. Each item must carry enough context to act
+      on without this session's memory (file paths, what was tried, why it stalled). If an item already has a
+      .context/follow-ups/ entry, link it instead of duplicating; if it doesn't and it should, say so explicitly
+      rather than leaving it only in this file.
+
+  - section: current_state
+    level: 2
+    heading: "## Current State"
+    required: true
+    description: >
+      Repo/branch facts as of the handover: branch name, whether the working tree is clean (git status), last
+      commit SHA, any WIP stashes (with a unique tag per this repo's shared-stash-stack convention), and whether
+      the branch has been merged/rebased against main.
+
+  - section: next_steps
+    level: 2
+    heading: "## Next Steps"
+    required: true
+    description: "Concrete, ordered actions for whoever picks this up next. Numbered, not vague - each step should be independently actionable."
+
+  - section: gotchas_and_context
+    level: 2
+    heading: "## Gotchas / Context"
+    required: false
+    description: "Non-obvious findings: decisions made and why, dead ends already ruled out, constraints discovered mid-session. Omit only if there is genuinely nothing beyond what Completed/Outstanding already say."
+
+  - section: references
+    level: 2
+    heading: "## References"
+    required: true
+    description: "Links to related plans, follow-ups, tickets, PRs/MRs, or journal entries this handover concerns."
+
+# Style rules (organizational, non-negotiable)
+style:
+  - "British English spelling throughout"
+  - "Dates in body prose are DD-MM-YYYY; frontmatter dates are ISO (YYYY-MM-DD)"
+  - "No em dashes anywhere - use commas, colons, or separate sentences"
+  - "Evidence beats self-report: a completed item needs a commit SHA, test count, or file path, not just a checkmark"
+
+# Validation
+validation:
+  script: "scripts/validate-handover.sh"
+  required_checks:
+    - "Filename matches YYYY-MM-DD-<slug>.md under .context/handovers/"
+    - "Frontmatter present and matches assets/schemas/handover-frontmatter.schema.json"
+    - "Frontmatter date matches the filename's date segment"
+    - "All required sections present (Session Summary, Completed, Outstanding, Current State, Next Steps, References)"
+
+# Git commit format
+git_commit:
+  format: "docs(handover): <short description of the session's work>"
+  example: "docs(handover): TICKET-123 example-service dev rollout mid-migration handover"

@@ -1,0 +1,57 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent gathers facts safely (no bare git stash), writes evidence-backed Completed items, and links rather than duplicates an existing follow-up when writing a fresh handover.",
+  "checklist": [
+    {
+      "name": "New handover file created",
+      "description": "A single new file is created under .context/handovers/YYYY-MM-DD-<slug>.md for this topic",
+      "max_score": 12
+    },
+    {
+      "name": "Frontmatter complete and consistent",
+      "description": "title, type: handover, date, branch, status are all present and date matches the filename's date segment",
+      "max_score": 10
+    },
+    {
+      "name": "Completed item carries commit evidence",
+      "description": "The Completed section cites commit d4e5f6a (or clearly equivalent SHA reference) for the migration work",
+      "max_score": 14
+    },
+    {
+      "name": "Completed item carries test evidence",
+      "description": "The Completed section cites the test result (18 pass, 0 fail / bun test config/) rather than just saying tests were run",
+      "max_score": 12
+    },
+    {
+      "name": "No bare claim of progress",
+      "description": "Completed does not contain an unevidenced claim like 'made progress' or 'worked on the migration' standing alone",
+      "max_score": 8
+    },
+    {
+      "name": "Outstanding links the existing follow-up",
+      "description": "Outstanding references .context/follow-ups/2026-09-20-example-service-naming-decision.md by path rather than re-describing the naming decision in full",
+      "max_score": 14
+    },
+    {
+      "name": "No bare git stash",
+      "description": "Never runs a bare 'git stash' or 'git stash pop'; any stash use carries a unique -m tag",
+      "max_score": 12
+    },
+    {
+      "name": "Facts gathered before writing",
+      "description": "Shows evidence of checking git status, git log -1, git stash list, and existing follow-ups before or while drafting the handover",
+      "max_score": 8
+    },
+    {
+      "name": "All required sections present",
+      "description": "Title, Session Summary, Completed, Outstanding, Current State, Next Steps, References are all present",
+      "max_score": 6
+    },
+    {
+      "name": "Validator run",
+      "description": "The response runs, or explicitly shows the command for, scripts/validate-handover.sh against the new file",
+      "max_score": 4
+    }
+  ]
+}

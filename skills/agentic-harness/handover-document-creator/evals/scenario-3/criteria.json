@@ -1,0 +1,47 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates the pickup workflow: reading the full handover, verifying Current State against reality rather than trusting it blindly, resolving the work, and flipping status to done in the same change without deleting the file.",
+  "checklist": [
+    {
+      "name": "Reads the full handover first",
+      "description": "The response shows it read the whole handover (Session Summary, Outstanding, Current State) before acting, not just Next Steps",
+      "max_score": 10
+    },
+    {
+      "name": "Verifies Current State against reality",
+      "description": "Explicitly checks git status / git log -1 rather than trusting the handover's recorded Current State as still accurate",
+      "max_score": 16
+    },
+    {
+      "name": "Notices the branch has moved on",
+      "description": "Notes or accounts for the extra commit 5d6e7f8 that landed since the handover was written",
+      "max_score": 14
+    },
+    {
+      "name": "Resolves the outstanding item",
+      "description": "Makes the described config change and re-runs the timeout integration test",
+      "max_score": 10
+    },
+    {
+      "name": "Status flipped to done in the same change",
+      "description": "The handover's status field is changed from active to done as part of resolving the work, not deferred or left active",
+      "max_score": 18
+    },
+    {
+      "name": "File not deleted",
+      "description": "The handover file continues to exist after being marked done; it is edited, not removed",
+      "max_score": 12
+    },
+    {
+      "name": "Validator re-run",
+      "description": "scripts/validate-handover.sh is re-run (or its command shown) against the updated file",
+      "max_score": 10
+    },
+    {
+      "name": "No premature done without full resolution",
+      "description": "Status is only flipped to done because the single Outstanding item was actually fully resolved, not marked done speculatively",
+      "max_score": 10
+    }
+  ]
+}

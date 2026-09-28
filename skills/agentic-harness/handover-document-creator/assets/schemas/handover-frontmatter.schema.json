@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "handover-frontmatter",
+  "title": "Handover document frontmatter",
+  "description": "Contract for the YAML frontmatter of every .context/handovers/YYYY-MM-DD-<slug>.md document, read by validate-handover.sh. A handover is a point-in-time snapshot written by an outgoing session so another agent/session can resume the work without re-deriving context.",
+  "type": "object",
+  "required": ["title", "type", "date", "branch", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Short, specific description of the work handed over, e.g. \"TICKET-123 example-service dev rollout - mid-migration\"."
+    },
+    "type": {
+      "const": "handover",
+      "description": "Fixed discriminator so handovers are distinguishable from other .context/ typologies (findings, plans, follow-ups)."
+    },
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "ISO date (YYYY-MM-DD) the handover was written. Must match the date segment in the filename."
+    },
+    "branch": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Git branch (or worktree branch) the outgoing session was working on, e.g. feat/ticket-123-example-service-dev."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "done", "superseded"],
+      "description": "active: not yet picked up. done: a session picked this up and closed out the outstanding work (flip in the same change that resolves it, never delete the file). superseded: replaced by a newer handover on the same branch/topic."
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional. The outgoing session/worktree identifier (e.g. matching a .context/logs/<session_id>/ directory), so a follow-up session can trace back to the original transcript if needed."
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional. Who or what wrote the handover (a person's name/email, or an agent identifier)."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Optional free-text tags for search, following the same convention as .context/follow-ups/ frontmatter."
+    },
+    "related": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Optional. Repo-relative paths to related plans, follow-ups, tickets, or PRs/MRs this handover concerns."
+    },
+    "supersedes": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Optional. Repo-relative path to an earlier handover this one replaces, when a topic gets more than one handover over time."
+    }
+  },
+  "x-date-invariant": "The filename's YYYY-MM-DD segment must equal the frontmatter 'date' field.",
+  "x-filename-rule": "The file this frontmatter lives in must be named YYYY-MM-DD-<slug>.md under .context/handovers/, matching this repo's follow-up/plan naming convention.",
+  "x-lifecycle-rule": "status starts 'active'. The session that picks up the outstanding work flips it to 'done' in the same change that resolves it - never delete the file, per this repo's follow-up lifecycle convention."
+}

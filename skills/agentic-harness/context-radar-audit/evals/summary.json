@@ -1,0 +1,13 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 84,
+    "total_instructions": 19,
+    "covered_instructions": 16,
+    "scenario_count": 4,
+    "uncovered": [
+      "The WebFetch/curl-returns-an-empty-table gotcha for the comparison page (no scenario exercises the fetch-script vs. raw-HTML distinction directly)",
+      "The curatedPick-with-zero-coverage optional-add-note behavior (no scenario has an uncovered layer with a curatedPick)",
+      "The matching NEVER-scrape-the-rendered-page anti-pattern (same gotcha as above, from the anti-pattern angle)"
+    ]
+  }
+}

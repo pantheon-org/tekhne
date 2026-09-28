@@ -1,0 +1,47 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates whether the agent correctly treats a hook-invoked CLI binary as an active tool rather than concluding it is inactive because it is absent from .mcp.json, then correctly reports its watch/dormant status as a staleness note rather than a removal finding. Covers Workflow steps 2-4 and the hook-wiring anti-pattern.",
+  "checklist": [
+    {
+      "name": "Tool identified as active",
+      "description": "The response states that lintguard is active, based on the hook command",
+      "max_score": 18
+    },
+    {
+      "name": "mcp.json absence not treated as proof of inactivity",
+      "description": "The response does not conclude not installed or inactive from .mcp.json absence alone",
+      "max_score": 18
+    },
+    {
+      "name": "Hook checked as well as MCP registration",
+      "description": "The response makes clear both MCP-server registration and hook wiring were checked, not just one",
+      "max_score": 12
+    },
+    {
+      "name": "Binary path mapped to dataset id",
+      "description": "The hook's binary path is connected to the dataset entry for lintguard using judgement, not exact string matching",
+      "max_score": 14
+    },
+    {
+      "name": "Watch plus dormant reported as staleness note",
+      "description": "The watch decision with dormant activityStatus is reported as a staleness note",
+      "max_score": 12
+    },
+    {
+      "name": "Not treated as a removal finding",
+      "description": "The staleness signal alone is not used to recommend removing the hook",
+      "max_score": 12
+    },
+    {
+      "name": "User's literal question answered",
+      "description": "The response directly answers whether lintguard is in use, not just the staleness note",
+      "max_score": 8
+    },
+    {
+      "name": "No silent hook edit",
+      "description": "The hook command in settings.json is not edited or removed by the agent in this turn",
+      "max_score": 6
+    }
+  ]
+}

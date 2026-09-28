@@ -85,6 +85,8 @@ See `references/reference.md` for CONTEXT file template, quality self-check, sta
 - **As a substitute for proper documentation** — context files are ephemeral session aids, not design docs or ADRs.
 - **When no meaningful work has occurred** — an empty or near-empty context file creates noise and misleads future sessions.
 - **More than once per hour on short tasks** — over-saving dilutes the signal; one file per meaningful checkpoint is enough.
+- **When another session or person will pick the work up**: a quick checkpoint is not a handover. Use the `handover-document-creator` skill, which writes a structured, validated handover with
+  evidence for what landed and links for what is outstanding.
 
 ## Anti-Patterns
 
