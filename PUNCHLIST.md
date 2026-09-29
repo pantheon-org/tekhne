@@ -68,7 +68,7 @@ Almost all `evals/` directories are empty. Only 3 files exist across the whole r
 **ci-cd** (all 12 generator/validator pairs)
 **development** (all 10 above, except web-reference-sheet-generator has 3/5)
 **documentation** (all 16 above; astro-starlight 3 have evals.md but 0 files in evals/)
-**infrastructure** (ansible, aws-cdk/cdk-nag, aws/investigation-toolkit, cfn, dockerfile, k8s, terraform, terragrunt)
+**infrastructure** (ansible, aws-cdk/cdk-nag, aws-investigation-toolkit, cfn, dockerfile, k8s, terraform, terragrunt)
 **observability/logql-generator**
 **package-mgmt/mise-complete**
 **project-mgmt** (create-context-file, moscow-prioritization, planning-toolkit)

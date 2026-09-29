@@ -621,7 +621,7 @@
         }
       ]
     },
-    "skills/infrastructure/aws/investigation-toolkit": {
+    "skills/infrastructure/aws-investigation-toolkit": {
       "release-type": "simple",
       "extra-files": [
         {
