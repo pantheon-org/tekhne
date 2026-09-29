@@ -61,7 +61,7 @@
   "skills/agentic-harness/save-context": "0.2.0",
   "skills/documentation/proof-of-work": "0.2.0",
   "skills/documentation/research": "0.3.0",
-  "skills/infrastructure/aws/investigation-toolkit": "0.2.0",
+  "skills/infrastructure/aws-investigation-toolkit": "0.2.0",
   "skills/software-engineering/bridge": "0.2.0",
   "skills/software-engineering/challenge": "0.2.0",
   "skills/software-engineering/frame-problem": "0.2.0",

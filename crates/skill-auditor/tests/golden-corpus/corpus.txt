@@ -92,8 +92,8 @@ skills/documentation/sop-structure
 skills/infrastructure/ansible/generator
 skills/infrastructure/ansible/validator
 skills/infrastructure/aws-cdk/cdk-nag
-skills/infrastructure/aws/investigation-toolkit/skills/aws-cloudwatch-url-builder
-skills/infrastructure/aws/investigation-toolkit/skills/aws-console-navigator
+skills/infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder
+skills/infrastructure/aws-investigation-toolkit/skills/aws-console-navigator
 skills/infrastructure/cfn/behavior-validator
 skills/infrastructure/cfn/template-compare
 skills/infrastructure/dockerfile/generator
