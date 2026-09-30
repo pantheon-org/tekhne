@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates the start-of-conversation rule: when a goal is required and none is active, the agent drafts one from the first request, shows it, and waits for confirmation before any work. Covers the When to Use entry for projects that require a goal, the confirmation step in the Workflow, and the unconfirmed-goal anti-pattern.",
+  "checklist": [
+    {
+      "name": "Missing goal recognised",
+      "description": "The agent notes that no goal is active and one is required before work",
+      "max_score": 14
+    },
+    {
+      "name": "Goal drafted from the request",
+      "description": "A title and items are drafted from the user's request rather than invented",
+      "max_score": 16
+    },
+    {
+      "name": "Checkable end state",
+      "description": "The draft has a Done looks like sentence someone else could check",
+      "max_score": 16
+    },
+    {
+      "name": "Confirmation requested",
+      "description": "The user is asked to confirm or correct the draft",
+      "max_score": 24
+    },
+    {
+      "name": "No work before confirmation",
+      "description": "Nothing is read, edited or run towards the retry work before the user confirms",
+      "max_score": 24
+    },
+    {
+      "name": "Recorded after confirmation",
+      "description": "The goal is recorded with goal.sh new only once confirmed",
+      "max_score": 6
+    }
+  ]
+}

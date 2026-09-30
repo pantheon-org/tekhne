@@ -3,7 +3,7 @@ name: goal-tracker
 description: "Record a session goal as a dated file with items plus evidence, keep its status current, then answer \"what's left\" in under 100 words: achieved, parked, still open. Use when the user states a session goal, asks what's left, what's outstanding, what's still open, whether the goal is met, are we done, where the session got to. Also use to park an item, to promote an overgrown goal into a plan, to close a goal out."
 license: MIT
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
   audience: agents
   workflow: planning, tracking, session-management
 ---
@@ -25,6 +25,7 @@ yourself. Nobody can re-check work that left it, so let its owner close that.
 ## When to Use
 
 - The user states a goal at session start.
+- The project requires a goal for every conversation: draft one from the first request.
 - The user asks "what's left", "what's outstanding", "are we done".
 - Park an item, promote an overgrown goal, or close one out.
 
@@ -50,8 +51,13 @@ Route one whose items hinge on an unmade choice to `guided-interview`. Otherwise
 ./scripts/goal.sh new "Rotate the exposed token and unblock Phase 1"
 ```
 
+Show the drafted goal and items, and start work only once the user confirms or corrects
+them.
+
 Set `goal-status: in-progress` on the first item to gain evidence. Write that evidence in the
-same turn the item closes. Append a dated log line on every change. Treat discovered work as
+same turn the item closes. Append a dated log line on every change, and persist the file
+in that turn wherever the next session reads it, for example by committing it when goals
+are read from the main branch. Treat discovered work as
 a follow-up unless the end state is unreachable without it.
 
 Park an item, then file what it prints:
@@ -83,7 +89,13 @@ $ echo $?
 1
 ```
 
+If the user wraps up with items still open, keep the goal active and write a handover with
+`handover-document-creator`. Link it from the log so the next session resumes from both.
+
 ## Anti-Patterns
+
+**NEVER start work on a goal the user has not confirmed.** WHY: the goal is then the agent's
+reading of the request, and every later "what's left" answer inherits the misreading.
 
 **NEVER close an outside-reach item on your own observation.**
 WHY: a tool call can succeed while the world disagrees, and nothing re-checks it later.
