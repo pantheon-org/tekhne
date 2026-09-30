@@ -5,6 +5,24 @@ All notable changes to the goal-tracker skill.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this skill adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-09-30
+
+### Added
+
+- `goal.sh --session ID` (or `GOAL_SESSION`): `new` records the session in the goal, and
+  `status` and `check` consider only that session's goals. Parallel conversations in one
+  repository each keep one active goal instead of blocking each other.
+- `session` as an optional field in `assets/templates/goal.yaml`.
+- Frontmatter values wrapped in matching single or double quotes are unquoted before
+  comparison, so `session: "conv-a"` matches `--session conv-a`.
+- `features/goal-tracker.feature`: four integration scenarios for the session scoping.
+- `evals/`: one instruction and scenario 7; coverage stays at 100% (22 of 22).
+
+### Changed
+
+- Core Rule 1 is one active goal per session. Without a session it is still one per
+  repository, and the refusal message now suggests `--session`.
+
 ## [1.3.0] - 2026-09-30
 
 ### Added

@@ -4,12 +4,15 @@
 # goal.sh - record and report the goal for a working session.
 #
 # Goals live at <root>/.context/goals/<YYYY-MM-DD>-<slug>.md. Exactly one may
-# carry status: active at a time.
+# carry status: active at a time per session. With a session (--session, or
+# GOAL_SESSION), new records it in the goal and status/check consider only that
+# session's goals, so parallel conversations each keep their own. Without one,
+# the rule is one active goal per repository.
 #
 # Usage:
-#   goal.sh new <title> [--root DIR] [--tags a,b]
-#   goal.sh status [--root DIR]
-#   goal.sh check  [--root DIR]
+#   goal.sh new <title> [--root DIR] [--tags a,b] [--session ID]
+#   goal.sh status [--root DIR] [--session ID]
+#   goal.sh check  [--root DIR] [--session ID]
 #   goal.sh park <item-number> <reason> [--root DIR]
 #
 # Subcommands:
@@ -61,6 +64,7 @@ resolve_root() {
 
 ROOT_OPT=""
 TAGS=""
+SESSION="${GOAL_SESSION:-}"
 cmd="${1:-}"
 [ -n "$cmd" ] || { usage; exit 1; }
 case "$cmd" in -h|--help) usage; exit 0 ;; esac
@@ -71,6 +75,7 @@ while [ $# -gt 0 ]; do
 	case "$1" in
 		--root) shift; ROOT_OPT="${1:-}"; [ -n "$ROOT_OPT" ] || die "--root needs a value" ;;
 		--tags) shift; TAGS="${1:-}"; [ -n "$TAGS" ] || die "--tags needs a value" ;;
+		--session) shift; SESSION="${1:-}"; [ -n "$SESSION" ] || die "--session needs a value" ;;
 		-h|--help) usage; exit 0 ;;
 		*) args+=("$1") ;;
 	esac
@@ -100,6 +105,8 @@ case "$cmd" in
 		# reach reserves a character in the replacement: sed expands & to the
 		# matched text, and bash 5.2 onward does the same in ${var//x/y}. A
 		# %s argument reserves nothing.
+		session_line=()
+		[ -n "$SESSION" ] && session_line=("session: $SESSION")
 		printf '%s\n' \
 			'---' \
 			"title: $title" \
@@ -107,6 +114,7 @@ case "$cmd" in
 			"date: $date_str" \
 			'status: active' \
 			'goal-status: new' \
+			${session_line[@]+"${session_line[@]}"} \
 			"tags: $tags_yaml" \
 			'---' \
 			'' \
@@ -139,13 +147,14 @@ case "$cmd" in
 
 	status|check)
 		[ -d "$GOALS_DIR" ] || { printf 'No goal recorded. State one to begin.\n'; exit 0; }
-		MODE="$cmd" python3 - "$GOALS_DIR" "$ROOT" <<'PY'
+		MODE="$cmd" SESSION="$SESSION" python3 - "$GOALS_DIR" "$ROOT" <<'PY'
 import os
 import re
 import sys
 import glob
 
 mode = os.environ["MODE"]
+session = os.environ.get("SESSION", "")
 goals_dir = sys.argv[1]
 root = sys.argv[2]
 
@@ -160,9 +169,16 @@ for path in sorted(glob.glob(os.path.join(goals_dir, "*.md"))):
 
     def field(name, default=""):
         hit = re.search(rf"^{name}:\s*(.+)$", front, re.M)
-        return hit.group(1).strip() if hit else default
+        if not hit:
+            return default
+        value = hit.group(1).strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            value = value[1:-1]
+        return value
 
     if field("status") != "active":
+        continue
+    if session and field("session") != session:
         continue
     active.append((path, field("title", os.path.basename(path)),
                    field("goal-status", "new"), text))
@@ -173,7 +189,8 @@ if not active:
 
 if len(active) > 1:
     print("More than one active goal, so there is no single answer to "
-          "\"what's left\". Close or promote all but one:")
+          "\"what's left\". Close or promote all but one, or pass --session "
+          "if each belongs to a different conversation:")
     for path, title, _, _ in active:
         print(f"- {title} ({path})")
     sys.exit(1)

@@ -1027,7 +1027,7 @@ Record a session goal as a dated file with items plus evidence, keep its status 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [goal-tracker](/tekhne/skills/project-mgmt/goal-tracker/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 6 |
+| [goal-tracker](/tekhne/skills/project-mgmt/goal-tracker/skill/) | <span class="skill-badge skill-badge--unknown">?</span> | - | 7 |
 
 ### nasa-pm-lessons
 
