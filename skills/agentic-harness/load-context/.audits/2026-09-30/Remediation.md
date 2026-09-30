@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/raise-context-skill-grades/skills/agentic-harness/load-context/SKILL.md
+# Remediation Plan — agentic-harness/load-context
 
 **Current Grade:** B (114/140)
 

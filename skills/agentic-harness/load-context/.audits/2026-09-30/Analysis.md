@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/raise-context-skill-grades/skills/agentic-harness/load-context/SKILL.md
+# Skill Audit — agentic-harness/load-context
 
 **Grade:** B (114/140)
 
