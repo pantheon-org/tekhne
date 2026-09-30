@@ -73,11 +73,6 @@ target/release/skill-validator-rs validate artifacts {{files}}
         shell = "sh -c"
         check = "command -v shellcheck >/dev/null 2>&1 && shellcheck {{files}}"
     }
-    ["tessl-lint"] {
-        glob = List("skills/**/SKILL.md")
-        shell = "sh -c"
-        check = #"for f in {{files}}; do dir=$(dirname "$f"); if [ -f "$dir/tile.json" ]; then bun run tessl:lint -- "$f" || exit 1; fi; done"#
-    }
     // Builds the Rust validator from source once (cached in target/release),
     // then invokes it. Exit-code contract preserved: exit 1 = error (blocking,
     // rc=1); exit 2 = warning (non-blocking); exit 0 = clean.

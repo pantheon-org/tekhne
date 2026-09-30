@@ -11,8 +11,7 @@ name: PR Agent
 # turn it off.
 #
 # Skill PRs are excluded (paths-ignore: skills/**) — they are already covered by
-# the Skill Audit gate, Tessl Review, and Copilot review. A second LLM opinion
-# on the same diff would be redundant.
+# the Skill Audit gate. A second LLM opinion on the same diff would be redundant.
 
 on:
   pull_request:
