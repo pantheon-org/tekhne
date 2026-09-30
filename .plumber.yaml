@@ -620,7 +620,6 @@ github:
         - oven-sh/setup-bun # Bun runtime setup (CLI, docs, skill-check workflows)
         - peter-evans/find-comment # PR comment lookup (skill-check workflows)
         - peter-evans/create-or-update-comment # PR comment upserts (skill-check workflows)
-        - tesslio/setup-tessl # Tessl registry tooling (publish-skills.yml)
 
     # ===========================================
     # Container images must not use forbidden tags
