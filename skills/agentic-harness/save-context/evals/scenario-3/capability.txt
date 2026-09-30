@@ -1,0 +1,1 @@
+Archive a done stream to done/ after the index has been upserted.

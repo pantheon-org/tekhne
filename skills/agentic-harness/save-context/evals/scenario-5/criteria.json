@@ -1,0 +1,56 @@
+{
+  "context": "Tests the marginal-session check: ask or skip rather than write a near-empty file.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Brevity recognised",
+      "description": "Identifies that the session has no meaningful work",
+      "max_score": 10
+    },
+    {
+      "name": "No file written first",
+      "description": "Does not write a context file before asking",
+      "max_score": 10
+    },
+    {
+      "name": "Confirmation asked",
+      "description": "Asks \"Session appears brief. Save context anyway?\"",
+      "max_score": 10
+    },
+    {
+      "name": "Waits for answer",
+      "description": "Stops until the user replies",
+      "max_score": 10
+    },
+    {
+      "name": "Empty answer handled",
+      "description": "If the question returns blank, falls back to a numbered text list and waits",
+      "max_score": 10
+    },
+    {
+      "name": "No index change",
+      "description": "Does not touch INDEX.md while waiting",
+      "max_score": 10
+    },
+    {
+      "name": "No padded content",
+      "description": "Does not invent decisions or tasks to fill the template",
+      "max_score": 10
+    },
+    {
+      "name": "Reason given",
+      "description": "Says why a save looks unnecessary",
+      "max_score": 10
+    },
+    {
+      "name": "Save on yes",
+      "description": "If the user confirms, writes a minimal file within budget",
+      "max_score": 10
+    },
+    {
+      "name": "Skip on no",
+      "description": "If the user declines, ends without writing",
+      "max_score": 10
+    }
+  ]
+}

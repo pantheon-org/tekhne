@@ -1,0 +1,56 @@
+{
+  "context": "Tests done-status archival and that the index is updated before the file moves.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Status set to done",
+      "description": "The rewritten file carries status `done`",
+      "max_score": 10
+    },
+    {
+      "name": "Index upserted first",
+      "description": "Runs the upsert before moving the file",
+      "max_score": 10
+    },
+    {
+      "name": "Done label passed",
+      "description": "Index row gets the display label `done`",
+      "max_score": 10
+    },
+    {
+      "name": "done/ created",
+      "description": "Ensures `.context/session/done/` exists",
+      "max_score": 10
+    },
+    {
+      "name": "File moved",
+      "description": "Moves the stream file into done/",
+      "max_score": 10
+    },
+    {
+      "name": "Original removed",
+      "description": "No copy is left in `.context/session/`",
+      "max_score": 10
+    },
+    {
+      "name": "Archive message",
+      "description": "Reports \"Archived to .context/session/done/ (status: done)\"",
+      "max_score": 10
+    },
+    {
+      "name": "Explicit status honoured",
+      "description": "Does not ask whether to archive",
+      "max_score": 10
+    },
+    {
+      "name": "Content still budgeted",
+      "description": "The archived file is within 1500 tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Other files untouched",
+      "description": "No other context file is moved",
+      "max_score": 10
+    }
+  ]
+}

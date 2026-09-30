@@ -1,0 +1,56 @@
+{
+  "context": "Tests the default-stream happy path: one detection call, one read, a report built from the file rather than re-synthesised.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detection command issued",
+      "description": "Runs `ls -t` over the session and done/ CONTEXT files, with or without an `rtk` prefix",
+      "max_score": 10
+    },
+    {
+      "name": "Detection and read are parallel",
+      "description": "The detection call and the read of CONTEXT-llm.md are issued in the same message",
+      "max_score": 10
+    },
+    {
+      "name": "Default filename used",
+      "description": "Reads `.context/session/CONTEXT-llm.md` with no stream segment in the name",
+      "max_score": 10
+    },
+    {
+      "name": "No question asked",
+      "description": "Does not ask the user which stream to load when only one file exists",
+      "max_score": 10
+    },
+    {
+      "name": "Header fields shown",
+      "description": "Report always shows Stream, Saved, Focus and Goal",
+      "max_score": 10
+    },
+    {
+      "name": "NextTasks shown",
+      "description": "Report lists the top 3 NextTasks in their saved order",
+      "max_score": 10
+    },
+    {
+      "name": "Session context shown",
+      "description": "Report includes a Session Context block taken from the file",
+      "max_score": 10
+    },
+    {
+      "name": "Hot files shown",
+      "description": "Report includes a Hot Files block",
+      "max_score": 10
+    },
+    {
+      "name": "Single-sentence next step",
+      "description": "Ends with one Next Step sentence derived from NextTasks[0] and the focus field",
+      "max_score": 10
+    },
+    {
+      "name": "No re-synthesis",
+      "description": "Presents parsed data directly instead of rewording or re-ordering the saved content",
+      "max_score": 10
+    }
+  ]
+}

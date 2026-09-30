@@ -1,0 +1,56 @@
+{
+  "context": "Tests stream-name extraction from the arguments and that the named file, not the default, is loaded.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Stream name extracted",
+      "description": "Takes `feature-auth` from the arguments",
+      "max_score": 10
+    },
+    {
+      "name": "Named file read",
+      "description": "Reads `.context/session/CONTEXT-feature-auth-llm.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Default file not read",
+      "description": "Does not read `CONTEXT-llm.md` as the stream to load",
+      "max_score": 10
+    },
+    {
+      "name": "Parallel calls",
+      "description": "Issues the detection call and the file read in one message",
+      "max_score": 10
+    },
+    {
+      "name": "No stream prompt",
+      "description": "Does not call AskUserQuestion because the stream was supplied",
+      "max_score": 10
+    },
+    {
+      "name": "Title carries stream name",
+      "description": "Report title includes `feature-auth`",
+      "max_score": 10
+    },
+    {
+      "name": "Stream verified after load",
+      "description": "The stream field in the file header is checked against the requested stream",
+      "max_score": 10
+    },
+    {
+      "name": "NextTasks and Hot Files shown",
+      "description": "Both blocks appear in the report",
+      "max_score": 10
+    },
+    {
+      "name": "Next step tied to stream",
+      "description": "Next Step sentence references this stream's focus or top task",
+      "max_score": 10
+    },
+    {
+      "name": "Header fields shown",
+      "description": "Stream, Saved, Focus and Goal are all present",
+      "max_score": 10
+    }
+  ]
+}

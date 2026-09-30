@@ -78,25 +78,28 @@ Bash: ./scripts/upsert-index.sh <area> <project> <context> "<status>" "<focus>" 
 - **focus**: <=80 char summary
 - **saved**: YYYY-MM-DD
 
-Script handles: find `.context/session/INDEX.md`, match/replace or append row, skip if missing. Parked/Done/Archived sections preserved.
+Script handles: find `INDEX.md` in the session directory, match/replace or append row, skip if missing. Parked/Done/Archived sections preserved.
 
-## Auto-Archive to `.context/session/done/` (Phase 3b)
+## Auto-Archive to `done/` (Phase 3b)
 
 When status is `done` or `parked`:
-1. `mkdir -p .context/session/done/` in the project folder
-2. `mv .context/session/CONTEXT-{stream}-llm.md .context/session/done/`
-3. Confirm: `"Archived to .context/session/done/ (status: {status})"`
+```bash
+mkdir -p .context/session/done/
+mv .context/session/CONTEXT-{stream}-llm.md .context/session/done/
+```
+
+Then confirm with `Archived to .context/session/done/ (status: {status})`, printed as plain text.
 
 **Exceptions** — do NOT move:
-- `.context/session/CONTEXT-llm.md` (default stream) — always stays in `.context/session/`
-- `.context/session/CONTEXT-baseline-llm.md` — always stays in `.context/session/`
+- `CONTEXT-llm.md` (default stream) — always stays in the session directory
+- `CONTEXT-baseline-llm.md` — always stays in the session directory
 - If user explicitly says "keep here" or "don't move"
 
 **Note**: upsert-index.sh runs BEFORE the move (it reads CWD, not file path).
 
 ## Stream Naming
 
-- **Reserved**: `default` → `.context/session/CONTEXT-llm.md`, `baseline` → fork point from `/create-context`
+- **Reserved**: `default` → `CONTEXT-llm.md`, `baseline` → fork point from `/create-context`
 - **Pattern**: `^[a-zA-Z0-9_-]{1,50}$`
 
 ## Token Budget

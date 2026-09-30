@@ -410,7 +410,7 @@ Resume a previous session from .context/session/CONTEXT-llm.md with optional ful
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [load-context](/tekhne/skills/agentic-harness/load-context/skill/) | <span class="skill-badge skill-badge--d">D</span> | 2026-04-11 | 5 |
+| [load-context](/tekhne/skills/agentic-harness/load-context/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-09-30 | 6 |
 
 ### agents-md
 
@@ -430,7 +430,7 @@ Checkpoint the current session to .context/session/CONTEXT-llm.md with a structu
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [save-context](/tekhne/skills/agentic-harness/save-context/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | - |
+| [save-context](/tekhne/skills/agentic-harness/save-context/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-09-30 | 6 |
 
 ### tessl-publish-public
 

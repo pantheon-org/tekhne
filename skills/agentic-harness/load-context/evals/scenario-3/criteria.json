@@ -1,0 +1,56 @@
+{
+  "context": "Tests the --full flag: parallel expansion reads, artifact summaries, and that saved tasks stay informational.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Flag detected",
+      "description": "Recognises `--full` in the arguments and runs the expansion phase",
+      "max_score": 10
+    },
+    {
+      "name": "Base file read first",
+      "description": "Reads `CONTEXT-llm.md` before expanding",
+      "max_score": 10
+    },
+    {
+      "name": "Expansion reads are parallel",
+      "description": "The tasks.md, hot-file and manifest reads go out in one message",
+      "max_score": 10
+    },
+    {
+      "name": "Top 3 hot files only",
+      "description": "Reads at most three hot files, not all of them",
+      "max_score": 10
+    },
+    {
+      "name": "Artifacts read",
+      "description": "Reads the two files listed under `## Thinking Artifacts`",
+      "max_score": 10
+    },
+    {
+      "name": "Artifact summaries included",
+      "description": "Report includes a brief summary of each artifact",
+      "max_score": 10
+    },
+    {
+      "name": "Tasks not restored",
+      "description": "Does not recreate or start any saved task",
+      "max_score": 10
+    },
+    {
+      "name": "Informational note",
+      "description": "States that task data is shown as information only",
+      "max_score": 10
+    },
+    {
+      "name": "Richer than default",
+      "description": "Report has expansion sections a default load would not",
+      "max_score": 10
+    },
+    {
+      "name": "Few round trips",
+      "description": "Completes without one file per message",
+      "max_score": 10
+    }
+  ]
+}

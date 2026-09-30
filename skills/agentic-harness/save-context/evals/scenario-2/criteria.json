@@ -1,0 +1,56 @@
+{
+  "context": "Tests stream naming from arguments and that other streams are left alone.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Stream name parsed",
+      "description": "Takes `auth-refactor` as the stream and the rest as the description",
+      "max_score": 10
+    },
+    {
+      "name": "Name validated",
+      "description": "Checks the name against the allowed pattern",
+      "max_score": 10
+    },
+    {
+      "name": "Named file written",
+      "description": "Writes `.context/session/CONTEXT-auth-refactor-llm.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Default file untouched",
+      "description": "Does not create or change `CONTEXT-llm.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Other stream untouched",
+      "description": "Does not modify `CONTEXT-billing-migration-llm.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Description used",
+      "description": "Focus reflects the supplied description",
+      "max_score": 10
+    },
+    {
+      "name": "Index row added",
+      "description": "Upsert adds a row keyed on area, project and stream",
+      "max_score": 10
+    },
+    {
+      "name": "Existing rows preserved",
+      "description": "The billing-migration row is unchanged",
+      "max_score": 10
+    },
+    {
+      "name": "Focus truncated",
+      "description": "The index focus is 80 characters or fewer",
+      "max_score": 10
+    },
+    {
+      "name": "Report given",
+      "description": "Confirms the file written and the index update",
+      "max_score": 10
+    }
+  ]
+}

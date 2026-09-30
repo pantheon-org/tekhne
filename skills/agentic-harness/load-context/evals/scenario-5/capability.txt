@@ -1,0 +1,1 @@
+Fall back to done/ for an archived stream and label the report accordingly.
