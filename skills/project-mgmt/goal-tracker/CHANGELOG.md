@@ -19,6 +19,13 @@ and this skill adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
 - `evals/`: three instructions and scenarios 5 and 6 for the rules above; coverage stays
   at 100% (21 of 21).
 
+### Changed
+
+- `SKILL.md` tightened to raise the skill audit from 124/140 (B+) to 128/140 (A): the body
+  is under 1200 tokens, more sentences lead with the action, References is a bullet list
+  that keeps each load condition, and the duplicated `check` output now lives only in
+  `references/file-shape.md`.
+
 ## [1.2.0] - 2026-09-14
 
 ### Changed

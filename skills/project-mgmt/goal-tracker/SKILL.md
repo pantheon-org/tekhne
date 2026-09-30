@@ -19,13 +19,13 @@ Write down the one thing this session is for, keep it honest as work lands, and 
 nothing anyone can point at, turns an open question into a false answer and the reader stops
 checking. Trade convenience for provability everywhere.
 
-Trust asymmetrically. Anyone can re-check work done inside the repository, so close it
-yourself. Nobody can re-check work that left it, so let its owner close that.
+Keep trust asymmetric. Close work done inside the repository yourself, since anyone can
+re-check it. Leave work that left the repository for its owner to close.
 
 ## When to Use
 
 - The user states a goal at session start.
-- The project requires a goal for every conversation: draft one from the first request.
+- The project requires a goal for every conversation.
 - The user asks "what's left", "what's outstanding", "are we done".
 - Park an item, promote an overgrown goal, or close one out.
 
@@ -44,29 +44,27 @@ yourself. Nobody can re-check work that left it, so let its owner close that.
 
 ## Workflow
 
-Run the clarity test first. Route a goal with no verifiable end state to `socratic-method`.
-Route one whose items hinge on an unmade choice to `guided-interview`. Otherwise record it:
+Run the clarity test first. Use `socratic-method` for a goal with no verifiable end state,
+and `guided-interview` when its items hinge on an unmade choice. Otherwise draft it:
 
 ```bash
 ./scripts/goal.sh new "Rotate the exposed token and unblock Phase 1"
 ```
 
-Show the drafted goal and items, and start work only once the user confirms or corrects
-them.
+Check the draft with the user. Start work only once they confirm or correct it.
 
 Set `goal-status: in-progress` on the first item to gain evidence. Write that evidence in the
-same turn the item closes. Append a dated log line on every change, and persist the file
-in that turn wherever the next session reads it, for example by committing it when goals
-are read from the main branch. Treat discovered work as
-a follow-up unless the end state is unreachable without it.
+same turn the item closes. Add a dated log line on every change, and save the file in that
+turn where the next session reads it, such as the main branch. Keep discovered work as a
+follow-up unless the end state is unreachable without it.
 
-Park an item, then file what it prints:
+Run `park`, then file what it prints:
 
 ```bash
 ./scripts/goal.sh park 3 "Andy is on leave until Monday"
 ```
 
-Render the summary and report it verbatim. Offer the path; never expand it:
+Run `status` and report its summary verbatim. Offer the path; never expand it:
 
 ```console
 $ ./scripts/goal.sh status
@@ -76,21 +74,17 @@ Awaiting your confirmation: Send both drafts to Andy.
 File: goals/2026-09-14-rotate-the-exposed-token.md
 ```
 
-Promote on any trigger: more than five items, a second worktree, or wave structure. Hand the
-end state and items to `plan-create` and carry existing evidence across as completed tasks.
+Promote on any trigger: more than five items, a second worktree, or wave structure. Pass the
+end state and items to `plan-create`, carrying existing evidence across as completed tasks.
 
-Close out only when `check` exits zero:
+Close out only when the check exits zero:
 
-```console
-$ ./scripts/goal.sh check
-FAILED: goals/2026-09-14-rotate-the-exposed-token.md
-- item 1 has outside reach and was closed without a recorded user confirmation
-$ echo $?
-1
+```bash
+./scripts/goal.sh check
 ```
 
-If the user wraps up with items still open, keep the goal active and write a handover with
-`handover-document-creator`. Link it from the log so the next session resumes from both.
+Keep the goal active on a wrap-up with items open. Write a handover with
+`handover-document-creator` and link it from the log.
 
 ## Anti-Patterns
 
@@ -117,11 +111,10 @@ and "what's left" decays into a second backlog.
 
 ## Verification
 
-Keep both status fields consistent. `status` feeds the index; `goal-status` carries the
-lifecycle:
+Keep the two status fields paired:
 
 ```yaml
-status: active        # active while new or in-progress, done once completed or promoted
+status: active        # done once goal-status is completed or promoted
 goal-status: new      # new | in-progress | completed | promoted
 ```
 
@@ -135,10 +128,8 @@ Then confirm each of these:
 
 ## References
 
-| Topic | Reference | When to Use |
-| --- | --- | --- |
-| The three clarity checks and where each failure routes | [Clarity Test](references/clarity-test.md) | Recording a new goal. Skip when it already names a checkable end state. |
-| Local versus outside reach, and the hard confirmation rule | [Evidence](references/evidence.md) | Closing any item. Skip when only rendering a summary. |
-| Promotion triggers and the goal-to-plan handover | [Promotion](references/promotion.md) | An item was just added, or the goal holds five. |
-| The goal schema: frontmatter, sections, table columns, rules | [Goal Schema](assets/templates/goal.yaml) | Hand-authoring or repairing a goal, or changing what the script emits. |
-| Worked example, and what each check failure means | [File Shape](references/file-shape.md) | Diagnosing a failing check. |
+- [Clarity Test](references/clarity-test.md): the three clarity checks. Load when a new goal does not yet name a checkable end state.
+- [Evidence](references/evidence.md): local versus outside reach. Load when closing any item.
+- [Promotion](references/promotion.md): triggers and the goal-to-plan handover. Load when an item was just added, or the goal holds five.
+- [Goal Schema](assets/templates/goal.yaml): the goal file contract. Load when hand-authoring or repairing a goal.
+- [File Shape](references/file-shape.md): worked example, status pairing and `check` failures. Load when diagnosing a failing check.
