@@ -12,10 +12,6 @@
     "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
     "readme:update": "bun scripts/catalog/update.ts",
     "readme:update:dry-run": "bun scripts/catalog/update.ts --dry-run",
-    "tessl:import": "tessl skill import",
-    "tessl:lint": "tessl plugin lint",
-    "tessl:publish": "tessl plugin publish",
-    "tessl:review": "tessl review run",
     "test": "bun test scripts/",
     "test:integration": "cucumber-js"
   },
@@ -28,7 +24,6 @@
     "@cucumber/cucumber": "^13.0.0",
     "@types/bun": "latest",
     "@types/js-yaml": "^4.0.9",
-    "tessl": "^0.108.0",
     "tsx": "^4.0.0"
   },
   "dependencies": {
