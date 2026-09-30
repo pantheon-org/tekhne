@@ -6,7 +6,7 @@
 
 ## Expected Behavior
 
-1. Agent runs detection command: `rtk ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md`
+1. Agent runs detection command: `ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md`
 2. Agent does not find `CONTEXT-old-spike-llm.md` in `.context/session/`
 3. Agent finds `CONTEXT-old-spike-llm.md` in `.context/session/done/`
 4. Agent reads `.context/session/done/CONTEXT-old-spike-llm.md` and loads the context normally

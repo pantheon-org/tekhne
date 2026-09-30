@@ -25,7 +25,7 @@ Load session state from `.context/session/CONTEXT-{stream}-llm.md` and optionall
 
 ## Performance Rules
 
-1. **Use `rtk` for ALL shell commands**
+1. **Use `rtk` for shell commands when it is installed** (a harness hook may already rewrite them; bare commands are also fine)
 2. **Parallel tool calls** — ALL independent calls in one message
 3. **Minimize round-trips**
 4. **No unnecessary synthesis** — present parsed data directly
@@ -35,7 +35,7 @@ Load session state from `.context/session/CONTEXT-{stream}-llm.md` and optionall
 ### Phase 1: Detect & Read (parallel)
 
 ```
-Bash: rtk ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md 2>/dev/null || true
+Bash: ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md 2>/dev/null || true
 Read: .context/session/CONTEXT-{stream}-llm.md (if stream known from $ARGUMENTS)
 ```
 

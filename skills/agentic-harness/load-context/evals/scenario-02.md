@@ -7,7 +7,7 @@
 ## Expected Behavior
 
 1. Agent extracts `feature-auth` from `$ARGUMENTS`
-2. Agent runs the detection command (`rtk ls -t`) in parallel with reading `.context/session/CONTEXT-feature-auth-llm.md`
+2. Agent runs the detection command (`ls -t`, optionally `rtk`-prefixed) in parallel with reading `.context/session/CONTEXT-feature-auth-llm.md`
 3. Agent parses the named stream file and formats the resume report
 4. Resume report title reflects the stream name (`feature-auth`)
 5. Agent outputs all required blocks: header fields, NextTasks, Session Context, Hot Files, Next Step

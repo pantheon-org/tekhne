@@ -6,7 +6,7 @@
 
 ## Expected Behavior
 
-1. Agent runs `rtk ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md` and finds three files: `CONTEXT-llm.md`, `CONTEXT-feature-auth-llm.md`, `CONTEXT-bugfix-payments-llm.md`
+1. Agent runs `ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md` and finds three files: `CONTEXT-llm.md`, `CONTEXT-feature-auth-llm.md`, `CONTEXT-bugfix-payments-llm.md`
 2. Because multiple streams exist and no stream was specified, agent calls `AskUserQuestion` to present stream options
 3. After receiving the answer, agent checks whether the answer is empty/blank
 4. If the answer is empty/blank (known Claude Code bug), agent outputs the warning message and presents options as a numbered text list, then waits

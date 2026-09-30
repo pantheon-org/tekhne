@@ -6,7 +6,7 @@
 
 ## Expected Behavior
 
-1. Agent runs `rtk ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md 2>/dev/null || true` to detect available streams
+1. Agent runs `ls -t .context/session/CONTEXT-*llm.md .context/session/done/CONTEXT-*llm.md 2>/dev/null || true` to detect available streams
 2. Agent reads `.context/session/CONTEXT-llm.md` (the default stream file)
 3. Agent parses the key-value header fields (saved, stream, status, focus, goal)
 4. Agent formats and outputs a resume report with Stream, Saved, Focus, Goal always shown
@@ -15,7 +15,7 @@
 
 ## Success Criteria
 
-- Agent uses `rtk` prefix for the shell command (not bare `ls`)
+- Agent runs `ls -t` (with or without an `rtk` prefix) to detect streams
 - Agent reads `.context/session/CONTEXT-llm.md` (default filename, no stream name segment)
 - Resume report title is `# Session Resume: [stream-name]` or equivalent
 - Report includes NextTasks, Session Context, and Hot Files blocks
@@ -24,7 +24,6 @@
 
 ## Failure Conditions
 
-- Agent uses bare `ls` instead of `rtk ls`
 - Agent reads the wrong file (e.g., a named-stream file when no argument given)
 - Agent asks the user which stream to load when no argument is provided and only one file exists
 - Agent skips the NextTasks or Hot Files blocks in the report

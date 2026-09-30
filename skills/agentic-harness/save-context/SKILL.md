@@ -25,7 +25,7 @@ Save current session state to `.context/session/CONTEXT-{stream}-llm.md` with LL
 
 ## Performance Rules
 
-1. **Use `rtk` for ALL shell commands**
+1. **Use `rtk` for shell commands when it is installed** (a harness hook may already rewrite them; bare commands are also fine)
 2. **Parallel tool calls** — ALL independent calls in one message
 3. **Minimize round-trips** — gather all data phase 1, reason phase 2, write phase 3
 
@@ -34,7 +34,7 @@ Save current session state to `.context/session/CONTEXT-{stream}-llm.md` with LL
 ### Phase 1: Gather Data (parallel)
 
 ```
-Bash: rtk ls .context/session/ + rtk ls -t .context/session/CONTEXT-*llm.md
+Bash: ls .context/session/ + ls -t .context/session/CONTEXT-*llm.md
 ```
 
 **Stream resolution**: First word of `$ARGUMENTS` = stream name (`^[a-zA-Z0-9_-]{1,50}$`), rest = description. Empty → reuse prior `/load-context` stream or AskUserQuestion.
