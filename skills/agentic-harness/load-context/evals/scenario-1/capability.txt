@@ -1,0 +1,1 @@
+Load the default stream and render the resume report directly from the parsed file.

@@ -1,0 +1,56 @@
+{
+  "context": "Tests multi-stream selection and the empty-answer guard, where the UI silently fails to render.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Multiple streams detected",
+      "description": "Finds all three files before prompting",
+      "max_score": 10
+    },
+    {
+      "name": "No silent default",
+      "description": "Does not load the default stream without asking",
+      "max_score": 10
+    },
+    {
+      "name": "AskUserQuestion used",
+      "description": "Calls AskUserQuestion listing every stream as an option",
+      "max_score": 10
+    },
+    {
+      "name": "Answer checked",
+      "description": "Inspects the returned answers immediately after the call",
+      "max_score": 10
+    },
+    {
+      "name": "Warning printed",
+      "description": "Outputs \"Questions didn't display (known AskUserQuestion bug outside Plan Mode).\"",
+      "max_score": 10
+    },
+    {
+      "name": "Numbered fallback",
+      "description": "Presents the streams as a numbered text list",
+      "max_score": 10
+    },
+    {
+      "name": "Waits for reply",
+      "description": "Stops and waits for the user's number before loading anything",
+      "max_score": 10
+    },
+    {
+      "name": "No assumptions",
+      "description": "Does not guess a stream after the empty answer",
+      "max_score": 10
+    },
+    {
+      "name": "Done files marked",
+      "description": "Any stream taken from done/ carries the archive marker in the list",
+      "max_score": 10
+    },
+    {
+      "name": "Chosen stream loaded",
+      "description": "After the reply, loads and reports the chosen stream",
+      "max_score": 10
+    }
+  ]
+}

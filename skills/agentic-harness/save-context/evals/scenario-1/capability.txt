@@ -1,0 +1,1 @@
+Write a budgeted CONTEXT-llm.md from the conversation and upsert the session index.

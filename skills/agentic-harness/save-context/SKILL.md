@@ -10,7 +10,15 @@ user-invocable: true
 
 # Save Context
 
-Save current session state to `.context/session/CONTEXT-{stream}-llm.md` with LLM-optimized format.
+Save current session state to `CONTEXT-{stream}-llm.md` in the session directory with LLM-optimized format.
+
+```text
+.context/session/
+  INDEX.md                        index of streams
+  CONTEXT-llm.md                  default stream
+  CONTEXT-{name}-llm.md           named stream
+  done/CONTEXT-{name}-llm.md      archived stream (status done or parked)
+```
 
 **Target**: 1200-1500 tokens MAX | **Speed**: 3-5 seconds
 
@@ -25,7 +33,7 @@ Save current session state to `.context/session/CONTEXT-{stream}-llm.md` with LL
 
 ## Performance Rules
 
-1. **Use `rtk` for ALL shell commands**
+1. **Use `rtk` for shell commands when it is installed** (a harness hook may already rewrite them; bare commands are also fine)
 2. **Parallel tool calls** — ALL independent calls in one message
 3. **Minimize round-trips** — gather all data phase 1, reason phase 2, write phase 3
 
@@ -34,7 +42,7 @@ Save current session state to `.context/session/CONTEXT-{stream}-llm.md` with LL
 ### Phase 1: Gather Data (parallel)
 
 ```
-Bash: rtk ls .context/session/ + rtk ls -t .context/session/CONTEXT-*llm.md
+Bash: ls .context/session/ + ls -t .context/session/CONTEXT-*llm.md
 ```
 
 **Stream resolution**: First word of `$ARGUMENTS` = stream name (`^[a-zA-Z0-9_-]{1,50}$`), rest = description. Empty → reuse prior `/load-context` stream or AskUserQuestion.
@@ -49,17 +57,25 @@ From conversation (last 15-20 messages):
 
 ### Phase 3: Write & Report
 
-Write CONTEXT file using template, then upsert `.context/session/INDEX.md` via `scripts/upsert-index.sh`.
+Write CONTEXT file using template, then upsert `INDEX.md` in the session directory:
 
-**Stream naming**: `"default" → .context/session/CONTEXT-llm.md`, `"{name}" → .context/session/CONTEXT-{name}-llm.md`
+```bash
+./scripts/upsert-index.sh repos my-project auth-refactor "building" "JWT middleware extracted" 2026-09-30
+```
 
-### Phase 3b: Auto-archive to `.context/session/done/`
+**Stream naming**: `default` → `CONTEXT-llm.md`, `{name}` → `CONTEXT-{name}-llm.md`
 
-If status is `done` or `parked` → move file to `.context/session/done/` subfolder:
+### Phase 3b: Auto-archive to `done/`
+
+If status is `done` or `parked` → move the file to the `done/` subfolder of the session directory:
 ```
 Bash: mkdir -p .context/session/done && mv .context/session/CONTEXT-{stream}-llm.md .context/session/done/
 ```
-Report: `"Archived to .context/session/done/ (status: {status})"`
+Report:
+
+```text
+Archived to .context/session/done/ (status: {status})
+```
 
 See `references/reference.md` for CONTEXT file template, quality self-check, status mapping, done/ archival rules, and INDEX.md upsert logic.
 
@@ -90,7 +106,7 @@ See `references/reference.md` for CONTEXT file template, quality self-check, sta
 
 ## Anti-Patterns
 
-- **NEVER overwrite an existing context file without reading it first** — Silent overwrites lose prior session decisions. **Why:** The INDEX.md may reference decisions that inform current architecture; discarding them breaks traceability.
+- **NEVER overwrite an existing context file without reading it first** — Silent overwrites lose prior session decisions. **WHY:** The INDEX.md may reference decisions that inform current architecture; discarding them breaks traceability.
 
   ```bash
   # BAD - blind overwrite, prior decisions gone with no diff
@@ -102,7 +118,7 @@ See `references/reference.md` for CONTEXT file template, quality self-check, sta
   echo "$merged_summary" > .context/session/CONTEXT-llm.md
   ```
 
-- **NEVER save with a generic or missing stream name when multiple streams are active** — Ambiguous names cause the wrong file to be loaded next session. **Why:** `CONTEXT-llm.md` collides across unrelated workstreams and forces manual disambiguation.
+- **NEVER save with a generic or missing stream name when multiple streams are active** — Ambiguous names cause the wrong file to be loaded next session. **WHY:** `CONTEXT-llm.md` collides across unrelated workstreams and forces manual disambiguation.
 
   ```bash
   # BAD - two unrelated workstreams both save to the default stream
@@ -114,9 +130,9 @@ See `references/reference.md` for CONTEXT file template, quality self-check, sta
   /save-context billing-migration "Stripe webhook handler drafted"
   ```
 
-- **NEVER skip the INDEX.md upsert step** — Omitting it leaves the index out of sync. **Why:** `load-context` relies on `INDEX.md` to discover the latest file; a stale index means the wrong snapshot is loaded.
-- **NEVER archive to `done/` prematurely** — Moving an active context to `done/` hides it from future loads. **Why:** Auto-archive is only correct when status is explicitly `done` or `parked`; applying it to in-progress work severs continuity.
-- **NEVER exceed the 1500-token budget** — Bloated context files slow down load and waste model capacity. **Why:** The target is 1200-1500 tokens; beyond that the signal-to-noise ratio degrades and compaction may truncate critical sections.
+- **NEVER skip the INDEX.md upsert step** — Omitting it leaves the index out of sync. **WHY:** `load-context` relies on `INDEX.md` to discover the latest file; a stale index means the wrong snapshot is loaded.
+- **NEVER archive to `done/` prematurely** — Moving an active context to `done/` hides it from future loads. **WHY:** Auto-archive is only correct when status is explicitly `done` or `parked`; applying it to in-progress work severs continuity.
+- **NEVER exceed the 1500-token budget** — Bloated context files slow down load and waste model capacity. **WHY:** The target is 1200-1500 tokens; beyond that the signal-to-noise ratio degrades and compaction may truncate critical sections.
 
 ## Usage Examples
 
@@ -155,4 +171,7 @@ See `references/reference.md` for CONTEXT file template, quality self-check, sta
 
 ## References
 
-- [Reference](references/reference.md) — CONTEXT file template, status mapping, INDEX.md upsert logic, auto-archive rules, and token budget constraints
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| CONTEXT file template, status mapping, index upsert, archival, token budget | [Reference](references/reference.md) | Writing the file, choosing a status label or archiving a stream |
+| Index upsert script | [upsert-index.sh](scripts/upsert-index.sh) | Updating `INDEX.md` after every save |

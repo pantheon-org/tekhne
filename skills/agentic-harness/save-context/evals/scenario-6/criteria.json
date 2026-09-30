@@ -1,0 +1,56 @@
+{
+  "context": "Tests routing: a checkpoint is not a handover, so the handover skill should be offered.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Handover recognised",
+      "description": "Notices the reader is another person, not a later session",
+      "max_score": 10
+    },
+    {
+      "name": "Handover skill named",
+      "description": "Recommends the handover-document-creator skill",
+      "max_score": 10
+    },
+    {
+      "name": "Difference explained",
+      "description": "Says a checkpoint is a session aid, not a handover",
+      "max_score": 10
+    },
+    {
+      "name": "Checkpoint still offered",
+      "description": "Offers to save a checkpoint as well",
+      "max_score": 10
+    },
+    {
+      "name": "No false substitute",
+      "description": "Does not claim the context file is enough for a colleague",
+      "max_score": 10
+    },
+    {
+      "name": "Open items surfaced",
+      "description": "Mentions that MRs and blocked tickets need linking in a handover",
+      "max_score": 10
+    },
+    {
+      "name": "No unrequested handover",
+      "description": "Does not write the handover without the user agreeing",
+      "max_score": 10
+    },
+    {
+      "name": "Short reply",
+      "description": "Keeps the recommendation to a few sentences",
+      "max_score": 10
+    },
+    {
+      "name": "Checkpoint budgeted if saved",
+      "description": "A saved checkpoint stays within 1500 tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Index upserted if saved",
+      "description": "A saved checkpoint runs the upsert script",
+      "max_score": 10
+    }
+  ]
+}

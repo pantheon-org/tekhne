@@ -1,0 +1,56 @@
+{
+  "context": "Tests the empty case: a clear message instead of a made-up resume.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detection run",
+      "description": "Runs the detection command once",
+      "max_score": 10
+    },
+    {
+      "name": "No file read attempted",
+      "description": "Does not try to read a context file that was not found",
+      "max_score": 10
+    },
+    {
+      "name": "Exact message",
+      "description": "Outputs \"No context files found. Run `/save-context` to create one.\"",
+      "max_score": 10
+    },
+    {
+      "name": "No invented state",
+      "description": "Does not fabricate focus, goal or tasks",
+      "max_score": 10
+    },
+    {
+      "name": "No question asked",
+      "description": "Does not call AskUserQuestion",
+      "max_score": 10
+    },
+    {
+      "name": "No file created",
+      "description": "Does not create a context file itself",
+      "max_score": 10
+    },
+    {
+      "name": "Save skill named",
+      "description": "Points the user at save-context as the next step",
+      "max_score": 10
+    },
+    {
+      "name": "Short reply",
+      "description": "Answers in a few lines with no report scaffolding",
+      "max_score": 10
+    },
+    {
+      "name": "No done/ marker",
+      "description": "Does not add an archive marker or notice",
+      "max_score": 10
+    },
+    {
+      "name": "Stops cleanly",
+      "description": "Ends the turn after the message",
+      "max_score": 10
+    }
+  ]
+}

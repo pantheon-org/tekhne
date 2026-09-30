@@ -50,13 +50,19 @@ Stream/Saved/Focus/Goal (always show)
 | Condition | Message |
 |-----------|---------|
 | No context files | "No context files found. Run `/save-context` to create one." |
-| Stream not found | "Stream '{name}' not found. Available: {list}" (also check `.context/session/done/` subfolder) |
-| Stream in done/ | Load normally, prefix report with "📦 Loaded from `.context/session/done/` — this context is archived ({status})" |
+| Stream not found | "Stream '{name}' not found. Available: {list}" (also check the `done/` subfolder) |
+| Stream in done/ | Load normally and prefix the report with the archive notice below |
 | File read error | "Could not read {filename}. Check file permissions." |
 | Malformed file | Parse what's available, skip unparseable sections |
+
+Archive notice, printed as the first line of a report loaded from `done/`:
+
+```text
+📦 Loaded from `.context/session/done/` — this context is archived ({status})
+```
 
 ## Related
 
 - `/save-context [stream] [description]` - Save session to named stream
 - `/list-contexts [--sync] [--archive <stream>]` - List/sync all contexts
-- `/create-context` - Create baseline from `.context/session/in/` folder
+- `/create-context` - Create baseline from the session `in/` folder

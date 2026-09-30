@@ -1,0 +1,56 @@
+{
+  "context": "Tests the read-before-overwrite rule and that surviving decisions are folded forward.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Existing file read first",
+      "description": "Reads the current CONTEXT-llm.md before writing",
+      "max_score": 10
+    },
+    {
+      "name": "No blind overwrite",
+      "description": "Does not write the new file without having read the old one",
+      "max_score": 10
+    },
+    {
+      "name": "Surviving decisions kept",
+      "description": "Both still-valid decisions appear in the new file",
+      "max_score": 10
+    },
+    {
+      "name": "Superseded decision dropped",
+      "description": "The obsolete decision is not carried over",
+      "max_score": 10
+    },
+    {
+      "name": "New decision added",
+      "description": "Today's decision is recorded with its rationale",
+      "max_score": 10
+    },
+    {
+      "name": "Saved date refreshed",
+      "description": "The saved field shows the current time",
+      "max_score": 10
+    },
+    {
+      "name": "Budget held",
+      "description": "Merged file remains within 1500 tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Session cap held",
+      "description": "Session section stays within 780 tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Index upserted",
+      "description": "Runs the upsert script once",
+      "max_score": 10
+    },
+    {
+      "name": "Not archived",
+      "description": "File stays in `.context/session/` because the default stream never moves",
+      "max_score": 10
+    }
+  ]
+}

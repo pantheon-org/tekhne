@@ -1,0 +1,56 @@
+{
+  "context": "Tests the default save: template fidelity, token budget, index upsert and the Next heading.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct file",
+      "description": "Writes `.context/session/CONTEXT-llm.md` for the default stream",
+      "max_score": 10
+    },
+    {
+      "name": "Header complete",
+      "description": "Header has saved, stream, status, focus and goal",
+      "max_score": 10
+    },
+    {
+      "name": "Next heading used",
+      "description": "Tasks sit under a heading named `Next`, not todo or pending",
+      "max_score": 10
+    },
+    {
+      "name": "Three next tasks",
+      "description": "Lists three tasks inferred from the conversation",
+      "max_score": 10
+    },
+    {
+      "name": "Decisions recorded with rationale",
+      "description": "Session section keeps each decision with its reason",
+      "max_score": 10
+    },
+    {
+      "name": "Session budget",
+      "description": "Session section stays within 780 tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Total budget",
+      "description": "Whole file stays within 1500 tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Hot files capped",
+      "description": "Lists at most 10 hot files, each with a brief role",
+      "max_score": 10
+    },
+    {
+      "name": "Index upserted by script",
+      "description": "Runs `scripts/upsert-index.sh` with six arguments rather than editing INDEX.md by hand",
+      "max_score": 10
+    },
+    {
+      "name": "Status maps to index label",
+      "description": "Passes a label from the status mapping table, not the raw value",
+      "max_score": 10
+    }
+  ]
+}

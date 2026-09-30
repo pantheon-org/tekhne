@@ -1,0 +1,1 @@
+Recognise a session with nothing to checkpoint and ask before writing.

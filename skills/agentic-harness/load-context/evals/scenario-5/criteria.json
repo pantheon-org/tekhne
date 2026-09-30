@@ -1,0 +1,56 @@
+{
+  "context": "Tests the archive fallback: an archived stream loads normally but is labelled as archived.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detection covers done/",
+      "description": "The detection command includes the done/ folder",
+      "max_score": 10
+    },
+    {
+      "name": "Root miss noted",
+      "description": "Sees that the stream is not in `.context/session/`",
+      "max_score": 10
+    },
+    {
+      "name": "done/ file located",
+      "description": "Finds `CONTEXT-old-spike-llm.md` under done/",
+      "max_score": 10
+    },
+    {
+      "name": "Read from done/",
+      "description": "Reads the file at its done/ path",
+      "max_score": 10
+    },
+    {
+      "name": "Archive prefix",
+      "description": "Report starts with the archived notice including the saved status",
+      "max_score": 10
+    },
+    {
+      "name": "No not-found error",
+      "description": "Does not report the stream as missing",
+      "max_score": 10
+    },
+    {
+      "name": "No no-files message",
+      "description": "Does not use the No context files found message",
+      "max_score": 10
+    },
+    {
+      "name": "Retired context confirmed",
+      "description": "Makes clear the context is retired before it influences decisions",
+      "max_score": 10
+    },
+    {
+      "name": "Standard blocks present",
+      "description": "NextTasks, Hot Files and Next Step still appear",
+      "max_score": 10
+    },
+    {
+      "name": "Tasks not restored",
+      "description": "Archived tasks are shown, not acted on",
+      "max_score": 10
+    }
+  ]
+}

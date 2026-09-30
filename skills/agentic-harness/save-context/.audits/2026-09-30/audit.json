@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/raise-context-skill-grades/skills/agentic-harness/save-context/SKILL.md",
+  "date": "2026-09-30",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 11,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 12
+  },
+  "total": 115,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 178,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

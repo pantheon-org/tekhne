@@ -1,0 +1,1 @@
+Expand a context load with --full while keeping saved tasks read-only.

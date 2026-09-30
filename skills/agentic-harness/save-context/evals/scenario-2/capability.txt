@@ -1,0 +1,1 @@
+Save to a named stream without touching another stream's file.

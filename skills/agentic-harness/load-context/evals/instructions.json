@@ -1,34 +1,59 @@
 {
   "instructions": [
     {
-      "original_snippets": "NEVER load context from done/ without checking dates — stale context from weeks ago misleads current decisions.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
-    },
-    {
-      "original_snippets": "NEVER skip verifying the session_id after load — loading the wrong context silently diverges from the user's intent.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
-    },
-    {
-      "original_snippets": "Speed: < 3 seconds (default), 5-8 seconds (--full). Use --full only when hot files or thinking artifacts are needed.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
-    },
-    {
-      "original_snippets": "After EVERY AskUserQuestion call, check if answers are empty/blank — outside Plan Mode, AskUserQuestion silently returns empty answers.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
-    },
-    {
-      "original_snippets": "Contexts in done/ are retired — loading them requires explicit user confirmation.",
+      "original_snippets": "Use rtk for shell commands when it is installed; bare commands are also fine.",
       "why_given": "preference",
       "dimension": "D6"
     },
     {
-      "original_snippets": "NEVER treat a loaded context snapshot as a live task list — verify open tasks against current state before acting on them.",
+      "original_snippets": "Parallel tool calls: ALL independent calls in one message.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "After EVERY AskUserQuestion call, check if answers are empty/blank; fall back to a numbered text list and wait.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "NEVER load context from done/ without checking dates.",
       "why_given": "anti-pattern",
       "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER skip verifying the session_id after load.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER proceed with assumptions when AskUserQuestion returns empty.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER restore tasks from the context file as actionable work items.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "NEVER omit the archive marker when reporting a done/-sourced file.",
+      "why_given": "anti-pattern",
+      "dimension": "D3"
+    },
+    {
+      "original_snippets": "Present parsed data directly; no unnecessary synthesis.",
+      "why_given": "preference",
+      "dimension": "D6"
+    },
+    {
+      "original_snippets": "When no context files exist, output the No context files found message.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "original_snippets": "--full reads the top 3 hot files, tasks and thinking artifacts in parallel.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
     }
   ]
 }
