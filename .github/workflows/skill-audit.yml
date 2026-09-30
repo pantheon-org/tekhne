@@ -34,10 +34,20 @@ jobs:
       - name: Find changed skill dirs
         id: dirs
         run: |
-          DIRS=$(git diff --name-only --diff-filter=AM \
+          # Any change inside a skill (SKILL.md, evals/, references/, scripts/,
+          # assets/) re-audits that skill, because the auditor scores all of
+          # them. Walk each changed path up to the nearest directory that holds
+          # a SKILL.md; paths outside a skill, and deleted skills, are skipped.
+          DIRS=$(git diff --name-only --diff-filter=AMDR \
             "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
-            -- 'skills/**/SKILL.md' 2>/dev/null \
-            | xargs -I{} dirname {} | sort -u | tr '\n' ' ')
+            -- 'skills/' 2>/dev/null \
+            | while read -r f; do
+                d=$(dirname "$f")
+                while [ "$d" != "skills" ] && [ "$d" != "." ]; do
+                  if [ -f "$d/SKILL.md" ]; then echo "$d"; break; fi
+                  d=$(dirname "$d")
+                done
+              done | sort -u | tr '\n' ' ')
           echo "dirs=$DIRS" >> "$GITHUB_OUTPUT"
           [ -n "$DIRS" ] && echo "found=true" >> "$GITHUB_OUTPUT" || echo "found=false" >> "$GITHUB_OUTPUT"
 
@@ -99,9 +109,9 @@ jobs:
           fi
 
       # Consolidated grade audit via a single `batch` call (replaces a per-skill
-      # `evaluate` loop). Blocking policy is unchanged: only D/F fails the gate;
-      # C..B+ are non-blocking warnings. A skill missing from the JSON (audit
-      # error) counts as a failure too.
+      # `evaluate` loop). A grade below B (C+, C, D, F) fails the gate; B and B+
+      # are non-blocking warnings; A and A+ pass. A skill missing from the JSON
+      # (audit error) counts as a failure too.
       - name: Audit changed skills
         id: audit
         if: steps.dirs.outputs.found == 'true'
@@ -116,11 +126,11 @@ jobs:
             .[]
             | (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; "")) as $rel
             | (if (.grade == "A" or .grade == "A+") then "✅ pass"
-               elif (.grade == "D" or .grade == "F") then "❌ fail"
-               else "⚠️ warning" end) as $tier
+               elif (.grade == "B+" or .grade == "B") then "⚠️ warning"
+               else "❌ fail" end) as $tier
             | "| `\($rel)` | \(.grade) | \(.total)/\(.maxTotal) | \($tier) |"
           ' batch.json)
-          fail=$(jq '[.[] | select(.grade == "D" or .grade == "F")] | length' batch.json)
+          fail=$(jq '[.[] | select(.grade != "A" and .grade != "A+" and .grade != "B+" and .grade != "B")] | length' batch.json)
           got=$(jq 'length' batch.json)
           want=${#rels[@]}
           if [ "$got" -lt "$want" ]; then
@@ -163,8 +173,8 @@ jobs:
 
             **Gate:**
             - ✅ pass = A / A+ (≥126)
-            - ⚠️ warning = C – B+ (98–125, non-blocking)
-            - ❌ fail = D / F (<98, blocks merge)
+            - ⚠️ warning = B – B+ (112–125, non-blocking)
+            - ❌ fail = below B (<112, blocks merge)
 
             <details>
             <summary>Cross-skill duplication (advisory)</summary>
@@ -173,8 +183,8 @@ jobs:
 
             </details>
 
-      - name: Enforce gate (fail on D/F)
+      - name: Enforce gate (fail below B)
         if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail != '0'
         run: |
-          echo "::error::One or more changed skills scored below C (D/F) or could not be audited. Raise them to at least grade C to pass; grade A for a green pass."
+          echo "::error::One or more changed skills scored below B or could not be audited. Raise them to at least grade B (112/140) to pass; grade A for a green pass."
           exit 1
