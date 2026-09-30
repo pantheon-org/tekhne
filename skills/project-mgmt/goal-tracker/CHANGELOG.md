@@ -13,6 +13,8 @@ and this skill adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.h
   `status` and `check` consider only that session's goals. Parallel conversations in one
   repository each keep one active goal instead of blocking each other.
 - `session` as an optional field in `assets/templates/goal.yaml`.
+- Frontmatter values wrapped in matching single or double quotes are unquoted before
+  comparison, so `session: "conv-a"` matches `--session conv-a`.
 - `features/goal-tracker.feature`: four integration scenarios for the session scoping.
 - `evals/`: one instruction and scenario 7; coverage stays at 100% (22 of 22).
 

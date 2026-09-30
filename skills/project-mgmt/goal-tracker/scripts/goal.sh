@@ -169,7 +169,12 @@ for path in sorted(glob.glob(os.path.join(goals_dir, "*.md"))):
 
     def field(name, default=""):
         hit = re.search(rf"^{name}:\s*(.+)$", front, re.M)
-        return hit.group(1).strip() if hit else default
+        if not hit:
+            return default
+        value = hit.group(1).strip()
+        if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+            value = value[1:-1]
+        return value
 
     if field("status") != "active":
         continue

@@ -33,46 +33,63 @@ After(function (this: GoalWorld) {
   if (this.goalRoot) rmSync(this.goalRoot, { recursive: true, force: true });
 });
 
+// Write an active goal whose frontmatter carries `session: <sessionValue>`
+// verbatim, so a scenario can supply a quoted YAML value.
+const writeGoal = (
+  world: GoalWorld,
+  title: string,
+  sessionValue: string,
+): void => {
+  const file = join(
+    goalRoot(world),
+    ".context",
+    "goals",
+    `2026-09-30-${slug(title)}.md`,
+  );
+  writeFileSync(
+    file,
+    [
+      "---",
+      `title: ${title}`,
+      "type: goal",
+      "date: 2026-09-30",
+      "status: active",
+      "goal-status: new",
+      `session: ${sessionValue}`,
+      "tags: []",
+      "---",
+      "",
+      `# ${title}`,
+      "",
+      "## Done looks like",
+      "",
+      "The work is merged with its tests passing.",
+      "",
+      "## Items",
+      "",
+      "| # | Item | State | Reach | Evidence |",
+      "| - | ---- | ----- | ----- | -------- |",
+      "| 1 | Do the work | todo | local | |",
+      "",
+      "## Log",
+      "",
+      "- 2026-09-30 created, goal-status new",
+      "",
+    ].join("\n"),
+  );
+};
+
 Given(
   "a goal {string} is active for session {string}",
   function (this: GoalWorld, title: string, session: string) {
-    const file = join(
-      goalRoot(this),
-      ".context",
-      "goals",
-      `2026-09-30-${slug(title)}.md`,
-    );
-    writeFileSync(
-      file,
-      [
-        "---",
-        `title: ${title}`,
-        "type: goal",
-        "date: 2026-09-30",
-        "status: active",
-        "goal-status: new",
-        `session: ${session}`,
-        "tags: []",
-        "---",
-        "",
-        `# ${title}`,
-        "",
-        "## Done looks like",
-        "",
-        "The work is merged with its tests passing.",
-        "",
-        "## Items",
-        "",
-        "| # | Item | State | Reach | Evidence |",
-        "| - | ---- | ----- | ----- | -------- |",
-        "| 1 | Do the work | todo | local | |",
-        "",
-        "## Log",
-        "",
-        "- 2026-09-30 created, goal-status new",
-        "",
-      ].join("\n"),
-    );
+    writeGoal(this, title, session);
+  },
+);
+
+Given(
+  "a goal {string} has its session written as {string}",
+  function (this: GoalWorld, title: string, sessionValue: string) {
+    writeGoal(this, title, sessionValue);
   },
 );
 

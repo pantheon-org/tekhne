@@ -29,3 +29,14 @@ Feature: goal-tracker keeps one active goal per session
     When I create the goal "Write the docs" for session "s-three"
     Then the exit code should be 0
     And the new goal file should contain "session: s-three"
+
+  Scenario Outline: A quoted session value still matches
+    Given a goal "Ship the importer" has its session written as <value>
+    When I run the goal status for session "s-one"
+    Then the exit code should be 0
+    And the output should contain "Ship the importer"
+
+    Examples:
+      | value       |
+      | '"s-one"'   |
+      | "'s-one'"   |
