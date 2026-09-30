@@ -1,0 +1,1 @@
+Keep an unfinished goal active and write a linked handover when the user wraps up with items open.

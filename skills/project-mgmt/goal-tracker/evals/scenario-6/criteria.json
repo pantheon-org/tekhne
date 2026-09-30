@@ -1,0 +1,37 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates the end-of-conversation rule: when the user wraps up with items open, the goal stays active, a handover is written and linked from its log, and both are persisted where the next session reads them. Covers the persistence step in the Workflow and the wrap-up handover step.",
+  "checklist": [
+    {
+      "name": "Goal not closed",
+      "description": "goal-status is not set to completed or promoted while items 3 and 4 are open",
+      "max_score": 22
+    },
+    {
+      "name": "Goal stays active",
+      "description": "status stays active and goal-status in-progress",
+      "max_score": 10
+    },
+    {
+      "name": "Handover written",
+      "description": "A handover with context, progress and next step is written with handover-document-creator",
+      "max_score": 22
+    },
+    {
+      "name": "Handover linked from log",
+      "description": "The goal's log gains a dated line linking the handover",
+      "max_score": 14
+    },
+    {
+      "name": "Persisted for the next session",
+      "description": "The goal file and handover are committed where the next session reads them",
+      "max_score": 20
+    },
+    {
+      "name": "Open items reported",
+      "description": "The report names what is done, what is open, and the handover's path",
+      "max_score": 12
+    }
+  ]
+}

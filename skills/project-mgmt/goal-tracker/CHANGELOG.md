@@ -5,6 +5,27 @@ All notable changes to the goal-tracker skill.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this skill adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-09-30
+
+### Added
+
+- Projects that require a goal for every conversation: draft the goal from the first
+  request and start work only once the user confirms or corrects it.
+- Persist each change to the goal file in the same turn, wherever the next session reads
+  it, so an unfinished goal survives a removed worktree.
+- When the user wraps up with items open, keep the goal active and write a linked
+  handover with `handover-document-creator`.
+- Anti-pattern: never start work on an unconfirmed goal.
+- `evals/`: three instructions and scenarios 5 and 6 for the rules above; coverage stays
+  at 100% (21 of 21).
+
+### Changed
+
+- `SKILL.md` tightened to raise the skill audit from 124/140 (B+) to 128/140 (A): the body
+  is under 1200 tokens, more sentences lead with the action, References is a bullet list
+  that keeps each load condition, and the duplicated `check` output now lives only in
+  `references/file-shape.md`.
+
 ## [1.2.0] - 2026-09-14
 
 ### Changed

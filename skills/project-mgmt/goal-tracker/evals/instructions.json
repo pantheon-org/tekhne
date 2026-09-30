@@ -89,6 +89,21 @@
       "content": "An item declares its reach when it is written, not when it closes, so the confirmation rule cannot be quietly dropped by deciding reach in whichever direction lets the item close.",
       "type": "guidance",
       "why_given": "new knowledge"
+    },
+    {
+      "content": "A drafted goal is shown to the user with its items, and work starts only once the user confirms or corrects it, so the goal is the user's end state rather than the agent's reading of the request.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Every change to the goal file is persisted in the same turn wherever the next session reads it, for example committed when goals are read from the main branch, because an uncommitted goal in a removed worktree cannot be picked up.",
+      "type": "guidance",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "When the user wraps up with items still open, the goal stays active and a handover is written with handover-document-creator and linked from the log, so the next session resumes from the goal and the handover together.",
+      "type": "guidance",
+      "why_given": "new knowledge"
     }
   ]
 }
