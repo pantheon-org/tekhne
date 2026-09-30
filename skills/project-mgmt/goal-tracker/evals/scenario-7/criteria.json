@@ -1,0 +1,27 @@
+{
+  "type": "weighted_checklist",
+  "max_output_tokens": 4096,
+  "context": "Evaluates the per-session rule: when goals carry a session, the agent reads its own conversation's goal with --session and leaves other conversations' goals alone. Covers Core Rule 1 per session and the --session guidance in the Workflow.",
+  "checklist": [
+    {
+      "name": "Status run with the session",
+      "description": "The agent runs goal.sh status with --session conv-a",
+      "max_score": 30
+    },
+    {
+      "name": "Only its own goal reported",
+      "description": "The answer covers the conv-a goal and none of the conv-b goal's items",
+      "max_score": 30
+    },
+    {
+      "name": "Other goal left alone",
+      "description": "The conv-b goal is not closed, promoted or edited",
+      "max_score": 30
+    },
+    {
+      "name": "Summary reported verbatim",
+      "description": "The rendered summary is reported as printed, not paraphrased",
+      "max_score": 10
+    }
+  ]
+}

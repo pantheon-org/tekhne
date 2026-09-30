@@ -3,7 +3,7 @@ name: goal-tracker
 description: "Record a session goal as a dated file with items plus evidence, keep its status current, then answer \"what's left\" in under 100 words: achieved, parked, still open. Use when the user states a session goal, asks what's left, what's outstanding, what's still open, whether the goal is met, are we done, where the session got to. Also use to park an item, to promote an overgrown goal into a plan, to close a goal out."
 license: MIT
 metadata:
-  version: "1.3.0"
+  version: "1.4.0"
   audience: agents
   workflow: planning, tracking, session-management
 ---
@@ -37,7 +37,7 @@ re-check it. Leave work that left the repository for its owner to close.
 
 ## Core Rules
 
-1. Keep exactly one goal active. Replace the first or fold it in; never run two.
+1. Keep exactly one goal active per session. Replace the first or fold it in; never run two.
 2. Demand evidence before `done`. Park unconfirmed outside work at `awaiting`.
 3. File a follow-up the same turn you park an item, then delete its row.
 4. Record a promoted goal as `promoted`. Never as `completed`.
@@ -50,6 +50,8 @@ and `guided-interview` when its items hinge on an unmade choice. Otherwise draft
 ```bash
 ./scripts/goal.sh new "Rotate the exposed token and unblock Phase 1"
 ```
+
+Pass `--session <id>` (or `GOAL_SESSION`) when conversations share the repository.
 
 Check the draft with the user. Start work only once they confirm or correct it.
 
@@ -120,7 +122,7 @@ goal-status: new      # new | in-progress | completed | promoted
 
 Then confirm each of these:
 
-- Exactly one goal file carries `status: active`.
+- Exactly one goal file per session carries `status: active`.
 - Every `done` item has evidence; every outside one cites a dated user confirmation.
 - Item count is five or fewer, or promotion fired.
 - The log has a dated line per state change.
@@ -128,8 +130,8 @@ Then confirm each of these:
 
 ## References
 
-- [Clarity Test](references/clarity-test.md): the three clarity checks. Load when a new goal does not yet name a checkable end state.
-- [Evidence](references/evidence.md): local versus outside reach. Load when closing any item.
-- [Promotion](references/promotion.md): triggers and the goal-to-plan handover. Load when an item was just added, or the goal holds five.
-- [Goal Schema](assets/templates/goal.yaml): the goal file contract. Load when hand-authoring or repairing a goal.
-- [File Shape](references/file-shape.md): worked example, status pairing and `check` failures. Load when diagnosing a failing check.
+- [Clarity Test](references/clarity-test.md): load when a new goal lacks a checkable end state.
+- [Evidence](references/evidence.md): load when closing any item.
+- [Promotion](references/promotion.md): load when an item was just added, or the goal holds five.
+- [Goal Schema](assets/templates/goal.yaml): load when hand-authoring or repairing a goal.
+- [File Shape](references/file-shape.md): load when diagnosing a failing check.

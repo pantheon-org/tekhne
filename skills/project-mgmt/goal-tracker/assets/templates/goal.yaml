@@ -60,6 +60,12 @@ frontmatter:
       description: "Relative paths to related context files. On promotion, carries the plan's path"
       validation: "Omit the field entirely when empty; never emit an empty list"
 
+    - name: session
+      type: string
+      description: "The conversation the goal belongs to, when several work in one repository at once"
+      example: "0f6c2a91-conversation-id"
+      validation: "Written by goal.sh new --session; omit when no session is in use"
+
 # Required body sections, in this order
 sections:
   - heading: "# <title>"
@@ -127,7 +133,7 @@ sections:
 
 # Enforced by scripts/goal.sh check; see references/file-shape.md for the messages
 validation_rules:
-  - "Exactly one goal file carries status: active"
+  - "Exactly one goal file carries status: active, per session when goals carry one"
   - "No item is state done with an empty Evidence cell"
   - "No item with reach outside is done without a recorded user confirmation"
   - "State is one of todo, awaiting, done; reach is one of local, outside"

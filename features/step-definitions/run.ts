@@ -61,3 +61,16 @@ export const runValidatorStructure = (
     ),
   );
 };
+
+const GOAL_SCRIPT = "skills/project-mgmt/goal-tracker/scripts/goal.sh";
+
+// Run the goal-tracker script. CLAUDE_PROJECT_DIR and GOAL_SESSION are cleared
+// so the scenario's --root and --session are the only inputs.
+export const runGoalScript = (cwd: string, args: string[]): CommandResult => {
+  const env = { ...process.env };
+  delete env.CLAUDE_PROJECT_DIR;
+  delete env.GOAL_SESSION;
+  return capture(
+    spawnSync("bash", [GOAL_SCRIPT, ...args], { cwd, encoding: "utf-8", env }),
+  );
+};

@@ -104,6 +104,11 @@
       "content": "When the user wraps up with items still open, the goal stays active and a handover is written with handover-document-creator and linked from the log, so the next session resumes from the goal and the handover together.",
       "type": "guidance",
       "why_given": "new knowledge"
+    },
+    {
+      "content": "When several conversations share a repository, each goal is recorded with its session and status or check are run with that session, so one active goal is enforced per conversation rather than per repository.",
+      "type": "guidance",
+      "why_given": "new knowledge"
     }
   ]
 }

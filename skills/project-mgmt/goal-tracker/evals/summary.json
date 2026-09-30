@@ -1,8 +1,8 @@
 {
   "instructions_coverage": {
     "coverage_percentage": 100,
-    "total_instructions": 21,
-    "covered_instructions": 21,
-    "scenario_count": 6
+    "total_instructions": 22,
+    "covered_instructions": 22,
+    "scenario_count": 7
   }
 }
