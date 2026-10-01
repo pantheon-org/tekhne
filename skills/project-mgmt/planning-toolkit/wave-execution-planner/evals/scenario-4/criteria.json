@@ -1,0 +1,61 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Start Wave 2 While Wave 1 Verification Is Incomplete.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "blocks-wave-2-advancement",
+      "description": "Agent explicitly refuses to mark Wave 2 as in-progress or start any Wave 2 task, citing the incomplete Wave 1 verification gate",
+      "max_score": 9
+    },
+    {
+      "name": "identifies-specific-failing-check",
+      "description": "Agent names the specific verification check that has not passed (`bun run test:e2e pipeline`)",
+      "max_score": 9
+    },
+    {
+      "name": "wave-2-document-unchanged",
+      "description": "The wave document is not modified: Wave 2 remains PENDING and no task under Wave 2 is marked in-progress",
+      "max_score": 9
+    },
+    {
+      "name": "explains-gate-rule",
+      "description": "Agent articulates the gate rule: Wave N+1 cannot start until ALL Wave N verification checks are confirmed, regardless of flakiness concerns",
+      "max_score": 9
+    },
+    {
+      "name": "provides-path-to-unblock",
+      "description": "Agent tells the user what they need to do next: confirm the e2e test passes (or tick it off if they accept the risk) before Wave 2 can begin",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Marks Wave 2 as in-progress or starts...",
+      "description": "Failure avoided: Marks Wave 2 as in-progress or starts any Wave 2 task despite the incomplete gate",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Does not identify the specific failing check...",
+      "description": "Failure avoided: Does not identify the specific failing check by name",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Modifies the wave document (even partially) while...",
+      "description": "Failure avoided: Modifies the wave document (even partially) while Wave 1 has an unconfirmed check",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Does not articulate the gate rule",
+      "description": "Failure avoided: Does not articulate the gate rule",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Does not tell the user what action...",
+      "description": "Failure avoided: Does not tell the user what action is needed to unblock Wave 2",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Accepts the user's \"flaky test\" rationale and...",
+      "description": "Failure avoided: Accepts the user's \"flaky test\" rationale and proceeds anyway",
+      "max_score": 10
+    }
+  ]
+}

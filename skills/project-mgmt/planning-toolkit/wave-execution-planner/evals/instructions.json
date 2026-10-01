@@ -1,0 +1,142 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Waves enforce ordering, not scheduling: a wave boundary exists only where a real dependency forces sequential execution, and parallel is the default",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "One branch per parallel workstream: each phase in a parallel wave gets its own branch and worktree, and agents never share a working tree",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "The wave document is the source of truth: status lives in the wave plan, not in individual task files",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Gates before advancing: ALWAYS verify the current wave fully passes before starting the next one",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Every wave boundary must be a safe deploy point; avoid stranded consumers, premature consumers and breaking contract changes by using must land together grouping or expand-contract sequencing",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Use Mode A for new requirements or an existing flat plan, and Mode B when a wave document exists and tasks have been completed",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Extract every task with an ID, description and explicit dependencies; if none are stated, infer from logical ordering (a test task depends on its implementation task)",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Build the dependency DAG from the extracted tasks",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "Assign waves: Wave 1 is tasks with no dependencies; Wave N is tasks whose dependencies are all in waves 1 to N-1",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I10",
+      "content": "Mark a wave with more than one independent task parallel, and a wave with one task or tasks that must run in order sequential",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I11",
+      "content": "Apply the safe intermediate state check to every wave boundary and merge both sides into a single must land together wave if existing functionality would break",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Write the wave document as plans/<plan-slug>.md in the context directory using the wave-format reference",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Validate that every task appears in exactly one wave and no wave contains tasks that depend on each other",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I14",
+      "content": "In Mode B, read the wave document, run the completed wave's Verification commands, update statuses, append DONE to the wave heading, announce the next unblocked wave and its mode, and save",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Mark a blocked task with the Blocked status and add a BLOCKED note",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER put dependent tasks in the same wave",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER label a wave parallel if it contains only one task",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER advance to Wave N+1 before Wave N verification passes",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER track status inside individual task files",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER invent dependencies that are not stated in the requirements",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "NEVER create an unsafe intermediate deploy state at a wave boundary",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I22",
+      "content": "ALWAYS run the verification checklist before declaring a wave done",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I23",
+      "content": "Do not use the skill when the plan has only 1 to 2 tasks with no parallelism, or when all tasks are sequential; a checklist or single branch is simpler",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 23,
+    "covered_instructions": 23,
+    "scenario_count": 10,
+    "coverage_map": {
+      "I01": ["scenario-9"],
+      "I02": ["scenario-1", "scenario-2", "scenario-5"],
+      "I03": ["scenario-3"],
+      "I04": ["scenario-4"],
+      "I05": ["scenario-6"],
+      "I06": ["scenario-9"],
+      "I07": ["scenario-9"],
+      "I08": ["scenario-1", "scenario-2", "scenario-5"],
+      "I09": ["scenario-1", "scenario-2", "scenario-5", "scenario-9"],
+      "I10": ["scenario-1", "scenario-2", "scenario-5"],
+      "I11": ["scenario-6"],
+      "I12": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-5",
+        "scenario-6",
+        "scenario-7"
+      ],
+      "I13": ["scenario-1", "scenario-2", "scenario-5", "scenario-9"],
+      "I14": ["scenario-3", "scenario-10"],
+      "I15": ["scenario-10"],
+      "I16": ["scenario-1", "scenario-2", "scenario-5"],
+      "I17": ["scenario-1", "scenario-2", "scenario-5", "scenario-8"],
+      "I18": ["scenario-4", "scenario-10"],
+      "I19": ["scenario-3", "scenario-10"],
+      "I20": ["scenario-2", "scenario-5", "scenario-9"],
+      "I21": ["scenario-6"],
+      "I22": ["scenario-3", "scenario-4"],
+      "I23": ["scenario-8"]
+    },
+    "notes": "Scenarios 8 to 10 were added to cover the too-small plan exclusion, inferring dependencies from a flat plan, and blocked-task handling."
+  }
+}

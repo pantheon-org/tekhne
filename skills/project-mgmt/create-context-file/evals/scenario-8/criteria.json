@@ -1,0 +1,61 @@
+{
+  "context": "Checks that the agent insists on the generator, a specific title and verifying the printed path.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Declines to hand-craft the file",
+      "description": "Does not write the file manually",
+      "max_score": 10
+    },
+    {
+      "name": "States the generator owns filename and frontmatter",
+      "description": "Says the generator must own both",
+      "max_score": 9
+    },
+    {
+      "name": "Rejects the non-ISO date",
+      "description": "Identifies date: 21 July as invalid and the date as generator-produced ISO",
+      "max_score": 9
+    },
+    {
+      "name": "Rejects the generic title",
+      "description": "Identifies plan or my-plan as a vague slug",
+      "max_score": 9
+    },
+    {
+      "name": "Runs the generator script",
+      "description": "Uses ./scripts/create-context-file.sh",
+      "max_score": 9
+    },
+    {
+      "name": "Uses --type plans",
+      "description": "Passes --type plans",
+      "max_score": 9
+    },
+    {
+      "name": "Uses a specific, task-tied title",
+      "description": "Title mentions migrating the billing queue to the new broker",
+      "max_score": 9
+    },
+    {
+      "name": "Explains date prefix purpose",
+      "description": "Says the date prefix and ISO date drive sorting and tooling",
+      "max_score": 9
+    },
+    {
+      "name": "Verifies the printed path",
+      "description": "Checks the printed path shows plans and today's date",
+      "max_score": 9
+    },
+    {
+      "name": "Fills the body beneath the generated heading",
+      "description": "Adds content under the generated heading instead of rewriting the header",
+      "max_score": 9
+    },
+    {
+      "name": "Does not mix other content",
+      "description": "Keeps only the migration plan in the file",
+      "max_score": 9
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Determine When a Context File Is NOT the Right Tool.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Request 1 correctly declined (issue tracker)",
+      "description": "`tool-selection.md` states Request 1 is NOT appropriate and recommends an issue tracker",
+      "max_score": 10
+    },
+    {
+      "name": "Request 2 correctly declined (code comment)",
+      "description": "`tool-selection.md` states Request 2 is NOT appropriate and recommends a code comment",
+      "max_score": 10
+    },
+    {
+      "name": "Request 3 correctly declined (README/docs)",
+      "description": "`tool-selection.md` states Request 3 is NOT appropriate and recommends README or `/docs`",
+      "max_score": 10
+    },
+    {
+      "name": "Request 4 correctly approved as findings",
+      "description": "`tool-selection.md` approves Request 4 as a `findings` file",
+      "max_score": 10
+    },
+    {
+      "name": "Reasoning references skill rules",
+      "description": "each decision references the relevant \"Do NOT use for\" rule or typology guide entry",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Approves a context file for Request 1...",
+      "description": "Failure avoided: Approves a context file for Request 1 instead of directing to an issue tracker",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Approves a context file for Request 2...",
+      "description": "Failure avoided: Approves a context file for Request 2 instead of directing to a code comment",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Approves a context file for Request 3...",
+      "description": "Failure avoided: Approves a context file for Request 3 instead of directing to README or docs",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Declines Request 4, or classifies it as...",
+      "description": "Failure avoided: Declines Request 4, or classifies it as a typology other than `findings`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Provides decisions without referencing the skill's rules",
+      "description": "Failure avoided: Provides decisions without referencing the skill's rules",
+      "max_score": 10
+    }
+  ]
+}

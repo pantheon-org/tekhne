@@ -1,0 +1,1 @@
+Tests Mode B handling of a blocked task and refusing to close the wave.

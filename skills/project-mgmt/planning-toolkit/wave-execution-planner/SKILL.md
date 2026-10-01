@@ -2,7 +2,7 @@
 name: wave-execution-planner
 description: "Groups plan phases and tasks into dependency-ordered waves for parallel subagent execution via git worktrees. Builds a task dependency DAG, assigns wave numbers via topological sort, emits a living wave document that tracks status as work lands, and updates wave progress when tasks complete. Use when asked to: group tasks into waves, plan parallel execution, schedule worktrees, create a wave breakdown, wave planning, dependency grouping, update wave statuses, parallel subagents, which tasks can run in parallel."
 license: MIT
-compatibility: opencode
+compatibility: any agent runtime that can run subagents in git worktrees
 metadata:
   version: 1.0.0
   audience: agents
@@ -75,7 +75,7 @@ See [references/wave-format.md](references/wave-format.md) for output format and
 3. **Build dependency DAG** — see [references/dependency-analysis.md](references/dependency-analysis.md).
 4. **Assign waves** — Wave 1 = tasks with no dependencies; Wave N = tasks whose all dependencies are in waves 1..N-1.
 5. **Decide execution mode** — a wave with >1 independent task is `parallel`; a wave with 1 task (or tasks that must run in order) is `sequential`. Then apply the **safe intermediate state check** to every wave boundary: *"If this wave deploys and the next has not landed yet, does any existing functionality break?"* If yes, merge the tasks on both sides of that boundary into a single **must land together** wave — see [references/dependency-analysis.md](references/dependency-analysis.md) for patterns and detection guidance.
-6. **Write output** — emit `<plan-slug>.md` to `.context/plans/` using the format in [references/wave-format.md](references/wave-format.md).
+6. **Write output**: emit `<plan-slug>.md` to the plans location shown in Quick Start, using the format in [references/wave-format.md](references/wave-format.md).
 7. **Validate** — every task appears in exactly one wave; no wave contains tasks that depend on each other.
 
 ## Mode B — Update Wave Status
@@ -84,7 +84,7 @@ See [references/status-tracking.md](references/status-tracking.md) for the full 
 
 ### Steps
 
-1. **Read wave document** — load the current `.context/plans/<slug>.md`.
+1. **Read wave document**: load the current wave document for the plan slug (see Quick Start for its location).
 2. **Run verification gate** — execute the commands listed in the completed wave's `Verification:` checklist:
    ```bash
    # example gate for a test-coverage wave
@@ -107,25 +107,79 @@ Pending  →  In Progress  →  Done
 
 ## Anti-patterns
 
-- **NEVER put dependent tasks in the same wave.**
-  WHY: agents working in parallel worktrees assume no ordering — placing dependent tasks together causes undefined behaviour or overwrite conflicts.
+Each entry gives the rule, **WHY** it exists, then a **BAD** and **GOOD** example.
 
-- **NEVER label a wave parallel if it contains only one task.**
-  WHY: parallel signals subagent tooling to spin up worktrees; a single-task wave wastes setup overhead and misleads reviewers.
+### NEVER put dependent tasks in the same wave
 
-- **NEVER advance to Wave N+1 before Wave N verification passes.**
-  WHY: a broken merge point in production compounds into every parallel branch; early detection is always cheaper.
+**WHY:** agents working in parallel worktrees assume no ordering, so placing dependent tasks together causes undefined behaviour or overwrite conflicts.
 
-- **NEVER track status inside individual task files.**
-  WHY: distributed status creates stale reads and coordination failures when multiple agents update concurrently.
+**BAD:** `Wave 2 (parallel): scaffold-cli, add-commands` where the commands need the scaffold.
 
-- **NEVER invent dependencies that are not stated in the requirements.**
-  WHY: fabricated ordering reduces parallelism, slows execution, and breaks the contract between the plan and the actual work.
+**GOOD:** `Wave 2: scaffold-cli`, then `Wave 3 (parallel): command-A, command-B, command-C`.
 
-- **NEVER create an unsafe intermediate deploy state at a wave boundary.**
-  WHY: each wave merge is a potential release point. Runtime dependencies — config values, API contracts, schema columns, env vars, permission grants, event topics — are invisible to the code-level DAG but fatal when missequenced. Three failure modes: (1) **stranded consumer** — a resource is removed before all code that uses it is also removed or updated; (2) **premature consumer** — code that requires a resource (new env var, schema column, endpoint) deploys before that resource exists; (3) **breaking contract change** — an interface changes incompatibly before all consumers are updated. Group tasks that must deploy atomically into a single **must land together** wave, or use explicit expand-contract sequencing across waves. See [references/dependency-analysis.md](references/dependency-analysis.md).
+### NEVER label a wave parallel if it contains only one task
 
-- **ALWAYS run the verification checklist before declaring a wave done** — "it looks right" is not a gate.
+**WHY:** parallel signals subagent tooling to spin up worktrees; a single-task wave wastes setup overhead and misleads reviewers.
+
+**BAD:** `Wave 1 (parallel): extract-lib`.
+
+**GOOD:** `Wave 1 (sequential): extract-lib`.
+
+### NEVER advance to Wave N+1 before Wave N verification passes
+
+**WHY:** a broken merge point in production compounds into every parallel branch; early detection is always cheaper.
+
+**BAD:** mark Wave 2 in progress while one Wave 1 verification check is still unticked.
+
+**GOOD:** name the failing check, hold Wave 2 as pending, and tell the user what must pass first.
+
+### NEVER track status inside individual task files
+
+**WHY:** distributed status creates stale reads and coordination failures when multiple agents update concurrently.
+
+**BAD:** add a `status: done` line to each phase file and treat those as the record.
+
+**GOOD:** update checkboxes or the `Status` column in the single wave document.
+
+### NEVER invent dependencies that are not stated in the requirements
+
+**WHY:** fabricated ordering reduces parallelism, slows execution, and breaks the contract between the plan and the actual work.
+
+**BAD:** serialise two unrelated documentation tasks because they "feel" related.
+
+**GOOD:** infer only logical ordering (a test task depends on its implementation task) and leave the rest parallel.
+
+### NEVER create an unsafe intermediate deploy state at a wave boundary
+
+**WHY:** each wave merge is a potential release point. Runtime dependencies (config values, API contracts, schema columns, env vars, permission grants, event topics) are invisible to the code-level DAG but fatal when missequenced. Three failure modes: (1) **stranded consumer**, a resource is removed before all code that uses it is also removed or updated; (2) **premature consumer**, code that requires a resource (new env var, schema column, endpoint) deploys before that resource exists; (3) **breaking contract change**, an interface changes incompatibly before all consumers are updated.
+
+**BAD:** Wave 1 removes an SDK-backed infrastructure resource and Wave 2 updates the services that still call it.
+
+**GOOD:** group tasks that must deploy atomically into a single **must land together** wave, or use explicit expand-contract sequencing across waves. See [references/dependency-analysis.md](references/dependency-analysis.md).
+
+### NEVER share a working tree between parallel agents
+
+**WHY:** agents editing the same tree overwrite each other and leave no clean merge point per workstream.
+
+**BAD:** two phases in a parallel wave both commit to the same branch checkout.
+
+**GOOD:** each phase in a parallel wave gets its own branch and worktree, listed in the Branch Strategy table.
+
+### NEVER declare a wave done without running its verification checklist
+
+**WHY:** "it looks right" is not a gate, and an unverified wave hides defects until the next merge.
+
+**BAD:** append `— DONE` to the wave heading after reading the diff.
+
+**GOOD:** run every command in the wave's `Verification:` list, tick each item, and only then mark the wave done.
+
+### NEVER leave a task missing from, or duplicated across, the waves
+
+**WHY:** a task absent from every wave is never executed, and one present in two waves is built twice.
+
+**BAD:** a plan with nine tasks whose waves list eight, or list one task twice.
+
+**GOOD:** validate that every task appears in exactly one wave before writing the output.
 
 ## References
 

@@ -1,0 +1,56 @@
+{
+  "context": "Checks that a blocked task gets a BLOCKED note and the wave and next wave are not advanced.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Reads the wave document first",
+      "description": "Loads the existing wave document before changing it",
+      "max_score": 10
+    },
+    {
+      "name": "Ticks the finished tasks",
+      "description": "T2.1 and T2.3 are marked done",
+      "max_score": 10
+    },
+    {
+      "name": "Marks T2.2 as blocked",
+      "description": "T2.2 status is set to Blocked",
+      "max_score": 10
+    },
+    {
+      "name": "Adds a BLOCKED note",
+      "description": "A BLOCKED note records the stuck staging migration",
+      "max_score": 10
+    },
+    {
+      "name": "Does not mark Wave 2 done",
+      "description": "The Wave 2 heading does not get DONE appended",
+      "max_score": 10
+    },
+    {
+      "name": "Does not start Wave 3",
+      "description": "Wave 3 is not marked in progress",
+      "max_score": 10
+    },
+    {
+      "name": "Explains the gate",
+      "description": "States that the wave verification cannot pass while a task is blocked",
+      "max_score": 10
+    },
+    {
+      "name": "Does not track status elsewhere",
+      "description": "No separate task file or side note records the status",
+      "max_score": 10
+    },
+    {
+      "name": "Saves the updated document",
+      "description": "Writes the changes back to the single wave document",
+      "max_score": 10
+    },
+    {
+      "name": "States what is needed to proceed",
+      "description": "Says the blocker must be cleared and verification run before Wave 3",
+      "max_score": 10
+    }
+  ]
+}

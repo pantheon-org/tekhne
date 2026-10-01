@@ -1,0 +1,61 @@
+{
+  "context": "Checks Mode A selection, logical dependency inference only, parallel by default, and no fabricated ordering.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Treats the request as Mode A from an existing plan",
+      "description": "Builds a new wave document from the flat plan",
+      "max_score": 10
+    },
+    {
+      "name": "Extracts all five tasks with IDs",
+      "description": "Lists A to E with descriptions and dependencies",
+      "max_score": 9
+    },
+    {
+      "name": "Infers tests depend on the writer",
+      "description": "Places C after B",
+      "max_score": 9
+    },
+    {
+      "name": "Does not serialise the docs task",
+      "description": "D is not made to depend on unrelated tasks",
+      "max_score": 9
+    },
+    {
+      "name": "Parallel is the default",
+      "description": "Independent tasks are placed together in a parallel wave",
+      "max_score": 9
+    },
+    {
+      "name": "Wave 1 holds tasks with no dependencies",
+      "description": "Wave 1 contains only tasks with no dependencies",
+      "max_score": 9
+    },
+    {
+      "name": "Later waves hold only satisfied dependencies",
+      "description": "Each later wave's tasks have all dependencies in earlier waves",
+      "max_score": 9
+    },
+    {
+      "name": "No intra-wave dependencies",
+      "description": "B and C are not in the same wave",
+      "max_score": 9
+    },
+    {
+      "name": "Every task appears exactly once",
+      "description": "All five tasks are present with no duplicates",
+      "max_score": 9
+    },
+    {
+      "name": "Marks inferred dependencies as inferred",
+      "description": "States which ordering was inferred rather than stated",
+      "max_score": 9
+    },
+    {
+      "name": "Does not invent ordering for E",
+      "description": "The UI button is not made to depend on the docs or the tests without a stated reason",
+      "max_score": 9
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Identify Anti-Patterns in Context File Usage.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Skipping pre-creation check identified",
+      "description": "`antipattern-review.md` flags the failure to check the existing `.context/` structure first",
+      "max_score": 10
+    },
+    {
+      "name": "Generic slug identified",
+      "description": "`antipattern-review.md` flags `notes` as a generic slug that violates the naming rule",
+      "max_score": 10
+    },
+    {
+      "name": "Mixed typologies identified",
+      "description": "`antipattern-review.md` identifies that the proposal mixes `findings`, `guides`, and `plans` in one file",
+      "max_score": 10
+    },
+    {
+      "name": "Missing frontmatter and date identified",
+      "description": "`antipattern-review.md` flags skipping frontmatter and dropping the date prefix as convention violations",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected plan provided",
+      "description": "`antipattern-review.md` ends with three separate date-prefixed files under the correct typologies, with specific slugs, frontmatter, and a pre-creation check",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Fails to flag the missing pre-creation check",
+      "description": "Failure avoided: Fails to flag the missing pre-creation check",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Accepts the generic `notes` slug without flagging...",
+      "description": "Failure avoided: Accepts the generic `notes` slug without flagging it",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not identify that the file mixes...",
+      "description": "Failure avoided: Does not identify that the file mixes three typologies",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not flag the missing frontmatter or...",
+      "description": "Failure avoided: Does not flag the missing frontmatter or the dropped date prefix",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Provides no corrected plan, or one that...",
+      "description": "Failure avoided: Provides no corrected plan, or one that still has the same violations",
+      "max_score": 10
+    }
+  ]
+}

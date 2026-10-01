@@ -1,0 +1,61 @@
+{
+  "context": "Checks reuse of the closest typology, use of --dry-run and a deliberate approach to extending the set.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Reuses the closest typology for the one-off",
+      "description": "Places the spike note in an existing typology such as findings or research",
+      "max_score": 10
+    },
+    {
+      "name": "Does not create a bespoke folder for the one-off",
+      "description": "Does not introduce a new folder for a single throwaway note",
+      "max_score": 9
+    },
+    {
+      "name": "Explains the curated set rationale",
+      "description": "Says ad-hoc folders erode the curated set that keeps context navigable",
+      "max_score": 9
+    },
+    {
+      "name": "Previews with --dry-run",
+      "description": "Runs the generator with --dry-run before creating the file",
+      "max_score": 9
+    },
+    {
+      "name": "States dry-run writes nothing",
+      "description": "Says dry-run prints the target path and body without writing",
+      "max_score": 9
+    },
+    {
+      "name": "Uses a specific title",
+      "description": "The title names the vendor library spike, not notes or spike",
+      "max_score": 9
+    },
+    {
+      "name": "Recurring case is a deliberate decision",
+      "description": "Treats the recurring experiments case as a deliberate extension, not a per-task choice",
+      "max_score": 9
+    },
+    {
+      "name": "Mentions --allow-new-type for a knowing one-off",
+      "description": "Says --allow-new-type exists for a deliberate one-off typology",
+      "max_score": 9
+    },
+    {
+      "name": "Mentions permanent addition route",
+      "description": "Says a permanent typology is added to the curated list in the generator script",
+      "max_score": 9
+    },
+    {
+      "name": "Checks existing files first",
+      "description": "Lists the target typology folder before creating",
+      "max_score": 9
+    },
+    {
+      "name": "Verifies printed path",
+      "description": "Confirms the printed path has the expected typology and date",
+      "max_score": 9
+    }
+  ]
+}

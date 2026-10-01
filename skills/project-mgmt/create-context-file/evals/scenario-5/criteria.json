@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Decompose a Multi-Need Request by Typology.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Three distinct needs identified",
+      "description": "`typology-breakdown.md` identifies investigation, implementation steps, and a reusable how-to",
+      "max_score": 8
+    },
+    {
+      "name": "Investigation mapped to findings",
+      "description": "the investigation write-up maps to `findings`",
+      "max_score": 8
+    },
+    {
+      "name": "Implementation mapped to plans",
+      "description": "the implementation tracking maps to `plans`",
+      "max_score": 8
+    },
+    {
+      "name": "How-to mapped to guides",
+      "description": "the reusable how-to maps to `guides`",
+      "max_score": 8
+    },
+    {
+      "name": "Specific date-prefixed filenames provided",
+      "description": "each file has a `YYYY-MM-DD-slug.md` name with a specific slug (not `notes`/`todo`) under the correct typology folder",
+      "max_score": 8
+    },
+    {
+      "name": "Lifecycle expectations provided",
+      "description": "each file has an explicit lifecycle statement",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Identifies fewer than three distinct needs, collapsing...",
+      "description": "Failure avoided: Identifies fewer than three distinct needs, collapsing them into one file",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Maps the investigation to a typology other...",
+      "description": "Failure avoided: Maps the investigation to a typology other than `findings`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Maps the implementation steps to a typology...",
+      "description": "Failure avoided: Maps the implementation steps to a typology other than `plans`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Maps the how-to to a typology other...",
+      "description": "Failure avoided: Maps the how-to to a typology other than `guides`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Provides generic slugs, or filenames without the...",
+      "description": "Failure avoided: Provides generic slugs, or filenames without the ISO date prefix",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Omits lifecycle expectations for one or more...",
+      "description": "Failure avoided: Omits lifecycle expectations for one or more files",
+      "max_score": 12
+    }
+  ]
+}

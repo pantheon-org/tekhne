@@ -1,0 +1,56 @@
+{
+  "context": "Checks that the agent declines a full wave document for a trivial sequential plan and offers a simpler form.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises the plan is too small",
+      "description": "States the plan has only two tasks with no parallelism",
+      "max_score": 10
+    },
+    {
+      "name": "Does not generate a multi-wave document",
+      "description": "Does not produce a full wave plan with branch strategy tables",
+      "max_score": 10
+    },
+    {
+      "name": "Offers a plain checklist",
+      "description": "Suggests a simple ordered checklist instead",
+      "max_score": 10
+    },
+    {
+      "name": "Mentions a single branch",
+      "description": "Says a single branch is enough",
+      "max_score": 10
+    },
+    {
+      "name": "Notes the tasks are fully sequential",
+      "description": "Says task 2 depends on task 1 so no independent workstream exists",
+      "max_score": 10
+    },
+    {
+      "name": "Does not label anything parallel",
+      "description": "No wave or task is labelled parallel",
+      "max_score": 10
+    },
+    {
+      "name": "Does not invent extra tasks",
+      "description": "Does not add tasks beyond the two stated",
+      "max_score": 10
+    },
+    {
+      "name": "Does not create separate worktrees",
+      "description": "Does not set up one worktree per task",
+      "max_score": 10
+    },
+    {
+      "name": "Still keeps the ordering",
+      "description": "Keeps task 1 before task 2",
+      "max_score": 10
+    },
+    {
+      "name": "Offers to produce a wave plan if it grows",
+      "description": "Says the skill applies if parallel workstreams appear later",
+      "max_score": 10
+    }
+  ]
+}
