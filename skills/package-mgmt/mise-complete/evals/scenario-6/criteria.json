@@ -1,0 +1,61 @@
+{
+  "context": "Checks detection of existing version managers, a single canonical mise.toml, pinned versions and removal of nvm and pyenv activation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects existing managers first",
+      "description": "Starts by listing .nvmrc, .python-version and the nvm and pyenv use in CI",
+      "max_score": 10
+    },
+    {
+      "name": "Reads versions from existing files",
+      "description": "Takes Node 20.11.0 and Python 3.11.7 from the existing files",
+      "max_score": 9
+    },
+    {
+      "name": "Creates one root mise.toml",
+      "description": "Produces a single canonical mise.toml for the repository scope",
+      "max_score": 9
+    },
+    {
+      "name": "Does not duplicate tool pins per sub-package",
+      "description": "Does not scatter conflicting copies of the same tool pins across sub-packages",
+      "max_score": 9
+    },
+    {
+      "name": "Pins exact versions",
+      "description": "[tools] uses node = \"20.11.0\" and python = \"3.11.7\" with no latest or range",
+      "max_score": 9
+    },
+    {
+      "name": "Removes nvm activation",
+      "description": "CI no longer runs nvm use",
+      "max_score": 9
+    },
+    {
+      "name": "Removes pyenv activation",
+      "description": "CI no longer runs pyenv local",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids two active managers",
+      "description": "States that the old managers and Mise must not both stay active",
+      "max_score": 9
+    },
+    {
+      "name": "Runs mise install and mise doctor",
+      "description": "Includes mise install && mise doctor to validate the migration",
+      "max_score": 9
+    },
+    {
+      "name": "Moves CI steps to mise tasks or mise run",
+      "description": "Replaces setup steps with Mise tasks or mise run, self-contained",
+      "max_score": 9
+    },
+    {
+      "name": "No secrets added",
+      "description": "No credentials appear in mise.toml",
+      "max_score": 9
+    }
+  ]
+}

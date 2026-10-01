@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Define CI-Safe Mise Tasks to Replace npm Scripts.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Node.js 22.4.0 pinned in [tools]",
+      "description": "`mise.toml` has `[tools]` section with `node = \"22.4.0\"` (exact version, not `latest` or range)",
+      "max_score": 10
+    },
+    {
+      "name": "All 4 tasks defined",
+      "description": "`mise.toml` defines tasks for `build`, `test`, `lint`, and `clean` \u2014 all four scripts are present",
+      "max_score": 10
+    },
+    {
+      "name": "Task commands match npm script behavior",
+      "description": "Each task run command matches the original npm script (`tsc`, `jest`, `eslint`, `rm -rf`) \u2014 not wrapped in `npm run`",
+      "max_score": 10
+    },
+    {
+      "name": "Tasks are self-contained",
+      "description": "No task relies on a prior `cd` command or unexported environment variable; commands work from the project root",
+      "max_score": 10
+    },
+    {
+      "name": "No secrets in [env]",
+      "description": "The `mise.toml` does not contain API keys, tokens, or credentials in the `[env]` section",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses a floating version specifier or different...",
+      "description": "Failure avoided: Uses a floating version specifier or different version for Node.js",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits one or more of the four...",
+      "description": "Failure avoided: Omits one or more of the four tasks (`build`, `test`, `lint`, `clean`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Wraps task commands in `npm run` instead...",
+      "description": "Failure avoided: Wraps task commands in `npm run` instead of using the direct tool commands",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Task relies on `cd` or unexported environment...",
+      "description": "Failure avoided: Task relies on `cd` or unexported environment state to work correctly",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Includes API keys, tokens, or credentials in...",
+      "description": "Failure avoided: Includes API keys, tokens, or credentials in the `[env]` section",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Tests recognising that the skill does not apply when another manager is the deliberate source of truth.

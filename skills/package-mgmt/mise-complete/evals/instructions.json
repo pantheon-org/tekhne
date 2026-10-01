@@ -1,0 +1,106 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Detect existing tool managers and migration constraints before changing anything",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Define or update mise.toml tool versions",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "Add or normalise tasks for common workflows",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I04",
+      "content": "Configure environment variables by scope",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I05",
+      "content": "Install configured tools and validate with mise install && mise doctor",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "If mise install fails, run mise doctor to diagnose path or plugin issues, then re-run mise install",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Keep one canonical mise.toml per project scope",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I08",
+      "content": "Pin tool versions for reproducible builds",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "Make tasks deterministic and non-interactive by default",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Keep secrets out of committed task definitions",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER keep floating tool versions in team repositories; pin exact versions required by CI and teammates",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER embed secrets in committed mise.toml; load them from external secret management or local env files",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER define tasks that rely on implicit shell state such as a manual cd or prior env exports",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER mix multiple tool managers as active authority; migrate ownership per tool and remove overlapping activation",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Do not use this skill when the repository intentionally uses another tool manager as the source of truth",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Verify active tool versions match the pinned values in mise.toml with mise ls",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Pin a tool version with mise use, for example mise use node@22, which updates mise.toml",
+      "type": "procedure",
+      "why_given": "reminder"
+    }
+  ]
+}

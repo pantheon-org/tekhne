@@ -1,0 +1,56 @@
+{
+  "context": "Checks that doctor-driven diagnosis, a re-run of install, and a version check are performed, without loosening the pins.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs mise doctor after the failure",
+      "description": "Uses mise doctor to diagnose the install failure",
+      "max_score": 10
+    },
+    {
+      "name": "Treats doctor output as the diagnosis",
+      "description": "Reads the PATH and plugin findings from doctor output rather than guessing",
+      "max_score": 10
+    },
+    {
+      "name": "Resolves PATH issue",
+      "description": "Fixes the shims or PATH problem identified by doctor",
+      "max_score": 10
+    },
+    {
+      "name": "Resolves plugin issue",
+      "description": "Installs or corrects the missing plugin identified by doctor",
+      "max_score": 10
+    },
+    {
+      "name": "Re-runs mise install",
+      "description": "Runs mise install again after the fix",
+      "max_score": 10
+    },
+    {
+      "name": "Re-validates with mise doctor",
+      "description": "Runs mise doctor again and expects no errors",
+      "max_score": 10
+    },
+    {
+      "name": "Checks active versions with mise ls",
+      "description": "Runs mise ls to confirm each tool shows the pinned version as active",
+      "max_score": 10
+    },
+    {
+      "name": "Compares against pinned values",
+      "description": "States the expected versions are node 22.4.0 and python 3.12.3 from mise.toml",
+      "max_score": 10
+    },
+    {
+      "name": "Keeps exact pins",
+      "description": "Does not change the pins to latest or a range to make the install pass",
+      "max_score": 10
+    },
+    {
+      "name": "Does not add secrets or credentials",
+      "description": "Does not put tokens or credentials into mise.toml while troubleshooting",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Tests pinning via mise use and defining a deterministic task that never waits for input.

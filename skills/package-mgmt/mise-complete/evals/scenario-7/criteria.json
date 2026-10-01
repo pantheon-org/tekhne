@@ -1,0 +1,61 @@
+{
+  "context": "Checks that mise use updates mise.toml, and the task is self-contained and non-interactive.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses mise use",
+      "description": "Runs mise use node@22 to add the pin",
+      "max_score": 10
+    },
+    {
+      "name": "States mise.toml is updated",
+      "description": "Says the command writes the pin into mise.toml",
+      "max_score": 9
+    },
+    {
+      "name": "Pin is a concrete version",
+      "description": "The resulting file contains a concrete Node 22 version, not latest",
+      "max_score": 9
+    },
+    {
+      "name": "Defines a release-check task",
+      "description": "Adds [tasks.release-check] in mise.toml",
+      "max_score": 9
+    },
+    {
+      "name": "Task runs tests and lint",
+      "description": "The run commands cover both the test suite and the linter",
+      "max_score": 9
+    },
+    {
+      "name": "Task is self-contained",
+      "description": "No reliance on a prior cd or pre-exported variables",
+      "max_score": 9
+    },
+    {
+      "name": "Task is non-interactive",
+      "description": "No prompts, read calls or steps that wait for user input",
+      "max_score": 9
+    },
+    {
+      "name": "Task works unattended in CI",
+      "description": "Explains or demonstrates that it runs without a terminal session",
+      "max_score": 9
+    },
+    {
+      "name": "Runs the task with mise run",
+      "description": "Shows mise run release-check to execute it",
+      "max_score": 9
+    },
+    {
+      "name": "Verifies the environment",
+      "description": "Uses mise ls or mise env to confirm the active versions",
+      "max_score": 9
+    },
+    {
+      "name": "No secrets embedded",
+      "description": "No credentials appear in the task or env block",
+      "max_score": 9
+    }
+  ]
+}

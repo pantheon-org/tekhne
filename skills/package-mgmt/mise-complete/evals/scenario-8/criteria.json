@@ -1,0 +1,56 @@
+{
+  "context": "Checks that the agent does not introduce a second active tool manager and raises the conflict.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises Nix as the source of truth",
+      "description": "Identifies that the repository intentionally standardises on Nix",
+      "max_score": 10
+    },
+    {
+      "name": "Does not apply the Mise setup",
+      "description": "Does not create a competing mise.toml tool configuration",
+      "max_score": 10
+    },
+    {
+      "name": "Explains the conflict",
+      "description": "Says two managers controlling the same tools conflict on PATH and versions",
+      "max_score": 10
+    },
+    {
+      "name": "Mentions unpredictable resolution",
+      "description": "Names unpredictable runtime resolution or flaky builds as the consequence",
+      "max_score": 10
+    },
+    {
+      "name": "Asks about intent",
+      "description": "Asks whether the team wants to migrate ownership rather than silently adding Mise",
+      "max_score": 10
+    },
+    {
+      "name": "Offers a migration route",
+      "description": "If migrating, says to migrate ownership per tool and remove overlapping activation",
+      "max_score": 10
+    },
+    {
+      "name": "Does not leave both active",
+      "description": "States that Nix and Mise must not both be authoritative for the same tool",
+      "max_score": 10
+    },
+    {
+      "name": "Leaves CI unchanged",
+      "description": "Does not alter the Nix shell entry in CI as part of the request",
+      "max_score": 10
+    },
+    {
+      "name": "Keeps pins exact if proceeding",
+      "description": "If asked to proceed, pins exact versions",
+      "max_score": 10
+    },
+    {
+      "name": "Keeps secrets out",
+      "description": "If proceeding, keeps secrets out of committed Mise files",
+      "max_score": 10
+    }
+  ]
+}

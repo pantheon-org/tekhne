@@ -1,0 +1,1 @@
+Tests the install failure recovery loop and verification that pinned versions are active.

@@ -1,0 +1,1 @@
+Fix Anti-Pattern Violations in a mise.toml
