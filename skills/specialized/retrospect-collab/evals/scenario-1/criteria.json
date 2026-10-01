@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Review a Single Session for Collaboration Quality.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Session filter executed",
+      "description": "Agent runs `retrospect-load-sessions.sh` and parses the PERIOD header and session paths from output",
+      "max_score": 7
+    },
+    {
+      "name": "All four technical dimensions covered",
+      "description": "Report contains sections for Context Management, Guidance, Critical Thinking, and Bias",
+      "max_score": 7
+    },
+    {
+      "name": "Evidence-based analysis",
+      "description": "Each finding references actual prompts or tool calls from the session, not generic observations",
+      "max_score": 7
+    },
+    {
+      "name": "Impact categorized",
+      "description": "Session is classified as Automation, Low-impact, or High-impact augmentation",
+      "max_score": 7
+    },
+    {
+      "name": "Start/Stop/Continue present",
+      "description": "Report includes at least one item per category in the SSC section",
+      "max_score": 7
+    },
+    {
+      "name": "Output file written",
+      "description": "`.retro/insights/collab/` file created with the correct PERIOD in the filename",
+      "max_score": 7
+    },
+    {
+      "name": "File path reported",
+      "description": "Agent outputs the path to the written file",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent invents issues not evidenced in the...",
+      "description": "Failure avoided: Agent invents issues not evidenced in the session data",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips one or more of the...",
+      "description": "Failure avoided: Agent skips one or more of the four technical effectiveness dimensions",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent writes vague findings like \"prompts could...",
+      "description": "Failure avoided: Agent writes vague findings like \"prompts could be clearer\" without citing specific examples",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not classify the session's impact...",
+      "description": "Failure avoided: Agent does not classify the session's impact category",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent fails to write the output file...",
+      "description": "Failure avoided: Agent fails to write the output file and only prints findings to chat",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent uses a hardcoded path instead of...",
+      "description": "Failure avoided: Agent uses a hardcoded path instead of the project-configurable `.retro/insights/` location",
+      "max_score": 16
+    }
+  ]
+}

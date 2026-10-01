@@ -1,0 +1,130 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "The server is authoritative for all game state",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Validate room state changes before applying them",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "Make reconnection and drop handling explicit",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Matchmaking metadata must reflect real room capability and stay consistent with runtime state",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Step 1: define state models in Schema",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Step 2: implement room lifecycle hooks (onCreate, onJoin, onLeave, onDrop) with players added on join and removed on leave",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Step 3: register message handlers with payload validation",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "Checkpoint: verify schema sync with a test client, confirming field changes propagate and no plain properties hold game-critical state",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "Step 5: wire matchmaking and metadata filters, setting room metadata in onCreate from options",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Step 6: add a reconnection policy and timeout behaviour using allowReconnection with a bounded timeout",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Checkpoint: simulate a transient disconnect and confirm allowReconnection restores the session without ejecting the player prematurely",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "Step 8: verify full room behaviour with local multi-client runs",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Follow the validation pattern: parse the payload with schema validation, enforce role or ownership, enforce gameplay constraints (cooldowns, ranges, turn order), then apply the mutation",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Rate-limit spam-prone message types",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "Use bounded reconnection grace by mode: casual 20-30 seconds, ranked 10-15 seconds, tournament strict with admin override",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "Use MapSchema<Player> keyed by sessionId for per-player state",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Check reconnection operations: reconnected clients rebind to prior player state, duplicate sessions are rejected, expired tokens are invalidated",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER trust client position or score updates directly",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER mutate non-Schema fields expecting automatic sync",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER skip reconnection handling for transient disconnects",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "NEVER expose privileged room messages to all clients",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    }
+  ]
+}

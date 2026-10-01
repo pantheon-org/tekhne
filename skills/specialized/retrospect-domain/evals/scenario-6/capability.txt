@@ -1,0 +1,1 @@
+Warn and fall back to the generic framework when a domain file is missing, adapt headings and list the sessions reviewed.

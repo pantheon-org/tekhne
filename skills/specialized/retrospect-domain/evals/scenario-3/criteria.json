@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Surfacing a Domain Anti-Pattern.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Monthly scope applied",
+      "description": "Sessions from the current month are loaded via `--month`",
+      "max_score": 7
+    },
+    {
+      "name": "Anti-pattern evidence-based",
+      "description": "Each anti-pattern is tied to specific session evidence (not invented)",
+      "max_score": 7
+    },
+    {
+      "name": "Descriptive name assigned",
+      "description": "Each anti-pattern has a short descriptive label (e.g., \"skipping type validation before API calls\")",
+      "max_score": 7
+    },
+    {
+      "name": "Consequence documented",
+      "description": "Report explains what problem the anti-pattern caused",
+      "max_score": 7
+    },
+    {
+      "name": "Stop recommendation present",
+      "description": "At least one Stop item in SSC section targeting a specific anti-pattern",
+      "max_score": 7
+    },
+    {
+      "name": "What Didn't Work section populated",
+      "description": "Report's \"What Didn't Work\" section includes the identified anti-patterns",
+      "max_score": 7
+    },
+    {
+      "name": "Output file written",
+      "description": "File exists at `.retro/insights/domain/` with correct PERIOD",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent invents anti-patterns not evidenced in session...",
+      "description": "Failure avoided: Agent invents anti-patterns not evidenced in session data",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Anti-patterns are described without session references",
+      "description": "Failure avoided: Anti-patterns are described without session references",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Report omits consequences \u2014 just names a...",
+      "description": "Failure avoided: Report omits consequences \u2014 just names a pattern without stating what went wrong",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Stop recommendation is absent or too generic...",
+      "description": "Failure avoided: Stop recommendation is absent or too generic (\"avoid mistakes\")",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent flags one-off failures as anti-patterns (single...",
+      "description": "Failure avoided: Agent flags one-off failures as anti-patterns (single occurrence without recurrence)",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: \"What Didn't Work\" section is empty despite...",
+      "description": "Failure avoided: \"What Didn't Work\" section is empty despite identified anti-patterns",
+      "max_score": 16
+    }
+  ]
+}

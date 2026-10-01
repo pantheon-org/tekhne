@@ -1,0 +1,66 @@
+{
+  "context": "Tests: longitudinal view, cognitive posture analysis, and graceful handling of missing duration_seconds and unreadable session files.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Session loader run with the period",
+      "description": "The agent runs the session filter script for the 90-day window and parses PERIOD from the first line",
+      "max_score": 9
+    },
+    {
+      "name": "PERIOD line not treated as a session",
+      "description": "The agent counts 14 sessions, not 15, and does not read the PERIOD header as a file",
+      "max_score": 9
+    },
+    {
+      "name": "Corrupt file handled",
+      "description": "The agent notes the unreadable January file and continues instead of aborting",
+      "max_score": 9
+    },
+    {
+      "name": "Partial report produced",
+      "description": "The report states which session was skipped and that results come from the readable sessions",
+      "max_score": 9
+    },
+    {
+      "name": "Missing durations skipped",
+      "description": "The agent omits duration metrics for sessions without duration_seconds and does not error or invent values",
+      "max_score": 8
+    },
+    {
+      "name": "Intentionality assessed",
+      "description": "The report assesses structured prompts versus trial-and-error across sessions",
+      "max_score": 8
+    },
+    {
+      "name": "Agency assessed",
+      "description": "The report assesses decision ownership versus template copy-paste with cited examples",
+      "max_score": 8
+    },
+    {
+      "name": "Progression compared across sessions",
+      "description": "The report compares early and late sessions and describes prompt evolution",
+      "max_score": 8
+    },
+    {
+      "name": "Stagnation patterns named",
+      "description": "The report identifies any repeating mistakes across sessions with counts",
+      "max_score": 8
+    },
+    {
+      "name": "Growth quantified",
+      "description": "Claims about progress are stated as ratios such as 4 of 6 later sessions, not adjectives",
+      "max_score": 8
+    },
+    {
+      "name": "Impact categories present",
+      "description": "Each session is categorised as Automation, Low-impact or High-impact augmentation",
+      "max_score": 8
+    },
+    {
+      "name": "Output written to the PERIOD file",
+      "description": "The report is written to the configured insights collab folder under the PERIOD file name",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Producing a Collaboration Improvement Recommendation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Single top recommendation identified",
+      "description": "Agent does not deliver a laundry list; one primary recommendation is elevated",
+      "max_score": 8
+    },
+    {
+      "name": "Recommendation is actionable",
+      "description": "Described in terms of a specific behavior change (e.g., \"before sending a complex prompt, write one sentence stating the goal\"), not a concept",
+      "max_score": 8
+    },
+    {
+      "name": "Two session examples cited",
+      "description": "Recommendation is backed by at least two concrete examples from the analyzed sessions",
+      "max_score": 8
+    },
+    {
+      "name": "Dimension attributed",
+      "description": "Report states which collaboration dimension the recommendation addresses",
+      "max_score": 8
+    },
+    {
+      "name": "Full report written",
+      "description": "Complete report with all sections is written to `.retro/insights/collab/{PERIOD}.md`, not just the recommendation",
+      "max_score": 8
+    },
+    {
+      "name": "File path reported",
+      "description": "Agent outputs the path to the written report",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent delivers multiple unranked recommendations without identifying...",
+      "description": "Failure avoided: Agent delivers multiple unranked recommendations without identifying a primary one",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Recommendation is abstract (\"improve critical thinking\") without...",
+      "description": "Failure avoided: Recommendation is abstract (\"improve critical thinking\") without a concrete behavioral description",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Recommendation is not backed by session evidence",
+      "description": "Failure avoided: Recommendation is not backed by session evidence",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips writing the full report and...",
+      "description": "Failure avoided: Agent skips writing the full report and only outputs the recommendation to chat",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent fabricates session patterns not present in...",
+      "description": "Failure avoided: Agent fabricates session patterns not present in the actual session data",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Recommendation contradicts the evidence (e.g., recommends stopping...",
+      "description": "Failure avoided: Recommendation contradicts the evidence (e.g., recommends stopping a pattern that was actually effective)",
+      "max_score": 12
+    }
+  ]
+}

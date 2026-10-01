@@ -1,0 +1,1 @@
+Decline to analyse an empty session window and route a how-we-collaborated question to retrospect-collab.

@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Cross-Referencing Learnings from Two Different Domains.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Two domain subsets identified",
+      "description": "Report has clearly labelled sections for database optimization and caching strategies respectively",
+      "max_score": 7
+    },
+    {
+      "name": "Independent analysis per domain",
+      "description": "Each domain section addresses the Technical Domain framework questions independently",
+      "max_score": 7
+    },
+    {
+      "name": "Cross-domain comparison present",
+      "description": "Report includes a section explicitly comparing the two domains and identifying overlapping or contradictory insights",
+      "max_score": 7
+    },
+    {
+      "name": "At least one overlap identified",
+      "description": "If evidence exists, at least one shared insight is surfaced (or agent explicitly states no overlap was found)",
+      "max_score": 7
+    },
+    {
+      "name": "Combined SSC provided",
+      "description": "Start/Stop/Continue section acknowledges both domains",
+      "max_score": 7
+    },
+    {
+      "name": "Single output file written",
+      "description": "One unified report at `.retro/insights/domain/{PERIOD}.md`, not two separate files",
+      "max_score": 7
+    },
+    {
+      "name": "File path reported",
+      "description": "Agent outputs the path to the written file",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent merges the two domains without independent...",
+      "description": "Failure avoided: Agent merges the two domains without independent analysis of each",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Cross-domain comparison section is absent",
+      "description": "Failure avoided: Cross-domain comparison section is absent",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent fabricates overlaps not supported by session...",
+      "description": "Failure avoided: Agent fabricates overlaps not supported by session evidence",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent writes two separate output files instead...",
+      "description": "Failure avoided: Agent writes two separate output files instead of one unified report",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Either domain section is empty or contains...",
+      "description": "Failure avoided: Either domain section is empty or contains only placeholder text",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent applies the generic framework instead of...",
+      "description": "Failure avoided: Agent applies the generic framework instead of the Technical Domain framework to technical sessions",
+      "max_score": 16
+    }
+  ]
+}

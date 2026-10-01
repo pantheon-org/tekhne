@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Extract, don't invent: base every insight on actual session content",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "Be specific: reference actual conversations, tools used and decisions made, and ALWAYS name the session when citing evidence",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I03",
+      "content": "Detect patterns: look for themes across multiple sessions, not isolated observations",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Be domain-appropriate: apply the framework matching the session type, falling back to the generic framework only when domain content is ambiguous",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Optionally adapt analysis headings when session content does not fit the standard framework questions",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I06",
+      "content": "Step 1: if a domain is specified, load its domain-{domain}.md framework; if the file is missing, warn the user and fall back to the generic framework rather than aborting",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Step 2: run the session filter script; the first line is PERIOD and must be parsed separately from the session paths",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Step 3: read session files and extract conversation turns, tools used and git context",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Step 4: analyse what patterns were discovered, what decisions were made and why, what worked or failed, and what recurs across sessions",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Step 5: generate Start/Stop/Continue recommendations",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Step 6: write insights to the domain insights folder under the PERIOD file name",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "Step 7: report the file path and suggest the collab or aggregate report command",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Follow the report structure: Sessions Reviewed, Domain Learnings (What I Learned, What Worked Well, What Didn't Work, Decisions Made, Patterns Emerged), Start/Stop/Continue, Action Items, Metrics Summary",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Include a short Sessions Reviewed list at the top of the report so the reader knows what data was used",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I15",
+      "content": "Do not run the skill against zero session files; no sessions means no domain insights",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Use retrospect-collab instead when the focus is on HOW the collaboration worked, not WHAT was learned",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER report a learning that is not evidenced in the session",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER apply the generic framework to clearly technical sessions",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER omit the Patterns Emerged section when reviewing more than two sessions",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER hardcode the output path",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Flagging Under-Utilisation of Critical Thinking.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Monthly scope applied",
+      "description": "Sessions loaded span the full current month via `--month` flag",
+      "max_score": 8
+    },
+    {
+      "name": "Missed challenges section populated",
+      "description": "Report's Critical Thinking section includes at least two specific examples of missed challenges with session references",
+      "max_score": 8
+    },
+    {
+      "name": "Effective challenges also documented",
+      "description": "Report is not one-sided; positive examples of user challenge are also cited",
+      "max_score": 8
+    },
+    {
+      "name": "Ratio quantified",
+      "description": "Report states \"user challenged outputs in X of Y non-trivial exchanges\"",
+      "max_score": 8
+    },
+    {
+      "name": "AI pushback examples noted",
+      "description": "Any instances where the AI itself challenged the user are recorded under \"AI challenged me\"",
+      "max_score": 8
+    },
+    {
+      "name": "Start recommendation is specific",
+      "description": "Names a concrete practice to begin, not a vague directive",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent invents missed challenges not evidenced in...",
+      "description": "Failure avoided: Agent invents missed challenges not evidenced in the session data",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent only lists missed challenges without documenting...",
+      "description": "Failure avoided: Agent only lists missed challenges without documenting effective challenges (unbalanced report)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Report's Critical Thinking section is empty or...",
+      "description": "Failure avoided: Report's Critical Thinking section is empty or contains only generic observations",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not quantify the ratio of...",
+      "description": "Failure avoided: Agent does not quantify the ratio of challenged vs unchallenged exchanges",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Start recommendation is absent or generic (\"think...",
+      "description": "Failure avoided: Start recommendation is absent or generic (\"think more critically\")",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent confuses bias signals with critical thinking...",
+      "description": "Failure avoided: Agent confuses bias signals with critical thinking signals in the report",
+      "max_score": 12
+    }
+  ]
+}
