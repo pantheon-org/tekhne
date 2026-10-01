@@ -1,0 +1,1 @@
+Expand a Log Row in CloudWatch Logs Insights via Playwright

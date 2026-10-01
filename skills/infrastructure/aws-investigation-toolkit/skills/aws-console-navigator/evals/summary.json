@@ -1,0 +1,27 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 16,
+    "covered_instructions": 16,
+    "scenario_count": 6,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-2", "scenario-3"],
+      "I02": ["scenario-1"],
+      "I03": ["scenario-2"],
+      "I04": ["scenario-6"],
+      "I05": ["scenario-6"],
+      "I06": ["scenario-6"],
+      "I07": ["scenario-4"],
+      "I08": ["scenario-6"],
+      "I09": ["scenario-1", "scenario-2", "scenario-3"],
+      "I10": ["scenario-1"],
+      "I11": ["scenario-2"],
+      "I12": ["scenario-2", "scenario-3"],
+      "I13": ["scenario-4"],
+      "I14": ["scenario-4"],
+      "I15": ["scenario-5"],
+      "I16": ["scenario-5"]
+    },
+    "notes": "Scenarios 4 to 6 were added to cover alarm interpretation, SSO and region setup, and scope decisions; I06 is only covered by an optional mention in scenario 6."
+  }
+}

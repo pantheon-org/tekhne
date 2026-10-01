@@ -1,0 +1,1 @@
+Tests scope decisions: when the iframe patterns apply, when to use the URL builder, and the Metrics console path.

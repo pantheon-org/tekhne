@@ -1,0 +1,29 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 94,
+    "total_instructions": 18,
+    "covered_instructions": 17,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-2"],
+      "I02": ["scenario-1"],
+      "I03": ["scenario-2"],
+      "I04": ["scenario-1", "scenario-3", "scenario-5"],
+      "I05": ["scenario-1", "scenario-3", "scenario-5"],
+      "I06": ["scenario-1", "scenario-3", "scenario-5"],
+      "I07": ["scenario-3"],
+      "I08": ["scenario-3"],
+      "I09": ["scenario-4"],
+      "I10": ["scenario-1"],
+      "I11": ["scenario-1"],
+      "I12": ["scenario-2"],
+      "I13": ["scenario-5"],
+      "I14": ["scenario-4"],
+      "I15": ["scenario-1"],
+      "I16": [],
+      "I17": ["scenario-2"],
+      "I18": ["scenario-4"]
+    },
+    "notes": "I16 (when not to use the comparison) is not checked by any scenario."
+  }
+}

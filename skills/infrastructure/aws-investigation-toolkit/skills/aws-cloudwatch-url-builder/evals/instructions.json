@@ -1,0 +1,106 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "CloudWatch URLs use the URL fragment (#) for all navigation state; the fragment is interpreted by the browser-side SPA, and standard %XX encoding does not apply inside fragment values.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Identify the target page type first: Logs Insights, Alarm detail, or Metrics graph.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "Gather parameters: region, log group name, time range, query or metric name.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I04",
+      "content": "Apply *XX encoding (asterisk plus uppercase hex) to value portions only; structural characters (~, (, ), ') stay literal.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Compose the URL using the template in references/encoding-reference.md.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I06",
+      "content": "Verify before use: timestamps are ISO 8601 UTC and the region appears in both the subdomain and the query string.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "For alarms, navigate to the alarm detail page first: it shows the exact metric that triggered the alarm, which may be a Logs metric filter rather than a native AWS/Lambda metric.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER use %XX percent-encoding inside CloudWatch fragment values; use *XX.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER use epoch integers for the Logs Insights time range; use ISO 8601 UTC strings with *3a-encoded colons, include tz~'UTC and omit unit~'seconds.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER navigate to the AWS/Lambda Errors metric to verify an alarm.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER omit region= from the query string.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER use local/BST time in alarm or metric URL time ranges; derive times from UTC event timestamps.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER omit the time range from an alarm detail URL used as incident evidence; append ?~(timeRange~(startDate~'{start_iso}~endDate~'{end_iso})) bracketing the whole incident.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Do not use this skill when the target page is outside CloudWatch, because encoding rules differ per service.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "Do not use this skill when only the AWS Console root URL or a service listing is needed, since no fragment encoding is required.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER encode the structural characters ~, (, ) or ' in the fragment.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER leave ?, = or & unencoded between path segments after the #; write them $3F, $3D and $26.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    }
+  ]
+}

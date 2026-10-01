@@ -1,0 +1,29 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 83,
+    "total_instructions": 18,
+    "covered_instructions": 15,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-4"],
+      "I02": ["scenario-5"],
+      "I03": ["scenario-2", "scenario-3"],
+      "I04": [],
+      "I05": ["scenario-1"],
+      "I06": ["scenario-1"],
+      "I07": ["scenario-3", "scenario-5"],
+      "I08": ["scenario-3"],
+      "I09": ["scenario-3"],
+      "I10": ["scenario-4"],
+      "I11": ["scenario-1"],
+      "I12": ["scenario-2"],
+      "I13": ["scenario-2"],
+      "I14": ["scenario-2"],
+      "I15": ["scenario-4"],
+      "I16": [],
+      "I17": [],
+      "I18": ["scenario-4"]
+    },
+    "notes": "I04, I16 and I17 are not checked by any scenario criteria: CI risk-profile tuning, repeated-failure handling and the Terraform-only exclusion."
+  }
+}

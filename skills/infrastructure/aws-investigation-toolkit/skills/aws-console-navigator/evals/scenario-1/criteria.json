@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Expand a Log Row in CloudWatch Logs Insights via Playwright.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Obtains iframe frame object",
+      "description": "Code calls page.frame({ name: 'microConsole-Logs' }) or equivalent to get the iframe context",
+      "max_score": 7
+    },
+    {
+      "name": "Does NOT use locator.click() on iframe elements",
+      "description": "Code does not call .click() on a locator targeting an element inside the iframe",
+      "max_score": 7
+    },
+    {
+      "name": "Gets iframe bounding box",
+      "description": "Code calls boundingBox() on the iframe element from the outer page context",
+      "max_score": 7
+    },
+    {
+      "name": "Gets row bounding box from frame",
+      "description": "Code calls boundingBox() on the row element using the frame locator",
+      "max_score": 7
+    },
+    {
+      "name": "Uses page.mouse.click with absolute coordinates",
+      "description": "Code calls page.mouse.click(x, y) where x and y combine iframe and row offsets",
+      "max_score": 7
+    },
+    {
+      "name": "Coordinate formula is correct",
+      "description": "x = iframeBox.x + rowBox.x + offset, y = iframeBox.y + rowBox.y + rowBox.height/2 (or similar centred y)",
+      "max_score": 7
+    },
+    {
+      "name": "Targets first row correctly",
+      "description": "Code selects the first row (e.g. .first() or [0] index) not all rows",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not call `page.frame(...)` to obtain the...",
+      "description": "Failure avoided: Does not call `page.frame(...)` to obtain the iframe context",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Uses `locator.click()` directly on an element inside...",
+      "description": "Failure avoided: Uses `locator.click()` directly on an element inside the CloudWatch iframe",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not call `boundingBox()` on the iframe...",
+      "description": "Failure avoided: Does not call `boundingBox()` on the iframe element",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not call `boundingBox()` on the row...",
+      "description": "Failure avoided: Does not call `boundingBox()` on the row element within the frame",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Uses `page.mouse.click` but with incorrect coordinates (not...",
+      "description": "Failure avoided: Uses `page.mouse.click` but with incorrect coordinates (not combining iframe and row offsets)",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Coordinate formula produces incorrect center-of-row y position",
+      "description": "Failure avoided: Coordinate formula produces incorrect center-of-row y position",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Targets all rows instead of specifically the...",
+      "description": "Failure avoided: Targets all rows instead of specifically the first row",
+      "max_score": 9
+    }
+  ]
+}

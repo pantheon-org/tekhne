@@ -1,0 +1,1 @@
+Checks that an alarm detail URL carries a UTC, ISO 8601, *3a-encoded time window converted from BST.

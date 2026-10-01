@@ -1,0 +1,61 @@
+{
+  "context": "Checks the SSO sequence, banner dismissal before further navigation, and region verification via the URL.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Opens the SSO portal",
+      "description": "First step navigates to the IAM Identity Center portal URL",
+      "max_score": 10
+    },
+    {
+      "name": "Waits for account list",
+      "description": "Waits for the IAM Identity Center heading or account list before acting",
+      "max_score": 9
+    },
+    {
+      "name": "Finds the account",
+      "description": "Uses the search box or scrolling to locate the target account",
+      "max_score": 9
+    },
+    {
+      "name": "Expands the account row",
+      "description": "Clicks the account row to reveal the permission sets",
+      "max_score": 9
+    },
+    {
+      "name": "Clicks the role name",
+      "description": "Clicks the PowerUserAccess role to open the console in a new tab",
+      "max_score": 9
+    },
+    {
+      "name": "Dismisses cookie banner",
+      "description": "Clicks Accept all or Reject all on the cookie banner",
+      "max_score": 9
+    },
+    {
+      "name": "Dismisses new-experience banner",
+      "description": "Closes the new-experience banner with X or Dismiss",
+      "max_score": 9
+    },
+    {
+      "name": "Dismisses banners before navigating",
+      "description": "Banner dismissal is placed before any further navigation",
+      "max_score": 9
+    },
+    {
+      "name": "Switches region with header selector",
+      "description": "Uses the region selector in the top-right of the console header",
+      "max_score": 9
+    },
+    {
+      "name": "Uses the eu-west-1 code",
+      "description": "Selects EU (Ireland) and identifies the code as eu-west-1",
+      "max_score": 9
+    },
+    {
+      "name": "Confirms region in URL",
+      "description": "Verifies region=eu-west-1 appears in the URL after switching",
+      "max_score": 9
+    }
+  ]
+}

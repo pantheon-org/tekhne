@@ -1,0 +1,61 @@
+{
+  "context": "Checks scope boundaries for the skill and the step-by-step path for metrics and Logs Insights.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "S3 task is out of scope",
+      "description": "Says S3 does not use the microConsole iframe so the iframe patterns are not needed",
+      "max_score": 10
+    },
+    {
+      "name": "S3 uses normal clicks",
+      "description": "Says locator.click() works normally for S3",
+      "max_score": 9
+    },
+    {
+      "name": "Link task uses URL builder",
+      "description": "Recommends aws-cloudwatch-url-builder for the link",
+      "max_score": 9
+    },
+    {
+      "name": "Link task needs no browser",
+      "description": "States no browser is opened for the URL-only request",
+      "max_score": 9
+    },
+    {
+      "name": "Metrics task is in scope",
+      "description": "Treats the CloudWatch metric graph as a console task for this skill",
+      "max_score": 9
+    },
+    {
+      "name": "Metrics path starts at CloudWatch Metrics",
+      "description": "Route goes CloudWatch, Metrics, All metrics",
+      "max_score": 9
+    },
+    {
+      "name": "Selects namespace then dimension",
+      "description": "Selects the namespace and filters by dimension",
+      "max_score": 9
+    },
+    {
+      "name": "Uses Graph metrics",
+      "description": "Clicks Graph metrics to plot the selection",
+      "max_score": 9
+    },
+    {
+      "name": "Adjusts time range in toolbar",
+      "description": "Sets the time range in the graph toolbar",
+      "max_score": 9
+    },
+    {
+      "name": "Mentions Logs Insights route if relevant",
+      "description": "Where Logs Insights is mentioned, route is Services, CloudWatch, Logs, Logs Insights",
+      "max_score": 9
+    },
+    {
+      "name": "Mentions absolute time range and Run query",
+      "description": "Where Logs Insights is mentioned, sets an Absolute time range and clicks Run query",
+      "max_score": 9
+    }
+  ]
+}

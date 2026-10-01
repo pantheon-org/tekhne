@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Fix a cdk-nag Finding Rather Than Suppress It.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Suppression rejected as wrong approach",
+      "description": "The response explains that suppressing is wrong because the fix is simple and the vague reason 'will fix later' leaves real risk open",
+      "max_score": 10
+    },
+    {
+      "name": "enforceSSL: true added to the Bucket",
+      "description": "lib/app-stack.ts sets enforceSSL: true in the Bucket constructor props",
+      "max_score": 10
+    },
+    {
+      "name": "Existing Bucket properties preserved",
+      "description": "lib/app-stack.ts retains blockPublicAccess: BlockPublicAccess.BLOCK_ALL and versioned: true from the original",
+      "max_score": 10
+    },
+    {
+      "name": "Fix-first principle stated",
+      "description": "The explanation references the principle of preferring to fix insecure resources over suppressing findings",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not explain why using a suppression...",
+      "description": "Failure avoided: Does not explain why using a suppression is wrong in this case",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not add `enforceSSL: true` to the...",
+      "description": "Failure avoided: Does not add `enforceSSL: true` to the Bucket props",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Removes `blockPublicAccess: BlockPublicAccess.BLOCK_ALL` or `versioned: true` from",
+      "description": "Failure avoided: Removes `blockPublicAccess: BlockPublicAccess.BLOCK_ALL` or `versioned: true` from the corrected file",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not mention the fix-first principle or...",
+      "description": "Failure avoided: Does not mention the fix-first principle or the preference for remediation over suppression",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Explain that suppressing is wrong because the...",
+      "description": "Explain that suppressing is wrong because the fix is simple and the vague reason 'will fix later' leaves real risk open",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Add `enforceSSL: true` to the Bucket constructor...",
+      "description": "Add `enforceSSL: true` to the Bucket constructor props in `lib/app-stack.ts`",
+      "max_score": 10
+    }
+  ]
+}

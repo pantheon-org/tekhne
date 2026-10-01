@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Categorize Template Differences by Risk Level.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Risk categories defined",
+      "description": "risk-assessment.md defines or lists at least 4 risk categories (Expected, Low, Medium, High, Critical or similar)",
+      "max_score": 5
+    },
+    {
+      "name": "GitRef as expected",
+      "description": "The GitRef tag change is categorized as Expected or Low risk (environment-specific metadata)",
+      "max_score": 5
+    },
+    {
+      "name": "Alarm threshold as medium",
+      "description": "The alarm threshold change is categorized as Medium risk (requires review)",
+      "max_score": 5
+    },
+    {
+      "name": "IAM policy as high risk",
+      "description": "The IAM policy modification is categorized as High risk (requires explicit sign-off)",
+      "max_score": 5
+    },
+    {
+      "name": "CDK Nag suppression as critical",
+      "description": "The new CDK Nag suppression is categorized as Critical or High risk (security override)",
+      "max_score": 5
+    },
+    {
+      "name": "Resource changes assessed",
+      "description": "The added CloudWatch alarms and removed S3 lifecycle policy are categorized with risk levels",
+      "max_score": 5
+    },
+    {
+      "name": "Deployment decision present",
+      "description": "Document includes a clear deployment decision (approve, review, sign-off, or block)",
+      "max_score": 5
+    },
+    {
+      "name": "Decision matches risk",
+      "description": "The deployment decision is appropriate for the risk levels found (should require sign-off or block due to IAM/CDK Nag changes)",
+      "max_score": 5
+    },
+    {
+      "name": "Required actions listed",
+      "description": "Document lists specific actions required before deployment (e.g., InfoSec approval, stakeholder review)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Fewer than 4 risk categories are defined...",
+      "description": "Failure avoided: Fewer than 4 risk categories are defined or referenced",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: GitRef tag change is categorized as Medium...",
+      "description": "Failure avoided: GitRef tag change is categorized as Medium or higher risk",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Alarm threshold change is categorized as Low...",
+      "description": "Failure avoided: Alarm threshold change is categorized as Low or Expected risk (under-assessed) or Critical (over-assessed)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: IAM policy modification is not categorized as...",
+      "description": "Failure avoided: IAM policy modification is not categorized as High risk",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: CDK Nag suppression is not categorized as...",
+      "description": "Failure avoided: CDK Nag suppression is not categorized as Critical or High risk",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Added/removed resources are not given risk level...",
+      "description": "Failure avoided: Added/removed resources are not given risk level assessments",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No deployment decision is provided",
+      "description": "Failure avoided: No deployment decision is provided",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Deployment decision is Auto-approve or simple Approve...",
+      "description": "Failure avoided: Deployment decision is Auto-approve or simple Approve despite IAM and CDK Nag changes present",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No required actions are listed before deployment",
+      "description": "Failure avoided: No required actions are listed before deployment",
+      "max_score": 15
+    }
+  ]
+}

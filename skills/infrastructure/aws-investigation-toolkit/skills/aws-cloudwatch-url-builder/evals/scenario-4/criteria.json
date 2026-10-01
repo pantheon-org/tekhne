@@ -1,0 +1,66 @@
+{
+  "context": "Tests building an alarm detail URL with a fixed UTC incident window when the source times are in local time.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Alarm detail fragment",
+      "description": "URL uses the #alarmsV2:alarm/{alarm_name} fragment",
+      "max_score": 10
+    },
+    {
+      "name": "Alarm name unmodified",
+      "description": "The alarm name billing-api-pr-ErrorAlarm52C86406-lobALzDtvOAb appears unchanged in the fragment",
+      "max_score": 8
+    },
+    {
+      "name": "Region in both places",
+      "description": "eu-west-1 appears in the console subdomain and as region= in the query string",
+      "max_score": 8
+    },
+    {
+      "name": "Time range suffix present",
+      "description": "URL ends with ?~(timeRange~(startDate~'...~endDate~'...)) so the incident window is fixed",
+      "max_score": 12
+    },
+    {
+      "name": "BST converted to UTC",
+      "description": "Start is derived from 02:44 UTC, not 03:44, and end from 02:52 UTC, not 03:52",
+      "max_score": 14
+    },
+    {
+      "name": "Window brackets the incident",
+      "description": "startDate is a few minutes before 02:44 UTC and endDate a few minutes after 02:52 UTC",
+      "max_score": 10
+    },
+    {
+      "name": "ISO 8601 with Z suffix",
+      "description": "Both timestamps are ISO 8601 strings ending in Z, not epoch integers",
+      "max_score": 10
+    },
+    {
+      "name": "Colons encoded as *3a",
+      "description": "Colons inside the timestamps are written as *3a, not : or %3A",
+      "max_score": 10
+    },
+    {
+      "name": "Not percent-encoded",
+      "description": "No %XX sequences appear in the fragment values",
+      "max_score": 6
+    },
+    {
+      "name": "Structural characters literal",
+      "description": "The ~ ( ) and ' characters are left unencoded",
+      "max_score": 4
+    },
+    {
+      "name": "Does not route via Lambda Errors metric",
+      "description": "The answer does not suggest verifying the alarm through the AWS/Lambda Errors metric",
+      "max_score": 4
+    },
+    {
+      "name": "Assumption stated",
+      "description": "The explanation says times were converted from BST to UTC and why the window was padded",
+      "max_score": 4
+    }
+  ]
+}

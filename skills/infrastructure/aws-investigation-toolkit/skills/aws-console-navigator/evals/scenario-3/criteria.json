@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Prepare a CloudWatch Logs Insights Page for a Clean Screenshot.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Histogram hidden via frame.evaluate",
+      "description": "Code uses frame.evaluate() (not page.evaluate()) to hide the histogram, since it is inside the iframe",
+      "max_score": 7
+    },
+    {
+      "name": "Targets .logs__histogram-container",
+      "description": "Histogram element is selected by .logs__histogram-container class",
+      "max_score": 7
+    },
+    {
+      "name": "Sets display:none on histogram",
+      "description": "Histogram is hidden by setting style.display = 'none'",
+      "max_score": 7
+    },
+    {
+      "name": "Sidebar collapsed via page locator",
+      "description": "Sidebar close button is targeted via page.locator() (not frame.locator()), since it is in the outer shell",
+      "max_score": 7
+    },
+    {
+      "name": "Sidebar aria-label used for close button",
+      "description": "Code uses aria-label selector such as 'Close navigation' or 'Collapse sidebar' to find the button",
+      "max_score": 7
+    },
+    {
+      "name": "Existence check before clicking sidebar button",
+      "description": "Code checks isVisible() or uses a try/catch before clicking the sidebar button (it may already be collapsed)",
+      "max_score": 7
+    },
+    {
+      "name": "Obtains iframe frame for histogram work",
+      "description": "Code calls page.frame({ name: 'microConsole-Logs' }) before querying histogram",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Uses `page.evaluate()` instead of `frame.evaluate()` to hide...",
+      "description": "Failure avoided: Uses `page.evaluate()` instead of `frame.evaluate()` to hide the histogram",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not target `.logs__histogram-container` class for the...",
+      "description": "Failure avoided: Does not target `.logs__histogram-container` class for the histogram element",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not set `style.display = 'none'` on...",
+      "description": "Failure avoided: Does not set `style.display = 'none'` on the histogram",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Uses `frame.locator()` instead of `page.locator()` for the...",
+      "description": "Failure avoided: Uses `frame.locator()` instead of `page.locator()` for the sidebar button (sidebar is outside the iframe)",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not use an `aria-label` selector to...",
+      "description": "Failure avoided: Does not use an `aria-label` selector to find the sidebar close button",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Clicks the sidebar button without first checking...",
+      "description": "Failure avoided: Clicks the sidebar button without first checking if it is visible",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not call `page.frame(...)` before querying histogram...",
+      "description": "Failure avoided: Does not call `page.frame(...)` before querying histogram elements in the iframe",
+      "max_score": 9
+    }
+  ]
+}
