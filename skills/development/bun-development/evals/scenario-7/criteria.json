@@ -1,0 +1,56 @@
+{
+  "context": "Checks the sqlite category workflow: category choice, rg validation, prepared-statement refactor and verification via quick commands.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Names the category",
+      "description": "States the work falls under the SQLite and security categories before implementing",
+      "max_score": 10
+    },
+    {
+      "name": "Runs the rg check",
+      "description": "Runs `rg -n \"query\\(|prepare\\(\" src` to list query call sites",
+      "max_score": 10
+    },
+    {
+      "name": "Flags the interpolated query",
+      "description": "Identifies the concatenated `users.ts` query as flagged",
+      "max_score": 10
+    },
+    {
+      "name": "Leaves safe query alone",
+      "description": "Does not rewrite the fixed input-free query without reason",
+      "max_score": 10
+    },
+    {
+      "name": "Uses db.prepare",
+      "description": "Refactors the flagged call to `db.prepare` with a `?` placeholder",
+      "max_score": 10
+    },
+    {
+      "name": "Binds the value",
+      "description": "Passes `name` as a bound argument rather than interpolating it",
+      "max_score": 10
+    },
+    {
+      "name": "No interpolation remains",
+      "description": "No string concatenation or template interpolation remains in any query",
+      "max_score": 10
+    },
+    {
+      "name": "Refactors before merging",
+      "description": "Completes the refactor before suggesting a merge",
+      "max_score": 10
+    },
+    {
+      "name": "Runs bun test",
+      "description": "Verifies with `bun test` using the Quick Commands",
+      "max_score": 10
+    },
+    {
+      "name": "Prepared statements for user input",
+      "description": "States that queries with user-controlled input must use prepared statements",
+      "max_score": 10
+    }
+  ]
+}

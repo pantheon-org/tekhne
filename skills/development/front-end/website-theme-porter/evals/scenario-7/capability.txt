@@ -1,0 +1,1 @@
+Run Extract, Document, Apply and Verify with the right fallback method, staged reference loading and a final visual diff.

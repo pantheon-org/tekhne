@@ -5,7 +5,7 @@ description: Complete Biome toolchain guidance for real repository workflows. Us
 
 # Biome Complete Toolchain
 
-## When to Apply
+## When to Use
 
 Use this skill when the request includes:
 
@@ -14,10 +14,13 @@ Use this skill when the request includes:
 - "migrate from ESLint" or "migrate from Prettier"
 - "fix lint and format drift"
 - "run Biome in CI"
+- "tune rule severity" or add a targeted suppression
 
-## When Not to Apply
+## When Not to Use
 
-Do not use this skill when the user asks for ESLint-only or Prettier-only solutions.
+- The user asks for ESLint-only or Prettier-only solutions.
+- The work is about a language or file type Biome does not support.
+- The request concerns type checking or test running rather than linting and formatting.
 
 ## Principles
 
@@ -96,6 +99,7 @@ Expected result: non-zero exit when warnings or errors exist.
 **WHY:** Competing rules create contradictory output and noisy reviews.
 
 **BAD:** ESLint and Biome both lint `src/**/*.ts`.
+
 **GOOD:** Route TS linting and formatting through Biome only.
 
 **Consequence:** Duplicate diagnostics and unstable CI outcomes.
@@ -105,6 +109,7 @@ Expected result: non-zero exit when warnings or errors exist.
 **WHY:** Different formatting models cause churn in every commit.
 
 **BAD:** `prettier --write .` and `biome format . --write` in the same pipeline.
+
 **GOOD:** Keep only `biome format . --write` for supported files.
 
 **Consequence:** Constant formatting diffs and merge friction.
@@ -114,6 +119,7 @@ Expected result: non-zero exit when warnings or errors exist.
 **WHY:** Defaults may not match repository conventions.
 
 **BAD:** Commit default config without reviewing formatter/linter settings.
+
 **GOOD:** Define formatter width, linter domains, and VCS ignores explicitly.
 
 **Consequence:** Inconsistent style and avoidable lint regressions.
@@ -123,13 +129,56 @@ Expected result: non-zero exit when warnings or errors exist.
 **WHY:** Broad suppressions hide real defects and debt.
 
 **BAD:** Disable full rule groups without rationale.
+
 **GOOD:** Add narrow suppressions with a reason and follow-up ticket.
 
 **Consequence:** Quality silently degrades over time.
 
+### NEVER leave ESLint or Prettier wired in after migrating
+
+**WHY:** leftover scripts and dev dependencies keep two sources of truth alive and invite the conflicts the migration was meant to remove.
+
+**BAD:** `package.json` still has `eslint` and `prettier` scripts and packages beside the new Biome scripts.
+
+**GOOD:** remove the old scripts and dev dependencies and record the removal in the migration notes.
+
+### NEVER run the CI check without `--error-on-warnings`
+
+**WHY:** without the flag, warnings pass silently and the CI result no longer matches the strict local expectation.
+
+**BAD:** `bunx @biomejs/biome check .` as the CI step.
+
+**GOOD:** `bunx @biomejs/biome check . --error-on-warnings`.
+
+### NEVER add a suppression without a reason
+
+**WHY:** an unexplained suppression cannot be reviewed or retired, so it becomes permanent debt.
+
+**BAD:** a bare ignore comment with no explanation.
+
+**GOOD:** an inline `biome-ignore` comment naming the rule, the reason and the follow-up ticket.
+
+### NEVER re-enable every rule group at once when isolating a failure
+
+**WHY:** enabling all groups together hides which one conflicts, so the source of the failure is never found.
+
+**BAD:** disable the whole linter, then switch everything back on in one step.
+
+**GOOD:** disable rule groups in the linter section, then re-enable one group at a time until the failure returns.
+
+### NEVER declare success without re-running the check
+
+**WHY:** a fix that was never verified may leave errors behind, and an unverified exit code says nothing about CI.
+
+**BAD:** applying `--write` and reporting the repository clean.
+
+**GOOD:** re-run `biome check .`, confirm the error count dropped, and confirm exit code 0 with `--error-on-warnings`.
+
 ## References
 
-- [Config: biome.json](references/config-biome-json.md) — full biome.json schema, formatter width, linter domains, and VCS ignore patterns
-- [Linting Rule Categories](references/linting-rule-categories.md) — all rule groups, severity levels, and category-level enable/disable patterns
-- [Formatter Options](references/formatter-options.md) — indent style, line width, quote style, and language-specific overrides
-- [Migration: ESLint & Prettier](references/migration-eslint-prettier.md) — step-by-step migration guide, rule mapping, and conflict resolution
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Configuration | [references/config-biome-json.md](references/config-biome-json.md) | Full biome.json schema, formatter width, linter domains and VCS ignore patterns |
+| Lint rules | [references/linting-rule-categories.md](references/linting-rule-categories.md) | Rule groups, severity levels and category-level enable or disable patterns |
+| Formatter | [references/formatter-options.md](references/formatter-options.md) | Indent style, line width, quote style and language-specific overrides |
+| Migration | [references/migration-eslint-prettier.md](references/migration-eslint-prettier.md) | Step-by-step migration, rule mapping and conflict resolution |

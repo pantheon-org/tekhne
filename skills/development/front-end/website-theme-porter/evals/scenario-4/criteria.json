@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Document Extracted Colours for a SaaS Dashboard.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct output path",
+      "description": "`colours.md` is placed inside `.context/artifacts/saas-dashboard/2026-03-13/theme/`",
+      "max_score": 6
+    },
+    {
+      "name": "Colour table format",
+      "description": "`colours.md` contains a table with Token, Hex, HSL, and Role columns",
+      "max_score": 6
+    },
+    {
+      "name": "Primary = CTA button",
+      "description": "`rgb(99, 102, 241)` / `#6366F1` is assigned to `--primary`",
+      "max_score": 6
+    },
+    {
+      "name": "Secondary = secondary button",
+      "description": "`rgb(241, 245, 249)` is assigned to `--secondary` or `--muted` (not `--primary` or `--accent`)",
+      "max_score": 6
+    },
+    {
+      "name": "Accent = tag/highlight",
+      "description": "`rgb(224, 231, 255)` is assigned to `--accent` (not `--secondary`, since it is decorative/highlight only)",
+      "max_score": 6
+    },
+    {
+      "name": "Muted = sidebar",
+      "description": "The sidebar background or card bg is assigned to `--muted`",
+      "max_score": 6
+    },
+    {
+      "name": "Border token",
+      "description": "The input border or card border colour is assigned to `--border`",
+      "max_score": 6
+    },
+    {
+      "name": "Background token",
+      "description": "`rgb(248, 250, 252)` is assigned to `--background`",
+      "max_score": 6
+    },
+    {
+      "name": "Foreground token",
+      "description": "`rgb(15, 23, 42)` is assigned to `--foreground`",
+      "max_score": 6
+    },
+    {
+      "name": "Tie-breaking documented",
+      "description": "`decisions.md` explains at least one assignment decision for an ambiguous colour",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent places `colours.md` in `docs/` or the...",
+      "description": "Failure avoided: Agent places `colours.md` in `docs/` or the project root instead of the artifact directory",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent assigns the tag colour (`rgb(224, 231,...",
+      "description": "Failure avoided: Agent assigns the tag colour (`rgb(224, 231, 255)`) to `--secondary` instead of `--accent`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent assigns the secondary button background to...",
+      "description": "Failure avoided: Agent assigns the secondary button background to `--primary` instead of `--secondary` or `--muted`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent omits `decisions.md` or provides no tie-breaking...",
+      "description": "Failure avoided: Agent omits `decisions.md` or provides no tie-breaking rationale",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent omits the Hex or HSL columns...",
+      "description": "Failure avoided: Agent omits the Hex or HSL columns from the colour table",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent does not assign a `--border` token",
+      "description": "Failure avoided: Agent does not assign a `--border` token",
+      "max_score": 10
+    }
+  ]
+}

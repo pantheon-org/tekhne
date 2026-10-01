@@ -1,0 +1,61 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Fix Shell Command Injection in Bun Subprocess Code.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Agent identifies the shell injection vulnerability in...",
+      "description": "Agent identifies the shell injection vulnerability in `convertFile` from using `sh -c` with interpolated user input",
+      "max_score": 9
+    },
+    {
+      "name": "Agent identifies the SQL injection vulnerability in...",
+      "description": "Agent identifies the SQL injection vulnerability in the `db.query()` log insertion",
+      "max_score": 9
+    },
+    {
+      "name": "Agent identifies the shell injection vulnerability in...",
+      "description": "Agent identifies the shell injection vulnerability in `previewFile` from using `sh -c` with a user-provided path",
+      "max_score": 9
+    },
+    {
+      "name": "Agent replaces `[\"sh\", \"-c\", interpolated_string]` with direct...",
+      "description": "Agent replaces `[\"sh\", \"-c\", interpolated_string]` with direct argument arrays (e.g., `[\"convert\", inputPath, \"-format\", format, ...]`) so no shell parsing occurs",
+      "max_score": 9
+    },
+    {
+      "name": "Agent replaces the interpolated SQL query with...",
+      "description": "Agent replaces the interpolated SQL query with `db.prepare()` and bound parameters",
+      "max_score": 9
+    },
+    {
+      "name": "Agent provides a concrete attack scenario for...",
+      "description": "Agent provides a concrete attack scenario for each vulnerability",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent misses the SQL injection in the...",
+      "description": "Failure avoided: Agent misses the SQL injection in the `db.query()` log insertion",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent replaces `[\"sh\", \"-c\", ...]` with another...",
+      "description": "Failure avoided: Agent replaces `[\"sh\", \"-c\", ...]` with another shell-interpolation pattern instead of a direct argument array",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent does not provide concrete attack examples...",
+      "description": "Failure avoided: Agent does not provide concrete attack examples for the vulnerabilities",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent retains `[\"sh\", \"-c\", ...]` for any...",
+      "description": "Failure avoided: Agent retains `[\"sh\", \"-c\", ...]` for any of the subprocess calls in the secure rewrite",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent leaves template literal interpolation in any...",
+      "description": "Failure avoided: Agent leaves template literal interpolation in any `db.query()` or `db.prepare()` string",
+      "max_score": 10
+    }
+  ]
+}

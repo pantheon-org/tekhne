@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Migrate Node.js File I/O to Bun-Native APIs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No node:fs imports in output",
+      "description": "The produced module contains no `import` from `'node:fs'` or `require('fs')`; all file operations use Bun APIs",
+      "max_score": 8
+    },
+    {
+      "name": "readFileSync replaced with Bun.file().text()",
+      "description": "All `readFileSync` calls are replaced with `await Bun.file(path).text()` or equivalent Bun.file() API; async/await is used correctly",
+      "max_score": 8
+    },
+    {
+      "name": "writeFileSync replaced with Bun.write()",
+      "description": "All `writeFileSync` calls are replaced with `await Bun.write(path, content)`",
+      "max_score": 8
+    },
+    {
+      "name": "existsSync handled correctly",
+      "description": "`existsSync` is either replaced with a try/catch around `Bun.file().text()`, or the agent uses `Bun.file(path).exists()` or an appropriate Bun-native alternative; reasoning is explained",
+      "max_score": 8
+    },
+    {
+      "name": "Each substitution explained",
+      "description": "Agent explains each API substitution and states why the Bun-native API is preferred",
+      "max_score": 8
+    },
+    {
+      "name": "Async signatures updated where needed",
+      "description": "`loadConfig` is updated to be async since it now uses `await`; all exported function signatures reflect async/await changes correctly",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent retains any `import` from `node:fs` in...",
+      "description": "Failure avoided: Agent retains any `import` from `node:fs` in the output module",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent uses `readFileSync` or a synchronous equivalent...",
+      "description": "Failure avoided: Agent uses `readFileSync` or a synchronous equivalent instead of `await Bun.file().text()`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent uses `writeFileSync` instead of `await Bun.write()`",
+      "description": "Failure avoided: Agent uses `writeFileSync` instead of `await Bun.write()`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not handle the `existsSync` replacement...",
+      "description": "Failure avoided: Agent does not handle the `existsSync` replacement and leaves a non-Bun call in place",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent produces the migrated module without explaining...",
+      "description": "Failure avoided: Agent produces the migrated module without explaining each substitution",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent leaves `loadConfig` as a synchronous function...",
+      "description": "Failure avoided: Agent leaves `loadConfig` as a synchronous function when it now requires `await`",
+      "max_score": 12
+    }
+  ]
+}

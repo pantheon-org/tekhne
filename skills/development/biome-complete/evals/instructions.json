@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER run Biome and ESLint on the same files; route TS linting and formatting through Biome only",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER run Prettier and Biome formatter on the same files",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER skip `biome.json` customization after init; define formatter width, linter domains and VCS ignores explicitly",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER blanket-ignore diagnostics to get green CI; use narrow suppressions with a reason and follow-up ticket",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER leave ESLint or Prettier wired in after migrating; remove the old scripts and dev dependencies",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER run the CI check without `--error-on-warnings`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER add a suppression without a reason",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER re-enable every rule group at once when isolating a failure; re-enable one group at a time",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER declare success without re-running the check and confirming the exit code",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I10",
+      "content": "Use one source of truth for linting and formatting",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Prefer deterministic commands and verifiable output",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I12",
+      "content": "Keep SKILL.md short and move deep details to references",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Confirm the scope first: migration, config, lint, format or CI",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I14",
+      "content": "Initialise the config if missing with `bunx @biomejs/biome init`",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Run `bunx @biomejs/biome check .` and capture the results",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Apply safe autofixes with `bunx @biomejs/biome check . --write`",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Add targeted suppressions only when justified",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "Verify commands pass in local and CI contexts, with `--error-on-warnings` for CI",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "On a failure after migration, isolate conflicting rules by temporarily disabling rule groups in the linter section",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "Normalise formatting with `bunx @biomejs/biome format . --write`",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Handle extraction hazards: hashed classes, hover colours, OS dark mode, login walls and permission to replicate.

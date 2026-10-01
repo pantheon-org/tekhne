@@ -24,17 +24,20 @@ reference sheet and will use the wrong values in production. When data is missin
 `TBD — not yet defined`. A reference sheet with honest gaps is more useful than one with
 plausible fictions.
 
+- Document only values found in source: no inferred, expanded or "sensible default" tokens.
+- Read the real CSS and config files first: well-known frameworks still carry project-level overrides.
+- Mark every gap with `TBD — not yet defined` instead of leaving it blank or filling it in.
+- Produce the output even from a sparse codebase: honest gaps are a valid result.
+
 ---
 
 ## When to Use
 
-Apply this skill when:
-
-1. Starting a new project and needing a living design token reference
-2. Onboarding a design system from an existing codebase
-3. Creating a Figma-compatible reference for designers and developers
-4. Auditing existing styles to identify undocumented or orphaned tokens
-5. Porting design tokens between frameworks
+- Starting a new project and needing a living design token reference
+- Onboarding a design system from an existing codebase
+- Creating a Figma-compatible reference for designers and developers
+- Auditing existing styles to identify undocumented or orphaned tokens
+- Porting design tokens between frameworks
 
 ---
 
@@ -76,7 +79,7 @@ See [`references/workflow.md`](references/workflow.md) for the full 8-step gener
 
 ---
 
-## When NOT to Use
+## When Not to Use
 
 - The project has no CSS source files (generated styles only, e.g. CSS-in-JS with no extractable tokens)
 - A design reference sheet already exists and only needs updating — use the companion enforcement skill's update workflow instead
@@ -88,60 +91,123 @@ See [`references/workflow.md`](references/workflow.md) for the full 8-step gener
 
 ### NEVER invent or infer design tokens that don't exist in source code
 
-- **WHY:** Invented values create false documentation. Developers trust the reference sheet and may use wrong tokens, causing design inconsistencies that are hard to trace.
+**WHY:** Invented values create false documentation. Developers trust the reference sheet and may use wrong tokens, causing design inconsistencies that are hard to trace.
 
-| BAD | GOOD |
-|-----|------|
-| Infer `--space-4: 1rem` because it seems reasonable | Document only values found in CSS; mark missing sections as `TBD — not yet defined` |
-| Expand one brand colour into a full 9-shade palette | Document only the hardcoded hex values found; note they are not formalised tokens |
+**BAD**: Infer `--space-4: 1rem` because it seems reasonable.
+
+**GOOD**: Document only values found in CSS; mark missing sections as `TBD — not yet defined`.
+
+### NEVER expand one brand colour into a full palette
+
+**WHY:** Shades and tints you generate are not tokens the project defines, so the sheet would document colours nobody can use.
+
+**BAD**: Expand one brand colour into a full 9-shade palette.
+
+**GOOD**: Document only the hardcoded hex values found; note they are not formalised tokens.
 
 ### NEVER generate the reference sheet before reading actual CSS/config files
 
-- **WHY:** Even well-known frameworks have project-level overrides. Reading source files is the only way to capture what is real.
+**WHY:** Even well-known frameworks have project-level overrides. Reading source files is the only way to capture what is real.
 
-  ```bash
-  # BAD: assuming defaults
-  # GOOD: always verify
-  grep -r "screens" tailwind.config.ts
-  ```
+**BAD**:
+
+```bash
+# assuming Tailwind defaults for breakpoints
+```
+
+**GOOD**:
+
+```bash
+grep -r "screens" tailwind.config.ts
+```
 
 ### NEVER leave sections empty without a TBD marker
 
-- **WHY:** Blank sections appear complete; `TBD — not yet defined` is an actionable signal that makes gaps impossible to miss.
+**WHY:** Blank sections appear complete; `TBD — not yet defined` is an actionable signal that makes gaps impossible to miss.
 
-| BAD | GOOD |
-|-----|------|
-| `## Dark Mode` followed by empty content | `## Dark Mode` followed by `TBD — not yet defined` |
+**BAD**: `## Dark Mode` followed by empty content.
+
+**GOOD**: `## Dark Mode` followed by `TBD — not yet defined`.
+
+### NEVER abort or refuse because the codebase is sparse
+
+**WHY:** A sheet with honest TBD markers is more useful than no sheet, and the gaps tell the team what to define next.
+
+**BAD**: Ask the user to add tokens first and stop.
+
+**GOOD**: Generate all 12 sections, mark undefined ones `TBD — not yet defined` and list them in the final report.
 
 ### NEVER use non-copy-pasteable code examples in the reference sheet
 
-- **WHY:** A reference sheet that requires editing before use wastes developer time and erodes trust.
+**WHY:** A reference sheet that requires editing before use wastes developer time and erodes trust.
 
-  ```css
-  /* BAD: placeholder that doesn't exist */
-  /* GOOD: actual token from source */
-  --color-brand-primary: #1a2b3c;
-  ```
+**BAD**:
+
+```css
+/* placeholder that doesn't exist in the project */
+--color-example: #000000;
+```
+
+**GOOD**:
+
+```css
+/* actual token from source */
+--color-brand-primary: #1a2b3c;
+```
 
 ### NEVER use a generic description in the companion enforcement skill
 
-- **WHY:** A generic description means the skill doesn't activate correctly for the project. A common pitfall is copying the parent skill description verbatim.
-- **BAD** — `description: Enforce design tokens for any web project`
-- **GOOD** — `description: Enforce design tokens for the Acme Corp marketing site`
+**WHY:** A generic description means the skill doesn't activate correctly for the project. A common pitfall is copying the parent skill description verbatim.
 
----
+**BAD**: `description: Enforce design tokens for any web project`
+
+**GOOD**: `description: Enforce design tokens for the Acme Corp marketing site`
+
+### NEVER place the companion enforcement skill under `docs/`
+
+**WHY:** The companion skill must live in the project's skills directory (see [`references/workflow.md`](references/workflow.md), Step 7) to be discovered; under `docs/` it is only a document.
+
+**BAD**:
+
+```text
+docs/design/SKILL.md
+```
+
+**GOOD**:
+
+```text
+<project-skills-directory>/{project-slug}/SKILL.md
+```
+
+### NEVER leave template placeholders in generated output
+
+**WHY:** Unfilled `{PROJECT_NAME}` and `{TOKEN_*}` markers show the sheet was never completed and cannot be copied from.
+
+**BAD**: `--color-brand: {TOKEN_BRAND}`
+
+**GOOD**: `--color-brand: #1a2b3c` taken from the authoritative token file.
+
+### NEVER skip the final confirmation report
+
+**WHY:** The report lists populated sections and TBD items, which is how reviewers see what is real and what is a gap.
+
+**BAD**: Write both files and stop without a summary.
+
+**GOOD**: Print the structured report listing populated sections with token counts and every TBD item.
 
 ## References
 
-- [`references/workflow.md`](references/workflow.md) — Full 8-step generation workflow
-- [`references/design-reference-template.md`](references/design-reference-template.md) — Output template for `docs/design/design-reference.md`
-- [`references/enforcement-skill-template.md`](references/enforcement-skill-template.md) — Output template for the companion enforcement skill
-- [`templates/skill-output.yaml`](templates/skill-output.yaml) — Structured scratchpad; populate before writing any markdown
-- [`schemas/design-reference.schema.json`](schemas/design-reference.schema.json) — JSON schema for scratchpad validation
-- [`references/accessibility-guidelines.md`](references/accessibility-guidelines.md) — WCAG 2.1 AA criteria, contrast ratios, keyboard nav, ARIA
-- [`references/typography-principles.md`](references/typography-principles.md) — Hierarchy, readability, type pairing, modular scale
-- [`references/psychology-of-color.md`](references/psychology-of-color.md) — Colour associations, brand strategy, harmony, WCAG contrast
-- [`references/visual-hierarchy.md`](references/visual-hierarchy.md) — The seven hierarchy variables, Z/F-patterns
-- [`references/grid-and-layout-theory.md`](references/grid-and-layout-theory.md) — Column grids, 8-point system, responsive strategies
-- [`references/whitespace-theory.md`](references/whitespace-theory.md) — Macro/micro whitespace, density, hierarchy
-- [`references/gestalt-principles.md`](references/gestalt-principles.md) — Proximity, similarity, figure-ground, closure, continuity
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Full generation workflow | [`references/workflow.md`](references/workflow.md) | Following the 8-step process |
+| Output template | [`references/design-reference-template.md`](references/design-reference-template.md) | Writing `docs/design/design-reference.md` |
+| Enforcement skill template | [`references/enforcement-skill-template.md`](references/enforcement-skill-template.md) | Generating the companion skill |
+| Scratchpad | [`templates/skill-output.yaml`](templates/skill-output.yaml) | Populating values before writing any markdown |
+| Scratchpad schema | [`schemas/design-reference.schema.json`](schemas/design-reference.schema.json) | Validating the scratchpad |
+| Accessibility | [`references/accessibility-guidelines.md`](references/accessibility-guidelines.md) | WCAG 2.1 AA criteria, contrast, keyboard nav, ARIA |
+| Typography | [`references/typography-principles.md`](references/typography-principles.md) | Hierarchy, readability, pairing, modular scale |
+| Colour | [`references/psychology-of-color.md`](references/psychology-of-color.md) | Colour associations, harmony, contrast |
+| Visual hierarchy | [`references/visual-hierarchy.md`](references/visual-hierarchy.md) | Seven hierarchy variables, Z/F-patterns |
+| Grid and layout | [`references/grid-and-layout-theory.md`](references/grid-and-layout-theory.md) | Column grids, 8-point system, responsive strategies |
+| Whitespace | [`references/whitespace-theory.md`](references/whitespace-theory.md) | Macro and micro whitespace, density |
+| Gestalt | [`references/gestalt-principles.md`](references/gestalt-principles.md) | Proximity, similarity, figure-ground, closure |

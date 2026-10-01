@@ -1,0 +1,1 @@
+Tests that the agent scopes the request, runs and captures the check, applies safe fixes and formatting, and verifies the result before reporting success.

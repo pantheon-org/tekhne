@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Extract Design Tokens from a React App.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses agent-browser",
+      "description": "`extract.sh` uses `agent-browser` commands (not `curl` or `wget`) as the primary extraction method",
+      "max_score": 5
+    },
+    {
+      "name": "ARTIFACTS path defined",
+      "description": "`extract.sh` defines `ARTIFACTS` as a variable pointing to `.context/artifacts/app-client-brand-io/2026-03-13`",
+      "max_score": 5
+    },
+    {
+      "name": "mkdir -p ARTIFACTS",
+      "description": "`extract.sh` creates the ARTIFACTS directory with `mkdir -p` before writing any files",
+      "max_score": 5
+    },
+    {
+      "name": "SPA scroll step",
+      "description": "`extract.sh` includes a `window.scrollTo(0, document.body.scrollHeight)` eval or equivalent scroll step before extracting tokens",
+      "max_score": 5
+    },
+    {
+      "name": "Wait networkidle after scroll",
+      "description": "`extract.sh` waits for `networkidle` after the scroll step",
+      "max_score": 5
+    },
+    {
+      "name": "CSS vars extraction",
+      "description": "`extract.sh` includes a JS eval that extracts CSS custom properties from `:root` and saves to a JSON file under ARTIFACTS",
+      "max_score": 5
+    },
+    {
+      "name": "Computed styles extraction",
+      "description": "`extract.sh` includes a JS eval that extracts computed styles from key elements and saves to a JSON file under ARTIFACTS",
+      "max_score": 5
+    },
+    {
+      "name": "Screenshots under ARTIFACTS",
+      "description": "All screenshot commands save files to `${ARTIFACTS}/` paths",
+      "max_score": 5
+    },
+    {
+      "name": "wait --load networkidle on open",
+      "description": "`extract.sh` waits for the page to fully load after opening before attempting extraction",
+      "max_score": 5
+    },
+    {
+      "name": "Full-page and mobile screenshots",
+      "description": "`extract.sh` takes at least one full-page screenshot and one mobile-viewport screenshot",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent uses `curl` or `wget` instead of...",
+      "description": "Failure avoided: Agent uses `curl` or `wget` instead of `agent-browser` for the main extraction",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent saves files to `/tmp` or `docs/`...",
+      "description": "Failure avoided: Agent saves files to `/tmp` or `docs/` instead of `.context/artifacts/`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not handle SPA rendering (no...",
+      "description": "Failure avoided: Agent does not handle SPA rendering (no scroll step or networkidle wait)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not extract CSS custom properties...",
+      "description": "Failure avoided: Agent does not extract CSS custom properties from `:root`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not extract computed styles from...",
+      "description": "Failure avoided: Agent does not extract computed styles from key elements",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent takes only a single screenshot with...",
+      "description": "Failure avoided: Agent takes only a single screenshot with no mobile-viewport variant",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not `mkdir -p` the ARTIFACTS...",
+      "description": "Failure avoided: Agent does not `mkdir -p` the ARTIFACTS directory before writing files",
+      "max_score": 20
+    }
+  ]
+}

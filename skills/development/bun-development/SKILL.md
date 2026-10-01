@@ -8,9 +8,14 @@ allowed-tools: Read, Bash, Write, Edit
 
 Navigation hub for Bun guidance focused on production-safe implementation.
 
-## When to Apply
+## Philosophy
 
-Use this skill when:
+- Prefer Bun-native APIs over Node.js shims: one runtime, one set of semantics.
+- Treat every string that crosses a shell or SQL boundary as hostile until it is bound or passed as an argument.
+- Keep installs deterministic: one package manager, one lockfile, no drift.
+- Validate every change by running it, not by reading it.
+
+## When to Use
 
 - You need Bun-native runtime APIs (`Bun.file`, `Bun.write`, `Bun.serve`)
 - You are writing or debugging tests with `bun test`
@@ -102,8 +107,7 @@ Expected: queries in new code paths use prepared statements where input is user-
 
 ### NEVER mix Node.js fs calls into Bun-native file workflows
 
-**WHY**: mixed APIs create inconsistent behavior and miss Bun performance advantages.
-BAD: `readFileSync("./config.json")` for Bun-managed file reads. GOOD: `await Bun.file("./config.json").text()`.
+**WHY:** mixed APIs create inconsistent behaviour and miss Bun performance advantages.
 
 **BAD**:
 
@@ -120,14 +124,15 @@ const config = await Bun.file("./config.json").text();
 
 ### NEVER run `npm install` in Bun-managed repositories
 
-**WHY**: mixed package managers cause lockfile drift and nondeterministic installs.
+**WHY:** mixed package managers cause lockfile drift and nondeterministic installs.
+
 **BAD**: `npm install`
+
 **GOOD**: `bun install`
 
 ### NEVER interpolate untrusted input into SQL strings
 
-**WHY**: direct interpolation can introduce SQL injection vulnerabilities.
-BAD: interpolate untrusted values into query strings. GOOD: bind values with prepared statements.
+**WHY:** direct interpolation can introduce SQL injection vulnerabilities.
 
 **BAD**:
 
@@ -143,8 +148,7 @@ db.prepare("SELECT * FROM users WHERE email = ?").all(email);
 
 ### NEVER pass unescaped user input into shell commands
 
-**WHY**: shell interpolation enables command injection.
-BAD: `await Bun.spawn(["sh", "-c", userInput]).exited`. GOOD: use direct API calls or fixed command arguments.
+**WHY:** shell interpolation enables command injection.
 
 **BAD**:
 
@@ -159,16 +163,73 @@ const safePath = Bun.file(userProvidedPath);
 await safePath.text();
 ```
 
-## Reference Map
+### NEVER leave raw interpolated `query(` calls in existing code once flagged
 
-- Runtime core: `references/runtime-globals.md`, `references/runtime-http-server.md`
-- File I/O: `references/file-io-patterns.md`, `references/file-vs-node.md`, `references/file-glob.md`
-- Testing: `references/testing-bun-test.md`, `references/testing-matchers.md`, `references/testing-mocking.md`, `references/testing-snapshots.md`
-- SQLite: `references/sqlite-basics.md`
-- Package/workspaces: `references/pm-workspaces-agent-instructions.md`
-- Security: `references/runtime-shell.md`, `references/runtime-password.md`
+**WHY:** the SQL validation step exists to find them, and an unrefactored hit is a live injection path.
+
+**BAD**: merging while an interpolated `db.query` call that `rg` flagged is still present.
+
+**GOOD**: refactor each flagged call to `db.prepare(...)` with bound parameters before merging.
+
+### NEVER ignore a lockfile merge conflict when `bun install` fails
+
+**WHY:** an unresolved `bun.lock`/`bun.lockb` conflict leaves installs nondeterministic.
+
+**BAD**: re-running `bun install` repeatedly without opening the lockfile.
+
+**GOOD**: resolve the conflict markers, then re-run `bun install`.
+
+### NEVER skip `bun test` after changing dependencies
+
+**WHY:** dependency changes can cause regressions that only a test run isolates.
+
+**BAD**: updating packages and moving straight to the next step.
+
+**GOOD**: run `bun test` straight after the change and fix regressions before proceeding.
+
+### NEVER keep going after a failed validation
+
+**WHY:** stacking changes on a failing state hides which change broke behaviour.
+
+**BAD**: continuing to edit while the validation error is unexplained.
+
+**GOOD**: revert the last change, confirm the error, then address the specific failure before re-validating.
+
+### NEVER finalise a change without running the anti-pattern checks
+
+**WHY:** the checks are the guard against the injection and package-manager mistakes above.
+
+**BAD**: finishing straight after implementation.
+
+**GOOD**: apply the anti-pattern checks (step 4 of the Workflow) before finalising.
+
+### NEVER record a decision without linking the reference you used
+
+**WHY:** unlinked decisions cannot be re-checked when Bun behaviour changes.
+
+**BAD**: "Used Bun.file because it is better."
+
+**GOOD**: "Used `Bun.file` per `references/file-io-patterns.md`."
 
 ## References
+
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Runtime globals | `references/runtime-globals.md` | Using Bun runtime globals |
+| HTTP server | `references/runtime-http-server.md` | Building services with `Bun.serve` |
+| File I/O patterns | `references/file-io-patterns.md` | Reading and writing files |
+| Bun vs Node file APIs | `references/file-vs-node.md` | Migrating from `node:fs` |
+| Globbing | `references/file-glob.md` | Matching files by pattern |
+| Test runner | `references/testing-bun-test.md` | Writing `bun test` suites |
+| Matchers | `references/testing-matchers.md` | Choosing assertions |
+| Mocking | `references/testing-mocking.md` | Mocking modules and functions |
+| Snapshots | `references/testing-snapshots.md` | Snapshot testing |
+| SQLite | `references/sqlite-basics.md` | Using `bun:sqlite` |
+| Workspaces | `references/pm-workspaces-agent-instructions.md` | Package and workspace policy |
+| Shell safety | `references/runtime-shell.md` | Running subprocesses safely |
+| Passwords | `references/runtime-password.md` | Hashing and verifying passwords |
+
+## External Links
 
 - [Bun Docs](https://bun.sh/docs)
 - [Bun File I/O](https://bun.sh/docs/api/file-io)

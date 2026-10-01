@@ -1,0 +1,56 @@
+{
+  "context": "Checks the Bun workflow for dependency changes: runtime confirmation, lockfile conflict resolution, test validation and documented decisions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Confirms Bun runtime",
+      "description": "Runs `bun --version` before making changes",
+      "max_score": 10
+    },
+    {
+      "name": "States lockfile strategy",
+      "description": "States whether `bun.lock` or `bun.lockb` is the lockfile in use before installing",
+      "max_score": 10
+    },
+    {
+      "name": "Uses bun install",
+      "description": "Installs with `bun install`, including to add the dependency",
+      "max_score": 10
+    },
+    {
+      "name": "Rejects npm install",
+      "description": "Does not run `npm install` and explains that the README instruction is stale for a Bun-managed repo",
+      "max_score": 10
+    },
+    {
+      "name": "Resolves conflict markers",
+      "description": "Opens the lockfile, resolves the conflict markers and only then re-runs `bun install`",
+      "max_score": 10
+    },
+    {
+      "name": "Tests after dependency change",
+      "description": "Runs `bun test` straight after the dependency change",
+      "max_score": 10
+    },
+    {
+      "name": "Reverts on failure",
+      "description": "If a test fails, reverts the last change and confirms the error before fixing",
+      "max_score": 10
+    },
+    {
+      "name": "Re-validates after fix",
+      "description": "Re-runs the tests after addressing the specific failure",
+      "max_score": 10
+    },
+    {
+      "name": "Runs anti-pattern checks",
+      "description": "Applies the anti-pattern checks before declaring the work finished",
+      "max_score": 10
+    },
+    {
+      "name": "Links references in notes",
+      "description": "The decision note links the exact reference files used",
+      "max_score": 10
+    }
+  ]
+}

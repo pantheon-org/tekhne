@@ -1,0 +1,61 @@
+{
+  "context": "Tests: scoping, capturing diagnostics, safe autofix, formatting, and verifying before declaring success.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Scope confirmed",
+      "description": "The agent identifies the request as lint and format cleanup and not a migration or new configuration.",
+      "max_score": 8
+    },
+    {
+      "name": "Baseline check captured",
+      "description": "The agent runs `bunx @biomejs/biome check .` first and records the diagnostics or error count.",
+      "max_score": 10
+    },
+    {
+      "name": "Invoked through bunx",
+      "description": "Every Biome command is run as `bunx @biomejs/biome ...` rather than `npx` or a global install.",
+      "max_score": 8
+    },
+    {
+      "name": "Safe fixes applied",
+      "description": "The agent applies fixes with `bunx @biomejs/biome check . --write`.",
+      "max_score": 10
+    },
+    {
+      "name": "Formatter run",
+      "description": "The agent normalises formatting with `bunx @biomejs/biome format . --write` where formatting drift remains.",
+      "max_score": 10
+    },
+    {
+      "name": "Check re-run after fixes",
+      "description": "The agent re-runs `biome check .` after the fixes and compares the error count with the baseline.",
+      "max_score": 12
+    },
+    {
+      "name": "Strict run confirms success",
+      "description": "The agent runs `bunx @biomejs/biome check . --error-on-warnings` and confirms exit code 0 before saying the repository is green.",
+      "max_score": 12
+    },
+    {
+      "name": "Remaining errors reviewed",
+      "description": "Diagnostics that persist after autofix are reviewed individually rather than ignored.",
+      "max_score": 8
+    },
+    {
+      "name": "Suppressions are narrow and justified",
+      "description": "Any suppression is an inline `biome-ignore` comment with a reason, not a rule-group disable in `biome.json`.",
+      "max_score": 10
+    },
+    {
+      "name": "No other formatter introduced",
+      "description": "The agent does not run Prettier or ESLint to finish the clean-up.",
+      "max_score": 6
+    },
+    {
+      "name": "Honest status report",
+      "description": "The final message states the verified exit code and any diagnostics that remain.",
+      "max_score": 6
+    }
+  ]
+}

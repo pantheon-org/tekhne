@@ -12,19 +12,18 @@ The workflow is four linear stages: **Extract → Document → Apply → Verify*
 
 ## Principles
 
-1. **Document before you code** — write all theme documentation under `.context/artifacts/` before touching a single source file.
-2. **Tokens over literals** — every extracted value becomes a semantic CSS token; hardcoded colours never appear in component classes.
-3. **Method hierarchy** — prefer automated extraction (agent-browser) over manual inspection; document whichever method was used.
-4. **Verify visually** — the workflow is not complete until a diff screenshot confirms the local build matches the reference site.
-5. **Respect scope** — only port colours, typography, spacing, and component patterns; never copy the source site's actual stylesheet files.
+- **Document before you code**: write all theme documentation under the artifacts directory (see Artifact Storage Convention) before touching a single source file.
+- **Tokens over literals**: every extracted value becomes a semantic CSS token; hardcoded colours never appear in component classes.
+- **Method hierarchy**: prefer automated extraction (agent-browser) over manual inspection; document whichever method was used.
+- **Verify visually**: the workflow is not complete until a diff screenshot confirms the local build matches the reference site.
+- **Respect scope**: only port colours, typography, spacing, and component patterns; never copy the source site's actual stylesheet files.
 
-### When to use this skill
+## When to Use
 
-Apply this skill when you need to replicate a visual design from a live URL into a React + Tailwind codebase: brand migrations, client reference designs, design-system ports, or style-guide replication.
-
-### When not to apply
-
-See the **When NOT to Use This Skill** section at the end of this file for login-walled sites, canvas-rendered UIs, obfuscated class names, and licence considerations.
+- Replicating a visual design from a live URL into a React + Tailwind codebase
+- Running a brand migration or matching a client reference design
+- Porting a design system or replicating a style guide into Tailwind v4 tokens
+- Verifying a local build against a reference site with a visual diff
 
 ---
 
@@ -390,7 +389,7 @@ table, and symptom→fix patterns for all common mismatches.
 
 ---
 
-## When NOT to Use This Skill
+## When Not to Use
 
 - **Login-walled or paywalled sites** — extraction requires an authenticated session; the browser cannot reach the styled content without credentials.
 - **Canvas-rendered or WebGL UIs** — apps that paint entirely to a `<canvas>` element have no CSS to extract; `getComputedStyle` returns nothing useful.
@@ -412,60 +411,125 @@ Prioritise in this order:
 
 ## Anti-Patterns
 
-- **NEVER wrap HSL values in `hsl()` inside `@theme inline`.**
-  WHY: In Tailwind v4, `--color-primary: hsl(174 90% 31%)` inside `@theme inline` will
-  double-wrap when Tailwind generates utilities, producing broken output.
-  **Consequence:** `bg-primary` resolves to `hsl(hsl(174 90% 31%))` — an invalid value; the colour renders as transparent or black.
+### NEVER wrap HSL values in `hsl()` inside `@theme inline`
 
-  ```css
-  /* ❌ BAD — double-wraps at utility generation time */
-  @theme inline {
-    --color-primary: hsl(174 90% 31%);
-  }
+**WHY:** In Tailwind v4, `--color-primary: hsl(174 90% 31%)` inside `@theme inline` double-wraps when Tailwind generates utilities, so `bg-primary` resolves to `hsl(hsl(174 90% 31%))`, an invalid value; the colour renders as transparent or black.
 
-  /* ✅ GOOD — bare channels in @theme inline; hsl() in :root */
-  :root { --primary: hsl(174 90% 31%); }
-  @theme inline { --color-primary: var(--primary); }
-  ```
+**BAD**:
 
-- **NEVER extract colours from `:hover` pseudo-states.**
-  `getComputedStyle` on a hovered element requires the pointer to be physically over it.
-  The value may silently return the resting state, giving a token that looks correct but is wrong.
-  **Consequence:** Hover colours get assigned as the base token — all buttons show the hover shade permanently.
+```css
+@theme inline {
+  --color-primary: hsl(174 90% 31%);
+}
+```
 
-- **NEVER use `prefers-color-scheme` media query colours as your base tokens.**
-  Computed styles reflect the current OS colour scheme at extraction time.
-  **Consequence:** If the machine is in dark mode, extracted "background" is near-black — applying it to a light-mode project inverts the entire colour scheme.
-  Always extract in light mode, or explicitly document which mode was active in `overview.md`.
+**GOOD**:
 
-- **NEVER use `/tmp` for any artifact storage.**
-  `/tmp` is ephemeral and session-scoped — artifacts saved there are lost when the session ends.
-  Always save to `.context/artifacts/<website-slug>/<YYYY-MM-DD>/`.
+```css
+:root { --primary: hsl(174 90% 31%); }
+@theme inline { --color-primary: var(--primary); }
+```
 
-  ```bash
-  # ❌ BAD
-  agent-browser screenshot /tmp/source.png
+### NEVER extract colours from `:hover` pseudo-states
 
-  # ✅ GOOD
-  agent-browser screenshot "${ARTIFACTS}/source-full.png"
-  ```
+**WHY:** `getComputedStyle` on a hovered element requires the pointer to be physically over it. The value may silently return the resting state, or the hover shade gets assigned as the base token so all buttons show the hover shade permanently.
 
-- **NEVER copy the source site's actual CSS files or stylesheets into your project.**
-  Rebuild every value from scratch using the extracted numbers.
+**BAD**: Record the colour seen while hovering as the button's base token.
 
-- **NEVER use arbitrary Tailwind values (`bg-[#abc]`) for semantic colours.**
-  Arbitrary values bypass the token system — use semantic utility classes instead.
+**GOOD**: Extract the resting-state colour and document hover shades separately.
 
-  ```tsx
-  // ❌ BAD — hardcoded, bypasses token system
-  <button className="bg-[#0D9488] text-white">
+### NEVER use `prefers-color-scheme` media query colours as your base tokens
 
-  // ✅ GOOD — semantic token, single source of truth
-  <button className="bg-primary text-primary-foreground">
-  ```
+**WHY:** Computed styles reflect the current OS colour scheme at extraction time. If the machine is in dark mode, the extracted background is near-black, and applying it to a light-mode project inverts the whole scheme.
+
+**BAD**: Extract with the OS in dark mode and record the result as the base palette.
+
+**GOOD**: Extract in light mode, or document which mode was active in `overview.md`.
+
+### NEVER use `/tmp` for any artifact storage
+
+**WHY:** `/tmp` is ephemeral and session-scoped, so artifacts saved there are lost when the session ends.
+
+**BAD**:
+
+```bash
+agent-browser screenshot /tmp/source.png
+```
+
+**GOOD**:
+
+```bash
+agent-browser screenshot "${ARTIFACTS}/source-full.png"
+```
+
+### NEVER save artifacts to `docs/` or any other location
+
+**WHY:** The storage convention keeps every site and extraction date separate and findable under one root.
+
+**BAD**: Writing theme docs to `docs/theme.md`.
+
+**GOOD**: Writing them under `${ARTIFACTS}/theme/`.
+
+### NEVER copy the source site's actual CSS files or stylesheets into your project
+
+**WHY:** Copying stylesheets ports someone else's code rather than their visual identity, and drags in selectors and rules you do not own.
+
+**BAD**: `curl -sL <CSS_URL> -o src/vendor.css` and import it.
+
+**GOOD**: Rebuild every value from scratch using the extracted numbers.
+
+### NEVER use arbitrary Tailwind values (`bg-[#abc]`) for semantic colours
+
+**WHY:** Arbitrary values bypass the token system, so there is no single source of truth for the colour.
+
+**BAD**:
+
+```tsx
+<button className="bg-[#0D9488] text-white">
+```
+
+**GOOD**:
+
+```tsx
+<button className="bg-primary text-primary-foreground">
+```
+
+### NEVER write source code before the theme documentation exists
+
+**WHY:** Documenting first forces every value to be extracted and named before it is used, which is what stops ad hoc literals leaking into components.
+
+**BAD**: Editing `src/index.css` straight after the first screenshot.
+
+**GOOD**: Write `colours.md`, `typography.md`, `spacing.md`, `components.md` and `overview.md` first, then apply.
+
+### NEVER pre-load all three reference files at once
+
+**WHY:** Each reference belongs to one stage; loading everything up front spends context on material the current stage does not need.
+
+**BAD**: Read `extraction.md`, `tailwind-mapping.md` and `verification.md` before Stage 1.
+
+**GOOD**: Load `references/extraction.md` for Stage 1, `references/tailwind-mapping.md` for Stages 2 and 3, `references/verification.md` for Stage 4.
+
+### NEVER port obfuscated class names
+
+**WHY:** Names like `_3xKy9` are generated at build time and change on every deploy.
+
+**BAD**: Copy `._3xKy9` rules into the project.
+
+**GOOD**: Extract computed values only, via the Method A JS snippets.
+
+### NEVER declare the port complete without a visual diff
+
+**WHY:** Only a diff screenshot confirms the local build matches the reference site.
+
+**BAD**: Finishing after Stage 3 because the code compiles.
+
+**GOOD**: Run Stage 4 and record the diff result in `${ARTIFACTS}/`.
 
 ## References
 
-- [references/extraction.md](references/extraction.md) — CRITICAL: Load at the start of Stage 1. Full JS toolkit, colour parsing helpers, nav/card/footer extractors, and page capture patterns.
-- [references/tailwind-mapping.md](references/tailwind-mapping.md) — CRITICAL: Load at the start of Stage 2. Token tables, HSL converter, Token Decision Tree, and index.css template.
-- [references/verification.md](references/verification.md) — HIGH: Load at the start of Stage 4. Diff thresholds, mismatch symptom→fix table.
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Extraction toolkit | [references/extraction.md](references/extraction.md) | CRITICAL: load at the start of Stage 1 for the full JS toolkit, colour parsing helpers and page capture patterns |
+| Tailwind mapping | [references/tailwind-mapping.md](references/tailwind-mapping.md) | CRITICAL: load at the start of Stage 2 for token tables, HSL converter, Token Decision Tree and the stylesheet template |
+| Verification | [references/verification.md](references/verification.md) | HIGH: load at the start of Stage 4 for diff thresholds and the symptom-to-fix table |

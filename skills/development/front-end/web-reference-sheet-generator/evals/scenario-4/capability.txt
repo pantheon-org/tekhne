@@ -1,0 +1,1 @@
+Populate and validate the extraction scratchpad, review it for gaps and only then generate the reference sheet.

@@ -1,0 +1,35 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 18,
+    "covered_instructions": 18,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5"
+      ],
+      "I02": ["scenario-3"],
+      "I03": ["scenario-1", "scenario-2", "scenario-4"],
+      "I04": ["scenario-3", "scenario-4"],
+      "I05": ["scenario-3"],
+      "I06": ["scenario-1"],
+      "I07": ["scenario-1", "scenario-2", "scenario-3"],
+      "I08": ["scenario-1", "scenario-2", "scenario-3"],
+      "I09": ["scenario-1"],
+      "I10": ["scenario-1", "scenario-2", "scenario-3", "scenario-4"],
+      "I11": ["scenario-1", "scenario-2", "scenario-4"],
+      "I12": ["scenario-1", "scenario-2", "scenario-4"],
+      "I13": ["scenario-2", "scenario-4"],
+      "I14": ["scenario-4"],
+      "I15": ["scenario-4"],
+      "I16": ["scenario-1", "scenario-2", "scenario-3", "scenario-4"],
+      "I17": ["scenario-4"],
+      "I18": ["scenario-5"]
+    },
+    "notes": "All 18 instructions are checked by at least one scenario; I14, I15 and I17 rely on the added scenario-4 and I18 on the added scenario-5."
+  }
+}

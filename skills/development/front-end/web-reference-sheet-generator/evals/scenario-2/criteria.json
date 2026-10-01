@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Document Design Tokens for a Plain CSS Site with Dark Mode.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Token discovery",
+      "description": "Agent ran grep for `--` custom properties and found `styles/tokens.css`",
+      "max_score": 5
+    },
+    {
+      "name": "Dark mode strategy",
+      "description": "\u00a711 Dark Mode correctly identifies the strategy as `prefers-color-scheme media query` (not class-based)",
+      "max_score": 5
+    },
+    {
+      "name": "Dark mode tokens",
+      "description": "Dark mode section lists all 5 overridden tokens with their dark values",
+      "max_score": 5
+    },
+    {
+      "name": "Motion tokens populated",
+      "description": "\u00a78 Motion is populated with `--transition-fast` and `--transition-base` \u2014 not marked TBD",
+      "max_score": 5
+    },
+    {
+      "name": "Spacing tokens accurate",
+      "description": "\u00a74 Spacing lists all 5 space tokens with correct values",
+      "max_score": 5
+    },
+    {
+      "name": "Accessibility noted",
+      "description": "\u00a710 Accessibility notes `role=\"article\"` and `aria-labelledby` found in card component",
+      "max_score": 5
+    },
+    {
+      "name": "Output file created",
+      "description": "`docs/design/design-reference.md` was created",
+      "max_score": 5
+    },
+    {
+      "name": "Companion SKILL.md location",
+      "description": "Companion SKILL.md was generated under `.agents/skills/`",
+      "max_score": 5
+    },
+    {
+      "name": "Companion SKILL.md specificity",
+      "description": "Companion SKILL.md description names the specific project",
+      "max_score": 5
+    },
+    {
+      "name": "All 12 sections present",
+      "description": "All 12 sections present in the output",
+      "max_score": 5
+    },
+    {
+      "name": "Confirmation block printed",
+      "description": "Step 8 confirmation block printed with populated section counts",
+      "max_score": 5
+    },
+    {
+      "name": "Authoritative token file named",
+      "description": "`styles/tokens.css` named as the authoritative token file",
+      "max_score": 5
+    },
+    {
+      "name": "No invented colours",
+      "description": "No colour values appear in the output that are not present in `tokens.css`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent misidentifies the dark mode strategy as...",
+      "description": "Failure avoided: Agent misidentifies the dark mode strategy as class-based instead of `prefers-color-scheme`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits one or more of the...",
+      "description": "Failure avoided: Agent omits one or more of the 5 overridden dark mode tokens",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent marks \u00a78 Motion as TBD despite...",
+      "description": "Failure avoided: Agent marks \u00a78 Motion as TBD despite transition tokens being present in the CSS",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent invents colour values not present in...",
+      "description": "Failure avoided: Agent invents colour values not present in `tokens.css`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent places the companion SKILL.md under `docs/`...",
+      "description": "Failure avoided: Agent places the companion SKILL.md under `docs/` instead of `.agents/skills/`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not read `button.html` or `card.html`...",
+      "description": "Failure avoided: Agent does not read `button.html` or `card.html` before generating output",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not name `styles/tokens.css` as the...",
+      "description": "Failure avoided: Agent does not name `styles/tokens.css` as the authoritative token file",
+      "max_score": 5
+    }
+  ]
+}

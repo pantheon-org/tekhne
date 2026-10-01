@@ -1,0 +1,28 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 94,
+    "total_instructions": 17,
+    "covered_instructions": 16,
+    "scenario_count": 7,
+    "coverage_map": {
+      "I01": ["scenario-1"],
+      "I02": ["scenario-6"],
+      "I03": ["scenario-2", "scenario-5", "scenario-7"],
+      "I04": ["scenario-5"],
+      "I05": ["scenario-7"],
+      "I06": ["scenario-6"],
+      "I07": ["scenario-6"],
+      "I08": ["scenario-6"],
+      "I09": ["scenario-6"],
+      "I10": ["scenario-6"],
+      "I11": ["scenario-6"],
+      "I12": ["scenario-7"],
+      "I13": ["scenario-7"],
+      "I14": ["scenario-7"],
+      "I15": ["scenario-3"],
+      "I16": ["scenario-4"],
+      "I17": []
+    },
+    "notes": "Only I17 (the Node-only exclusion) is uncovered, because no scenario presents a Node-only project."
+  }
+}

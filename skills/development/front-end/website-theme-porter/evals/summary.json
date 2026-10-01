@@ -1,0 +1,33 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 22,
+    "covered_instructions": 22,
+    "scenario_count": 7,
+    "coverage_map": {
+      "I01": ["scenario-3"],
+      "I02": ["scenario-6"],
+      "I03": ["scenario-6"],
+      "I04": ["scenario-1"],
+      "I05": ["scenario-1"],
+      "I06": ["scenario-7"],
+      "I07": ["scenario-3"],
+      "I08": ["scenario-7"],
+      "I09": ["scenario-7"],
+      "I10": ["scenario-6"],
+      "I11": ["scenario-7"],
+      "I12": ["scenario-1", "scenario-2", "scenario-4", "scenario-5"],
+      "I13": ["scenario-5", "scenario-7"],
+      "I14": ["scenario-2"],
+      "I15": ["scenario-5"],
+      "I16": ["scenario-7"],
+      "I17": ["scenario-2", "scenario-4"],
+      "I18": ["scenario-1", "scenario-2"],
+      "I19": ["scenario-4"],
+      "I20": ["scenario-3"],
+      "I21": ["scenario-6"],
+      "I22": ["scenario-6"]
+    },
+    "notes": "All 22 instructions have at least one checking scenario; the hazard and exclusion rules rely on added scenario-6 and the full-workflow rules on added scenario-7."
+  }
+}
