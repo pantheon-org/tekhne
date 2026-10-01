@@ -172,6 +172,8 @@ Detailed scoring methodology for the 9-dimension quality framework. Use this to 
 - Valid Scenarios (>=3 complete): 4 points
 - Criteria Quality (sum to 100): 3 points
 
+**Scorer maximum:** `pantheon-skill-auditor` does not yet score the Criteria Quality component, so the practical maximum for D9 is 17/20.
+
 **Enrichment:** When `instructions.json` exists, D1 and D3 scores are enriched with instruction classification data (`why_given` distribution for D1, anti-pattern instruction count for D3).
 
 ## Grade Assignment

@@ -82,7 +82,9 @@ Almost all `evals/` directories are empty. Only 3 files exist across the whole r
 
 ### Format ambiguity — resolved
 
-Canonical format: `evals/scenario-NN.md` (one file per scenario). See `skills/agentic-harness/skill-quality-auditor/references/eval-format.md`.
+> **Superseded.** This section records the April format decision. The canonical layout is now `evals/scenario-N/` folders plus `instructions.json` and `summary.json`, which is what `pantheon-skill-auditor` scores. See `skills/agentic-harness/skill-quality-auditor/references/eval-format.md`.
+
+Format chosen at the time: `evals/scenario-NN.md` (one file per scenario).
 
 Converted:
 - [x] `software-engineering/design-principles` — 12 `.yaml` → 12 `scenario-NN.md`
