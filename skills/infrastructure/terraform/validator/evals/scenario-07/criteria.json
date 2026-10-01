@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Validate a Terraform Module Used by a Root Configuration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Root as entry point",
+      "description": "The `validation_report.md` documents running terraform commands from the `root/` directory (not `modules/network/`)",
+      "max_score": 5
+    },
+    {
+      "name": "Module isolation anti-pattern noted",
+      "description": "The report explicitly mentions that validating inside the module directory in isolation is insufficient or risky",
+      "max_score": 5
+    },
+    {
+      "name": "terraform init from root",
+      "description": "The report shows `terraform init` run from the root configuration directory",
+      "max_score": 5
+    },
+    {
+      "name": "terraform validate from root",
+      "description": "The report shows `terraform validate` run from the root configuration directory",
+      "max_score": 5
+    },
+    {
+      "name": "tfvars used",
+      "description": "The report documents using the `terraform.tfvars` file or providing variable values when validating/planning",
+      "max_score": 5
+    },
+    {
+      "name": "terraform fmt run",
+      "description": "The report shows `terraform fmt` was run",
+      "max_score": 5
+    },
+    {
+      "name": "extract_tf_info_wrapper run",
+      "description": "The report documents running `bash scripts/extract_tf_info_wrapper.sh` on the configuration",
+      "max_score": 5
+    },
+    {
+      "name": "Security scan run",
+      "description": "The report documents running the checkov wrapper script",
+      "max_score": 5
+    },
+    {
+      "name": "Variables declared with types",
+      "description": "The report notes whether all variables in both root and module have type declarations",
+      "max_score": 5
+    },
+    {
+      "name": "Overall health assessment",
+      "description": "The report concludes with a pass/fail or summary assessment of the configuration's validation status",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Terraform commands are run from inside the...",
+      "description": "Failure avoided: Terraform commands are run from inside the `modules/network/` directory instead of from `root/`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The report does not warn against the...",
+      "description": "Failure avoided: The report does not warn against the module-isolation anti-pattern",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `terraform init` is not run from the...",
+      "description": "Failure avoided: `terraform init` is not run from the root configuration directory",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `terraform validate` is not run from the...",
+      "description": "Failure avoided: `terraform validate` is not run from the root configuration directory",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The `terraform.tfvars` file is not referenced",
+      "description": "Failure avoided: The `terraform.tfvars` file is not referenced",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `extract_tf_info_wrapper.sh` is not documented",
+      "description": "Failure avoided: `extract_tf_info_wrapper.sh` is not documented",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No security scan using the checkov wrapper...",
+      "description": "Failure avoided: No security scan using the checkov wrapper is documented",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No overall health assessment or pass/fail summary...",
+      "description": "Failure avoided: No overall health assessment or pass/fail summary is provided",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Categorize Requirements into MoSCoW Tiers.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Release constraints confirmed",
+      "description": "`moscow-table.md` explicitly states the 6-week deadline, 3-engineer team, and no-extension constraint before the categorization table",
+      "max_score": 10
+    },
+    {
+      "name": "All 10 requirements categorized",
+      "description": "Every requirement (1-10) appears in the table with a Must/Should/Could/Won't category assigned",
+      "max_score": 10
+    },
+    {
+      "name": "Rationale column populated",
+      "description": "Every row has a non-empty business rationale and risk-if-omitted entry (not just blanks or \"N/A\")",
+      "max_score": 10
+    },
+    {
+      "name": "Explicit Won't with revisit date",
+      "description": "At least one requirement is categorized as Won't and includes an explicit revisit date",
+      "max_score": 10
+    },
+    {
+      "name": "Preference-only items not in Must",
+      "description": "Items that are clearly preference-based (dark mode, PayPal, multi-currency) are NOT in the Must tier",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not state release constraints before the...",
+      "description": "Failure avoided: Does not state release constraints before the categorization table",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits one or more requirements from the...",
+      "description": "Failure avoided: Omits one or more requirements from the table",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Leaves rationale or risk-if-omitted cells blank for...",
+      "description": "Failure avoided: Leaves rationale or risk-if-omitted cells blank for any row",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Has no Won't category items, or has...",
+      "description": "Failure avoided: Has no Won't category items, or has Won't items without revisit dates",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Places dark mode, PayPal support, or multi-currency...",
+      "description": "Failure avoided: Places dark mode, PayPal support, or multi-currency display in the Must tier",
+      "max_score": 10
+    }
+  ]
+}

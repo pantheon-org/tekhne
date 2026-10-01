@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Document Security Findings for an Insecure Terraform Config.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Check ID present",
+      "description": "Each finding section includes the Checkov check ID (e.g., `CKV_AWS_24`)",
+      "max_score": 5
+    },
+    {
+      "name": "Resource with file:line",
+      "description": "Each finding includes the resource name AND its file path with line numbers (e.g., `aws_security_group.bastion (main.tf:12-45)`)",
+      "max_score": 5
+    },
+    {
+      "name": "Severity labels",
+      "description": "Each finding includes a severity level (HIGH, MEDIUM, or LOW)",
+      "max_score": 5
+    },
+    {
+      "name": "security_checklist.md reference",
+      "description": "At least one finding includes a Reference field pointing to a named section in `security_checklist.md`",
+      "max_score": 5
+    },
+    {
+      "name": "Remediation pattern included",
+      "description": "At least one finding includes an HCL code block showing the remediation pattern",
+      "max_score": 5
+    },
+    {
+      "name": "Recommended Fix field",
+      "description": "Each finding includes a specific recommended fix for that particular resource configuration",
+      "max_score": 5
+    },
+    {
+      "name": "Finding description",
+      "description": "Each finding includes a human-readable description of what the issue is (not just the check ID)",
+      "max_score": 5
+    },
+    {
+      "name": "All 5 findings documented",
+      "description": "The report documents all 5 Checkov failures from the input (CKV_AWS_24, CKV_AWS_8, CKV_AWS_20, CKV_AWS_18, CKV_AWS_53)",
+      "max_score": 5
+    },
+    {
+      "name": "Human review note for HIGH findings",
+      "description": "The report includes a note that HIGH severity findings require human review before merging",
+      "max_score": 5
+    },
+    {
+      "name": "SSH fix specificity",
+      "description": "The remediation for CKV_AWS_24 suggests replacing with a variable or specific CIDR range rather than just disabling the rule",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Checkov check IDs are absent from finding...",
+      "description": "Failure avoided: Checkov check IDs are absent from finding sections",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Resource file and line number references are...",
+      "description": "Failure avoided: Resource file and line number references are missing",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Severity levels are not assigned to findings",
+      "description": "Failure avoided: Severity levels are not assigned to findings",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No cross-reference to `security_checklist.md` is included",
+      "description": "Failure avoided: No cross-reference to `security_checklist.md` is included",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No HCL remediation code block is provided",
+      "description": "Failure avoided: No HCL remediation code block is provided",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Fewer than all 5 Checkov failures are...",
+      "description": "Failure avoided: Fewer than all 5 Checkov failures are documented",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No human-review note for HIGH severity findings",
+      "description": "Failure avoided: No human-review note for HIGH severity findings",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: SSH fix only disables the rule rather...",
+      "description": "Failure avoided: SSH fix only disables the rule rather than proposing a scoped CIDR replacement",
+      "max_score": 15
+    }
+  ]
+}

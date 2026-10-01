@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Resolve a Stakeholder Conflict Using the Failure-Focused Test.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Failure-focused test question stated",
+      "description": "`conflict-resolution.md` explicitly states the failure-focused test question (\"Does the release fail without this?\") before applying it",
+      "max_score": 10
+    },
+    {
+      "name": "Feature A correctly resolved as Must or Should with evidence",
+      "description": "`conflict-resolution.md` applies the test to Feature A and references the 40% abandonment rate as the deciding evidence (Must is defensible given conversion impact)",
+      "max_score": 10
+    },
+    {
+      "name": "Feature B correctly resolved as Could or Should (not Must)",
+      "description": "`conflict-resolution.md` applies the test to Feature B and concludes that brand feel / UX polish does not constitute release failure, placing it in Could or Should",
+      "max_score": 10
+    },
+    {
+      "name": "Stakeholder communication language provided",
+      "description": "`conflict-resolution.md` includes specific language or talking points for explaining each decision to the affected stakeholder (Marketing VP and UX lead)",
+      "max_score": 10
+    },
+    {
+      "name": "Anti-pattern rule cited",
+      "description": "`conflict-resolution.md` explicitly references the skill rule that stakeholder preference is not the same as release-critical need when addressing Feature B",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not state the failure-focused test question...",
+      "description": "Failure avoided: Does not state the failure-focused test question before applying it",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not reference the 40% abandonment data...",
+      "description": "Failure avoided: Does not reference the 40% abandonment data when analyzing Feature A",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Categorizes Feature B as Must without applying...",
+      "description": "Failure avoided: Categorizes Feature B as Must without applying the failure test",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Provides recommendations without any stakeholder communication language",
+      "description": "Failure avoided: Provides recommendations without any stakeholder communication language",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not cite the anti-pattern rule distinguishing...",
+      "description": "Failure avoided: Does not cite the anti-pattern rule distinguishing preference from release-critical need",
+      "max_score": 10
+    }
+  ]
+}

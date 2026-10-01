@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Produce a Complete MoSCoW Decision Log.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Header with release metadata",
+      "description": "`decision-log.md` contains a header with release name (v2.0), release date (2026-05-01), and log creation date (2026-03-16)",
+      "max_score": 10
+    },
+    {
+      "name": "All six decisions present in table",
+      "description": "The table contains all six requirements with their correct categories (push notifications Must, offline mode Should, biometric Should, animated onboarding Could, two Won'ts)",
+      "max_score": 10
+    },
+    {
+      "name": "Rationale and risk columns populated",
+      "description": "Every row has non-empty business rationale and risk-if-omitted content (not \"N/A\" or blank)",
+      "max_score": 10
+    },
+    {
+      "name": "Won't items have review dates",
+      "description": "Both Won't items (Apple Watch, landscape) have explicit review dates matching the provided dates (v3.0 / 2026-Q4 and 2026-08-01)",
+      "max_score": 10
+    },
+    {
+      "name": "Summary counts at bottom",
+      "description": "`decision-log.md` ends with a summary line stating the count per tier (Must: 1, Should: 2, Could: 1, Won't: 2)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits release metadata from the header or...",
+      "description": "Failure avoided: Omits release metadata from the header or uses incorrect dates",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits one or more of the six...",
+      "description": "Failure avoided: Omits one or more of the six requirements from the table",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Leaves rationale or risk cells blank or...",
+      "description": "Failure avoided: Leaves rationale or risk cells blank or uses \"N/A\" as content",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Won't items lack review dates or use...",
+      "description": "Failure avoided: Won't items lack review dates or use dates other than the provided ones",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits the summary line at the bottom...",
+      "description": "Failure avoided: Omits the summary line at the bottom of the document",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Validate a Terraform Config Using Multiple Utility Providers.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Explicit provider identified",
+      "description": "The `provider_lookup_report.md` identifies the `aws` provider as an explicit provider",
+      "max_score": 5
+    },
+    {
+      "name": "Implicit providers identified",
+      "description": "The `provider_lookup_report.md` identifies at least 3 implicit providers from resource prefixes (`random`, `tls`, `local`, `null`)",
+      "max_score": 5
+    },
+    {
+      "name": "Prefix extraction documented",
+      "description": "The report shows the logic of extracting provider names from resource type prefixes (e.g., `random` from `random_id`, `tls` from `tls_private_key`)",
+      "max_score": 5
+    },
+    {
+      "name": "WebSearch for utility providers",
+      "description": "The report documents using WebSearch (not Context7) for at least one utility provider (`random`, `tls`, `local`, or `null`)",
+      "max_score": 5
+    },
+    {
+      "name": "Context7 attempted for aws",
+      "description": "The report documents attempting Context7 lookup for the `aws` provider",
+      "max_score": 5
+    },
+    {
+      "name": "extract_tf_info_wrapper used",
+      "description": "The `validation_report.md` documents running `bash scripts/extract_tf_info_wrapper.sh` as a step",
+      "max_score": 5
+    },
+    {
+      "name": "Provider docs content included",
+      "description": "The `provider_lookup_report.md` includes at least some actual documentation content or usage notes (not just a list of provider names)",
+      "max_score": 5
+    },
+    {
+      "name": "terraform fmt run",
+      "description": "The `validation_report.md` shows `terraform fmt` was run",
+      "max_score": 5
+    },
+    {
+      "name": "terraform validate run",
+      "description": "The `validation_report.md` shows `terraform validate` was run (after init)",
+      "max_score": 5
+    },
+    {
+      "name": "Security scan run",
+      "description": "The `validation_report.md` documents a security scan using the checkov wrapper script",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Implicit providers (`random`, `tls`, `local`, `null`) are...",
+      "description": "Failure avoided: Implicit providers (`random`, `tls`, `local`, `null`) are not identified from resource type prefixes",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The provider prefix extraction logic is not...",
+      "description": "Failure avoided: The provider prefix extraction logic is not documented",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: WebSearch is not used for utility providers...",
+      "description": "Failure avoided: WebSearch is not used for utility providers (Context7 used for all providers instead)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `extract_tf_info_wrapper.sh` is not documented as a step...",
+      "description": "Failure avoided: `extract_tf_info_wrapper.sh` is not documented as a step in the validation report",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `provider_lookup_report.md` contains only provider names without documentation...",
+      "description": "Failure avoided: `provider_lookup_report.md` contains only provider names without documentation content",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `terraform fmt` or `terraform validate` is not...",
+      "description": "Failure avoided: `terraform fmt` or `terraform validate` is not documented",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Security scan using the checkov wrapper is...",
+      "description": "Failure avoided: Security scan using the checkov wrapper is not documented",
+      "max_score": 20
+    }
+  ]
+}

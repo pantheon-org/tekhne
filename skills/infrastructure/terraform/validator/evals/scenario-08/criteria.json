@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Investigate and Document Undeclared Variable Warnings.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "tflint run",
+      "description": "The `validation_report.md` documents running tflint (or noting it was skipped with reason)",
+      "max_score": 6
+    },
+    {
+      "name": "Missing vars identified",
+      "description": "The report identifies the specific undeclared variables: `subnet_id`, `app_name`, `environment`, `owner_email`, `cost_center`",
+      "max_score": 6
+    },
+    {
+      "name": "Risk explanation",
+      "description": "The report explains why undeclared variables are a problem (silently treated as null, masking misconfiguration, runtime errors at apply time)",
+      "max_score": 6
+    },
+    {
+      "name": "Variables declared with types",
+      "description": "The `fixed/variables.tf` file declares all missing variables with a `type` attribute",
+      "max_score": 6
+    },
+    {
+      "name": "Variables declared with descriptions",
+      "description": "The `fixed/variables.tf` file declares all missing variables with a `description` attribute",
+      "max_score": 6
+    },
+    {
+      "name": "All 5 missing vars fixed",
+      "description": "`fixed/variables.tf` includes declarations for all 5 missing variables: `subnet_id`, `app_name`, `environment`, `owner_email`, `cost_center`",
+      "max_score": 6
+    },
+    {
+      "name": "terraform validate run",
+      "description": "The `validation_report.md` shows `terraform validate` was run (after init)",
+      "max_score": 6
+    },
+    {
+      "name": "terraform fmt run",
+      "description": "The `validation_report.md` shows `terraform fmt` was run",
+      "max_score": 6
+    },
+    {
+      "name": "extract_tf_info_wrapper run",
+      "description": "The `validation_report.md` documents running the `extract_tf_info_wrapper.sh` script",
+      "max_score": 6
+    },
+    {
+      "name": "Warnings not dismissed",
+      "description": "The report does NOT characterize the undeclared variable warnings as safe to ignore or non-critical",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: tflint is not run or documented",
+      "description": "Failure avoided: tflint is not run or documented",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The 5 undeclared variables (`subnet_id`, `app_name`, `environment`,...",
+      "description": "Failure avoided: The 5 undeclared variables (`subnet_id`, `app_name`, `environment`, `owner_email`, `cost_center`) are not all identified",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The risk of undeclared variables is not...",
+      "description": "Failure avoided: The risk of undeclared variables is not explained (treated as null at runtime, masking errors)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `fixed/variables.tf` does not include type or description...",
+      "description": "Failure avoided: `fixed/variables.tf` does not include type or description declarations for the missing variables",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Fewer than all 5 missing variables are...",
+      "description": "Failure avoided: Fewer than all 5 missing variables are declared in `fixed/variables.tf`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The report characterizes the undeclared variable warnings...",
+      "description": "Failure avoided: The report characterizes the undeclared variable warnings as non-critical or safe to ignore",
+      "max_score": 10
+    }
+  ]
+}
