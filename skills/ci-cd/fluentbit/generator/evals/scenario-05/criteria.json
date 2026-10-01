@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Log Forwarding to Authenticated HTTP Endpoint.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Password via env var",
+      "description": "HTTP_Passwd uses ${ENV_VAR} syntax (e.g., ${HTTP_PASSWD} or ${FLUENTBIT_PASSWORD}) \u2014 the literal string 'secretpassword123' does NOT appear in the config",
+      "max_score": 6
+    },
+    {
+      "name": "No plaintext secret",
+      "description": "No password, token, or key appears as a literal string value anywhere in the config file",
+      "max_score": 6
+    },
+    {
+      "name": "Env var documented",
+      "description": "The notes.md (or equivalent output) names the environment variable(s) that the deployment team must inject",
+      "max_score": 6
+    },
+    {
+      "name": "Mem_Buf_Limit added",
+      "description": "The tail INPUT plugin now includes a Mem_Buf_Limit setting",
+      "max_score": 6
+    },
+    {
+      "name": "DB path added",
+      "description": "The tail INPUT plugin now includes a DB setting for position tracking",
+      "max_score": 6
+    },
+    {
+      "name": "tls.verify present",
+      "description": "The OUTPUT plugin includes tls.verify On, or tls.verify Off with an explanatory comment",
+      "max_score": 6
+    },
+    {
+      "name": "Retry_Limit present",
+      "description": "The OUTPUT plugin retains a numeric Retry_Limit (not False)",
+      "max_score": 6
+    },
+    {
+      "name": "storage.total_limit_size",
+      "description": "The OUTPUT plugin or SERVICE section includes a storage.total_limit_size setting",
+      "max_score": 6
+    },
+    {
+      "name": "compression gzip",
+      "description": "The HTTP OUTPUT plugin includes Compress gzip or compression gzip",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The literal password 'secretpassword123' still appears in...",
+      "description": "Failure avoided: The literal password 'secretpassword123' still appears in the corrected config",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any other plaintext credential or token appears...",
+      "description": "Failure avoided: Any other plaintext credential or token appears as a literal value in the config",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `notes.md` does not name the environment variable...",
+      "description": "Failure avoided: `notes.md` does not name the environment variable the deployment team must inject",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `Mem_Buf_Limit` is not added to the tail...",
+      "description": "Failure avoided: `Mem_Buf_Limit` is not added to the tail INPUT",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No `DB` path is added to the...",
+      "description": "Failure avoided: No `DB` path is added to the tail INPUT",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `tls.verify` is absent from the OUTPUT plugin",
+      "description": "Failure avoided: `tls.verify` is absent from the OUTPUT plugin",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `Retry_Limit` is changed to `False` or removed...",
+      "description": "Failure avoided: `Retry_Limit` is changed to `False` or removed entirely",
+      "max_score": 10
+    }
+  ]
+}

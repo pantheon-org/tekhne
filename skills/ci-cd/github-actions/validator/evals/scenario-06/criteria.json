@@ -1,0 +1,111 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Diagnose and Fix a Multi-Error Workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "CRON error identified",
+      "description": "audit-report.md identifies the invalid cron value '0 0 * * 8' (weekday out of range 0-6) as an error",
+      "max_score": 4
+    },
+    {
+      "name": "CRON error fixed",
+      "description": "In release.yml, the cron expression is corrected to a valid value (weekday field is 0-6)",
+      "max_score": 4
+    },
+    {
+      "name": "Runner typo identified",
+      "description": "audit-report.md identifies 'ubuntu-lastest' as an invalid runner label",
+      "max_score": 4
+    },
+    {
+      "name": "Runner typo fixed",
+      "description": "In release.yml, 'ubuntu-lastest' is corrected to 'ubuntu-latest'",
+      "max_score": 4
+    },
+    {
+      "name": "Job dependency typo identified",
+      "description": "audit-report.md identifies 'needs: tset' as referencing a non-existent job",
+      "max_score": 4
+    },
+    {
+      "name": "Job dependency typo fixed",
+      "description": "In release.yml, 'needs: tset' is corrected to 'needs: test'",
+      "max_score": 4
+    },
+    {
+      "name": "Script injection identified",
+      "description": "audit-report.md identifies the ${{ github.event.pull_request.title }} interpolation in run: as a script injection risk",
+      "max_score": 4
+    },
+    {
+      "name": "Script injection fixed",
+      "description": "In release.yml, the untrusted value is routed through an env: variable instead of direct interpolation",
+      "max_score": 4
+    },
+    {
+      "name": "Error categories present",
+      "description": "audit-report.md categorizes each error by type (e.g., CRON/Schedule, Runner, Job Dependency, Security/Injection, or similar labels)",
+      "max_score": 4
+    },
+    {
+      "name": "Outdated action noted",
+      "description": "audit-report.md notes that actions/checkout@v3 could be updated to a newer version",
+      "max_score": 4
+    },
+    {
+      "name": "Fix code quoted",
+      "description": "audit-report.md includes at least one corrected code snippet per error (not just a description)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: The invalid cron weekday value (8) is...",
+      "description": "Failure avoided: The invalid cron weekday value (8) is not identified as an error",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Corrected workflow still has an invalid cron...",
+      "description": "Failure avoided: Corrected workflow still has an invalid cron expression",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `ubuntu-lastest` typo is not flagged",
+      "description": "Failure avoided: `ubuntu-lastest` typo is not flagged",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Corrected workflow still has `ubuntu-lastest` instead of...",
+      "description": "Failure avoided: Corrected workflow still has `ubuntu-lastest` instead of `ubuntu-latest`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `needs: tset` is not identified as referencing...",
+      "description": "Failure avoided: `needs: tset` is not identified as referencing a non-existent job",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Corrected workflow still has `needs: tset`",
+      "description": "Failure avoided: Corrected workflow still has `needs: tset`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: The direct ${{ }} interpolation of PR...",
+      "description": "Failure avoided: The direct ${{ }} interpolation of PR title in a run: step is not flagged as a security risk",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Corrected workflow still uses direct ${{ }}...",
+      "description": "Failure avoided: Corrected workflow still uses direct ${{ }} interpolation of the PR title in a run: step",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Report does not categorize errors by type",
+      "description": "Failure avoided: Report does not categorize errors by type",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Report provides no corrected code snippets",
+      "description": "Failure avoided: Report provides no corrected code snippets",
+      "max_score": 20
+    }
+  ]
+}

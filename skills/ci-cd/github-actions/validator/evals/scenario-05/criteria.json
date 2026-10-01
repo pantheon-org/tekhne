@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Modernize a Legacy CI Workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "checkout updated",
+      "description": "actions/checkout is updated from @v2 to a newer version (v3, v4, or later)",
+      "max_score": 6
+    },
+    {
+      "name": "setup-node updated",
+      "description": "actions/setup-node is updated from @v2 to a newer version",
+      "max_score": 6
+    },
+    {
+      "name": "upload-artifact updated",
+      "description": "actions/upload-artifact is updated from @v2 to a newer version",
+      "max_score": 6
+    },
+    {
+      "name": "SHA pinning used",
+      "description": "At least one updated action reference uses a full SHA commit hash (40-character hex) rather than a tag version",
+      "max_score": 6
+    },
+    {
+      "name": "Deprecation risk explained",
+      "description": "modernization-report.md explains that deprecated versions may not receive security patches",
+      "max_score": 6
+    },
+    {
+      "name": "Report table present",
+      "description": "modernization-report.md includes a table or list with: original version, updated version, and reason for each action",
+      "max_score": 6
+    },
+    {
+      "name": "All occurrences updated",
+      "description": "Both jobs in ci.yml have their actions updated (checkout and setup-node appear in both jobs and both are updated)",
+      "max_score": 6
+    },
+    {
+      "name": "No v2 references remain",
+      "description": "No @v2 references remain in ci.yml",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `actions/checkout` is not updated from @v2 to...",
+      "description": "Failure avoided: `actions/checkout` is not updated from @v2 to a newer version",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `actions/setup-node` is not updated from @v2 to...",
+      "description": "Failure avoided: `actions/setup-node` is not updated from @v2 to a newer version in both jobs",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `actions/upload-artifact` is not updated from @v2 to...",
+      "description": "Failure avoided: `actions/upload-artifact` is not updated from @v2 to a newer version",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No updated action uses a full SHA...",
+      "description": "Failure avoided: No updated action uses a full SHA commit hash",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Report does not explain the security risk...",
+      "description": "Failure avoided: Report does not explain the security risk of leaving deprecated versions in place",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Report does not include a table or...",
+      "description": "Failure avoided: Report does not include a table or list with original version, updated version, and reason",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Either the build or deploy job still...",
+      "description": "Failure avoided: Either the build or deploy job still has @v2 references for checkout or setup-node",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any @v2 reference remains in the corrected...",
+      "description": "Failure avoided: Any @v2 reference remains in the corrected ci.yml",
+      "max_score": 10
+    }
+  ]
+}

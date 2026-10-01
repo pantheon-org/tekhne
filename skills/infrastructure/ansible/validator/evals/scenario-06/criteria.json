@@ -1,0 +1,116 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Validate an Ansible Role with Molecule Tests.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "ansible-lint run before molecule",
+      "description": "The validation_report.md shows ansible-lint was run before molecule tests",
+      "max_score": 4
+    },
+    {
+      "name": "molecule not a substitute for ansible-lint",
+      "description": "The report does NOT skip ansible-lint in favor of only molecule testing",
+      "max_score": 4
+    },
+    {
+      "name": "molecule/ detected",
+      "description": "The report explicitly notes that a molecule/ directory was detected in the role",
+      "max_score": 4
+    },
+    {
+      "name": "test_role.sh used",
+      "description": "The report documents running `bash scripts/test_role.sh` (or the equivalent wrapper) for molecule testing",
+      "max_score": 4
+    },
+    {
+      "name": "Environment blocker handling",
+      "description": "If molecule could not run (Docker not available), the report documents the specific blocker and continues with other steps rather than failing the overall validation",
+      "max_score": 4
+    },
+    {
+      "name": "yamllint run",
+      "description": "The report documents running yamllint",
+      "max_score": 4
+    },
+    {
+      "name": "ansible-lint findings reported",
+      "description": "The report includes ansible-lint output or a finding count (even if zero)",
+      "max_score": 4
+    },
+    {
+      "name": "Security scan run",
+      "description": "The report documents running `bash scripts/validate_role_security.sh` (not the playbook security script)",
+      "max_score": 4
+    },
+    {
+      "name": "FQCN check run",
+      "description": "The report documents running `bash scripts/check_fqcn.sh` to check for non-FQCN usage",
+      "max_score": 4
+    },
+    {
+      "name": "Role FQCN usage acknowledged",
+      "description": "The report acknowledges that the role uses FQCN module names (ansible.builtin.*) which is correct",
+      "max_score": 4
+    },
+    {
+      "name": "Final recommendation",
+      "description": "The report ends with a clear go/no-go recommendation for accepting the role",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Runs molecule tests before `ansible-lint`",
+      "description": "Failure avoided: Runs molecule tests before `ansible-lint`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Skips `ansible-lint` because molecule tests are present",
+      "description": "Failure avoided: Skips `ansible-lint` because molecule tests are present",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not note detection of the `molecule/`...",
+      "description": "Failure avoided: Does not note detection of the `molecule/` directory",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not use or reference `bash scripts/test_role.sh`",
+      "description": "Failure avoided: Does not use or reference `bash scripts/test_role.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails the overall validation if Docker is...",
+      "description": "Failure avoided: Fails the overall validation if Docker is unavailable instead of continuing",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `yamllint`",
+      "description": "Failure avoided: Does not run `yamllint`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not report `ansible-lint` output or a...",
+      "description": "Failure avoided: Does not report `ansible-lint` output or a finding count",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/validate_role_security.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/validate_role_security.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/check_fqcn.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/check_fqcn.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not acknowledge that the role's FQCN...",
+      "description": "Failure avoided: Does not acknowledge that the role's FQCN usage is correct",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Report has no final go/no-go recommendation",
+      "description": "Failure avoided: Report has no final go/no-go recommendation",
+      "max_score": 16
+    }
+  ]
+}

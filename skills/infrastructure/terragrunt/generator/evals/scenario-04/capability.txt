@@ -1,0 +1,1 @@
+Generate root.hcl for Multi-Environment Infrastructure (Pattern A)

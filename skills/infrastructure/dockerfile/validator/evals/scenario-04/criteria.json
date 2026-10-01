@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Hadolint Syntax Validation (Stage 1/4).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "DL3006: untagged base image",
+      "description": "Agent flags `FROM ubuntu` (no tag) as a violation of DL3006 (always tag the version of an image explicitly) at line 1",
+      "max_score": 10
+    },
+    {
+      "name": "DL3008: unpinned apt packages",
+      "description": "Agent flags the apt-get install commands as violating DL3008 (pin versions in apt-get install) for curl, git, wget, and python3",
+      "max_score": 10
+    },
+    {
+      "name": "DL3009 or DL3027: apt-get cache not cleaned",
+      "description": "Agent identifies that apt-get update and install are not followed by `rm -rf /var/lib/apt/lists/*` in the same RUN layer (DL3009 or DL3027)",
+      "max_score": 10
+    },
+    {
+      "name": "Multiple separate RUN commands flagged",
+      "description": "Agent notes that splitting apt-get install across two RUN commands (lines 3 and 4) creates unnecessary layers and recommends combining them",
+      "max_score": 10
+    },
+    {
+      "name": "Severity ordering and read-only posture",
+      "description": "Agent lists findings ordered by severity (errors before warnings before info/style) and does not modify the Dockerfile",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: DL3006 violation for the untagged `FROM ubuntu`...",
+      "description": "Failure avoided: DL3006 violation for the untagged `FROM ubuntu` is not reported",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: DL3008 violation for unpinned apt packages is...",
+      "description": "Failure avoided: DL3008 violation for unpinned apt packages is not identified",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: DL3009/DL3027 violation for missing apt cache cleanup...",
+      "description": "Failure avoided: DL3009/DL3027 violation for missing apt cache cleanup is not flagged",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Split RUN commands are not identified as...",
+      "description": "Failure avoided: Split RUN commands are not identified as creating unnecessary layers",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Findings are not ordered by severity, or...",
+      "description": "Failure avoided: Findings are not ordered by severity, or the agent attempts to modify the Dockerfile instead of reporting only",
+      "max_score": 10
+    }
+  ]
+}

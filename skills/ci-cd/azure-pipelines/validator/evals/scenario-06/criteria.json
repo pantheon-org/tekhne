@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Best Practices Audit: Display Names, Caching, and Timeouts.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Missing displayName on jobs detected",
+      "description": "best-practices-report.md (or equivalent) flags that BuildJob and/or PackageJob lack a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Missing displayName on steps detected",
+      "description": "best-practices-report.md flags that one or more task steps lack a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Missing cache for npm dependencies detected",
+      "description": "best-practices-report.md flags the absence of a Cache@2 task before the npm install step",
+      "max_score": 5
+    },
+    {
+      "name": "Missing timeout detected",
+      "description": "best-practices-report.md flags that no timeoutInMinutes is set on jobs or stages",
+      "max_score": 5
+    },
+    {
+      "name": "latest Docker tag flagged",
+      "description": "best-practices-report.md flags the `latest` entry in the Docker tags list as a best practices concern (unpinned image tag)",
+      "max_score": 5
+    },
+    {
+      "name": "displayNames added in corrected file",
+      "description": "In the corrected azure-pipelines.yml, at least one job and the majority of task steps have a displayName property added",
+      "max_score": 5
+    },
+    {
+      "name": "Cache task added in corrected file",
+      "description": "In the corrected azure-pipelines.yml, a Cache@2 (or equivalent) task is present before the npm install step, with a key based on package-lock.json or similar",
+      "max_score": 5
+    },
+    {
+      "name": "Category assigned to each finding",
+      "description": "best-practices-report.md assigns a category (readability, performance, or reliability) to each finding",
+      "max_score": 5
+    },
+    {
+      "name": "Fix described for each finding",
+      "description": "best-practices-report.md includes a description of the fix applied (not just the problem) for each finding",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Missing displayName on jobs is not identified...",
+      "description": "Failure avoided: Missing displayName on jobs is not identified as a finding",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Missing displayName on task steps is not...",
+      "description": "Failure avoided: Missing displayName on task steps is not identified as a finding",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Absence of Cache@2 for npm is not...",
+      "description": "Failure avoided: Absence of Cache@2 for npm is not flagged as a performance concern",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Missing timeoutInMinutes is not flagged as a...",
+      "description": "Failure avoided: Missing timeoutInMinutes is not flagged as a reliability concern",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The `latest` Docker tag is not flagged...",
+      "description": "Failure avoided: The `latest` Docker tag is not flagged as a best practices violation",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline does not add displayName to...",
+      "description": "Failure avoided: Corrected pipeline does not add displayName to jobs or steps",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline does not include a Cache@2...",
+      "description": "Failure avoided: Corrected pipeline does not include a Cache@2 task before npm install",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Report does not assign a category (readability/performance/reliability)...",
+      "description": "Failure avoided: Report does not assign a category (readability/performance/reliability) to findings",
+      "max_score": 20
+    }
+  ]
+}

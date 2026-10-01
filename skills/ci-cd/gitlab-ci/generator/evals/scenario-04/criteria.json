@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Node.js API CI Pipeline.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No only/except used",
+      "description": "The generated YAML does NOT contain `only:` or `except:` keys anywhere",
+      "max_score": 5
+    },
+    {
+      "name": "rules used for branch conditions",
+      "description": "The deploy (or equivalent) job uses a `rules:` block with an `if:` condition referencing `$CI_COMMIT_BRANCH`",
+      "max_score": 5
+    },
+    {
+      "name": "Image pinned to version",
+      "description": "All `image:` declarations (default or per-job) specify a version tag that is NOT `:latest` (e.g. node:20-alpine, node:20.11-alpine3.19)",
+      "max_score": 5
+    },
+    {
+      "name": "expire_in on all artifacts",
+      "description": "Every `artifacts:` block that contains `paths:` also contains an `expire_in:` field",
+      "max_score": 5
+    },
+    {
+      "name": "No hardcoded secrets",
+      "description": "The YAML does NOT contain any hardcoded token, password, or API key strings \u2014 credentials referenced only via CI variables (e.g. $DEPLOY_TOKEN)",
+      "max_score": 5
+    },
+    {
+      "name": "Kebab-case job names",
+      "description": "All job names use kebab-case (e.g. build-app, run-tests, deploy-staging) not snake_case or PascalCase",
+      "max_score": 5
+    },
+    {
+      "name": "UPPER_SNAKE_CASE variables",
+      "description": "Any pipeline-level `variables:` blocks use UPPER_SNAKE_CASE keys",
+      "max_score": 5
+    },
+    {
+      "name": "timeout set on jobs",
+      "description": "At least one job or the `default:` block includes a `timeout:` field",
+      "max_score": 5
+    },
+    {
+      "name": "Specific artifact paths",
+      "description": "Artifact `paths:` list specific directories (e.g. dist/, coverage/) rather than a wildcard like ./",
+      "max_score": 5
+    },
+    {
+      "name": "Stages declared",
+      "description": "The pipeline declares a `stages:` list with at least build, test, and deploy (or equivalents)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The generated YAML contains `only:` or `except:`...",
+      "description": "Failure avoided: The generated YAML contains `only:` or `except:` keywords",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Deploy job has no `rules:` condition restricting...",
+      "description": "Failure avoided: Deploy job has no `rules:` condition restricting it to the main branch",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any `image:` uses `:latest` or is untagged",
+      "description": "Failure avoided: Any `image:` uses `:latest` or is untagged",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any `artifacts:` block with `paths:` lacks `expire_in:`",
+      "description": "Failure avoided: Any `artifacts:` block with `paths:` lacks `expire_in:`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any hardcoded token, password, or API key...",
+      "description": "Failure avoided: Any hardcoded token, password, or API key appears as a literal string value",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Job names use snake_case or PascalCase instead...",
+      "description": "Failure avoided: Job names use snake_case or PascalCase instead of kebab-case",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Pipeline variable keys are not UPPER_SNAKE_CASE",
+      "description": "Failure avoided: Pipeline variable keys are not UPPER_SNAKE_CASE",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `timeout:` is set on any job...",
+      "description": "Failure avoided: No `timeout:` is set on any job or in the default block",
+      "max_score": 15
+    }
+  ]
+}

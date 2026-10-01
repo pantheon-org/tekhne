@@ -1,0 +1,1 @@
+Create Recording Rules to Speed Up Slow Dashboard Queries

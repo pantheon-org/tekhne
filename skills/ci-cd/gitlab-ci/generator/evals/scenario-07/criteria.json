@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Shared Template Refactor for a Multi-Service Pipeline.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "extends or YAML anchors used",
+      "description": "The YAML uses `extends:` referencing a hidden job template (dot-prefixed) OR YAML anchors (`&`/`<<: *`) to share common configuration",
+      "max_score": 5
+    },
+    {
+      "name": "No duplicate before_script",
+      "description": "The common setup command (npm ci or equivalent) appears in ONE place (template/anchor/default), NOT repeated in each service job",
+      "max_score": 5
+    },
+    {
+      "name": "Image declared once",
+      "description": "The Node image is declared in ONE location (default block, shared template, or anchor), not duplicated across every job",
+      "max_score": 5
+    },
+    {
+      "name": "Cache configured",
+      "description": "A `cache:` block is present, configured for node_modules or equivalent dependency directory",
+      "max_score": 5
+    },
+    {
+      "name": "Cache key uses CI variable",
+      "description": "The cache `key:` references a GitLab CI predefined variable (e.g. $CI_COMMIT_REF_SLUG) rather than a static string",
+      "max_score": 5
+    },
+    {
+      "name": "needs for per-service DAG",
+      "description": "Each service's test job uses `needs:` to reference only its own service's build job",
+      "max_score": 5
+    },
+    {
+      "name": "Image pinned",
+      "description": "The shared image tag does NOT use `:latest`",
+      "max_score": 5
+    },
+    {
+      "name": "No only/except",
+      "description": "The YAML does NOT use `only:` or `except:`",
+      "max_score": 5
+    },
+    {
+      "name": "expire_in on artifacts",
+      "description": "Any artifact block with `paths:` includes `expire_in:`",
+      "max_score": 5
+    },
+    {
+      "name": "Kebab-case job names",
+      "description": "All job names use kebab-case",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `extends:` or YAML anchors are used...",
+      "description": "Failure avoided: No `extends:` or YAML anchors are used \u2014 the `before_script` remains duplicated across each service job",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The `npm ci` setup command is repeated...",
+      "description": "Failure avoided: The `npm ci` setup command is repeated in each service job instead of defined once",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The Node image is declared in multiple...",
+      "description": "Failure avoided: The Node image is declared in multiple jobs instead of in a single location",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `cache:` block is present for node_modules",
+      "description": "Failure avoided: No `cache:` block is present for node_modules",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Cache `key:` uses a static string rather...",
+      "description": "Failure avoided: Cache `key:` uses a static string rather than a GitLab CI predefined variable",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any service's test job does not use...",
+      "description": "Failure avoided: Any service's test job does not use `needs:` to reference its own service's build job",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The image uses `:latest` or is untagged",
+      "description": "Failure avoided: The image uses `:latest` or is untagged",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The YAML contains `only:` or `except:` keywords",
+      "description": "Failure avoided: The YAML contains `only:` or `except:` keywords",
+      "max_score": 15
+    }
+  ]
+}

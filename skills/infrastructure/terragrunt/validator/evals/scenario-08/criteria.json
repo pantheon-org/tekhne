@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Comprehensive Validation Report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Configuration Pattern Checklist completed",
+      "description": "Agent assesses all five Configuration Pattern items: named include (pass), root file naming (pass), env.hcl naming (pass), `find_in_parent_folders` with explicit filename (pass), `read_terragrunt_config` usage (pass)",
+      "max_score": 8
+    },
+    {
+      "name": "Dependency Management Checklist completed",
+      "description": "Agent assesses all four Dependency Management items: `mock_outputs` present (pass), `mock_outputs_allowed_terraform_commands` present (pass), relative `config_path` (pass), circular dependency check requires `dag graph` (noted)",
+      "max_score": 8
+    },
+    {
+      "name": "Security Checklist completed with correct findings",
+      "description": "Agent correctly identifies `encrypt = true` present (pass), DynamoDB locking present (pass), no hardcoded credentials (pass \u2014 uses `assume_role`), no obvious sensitive variable issues (pass), and version constraints present (pass)",
+      "max_score": 8
+    },
+    {
+      "name": "DRY Principle Checklist completed",
+      "description": "Agent assesses the `generate` block (pass), version constraints (pass), and shared locals in `env.hcl` (pass)",
+      "max_score": 8
+    },
+    {
+      "name": "Summary table present",
+      "description": "Report includes a summary table showing pass/fail counts for each of the four checklists",
+      "max_score": 8
+    },
+    {
+      "name": "Validation commands listed",
+      "description": "Report lists at least `terragrunt hcl fmt --check`, `terragrunt dag graph`, and `terragrunt run --all validate` as the next commands to run",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Any Configuration Pattern checklist item is incorrectly...",
+      "description": "Failure avoided: Any Configuration Pattern checklist item is incorrectly assessed as fail when the configuration is compliant",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Any Dependency Management checklist item is incorrectly...",
+      "description": "Failure avoided: Any Dependency Management checklist item is incorrectly assessed as fail when the configuration is compliant",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Security Checklist incorrectly flags `assume_role` usage as...",
+      "description": "Failure avoided: Security Checklist incorrectly flags `assume_role` usage as a hardcoded credential violation",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: DRY Principle Checklist is omitted or incomplete",
+      "description": "Failure avoided: DRY Principle Checklist is omitted or incomplete",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No summary table is provided for pass/fail...",
+      "description": "Failure avoided: No summary table is provided for pass/fail counts per checklist",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Validation commands (`hcl fmt --check`, `dag graph`,...",
+      "description": "Failure avoided: Validation commands (`hcl fmt --check`, `dag graph`, `run --all validate`) are not listed",
+      "max_score": 12
+    }
+  ]
+}

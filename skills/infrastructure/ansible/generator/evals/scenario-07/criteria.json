@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Application Deployment with Rollback Capability.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No ignore_errors present",
+      "description": "The output playbook contains NO instances of `ignore_errors: true` or `ignore_errors: yes`",
+      "max_score": 6
+    },
+    {
+      "name": "block/rescue structure used",
+      "description": "The deployment steps are wrapped in a `block:` / `rescue:` structure that handles failures and performs rollback",
+      "max_score": 6
+    },
+    {
+      "name": "always block for logging",
+      "description": "An `always:` section writes deployment status to the log file regardless of success or failure",
+      "max_score": 6
+    },
+    {
+      "name": "No command for file copy",
+      "description": "Copying or backing up files does NOT use `ansible.builtin.command: cp ...` \u2014 uses `ansible.builtin.copy` with `remote_src: true` or `ansible.builtin.file` instead",
+      "max_score": 6
+    },
+    {
+      "name": "FQCN modules used",
+      "description": "All module references use FQCN (no short names like `copy:`, `service:`, `command:`)",
+      "max_score": 6
+    },
+    {
+      "name": "All tasks have name field",
+      "description": "Every task in the playbook has a `name:` field",
+      "max_score": 6
+    },
+    {
+      "name": "Boolean true/false syntax",
+      "description": "All boolean values use `true` or `false`, not `yes` or `no`",
+      "max_score": 6
+    },
+    {
+      "name": "Rollback restores backup",
+      "description": "The `rescue:` block contains a task that restores the backup JAR and starts the service",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any `ignore_errors: true` or `ignore_errors: yes` remains...",
+      "description": "Failure avoided: Any `ignore_errors: true` or `ignore_errors: yes` remains in the playbook",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Deployment steps are not wrapped in a...",
+      "description": "Failure avoided: Deployment steps are not wrapped in a `block:` / `rescue:` structure",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No `always:` section to write deployment status...",
+      "description": "Failure avoided: No `always:` section to write deployment status to the log",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: File backup uses `ansible.builtin.command: cp ...` instead...",
+      "description": "Failure avoided: File backup uses `ansible.builtin.command: cp ...` instead of `ansible.builtin.copy` with `remote_src: true`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Module references use short names instead of...",
+      "description": "Failure avoided: Module references use short names instead of FQCN",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any task is missing a `name:` field",
+      "description": "Failure avoided: Any task is missing a `name:` field",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Boolean values use `yes` or `no` instead...",
+      "description": "Failure avoided: Boolean values use `yes` or `no` instead of `true` or `false`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The `rescue:` block does not restore the...",
+      "description": "Failure avoided: The `rescue:` block does not restore the backup JAR or restart the service",
+      "max_score": 10
+    }
+  ]
+}

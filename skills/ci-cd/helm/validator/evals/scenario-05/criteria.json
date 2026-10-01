@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Security Best Practices Audit (Stage 9).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Pod securityContext checks",
+      "description": "Agent identifies that runAsNonRoot, runAsUser, and fsGroup are all absent from the pod spec and marks each as a failure",
+      "max_score": 8
+    },
+    {
+      "name": "Container securityContext checks",
+      "description": "Agent identifies that allowPrivilegeEscalation:false, readOnlyRootFilesystem, and capabilities.drop:[ALL] are all absent and marks each as a failure",
+      "max_score": 8
+    },
+    {
+      "name": "Resource limits missing",
+      "description": "Agent identifies that memory requests and all resource limits (cpu and memory) are absent. Only cpu request is present",
+      "max_score": 8
+    },
+    {
+      "name": ":latest tag flagged",
+      "description": "Agent flags the image tag :latest as a Warning and proposes pinning to a specific digest or version tag",
+      "max_score": 8
+    },
+    {
+      "name": "Missing probes identified",
+      "description": "Agent identifies that neither livenessProbe nor readinessProbe is defined and classifies this as a Warning",
+      "max_score": 8
+    },
+    {
+      "name": "Proposed fixes with before/after blocks",
+      "description": "Agent provides at least one before/after YAML code block for a proposed fix and maintains read-only posture (no files modified)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Missing pod securityContext fields (runAsNonRoot, runAsUser, fsGroup)...",
+      "description": "Failure avoided: Missing pod securityContext fields (runAsNonRoot, runAsUser, fsGroup) are not identified",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Missing container securityContext fields (allowPrivilegeEscalation, readOnlyRootFi",
+      "description": "Failure avoided: Missing container securityContext fields (allowPrivilegeEscalation, readOnlyRootFilesystem, capabilities.drop) are not identified",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Missing memory requests and resource limits are...",
+      "description": "Failure avoided: Missing memory requests and resource limits are not flagged as failures",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The `:latest` image tag is not flagged",
+      "description": "Failure avoided: The `:latest` image tag is not flagged",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Missing liveness and readiness probes are not...",
+      "description": "Failure avoided: Missing liveness and readiness probes are not identified",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No before/after code block is provided for...",
+      "description": "Failure avoided: No before/after code block is provided for any proposed fix",
+      "max_score": 12
+    }
+  ]
+}

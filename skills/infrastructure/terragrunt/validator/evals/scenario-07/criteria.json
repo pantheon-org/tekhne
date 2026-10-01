@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Deprecated Syntax Migration Audit.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "run-all \u2192 run --all migration identified",
+      "description": "Agent identifies all three `run-all` usages in the Makefile as deprecated and provides the `run --all` replacement commands",
+      "max_score": 10
+    },
+    {
+      "name": "TERRAGRUNT_LOG_LEVEL \u2192 TG_LOG migration identified",
+      "description": "Agent identifies `TERRAGRUNT_LOG_LEVEL` as a deprecated environment variable and states `TG_LOG=debug` (or `--log-level`) as the replacement",
+      "max_score": 10
+    },
+    {
+      "name": "retryable_errors \u2192 errors block migration identified",
+      "description": "Agent identifies `retryable_errors` as deprecated and provides an equivalent `errors { retry { ... } }` block as the 0.93+ replacement",
+      "max_score": 10
+    },
+    {
+      "name": "skip \u2192 exclude block migration identified",
+      "description": "Agent identifies `skip = true` as deprecated and provides an equivalent `exclude { if = true; actions = [\"all\"] }` block",
+      "max_score": 10
+    },
+    {
+      "name": "Behaviour differences explained",
+      "description": "Agent explains at least one behaviour difference, such as the `exclude` block supporting fine-grained action targeting (e.g., only blocking `destroy`) rather than the binary `skip` flag",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Not all three `run-all` usages in the...",
+      "description": "Failure avoided: Not all three `run-all` usages in the Makefile are identified as deprecated",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `TERRAGRUNT_LOG_LEVEL` is not flagged as a deprecated...",
+      "description": "Failure avoided: `TERRAGRUNT_LOG_LEVEL` is not flagged as a deprecated environment variable",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `retryable_errors` is not identified as deprecated or...",
+      "description": "Failure avoided: `retryable_errors` is not identified as deprecated or no `errors { retry { ... } }` block is provided",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `skip = true` is not flagged as...",
+      "description": "Failure avoided: `skip = true` is not flagged as deprecated or no equivalent `exclude` block is provided",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: No behaviour difference is explained between `skip`...",
+      "description": "Failure avoided: No behaviour difference is explained between `skip` and `exclude`",
+      "max_score": 10
+    }
+  ]
+}

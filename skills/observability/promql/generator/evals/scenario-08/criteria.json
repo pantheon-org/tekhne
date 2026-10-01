@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Generate a Complete Monitoring Query Package for a New Service.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Plain-English explanation per query",
+      "description": "Each of the three queries is accompanied by a written explanation of what it measures (not just the query expression alone)",
+      "max_score": 5
+    },
+    {
+      "name": "Customization notes per query",
+      "description": "Each query has at least one customization note (e.g. how to change the job name, time window, or add label filters)",
+      "max_score": 5
+    },
+    {
+      "name": "Related queries section",
+      "description": "The document includes a section with at least two additional related query suggestions beyond the three required queries",
+      "max_score": 5
+    },
+    {
+      "name": "Multi-line formatting for complex queries",
+      "description": "Queries with more than one operator or aggregation are formatted across multiple lines (not written as a single long line)",
+      "max_score": 5
+    },
+    {
+      "name": "rate() on counter, not gauge",
+      "description": "The throughput query uses `rate()` on `inventory_http_requests_total`; the cache size query does NOT use `rate()` on `inventory_cache_size`",
+      "max_score": 5
+    },
+    {
+      "name": "histogram_quantile with sum by (le)",
+      "description": "The latency query uses `histogram_quantile()` wrapping a `sum by (le) (...rate(inventory_request_duration_seconds_bucket...))` expression",
+      "max_score": 5
+    },
+    {
+      "name": "by() on aggregations",
+      "description": "The throughput and latency queries both include an explicit `by()` clause (e.g. `by (endpoint)`)",
+      "max_score": 5
+    },
+    {
+      "name": "Label filter on queries",
+      "description": "At least one query includes a job label filter for the inventory-api job",
+      "max_score": 5
+    },
+    {
+      "name": "Output value explanation",
+      "description": "At least one query explanation describes what the numeric output value represents (e.g. \"requests per second\", \"seconds at the 95th percentile\")",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits written explanations for one or more...",
+      "description": "Failure avoided: Omits written explanations for one or more queries",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits customization notes for one or more...",
+      "description": "Failure avoided: Omits customization notes for one or more queries",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not include a related queries section...",
+      "description": "Failure avoided: Does not include a related queries section or includes fewer than two suggestions",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Formats all queries as single long lines...",
+      "description": "Failure avoided: Formats all queries as single long lines without line breaks",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Applies `rate()` to the gauge metric `inventory_cache_size`",
+      "description": "Failure avoided: Applies `rate()` to the gauge metric `inventory_cache_size`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses `avg_over_time` or a non-quantile function instead...",
+      "description": "Failure avoided: Uses `avg_over_time` or a non-quantile function instead of `histogram_quantile` for P95",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits `by()` clauses from throughput or latency...",
+      "description": "Failure avoided: Omits `by()` clauses from throughput or latency queries",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits the `job` label filter from all...",
+      "description": "Failure avoided: Omits the `job` label filter from all queries",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Explains queries without describing what the output...",
+      "description": "Failure avoided: Explains queries without describing what the output numbers represent",
+      "max_score": 15
+    }
+  ]
+}

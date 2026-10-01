@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Best Practices: Deprecated Keywords, Caching, Artifact Expiration, and Image Pinning.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Deprecated only: keyword detected",
+      "description": "best-practices-report.md (or equivalent) flags the use of `only:` in multiple jobs as deprecated in favour of `rules:`",
+      "max_score": 5
+    },
+    {
+      "name": "Deprecated except: keyword detected",
+      "description": "best-practices-report.md flags the use of `except:` in test_unit as deprecated",
+      "max_score": 5
+    },
+    {
+      "name": "Missing cache for node_modules detected",
+      "description": "best-practices-report.md flags the absence of a cache configuration for node_modules in the install_deps or downstream jobs",
+      "max_score": 5
+    },
+    {
+      "name": "Missing artifact expiration detected",
+      "description": "best-practices-report.md flags that one or more artifact blocks are missing an `expire_in` setting",
+      "max_score": 5
+    },
+    {
+      "name": "Unpinned :latest image tags detected",
+      "description": "best-practices-report.md flags the `node:latest`, `cypress/base:latest`, and `alpine:latest` image references as unpinned",
+      "max_score": 5
+    },
+    {
+      "name": "only:/except: migrated to rules: in output",
+      "description": "In the corrected .gitlab-ci.yml, at least the jobs that previously used `only:` or `except:` now use `rules:` syntax instead",
+      "max_score": 5
+    },
+    {
+      "name": "cache: added for node_modules in output",
+      "description": "In the corrected .gitlab-ci.yml, at least one job (install_deps or a shared default) includes a `cache:` configuration for node_modules keyed on package-lock.json",
+      "max_score": 5
+    },
+    {
+      "name": "expire_in added to artifact blocks in output",
+      "description": "In the corrected .gitlab-ci.yml, artifact blocks that were missing expire_in now have an expiration value set",
+      "max_score": 5
+    },
+    {
+      "name": "Category assigned to each finding",
+      "description": "best-practices-report.md assigns a category (deprecation, performance, or reliability) to each finding",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `only:` usage in jobs is not flagged...",
+      "description": "Failure avoided: `only:` usage in jobs is not flagged as deprecated",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `except:` usage in test_unit is not flagged...",
+      "description": "Failure avoided: `except:` usage in test_unit is not flagged as deprecated",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Missing `cache:` for node_modules is not identified...",
+      "description": "Failure avoided: Missing `cache:` for node_modules is not identified as a performance concern",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Missing `expire_in` on artifact blocks is not...",
+      "description": "Failure avoided: Missing `expire_in` on artifact blocks is not flagged",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `:latest` image tags are not identified as...",
+      "description": "Failure avoided: `:latest` image tags are not identified as unpinned",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline retains `only:` or `except:` keywords...",
+      "description": "Failure avoided: Corrected pipeline retains `only:` or `except:` keywords instead of migrating to `rules:`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline has no `cache:` block for...",
+      "description": "Failure avoided: Corrected pipeline has no `cache:` block for node_modules",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline has artifact blocks without `expire_in`",
+      "description": "Failure avoided: Corrected pipeline has artifact blocks without `expire_in`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Report does not assign a category (deprecation/performance/reliability)...",
+      "description": "Failure avoided: Report does not assign a category (deprecation/performance/reliability) to each finding",
+      "max_score": 15
+    }
+  ]
+}

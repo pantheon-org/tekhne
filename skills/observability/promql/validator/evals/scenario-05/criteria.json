@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Flag Missing `for` Clause in Alerting Rule.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Missing `for` clause is explicitly identified",
+      "description": "The review report explicitly states that the alerting rule lacks a `for` clause",
+      "max_score": 10
+    },
+    {
+      "name": "Alert storm risk is explained",
+      "description": "The report explains that without `for`, the alert fires on a single evaluation cycle, which causes false positives from transient spikes",
+      "max_score": 10
+    },
+    {
+      "name": "`for` duration recommendation is reasonable",
+      "description": "The report recommends a `for` duration of at least 2m (the skill's stated minimum), with a brief explanation of the sensitivity/stability trade-off",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected YAML includes `for` clause",
+      "description": "The `alert-corrected.yaml` file contains a `for:` field with a duration of 2m or greater added to the rule",
+      "max_score": 10
+    },
+    {
+      "name": "All other rule fields are preserved unchanged",
+      "description": "The corrected YAML preserves the `expr`, `labels`, and `annotations` fields exactly as in the input, with no other modifications",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Fails to identify the missing `for` clause",
+      "description": "Failure avoided: Fails to identify the missing `for` clause",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not explain why a missing `for`...",
+      "description": "Failure avoided: Does not explain why a missing `for` clause causes alert storms on transient spikes",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Recommends a `for` duration shorter than 2m...",
+      "description": "Failure avoided: Recommends a `for` duration shorter than 2m without justification",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Produces a corrected YAML without a `for:`...",
+      "description": "Failure avoided: Produces a corrected YAML without a `for:` field",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Modifies `expr`, `labels`, or `annotations` fields beyond...",
+      "description": "Failure avoided: Modifies `expr`, `labels`, or `annotations` fields beyond adding the `for` clause",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Build a RED Method Dashboard Query Set for an API Gateway.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "rate() on counter",
+      "description": "The throughput query uses `rate()` or `increase()` applied to `http_requests_total` (a counter), not a raw selector",
+      "max_score": 6
+    },
+    {
+      "name": "No rate() on gauge",
+      "description": "The memory query does NOT wrap `node_memory_MemAvailable_bytes` in `rate()` or `increase()` \u2014 it uses the metric directly or with an `*_over_time()` function",
+      "max_score": 6
+    },
+    {
+      "name": "Label filter on counter queries",
+      "description": "At least one counter query includes a job label filter (e.g. `{job=\"api-gateway\"}`)",
+      "max_score": 6
+    },
+    {
+      "name": "by() on throughput aggregation",
+      "description": "The per-endpoint throughput query uses `sum by (endpoint)` or an equivalent explicit `by()` clause",
+      "max_score": 6
+    },
+    {
+      "name": "by() on error ratio",
+      "description": "Any aggregation in the error ratio query includes an explicit `by()` or `without()` clause rather than a bare `sum`/`count`",
+      "max_score": 6
+    },
+    {
+      "name": "Error ratio uses division",
+      "description": "The error ratio query divides 5xx request rate by total request rate (binary `/` operator between two `rate()` expressions)",
+      "max_score": 6
+    },
+    {
+      "name": "Status code regex for 5xx",
+      "description": "The error ratio query uses a regex match on `status_code` to select 5xx errors (e.g. `status_code=~\"5..\"`)",
+      "max_score": 6
+    },
+    {
+      "name": "Memory query preserves instance label",
+      "description": "The memory query either has no aggregation (returning all instances) or explicitly keeps the instance label via `by(instance)`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Applies `rate()` to the gauge metric `node_memory_MemAvailable_bytes`",
+      "description": "Failure avoided: Applies `rate()` to the gauge metric `node_memory_MemAvailable_bytes`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Uses a raw selector (no `rate()`) for...",
+      "description": "Failure avoided: Uses a raw selector (no `rate()`) for the counter-based throughput query",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits the `job` label filter from counter...",
+      "description": "Failure avoided: Omits the `job` label filter from counter queries",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits `by (endpoint)` from the per-endpoint throughput...",
+      "description": "Failure avoided: Omits `by (endpoint)` from the per-endpoint throughput aggregation",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Uses a bare `sum()` without `by()` or...",
+      "description": "Failure avoided: Uses a bare `sum()` without `by()` or `without()` in the error ratio",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Computes error ratio by subtraction instead of...",
+      "description": "Failure avoided: Computes error ratio by subtraction instead of division",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Filters 5xx errors with a literal match...",
+      "description": "Failure avoided: Filters 5xx errors with a literal match (`status_code=\"500\"`) instead of a regex",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Aggregates away the `instance` label from the...",
+      "description": "Failure avoided: Aggregates away the `instance` label from the memory query",
+      "max_score": 10
+    }
+  ]
+}

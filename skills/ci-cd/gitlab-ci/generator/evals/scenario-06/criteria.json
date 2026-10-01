@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Multi-Environment Deployment Pipeline.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "environment block on deploy jobs",
+      "description": "Each deployment job (development, staging, production) includes an `environment:` key with at least a `name:` field",
+      "max_score": 5
+    },
+    {
+      "name": "environment name lowercase",
+      "description": "Environment `name:` values are lowercase (development, staging, production \u2014 not Development, PRODUCTION)",
+      "max_score": 5
+    },
+    {
+      "name": "resource_group on deploy jobs",
+      "description": "At least the staging and production deployment jobs include a `resource_group:` key to prevent concurrent runs",
+      "max_score": 5
+    },
+    {
+      "name": "when: manual for production",
+      "description": "The production deployment job has `when: manual` (or equivalent in a rules condition)",
+      "max_score": 5
+    },
+    {
+      "name": "Production restricted to main branch",
+      "description": "The production deployment job has a `rules:` condition that limits it to runs on the `main` branch",
+      "max_score": 5
+    },
+    {
+      "name": "No only/except",
+      "description": "The YAML does NOT use `only:` or `except:` keywords",
+      "max_score": 5
+    },
+    {
+      "name": "Image pinned",
+      "description": "All `image:` values specify a version other than `:latest`",
+      "max_score": 5
+    },
+    {
+      "name": "No hardcoded secrets",
+      "description": "The YAML does NOT contain hardcoded tokens, passwords, or API keys",
+      "max_score": 5
+    },
+    {
+      "name": "Kebab-case job names",
+      "description": "Deployment job names use kebab-case (e.g. deploy-production, deploy-staging)",
+      "max_score": 5
+    },
+    {
+      "name": "timeout on deploy jobs",
+      "description": "Deployment jobs include a `timeout:` field",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any deployment job lacks an `environment:` block",
+      "description": "Failure avoided: Any deployment job lacks an `environment:` block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Environment names are not lowercase (e.g., using...",
+      "description": "Failure avoided: Environment names are not lowercase (e.g., using `Development` or `PRODUCTION`)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Staging or production deployment jobs lack `resource_group:`...",
+      "description": "Failure avoided: Staging or production deployment jobs lack `resource_group:` to prevent concurrent runs",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The production deployment job does not have...",
+      "description": "Failure avoided: The production deployment job does not have `when: manual`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The production deployment job has no `rules:`...",
+      "description": "Failure avoided: The production deployment job has no `rules:` condition restricting it to the main branch",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The YAML contains `only:` or `except:` keywords",
+      "description": "Failure avoided: The YAML contains `only:` or `except:` keywords",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any `image:` uses `:latest` or is untagged",
+      "description": "Failure avoided: Any `image:` uses `:latest` or is untagged",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any hardcoded token, password, or API key...",
+      "description": "Failure avoided: Any hardcoded token, password, or API key appears as a literal string value",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Security Audit: Credentials and Unsafe Container Images.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Hardcoded AWS_ACCESS_KEY_ID detected",
+      "description": "security-report.md (or equivalent) flags the AWS_ACCESS_KEY_ID variable value as a hardcoded credential finding",
+      "max_score": 5
+    },
+    {
+      "name": "Hardcoded AWS_SECRET_ACCESS_KEY detected",
+      "description": "security-report.md flags the AWS_SECRET_ACCESS_KEY variable value as a hardcoded credential finding",
+      "max_score": 5
+    },
+    {
+      "name": "Container :latest tag detected",
+      "description": "security-report.md flags node:latest as an unpinned container image",
+      "max_score": 5
+    },
+    {
+      "name": "SSL bypass (curl -k) detected",
+      "description": "security-report.md flags the curl -k flag as a TLS/SSL verification bypass",
+      "max_score": 5
+    },
+    {
+      "name": "Credentials replaced with variable group or secret references",
+      "description": "In the corrected azure-pipelines.yml, AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are replaced with $(VAR_NAME) references or removed from the variables block \u2014 no literal key values remain",
+      "max_score": 5
+    },
+    {
+      "name": "Container image pinned",
+      "description": "In the corrected azure-pipelines.yml, the container image reference no longer uses :latest \u2014 it specifies a concrete version tag or SHA digest",
+      "max_score": 5
+    },
+    {
+      "name": "SSL bypass remediated",
+      "description": "In the corrected azure-pipelines.yml, -k is removed from the curl command (or the step is updated to use TLS verification)",
+      "max_score": 5
+    },
+    {
+      "name": "Severity levels assigned",
+      "description": "security-report.md assigns a severity level (HIGH, MEDIUM, or INFO) to each finding",
+      "max_score": 5
+    },
+    {
+      "name": "Risk explanation provided",
+      "description": "security-report.md includes a brief explanation of the risk for at least two of the findings (e.g., key exposure, unpinned images, MITM)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Hardcoded AWS_ACCESS_KEY_ID value is not identified as...",
+      "description": "Failure avoided: Hardcoded AWS_ACCESS_KEY_ID value is not identified as a security finding",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Hardcoded AWS_SECRET_ACCESS_KEY value is not identified as...",
+      "description": "Failure avoided: Hardcoded AWS_SECRET_ACCESS_KEY value is not identified as a security finding",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: node:latest container tag is not flagged as...",
+      "description": "Failure avoided: node:latest container tag is not flagged as an unpinned image",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `curl -k` SSL bypass is not identified...",
+      "description": "Failure avoided: `curl -k` SSL bypass is not identified as a security finding",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline still contains literal AWS credential...",
+      "description": "Failure avoided: Corrected pipeline still contains literal AWS credential values in the variables block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline still uses node:latest for the...",
+      "description": "Failure avoided: Corrected pipeline still uses node:latest for the container image",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Corrected pipeline retains the `-k` flag in...",
+      "description": "Failure avoided: Corrected pipeline retains the `-k` flag in the curl command",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No severity levels are assigned to findings...",
+      "description": "Failure avoided: No severity levels are assigned to findings in the report",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Include File Validation: Errors in Locally Included Templates.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Undeclared stage in template detected",
+      "description": "include-validation-report.md (or equivalent) flags that run_tests in the template references stage `testing`, which is not declared in the main file's `stages:` list",
+      "max_score": 8
+    },
+    {
+      "name": "Error correctly attributed to template file",
+      "description": "include-validation-report.md identifies the error as being in `templates/jobs.gitlab-ci.yml`, not in the main `.gitlab-ci.yml`",
+      "max_score": 8
+    },
+    {
+      "name": "Entry-point limitation explained",
+      "description": "include-validation-report.md includes an explanation of why validating only the main file does not surface errors in included template files",
+      "max_score": 8
+    },
+    {
+      "name": "Stage corrected in output",
+      "description": "In the corrected templates/jobs.gitlab-ci.yml, the `run_tests` job references a declared stage (e.g., `test`) OR the main .gitlab-ci.yml adds `testing` to the stages list",
+      "max_score": 8
+    },
+    {
+      "name": "Corrected template file produced",
+      "description": "A corrected version of `templates/jobs.gitlab-ci.yml` is produced as a file (not just described in the report)",
+      "max_score": 8
+    },
+    {
+      "name": "No new errors introduced in output",
+      "description": "The corrected files do not introduce new syntax or schema violations (e.g., the needs: references in deploy_app remain valid after stage corrections)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The undeclared `testing` stage in the template...",
+      "description": "Failure avoided: The undeclared `testing` stage in the template is not identified as an error",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The error is attributed to the main...",
+      "description": "Failure avoided: The error is attributed to the main `.gitlab-ci.yml` instead of the template file",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report does not explain why entry-point-only...",
+      "description": "Failure avoided: The report does not explain why entry-point-only validation fails to catch template errors",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Corrected template still uses `stage: testing` and...",
+      "description": "Failure avoided: Corrected template still uses `stage: testing` and `testing` is not added to the main stages list",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No corrected template file is produced (only...",
+      "description": "Failure avoided: No corrected template file is produced (only a description of the error in the report)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Corrected files introduce new errors or break...",
+      "description": "Failure avoided: Corrected files introduce new errors or break the `deploy_app` needs: references",
+      "max_score": 12
+    }
+  ]
+}

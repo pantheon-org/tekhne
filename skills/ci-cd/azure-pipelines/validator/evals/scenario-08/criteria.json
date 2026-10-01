@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Template Validation: Errors in Referenced Template Files.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Unversioned PublishBuildArtifacts task detected",
+      "description": "template-validation-report.md (or equivalent) flags `task: PublishBuildArtifacts` in the template as lacking a version suffix (should be PublishBuildArtifacts@2 or similar)",
+      "max_score": 8
+    },
+    {
+      "name": "Conditional insertion indentation error detected",
+      "description": "template-validation-report.md identifies the `${{ if ... }}:` block \u2014 the list items under it must be indented one level deeper than the `- ${{ if ... }}:` line; a misalignment here causes the conditional step to be skipped or the YAML to parse incorrectly",
+      "max_score": 8
+    },
+    {
+      "name": "Error file attribution correct",
+      "description": "template-validation-report.md correctly attributes each error to templates/build-stage.yml (not to azure-pipelines.yml)",
+      "max_score": 8
+    },
+    {
+      "name": "Entry-point-only limitation explained",
+      "description": "template-validation-report.md includes an explanation of why validating only azure-pipelines.yml would not surface these template errors",
+      "max_score": 8
+    },
+    {
+      "name": "Task version corrected in output template",
+      "description": "In the corrected templates/build-stage.yml, PublishBuildArtifacts is replaced with a versioned form (e.g., PublishBuildArtifacts@2)",
+      "max_score": 8
+    },
+    {
+      "name": "Corrected template file produced",
+      "description": "A corrected version of templates/build-stage.yml is produced (not just a report), with the identified issues fixed",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The unversioned `task: PublishBuildArtifacts` is not identified...",
+      "description": "Failure avoided: The unversioned `task: PublishBuildArtifacts` is not identified as a template error",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The conditional insertion indentation issue in the...",
+      "description": "Failure avoided: The conditional insertion indentation issue in the `${{ if ... }}:` block is not flagged",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Errors are attributed to azure-pipelines.yml instead of...",
+      "description": "Failure avoided: Errors are attributed to azure-pipelines.yml instead of the template file",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report does not explain why entry-point-only...",
+      "description": "Failure avoided: The report does not explain why entry-point-only validation would miss these errors",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Corrected template still uses `task: PublishBuildArtifacts` without...",
+      "description": "Failure avoided: Corrected template still uses `task: PublishBuildArtifacts` without a version suffix",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No corrected template file is produced (only...",
+      "description": "Failure avoided: No corrected template file is produced (only a report with descriptions)",
+      "max_score": 12
+    }
+  ]
+}

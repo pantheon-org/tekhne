@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write SLO Alerting Rules for a Checkout Service.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "for clause on all alerts",
+      "description": "Every alert rule in the file includes a `for:` clause \u2014 no alert rule is missing it",
+      "max_score": 6
+    },
+    {
+      "name": "rate() not increase() in alert expr",
+      "description": "The corrected high-error alert uses `rate()` in its `expr`, not `increase()`",
+      "max_score": 6
+    },
+    {
+      "name": "Multi-window alert present",
+      "description": "An alert rule uses `and` to combine two separate window conditions (one long window e.g. 1h, one short window e.g. 5m)",
+      "max_score": 6
+    },
+    {
+      "name": "Burn rate multiplier applied",
+      "description": "The burn-rate alert expression includes a burn rate factor (e.g. 14.4 or similar multiplier) relative to the error budget",
+      "max_score": 6
+    },
+    {
+      "name": "job label filter present",
+      "description": "Alert expressions include a job label filter (e.g. `{job=\"checkout\"}`)",
+      "max_score": 6
+    },
+    {
+      "name": "rate() per-second threshold in corrected alert",
+      "description": "The corrected alert threshold is expressed as a per-second rate value (a decimal < 1) rather than a raw event count",
+      "max_score": 6
+    },
+    {
+      "name": "by() on aggregations",
+      "description": "Any `sum()` in alert expressions includes an explicit `by()` or `without()` clause",
+      "max_score": 6
+    },
+    {
+      "name": "Valid YAML alert rule format",
+      "description": "The file uses valid Prometheus alerting rule YAML structure with `alert:`, `expr:`, and `for:` keys",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits the `for:` clause from one or...",
+      "description": "Failure avoided: Omits the `for:` clause from one or more alert rules",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Keeps `increase()` in the corrected high-error alert...",
+      "description": "Failure avoided: Keeps `increase()` in the corrected high-error alert expression",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Implements the burn-rate alert as a single-window...",
+      "description": "Failure avoided: Implements the burn-rate alert as a single-window alert instead of multi-window",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits the burn rate multiplier from the...",
+      "description": "Failure avoided: Omits the burn rate multiplier from the fast-burn alert",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits the `job` label filter from alert...",
+      "description": "Failure avoided: Omits the `job` label filter from alert expressions",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Sets a count-based threshold (e.g. `> 50`)...",
+      "description": "Failure avoided: Sets a count-based threshold (e.g. `> 50`) instead of a per-second rate threshold in the corrected alert",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Uses a bare `sum()` without `by()` or...",
+      "description": "Failure avoided: Uses a bare `sum()` without `by()` or `without()` in aggregations",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Produces invalid YAML or uses incorrect Prometheus...",
+      "description": "Failure avoided: Produces invalid YAML or uses incorrect Prometheus rule schema",
+      "max_score": 10
+    }
+  ]
+}

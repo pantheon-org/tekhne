@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Production Deployment Pipeline with Manual Approval Gate.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "input outside steps",
+      "description": "The `input` directive appears outside the `steps { }` block (at stage level) to prevent holding a build agent during approval wait",
+      "max_score": 7
+    },
+    {
+      "name": "fingerprint: true",
+      "description": "`archiveArtifacts` directive includes `fingerprint: true`",
+      "max_score": 7
+    },
+    {
+      "name": "archiveArtifacts present",
+      "description": "Jenkinsfile contains an `archiveArtifacts` directive in the `post success` block or in a stage",
+      "max_score": 7
+    },
+    {
+      "name": "when branch main",
+      "description": "The production deployment stage has a `when { branch 'main' }` or equivalent condition",
+      "max_score": 7
+    },
+    {
+      "name": "beforeAgent true",
+      "description": "The `when` block on the deployment stage includes `beforeAgent true` to skip agent allocation when the condition is false",
+      "max_score": 7
+    },
+    {
+      "name": "submitter restricted",
+      "description": "The `input` block includes a `submitter` field restricting approval to specific users or groups (e.g., `release-managers`)",
+      "max_score": 7
+    },
+    {
+      "name": "cleanWs in post",
+      "description": "Jenkinsfile `post` block includes `always { cleanWs() }` or equivalent workspace cleanup",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The `input` step is placed inside `steps...",
+      "description": "Failure avoided: The `input` step is placed inside `steps { }`, which holds a build agent while waiting for approval",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `archiveArtifacts` does not include `fingerprint: true`",
+      "description": "Failure avoided: `archiveArtifacts` does not include `fingerprint: true`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No `archiveArtifacts` directive is present",
+      "description": "Failure avoided: No `archiveArtifacts` directive is present",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The deployment stage is not conditional on...",
+      "description": "Failure avoided: The deployment stage is not conditional on the `main` branch",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `beforeAgent true` is absent from the `when`...",
+      "description": "Failure avoided: `beforeAgent true` is absent from the `when` block, causing unnecessary agent allocation",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The `input` block has no `submitter` restriction...",
+      "description": "Failure avoided: The `input` block has no `submitter` restriction (anyone can approve)",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No `post` block with `cleanWs()` or equivalent...",
+      "description": "Failure avoided: No `post` block with `cleanWs()` or equivalent is present",
+      "max_score": 9
+    }
+  ]
+}

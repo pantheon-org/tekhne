@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Database User and Credentials Setup Playbook.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "no_log on password tasks",
+      "description": "Every task that references a password variable (pg_readonly_password, pg_writer_password, pg_admin_password) has `no_log: true`",
+      "max_score": 6
+    },
+    {
+      "name": "No plaintext secrets in vars.yml",
+      "description": "The `group_vars/postgres_servers/vars.yml` file does NOT contain any password or secret values \u2014 only non-sensitive configuration",
+      "max_score": 6
+    },
+    {
+      "name": "Vault file uses vault references",
+      "description": "The `group_vars/postgres_servers/vault.yml` file uses `!vault |` prefixes or otherwise indicates vault-encrypted values (not plaintext passwords)",
+      "max_score": 6
+    },
+    {
+      "name": "Quoted octal file permissions",
+      "description": "The pg_hba.conf deployment task uses a quoted octal mode string (e.g., `'0640'`)",
+      "max_score": 6
+    },
+    {
+      "name": "FQCN modules used",
+      "description": "All module references use FQCN (e.g., `ansible.builtin.template`, `ansible.builtin.user` or community module FQCN)",
+      "max_score": 6
+    },
+    {
+      "name": "All tasks have name field",
+      "description": "Every task in the playbook has a `name:` field",
+      "max_score": 6
+    },
+    {
+      "name": "Boolean true/false syntax",
+      "description": "All boolean values use `true` or `false`, not `yes` or `no`",
+      "max_score": 6
+    },
+    {
+      "name": "No shell/command for user creation",
+      "description": "Database user creation does NOT use `ansible.builtin.shell` or `ansible.builtin.command` when a dedicated module (ansible.builtin.user, community.postgresql.*) is appropriate",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any task referencing a password variable is...",
+      "description": "Failure avoided: Any task referencing a password variable is missing `no_log: true`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Plaintext password values appear in `vars.yml`",
+      "description": "Failure avoided: Plaintext password values appear in `vars.yml`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The `vault.yml` file contains plaintext passwords instead...",
+      "description": "Failure avoided: The `vault.yml` file contains plaintext passwords instead of vault references",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: File permission mode for pg_hba.conf is an...",
+      "description": "Failure avoided: File permission mode for pg_hba.conf is an unquoted integer",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Module references use short names instead of...",
+      "description": "Failure avoided: Module references use short names instead of FQCN",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any task is missing a `name:` field",
+      "description": "Failure avoided: Any task is missing a `name:` field",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Boolean values use `yes` or `no` instead...",
+      "description": "Failure avoided: Boolean values use `yes` or `no` instead of `true` or `false`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Database user creation uses `ansible.builtin.shell` or `ansible.builtin.command`",
+      "description": "Failure avoided: Database user creation uses `ansible.builtin.shell` or `ansible.builtin.command`",
+      "max_score": 10
+    }
+  ]
+}

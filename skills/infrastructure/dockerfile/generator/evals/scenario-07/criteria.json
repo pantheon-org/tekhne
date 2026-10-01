@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add Health Checking and Production Hardening to a Java Service.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "HEALTHCHECK present",
+      "description": "Dockerfile contains a HEALTHCHECK instruction (e.g., HEALTHCHECK CMD curl --fail http://localhost:8080/actuator/health or equivalent)",
+      "max_score": 6
+    },
+    {
+      "name": "Exec-form CMD",
+      "description": "CMD uses JSON array syntax (e.g., CMD [\"java\", \"-jar\", \"/app/payment-service.jar\"]) rather than shell string form",
+      "max_score": 6
+    },
+    {
+      "name": "EXPOSE port documented",
+      "description": "Dockerfile contains EXPOSE 8080 (or appropriate port)",
+      "max_score": 6
+    },
+    {
+      "name": "Non-root user",
+      "description": "A non-root user/group is created and USER instruction is placed before CMD/ENTRYPOINT",
+      "max_score": 6
+    },
+    {
+      "name": "JRE-only runtime stage",
+      "description": "The final/runtime stage uses a JRE image (eclipse-temurin:*-jre, amazoncorretto, or similar JRE-only) rather than a full JDK image",
+      "max_score": 6
+    },
+    {
+      "name": "Multi-stage build",
+      "description": "Dockerfile contains at least two FROM instructions separating the build stage from the runtime stage",
+      "max_score": 6
+    },
+    {
+      "name": "Pinned base image tags",
+      "description": "All FROM instructions use specific version tags and NOT :latest",
+      "max_score": 6
+    },
+    {
+      "name": ".dockerignore for Maven",
+      "description": ".dockerignore is present and contains at least one Maven-specific entry such as target/ or *.class",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No `HEALTHCHECK` instruction is present",
+      "description": "Failure avoided: No `HEALTHCHECK` instruction is present",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `CMD` uses shell string form instead of...",
+      "description": "Failure avoided: `CMD` uses shell string form instead of JSON array syntax",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No `EXPOSE` instruction for port 8080",
+      "description": "Failure avoided: No `EXPOSE` instruction for port 8080",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No non-root user, or `USER` instruction is...",
+      "description": "Failure avoided: No non-root user, or `USER` instruction is absent or placed after `CMD`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Runtime stage uses a full JDK image...",
+      "description": "Failure avoided: Runtime stage uses a full JDK image instead of a JRE-only image",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Only one `FROM` instruction (no multi-stage build)",
+      "description": "Failure avoided: Only one `FROM` instruction (no multi-stage build)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any `FROM` uses `:latest` or no tag",
+      "description": "Failure avoided: Any `FROM` uses `:latest` or no tag",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `.dockerignore` is missing Maven-specific entries (`target/` or...",
+      "description": "Failure avoided: `.dockerignore` is missing Maven-specific entries (`target/` or `*.class`)",
+      "max_score": 10
+    }
+  ]
+}

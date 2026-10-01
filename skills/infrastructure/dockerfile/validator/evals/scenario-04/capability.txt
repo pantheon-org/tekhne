@@ -1,0 +1,1 @@
+Hadolint Syntax Validation (Stage 1/4)

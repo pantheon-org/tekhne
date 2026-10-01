@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Cross-Platform Library Test Matrix.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "matrix block used",
+      "description": "Jenkinsfile contains a `matrix { }` block (not just multiple separate parallel stages)",
+      "max_score": 5
+    },
+    {
+      "name": "axes defined",
+      "description": "The matrix block contains an `axes { }` block with at least 2 axis definitions (e.g., JDK version and OS/platform)",
+      "max_score": 5
+    },
+    {
+      "name": "Two axes dimensions",
+      "description": "One axis covers JDK or Java versions (3 values) and another covers operating systems or platforms (2 values)",
+      "max_score": 5
+    },
+    {
+      "name": "parallelsAlwaysFailFast in options",
+      "description": "Jenkinsfile `options` block includes `parallelsAlwaysFailFast()` to enable fail-fast across all matrix combinations",
+      "max_score": 5
+    },
+    {
+      "name": "cleanWs in post",
+      "description": "Jenkinsfile `post` block includes `always { cleanWs() }` or equivalent",
+      "max_score": 5
+    },
+    {
+      "name": "buildDiscarder in options",
+      "description": "Jenkinsfile `options` block includes `buildDiscarder(logRotator(...))`",
+      "max_score": 5
+    },
+    {
+      "name": "disableConcurrentBuilds",
+      "description": "Jenkinsfile `options` block includes `disableConcurrentBuilds()`",
+      "max_score": 5
+    },
+    {
+      "name": "timeout in options",
+      "description": "Jenkinsfile `options` block includes `timeout()`",
+      "max_score": 5
+    },
+    {
+      "name": "Declarative syntax",
+      "description": "Jenkinsfile uses Declarative pipeline syntax (`pipeline { ... }`), NOT Scripted (`node { ... }`)",
+      "max_score": 5
+    },
+    {
+      "name": "Stage after matrix",
+      "description": "A separate sequential stage exists after the matrix block (e.g., publish test results)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Multiple separate parallel stages are used instead...",
+      "description": "Failure avoided: Multiple separate parallel stages are used instead of a `matrix { }` block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `axes { }` block is defined,...",
+      "description": "Failure avoided: No `axes { }` block is defined, or fewer than 2 axes are declared",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The axes do not cover both JDK...",
+      "description": "Failure avoided: The axes do not cover both JDK versions (3 values) and OS/platforms (2 values)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `parallelsAlwaysFailFast()` is absent from the pipeline-level `options`...",
+      "description": "Failure avoided: `parallelsAlwaysFailFast()` is absent from the pipeline-level `options` block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `post` block with `cleanWs()` or equivalent...",
+      "description": "Failure avoided: No `post` block with `cleanWs()` or equivalent is present",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `buildDiscarder(logRotator(...))` is absent from `options`",
+      "description": "Failure avoided: `buildDiscarder(logRotator(...))` is absent from `options`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `disableConcurrentBuilds()` is absent from `options`",
+      "description": "Failure avoided: `disableConcurrentBuilds()` is absent from `options`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `timeout()` is absent from `options`",
+      "description": "Failure avoided: `timeout()` is absent from `options`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Scripted (`node { }`) syntax is used...",
+      "description": "Failure avoided: Scripted (`node { }`) syntax is used instead of Declarative (`pipeline { }`)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No sequential stage follows the matrix block",
+      "description": "Failure avoided: No sequential stage follows the matrix block",
+      "max_score": 5
+    }
+  ]
+}

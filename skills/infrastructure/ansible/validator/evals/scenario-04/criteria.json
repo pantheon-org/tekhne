@@ -1,0 +1,126 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Validate an Ansible Playbook Before Merging to Main.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "yamllint run first",
+      "description": "The report documents yamllint being run before ansible-playbook --syntax-check",
+      "max_score": 4
+    },
+    {
+      "name": "ansible syntax-check run",
+      "description": "The report documents running `ansible-playbook --syntax-check`",
+      "max_score": 4
+    },
+    {
+      "name": "ansible-lint run",
+      "description": "The report documents running `ansible-lint`",
+      "max_score": 4
+    },
+    {
+      "name": "check_fqcn script used",
+      "description": "The report documents running `bash scripts/check_fqcn.sh` (or equivalent FQCN check)",
+      "max_score": 4
+    },
+    {
+      "name": "Security scan with wrapper",
+      "description": "The report documents running `bash scripts/validate_playbook_security.sh` for security scanning",
+      "max_score": 4
+    },
+    {
+      "name": "Secrets scan run",
+      "description": "The report documents running `bash scripts/scan_secrets.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "validate_certs issue found",
+      "description": "The report identifies the `validate_certs: false` setting as a security issue",
+      "max_score": 4
+    },
+    {
+      "name": "no-changed-when issue found",
+      "description": "The report identifies that the `command` tasks (systemctl status, tool --version) are missing `changed_when`",
+      "max_score": 4
+    },
+    {
+      "name": "missing mode on template",
+      "description": "The report notes that the template task is missing a `mode:` attribute",
+      "max_score": 4
+    },
+    {
+      "name": "Reference file cited",
+      "description": "The report references at least one of the skill reference files (common_errors.md, best_practices.md, or security_checklist.md) in connection with a finding",
+      "max_score": 4
+    },
+    {
+      "name": "Overall summary present",
+      "description": "The report includes a final pass/fail or summary section",
+      "max_score": 4
+    },
+    {
+      "name": "Correct step ordering",
+      "description": "The report shows YAML syntax check occurring before lint, and lint before security scan (correct ordering)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Runs `ansible-lint` or security tools before `yamllint`",
+      "description": "Failure avoided: Runs `ansible-lint` or security tools before `yamllint`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Skips `ansible-playbook --syntax-check`",
+      "description": "Failure avoided: Skips `ansible-playbook --syntax-check`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Skips `ansible-lint`",
+      "description": "Failure avoided: Skips `ansible-lint`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/check_fqcn.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/check_fqcn.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/validate_playbook_security.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/validate_playbook_security.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/scan_secrets.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/scan_secrets.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to identify `validate_certs: false` as a...",
+      "description": "Failure avoided: Fails to identify `validate_certs: false` as a security issue",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to identify the missing `changed_when` on...",
+      "description": "Failure avoided: Fails to identify the missing `changed_when` on `command` tasks",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to note the missing `mode:` on...",
+      "description": "Failure avoided: Fails to note the missing `mode:` on the template task",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No skill reference file is cited in...",
+      "description": "Failure avoided: No skill reference file is cited in relation to any finding",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Report has no final summary or pass/fail...",
+      "description": "Failure avoided: Report has no final summary or pass/fail conclusion",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Validation steps are presented out of order...",
+      "description": "Failure avoided: Validation steps are presented out of order (e.g., security scan before lint)",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Security Checklist Validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Missing encrypt=true identified",
+      "description": "Agent identifies that the `remote_state` config block is missing `encrypt = true` and marks this as FAIL, explaining that S3 server-side encryption will not be enforced",
+      "max_score": 10
+    },
+    {
+      "name": "Missing DynamoDB state locking identified",
+      "description": "Agent identifies that the `remote_state` config has no `dynamodb_table` entry and marks this as FAIL, explaining the risk of concurrent state modifications",
+      "max_score": 10
+    },
+    {
+      "name": "Hardcoded AWS credentials identified",
+      "description": "Agent identifies the `AKIA*` `access_key` and `secret_key` in the provider `generate` block as hardcoded credentials, marks as FAIL (Critical), and recommends using `assume_role` instead",
+      "max_score": 10
+    },
+    {
+      "name": "Missing sensitive=true on password variable",
+      "description": "Agent identifies the `db_password` variable lacks `sensitive = true` and marks as FAIL, explaining that Terraform will print the value in plan output",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected HCL snippets provided for all failures",
+      "description": "Agent provides corrected HCL for at least the `remote_state` block (adding `encrypt` and `dynamodb_table`) and the provider block (replacing static credentials with `assume_role`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Missing `encrypt = true` in `remote_state` is...",
+      "description": "Failure avoided: Missing `encrypt = true` in `remote_state` is not identified as a FAIL",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Missing `dynamodb_table` for state locking is not...",
+      "description": "Failure avoided: Missing `dynamodb_table` for state locking is not flagged",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Hardcoded `AKIA*` access key and secret key...",
+      "description": "Failure avoided: Hardcoded `AKIA*` access key and secret key are not identified as Critical security violations",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Missing `sensitive = true` on `db_password` variable...",
+      "description": "Failure avoided: Missing `sensitive = true` on `db_password` variable is not flagged",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: No corrected HCL is provided for the...",
+      "description": "Failure avoided: No corrected HCL is provided for the insecure configurations",
+      "max_score": 10
+    }
+  ]
+}

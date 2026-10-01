@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Validate Helm Chart Structure.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Required file presence check",
+      "description": "Agent correctly identifies Chart.yaml, values.yaml, and templates/ as present",
+      "max_score": 8
+    },
+    {
+      "name": "Missing recommended files identified",
+      "description": "Agent identifies that _helpers.tpl, NOTES.txt, and .helmignore are missing and categorises them as Warnings or Info",
+      "max_score": 8
+    },
+    {
+      "name": "Deprecated apiVersion flagged",
+      "description": "Agent flags Chart.yaml using apiVersion: v1 instead of the Helm 3+ required apiVersion: v2 as an Error",
+      "max_score": 8
+    },
+    {
+      "name": "Image :latest tag flagged",
+      "description": "Agent flags values.yaml image.tag: latest as a Warning with a recommendation to pin to a specific tag",
+      "max_score": 8
+    },
+    {
+      "name": "Read-only posture maintained",
+      "description": "Agent proposes all fixes but does not modify any files. All proposed changes are listed in a summary section only",
+      "max_score": 8
+    },
+    {
+      "name": "Issue categorisation",
+      "description": "Agent correctly categorises each finding as Error (must fix), Warning (should fix), or Info using the three-tier scheme",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Required files (Chart.yaml, values.yaml, templates/) are not...",
+      "description": "Failure avoided: Required files (Chart.yaml, values.yaml, templates/) are not correctly identified as present",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Missing recommended files (_helpers.tpl, NOTES.txt, .helmignore) are...",
+      "description": "Failure avoided: Missing recommended files (_helpers.tpl, NOTES.txt, .helmignore) are not identified",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `apiVersion: v1` is not flagged as an...",
+      "description": "Failure avoided: `apiVersion: v1` is not flagged as an Error (should be v2 for Helm 3+)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `image.tag: latest` is not flagged as a...",
+      "description": "Failure avoided: `image.tag: latest` is not flagged as a Warning",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent modifies files instead of listing proposed...",
+      "description": "Failure avoided: Agent modifies files instead of listing proposed fixes only",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Findings are not categorised as Error, Warning,...",
+      "description": "Failure avoided: Findings are not categorised as Error, Warning, or Info",
+      "max_score": 12
+    }
+  ]
+}

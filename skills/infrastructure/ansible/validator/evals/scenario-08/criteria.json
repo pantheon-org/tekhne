@@ -1,0 +1,101 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Migrate a Legacy Playbook to Use Fully-Qualified Collection Names.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "check_fqcn.sh script used",
+      "description": "The fqcn_audit_report.md documents running `bash scripts/check_fqcn.sh` to detect non-FQCN usage",
+      "max_score": 5
+    },
+    {
+      "name": "module_alternatives.md referenced",
+      "description": "The report references module_alternatives.md for finding FQCN replacements",
+      "max_score": 5
+    },
+    {
+      "name": "All non-FQCN modules identified",
+      "description": "The report identifies all short-name modules: user, file, get_url, unarchive, template, copy, service, package, systemd (at least 7 of these 9)",
+      "max_score": 5
+    },
+    {
+      "name": "FQCN replacements provided",
+      "description": "The report lists the correct ansible.builtin.* FQCN for each identified module",
+      "max_score": 5
+    },
+    {
+      "name": "migrated_playbook.yml created",
+      "description": "A migrated_playbook.yml file exists",
+      "max_score": 5
+    },
+    {
+      "name": "All modules in migrated playbook use FQCN",
+      "description": "Every module in migrated_playbook.yml uses the full ansible.builtin.* prefix",
+      "max_score": 5
+    },
+    {
+      "name": "ansible-lint run",
+      "description": "The report documents running ansible-lint as part of the validation",
+      "max_score": 5
+    },
+    {
+      "name": "yamllint run",
+      "description": "The report documents running yamllint",
+      "max_score": 5
+    },
+    {
+      "name": "ansible-lint not skipped",
+      "description": "The report does NOT skip ansible-lint despite the playbook appearing syntactically correct",
+      "max_score": 5
+    },
+    {
+      "name": "Handlers also migrated",
+      "description": "The handlers section in migrated_playbook.yml also uses FQCN for service and systemd modules",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/check_fqcn.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/check_fqcn.sh`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not reference `module_alternatives.md`",
+      "description": "Failure avoided: Does not reference `module_alternatives.md`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Identifies fewer than 7 of the 9...",
+      "description": "Failure avoided: Identifies fewer than 7 of the 9 non-FQCN modules",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not list the correct FQCN replacement...",
+      "description": "Failure avoided: Does not list the correct FQCN replacement for each identified module",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not produce `migrated_playbook.yml`",
+      "description": "Failure avoided: Does not produce `migrated_playbook.yml`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `migrated_playbook.yml` still contains short module names",
+      "description": "Failure avoided: `migrated_playbook.yml` still contains short module names",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Skips `ansible-lint` because the playbook looks syntactically...",
+      "description": "Failure avoided: Skips `ansible-lint` because the playbook looks syntactically correct",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not run `yamllint`",
+      "description": "Failure avoided: Does not run `yamllint`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Handlers section in `migrated_playbook.yml` still uses short...",
+      "description": "Failure avoided: Handlers section in `migrated_playbook.yml` still uses short names for `service` or `systemd`",
+      "max_score": 10
+    }
+  ]
+}

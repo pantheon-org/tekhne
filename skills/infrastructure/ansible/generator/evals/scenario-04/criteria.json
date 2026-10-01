@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Web Server Provisioning Playbook.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "FQCN modules used",
+      "description": "Every module call uses its FQCN (e.g., `ansible.builtin.apt`, `ansible.builtin.template`, `ansible.builtin.service`) \u2014 no short names like `apt:` or `template:` without the namespace",
+      "max_score": 5
+    },
+    {
+      "name": "All tasks have name field",
+      "description": "Every task block in the playbook and handlers has a `name:` field \u2014 no anonymous tasks",
+      "max_score": 5
+    },
+    {
+      "name": "Verb-first task names",
+      "description": "Task names begin with an action verb (e.g., 'Install', 'Deploy', 'Ensure', 'Copy', 'Start')",
+      "max_score": 5
+    },
+    {
+      "name": "Boolean true/false syntax",
+      "description": "Boolean values use `true` or `false` (not `yes` or `no`)",
+      "max_score": 5
+    },
+    {
+      "name": "Quoted octal file permissions",
+      "description": "Any `mode:` parameter uses a quoted octal string (e.g., `'0644'`, `'0755'`) rather than an unquoted integer",
+      "max_score": 5
+    },
+    {
+      "name": "Service restart via handler",
+      "description": "The Nginx configuration deployment task uses `notify:` to trigger a handler that restarts/reloads Nginx, rather than a direct `ansible.builtin.service: state: restarted` task",
+      "max_score": 5
+    },
+    {
+      "name": "State parameter present",
+      "description": "The package installation task and service task both include an explicit `state:` parameter",
+      "max_score": 5
+    },
+    {
+      "name": "Playbook header comment",
+      "description": "The playbook file starts with a comment block documenting title, description, requirements or variables, and usage command",
+      "max_score": 5
+    },
+    {
+      "name": "No shell/command for package install",
+      "description": "Nginx installation does NOT use `ansible.builtin.shell` or `ansible.builtin.command` \u2014 uses `ansible.builtin.apt` or `ansible.builtin.package`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses short module names (e.g., `apt:`, `template:`)...",
+      "description": "Failure avoided: Uses short module names (e.g., `apt:`, `template:`) instead of FQCN",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any task block is missing a `name:`...",
+      "description": "Failure avoided: Any task block is missing a `name:` field",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Task names do not begin with an...",
+      "description": "Failure avoided: Task names do not begin with an action verb",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Boolean values use `yes` or `no` instead...",
+      "description": "Failure avoided: Boolean values use `yes` or `no` instead of `true` or `false`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: File permission mode values are unquoted integers",
+      "description": "Failure avoided: File permission mode values are unquoted integers",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Nginx configuration change triggers a direct restart...",
+      "description": "Failure avoided: Nginx configuration change triggers a direct restart task instead of notifying a handler",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Package installation or service task omits the...",
+      "description": "Failure avoided: Package installation or service task omits the `state:` parameter",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Playbook file has no header comment documenting...",
+      "description": "Failure avoided: Playbook file has no header comment documenting its purpose and usage",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Nginx installation uses `ansible.builtin.shell` or `ansible.builtin.command`",
+      "description": "Failure avoided: Nginx installation uses `ansible.builtin.shell` or `ansible.builtin.command`",
+      "max_score": 15
+    }
+  ]
+}
