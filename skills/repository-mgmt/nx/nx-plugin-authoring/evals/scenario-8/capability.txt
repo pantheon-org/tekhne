@@ -1,0 +1,1 @@
+Plan plugin creation, template authoring and verification for an Nx plugin that starts with a single generator.

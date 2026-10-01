@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Configure nx.json targetDefaults for a Full Nx Workspace.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "build.dependsOn is [\"^build\"]",
+      "description": "`targetDefaults.build.dependsOn` is exactly `[\"^build\"]`.",
+      "max_score": 7
+    },
+    {
+      "name": "build.inputs includes production and ^production",
+      "description": "`targetDefaults.build.inputs` contains both `\"production\"` and `\"^production\"`.",
+      "max_score": 7
+    },
+    {
+      "name": "test.dependsOn is [\"build\"]",
+      "description": "`targetDefaults.test.dependsOn` is exactly `[\"build\"]`.",
+      "max_score": 7
+    },
+    {
+      "name": "test.inputs includes default, ^production, and jest preset",
+      "description": "`targetDefaults.test.inputs` contains `\"default\"`, `\"^production\"`, and `\"{workspaceRoot}/jest.preset.js\"`.",
+      "max_score": 7
+    },
+    {
+      "name": "lint.inputs includes default and .eslintrc.json",
+      "description": "`targetDefaults.lint.inputs` contains `\"default\"` and `\"{workspaceRoot}/.eslintrc.json\"`.",
+      "max_score": 7
+    },
+    {
+      "name": "cache: true on all three targets",
+      "description": "`targetDefaults.build.cache`, `targetDefaults.test.cache`, and `targetDefaults.lint.cache` are all `true`.",
+      "max_score": 7
+    },
+    {
+      "name": "Schema and version present",
+      "description": "`nx.json` has a `$schema` field and `version: 2`.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `build.dependsOn` is absent or set to something...",
+      "description": "Failure avoided: `build.dependsOn` is absent or set to something other than `[\"^build\"]`, breaking upstream dependency ordering",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `build.inputs` omits `\"production\"` or `\"^production\"`, causing incorrect...",
+      "description": "Failure avoided: `build.inputs` omits `\"production\"` or `\"^production\"`, causing incorrect cache invalidation",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `test.dependsOn` is absent or set to something...",
+      "description": "Failure avoided: `test.dependsOn` is absent or set to something other than `[\"build\"]`, allowing tests to run before the build completes",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `test.inputs` omits any of `\"default\"`, `\"^production\"`, or...",
+      "description": "Failure avoided: `test.inputs` omits any of `\"default\"`, `\"^production\"`, or `\"{workspaceRoot}/jest.preset.js\"`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `lint.inputs` omits `\"default\"` or `\"{workspaceRoot}/.eslintrc.json\"`, causing lin",
+      "description": "Failure avoided: `lint.inputs` omits `\"default\"` or `\"{workspaceRoot}/.eslintrc.json\"`, causing lint results to be stale after config changes",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any of the three targets has `cache`...",
+      "description": "Failure avoided: Any of the three targets has `cache` absent or `false`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `$schema` or `version` is missing from the...",
+      "description": "Failure avoided: `$schema` or `version` is missing from the output",
+      "max_score": 9
+    }
+  ]
+}

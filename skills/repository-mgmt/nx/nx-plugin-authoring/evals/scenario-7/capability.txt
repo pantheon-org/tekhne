@@ -1,0 +1,1 @@
+Refactor an executor so logic lives in library functions, I/O is asynchronous, the result is structured and the target is cache-aware.

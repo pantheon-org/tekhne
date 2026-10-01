@@ -1,0 +1,1 @@
+Configure Vitest in a vite.config.ts for an Nx Project

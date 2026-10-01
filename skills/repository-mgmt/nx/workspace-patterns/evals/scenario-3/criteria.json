@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Assign Tags to Projects in an Nx Workspace.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Application projects tagged with type:app",
+      "description": "`web-app`, `admin-app`, and `api-server` `project.json` files each have `\"type:app\"` in their `tags` array.",
+      "max_score": 7
+    },
+    {
+      "name": "App scope tags correct",
+      "description": "`web-app` and `admin-app` have `\"scope:web\"`; `api-server` has `\"scope:api\"`.",
+      "max_score": 7
+    },
+    {
+      "name": "web-auth-feature tagged correctly",
+      "description": "`web-auth-feature` `project.json` has tags `[\"scope:web\", \"type:feature\"]` (or equivalent correct combination).",
+      "max_score": 7
+    },
+    {
+      "name": "shared-ui-components tagged correctly",
+      "description": "`shared-ui-components` `project.json` has tags `[\"scope:shared\", \"type:ui\"]`.",
+      "max_score": 7
+    },
+    {
+      "name": "api-user-data-access tagged correctly",
+      "description": "`api-user-data-access` `project.json` has tags `[\"scope:api\", \"type:data-access\"]`.",
+      "max_score": 7
+    },
+    {
+      "name": "shared-utils tagged correctly",
+      "description": "`shared-utils` `project.json` has tags `[\"scope:shared\", \"type:util\"]`.",
+      "max_score": 7
+    },
+    {
+      "name": "All project.json files are structurally valid",
+      "description": "All 7 files have `name`, `root`, `projectType`, `tags`, and `targets` fields. Tags use only vocabulary from the defined taxonomy.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any application project (`web-app`, `admin-app`, `api-server`) is...",
+      "description": "Failure avoided: Any application project (`web-app`, `admin-app`, `api-server`) is missing the `type:app` tag",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `web-app` or `admin-app` is tagged with `scope:api`...",
+      "description": "Failure avoided: `web-app` or `admin-app` is tagged with `scope:api` instead of `scope:web`, or vice versa",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `web-auth-feature` is missing `scope:web` or `type:feature`",
+      "description": "Failure avoided: `web-auth-feature` is missing `scope:web` or `type:feature`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `shared-ui-components` is missing `scope:shared` or uses `type:feature`...",
+      "description": "Failure avoided: `shared-ui-components` is missing `scope:shared` or uses `type:feature` instead of `type:ui`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `api-user-data-access` is missing `scope:api` or `type:data-access`",
+      "description": "Failure avoided: `api-user-data-access` is missing `scope:api` or `type:data-access`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `shared-utils` is missing `scope:shared` or uses a...",
+      "description": "Failure avoided: `shared-utils` is missing `scope:shared` or uses a type other than `type:util`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any project.json uses tags outside the defined...",
+      "description": "Failure avoided: Any project.json uses tags outside the defined vocabulary",
+      "max_score": 9
+    }
+  ]
+}

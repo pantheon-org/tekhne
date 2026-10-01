@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create a vite.config.ts for a React Application in an Nx Monorepo.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "nxViteTsPaths imported and included in plugins",
+      "description": "The config imports `nxViteTsPaths` from `@nx/vite/plugins/nx-tsconfig-paths.plugin` and calls `nxViteTsPaths()` in the plugins array.",
+      "max_score": 8
+    },
+    {
+      "name": "react() plugin included",
+      "description": "The config imports `react` from `@vitejs/plugin-react` and calls `react()` in the plugins array.",
+      "max_score": 8
+    },
+    {
+      "name": "root: __dirname set",
+      "description": "The config sets `root: __dirname` at the top-level of `defineConfig`.",
+      "max_score": 8
+    },
+    {
+      "name": "cacheDir uses workspace-relative path",
+      "description": "`cacheDir` is set to `\"../../node_modules/.vite/apps/web-app\"` (not a project-relative path).",
+      "max_score": 8
+    },
+    {
+      "name": "build.outDir uses workspace-relative path",
+      "description": "`build.outDir` is set to `\"../../dist/apps/web-app\"`.",
+      "max_score": 8
+    },
+    {
+      "name": "server and preview ports configured",
+      "description": "`server.port` is `4200` and `preview.port` is `4300`.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `nxViteTsPaths` is missing from imports or not...",
+      "description": "Failure avoided: `nxViteTsPaths` is missing from imports or not called in the plugins array, breaking TypeScript path aliases",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `react()` plugin is missing from the plugins...",
+      "description": "Failure avoided: `react()` plugin is missing from the plugins array",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `root: __dirname` is absent, causing Vite to...",
+      "description": "Failure avoided: `root: __dirname` is absent, causing Vite to resolve paths incorrectly",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `cacheDir` uses a project-relative path (e.g. `./node_modules/.vite`)...",
+      "description": "Failure avoided: `cacheDir` uses a project-relative path (e.g. `./node_modules/.vite`) instead of the workspace-root-relative path",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `build.outDir` uses a project-relative path instead of...",
+      "description": "Failure avoided: `build.outDir` uses a project-relative path instead of the workspace-root-relative path",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Server or preview ports are incorrect or...",
+      "description": "Failure avoided: Server or preview ports are incorrect or missing",
+      "max_score": 12
+    }
+  ]
+}

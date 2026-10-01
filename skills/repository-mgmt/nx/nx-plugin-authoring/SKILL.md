@@ -2,7 +2,7 @@
 name: nx-plugin-authoring
 description: Create Nx plugins with custom generators and executors for TypeScript monorepos. Covers plugin scaffolding, Tree API usage, schema-driven options, ExecutorContext API, template generation, project-graph-safe updates, cache-aware outputs, and testable workflows. Use when creating Nx plugins, building custom generators, implementing executors, enforcing conventions, or extending Nx workspace automation.
 license: MIT
-compatibility: opencode
+compatibility: Requires an Nx workspace with Node.js
 metadata:
   category: nx-development
   audience: nx-developers
@@ -165,7 +165,7 @@ rg -n "generateFiles|updateJson|readProjectConfiguration" plugins tools
 ### NEVER use relative executor references in targets
 
 - **WHY**: relative paths are fragile across workspace changes.
-- **BAD**: `"executor": "../../tools/executors:task"`.
+- **BAD**: `"executor": "tools/executors:task"` (a workspace-relative path instead of a package name).
 - **GOOD**: `"executor": "@scope/tools:task"`.
 
 ### NEVER omit outputs and dependencies semantics for cacheable work

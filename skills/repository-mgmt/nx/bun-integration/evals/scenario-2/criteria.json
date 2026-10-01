@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Configure nx.json targetDefaults for Bun Build and Test Targets.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Schema and version present",
+      "description": "`nx.json` has a `$schema` field and a `version` field (value 2).",
+      "max_score": 10
+    },
+    {
+      "name": "build targetDefault with cache: true",
+      "description": "`targetDefaults.build.cache` is `true`.",
+      "max_score": 10
+    },
+    {
+      "name": "build inputs use production and ^production",
+      "description": "`targetDefaults.build.inputs` contains both `\"production\"` and `\"^production\"`.",
+      "max_score": 10
+    },
+    {
+      "name": "test targetDefault with cache: true",
+      "description": "`targetDefaults.test.cache` is `true`.",
+      "max_score": 10
+    },
+    {
+      "name": "test inputs use default and ^production",
+      "description": "`targetDefaults.test.inputs` contains both `\"default\"` and `\"^production\"`.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `$schema` or `version` is missing from `nx.json`",
+      "description": "Failure avoided: `$schema` or `version` is missing from `nx.json`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `targetDefaults.build.cache` is absent or `false`",
+      "description": "Failure avoided: `targetDefaults.build.cache` is absent or `false`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `targetDefaults.build.inputs` omits `\"production\"` or `\"^production\"`, causing inc",
+      "description": "Failure avoided: `targetDefaults.build.inputs` omits `\"production\"` or `\"^production\"`, causing incorrect cache invalidation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `targetDefaults.test.cache` is absent or `false`",
+      "description": "Failure avoided: `targetDefaults.test.cache` is absent or `false`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `targetDefaults.test.inputs` omits `\"default\"` or `\"^production\"`, causing incorre",
+      "description": "Failure avoided: `targetDefaults.test.inputs` omits `\"default\"` or `\"^production\"`, causing incorrect cache invalidation",
+      "max_score": 10
+    }
+  ]
+}

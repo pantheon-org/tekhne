@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write a Cache-Aware Nx Executor.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Executor returns { success: boolean }",
+      "description": "`executor.ts` returns an object with a `success` boolean field \u2014 not `void`, not a string, not a number",
+      "max_score": 10
+    },
+    {
+      "name": "schema.json has typed outputPath field",
+      "description": "`schema.json` defines `outputPath` as a required string with type and description",
+      "max_score": 10
+    },
+    {
+      "name": "Package notation used in target example",
+      "description": "`target-example.json` uses `executor: '@myorg/tools:compile'` (package notation), not a relative path",
+      "max_score": 10
+    },
+    {
+      "name": "outputs declared in target example",
+      "description": "`target-example.json` includes an `outputs` array (e.g. `['{options.outputPath}']`) so Nx can cache the task correctly",
+      "max_score": 10
+    },
+    {
+      "name": "Executor handles success/failure",
+      "description": "`executor.ts` returns `{ success: false }` on error and `{ success: true }` on completion \u2014 not just a happy path",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Executor returns `void` or always returns a...",
+      "description": "Failure avoided: Executor returns `void` or always returns a truthy value without a `success` boolean",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `schema.json` uses a generic type or omits...",
+      "description": "Failure avoided: `schema.json` uses a generic type or omits `outputPath` as a required typed field",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `target-example.json` uses a relative path for the...",
+      "description": "Failure avoided: `target-example.json` uses a relative path for the executor instead of package notation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `target-example.json` has no `outputs` array, preventing Nx...",
+      "description": "Failure avoided: `target-example.json` has no `outputs` array, preventing Nx from caching the task",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Executor has no error branch and always...",
+      "description": "Failure avoided: Executor has no error branch and always returns success regardless of `tsc` exit code",
+      "max_score": 10
+    }
+  ]
+}

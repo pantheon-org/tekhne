@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write a Migration Checklist for Switching from npm to Bun in an Nx Workspace.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Lockfile removal steps covered",
+      "description": "The checklist explicitly names `package-lock.json` (and/or `yarn.lock`) as files to remove when switching to Bun.",
+      "max_score": 10
+    },
+    {
+      "name": "Single package manager discipline stated",
+      "description": "The checklist states that `npm install` or `yarn` must not be used after migrating to Bun; only Bun should be used for installs.",
+      "max_score": 10
+    },
+    {
+      "name": "nx reset step included",
+      "description": "The checklist includes running `nx reset` after executor/plugin changes to clear stale Nx cache.",
+      "max_score": 10
+    },
+    {
+      "name": "Phased validation on one project before rollout",
+      "description": "The checklist requires validating build, test, and serve on a single pilot project before rolling out to all projects.",
+      "max_score": 10
+    },
+    {
+      "name": "Non-hot production build verification mentioned",
+      "description": "The checklist notes that hot or watch mode alone is insufficient and that a non-hot production-oriented run must be verified.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The checklist does not mention removing `package-lock.json`...",
+      "description": "Failure avoided: The checklist does not mention removing `package-lock.json` or equivalent lockfiles",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The checklist does not state that only...",
+      "description": "Failure avoided: The checklist does not state that only Bun should be used for installs after migration",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The checklist omits the `nx reset` step,...",
+      "description": "Failure avoided: The checklist omits the `nx reset` step, risking stale Nx daemon cache issues after the migration",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The checklist does not require a pilot...",
+      "description": "Failure avoided: The checklist does not require a pilot project validation phase before rolling out to all projects",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The checklist does not mention verifying a...",
+      "description": "Failure avoided: The checklist does not mention verifying a non-hot production build, leaving the risk that only watch mode was tested",
+      "max_score": 10
+    }
+  ]
+}

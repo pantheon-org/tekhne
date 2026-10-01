@@ -1,0 +1,1 @@
+Plan an Nx Webpack to Vite migration covering install, generation, targets, asset copying, environment replacement and verification.

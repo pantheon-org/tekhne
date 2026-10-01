@@ -1,0 +1,1 @@
+Adopt boundaries and affected CI incrementally using the documented fallback behaviours and a migration plan.

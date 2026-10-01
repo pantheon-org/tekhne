@@ -1,0 +1,61 @@
+{
+  "context": "Checks the rollout order from prerequisites through single-project validation to workspace-wide runs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Checks prerequisites first",
+      "description": "Confirms an Nx workspace, Node.js 18 or later and a package manager before installing",
+      "max_score": 10
+    },
+    {
+      "name": "Installs Biome as a dev dependency",
+      "description": "Runs npm install --save-dev @biomejs/biome or the package manager equivalent",
+      "max_score": 9
+    },
+    {
+      "name": "Initialises the root config",
+      "description": "Runs biome init so a root biome.json exists",
+      "max_score": 9
+    },
+    {
+      "name": "Adds targets or inferred tasks",
+      "description": "Adds biome-lint and biome-format targets or a plugin that infers them",
+      "max_score": 9
+    },
+    {
+      "name": "Enables cache inputs",
+      "description": "Sets cache inputs including biome.json and the Biome external dependency",
+      "max_score": 9
+    },
+    {
+      "name": "Validates on one project first",
+      "description": "Runs the lint and format targets on a single project before the whole workspace",
+      "max_score": 9
+    },
+    {
+      "name": "Then runs across the workspace",
+      "description": "Runs nx run-many for biome-lint and biome-format after the single-project check",
+      "max_score": 9
+    },
+    {
+      "name": "Runs nx reset after plugin changes",
+      "description": "Says to run nx reset so the daemon cache clears and targets refresh",
+      "max_score": 9
+    },
+    {
+      "name": "Runs an anti-pattern review before rollout",
+      "description": "Checks for nested configs, overlapping tools, cache inputs, CI write mode and downgraded rules before finishing",
+      "max_score": 9
+    },
+    {
+      "name": "Keeps a single root config",
+      "description": "Uses one root config rather than per-project configs",
+      "max_score": 9
+    },
+    {
+      "name": "Keeps CI checks read-only",
+      "description": "States CI runs read-only checks",
+      "max_score": 9
+    }
+  ]
+}

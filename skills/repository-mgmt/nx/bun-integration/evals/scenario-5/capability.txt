@@ -1,0 +1,1 @@
+Adapt Node SQLite pooling and child-process code to Bun SQLite and Bun.spawn behaviour without copying Node assumptions.

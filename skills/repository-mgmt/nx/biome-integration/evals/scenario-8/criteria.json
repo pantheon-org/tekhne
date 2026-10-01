@@ -1,0 +1,56 @@
+{
+  "context": "Checks scope decisions and the preference for a single root config.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Request (a) uses one root config",
+      "description": "Recommends one root biome.json for the three libraries",
+      "max_score": 10
+    },
+    {
+      "name": "Rejects per-library configs by default",
+      "description": "Says nested biome.json files are unnecessary for a simple workspace-wide setup",
+      "max_score": 10
+    },
+    {
+      "name": "Explains config layering cost",
+      "description": "Says extra layering increases maintenance and rule drift",
+      "max_score": 10
+    },
+    {
+      "name": "Allows nested configs for real overrides",
+      "description": "Says nested configs or overrides are for migration or genuine exceptions only",
+      "max_score": 10
+    },
+    {
+      "name": "Request (b) is out of scope",
+      "description": "Says the ESLint and Prettier standard is intentional so the Biome setup does not apply",
+      "max_score": 10
+    },
+    {
+      "name": "Request (b) is raised, not forced",
+      "description": "Suggests confirming with the owners rather than introducing Biome silently",
+      "max_score": 10
+    },
+    {
+      "name": "Request (c) is out of scope",
+      "description": "Says workspace task integration requires Nx and the repository has none",
+      "max_score": 10
+    },
+    {
+      "name": "Request (c) alternative given",
+      "description": "Offers plain Biome usage without Nx caching and target integration",
+      "max_score": 10
+    },
+    {
+      "name": "Request (a) adds targets and cache",
+      "description": "Still adds lint and format targets with cache inputs for the Nx case",
+      "max_score": 10
+    },
+    {
+      "name": "Keeps authority singular",
+      "description": "States each file should have a single lint and format owner",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Create Root Biome Configuration for an Nx Workspace

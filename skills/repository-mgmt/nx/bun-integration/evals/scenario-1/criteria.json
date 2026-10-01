@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Configure @nx-bun/nx Executor Targets in a project.json.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct project metadata",
+      "description": "`project.json` has `name` `\"api\"`, `root` `\"apps/backend\"`, and `projectType` `\"application\"`.",
+      "max_score": 6
+    },
+    {
+      "name": "build target uses @nx-bun/nx:build",
+      "description": "`targets.build.executor` is exactly `\"@nx-bun/nx:build\"`.",
+      "max_score": 6
+    },
+    {
+      "name": "build target has outputs referencing {options.outputPath}",
+      "description": "`targets.build.outputs` contains `\"{options.outputPath}\"`.",
+      "max_score": 6
+    },
+    {
+      "name": "build target has cache: true",
+      "description": "`targets.build.cache` is `true`.",
+      "max_score": 6
+    },
+    {
+      "name": "serve target uses @nx-bun/nx:run",
+      "description": "`targets.serve.executor` is exactly `\"@nx-bun/nx:run\"`.",
+      "max_score": 6
+    },
+    {
+      "name": "test target uses @nx-bun/nx:test",
+      "description": "`targets.test.executor` is exactly `\"@nx-bun/nx:test\"`.",
+      "max_score": 6
+    },
+    {
+      "name": "test target has workspace-relative coverage output",
+      "description": "`targets.test.outputs` contains a path with `{workspaceRoot}/coverage` (not a project-relative `./coverage` path).",
+      "max_score": 6
+    },
+    {
+      "name": "test target has cache: true",
+      "description": "`targets.test.cache` is `true`.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Project metadata (`name`, `root`, or `projectType`) is...",
+      "description": "Failure avoided: Project metadata (`name`, `root`, or `projectType`) is incorrect",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `build` target does not use `@nx-bun/nx:build` executor",
+      "description": "Failure avoided: `build` target does not use `@nx-bun/nx:build` executor",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `build` target `outputs` omits `{options.outputPath}`, preventing Nx...",
+      "description": "Failure avoided: `build` target `outputs` omits `{options.outputPath}`, preventing Nx cache from tracking the output",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `build` target has `cache` absent or `false`",
+      "description": "Failure avoided: `build` target has `cache` absent or `false`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `serve` target does not use `@nx-bun/nx:run` executor",
+      "description": "Failure avoided: `serve` target does not use `@nx-bun/nx:run` executor",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `test` target does not use `@nx-bun/nx:test` executor",
+      "description": "Failure avoided: `test` target does not use `@nx-bun/nx:test` executor",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `test` target `outputs` uses a project-relative path...",
+      "description": "Failure avoided: `test` target `outputs` uses a project-relative path (`./coverage`) instead of a workspace-relative path (`{workspaceRoot}/coverage/...`)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `test` target has `cache` absent or `false`",
+      "description": "Failure avoided: `test` target has `cache` absent or `false`",
+      "max_score": 10
+    }
+  ]
+}

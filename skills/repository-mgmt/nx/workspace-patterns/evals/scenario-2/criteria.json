@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Configure Module Boundary Rules for a Layered Nx Workspace.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "@nx/enforce-module-boundaries rule configured",
+      "description": "The overrides array contains an entry with `@nx/enforce-module-boundaries` set to `\"error\"`.",
+      "max_score": 7
+    },
+    {
+      "name": "enforceBuildableLibDependency: true and allow: []",
+      "description": "The rule options have `enforceBuildableLibDependency` set to `true` and `allow` set to `[]`.",
+      "max_score": 7
+    },
+    {
+      "name": "scope:web constraint present and correct",
+      "description": "`depConstraints` contains an entry with `sourceTag` `\"scope:web\"` that `onlyDependOnLibsWithTags` `[\"scope:web\", \"scope:shared\"]`.",
+      "max_score": 7
+    },
+    {
+      "name": "scope:api constraint present and correct",
+      "description": "`depConstraints` contains an entry with `sourceTag` `\"scope:api\"` that `onlyDependOnLibsWithTags` `[\"scope:api\", \"scope:shared\"]`.",
+      "max_score": 7
+    },
+    {
+      "name": "type:feature constraint present and correct",
+      "description": "`depConstraints` contains an entry for `type:feature` that allows `type:feature`, `type:ui`, `type:data-access`, and `type:util`.",
+      "max_score": 7
+    },
+    {
+      "name": "type:ui constraint present and correct",
+      "description": "`depConstraints` contains an entry for `type:ui` that only allows `type:ui` and `type:util`.",
+      "max_score": 7
+    },
+    {
+      "name": "type:util constraint present as dependency sink",
+      "description": "`depConstraints` contains an entry for `type:util` with an empty or explicitly restrictive `onlyDependOnLibsWithTags` (no upstream allowed).",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `@nx/enforce-module-boundaries` is absent or not set to...",
+      "description": "Failure avoided: `@nx/enforce-module-boundaries` is absent or not set to `\"error\"`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `enforceBuildableLibDependency` is not `true` or `allow` is...",
+      "description": "Failure avoided: `enforceBuildableLibDependency` is not `true` or `allow` is not `[]`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `scope:web` or `scope:api` boundary constraint is missing...",
+      "description": "Failure avoided: `scope:web` or `scope:api` boundary constraint is missing or allows dependencies on the wrong scope",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `type:feature` constraint is missing or omits any...",
+      "description": "Failure avoided: `type:feature` constraint is missing or omits any of the four allowed type tags",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `type:ui` constraint is missing or incorrectly allows...",
+      "description": "Failure avoided: `type:ui` constraint is missing or incorrectly allows types other than `type:ui` and `type:util`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `type:util` constraint is absent, leaving it without...",
+      "description": "Failure avoided: `type:util` constraint is absent, leaving it without a dependency sink restriction",
+      "max_score": 16
+    }
+  ]
+}

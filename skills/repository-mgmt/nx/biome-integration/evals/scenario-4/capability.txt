@@ -1,0 +1,1 @@
+Add Scoped Migration Override to biome.json for a Legacy Directory

@@ -1,0 +1,1 @@
+Tests the When Not to Use boundaries and avoiding unnecessary nested configs.

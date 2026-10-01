@@ -1,0 +1,1 @@
+Structure an Nx workspace into domains, remove a project cycle and prove boundaries fail on violations with an uncached lint run.

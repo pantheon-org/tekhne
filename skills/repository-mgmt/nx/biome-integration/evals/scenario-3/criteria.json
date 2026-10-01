@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add Explicit Biome Targets to a project.json.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Existing project metadata preserved",
+      "description": "The output `project.json` retains `name`, `root`, `projectType`, and `sourceRoot` from the starting file.",
+      "max_score": 8
+    },
+    {
+      "name": "biome-lint target present",
+      "description": "`targets.biome-lint` exists in the output.",
+      "max_score": 8
+    },
+    {
+      "name": "biome-format target present",
+      "description": "`targets.biome-format` exists in the output.",
+      "max_score": 8
+    },
+    {
+      "name": "biome-lint uses correct biome lint command with {projectRoot}",
+      "description": "The `biome-lint` target's command or executor invokes `@biomejs/biome lint` and references `{projectRoot}`.",
+      "max_score": 8
+    },
+    {
+      "name": "biome-format uses correct biome format command with {projectRoot}",
+      "description": "The `biome-format` target's command or executor invokes `@biomejs/biome format` and references `{projectRoot}`.",
+      "max_score": 8
+    },
+    {
+      "name": "cache: true on both targets",
+      "description": "Both `biome-lint` and `biome-format` targets have `cache` set to `true`.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Project metadata (`name`, `root`, `projectType`, or `sourceRoot`)...",
+      "description": "Failure avoided: Project metadata (`name`, `root`, `projectType`, or `sourceRoot`) is modified or missing",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `biome-lint` target is absent from `targets`",
+      "description": "Failure avoided: `biome-lint` target is absent from `targets`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `biome-format` target is absent from `targets`",
+      "description": "Failure avoided: `biome-format` target is absent from `targets`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `biome-lint` target does not run `@biomejs/biome lint`...",
+      "description": "Failure avoided: `biome-lint` target does not run `@biomejs/biome lint` or does not include `{projectRoot}`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `biome-format` target does not run `@biomejs/biome format`...",
+      "description": "Failure avoided: `biome-format` target does not run `@biomejs/biome format` or does not include `{projectRoot}`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Either target has `cache` absent or set...",
+      "description": "Failure avoided: Either target has `cache` absent or set to `false`",
+      "max_score": 12
+    }
+  ]
+}

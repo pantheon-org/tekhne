@@ -1,0 +1,1 @@
+Write a project-configuration generator that preserves existing targets, respects tag boundaries and is dry-run validated before rollout.

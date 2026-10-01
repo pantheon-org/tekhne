@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Migrate a project.json Test Target from Jest to the Bun Test Runner.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Jest test target removed",
+      "description": "The output does NOT contain any target with executor `@nx/jest:jest`.",
+      "max_score": 10
+    },
+    {
+      "name": "New test target uses @nx-bun/nx:test",
+      "description": "`targets.test.executor` is exactly `\"@nx-bun/nx:test\"`.",
+      "max_score": 10
+    },
+    {
+      "name": "New test target has cache: true",
+      "description": "`targets.test.cache` is `true`.",
+      "max_score": 10
+    },
+    {
+      "name": "New test target declares workspace-relative coverage output",
+      "description": "`targets.test.outputs` contains a path with `{workspaceRoot}/coverage` (not a project-relative path).",
+      "max_score": 10
+    },
+    {
+      "name": "Build and lint targets preserved unchanged",
+      "description": "`targets.build` and `targets.lint` are identical to the starting file.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The Jest target (`@nx/jest:jest`) remains in the...",
+      "description": "Failure avoided: The Jest target (`@nx/jest:jest`) remains in the output (dual test ownership anti-pattern)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: New `test` target does not use `@nx-bun/nx:test`...",
+      "description": "Failure avoided: New `test` target does not use `@nx-bun/nx:test` executor",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: New `test` target has `cache` absent or...",
+      "description": "Failure avoided: New `test` target has `cache` absent or `false`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: New `test` target uses a project-relative coverage...",
+      "description": "Failure avoided: New `test` target uses a project-relative coverage path instead of a `{workspaceRoot}/coverage/...` path",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `build` or `lint` targets are modified, missing,...",
+      "description": "Failure avoided: `build` or `lint` targets are modified, missing, or contain different options than the starting file",
+      "max_score": 10
+    }
+  ]
+}

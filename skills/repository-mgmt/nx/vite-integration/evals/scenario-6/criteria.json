@@ -1,0 +1,56 @@
+{
+  "context": "Checks the response applies the two-layer separation and the intentional-sections rule from nx-vite-integration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies two layers",
+      "description": "The answer distinguishes workspace-level concerns (Nx targets, cache dirs, project boundaries) from build-level concerns (Vite plugins, rollup options, output formats).",
+      "max_score": 10
+    },
+    {
+      "name": "Workspace-level settings go to project.json",
+      "description": "Executor and target settings are moved into `project.json`.",
+      "max_score": 10
+    },
+    {
+      "name": "Build-level settings stay in vite.config.ts",
+      "description": "Plugins, rollup options and output formats are kept in `vite.config.ts`.",
+      "max_score": 10
+    },
+    {
+      "name": "Sections are intentional",
+      "description": "The skeleton has separate sections for `plugins`, `build`, `server` and `test`.",
+      "max_score": 10
+    },
+    {
+      "name": "Ad-hoc overrides removed or justified",
+      "description": "Each ad-hoc override is either removed or given a stated purpose.",
+      "max_score": 10
+    },
+    {
+      "name": "Each step validated",
+      "description": "The answer says to validate after each change, for example with `nx run dashboard:build` and `nx run dashboard:test`.",
+      "max_score": 10
+    },
+    {
+      "name": "nxViteTsPaths retained",
+      "description": "The skeleton keeps `nxViteTsPaths()` in the plugins array.",
+      "max_score": 10
+    },
+    {
+      "name": "root: __dirname retained",
+      "description": "The skeleton sets `root: __dirname`.",
+      "max_score": 10
+    },
+    {
+      "name": "Proxy kept under server",
+      "description": "The development proxy is placed in the `server` section, not mixed into `test`.",
+      "max_score": 10
+    },
+    {
+      "name": "Coverage under test with workspace-relative path",
+      "description": "Coverage options sit in `test` and use a workspace-relative reports directory.",
+      "max_score": 10
+    }
+  ]
+}

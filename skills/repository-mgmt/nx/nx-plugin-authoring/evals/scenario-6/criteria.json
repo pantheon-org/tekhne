@@ -1,0 +1,56 @@
+{
+  "context": "Checks the generator preserves existing configuration, honours project boundaries, applies schema defaults and is dry-run validated, per the nx-plugin-authoring skill.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Reads existing configuration",
+      "description": "The generator calls `readProjectConfiguration(tree, name)` before changing anything.",
+      "max_score": 10
+    },
+    {
+      "name": "Updates rather than overwrites",
+      "description": "The generator assigns the new target onto the read configuration and saves it with `updateProjectConfiguration`, not by writing a whole new project.json.",
+      "max_score": 10
+    },
+    {
+      "name": "Existing targets preserved",
+      "description": "The `lint` and `test` targets and the existing tags are still present after the update.",
+      "max_score": 10
+    },
+    {
+      "name": "Checks tags before cross-scope changes",
+      "description": "The generator or its notes verify tags and dependency direction so a `scope:ui` project is not wired to `scope:data`.",
+      "max_score": 10
+    },
+    {
+      "name": "Respects project graph boundaries",
+      "description": "The solution explicitly states generated output must not introduce a forbidden dependency between scopes.",
+      "max_score": 10
+    },
+    {
+      "name": "Schema has typed options",
+      "description": "`schema.json` defines `name` as a required string with a description and `directory` as an optional string.",
+      "max_score": 10
+    },
+    {
+      "name": "Safe default for omitted directory",
+      "description": "When `directory` is omitted the generator uses the workspace default location or a schema default.",
+      "max_score": 10
+    },
+    {
+      "name": "Uses Tree API for the note",
+      "description": "`BUILD.md` is created with `tree.write` or `generateFiles`, not `fs` calls.",
+      "max_score": 10
+    },
+    {
+      "name": "Dry-run validation before rollout",
+      "description": "The answer includes running the generator with `--dry-run` before applying it across the workspace.",
+      "max_score": 10
+    },
+    {
+      "name": "Stops on unexpected output",
+      "description": "The answer says to stop if unexpected files appear or required options fail validation.",
+      "max_score": 10
+    }
+  ]
+}

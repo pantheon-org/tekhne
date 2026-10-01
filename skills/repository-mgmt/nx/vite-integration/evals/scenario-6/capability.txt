@@ -1,0 +1,1 @@
+Reorganise a sprawling Vite configuration into intentional sections, with workspace concerns in project.json and build concerns in vite.config.ts.

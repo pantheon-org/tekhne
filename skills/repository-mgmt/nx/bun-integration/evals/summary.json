@@ -1,0 +1,26 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 15,
+    "covered_instructions": 15,
+    "scenario_count": 6,
+    "coverage_map": {
+      "I01": ["scenario-6"],
+      "I02": ["scenario-1", "scenario-3", "scenario-6"],
+      "I03": ["scenario-1", "scenario-2", "scenario-3", "scenario-6"],
+      "I04": ["scenario-4", "scenario-6"],
+      "I05": ["scenario-6"],
+      "I06": ["scenario-4"],
+      "I07": ["scenario-3"],
+      "I08": ["scenario-1", "scenario-2", "scenario-3"],
+      "I09": ["scenario-5"],
+      "I10": ["scenario-4", "scenario-6"],
+      "I11": ["scenario-5"],
+      "I12": ["scenario-4"],
+      "I13": ["scenario-4", "scenario-6"],
+      "I14": ["scenario-6"],
+      "I15": ["scenario-1", "scenario-3"]
+    },
+    "notes": "Scenarios 5 and 6 were added to cover SQLite, Bun.spawn, plugin install, rollout and CI affected commands; every instruction is now checked by at least one scenario."
+  }
+}

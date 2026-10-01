@@ -1,0 +1,1 @@
+Sequence plugin install, pilot validation, failure recovery, affected-only rollout and CI commands for a Bun adoption in an Nx workspace.
