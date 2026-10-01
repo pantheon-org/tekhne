@@ -1,0 +1,81 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Encrypted Data Storage with Lifecycle and prevent_destroy.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "KMS key prevent_destroy",
+      "description": "The `aws_kms_key` resource has `lifecycle { prevent_destroy = true }`",
+      "max_score": 6
+    },
+    {
+      "name": "RDS instance prevent_destroy",
+      "description": "The `aws_db_instance` resource has `lifecycle { prevent_destroy = true }`",
+      "max_score": 6
+    },
+    {
+      "name": "S3 bucket prevent_destroy",
+      "description": "The `aws_s3_bucket` resource has `lifecycle { prevent_destroy = true }`",
+      "max_score": 6
+    },
+    {
+      "name": "abort_incomplete_multipart_upload rule",
+      "description": "The S3 lifecycle configuration includes a rule with `abort_incomplete_multipart_upload { days_after_initiation = 7 }`",
+      "max_score": 6
+    },
+    {
+      "name": "RDS storage_encrypted",
+      "description": "The `aws_db_instance` resource has `storage_encrypted = true`",
+      "max_score": 6
+    },
+    {
+      "name": "S3 encryption configured",
+      "description": "The S3 bucket has server-side encryption configured (`aws_s3_bucket_server_side_encryption_configuration` or equivalent)",
+      "max_score": 6
+    },
+    {
+      "name": "File organization correct",
+      "description": "Generated files include at minimum: `main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`",
+      "max_score": 6
+    },
+    {
+      "name": "Usage instructions included",
+      "description": "Response includes next steps for `terraform init`, `plan`, `apply` and security reminders",
+      "max_score": 6
+    },
+    {
+      "name": "No sensitive values hardcoded",
+      "description": "No passwords, keys, or other sensitive strings are hardcoded \u2014 they use variables or are generated",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any of the three critical resources (`aws_kms_key`,...",
+      "description": "Failure avoided: Any of the three critical resources (`aws_kms_key`, `aws_db_instance`, `aws_s3_bucket`) is missing `lifecycle { prevent_destroy = true }`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `abort_incomplete_multipart_upload` rule is absent from the S3...",
+      "description": "Failure avoided: `abort_incomplete_multipart_upload` rule is absent from the S3 lifecycle configuration",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `storage_encrypted = true` is absent from the...",
+      "description": "Failure avoided: `storage_encrypted = true` is absent from the RDS instance",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: S3 server-side encryption is not configured",
+      "description": "Failure avoided: S3 server-side encryption is not configured",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Sensitive values (passwords, keys) are hardcoded in...",
+      "description": "Failure avoided: Sensitive values (passwords, keys) are hardcoded in the configuration",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Required files (`main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`) are...",
+      "description": "Failure avoided: Required files (`main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`) are absent",
+      "max_score": 16
+    }
+  ]
+}

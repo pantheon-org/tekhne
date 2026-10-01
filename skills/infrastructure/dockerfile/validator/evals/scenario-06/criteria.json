@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Layer Ordering and Cache Efficiency Audit (Stage 3/4).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "COPY ordering cache bust identified",
+      "description": "Agent identifies that `COPY . /app` before `RUN pip install -r requirements.txt` causes the pip install cache to be invalidated on every source code change, and proposes copying requirements.txt first",
+      "max_score": 10
+    },
+    {
+      "name": "Separate cache cleanup layer explained",
+      "description": "Agent correctly explains that `RUN rm -rf /var/lib/apt/lists/*` in a separate RUN instruction creates a new layer and does not reduce the size of the layer where apt-get ran; the cleanup must be in the same RUN layer",
+      "max_score": 10
+    },
+    {
+      "name": "Split pip install identified",
+      "description": "Agent identifies that running pip install twice (once for requirements.txt, once for gunicorn) creates unnecessary layers and recommends combining into one RUN or adding gunicorn to requirements.txt",
+      "max_score": 10
+    },
+    {
+      "name": "USER placement assessed correctly",
+      "description": "Agent notes the USER directive is present (good) but placed after all COPY and RUN instructions, which is the correct position for a non-root runtime user",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected code snippet provided",
+      "description": "Agent provides at least one corrected code block combining apt-get update, install, and cache cleanup in a single RUN layer",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Cache busting caused by COPY ordering is...",
+      "description": "Failure avoided: Cache busting caused by COPY ordering is not identified",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The explanation for the separate cache cleanup...",
+      "description": "Failure avoided: The explanation for the separate cache cleanup layer is missing or incorrect (agent does not explain that the separate RUN does not reduce layer size)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Split pip install calls are not flagged...",
+      "description": "Failure avoided: Split pip install calls are not flagged as creating unnecessary layers",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: USER placement is not assessed, or the...",
+      "description": "Failure avoided: USER placement is not assessed, or the assessment is incorrect",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: No corrected code snippet is provided",
+      "description": "Failure avoided: No corrected code snippet is provided",
+      "max_score": 10
+    }
+  ]
+}

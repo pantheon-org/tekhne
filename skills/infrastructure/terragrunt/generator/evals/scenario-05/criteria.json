@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Generate Child Module with Dependencies.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Named include block with find_in_parent_folders(root.hcl)",
+      "description": "Generated file uses `include \"root\" { path = find_in_parent_folders(\"root.hcl\") }` with the named label and explicit filename",
+      "max_score": 8
+    },
+    {
+      "name": "env.hcl read via locals block",
+      "description": "Generated file contains a `locals` block with `env = read_terragrunt_config(find_in_parent_folders(\"env.hcl\"))` and accesses environment values via `local.env.locals.*`",
+      "max_score": 8
+    },
+    {
+      "name": "vpc dependency with correctly typed mock_outputs",
+      "description": "`vpc` dependency block has `mock_outputs` with `vpc_id` as a string (`\"vpc-mock\"`) and `private_subnet_ids` as a list of strings (`[\"subnet-mock-1\"]`) \u2014 types must match expected output types",
+      "max_score": 8
+    },
+    {
+      "name": "iam dependency with mock_outputs",
+      "description": "`iam` dependency block has `mock_outputs` with `eks_role_arn` as a string mock value",
+      "max_score": 8
+    },
+    {
+      "name": "mock_outputs_allowed_terraform_commands on all dependencies",
+      "description": "Both dependency blocks include `mock_outputs_allowed_terraform_commands = [\"validate\", \"plan\", \"destroy\"]` or equivalent",
+      "max_score": 8
+    },
+    {
+      "name": "prevent_destroy = true present",
+      "description": "Generated file includes `prevent_destroy = true` to protect the production EKS cluster from accidental deletion",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `include` block is unnamed or does not...",
+      "description": "Failure avoided: `include` block is unnamed or does not use `find_in_parent_folders(\"root.hcl\")` with the explicit filename",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `env.hcl` is not read via `read_terragrunt_config` in...",
+      "description": "Failure avoided: `env.hcl` is not read via `read_terragrunt_config` in a `locals` block",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `vpc_id` mock output is not a string...",
+      "description": "Failure avoided: `vpc_id` mock output is not a string type, or `private_subnet_ids` mock output is not a list of strings",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `iam` dependency block is missing `mock_outputs`",
+      "description": "Failure avoided: `iam` dependency block is missing `mock_outputs`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Either dependency block is missing `mock_outputs_allowed_terraform_commands`",
+      "description": "Failure avoided: Either dependency block is missing `mock_outputs_allowed_terraform_commands`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `prevent_destroy = true` is absent from the...",
+      "description": "Failure avoided: `prevent_destroy = true` is absent from the production module configuration",
+      "max_score": 12
+    }
+  ]
+}

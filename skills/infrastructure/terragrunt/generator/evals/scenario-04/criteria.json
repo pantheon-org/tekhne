@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Generate root.hcl for Multi-Environment Infrastructure (Pattern A).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Architecture Pattern Selection checklist output",
+      "description": "Agent outputs the mandatory checklist before writing any files, identifying Pattern A, environment-agnostic root scope, `env.hcl` location in each environment directory, and child module access pattern",
+      "max_score": 8
+    },
+    {
+      "name": "Environment-agnostic root: no env.hcl read",
+      "description": "Generated `root.hcl` does NOT contain `read_terragrunt_config(find_in_parent_folders(\"env.hcl\"))` or any reference to `env.hcl` at the root level",
+      "max_score": 8
+    },
+    {
+      "name": "Remote state with encrypt=true and DynamoDB locking",
+      "description": "`remote_state` block includes `encrypt = true`, the correct bucket name, `dynamodb_table = \"data-platform-tfstate-lock\"`, and uses `path_relative_to_include()` for the state key",
+      "max_score": 8
+    },
+    {
+      "name": "Provider with assume_role in generate block",
+      "description": "`generate` block produces a `provider \"aws\"` block using `assume_role` with the specified role ARN rather than hardcoded `access_key`/`secret_key`",
+      "max_score": 8
+    },
+    {
+      "name": "errors block used instead of retryable_errors",
+      "description": "Generated file uses an `errors { retry { ... } }` block for transient error handling, not the deprecated `retryable_errors` attribute",
+      "max_score": 8
+    },
+    {
+      "name": "Version constraints present",
+      "description": "Generated file includes `terraform_version_constraint` and `terragrunt_version_constraint` with the specified versions",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Architecture Pattern Selection checklist is not output...",
+      "description": "Failure avoided: Architecture Pattern Selection checklist is not output before generating files",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `root.hcl` contains `read_terragrunt_config(find_in_parent_folders(\"env.hcl\"))` (v",
+      "description": "Failure avoided: `root.hcl` contains `read_terragrunt_config(find_in_parent_folders(\"env.hcl\"))` (violates Pattern A)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `remote_state` block is missing `encrypt = true`...",
+      "description": "Failure avoided: `remote_state` block is missing `encrypt = true` or `dynamodb_table` for state locking",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Provider uses hardcoded credentials instead of `assume_role`...",
+      "description": "Failure avoided: Provider uses hardcoded credentials instead of `assume_role` in a `generate` block",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Deprecated `retryable_errors` attribute is used instead of...",
+      "description": "Failure avoided: Deprecated `retryable_errors` attribute is used instead of the modern `errors { retry { ... } }` block",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Version constraints are absent or use incorrect...",
+      "description": "Failure avoided: Version constraints are absent or use incorrect syntax",
+      "max_score": 12
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Document a Containerization Decision for a TypeScript Next.js App.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Syntax directive present",
+      "description": "Dockerfile starts with or contains '# syntax=docker/dockerfile:1' (or a versioned variant)",
+      "max_score": 5
+    },
+    {
+      "name": "Image size estimate provided",
+      "description": "The decision document (or Dockerfile comments) includes an estimated image size in MB and compares it to a full Node.js image size",
+      "max_score": 5
+    },
+    {
+      "name": "Cache layer explanation",
+      "description": "The decision document describes which layers are cache hits on code-only changes vs. dependency changes",
+      "max_score": 5
+    },
+    {
+      "name": "Next steps checklist",
+      "description": "The decision document includes a bulleted or checkbox list of next steps before production (e.g., local build test, CI pipeline, vulnerability scanning)",
+      "max_score": 5
+    },
+    {
+      "name": "Security summary",
+      "description": "The decision document includes at least two of: non-root user, minimal base image, no hardcoded secrets \u2014 as security properties",
+      "max_score": 5
+    },
+    {
+      "name": "Multi-stage build",
+      "description": "Dockerfile uses multiple FROM stages (deps/builder/runner or similar) for the Next.js build",
+      "max_score": 5
+    },
+    {
+      "name": "Pinned base image tags",
+      "description": "All FROM instructions use specific version tags and NOT :latest",
+      "max_score": 5
+    },
+    {
+      "name": "Non-root user in Dockerfile",
+      "description": "Dockerfile creates a non-root user and includes a USER instruction before CMD",
+      "max_score": 5
+    },
+    {
+      "name": ".dockerignore excludes Next.js build output",
+      "description": ".dockerignore is present and contains at least .next/ or node_modules/",
+      "max_score": 5
+    },
+    {
+      "name": "Dependency layer caching order",
+      "description": "package.json/package-lock.json is COPYed before COPY . . in the build stage",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Dockerfile is missing the `# syntax=docker/dockerfile:1` directive",
+      "description": "Failure avoided: Dockerfile is missing the `# syntax=docker/dockerfile:1` directive",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Decision document has no image size estimate...",
+      "description": "Failure avoided: Decision document has no image size estimate or comparison to full Node.js image",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Decision document does not explain layer caching...",
+      "description": "Failure avoided: Decision document does not explain layer caching behavior",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Decision document has no next steps checklist",
+      "description": "Failure avoided: Decision document has no next steps checklist",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Decision document includes fewer than 2 security...",
+      "description": "Failure avoided: Decision document includes fewer than 2 security properties",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Only one `FROM` stage (no multi-stage build)",
+      "description": "Failure avoided: Only one `FROM` stage (no multi-stage build)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any `FROM` uses `:latest` or no tag",
+      "description": "Failure avoided: Any `FROM` uses `:latest` or no tag",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No non-root user, or `USER` instruction is...",
+      "description": "Failure avoided: No non-root user, or `USER` instruction is absent or placed after `CMD`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `.dockerignore` is missing `.next/` or `node_modules/`",
+      "description": "Failure avoided: `.dockerignore` is missing `.next/` or `node_modules/`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Source code is copied before `package.json`/`package-lock.json` in...",
+      "description": "Failure avoided: Source code is copied before `package.json`/`package-lock.json` in the build stage",
+      "max_score": 5
+    }
+  ]
+}

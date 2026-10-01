@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Security Scan (Stage 2/4).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Hardcoded secrets identified as Critical",
+      "description": "Agent identifies `ENV API_KEY` and `ENV DATABASE_URL` as hardcoded secrets, classifies them as Critical severity, and explains they will persist in all image layers",
+      "max_score": 8
+    },
+    {
+      "name": "BuildKit secret mount alternative described",
+      "description": "Agent describes using `--mount=type=secret` in a RUN instruction or runtime environment injection as the correct alternative to ENV for secrets",
+      "max_score": 8
+    },
+    {
+      "name": "Missing USER directive identified",
+      "description": "Agent identifies the absence of a USER instruction as a High severity finding (container runs as root), and proposes adding a non-root user",
+      "max_score": 8
+    },
+    {
+      "name": "EXPOSE 22 flagged",
+      "description": "Agent flags `EXPOSE 22` as a security risk (SSH port exposure) and recommends removing it unless SSH access is explicitly required",
+      "max_score": 8
+    },
+    {
+      "name": "Missing HEALTHCHECK flagged",
+      "description": "Agent identifies the absence of a HEALTHCHECK directive as a finding and proposes an appropriate healthcheck for a Node.js HTTP service",
+      "max_score": 8
+    },
+    {
+      "name": "Severity categorisation correct",
+      "description": "Agent correctly assigns Critical to hardcoded secrets, High to missing USER and EXPOSE 22, and Medium or lower to missing HEALTHCHECK",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Hardcoded secrets in ENV instructions are not...",
+      "description": "Failure avoided: Hardcoded secrets in ENV instructions are not flagged or are not classified as Critical",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No alternative to ENV for secrets is...",
+      "description": "Failure avoided: No alternative to ENV for secrets is described (BuildKit secret mount or runtime injection not mentioned)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Missing USER instruction is not identified as...",
+      "description": "Failure avoided: Missing USER instruction is not identified as a security finding",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: EXPOSE 22 is not flagged as a...",
+      "description": "Failure avoided: EXPOSE 22 is not flagged as a risk",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Missing HEALTHCHECK is not mentioned",
+      "description": "Failure avoided: Missing HEALTHCHECK is not mentioned",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Severity classification is incorrect (e.g., missing USER...",
+      "description": "Failure avoided: Severity classification is incorrect (e.g., missing USER classified as Low instead of High)",
+      "max_score": 12
+    }
+  ]
+}

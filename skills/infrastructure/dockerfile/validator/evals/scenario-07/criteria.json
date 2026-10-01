@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Multi-Stage Build Optimisation (Stage 4/4).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Multi-stage build opportunity identified",
+      "description": "Agent correctly identifies that Go produces a statically compiled binary and the build toolchain (`golang:1.21` ~900MB) does not need to be in the final image",
+      "max_score": 8
+    },
+    {
+      "name": "Named AS build stage used",
+      "description": "Proposed Dockerfile uses `FROM golang:1.21 AS build` and then a separate final FROM stage with `COPY --from=build`",
+      "max_score": 8
+    },
+    {
+      "name": "Minimal final base image chosen",
+      "description": "Final stage uses `gcr.io/distroless/base-debian12`, `distroless/static`, or `alpine:3.x` rather than the full golang image",
+      "max_score": 8
+    },
+    {
+      "name": "Image size reduction estimate provided",
+      "description": "Agent provides a reasonable estimate of image size reduction (e.g., from ~900MB to ~20-30MB for distroless static) and explains why the toolchain layers are dropped",
+      "max_score": 8
+    },
+    {
+      "name": "--target build debugging benefit explained",
+      "description": "Agent explains that named stages allow `docker build --target build` to access the intermediate build stage for CI debugging without exposing the final runtime image",
+      "max_score": 8
+    },
+    {
+      "name": "Security improvements noted",
+      "description": "Agent notes that distroless images have no shell, package manager, or unnecessary system libraries, reducing the attack surface",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Multi-stage build opportunity is not identified for...",
+      "description": "Failure avoided: Multi-stage build opportunity is not identified for the Go application",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Proposed Dockerfile does not use a named...",
+      "description": "Failure avoided: Proposed Dockerfile does not use a named build stage (`AS build`) or does not use `COPY --from=build`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Final stage uses the full `golang` image...",
+      "description": "Failure avoided: Final stage uses the full `golang` image instead of a minimal distroless or Alpine image",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No image size reduction estimate is provided",
+      "description": "Failure avoided: No image size reduction estimate is provided",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The `--target build` CI debugging benefit is...",
+      "description": "Failure avoided: The `--target build` CI debugging benefit is not explained",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Security improvements from distroless are not mentioned",
+      "description": "Failure avoided: Security improvements from distroless are not mentioned",
+      "max_score": 12
+    }
+  ]
+}

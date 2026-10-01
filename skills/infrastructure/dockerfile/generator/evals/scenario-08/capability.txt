@@ -1,0 +1,1 @@
+Document a Containerization Decision for a TypeScript Next.js App

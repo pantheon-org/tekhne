@@ -1,0 +1,116 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Security Audit an Ansible Playbook for a Production Database Server.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Security scan wrapper used",
+      "description": "The report documents running `bash scripts/validate_playbook_security.sh` for Checkov scanning",
+      "max_score": 4
+    },
+    {
+      "name": "Secrets scan run",
+      "description": "The report documents running `bash scripts/scan_secrets.sh` to detect hardcoded credentials",
+      "max_score": 4
+    },
+    {
+      "name": "Hardcoded passwords found",
+      "description": "The report identifies the hardcoded mysql_root_password and mysql_app_password variables as security issues",
+      "max_score": 4
+    },
+    {
+      "name": "Password in backup script found",
+      "description": "The report identifies that the backup script embeds a password directly in a shell script as a security issue",
+      "max_score": 4
+    },
+    {
+      "name": "validate_certs: false found",
+      "description": "The report identifies the `validate_certs: false` in the get_url task as a security issue",
+      "max_score": 4
+    },
+    {
+      "name": "Ansible Vault remediation suggested",
+      "description": "The report suggests Ansible Vault or environment variables as the correct remediation for hardcoded secrets",
+      "max_score": 4
+    },
+    {
+      "name": "security_checklist.md referenced",
+      "description": "The report references the security_checklist.md reference file in connection with findings",
+      "max_score": 4
+    },
+    {
+      "name": "Severity labels on findings",
+      "description": "Each security finding has a severity label (HIGH, MEDIUM, or LOW)",
+      "max_score": 4
+    },
+    {
+      "name": "Overall risk assessment",
+      "description": "The report includes an overall risk assessment (high/medium/low) at the end",
+      "max_score": 4
+    },
+    {
+      "name": "missing mode on template",
+      "description": "The report notes that the template task for my.cnf is missing a `mode:` attribute",
+      "max_score": 4
+    },
+    {
+      "name": "mysql_bind_address: 0.0.0.0 flagged",
+      "description": "The report flags the mysql_bind_address set to 0.0.0.0 (binding to all interfaces) as a security concern",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/validate_playbook_security.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/validate_playbook_security.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not run `bash scripts/scan_secrets.sh`",
+      "description": "Failure avoided: Does not run `bash scripts/scan_secrets.sh`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to identify hardcoded mysql_root_password and mysql_app_password...",
+      "description": "Failure avoided: Fails to identify hardcoded mysql_root_password and mysql_app_password as security issues",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to identify the password embedded in...",
+      "description": "Failure avoided: Fails to identify the password embedded in the backup script",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to identify `validate_certs: false` as a...",
+      "description": "Failure avoided: Fails to identify `validate_certs: false` as a security issue",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not suggest Ansible Vault or environment...",
+      "description": "Failure avoided: Does not suggest Ansible Vault or environment variables as remediation for hardcoded secrets",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not reference `security_checklist.md`",
+      "description": "Failure avoided: Does not reference `security_checklist.md`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Findings are missing severity labels",
+      "description": "Failure avoided: Findings are missing severity labels",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Report has no overall risk assessment",
+      "description": "Failure avoided: Report has no overall risk assessment",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to note the missing `mode:` on...",
+      "description": "Failure avoided: Fails to note the missing `mode:` on the template task",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Fails to flag `mysql_bind_address: 0.0.0.0` as a...",
+      "description": "Failure avoided: Fails to flag `mysql_bind_address: 0.0.0.0` as a security concern",
+      "max_score": 16
+    }
+  ]
+}

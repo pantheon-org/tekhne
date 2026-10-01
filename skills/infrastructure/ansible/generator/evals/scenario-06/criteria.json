@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Redis Role for Multi-OS Fleet.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Role variable prefix",
+      "description": "All custom variables are prefixed with `redis_` (e.g., `redis_port`, `redis_max_memory`, `redis_bind`) \u2014 no unprefixed variable names like `port` or `max_memory`",
+      "max_score": 5
+    },
+    {
+      "name": "include_vars for OS-specific",
+      "description": "The tasks include a step using `ansible.builtin.include_vars` (or equivalent) to load OS-specific variable files, and separate `vars/Debian.yml` and `vars/RedHat.yml` files exist",
+      "max_score": 5
+    },
+    {
+      "name": "dnf for RHEL, apt for Debian",
+      "description": "RHEL/CentOS package installation uses `ansible.builtin.dnf` (not `ansible.builtin.yum`), and Debian/Ubuntu uses `ansible.builtin.apt`",
+      "max_score": 5
+    },
+    {
+      "name": "Complete role directory files",
+      "description": "The output includes at least: `tasks/main.yml`, `handlers/main.yml`, `defaults/main.yml`, `vars/main.yml`, and `meta/main.yml`",
+      "max_score": 5
+    },
+    {
+      "name": "Service restart via handler",
+      "description": "Config file deployment uses `notify:` to trigger a Redis restart handler rather than a direct restart task",
+      "max_score": 5
+    },
+    {
+      "name": "FQCN modules used",
+      "description": "All module references in task files use FQCN",
+      "max_score": 5
+    },
+    {
+      "name": "All tasks have name field",
+      "description": "Every task has a `name:` field",
+      "max_score": 5
+    },
+    {
+      "name": "Tags on tasks",
+      "description": "Tasks include `tags:` fields using appropriate categories (e.g., `install`, `configure`)",
+      "max_score": 5
+    },
+    {
+      "name": "Defaults file has overridable vars",
+      "description": "`defaults/main.yml` contains the redis port and max memory variables with default values (so they can be overridden by callers)",
+      "max_score": 5
+    },
+    {
+      "name": "Boolean true/false syntax",
+      "description": "All boolean values use `true` or `false`, not `yes` or `no`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Custom variables are not prefixed with `redis_`",
+      "description": "Failure avoided: Custom variables are not prefixed with `redis_`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `ansible.builtin.include_vars` step for OS-specific variables",
+      "description": "Failure avoided: No `ansible.builtin.include_vars` step for OS-specific variables",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: RHEL package installation uses `ansible.builtin.yum` instead of...",
+      "description": "Failure avoided: RHEL package installation uses `ansible.builtin.yum` instead of `ansible.builtin.dnf`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: One or more required role directory files...",
+      "description": "Failure avoided: One or more required role directory files are missing",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Config file deployment uses a direct restart...",
+      "description": "Failure avoided: Config file deployment uses a direct restart task instead of notifying a handler",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Module references use short names instead of...",
+      "description": "Failure avoided: Module references use short names instead of FQCN",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any task is missing a `name:` field",
+      "description": "Failure avoided: Any task is missing a `name:` field",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tasks have no `tags:` fields",
+      "description": "Failure avoided: Tasks have no `tags:` fields",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `defaults/main.yml` is missing redis port or max...",
+      "description": "Failure avoided: `defaults/main.yml` is missing redis port or max memory variables",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Boolean values use `yes` or `no` instead...",
+      "description": "Failure avoided: Boolean values use `yes` or `no` instead of `true` or `false`",
+      "max_score": 5
+    }
+  ]
+}

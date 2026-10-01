@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Audit and Rewrite a Bloated Python Dockerfile.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "RUN commands combined",
+      "description": "apt-get update, apt-get install, and cache cleanup (rm -rf /var/lib/apt/lists/*) are chained in a single RUN instruction using &&, rather than separate RUN instructions",
+      "max_score": 5
+    },
+    {
+      "name": "Cache cleaned in same layer",
+      "description": "The apt cache cleanup (rm -rf /var/lib/apt/lists/* or equivalent) is inside the SAME RUN instruction as apt-get install, not a separate RUN",
+      "max_score": 5
+    },
+    {
+      "name": "COPY used not ADD",
+      "description": "Dockerfile uses COPY for all file copy operations; ADD is NOT present for plain file/directory copying",
+      "max_score": 5
+    },
+    {
+      "name": "Pinned base image tag",
+      "description": "FROM uses a specific Python version tag (e.g., python:3.11-slim) and NOT :latest",
+      "max_score": 5
+    },
+    {
+      "name": "Minimal base image",
+      "description": "Final image uses python:X.X-slim, python:X.X-alpine, or distroless rather than the full python:X.X image",
+      "max_score": 5
+    },
+    {
+      "name": "Non-root user",
+      "description": "A non-root user is created and USER instruction is set before CMD/ENTRYPOINT",
+      "max_score": 5
+    },
+    {
+      "name": "Dependency files copied first",
+      "description": "COPY of requirements.txt appears BEFORE the pip install RUN instruction",
+      "max_score": 5
+    },
+    {
+      "name": "Exec-form CMD",
+      "description": "CMD uses JSON array syntax rather than bare shell string form",
+      "max_score": 5
+    },
+    {
+      "name": ".dockerignore with Python entries",
+      "description": ".dockerignore is present and contains at least one Python-specific entry such as __pycache__/, *.pyc, or .venv/",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `apt-get update`, `apt-get install`, and cache cleanup...",
+      "description": "Failure avoided: `apt-get update`, `apt-get install`, and cache cleanup are split across multiple `RUN` instructions",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `rm -rf /var/lib/apt/lists/*` is a separate `RUN`...",
+      "description": "Failure avoided: `rm -rf /var/lib/apt/lists/*` is a separate `RUN` instruction instead of being in the same layer as `apt-get install`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `ADD` is used instead of `COPY`",
+      "description": "Failure avoided: `ADD` is used instead of `COPY`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `FROM` uses `:latest` or the full non-slim...",
+      "description": "Failure avoided: `FROM` uses `:latest` or the full non-slim `python:3.11` image",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Final image is not a minimal/slim variant",
+      "description": "Failure avoided: Final image is not a minimal/slim variant",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No non-root user, or `USER` instruction is...",
+      "description": "Failure avoided: No non-root user, or `USER` instruction is absent or placed after `CMD`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `requirements.txt` is not copied before the pip...",
+      "description": "Failure avoided: `requirements.txt` is not copied before the pip install step",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `CMD` uses shell string form instead of...",
+      "description": "Failure avoided: `CMD` uses shell string form instead of JSON array syntax",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `.dockerignore` is missing Python-specific entries",
+      "description": "Failure avoided: `.dockerignore` is missing Python-specific entries",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Shared VPC Module for Multiple Environments.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No default on region variable",
+      "description": "The region (or `aws_region`) variable in the module's `variables.tf` does NOT have a `default` attribute",
+      "max_score": 6
+    },
+    {
+      "name": "No default on environment variable",
+      "description": "Any variable that is environment-specific (`environment`, `env`, or similar) does NOT have a `default` value in the module",
+      "max_score": 6
+    },
+    {
+      "name": "Data source for AZs",
+      "description": "Availability zones are retrieved using `data \"aws_availability_zones\" \"available\" {}` rather than hardcoded strings",
+      "max_score": 6
+    },
+    {
+      "name": "locals for common tags",
+      "description": "A `locals` block defines `common_tags` (or equivalent) including at least `Environment` and `ManagedBy = \"Terraform\"`",
+      "max_score": 6
+    },
+    {
+      "name": "Tags applied via locals",
+      "description": "Resource blocks reference the `locals` common_tags rather than duplicating tag definitions inline",
+      "max_score": 6
+    },
+    {
+      "name": "Output descriptions present",
+      "description": "All outputs include a `description` attribute",
+      "max_score": 6
+    },
+    {
+      "name": "Variables have descriptions and types",
+      "description": "All variable declarations include both `description` and `type` attributes",
+      "max_score": 6
+    },
+    {
+      "name": "File organization correct",
+      "description": "Module files include at minimum: `main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`",
+      "max_score": 6
+    },
+    {
+      "name": "Consumer example provided",
+      "description": "Usage instructions include an example `module` block showing how a root module would call this module with production values",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The `region` variable has a `default` value...",
+      "description": "Failure avoided: The `region` variable has a `default` value in the module (defeats the protection against the incident described)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any environment-specific variable has a `default` value...",
+      "description": "Failure avoided: Any environment-specific variable has a `default` value in the module",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Availability zones are hardcoded as strings instead...",
+      "description": "Failure avoided: Availability zones are hardcoded as strings instead of using a `data \"aws_availability_zones\"` source",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No `locals` block for common tags, or...",
+      "description": "Failure avoided: No `locals` block for common tags, or tags are duplicated inline on resources",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Variables are missing `description` or `type` attributes",
+      "description": "Failure avoided: Variables are missing `description` or `type` attributes",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Outputs are missing `description` attributes",
+      "description": "Failure avoided: Outputs are missing `description` attributes",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Required module files (`main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`)...",
+      "description": "Failure avoided: Required module files (`main.tf`, `variables.tf`, `outputs.tf`, `versions.tf`) are absent",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Validate an Ansible Role with Molecule Tests
