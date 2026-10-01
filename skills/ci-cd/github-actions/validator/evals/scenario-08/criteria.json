@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Validate Workflow in a Constrained CI Environment.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Lint-only approach documented",
+      "description": "validation-report.md explicitly states that lint-only or static analysis mode was used due to Docker being unavailable",
+      "max_score": 8
+    },
+    {
+      "name": "Validation not skipped",
+      "description": "The report does NOT say that validation was skipped or deferred entirely because Docker was absent \u2014 it documents checks that were performed",
+      "max_score": 8
+    },
+    {
+      "name": "Checks performed listed",
+      "description": "The report lists what was checked (e.g., YAML syntax, schema compliance, runner labels, expression syntax, security)",
+      "max_score": 8
+    },
+    {
+      "name": "Docker limitations acknowledged",
+      "description": "The report explicitly identifies at least one category of check that requires Docker/act and cannot be done in lint-only mode",
+      "max_score": 8
+    },
+    {
+      "name": "Issues identified",
+      "description": "The report identifies at least one actual issue or observation about the workflow (e.g., action version currency, SHA pinning status, or potential concerns)",
+      "max_score": 8
+    },
+    {
+      "name": "actionlint referenced",
+      "description": "The report mentions actionlint (by name or as the tool used for static analysis)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report does not state that lint-only...",
+      "description": "Failure avoided: The report does not state that lint-only or static analysis mode was used due to Docker being unavailable",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report says validation was skipped because...",
+      "description": "Failure avoided: The report says validation was skipped because Docker was absent, without performing any checks",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report does not list what checks...",
+      "description": "Failure avoided: The report does not list what checks were performed",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report does not acknowledge any category...",
+      "description": "Failure avoided: The report does not acknowledge any category of check that requires Docker/act",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report identifies no issues or observations...",
+      "description": "Failure avoided: The report identifies no issues or observations about the workflow",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: actionlint is not mentioned by name in...",
+      "description": "Failure avoided: actionlint is not mentioned by name in the report",
+      "max_score": 12
+    }
+  ]
+}

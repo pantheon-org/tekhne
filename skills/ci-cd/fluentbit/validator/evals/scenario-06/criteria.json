@@ -1,0 +1,81 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Performance Analysis: Memory Limits, Flush Intervals, and Storage Configuration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Performance issues related to the high Flush...",
+      "description": "Performance issues related to the high Flush interval are identified and explained in the report",
+      "max_score": 6
+    },
+    {
+      "name": "Missing Mem_Buf_Limit on tail inputs is flagged...",
+      "description": "Missing Mem_Buf_Limit on tail inputs is flagged as an OOM risk",
+      "max_score": 6
+    },
+    {
+      "name": "`Retry_Limit False` is flagged as a reliability...",
+      "description": "`Retry_Limit False` is flagged as a reliability concern",
+      "max_score": 6
+    },
+    {
+      "name": "Missing storage configuration is identified as a...",
+      "description": "Missing storage configuration is identified as a disk exhaustion risk",
+      "max_score": 6
+    },
+    {
+      "name": "The corrected config reduces the Flush interval...",
+      "description": "The corrected config reduces the Flush interval to a more appropriate value",
+      "max_score": 6
+    },
+    {
+      "name": "The corrected config adds Mem_Buf_Limit to all...",
+      "description": "The corrected config adds Mem_Buf_Limit to all tail inputs that are missing it",
+      "max_score": 6
+    },
+    {
+      "name": "The corrected config changes Retry_Limit to a...",
+      "description": "The corrected config changes Retry_Limit to a numeric value",
+      "max_score": 6
+    },
+    {
+      "name": "Each finding includes: check type, affected section,...",
+      "description": "Each finding includes: check type, affected section, risk description, and the fix applied",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The high Flush interval (30 seconds) is...",
+      "description": "Failure avoided: The high Flush interval (30 seconds) is not identified as a performance concern",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Missing Mem_Buf_Limit on the access and error...",
+      "description": "Failure avoided: Missing Mem_Buf_Limit on the access and error log inputs is not flagged",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `Retry_Limit False` is not identified as a...",
+      "description": "Failure avoided: `Retry_Limit False` is not identified as a reliability risk",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Missing storage configuration is not mentioned as...",
+      "description": "Failure avoided: Missing storage configuration is not mentioned as a disk exhaustion concern",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Corrected config retains the 30-second Flush interval",
+      "description": "Failure avoided: Corrected config retains the 30-second Flush interval",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Corrected config does not add Mem_Buf_Limit to...",
+      "description": "Failure avoided: Corrected config does not add Mem_Buf_Limit to inputs that were missing it",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Corrected config retains `Retry_Limit False`",
+      "description": "Failure avoided: Corrected config retains `Retry_Limit False`",
+      "max_score": 16
+    }
+  ]
+}

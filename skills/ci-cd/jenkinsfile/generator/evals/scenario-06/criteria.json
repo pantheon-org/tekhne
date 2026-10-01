@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Secure Deployment Pipeline with External API Calls.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Single-quote sh with secrets",
+      "description": "Shell commands that reference credential variables use single-quoted strings (`sh 'curl ... $VAR'`) to prevent Groovy from interpolating them at pipeline parse time",
+      "max_score": 7
+    },
+    {
+      "name": "withCredentials used",
+      "description": "Secrets are injected via `withCredentials([...])` blocks \u2014 not via hardcoded strings or pipeline parameters",
+      "max_score": 7
+    },
+    {
+      "name": "Both credential IDs referenced",
+      "description": "The pipeline references both `service-registry-token` and `artifact-server-creds` by exact ID",
+      "max_score": 7
+    },
+    {
+      "name": "All four stages present",
+      "description": "Stages for build, deploy-staging, register-version, and upload-report are all present",
+      "max_score": 7
+    },
+    {
+      "name": "cleanWs in post",
+      "description": "Jenkinsfile `post { always { cleanWs() } }` or equivalent workspace cleanup is present",
+      "max_score": 7
+    },
+    {
+      "name": "timeout in options",
+      "description": "Jenkinsfile `options` block includes `timeout()`",
+      "max_score": 7
+    },
+    {
+      "name": "buildDiscarder in options",
+      "description": "Jenkinsfile `options` block includes `buildDiscarder(logRotator(...))`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Shell commands containing credential variables use double-quoted...",
+      "description": "Failure avoided: Shell commands containing credential variables use double-quoted strings, allowing Groovy to expand secrets into the command string",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Secrets are hardcoded or passed through a...",
+      "description": "Failure avoided: Secrets are hardcoded or passed through a `parameters` block instead of `withCredentials`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: One or both credential IDs (`service-registry-token`, `artifact-server-creds`)...",
+      "description": "Failure avoided: One or both credential IDs (`service-registry-token`, `artifact-server-creds`) are absent or renamed",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any of the four required stages (build,...",
+      "description": "Failure avoided: Any of the four required stages (build, deploy-staging, register-version, upload-report) is missing",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No `post` block with `cleanWs()` is present",
+      "description": "Failure avoided: No `post` block with `cleanWs()` is present",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `timeout()` is absent from `options`",
+      "description": "Failure avoided: `timeout()` is absent from `options`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `buildDiscarder(logRotator(...))` is absent from `options`",
+      "description": "Failure avoided: `buildDiscarder(logRotator(...))` is absent from `options`",
+      "max_score": 9
+    }
+  ]
+}

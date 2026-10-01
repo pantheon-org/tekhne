@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Shared Library Class Review.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Shared library script used",
+      "description": "`class-review.md` mentions invoking or attempting `bash scripts/validate_shared_library.sh` for the src class file",
+      "max_score": 8
+    },
+    {
+      "name": "Missing package declaration flagged",
+      "description": "Report identifies that the file lacks a `package` declaration (should be `package com.company`)",
+      "max_score": 8
+    },
+    {
+      "name": "Class-filename mismatch flagged",
+      "description": "Report identifies that the class is named `BuildHelper` but the file is named `BuildUtils.groovy` \u2014 these must match in Groovy",
+      "max_score": 8
+    },
+    {
+      "name": "Missing Serializable flagged",
+      "description": "Report identifies that the class does not implement `Serializable`, which is required for Jenkins to serialize pipeline state during CPS execution",
+      "max_score": 8
+    },
+    {
+      "name": "Wildcard imports flagged",
+      "description": "Report identifies the wildcard import statements (`import com.company.*`) as a violation of shared library best practices",
+      "max_score": 8
+    },
+    {
+      "name": "Corrected code provided",
+      "description": "Report includes corrected code for at least one of the identified issues",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `bash scripts/validate_shared_library.sh` is not mentioned in the...",
+      "description": "Failure avoided: `bash scripts/validate_shared_library.sh` is not mentioned in the report",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The missing `package com.company` declaration is not...",
+      "description": "Failure avoided: The missing `package com.company` declaration is not identified",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The class name / filename mismatch (`BuildHelper`...",
+      "description": "Failure avoided: The class name / filename mismatch (`BuildHelper` vs `BuildUtils.groovy`) is not flagged",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The missing `implements Serializable` is not identified...",
+      "description": "Failure avoided: The missing `implements Serializable` is not identified as a cause of serialization errors",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Wildcard imports are not flagged",
+      "description": "Failure avoided: Wildcard imports are not flagged",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No corrected code is provided for any...",
+      "description": "Failure avoided: No corrected code is provided for any of the identified issues",
+      "max_score": 12
+    }
+  ]
+}

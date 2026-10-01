@@ -1,0 +1,81 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Security Audit: Hardcoded Credentials and Disabled TLS Verification.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Hardcoded HTTP_Passwd detected",
+      "description": "security-report.md (or equivalent) flags the plaintext password in the Elasticsearch OUTPUT HTTP_Passwd field as a hardcoded credential",
+      "max_score": 6
+    },
+    {
+      "name": "Hardcoded AWS credentials detected",
+      "description": "security-report.md flags both AWS_Access_Key_ID and AWS_Secret_Access_Key in the S3 OUTPUT as hardcoded credentials",
+      "max_score": 6
+    },
+    {
+      "name": "tls.verify Off detected",
+      "description": "security-report.md flags `tls.verify Off` in the Elasticsearch OUTPUT as a TLS certificate verification bypass",
+      "max_score": 6
+    },
+    {
+      "name": "HTTP_Passwd replaced with env var reference",
+      "description": "In the corrected fluent-bit.conf, HTTP_Passwd uses a ${ENV_VAR} reference (e.g., ${ES_PASSWORD}) instead of the plaintext value",
+      "max_score": 6
+    },
+    {
+      "name": "AWS credentials replaced with env var references",
+      "description": "In the corrected fluent-bit.conf, AWS_Access_Key_ID and AWS_Secret_Access_Key use ${ENV_VAR} references instead of literal values",
+      "max_score": 6
+    },
+    {
+      "name": "tls.verify corrected",
+      "description": "In the corrected fluent-bit.conf, tls.verify is set to On in the Elasticsearch OUTPUT",
+      "max_score": 6
+    },
+    {
+      "name": "Severity assigned to each finding",
+      "description": "security-report.md assigns a severity (HIGH, MEDIUM, or INFO) to each finding",
+      "max_score": 6
+    },
+    {
+      "name": "Risk explanation for each finding",
+      "description": "security-report.md provides a brief explanation of the risk for each finding (e.g., credential exposure in version control, MITM vulnerability)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The hardcoded HTTP_Passwd is not identified as...",
+      "description": "Failure avoided: The hardcoded HTTP_Passwd is not identified as a security finding",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: The hardcoded AWS_Access_Key_ID or AWS_Secret_Access_Key is not...",
+      "description": "Failure avoided: The hardcoded AWS_Access_Key_ID or AWS_Secret_Access_Key is not flagged as a credential exposure finding",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `tls.verify Off` is not identified as a...",
+      "description": "Failure avoided: `tls.verify Off` is not identified as a TLS misconfiguration",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Corrected config still contains the literal password...",
+      "description": "Failure avoided: Corrected config still contains the literal password in HTTP_Passwd",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Corrected config still contains literal AWS credential...",
+      "description": "Failure avoided: Corrected config still contains literal AWS credential values",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `tls.verify` remains Off in the corrected Elasticsearch...",
+      "description": "Failure avoided: `tls.verify` remains Off in the corrected Elasticsearch OUTPUT",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No severity levels are assigned to findings...",
+      "description": "Failure avoided: No severity levels are assigned to findings in the report",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Unknown Plugin Step Investigation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Main script invoked",
+      "description": "`validation-report.md` mentions invoking or attempting `bash scripts/validate_jenkinsfile.sh`",
+      "max_score": 8
+    },
+    {
+      "name": "Unknown step flagged",
+      "description": "`validation-report.md` identifies `grafanaAnnotate` as an unrecognized step with its line number",
+      "max_score": 8
+    },
+    {
+      "name": "common_plugins.md checked first",
+      "description": "`plugin-research.md` or the validation process mentions checking `references/common_plugins.md` as the first step before external search",
+      "max_score": 8
+    },
+    {
+      "name": "External lookup attempted",
+      "description": "Agent uses Context7 MCP or WebSearch to research the plugin after it is not found locally",
+      "max_score": 8
+    },
+    {
+      "name": "Plugin parameters documented",
+      "description": "`plugin-research.md` includes at least the required parameters for `grafanaAnnotate` (`apiUrl`, `tags`, `text` or similar)",
+      "max_score": 8
+    },
+    {
+      "name": "Security considerations noted",
+      "description": "`plugin-research.md` includes security considerations (e.g., API key/token protection, network access implications)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `bash scripts/validate_jenkinsfile.sh` is not mentioned in `validation-report.md`",
+      "description": "Failure avoided: `bash scripts/validate_jenkinsfile.sh` is not mentioned in `validation-report.md`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `grafanaAnnotate` is not identified as an unrecognized...",
+      "description": "Failure avoided: `grafanaAnnotate` is not identified as an unrecognized step or its line number is omitted",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `references/common_plugins.md` is not consulted before external lookup",
+      "description": "Failure avoided: `references/common_plugins.md` is not consulted before external lookup",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No external lookup (Context7 MCP or WebSearch)...",
+      "description": "Failure avoided: No external lookup (Context7 MCP or WebSearch) is performed",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Plugin parameters are not documented in `plugin-research.md`",
+      "description": "Failure avoided: Plugin parameters are not documented in `plugin-research.md`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No security considerations are included in `plugin-research.md`",
+      "description": "Failure avoided: No security considerations are included in `plugin-research.md`",
+      "max_score": 12
+    }
+  ]
+}

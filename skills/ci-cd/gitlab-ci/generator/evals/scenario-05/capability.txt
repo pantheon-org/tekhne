@@ -1,0 +1,1 @@
+Monorepo Pipeline with Frontend and Backend Components

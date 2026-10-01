@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: High-Reliability Log Forwarding to Kafka.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Retry_Limit numeric",
+      "description": "The Kafka OUTPUT includes a Retry_Limit that is a number (e.g., 3, 5) \u2014 NOT Retry_Limit False",
+      "max_score": 6
+    },
+    {
+      "name": "storage.total_limit_size set",
+      "description": "The OUTPUT or SERVICE section includes storage.total_limit_size to cap disk buffer size",
+      "max_score": 6
+    },
+    {
+      "name": "HTTP_Server On",
+      "description": "The SERVICE section includes HTTP_Server On",
+      "max_score": 6
+    },
+    {
+      "name": "HTTP health endpoint documented",
+      "description": "reliability-notes.md (or equivalent) references the /api/v1/health endpoint or port 2020 for Kubernetes liveness probe configuration",
+      "max_score": 6
+    },
+    {
+      "name": "Reliability measures explained",
+      "description": "reliability-notes.md explains how Retry_Limit bounds retries and how storage.total_limit_size prevents disk exhaustion",
+      "max_score": 6
+    },
+    {
+      "name": "Mem_Buf_Limit on input",
+      "description": "The tail INPUT plugin includes Mem_Buf_Limit",
+      "max_score": 6
+    },
+    {
+      "name": "Exclude_Path on input",
+      "description": "The tail INPUT plugin excludes fluent-bit's own container logs via Exclude_Path",
+      "max_score": 6
+    },
+    {
+      "name": "DB path on input",
+      "description": "The tail INPUT plugin includes a DB setting for position tracking",
+      "max_score": 6
+    },
+    {
+      "name": "storage.metrics on",
+      "description": "The SERVICE section includes storage.metrics on to enable buffer monitoring",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `Retry_Limit` is set to `False` or omitted...",
+      "description": "Failure avoided: `Retry_Limit` is set to `False` or omitted entirely, allowing unbounded retries and silent data loss",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `storage.total_limit_size` is absent, leaving disk buffer growth...",
+      "description": "Failure avoided: `storage.total_limit_size` is absent, leaving disk buffer growth uncapped",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `HTTP_Server` is not enabled, preventing Kubernetes liveness...",
+      "description": "Failure avoided: `HTTP_Server` is not enabled, preventing Kubernetes liveness probe health checks",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `reliability-notes.md` does not reference the health endpoint...",
+      "description": "Failure avoided: `reliability-notes.md` does not reference the health endpoint or port 2020 for liveness probe configuration",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `reliability-notes.md` does not explain how Retry_Limit or...",
+      "description": "Failure avoided: `reliability-notes.md` does not explain how Retry_Limit or storage.total_limit_size address the reliability concerns",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `Mem_Buf_Limit` is absent from the tail INPUT",
+      "description": "Failure avoided: `Mem_Buf_Limit` is absent from the tail INPUT",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `Exclude_Path` is absent, leaving fluent-bit's own logs...",
+      "description": "Failure avoided: `Exclude_Path` is absent, leaving fluent-bit's own logs collected into the pipeline",
+      "max_score": 10
+    }
+  ]
+}

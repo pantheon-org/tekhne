@@ -1,0 +1,61 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Pipeline Security Review.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Main script invoked",
+      "description": "Report mentions invoking or attempting `bash scripts/validate_jenkinsfile.sh` \u2014 not a sub-script or ad-hoc manual check only",
+      "max_score": 9
+    },
+    {
+      "name": "Hardcoded credential flagged",
+      "description": "Report identifies `DB_PASSWORD = 'hunter2'` as a hardcoded credential and provides a corrected version using `withCredentials` or `credentials()` binding",
+      "max_score": 9
+    },
+    {
+      "name": "Retry flagged",
+      "description": "Report flags `retry(3)` on the test stage and notes that no justification or context is provided for why three retries are warranted",
+      "max_score": 9
+    },
+    {
+      "name": "Severity labels present",
+      "description": "Each issue in `validation-report.md` is labelled with a severity (e.g., Error, Warning, Info)",
+      "max_score": 9
+    },
+    {
+      "name": "No unconditional deployment-ready declaration",
+      "description": "Report does not declare the pipeline fully deployment-ready without noting that environment-specific configuration must be verified",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: `bash scripts/validate_jenkinsfile.sh` is not mentioned in the...",
+      "description": "Failure avoided: `bash scripts/validate_jenkinsfile.sh` is not mentioned in the report",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: `DB_PASSWORD = 'hunter2'` is not identified as...",
+      "description": "Failure avoided: `DB_PASSWORD = 'hunter2'` is not identified as a hardcoded credential",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: No corrected version of the credential handling...",
+      "description": "Failure avoided: No corrected version of the credential handling is provided",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: `retry(3)` is not flagged as noteworthy",
+      "description": "Failure avoided: `retry(3)` is not flagged as noteworthy",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Issues lack severity labels",
+      "description": "Failure avoided: Issues lack severity labels",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: The report declares the pipeline deployment-ready without...",
+      "description": "Failure avoided: The report declares the pipeline deployment-ready without environment-specific caveats",
+      "max_score": 10
+    }
+  ]
+}

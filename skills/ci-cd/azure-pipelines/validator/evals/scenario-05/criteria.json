@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Syntax Validation: Stage/Job/Step Hierarchy and Task Format Errors.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Unversioned task format detected",
+      "description": "syntax-report.md (or equivalent) flags the `task: Npm` entry (missing @version suffix) as a task format violation",
+      "max_score": 8
+    },
+    {
+      "name": "Empty dependsOn detected",
+      "description": "syntax-report.md flags the `dependsOn:` key with no value in the CD stage as a syntax error or schema violation",
+      "max_score": 8
+    },
+    {
+      "name": "Task format corrected in output",
+      "description": "In the corrected azure-pipelines.yml, the unversioned `task: Npm` entry is replaced with a versioned form (e.g., Npm@1)",
+      "max_score": 8
+    },
+    {
+      "name": "dependsOn corrected in output",
+      "description": "In the corrected azure-pipelines.yml, the CD stage dependsOn is either removed, set to CI, or given a valid value \u2014 no bare `dependsOn:` without a value",
+      "max_score": 8
+    },
+    {
+      "name": "Location/context provided for each error",
+      "description": "syntax-report.md identifies where each error occurs (e.g., stage name, job name, task name, or approximate line)",
+      "max_score": 8
+    },
+    {
+      "name": "Correction explained",
+      "description": "syntax-report.md explains the correction applied for each error, not just that an error exists",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The unversioned `task: Npm` is not identified...",
+      "description": "Failure avoided: The unversioned `task: Npm` is not identified as a task format violation",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The empty `dependsOn:` in the CD stage...",
+      "description": "Failure avoided: The empty `dependsOn:` in the CD stage is not flagged as a syntax error",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Corrected pipeline still contains an unversioned `task:...",
+      "description": "Failure avoided: Corrected pipeline still contains an unversioned `task: Npm` without @version suffix",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Corrected pipeline retains the bare `dependsOn:` key...",
+      "description": "Failure avoided: Corrected pipeline retains the bare `dependsOn:` key with no value in the CD stage",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Report does not identify where each error...",
+      "description": "Failure avoided: Report does not identify where each error occurs (no location context)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Report lists errors without explaining what correction...",
+      "description": "Failure avoided: Report lists errors without explaining what correction was applied",
+      "max_score": 12
+    }
+  ]
+}

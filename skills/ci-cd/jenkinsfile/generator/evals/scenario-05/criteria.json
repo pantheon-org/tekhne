@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Full-Stack Application CI Pipeline with Parallel Quality Gates.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Parallel block used",
+      "description": "Jenkinsfile contains a `parallel { }` block wrapping at least 2 concurrent stages",
+      "max_score": 8
+    },
+    {
+      "name": "parallelsAlwaysFailFast in options",
+      "description": "Jenkinsfile `options` block includes `parallelsAlwaysFailFast()` \u2014 NOT just a per-block `failFast true` inside the parallel stage",
+      "max_score": 8
+    },
+    {
+      "name": "cleanWs in post always",
+      "description": "Jenkinsfile `post` block contains `always { cleanWs() }` or `always { deleteDir() }`",
+      "max_score": 8
+    },
+    {
+      "name": "At least 3 parallel stages",
+      "description": "The parallel block contains at least 3 named child stages",
+      "max_score": 8
+    },
+    {
+      "name": "Sequential stage after parallel",
+      "description": "A build or push stage appears as a separate sequential stage AFTER the parallel block",
+      "max_score": 8
+    },
+    {
+      "name": "Declarative syntax",
+      "description": "Jenkinsfile uses Declarative pipeline syntax (`pipeline { ... }`), NOT Scripted (`node { ... }`)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No `parallel { }` block is used...",
+      "description": "Failure avoided: No `parallel { }` block is used (e.g., stages are sequential or use only `failFast true`)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `parallelsAlwaysFailFast()` is absent from the pipeline-level `options`...",
+      "description": "Failure avoided: `parallelsAlwaysFailFast()` is absent from the pipeline-level `options` block",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No `post` block with `cleanWs()` or `deleteDir()`...",
+      "description": "Failure avoided: No `post` block with `cleanWs()` or `deleteDir()` is present",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The parallel block contains fewer than 3...",
+      "description": "Failure avoided: The parallel block contains fewer than 3 named child stages",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No sequential build or push stage follows...",
+      "description": "Failure avoided: No sequential build or push stage follows the parallel block",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Scripted (`node { }`) syntax is used...",
+      "description": "Failure avoided: Scripted (`node { }`) syntax is used instead of Declarative (`pipeline { }`)",
+      "max_score": 12
+    }
+  ]
+}

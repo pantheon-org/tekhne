@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Secure a Pull Request Automation Workflow.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Injection identified",
+      "description": "validation-report.md (or equivalent) identifies the direct ${{ }} interpolation in run: steps as a script injection risk",
+      "max_score": 7
+    },
+    {
+      "name": "Attack vector explained",
+      "description": "The report explains that a PR author could inject shell commands via the title or username values",
+      "max_score": 7
+    },
+    {
+      "name": "PR title via env var",
+      "description": "In pr-comment.yml, github.event.pull_request.title is no longer interpolated directly in run: \u2014 it is passed through an env: block variable",
+      "max_score": 7
+    },
+    {
+      "name": "User login via env var",
+      "description": "In pr-comment.yml, github.event.pull_request.user.login is no longer interpolated directly in run: \u2014 it is passed through an env: block variable",
+      "max_score": 7
+    },
+    {
+      "name": "PR number via env var or safe",
+      "description": "github.event.pull_request.number is either passed through an env: variable or is used in a context where it is safe (numeric values)",
+      "max_score": 7
+    },
+    {
+      "name": "Env vars referenced safely",
+      "description": "The shell script references the sanitized values using $ENV_VAR syntax (quoted, e.g., \"$PR_TITLE\") rather than ${{ }} expressions",
+      "max_score": 7
+    },
+    {
+      "name": "Issue type labeled",
+      "description": "The validation report labels this as a security/injection issue (not just a warning or style issue)",
+      "max_score": 7
+    },
+    {
+      "name": "Fix applied in corrected file",
+      "description": "The corrected pr-comment.yml has no direct ${{ github.event.* }} interpolation inside run: blocks",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The direct ${{ }} interpolation in run:...",
+      "description": "Failure avoided: The direct ${{ }} interpolation in run: steps is not identified as a security risk",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The attack vector (shell command injection via...",
+      "description": "Failure avoided: The attack vector (shell command injection via PR title or username) is not explained",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Corrected workflow still interpolates `github.event.pull_request.title` directly i",
+      "description": "Failure avoided: Corrected workflow still interpolates `github.event.pull_request.title` directly in a `run:` step",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Corrected workflow still interpolates `github.event.pull_request.user.login` direc",
+      "description": "Failure avoided: Corrected workflow still interpolates `github.event.pull_request.user.login` directly in a `run:` step",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Shell script references values via ${{ }}...",
+      "description": "Failure avoided: Shell script references values via ${{ }} expressions inside run: blocks instead of $ENV_VAR syntax",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The report does not label the issue...",
+      "description": "Failure avoided: The report does not label the issue as security or injection",
+      "max_score": 9
+    }
+  ]
+}

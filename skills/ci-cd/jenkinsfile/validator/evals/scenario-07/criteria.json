@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Pipeline with Shared Library Dependency.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Main script invoked",
+      "description": "Report mentions invoking or attempting `bash scripts/validate_jenkinsfile.sh`",
+      "max_score": 8
+    },
+    {
+      "name": "@Library call noted",
+      "description": "Report identifies the `@Library('platform-lib')` declaration and names the library being loaded",
+      "max_score": 8
+    },
+    {
+      "name": "Unpinned version flagged",
+      "description": "Report flags that the `@Library` declaration does not specify a version/tag/commit and uses the default branch \u2014 which can cause unexpected breakage when the library updates",
+      "max_score": 8
+    },
+    {
+      "name": "Library steps identified",
+      "description": "Report identifies `buildAndPush` and `deployApp` as shared library steps (not standard Jenkins steps) that require library cross-reference",
+      "max_score": 8
+    },
+    {
+      "name": "Isolation warning issued",
+      "description": "Report warns that the Jenkinsfile cannot be validated in isolation \u2014 the shared library step signatures and current library state must be verified",
+      "max_score": 8
+    },
+    {
+      "name": "Deployment caution",
+      "description": "Report notes that a clean validation result does not confirm deployment readiness given the unverified library dependency",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `bash scripts/validate_jenkinsfile.sh` is not mentioned in the...",
+      "description": "Failure avoided: `bash scripts/validate_jenkinsfile.sh` is not mentioned in the report",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The `@Library('platform-lib')` declaration is not identified or...",
+      "description": "Failure avoided: The `@Library('platform-lib')` declaration is not identified or the library name is not stated",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The unpinned library version is not flagged...",
+      "description": "Failure avoided: The unpinned library version is not flagged as a risk",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `buildAndPush` and `deployApp` are not identified as...",
+      "description": "Failure avoided: `buildAndPush` and `deployApp` are not identified as shared library steps requiring cross-reference",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No warning is issued about the limitations...",
+      "description": "Failure avoided: No warning is issued about the limitations of isolated validation",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report implies full deployment readiness without...",
+      "description": "Failure avoided: The report implies full deployment readiness without caveats about the unverified library",
+      "max_score": 12
+    }
+  ]
+}

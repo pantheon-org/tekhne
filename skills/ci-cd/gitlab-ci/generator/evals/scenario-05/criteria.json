@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Monorepo Pipeline with Frontend and Backend Components.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "needs used for DAG",
+      "description": "At least one test or downstream job uses a `needs:` list that references only its own component's build job (not all build jobs)",
+      "max_score": 5
+    },
+    {
+      "name": "Frontend and backend chains decoupled",
+      "description": "Frontend test/deploy jobs reference frontend build in `needs:`, and backend test/deploy jobs reference backend build in `needs:` \u2014 not cross-component",
+      "max_score": 5
+    },
+    {
+      "name": "timeout on jobs",
+      "description": "At least two jobs (or the default block) include a `timeout:` field with a value in minutes",
+      "max_score": 5
+    },
+    {
+      "name": "retry configured",
+      "description": "At least one job (or the default block) includes a `retry:` configuration",
+      "max_score": 5
+    },
+    {
+      "name": "interruptible: true on build/test jobs",
+      "description": "At least one build or test job has `interruptible: true` (or it is set in the `default:` block)",
+      "max_score": 5
+    },
+    {
+      "name": "Image pinned",
+      "description": "All `image:` values specify a version other than `:latest`",
+      "max_score": 5
+    },
+    {
+      "name": "No only/except",
+      "description": "The YAML does NOT use `only:` or `except:` keywords",
+      "max_score": 5
+    },
+    {
+      "name": "expire_in on artifacts",
+      "description": "Any `artifacts:` block with `paths:` includes `expire_in:`",
+      "max_score": 5
+    },
+    {
+      "name": "Kebab-case job names",
+      "description": "Job names use kebab-case",
+      "max_score": 5
+    },
+    {
+      "name": "Stages declared",
+      "description": "A `stages:` key is present listing the pipeline stages",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `needs:` is used, leaving all jobs...",
+      "description": "Failure avoided: No `needs:` is used, leaving all jobs running in strict stage order",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Frontend and backend job chains are not...",
+      "description": "Failure avoided: Frontend and backend job chains are not decoupled (cross-component needs references)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `timeout:` is set on at least...",
+      "description": "Failure avoided: No `timeout:` is set on at least two jobs or in the default block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `retry:` configuration is present on any...",
+      "description": "Failure avoided: No `retry:` configuration is present on any job",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No build or test job has `interruptible:...",
+      "description": "Failure avoided: No build or test job has `interruptible: true`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any `image:` uses `:latest` or is untagged",
+      "description": "Failure avoided: Any `image:` uses `:latest` or is untagged",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The YAML contains `only:` or `except:` keywords",
+      "description": "Failure avoided: The YAML contains `only:` or `except:` keywords",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any `artifacts:` block with `paths:` lacks `expire_in:`",
+      "description": "Failure avoided: Any `artifacts:` block with `paths:` lacks `expire_in:`",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Generate Stage 10 Final Validation Report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Validation summary table",
+      "description": "Report includes a table with a row for each of the 9 stages, using status icons (pass/warning/skipped) and issue counts that match the provided stage results",
+      "max_score": 8
+    },
+    {
+      "name": "Categorised issue list",
+      "description": "Issues are correctly split into Errors (must fix), Warnings (should fix), and Info categories. The missing securityContext, missing probes, and missing memory limits appear as Warnings. Missing .helmignore and NOTES.txt appear as Warnings or Info",
+      "max_score": 8
+    },
+    {
+      "name": "Proposed changes with before/after blocks",
+      "description": "At least two proposed changes include a file reference, a before code block, and an after code block",
+      "max_score": 8
+    },
+    {
+      "name": "Automation opportunities listed",
+      "description": "Report mentions at least one automation helper such as scripts/generate_helpers.sh for _helpers.tpl or copying assets/.helmignore for the missing .helmignore",
+      "max_score": 8
+    },
+    {
+      "name": "Final summary block present",
+      "description": "Report ends with a summary block containing the chart name (monitoring-stack), overall status, total error/warning/info counts, and at least one next step",
+      "max_score": 8
+    },
+    {
+      "name": "Read-only posture maintained throughout",
+      "description": "Report proposes all changes but explicitly states that no files were modified and the user should apply or use helm-generator to apply fixes",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The validation summary table is absent or...",
+      "description": "Failure avoided: The validation summary table is absent or does not cover all 9 stages",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Issues are not categorised into Errors, Warnings,...",
+      "description": "Failure avoided: Issues are not categorised into Errors, Warnings, and Info",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No proposed changes include both a before...",
+      "description": "Failure avoided: No proposed changes include both a before and after code block",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: No automation opportunities or helper commands are...",
+      "description": "Failure avoided: No automation opportunities or helper commands are mentioned",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The final summary block is absent or...",
+      "description": "Failure avoided: The final summary block is absent or lacks chart name, overall status, or issue counts",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The report implies files were modified rather...",
+      "description": "Failure avoided: The report implies files were modified rather than maintaining a read-only posture",
+      "max_score": 12
+    }
+  ]
+}

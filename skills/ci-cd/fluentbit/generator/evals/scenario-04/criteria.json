@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Kubernetes Log Collector for Node.js Microservices.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Mem_Buf_Limit set",
+      "description": "The tail INPUT plugin includes a Mem_Buf_Limit setting (any value)",
+      "max_score": 5
+    },
+    {
+      "name": "DB path set",
+      "description": "The tail INPUT plugin includes a DB setting pointing to a file path for position tracking across restarts",
+      "max_score": 5
+    },
+    {
+      "name": "Exclude_Path set",
+      "description": "The tail INPUT plugin includes an Exclude_Path that excludes fluent-bit's own container log files (pattern contains 'fluent-bit')",
+      "max_score": 5
+    },
+    {
+      "name": "TLS enabled",
+      "description": "The Elasticsearch OUTPUT plugin has tls set to On",
+      "max_score": 5
+    },
+    {
+      "name": "tls.verify On",
+      "description": "The Elasticsearch OUTPUT plugin has tls.verify set to On, OR tls.verify Off is present with an inline comment explaining why",
+      "max_score": 5
+    },
+    {
+      "name": "Retry_Limit on output",
+      "description": "The OUTPUT plugin includes a Retry_Limit value (numeric, not False)",
+      "max_score": 5
+    },
+    {
+      "name": "No hardcoded credentials",
+      "description": "No plaintext passwords, API keys, or tokens appear as literal values in the config file \u2014 only ${ENV_VAR} references or no credentials at all",
+      "max_score": 5
+    },
+    {
+      "name": "HTTP_Server enabled",
+      "description": "The SERVICE section includes HTTP_Server On",
+      "max_score": 5
+    },
+    {
+      "name": "Customization notes",
+      "description": "The notes.md (or equivalent) flags at least one parameter that the team must customize (e.g., cluster name, Elasticsearch host, index prefix)",
+      "max_score": 5
+    },
+    {
+      "name": "Daemon Off",
+      "description": "The SERVICE section sets Daemon to Off",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `Mem_Buf_Limit` is absent from the tail INPUT,...",
+      "description": "Failure avoided: `Mem_Buf_Limit` is absent from the tail INPUT, leaving the collector vulnerable to OOM-kills",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `DB` path is set, so log...",
+      "description": "Failure avoided: No `DB` path is set, so log positions are lost on pod restarts and logs may be duplicated or skipped",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `Exclude_Path` is absent or does not exclude...",
+      "description": "Failure avoided: `Exclude_Path` is absent or does not exclude fluent-bit's own logs, causing log loops",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: TLS is not enabled on the Elasticsearch...",
+      "description": "Failure avoided: TLS is not enabled on the Elasticsearch OUTPUT",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `Retry_Limit` is set to `False` or omitted...",
+      "description": "Failure avoided: `Retry_Limit` is set to `False` or omitted entirely, allowing unbounded retries",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any plaintext credential, password, or token appears...",
+      "description": "Failure avoided: Any plaintext credential, password, or token appears as a literal value in the config",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `HTTP_Server` is not enabled in the SERVICE...",
+      "description": "Failure avoided: `HTTP_Server` is not enabled in the SERVICE section, preventing health check monitoring",
+      "max_score": 20
+    }
+  ]
+}

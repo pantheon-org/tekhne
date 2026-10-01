@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: DAG Optimization: Sequential Pipeline Bottlenecks and needs-based Parallelism.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "lint jobs parallelism opportunity identified",
+      "description": "dag-optimization-report.md (or equivalent) identifies that lint_code and lint_types only depend on the build job and can run in parallel with each other immediately after build completes",
+      "max_score": 7
+    },
+    {
+      "name": "security jobs parallelism opportunity identified",
+      "description": "dag-optimization-report.md identifies that sast_scan and/or dependency_scan are independent of the test stage results and can run in parallel with (or immediately after) the lint/test jobs",
+      "max_score": 7
+    },
+    {
+      "name": "needs: added to lint jobs in output",
+      "description": "In the optimized .gitlab-ci.yml, lint_code and lint_types have `needs: [build]` (or equivalent) so they start immediately after build",
+      "max_score": 7
+    },
+    {
+      "name": "needs: added to security or package jobs in output",
+      "description": "In the optimized .gitlab-ci.yml, at least one of sast_scan, dependency_scan, or package has a `needs:` clause that allows it to start before later stages would normally allow",
+      "max_score": 7
+    },
+    {
+      "name": "Critical path improvement quantified",
+      "description": "dag-optimization-report.md includes a before/after comparison of critical path length (e.g., number of sequential blocking stages reduced from 6 to a smaller number)",
+      "max_score": 7
+    },
+    {
+      "name": "needs: mechanism explained",
+      "description": "dag-optimization-report.md explains how `needs:` bypasses stage ordering and enables DAG-based execution",
+      "max_score": 7
+    },
+    {
+      "name": "No invalid needs: dependencies introduced",
+      "description": "In the optimized .gitlab-ci.yml, no job has a `needs:` reference to a job in a later stage (which would be invalid)",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `lint_code` and `lint_types` parallelism opportunity is not...",
+      "description": "Failure avoided: `lint_code` and `lint_types` parallelism opportunity is not identified",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `sast_scan` or `dependency_scan` parallelism opportunity is not...",
+      "description": "Failure avoided: `sast_scan` or `dependency_scan` parallelism opportunity is not identified",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Optimized pipeline does not add `needs: [build]`...",
+      "description": "Failure avoided: Optimized pipeline does not add `needs: [build]` to lint_code and lint_types",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No `needs:` clause is added to sast_scan,...",
+      "description": "Failure avoided: No `needs:` clause is added to sast_scan, dependency_scan, or package jobs",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Report does not include a before/after critical...",
+      "description": "Failure avoided: Report does not include a before/after critical path comparison",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Report does not explain how `needs:` achieves...",
+      "description": "Failure avoided: Report does not explain how `needs:` achieves DAG-based parallelism",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any job in the optimized pipeline has...",
+      "description": "Failure avoided: Any job in the optimized pipeline has a `needs:` reference to a job in a later stage",
+      "max_score": 9
+    }
+  ]
+}

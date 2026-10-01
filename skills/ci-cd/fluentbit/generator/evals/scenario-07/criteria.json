@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Application Log Parsing Pipeline with Field Extraction.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "JSON service uses json parser",
+      "description": "The payment service input or filter uses Parser json (not a regexp parser variant)",
+      "max_score": 5
+    },
+    {
+      "name": "Logfmt service uses logfmt parser",
+      "description": "The auth service input or filter uses Parser logfmt (not a regexp parser variant)",
+      "max_score": 5
+    },
+    {
+      "name": "Regexp only for legacy",
+      "description": "A regexp/regex parser is used only for the legacy billing service, not for the payment or auth services",
+      "max_score": 5
+    },
+    {
+      "name": "Parser choice explained",
+      "description": "design-notes.md (or equivalent) explicitly states why json/logfmt parsers were chosen for the structured services",
+      "max_score": 5
+    },
+    {
+      "name": "Parse filters before grep",
+      "description": "In fluent-bit.conf, FILTER sections for parsing (parser filter) appear before the FILTER section for level filtering (grep filter)",
+      "max_score": 5
+    },
+    {
+      "name": "Level filtering present",
+      "description": "A grep or equivalent FILTER retains only error/warn/warning level events",
+      "max_score": 5
+    },
+    {
+      "name": "TLS on OTEL output",
+      "description": "The opentelemetry OUTPUT includes tls On",
+      "max_score": 5
+    },
+    {
+      "name": "Retry_Limit on output",
+      "description": "The opentelemetry OUTPUT includes a numeric Retry_Limit",
+      "max_score": 5
+    },
+    {
+      "name": "Mem_Buf_Limit on inputs",
+      "description": "Tail INPUT plugins include Mem_Buf_Limit",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The payment service uses a regexp parser...",
+      "description": "Failure avoided: The payment service uses a regexp parser instead of the native `json` parser",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The auth service uses a regexp parser...",
+      "description": "Failure avoided: The auth service uses a regexp parser instead of the native `logfmt` parser",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Regexp is used for the payment or...",
+      "description": "Failure avoided: Regexp is used for the payment or auth service (not restricted to the legacy billing service)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `design-notes.md` does not explain the parser choice...",
+      "description": "Failure avoided: `design-notes.md` does not explain the parser choice rationale",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Grep filter appears before parsing filters, causing...",
+      "description": "Failure avoided: Grep filter appears before parsing filters, causing level filtering on unparsed data",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No grep or level FILTER is present...",
+      "description": "Failure avoided: No grep or level FILTER is present to retain only error/warn events",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: TLS is not enabled on the OpenTelemetry...",
+      "description": "Failure avoided: TLS is not enabled on the OpenTelemetry OUTPUT",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `Retry_Limit` is absent or set to `False`...",
+      "description": "Failure avoided: `Retry_Limit` is absent or set to `False` on the OUTPUT",
+      "max_score": 20
+    }
+  ]
+}
