@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Shopping Cart Bug Fix.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Bug reproduction test",
+      "description": "Creates a failing test that demonstrates the specific bug before fixing it",
+      "max_score": 5
+    },
+    {
+      "name": "Behavior-focused tests",
+      "description": "Tests focus on observable cart calculation behavior, not internal implementation details",
+      "max_score": 5
+    },
+    {
+      "name": "Descriptive test naming",
+      "description": "Test names clearly describe scenario and expected behavior using patterns like `should_X_when_Y`",
+      "max_score": 5
+    },
+    {
+      "name": "One assertion per test",
+      "description": "Each test verifies one logical concept, not multiple different calculations",
+      "max_score": 5
+    },
+    {
+      "name": "Specific assertions used",
+      "description": "Uses specific matcher methods rather than generic equality checks (e.g., `toBeCloseTo` for numbers)",
+      "max_score": 5
+    },
+    {
+      "name": "Edge case coverage",
+      "description": "Tests cover boundary conditions like exactly $50, exactly $100, zero quantities",
+      "max_score": 5
+    },
+    {
+      "name": "Clear test structure",
+      "description": "Tests follow logical Arrange-Act-Assert organization",
+      "max_score": 5
+    },
+    {
+      "name": "Isolated test cases",
+      "description": "Each test is independent and doesn't rely on state from other tests",
+      "max_score": 5
+    },
+    {
+      "name": "Bug fix verification",
+      "description": "Shows that previously failing tests now pass after the fix",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No failing test reproduces the bug before...",
+      "description": "Failure avoided: No failing test reproduces the bug before the fix is applied",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests check internal implementation details rather than...",
+      "description": "Failure avoided: Tests check internal implementation details rather than observable calculation outcomes",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Test names are generic and do not...",
+      "description": "Failure avoided: Test names are generic and do not describe the scenario or expected outcome",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: A single test verifies multiple unrelated calculation...",
+      "description": "Failure avoided: A single test verifies multiple unrelated calculation rules simultaneously",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Generic equality checks are used instead of...",
+      "description": "Failure avoided: Generic equality checks are used instead of appropriate matchers for numeric comparisons",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Boundary conditions ($50, $100 thresholds) are not...",
+      "description": "Failure avoided: Boundary conditions ($50, $100 thresholds) are not tested",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests do not follow Arrange-Act-Assert structure",
+      "description": "Failure avoided: Tests do not follow Arrange-Act-Assert structure",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests share state or depend on execution...",
+      "description": "Failure avoided: Tests share state or depend on execution order",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No demonstration that previously failing tests pass...",
+      "description": "Failure avoided: No demonstration that previously failing tests pass after the fix",
+      "max_score": 15
+    }
+  ]
+}

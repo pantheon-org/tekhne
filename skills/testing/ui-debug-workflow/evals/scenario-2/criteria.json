@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Plan a Baseline-vs-Changed Evidence Capture Session.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct baseline capture command",
+      "description": "`evidence-capture-plan.md` contains a `capture-evidence.sh` invocation with `baseline` label and a named output directory (e.g. `./baseline`)",
+      "max_score": 10
+    },
+    {
+      "name": "Correct changed capture command",
+      "description": "`evidence-capture-plan.md` contains a `capture-evidence.sh` invocation with `changed` label referencing `http://localhost:4200` and a separate output directory",
+      "max_score": 10
+    },
+    {
+      "name": "Correct compare command",
+      "description": "`evidence-capture-plan.md` contains a `compare-evidence.sh` invocation referencing both output directories and producing a comparison output file",
+      "max_score": 10
+    },
+    {
+      "name": "Identical conditions checklist",
+      "description": "The document lists at least 4 conditions that must match between runs: URL, viewport size, seed data, and build mode",
+      "max_score": 10
+    },
+    {
+      "name": "Unexpected differences handling",
+      "description": "The document describes the 3-step response to unexpected comparison differences: verify conditions, check for flaky elements, re-capture both runs",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `evidence-capture-plan.md` does not include a `capture-evidence.sh` command...",
+      "description": "Failure avoided: `evidence-capture-plan.md` does not include a `capture-evidence.sh` command with a `baseline` label and output directory",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `changed` run command does not reference...",
+      "description": "Failure avoided: The `changed` run command does not reference `http://localhost:4200` or uses the same output directory as the baseline",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: No `compare-evidence.sh` command is included referencing both...",
+      "description": "Failure avoided: No `compare-evidence.sh` command is included referencing both output directories",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Fewer than 4 matching conditions are listed...",
+      "description": "Failure avoided: Fewer than 4 matching conditions are listed (URL, viewport, seed data, build mode)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The response to unexpected differences does not...",
+      "description": "Failure avoided: The response to unexpected differences does not cover all three steps: verify conditions, check for flaky elements, re-capture both runs",
+      "max_score": 10
+    }
+  ]
+}

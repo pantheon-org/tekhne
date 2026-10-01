@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Step Definition Implementation for Order Processing.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Business language mapping",
+      "description": "Step definitions preserve and map directly to the business terminology used in the scenarios",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids implementation details",
+      "description": "Step implementations do NOT expose UI elements, API calls, database queries, or internal method names",
+      "max_score": 7
+    },
+    {
+      "name": "Maintains scenario meaning",
+      "description": "Step definitions implement the business intent rather than technical implementation",
+      "max_score": 7
+    },
+    {
+      "name": "Proper Cucumber syntax",
+      "description": "Uses Given/When/Then imports and correct step definition syntax",
+      "max_score": 7
+    },
+    {
+      "name": "Step reusability",
+      "description": "Creates steps that can be reused across different scenarios with similar meaning",
+      "max_score": 7
+    },
+    {
+      "name": "Abstraction layer",
+      "description": "Step definitions act as a translation layer between business language and implementation",
+      "max_score": 7
+    },
+    {
+      "name": "No brittle dependencies",
+      "description": "Steps don't couple to specific UI elements, selectors, or implementation details that could change",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Step definitions do not use the same...",
+      "description": "Failure avoided: Step definitions do not use the same business terminology as the Gherkin scenarios",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Step implementations expose UI selectors, API endpoint...",
+      "description": "Failure avoided: Step implementations expose UI selectors, API endpoint URLs, database queries, or internal method names",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Step definitions implement technical details rather than...",
+      "description": "Failure avoided: Step definitions implement technical details rather than the business behavior they represent",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `Given`, `When`, `Then` are not imported and...",
+      "description": "Failure avoided: `Given`, `When`, `Then` are not imported and used correctly from `@cucumber/cucumber`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Step definitions are written so narrowly that...",
+      "description": "Failure avoided: Step definitions are written so narrowly that they cannot be shared across similar scenarios",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Steps directly encode implementation mechanics that would...",
+      "description": "Failure avoided: Steps directly encode implementation mechanics that would break if the system is refactored",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Steps are tightly coupled to specific UI...",
+      "description": "Failure avoided: Steps are tightly coupled to specific UI element names or selectors",
+      "max_score": 9
+    }
+  ]
+}

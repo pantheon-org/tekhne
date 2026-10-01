@@ -1,0 +1,25 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 86,
+    "total_instructions": 14,
+    "covered_instructions": 12,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-5"],
+      "I02": ["scenario-1", "scenario-2"],
+      "I03": ["scenario-1"],
+      "I04": ["scenario-1"],
+      "I05": ["scenario-1", "scenario-2"],
+      "I06": ["scenario-1", "scenario-2"],
+      "I07": ["scenario-2", "scenario-3"],
+      "I08": ["scenario-1", "scenario-2", "scenario-5"],
+      "I09": ["scenario-4"],
+      "I10": ["scenario-3"],
+      "I11": [],
+      "I12": ["scenario-1", "scenario-2", "scenario-4", "scenario-5"],
+      "I13": ["scenario-2"],
+      "I14": []
+    },
+    "notes": "I11 (out-of-scope boundaries) and I14 (bun test commands) are not checked by any scenario criteria."
+  }
+}

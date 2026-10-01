@@ -1,0 +1,29 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 89,
+    "total_instructions": 18,
+    "covered_instructions": 16,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-3"],
+      "I02": ["scenario-2"],
+      "I03": ["scenario-2", "scenario-4"],
+      "I04": ["scenario-1", "scenario-4"],
+      "I05": ["scenario-2"],
+      "I06": ["scenario-2"],
+      "I07": ["scenario-2", "scenario-4"],
+      "I08": ["scenario-2"],
+      "I09": ["scenario-4"],
+      "I10": ["scenario-4"],
+      "I11": ["scenario-5"],
+      "I12": ["scenario-5"],
+      "I13": [],
+      "I14": ["scenario-1", "scenario-3"],
+      "I15": ["scenario-1", "scenario-3"],
+      "I16": ["scenario-2"],
+      "I17": ["scenario-3", "scenario-4"],
+      "I18": []
+    },
+    "notes": "I13 (empty compare directories) and I18 (backend-only exclusion) are not checked by any scenario criteria."
+  }
+}

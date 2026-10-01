@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Identify Anti-Patterns in a Debug Process.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Missing reproduction steps anti-pattern identified",
+      "description": "`pr-review.md` explicitly calls out the lack of deterministic reproduction steps (no numbered steps, URL, or interaction sequence)",
+      "max_score": 10
+    },
+    {
+      "name": "Missing evidence artifacts anti-pattern identified",
+      "description": "`pr-review.md` explicitly calls out the absence of screenshots, DOM snapshots, or comparison artifacts",
+      "max_score": 10
+    },
+    {
+      "name": "Skipped console/network review anti-pattern identified",
+      "description": "`pr-review.md` notes that the engineer edited CSS without first inspecting console errors or network failures",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected actions provided",
+      "description": "For each anti-pattern identified, `pr-review.md` includes a specific alternative action the engineer should have taken",
+      "max_score": 10
+    },
+    {
+      "name": "Clear verdict stated",
+      "description": "`pr-review.md` ends with an explicit APPROVE or REQUEST CHANGES verdict (must be REQUEST CHANGES for this scenario)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `pr-review.md` does not identify the missing reproduction...",
+      "description": "Failure avoided: `pr-review.md` does not identify the missing reproduction steps anti-pattern",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `pr-review.md` does not call out the absence...",
+      "description": "Failure avoided: `pr-review.md` does not call out the absence of evidence artifacts (screenshots, snapshots)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `pr-review.md` does not note that CSS was...",
+      "description": "Failure avoided: `pr-review.md` does not note that CSS was edited without first checking console/network errors",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: No corrected alternative action is provided for...",
+      "description": "Failure avoided: No corrected alternative action is provided for one or more identified anti-patterns",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `pr-review.md` does not end with an explicit...",
+      "description": "Failure avoided: `pr-review.md` does not end with an explicit APPROVE or REQUEST CHANGES verdict, or concludes with APPROVE instead of REQUEST CHANGES",
+      "max_score": 10
+    }
+  ]
+}

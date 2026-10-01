@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: E-Commerce Checkout Feature Development.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Business language usage",
+      "description": "Feature file uses business-facing terminology that stakeholders would understand, avoiding technical jargon",
+      "max_score": 6
+    },
+    {
+      "name": "Non-developer readability",
+      "description": "Scenarios are written in plain language that business stakeholders could review and understand",
+      "max_score": 6
+    },
+    {
+      "name": "Observable behavior focus",
+      "description": "Scenarios specify user-visible outcomes rather than internal system behavior or implementation details",
+      "max_score": 6
+    },
+    {
+      "name": "Given/When/Then structure",
+      "description": "Scenarios follow proper Gherkin Given/When/Then structure with clear context/action/outcome",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids implementation details",
+      "description": "Steps do NOT reference specific UI elements, APIs, database operations, or internal method calls",
+      "max_score": 6
+    },
+    {
+      "name": "Specific observable outcomes",
+      "description": "Then steps specify concrete, verifiable outcomes like displayed text, visible elements, or user feedback",
+      "max_score": 6
+    },
+    {
+      "name": "Single behavior focus",
+      "description": "Each scenario focuses on testing one specific behavior or user journey",
+      "max_score": 6
+    },
+    {
+      "name": "Deterministic scenarios",
+      "description": "Scenarios are written to be repeatable and predictable without external dependencies",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Feature file uses technical jargon that non-developer...",
+      "description": "Failure avoided: Feature file uses technical jargon that non-developer stakeholders would not understand",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Scenarios contain implementation details like CSS selectors,...",
+      "description": "Failure avoided: Scenarios contain implementation details like CSS selectors, API endpoints, or database queries",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Then steps describe internal system state rather...",
+      "description": "Failure avoided: Then steps describe internal system state rather than user-visible outcomes",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Scenarios do not follow Given/When/Then structure",
+      "description": "Failure avoided: Scenarios do not follow Given/When/Then structure",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Steps reference specific UI element names, method...",
+      "description": "Failure avoided: Steps reference specific UI element names, method calls, or internal system components",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Then steps use vague assertions like \"should...",
+      "description": "Failure avoided: Then steps use vague assertions like \"should work\" without concrete observable outcomes",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: A single scenario tests multiple unrelated behaviors",
+      "description": "Failure avoided: A single scenario tests multiple unrelated behaviors",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Scenarios depend on external state or produce...",
+      "description": "Failure avoided: Scenarios depend on external state or produce non-deterministic results",
+      "max_score": 10
+    }
+  ]
+}

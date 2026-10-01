@@ -1,0 +1,112 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Reproduce first, then modify code.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Capture baseline and changed evidence under the same conditions.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Compare artifacts before declaring a fix.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Document commands, environment, and outcomes.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Capture baseline evidence from a known branch.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Apply the fix and capture changed evidence with identical steps.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Compare screenshots, DOM, and logs.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "If comparison shows unexpected differences, verify identical conditions (URL, viewport, seed data, build mode), check for flaky or animated elements, and re-capture both runs before concluding.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Record pass/fail outcomes and unresolved risks.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Publish a concise report with links to artifacts.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Install the browser runtime with npx playwright install chromium before automated checks.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I12",
+      "content": "Ensure the dev server is running and the port is free before running capture-evidence.sh (check with lsof -i).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "For compare-evidence.sh problems, verify both baseline and changed directories exist and contain artifacts; re-run capture if incomplete.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER debug without deterministic reproduction steps.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER skip console and network error review.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER compare baseline and changed runs under different conditions.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER close a UI fix without evidence artifacts.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "Do not use this workflow for backend-only issues with no UI symptom.",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

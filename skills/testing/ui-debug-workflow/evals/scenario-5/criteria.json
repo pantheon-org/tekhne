@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Diagnose a Failed Evidence Capture Run.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chromium not installed root cause identified",
+      "description": "`capture-fix-plan.md` identifies the missing Chromium executable as one root cause",
+      "max_score": 10
+    },
+    {
+      "name": "Port conflict root cause identified",
+      "description": "`capture-fix-plan.md` identifies the port 3000 conflict as a second root cause",
+      "max_score": 10
+    },
+    {
+      "name": "Chromium install command provided",
+      "description": "`capture-fix-plan.md` includes `npx playwright install chromium` as the fix for the missing executable",
+      "max_score": 10
+    },
+    {
+      "name": "Port verification command provided",
+      "description": "`capture-fix-plan.md` includes a command to check port occupancy (e.g. `lsof -i :3000`) before re-running the script",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected capture command provided",
+      "description": "`capture-fix-plan.md` includes the full corrected `capture-evidence.sh` command to run after all fixes are applied",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `capture-fix-plan.md` does not identify the missing Chromium...",
+      "description": "Failure avoided: `capture-fix-plan.md` does not identify the missing Chromium executable as a root cause",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `capture-fix-plan.md` does not identify the port 3000...",
+      "description": "Failure avoided: `capture-fix-plan.md` does not identify the port 3000 conflict as a root cause",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `npx playwright install chromium` is not included...",
+      "description": "Failure avoided: `npx playwright install chromium` is not included as the Chromium fix command",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: No port verification command (e.g. `lsof -i...",
+      "description": "Failure avoided: No port verification command (e.g. `lsof -i :3000`) is included",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The corrected `capture-evidence.sh` command is missing from...",
+      "description": "Failure avoided: The corrected `capture-evidence.sh` command is missing from the fix plan",
+      "max_score": 10
+    }
+  ]
+}

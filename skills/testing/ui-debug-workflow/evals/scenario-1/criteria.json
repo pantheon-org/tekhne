@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Produce Deterministic Reproduction Steps.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Numbered reproduction steps",
+      "description": "`debug-reproduction.md` contains a numbered list of at least 3 concrete steps (open URL, perform interaction, observe outcome)",
+      "max_score": 10
+    },
+    {
+      "name": "Environment context specified",
+      "description": "The file explicitly states browser, viewport size, seed data state, and build mode required for the scenario",
+      "max_score": 10
+    },
+    {
+      "name": "Definition of reproduced",
+      "description": "The file contains a clear statement of what symptom confirms the bug is reproduced (not vague language like \"looks broken\")",
+      "max_score": 10
+    },
+    {
+      "name": "Console/network check step included",
+      "description": "At least one step instructs the reader to inspect browser console errors or network failures before touching code",
+      "max_score": 10
+    },
+    {
+      "name": "No code modifications proposed",
+      "description": "The file contains only reproduction and observation steps; it does not propose or apply any code changes",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `debug-reproduction.md` contains fewer than 3 numbered reproduction...",
+      "description": "Failure avoided: `debug-reproduction.md` contains fewer than 3 numbered reproduction steps",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The file does not specify browser, viewport,...",
+      "description": "Failure avoided: The file does not specify browser, viewport, seed data, or build mode requirements",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The definition of \"reproduced\" is vague (e.g.,...",
+      "description": "Failure avoided: The definition of \"reproduced\" is vague (e.g., \"table looks wrong\") without specifying the exact observable symptom",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: No step instructs the reader to check...",
+      "description": "Failure avoided: No step instructs the reader to check the browser console or network panel before making changes",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The file proposes or applies code changes...",
+      "description": "Failure avoided: The file proposes or applies code changes instead of focusing solely on reproduction",
+      "max_score": 10
+    }
+  ]
+}
