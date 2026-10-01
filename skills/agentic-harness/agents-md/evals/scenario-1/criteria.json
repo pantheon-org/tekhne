@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create AGENTS.md for Simple Node.js Project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Discovery performed",
+      "description": "Agent ran discovery commands (rg or similar) to understand the repository structure before creating documentation",
+      "max_score": 6
+    },
+    {
+      "name": "Technology detection",
+      "description": "Agent detected actual technology stack (package manager, testing framework, etc.) from config files rather than assuming",
+      "max_score": 6
+    },
+    {
+      "name": "Single file structure",
+      "description": "Created single AGENTS.md at root (not unnecessary hierarchical structure for simple project)",
+      "max_score": 6
+    },
+    {
+      "name": "Concise content",
+      "description": "Content is concise and not encyclopedic (no full framework manuals embedded)",
+      "max_score": 6
+    },
+    {
+      "name": "Path-specific commands",
+      "description": "Commands include specific paths relevant to this project, not generic placeholders",
+      "max_score": 6
+    },
+    {
+      "name": "Verified commands",
+      "description": "Commands appear to be valid for the detected project (e.g., correct package manager commands)",
+      "max_score": 6
+    },
+    {
+      "name": "No assumptions",
+      "description": "Documentation reflects discovered technologies, not assumed ones",
+      "max_score": 6
+    },
+    {
+      "name": "Actionable instructions",
+      "description": "Instructions are concrete and actionable, not vague",
+      "max_score": 6
+    },
+    {
+      "name": "Discovery commands included",
+      "description": "Includes useful discovery commands for future agents (e.g., file listing, config detection)",
+      "max_score": 6
+    },
+    {
+      "name": "Quality check",
+      "description": "Documentation appears validated (no obvious broken links or invalid commands)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Writes AGENTS.md without first running any discovery...",
+      "description": "Failure avoided: Writes AGENTS.md without first running any discovery commands",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Assumes technologies not present in the project...",
+      "description": "Failure avoided: Assumes technologies not present in the project (e.g., references npm when the project uses a different package manager)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Creates a multi-level AGENTS.md hierarchy for a...",
+      "description": "Failure avoided: Creates a multi-level AGENTS.md hierarchy for a simple single-package project",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Produces encyclopedic or bloated content duplicating full...",
+      "description": "Failure avoided: Produces encyclopedic or bloated content duplicating full framework documentation",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Uses generic placeholder commands not tied to...",
+      "description": "Failure avoided: Uses generic placeholder commands not tied to this project's actual scripts or paths",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Includes commands that would fail when copy-pasted...",
+      "description": "Failure avoided: Includes commands that would fail when copy-pasted into the project",
+      "max_score": 10
+    }
+  ]
+}

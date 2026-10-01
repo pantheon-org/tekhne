@@ -1,0 +1,1 @@
+Tests that triage clearing removes only approved and pending pins and that a full clear keeps next_id.

@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Update AGENTS.md After Repository Changes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Change detection",
+      "description": "Agent detected what changed in the repository (new scripts, removed dependencies, etc.)",
+      "max_score": 7
+    },
+    {
+      "name": "Removed stale content",
+      "description": "Removed or updated instructions for removed tooling/commands",
+      "max_score": 7
+    },
+    {
+      "name": "Added new content",
+      "description": "Added instructions for new tooling or commands",
+      "max_score": 7
+    },
+    {
+      "name": "Structure still appropriate",
+      "description": "Documentation structure remains appropriate for project (simple vs hierarchical)",
+      "max_score": 7
+    },
+    {
+      "name": "Command validation",
+      "description": "Validated that commands still work after changes",
+      "max_score": 7
+    },
+    {
+      "name": "No duplication introduced",
+      "description": "Did not introduce new duplication during update",
+      "max_score": 7
+    },
+    {
+      "name": "References updated",
+      "description": "References to external docs are still valid",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Leaves Jest commands in the documentation after...",
+      "description": "Failure avoided: Leaves Jest commands in the documentation after the migration to Vitest",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Keeps Storybook instructions that reference removed dependencies",
+      "description": "Failure avoided: Keeps Storybook instructions that reference removed dependencies",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Fails to document the new `lint:fix` script",
+      "description": "Failure avoided: Fails to document the new `lint:fix` script",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Validates nothing and delivers an updated file...",
+      "description": "Failure avoided: Validates nothing and delivers an updated file without checking whether commands still work",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Introduces duplicate instructions by appending new content...",
+      "description": "Failure avoided: Introduces duplicate instructions by appending new content without removing the old equivalents",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Updates only part of the file, leaving...",
+      "description": "Failure avoided: Updates only part of the file, leaving other sections pointing to stale tool versions",
+      "max_score": 16
+    }
+  ]
+}

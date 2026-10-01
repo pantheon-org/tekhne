@@ -1,0 +1,56 @@
+{
+  "context": "Tests: clearing triage pins only, then clearing the whole board while preserving next_id.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Approved pin removed by triage clear",
+      "description": "After `/pin clear triage`, item #1 (approved) is absent from `pins.json`.",
+      "max_score": 10
+    },
+    {
+      "name": "Pending pin removed by triage clear",
+      "description": "After `/pin clear triage`, item #2 (pending) is absent from `pins.json`.",
+      "max_score": 10
+    },
+    {
+      "name": "Killed pin kept by triage clear",
+      "description": "Item #3 (killed) remains in `pins.json` after `/pin clear triage`.",
+      "max_score": 10
+    },
+    {
+      "name": "Scope pin kept by triage clear",
+      "description": "Item #4 (scope) remains in `pins.json` after `/pin clear triage`.",
+      "max_score": 10
+    },
+    {
+      "name": "Correction pin kept by triage clear",
+      "description": "Item #5 (correction) remains in `pins.json` after `/pin clear triage`.",
+      "max_score": 10
+    },
+    {
+      "name": "Triage response format",
+      "description": "The triage response is a single line of the form `🗑️ Triage cleared. 3 pins remaining.`",
+      "max_score": 10
+    },
+    {
+      "name": "Full clear empties items",
+      "description": "After `/pin clear`, the `items` array in `pins.json` is empty.",
+      "max_score": 10
+    },
+    {
+      "name": "next_id preserved on clear",
+      "description": "After `/pin clear`, `next_id` is still 6 and is not reset to 1.",
+      "max_score": 10
+    },
+    {
+      "name": "Clear response format",
+      "description": "The full clear response is exactly `🗑️ Pin board cleared.` with no extra commentary.",
+      "max_score": 10
+    },
+    {
+      "name": "No ids renumbered or reused",
+      "description": "Surviving items keep their original `id` values and no id is reassigned during either command.",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create Hierarchical AGENTS.md for Monorepo.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Discovery performed",
+      "description": "Agent ran discovery commands to understand monorepo structure (packages, workspaces, etc.)",
+      "max_score": 5
+    },
+    {
+      "name": "Hierarchical structure",
+      "description": "Created root AGENTS.md plus subdirectory AGENTS.md files (not single flat file)",
+      "max_score": 5
+    },
+    {
+      "name": "Root concise",
+      "description": "Root AGENTS.md is concise and does not contain encyclopedic content",
+      "max_score": 5
+    },
+    {
+      "name": "No duplication root-sub",
+      "description": "No identical instructions duplicated between root and subdirectory AGENTS.md files",
+      "max_score": 5
+    },
+    {
+      "name": "Universal rules at root",
+      "description": "Common/shared conventions (linting, git workflow) are at root level",
+      "max_score": 5
+    },
+    {
+      "name": "Package-specific at local",
+      "description": "Package-specific instructions are in their respective subdirectory AGENTS.md",
+      "max_score": 5
+    },
+    {
+      "name": "References used",
+      "description": "Uses references/links to other files rather than duplicating content",
+      "max_score": 5
+    },
+    {
+      "name": "Nearest-file relevance",
+      "description": "Subdirectory AGENTS.md contains locally relevant commands and paths",
+      "max_score": 5
+    },
+    {
+      "name": "Path-specific commands",
+      "description": "Commands include specific paths relevant to each package",
+      "max_score": 5
+    },
+    {
+      "name": "Verified commands",
+      "description": "All commands are valid for the detected project structure",
+      "max_score": 5
+    },
+    {
+      "name": "Index/links present",
+      "description": "Root file provides clear navigation to subdirectory documentation",
+      "max_score": 5
+    },
+    {
+      "name": "Quality check",
+      "description": "No broken links or invalid commands in any file",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Creates a single flat AGENTS.md at the...",
+      "description": "Failure avoided: Creates a single flat AGENTS.md at the root containing all per-package instructions",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Duplicates identical commands or conventions in both...",
+      "description": "Failure avoided: Duplicates identical commands or conventions in both the root file and subdirectory files",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Puts package-specific commands (e.g., UI build flags)...",
+      "description": "Failure avoided: Puts package-specific commands (e.g., UI build flags) in the root file rather than the relevant package",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Creates an encyclopedic root AGENTS.md that embeds...",
+      "description": "Failure avoided: Creates an encyclopedic root AGENTS.md that embeds full framework documentation",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Provides no navigation or cross-references between root...",
+      "description": "Failure avoided: Provides no navigation or cross-references between root and package files",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses generic placeholder commands not tied to...",
+      "description": "Failure avoided: Uses generic placeholder commands not tied to specific package paths",
+      "max_score": 15
+    }
+  ]
+}

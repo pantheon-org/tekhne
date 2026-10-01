@@ -1,0 +1,30 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 84,
+    "total_instructions": 19,
+    "covered_instructions": 16,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-3"],
+      "I02": ["scenario-1", "scenario-2", "scenario-3"],
+      "I03": ["scenario-2", "scenario-3", "scenario-5"],
+      "I04": ["scenario-1", "scenario-3", "scenario-4"],
+      "I05": ["scenario-1"],
+      "I06": ["scenario-2"],
+      "I07": ["scenario-1", "scenario-2", "scenario-3"],
+      "I08": [],
+      "I09": ["scenario-5"],
+      "I10": ["scenario-1", "scenario-2"],
+      "I11": ["scenario-1", "scenario-2", "scenario-5"],
+      "I12": ["scenario-1", "scenario-2"],
+      "I13": ["scenario-1", "scenario-4", "scenario-5"],
+      "I14": ["scenario-5"],
+      "I15": ["scenario-1", "scenario-2"],
+      "I16": ["scenario-2", "scenario-3"],
+      "I17": ["scenario-2"],
+      "I18": [],
+      "I19": []
+    },
+    "notes": "Uncovered: iterative sub-file expansion, locating existing AGENTS files and the lint verification step are not checked by any scenario criteria."
+  }
+}

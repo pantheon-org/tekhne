@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Show the Current Pin Board.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Board is displayed with the `\ud83d\udccb Pin...",
+      "description": "Board is displayed with the `\ud83d\udccb Pin Board (N items)` header.",
+      "max_score": 10
+    },
+    {
+      "name": "Each item uses the format `N. <emoji>...",
+      "description": "Each item uses the format `N. <emoji> <content> (<detail>)`.",
+      "max_score": 10
+    },
+    {
+      "name": "Empty-board case returns exactly `\ud83d\udccb Pin board...",
+      "description": "Empty-board case returns exactly `\ud83d\udccb Pin board is empty.` with no additional text.",
+      "max_score": 10
+    },
+    {
+      "name": "File is not modified by the show...",
+      "description": "File is not modified by the show command.",
+      "max_score": 10
+    },
+    {
+      "name": "Agent does not add any explanation, summary,...",
+      "description": "Agent does not add any explanation, summary, or commentary after the board.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent modifies or re-writes `pins.json` during a...",
+      "description": "Failure avoided: Agent modifies or re-writes `pins.json` during a show command.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent outputs commentary such as \"Here are...",
+      "description": "Failure avoided: Agent outputs commentary such as \"Here are your current pins:\" before the board.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Board format does not match the canonical...",
+      "description": "Failure avoided: Board format does not match the canonical layout (missing header, wrong numbering).",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent invents pin items not present in...",
+      "description": "Failure avoided: Agent invents pin items not present in the file.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent returns an error instead of \"board...",
+      "description": "Failure avoided: Agent returns an error instead of \"board is empty\" when the file does not exist.",
+      "max_score": 10
+    }
+  ]
+}
