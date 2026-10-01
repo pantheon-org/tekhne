@@ -1,0 +1,61 @@
+{
+  "context": "Routing work away from the extractor when it is the wrong tool and handling missing Mathpix credentials.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "XML parsed directly",
+      "description": "The agent parses the JATS XML table directly instead of running the PDF extractor on it.",
+      "max_score": 12
+    },
+    {
+      "name": "XML route explained",
+      "description": "The agent explains that machine-readable formats do not need the extraction pipeline.",
+      "max_score": 6
+    },
+    {
+      "name": "Abstract request redirected",
+      "description": "The agent directs the title and abstract request to semantic-scholar-search.",
+      "max_score": 12
+    },
+    {
+      "name": "Citation and DOI redirected",
+      "description": "The agent directs the citation count and DOI resolution request to semantic-scholar-search.",
+      "max_score": 10
+    },
+    {
+      "name": "Mathpix credentials checked",
+      "description": "The agent checks that both MATHPIX_APP_ID and MATHPIX_APP_KEY are set before using Mathpix.",
+      "max_score": 12
+    },
+    {
+      "name": "Missing key reported",
+      "description": "The agent tells the user MATHPIX_APP_KEY is missing and Mathpix cannot be used yet.",
+      "max_score": 10
+    },
+    {
+      "name": "No Mathpix run attempted",
+      "description": "The agent does not run --ocr mathpix with incomplete credentials.",
+      "max_score": 10
+    },
+    {
+      "name": "Low-quality scan limitation stated",
+      "description": "The agent warns that a low-resolution scan with no embedded text will give unreliable results with PyMuPDF.",
+      "max_score": 10
+    },
+    {
+      "name": "PyMuPDF fallback labelled unreliable",
+      "description": "If the agent falls back to PyMuPDF it checks the extracted text length and labels the result unreliable.",
+      "max_score": 8
+    },
+    {
+      "name": "Path forward offered",
+      "description": "The agent tells the user how to supply the missing credential and then re-run with --ocr mathpix.",
+      "max_score": 6
+    },
+    {
+      "name": "No credentials echoed",
+      "description": "The agent does not print the value of any credential.",
+      "max_score": 4
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER use WebFetch for standard web pages when defuddle is available; raw HTML commonly contains 5-10x more tokens than the extracted content.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "ALWAYS use --md for markdown output.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER call defuddle parse without --md when readable content is the goal; without it defuddle returns raw HTML.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER use -p when the user wants the page body; it returns one metadata property and silently discards the body text.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER use > to save output; always use -o, because redirection can corrupt encoding on non-UTF-8 terminals.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Save output with -o file.md when persistence is needed.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Use defuddle parse <url> -p <field> (title, description, domain) when the user asks for metadata only.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Confirm the URL is a standard web page, not a SPA or an auth-required page, before running defuddle.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "If the output is empty or only navigation text, fall back to WebFetch.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "For a JavaScript-heavy SPA, use WebFetch or inform the user; defuddle cannot execute JavaScript.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "For a login-gated or auth-required page, use WebFetch or inform the user; defuddle fetches without credentials.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "For an API endpoint returning JSON, use a direct fetch or inform the user; defuddle is for HTML pages.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Use --json when both the HTML and the markdown are needed in one result.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "If defuddle is not installed, install it with npm install -g defuddle.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "When in doubt about a URL, try defuddle first rather than WebFetch.",
+      "type": "mindset",
+      "why_given": "preference"
+    }
+  ]
+}

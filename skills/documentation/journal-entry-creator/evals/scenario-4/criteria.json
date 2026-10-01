@@ -1,0 +1,126 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: General Documentation Task.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Journal-entry schema",
+      "description": "Shows evidence of loading journal-entry.yaml template before generation",
+      "max_score": 4
+    },
+    {
+      "name": "Directory creation",
+      "description": "Creates YYYY/MM-Month/DD-Weekday/ directory structure using mkdir -p if needed",
+      "max_score": 4
+    },
+    {
+      "name": "Filename constraints",
+      "description": "Filename follows YYYY-MM-DD-slug.md with no spaces, all-lowercase slug",
+      "max_score": 4
+    },
+    {
+      "name": "Date triple sync",
+      "description": "Date consistency across filename, frontmatter, and H1 exactly matching",
+      "max_score": 4
+    },
+    {
+      "name": "H1 date precision",
+      "description": "H1 title uses exact `Month D, YYYY` format (February 3, not February 03)",
+      "max_score": 4
+    },
+    {
+      "name": "Single H1 constraint",
+      "description": "Document contains only one H1 heading, no duplicates",
+      "max_score": 4
+    },
+    {
+      "name": "Tag case compliance",
+      "description": "All tags use lowercase-hyphenated format (ci-cd not CI_CD or ciCd)",
+      "max_score": 4
+    },
+    {
+      "name": "Tag matching",
+      "description": "Frontmatter tags array perfectly matches Tags section format",
+      "max_score": 4
+    },
+    {
+      "name": "Code language requirement",
+      "description": "All code blocks include language specifiers, no bare ``` blocks",
+      "max_score": 4
+    },
+    {
+      "name": "No emoji constraint",
+      "description": "Document contains no emojis in any section or content area",
+      "max_score": 4
+    },
+    {
+      "name": "Bold metadata keys",
+      "description": "Metadata block uses `Key:` format with bold keys, no bullet points",
+      "max_score": 4
+    },
+    {
+      "name": "Validation execution",
+      "description": "Shows evidence of running validation script and fixing any issues",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of loading the journal-entry.yaml template...",
+      "description": "Failure avoided: No evidence of loading the journal-entry.yaml template before generation",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: File placed in wrong directory or YYYY/MM-Month/DD-Weekday/...",
+      "description": "Failure avoided: File placed in wrong directory or YYYY/MM-Month/DD-Weekday/ structure not created",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Filename contains spaces, uppercase letters, or underscores...",
+      "description": "Failure avoided: Filename contains spaces, uppercase letters, or underscores in the slug",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Date is inconsistent between filename, frontmatter, or...",
+      "description": "Failure avoided: Date is inconsistent between filename, frontmatter, or H1 title",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: H1 uses zero-padded day (`February 03`) instead...",
+      "description": "Failure avoided: H1 uses zero-padded day (`February 03`) instead of `February 3`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Document contains more than one H1 heading",
+      "description": "Failure avoided: Document contains more than one H1 heading",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any tag contains uppercase letters, underscores, or...",
+      "description": "Failure avoided: Any tag contains uppercase letters, underscores, or camelCase",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Frontmatter tags array does not match the...",
+      "description": "Failure avoided: Frontmatter tags array does not match the Tags section exactly",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any code block is missing a language...",
+      "description": "Failure avoided: Any code block is missing a language specifier",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Document contains any emojis",
+      "description": "Failure avoided: Document contains any emojis",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Metadata block uses bullet points or non-bold...",
+      "description": "Failure avoided: Metadata block uses bullet points or non-bold keys",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of running the validation script",
+      "description": "Failure avoided: No evidence of running the validation script",
+      "max_score": 8
+    }
+  ]
+}

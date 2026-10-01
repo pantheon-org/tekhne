@@ -1,32 +1,124 @@
 {
   "instructions": [
     {
-      "original_snippets": "Identify the work type (empirical paper, literature review, proposal, etc.) and scope before selecting evaluation dimensions.",
+      "id": "I01",
+      "content": "Evidence first: every strength and weakness claim must cite a specific section, figure or sentence from the work.",
+      "type": "mindset",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "Load references/evaluation_framework.md for detailed criteria and rubrics before scoring any dimension.",
+      "id": "I02",
+      "content": "Stage-appropriate expectations: ALWAYS adjust thresholds to the work's stated stage and purpose before scoring.",
+      "type": "mindset",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER assign a score without supporting it with specific evidence from the work being evaluated.",
+      "id": "I03",
+      "content": "Constructive framing: identify what needs improving and why it matters; the evaluation is complete only when the author knows what to do next.",
+      "type": "mindset",
       "why_given": "preference"
     },
     {
-      "original_snippets": "ALWAYS evaluate all applicable dimensions systematically — do not skip dimensions because they seem weak.",
+      "id": "I04",
+      "content": "Load references/evaluation_framework.md for the detailed rubrics before scoring any dimension.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Identify the type of scholarly work and the evaluation scope (comprehensive, targeted or comparative) first, and ask the user to clarify if the scope is ambiguous.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Evaluate the work systematically across the ScholarEval dimensions: problem formulation, literature review, methodology, data collection, analysis, results, writing, and citations.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "For each dimension give 2-3 specific key strengths, 2-3 areas for improvement, and any critical issues.",
+      "type": "procedure",
       "why_given": "preference"
     },
     {
-      "original_snippets": "Frame weaknesses as opportunities for improvement, not failures; use the 5-point scale consistently across all dimensions.",
+      "id": "I08",
+      "content": "Use the optional 5-point scale (5 Excellent to 1 Poor) for quantitative scores, and use scripts/calculate_scores.py for aggregate scores.",
+      "type": "procedure",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER conflate quantitative scores with the narrative assessment — scores are optional supplementary data, not the primary output.",
+      "id": "I09",
+      "content": "Synthesise an overall assessment: holistic judgement, 3-5 major strengths, 3-5 critical weaknesses, ranked priority recommendations and publication readiness where applicable.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "Make feedback specific, actionable, prioritised, balanced and evidence-based.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Adjust the evaluation to the stage of development, the purpose and venue, and discipline-specific norms.",
+      "type": "procedure",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "Adjust evaluation expectations based on work stage: a draft proposal is held to lower standards than a submission-ready manuscript.",
+      "id": "I12",
+      "content": "NEVER score without evidence; unsupported scores create false confidence and give the author nothing to fix.",
+      "type": "anti-pattern",
       "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER skip dimensions because they appear weak; evaluate them and score them low with specific notes on what is missing.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER treat all work types as equivalent; ALWAYS confirm the work type and adjust thresholds before scoring.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER produce a purely negative report; ALWAYS lead with concrete strengths before areas for improvement.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "Do not use this skill for factual verification or claim checking; use a fact-check or reproducibility workflow instead.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Do not use this skill where domain-specific technical review beyond the ScholarEval dimensions is needed, such as clinical safety review or legal analysis.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "Do not produce a biased report when the author asks for a positive endorsement rather than an honest evaluation.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "Treat dimensions that do not apply to the work type, such as data collection for a purely theoretical paper, as not applicable rather than as failures.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "When creating documents, consider adding scientific diagrams using the scientific-schematics skill.",
+      "type": "procedure",
+      "why_given": "preference"
     }
   ]
 }

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Scientific Schematics \u2014 Biological Pathway for Poster.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "--doc-type poster applied",
+      "description": "The agent uses --doc-type poster (threshold 7.0/10), the lowest appropriate threshold for poster output.",
+      "max_score": 10
+    },
+    {
+      "name": "--iterations 1 passed",
+      "description": "The agent passes --iterations 1 to limit generation to a single pass as requested.",
+      "max_score": 10
+    },
+    {
+      "name": "MAPK pathway and phosphorylation in prompt",
+      "description": "The diagram description includes MAPK signalling pathway and key phosphorylation events.",
+      "max_score": 10
+    },
+    {
+      "name": "Output stored in figures/",
+      "description": "The generated poster diagram is saved under figures/.",
+      "max_score": 10
+    },
+    {
+      "name": "Threshold difference explained",
+      "description": "The agent optionally notes that the poster threshold (7.0) is lower than journal (8.5), setting appropriate expectations.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses `--doc-type journal` or `--doc-type conference`...",
+      "description": "Failure avoided: Agent uses `--doc-type journal` or `--doc-type conference` instead of `poster`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits `--iterations 1` or allows more...",
+      "description": "Failure avoided: Agent omits `--iterations 1` or allows more than one generation pass",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits MAPK signalling pathway or key...",
+      "description": "Failure avoided: Agent omits MAPK signalling pathway or key phosphorylation events from the diagram description",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent saves the output outside `figures/`",
+      "description": "Failure avoided: Agent saves the output outside `figures/`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not set appropriate expectations when...",
+      "description": "Failure avoided: Agent does not set appropriate expectations when using the lower poster quality threshold",
+      "max_score": 10
+    }
+  ]
+}

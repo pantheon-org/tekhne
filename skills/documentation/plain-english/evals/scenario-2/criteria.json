@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write an Architecture Decision Record Summary for Compliance Managers.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Audience and outcome identified",
+      "description": "Response identifies compliance managers as the audience and states the goal is an approve/reject decision.",
+      "max_score": 10
+    },
+    {
+      "name": "Decision request leads the document",
+      "description": "Opening paragraph states the proposal, the key compliance impact, and the decision needed \u2014 not technical background.",
+      "max_score": 10
+    },
+    {
+      "name": "Technical terms translated",
+      "description": "Terms like Aurora, Multi-AZ, PostgreSQL, PITR, WAL archiving are translated to plain language.",
+      "max_score": 10
+    },
+    {
+      "name": "Acronyms defined on first use",
+      "description": "RTO, RPO, SOC 2, ADR, HA are defined on first use or in a glossary.",
+      "max_score": 10
+    },
+    {
+      "name": "Compliance, cost and action context included",
+      "description": "SOC 2 re-assessment requirement, cost impact ($1,200/month), downtime window, and action items with owners and deadlines are surfaced.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Audience and decision goal are not identified...",
+      "description": "Failure avoided: Audience and decision goal are not identified before the summary",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Opening paragraph starts with technical context rather...",
+      "description": "Failure avoided: Opening paragraph starts with technical context rather than the proposal and decision needed",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Technical terms (Aurora, Multi-AZ, PostgreSQL, PITR, WAL...",
+      "description": "Failure avoided: Technical terms (Aurora, Multi-AZ, PostgreSQL, PITR, WAL archiving) appear without translation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Acronyms (RTO, RPO, SOC 2, ADR, HA)...",
+      "description": "Failure avoided: Acronyms (RTO, RPO, SOC 2, ADR, HA) are used without definitions",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: SOC 2 re-assessment requirement, cost impact, or...",
+      "description": "Failure avoided: SOC 2 re-assessment requirement, cost impact, or downtime window are omitted",
+      "max_score": 10
+    }
+  ]
+}

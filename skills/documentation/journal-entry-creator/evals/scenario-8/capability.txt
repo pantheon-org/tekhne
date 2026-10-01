@@ -1,0 +1,1 @@
+Choose the ticket-kickoff type for a ticket-planning request and populate its required sections.

@@ -1,0 +1,56 @@
+{
+  "context": "Checks combined theming rules: single approach, layer order, compatibility import, font-display, dark mode and the component boundary.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chooses one approach",
+      "description": "Applies overrides through either `--sl-*` variables or Tailwind `@theme`, not both",
+      "max_score": 10
+    },
+    {
+      "name": "Maps through the theme block",
+      "description": "When using Tailwind, maps the brand scale through `@theme`",
+      "max_score": 10
+    },
+    {
+      "name": "Layer order declared",
+      "description": "Starts `global.css` with `@layer base, starlight, theme, components, utilities;`",
+      "max_score": 10
+    },
+    {
+      "name": "Compatibility import first",
+      "description": "Imports `@astrojs/starlight-tailwind` before the Tailwind CSS imports",
+      "max_score": 10
+    },
+    {
+      "name": "Registers in customCss",
+      "description": "Keeps the stylesheet registered in `customCss` and moves the stray `<style>` block into it",
+      "max_score": 10
+    },
+    {
+      "name": "Overrides stay unlayered",
+      "description": "Does not wrap the overrides in a Starlight named layer",
+      "max_score": 10
+    },
+    {
+      "name": "Font display swap",
+      "description": "The `@font-face` for 'Brand Sans' includes `font-display: swap`",
+      "max_score": 10
+    },
+    {
+      "name": "Dark mode mechanism",
+      "description": "Uses `data-theme` or `@astrojs/starlight-tailwind` for dark mode and no `.dark` class selectors",
+      "max_score": 10
+    },
+    {
+      "name": "Full accent set",
+      "description": "Provides accent low, mid and high values together",
+      "max_score": 10
+    },
+    {
+      "name": "Defers the sidebar rebuild",
+      "description": "Says rebuilding the sidebar needs component overrides and points to `starlight-custom-component`",
+      "max_score": 10
+    }
+  ]
+}

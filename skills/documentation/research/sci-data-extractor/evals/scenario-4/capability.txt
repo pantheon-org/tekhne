@@ -1,0 +1,1 @@
+Runs a custom-prompt extraction with a format-specifying prompt, a key kept out of code and validation before any database load.

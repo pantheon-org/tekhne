@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Light and Dark Mode Color Variants.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct `data-theme` attribute selectors used",
+      "description": "Correct `data-theme` attribute selectors used",
+      "max_score": 11
+    },
+    {
+      "name": "No `.dark` class selectors",
+      "description": "No `.dark` class selectors",
+      "max_score": 11
+    },
+    {
+      "name": "Changes registered in `customCss`",
+      "description": "Changes registered in `customCss`",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Uses `.dark` class selectors instead of `[data-theme='dark']`",
+      "description": "Failure avoided: Uses `.dark` class selectors instead of `[data-theme='dark']`",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Does not register the CSS in `customCss`",
+      "description": "Failure avoided: Does not register the CSS in `customCss`",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Uses incorrect attribute names for the theme...",
+      "description": "Failure avoided: Uses incorrect attribute names for the theme selectors",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Uses `:root[data-theme='light']` and `:root[data-theme='dark']` selectors",
+      "description": "Uses `:root[data-theme='light']` and `:root[data-theme='dark']` selectors",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Does NOT use `.dark` class selectors",
+      "description": "Does NOT use `.dark` class selectors",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Registers the CSS in `customCss`",
+      "description": "Registers the CSS in `customCss`",
+      "max_score": 12
+    }
+  ]
+}

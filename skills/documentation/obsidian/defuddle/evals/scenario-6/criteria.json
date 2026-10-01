@@ -1,0 +1,56 @@
+{
+  "context": "Tests full-body extraction, JSON output, the -p pitfall and the installation step for defuddle.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Checked whether defuddle is installed",
+      "description": "The agent checks for the defuddle command before using it (for example with `which defuddle` or `defuddle --version`).",
+      "max_score": 10
+    },
+    {
+      "name": "Installs with npm when missing",
+      "description": "If defuddle is missing, the agent runs `npm install -g defuddle` rather than choosing another tool or skipping the step.",
+      "max_score": 10
+    },
+    {
+      "name": "Used defuddle parse on the article URL",
+      "description": "The agent runs `defuddle parse` with the article URL.",
+      "max_score": 10
+    },
+    {
+      "name": "Used the --json flag",
+      "description": "The command includes `--json` to get both the HTML and markdown in one result.",
+      "max_score": 12
+    },
+    {
+      "name": "Used -o to write article.json",
+      "description": "The agent writes the file with `-o article.json` rather than shell redirection.",
+      "max_score": 12
+    },
+    {
+      "name": "Did not use shell redirection",
+      "description": "The command contains no `>` redirect to create `article.json`.",
+      "max_score": 8
+    },
+    {
+      "name": "Did not use -p for the body",
+      "description": "The agent does not use `-p <name>`, which would return a single metadata property and drop the article body.",
+      "max_score": 12
+    },
+    {
+      "name": "Did not use WebFetch first",
+      "description": "The agent does not start with WebFetch for this standard article page.",
+      "max_score": 8
+    },
+    {
+      "name": "article.json holds both formats",
+      "description": "`article.json` exists and contains both an HTML field and a markdown field for the full article.",
+      "max_score": 10
+    },
+    {
+      "name": "Tried defuddle before any fallback",
+      "description": "If the agent mentions a fallback, it tries defuddle first and only falls back when the output is empty or navigation-only.",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests assets directory convention, canonical tags and handling a missing companion CLI.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Loaded the learning schema",
+      "description": "The agent reads learning.yaml in full before generating.",
+      "max_score": 8
+    },
+    {
+      "name": "Assets in an entry-specific sibling directory",
+      "description": "The screenshots go to `2026-04-11-<slug>/assets/` next to the entry, not a shared month-level folder.",
+      "max_score": 16
+    },
+    {
+      "name": "Relative image paths",
+      "description": "The entry references images as `![alt](2026-04-11-<slug>/assets/01-alarm-list.png)` or equivalent relative paths.",
+      "max_score": 10
+    },
+    {
+      "name": "Images have alt text",
+      "description": "Each image has non-empty alt text.",
+      "max_score": 6
+    },
+    {
+      "name": "Checked git ignore rules for assets",
+      "description": "The agent checks the project's `.gitignore` before assuming the assets are tracked or ignored.",
+      "max_score": 8
+    },
+    {
+      "name": "Used canonical tags",
+      "description": "Tags come from the taxonomy facets, such as `aws-cloudwatch`, rather than near-duplicates.",
+      "max_score": 12
+    },
+    {
+      "name": "Collapsed aliases",
+      "description": "Any non-canonical spelling (for example `teams`) is replaced with its canonical form (`ms-teams`).",
+      "max_score": 8
+    },
+    {
+      "name": "Confirmed the binary before the CLI step",
+      "description": "The agent runs `pantheon-journal --version` before `pantheon-journal lint`.",
+      "max_score": 12
+    },
+    {
+      "name": "Skipped the CLI-backed step when missing",
+      "description": "When the binary is missing, the agent skips the corpus lint, says so, and still completes the self-contained workflow.",
+      "max_score": 12
+    },
+    {
+      "name": "Validated the entry with the bundled script",
+      "description": "The agent runs `validate-journal-entry.sh` on the entry.",
+      "max_score": 8
+    }
+  ]
+}

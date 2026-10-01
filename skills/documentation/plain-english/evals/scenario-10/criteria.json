@@ -1,0 +1,56 @@
+{
+  "context": "Tests the When Not to Use boundary: the skill is for non-technical readers, not engineers.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies the audience as engineers",
+      "description": "The response states that the readers are platform engineers who already know the terminology.",
+      "max_score": 14
+    },
+    {
+      "name": "Recognises plain English is not the right fit",
+      "description": "The response says the plain English translation style is meant for non-technical stakeholders and is not needed for this audience.",
+      "max_score": 16
+    },
+    {
+      "name": "Keeps technical terms",
+      "description": "Kubernetes and service mesh terms are not replaced with everyday substitutes.",
+      "max_score": 12
+    },
+    {
+      "name": "Keeps exact configuration values",
+      "description": "The configuration values are preserved unchanged.",
+      "max_score": 12
+    },
+    {
+      "name": "Does not rewrite for executives",
+      "description": "The response does not restructure the doc into an executive summary with business impact framing.",
+      "max_score": 10
+    },
+    {
+      "name": "May offer selective translation",
+      "description": "If it offers any simplification, it limits this to selective translation for mixed audiences and keeps technical depth for the peer review.",
+      "max_score": 8
+    },
+    {
+      "name": "Does not add an unrequested glossary",
+      "description": "The response does not add a glossary of terms the reviewers already know.",
+      "max_score": 8
+    },
+    {
+      "name": "Wording tidy-up is still done",
+      "description": "The response still improves clarity of wording (for example concise sentences or active voice) without changing technical content.",
+      "max_score": 8
+    },
+    {
+      "name": "Explains the choice briefly",
+      "description": "The response gives a short reason for how it handled the style request.",
+      "max_score": 6
+    },
+    {
+      "name": "Produces or describes the edited design.md",
+      "description": "`design.md` is edited, or the response describes the specific wording changes made.",
+      "max_score": 6
+    }
+  ]
+}

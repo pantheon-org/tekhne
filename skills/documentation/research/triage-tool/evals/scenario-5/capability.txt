@@ -1,0 +1,1 @@
+Checks that an off-domain package is recorded, classified, ruled out of scope with reasons, and neither vendored nor promoted.

@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Reproduction is a verification exercise, not a sales pitch.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Record what you observe: quote actual output, not what the README says the output should be.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Mark every figure taken from the README or paper with (as reported); NEVER blend reported and verified numbers without distinguishing them.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Partial is better than fabricated: if only some scenarios run, record those honestly and set outcome to partially-verified.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Document the environment: OS, primary runtime version and, for a vendored submodule, the pinned commit SHA.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Confirm the slug with the user and locate the reference file (references/<slug>.md) and analysis file (analysis/ANALYSIS-<slug>.md) if they exist.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER skip the existing repro check: search benchmarks/sources/ for <slug>-repro.md and, if found, report it and ask whether to re-run or update in place.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Locate the benchmark harness from the analysis file's Stage 2 section first, otherwise the reference file's benchmarks section and the vendored source at tools/<slug>/, and record harness paths and invocation scripts.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Install the dependencies the harness requires before running it.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER suppress harness errors: capture stdout and stderr, quote errors verbatim, and set outcome to failed if the harness cannot complete.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Categorise each metric: Verified (within plus or minus 10 per cent of the reported value), Not reproduced (differs materially, quote both) or Could not test (unavailable infra, note why).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Create benchmarks/sources/<slug>-repro.md from assets/templates/REPRO-benchmark.yaml, with all required frontmatter fields and the four required sections.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER omit YAML frontmatter: open the file with a --- block containing all required fields before any prose.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Set outcome to one of verified, partially-verified, unverified or failed, using the meanings in the skill.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Back-fill the analysis file: if Stage 2.2 does not yet reference the repro file, add a pointer with the outcome.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "Run ./scripts/validate-repro-benchmark.sh on the repro file and report what was verified, what was not, and caveats about fixtures and environment.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "Do not use this skill on a subject that has not been triaged; run triage-tool or triage-paper first.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I18",
+      "content": "If the benchmark needs live external services or paid APIs that are unavailable, set outcome to unverified and document the blocker.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "When figures must be looked up from the original paper, prefer the semantic-scholar or google-scholar MCP servers over WebFetch.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I20",
+      "content": "Document environmental effects on results: cold-start overhead, fixture quality and dependency versions.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    }
+  ]
+}

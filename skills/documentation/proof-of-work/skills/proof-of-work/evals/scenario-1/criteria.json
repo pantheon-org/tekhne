@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Screenshot after UI Deployment.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies screenshot as the correct artifact type",
+      "description": "Agent identifies screenshot as the correct artifact type for UI verification",
+      "max_score": 10
+    },
+    {
+      "name": "Uses playwright-mcp page.screenshot() to save artifact",
+      "description": "Agent uses playwright-mcp `page.screenshot()` with a `.context/evidence/` path",
+      "max_score": 10
+    },
+    {
+      "name": "Filename follows date-prefixed kebab-case convention",
+      "description": "Filename follows `YYYY-MM-DD-<descriptive-slug>.png` convention",
+      "max_score": 10
+    },
+    {
+      "name": "Response includes evidence summary table",
+      "description": "Response includes evidence summary table with path and description",
+      "max_score": 10
+    },
+    {
+      "name": "Agent verifies artifact was written",
+      "description": "Agent verifies artifact was written (e.g., `ls .context/evidence/`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses a different tool or method (e.g.,...",
+      "description": "Failure avoided: Uses a different tool or method (e.g., WebFetch screenshot) instead of playwright-mcp `page.screenshot()`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Artifact is not saved to `.context/evidence/` or...",
+      "description": "Failure avoided: Artifact is not saved to `.context/evidence/` or is saved to an incorrect path",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Filename is non-descriptive (e.g., `screenshot1.png`) or does...",
+      "description": "Failure avoided: Filename is non-descriptive (e.g., `screenshot1.png`) or does not follow `YYYY-MM-DD-<slug>.png`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Response does not include an evidence summary...",
+      "description": "Failure avoided: Response does not include an evidence summary table",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not verify the artifact was...",
+      "description": "Failure avoided: Agent does not verify the artifact was written to disk",
+      "max_score": 10
+    }
+  ]
+}

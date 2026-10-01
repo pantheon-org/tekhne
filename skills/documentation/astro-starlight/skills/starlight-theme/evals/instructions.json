@@ -1,0 +1,70 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER override Starlight styles without the `customCss` array",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER add raw Tailwind imports without the `@astrojs/starlight-tailwind` compatibility layer imported first",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER use `.dark` class selectors for dark mode; Starlight uses `data-theme=\"dark\"`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER mix `--sl-*` variables with Tailwind `@theme` overrides; choose one approach",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER forget `font-display: swap` in custom `@font-face`",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER wrap your overrides in a named layer that Starlight's layers outrank; unlayered CSS wins",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER drop the `@layer base, starlight, theme, components, utilities;` order declaration in the Tailwind setup",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER set a single accent variable and expect a full palette; set low, mid and high together",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER use this skill to replace UI sections such as header, footer or sidebar; use `starlight-custom-component`",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "Set `--sl-*` custom properties on `:root` in a custom CSS file and register it in `customCss`",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Install the Tailwind compatibility package `@astrojs/starlight-tailwind` for the Tailwind approach",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

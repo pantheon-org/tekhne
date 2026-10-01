@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: PubMed Search \u2014 Basic Keyword Discovery.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "MCP availability check performed before invoking script",
+      "description": "The agent explicitly checks whether a PubTator or PubMed MCP server is configured before falling back to the Python script.",
+      "max_score": 10
+    },
+    {
+      "name": "search subcommand used with --keywords flag",
+      "description": "The agent invokes the script with the 'search' subcommand and passes --keywords 'CRISPR gene therapy' (or equivalent). The --results flag is set to 10 or left at default.",
+      "max_score": 10
+    },
+    {
+      "name": "Candidate list is presented to the user",
+      "description": "The agent displays a list of result titles (and ideally authors, PMIDs, or DOIs) framed as candidates for the user to review.",
+      "max_score": 10
+    },
+    {
+      "name": "No paper is triaged automatically",
+      "description": "The agent does not invoke triage-paper or create any reference/analysis file without explicit user confirmation.",
+      "max_score": 10
+    },
+    {
+      "name": "User is offered a handoff to triage-paper",
+      "description": "The agent asks the user which (if any) of the candidates they would like to triage, rather than proceeding silently.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent invokes the Python script without first...",
+      "description": "Failure avoided: Agent invokes the Python script without first checking for an MCP server",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses the wrong subcommand or omits...",
+      "description": "Failure avoided: Agent uses the wrong subcommand or omits the --keywords flag",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not present results as a...",
+      "description": "Failure avoided: Agent does not present results as a candidate list for user review",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent automatically triages one or more papers...",
+      "description": "Failure avoided: Agent automatically triages one or more papers without user confirmation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent proceeds to triage-paper without asking which...",
+      "description": "Failure avoided: Agent proceeds to triage-paper without asking which papers the user wants to triage",
+      "max_score": 10
+    }
+  ]
+}

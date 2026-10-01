@@ -1,0 +1,61 @@
+{
+  "context": "Tests entry type selection between ticket kickoff and troubleshooting, and the five kickoff sections.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chose ticket kickoff for the main request",
+      "description": "The agent selects ticket-kickoff.yaml because the user wants to understand the ticket before starting work.",
+      "max_score": 12
+    },
+    {
+      "name": "Applied the ambiguity precedence",
+      "description": "The agent explains or applies the order Troubleshooting > Ticket Refinement > Ticket Kickoff > Learning > General, or otherwise handles the mixed request deliberately (for example separate entries) rather than silently picking one.",
+      "max_score": 12
+    },
+    {
+      "name": "kickoff_ticket in frontmatter",
+      "description": "The frontmatter has `kickoff_ticket: PROJ-3301`.",
+      "max_score": 10
+    },
+    {
+      "name": "ticket-kickoff tag present",
+      "description": "The tags include `ticket-kickoff`.",
+      "max_score": 6
+    },
+    {
+      "name": "Conditions of Satisfaction section",
+      "description": "The entry has `## Conditions of Satisfaction & Acceptance Criteria`.",
+      "max_score": 8
+    },
+    {
+      "name": "Open Questions section not blank",
+      "description": "`## Open Questions & Gaps` is present and says `None identified` explicitly if nothing is open.",
+      "max_score": 12
+    },
+    {
+      "name": "Supporting Information section",
+      "description": "The entry has `## Supporting Information`.",
+      "max_score": 8
+    },
+    {
+      "name": "Work Checklist section",
+      "description": "The entry has `## Work Checklist`.",
+      "max_score": 8
+    },
+    {
+      "name": "Proof of Work Plan section",
+      "description": "The entry has `## Proof of Work Plan`.",
+      "max_score": 8
+    },
+    {
+      "name": "Did not rewrite the ticket",
+      "description": "The kickoff entry does not contain a proposed ticket description or edit the ticket.",
+      "max_score": 8
+    },
+    {
+      "name": "Dated 2026-04-09 and validated",
+      "description": "The filename, frontmatter and H1 all use 2026-04-09 and the validator is run.",
+      "max_score": 8
+    }
+  ]
+}

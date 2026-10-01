@@ -1,0 +1,1 @@
+Use image and PDF embeds, valid tags and aliases in a vault note, and plain Markdown for a GitHub README.

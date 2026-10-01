@@ -1,0 +1,1 @@
+Checks that confirmed vendoring and promotion produce the analysis, repro file, local_clone path and validation.

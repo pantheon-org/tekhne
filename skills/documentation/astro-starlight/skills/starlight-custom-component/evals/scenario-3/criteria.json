@@ -1,0 +1,46 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Access Page Title in a Custom Component.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "`Astro.locals.starlightRoute` path used",
+      "description": "`Astro.locals.starlightRoute` path used",
+      "max_score": 12
+    },
+    {
+      "name": "`Astro.props` approach not suggested",
+      "description": "`Astro.props` approach not suggested",
+      "max_score": 12
+    },
+    {
+      "name": "Working code example provided",
+      "description": "Working code example provided",
+      "max_score": 12
+    },
+    {
+      "name": "Avoids: Suggests `Astro.props.title` as the access path",
+      "description": "Failure avoided: Suggests `Astro.props.title` as the access path",
+      "max_score": 12
+    },
+    {
+      "name": "Avoids: Does not show the full `Astro.locals.starlightRoute.entry.data.title` path",
+      "description": "Failure avoided: Does not show the full `Astro.locals.starlightRoute.entry.data.title` path",
+      "max_score": 12
+    },
+    {
+      "name": "Avoids: No working code example provided",
+      "description": "Failure avoided: No working code example provided",
+      "max_score": 12
+    },
+    {
+      "name": "Step: Uses `Astro.locals.starlightRoute.entry.data.title`",
+      "description": "Uses `Astro.locals.starlightRoute.entry.data.title`",
+      "max_score": 12
+    },
+    {
+      "name": "Step: Does NOT use `Astro.props.title`",
+      "description": "Does NOT use `Astro.props.title`",
+      "max_score": 16
+    }
+  ]
+}

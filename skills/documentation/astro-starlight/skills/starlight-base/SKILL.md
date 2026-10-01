@@ -19,13 +19,14 @@ Starlight is a full-featured documentation theme built on [Astro](https://astro.
 - Custom theming with CSS variables or Tailwind — use `starlight-theme` instead
 - Overriding built-in Starlight components — use `starlight-custom-component` instead
 
-## Mindset
+## Philosophy
 
 **Starlight = Astro integration + file-based routing + content collections.**
 
-1. **One integration, one config object.** All options live inside `starlight({})` in `astro.config.mjs`. No separate config file.
-2. **Files are pages.** Every `.md` / `.mdx` under `src/content/docs/` becomes a URL. File path = URL route.
-3. **Sidebar and routing are independent.** You can have a page with no sidebar entry, or a sidebar entry for any slug. They are not coupled unless you use `autogenerate`.
+- **One integration, one config object.** All options live inside `starlight({})` in `astro.config.mjs`. No separate config file.
+- **Files are pages.** Every `.md` / `.mdx` under `src/content/docs/` becomes a URL. File path = URL route.
+- **Sidebar and routing are independent.** You can have a page with no sidebar entry, or a sidebar entry for any slug. They are not coupled unless you use `autogenerate`.
+- **Configure, do not build.** Prefer Starlight's built-in features over hand-rolled replacements.
 
 ## Quick Start
 
@@ -104,6 +105,7 @@ hero:
 **WHY:** Starlight's routing only picks up files inside `src/content/docs/`. **Consequence:** Pages silently won't appear.
 
 **BAD:** Create `.md` in `src/pages/`.
+
 **GOOD:** Create `.md` in `src/content/docs/`.
 
 ### NEVER use `src` inside `logo` alongside `light`/`dark`
@@ -113,15 +115,17 @@ hero:
 **BAD:** `logo: { src: './logo.svg', light: './light.svg' }`
 
 **GOOD:**
+
 ```js
 logo: { light: './src/assets/light-logo.svg', dark: './src/assets/dark-logo.svg' }
 ```
 
 ### NEVER hard-code sidebar slugs with leading slashes or file extensions
 
-**WHY:** Slugs map to paths under `src/content/docs/` — no leading slash, no `.md` extension. **Consequence:** Sidebar links 404.
+**WHY:** Slugs map to paths under `src/content/docs/` with no leading slash and no `.md` extension. **Consequence:** Sidebar links 404.
 
 **BAD:** `slug: '/guides/setup.md'`
+
 **GOOD:** `slug: 'guides/setup'`
 
 ### NEVER set `site` inside `starlight({})` for sitemap
@@ -129,6 +133,7 @@ logo: { light: './src/assets/light-logo.svg', dark: './src/assets/dark-logo.svg'
 **WHY:** Sitemap generation requires `site` at the `defineConfig` level. **Consequence:** Sitemap not generated.
 
 **BAD:** `starlight({ site: 'https://...' })`
+
 **GOOD:** `defineConfig({ site: 'https://...' })`
 
 ### NEVER mix `autogenerate` with `items` in the same sidebar group
@@ -136,13 +141,56 @@ logo: { light: './src/assets/light-logo.svg', dark: './src/assets/dark-logo.svg'
 **WHY:** A group uses either `items` or `autogenerate`, not both. **Consequence:** Build error.
 
 **BAD:** `{ label: 'Guides', items: [...], autogenerate: { directory: 'guides' } }`
+
 **GOOD:** Choose one approach per group.
+
+### NEVER put Starlight options in a separate config file
+
+**WHY:** All options live inside `starlight({})` in `astro.config.mjs`. **Consequence:** Options in another file are never read.
+
+**BAD:** Create `starlight.config.mjs` with `title` and `sidebar`.
+
+**GOOD:** Put `title` and `sidebar` inside `starlight({})`.
+
+### NEVER assume a page appears in the sidebar just because the file exists
+
+**WHY:** Sidebar and routing are independent unless you use `autogenerate`. **Consequence:** Reachable pages missing from navigation.
+
+**BAD:** Add `guides/setup.md` and expect a sidebar entry.
+
+**GOOD:** Add a `slug: 'guides/setup'` entry, or use `autogenerate` for the directory.
+
+### NEVER hand-roll the integration when `astro add starlight` exists
+
+**WHY:** For an existing Astro project, `npx astro add starlight` installs the package and updates `astro.config.mjs` for you. **Consequence:** Manual edits risk a half-wired integration.
+
+**BAD:** `npm install @astrojs/starlight` followed by manual config edits.
+
+**GOOD:** `npx astro add starlight`
+
+### NEVER publish a work-in-progress page without `draft: true`
+
+**WHY:** `draft: true` excludes the page from production builds. **Consequence:** Unfinished pages go live.
+
+**BAD:** Commit an unfinished page with only `title` in frontmatter.
+
+**GOOD:** Add `draft: true` to its frontmatter until it is ready.
+
+### NEVER use this skill for theming or component overrides
+
+**WHY:** Those are separate concerns with their own skills. **Consequence:** Mixed guidance and wrong patterns.
+
+**BAD:** Override `Header` here.
+
+**GOOD:** Use `starlight-theme` for CSS variables and Tailwind and `starlight-custom-component` for component overrides.
 
 ## References
 
-- [Configuration Reference](./references/configuration-reference.md)
-- [Starlight Getting Started](https://starlight.astro.build/getting-started/)
-- [Configuration Options](https://starlight.astro.build/reference/configuration/)
-- [Frontmatter Reference](https://starlight.astro.build/reference/frontmatter/)
-- [Sidebar Navigation Guide](https://starlight.astro.build/guides/sidebar/)
-- [Pages Guide](https://starlight.astro.build/guides/pages/)
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Configuration options | [Configuration Reference](./references/configuration-reference.md) | Looking up the full option table |
+| Getting started | [Starlight Getting Started](https://starlight.astro.build/getting-started/) | Scaffolding a project |
+| Configuration | [Configuration Options](https://starlight.astro.build/reference/configuration/) | Checking option semantics |
+| Frontmatter | [Frontmatter Reference](https://starlight.astro.build/reference/frontmatter/) | Setting page fields such as `template` and `draft` |
+| Sidebar | [Sidebar Navigation Guide](https://starlight.astro.build/guides/sidebar/) | Building navigation |
+| Pages | [Pages Guide](https://starlight.astro.build/guides/pages/) | Adding content pages |

@@ -1,9 +1,118 @@
 {
   "instructions": [
-    "Check whether the semantic-scholar MCP server is configured before invoking the Python script.",
-    "Use the correct subcommand — search for keyword discovery, paper for known IDs/DOIs, author for profiles (by ID), citations for citation graphs.",
-    "Never pass a paper title to the paper subcommand or an author name to the author subcommand — IDs are required.",
-    "Respect rate limits; never loop subcommands without delay; optionally set SEMANTIC_SCHOLAR_API_KEY for higher quota.",
-    "Present results as candidates and require explicit user confirmation before passing any paper to triage-paper."
+    {
+      "id": "I01",
+      "content": "Use papers' IDs, not titles: the paper subcommand requires a Semantic Scholar paper ID, an arXiv:-prefixed arxiv ID, or a DOI; titles go to search.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Use Semantic Scholar author IDs, not names, with the author subcommand.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Choose the subcommand by goal: search for keywords, paper for full metadata, author for publications and h-index, citations for citing or cited papers.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Set up the environment on first run following references/setup-and-troubleshooting.md.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I05",
+      "content": "Give arxiv IDs the arXiv: prefix when passing them as --paper-id.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "To find an author ID, run search for the author's papers and read the authorId from the JSON result.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Export any result to JSON with --format json and --output.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I08",
+      "content": "Present the candidate list to the user and offer to triage promising papers with triage-paper.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "For known papers, pass the arxiv ID or DOI directly to triage-paper step 1.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER pass a paper title to the paper subcommand.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER pass an author name to the author subcommand.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER loop subcommands to exhaustion: without an API key the limit is 100 requests per 5 minutes; batch with a sleep or set SEMANTIC_SCHOLAR_API_KEY.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER treat search ranking as completeness; qualify results as top results by Semantic Scholar relevance ranking.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER auto-triage search results; confirm with the user which papers to triage.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER use a DOI and a Semantic Scholar ID interchangeably without the correct prefix; confirm the ID type.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Prefer this skill over google-scholar-search whenever both are available.",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "Do not use the script when the semantic-scholar MCP server is configured; optionally prefer the MCP.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I18",
+      "content": "Do not use this skill for biomedical papers not covered by Semantic Scholar; consider PubMed.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "Do not use this skill for Google Scholar-exclusive sources such as patents and grey literature; use google-scholar-search.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
   ]
 }

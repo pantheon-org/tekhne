@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add a Banner Above the Header.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses wrapping pattern (not full replacement)",
+      "description": "Uses wrapping pattern (not full replacement)",
+      "max_score": 11
+    },
+    {
+      "name": "`<slot />` present inside `<Default>`",
+      "description": "`<slot />` present inside `<Default>`",
+      "max_score": 11
+    },
+    {
+      "name": "Banner rendered above (before) the `<Default>` call",
+      "description": "Banner rendered above (before) the `<Default>` call",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Replaces the default header entirely instead of...",
+      "description": "Failure avoided: Replaces the default header entirely instead of wrapping it",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Omits `<slot />` inside `<Default>`, breaking child...",
+      "description": "Failure avoided: Omits `<slot />` inside `<Default>`, breaking child content",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Renders banner after the `<Default>` call instead...",
+      "description": "Failure avoided: Renders banner after the `<Default>` call instead of before",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Creates a component that imports `Default` from...",
+      "description": "Creates a component that imports `Default` from `@astrojs/starlight/components/Header.astro`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Renders custom banner before `<Default><slot /></Default>`",
+      "description": "Renders custom banner before `<Default><slot /></Default>`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Includes `<slot />` inside `<Default>`",
+      "description": "Includes `<slot />` inside `<Default>`",
+      "max_score": 12
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Tests environment set-up, ID-versus-title handling, JSON export and rate-limit discipline for bulk citation requests.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Environment set up first",
+      "description": "Creates a virtual environment and installs requirements.txt (following the setup reference) before the first run",
+      "max_score": 8
+    },
+    {
+      "name": "Title not passed to paper subcommand",
+      "description": "Does not use the title string as the --paper-id value",
+      "max_score": 10
+    },
+    {
+      "name": "arXiv prefix used",
+      "description": "Uses --paper-id \"arXiv:1706.03762\" for the metadata lookup",
+      "max_score": 10
+    },
+    {
+      "name": "References fetched",
+      "description": "Uses the citations subcommand with --type references for the reference list",
+      "max_score": 10
+    },
+    {
+      "name": "Script invoked from scripts directory",
+      "description": "Runs ./scripts/semantic-scholar-search.py with a valid subcommand",
+      "max_score": 6
+    },
+    {
+      "name": "JSON export used",
+      "description": "Saves output using --format json and --output candidates.json",
+      "max_score": 8
+    },
+    {
+      "name": "Search used when only a title is known",
+      "description": "Says that a title-only lookup goes through the search subcommand, not paper",
+      "max_score": 8
+    },
+    {
+      "name": "Bulk loop not run unthrottled",
+      "description": "Does not issue 150 back-to-back citation requests in a tight loop",
+      "max_score": 10
+    },
+    {
+      "name": "Rate limit stated",
+      "description": "States the limit of 100 requests per 5 minutes without an API key",
+      "max_score": 8
+    },
+    {
+      "name": "Mitigation offered",
+      "description": "Proposes a sleep between requests, batching, or setting SEMANTIC_SCHOLAR_API_KEY",
+      "max_score": 8
+    },
+    {
+      "name": "No automatic triage",
+      "description": "Does not run triage-paper on any result without asking the user",
+      "max_score": 8
+    },
+    {
+      "name": "Results not called complete",
+      "description": "Does not claim the references or search output are exhaustive or the most important papers",
+      "max_score": 6
+    }
+  ]
+}

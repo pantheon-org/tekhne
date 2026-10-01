@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Sci-Data-Extractor \u2014 Enzyme Kinetics Extraction.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "enzyme template used",
+      "description": "The agent invokes ./scripts/extractor.py with --template enzyme and specifies kinetics_study.pdf as input.",
+      "max_score": 10
+    },
+    {
+      "name": "output saved to results.md",
+      "description": "The agent passes -o results.md to the script and the file is created with Markdown table content.",
+      "max_score": 10
+    },
+    {
+      "name": "results printed to terminal for review",
+      "description": "The agent uses --print flag or otherwise displays the extracted table before confirming success.",
+      "max_score": 10
+    },
+    {
+      "name": "no API key exposed in command or output",
+      "description": "The agent does not print or log the EXTRACTOR_API_KEY value at any point.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses the wrong template or omits...",
+      "description": "Failure avoided: Agent uses the wrong template or omits `kinetics_study.pdf` as input",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits `-o results.md` or does not...",
+      "description": "Failure avoided: Agent omits `-o results.md` or does not confirm the output file was created",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not display the extracted table...",
+      "description": "Failure avoided: Agent does not display the extracted table before confirming success",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent prints or logs the value of...",
+      "description": "Failure avoided: Agent prints or logs the value of `EXTRACTOR_API_KEY` in commands or output",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Invoke `./scripts/extractor.py` with `--template enzyme` and specify...",
+      "description": "Invoke `./scripts/extractor.py` with `--template enzyme` and specify `kinetics_study.pdf` as input",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Pass `-o results.md` to the script and...",
+      "description": "Pass `-o results.md` to the script and confirm the file is created with Markdown table content",
+      "max_score": 10
+    }
+  ]
+}

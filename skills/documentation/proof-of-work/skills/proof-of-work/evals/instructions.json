@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Identify the evidence scope first: determine which artifact type(s) (screenshot, log, script output) suit the task.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Capture screenshots with playwright-mcp using page.screenshot() and a path under the evidence directory.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Capture screenshots with the agent-browser screenshot action, saving to the evidence directory.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Capture logs by piping to tee and saving to the evidence directory as .txt files.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Capture script output by redirecting stdout/stderr (2>&1 | tee) to the evidence directory.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Name artifacts YYYY-MM-DD-<slug>.<ext> with today's date and a kebab-case slug.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I07",
+      "content": "ALWAYS append an Evidence summary table with artifact path and description to the response when artifacts are created.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER describe what you observed without saving an artifact; prose summaries are not verifiable.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER use vague slugs such as screenshot1.png; use descriptive kebab-case names.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER skip evidence capture when the task involves external state; it cannot be re-observed later.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Store artifacts under .context/evidence/ with date-prefixed filenames by default.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "Verify the artifacts were written by listing the evidence directory with ls -lh.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Check for a project-specific evidence location (for example an entry-named assets directory) before defaulting to .context/evidence/.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Check that screenshots are valid images with the file command.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Do not capture evidence for purely generative tasks where no external state was observed, or when the user has said artifacts are not needed.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

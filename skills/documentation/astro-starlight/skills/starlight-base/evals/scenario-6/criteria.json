@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Anti-Pattern Detection \u2014 Wrong Slug Format.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Both errors (leading slash AND extension) identified",
+      "description": "Both errors (leading slash AND extension) identified",
+      "max_score": 11
+    },
+    {
+      "name": "Correct slug shown",
+      "description": "Correct slug shown",
+      "max_score": 11
+    },
+    {
+      "name": "Cause explained",
+      "description": "Cause explained",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Identifies only one of the two errors...",
+      "description": "Failure avoided: Identifies only one of the two errors (leading slash or extension, not both)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Does not provide a corrected slug example",
+      "description": "Failure avoided: Does not provide a corrected slug example",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Does not explain the relationship between slug...",
+      "description": "Failure avoided: Does not explain the relationship between slug and `src/content/docs/` path",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Identifies leading slash and `.md` extension as...",
+      "description": "Identifies leading slash and `.md` extension as the problem",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Provides corrected slug: `'guides/setup'`",
+      "description": "Provides corrected slug: `'guides/setup'`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Explains that slugs map to paths under...",
+      "description": "Explains that slugs map to paths under `src/content/docs/` without slash or extension",
+      "max_score": 12
+    }
+  ]
+}

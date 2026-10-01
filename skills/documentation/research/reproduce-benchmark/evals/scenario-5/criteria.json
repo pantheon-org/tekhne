@@ -1,0 +1,61 @@
+{
+  "context": "Handling benchmarks that depend on unavailable paid services and looking up paper figures with the preferred tools.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Existing repro checked",
+      "description": "The agent checks benchmarks/sources/ for promptsaver-repro.md first.",
+      "max_score": 8
+    },
+    {
+      "name": "Harness located",
+      "description": "The agent identifies the harness from the analysis Stage 2 section or the reference file and records its paths.",
+      "max_score": 8
+    },
+    {
+      "name": "Blocker identified",
+      "description": "The agent recognises that the harness needs a paid API with no credentials available.",
+      "max_score": 10
+    },
+    {
+      "name": "Outcome is unverified",
+      "description": "The frontmatter outcome is unverified.",
+      "max_score": 12
+    },
+    {
+      "name": "Blocker documented",
+      "description": "The Reproduction attempt section names the missing paid API access as the blocker.",
+      "max_score": 10
+    },
+    {
+      "name": "No figures fabricated",
+      "description": "No observed metrics are invented and the section states that none were obtained.",
+      "max_score": 12
+    },
+    {
+      "name": "MCP preferred for paper lookup",
+      "description": "The agent uses the semantic-scholar MCP rather than WebFetch to find the paper's accuracy figures.",
+      "max_score": 10
+    },
+    {
+      "name": "Paper figures marked as reported",
+      "description": "The paper figures are recorded in the Reported figures section, each marked (as reported).",
+      "max_score": 10
+    },
+    {
+      "name": "How to reproduce explains what is needed",
+      "description": "The How to reproduce section states the credentials and commands a reviewer would need.",
+      "max_score": 8
+    },
+    {
+      "name": "Analysis back-filled",
+      "description": "Stage 2.2 of the analysis file receives a pointer to the repro file with outcome unverified.",
+      "max_score": 6
+    },
+    {
+      "name": "Validator run",
+      "description": "The agent runs ./scripts/validate-repro-benchmark.sh on the produced file.",
+      "max_score": 6
+    }
+  ]
+}

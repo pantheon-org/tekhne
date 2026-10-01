@@ -1,0 +1,66 @@
+{
+  "context": "Tests MCP-first source resolution from a DOI and the rule that tangential papers are triaged and flagged rather than skipped.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "MCP used for the DOI",
+      "description": "Resolves the DOI through the semantic-scholar MCP (or google-scholar) rather than a raw HTTP fetch",
+      "max_score": 12
+    },
+    {
+      "name": "WebFetch not used first",
+      "description": "Does not fetch the publisher or arxiv page while an MCP can answer",
+      "max_score": 8
+    },
+    {
+      "name": "Fallback order respected",
+      "description": "Mentions google-scholar as the next source if semantic-scholar returns nothing",
+      "max_score": 6
+    },
+    {
+      "name": "Duplicate check done",
+      "description": "Searches REVIEWED.md and REFERENCE_INDEX.md before creating files",
+      "max_score": 10
+    },
+    {
+      "name": "Slug follows convention",
+      "description": "Uses a <firstauthor-surname>-<topic> slug derived from the resolved metadata",
+      "max_score": 8
+    },
+    {
+      "name": "Paper is triaged not skipped",
+      "description": "Creates references/<slug>.md even though the paper is tangential",
+      "max_score": 12
+    },
+    {
+      "name": "Scope concern flagged",
+      "description": "States clearly that the paper is off-topic for prompt compression and why",
+      "max_score": 10
+    },
+    {
+      "name": "Frontmatter present",
+      "description": "The reference file opens with a --- YAML block including type: reference and the paper tag",
+      "max_score": 8
+    },
+    {
+      "name": "Unused sections marked N/A",
+      "description": "Mechanism overview subsections that do not apply are marked N/A rather than left blank",
+      "max_score": 6
+    },
+    {
+      "name": "No invented metrics",
+      "description": "Evaluation numbers, if any, are quoted from the source and marked (as reported)",
+      "max_score": 8
+    },
+    {
+      "name": "Disposition pending",
+      "description": "REVIEWED.md records the paper as pending and no ANALYSIS file is created",
+      "max_score": 6
+    },
+    {
+      "name": "Promotion choice offered",
+      "description": "Ends by offering promote, keep or skip",
+      "max_score": 6
+    }
+  ]
+}

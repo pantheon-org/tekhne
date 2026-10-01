@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Anti-Pattern Detection \u2014 Tailwind Dark Mode.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Root cause identified (wrong dark mode mechanism)",
+      "description": "Root cause identified (wrong dark mode mechanism)",
+      "max_score": 11
+    },
+    {
+      "name": "`@astrojs/starlight-tailwind` mentioned as the fix",
+      "description": "`@astrojs/starlight-tailwind` mentioned as the fix",
+      "max_score": 11
+    },
+    {
+      "name": "No suggestion to manually configure Tailwind's `darkMode`...",
+      "description": "No suggestion to manually configure Tailwind's `darkMode` option (the compat package handles it)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Does not identify the `data-theme` vs `.dark`...",
+      "description": "Failure avoided: Does not identify the `data-theme` vs `.dark` class mismatch as the root cause",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Suggests manually configuring Tailwind's `darkMode` option instead...",
+      "description": "Failure avoided: Suggests manually configuring Tailwind's `darkMode` option instead of using the compat package",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Does not mention `@astrojs/starlight-tailwind`",
+      "description": "Failure avoided: Does not mention `@astrojs/starlight-tailwind`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Identifies the issue: Starlight uses `data-theme=\"dark\"`, not...",
+      "description": "Identifies the issue: Starlight uses `data-theme=\"dark\"`, not Tailwind's `.dark` class",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Solution: install `@astrojs/starlight-tailwind` and import it before...",
+      "description": "Solution: install `@astrojs/starlight-tailwind` and import it before Tailwind's own CSS",
+      "max_score": 11
+    },
+    {
+      "name": "Step: After installing, Tailwind's `dark:` variant works correctly",
+      "description": "After installing, Tailwind's `dark:` variant works correctly",
+      "max_score": 12
+    }
+  ]
+}

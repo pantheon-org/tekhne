@@ -1,0 +1,61 @@
+{
+  "context": "Keeping answers grounded in notebook sources and recognising the boundary of what NotebookLM is for.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Auth checked",
+      "description": "The agent runs auth_manager.py status before querying.",
+      "max_score": 8
+    },
+    {
+      "name": "Wrapper used",
+      "description": "Every script call goes through python ./scripts/run.py.",
+      "max_score": 8
+    },
+    {
+      "name": "Notebook queried for the policy",
+      "description": "The agent queries the notebook with a specific question about the database migration rollback policy.",
+      "max_score": 10
+    },
+    {
+      "name": "Follow-up on the gap",
+      "description": "After an answer that does not cover the policy, the agent issues at least one follow-up query to check whether the notebook holds the information elsewhere.",
+      "max_score": 10
+    },
+    {
+      "name": "Reports the gap honestly",
+      "description": "The agent tells the user the notebook does not contain a database migration rollback policy.",
+      "max_score": 12
+    },
+    {
+      "name": "No general knowledge presented as sourced",
+      "description": "The agent does not present best-practice knowledge as if it came from the notebook.",
+      "max_score": 12
+    },
+    {
+      "name": "General advice clearly separated",
+      "description": "If the agent offers general best practice at all, it labels it explicitly as not from the notebook.",
+      "max_score": 8
+    },
+    {
+      "name": "Web search not routed through NotebookLM",
+      "description": "The agent does not use NotebookLM to look up Kubernetes release notes and explains NotebookLM answers only from uploaded documents.",
+      "max_score": 12
+    },
+    {
+      "name": "Release notes handled by another route",
+      "description": "The agent says the release-notes request needs a different tool or standard response, not this skill.",
+      "max_score": 8
+    },
+    {
+      "name": "Does not invent a policy",
+      "description": "No rollback policy, steps or thresholds are fabricated in the final response.",
+      "max_score": 8
+    },
+    {
+      "name": "Synthesised response",
+      "description": "The final response is a coherent synthesis rather than raw NotebookLM output.",
+      "max_score": 4
+    }
+  ]
+}

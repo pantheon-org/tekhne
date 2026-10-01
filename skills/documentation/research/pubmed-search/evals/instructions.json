@@ -1,11 +1,100 @@
 {
   "instructions": [
-    "Check whether a PubTator or PubMed MCP server is configured before invoking the Python script.",
-    "Use the correct subcommand (search, metadata, analyze, download) based on the user's request.",
-    "Handle rate-limit errors by retrying once after a delay, then recommending an API key or MCP fallback — never retry in a tight loop.",
-    "Present search results as a candidate list and wait for the user to choose which papers to triage.",
-    "Never auto-triage search results — always require explicit user confirmation before passing a result to triage-paper.",
-    "Never assume all PMC articles are downloadable — check open-access status before attempting a PDF download.",
-    "Never hardcode API keys; always use environment variables for PUBMED_API_KEY."
+    {
+      "id": "I01",
+      "content": "Search is discovery, not analysis: the goal is a structured candidate list.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "ALWAYS add a short delay between batch calls: without an API key the limit is 3 req/s, and bulk PMID fetches without a delay cause silent failures or 429s.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "ALWAYS check whether a PubTator or PubMed MCP is configured before invoking the Python script.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER attempt to download a PDF without first confirming PMC availability and open-access status.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "If a PubTator or PubMed MCP is configured and reachable, prefer it over the script.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I06",
+      "content": "Set up the environment on first run (create the venv and install dependencies) as described in the setup reference.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I07",
+      "content": "Choose the subcommand that fits the task: search (--keywords, or --term with author, journal and date filters), metadata, analyze, download; --show-abstract gives a richer preview.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "If the script returns HTTP 429, wait 30 s and retry once.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER retry in a tight loop on 429; if still failing, set PUBMED_API_KEY or switch to the MCP.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER triage automatically: present the candidates and ALWAYS confirm with the user before handing off to triage-paper.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER hardcode API keys in scripts or task files; ALWAYS use environment variables (PUBMED_API_KEY) or a gitignored dotenv file.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER treat abstract-based analysis as a full-text review; qualify it as abstract-based and recommend obtaining the full text.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Do not use this skill when the paper is already known by DOI or URL; go straight to triage-paper.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Reuse an existing candidate JSON at /tmp/<topic>-candidates.json instead of searching again.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I15",
+      "content": "Use google-scholar-search or semantic-scholar-search for general academic literature rather than PubMed.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "Export candidate lists with --format json and --output so they can be reused.",
+      "type": "procedure",
+      "why_given": "preference"
+    }
   ]
 }

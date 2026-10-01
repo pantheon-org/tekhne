@@ -1,0 +1,56 @@
+{
+  "context": "Tests recommendation with options, the layered structure, concise writing and not assuming technical knowledge.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Audience stated",
+      "description": "The response states the audience as an executive or director with no technical background before the briefing.",
+      "max_score": 8
+    },
+    {
+      "name": "Recommendation named",
+      "description": "The briefing states which of options A, B or C is recommended.",
+      "max_score": 14
+    },
+    {
+      "name": "Recommendation in the opening",
+      "description": "The opening paragraph contains the problem, the business impact and the recommended action.",
+      "max_score": 12
+    },
+    {
+      "name": "Options not left unranked",
+      "description": "The briefing does not present A, B and C neutrally without saying which is preferred.",
+      "max_score": 10
+    },
+    {
+      "name": "Owner and deadline for the decision",
+      "description": "The required action follows `[Owner] must [action] by [deadline]` with a named owner and a concrete date.",
+      "max_score": 10
+    },
+    {
+      "name": "No unexplained jargon",
+      "description": "Terms such as failover, replication lag and query plan are translated or removed in the main text.",
+      "max_score": 10
+    },
+    {
+      "name": "Technical detail moved to an appendix",
+      "description": "The failover times, replication lag figures and query plan analysis appear only in a clearly separated appendix or are omitted from the main text.",
+      "max_score": 10
+    },
+    {
+      "name": "Main text is short and scannable",
+      "description": "The main body has short paragraphs or a short list rather than long blocks of text.",
+      "max_score": 8
+    },
+    {
+      "name": "Nothing assumed about prior knowledge",
+      "description": "Where a technical idea is needed, it is explained in everyday terms rather than assumed to be known.",
+      "max_score": 8
+    },
+    {
+      "name": "Costs and effort shown in business terms",
+      "description": "The 18k a year cost and the six-month, two-engineer effort are shown as business impact.",
+      "max_score": 10
+    }
+  ]
+}

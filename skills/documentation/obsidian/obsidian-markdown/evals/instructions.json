@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER use standard Markdown links ([text](file.md)) for notes inside the vault; renames silently break them. Use [[wikilinks]] instead.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER wrap external URLs in [[...]] wikilink syntax; it creates unresolvable vault references instead of hyperlinks.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER place block IDs on the same line as list items or quotes; they require a separate trailing line after the block.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER embed full notes with ![[Note]] when only a section is relevant; use ![[Note#Heading]].",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER include spaces in tag names; a space terminates the tag and the rest becomes unindexed plain text.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER place YAML frontmatter anywhere except the very first line of the file.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Use [[wikilinks]] for notes within the vault and [text](url) for external URLs only.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Add frontmatter with properties (title, tags, aliases) at the top of the file as the first step of creating a note.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "Write callouts with > [!type], an optional custom title on the opening line, and - or + after the type for collapsed or expanded.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Define a block ID by appending ^block-id and link to it with [[Note#^block-id]].",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Highlight text with ==highlighted text==.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Tags may contain letters, numbers (not as the first character), underscores, hyphens and forward slashes; #nested/tag gives hierarchy.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Embed an image at a given width with ![[image.png|300]].",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Embed a PDF page with ![[document.pdf#page=3]].",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Hide text with %%comment%% inline or in a %% block %% that is hidden in reading view.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Write maths as LaTeX: inline with $...$ and block with $$...$$.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I17",
+      "content": "Draw diagrams in a mermaid fenced block, and link a node to a note by adding class NodeName internal-link;.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "Write footnotes as text[^1] with a [^1]: definition, or inline as ^[text].",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "Verify the note renders correctly in Obsidian's reading view.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I20",
+      "content": "Do not apply Obsidian syntax to plain Markdown outside a vault, such as GitHub READMEs, where it renders as raw text.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

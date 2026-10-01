@@ -1,0 +1,116 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Edge Case Documentation Task.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Schema loading first",
+      "description": "Evidence shows template schema was read before attempting generation",
+      "max_score": 4
+    },
+    {
+      "name": "Lowercase filename slug",
+      "description": "Converts technical terms to lowercase hyphenated format (api-gateway-cloudwatch not API_Gateway_CloudWatch)",
+      "max_score": 4
+    },
+    {
+      "name": "No underscores in slug",
+      "description": "Uses hyphens instead of underscores in filename slug",
+      "max_score": 4
+    },
+    {
+      "name": "Overwrite protection",
+      "description": "Asks user permission before overwriting existing file or creates alternative filename",
+      "max_score": 4
+    },
+    {
+      "name": "Current date usage",
+      "description": "Uses current date (2025-02-27) for filename, frontmatter, and H1",
+      "max_score": 4
+    },
+    {
+      "name": "Directory structure",
+      "description": "Places file in 2025/02/ directory matching the current date",
+      "max_score": 4
+    },
+    {
+      "name": "Date format precision",
+      "description": "H1 uses `February 27, 2025` format (not February 27th or Feb 27)",
+      "max_score": 4
+    },
+    {
+      "name": "Tag case conversion",
+      "description": "Converts technical tags to lowercase-hyphenated format (cloudwatch-migration)",
+      "max_score": 4
+    },
+    {
+      "name": "Tag type requirement",
+      "description": "Includes required `troubleshooting` tag for this incident type",
+      "max_score": 4
+    },
+    {
+      "name": "Code block compliance",
+      "description": "All code blocks include language specifiers, no bare backticks",
+      "max_score": 4
+    },
+    {
+      "name": "Validation workflow",
+      "description": "Runs validation script and addresses any compliance issues found",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of reading the template schema...",
+      "description": "Failure avoided: No evidence of reading the template schema before generation",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Filename slug contains uppercase letters or camelCase...",
+      "description": "Failure avoided: Filename slug contains uppercase letters or camelCase (e.g., `API_Gateway_CloudWatch`)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Filename slug uses underscores instead of hyphens",
+      "description": "Failure avoided: Filename slug uses underscores instead of hyphens",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Overwrites the existing file without asking user...",
+      "description": "Failure avoided: Overwrites the existing file without asking user permission or providing an alternative",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Uses an incorrect or missing date in...",
+      "description": "Failure avoided: Uses an incorrect or missing date in filename, frontmatter, or H1",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: File placed in wrong directory (not `2025/02/`)",
+      "description": "Failure avoided: File placed in wrong directory (not `2025/02/`)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: H1 uses `February 27th` or `Feb 27`...",
+      "description": "Failure avoided: H1 uses `February 27th` or `Feb 27` instead of `February 27, 2025`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Tags contain uppercase letters or underscores",
+      "description": "Failure avoided: Tags contain uppercase letters or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `troubleshooting` tag is missing",
+      "description": "Failure avoided: `troubleshooting` tag is missing",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any code block is missing a language...",
+      "description": "Failure avoided: Any code block is missing a language specifier",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of running the validation script",
+      "description": "Failure avoided: No evidence of running the validation script",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Anti-Pattern Detection \u2014 Global Style Tag.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Root cause identified (not in `customCss`)",
+      "description": "Root cause identified (not in `customCss`)",
+      "max_score": 16
+    },
+    {
+      "name": "Correct fix provided (CSS file + `customCss`...",
+      "description": "Correct fix provided (CSS file + `customCss` registration)",
+      "max_score": 16
+    },
+    {
+      "name": "Avoids: Does not identify the missing `customCss` registration...",
+      "description": "Failure avoided: Does not identify the missing `customCss` registration as the root cause",
+      "max_score": 16
+    },
+    {
+      "name": "Avoids: Suggests a workaround that bypasses `customCss` (e.g.,...",
+      "description": "Failure avoided: Suggests a workaround that bypasses `customCss` (e.g., inline `<style>` with `:global`)",
+      "max_score": 16
+    },
+    {
+      "name": "Step: Explains that `<style>` blocks outside `customCss` are...",
+      "description": "Explains that `<style>` blocks outside `customCss` are not included in Starlight's build",
+      "max_score": 16
+    },
+    {
+      "name": "Step: Instructs creating a standalone CSS file and...",
+      "description": "Instructs creating a standalone CSS file and registering it in `customCss`",
+      "max_score": 20
+    }
+  ]
+}

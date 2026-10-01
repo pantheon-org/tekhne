@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Handle a Login-Gated Page.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Did not blindly run defuddle on the auth-gated URL",
+      "description": "The agent did not run `defuddle parse https://app.example.com/dashboard` as if it were a public page without acknowledging the authentication concern.",
+      "max_score": 10
+    },
+    {
+      "name": "Recognized the page likely requires authentication",
+      "description": "The agent's response or `response.md` explicitly acknowledges that the URL appears to be a login-protected page that cannot be fetched without credentials.",
+      "max_score": 10
+    },
+    {
+      "name": "Provided an appropriate fallback or explanation",
+      "description": "The agent either offered to try WebFetch as a fallback, explained the limitation clearly, or asked the user to provide the content directly \u2014 rather than silently failing.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Runs `defuddle parse https://app.example.com/dashboard` as if it...",
+      "description": "Failure avoided: Runs `defuddle parse https://app.example.com/dashboard` as if it were a public page without any acknowledgment of authentication requirements",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Provides no indication that the page may...",
+      "description": "Failure avoided: Provides no indication that the page may require a login before access",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Silently fails or returns empty content without...",
+      "description": "Failure avoided: Silently fails or returns empty content without explaining why or offering alternatives",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Recognize that `app.example.com/dashboard` is a login-gated application...",
+      "description": "Recognize that `app.example.com/dashboard` is a login-gated application page that likely requires authentication",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Avoid running defuddle against the auth-gated URL...",
+      "description": "Avoid running defuddle against the auth-gated URL as if it were a public page without acknowledging the limitation",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Explicitly acknowledge in the response that the...",
+      "description": "Explicitly acknowledge in the response that the URL appears to be a login-protected page that cannot be fetched without credentials",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Offer an appropriate fallback or explanation \u2014...",
+      "description": "Offer an appropriate fallback or explanation \u2014 either attempt WebFetch with a caveat, explain the limitation clearly, or ask the user to provide the content directly",
+      "max_score": 10
+    }
+  ]
+}

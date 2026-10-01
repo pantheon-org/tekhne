@@ -1,0 +1,56 @@
+{
+  "context": "Tests the When Not to Use boundaries, stopping on a missing schema and gating commits on validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Declined the scratch note as out of scope",
+      "description": "The agent says a quick note without frontmatter does not need this skill and writes it with simple file creation.",
+      "max_score": 12
+    },
+    {
+      "name": "Did not create a structured entry for lunch plans",
+      "description": "No templated journal entry is produced for the scratch note.",
+      "max_score": 8
+    },
+    {
+      "name": "Declined Confluence publishing",
+      "description": "The agent says the skill is for local .md files only and does not publish to Confluence.",
+      "max_score": 14
+    },
+    {
+      "name": "Did not post to Confluence",
+      "description": "No Confluence page is created by the agent.",
+      "max_score": 8
+    },
+    {
+      "name": "Identified the missing schema",
+      "description": "The agent notices that troubleshooting.yaml is missing or unreadable.",
+      "max_score": 12
+    },
+    {
+      "name": "Stopped instead of guessing structure",
+      "description": "The agent stops, reports the error and does not invent a structure for the entry.",
+      "max_score": 16
+    },
+    {
+      "name": "Listed the available schemas",
+      "description": "The agent lists the template schemas that do exist.",
+      "max_score": 8
+    },
+    {
+      "name": "Did not commit without a validated entry",
+      "description": "No git commit is made because no entry passed validation.",
+      "max_score": 12
+    },
+    {
+      "name": "Commit format known",
+      "description": "If a commit message is discussed, it follows `Add journal entry: [Brief Description] (YYYY-MM-DD)`.",
+      "max_score": 6
+    },
+    {
+      "name": "Did not load compliance.md up front",
+      "description": "The agent does not read compliance.md before any validation has failed.",
+      "max_score": 4
+    }
+  ]
+}

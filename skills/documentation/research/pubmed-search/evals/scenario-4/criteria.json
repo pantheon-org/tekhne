@@ -1,0 +1,61 @@
+{
+  "context": "Handling bulk requests safely: setup, rate limits, open-access checks, key handling and honest labelling of abstract-based analysis.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Environment set up first",
+      "description": "The agent creates the venv and installs dependencies from requirements.txt before the first run, following the setup reference.",
+      "max_score": 8
+    },
+    {
+      "name": "MCP check before script",
+      "description": "The agent checks for a PubTator or PubMed MCP before falling back to the script.",
+      "max_score": 8
+    },
+    {
+      "name": "Delay between batch calls",
+      "description": "The agent adds a short delay (for example a sleep) between the 40 metadata fetches rather than firing them back to back.",
+      "max_score": 12
+    },
+    {
+      "name": "Rate-limit awareness stated",
+      "description": "The agent mentions the 3 requests per second limit without an API key.",
+      "max_score": 8
+    },
+    {
+      "name": "Single 30 s retry on 429",
+      "description": "If a 429 occurs the agent waits 30 s and retries once, without looping.",
+      "max_score": 8
+    },
+    {
+      "name": "API key not hardcoded",
+      "description": "The agent refuses to write the key into the script and uses the PUBMED_API_KEY environment variable or a gitignored dotenv file.",
+      "max_score": 12
+    },
+    {
+      "name": "PMC open-access checked before download",
+      "description": "The agent confirms PMC availability and open-access status for each PMID before calling download.",
+      "max_score": 12
+    },
+    {
+      "name": "Non-open-access papers handled",
+      "description": "The agent reports PMIDs that are not open access instead of assuming the download will work.",
+      "max_score": 8
+    },
+    {
+      "name": "Analysis labelled abstract-based",
+      "description": "The agent labels analyze output as abstract-based and does not mark papers as fully reviewed.",
+      "max_score": 12
+    },
+    {
+      "name": "Full text recommended",
+      "description": "The agent recommends obtaining the full text for any paper that will be relied on in the systematic review.",
+      "max_score": 6
+    },
+    {
+      "name": "No automatic triage",
+      "description": "The agent does not hand papers to triage-paper without asking the user first.",
+      "max_score": 6
+    }
+  ]
+}

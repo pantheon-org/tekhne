@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Summarize a Web Article.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Used defuddle instead of WebFetch",
+      "description": "The agent invoked `defuddle parse <url>` rather than WebFetch or curl to retrieve the page content.",
+      "max_score": 10
+    },
+    {
+      "name": "Used --md flag",
+      "description": "The defuddle command included the `--md` flag to request markdown output.",
+      "max_score": 10
+    },
+    {
+      "name": "Produced summary.md",
+      "description": "A file named `summary.md` exists in the working directory containing a readable summary.",
+      "max_score": 10
+    },
+    {
+      "name": "Summary contains meaningful content",
+      "description": "`summary.md` contains structured markdown (headings or bullet points) with substantive content rather than just the raw page dump.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses WebFetch or curl instead of `defuddle...",
+      "description": "Failure avoided: Uses WebFetch or curl instead of `defuddle parse` to retrieve the page",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Runs defuddle without the `--md` flag",
+      "description": "Failure avoided: Runs defuddle without the `--md` flag",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not produce a `summary.md` file in...",
+      "description": "Failure avoided: Does not produce a `summary.md` file in the working directory",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `summary.md` contains only raw unstructured page content...",
+      "description": "Failure avoided: `summary.md` contains only raw unstructured page content without any summarization",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Use `defuddle parse <url>` rather than WebFetch...",
+      "description": "Use `defuddle parse <url>` rather than WebFetch or curl to retrieve the page content",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Include the `--md` flag to request markdown...",
+      "description": "Include the `--md` flag to request markdown output from defuddle",
+      "max_score": 10
+    }
+  ]
+}

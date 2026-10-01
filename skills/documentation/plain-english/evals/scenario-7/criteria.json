@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Apply the Verification Checklist to a Draft Document.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Checklist applied item by item",
+      "description": "Response explicitly checks each of the 5 verification checklist items: acronyms defined, opening contains key decision, technical terms translated, action items have owner+deadline, paragraphs scannable.",
+      "max_score": 10
+    },
+    {
+      "name": "Specific failures identified with examples",
+      "description": "Each failing checklist item is illustrated with a specific quote from the draft.",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected version leads with key message",
+      "description": "Corrected draft opens with current status, performance gap, and what decision or action is needed for a VP.",
+      "max_score": 10
+    },
+    {
+      "name": "All action items corrected to owner+deadline format",
+      "description": "Corrected draft fixes all 3 passive action items with named owners and deadlines using `[Owner] must [action] by [deadline]`.",
+      "max_score": 10
+    },
+    {
+      "name": "All jargon translated in corrected version",
+      "description": "Corrected draft translates OAuth 2.0, Redis Cluster, IAM, N+1 queries, p95, RBAC into plain language.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Fewer than all 5 checklist items are...",
+      "description": "Failure avoided: Fewer than all 5 checklist items are explicitly evaluated",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Failing checklist items are described without quoting...",
+      "description": "Failure avoided: Failing checklist items are described without quoting specific examples from the draft",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Corrected draft opens with background or technical...",
+      "description": "Failure avoided: Corrected draft opens with background or technical context rather than current status and decisions needed",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any of the 3 passive action items...",
+      "description": "Failure avoided: Any of the 3 passive action items still lacks a named owner or specific deadline in the corrected version",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any of the jargon terms (OAuth 2.0,...",
+      "description": "Failure avoided: Any of the jargon terms (OAuth 2.0, Redis Cluster, IAM, N+1 queries, p95, RBAC) remain untranslated in the corrected version",
+      "max_score": 10
+    }
+  ]
+}

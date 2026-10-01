@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Full Acronym Definition Pass on a Security Briefing.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All acronyms extracted",
+      "description": "Response lists all acronyms present in the document: SOC, PCI-DSS, CISO, GRC, WAF, IDS, DMZ, MTTR, MFA, IAM, SSO, CVE, SLA, CVSS, BCP, DRP, ISO, RBAC, SaaS, SIEM, FTE, RFP, EDR.",
+      "max_score": 10
+    },
+    {
+      "name": "Plain-language definitions provided for all acronyms",
+      "description": "Each extracted acronym has a plain-language definition appropriate for a board-level reader.",
+      "max_score": 10
+    },
+    {
+      "name": "Acronyms defined inline on first use in rewrite",
+      "description": "In the rewritten document, every acronym is spelled out with a definition on first use \u2014 none used without explanation.",
+      "max_score": 10
+    },
+    {
+      "name": "Key message and progress lead the rewrite",
+      "description": "Rewritten document opens with a summary of overall security posture and key open items \u2014 not a list of technical metrics.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any acronym from the document (SOC, PCI-DSS,...",
+      "description": "Failure avoided: Any acronym from the document (SOC, PCI-DSS, CISO, GRC, WAF, IDS, DMZ, MTTR, MFA, IAM, SSO, CVE, SLA, CVSS, BCP, DRP, ISO, RBAC, SaaS, SIEM, FTE, RFP, EDR) is not extracted",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any acronym is missing a plain-language definition",
+      "description": "Failure avoided: Any acronym is missing a plain-language definition",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any acronym appears in the rewritten document...",
+      "description": "Failure avoided: Any acronym appears in the rewritten document without an inline definition on first use",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Rewritten document opens with a list of...",
+      "description": "Failure avoided: Rewritten document opens with a list of technical security metrics rather than an overall posture summary",
+      "max_score": 10
+    },
+    {
+      "name": "Step: List all acronyms present in the document:...",
+      "description": "List all acronyms present in the document: SOC, PCI-DSS, CISO, GRC, WAF, IDS, DMZ, MTTR, MFA, IAM, SSO, CVE, SLA, CVSS, BCP, DRP, ISO, RBAC, SaaS, SIEM, FTE, RFP, EDR",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Provide a plain-language definition for each acronym...",
+      "description": "Provide a plain-language definition for each acronym appropriate for a board-level reader",
+      "max_score": 10
+    }
+  ]
+}

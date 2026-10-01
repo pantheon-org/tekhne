@@ -1,0 +1,56 @@
+{
+  "context": "Tests checking for a project-specific evidence location before defaulting, and validating screenshots.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Looked for an existing convention first",
+      "description": "The agent inspects earlier entries or project docs for an existing evidence location before choosing a path.",
+      "max_score": 14
+    },
+    {
+      "name": "Used the entry's sibling assets directory",
+      "description": "The screenshot is saved in a directory named after the entry (for example `2026-10-01-checkout-fix/assets/`) rather than a shared `.context/evidence/` folder.",
+      "max_score": 14
+    },
+    {
+      "name": "Did not default to .context/evidence/ blindly",
+      "description": "The agent does not save the file to `.context/evidence/` without first checking the project convention.",
+      "max_score": 10
+    },
+    {
+      "name": "Used playwright-mcp page.screenshot",
+      "description": "The capture uses `page.screenshot()` with a `path` option.",
+      "max_score": 10
+    },
+    {
+      "name": "Filename is date-prefixed and descriptive",
+      "description": "The filename follows `YYYY-MM-DD-<kebab-slug>.png`, with today's date (2026-10-01).",
+      "max_score": 10
+    },
+    {
+      "name": "Slug describes the content",
+      "description": "The slug describes what the image shows (for example the checkout page after the fix), not `screenshot1`.",
+      "max_score": 8
+    },
+    {
+      "name": "Validated the image file",
+      "description": "The agent runs `file` on the PNG (or an equivalent check) to confirm it is a valid image.",
+      "max_score": 12
+    },
+    {
+      "name": "Confirmed the file was written",
+      "description": "The agent lists the directory (for example `ls -lh`) to confirm the artifact exists.",
+      "max_score": 8
+    },
+    {
+      "name": "Referenced the artifact with a summary table",
+      "description": "The response has an evidence table with the artifact path and a one-line description.",
+      "max_score": 8
+    },
+    {
+      "name": "Linked the artifact from the entry",
+      "description": "The journal entry or the response references the saved path relative to the entry.",
+      "max_score": 6
+    }
+  ]
+}

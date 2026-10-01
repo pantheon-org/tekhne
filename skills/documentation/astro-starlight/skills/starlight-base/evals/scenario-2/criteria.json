@@ -1,0 +1,41 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add Starlight to Existing Astro Project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses `astro add` integration command",
+      "description": "Uses `astro add` integration command",
+      "max_score": 14
+    },
+    {
+      "name": "Mentions automatic config update",
+      "description": "Mentions automatic config update",
+      "max_score": 14
+    },
+    {
+      "name": "Avoids: Suggests manual `npm install @astrojs/starlight` instead of...",
+      "description": "Failure avoided: Suggests manual `npm install @astrojs/starlight` instead of `astro add starlight`",
+      "max_score": 14
+    },
+    {
+      "name": "Avoids: Instructs manual edits to `astro.config.mjs` when `astro...",
+      "description": "Failure avoided: Instructs manual edits to `astro.config.mjs` when `astro add` handles it",
+      "max_score": 14
+    },
+    {
+      "name": "Step: Runs `npx astro add starlight`",
+      "description": "Runs `npx astro add starlight`",
+      "max_score": 14
+    },
+    {
+      "name": "Step: Notes that this updates `astro.config.mjs` automatically",
+      "description": "Notes that this updates `astro.config.mjs` automatically",
+      "max_score": 14
+    },
+    {
+      "name": "Step: Does NOT instruct manual `npm install @astrojs/starlight`...",
+      "description": "Does NOT instruct manual `npm install @astrojs/starlight` + manual config editing",
+      "max_score": 16
+    }
+  ]
+}

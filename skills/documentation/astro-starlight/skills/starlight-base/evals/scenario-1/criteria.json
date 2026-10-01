@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: New Project Setup.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct scaffolding command used",
+      "description": "Correct scaffolding command used",
+      "max_score": 11
+    },
+    {
+      "name": "Dev server command included",
+      "description": "Dev server command included",
+      "max_score": 11
+    },
+    {
+      "name": "No unnecessary manual steps added",
+      "description": "No unnecessary manual steps added",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Instructs `npm install @astrojs/starlight` as a separate...",
+      "description": "Failure avoided: Instructs `npm install @astrojs/starlight` as a separate step",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Omits the dev server command",
+      "description": "Failure avoided: Omits the dev server command",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Requires manual `astro.config.mjs` editing when using the...",
+      "description": "Failure avoided: Requires manual `astro.config.mjs` editing when using the template",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Runs `npm create astro@latest -- --template starlight`...",
+      "description": "Runs `npm create astro@latest -- --template starlight` (or pnpm/yarn equivalent)",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Runs `npm run dev` to start dev...",
+      "description": "Runs `npm run dev` to start dev server",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Does NOT manually install `@astrojs/starlight` separately (template...",
+      "description": "Does NOT manually install `@astrojs/starlight` separately (template handles it)",
+      "max_score": 12
+    }
+  ]
+}

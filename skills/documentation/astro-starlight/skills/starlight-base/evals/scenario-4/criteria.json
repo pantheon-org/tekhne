@@ -1,0 +1,36 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Sitemap Setup.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "`site` is at `defineConfig` level",
+      "description": "`site` is at `defineConfig` level",
+      "max_score": 16
+    },
+    {
+      "name": "No manual sitemap plugin mentioned (not needed)",
+      "description": "No manual sitemap plugin mentioned (not needed)",
+      "max_score": 16
+    },
+    {
+      "name": "Avoids: Places `site` inside `starlight({})` instead of `defineConfig({})`",
+      "description": "Failure avoided: Places `site` inside `starlight({})` instead of `defineConfig({})`",
+      "max_score": 16
+    },
+    {
+      "name": "Avoids: Instructs installing a separate sitemap plugin when...",
+      "description": "Failure avoided: Instructs installing a separate sitemap plugin when it is not required",
+      "max_score": 16
+    },
+    {
+      "name": "Step: Sets `site: 'https://...'` on `defineConfig({})`, NOT inside...",
+      "description": "Sets `site: 'https://...'` on `defineConfig({})`, NOT inside `starlight({})`",
+      "max_score": 16
+    },
+    {
+      "name": "Step: Notes that Starlight generates the sitemap automatically...",
+      "description": "Notes that Starlight generates the sitemap automatically when `site` is set",
+      "max_score": 20
+    }
+  ]
+}

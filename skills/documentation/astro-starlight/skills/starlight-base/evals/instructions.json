@@ -1,0 +1,88 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER add content outside `src/content/docs/`; Starlight routing only picks up files there",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER use `src` inside `logo` alongside `light`/`dark`; they are mutually exclusive",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER hard-code sidebar slugs with leading slashes or file extensions",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER set `site` inside `starlight({})` for sitemap; it belongs at the `defineConfig` level",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER mix `autogenerate` with `items` in the same sidebar group",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER put Starlight options in a separate config file; they live inside `starlight({})`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER assume a page appears in the sidebar just because the file exists; sidebar and routing are independent unless `autogenerate` is used",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER hand-roll the integration when `npx astro add starlight` exists",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER publish a work-in-progress page without `draft: true`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER use this skill for theming or component overrides; use `starlight-theme` or `starlight-custom-component`",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Scaffold a new project with `npm create astro@latest -- --template starlight`",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Start the dev server with `npm run dev`",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I13",
+      "content": "Use `template: splash` for landing pages",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Give every content page `title` and `description` frontmatter",
+      "type": "procedure",
+      "why_given": "reminder"
+    }
+  ]
+}

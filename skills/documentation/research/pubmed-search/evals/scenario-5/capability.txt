@@ -1,0 +1,1 @@
+Routes requests to triage-paper or the general scholar skills when PubMed is not the right tool and reuses an existing candidate JSON.

@@ -1,0 +1,61 @@
+{
+  "context": "Recording mixed reproduction results honestly, with the tolerance rules, the validator and environmental caveats.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Slug and files located",
+      "description": "The agent confirms the slug and locates the reference and analysis files before starting.",
+      "max_score": 8
+    },
+    {
+      "name": "Existing repro checked",
+      "description": "The agent checks benchmarks/sources/ for fastgrep-repro.md before running the harness.",
+      "max_score": 8
+    },
+    {
+      "name": "Actual output quoted",
+      "description": "The repro file quotes real harness output for each benchmark rather than restating the README.",
+      "max_score": 10
+    },
+    {
+      "name": "Within-tolerance metrics verified",
+      "description": "The three results within 10 per cent of the reported value are categorised as Verified.",
+      "max_score": 10
+    },
+    {
+      "name": "Material differences recorded with both values",
+      "description": "The two roughly 3x results are categorised as Not reproduced, quoting both the observed and the reported 10x figure.",
+      "max_score": 12
+    },
+    {
+      "name": "Unavailable benchmark marked could not test",
+      "description": "The GPU benchmark is categorised as Could not test with the reason stated.",
+      "max_score": 10
+    },
+    {
+      "name": "Outcome is partially-verified",
+      "description": "The frontmatter outcome is partially-verified, not verified and not failed.",
+      "max_score": 10
+    },
+    {
+      "name": "Reported figures marked",
+      "description": "Every README figure carries the (as reported) marker and is kept apart from observed figures.",
+      "max_score": 10
+    },
+    {
+      "name": "Cold start documented",
+      "description": "The cold-start penalty and the pinned commit a1b2c3d are recorded as environmental caveats.",
+      "max_score": 8
+    },
+    {
+      "name": "No promotional framing",
+      "description": "The summary states what held up and what did not and does not endorse the 10x claim.",
+      "max_score": 6
+    },
+    {
+      "name": "Validator run and findings reported",
+      "description": "The agent runs ./scripts/validate-repro-benchmark.sh on the new file and reports verified, unverified and caveats.",
+      "max_score": 8
+    }
+  ]
+}

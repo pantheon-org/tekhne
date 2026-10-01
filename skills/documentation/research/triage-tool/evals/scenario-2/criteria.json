@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Triage Tool \u2014 Borderline Scope Assessment.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Scope assessed before writing the summary",
+      "description": "The agent evaluates the tool's scope against the in scope / borderline / out of scope criteria before creating references/<slug>.md.",
+      "max_score": 5
+    },
+    {
+      "name": "Tool classified as borderline, not in scope or out of scope",
+      "description": "The scope-fit field in the reference file and/or REVIEWED.md shows 'borderline'. It is not classified as simply 'in scope' or 'out of scope'.",
+      "max_score": 5
+    },
+    {
+      "name": "Borderline reasoning explains the out-of-scope aspect",
+      "description": "The reasoning notes that memv's primary function is long-term memory storage (episode extraction, bi-temporal validity) \u2014 which is primarily an agentic-memory concern.",
+      "max_score": 5
+    },
+    {
+      "name": "Borderline reasoning explains the in-scope aspect",
+      "description": "The reasoning notes that memv surfaces retrieved episodes into agent context at query time (retrieval-augmented context injection), which overlaps with this repo's scope.",
+      "max_score": 5
+    },
+    {
+      "name": "Context-layer overlap specifically described in the reference file",
+      "description": "The architecture overview or open questions section in references/<slug>.md specifically addresses the context injection / retrieval-to-context pathway, not just the storage layer.",
+      "max_score": 5
+    },
+    {
+      "name": "references/<slug>.md is created despite borderline classification",
+      "description": "The agent creates a reference summary even though the tool is borderline \u2014 a borderline result is triaged, not silently skipped.",
+      "max_score": 5
+    },
+    {
+      "name": "REVIEWED.md scope-fit field shows borderline with reason",
+      "description": "The detailed REVIEWED.md section includes scope-fit: 'borderline \u2014 <explanation>' rather than a binary in/out classification.",
+      "max_score": 5
+    },
+    {
+      "name": "REVIEWED.md disposition is pending, not out of scope",
+      "description": "The disposition field in REVIEWED.md is 'pending', leaving the promotion decision to the user rather than auto-rejecting.",
+      "max_score": 5
+    },
+    {
+      "name": "User is informed of the borderline classification",
+      "description": "The agent explicitly tells the user that the tool is borderline and explains why.",
+      "max_score": 5
+    },
+    {
+      "name": "Tool is not rejected without assessing the context layer",
+      "description": "The agent does not dismiss the tool as out of scope based solely on its memory-storage focus without first examining whether it has a context-injection component.",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent writes the reference file before evaluating...",
+      "description": "Failure avoided: Agent writes the reference file before evaluating scope",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent classifies the tool as `in scope`...",
+      "description": "Failure avoided: Agent classifies the tool as `in scope` or `out of scope` instead of `borderline`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent notes the borderline classification but only...",
+      "description": "Failure avoided: Agent notes the borderline classification but only explains the out-of-scope aspect",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent notes the borderline classification but only...",
+      "description": "Failure avoided: Agent notes the borderline classification but only explains the in-scope aspect",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent describes only the storage layer and...",
+      "description": "Failure avoided: Agent describes only the storage layer and does not address the context injection pathway",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent skips creating `references/<slug>.md` due to the...",
+      "description": "Failure avoided: Agent skips creating `references/<slug>.md` due to the borderline classification",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent sets `scope-fit` to a binary value...",
+      "description": "Failure avoided: Agent sets `scope-fit` to a binary value in the REVIEWED.md detailed section",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent sets `disposition` to something other than...",
+      "description": "Failure avoided: Agent sets `disposition` to something other than `pending`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not inform the user of...",
+      "description": "Failure avoided: Agent does not inform the user of the borderline classification",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent rejects the tool as out of...",
+      "description": "Failure avoided: Agent rejects the tool as out of scope without examining the context-injection component",
+      "max_score": 5
+    }
+  ]
+}

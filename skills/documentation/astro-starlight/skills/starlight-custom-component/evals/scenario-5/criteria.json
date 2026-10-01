@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Override TwoColumnContent Without Losing the Right Sidebar.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Named slot transfer identified as the fix",
+      "description": "Named slot transfer identified as the fix",
+      "max_score": 11
+    },
+    {
+      "name": "Correct slot syntax shown: `<slot name=\"right-sidebar\" slot=\"right-sidebar\"...",
+      "description": "Correct slot syntax shown: `<slot name=\"right-sidebar\" slot=\"right-sidebar\" />`",
+      "max_score": 11
+    },
+    {
+      "name": "Both default `<slot />` and named slot...",
+      "description": "Both default `<slot />` and named slot included",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Does not identify the missing named slot...",
+      "description": "Failure avoided: Does not identify the missing named slot transfer as the root cause",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Shows incorrect slot syntax",
+      "description": "Failure avoided: Shows incorrect slot syntax",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Corrected component omits either the default `<slot...",
+      "description": "Failure avoided: Corrected component omits either the default `<slot />` or the named slot",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Identifies missing named slot transfer as the...",
+      "description": "Identifies missing named slot transfer as the problem",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Provides fix: `<slot name=\"right-sidebar\" slot=\"right-sidebar\" />`",
+      "description": "Provides fix: `<slot name=\"right-sidebar\" slot=\"right-sidebar\" />`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Shows full corrected component",
+      "description": "Shows full corrected component",
+      "max_score": 12
+    }
+  ]
+}

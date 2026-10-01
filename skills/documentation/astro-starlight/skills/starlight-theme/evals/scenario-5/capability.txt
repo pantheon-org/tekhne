@@ -1,0 +1,1 @@
+Anti-Pattern Detection — Global Style Tag

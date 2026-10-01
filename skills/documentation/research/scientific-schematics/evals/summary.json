@@ -1,0 +1,30 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 95,
+    "total_instructions": 19,
+    "covered_instructions": 18,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-2", "scenario-3", "scenario-4"],
+      "I02": ["scenario-1", "scenario-2", "scenario-3", "scenario-4"],
+      "I03": ["scenario-4"],
+      "I04": ["scenario-1", "scenario-4"],
+      "I05": ["scenario-1", "scenario-4"],
+      "I06": ["scenario-1", "scenario-3", "scenario-4"],
+      "I07": ["scenario-2", "scenario-4"],
+      "I08": ["scenario-1", "scenario-3", "scenario-4"],
+      "I09": ["scenario-5"],
+      "I10": ["scenario-5"],
+      "I11": ["scenario-5"],
+      "I12": ["scenario-4"],
+      "I13": ["scenario-4"],
+      "I14": ["scenario-4"],
+      "I15": ["scenario-4"],
+      "I16": [],
+      "I17": ["scenario-1"],
+      "I18": ["scenario-4"],
+      "I19": ["scenario-2"]
+    },
+    "notes": "Only I16 (keep prompts and images in version control) is not checked by any scenario. Scenarios 4 and 5 were added for the iteration cap, vague prompts, publication formats and When Not to Use boundaries."
+  }
+}

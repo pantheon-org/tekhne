@@ -1,0 +1,1 @@
+Routes machine-readable and metadata requests to the right tool and refuses to use Mathpix without full credentials.

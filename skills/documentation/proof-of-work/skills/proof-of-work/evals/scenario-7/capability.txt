@@ -1,0 +1,1 @@
+Skip evidence capture when the task is purely generative and no external state was observed.

@@ -1,0 +1,99 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 31,
+    "covered_instructions": 31,
+    "scenario_count": 11,
+    "coverage_map": {
+      "I01": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-6",
+        "scenario-7",
+        "scenario-8",
+        "scenario-10"
+      ],
+      "I02": ["scenario-4", "scenario-5", "scenario-11"],
+      "I03": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5"
+      ],
+      "I04": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-8",
+        "scenario-9"
+      ],
+      "I05": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5"
+      ],
+      "I06": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-6"
+      ],
+      "I07": [
+        "scenario-1",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-7",
+        "scenario-9"
+      ],
+      "I08": ["scenario-1", "scenario-2", "scenario-3", "scenario-4"],
+      "I09": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5"
+      ],
+      "I10": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-5",
+        "scenario-7",
+        "scenario-8"
+      ],
+      "I11": ["scenario-1", "scenario-4"],
+      "I12": ["scenario-1", "scenario-3", "scenario-4"],
+      "I13": ["scenario-2"],
+      "I14": ["scenario-5"],
+      "I15": ["scenario-5"],
+      "I16": ["scenario-3", "scenario-4"],
+      "I17": ["scenario-2"],
+      "I18": ["scenario-11"],
+      "I19": ["scenario-6"],
+      "I20": ["scenario-6"],
+      "I21": ["scenario-7"],
+      "I22": ["scenario-8"],
+      "I23": ["scenario-9"],
+      "I24": ["scenario-9"],
+      "I25": ["scenario-10"],
+      "I26": ["scenario-8"],
+      "I27": ["scenario-10"],
+      "I28": ["scenario-10"],
+      "I29": ["scenario-11"],
+      "I30": ["scenario-11"],
+      "I31": ["scenario-11"]
+    },
+    "notes": "All 31 instructions are checked by at least one scenario after adding scenarios 6 to 11; the older five scenarios cover the structure rules and the new ones cover ticket types, continuation, assets, taxonomy and scope boundaries."
+  }
+}

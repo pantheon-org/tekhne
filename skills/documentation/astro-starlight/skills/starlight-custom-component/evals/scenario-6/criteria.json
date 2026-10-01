@@ -1,0 +1,41 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Anti-Pattern Detection \u2014 Props Access.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Root cause explained (override components don't get...",
+      "description": "Root cause explained (override components don't get page data via props)",
+      "max_score": 14
+    },
+    {
+      "name": "`Astro.locals.starlightRoute.entry.data` path shown",
+      "description": "`Astro.locals.starlightRoute.entry.data` path shown",
+      "max_score": 14
+    },
+    {
+      "name": "TypeScript type hint optional but appreciated",
+      "description": "TypeScript type hint optional but appreciated",
+      "max_score": 14
+    },
+    {
+      "name": "Avoids: Does not explain why `Astro.props.title` is undefined",
+      "description": "Failure avoided: Does not explain why `Astro.props.title` is undefined",
+      "max_score": 14
+    },
+    {
+      "name": "Avoids: Does not provide the `Astro.locals.starlightRoute.entry.data.title` path as...",
+      "description": "Failure avoided: Does not provide the `Astro.locals.starlightRoute.entry.data.title` path as the fix",
+      "max_score": 14
+    },
+    {
+      "name": "Step: Explains that override components don't receive page...",
+      "description": "Explains that override components don't receive page data as props",
+      "max_score": 14
+    },
+    {
+      "name": "Step: Provides correct path: `Astro.locals.starlightRoute.entry.data.title`",
+      "description": "Provides correct path: `Astro.locals.starlightRoute.entry.data.title`",
+      "max_score": 16
+    }
+  ]
+}

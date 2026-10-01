@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add Block IDs to Sprint Task List Items.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Block IDs on separate lines after list",
+      "description": "The block ID(s) appear on a separate line after the list block, not appended inline to a list item (e.g., `- Item ^id` is incorrect; the ID must be on its own line after the list)",
+      "max_score": 11
+    },
+    {
+      "name": "Block ID format is valid",
+      "description": "Block IDs use only letters, numbers, and hyphens (e.g., `^auth-task`, `^ci-cd-task`) \u2014 no spaces or special characters",
+      "max_score": 11
+    },
+    {
+      "name": "Block reference syntax demonstrated",
+      "description": "The example reference uses `[[sprint-tasks#^block-id]]` or `[[sprint-tasks-updated#^block-id]]` syntax (note name + `#^` + block ID inside wikilink)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Block IDs are appended inline to the...",
+      "description": "Failure avoided: Block IDs are appended inline to the list item (e.g., `- Implement user authentication ^auth-task`) instead of on a separate line",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Block IDs contain spaces or special characters...",
+      "description": "Failure avoided: Block IDs contain spaces or special characters that make them invalid",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: The example block reference does not use...",
+      "description": "Failure avoided: The example block reference does not use `[[note-name#^block-id]]` syntax",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Add block IDs on separate lines after...",
+      "description": "Add block IDs on separate lines after the list block, not appended inline to a list item (e.g., `- Item ^id` is incorrect; the ID must be on its own line after the list)",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Use only letters, numbers, and hyphens in...",
+      "description": "Use only letters, numbers, and hyphens in block IDs (e.g., `^auth-task`, `^ci-cd-task`) \u2014 no spaces or special characters",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Demonstrate the block reference syntax using `[[sprint-tasks#^block-id]]`...",
+      "description": "Demonstrate the block reference syntax using `[[sprint-tasks#^block-id]]` or `[[sprint-tasks-updated#^block-id]]` (note name + `#^` + block ID inside wikilink)",
+      "max_score": 12
+    }
+  ]
+}

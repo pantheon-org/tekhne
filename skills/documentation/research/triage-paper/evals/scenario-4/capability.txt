@@ -1,0 +1,1 @@
+Checks that promotion follows the analysis template, updates the disposition and validates the result.

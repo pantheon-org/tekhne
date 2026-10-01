@@ -1,0 +1,66 @@
+{
+  "context": "Tests confirmed vendoring and promotion: submodule path, analysis template, repro file, disposition update and validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Vendoring done after confirmation",
+      "description": "Runs git submodule add into tools/clawvault only because the user has just confirmed",
+      "max_score": 8
+    },
+    {
+      "name": "Submodule path correct",
+      "description": "Uses tools/<repo-name>/ as the submodule path",
+      "max_score": 6
+    },
+    {
+      "name": "local_clone set relatively",
+      "description": "Sets local_clone in the reference and analysis frontmatter to a path relative to the document, going up one level into tools/",
+      "max_score": 10
+    },
+    {
+      "name": "Analysis template read",
+      "description": "Reads assets/templates/ANALYSIS-tool.yaml before writing the analysis",
+      "max_score": 6
+    },
+    {
+      "name": "Analysis file created",
+      "description": "Creates analysis/ANALYSIS-versatly-clawvault.md",
+      "max_score": 10
+    },
+    {
+      "name": "Frontmatter present",
+      "description": "Each new file opens with a --- YAML block before any prose",
+      "max_score": 10
+    },
+    {
+      "name": "Disposition updated",
+      "description": "REVIEWED.md disposition changes from pending to analysis",
+      "max_score": 10
+    },
+    {
+      "name": "Repro file created",
+      "description": "Creates benchmarks/sources/versatly-clawvault-repro.md from the REPRO template",
+      "max_score": 10
+    },
+    {
+      "name": "Harness found in benchmarks first",
+      "description": "Checks benchmarks/ first and records it, with harness_present: true and a relative harness_path",
+      "max_score": 10
+    },
+    {
+      "name": "Outcome is an allowed value",
+      "description": "Sets outcome to one of verified, partially verified, attempted \u2014 inconclusive, repro guide (not run), or stub \u2014 no harness found",
+      "max_score": 6
+    },
+    {
+      "name": "Validators run",
+      "description": "Runs ./scripts/validate-reference-tool.sh and ./scripts/validate-analysis-tool.sh",
+      "max_score": 8
+    },
+    {
+      "name": "Results marked as reported",
+      "description": "Any benchmark figures in the analysis are marked (as reported) unless the harness was actually run",
+      "max_score": 6
+    }
+  ]
+}

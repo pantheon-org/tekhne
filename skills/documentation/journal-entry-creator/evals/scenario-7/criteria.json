@@ -1,0 +1,56 @@
+{
+  "context": "Tests that refinement entries hold a draft description and the skill never edits the ticket.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chose the ticket-refinement type",
+      "description": "The agent selects ticket-refinement.yaml and reads it before generating.",
+      "max_score": 10
+    },
+    {
+      "name": "refinement_ticket in frontmatter",
+      "description": "The frontmatter has `refinement_ticket: PROJ-2210`, not `jira_ticket`.",
+      "max_score": 12
+    },
+    {
+      "name": "ticket-refinement tag present",
+      "description": "The tags include `ticket-refinement`.",
+      "max_score": 8
+    },
+    {
+      "name": "Proposed Ticket Description section",
+      "description": "The entry has a `## Proposed Ticket Description` section.",
+      "max_score": 14
+    },
+    {
+      "name": "Description inside a fenced block with a language",
+      "description": "The amended description sits in a fenced `markdown` code block so inner headings do not become document headings.",
+      "max_score": 12
+    },
+    {
+      "name": "Draft line present",
+      "description": "The section opens with a `Draft for PROJ-2210 - review before applying; not yet applied.` style line.",
+      "max_score": 10
+    },
+    {
+      "name": "Did not edit the ticket",
+      "description": "The agent does not write the description to Jira, even though the user asked and a connection exists.",
+      "max_score": 16
+    },
+    {
+      "name": "Explained the refusal",
+      "description": "The agent says the skill produces a reviewable draft and that applying it is a separate, user-confirmed step.",
+      "max_score": 8
+    },
+    {
+      "name": "Description is self-contained",
+      "description": "The proposed text makes sense to a ticket reader who has not seen the entry.",
+      "max_score": 6
+    },
+    {
+      "name": "Single H1 preserved",
+      "description": "The entry still has exactly one H1 with a full date.",
+      "max_score": 4
+    }
+  ]
+}

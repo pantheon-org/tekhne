@@ -1,0 +1,1 @@
+Anti-Pattern Detection — Props Access

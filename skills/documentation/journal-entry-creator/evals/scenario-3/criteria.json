@@ -1,0 +1,126 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Article Summary Documentation Task.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Article-summary schema",
+      "description": "Shows evidence of loading article-summary.yaml template schema",
+      "max_score": 4
+    },
+    {
+      "name": "Entry type identification",
+      "description": "Correctly identified as article summary type based on URL/source context",
+      "max_score": 4
+    },
+    {
+      "name": "Article tag inclusion",
+      "description": "Includes required `article` tag in frontmatter (not video/podcast/talk)",
+      "max_score": 4
+    },
+    {
+      "name": "Directory placement",
+      "description": "File created in correct YYYY/MM-Month/DD-Weekday/ directory structure",
+      "max_score": 4
+    },
+    {
+      "name": "Filename slug format",
+      "description": "Uses lowercase slug with hyphens, no uppercase letters or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Triple date consistency",
+      "description": "Date matches exactly in filename, frontmatter date field, and H1 title",
+      "max_score": 4
+    },
+    {
+      "name": "H1 format compliance",
+      "description": "H1 uses correct `Topic - Month D, YYYY` format (not `Month DD`)",
+      "max_score": 4
+    },
+    {
+      "name": "Unique H1 heading",
+      "description": "Document has exactly one H1 heading, no multiples",
+      "max_score": 4
+    },
+    {
+      "name": "Tag synchronization",
+      "description": "Frontmatter tags array matches Tags section with pipe separators",
+      "max_score": 4
+    },
+    {
+      "name": "Hyphenated tags",
+      "description": "All tags use lowercase-hyphenated format (event-sourcing not EventSourcing)",
+      "max_score": 4
+    },
+    {
+      "name": "Code block languages",
+      "description": "Any code blocks include language specifiers, no bare backticks",
+      "max_score": 4
+    },
+    {
+      "name": "Metadata formatting",
+      "description": "Metadata block uses `Key: Value` format with proper bold formatting",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of loading the article-summary.yaml template...",
+      "description": "Failure avoided: No evidence of loading the article-summary.yaml template schema",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Entry type is misidentified (e.g., treated as...",
+      "description": "Failure avoided: Entry type is misidentified (e.g., treated as a learning entry instead of article summary)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `article` tag absent; a different tag type...",
+      "description": "Failure avoided: `article` tag absent; a different tag type (video, podcast, talk) used instead",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: File placed in wrong directory or missing...",
+      "description": "Failure avoided: File placed in wrong directory or missing the YYYY/MM-Month/DD-Weekday/ structure",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Filename slug contains uppercase letters or underscores",
+      "description": "Failure avoided: Filename slug contains uppercase letters or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Date is inconsistent between filename, frontmatter, or...",
+      "description": "Failure avoided: Date is inconsistent between filename, frontmatter, or H1 title",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: H1 uses zero-padded day (`Month 01`) instead...",
+      "description": "Failure avoided: H1 uses zero-padded day (`Month 01`) instead of `Month 1`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Document contains more than one H1 heading",
+      "description": "Failure avoided: Document contains more than one H1 heading",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Tags section does not match frontmatter array...",
+      "description": "Failure avoided: Tags section does not match frontmatter array or uses wrong separator",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any tag contains uppercase letters or camelCase...",
+      "description": "Failure avoided: Any tag contains uppercase letters or camelCase (e.g., EventSourcing)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any code block is missing a language...",
+      "description": "Failure avoided: Any code block is missing a language specifier",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Metadata block uses bullet points or unbolded...",
+      "description": "Failure avoided: Metadata block uses bullet points or unbolded keys",
+      "max_score": 8
+    }
+  ]
+}

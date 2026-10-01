@@ -1,0 +1,130 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "ALWAYS state the audience (executive, manager, compliance/legal, cross-functional) before writing.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "If the audience is unknown, write 'Audience: unknown. Applying manager-level clarity (fallback).' at the top of the output.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Define the outcome in one sentence, what the reader must decide or do, before drafting.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "ALWAYS lead with the key message: the opening must contain problem, business impact and required action, with the recommendation in sentence one.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER hide decisions; a reader who reads only the opening must still know what to do.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "ALWAYS translate or remove every specialist term; no unexplained jargon.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "ALWAYS define each acronym on first use.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Every action item MUST follow '[Owner] must [specific action] by [concrete deadline]'.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER use passive voice for owned actions.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER leave deadlines undefined; undated actions are ignored.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER present options without stating which one you recommend.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER assume prior knowledge; explain from first principles.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "For unknown terminology, define inline, for example 'TLS (the encryption protocol that keeps data private)'.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "For conflicting priorities, write 'Multiple critical issues \u2014 leading with risk and deadlines.' before the document.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "For acronym-heavy documents, extract all acronyms first with grep, define each, then draft, still leading with the key message rather than the glossary.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Run the verification checklist before finishing: acronyms defined, opening holds the decision, terms translated, actions in owner/deadline form, paragraphs scannable.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Use the layered structure: a required opening, supporting context only if needed, and an optional appendix for technical detail.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I18",
+      "content": "Keep paragraphs concise and scannable.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "Skip the skill when writing for engineers or technical specialists; apply only selective translation for mixed audiences.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "Match depth to audience: executive with zero jargon, manager with minimal jargon, compliance/legal with technology translated, cross-functional with inline definitions.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "Ask what the reader needs to decide or do, and what minimum information they need, before writing a word.",
+      "type": "mindset",
+      "why_given": "preference"
+    }
+  ]
+}

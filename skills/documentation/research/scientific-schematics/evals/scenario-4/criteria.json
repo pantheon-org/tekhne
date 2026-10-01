@@ -1,0 +1,66 @@
+{
+  "context": "Tests handling of a vague prompt, an excessive iteration count, a missing doc-type and publication-format guidance.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Vague prompt challenged",
+      "description": "Asks for or supplies specifics: flowchart type, components, flow direction, labels and style",
+      "max_score": 12
+    },
+    {
+      "name": "Doc type set to journal",
+      "description": "Passes --doc-type journal rather than relying on the default",
+      "max_score": 12
+    },
+    {
+      "name": "Default threshold risk explained",
+      "description": "Explains that the default 7.5 threshold is lower than the 8.5 journal threshold",
+      "max_score": 8
+    },
+    {
+      "name": "Iterations capped at 2",
+      "description": "Uses --iterations 2 or less and does not pass 5",
+      "max_score": 12
+    },
+    {
+      "name": "Early stop explained",
+      "description": "Explains the system stops once the quality threshold is met, so more iterations do not help",
+      "max_score": 8
+    },
+    {
+      "name": "API key checked before running",
+      "description": "Checks that ANTHROPIC_API_KEY is set in the environment before generating",
+      "max_score": 8
+    },
+    {
+      "name": "Key not hardcoded",
+      "description": "Does not place a key in a command, script or file",
+      "max_score": 6
+    },
+    {
+      "name": "Colourblind palette applied",
+      "description": "Mentions or requests the Okabe-Ito colourblind-friendly palette",
+      "max_score": 8
+    },
+    {
+      "name": "Vector or high-resolution output",
+      "description": "Recommends PDF or SVG, or at least 300 DPI raster, for the manuscript",
+      "max_score": 8
+    },
+    {
+      "name": "LaTeX inclusion",
+      "description": "Shows or mentions including the figure with \\includegraphics",
+      "max_score": 6
+    },
+    {
+      "name": "Caption guidance",
+      "description": "Says the figure needs a thorough caption defining all elements and abbreviations",
+      "max_score": 6
+    },
+    {
+      "name": "Output in figures folder",
+      "description": "Writes the output under figures/",
+      "max_score": 6
+    }
+  ]
+}

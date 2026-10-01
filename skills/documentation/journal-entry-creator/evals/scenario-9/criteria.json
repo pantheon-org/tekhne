@@ -1,0 +1,56 @@
+{
+  "context": "Tests continuation links for multi-day work and the fixed Executive Summary placement.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Created a new dated entry",
+      "description": "The agent creates a new entry dated 2026-04-10 instead of appending a paragraph to the 2026-04-09 entry.",
+      "max_score": 16
+    },
+    {
+      "name": "Did not fold work into the old entry",
+      "description": "The earlier entry's narrative is not extended with an Update (DD-MM-YYYY) paragraph.",
+      "max_score": 10
+    },
+    {
+      "name": "continues_from set on the new entry",
+      "description": "The new entry's frontmatter has `continues_from` pointing to the 2026-04-09 entry.",
+      "max_score": 12
+    },
+    {
+      "name": "continued_by set on the old entry",
+      "description": "The old entry's frontmatter gains `continued_by` pointing to the new entry, so the link is reciprocal.",
+      "max_score": 12
+    },
+    {
+      "name": "Related Entries or Superseded banner",
+      "description": "The linked entries carry the matching `## Related Entries` section or banner.",
+      "max_score": 8
+    },
+    {
+      "name": "Executive Summary exists",
+      "description": "The new entry has a `## Executive Summary` section.",
+      "max_score": 8
+    },
+    {
+      "name": "Executive Summary directly after Session Overview",
+      "description": "`## Executive Summary` is the H2 immediately following `## Session Overview`.",
+      "max_score": 14
+    },
+    {
+      "name": "Executive Summary is short and complete",
+      "description": "It covers problem, why it is non-trivial, options and the ask in a few lines.",
+      "max_score": 8
+    },
+    {
+      "name": "Single H1 and triple date sync",
+      "description": "The new entry has exactly one H1 and the date 2026-04-10 matches in filename, frontmatter and H1.",
+      "max_score": 8
+    },
+    {
+      "name": "Validator run on both entries",
+      "description": "The agent runs the validator and the reciprocal-link checks pass.",
+      "max_score": 4
+    }
+  ]
+}
