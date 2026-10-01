@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Interpreting Probe Results and Deciding Next Step.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Result correctly classified as `surprise`",
+      "description": "Agent does not misclassify as `partial` or `confirmed`.",
+      "max_score": 8
+    },
+    {
+      "name": "Correct transition selected",
+      "description": "surprise \u2192 probe-to-brainstorm-llm.md, not probe-to-investigate-llm.md.",
+      "max_score": 8
+    },
+    {
+      "name": "Thinking artifact written",
+      "description": "File created at correct path with all required sections including \"Eliminated causes.\"",
+      "max_score": 8
+    },
+    {
+      "name": "Sensed pattern identified",
+      "description": "Agent articulates what the surprise result suggests about the system (not just re-states the observation).",
+      "max_score": 8
+    },
+    {
+      "name": "Handoff token budget respected",
+      "description": "Inline handoff targets 300 tokens, hard cap 600.",
+      "max_score": 8
+    },
+    {
+      "name": "Eliminated causes documented",
+      "description": "Agent records what was ruled out so brainstorm does not re-explore it.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent classifies result as `partial` and routes...",
+      "description": "Failure avoided: Agent classifies result as `partial` and routes to re-probe instead of brainstorm.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent classifies result as `confirmed` because some...",
+      "description": "Failure avoided: Agent classifies result as `confirmed` because some requests were correctly limited.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent routes to `investigate` (probe-to-investigate-llm.md) for a...",
+      "description": "Failure avoided: Agent routes to `investigate` (probe-to-investigate-llm.md) for a surprise result.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits the thinking artifact because the...",
+      "description": "Failure avoided: Agent omits the thinking artifact because the user did not ask for it.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent fails to identify an eliminated cause...",
+      "description": "Failure avoided: Agent fails to identify an eliminated cause from the refuted prediction.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent presents raw observations without interpreting sensed...",
+      "description": "Failure avoided: Agent presents raw observations without interpreting sensed patterns.",
+      "max_score": 12
+    }
+  ]
+}

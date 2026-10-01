@@ -1,0 +1,1 @@
+Diagnose a test suite that checks internals, uses a real database in unit tests and skips hard-to-test code.

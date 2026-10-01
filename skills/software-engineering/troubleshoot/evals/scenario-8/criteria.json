@@ -1,0 +1,61 @@
+{
+  "context": "Tests: letting the domain decide the method, routing Complex problems to a probe, and recording the Cynefin transition.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Search performed",
+      "description": "The agent searches for known causes of periodic self-recovering slowdown before theorising",
+      "max_score": 10
+    },
+    {
+      "name": "Domain classified",
+      "description": "The agent classifies the problem as Complex because cause and effect cannot be established in advance",
+      "max_score": 9
+    },
+    {
+      "name": "Domain drives method",
+      "description": "The agent says a structured diagnosis alone will not work and that experiments are needed",
+      "max_score": 9
+    },
+    {
+      "name": "Probe suggested",
+      "description": "The agent routes the work to the probe skill with a falsifiable hypothesis for one of the three theories",
+      "max_score": 9
+    },
+    {
+      "name": "Strategies not mixed",
+      "description": "The agent does not claim a root cause or run OODA as if the problem were Complicated",
+      "max_score": 9
+    },
+    {
+      "name": "Theories not treated as causes",
+      "description": "The three theories are kept as hypotheses and none is declared confirmed",
+      "max_score": 9
+    },
+    {
+      "name": "Correlation avoided",
+      "description": "The agent warns against linking the slowdowns to events that merely coincide with them",
+      "max_score": 9
+    },
+    {
+      "name": "Human executes commands",
+      "description": "Any metric or log commands are for the user to run and paste back",
+      "max_score": 9
+    },
+    {
+      "name": "Cynefin transition recorded",
+      "description": "The agent notes the reclassification from Complicated to Complex for the thinking artifact",
+      "max_score": 9
+    },
+    {
+      "name": "Artifact withheld",
+      "description": "The agent does not write a root-cause artifact because no root cause is confirmed",
+      "max_score": 9
+    },
+    {
+      "name": "Empty-answer guard applied",
+      "description": "If AskUserQuestion answers are empty the agent presents a numbered text list and waits",
+      "max_score": 9
+    }
+  ]
+}

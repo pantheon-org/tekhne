@@ -1,0 +1,61 @@
+{
+  "context": "Tests: loading learnings first, qualifying briefly, and short-circuiting on a pattern match.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Learnings file read first",
+      "description": "The agent reads learnings.yaml before running any web search",
+      "max_score": 10
+    },
+    {
+      "name": "Pattern matched",
+      "description": "The agent identifies the 'module not found only in CI' entry as matching the symptom",
+      "max_score": 9
+    },
+    {
+      "name": "Fix suggested from the insight",
+      "description": "The agent suggests correcting the import casing to match the config.ts file name",
+      "max_score": 9
+    },
+    {
+      "name": "OODA skipped",
+      "description": "The agent does not start an OODA loop because a pattern matched",
+      "max_score": 9
+    },
+    {
+      "name": "Source location given",
+      "description": "The agent names src/app.ts and the import line as the location of the fault",
+      "max_score": 9
+    },
+    {
+      "name": "Brief qualification only",
+      "description": "The agent asks at most three qualifying questions covering stack, environment and recent changes",
+      "max_score": 9
+    },
+    {
+      "name": "Search still performed or justified",
+      "description": "The agent either runs a quick WebSearch to corroborate or states why the learning makes it unnecessary",
+      "max_score": 9
+    },
+    {
+      "name": "User executes the fix",
+      "description": "The agent leaves renaming or editing to the user and does not claim to have run it",
+      "max_score": 9
+    },
+    {
+      "name": "Verification requested",
+      "description": "The agent asks the user to re-run CI and confirm before closing",
+      "max_score": 9
+    },
+    {
+      "name": "Artifact written after verification",
+      "description": "The thinking artifact is written only after the fix is confirmed, with symptoms, hypotheses tested, root cause and resolution",
+      "max_score": 9
+    },
+    {
+      "name": "Learn step offered",
+      "description": "After resolution the agent asks whether to save the learning as global, project or skip",
+      "max_score": 9
+    }
+  ]
+}

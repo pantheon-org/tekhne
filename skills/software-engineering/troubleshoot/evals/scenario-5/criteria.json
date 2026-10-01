@@ -1,0 +1,81 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Performance Regression After a Code Change.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Search-first",
+      "description": "Agent searches before asking questions.",
+      "max_score": 6
+    },
+    {
+      "name": "Swap One Variable",
+      "description": "Agent applies the isolation technique to the `ProductRepository` change specifically.",
+      "max_score": 6
+    },
+    {
+      "name": "git bisect suggested",
+      "description": "Agent mentions `git bisect` or targeted diff as an isolation approach.",
+      "max_score": 6
+    },
+    {
+      "name": "Fishbone applied",
+      "description": "Agent brainstorms across at least 2-3 of the 6 M categories.",
+      "max_score": 6
+    },
+    {
+      "name": "Diagnose protocol referenced",
+      "description": "Agent uses `references/protocols/diagnose.md` for isolation steps.",
+      "max_score": 6
+    },
+    {
+      "name": "Thinking artifact",
+      "description": "Written with Hypotheses tested section showing what was ruled out.",
+      "max_score": 6
+    },
+    {
+      "name": "OODA reserved",
+      "description": "Agent does not enter OODA before exhausting Diagnose phase.",
+      "max_score": 6
+    },
+    {
+      "name": "Learn phase offered",
+      "description": "Agent asks user whether to save the learning.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent immediately blames N+1 queries without applying...",
+      "description": "Failure avoided: Agent immediately blames N+1 queries without applying any isolation.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent skips the search phase entirely.",
+      "description": "Failure avoided: Agent skips the search phase entirely.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent does not check for empty `AskUserQuestion`...",
+      "description": "Failure avoided: Agent does not check for empty `AskUserQuestion` responses.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent enters OODA as the first investigative...",
+      "description": "Failure avoided: Agent enters OODA as the first investigative step.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Thinking artifact is missing the Hypotheses tested...",
+      "description": "Failure avoided: Thinking artifact is missing the Hypotheses tested section.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent does not offer the Learn phase...",
+      "description": "Failure avoided: Agent does not offer the Learn phase after resolution.",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Agent suggests only profiling tools without identifying...",
+      "description": "Failure avoided: Agent suggests only profiling tools without identifying the root cause mechanism.",
+      "max_score": 16
+    }
+  ]
+}

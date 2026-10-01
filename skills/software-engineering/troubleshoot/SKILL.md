@@ -15,16 +15,18 @@ Search-first diagnostic workflow. Human executes commands.
 
 ## ⚠️ AskUserQuestion Guard
 
-**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known Claude Code bug: outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.
+**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known harness bug: outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.
 
 **If answers are empty**: DO NOT proceed with assumptions. Instead:
-1. Output: "⚠️ Questions didn't display (known Claude Code bug outside Plan Mode)."
+1. Output: "⚠️ Questions didn't display (known harness bug outside Plan Mode)."
 2. Present the options as a **numbered text list** and ask user to reply with their choice number.
 3. WAIT for user reply before continuing.
 
 ## Workflow
 
-`0.Load → 1.Search → 2.Qualify → 3.Diagnose → 4.Investigate → 5.Persist → 6.Learn`
+```text
+0.Load → 1.Search → 2.Qualify → 3.Diagnose → 4.Investigate → 5.Persist → 6.Learn
+```
 
 ### 0. Load Learnings
 
@@ -35,6 +37,11 @@ If a project-level learnings file exists (e.g., `learnings.yaml` in the project 
 80% of bugs solved online.
 
 - WebSearch: `[error] [stack] [framework]` on SO, GitHub, Docs, Reddit
+
+```text
+"Type 'string | undefined' is not assignable to type 'string'" typescript
+```
+
 - Solution found → skip to 5.Learn
 
 ### 2. Qualify (2-3 questions)
@@ -50,7 +57,14 @@ See `references/protocols/diagnose.md` for details.
 
 1. **Mental models**: Check learnings file → WebSearch pattern → reason with 5 Whys/Fishbone
 2. **Isolation**: Wolf Fence (binary search), swap one variable, minimal repro
-3. **Root cause drill**: 5 Whys, Fishbone 6 M's
+
+```bash
+git bisect start
+git bisect bad HEAD
+git bisect good <last-known-good-sha>
+```
+
+1. **Root cause drill**: 5 Whys, Fishbone 6 M's
 
 Pattern matches → suggest fix, skip OODA
 
@@ -113,11 +127,68 @@ After resolution, AskUserQuestion: "Save this learning?"
 
 ## Anti-Patterns
 
-- **NEVER jump to a fix without reproducing the issue** — Untested fixes introduce regressions. **Why:** Reproduction confirms you're solving the actual problem, not a symptom.
-- **NEVER ignore the source code location step** — All investigations must end with a specific file and line. **Why:** Vague "somewhere in the auth module" diagnoses cannot be verified or code-reviewed.
-- **NEVER treat correlation as causation** — Two events occurring together don't mean one causes the other. **Why:** Fixing the correlated symptom leaves the root cause intact.
-- **NEVER skip the search step** — Searching external sources first avoids reinventing known solutions. **Why:** 80% of bugs have documented answers; skipping search wastes diagnostic cycles.
-- **NEVER persist a thinking artifact before root cause is confirmed** — Premature writes capture incomplete hypotheses as conclusions. **Why:** Misleading learnings files cause the same misdiagnosis in future sessions.
+### NEVER jump to a fix without reproducing the issue
+
+**WHY:** Reproduction confirms you are solving the actual problem, not a symptom; untested fixes introduce regressions.
+
+**BAD:** "Roll back the SDK upgrade" on the strength of a support ticket.
+**GOOD:** Reproduce the failure first, then change one variable and observe.
+
+### NEVER ignore the source code location step
+
+**WHY:** Vague "somewhere in the auth module" diagnoses cannot be verified or code-reviewed.
+
+**BAD:** "The problem is in the user service."
+**GOOD:** "Root cause at `src/api/auth.ts:142`: token expiry not caught."
+
+### NEVER treat correlation as causation
+
+**WHY:** Fixing the correlated symptom leaves the root cause intact.
+
+**BAD:** Blame the deploy because errors started the same afternoon.
+**GOOD:** Isolate with a swapped variable or `git bisect` before naming a cause.
+
+### NEVER skip the search step
+
+**WHY:** About 80% of bugs have documented answers; skipping search wastes diagnostic cycles.
+
+**BAD:** Ask five qualifying questions before running any search.
+**GOOD:** WebSearch the error, stack and framework first, then qualify.
+
+### NEVER persist a thinking artifact before root cause is confirmed
+
+**WHY:** Premature writes capture incomplete hypotheses as conclusions, and misleading notes repeat the misdiagnosis in future sessions.
+
+**BAD:** Write the artifact mid-investigation because someone wants a write-up.
+**GOOD:** Write it once the root cause is confirmed and the fix is verified.
+
+### NEVER proceed on empty AskUserQuestion answers
+
+**WHY:** An empty answer means the question was never shown, so any assumption replaces the user's reply.
+
+**BAD:** Treat blank answers as "no recent changes" and continue.
+**GOOD:** Present a numbered text list and wait for the user's choice.
+
+### NEVER enter OODA before diagnosis is exhausted
+
+**WHY:** Pattern matching, isolation and root cause drilling resolve many bugs cheaply; OODA costs the user a round trip per loop.
+
+**BAD:** Ask the user to run a new command as the first step.
+**GOOD:** Run mental models, isolation and the root cause drill first, and hand to OODA only when they are inconclusive.
+
+### NEVER run the user's commands for them
+
+**WHY:** The workflow is human-executed; the user holds the access and must see what runs in their environment.
+
+**BAD:** Claim to have restarted the service or run the migration.
+**GOOD:** Give the command and ask the user to run it and paste the output.
+
+### NEVER mix Complicated and Complex strategies
+
+**WHY:** Complex problems cannot be diagnosed in advance, so forcing a root-cause hunt produces confident but wrong answers.
+
+**BAD:** Declare a cause for a problem whose three competing theories have all failed before.
+**GOOD:** Reclassify as Complex, note the Cynefin transition and route to a probe.
 
 ## Usage Examples
 
@@ -144,14 +215,11 @@ After resolution, AskUserQuestion: "Save this learning?"
 Before responding to user, verify:
 - [ ] Artifact written (or skipped if no store configured)
 
-## Refs
-
-- `references/protocols/diagnose.md` - Mental models, bisect strategies
-- `references/protocols/search-multi-source.md` - Multi-source search workflow
-- `references/reference.md` - Isolation techniques and root cause methods
-
 ## References
 
-- [Reference](references/reference.md) — isolation techniques (Wolf Fence, Swap One Variable, Minimal Repro), root cause drilling (5 Whys, Fishbone), OODA loop
-- [Diagnose Protocol](references/protocols/diagnose.md) — mental model matching, isolation sequence, root cause drill, OODA handoff conditions
-- [Search Multi-Source Protocol](references/protocols/search-multi-source.md) — query construction, source priority (SO, GitHub Issues, Docs, Reddit), no-result fallback
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Isolation and root cause | [references/reference.md](references/reference.md) | Wolf Fence, Swap One Variable, Minimal Repro, 5 Whys, Fishbone, OODA loop |
+| Diagnose protocol | [references/protocols/diagnose.md](references/protocols/diagnose.md) | Mental model matching, isolation sequence, OODA handoff conditions |
+| Multi-source search | [references/protocols/search-multi-source.md](references/protocols/search-multi-source.md) | Query construction, source priority and the no-result fallback |
+| Handoff to framing | [references/troubleshoot-to-frame-problem-llm.md](references/troubleshoot-to-frame-problem-llm.md) | Passing an unresolved problem to frame-problem |

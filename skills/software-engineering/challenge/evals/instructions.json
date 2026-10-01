@@ -1,0 +1,118 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "After EVERY AskUserQuestion call, check whether the answers are empty or blank.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "If answers are empty, DO NOT proceed with assumptions: output the warning, present the options as a numbered text list and WAIT for the user's reply.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Parse the first word of $ARGUMENTS as the subcommand.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I04",
+      "content": "For anchor, read references/protocols/anchor.md and execute it.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I05",
+      "content": "For verify, read references/protocols/verify.md and execute it.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I06",
+      "content": "For framing, read references/protocols/framing.md and execute it.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I07",
+      "content": "For deep, spawn a devil's advocate sub-agent via the Agent tool.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "With no subcommand, use AskUserQuestion with the four options (anchoring, factual accuracy, framing, high stakes).",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "Dispatch to the subcommand matching the user's answer.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "DO NOT pass the parent conversation's reasoning to the deep sub-agent; fresh context is the point.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "The deep sub-agent runs all 9 patterns across anchor, verify and framing comprehensively.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "For every finding make reasoning explicit: Observation, Technique family and pattern, Reasoning, Confidence.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Produce a structured Challenge Report for all subcommands, not prose.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER challenge without the anchor protocol first; establish shared facts before disagreement.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER challenge the person, only the proposal.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER issue a challenge without proposing an alternative.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER run deep on a trivial or low-stakes target.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER suppress or soften findings to avoid conflict.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "Do not run a challenge when the same subcommand was already run on the same target with no new evidence, or when the stakes are low and time is under five minutes.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

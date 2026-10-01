@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Apply OCP by Introducing an Abstraction.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "IReportFormatter interface produced",
+      "description": "`IReportFormatter.ts` exists and exports an interface with at least a `format` or `export` method that takes data and returns a string",
+      "max_score": 10
+    },
+    {
+      "name": "Three format implementations produced",
+      "description": "`CsvFormatter.ts`, `JsonFormatter.ts`, and `TsvFormatter.ts` each exist and implement `IReportFormatter`",
+      "max_score": 10
+    },
+    {
+      "name": "Refactored ReportExporter contains no format-specific logic",
+      "description": "`ReportExporter.ts` has no `if/else` or `switch` on format string; it only delegates to the injected `IReportFormatter`",
+      "max_score": 10
+    },
+    {
+      "name": "ReportExporter accepts formatter via constructor or method parameter",
+      "description": "`ReportExporter.ts` receives an `IReportFormatter` instance as a constructor parameter or method argument",
+      "max_score": 10
+    },
+    {
+      "name": "ocp-analysis.md correctly explains the violation and fix",
+      "description": "`ocp-analysis.md` identifies the `if/else` chain as the violation and explains that the abstraction allows adding formats without editing existing files",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `IReportFormatter.ts` is missing or has no `format`/`export`...",
+      "description": "Failure avoided: `IReportFormatter.ts` is missing or has no `format`/`export` method",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any of the three formatter files is...",
+      "description": "Failure avoided: Any of the three formatter files is missing or does not implement `IReportFormatter`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Refactored `ReportExporter.ts` still contains `if/else` or `switch`...",
+      "description": "Failure avoided: Refactored `ReportExporter.ts` still contains `if/else` or `switch` on a format string",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `ReportExporter.ts` does not accept an `IReportFormatter` via...",
+      "description": "Failure avoided: `ReportExporter.ts` does not accept an `IReportFormatter` via constructor or method parameter",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `ocp-analysis.md` is missing or does not identify...",
+      "description": "Failure avoided: `ocp-analysis.md` is missing or does not identify the if/else chain as the OCP violation",
+      "max_score": 10
+    }
+  ]
+}

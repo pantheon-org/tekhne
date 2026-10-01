@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Probing a User Behaviour Hypothesis.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Probe type correctly classified",
+      "description": "Agent identifies this as a `design` probe (behavioural/stakeholder signal).",
+      "max_score": 8
+    },
+    {
+      "name": "Read-only or minimal footprint",
+      "description": "Phase 2 does not build the full feature or commit production code.",
+      "max_score": 8
+    },
+    {
+      "name": "Reversibility constraint stated",
+      "description": "Agent names what cannot be changed (no user-facing changes before hypothesis is validated).",
+      "max_score": 8
+    },
+    {
+      "name": "Confirm/refute criteria include surprise signal",
+      "description": "Agent defines what an unexpected result would look like.",
+      "max_score": 8
+    },
+    {
+      "name": "Entry gate confirmed",
+      "description": "Phase 2 does not begin without user approval.",
+      "max_score": 8
+    },
+    {
+      "name": "Thinking artifact written",
+      "description": "Result persisted with hypothesis, observations, sensed patterns, and result classification.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent builds the full retention feature before...",
+      "description": "Failure avoided: Agent builds the full retention feature before validating the hypothesis.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent classifies probe type as `integration` or...",
+      "description": "Failure avoided: Agent classifies probe type as `integration` or `architecture` for a behavioural probe.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent defines only a confirmed criterion and...",
+      "description": "Failure avoided: Agent defines only a confirmed criterion and omits refuted and surprise signals.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips the entry gate because the...",
+      "description": "Failure avoided: Agent skips the entry gate because the hypothesis seems obviously true.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not write a thinking artifact...",
+      "description": "Failure avoided: Agent does not write a thinking artifact after Phase 2.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent runs Phase 2 without worktree isolation...",
+      "description": "Failure avoided: Agent runs Phase 2 without worktree isolation or equivalent containment.",
+      "max_score": 12
+    }
+  ]
+}

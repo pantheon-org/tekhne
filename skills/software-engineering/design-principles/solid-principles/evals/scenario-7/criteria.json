@@ -1,0 +1,56 @@
+{
+  "context": "Checks the response keeps SOLID to class-level work, routes the other questions elsewhere and uses the documented searches.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Declines the service boundary question",
+      "description": "The response says service and module boundary decisions are outside this skill and points to clean-architecture.",
+      "max_score": 14
+    },
+    {
+      "name": "Declines the pattern choice",
+      "description": "The response says choosing between structural patterns is outside this skill and points to design-patterns.",
+      "max_score": 14
+    },
+    {
+      "name": "Does not decide the boundary or pattern anyway",
+      "description": "The response does not make the boundary or Strategy-versus-Decorator decision itself.",
+      "max_score": 8
+    },
+    {
+      "name": "Still answers the SOLID part",
+      "description": "The response proceeds with the class-level scan request.",
+      "max_score": 8
+    },
+    {
+      "name": "SRP search run",
+      "description": "The response searches for classes mixing concerns, for example `class.*Service.*Repository|class.*Manager.*Handler`.",
+      "max_score": 10
+    },
+    {
+      "name": "OCP search run",
+      "description": "The response searches for type checks such as `instanceof|typeof.*==|switch.*type`.",
+      "max_score": 10
+    },
+    {
+      "name": "DIP search run",
+      "description": "The response searches for concrete instantiation such as `new [A-Z].*Repository\\(|new [A-Z].*Service\\(`.",
+      "max_score": 10
+    },
+    {
+      "name": "Treats search hits as candidates",
+      "description": "The response states matches are candidates to inspect, not confirmed violations.",
+      "max_score": 8
+    },
+    {
+      "name": "Reports findings in the violation and refactor format",
+      "description": "Any finding uses the Violation / Refactor (/ Validation) format.",
+      "max_score": 10
+    },
+    {
+      "name": "Searches are scoped to src",
+      "description": "All searches target `src`.",
+      "max_score": 8
+    }
+  ]
+}

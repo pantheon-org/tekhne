@@ -1,0 +1,56 @@
+{
+  "context": "Tests: removing static calls, singletons and direct time access (hidden dependencies) from business logic.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Inventory abstracted behind an interface",
+      "description": "`OrderProcessor` calls an injected inventory interface instead of the static `InventoryChecker.isAvailable`",
+      "max_score": 10
+    },
+    {
+      "name": "Payment injected",
+      "description": "`new PaymentService()` no longer appears in `process`; a payment gateway interface is received through the constructor",
+      "max_score": 10
+    },
+    {
+      "name": "Notification singleton removed",
+      "description": "`NotificationService.getInstance()` is replaced by an injected notification port",
+      "max_score": 10
+    },
+    {
+      "name": "Clock injected",
+      "description": "`new Date()` is replaced by an injected `Clock` (or equivalent) so the timestamp is deterministic in tests",
+      "max_score": 10
+    },
+    {
+      "name": "All dependencies in the constructor",
+      "description": "The constructor lists every collaborator, with no hidden dependencies left in method bodies",
+      "max_score": 10
+    },
+    {
+      "name": "No static or singleton access remains",
+      "description": "The refactored file contains no static calls or `getInstance()` for behaviour",
+      "max_score": 10
+    },
+    {
+      "name": "Behaviour preserved",
+      "description": "The order is still only charged and confirmed when inventory is available, and `processedAt` is still set",
+      "max_score": 10
+    },
+    {
+      "name": "Unit test uses simple doubles",
+      "description": "The test passes a stub, fake or spy through the constructor and needs no static-mocking library",
+      "max_score": 10
+    },
+    {
+      "name": "Fixed clock used in the test",
+      "description": "The test supplies a fixed time and asserts the exact `processedAt` value",
+      "max_score": 10
+    },
+    {
+      "name": "Does not weaken the design",
+      "description": "The answer fixes the coupling rather than adding a test-only hook, flag or global override",
+      "max_score": 10
+    }
+  ]
+}

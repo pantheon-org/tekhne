@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: \"Poke Holes in This Plan\" \u2014 General Challenge with No-Subcommand Fallback.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No-subcommand fallback triggered",
+      "description": "Agent does not attempt to map \"poke holes\" to a subcommand directly.",
+      "max_score": 8
+    },
+    {
+      "name": "AskUserQuestion called",
+      "description": "Agent presents the four-option clarification question.",
+      "max_score": 8
+    },
+    {
+      "name": "AskUserQuestion guard",
+      "description": "Agent checks for empty answers and falls back to numbered list if needed.",
+      "max_score": 8
+    },
+    {
+      "name": "Correct dispatch on answer",
+      "description": "Agent dispatches to the subcommand matching the user's selection.",
+      "max_score": 8
+    },
+    {
+      "name": "Protocol executed",
+      "description": "Agent reads and follows the matching protocol file.",
+      "max_score": 8
+    },
+    {
+      "name": "Report produced",
+      "description": "Structured Challenge Report output, not free-form commentary.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent arbitrarily maps \"poke holes\" to a...",
+      "description": "Failure avoided: Agent arbitrarily maps \"poke holes\" to a specific subcommand without asking the user.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips `AskUserQuestion` and launches a protocol...",
+      "description": "Failure avoided: Agent skips `AskUserQuestion` and launches a protocol immediately.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not check for empty answers...",
+      "description": "Failure avoided: Agent does not check for empty answers after `AskUserQuestion`.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent proceeds with assumptions when answers are...",
+      "description": "Failure avoided: Agent proceeds with assumptions when answers are empty.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent produces a bulleted list of concerns...",
+      "description": "Failure avoided: Agent produces a bulleted list of concerns without using the structured Challenge Report format.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits the Verdict and Recommended Action...",
+      "description": "Failure avoided: Agent omits the Verdict and Recommended Action sections from the report.",
+      "max_score": 12
+    }
+  ]
+}

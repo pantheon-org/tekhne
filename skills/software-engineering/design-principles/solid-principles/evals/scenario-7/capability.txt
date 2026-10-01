@@ -1,0 +1,1 @@
+Hand architectural and pattern questions to the right skills while using text searches to find class-level SOLID violations.

@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: TypeScript Compilation Error.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Search-first",
+      "description": "Agent performs WebSearch before asking qualifying questions.",
+      "max_score": 7
+    },
+    {
+      "name": "Query construction",
+      "description": "Search query includes the exact error message, \"TypeScript\", and version if known.",
+      "max_score": 7
+    },
+    {
+      "name": "AskUserQuestion guard",
+      "description": "Agent checks for empty answers and falls back to numbered list.",
+      "max_score": 7
+    },
+    {
+      "name": "Diagnose protocol referenced",
+      "description": "Agent reads `references/protocols/diagnose.md` if pattern match not found online.",
+      "max_score": 7
+    },
+    {
+      "name": "Concrete fix suggested",
+      "description": "Agent provides a specific TypeScript code change, not generic advice.",
+      "max_score": 7
+    },
+    {
+      "name": "Thinking artifact",
+      "description": "Agent writes the artifact after resolution (or skips silently if no store configured).",
+      "max_score": 7
+    },
+    {
+      "name": "Learn phase",
+      "description": "Agent asks user whether to save the learning.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent asks qualifying questions before attempting WebSearch.",
+      "description": "Failure avoided: Agent asks qualifying questions before attempting WebSearch.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent provides a generic \"add `!` non-null...",
+      "description": "Failure avoided: Agent provides a generic \"add `!` non-null assertion\" without verifying it applies.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips the thinking artifact step without...",
+      "description": "Failure avoided: Agent skips the thinking artifact step without confirming no store is configured.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not offer the Learn phase...",
+      "description": "Failure avoided: Agent does not offer the Learn phase after resolution.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent fails to check for empty `AskUserQuestion`...",
+      "description": "Failure avoided: Agent fails to check for empty `AskUserQuestion` responses.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent performs only one search iteration when...",
+      "description": "Failure avoided: Agent performs only one search iteration when results are inconclusive.",
+      "max_score": 16
+    }
+  ]
+}

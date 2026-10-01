@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Factual Claim Needs Verification \u2014 Verify Dispatch.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Verify dispatch",
+      "description": "Agent dispatches to verify subcommand without presenting options to the user.",
+      "max_score": 7
+    },
+    {
+      "name": "Protocol file read",
+      "description": "Agent reads `references/protocols/verify.md` before executing.",
+      "max_score": 7
+    },
+    {
+      "name": "Proof Demand applied",
+      "description": "Claims are classified as Sourced/Unsourced/Contradicted.",
+      "max_score": 7
+    },
+    {
+      "name": "CoVe applied",
+      "description": "Independent verification questions are generated and answered separately.",
+      "max_score": 7
+    },
+    {
+      "name": "Fact Check List applied",
+      "description": "Atomic assertions listed with confidence ratings.",
+      "max_score": 7
+    },
+    {
+      "name": "Verification actions",
+      "description": "At least one concrete verification action provided for uncertain claims.",
+      "max_score": 7
+    },
+    {
+      "name": "Report structure",
+      "description": "Challenge Report follows format from `references/reference.md`.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips reading `references/protocols/verify.md`.",
+      "description": "Failure avoided: Agent skips reading `references/protocols/verify.md`.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent applies only one or two of...",
+      "description": "Failure avoided: Agent applies only one or two of the three verify patterns.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent marks the claim as correct without...",
+      "description": "Failure avoided: Agent marks the claim as correct without independent verification.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: CoVe step answers questions by referencing the...",
+      "description": "Failure avoided: CoVe step answers questions by referencing the original claim rather than independently.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent produces a generic \"let me check...",
+      "description": "Failure avoided: Agent produces a generic \"let me check that\" response without structured output.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent omits the Contradicted classification despite the...",
+      "description": "Failure avoided: Agent omits the Contradicted classification despite the claim being demonstrably false.",
+      "max_score": 16
+    }
+  ]
+}

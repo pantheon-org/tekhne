@@ -163,8 +163,11 @@ rg -n "new [A-Z].*Repository\(|new [A-Z].*Service\(" src
 
 ## References
 
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Step-by-step review questions, output format and candidate searches | [references/review-checklist.md](references/review-checklist.md) | Running a full SOLID review |
+
 SOLID principles are tactical class-level design rules. For architectural decisions (boundaries, modules, dependencies), use the clean-architecture skill.
 
-For detailed SOLID guidance, see the software-design-principles hub (references/detailed-examples.md, references/anti-patterns-and-frameworks.md).
 - [Martin Fowler on SOLID](https://martinfowler.com/bliki/BeckDesignRules.html)
 - [Uncle Bob SOLID Papers](https://fi.ort.edu.uy/innovaportal/file/2032/1/design_principles.pdf)

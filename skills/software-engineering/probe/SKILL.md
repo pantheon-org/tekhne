@@ -19,10 +19,10 @@ Check for handoff context: if `$ARGUMENTS` references a `probe-to-probe-llm.md` 
 
 ## ⚠️ AskUserQuestion Guard
 
-**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known Claude Code bug: outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.
+**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known harness bug: outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.
 
 **If answers are empty**: DO NOT proceed with assumptions. Instead:
-1. Output: "⚠️ Questions didn't display (known Claude Code bug outside Plan Mode)."
+1. Output: "⚠️ Questions didn't display (known harness bug outside Plan Mode)."
 2. Present the options as a **numbered text list** and ask user to reply with their choice number.
 3. WAIT for user reply before continuing.
 
@@ -60,7 +60,8 @@ Criteria must be defined before Phase 2 executes. Gate on this.
 ### 1.4 Present probe plan
 
 Output:
-```
+
+```text
 🔬 Probe → [constraints] → [steps] → [expected patterns] → [confirm/refute criteria] → GATE
 ```
 
@@ -102,6 +103,11 @@ Write probe result to a thinking artifact file in your configured workspace (e.g
 
 **Collision handling**: If filename exists, append sequence: `{date}-{slug}-2-llm.md`, `{date}-{slug}-3-llm.md`, etc. First write gets clean name.
 
+```text
+thinking/probes/{project}/{date}-{slug}-llm.md
+thinking/probes/{project}/{date}-{slug}-2-llm.md
+```
+
 **Guard**: If workspace root is not configured, warn user and skip artifact persistence.
 
 Content: hypothesis + enabling constraints + steps taken + observations + sensed patterns + result classification.
@@ -125,6 +131,13 @@ Self-transition: if result is `partial` and hypothesis can be sharpened, re-invo
 
 ---
 
+## Philosophy
+
+- Probe to sense patterns, not to prove: one successful probe is a weak signal, not a decision.
+- Keep every probe safe to fail: time-boxed, reversible and isolated from production state.
+- Define what confirms, refutes and surprises before running anything, so results cannot be bent to fit the hypothesis.
+- Change the hypothesis after a refutation instead of repeating the same experiment.
+
 ## When to Use
 
 - The problem space is in the **Cynefin Complex domain**: cause-and-effect relationships are only visible in retrospect, not in advance.
@@ -143,11 +156,68 @@ Self-transition: if result is `partial` and hypothesis can be sharpened, re-invo
 
 ## Anti-Patterns
 
-- **NEVER run a probe with production traffic** — Probes are designed to fail safely; production failures are not safe. **Why:** The value of a probe is learning at low cost; exposing real users to experimental code defeats this.
-- **NEVER treat probe results as proof** — A probe that works in isolation doesn't prove the approach scales. **Why:** Complex domains by definition resist confirmation; one successful probe is a weak signal, not a decision.
-- **NEVER design an irreversible probe** — If a probe cannot be rolled back, it's not a probe — it's a bet. **Why:** Reversibility is the core property that makes probing safe; irreversible probes transfer all risk back to the team.
-- **NEVER skip Phase 1 qualification** — Running an experiment without defined confirm/refute criteria produces noise, not signal. **Why:** Without pre-defined criteria, confirmation bias dominates and results are interpreted to fit the hypothesis rather than test it.
-- **NEVER carry a failed hypothesis forward unchanged** — If a probe is refuted, the hypothesis must change before re-probing. **Why:** Re-running the same experiment expecting different results is not probing — it is wishful thinking.
+### NEVER run a probe with production traffic
+
+**WHY:** The value of a probe is learning at low cost; exposing real users to experimental code defeats this.
+
+**BAD:** Route 10% of live customer requests to the experimental code path.
+**GOOD:** Shadow the calls or run against staging with synthetic data.
+
+### NEVER treat probe results as proof
+
+**WHY:** Complex domains resist confirmation; one successful probe is a weak signal, not a decision.
+
+**BAD:** "It worked once in isolation, so the approach scales."
+**GOOD:** Record the result as `confirmed` and hand it to investigate for expert analysis.
+
+### NEVER design an irreversible probe
+
+**WHY:** Reversibility is the core property that makes probing safe; irreversible probes transfer all risk back to the team.
+
+**BAD:** Run a destructive schema migration on shared data to see what happens.
+**GOOD:** Use a staging branch or feature flag that can be rolled back.
+
+### NEVER skip Phase 1 qualification
+
+**WHY:** Without pre-defined criteria, confirmation bias dominates and results are interpreted to fit the hypothesis rather than test it.
+
+**BAD:** Start executing steps before confirm/refute criteria exist.
+**GOOD:** Pass the Phase 1 entry gate with constraints and criteria agreed first.
+
+### NEVER carry a failed hypothesis forward unchanged
+
+**WHY:** Re-running the same experiment expecting different results is wishful thinking, not probing.
+
+**BAD:** Re-probe a refuted hypothesis with a slightly bigger sample.
+**GOOD:** Revise the hypothesis, or route to brainstorm, before the next probe.
+
+### NEVER proceed on empty AskUserQuestion answers
+
+**WHY:** An empty answer means the question was never shown, so any assumption replaces the user's decision.
+
+**BAD:** Treat blank answers as "Yes" and start Phase 2.
+**GOOD:** Present the options as a numbered text list and wait for the reply.
+
+### NEVER skip the thinking artifact
+
+**WHY:** The artifact is the durable record that makes handoffs and later cycles possible; without it the learning is lost.
+
+**BAD:** Go straight to the exit gate because the result seems obvious.
+**GOOD:** Write the artifact in the configured workspace before classifying and handing off.
+
+### NEVER start a probe without a hypothesis
+
+**WHY:** A probe without a falsifiable statement has nothing to confirm or refute, so it produces noise.
+
+**BAD:** Begin exploring because the topic "feels risky".
+**GOOD:** Ask the user to state the hypothesis and do not proceed until one exists.
+
+### NEVER route a result against the handoff table
+
+**WHY:** The transition encodes what the evidence supports; misrouting sends the next phase down the wrong path.
+
+**BAD:** Send a `refuted` or `surprise` result to investigate.
+**GOOD:** Send `refuted` and `surprise` to brainstorm, `confirmed` and sufficient `partial` to investigate, and `partial` needing another angle to probe.
 
 ## Usage Examples
 
@@ -191,7 +261,9 @@ Self-transition: if result is `partial` and hypothesis can be sharpened, re-invo
 
 ## References
 
-- [Probe Reference](references/reference.md) — probe types, observability format, input quality table
-- [Probe → Investigate](references/probe-to-investigate-llm.md) — handoff: confirmed/partial → Complicated
-- [Probe → Brainstorm](references/probe-to-brainstorm-llm.md) — handoff: refuted/surprise → Complex (brainstorm)
-- [Probe → Probe](references/probe-to-probe-llm.md) — handoff: partial → Complex (self-transition)
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Probe types and observability | [references/reference.md](references/reference.md) | Classifying the probe type and recording observations |
+| Probe to investigate | [references/probe-to-investigate-llm.md](references/probe-to-investigate-llm.md) | Result is `confirmed` or `partial` with enough signal |
+| Probe to brainstorm | [references/probe-to-brainstorm-llm.md](references/probe-to-brainstorm-llm.md) | Result is `refuted` or `surprise` |
+| Probe to probe | [references/probe-to-probe-llm.md](references/probe-to-probe-llm.md) | Result is `partial` and the hypothesis needs another angle |

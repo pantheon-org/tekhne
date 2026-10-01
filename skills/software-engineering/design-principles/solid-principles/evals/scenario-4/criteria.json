@@ -1,0 +1,61 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Split a Fat Interface to Satisfy ISP.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Read-only interface produced with correct methods",
+      "description": "A read-only interface file exists containing `findById`, `findAll`, and `findByFilter` \u2014 no write or admin methods",
+      "max_score": 9
+    },
+    {
+      "name": "Write interface produced with correct methods",
+      "description": "A writable interface file exists containing at minimum `save` and `delete` (and may extend or include read methods)",
+      "max_score": 9
+    },
+    {
+      "name": "Admin interface produced with correct methods",
+      "description": "An admin interface file exists containing `truncate`, `exportDump`, and `importDump` \u2014 no read or write methods",
+      "max_score": 9
+    },
+    {
+      "name": "No single-method interfaces created",
+      "description": "No produced interface contains only one method when the client that uses it always calls multiple methods from the same role group",
+      "max_score": 9
+    },
+    {
+      "name": "isp-analysis.md identifies the ISP violation correctly",
+      "description": "`isp-analysis.md` names at least one client (e.g. `ReportingService` or `AdminMigrationTool`) that was forced to depend on methods it never uses",
+      "max_score": 9
+    },
+    {
+      "name": "isp-analysis.md explains the resolution",
+      "description": "`isp-analysis.md` explains that splitting by client role means each client only depends on the interface relevant to its own usage",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Read-only interface includes `save`, `delete`, `truncate`, `exportDump`,...",
+      "description": "Failure avoided: Read-only interface includes `save`, `delete`, `truncate`, `exportDump`, or `importDump`",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Write interface is missing or contains admin...",
+      "description": "Failure avoided: Write interface is missing or contains admin methods (`truncate`, `exportDump`, `importDump`)",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Admin interface is missing or contains read...",
+      "description": "Failure avoided: Admin interface is missing or contains read or write methods",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Single-method interfaces are created for methods clients...",
+      "description": "Failure avoided: Single-method interfaces are created for methods clients always use together",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: `isp-analysis.md` is missing or does not identify...",
+      "description": "Failure avoided: `isp-analysis.md` is missing or does not identify which client was forced to depend on unused methods",
+      "max_score": 10
+    }
+  ]
+}

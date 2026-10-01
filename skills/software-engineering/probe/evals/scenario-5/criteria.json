@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Hypothesis Invalidated \u2014 Routes to Brainstorm.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Result correctly classified as `refuted`",
+      "description": "Agent does not reclassify as `partial` because the margin was small.",
+      "max_score": 8
+    },
+    {
+      "name": "Correct transition selected",
+      "description": "refuted \u2192 probe-to-brainstorm-llm.md, not probe-to-probe or probe-to-investigate.",
+      "max_score": 8
+    },
+    {
+      "name": "Eliminated causes documented",
+      "description": "Handoff explicitly states that graph DB is not the bottleneck \u2014 brainstorm must not revisit it.",
+      "max_score": 8
+    },
+    {
+      "name": "Sensed pattern articulated",
+      "description": "Agent offers an interpretation of what the refuted result implies about the actual bottleneck.",
+      "max_score": 8
+    },
+    {
+      "name": "Thinking artifact written",
+      "description": "Result persisted with all required sections.",
+      "max_score": 8
+    },
+    {
+      "name": "No re-probe suggested",
+      "description": "Agent does not propose another graph DB experiment with different parameters.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent classifies result as `partial` because \"5%...",
+      "description": "Failure avoided: Agent classifies result as `partial` because \"5% could be measurement noise\" and routes to re-probe.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent routes to investigate because the performance...",
+      "description": "Failure avoided: Agent routes to investigate because the performance bottleneck is now a Complicated question.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits eliminated causes from the handoff,...",
+      "description": "Failure avoided: Agent omits eliminated causes from the handoff, allowing brainstorm to re-explore the graph DB hypothesis.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent suggests re-running the probe with a...",
+      "description": "Failure avoided: Agent suggests re-running the probe with a larger dataset before concluding.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not articulate a sensed pattern...",
+      "description": "Failure avoided: Agent does not articulate a sensed pattern \u2014 just states \"hypothesis was wrong.\"",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips the thinking artifact because the...",
+      "description": "Failure avoided: Agent skips the thinking artifact because the probe was unsuccessful.",
+      "max_score": 12
+    }
+  ]
+}

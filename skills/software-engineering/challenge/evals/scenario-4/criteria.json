@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Full Devil's Advocate Requested \u2014 Deep Dispatch.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Deep dispatch",
+      "description": "Agent uses the Agent tool to spawn a sub-agent, not inline execution.",
+      "max_score": 8
+    },
+    {
+      "name": "Fresh context",
+      "description": "Parent conversation reasoning is NOT passed to the sub-agent.",
+      "max_score": 8
+    },
+    {
+      "name": "All 9 patterns",
+      "description": "All patterns from all three families (anchor, verify, framing) appear in the sub-agent output.",
+      "max_score": 8
+    },
+    {
+      "name": "Sub-agent reads protocols",
+      "description": "Sub-agent reads the relevant protocol files rather than improvising.",
+      "max_score": 8
+    },
+    {
+      "name": "Comprehensive report",
+      "description": "Challenge Report covers all three error types (anchoring, factual, framing).",
+      "max_score": 8
+    },
+    {
+      "name": "No inline execution",
+      "description": "Parent agent does not attempt to run the patterns itself before or after spawning.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent runs the 9 patterns inline instead...",
+      "description": "Failure avoided: Agent runs the 9 patterns inline instead of spawning a sub-agent.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent passes parent conversation reasoning to the...",
+      "description": "Failure avoided: Agent passes parent conversation reasoning to the sub-agent.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Sub-agent applies fewer than all 9 patterns.",
+      "description": "Failure avoided: Sub-agent applies fewer than all 9 patterns.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent dispatches to anchor, verify, or framing...",
+      "description": "Failure avoided: Agent dispatches to anchor, verify, or framing instead of spawning deep.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Sub-agent output covers only one or two...",
+      "description": "Failure avoided: Sub-agent output covers only one or two error families.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent presents options to the user instead...",
+      "description": "Failure avoided: Agent presents options to the user instead of directly dispatching to deep.",
+      "max_score": 12
+    }
+  ]
+}

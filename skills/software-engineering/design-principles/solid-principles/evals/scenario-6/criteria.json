@@ -1,0 +1,56 @@
+{
+  "context": "Checks the review applies SOLID where there is design pain, prefers composition to deep inheritance, and repairs the LSP contract with a Result type.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Rejects mechanical application",
+      "description": "The review says SOLID is a set of guidelines and should not be applied to every class regardless of context.",
+      "max_score": 12
+    },
+    {
+      "name": "Flags one-implementation interfaces",
+      "description": "The 22 single-implementation interfaces are identified as indirection with no benefit.",
+      "max_score": 10
+    },
+    {
+      "name": "Applies SOLID only where pain exists",
+      "description": "The review names concrete pain signals (tight coupling, change in one direction, hard to test) as the criterion for keeping an abstraction.",
+      "max_score": 10
+    },
+    {
+      "name": "Rejects the four-level hierarchy",
+      "description": "The `PremiumUser` chain is identified as fragile deep inheritance.",
+      "max_score": 10
+    },
+    {
+      "name": "Proposes composition",
+      "description": "The review proposes injecting behaviour, for example a feature-set object passed to `User`.",
+      "max_score": 12
+    },
+    {
+      "name": "Explains open for extension, closed for modification",
+      "description": "The composition proposal explains how new perks can be added without editing `User`.",
+      "max_score": 8
+    },
+    {
+      "name": "Identifies the LSP violation",
+      "description": "`CachedRepository.save()` is named as breaking the base contract.",
+      "max_score": 10
+    },
+    {
+      "name": "Explains the impact on callers",
+      "description": "The review says callers that do not catch exceptions will fail when the cache is full.",
+      "max_score": 8
+    },
+    {
+      "name": "Proposes a Result type",
+      "description": "The fix returns a Result type rather than throwing, keeping the base contract.",
+      "max_score": 12
+    },
+    {
+      "name": "Keeps abstractions that earn their place",
+      "description": "The review does not recommend removing every interface; it keeps those with real pain or multiple implementations.",
+      "max_score": 8
+    }
+  ]
+}

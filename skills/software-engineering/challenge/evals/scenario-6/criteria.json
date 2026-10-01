@@ -1,0 +1,56 @@
+{
+  "context": "Checks the challenge stays on the proposal, establishes a baseline, offers a way forward and reports findings honestly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Dispatches to framing",
+      "description": "The agent treats `framing` as the subcommand and reads the framing protocol file.",
+      "max_score": 8
+    },
+    {
+      "name": "Baseline facts stated first",
+      "description": "The report restates what the proposal is and what is agreed before disagreeing.",
+      "max_score": 10
+    },
+    {
+      "name": "Targets the proposal, not Sam",
+      "description": "No finding comments on Sam's experience, competence or motives.",
+      "max_score": 12
+    },
+    {
+      "name": "Separates proposal from proposer",
+      "description": "The report explicitly treats the proposal as the object of the challenge.",
+      "max_score": 8
+    },
+    {
+      "name": "Offers an alternative",
+      "description": "At least one concrete 'what if instead' alternative is proposed, not only objections.",
+      "max_score": 12
+    },
+    {
+      "name": "Findings are not softened",
+      "description": "Findings are stated plainly with no hedging that removes the substance.",
+      "max_score": 12
+    },
+    {
+      "name": "Findings carry transparency fields",
+      "description": "Each finding includes Observation, Technique, Reasoning and Confidence.",
+      "max_score": 10
+    },
+    {
+      "name": "Steelman included",
+      "description": "A substantive case for the proposal appears alongside the objections.",
+      "max_score": 8
+    },
+    {
+      "name": "Verdict present",
+      "description": "The report gives an assessment of Decision holds, Needs revision or Needs rejection.",
+      "max_score": 10
+    },
+    {
+      "name": "Recommended action present",
+      "description": "The report ends with a recommended action such as proceed, modify or reconsider.",
+      "max_score": 10
+    }
+  ]
+}

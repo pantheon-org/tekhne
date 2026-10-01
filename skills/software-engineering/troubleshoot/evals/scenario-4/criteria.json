@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Runtime Crash with Stack Trace.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Search-first",
+      "description": "Agent searches before qualifying.",
+      "max_score": 7
+    },
+    {
+      "name": "Stack trace parsed",
+      "description": "Agent identifies `UserService.getProfile:84` and `ProfileController.show:21` as the call chain.",
+      "max_score": 7
+    },
+    {
+      "name": "5 Whys applied",
+      "description": "Agent drills at least 3 levels from symptom to root cause.",
+      "max_score": 7
+    },
+    {
+      "name": "Thinking artifact content",
+      "description": "Artifact includes all required sections (Symptoms, Hypotheses tested, Root cause, Resolution).",
+      "max_score": 7
+    },
+    {
+      "name": "OODA if needed",
+      "description": "Agent enters OODA only after diagnosis phase is exhausted.",
+      "max_score": 7
+    },
+    {
+      "name": "Cynefin transition noted",
+      "description": "If problem was reclassified (e.g., simple \u2192 complicated), artifact records it.",
+      "max_score": 7
+    },
+    {
+      "name": "Learn phase offered",
+      "description": "Agent asks user whether to save the learning.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent immediately suggests adding a null check...",
+      "description": "Failure avoided: Agent immediately suggests adding a null check at line 84 without investigating why the value is undefined.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips the thinking artifact or writes...",
+      "description": "Failure avoided: Agent skips the thinking artifact or writes it without the required sections.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not check for empty `AskUserQuestion`...",
+      "description": "Failure avoided: Agent does not check for empty `AskUserQuestion` responses.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent enters OODA before attempting diagnosis with...",
+      "description": "Failure avoided: Agent enters OODA before attempting diagnosis with pattern matching and 5 Whys.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not offer the Learn phase...",
+      "description": "Failure avoided: Agent does not offer the Learn phase after resolution.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent provides no Cynefin transition note despite...",
+      "description": "Failure avoided: Agent provides no Cynefin transition note despite problem complexity shifting during diagnosis.",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Apply the Humble Object Pattern.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "CheckoutUseCase file produced",
+      "description": "A file named `CheckoutUseCase.ts` exists and exports a class or function named `CheckoutUseCase`",
+      "max_score": 8
+    },
+    {
+      "name": "Use case has no express/db/stripe imports",
+      "description": "`CheckoutUseCase.ts` does not import `express`, the `db` singleton, or the `stripe` singleton at the top level",
+      "max_score": 8
+    },
+    {
+      "name": "Use case accepts dependencies via constructor",
+      "description": "`CheckoutUseCase` receives its cart repository and payment gateway as constructor parameters",
+      "max_score": 8
+    },
+    {
+      "name": "Business logic in use case",
+      "description": "The total calculation (`reduce` over items) and the empty-cart validation are present in `CheckoutUseCase`, not in the controller",
+      "max_score": 8
+    },
+    {
+      "name": "Controller is thin",
+      "description": "`CheckoutController.ts` contains no arithmetic or validation logic \u2014 it only maps `req.body` to use case input and maps the output to `res.json`",
+      "max_score": 8
+    },
+    {
+      "name": "Controller delegates to use case",
+      "description": "`CheckoutController.ts` instantiates or receives a `CheckoutUseCase` and calls its `execute` (or equivalent) method",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `CheckoutUseCase.ts` is missing or does not export...",
+      "description": "Failure avoided: `CheckoutUseCase.ts` is missing or does not export `CheckoutUseCase`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `CheckoutUseCase.ts` imports `express`, `db`, or `stripe` directly",
+      "description": "Failure avoided: `CheckoutUseCase.ts` imports `express`, `db`, or `stripe` directly",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `CheckoutUseCase` does not accept dependencies via constructor,...",
+      "description": "Failure avoided: `CheckoutUseCase` does not accept dependencies via constructor, keeping hard-coded external bindings",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The total calculation or empty-cart validation remains...",
+      "description": "Failure avoided: The total calculation or empty-cart validation remains in the controller",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `CheckoutController.ts` still contains arithmetic (e.g. `reduce` over...",
+      "description": "Failure avoided: `CheckoutController.ts` still contains arithmetic (e.g. `reduce` over items) or validation logic",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `CheckoutController.ts` does not delegate to a `CheckoutUseCase`",
+      "description": "Failure avoided: `CheckoutController.ts` does not delegate to a `CheckoutUseCase`",
+      "max_score": 12
+    }
+  ]
+}

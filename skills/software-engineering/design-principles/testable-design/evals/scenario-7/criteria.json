@@ -1,0 +1,56 @@
+{
+  "context": "Tests: avoiding implementation-detail assertions, real infrastructure in unit tests and skipped tests, and treating hard-to-test code as a design problem.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Real database in a unit test flagged",
+      "description": "The review says a unit test must not connect to real Postgres and proposes a mock, stub or fake repository for unit tests",
+      "max_score": 10
+    },
+    {
+      "name": "Real database kept for integration level",
+      "description": "The review keeps real-database coverage as a separate integration test of the repository adapter",
+      "max_score": 10
+    },
+    {
+      "name": "Implementation-detail assertion flagged",
+      "description": "The review flags `spyOn(service, 'validateItems')` as testing an internal call rather than observable behaviour",
+      "max_score": 10
+    },
+    {
+      "name": "Behaviour-based assertion proposed",
+      "description": "The review proposes asserting on output or saved state given an input",
+      "max_score": 10
+    },
+    {
+      "name": "Skipped test challenged",
+      "description": "The review says the `it.skip` should not stay skipped because the code is hard to test",
+      "max_score": 10
+    },
+    {
+      "name": "Root cause named as design",
+      "description": "The review says the hard-coded SMTP client is a design problem, not a testing problem",
+      "max_score": 10
+    },
+    {
+      "name": "Injection recommended for SMTP",
+      "description": "The review recommends injecting an email interface or port for the confirmation email",
+      "max_score": 10
+    },
+    {
+      "name": "Test double type chosen with reason",
+      "description": "The review picks a mock for the email command and a stub or fake for the repository query, or explains the choice",
+      "max_score": 10
+    },
+    {
+      "name": "No test-only workaround",
+      "description": "The review does not recommend exposing private methods or adding test flags to make the old design testable",
+      "max_score": 10
+    },
+    {
+      "name": "Boundary-level guidance given",
+      "description": "The review ties the fix to testing at architectural boundaries (unit for logic, integration for adapters)",
+      "max_score": 10
+    }
+  ]
+}
