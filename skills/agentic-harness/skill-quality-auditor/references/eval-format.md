@@ -1,69 +1,111 @@
 # Eval Scenario Format
 
-All skills must use `evals/scenario-NN.md` — one Markdown file per scenario, numbered from `01`.
+Every skill keeps its evals in `evals/`, with one folder per scenario and two
+summary files at the `evals/` root. This is the layout `pantheon-skill-auditor`
+scores for D9 (Eval Validation).
 
-## Required Structure
+```text
+evals/
+  instructions.json        every instruction extracted from SKILL.md
+  summary.json             coverage of those instructions by the scenarios
+  scenario-1/
+    task.md                the prompt and the repository state
+    criteria.json          weighted checklist, sums to exactly 100
+    capability.txt         one sentence naming the capability under test
+  scenario-2/
+    ...
+```
+
+## scenario-N/task.md
 
 ```markdown
-# Scenario NN: Title
+# Scenario N: Title
 
 ## User Prompt
 
 "Exact trigger phrase the user would type."
 
-## Expected Behavior
+## Repository State
 
-1. Step the agent takes
-2. Next step
-3. ...
-
-## Success Criteria
-
-- Measurable outcome 1
-- Measurable outcome 2
-
-## Failure Conditions
-
-- What a bad agent response looks like
-- Another failure mode
+Files, flags or session state the agent starts from.
 ```
 
-All four sections are required. Success criteria must be measurable (files created, commands run, specific output verified) — never vague ("agent does well").
+Describe the situation only. Do not list the steps the agent should take or the
+outcome you expect: that belongs in `criteria.json`, and putting it in `task.md`
+leaks the answer to the agent being tested.
 
-## Quantity
-
-Minimum 5 scenarios per skill. Target 7–9 for skills with broad trigger surfaces.
-
-Cover:
-- Primary happy path
-- Edge cases and partial inputs
-- Failure / anti-pattern detection
-- At least one scenario where the skill should refuse or warn
-
-## File Naming
-
-`evals/scenario-01.md`, `evals/scenario-02.md`, … `evals/scenario-09.md`
-
-Zero-padded two digits. No gaps in numbering.
-
-## Tile.json
-
-List each scenario file in the `files` array:
+## scenario-N/criteria.json
 
 ```json
 {
-  "files": [
-    "evals/scenario-01.md",
-    "evals/scenario-02.md"
+  "context": "What this scenario tests and why.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Short label",
+      "description": "A yes/no check that is traceable to an instruction",
+      "max_score": 10
+    }
   ]
 }
 ```
 
-## Non-Standard Formats (do not use)
+- `max_score` values must sum to exactly 100. The auditor does not count a
+  scenario whose checklist sums to anything else.
+- Use 10 or more items, each a binary check, so two reviewers score the same
+  transcript the same way.
+- Include failure checks (what a bad response does), not only success checks.
 
-| Format | Problem |
-|--------|---------|
-| `evals/*.yaml` | Not linkable from tile.json `files`; diverges from markdown-first convention |
-| `evals.md` (single file) | Cannot reference individual scenarios; does not scale beyond 3–4 scenarios |
-| `evals/instructions.json` | Meta-artifact from a retired eval framework; remove if present |
-| `evals/summary.json` | Retired; remove if present |
+## scenario-N/capability.txt
+
+One sentence stating the capability under test, for example "Load the default
+stream and render the resume report directly from the parsed file."
+
+## instructions.json and summary.json
+
+`instructions.json` lists every instruction in `SKILL.md`, each with the
+original text, why it was given (`reminder`, `new knowledge`, `preference` or
+`anti-pattern`) and the dimension it supports. `summary.json` records how many
+of those the scenarios cover:
+
+```json
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 10,
+    "covered_instructions": 10,
+    "scenario_count": 6
+  }
+}
+```
+
+Coverage of 80% or more earns the full coverage points. The D1 and D3 scores
+also read `instructions.json`.
+
+## Quantity
+
+At least 3 valid scenarios (all three files present, checklist summing to 100)
+earns the scenario points. Aim for 5 or 6, covering:
+
+- the primary happy path
+- edge cases and partial inputs
+- failure and anti-pattern detection
+- at least one scenario where the skill should refuse, warn or route elsewhere
+
+## Naming
+
+Folders are `scenario-1`, `scenario-2` and so on. The auditor only requires the
+`scenario-` prefix, so keep numbering consecutive.
+
+## Legacy and non-standard formats
+
+| Format | Status |
+| --- | --- |
+| `evals/scenario-NN.md` (flat files) | Legacy. Scores nothing for scenarios, and the auditor warns to migrate to `scenario-N/` folders. An earlier repo-wide migration (#80) standardised on this; the auditor has since moved on. |
+| `evals/*.yaml` | Not scored. |
+| `evals.md` (single file) | Not scored; does not scale past three or four scenarios. |
+
+To migrate a flat file, split each `scenario-NN.md` into `task.md` (the prompt
+and state), `criteria.json` (turn Success Criteria and Failure Conditions into
+checks that sum to 100) and `capability.txt`, then add `instructions.json` and
+`summary.json`.
