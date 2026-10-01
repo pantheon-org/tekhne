@@ -9,9 +9,26 @@ description: Generates production-ready Dockerfiles with multi-stage builds, lay
 
 Generates production-ready Dockerfiles with security, optimization, and best practices built-in: multi-stage builds, security-hardened configurations, optimized layer structures, automatic validation, and iterative error fixing.
 
-## When to Use / Not Use
+## Philosophy
 
-Use for creating, generating, or optimizing Dockerfiles and containerizing applications. Do **not** use for validating existing Dockerfiles (use devops-skills:dockerfile-validator), building/running containers, debugging running containers, or managing image registries.
+- Secure and reproducible by default: pinned tags, non-root user, minimal base images, no secrets in the image.
+- Order layers so the cache does the work: dependencies before application code.
+- Every generated Dockerfile ships with a .dockerignore and is validated before delivery.
+- Iterate on validator findings instead of suppressing them, and justify any warning left in place.
+
+## When to Use
+
+- The user wants to create, generate or write a Dockerfile for Node.js, Python, Go, Java or another language.
+- The user asks to containerize an app, set up a container or optimize a Docker build.
+- A multi-stage build, layer caching or security hardening is needed.
+- A .dockerignore is needed alongside the Dockerfile.
+
+## When Not to Use
+
+- Validating an existing Dockerfile without changing it (use devops-skills:dockerfile-validator).
+- Building or running containers, or debugging a running container.
+- Managing image registries.
+- Generating Kubernetes manifests or Helm charts (use k8s-generator or helm-generator).
 
 ## Dockerfile Generation Workflow
 
@@ -41,7 +58,7 @@ Follow this workflow when generating Dockerfiles. Adapt based on user needs:
 **Research Process:**
 
 1. **Try context7 MCP first (preferred):**
-   ```
+   ```text
    Use mcp__context7__resolve-library-id with the framework name
    Examples:
    - "next.js" for Next.js applications
@@ -57,7 +74,7 @@ Follow this workflow when generating Dockerfiles. Adapt based on user needs:
    ```
 
 2. **Fallback to WebSearch if context7 fails:**
-   ```
+   ```text
    Search query pattern:
    "<framework>" "<version>" dockerfile best practices production 2025
 
@@ -138,7 +155,7 @@ For detailed templates and examples, see:
 
 **Standard .dockerignore Template:**
 
-```
+```text
 # Git
 .git
 .gitignore
@@ -224,7 +241,7 @@ build/
 **Validation Process:**
 
 1. **Invoke devops-skills:dockerfile-validator skill:**
-   ```
+   ```text
    Use the Skill tool to invoke devops-skills:dockerfile-validator
    This will run:
    - hadolint (syntax and best practices)
@@ -238,7 +255,7 @@ build/
    - Prioritize security issues
 
 3. **Expected validation output:**
-   ```
+   ```text
    [1/4] Syntax Validation (hadolint)
    [2/4] Security Scan (Checkov)
    [3/4] Best Practices Validation
@@ -273,7 +290,7 @@ build/
    - Use COPY instead of ADD
 
 **Example iteration:**
-```
+```text
 Iteration 1:
 - Error: DL3006 - Missing version tag
 - Fix: Change FROM node:alpine to FROM node:20-alpine
@@ -318,7 +335,7 @@ Iteration 3:
 4. **Optimization Metrics (REQUIRED - provide explicit estimates):**
 
    Always include a summary like this:
-   ```
+   ```text
    ## Optimization Metrics
 
    | Metric | Estimate |
@@ -337,7 +354,7 @@ Iteration 3:
 5. **Next Steps (REQUIRED - always include as bulleted list):**
 
    Always provide explicit next steps:
-   ```
+   ```text
    ## Next Steps
 
    - [ ] Test the build locally: `docker build -t myapp:1.0 .`
@@ -358,14 +375,14 @@ The `scripts/` directory contains standalone bash scripts for manual Dockerfile 
 - `generate_java.sh` - CLI tool for Java Dockerfiles
 - `generate_dockerignore.sh` - CLI tool for .dockerignore generation
 
-**Purpose:** These scripts are reference implementations and manual tools for users who want to generate Dockerfiles via command line without using Claude Code. They demonstrate the same best practices embedded in this skill.
+**Purpose:** These scripts are reference implementations and manual tools for users who want to generate Dockerfiles via command line without this skill. They demonstrate the same best practices embedded in this skill.
 
-**When using this skill:** Claude generates Dockerfiles directly using the templates and patterns documented in this skill.md, rather than invoking these scripts. The templates in this document are the authoritative source.
+**When using this skill:** the agent generates Dockerfiles directly using the templates and patterns documented in this skill.md, rather than invoking these scripts. The templates in this document are the authoritative source.
 
 **Script usage example:**
 ```bash
 # Manual Dockerfile generation
-cd .claude/skills/dockerfile-generator/scripts
+cd scripts
 ./generate_nodejs.sh --version 20 --port 3000 --output Dockerfile
 ```
 
@@ -429,33 +446,63 @@ This skill works well in combination with:
 
 ### NEVER use `latest` as the base image tag
 
-- **WHY**: `FROM node:latest` resolves to a different image on each build, producing non-reproducible images and silently pulling in breaking changes or vulnerabilities.
-- **BAD**: `FROM node:latest`
-- **GOOD**: `FROM node:20.18-alpine3.20` (specific version and variant)
+- **WHY:** `FROM node:latest` resolves to a different image on each build, producing non-reproducible images and silently pulling in breaking changes or vulnerabilities.
+- **BAD:** `FROM node:latest`
+- **GOOD:** `FROM node:20.18-alpine3.20` (specific version and variant)
 
 ### NEVER split related package installation across multiple `RUN` layers
 
-- **WHY**: Each `RUN` creates a new layer; separate `apt-get update` and `apt-get install` layers can leak stale package lists and cache files into the image, increasing size unnecessarily.
-- **BAD**: `RUN apt-get update\nRUN apt-get install -y curl\nRUN rm -rf /var/lib/apt/lists/*`
-- **GOOD**: `RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*`
+- **WHY:** Each `RUN` creates a new layer; separate `apt-get update` and `apt-get install` layers can leak stale package lists and cache files into the image, increasing size unnecessarily.
+- **BAD:** `RUN apt-get update\nRUN apt-get install -y curl\nRUN rm -rf /var/lib/apt/lists/*`
+- **GOOD:** `RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*`
 
 ### NEVER run containers as root
 
-- **WHY**: Running as the default root user allows any exploited process full container access; always create a non-root user for application processes.
-- **BAD**: No `USER` instruction (defaults to root)
-- **GOOD**: `RUN addgroup -S appgroup && adduser -S appuser -G appgroup` followed by `USER appuser`
+- **WHY:** Running as the default root user allows any exploited process full container access; always create a non-root user for application processes.
+- **BAD:** No `USER` instruction (defaults to root)
+- **GOOD:** `RUN addgroup -S appgroup && adduser -S appuser -G appgroup` followed by `USER appuser`
 
 ### NEVER copy the entire build context before installing dependencies
 
-- **WHY**: Copying all files before `npm install` or `pip install` busts the layer cache on every code change, making builds slower than necessary.
-- **BAD**: `COPY . .` followed by `RUN npm ci`
-- **GOOD**: `COPY package*.json ./` then `RUN npm ci` then `COPY . .` — dependency layer is cached until package.json changes
+- **WHY:** Copying all files before `npm install` or `pip install` busts the layer cache on every code change, making builds slower than necessary.
+- **BAD:** `COPY . .` followed by `RUN npm ci`
+- **GOOD:** `COPY package*.json ./` then `RUN npm ci` then `COPY . .`: dependency layer is cached until package.json changes
 
 ### NEVER use `ADD` when `COPY` is sufficient
 
-- **WHY**: `ADD` has implicit behaviors (auto-extracting tarballs, fetching URLs) that make Dockerfiles harder to reason about; `COPY` is explicit and predictable.
-- **BAD**: `ADD app.tar.gz /app/`
-- **GOOD**: `COPY app.tar.gz /app/` and explicitly extract if needed: `RUN tar -xzf /app/app.tar.gz -C /app/`
+- **WHY:** `ADD` has implicit behaviors (auto-extracting tarballs, fetching URLs) that make Dockerfiles harder to reason about; `COPY` is explicit and predictable.
+- **BAD:** `ADD app.tar.gz /app/`
+- **GOOD:** `COPY app.tar.gz /app/` and explicitly extract if needed: `RUN tar -xzf /app/app.tar.gz -C /app/`
+
+### NEVER hardcode secrets in `ENV` or `ARG`
+
+- **WHY:** Values baked into image layers are readable by anyone with the image; the security requirements forbid hardcoded secrets.
+- **BAD:** `ENV API_KEY=abc123` in the Dockerfile.
+- **GOOD:** Inject secrets at runtime (environment variables or a secrets mount) and keep `.env` files in `.dockerignore`.
+
+### NEVER ship a Dockerfile without a `.dockerignore`
+
+- **WHY:** Without it the build context includes `.git`, `.env` and local dependencies, which slows builds and can leak secrets into layers.
+- **BAD:** Deliver only the Dockerfile.
+- **GOOD:** Always generate a `.dockerignore` alongside it, customised for the language (see Stage 4).
+
+### NEVER use shell form for `CMD` or `ENTRYPOINT`
+
+- **WHY:** The Production Readiness rules require exec form so the application receives signals directly and shuts down cleanly.
+- **BAD:** `CMD node server.js`
+- **GOOD:** `CMD ["node", "server.js"]`
+
+### NEVER omit `HEALTHCHECK` for services
+
+- **WHY:** Production Readiness requires a HEALTHCHECK for services so orchestrators can detect an unhealthy container.
+- **BAD:** A web service image with no `HEALTHCHECK` instruction.
+- **GOOD:** `HEALTHCHECK CMD curl -f http://localhost:3000/health || exit 1` against the application's health endpoint.
+
+### NEVER deliver a Dockerfile that has not been validated
+
+- **WHY:** Stage 5 requires validation with devops-skills:dockerfile-validator, and Stage 6 requires iterating on errors (maximum 3 iterations).
+- **BAD:** Present the first draft without running hadolint or Checkov.
+- **GOOD:** Validate, fix errors, re-validate until clean, and document any suppressed warning with a justification.
 
 ## Notes
 

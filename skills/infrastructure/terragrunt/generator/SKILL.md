@@ -5,6 +5,29 @@ description: Comprehensive toolkit for generating best-practice Terragrunt confi
 
 # Terragrunt Generator
 
+## Philosophy
+
+- Choose the architecture pattern (A, B or C) before writing any file, because every later path depends on it.
+- Keep `root.hcl` environment-agnostic unless the pattern explicitly says otherwise; child modules read `env.hcl`.
+- Define shared configuration once in the root and inherit it, rather than copying it into each unit.
+- Generate from the bundled templates and `references/common-patterns.md` instead of writing HCL from memory.
+- A configuration is not finished until it has passed validation with `terragrunt-validator`.
+
+## When to Use
+
+- Creating a new `root.hcl`, child module, standalone module, stack or catalog unit.
+- Scaffolding a multi-environment layout (dev, staging, prod) with shared remote state.
+- Configuring dependency blocks with mock outputs, feature flags, exclude blocks or errors blocks.
+- Setting up remote state and provider configuration through `generate` blocks.
+- Migrating generated configuration to current syntax such as `run --all`, `exclude` and `errors`.
+
+## When Not to Use
+
+- Validating or debugging existing Terragrunt files: use the `terragrunt-validator` skill instead.
+- Writing plain Terraform modules with no Terragrunt wrapper: use `terraform-generator`.
+- Applying or destroying infrastructure, which this skill does not do.
+- Producing partial snippets for documentation, where full generation and validation add no value.
+
 ## Overview
 
 Generate production-ready Terragrunt configurations following current best practices, naming conventions, and security standards. All generated configurations are automatically validated.
@@ -110,7 +133,7 @@ Create child modules with dependencies, mock outputs, and proper includes.
 **Patterns:** `references/common-patterns.md` → Child Module Patterns
 
 **Module source options:**
-- Local: `"../../modules/vpc"`
+- Local: a relative path to the modules directory, for example `"${get_repo_root()}/modules/vpc"`
 - Git: `"git::https://github.com/org/repo.git//path?ref=v1.0.0"`
 - Registry: `"tfr:///terraform-aws-modules/vpc/aws?version=5.1.0"`
 
@@ -294,7 +317,7 @@ Also read: `references/common-patterns.md` — primary source for all generation
    terragrunt hcl fmt --check          # Format validation
    terragrunt dag graph                 # Dependency graph validation
    ```
-   Invoke `devops-skills:terragrunt-validator` for comprehensive validation.
+   Invoke the `terragrunt-validator` skill for comprehensive validation.
 
 ### Step 5: Fix and Re-Validate
 If validation fails:
@@ -330,7 +353,7 @@ terragrunt hcl validate --inputs
 
 After all files are generated:
 
-1. Invoke `devops-skills:terragrunt-validator` skill
+1. Invoke the `terragrunt-validator` skill
 2. If validation fails: analyze errors, fix, and re-validate until all pass
 3. If validation succeeds: present configurations with usage instructions
 
@@ -405,7 +428,7 @@ Suggest what the user might want to do next (add more modules, customize configu
 
 ## Best Practices
 
-Reference `../devops-skills:terragrunt-validator/references/best_practices.md` for comprehensive guidelines.
+Reference `references/best_practices.md` in the `terragrunt-validator` skill for comprehensive guidelines.
 
 **Key principles:**
 - Use `include` blocks to inherit root configuration (DRY)
@@ -449,33 +472,63 @@ For troubleshooting guidance, see [`references/troubleshooting.md`](references/t
 
 ### NEVER use `path_relative_to_include()` as a module source path
 
-- **WHY**: This function returns a path relative to the INCLUDING file, not the included root file; using it as a module source creates path resolution failures that vary by directory depth.
-- **BAD**: `source = "..//${path_relative_to_include()}"` in a child module's `terraform.source`.
-- **GOOD**: Use `get_parent_terragrunt_dir()` or construct explicit relative paths from the root `terragrunt.hcl` location.
+- **WHY:** This function returns a path relative to the INCLUDING file, not the included root file; using it as a module source creates path resolution failures that vary by directory depth.
+- **BAD:** `path_relative_to_include()` interpolated into the source string in a child module's `terraform.source`.
+- **GOOD:** Use `get_parent_terragrunt_dir()` or construct explicit relative paths from the root `terragrunt.hcl` location.
 
 ### NEVER duplicate backend configuration in every unit's `terragrunt.hcl`
 
-- **WHY**: Copy-pasted `remote_state {}` blocks drift across units over time, creating inconsistent state key schemes and locking configurations that are difficult to audit.
-- **BAD**: A full `remote_state { backend = "s3" ... }` block repeated in every leaf module.
-- **GOOD**: Define remote state once in the root `root.hcl` and inherit it in every unit via `include "root" { path = find_in_parent_folders("root.hcl") }`.
+- **WHY:** Copy-pasted `remote_state {}` blocks drift across units over time, creating inconsistent state key schemes and locking configurations that are difficult to audit.
+- **BAD:** A full `remote_state { backend = "s3" ... }` block repeated in every leaf module.
+- **GOOD:** Define remote state once in the root `root.hcl` and inherit it in every unit via `include "root" { path = find_in_parent_folders("root.hcl") }`.
 
 ### NEVER ignore `dependency` output mismatches between plan and apply
 
-- **WHY**: When a `dependency.outputs` reference is evaluated and the dependency has not been applied, Terragrunt substitutes `mock_outputs` silently; if mock types differ from actual output types, the apply will fail with a type error.
-- **BAD**: Leave `mock_outputs` blocks with placeholder types and dismiss `mock_outputs` substitution warnings during `terragrunt plan`.
-- **GOOD**: Define `mock_outputs` whose types exactly match the actual dependency outputs, and use `mock_outputs_allowed_terraform_commands = ["validate", "plan"]` to limit substitution scope.
+- **WHY:** When a `dependency.outputs` reference is evaluated and the dependency has not been applied, Terragrunt substitutes `mock_outputs` silently; if mock types differ from actual output types, the apply will fail with a type error.
+- **BAD:** Leave `mock_outputs` blocks with placeholder types and dismiss `mock_outputs` substitution warnings during `terragrunt plan`.
+- **GOOD:** Define `mock_outputs` whose types exactly match the actual dependency outputs, and use `mock_outputs_allowed_terraform_commands = ["validate", "plan"]` to limit substitution scope.
 
 ### NEVER run `terragrunt run --all apply` without awareness of external dependency scope
 
-- **WHY**: By default, units outside the current directory tree are excluded from `run --all` operations, which can produce partial applies that leave infrastructure in an inconsistent state.
-- **BAD**: Run `terragrunt run --all apply` from a subdirectory expecting all transitive dependencies to be included automatically.
-- **GOOD**: Run from the repository root or pass `--terragrunt-include-external-dependencies` explicitly to ensure the full dependency graph is evaluated.
+- **WHY:** By default, units outside the current directory tree are excluded from `run --all` operations, which can produce partial applies that leave infrastructure in an inconsistent state.
+- **BAD:** Run `terragrunt run --all apply` from a subdirectory expecting all transitive dependencies to be included automatically.
+- **GOOD:** Run from the repository root or pass `--terragrunt-include-external-dependencies` explicitly to ensure the full dependency graph is evaluated.
 
 ### NEVER use the same `terragrunt.hcl` for both `dev` and `prod` environments without environment-level variable overrides
 
-- **WHY**: Sharing configuration without environment isolation causes prod deployments to silently inherit dev defaults (instance sizes, replica counts, retention policies).
-- **BAD**: A single `terragrunt.hcl` with no `inputs` block differentiation between environments.
-- **GOOD**: Use environment-level `env.hcl` files with `inputs = { environment = "prod", instance_type = "m5.xlarge" }` overrides that layer on top of shared defaults from the root configuration.
+- **WHY:** Sharing configuration without environment isolation causes prod deployments to silently inherit dev defaults (instance sizes, replica counts, retention policies).
+- **BAD:** A single `terragrunt.hcl` with no `inputs` block differentiation between environments.
+- **GOOD:** Use environment-level `env.hcl` files with `inputs = { environment = "prod", instance_type = "m5.xlarge" }` overrides that layer on top of shared defaults from the root configuration.
+
+### NEVER write a feature flag `default` that references `local.*`
+
+- **WHY:** Feature flag defaults must be static values, so a dynamic reference fails at evaluation time.
+- **BAD:** `feature "enable_monitoring" { default = local.env.locals.enable_monitoring }`
+- **GOOD:** `feature "enable_monitoring" { default = false }`, then override at run time with `--feature enable_monitoring=true`.
+
+### NEVER make an environment-agnostic `root.hcl` read `env.hcl`
+
+- **WHY:** `env.hcl` does not exist at the root level in Pattern A, so the path lookup fails and every child module breaks.
+- **BAD:** `read_terragrunt_config(find_in_parent_folders("env.hcl"))` inside `root.hcl` for a multi-environment layout.
+- **GOOD:** Read `env.hcl` from the child module and keep `root.hcl` to static values or `get_env()`.
+
+### NEVER use deprecated `skip`, `retryable_errors` or `run-all`
+
+- **WHY:** These have replacements (`exclude`, `errors.retry`, `run --all`) and strict mode turns the deprecated forms into errors.
+- **BAD:** `skip = true` in a unit, or `terragrunt run-all plan` in usage instructions.
+- **GOOD:** Use an `exclude` block, an `errors` block with retry, and `terragrunt run --all plan`.
+
+### NEVER generate a `remote_state` block without `encrypt = true`
+
+- **WHY:** Unencrypted state can contain secrets in plain text, and the generation checklist requires encryption on every root.
+- **BAD:** `remote_state` config in `root.hcl` with no `encrypt` setting.
+- **GOOD:** Set `encrypt = true` in the `remote_state` config and generate the backend from the root template.
+
+### NEVER leave a production module without destroy protection
+
+- **WHY:** An accidental `destroy` on a database or similar resource is irreversible, and the generation checklist expects protection on production modules.
+- **BAD:** A `prod/rds` unit with no `prevent_destroy` and no `exclude` block.
+- **GOOD:** Set `prevent_destroy = true` and an `exclude` block with `actions = ["destroy"]` on production modules.
 
 ## References
 
@@ -495,7 +548,7 @@ For troubleshooting guidance, see [`references/troubleshooting.md`](references/t
 |-----------|---------|--------------|
 | `references/common-patterns.md` | All generation patterns with examples | Always, before generating |
 | `references/troubleshooting.md` | Common issues and fixes | When encountering errors |
-| `../devops-skills:terragrunt-validator/references/best_practices.md` | Comprehensive best practices | Always, before generating |
+| `terragrunt-validator` skill, `references/best_practices.md` | Comprehensive best practices | Always, before generating |
 
 ### Official Documentation
 - [Terragrunt Docs](https://terragrunt.gruntwork.io/docs/)

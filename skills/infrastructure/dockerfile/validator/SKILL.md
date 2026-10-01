@@ -5,6 +5,29 @@ description: Validates, lints, and secures Dockerfiles by running syntax checkin
 
 # Dockerfile Validator
 
+## Philosophy
+
+- Lint first, scan second: syntax and style problems are cheapest to fix before security findings are triaged.
+- A Dockerfile that builds is not a Dockerfile that is correct; reproducibility, layer caching and image size are part of correctness.
+- Security findings outrank optimisation findings, so address secrets, root users and unpinned bases before shaving layers.
+- Every suppression needs a written justification, because an unexplained skip hides a real finding from the next reader.
+- Static checks and image scanning are complementary, so neither replaces the other.
+
+## When to Use
+
+- Validating Dockerfile syntax or debugging a Dockerfile error such as a failed `COPY` or a misplaced `ARG`.
+- Auditing a Dockerfile (including `Dockerfile.prod` and `Dockerfile.dev` variants) for security issues such as hardcoded secrets or a missing `USER`.
+- Reviewing layer ordering, cache cleanup and multi-stage opportunities to reduce build time or image size.
+- Adding hadolint or Checkov checks to a CI/CD pipeline.
+- Checking for a `.dockerignore` file and sensible base image tags before building.
+
+## When Not to Use
+
+- Generating a new Dockerfile from scratch: use the `dockerfile-generator` skill instead.
+- Scanning a built image for CVEs: use an image scanner such as Trivy, which this skill only recommends as a follow-up.
+- Validating Kubernetes manifests or Helm charts that reference the image: use `k8s-yaml-validator` or `helm-validator`.
+- Validating Compose files, which this skill does not cover.
+
 ## Overview
 
 This skill validates Dockerfiles using a **single self-contained script** (`dockerfile-validate.sh`) that handles everything: tool installation, validation, and cleanup.
@@ -294,7 +317,7 @@ When tools are not installed, the script auto-installs them temporarily. If auto
 - **Offer to apply fixes** — Ask the user if they want fixes applied, then apply if approved.
 
 **Example interaction:**
-```
+```text
 User: "Validate my Dockerfile"
 
 1. Read the Dockerfile using Read tool
@@ -335,27 +358,63 @@ For multi-Dockerfile projects: find all `Dockerfile*` files, validate each seque
 
 ### NEVER skip Hadolint because the image builds successfully
 
-- **WHY**: A Dockerfile that builds can still violate security, layer caching, and size best practices; hadolint catches these before they reach production.
-- **BAD**: Skip linting if `docker build` exits 0.
-- **GOOD**: Run `hadolint Dockerfile` in CI as a required check; treat W rules as warnings and DL rules as errors.
+- **WHY:** A Dockerfile that builds can still violate security, layer caching, and size best practices; hadolint catches these before they reach production.
+- **BAD:** Skip linting if `docker build` exits 0.
+- **GOOD:** Run `hadolint Dockerfile` in CI as a required check; treat W rules as warnings and DL rules as errors.
 
 ### NEVER ignore `DL3008` (unpinned apt packages)
 
-- **WHY**: Unpinned packages produce non-reproducible images; the same Dockerfile built a month apart may install different package versions with different security postures.
-- **BAD**: `RUN apt-get install -y curl`
-- **GOOD**: `RUN apt-get install -y curl=7.88.1-*` or use a digest-pinned base image with pre-installed versions.
+- **WHY:** Unpinned packages produce non-reproducible images; the same Dockerfile built a month apart may install different package versions with different security postures.
+- **BAD:** `RUN apt-get install -y curl`
+- **GOOD:** `RUN apt-get install -y curl=7.88.1-*` or use a digest-pinned base image with pre-installed versions.
 
 ### NEVER validate a Dockerfile without also scanning the built image
 
-- **WHY**: Static analysis misses runtime vulnerabilities introduced by base images and installed packages; image scanning (Trivy, Grype) is complementary.
-- **BAD**: Pass hadolint and ship the image without scanning it.
-- **GOOD**: Run `trivy image myapp:latest` after build in the CI pipeline.
+- **WHY:** Static analysis misses runtime vulnerabilities introduced by base images and installed packages; image scanning (Trivy, Grype) is complementary.
+- **BAD:** Pass hadolint and ship the image without scanning it.
+- **GOOD:** Run `trivy image myapp:latest` after build in the CI pipeline.
 
 ### NEVER treat `--no-cache` as a security measure
 
-- **WHY**: `--no-cache` prevents layer caching during the current build but does not remove vulnerabilities in the base image or installed packages; image scanning is still required.
-- **BAD**: Rely on `--no-cache` to ensure a "fresh" secure image.
-- **GOOD**: Use `--no-cache` for reproducibility in CI; pair with image scanning for security assurance.
+- **WHY:** `--no-cache` prevents layer caching during the current build but does not remove vulnerabilities in the base image or installed packages; image scanning is still required.
+- **BAD:** Rely on `--no-cache` to ensure a "fresh" secure image.
+- **GOOD:** Use `--no-cache` for reproducibility in CI; pair with image scanning for security assurance.
+
+### NEVER use the `:latest` tag for a base image
+
+- **WHY:** `:latest` moves silently, so two builds of the same Dockerfile can produce different images and the validator's tag check fails.
+- **BAD:** `FROM node:latest`
+- **GOOD:** `FROM node:20-alpine`, or a digest-pinned `FROM alpine@sha256:...` for fully reproducible builds.
+
+### NEVER put secrets in `ENV` or `ARG`
+
+- **WHY:** Values set with `ENV` persist in image metadata and layers, so anyone who can pull the image can read them.
+- **BAD:** `ENV API_KEY=secret123`
+- **GOOD:** `docker build --secret id=api_key,src=api_key.txt` with a BuildKit `--mount=type=secret` in the `RUN` step that needs it.
+
+### NEVER run the final container as root
+
+- **WHY:** A compromised process running as root has far more power inside and outside the container; the best practices stage enforces a non-root `USER`.
+- **BAD:** A Dockerfile with no `USER` instruction before `CMD` or `ENTRYPOINT`.
+- **GOOD:** Create an unprivileged user and switch to it with `USER` before `CMD`.
+
+### NEVER clean package caches in a separate `RUN` layer
+
+- **WHY:** A later cleanup `RUN` creates a new layer on top of the old one, so the cached files stay in the earlier layer and the image does not shrink.
+- **BAD:** `RUN apt-get update && apt-get install -y curl` followed by a separate `RUN` that deletes `/var/lib/apt/lists`.
+- **GOOD:** One `RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*` layer.
+
+### NEVER copy the whole source tree before installing dependencies
+
+- **WHY:** Any source edit invalidates the cache for the install step, so dependencies are reinstalled on every build.
+- **BAD:** `COPY . /app` followed by `RUN pip install -r requirements.txt`
+- **GOOD:** `COPY requirements.txt /app/`, then `RUN pip install -r requirements.txt`, then `COPY . /app`.
+
+### NEVER build without a `.dockerignore` file
+
+- **WHY:** Without one the whole build context is sent to the daemon, including `.git`, `.env` and `node_modules`, which slows builds and risks leaking files into layers.
+- **BAD:** A project root with a Dockerfile and no `.dockerignore`.
+- **GOOD:** Start from `assets/.dockerignore.example` and exclude `.git`, `.env`, `*.log` and `node_modules`.
 
 ## References
 

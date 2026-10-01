@@ -5,6 +5,29 @@ description: Comprehensive toolkit for validating, linting, testing, and automat
 
 # Terragrunt Validator
 
+## Philosophy
+
+- Validate the whole dependency graph, not one unit: a unit that passes alone can still fail against its dependencies.
+- Read the best practices reference before judging a configuration, so every finding is measured against a stated standard.
+- Treat custom providers and modules as unknowns until their documentation, at the exact version in use, has been read.
+- Prefer the Terragrunt 0.93+ CLI (`run --all`, `hcl fmt`, `dag graph`) and strict mode so deprecated syntax is caught early.
+- Report each checklist item as pass or fail, because an unverified item is not a pass.
+
+## When to Use
+
+- Validating `terragrunt.hcl`, `root.hcl`, `env.hcl` or `terragrunt.stack.hcl` files before a plan or apply.
+- Debugging Terragrunt configuration errors such as dependency, include or `generate` block failures.
+- Running format, lint (tflint), security (Trivy or Checkov) and dry-run plan checks in one pass with `scripts/validate_terragrunt.sh`.
+- Reviewing a configuration against the best practices checklists for includes, dependencies, security and DRY.
+- Detecting custom providers and modules that need documentation lookup, using `scripts/detect_custom_resources.py`.
+
+## When Not to Use
+
+- Generating new Terragrunt configurations: use the `terragrunt-generator` skill instead.
+- Validating plain Terraform or OpenTofu projects with no Terragrunt files: use `terraform-validator`.
+- Applying or destroying infrastructure: this skill validates and plans, it does not deploy.
+- Judging runtime behaviour of deployed resources, which static validation and a dry-run plan cannot show.
+
 > **Note:** This skill is designed for **Terragrunt 0.93+**. For version compatibility details and command migration guidance, see `references/version_compatibility.md`.
 
 ## Core Capabilities
@@ -309,7 +332,7 @@ This ensures you understand the patterns, anti-patterns, and checklists you will
 - Pay attention to version compatibility with your Terraform/Terragrunt version
 
 **Documentation lookup workflow:**
-```
+```text
 a) Run detect_custom_resources.py
 b) For EACH custom provider/module:
    - Note the exact version
@@ -330,7 +353,7 @@ d) Document findings if issues are encountered
 ```
 
 **Example using Context7 MCP:**
-```
+```text
 # 1. Detect custom resources
 python3 scripts/detect_custom_resources.py ./infrastructure
 # Output: Provider: datadog/datadog, Version: 3.30.0
@@ -612,27 +635,63 @@ For advanced topics including custom validation rules, security policies, and de
 
 ### NEVER validate only the current unit in isolation
 
-- **WHY**: Terragrunt dependency chains mean a unit may validate cleanly on its own but fail when its dependencies have incompatible outputs or missing inputs; isolated validation misses integration errors.
-- **BAD**: Run `terragrunt validate` in a single leaf unit directory and treat a clean result as full validation.
-- **GOOD**: Use `terragrunt run --all validate` from the relevant parent directory to validate all units in the dependency graph together.
+- **WHY:** Terragrunt dependency chains mean a unit may validate cleanly on its own but fail when its dependencies have incompatible outputs or missing inputs; isolated validation misses integration errors.
+- **BAD:** Run `terragrunt validate` in a single leaf unit directory and treat a clean result as full validation.
+- **GOOD:** Use `terragrunt run --all validate` from the relevant parent directory to validate all units in the dependency graph together.
 
 ### NEVER skip `--terragrunt-log-level debug` when diagnosing HCL function errors
 
-- **WHY**: HCL function evaluation errors produce cryptic messages at default log levels; debug mode shows the evaluated function calls and helps pinpoint the exact source of the failure.
-- **BAD**: Attempt to debug `path_relative_to_include()` or `find_in_parent_folders()` errors using the default log level output.
-- **GOOD**: Add `--terragrunt-log-level debug` (or set `TG_LOG=debug`) to get the full HCL evaluation trace and locate the offending expression.
+- **WHY:** HCL function evaluation errors produce cryptic messages at default log levels; debug mode shows the evaluated function calls and helps pinpoint the exact source of the failure.
+- **BAD:** Attempt to debug `path_relative_to_include()` or `find_in_parent_folders()` errors using the default log level output.
+- **GOOD:** Add `--terragrunt-log-level debug` (or set `TG_LOG=debug`) to get the full HCL evaluation trace and locate the offending expression.
 
 ### NEVER accept `terragrunt validate` passing as equivalent to `terraform validate`
 
-- **WHY**: Terragrunt's validate wraps Terraform validate but may not catch all HCL parsing errors in `terragrunt.hcl` includes; the two tools validate different layers of the configuration stack.
-- **BAD**: Skip `terraform validate` and rely solely on `terragrunt validate` as the complete validation signal.
-- **GOOD**: Run `terragrunt validate` for Terragrunt-level HCL and input checks, then run `terraform validate` (or `terragrunt init && terragrunt validate`) for Terraform provider schema validation.
+- **WHY:** Terragrunt's validate wraps Terraform validate but may not catch all HCL parsing errors in `terragrunt.hcl` includes; the two tools validate different layers of the configuration stack.
+- **BAD:** Skip `terraform validate` and rely solely on `terragrunt validate` as the complete validation signal.
+- **GOOD:** Run `terragrunt validate` for Terragrunt-level HCL and input checks, then run `terraform validate` (or `terragrunt init && terragrunt validate`) for Terraform provider schema validation.
 
 ### NEVER ignore `dependency` mock output warnings in plan output
 
-- **WHY**: Mock output substitution warnings signal that the plan result is based on placeholder values; if mock types differ from actual outputs, the plan is unreliable and the apply will fail.
-- **BAD**: Dismiss `mock_outputs` substitution warnings in `terragrunt plan` output as expected and harmless.
-- **GOOD**: Verify that mock output types exactly match actual dependency outputs after the dependency has been applied at least once; update mocks if types change.
+- **WHY:** Mock output substitution warnings signal that the plan result is based on placeholder values; if mock types differ from actual outputs, the plan is unreliable and the apply will fail.
+- **BAD:** Dismiss `mock_outputs` substitution warnings in `terragrunt plan` output as expected and harmless.
+- **GOOD:** Verify that mock output types exactly match actual dependency outputs after the dependency has been applied at least once; update mocks if types change.
+
+### NEVER start validating before reading the best practices reference
+
+- **WHY:** The checklists in `references/best_practices.md` define what a pass looks like; validating without them produces findings measured against memory rather than the stated standard.
+- **BAD:** Run `bash scripts/validate_terragrunt.sh` and report on its output alone.
+- **GOOD:** Read `references/best_practices.md` first, then run the script and record each checklist item as pass or fail.
+
+### NEVER skip documentation lookup for a detected custom provider or module
+
+- **WHY:** Custom providers and modules have their own required configuration, authentication and version-specific breaking changes, so errors cannot be diagnosed without them.
+- **BAD:** Run the detection script, see a non-HashiCorp provider listed, and move straight on to validation.
+- **GOOD:** Look up documentation for every detected provider and module at its exact version, then apply what it says to the validation.
+
+### NEVER leave a `dependency` block without `mock_outputs`
+
+- **WHY:** Without mocks, `validate` and `plan` fail for any dependency that has not been applied, so the configuration cannot be checked in CI.
+- **BAD:** a `dependency "vpc"` block that sets only `config_path`.
+- **GOOD:** Add `mock_outputs` and set `mock_outputs_allowed_terraform_commands = ["validate", "plan", "init"]` on every dependency block.
+
+### NEVER hardcode credentials or account IDs in HCL files
+
+- **WHY:** HCL files are committed to version control, so a hardcoded key or account ID leaks to everyone with repository access.
+- **BAD:** `password = "hunter2"` or a literal 12-digit AWS account ID in `inputs`.
+- **GOOD:** Read values from environment variables or `assume_role`, and run the grep checks for `password =`, `api_key =` and 12-digit IDs before signing off.
+
+### NEVER use the deprecated `run-all` command or a root `terragrunt.hcl` in 0.93+ configurations
+
+- **WHY:** `run-all` and a root file named `terragrunt.hcl` are deprecated; strict mode turns them into errors, and the root name triggers an anti-pattern warning.
+- **BAD:** `terragrunt run-all plan` with `include { path = find_in_parent_folders() }` pointing at `terragrunt.hcl`.
+- **GOOD:** `terragrunt run --all plan`, with the root renamed to `root.hcl` and a named `include "root"` block.
+
+### NEVER leave static `.tf` files beside a `generate` block that writes the same file
+
+- **WHY:** Terragrunt refuses to overwrite a file it did not generate, so the run fails with "already exists and was not generated by terragrunt".
+- **BAD:** A hand-written `versions.tf`, `provider.tf` or `backend.tf` in a directory whose `generate` block produces the same name.
+- **GOOD:** Remove the static files and clear `.terragrunt-cache`, or set `if_exists = "skip"` in the generate block.
 
 ## References
 

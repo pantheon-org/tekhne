@@ -11,6 +11,14 @@ Comprehensive toolkit for validating, linting, and testing Ansible playbooks, ro
 
 **Key Behavior:** Molecule tests run automatically for roles with `molecule/` directories. If blocked by environment issues, document the blocker and continue with other validation steps.
 
+## Quick Start
+
+```bash
+./scripts/setup_tools.sh                       # diagnose required tools
+./scripts/validate_playbook.sh playbook.yml    # syntax + yamllint + ansible-lint
+./scripts/validate_role.sh roles/webserver/    # structure + syntax + lint
+```
+
 ## Validation Workflow
 
 Follow this decision tree for comprehensive Ansible validation:
@@ -216,31 +224,101 @@ All validation scripts auto-install required tools in a temporary venv if not av
 - Use Ansible Vault for all sensitive data; never commit unencrypted secrets
 - Pin collection versions in `requirements.yml`; test before upgrading
 
+## Philosophy
+
+- Validate statically first, then dynamically: cheap checks (yamllint, syntax, lint) gate the expensive ones (check mode, Molecule).
+- Every gate is independent: a passing Molecule run never excuses a lint failure, and a clean lint never excuses a security finding.
+- Report environment blockers honestly instead of hiding them or failing the whole run for them.
+- Prefer the shipped scripts over ad hoc commands so results are repeatable.
+
+## When to Use
+
+- Validating an Ansible playbook, role, inventory or collection before merge.
+- Debugging a playbook that fails syntax checks, lint rules or a dry run.
+- Running Molecule tests on a role that has a `molecule/` directory.
+- Scanning playbooks or roles for hardcoded secrets and Checkov policy violations.
+- Looking up documentation for custom modules or collections and checking version compatibility.
+
+## When Not to Use
+
+- Writing new Ansible content from scratch (use the ansible-generator skill).
+- Validating Kubernetes manifests or Terraform code (use k8s-yaml-validator or terraform-validator).
+- Running a playbook against production hosts: this skill only covers syntax, lint, check mode and tests.
+- Debugging cluster or runtime infrastructure problems (use k8s-debug).
+
 ## Anti-Patterns
 
 ### NEVER skip `ansible-lint` because the playbook "works"
 
-- **WHY**: A playbook can execute successfully while violating idempotency, security, and style rules that cause failures after re-runs or in different environments; lint catches these issues before they reach production.
-- **BAD**: Run the playbook in staging, observe it completing without errors, and skip linting before merging.
-- **GOOD**: Run `ansible-lint` in CI before every merge and treat any rule violation as a build failure.
+- **WHY:** A playbook can execute successfully while violating idempotency, security, and style rules that cause failures after re-runs or in different environments; lint catches these issues before they reach production.
+- **BAD:** Run the playbook in staging, observe it completing without errors, and skip linting before merging.
+- **GOOD:** Run `ansible-lint` in CI before every merge and treat any rule violation as a build failure.
 
 ### NEVER run `--check` mode without `--diff`
 
-- **WHY**: `--check` reports what would change but without `--diff` you cannot see the actual content of the change; the combination is required for a meaningful dry-run review.
-- **BAD**: `ansible-playbook --check site.yml` with no visibility into what file contents would be modified.
-- **GOOD**: `ansible-playbook --check --diff site.yml` to see both change detection and exact content diffs.
+- **WHY:** `--check` reports what would change but without `--diff` you cannot see the actual content of the change; the combination is required for a meaningful dry-run review.
+- **BAD:** `ansible-playbook --check site.yml` with no visibility into what file contents would be modified.
+- **GOOD:** `ansible-playbook --check --diff site.yml` to see both change detection and exact content diffs.
 
 ### NEVER use `molecule test` as a substitute for `ansible-lint`
 
-- **WHY**: Molecule tests idempotency and functional correctness via actual execution but does not catch code quality issues, deprecated modules, or style violations that lint detects statically.
-- **BAD**: Skip `ansible-lint` and rely only on Molecule passing to consider a role ready for review.
-- **GOOD**: Run `ansible-lint` first (fast, catches obvious errors), then Molecule (slower, catches runtime and idempotency errors) — both gates are required.
+- **WHY:** Molecule tests idempotency and functional correctness via actual execution but does not catch code quality issues, deprecated modules, or style violations that lint detects statically.
+- **BAD:** Skip `ansible-lint` and rely only on Molecule passing to consider a role ready for review.
+- **GOOD:** Run `ansible-lint` first (fast, catches obvious errors), then Molecule (slower, catches runtime and idempotency errors); both gates are required.
 
 ### NEVER ignore `no-changed-when` lint warnings
 
-- **WHY**: Tasks using `command` or `shell` without `changed_when` always report `changed` even when nothing changed, breaking idempotency checks, change auditing, and handler triggering logic.
-- **BAD**: Dismiss `no-changed-when` as a style warning on a `command` task that only reads system state.
-- **GOOD**: Add `changed_when: false` for genuinely read-only commands, or add an explicit `changed_when` condition that reflects actual state changes (e.g., `changed_when: result.rc == 0`).
+- **WHY:** Tasks using `command` or `shell` without `changed_when` always report `changed` even when nothing changed, breaking idempotency checks, change auditing, and handler triggering logic.
+- **BAD:** Dismiss `no-changed-when` as a style warning on a `command` task that only reads system state.
+- **GOOD:** Add `changed_when: false` for genuinely read-only commands, or add an explicit `changed_when` condition that reflects actual state changes (e.g., `changed_when: result.rc == 0`).
+
+### NEVER disable certificate validation
+
+- **WHY:** `validate_certs: false` removes TLS protection from downloads, and the Checkov policies this skill runs flag it as a security finding.
+- **BAD:** `validate_certs: false` on a `get_url` task to get past a certificate error.
+- **GOOD:** Leave `validate_certs` at its default of true and fix the certificate chain.
+
+### NEVER hardcode credentials in playbooks or roles
+
+- **WHY:** Plaintext secrets end up in version control and are exactly what `scripts/scan_secrets.sh` exists to catch.
+- **BAD:** `db_password: "hunter2"` in `group_vars/all.yml`.
+- **GOOD:** Store the value with Ansible Vault or read it from an environment variable, then run `bash scripts/scan_secrets.sh <dir>`.
+
+### NEVER pass raw variables into `shell` or `command` modules
+
+- **WHY:** Unquoted interpolation allows command injection through variable content.
+- **BAD:** `shell: rm -rf {{ target_dir }}`
+- **GOOD:** `shell: rm -rf {{ target_dir | quote }}`, or use a dedicated module such as `ansible.builtin.file` with `state: absent`.
+
+### NEVER use `command` or `shell` when a proper module exists
+
+- **WHY:** Dedicated modules are idempotent and support check mode; `command` and `shell` are not and trigger lint findings.
+- **BAD:** `shell: apt-get install -y nginx`
+- **GOOD:** `ansible.builtin.package` or `ansible.builtin.apt` with `name: nginx` and `state: present`.
+
+### NEVER leave modules without their fully qualified collection name
+
+- **WHY:** Short names are ambiguous across collections and are what `scripts/check_fqcn.sh` reports; `references/module_alternatives.md` lists the FQCN replacements.
+- **BAD:** `- copy:` with the short module name.
+- **GOOD:** `- ansible.builtin.copy:` with the full collection name.
+
+### NEVER fail the whole validation run for a Molecule environment blocker
+
+- **WHY:** Docker or tool-version problems say nothing about the role code; hiding them or treating them as role defects misleads the reviewer.
+- **BAD:** Report the role as broken because the Docker daemon was not running.
+- **GOOD:** Document the blocker, report Molecule as blocked, and continue with the remaining validation steps.
+
+### NEVER ignore a Checkov or secrets-scan finding without recording why
+
+- **WHY:** Security findings from `scripts/validate_playbook_security.sh` and `scripts/scan_secrets.sh` point to real exposure; silent suppression hides it from later reviewers.
+- **BAD:** Delete the failing task or skip the scan so the run goes green.
+- **GOOD:** Fix the finding, or document the justified exception next to the code and in the validation report.
+
+### NEVER run `ansible-lint --fix` and commit without reviewing the diff
+
+- **WHY:** Auto-fixes rewrite files in bulk and can change behaviour in ways lint cannot judge.
+- **BAD:** `ansible-lint --fix . && git commit -am "lint"` with no inspection.
+- **GOOD:** Run `ansible-lint --fix`, review the resulting diff, then re-run `ansible-lint` to confirm it is clean.
 
 ## References
 
