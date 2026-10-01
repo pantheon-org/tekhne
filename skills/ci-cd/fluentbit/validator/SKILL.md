@@ -9,6 +9,30 @@ description: Validates syntax, checks pipeline tag connections, detects security
 
 This skill provides a comprehensive validation workflow for Fluent Bit configurations, combining syntax validation, semantic checks, security auditing, best practice enforcement, and dry-run testing. Validate Fluent Bit configs with confidence before deploying to production.
 
+## Philosophy
+
+- Validate in stages, because each stage catches a different class of fault and a pass at one stage says nothing about the next.
+- Treat tag routing as part of correctness: a config that parses can still drop every record.
+- Keep secrets out of config files; reference environment variables instead.
+- Propose fixes and wait for approval; never change a config the user has not agreed to change.
+- Prefer the single `--check all` run, and drop to individual checks only to debug one stage.
+
+## When to Use
+
+- Validating an existing Fluent Bit configuration file before deployment
+- Checking that INPUT tags reach FILTER and OUTPUT `Match` patterns
+- Auditing a config for hardcoded credentials, disabled TLS or exposed network listeners
+- Reviewing memory limits, flush intervals and storage settings
+- Running a `fluent-bit --dry-run` parse check
+- Verifying output from the fluentbit-generator skill
+
+## When Not to Use
+
+- Generating a new Fluent Bit configuration from requirements (use fluentbit-generator)
+- Validating Kubernetes manifests, Helm charts or Dockerfiles
+- Debugging a running Fluent Bit process from its runtime logs
+- Checking configs for other log shippers such as Fluentd, Logstash or Vector
+
 ## Validation Workflow
 
 Follow this sequential validation workflow. Each stage catches different types of issues.
@@ -170,7 +194,7 @@ Best Practices (2):
 
 **7. Provide completion summary** (fixed issues, per-check pass/fail status, and overall validation result)
 
-**8. Report-only summary (when user declines fixes):**
+**8. Report-only summary (when the user chooses not to apply fixes):**
 ```
 📋 Validation Report Complete - No fixes applied
 
@@ -204,27 +228,83 @@ This validator is automatically invoked by the fluentbit-generator skill after g
 
 ### NEVER validate config syntax without checking tag routing
 
-- **WHY**: A configuration that parses without errors can still drop all logs silently if no OUTPUT `Match` pattern covers the tags produced by the INPUTs. Syntax validation alone gives false confidence.
-- **BAD**: Confirm `fluent-bit --dry-run` passes and ship the configuration to production.
-- **GOOD**: Trace every INPUT tag through all FILTER and OUTPUT `Match` patterns to confirm that no logs fall through without a destination.
+**WHY:** A configuration that parses without errors can still drop all logs silently if no OUTPUT `Match` pattern covers the tags produced by the INPUTs. Syntax validation alone gives false confidence.
+
+**BAD:** Confirm `fluent-bit --dry-run` passes and ship the configuration to production.
+
+**GOOD:** Trace every INPUT tag through all FILTER and OUTPUT `Match` patterns, for example by running `python3 scripts/validate_config.py --file <config-file> --check tags`.
 
 ### NEVER skip TLS certificate validation in output plugins
 
-- **WHY**: `tls.verify Off` is convenient for local testing but is frequently forgotten when promoting a config to production, leaving log data in transit exposed to interception or man-in-the-middle attacks.
-- **BAD**: `tls.verify Off` present in a production output plugin targeting an external log aggregator.
-- **GOOD**: `tls.verify On` with `tls.ca_file /etc/ssl/certs/ca-certificates.crt` (or the appropriate CA bundle for your environment).
+**WHY:** `tls.verify Off` is convenient for local testing but is frequently forgotten when promoting a config to production, leaving log data in transit exposed to interception or man-in-the-middle attacks.
+
+**BAD:** `tls.verify Off` present in a production output plugin targeting an external log aggregator.
+
+**GOOD:** `tls.verify On` with `tls.ca_file /etc/ssl/certs/ca-certificates.crt` (or the appropriate CA bundle for your environment).
 
 ### NEVER use the same buffer path for multiple Fluent Bit instances
 
-- **WHY**: Overlapping `storage.path` directories corrupt the backpressure state database, causing one instance to consume or delete the other's buffered records and resulting in duplicate or lost log delivery.
-- **BAD**: Two Fluent Bit daemonsets sharing `/var/log/flb-storage/` as their storage path.
-- **GOOD**: Assign a distinct `storage.path` value to each Fluent Bit instance (e.g., `/var/log/flb-storage-app/` and `/var/log/flb-storage-infra/`).
+**WHY:** Overlapping `storage.path` directories corrupt the backpressure state database, causing one instance to consume or delete the other's buffered records and resulting in duplicate or lost log delivery.
+
+**BAD:** Two Fluent Bit daemonsets sharing `/var/log/flb-storage/` as their storage path.
+
+**GOOD:** Assign a distinct `storage.path` value to each Fluent Bit instance (e.g., `/var/log/flb-storage-app/` and `/var/log/flb-storage-infra/`).
 
 ### NEVER ignore pipeline tag connection warnings
 
-- **WHY**: An INPUT tag that no OUTPUT `Match` pattern covers causes Fluent Bit to silently drop those records. This is the most common root cause of "missing logs" production incidents and is invisible without explicit tag validation.
-- **BAD**: Dismiss unmatched tag warnings from the validator as noise and proceed with deployment.
-- **GOOD**: Treat any unmatched tag as a P1 configuration error — every INPUT tag must be covered by at least one OUTPUT `Match` pattern before the config is considered valid.
+**WHY:** An INPUT tag that no OUTPUT `Match` pattern covers causes Fluent Bit to silently drop those records. This is the most common root cause of "missing logs" production incidents and is invisible without explicit tag validation.
+
+**BAD:** Dismiss unmatched tag warnings from the validator as noise and proceed with deployment.
+
+**GOOD:** Treat any unmatched tag as a P1 configuration error; every INPUT tag must be covered by at least one OUTPUT `Match` pattern before the config is considered valid.
+
+### NEVER leave hardcoded credentials in a configuration file
+
+**WHY:** Plain-text `HTTP_User`, `HTTP_Passwd`, AWS keys and API tokens end up in version control, container images and config maps where anyone with read access can recover them.
+
+**BAD:** `HTTP_Passwd   password123` in an `[OUTPUT]` section.
+
+**GOOD:** `HTTP_Passwd   ${ES_PASSWORD}`, with the value supplied through the environment.
+
+### NEVER omit Mem_Buf_Limit on tail inputs
+
+**WHY:** Without a memory buffer limit, a slow or unavailable output lets a tail input buffer records until the process runs out of memory.
+
+**BAD:** An `[INPUT]` with `Name tail` and no `Mem_Buf_Limit`.
+
+**GOOD:** `Mem_Buf_Limit     50MB` on every tail input.
+
+### NEVER apply fixes without user approval
+
+**WHY:** Validation findings are proposals. Rewriting a config the user did not agree to change can alter routing or credentials in ways they did not review.
+
+**BAD:** Edit the config file as soon as an error is found.
+
+**GOOD:** Present the proposed fixes, ask for approval, apply only the approved ones, then re-run the validation.
+
+### NEVER skip the dry-run stage without recording that it was skipped
+
+**WHY:** The dry-run is the only stage that loads plugins and parses the config with the real binary. Silently omitting it makes a partial validation look complete.
+
+**BAD:** Report the configuration as valid after stages 1 to 6 on a host with no `fluent-bit` binary, without saying so.
+
+**GOOD:** State that the dry-run was skipped because the binary is unavailable, and recommend testing in a development environment.
+
+### NEVER stop at the first error when reporting
+
+**WHY:** Fixing one issue and re-running one at a time wastes cycles and hides related problems; users need the full list to plan the fix.
+
+**BAD:** Report only the first failing check and abort.
+
+**GOOD:** Run `python3 scripts/validate_config.py --file <config-file> --check all`, then group all findings into errors, warnings, info and best practices.
+
+### NEVER expose the HTTP server or network inputs without authentication
+
+**WHY:** INPUTs listening on 0.0.0.0 and an exposed `HTTP_Server` let anyone on the network inject records or read internal metrics.
+
+**BAD:** An input bound to `0.0.0.0` with no authentication in front of it.
+
+**GOOD:** Bind to a specific interface where possible and flag any unauthenticated listener in the security audit.
 
 ## References
 
@@ -255,3 +335,11 @@ The skill includes test configuration files in `references/test-fixtures/` for v
 - [Fluent Bit Operations and Best Practices](https://fluentbit.net/fluent-bit-operations-and-best-practices/)
 - [Configuration File Format](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file)
 - Context7 Fluent Bit documentation (/fluent/fluent-bit-docs)
+
+## Quick Start
+
+```bash
+bash scripts/validate.sh <config-file>
+python3 scripts/validate_config.py --file <config-file> --check all --json
+fluent-bit -c <config-file> --dry-run
+```

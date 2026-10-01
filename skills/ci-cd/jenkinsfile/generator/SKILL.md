@@ -7,6 +7,28 @@ description: Generates Jenkinsfiles with stages, agents, parallel builds, post-b
 
 Generate production-ready Jenkinsfiles following best practices. All generated files are validated using devops-skills:jenkinsfile-validator skill.
 
+## Philosophy
+
+- Prefer Declarative syntax; reach for Scripted only when full Groovy control is genuinely needed.
+- Never hardcode secrets: bind credentials through the Jenkins Credentials Store.
+- Generate from the templates and best-practice references, then validate before presenting.
+- Fail fast and clean up: set timeouts, fail-fast on parallel blocks and always clean the workspace.
+
+## When to Use
+
+- Creating a new Jenkins pipeline script, Groovy pipeline or build configuration
+- Adding parallel or matrix builds, parameters, or manual approval stages to a Jenkins setup
+- Adding Docker or Kubernetes agents and deployments to a pipeline
+- Adding DevSecOps stages such as SonarQube, OWASP Dependency-Check or Trivy
+- Scaffolding a Jenkins shared library
+
+## When Not to Use
+
+- Validating or linting an existing Jenkinsfile (use the Jenkinsfile validator skill instead)
+- Writing CI configuration for other systems such as GitHub Actions, GitLab CI or Azure Pipelines
+- Debugging a failed build from its console logs rather than the pipeline definition
+- Configuring Jenkins controller settings, plugins installation or job folders outside the Jenkinsfile
+
 ## Core Capabilities
 
 ### 1. Declarative Pipelines (RECOMMENDED)
@@ -127,7 +149,7 @@ Always use `fingerprint: true` with `archiveArtifacts` for build traceability.
 
 ### Parallel & Matrix
 
-**Always add `parallelsAlwaysFailFast()` to pipeline `options {}` block** — covers all parallel/matrix blocks automatically. Use per-block `failFast true` only when options-level is not set:
+**Always add `parallelsAlwaysFailFast()` to pipeline `options {}` block**: covers all parallel/matrix blocks automatically. Use per-block `failFast true` only when options-level is not set:
 
 ```groovy
 // Per-block alternative (when options-level not set)
@@ -301,33 +323,83 @@ python3 scripts/generate_shared_library.py --name my-library --package com.examp
 
 ### NEVER use Scripted Pipeline for new work
 
-- **WHY**: Declarative Pipeline syntax is the current standard with better tooling, cleaner validation, and Blue Ocean compatibility; Scripted Pipeline should only be used to maintain existing files.
-- **BAD**: New pipelines starting with `node { ... }`.
-- **GOOD**: Start with `pipeline { agent any stages { ... } }` Declarative syntax.
+**WHY:** Declarative Pipeline syntax is the current standard with better tooling and cleaner validation; Scripted Pipeline should only be used to maintain existing files or when full Groovy control is required.
+
+**BAD:** New pipelines starting with `node { ... }`.
+
+**GOOD:** Start with `pipeline { agent any stages { ... } }` Declarative syntax.
 
 ### NEVER store credentials as plain text pipeline parameters
 
-- **WHY**: Pipeline parameters are logged and visible in the Jenkins UI; credentials must go through the Jenkins Credentials Store.
-- **BAD**: `parameters { string(name: 'API_KEY', ...) }`
-- **GOOD**: `withCredentials([string(credentialsId: 'api-key-prod', variable: 'API_KEY')]) { ... }`
+**WHY:** Pipeline parameters are logged and visible in the Jenkins UI; credentials must go through the Jenkins Credentials Store.
+
+**BAD:** `parameters { string(name: 'API_KEY', ...) }`
+
+**GOOD:** `withCredentials([string(credentialsId: 'api-key-prod', variable: 'API_KEY')]) { ... }`
 
 ### NEVER run all stages on a heavyweight executor without parallelism
 
-- **WHY**: Sequential stages on a single executor waste build time; extract independent stages into `parallel { }` blocks.
-- **BAD**: Lint, unit-test, integration-test, and SAST in sequential stages.
-- **GOOD**: Wrap independent stages in `parallel { stage('Lint') { ... } stage('Unit Test') { ... } }`.
+**WHY:** Sequential stages on a single executor waste build time; extract independent stages into `parallel { }` blocks.
+
+**BAD:** Lint, unit-test, integration-test, and SAST in sequential stages.
+
+**GOOD:** Wrap independent stages in `parallel { stage('Lint') { ... } stage('Unit Test') { ... } }`.
 
 ### NEVER omit `post { always { cleanWs() } }`
 
-- **WHY**: Without workspace cleanup, Jenkins agents fill disk with build artifacts from previous runs, causing disk-full build failures.
-- **BAD**: No `post` block in the pipeline.
-- **GOOD**: `post { always { cleanWs() } }` in every Declarative pipeline.
+**WHY:** Without workspace cleanup, Jenkins agents fill disk with build artifacts from previous runs, causing disk-full build failures.
+
+**BAD:** No `post` block in the pipeline.
+
+**GOOD:** `post { always { cleanWs() } }` in every Declarative pipeline.
 
 ### NEVER call `sh` with inline secret variable expansion
 
-- **WHY**: Shell substitution expands secrets into the command string where they appear in build logs and process lists.
-- **BAD**: `sh "curl -H 'Authorization: Bearer ${API_KEY}'"`
-- **GOOD**: `withCredentials([...]) { sh 'curl -H "Authorization: Bearer $API_KEY"' }` (single quotes prevent Groovy expansion; the credential is still available via the environment).
+**WHY:** Shell substitution expands secrets into the command string where they appear in build logs and process lists.
+
+**BAD:** `sh "curl -H 'Authorization: Bearer ${API_KEY}'"`
+
+**GOOD:** `withCredentials([...]) { sh 'curl -H "Authorization: Bearer $API_KEY"' }` (single quotes prevent Groovy expansion; the credential is still available via the environment).
+
+### NEVER use parallel blocks without fail-fast
+
+**WHY:** Without fail-fast, the remaining parallel branches keep running after one has failed, wasting agent time on a build that is already lost.
+
+**BAD:** A `parallel { ... }` block with no `parallelsAlwaysFailFast()` in `options` and no `failFast true`.
+
+**GOOD:** Add `parallelsAlwaysFailFast()` to the pipeline `options {}` block.
+
+### NEVER archive artifacts without fingerprinting
+
+**WHY:** Fingerprints give build traceability, linking an artifact back to the build that produced it.
+
+**BAD:** `archiveArtifacts artifacts: '**/*.jar'`
+
+**GOOD:** `archiveArtifacts artifacts: '**/*.jar', fingerprint: true`
+
+### NEVER present a generated Jenkinsfile without validating it
+
+**WHY:** Generation can produce syntax errors or best-practice violations. The workflow requires validation with the Jenkinsfile validator skill and a re-run after fixes.
+
+**BAD:** Generate a Jenkinsfile and hand it straight to the user.
+
+**GOOD:** Run `bash scripts/validate_jenkinsfile.sh Jenkinsfile`, fix ERRORS and WARNINGS, re-validate, then present it.
+
+### NEVER omit timeouts from pipeline options
+
+**WHY:** Without a timeout a hung build occupies an executor indefinitely.
+
+**BAD:** An `options {}` block with no `timeout(...)`, or no `options` at all.
+
+**GOOD:** `options { timeout(time: 1, unit: 'HOURS') }`
+
+### NEVER place `input` inside `steps`
+
+**WHY:** An `input` inside `steps` holds an agent while it waits for approval. Declaring it at stage level avoids that.
+
+**BAD:** Calling `input` within a stage's `steps` block while an agent is allocated.
+
+**GOOD:** `stage('Deploy') { input { message 'Deploy?' } steps { sh './deploy.sh' } }`
 
 ## References
 

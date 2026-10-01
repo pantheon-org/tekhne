@@ -9,6 +9,27 @@ description: Creates .gitlab-ci.yml files, configures pipeline stages, defines C
 
 Generate production-ready GitLab CI/CD pipeline configurations following current best practices, security standards, and naming conventions. All generated resources are validated using the `devops-skills:gitlab-ci-validator` skill before delivery.
 
+## Philosophy
+
+- Read the references before writing YAML, so the pipeline starts from a vetted pattern rather than memory.
+- Start from the closest template and customise it, rather than composing a pipeline from scratch.
+- Secure by default: pinned images, masked variables, explicit timeouts and artifact expiry on every job.
+- Never present a complete pipeline that has not been validated.
+
+## When to Use
+
+- Creating a new `.gitlab-ci.yml` for a project.
+- Adding Docker build, Kubernetes deployment or multi-project stages to a pipeline.
+- Extracting repeated job setup into reusable `extends` templates or `include` files.
+- Adding GitLab security templates such as SAST or dependency scanning.
+
+## When Not to Use
+
+- Reviewing or debugging an existing `.gitlab-ci.yml`: use the GitLab CI validator skill instead.
+- Writing Azure Pipelines or GitHub Actions workflows: use the matching generator skill.
+- Running or executing pipelines on a runner: this skill only produces configuration.
+- Answering a one-line syntax question that needs no generated file.
+
 ---
 
 ## MANDATORY PRE-GENERATION STEPS
@@ -20,10 +41,10 @@ Generate production-ready GitLab CI/CD pipeline configurations following current
 Use the **Read tool** to load all four reference files plus the relevant template:
 
 ```
-1. references/best-practices.md       — Security, performance, and naming patterns
-2. references/common-patterns.md      — Standard pipeline patterns as foundation
-3. references/gitlab-ci-reference.md  — Syntax reference and keyword details
-4. references/security-guidelines.md  — Security-sensitive configurations
+1. references/best-practices.md: Security, performance, and naming patterns
+2. references/common-patterns.md: Standard pipeline patterns as foundation
+3. references/gitlab-ci-reference.md: Syntax reference and keyword details
+4. references/security-guidelines.md: Security-sensitive configurations
 ```
 
 **Template selection:**
@@ -211,7 +232,7 @@ variables:
   SAST_EXCLUDED_PATHS: "spec, test, tests, tmp"
 ```
 
-> **Note:** Customize included template jobs via global `variables` rather than partial job overrides. GitLab merges at runtime, but local validators only see your file—partial overrides will fail validation.
+> **Note:** Customize included template jobs via global `variables` rather than partial job overrides. GitLab merges at runtime, but local validators only see your file-partial overrides will fail validation.
 
 ---
 
@@ -242,47 +263,77 @@ See `references/best-practices.md` for the full set of security, performance, re
 
 ### NEVER use `only: [master]` or `only: [main]`
 
-- **WHY**: `only`/`except` are deprecated in GitLab 15+; `rules` is the current approach and offers more expressive conditions.
-- **BAD**: `only: - main`
-- **GOOD**: `rules: - if: '$CI_COMMIT_BRANCH == "main"'`
+**WHY:** `only`/`except` are deprecated in GitLab 15+; `rules` is the current approach and offers more expressive conditions.
+**BAD:** `only: - main`
+**GOOD:** `rules: - if: '$CI_COMMIT_BRANCH == "main"'`
 
 ### NEVER deploy to production without an environment and approval gate
 
-- **WHY**: Deploying directly without a GitLab environment loses deployment tracking, approval workflows, and rollback history.
-- **BAD**: A deployment job with no `environment:` key.
-- **GOOD**: `environment: name: production url: https://example.com` combined with `when: manual` for production jobs.
+**WHY:** Deploying directly without a GitLab environment loses deployment tracking, approval workflows, and rollback history.
+**BAD:** A deployment job with no `environment:` key.
+**GOOD:** `environment: name: production url: https://example.com` combined with `when: manual` for production jobs.
 
 ### NEVER hardcode runner tags for every job
 
-- **WHY**: Hardcoding forces all jobs onto specific runners even when generic runners would work, reducing parallelism.
-- **BAD**: `tags: [kubernetes, production]` on lint and unit test jobs.
-- **GOOD**: Add runner tags only to jobs that genuinely require specific capabilities (GPU, privileged mode, specific OS).
+**WHY:** Hardcoding forces all jobs onto specific runners even when generic runners would work, reducing parallelism.
+**BAD:** `tags: [kubernetes, production]` on lint and unit test jobs.
+**GOOD:** Add runner tags only to jobs that genuinely require specific capabilities (GPU, privileged mode, specific OS).
 
 ### NEVER define duplicate `before_script` blocks in every job
 
-- **WHY**: Repetitive `before_script` creates maintenance debt; use YAML anchors or `extends` to share setup.
-- **BAD**: Identical `before_script: [npm ci]` in every job.
-- **GOOD**: Define a `.node_setup` hidden job with `before_script: [npm ci]` and use `extends: .node_setup` in dependent jobs.
+**WHY:** Repetitive `before_script` creates maintenance debt; use YAML anchors or `extends` to share setup.
+**BAD:** Identical `before_script: [npm ci]` in every job.
+**GOOD:** Define a `.node_setup` hidden job with `before_script: [npm ci]` and use `extends: .node_setup` in dependent jobs.
 
 ### NEVER omit `expire_in` on artifacts
 
-- **WHY**: Artifacts without an expiration date are retained indefinitely, consuming storage quota and slowing artifact listing in the GitLab UI.
-- **BAD**: `artifacts: paths: [dist/]` with no `expire_in`.
-- **GOOD**: `artifacts: paths: [dist/] expire_in: 7 days`
+**WHY:** Artifacts without an expiration date are retained indefinitely, consuming storage quota and slowing artifact listing in the GitLab UI.
+**BAD:** `artifacts: paths: [dist/]` with no `expire_in`.
+**GOOD:** `artifacts: paths: [dist/] expire_in: 7 days`
+
+### NEVER use `:latest` or unpinned image tags
+
+**WHY:** Floating tags make the same commit build differently on different days, and the validator flags them.
+**BAD:** `image: node:latest`
+**GOOD:** `image: node:20-alpine`
+
+### NEVER hardcode credentials in the pipeline file
+
+**WHY:** Secrets committed to `.gitlab-ci.yml` stay in repository history and are visible to everyone with read access.
+**BAD:** `variables: { DB_PASSWORD: "hunter2" }`
+**GOOD:** Define a masked CI/CD variable in project settings and reference `$DB_PASSWORD`.
+
+### NEVER omit `timeout` on jobs
+
+**WHY:** A job without an explicit timeout can occupy a runner until the instance default expires, blocking other pipelines.
+**BAD:** A `build` job with no `timeout`.
+**GOOD:** Set `timeout: 15 minutes` on the job, or once under `default:`.
+
+### NEVER skip the validation step before presenting a complete pipeline
+
+**WHY:** Every complete pipeline must be validated with the GitLab CI validator skill, and CRITICAL and HIGH findings fixed, before delivery.
+**BAD:** Generate a full `.gitlab-ci.yml` and hand it over unchecked.
+**GOOD:** Run the validator, fix CRITICAL and HIGH findings, re-validate, then present the results.
+
+### NEVER start generating before loading the reference files
+
+**WHY:** The pre-generation steps require reading all four reference files and confirming the chosen pattern, so security and naming rules are applied rather than guessed.
+**BAD:** Write the pipeline straight from the request.
+**GOOD:** Read `references/best-practices.md`, `references/common-patterns.md`, `references/gitlab-ci-reference.md` and `references/security-guidelines.md`, then output the Reference Analysis confirmation.
 
 ## References
 
 ### Reference Files
-- `references/best-practices.md` — Security, performance, pipeline design, anti-patterns
-- `references/common-patterns.md` — Standard patterns (basic CI, Docker, K8s, multi-project)
-- `references/gitlab-ci-reference.md` — Full keyword and syntax reference
-- `references/security-guidelines.md` — Secrets, image, script, and artifact security
-- `references/validation-presentation.md` — Validation results presentation format
+- `references/best-practices.md`: Security, performance, pipeline design, anti-patterns
+- `references/common-patterns.md`: Standard patterns (basic CI, Docker, K8s, multi-project)
+- `references/gitlab-ci-reference.md`: Full keyword and syntax reference
+- `references/security-guidelines.md`: Secrets, image, script, and artifact security
+- `references/validation-presentation.md`: Validation results presentation format
 
 ### Template Files
-- `assets/templates/basic-pipeline.yml` — Basic pipeline template
-- `assets/templates/docker-build.yml` — Docker build pipeline template
-- `assets/templates/kubernetes-deploy.yml` — Kubernetes deployment template
-- `assets/templates/multi-project.yml` — Multi-project orchestration template
+- `assets/templates/basic-pipeline.yml`: Basic pipeline template
+- `assets/templates/docker-build.yml`: Docker build pipeline template
+- `assets/templates/kubernetes-deploy.yml`: Kubernetes deployment template
+- `assets/templates/multi-project.yml`: Multi-project orchestration template
 
 **Template usage:** Copy structure → replace `[PLACEHOLDERS]` → customize logic → remove unused sections → validate.
