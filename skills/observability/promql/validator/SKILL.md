@@ -13,19 +13,22 @@ Use this skill when you need to:
 - Detect anti-patterns and high-cardinality risks in queries or dashboards.
 - Review alerting or recording rules before they ship.
 - Explain what a query does and compare it against the intended goal.
+- Suggest optimisations such as recording rules or tighter label matchers.
 
-When NOT to use this skill:
+## When Not to Use
 
-- Authoring a new query from scratch — use `promql-generator` instead.
-- Non-PromQL query languages — use the tool that matches that language.
-- Diagnosing Prometheus server health or scrape failures — that is an operations concern, not query validation.
+- Authoring a new query from scratch: use `promql-generator` instead.
+- Non-PromQL query languages: use the tool that matches that language.
+- Diagnosing Prometheus server health or scrape failures: that is an operations concern, not query validation.
+- Confirming that a metric or label value exists in a live deployment: the scripts cannot check this, so test against a real Prometheus instance.
 
-## Mindset
+## Philosophy
 
 - **Valid is not production-ready.** Syntactic validity says nothing about correctness, cost, or intent.
 - **Know the metric type first.** A query cannot be judged without knowing whether its series are counters, gauges, or histograms.
 - **Guard cardinality.** A dashboard query that keeps a high-cardinality label can overload the TSDB; flag it.
 - **Alerts need a for clause.** An expression with no sustain window flaps; check for one where it is warranted.
+- **Cite, do not assert.** Back each correction with a worked example from `assets/` or a section of `references/`.
 
 ## Workflow
 
@@ -38,7 +41,7 @@ When a user provides a PromQL query, follow this workflow:
 Run the syntax validation script to check for basic correctness:
 
 ```bash
-python3 .claude/skills/promql-validator/scripts/validate_syntax.py "<query>"
+./scripts/validate_syntax.py "<query>"
 ```
 
 ### Step 2: Check Best Practices
@@ -46,7 +49,7 @@ python3 .claude/skills/promql-validator/scripts/validate_syntax.py "<query>"
 Run the best practices checker to detect anti-patterns and optimization opportunities:
 
 ```bash
-python3 .claude/skills/promql-validator/scripts/check_best_practices.py "<query>"
+./scripts/check_best_practices.py "<query>"
 ```
 
 ### Step 3: Explain the Query
@@ -130,32 +133,88 @@ Give the user control:
 
 ### NEVER accept "syntactically valid" as "production-ready"
 
-- **WHY**: A query can parse without errors but produce wildly wrong results. Syntax validation only confirms the query can be evaluated; semantic validation confirms it measures what you intend.
-- **BAD**: Stop after `validate_syntax.py` returns success
-- **GOOD**: Complete all 7 workflow steps, including intent comparison (Step 5) and optimization review (Step 6)
+**WHY:** A query can parse without errors but produce wildly wrong results. Syntax validation only confirms the query can be evaluated; semantic validation confirms it measures what you intend.
+
+**BAD:** Stop after `validate_syntax.py` returns success.
+
+**GOOD:** Complete all 7 workflow steps, including intent comparison (Step 5) and optimization review (Step 6).
 
 ### NEVER ignore high-cardinality warnings for dashboard queries
 
-- **WHY**: A query missing label filters may work in development against a small data set but create fan-out to thousands of series in production, causing dashboard timeouts.
-- **BAD**: Dismiss the high-cardinality warning with "it works fine locally"
-- **GOOD**: Add `job=`, `namespace=`, or `service=` label filters before merging
+**WHY:** A query missing label filters may work in development against a small data set but fan out to thousands of series in production, causing dashboard timeouts.
+
+**BAD:** Dismiss the high-cardinality warning with "it works fine locally".
+
+**GOOD:** Add `job=`, `namespace=`, or `service=` label filters before merging.
 
 ### NEVER validate a query without understanding its metric type
 
-- **WHY**: Using `rate()` on a gauge or `avg()` on a histogram quantile produces results that are syntactically valid but statistically wrong. Metric type must be confirmed before the query pattern is evaluated.
-- **BAD**: Validate and optimize purely by pattern-matching without confirming counter vs gauge
-- **GOOD**: Step 4 explicitly asks: "Is this a counter, gauge, histogram, or summary?" before recommending changes
+**WHY:** Using `rate()` on a gauge or `avg()` on a histogram quantile produces results that are syntactically valid but statistically wrong. Metric type must be confirmed before the query pattern is evaluated.
+
+**BAD:** Validate and optimize purely by pattern-matching without confirming counter vs gauge.
+
+**GOOD:** Step 4 explicitly asks "Is this a counter, gauge, histogram, or summary?" before recommending changes.
 
 ### NEVER skip the `for` clause check on alert expressions
 
-- **WHY**: An alert expression without a `for` clause fires on a single evaluation, causing alert storms from transient spikes. The validator must flag missing `for` on all alerting rules.
-- **BAD**: Accept `expr: error_rate > 0.05` as complete for an alerting rule
-- **GOOD**: Flag absence of `for` and suggest a minimum `for: 2m` to reduce false positives
+**WHY:** An alert expression without a `for` clause fires on a single evaluation, causing alert storms from transient spikes. The validator must flag missing `for` on all alerting rules.
+
+**BAD:** Accept `expr: error_rate > 0.05` as complete for an alerting rule.
+
+**GOOD:** Flag absence of `for` and suggest a minimum `for: 2m` to reduce false positives.
+
+### NEVER apply `rate()` to a gauge or leave a counter raw
+
+**WHY:** A counter only ever increases, so its raw value or sum says little, while `rate()` on a gauge reads normal drops as counter resets. Both give plausible but wrong numbers (see `references/anti_patterns.md`).
+
+**BAD:** `sum(http_requests_total)` or `rate(node_memory_MemAvailable_bytes[5m])`.
+
+**GOOD:** `sum(rate(http_requests_total{job="api"}[5m]))` for counters, and the gauge used directly or with `avg_over_time()`.
+
+### NEVER average pre-calculated quantiles
+
+**WHY:** The mean of per-instance quantiles is not the quantile of the combined population, so the latency figure is misleading. The best practices checker flags this.
+
+**BAD:** `avg(http_request_duration_seconds{quantile="0.95"})`
+
+**GOOD:** `histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))`
+
+### NEVER write a `rate()` or `increase()` selector without a range vector
+
+**WHY:** `rate()` and `increase()` need a range vector, so a bare instant selector is a syntax error. The syntax script catches it, but the intent behind the window still has to be confirmed with the user.
+
+**BAD:** `rate(http_requests_total)`
+
+**GOOD:** `rate(http_requests_total{job="api"}[5m])`
+
+### NEVER use a wildcard regex matcher where an exact matcher will do
+
+**WHY:** Matchers such as `job=~".*"` match every series and are slower than equality matchers. The cardinality check flags unbounded selectors for this reason.
+
+**BAD:** `http_requests_total{job=~".*"}`
+
+**GOOD:** `http_requests_total{job="api-service"}`
+
+### NEVER run a long subquery over a wide window without a recording rule
+
+**WHY:** A subquery spanning many days re-evaluates the inner expression at every step, which is slow and can time out. Precompute it instead.
+
+**BAD:** `max_over_time(rate(http_requests_total[5m])[95d:1m])`
+
+**GOOD:** Record `rate(http_requests_total[5m])` as a recording rule, then query `max_over_time(<recorded_series>[7d])`.
+
+### NEVER present a heuristic warning as a certain defect
+
+**WHY:** Metric type and cardinality are inferred from naming conventions, so non-standard names and recording-rule series can trigger false positives. Stating them as fact erodes trust in the review.
+
+**BAD:** "Your query is wrong because the script says `foo_bytes` is a gauge."
+
+**GOOD:** "The script inferred a gauge from the `_bytes` suffix. Please confirm the type before I recommend changes."
 
 ## Known Limitations
 
 ### Metric Type Detection
-Metric types are inferred from naming conventions (e.g., `_total`, `_bytes`). Non-standard names may be misclassified — ask the user to confirm when uncertain.
+Metric types are inferred from naming conventions (e.g., `_total`, `_bytes`). Non-standard names may be misclassified: ask the user to confirm when uncertain.
 
 ### High Cardinality Detection
 The scripts flag metrics without label selectors, but recording rule metrics (e.g., `job:http_requests:rate5m`) and low-cardinality cases are legitimate without filters. Users can safely ignore the warning when they know their cardinality is manageable.
@@ -168,6 +227,13 @@ The scripts detect common anti-patterns but cannot catch business logic errors, 
 
 ## Validation Tools
 
+Run both scripts from the skill directory and read the JSON on standard output:
+
+```bash
+./scripts/validate_syntax.py 'rate(http_requests_total{job="api"}[5m])'
+./scripts/check_best_practices.py 'avg(http_request_duration_seconds{quantile="0.95"})'
+```
+
 The skill uses two main Python scripts:
 
 1. **validate_syntax.py**: Pure syntax checking using regex patterns
@@ -177,8 +243,8 @@ Both scripts output JSON for programmatic parsing and human-readable messages fo
 
 ## References
 
-- [Best Practices Guide](references/best_practices.md) — comprehensive PromQL best practices covering cardinality, function selection, and alerting rule design
-- [Anti-Patterns Reference](references/anti_patterns.md) — detailed anti-pattern explanations with root causes and correct alternatives
-- [Good Query Examples](assets/good_queries.promql) — well-written query patterns to reference when suggesting corrections
-- [Bad Query Examples](assets/bad_queries.promql) — common mistakes with corrections; cite these when showing users what to avoid
-- [Optimization Examples](assets/optimization_examples.promql) — before/after optimization comparisons for performance improvements
+- [Best Practices Guide](references/best_practices.md): comprehensive PromQL best practices covering cardinality, function selection, and alerting rule design
+- [Anti-Patterns Reference](references/anti_patterns.md): detailed anti-pattern explanations with root causes and correct alternatives
+- [Good Query Examples](assets/good_queries.promql): well-written query patterns to reference when suggesting corrections
+- [Bad Query Examples](assets/bad_queries.promql): common mistakes with corrections; cite these when showing users what to avoid
+- [Optimization Examples](assets/optimization_examples.promql): before/after optimization comparisons for performance improvements
