@@ -190,7 +190,7 @@ fn base_name(dir: &str) -> String {
 /// `None` for an ordinary skill. Consolidated skills (generator/validator pairs
 /// and multi-skill toolkits like `cfn`, `k8s`, `nx`, `opencode-toolkit`) live in
 /// a sub-directory of a shared toolkit dir that carries the tool-level
-/// `.tessl-plugin/plugin.json`, and name themselves `<prefix>-<dir>`, so that
+/// `.tekhne/plugin.json`, and name themselves `<prefix>-<dir>`, so that
 /// form is accepted alongside the bare directory name. The prefix is the toolkit
 /// directory name with a trailing `-toolkit` removed (`terraform` -> `terraform`,
 /// `opencode-toolkit` -> `opencode`). Ordinary skills sit directly under a domain
@@ -199,7 +199,7 @@ fn base_name(dir: &str) -> String {
 /// (see `artifacts::consolidated_skill_name`).
 fn consolidated_name(dir: &str, dir_name: &str) -> Option<String> {
     let parent = Path::new(dir).parent()?;
-    if !parent.join(".tessl-plugin").join("plugin.json").is_file() {
+    if !parent.join(".tekhne").join("plugin.json").is_file() {
         return None;
     }
     let parent_name = parent.file_name()?.to_str()?;
@@ -309,13 +309,13 @@ mod tests {
 
     /// Build a skill on disk at `root/rel_dir`. When `toolkit` is set, the
     /// parent directory is marked as a consolidated toolkit by writing a
-    /// tool-level `.tessl-plugin/plugin.json`, so the consolidated-name exemption
+    /// tool-level `.tekhne/plugin.json`, so the consolidated-name exemption
     /// applies (matching the on-disk layout the validator sees at runtime).
     fn skill_at(root: &Path, rel_dir: &str, name: &str, toolkit: bool) -> Skill {
         let dir = root.join(rel_dir);
         fs::create_dir_all(&dir).unwrap();
         if toolkit {
-            let plugin = dir.parent().unwrap().join(".tessl-plugin");
+            let plugin = dir.parent().unwrap().join(".tekhne");
             fs::create_dir_all(&plugin).unwrap();
             fs::write(plugin.join("plugin.json"), "{}").unwrap();
         }

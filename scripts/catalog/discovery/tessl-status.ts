@@ -7,7 +7,7 @@ export const getTesslStatus = async (
   const pluginJsonPath = join(
     "skills",
     skillRelativePath,
-    ".tessl-plugin",
+    ".tekhne",
     "plugin.json",
   );
   const tileJsonPath = join("skills", skillRelativePath, "tile.json");

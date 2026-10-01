@@ -19,7 +19,7 @@ export interface TileData {
   tilePath: string;
 }
 
-const PLUGIN_DIR = ".tessl-plugin";
+const PLUGIN_DIR = ".tekhne";
 
 const findTileManifests = (dir: string, results: string[] = []): string[] => {
   for (const entry of readdirSync(dir)) {
@@ -65,7 +65,7 @@ const skillKeyAt = (skillPath: string): string | null => {
 
 /**
  * `skills` is a record of {path, summary} in a legacy tile.json, and an array
- * of paths relative to the tile in a .tessl-plugin/plugin.json. A relative
+ * of paths relative to the tile in a .tekhne/plugin.json. A relative
  * path may be a subdirectory ("generator"), or a bare "SKILL.md" meaning the
  * tile directory is itself the skill.
  */

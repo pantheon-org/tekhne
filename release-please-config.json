@@ -6,7 +6,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -16,7 +16,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -26,7 +26,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -36,7 +36,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -46,7 +46,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -56,7 +56,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -66,7 +66,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -76,7 +76,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -86,7 +86,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -96,7 +96,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -106,7 +106,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -116,7 +116,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -126,7 +126,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -136,7 +136,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -146,7 +146,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -156,7 +156,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -166,7 +166,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -176,7 +176,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -186,7 +186,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -196,7 +196,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -206,7 +206,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -216,7 +216,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -226,7 +226,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -236,7 +236,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -246,7 +246,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -256,7 +256,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -266,7 +266,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -276,7 +276,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -286,7 +286,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -296,7 +296,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -306,7 +306,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -316,7 +316,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -326,7 +326,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -336,7 +336,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -346,7 +346,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -356,7 +356,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -366,7 +366,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -376,7 +376,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -386,7 +386,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -396,7 +396,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -406,7 +406,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -416,7 +416,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -426,7 +426,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -436,7 +436,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -446,7 +446,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -456,7 +456,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -466,7 +466,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -476,7 +476,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -486,7 +486,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -496,7 +496,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -506,7 +506,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -516,7 +516,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -526,7 +526,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -536,7 +536,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -546,7 +546,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -556,7 +556,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -566,7 +566,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -576,7 +576,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -586,7 +586,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -596,7 +596,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -606,7 +606,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -616,7 +616,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -626,7 +626,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -636,7 +636,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -646,7 +646,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -656,7 +656,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -666,7 +666,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -676,7 +676,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -686,7 +686,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -696,7 +696,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]
@@ -706,7 +706,7 @@
       "extra-files": [
         {
           "type": "json",
-          "path": ".tessl-plugin/plugin.json",
+          "path": ".tekhne/plugin.json",
           "jsonpath": "$.version"
         }
       ]

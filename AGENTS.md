@@ -97,7 +97,7 @@ their crate's `install` command, never through the Tessl registry:
 - `documentation/adr-creator` (embedded in the `adr` crate)
 - `agentic-harness/skill-quality-auditor` (embedded in the `skill-auditor` crate)
 
-These have `"private": true` in their `.tessl-plugin/plugin.json` and are omitted
+These have `"private": true` in their `.tekhne/plugin.json` and are omitted
 from `release-please-config.json` and `.release-please-manifest.json`, so the crate
 version is canonical and `tessl:publish` skips them. Their previously published
 registry versions were archived with `tessl plugin archive`. Continue running

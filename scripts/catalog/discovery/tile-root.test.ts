@@ -2,15 +2,15 @@ import { describe, expect, test } from "bun:test";
 import { tileRoot } from "./tile-root";
 
 describe("tileRoot", () => {
-  test("unwraps the .tessl-plugin directory", () => {
-    expect(
-      tileRoot("skills/repository-mgmt/nx/.tessl-plugin/plugin.json"),
-    ).toBe("skills/repository-mgmt/nx");
+  test("unwraps the .tekhne directory", () => {
+    expect(tileRoot("skills/repository-mgmt/nx/.tekhne/plugin.json")).toBe(
+      "skills/repository-mgmt/nx",
+    );
   });
 
   test("unwraps a nested child tile manifest", () => {
     expect(
-      tileRoot("skills/infrastructure/terraform/.tessl-plugin/plugin.json"),
+      tileRoot("skills/infrastructure/terraform/.tekhne/plugin.json"),
     ).toBe("skills/infrastructure/terraform");
   });
 
@@ -21,8 +21,8 @@ describe("tileRoot", () => {
   });
 
   test("does not unwrap a directory merely containing the marker name", () => {
-    expect(tileRoot("skills/foo/.tessl-plugin-backup/plugin.json")).toBe(
-      "skills/foo/.tessl-plugin-backup",
+    expect(tileRoot("skills/foo/.tekhne-backup/plugin.json")).toBe(
+      "skills/foo/.tekhne-backup",
     );
   });
 });
