@@ -7,6 +7,28 @@ description: Validates .gitlab-ci.yml syntax, detects security misconfigurations
 
 Validates, lints, tests, and secures GitLab CI/CD pipeline configurations (`.gitlab-ci.yml` files) across three layers: syntax/schema validation, best practices analysis, and security scanning.
 
+## Philosophy
+
+- Validate in layer order: syntax first, then best practices, then security. A syntax error can hide later findings.
+- Treat security findings as blockers and best-practice findings as guidance that tightens over time.
+- Prefer fast static checks before slower local execution with `gitlab-ci-local`.
+- Validate everything the pipeline pulls in, not just the entry-point file.
+
+## When to Use
+
+- Reviewing a `.gitlab-ci.yml` change before merging.
+- Debugging a pipeline that fails at queue time with a configuration error.
+- Auditing jobs for hardcoded secrets, `curl | bash` patterns or SSL bypasses.
+- Checking `include:` entries, components and `needs` graphs for problems.
+- Adding a validation job to a GitLab CI pipeline.
+
+## When Not to Use
+
+- Running the pipeline on GitLab runners: this skill checks configuration statically.
+- Writing a new pipeline from scratch: use the GitLab CI generator skill instead.
+- Validating Azure Pipelines or GitHub Actions files: use the matching validator skill.
+- Diagnosing application test failures inside a job: the validator only reads the YAML.
+
 ## Core Validation Workflow
 
 ### 1. Syntax Validation (Required first)
@@ -109,7 +131,7 @@ validate_pipeline:
   stage: validate
   script:
     - pip3 install PyYAML
-    - bash .claude/skills/gitlab-ci-validator/scripts/validate_gitlab_ci.sh .gitlab-ci.yml --strict
+    - bash scripts/validate_gitlab_ci.sh .gitlab-ci.yml --strict
 ```
 
 ## Adding Custom Validation Rules
@@ -147,44 +169,80 @@ def _check_custom_rule(self):
 
 ### NEVER skip syntax validation before running `gitlab-ci-local`
 
-- **WHY**: Local execution without pre-validation produces obscure runtime errors; resolve schema and syntax errors first to get actionable output.
-- **BAD**: Run `gitlab-ci-local` on an untested config and debug runtime failures.
-- **GOOD**: Run `bash scripts/validate_gitlab_ci.sh --syntax-only .gitlab-ci.yml` first; proceed to local testing only after syntax passes.
+**WHY:** Local execution without pre-validation produces obscure runtime errors; resolve schema and syntax errors first to get actionable output.
+**BAD:** Run `gitlab-ci-local` on an untested config and debug runtime failures.
+**GOOD:** Run `bash scripts/validate_gitlab_ci.sh --syntax-only .gitlab-ci.yml` first; proceed to local testing only after syntax passes.
 
 ### NEVER ignore `only`/`except` deprecation warnings
 
-- **WHY**: Pipelines using deprecated keywords will break when GitLab removes them; treat these as errors, not warnings.
-- **BAD**: Leave `only: [main]` after the validator flags it as deprecated.
-- **GOOD**: Migrate to `rules:` syntax during the same fix session.
+**WHY:** Pipelines using deprecated keywords will break when GitLab removes them; treat these as errors, not warnings.
+**BAD:** Leave `only: [main]` after the validator flags it as deprecated.
+**GOOD:** Migrate to `rules:` syntax during the same fix session.
 
 ### NEVER validate the pipeline file without also checking all referenced `include:` targets
 
-- **WHY**: A valid base file with an invalid include template causes mysterious pipeline failures at queue time.
-- **BAD**: Validate only `.gitlab-ci.yml` and skip `templates/*.yml` includes.
-- **GOOD**: Validate all local include files as well; the validator checks `include:local` paths automatically.
+**WHY:** A valid base file with an invalid include template causes mysterious pipeline failures at queue time.
+**BAD:** Validate only `.gitlab-ci.yml` and skip `templates/*.yml` includes.
+**GOOD:** Validate all local include files as well; the validator checks `include:local` paths automatically.
 
 ### NEVER run `--strict` as the first validation step on an unfamiliar pipeline
 
-- **WHY**: Strict mode fails on warnings and produces noise that obscures real errors; establish a baseline first.
-- **BAD**: Run `--strict` on an inherited pipeline and skip the output because it has 50 warnings.
-- **GOOD**: Run without `--strict` first; fix errors and critical warnings, then enable strict mode as a CI gate.
+**WHY:** Strict mode fails on warnings and produces noise that obscures real errors; establish a baseline first.
+**BAD:** Run `--strict` on an inherited pipeline and skip the output because it has 50 warnings.
+**GOOD:** Run without `--strict` first; fix errors and critical warnings, then enable strict mode as a CI gate.
+
+### NEVER merge a pipeline with hardcoded secrets in job definitions
+
+**WHY:** The security layer flags hardcoded credentials and tokens in scripts and variables (for example `[variable-hardcoded-secret]`, `[api-key]`). Committed secrets persist in history even after removal.
+**BAD:** `variables: { API_KEY: "abc123" }` in `.gitlab-ci.yml`.
+**GOOD:** Define the value as a masked, protected CI/CD variable in project settings and reference `$API_KEY`.
+
+### NEVER pipe a remote download straight into a shell
+
+**WHY:** The scan reports `[curl-pipe-bash]` and `[wget-pipe-bash]`. The job runs whatever the remote host serves at that moment.
+**BAD:** `script: - curl -s https://example.com/install.sh | bash`.
+**GOOD:** Use a pinned image that already contains the tool, or download, verify and then run the file.
+
+### NEVER use unpinned images or `latest` tags
+
+**WHY:** The best-practices layer reports `[image-latest-tag]` and `[image-no-version]`. A floating tag means the same commit can build differently on different days.
+**BAD:** `image: node:latest`.
+**GOOD:** `image: node:20.11-alpine`, or a digest.
+
+### NEVER include components or project files without a pinned version
+
+**WHY:** The validator reports `[include-component-no-version]`, `[include-component-latest-version]` and `[include-project-unpinned]`. An upstream change to the included file alters your pipeline with no change in your repository.
+**BAD:** `include: - project: group/ci-templates` with no `ref`.
+**GOOD:** Pin `ref:` to a tag or commit, and pin component versions to a semantic version.
+
+### NEVER leave artifacts without an expiry
+
+**WHY:** The best-practices layer reports `[artifact-no-expiration]`. Artifacts with no expiry accumulate and consume storage.
+**BAD:** `artifacts: { paths: [dist/] }` with no `expire_in`.
+**GOOD:** Add `expire_in: 1 week` (or a value that fits the job).
+
+### NEVER disable SSL verification in job scripts
+
+**WHY:** The security layer flags verification bypasses (`[insecure-ssl]`, `[skip-verification]`). It removes protection against tampering with downloaded content.
+**BAD:** `script: - git config --global http.sslVerify false`.
+**GOOD:** Fix the certificate chain or install the corporate CA in the job image.
 
 ## References
 
-- `docs/gitlab-ci-reference.md` — Complete GitLab CI/CD YAML syntax reference
-- `docs/best-practices.md` — Detailed best practices guide
-- `docs/common-issues.md` — Common issues and solutions
-- `docs/RULES.md` — Full validation rules catalog (syntax, best practice, security)
-- `examples/basic-pipeline.gitlab-ci.yml` — Simple three-stage pipeline
-- `examples/docker-build.gitlab-ci.yml` — Docker build and push workflow
-- `examples/multi-stage.gitlab-ci.yml` — Multi-stage pipeline with DAG
-- `examples/complex-workflow.gitlab-ci.yml` — Advanced workflow with all features
-- `examples/component-pipeline.gitlab-ci.yml` — GitLab 17.0+ pipeline using CI/CD components
+- `references/gitlab-ci-reference.md`: Complete GitLab CI/CD YAML syntax reference
+- `references/best-practices.md`: Detailed best practices guide
+- `references/common-issues.md`: Common issues and solutions
+- `scripts/`: rule definitions live in `validate_syntax.py`, `check_best_practices.py` and `check_security.py`
+- `assets/basic-pipeline.gitlab-ci.yml`: Simple three-stage pipeline
+- `assets/docker-build.gitlab-ci.yml`: Docker build and push workflow
+- `assets/multi-stage.gitlab-ci.yml`: Multi-stage pipeline with DAG
+- `assets/complex-workflow.gitlab-ci.yml`: Advanced workflow with all features
+- `assets/component-pipeline.gitlab-ci.yml`: GitLab 17.0+ pipeline using CI/CD components
 
 ```bash
 # Test with examples
-bash scripts/validate_gitlab_ci.sh examples/basic-pipeline.gitlab-ci.yml
-bash scripts/validate_gitlab_ci.sh examples/component-pipeline.gitlab-ci.yml
+bash scripts/validate_gitlab_ci.sh assets/basic-pipeline.gitlab-ci.yml
+bash scripts/validate_gitlab_ci.sh assets/component-pipeline.gitlab-ci.yml
 ```
 
 ## Fetching Latest Documentation

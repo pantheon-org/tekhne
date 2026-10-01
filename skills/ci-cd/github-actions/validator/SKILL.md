@@ -9,6 +9,28 @@ description: Comprehensive toolkit for validating, linting, and testing GitHub A
 
 Validate and test GitHub Actions workflows, custom actions, and public actions using industry-standard tools (actionlint and act). This skill provides comprehensive validation including syntax checking, static analysis, local workflow execution testing, and action verification with version-aware documentation lookup.
 
+## Philosophy
+
+- Lint first, execute second: `actionlint` is fast and needs no Docker, so it always runs before `act`.
+- Every reported error maps to a documented fix in `references/`; quote that fix rather than improvising one.
+- Treat security findings (script injection, unpinned actions) as defects, never as style preferences.
+- Static analysis has limits: state plainly what `actionlint` and `act` cannot prove.
+
+## When to Use
+
+- Validating a workflow file under `.github/workflows/` before commit or merge
+- Debugging a workflow that fails syntax, expression or schema checks
+- Testing a workflow locally with `act` before pushing
+- Checking that public actions use current, non-deprecated versions
+- Reviewing a workflow for script injection and other `actionlint` security findings
+
+## When Not to Use
+
+- Authoring a new workflow from scratch (use the GitHub Actions generator skill instead)
+- Validating CI definitions for other systems such as GitLab CI, Jenkins or Azure Pipelines
+- Diagnosing failures that only occur on GitHub-hosted runners at run time, which static analysis cannot reproduce
+- Validating private actions you cannot access
+
 ## CRITICAL: Assistant Workflow (MUST FOLLOW)
 
 **Every validation MUST follow these steps. Skipping any step is non-compliant.**
@@ -16,7 +38,7 @@ Validate and test GitHub Actions workflows, custom actions, and public actions u
 ### Step 1: Run Validation Script
 
 ```bash
-cd .claude/skills/github-actions-validator
+cd <skill-directory>  # the folder containing this SKILL.md
 bash scripts/validate_workflow.sh <workflow-file-or-directory>
 ```
 
@@ -77,7 +99,7 @@ After all errors are addressed:
 ### Initial Setup
 
 ```bash
-cd .claude/skills/github-actions-validator
+cd <skill-directory>  # the folder containing this SKILL.md
 bash scripts/install_tools.sh  # Installs act and actionlint to scripts/.tools/
 ```
 
@@ -99,7 +121,7 @@ bash scripts/validate_workflow.sh .github/workflows/
 
 **actionlint checks:** YAML syntax, schema compliance, expression syntax, runner labels, action inputs/outputs, job dependencies, CRON syntax, glob patterns, shell scripts, security vulnerabilities.
 
-**Note:** act has limitations — see `references/act_usage.md`.
+**Note:** act has limitations: see `references/act_usage.md`.
 
 ## Validating Resource Types
 
@@ -176,7 +198,7 @@ act -n                                         # Dry-run (no execution)
 ### Example 1: Pre-commit Validation
 
 ```bash
-cd .claude/skills/github-actions-validator
+cd <skill-directory>  # the folder containing this SKILL.md
 bash scripts/validate_workflow.sh .github/workflows/
 git add .github/workflows/ && git commit -m "Update workflows"
 ```
@@ -279,27 +301,75 @@ jobs:
 
 ### NEVER skip lint-only mode when Docker is unavailable
 
-- **WHY**: Skipping validation entirely because Docker is not installed leaves syntax errors, schema violations, and security issues undetected. `actionlint` catches the majority of real errors without Docker.
-- **BAD**: Skip all validation when Docker is not installed.
-- **GOOD**: Run `--lint-only` mode which covers syntax, schema, and security checks without requiring a container runtime.
+**WHY:** Skipping validation entirely because Docker is not installed leaves syntax errors, schema violations, and security issues undetected. `actionlint` catches the majority of real errors without Docker.
+
+**BAD:** Skip all validation when Docker is not installed.
+
+**GOOD:** Run `bash scripts/validate_workflow.sh --lint-only <file>`, which covers syntax, schema, and security checks without a container runtime.
 
 ### NEVER ignore script injection warnings from actionlint
 
-- **WHY**: Script injection warnings flag real attack vectors. Untrusted `github.event.*` values interpolated directly into shell commands allow a pull request author to execute arbitrary code in your workflow.
-- **BAD**: Dismiss `SC2086` or script injection warnings as low priority and merge anyway.
-- **GOOD**: Pass untrusted input through environment variables — `env: PR_TITLE: ${{ github.event.pull_request.title }}` — then reference `"$PR_TITLE"` in the `run:` step.
+**WHY:** Script injection warnings flag real attack vectors. Untrusted `github.event.*` values interpolated directly into shell commands allow a pull request author to execute arbitrary code in your workflow.
+
+**BAD:** Dismiss script injection warnings as low priority and merge anyway.
+
+**GOOD:** Pass untrusted input through environment variables (`env: PR_TITLE: ${{ github.event.pull_request.title }}`) and reference `"$PR_TITLE"` in the `run:` step.
 
 ### NEVER validate a workflow file in isolation when it uses `workflow_call` or `matrix`
 
-- **WHY**: Reusable workflows and matrix strategies depend on caller-provided inputs and context that cannot be resolved by validating the file alone. Skipping caller validation misses entire classes of type and expression errors.
-- **BAD**: Validate only the reusable workflow file without also validating the calling workflow.
-- **GOOD**: Validate both the caller and callee; note any warnings that require runtime context that static analysis cannot resolve.
+**WHY:** Reusable workflows and matrix strategies depend on caller-provided inputs and context that cannot be resolved by validating the file alone. Skipping caller validation misses entire classes of type and expression errors.
+
+**BAD:** Validate only the reusable workflow file without also validating the calling workflow.
+
+**GOOD:** Validate both the caller and callee, and note any warnings that need runtime context that static analysis cannot resolve.
 
 ### NEVER accept deprecation warnings as harmless
 
-- **WHY**: Deprecated action major versions (e.g., `@v2` when `@v4` is current) may receive no security patches. A known vulnerability in a deprecated version is an open door into your CI environment.
-- **BAD**: Leave `actions/checkout@v2` in place after the validator warns it is outdated.
-- **GOOD**: Update to the current SHA-pinned version from `references/action_versions.md`.
+**WHY:** Deprecated action major versions (for example `@v2` when `@v4` is current) may receive no security patches. A known vulnerability in a deprecated version is an open door into your CI environment.
+
+**BAD:** Leave `actions/checkout@v2` in place after the validator warns it is outdated.
+
+**GOOD:** Update to the current SHA-pinned version listed in `references/action_versions.md`.
+
+### NEVER fix an error without consulting the reference file first
+
+**WHY:** The workflow requires each actionlint or act error to be matched against `references/` and the documented fix quoted to the user. Guessing a fix risks a change that silences the message but leaves the underlying defect.
+
+**BAD:** See `label "ubuntu-lastest" is unknown` and edit the workflow without checking `references/runners.md`.
+
+**GOOD:** Look the error up in the Error-to-Reference Mapping, quote the explanation and fix, then apply it.
+
+### NEVER use web search for an action that `references/action_versions.md` already covers
+
+**WHY:** The reference file is the first source of truth for known actions and versions. Searching first wastes effort and can surface stale or unofficial documentation.
+
+**BAD:** Search the web for `actions/checkout` documentation before opening `references/action_versions.md`.
+
+**GOOD:** Check `references/action_versions.md` first and search the web only for actions it does not list.
+
+### NEVER treat a passing `act` run as proof the workflow works on GitHub
+
+**WHY:** `act` has documented limitations, and some GitHub API actions fail or behave differently locally. A local pass or fail is a signal, not a guarantee.
+
+**BAD:** Report a workflow as verified because `act` succeeded, or as broken because `act` failed while `actionlint` is clean.
+
+**GOOD:** Combine the `actionlint` result with `act`, and consult the Limitations section of `references/act_usage.md` before concluding either way.
+
+### NEVER run `act` against files outside `.github/workflows/`
+
+**WHY:** `act` can only validate workflows in the `.github/workflows/` directory. Files elsewhere, such as under `assets/`, can only be checked with `actionlint`.
+
+**BAD:** Run `bash scripts/validate_workflow.sh --test-only assets/valid-ci.yml` and read the result as a pass.
+
+**GOOD:** Use `--lint-only` for files outside `.github/workflows/`.
+
+### NEVER leave actions unpinned in production workflows
+
+**WHY:** Mutable tags such as `@v3` can change underneath you. The recommended practice in this skill is SHA pinning for production workflows, with the version noted in a comment.
+
+**BAD:** `uses: actions/checkout@v3`
+
+**GOOD:** `uses: actions/checkout@<full-commit-sha>  # v6.0.0`, with the SHA taken from `references/action_versions.md`.
 
 ## Summary
 

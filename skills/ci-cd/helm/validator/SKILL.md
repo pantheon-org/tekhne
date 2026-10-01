@@ -11,6 +11,29 @@ This skill provides a comprehensive validation and analysis workflow for Helm ch
 
 **IMPORTANT: This is a READ-ONLY validator.** It analyzes charts and proposes improvements but does NOT modify any files. All proposed changes are listed in the final summary for the user to review and apply manually or via the helm-generator skill.
 
+## Philosophy
+
+- Validate in stages, because linting, rendering, schema checks and security checks each catch different faults.
+- Stay read-only: analyse the chart and propose changes, and leave applying them to the user.
+- Validate rendered output, not just chart sources, since templates can produce invalid manifests from valid-looking YAML.
+- Prefer documented CRD schemas over guesses when a resource has no published schema.
+- Continue through failing stages and report everything together in the final report.
+
+## When to Use
+
+- Validating a Helm chart before release or deployment
+- Debugging template rendering errors or lint failures
+- Checking rendered manifests against Kubernetes schemas with kubeconform
+- Looking up documentation for Custom Resource Definitions found in a chart
+- Reviewing a chart's securityContext, resource limits and image tags
+
+## When Not to Use
+
+- Creating or scaffolding a new chart (use helm-generator)
+- Modifying chart files; this skill is read-only
+- Validating plain Kubernetes manifests with no Helm chart (use k8s-yaml-validator)
+- Troubleshooting a running release in a cluster
+
 ## Validation & Testing Workflow
 
 Follow this sequential workflow. Each stage catches different types of issues.
@@ -55,7 +78,7 @@ Useful flags: `--validate`, `--include-crds`, `--is-upgrade`, `--kube-version 1.
 yamllint -c assets/.yamllint ./rendered/*.yaml
 ```
 
-Fix template-generated YAML issues in the source template — not the rendered output.
+Fix template-generated YAML issues in the source template, not the rendered output.
 
 ### Stage 6: CRD Detection and Documentation Lookup
 
@@ -92,7 +115,7 @@ kubeconform \
   ./rendered/*.yaml
 ```
 
-Add `-strict` for production, `-ignore-missing-schemas` for internal CRDs, `-kubernetes-version 1.28.0` for version pinning. "No schema found" for CRDs is expected — validate those manually using Stage 6 docs.
+Add `-strict` for production, `-ignore-missing-schemas` for internal CRDs, `-kubernetes-version 1.28.0` for version pinning. "No schema found" for CRDs is expected, validate those manually using Stage 6 docs.
 
 ### Stage 8: Cluster Dry-Run (if available)
 
@@ -195,9 +218,9 @@ For complex templating tasks, load the dedicated reference:
 Read references/template_functions.md
 ```
 
-Standard helper patterns (`templates/_helpers.tpl`) — including `fullname`, `labels`, and `selectorLabels` definitions — are documented in `references/template_functions.md`.
+Standard helper patterns (`templates/_helpers.tpl`), including `fullname`, `labels`, and `selectorLabels` definitions, are documented in `references/template_functions.md`.
 
-**Key template functions:** `required`, `default`, `quote`, `include`, `tpl`, `toYaml`, `merge`, `lookup` — see `references/template_functions.md` for full reference with examples.
+**Key template functions:** `required`, `default`, `quote`, `include`, `tpl`, `toYaml`, `merge`, `lookup`, see `references/template_functions.md` for full reference with examples.
 
 ## macOS Extended Attributes Issue
 
@@ -231,27 +254,83 @@ xattr -cr /path/to/chart/            # remove all recursively
 
 ### NEVER treat `helm lint` passing as sufficient validation
 
-- **WHY**: `helm lint` only checks chart structure and basic YAML syntax; it does not validate rendered Kubernetes manifests against the API schema.
-- **BAD**: Ship a chart after `helm lint` passes with no manifest validation.
-- **GOOD**: Run `helm template | kubeval` or `helm template | kubeconform` to validate rendered output.
+**WHY:** `helm lint` only checks chart structure and basic YAML syntax; it does not validate rendered Kubernetes manifests against the API schema.
+
+**BAD:** Ship a chart after `helm lint` passes with no manifest validation.
+
+**GOOD:** Run `helm template | kubeval` or `helm template | kubeconform` to validate rendered output.
 
 ### NEVER skip `--set` overrides when linting complex charts
 
-- **WHY**: Linting with only default values misses validation errors that only surface when required values are provided.
-- **BAD**: `helm lint ./chart` with no value overrides.
-- **GOOD**: `helm lint ./chart --set image.tag=v1.0 --set ingress.enabled=true` to exercise non-default code paths.
+**WHY:** Linting with only default values misses validation errors that only surface when required values are provided.
+
+**BAD:** `helm lint ./chart` with no value overrides.
+
+**GOOD:** `helm lint ./chart --set image.tag=v1.0 --set ingress.enabled=true` to exercise non-default code paths.
 
 ### NEVER ignore `helm diff` output before `helm upgrade`
 
-- **WHY**: Upgrading without reviewing the diff can silently delete resources (e.g., removing a service selector key).
-- **BAD**: Run `helm upgrade` directly in CI without diffing.
-- **GOOD**: Run `helm diff upgrade myapp ./chart` and fail the pipeline if destructive changes are detected.
+**WHY:** Upgrading without reviewing the diff can silently delete resources (e.g., removing a service selector key).
+
+**BAD:** Run `helm upgrade` directly in CI without diffing.
+
+**GOOD:** Run `helm diff upgrade myapp ./chart` and fail the pipeline if destructive changes are detected.
 
 ### NEVER validate charts without checking sub-chart dependencies
 
-- **WHY**: `helm dependency update` failure silently falls back to cached or missing sub-charts, producing incorrect renders.
-- **BAD**: Run `helm template ./chart` without first running `helm dependency update`.
-- **GOOD**: Always run `helm dependency update && helm template` in sequence.
+**WHY:** `helm dependency update` failure silently falls back to cached or missing sub-charts, producing incorrect renders.
+
+**BAD:** Run `helm template ./chart` without first running `helm dependency update`.
+
+**GOOD:** Always run `helm dependency update && helm template` in sequence.
+
+### NEVER modify chart files from this skill
+
+**WHY:** The validator is read-only by design. Unreviewed edits can change a release in ways the user did not approve.
+
+**BAD:** Edit `values.yaml` to add a missing `securityContext` as soon as the check fails.
+
+**GOOD:** List the change as a proposed before/after block in the final summary for the user to apply, manually or with the helm-generator skill.
+
+### NEVER fix rendered output instead of the template
+
+**WHY:** Rendered files are regenerated on every run, so a fix applied there is lost and the template defect remains.
+
+**BAD:** Hand-edit `./rendered/deployment.yaml` to clear a yamllint error.
+
+**GOOD:** Fix the issue in the source template under `templates/` and re-render.
+
+### NEVER skip the final report when all stages pass
+
+**WHY:** Stage 10 is mandatory; the summary table is the record of what ran and what was skipped, and a silent pass hides skipped stages.
+
+**BAD:** Say "chart looks fine" after lint succeeds.
+
+**GOOD:** Produce the validation summary table and final summary even when every stage passes.
+
+### NEVER accept the `:latest` image tag
+
+**WHY:** `:latest` makes deployments non-reproducible, so the same chart can run different images over time.
+
+**BAD:** `image: nginx:latest` in a rendered Deployment.
+
+**GOOD:** Pin an explicit version tag, for example `image: nginx:1.27`, and report any `:latest` tag as a warning.
+
+### NEVER treat a missing CRD schema as a validation pass
+
+**WHY:** kubeconform reports "No schema found" for CRDs it cannot check, which means the resource was not validated, not that it is valid.
+
+**BAD:** Count a Certificate resource as validated because kubeconform raised no error.
+
+**GOOD:** Look up the CRD documentation (Stage 6) and check required fields manually, using `-ignore-missing-schemas` only for the schema step.
+
+### NEVER abort the workflow at the first failing stage
+
+**WHY:** Each stage catches a different class of issue; stopping early hides later problems and forces repeated runs.
+
+**BAD:** Stop after `helm lint` fails and report one error.
+
+**GOOD:** Continue to the next stage, collect all errors, and present them together in Stage 10.
 
 ## References
 

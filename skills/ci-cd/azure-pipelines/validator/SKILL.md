@@ -1,24 +1,45 @@
 ---
 name: azure-pipelines-validator
-description: "Validates, lints, and security-scans Azure DevOps Pipeline configurations (azure-pipelines.yml / azure-pipelines.yaml). Use when working with ADO pipelines, YAML pipeline files, or CI/CD configurations in Azure DevOps — including validating YAML syntax and schema, detecting hardcoded secrets or credentials, checking for deprecated or unpinned task versions, enforcing best practices (caching, timeouts, display names), performing pipeline security audits, or reviewing azure-pipelines.yml before merging. Trigger terms: azure-pipelines.yml, ADO pipeline, Azure Pipelines, YAML pipeline, CI/CD validation, pipeline security scan, DevOps configuration review."
+description: "Validates, lints, and security-scans Azure DevOps Pipeline configurations (azure-pipelines.yml / azure-pipelines.yaml). Use when working with ADO pipelines, YAML pipeline files, or CI/CD configurations in Azure DevOps: including validating YAML syntax and schema, detecting hardcoded secrets or credentials, checking for deprecated or unpinned task versions, enforcing best practices (caching, timeouts, display names), performing pipeline security audits, or reviewing azure-pipelines.yml before merging. Trigger terms: azure-pipelines.yml, ADO pipeline, Azure Pipelines, YAML pipeline, CI/CD validation, pipeline security scan, DevOps configuration review."
 ---
 
 # Azure Pipelines Validator
 
 Validates, lints, and security-scans Azure DevOps Pipeline configurations (`azure-pipelines.yml`, `azure-pipelines.yaml`). Runs four validation layers via a single orchestrator script.
 
+## Philosophy
+
+- Static analysis is cheap and runs before the pipeline does, so catch problems at review time, not at queue time.
+- Fix findings in layer order (lint, syntax, best practices, security): a syntax error can hide later findings.
+- Treat security findings as merge blockers and best-practice findings as guidance that hardens over time.
+- Re-run only the layer you just fixed, then run the full validation once before merging.
+
+## When to Use
+
+- Reviewing `azure-pipelines.yml` or `azure-pipelines.yaml` before merging a change.
+- Auditing a pipeline for hardcoded secrets, `:latest` container tags or `curl | bash` patterns.
+- Checking task version pinning, `displayName`, caching and timeouts on an existing pipeline.
+- Adding a validation gate to an Azure Pipelines CI job.
+
+## When Not to Use
+
+- Executing or testing a pipeline run: this skill does static analysis only.
+- Looking up current task inputs or versions: use the live documentation sources listed below.
+- Validating GitLab CI or GitHub Actions files: use the matching validator skill instead.
+- Generating a new pipeline from scratch: use the Azure Pipelines generator skill instead.
+
 ## Basic Usage
 
 ```bash
 # Full validation (all layers)
-bash .claude/skills/azure-pipelines-validator/scripts/validate_azure_pipelines.sh azure-pipelines.yml
+bash scripts/validate_azure_pipelines.sh azure-pipelines.yml
 ```
 
 Layers executed in order:
-0. **YAML lint** (yamllint) — formatting, indentation, trailing spaces
-1. **Syntax validation** — schema, required fields, stages/jobs/steps hierarchy, task format, dependencies
-2. **Best practices** — display names, task version pinning, pool image specificity, caching, timeouts
-3. **Security scan** — hardcoded secrets/API keys/AWS/Azure credentials, dangerous script patterns, SSL bypasses, container `:latest` tags
+0. **YAML lint** (yamllint): formatting, indentation, trailing spaces
+1. **Syntax validation**: schema, required fields, stages/jobs/steps hierarchy, task format, dependencies
+2. **Best practices**: display names, task version pinning, pool image specificity, caching, timeouts
+3. **Security scan**: hardcoded secrets/API keys/AWS/Azure credentials, dangerous script patterns, SSL bypasses, container `:latest` tags
 
 ### Common Options
 
@@ -70,7 +91,7 @@ MEDIUM SEVERITY (1):
 ```
 
 **When validation fails:**
-1. Note the rule code in brackets (e.g., `[missing-displayname]`) — see `references/` for rule details.
+1. Note the rule code in brackets (e.g., `[missing-displayname]`): see `references/` for rule details.
 2. Fix the flagged line and re-run the same layer (`--syntax-only`, `--security-only`, etc.) to iterate quickly.
 3. Run full validation once all targeted fixes are applied to confirm no regressions.
 4. For `MEDIUM`/`HIGH` security findings, do not merge until resolved; `INFO` findings are advisory.
@@ -96,7 +117,7 @@ bash scripts/validate_azure_pipelines.sh azure-pipelines.yml --best-practices
 ```yaml
 steps:
 - script: |
-    bash .claude/skills/azure-pipelines-validator/scripts/validate_azure_pipelines.sh azure-pipelines.yml --strict
+    bash scripts/validate_azure_pipelines.sh azure-pipelines.yml --strict
   displayName: 'Validate Pipeline Configuration'
 ```
 
@@ -121,7 +142,7 @@ WebFetch("https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/referen
 ## Requirements
 
 - **Python 3.7+**, **Bash**
-- **PyYAML** and **yamllint**: auto-installed in a persistent `.venv` if not available system-wide — no manual setup required.
+- **PyYAML** and **yamllint**: auto-installed in a persistent `.venv` if not available system-wide: no manual setup required.
 
 ```bash
 # Optional manual install
@@ -140,36 +161,72 @@ pip3 install PyYAML yamllint
 
 ### NEVER skip validation on template files
 
-- **WHY**: Templates called from the main pipeline can contain schema violations, missing parameters, or invalid task references that only surface at runtime. Validating only the entry-point file leaves template errors undetected until the pipeline actually runs.
-- **BAD**: Validate only `azure-pipelines.yml` and skip all files under `templates/*.yml`.
-- **GOOD**: Run the validator on every `.yml` file in the pipeline directory, including all templates.
+**WHY:** Templates called from the main pipeline can contain schema violations, missing parameters, or invalid task references that only surface at runtime. Validating only the entry-point file leaves template errors undetected until the pipeline actually runs.
+**BAD:** Validate only `azure-pipelines.yml` and skip all files under `templates/*.yml`.
+**GOOD:** Run the validator on every `.yml` file in the pipeline directory, including all templates.
 
 ### NEVER treat YAML lint warnings as informational
 
-- **WHY**: Azure Pipelines YAML is whitespace-significant. Indentation errors and trailing spaces can silently restructure the pipeline — turning a step into a job property, or merging two separate blocks — without any obvious parse error.
-- **BAD**: Ignore `yamllint` warnings such as "trailing spaces" or "wrong indentation" because the pipeline appears to run.
-- **GOOD**: Fix all YAML formatting issues before submitting; a clean `yamllint` pass is a prerequisite for a trustworthy pipeline.
+**WHY:** Azure Pipelines YAML is whitespace-significant. Indentation errors and trailing spaces can silently restructure the pipeline: turning a step into a job property, or merging two separate blocks: without any obvious parse error.
+**BAD:** Ignore `yamllint` warnings such as "trailing spaces" or "wrong indentation" because the pipeline appears to run.
+**GOOD:** Fix all YAML formatting issues before submitting; a clean `yamllint` pass is a prerequisite for a trustworthy pipeline.
 
 ### NEVER use the strict mode flag on an unreviewed pipeline
 
-- **WHY**: `--strict` fails on all warnings, which is the correct setting for a CI gate. Applied to a brand-new pipeline with dozens of warnings, it produces so much noise that engineers discard the output entirely and disable validation rather than fix the root causes.
-- **BAD**: Run `--strict` on a new pipeline, see 30 warnings, and remove validation from the workflow because "it's too noisy."
-- **GOOD**: Run without `--strict` first, fix critical errors, then warnings, then graduate to strict mode as a CI gate.
+**WHY:** `--strict` fails on all warnings, which is the correct setting for a CI gate. Applied to a brand-new pipeline with dozens of warnings, it produces so much noise that engineers discard the output entirely and disable validation rather than fix the root causes.
+**BAD:** Run `--strict` on a new pipeline, see 30 warnings, and remove validation from the workflow because "it's too noisy."
+**GOOD:** Run without `--strict` first, fix critical errors, then warnings, then graduate to strict mode as a CI gate.
 
 ### NEVER skip security scanning before merging pipeline changes
 
-- **WHY**: A passing syntax validation does not imply a secure pipeline. Security scanning catches hardcoded credentials, injection vectors, and insecure patterns that syntax checks are not designed to detect.
-- **BAD**: Merge a pipeline change after syntax validation passes with no security check.
-- **GOOD**: Always run `--security` as part of the validation workflow, treating `MEDIUM` and `HIGH` findings as merge blockers.
+**WHY:** A passing syntax validation does not imply a secure pipeline. Security scanning catches hardcoded credentials, injection vectors, and insecure patterns that syntax checks are not designed to detect.
+**BAD:** Merge a pipeline change after syntax validation passes with no security check.
+**GOOD:** Always run `--security` as part of the validation workflow, treating `MEDIUM` and `HIGH` findings as merge blockers.
+
+### NEVER merge a pipeline with hardcoded secrets in YAML
+
+**WHY:** The security layer flags hardcoded passwords, API keys, tokens, AWS and Azure credentials (for example `[hardcoded-password]`, `[hardcoded-api-key]`). Anything committed to the repository stays in history even after the line is removed.
+**BAD:** `password: 'P@ssw0rd'` written directly in a `variables:` block.
+**GOOD:** Reference a secret variable or variable group, for example `$(DB_PASSWORD)`, and mark it secret in Azure DevOps.
+
+### NEVER leave task versions unpinned or at version zero
+
+**WHY:** The best-practices layer reports `[task-no-version]`, `[task-version-zero]` and `[task-old-version]`. An unpinned or outdated task can change behaviour between runs or run deprecated code.
+**BAD:** `- task: Npm` with no `@` version.
+**GOOD:** `- task: Npm@1` with the major version pinned.
+
+### NEVER use `:latest` container images or `ubuntu-latest` blindly
+
+**WHY:** The scanner reports `[container-latest-tag]` and `[pool-latest-image]`. A floating tag means the same commit can build differently on different days.
+**BAD:** `container: ubuntu:latest`.
+**GOOD:** Pin the image to a specific version or a SHA digest.
+
+### NEVER pipe remote downloads straight into a shell
+
+**WHY:** Patterns such as `curl ... | bash` and `wget ... | sh` are flagged by the security scan (`[curl-pipe-shell]`, `[wget-pipe-shell]`). The pipeline executes whatever the remote host serves at that moment.
+**BAD:** `- script: curl -sSL https://example.com/install.sh | bash`.
+**GOOD:** Download the file, verify it, then run it, or use a pinned pipeline task.
+
+### NEVER disable SSL verification in pipeline scripts
+
+**WHY:** The security scan flags SSL bypasses such as `[insecure-ssl]` and `[git-disable-ssl]`. Disabling verification exposes the build to man-in-the-middle tampering.
+**BAD:** `- script: git config --global http.sslVerify false`.
+**GOOD:** Fix the certificate chain or install the corporate CA on the agent.
+
+### NEVER ignore a missing timeout or cache finding on long jobs
+
+**WHY:** The best-practices layer reports `[missing-timeout]` and `[missing-cache]`. A hung job without a timeout holds an agent until the platform default expires, and an uncached dependency install slows every run.
+**BAD:** A build job with no `timeoutInMinutes` that reinstalls npm packages on every run.
+**GOOD:** Set `timeoutInMinutes` on the job and add a `Cache@2` step for dependencies.
 
 ## References
 
-- `references/azure-pipelines-reference.md` — full YAML syntax reference and rule definitions
-- `assets/examples/basic-pipeline.yml` — simple CI pipeline
-- `assets/examples/docker-build.yml` — Docker build and push
-- `assets/examples/deployment-pipeline.yml` — multi-environment deployment with approval gates
-- `assets/examples/multi-platform.yml` — multi-platform build matrix
-- `assets/examples/template-example.yml` — reusable templates
+- `references/azure-pipelines-reference.md`: full YAML syntax reference and rule definitions
+- `assets/examples/basic-pipeline.yml`: simple CI pipeline
+- `assets/examples/docker-build.yml`: Docker build and push
+- `assets/examples/deployment-pipeline.yml`: multi-environment deployment with approval gates
+- `assets/examples/multi-platform.yml`: multi-platform build matrix
+- `assets/examples/template-example.yml`: reusable templates
 
 ```bash
 # Test with a bundled example

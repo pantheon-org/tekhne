@@ -9,6 +9,28 @@ description: Generate Terraform modules, configure providers, define variables a
 
 This skill enables the generation of production-ready Terraform configurations following best practices and current standards. Automatically integrates validation and documentation lookup for custom providers and modules.
 
+## When to Use
+
+- Creating new Terraform resources, modules or whole projects from a plain-language request.
+- Scaffolding AWS, Azure or GCP infrastructure with providers, variables, outputs and a state backend.
+- Structuring multi-environment or multi-provider configurations.
+- Adding custom or third-party providers and modules that need a documentation lookup.
+
+## When Not to Use
+
+- Validating or security-scanning existing HCL: use `terraform-validator` instead.
+- Running `terraform apply` or changing live infrastructure: this skill only writes configuration.
+- Non-Terraform IaC such as CloudFormation, Pulumi or Ansible.
+- Explaining or debugging a failed apply from state alone, without generating new configuration.
+
+## Philosophy
+
+- **Production-ready by default.** Pin versions, encrypt, use least-privilege and protect critical resources from the first draft.
+- **Look up, do not guess.** Custom providers and modules need version-specific documentation before any HCL is written.
+- **Validate before handing over.** Configuration is not finished until the validator passes all checks.
+- **Prefer data sources to hardcoded values.** Regions, accounts, AZs and AMIs are looked up, not typed in.
+- **Keep it readable.** Follow the principle of least surprise and explain non-obvious choices in comments.
+
 ## Core Workflow
 
 Work through these steps in order. Do not skip any step.
@@ -52,9 +74,9 @@ Analyze the user's request to determine:
 
 Before generating configuration, read the relevant reference files:
 
-```
-Read(file_path: ".claude/skills/terraform-generator/references/terraform_best_practices.md")
-Read(file_path: ".claude/skills/terraform-generator/references/provider_examples.md")
+```bash
+cat references/terraform_best_practices.md
+cat references/provider_examples.md
 ```
 
 **When to consult each reference:**
@@ -332,6 +354,14 @@ If validation fails, fix the issues and re-run the validator. Do NOT proceed to 
 - The devops-skills:terraform-validator skill will automatically fetch documentation
 - Use the fetched documentation to fix any issues
 
+Run the same checks by hand from the project directory when needed:
+
+```bash
+terraform fmt -check
+terraform init
+terraform validate
+```
+
 ### Step 5: Provide Usage Instructions
 
 After successful generation and validation with all checks passing, provide the user with:
@@ -456,33 +486,94 @@ Always consider version compatibility:
 
 ### NEVER mix input variable defaults with environment-specific values in the same `variables.tf`
 
-- **WHY**: Variables with environment-specific defaults break reuse across workspaces; every workspace that sources the module inherits the wrong default silently.
-- **BAD**: `default = "us-east-1"` on a `region` variable in a shared module.
-- **GOOD**: Omit `default` on environment-specific variables; pass values via `.tfvars` files or environment variables (`TF_VAR_region`).
+**WHY:** Variables with environment-specific defaults break reuse across workspaces; every workspace that sources the module inherits the wrong default silently.
+
+**BAD:** `default = "us-east-1"` on a `region` variable in a shared module.
+**GOOD:** Omit `default` on environment-specific variables; pass values via `.tfvars` files or environment variables (`TF_VAR_region`).
 
 ### NEVER use `count` to manage resources that differ only by configuration
 
-- **WHY**: `count` creates indexed resources (e.g., `aws_instance.web[0]`) that break when items are removed from the middle of a list, forcing unwanted destroys and recreates.
-- **BAD**: `count = length(var.instance_names)` combined with `var.instance_names[count.index]` for named resources.
-- **GOOD**: Use `for_each` with a map or set to create named resources (e.g., `for_each = toset(var.instance_names)`) that survive insertions and deletions.
+**WHY:** `count` creates indexed resources (e.g., `aws_instance.web[0]`) that break when items are removed from the middle of a list, forcing unwanted destroys and recreates.
+
+**BAD:** `count = length(var.instance_names)` combined with `var.instance_names[count.index]` for named resources.
+**GOOD:** Use `for_each` with a map or set to create named resources (e.g., `for_each = toset(var.instance_names)`) that survive insertions and deletions.
 
 ### NEVER store Terraform state in a local backend for team or CI use
 
-- **WHY**: Local state cannot be shared, locked, or versioned; concurrent applies corrupt it and there is no recovery path.
-- **BAD**: No `backend {}` block (defaults to local state in `terraform.tfstate`).
-- **GOOD**: Configure `backend "s3" {}` (or equivalent) with a `dynamodb_table` argument for state locking.
+**WHY:** Local state cannot be shared, locked, or versioned; concurrent applies corrupt it and there is no recovery path.
+
+**BAD:** No `backend {}` block (defaults to local state in `terraform.tfstate`).
+**GOOD:** Configure `backend "s3" {}` (or equivalent) with a `dynamodb_table` argument for state locking.
 
 ### NEVER hardcode provider credentials or region in `.tf` files
 
-- **WHY**: Credentials in source control are a security incident; hardcoded regions prevent cross-region reuse and require code changes for every deployment.
-- **BAD**: `provider "aws" { region = "us-east-1" access_key = "AKIA..." secret_key = "..." }`.
-- **GOOD**: Configure credentials via environment variables (`AWS_REGION`, `AWS_ACCESS_KEY_ID`) or IAM instance/execution roles; set region via `var.aws_region`.
+**WHY:** Credentials in source control are a security incident; hardcoded regions prevent cross-region reuse and require code changes for every deployment.
+
+**BAD:** `provider "aws" { region = "us-east-1" access_key = "AKIA..." secret_key = "..." }`.
+**GOOD:** Configure credentials via environment variables (`AWS_REGION`, `AWS_ACCESS_KEY_ID`) or IAM instance/execution roles; set region via `var.aws_region`.
 
 ### NEVER use `terraform apply` without a saved plan in CI/CD
 
-- **WHY**: Running `apply` without a saved plan allows Terraform to pick up state changes that occurred between plan and apply, producing a different result than reviewed.
-- **BAD**: `terraform apply -auto-approve` as a single pipeline step.
-- **GOOD**: `terraform plan -out=tfplan` then `terraform apply tfplan` as two separate, sequential pipeline steps.
+**WHY:** Running `apply` without a saved plan allows Terraform to pick up state changes that occurred between plan and apply, producing a different result than reviewed.
+
+**BAD:** `terraform apply -auto-approve` as a single pipeline step.
+**GOOD:** `terraform plan -out=tfplan` then `terraform apply tfplan` as two separate, sequential pipeline steps.
+
+### NEVER leave critical stateful resources without `prevent_destroy`
+
+**WHY:** KMS keys, databases and data-bearing S3 buckets cause data loss or outage if an unreviewed plan destroys them.
+
+**BAD:** `resource "aws_db_instance" "main" { ... }` with no `lifecycle` block.
+
+**GOOD:** `resource "aws_db_instance" "main" { lifecycle { prevent_destroy = true } }`
+
+### NEVER hardcode AMI IDs, account IDs or availability zones
+
+**WHY:** Hardcoded values go stale and tie the configuration to one account or region. Data sources resolve them at plan time.
+
+**BAD:** `ami = "ami-0abcdef1234567890"`
+
+**GOOD:** `ami = data.aws_ami.ubuntu.id` with a `data "aws_ami" "ubuntu"` block using `most_recent = true` and filters.
+
+### NEVER use an unpinned module or provider version
+
+**WHY:** An unpinned module or provider can change behaviour between runs, so the same code plans differently over time.
+
+**BAD:** `module "vpc" { source = "terraform-aws-modules/vpc/aws" }` with no `version`.
+
+**GOOD:** `module "vpc" { source = "terraform-aws-modules/vpc/aws" version = "5.0.0" }` and `required_providers` with `version = "~> 6.0"`.
+
+### NEVER create an S3 lifecycle configuration without aborting incomplete multipart uploads
+
+**WHY:** Incomplete uploads keep accruing storage cost and are flagged by Checkov (`CKV_AWS_300`).
+
+**BAD:** An `aws_s3_bucket_lifecycle_configuration` containing only a transition rule.
+
+**GOOD:** Add a rule with `abort_incomplete_multipart_upload { days_after_initiation = 7 }`.
+
+### NEVER hand over configuration before the validator passes
+
+**WHY:** Skipping validation ships syntax, init or security-scan failures to the user, who then finds them at plan time.
+
+**BAD:** Generate the files and stop at Step 3.
+
+**GOOD:** Run the validator, fix failures, and re-run until all checks pass before Step 5.
+
+### NEVER guess arguments for a custom provider or module
+
+**WHY:** Third-party providers differ by version, and invented arguments fail at `terraform validate` or, worse, silently misconfigure resources.
+
+**BAD:** Write `datadog_monitor` arguments from memory.
+
+**GOOD:** Search for version-specific documentation first, for example "datadog terraform provider v3.30 monitor resource documentation".
+
+### NEVER omit `required_version` or give it only a lower bound
+
+**WHY:** A lower bound alone lets a future major release run code written for older behaviour.
+
+**BAD:** `required_version = ">= 1.10"`
+
+**GOOD:** `required_version = ">= 1.10, < 2.0"`
 
 ## References
 
@@ -493,9 +584,10 @@ Always consider version compatibility:
 - `provider_examples.md` - Example configurations for popular providers
 - `modern_features.md` - Terraform 1.8+ features: ephemeral resources, write-only args, actions, import `for_each`, version feature matrix
 
-To load a reference, use the Read tool:
-```
-Read(file_path: ".claude/skills/terraform-generator/references/[filename].md")
+To load a reference, read the file by its path relative to this skill:
+
+```bash
+cat references/terraform_best_practices.md
 ```
 
 ### assets/
