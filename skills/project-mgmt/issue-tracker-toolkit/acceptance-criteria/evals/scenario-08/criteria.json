@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Product Search Enhancement.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Rule-oriented format",
+      "description": "Uses rule-oriented checkbox format for independent search requirements rather than Given/When/Then",
+      "max_score": 5
+    },
+    {
+      "name": "Comprehensive edge cases",
+      "description": "Includes negative scenarios like empty results, invalid input, timeout, special characters",
+      "max_score": 5
+    },
+    {
+      "name": "Input validation rules",
+      "description": "Specifies search input limits, character restrictions, and format requirements",
+      "max_score": 5
+    },
+    {
+      "name": "Measurable result limits",
+      "description": "Includes specific numbers for result counts, pagination, or display limits (e.g., `max 20 results per page`)",
+      "max_score": 5
+    },
+    {
+      "name": "Performance timing",
+      "description": "Specifies measurable timing requirements for search execution (e.g., `<= 2 seconds`)",
+      "max_score": 5
+    },
+    {
+      "name": "Error handling scenarios",
+      "description": "Covers failure cases like no results found, search timeout, or system unavailability",
+      "max_score": 5
+    },
+    {
+      "name": "Result formatting rules",
+      "description": "Specifies how search results should be displayed, sorted, or formatted",
+      "max_score": 5
+    },
+    {
+      "name": "Checkbox validation format",
+      "description": "Uses checkbox format (`- [ ]`) to enable clear pass/fail validation of search criteria",
+      "max_score": 5
+    },
+    {
+      "name": "Independent requirements",
+      "description": "Each search requirement can be tested independently without dependencies",
+      "max_score": 5
+    },
+    {
+      "name": "User outcome focus",
+      "description": "Focuses on what users experience during search rather than backend implementation details",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses Given/When/Then scenarios instead of rule-oriented checkbox...",
+      "description": "Failure avoided: Uses Given/When/Then scenarios instead of rule-oriented checkbox format for independent search requirements",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Covers only the happy path without empty...",
+      "description": "Failure avoided: Covers only the happy path without empty results, invalid input, or timeout scenarios",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits search input limits, character restrictions, or...",
+      "description": "Failure avoided: Omits search input limits, character restrictions, or format requirements",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses vague descriptions like \"enough results\" without...",
+      "description": "Failure avoided: Uses vague descriptions like \"enough results\" without specific counts or pagination rules",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses vague terms like \"fast\" instead of...",
+      "description": "Failure avoided: Uses vague terms like \"fast\" instead of measurable timing thresholds",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits error handling for no results, timeouts,...",
+      "description": "Failure avoided: Omits error handling for no results, timeouts, or system unavailability",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not specify result sorting, display format,...",
+      "description": "Failure avoided: Does not specify result sorting, display format, or pagination behavior",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses prose descriptions instead of checkbox format,...",
+      "description": "Failure avoided: Uses prose descriptions instead of checkbox format, making pass/fail unclear",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Requirements depend on one another in ways...",
+      "description": "Failure avoided: Requirements depend on one another in ways that prevent independent validation",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Focuses on backend indexing or database behavior...",
+      "description": "Failure avoided: Focuses on backend indexing or database behavior rather than user-visible search outcomes",
+      "max_score": 5
+    }
+  ]
+}

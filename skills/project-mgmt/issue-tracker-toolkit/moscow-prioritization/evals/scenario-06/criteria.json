@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Identify Anti-Patterns in a Priority Table.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Preference-as-Must anti-pattern identified",
+      "description": "`table-review.md` flags \"Dark mode (executive request)\" as a stakeholder preference incorrectly categorized as Must",
+      "max_score": 10
+    },
+    {
+      "name": "Missing Won't anti-pattern identified",
+      "description": "`table-review.md` identifies the absence of any Won't items and notes it enables silent scope creep",
+      "max_score": 10
+    },
+    {
+      "name": "Missing constraint check anti-pattern identified",
+      "description": "`table-review.md` flags the PM's admission that constraints (release date, capacity) were not confirmed before categorizing",
+      "max_score": 10
+    },
+    {
+      "name": "Missing rationale anti-pattern identified",
+      "description": "`table-review.md` flags the lack of rationale columns as a violation (unjustified categories are re-litigated)",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected table produced",
+      "description": "`table-review.md` includes a corrected table with: dark mode moved from Must, at least one explicit Won't with revisit date, and a rationale column populated",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not flag dark mode as a...",
+      "description": "Failure avoided: Does not flag dark mode as a preference-based Must violation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not identify the missing Won't items...",
+      "description": "Failure avoided: Does not identify the missing Won't items as an anti-pattern",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not flag the missing constraint check",
+      "description": "Failure avoided: Does not flag the missing constraint check",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not flag the missing rationale columns",
+      "description": "Failure avoided: Does not flag the missing rationale columns",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not produce a corrected table addressing...",
+      "description": "Failure avoided: Does not produce a corrected table addressing the identified violations",
+      "max_score": 10
+    }
+  ]
+}

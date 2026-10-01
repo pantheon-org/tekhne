@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Analytics Dashboard Performance.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Specific timing requirements",
+      "description": "Uses precise measurements like `<= 2 seconds`, `within 500ms` instead of vague terms like `fast`",
+      "max_score": 5
+    },
+    {
+      "name": "Measurable quantities",
+      "description": "Includes specific numbers for data limits, page sizes, or performance thresholds",
+      "max_score": 5
+    },
+    {
+      "name": "Observable UI behavior",
+      "description": "Describes what users can see/interact with rather than internal system performance",
+      "max_score": 5
+    },
+    {
+      "name": "Rule-oriented format",
+      "description": "Uses checkbox format for independent performance requirements rather than sequential scenarios",
+      "max_score": 5
+    },
+    {
+      "name": "Negative performance cases",
+      "description": "Includes failure scenarios like slow loading, timeouts, or high data volumes",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids vague terms",
+      "description": "Does NOT use unmeasurable qualitative terms like `fast`, `responsive`, `good performance`",
+      "max_score": 5
+    },
+    {
+      "name": "User outcome focus",
+      "description": "Focuses on user experience outcomes rather than technical implementation details",
+      "max_score": 5
+    },
+    {
+      "name": "Checkbox validation format",
+      "description": "Uses checkbox format (`- [ ]`) to enable clear pass/fail validation of performance criteria",
+      "max_score": 5
+    },
+    {
+      "name": "Multiple measurement types",
+      "description": "Covers different measurement categories (time, quantity, percentage, etc.)",
+      "max_score": 5
+    },
+    {
+      "name": "Scope definition",
+      "description": "Includes boundaries about what performance aspects are in/out of scope",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses vague terms like \"fast\", \"responsive\", or...",
+      "description": "Failure avoided: Uses vague terms like \"fast\", \"responsive\", or \"good performance\" without measurable thresholds",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits specific numbers for page size limits,...",
+      "description": "Failure avoided: Omits specific numbers for page size limits, result counts, or concurrency thresholds",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Describes internal system metrics (database query time,...",
+      "description": "Failure avoided: Describes internal system metrics (database query time, cache hit rates) instead of user-visible behavior",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses Given/When/Then scenarios instead of rule-oriented checkbox...",
+      "description": "Failure avoided: Uses Given/When/Then scenarios instead of rule-oriented checkbox format for independent performance requirements",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Covers only normal-load scenarios without addressing slow...",
+      "description": "Failure avoided: Covers only normal-load scenarios without addressing slow loading, timeouts, or peak traffic",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses qualitative adjectives that cannot be objectively...",
+      "description": "Failure avoided: Uses qualitative adjectives that cannot be objectively tested",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Focuses on how the system works rather...",
+      "description": "Failure avoided: Focuses on how the system works rather than what the user experiences",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses prose descriptions instead of checkbox format,...",
+      "description": "Failure avoided: Uses prose descriptions instead of checkbox format, making pass/fail unclear",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Covers only one type of performance measurement...",
+      "description": "Failure avoided: Covers only one type of performance measurement (e.g., only timing)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits boundaries, leaving unclear which performance aspects...",
+      "description": "Failure avoided: Omits boundaries, leaving unclear which performance aspects are in scope",
+      "max_score": 5
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: E-commerce Checkout Implementation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Given/When/Then format",
+      "description": "Uses Given/When/Then structure for checkout flow scenarios rather than rule-oriented format",
+      "max_score": 5
+    },
+    {
+      "name": "Measurable timing",
+      "description": "Includes specific timing requirements with precise measurements (e.g., `<= 3 seconds`, `within 500ms`)",
+      "max_score": 5
+    },
+    {
+      "name": "Observable outcomes",
+      "description": "Then statements describe what user can observe or measure, not internal system behavior",
+      "max_score": 5
+    },
+    {
+      "name": "Negative scenarios",
+      "description": "Includes failure scenarios like payment declined, timeout, or invalid input",
+      "max_score": 5
+    },
+    {
+      "name": "Single action When",
+      "description": "When statements contain single, clear actions that trigger behavior being tested",
+      "max_score": 5
+    },
+    {
+      "name": "Essential Given setup",
+      "description": "Given statements include only prerequisites that matter, avoiding irrelevant setup details",
+      "max_score": 5
+    },
+    {
+      "name": "User behavior scenarios",
+      "description": "Scenario names describe user behavior (e.g., `User completes checkout`) not system features",
+      "max_score": 5
+    },
+    {
+      "name": "Out of scope section",
+      "description": "Includes explicit `Out of Scope` section to define boundaries and prevent scope creep",
+      "max_score": 5
+    },
+    {
+      "name": "Checkbox format",
+      "description": "Uses checkbox format (`- [ ]`) for criteria to enable clear pass/fail validation",
+      "max_score": 5
+    },
+    {
+      "name": "User outcome focus",
+      "description": "Focuses on user outcomes and business value rather than implementation details",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses rule-oriented checklists instead of Given/When/Then for...",
+      "description": "Failure avoided: Uses rule-oriented checklists instead of Given/When/Then for a sequential workflow",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Omits specific timing measurements, using vague terms...",
+      "description": "Failure avoided: Omits specific timing measurements, using vague terms like \"fast\" or \"quickly\"",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Then statements describe internal system state rather...",
+      "description": "Failure avoided: Then statements describe internal system state rather than observable user outcomes",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Fails to include any payment failure or...",
+      "description": "Failure avoided: Fails to include any payment failure or error handling scenarios",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: When statements contain multiple actions or are...",
+      "description": "Failure avoided: When statements contain multiple actions or are ambiguous",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Given statements include unnecessary context that does...",
+      "description": "Failure avoided: Given statements include unnecessary context that does not affect the scenario outcome",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Scenario names describe system features rather than...",
+      "description": "Failure avoided: Scenario names describe system features rather than user behavior",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No Out of Scope section is included,...",
+      "description": "Failure avoided: No Out of Scope section is included, leaving boundaries undefined",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses prose descriptions instead of checkbox format...",
+      "description": "Failure avoided: Uses prose descriptions instead of checkbox format for criteria",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Focuses on implementation details rather than what...",
+      "description": "Failure avoided: Focuses on implementation details rather than what the user experiences",
+      "max_score": 5
+    }
+  ]
+}
