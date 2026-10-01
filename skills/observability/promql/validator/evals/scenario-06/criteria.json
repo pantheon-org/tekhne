@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Identify High-Cardinality Risk.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "High-cardinality risk is identified and explained",
+      "description": "The report states that the query has no label filters and explains that this causes fan-out across all series for the metric (referencing the `path`, `status_code`, and multi-service context)",
+      "max_score": 10
+    },
+    {
+      "name": "Nuanced acceptability analysis provided",
+      "description": "The report explains that `sum()` aggregation produces a single scalar result, so the query is acceptable IF the cluster can handle the fan-out \u2014 it does not simply label the query as \"bad\"",
+      "max_score": 10
+    },
+    {
+      "name": "Filtered per-service alternative is provided",
+      "description": "The report includes a query that adds a `job=` or `service=` label filter to restrict the query to a single service",
+      "max_score": 10
+    },
+    {
+      "name": "Recording rule definition is provided",
+      "description": "The report includes a YAML recording rule definition that pre-aggregates the total request rate, reducing per-query scan cost",
+      "max_score": 10
+    },
+    {
+      "name": "Semantic and syntactic correctness confirmed",
+      "description": "The report confirms that the query is syntactically valid and semantically correct for computing total request rate (counter metric with `rate()` and `sum()`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Fails to identify the high-cardinality risk or...",
+      "description": "Failure avoided: Fails to identify the high-cardinality risk or the lack of label filters",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Only labels the query as \"bad\" without...",
+      "description": "Failure avoided: Only labels the query as \"bad\" without acknowledging when the pattern is acceptable",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not provide a per-service filtered alternative",
+      "description": "Failure avoided: Does not provide a per-service filtered alternative",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not provide a recording rule definition",
+      "description": "Failure avoided: Does not provide a recording rule definition",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Claims the query is semantically incorrect for...",
+      "description": "Failure avoided: Claims the query is semantically incorrect for computing total request rate",
+      "max_score": 10
+    }
+  ]
+}

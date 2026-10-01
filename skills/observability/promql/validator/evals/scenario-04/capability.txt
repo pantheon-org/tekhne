@@ -1,0 +1,1 @@
+Detect `rate()` Misuse on a Gauge Metric
