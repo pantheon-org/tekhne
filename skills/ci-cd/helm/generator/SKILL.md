@@ -12,9 +12,26 @@ Generate production-ready Helm charts with best practices built-in. Create compl
 **Official Documentation:**
 - [Helm Docs](https://helm.sh/docs/) | [Chart Best Practices](https://helm.sh/docs/chart_best_practices/) | [Template Functions](https://helm.sh/docs/chart_template_guide/function_list/) | [Sprig Functions](http://masterminds.github.io/sprig/)
 
-## When to Use This Skill
+## Philosophy
 
-Use for creating/generating Helm charts and templates. For validation/linting of existing charts use **devops-skills:helm-validator**; for raw K8s YAML (no Helm) use **k8s-generator**.
+- Ask rather than assume: critical settings such as image, ports, limits and probes come from the user.
+- Build on helpers: names and labels come from `_helpers.tpl`, never from repeated literals.
+- Keep the chart environment-neutral: defaults in `values.yaml`, environment overrides outside the chart.
+- Validate rendered output, not just the templates.
+
+## When to Use
+
+- Creating or scaffolding a new Helm chart with `Chart.yaml`, `values.yaml` and templates.
+- Writing individual templates such as Deployments, Services, Ingress, HPAs or `.tpl` helpers.
+- Converting raw Kubernetes manifests into a parameterised chart.
+- Adding custom resources (ServiceMonitor, Certificate and similar) to a chart.
+
+## When Not to Use
+
+- Validating or linting an existing chart: use **devops-skills:helm-validator** instead.
+- Writing raw Kubernetes YAML with no Helm: use **k8s-generator** instead.
+- Debugging a failed release or cluster state.
+- Writing Terraform, Kustomize or other deployment tooling.
 
 ## Chart Generation Workflow
 
@@ -175,54 +192,99 @@ After generating charts, invoke **devops-skills:helm-validator** to ensure quali
 
 ### NEVER hardcode image tags in `values.yaml`
 
-- **WHY**: Pinning to `:latest` or a hard-coded version in the chart prevents version overrides at deploy time.
-- **BAD**: `image: repository: myapp tag: latest`
-- **GOOD**: `image: repository: myapp tag: ""` with `appVersion` as the default, overridden via `--set image.tag=v1.2.3`.
+**WHY:** Pinning to `:latest` or a hard-coded version in the chart prevents version overrides at deploy time.
+
+**BAD:** `image: repository: myapp tag: latest`
+
+**GOOD:** `image: repository: myapp tag: ""` with `appVersion` as the default, overridden via `--set image.tag=v1.2.3`.
 
 ### NEVER omit `resources:` limits and requests on containers
 
-- **WHY**: Containers without resource constraints are evicted unpredictably under node pressure and cannot be scheduled by the Kubernetes cluster autoscaler.
-- **BAD**: No `resources:` block in the container spec template.
-- **GOOD**: Set both `requests` and `limits` for CPU and memory, with documented tuning guidance in `values.yaml`.
+**WHY:** Containers without resource constraints are evicted unpredictably under node pressure and cannot be scheduled by the Kubernetes cluster autoscaler.
+
+**BAD:** No `resources:` block in the container spec template.
+
+**GOOD:** Set both `requests` and `limits` for CPU and memory, with documented tuning guidance in `values.yaml`.
 
 ### NEVER use `helm upgrade --install` without `--atomic` in CI/CD
 
-- **WHY**: Without `--atomic`, a failed upgrade leaves the release in a broken state that blocks future upgrades and requires manual `helm rollback`.
-- **BAD**: `helm upgrade --install myapp ./chart`
-- **GOOD**: `helm upgrade --install --atomic --timeout 5m myapp ./chart`
+**WHY:** Without `--atomic`, a failed upgrade leaves the release in a broken state that blocks future upgrades and requires manual `helm rollback`.
+
+**BAD:** `helm upgrade --install myapp ./chart`
+
+**GOOD:** `helm upgrade --install --atomic --timeout 5m myapp ./chart`
 
 ### NEVER place environment-specific values inside the chart's default `values.yaml`
 
-- **WHY**: Mixing production values into the chart couples the chart to one environment.
-- **BAD**: Production database URLs in `values.yaml`.
-- **GOOD**: Use a layered values approach: `values.yaml` for defaults, `values-prod.yaml` for overrides, `-f values-prod.yaml` at deploy time.
+**WHY:** Mixing production values into the chart couples the chart to one environment.
+
+**BAD:** Production database URLs in `values.yaml`.
+
+**GOOD:** Use a layered values approach: `values.yaml` for defaults, `values-prod.yaml` for overrides, `-f values-prod.yaml` at deploy time.
 
 ### NEVER skip `helm template` + `kubeval`/`kubeconform` validation
 
-- **WHY**: A chart that renders without error can still produce invalid Kubernetes manifests.
-- **BAD**: Only run `helm lint` before deploying.
-- **GOOD**: `helm template . | kubeval --strict --ignore-missing-schemas` to validate rendered manifests against the Kubernetes API schema.
+**WHY:** A chart that renders without error can still produce invalid Kubernetes manifests.
+
+**BAD:** Only run `helm lint` before deploying.
+
+**GOOD:** `helm template . | kubeval --strict --ignore-missing-schemas` to validate rendered manifests against the Kubernetes API schema.
+
+### NEVER assume values for critical settings
+
+**WHY:** guessed images, ports, limits or probe paths produce a chart that installs but does not work.
+
+**BAD:** silently choosing `nginx` and port 80 when the user did not say.
+
+**GOOD:** ask for the missing image, port, limits, probes, scaling, workload type and storage before generating.
+
+### NEVER skip reading the reference files at the template stage
+
+**WHY:** earlier context may be incomplete or summarised, so patterns and function usage drift from the references.
+
+**BAD:** writing templates from memory because the references were read earlier.
+
+**GOOD:** read the resource templates, template functions and (for CRDs) CRD patterns at generation time.
+
+### NEVER hardcode resource names or labels in templates
+
+**WHY:** literal names and duplicated labels drift between resources and break release naming.
+
+**BAD:** `name: myapp` and hand-written `app: myapp` labels.
+
+**GOOD:** `{{ include "mychart.fullname" . }}` and `{{- include "mychart.labels" . | nindent 4 }}`.
+
+### NEVER omit the checksum annotation on workloads that consume config
+
+**WHY:** without it, Deployments, StatefulSets and DaemonSets do not restart when a ConfigMap or Secret changes.
+
+**BAD:** a Deployment that mounts a ConfigMap with no `checksum/config` annotation.
+
+**GOOD:** add the checksum annotation, gated by `.Values.configMap.enabled` and `.Values.secret.enabled`.
+
+### NEVER put CRDs in `templates/`
+
+**WHY:** CRDs must exist before their instances and should not be templated or re-rendered per release.
+
+**BAD:** a CRD manifest under `templates/`.
+
+**GOOD:** ship CRDs in the `crds/` directory and template only the custom resource instances.
+
+### NEVER leave the default `http` port name on a non-HTTP service
+
+**WHY:** the scaffolding script names the port `http`, which misleads probes, services and operators for other protocols.
+
+**BAD:** a Redis service port named `http`.
+
+**GOOD:** rename the port after the protocol, for example `redis`, `mysql` or `grpc`.
 
 ## References
 
-### Scripts
-
-| Script | Usage |
-|--------|-------|
-| `scripts/generate_chart_structure.sh` | `bash <script> <chart-name> <output-dir>` |
-| `scripts/generate_standard_helpers.sh` | `bash <script> <chart-name> <chart-dir>` |
-
-### References
-
-| File | Content |
-|------|---------|
-| `references/helm_template_functions.md` | Complete template function guide |
-| `references/resource_templates.md` | All K8s resource templates |
-| `references/crd_patterns.md` | CRD patterns (cert-manager, Prometheus, Istio, ArgoCD) |
-
-### Assets
-
-| File | Purpose |
-|------|---------|
-| `assets/_helpers-template.tpl` | Standard helpers template |
-| `assets/values-schema-template.json` | JSON Schema for values validation |
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Template functions | [references/helm_template_functions.md](references/helm_template_functions.md) | Using `required`, `default`, `toYaml`, `tpl` and friends |
+| Resource templates | [references/resource_templates.md](references/resource_templates.md) | Writing any Kubernetes resource template |
+| CRD patterns | [references/crd_patterns.md](references/crd_patterns.md) | cert-manager, Prometheus, Istio and ArgoCD resources |
+| Chart scaffolding script | [scripts/generate_chart_structure.sh](scripts/generate_chart_structure.sh) | `bash scripts/generate_chart_structure.sh <chart-name> <output-dir>` |
+| Helpers script | [scripts/generate_standard_helpers.sh](scripts/generate_standard_helpers.sh) | `bash scripts/generate_standard_helpers.sh <chart-name> <chart-dir>` |
+| Values schema | [assets/values-schema-template.json](assets/values-schema-template.json) | JSON Schema validation of `values.yaml` |

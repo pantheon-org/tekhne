@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Cross-Platform Test Matrix with Build Artifact.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "SHA-pinned actions",
+      "description": "Every `uses:` step references a full 40-character SHA (not a tag or branch name)",
+      "max_score": 5
+    },
+    {
+      "name": "No explicit fail-fast false",
+      "description": "The matrix strategy does NOT include `fail-fast: false` without an accompanying explanatory comment \u2014 the default (true) or an intentional override with comment is acceptable",
+      "max_score": 5
+    },
+    {
+      "name": "Matrix covers OS and Python version",
+      "description": "The matrix definition includes at least two operating systems AND at least two Python version values",
+      "max_score": 5
+    },
+    {
+      "name": "Top-level permissions block",
+      "description": "The workflow contains a top-level `permissions:` block (not absent entirely)",
+      "max_score": 5
+    },
+    {
+      "name": "Artifact named with SHA",
+      "description": "The `actions/upload-artifact` step names the artifact using `${{ github.sha }}` or equivalent unique run identifier",
+      "max_score": 5
+    },
+    {
+      "name": "Upload artifact v4",
+      "description": "Uses `actions/upload-artifact@` with a version that is v4 or newer (not v1, v2, or v3)",
+      "max_score": 5
+    },
+    {
+      "name": "Build job depends on test job",
+      "description": "The build/artifact job has a `needs:` field referencing the matrix test job, so it only runs after all matrix tests pass",
+      "max_score": 5
+    },
+    {
+      "name": "Concurrency block present",
+      "description": "The workflow includes a `concurrency:` block with `cancel-in-progress: true`",
+      "max_score": 5
+    },
+    {
+      "name": "Job timeout set",
+      "description": "At least one job has a `timeout-minutes:` field",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any action uses a tag reference instead...",
+      "description": "Failure avoided: Any action uses a tag reference instead of a full 40-character SHA",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `fail-fast: false` is set in the matrix...",
+      "description": "Failure avoided: `fail-fast: false` is set in the matrix without an explanatory comment",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Matrix does not cover at least two...",
+      "description": "Failure avoided: Matrix does not cover at least two operating systems and at least two Python versions",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No top-level `permissions:` block is present",
+      "description": "Failure avoided: No top-level `permissions:` block is present",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Artifact is not named using `${{ github.sha...",
+      "description": "Failure avoided: Artifact is not named using `${{ github.sha }}` or an equivalent unique identifier",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `actions/upload-artifact` uses v1, v2, or v3 instead...",
+      "description": "Failure avoided: `actions/upload-artifact` uses v1, v2, or v3 instead of v4 or newer",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Build/artifact job does not have a `needs:`...",
+      "description": "Failure avoided: Build/artifact job does not have a `needs:` field referencing the matrix test job",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `concurrency:` block with `cancel-in-progress: true` is...",
+      "description": "Failure avoided: No `concurrency:` block with `cancel-in-progress: true` is present",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No job has a `timeout-minutes:` field",
+      "description": "Failure avoided: No job has a `timeout-minutes:` field",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Tests that the agent asks for missing critical settings, scaffolds with the script, reads the references before templating, and validates the result.

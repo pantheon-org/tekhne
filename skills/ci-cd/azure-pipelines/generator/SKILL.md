@@ -9,6 +9,26 @@ description: Generates production-ready Azure DevOps Pipelines (azure-pipelines.
 
 Generate production-ready Azure DevOps Pipeline configurations following current best practices, security standards, and naming conventions. After generating any **complete** pipeline file, always validate it using the `devops-skills:azure-pipelines-validator` skill, fix any reported issues, and re-validate before presenting to the user. Skip validation only for partial snippets, documentation examples, or when the user explicitly requests it.
 
+## Philosophy
+
+- Generate pipelines that are deterministic: pin every image, task and runtime version.
+- Keep secrets out of YAML; reference service connections, variable groups or Key Vault instead.
+- Prefer reusable templates over long inline pipelines, and validate every complete file before delivery.
+
+## When to Use
+
+- Creating or updating an `azure-pipelines.yml` for build, test or deploy.
+- Defining multi-stage deployments with environments, variable groups and service connections.
+- Writing Docker build and Kubernetes/AKS deployment pipelines.
+- Producing reusable step, job or stage templates and the pipelines that consume them.
+
+## When Not to Use
+
+- Reviewing or linting an existing pipeline without changing it: use the validator skill alone.
+- Targeting other CI systems such as GitHub Actions, GitLab CI or Jenkins.
+- Classic (UI-based) release pipelines that have no YAML definition.
+- Provisioning the Azure DevOps organisation, agents or service connections themselves.
+
 ## Core Capabilities
 
 ### 1. Basic CI Pipelines
@@ -281,33 +301,83 @@ For a complete end-to-end workflow example (Understanding → Reading → Lookup
 
 ### NEVER use `latest` for task version pins
 
-- **WHY**: ADO task versions introduce breaking changes across major versions. Using `@latest` or an unpinned reference creates non-deterministic builds where a task update can silently break your pipeline overnight.
-- **BAD**: `- task: UseNode@latest`
-- **GOOD**: `- task: UseNode@0` with a pinned `versionSpec` input (e.g., `versionSpec: '20.x'`).
+**WHY:** ADO task versions introduce breaking changes across major versions. Using `@latest` or an unpinned reference creates non-deterministic builds where a task update can silently break your pipeline overnight.
+
+**BAD:** `- task: UseNode@latest`
+
+**GOOD:** `- task: UseNode@0` with a pinned `versionSpec` input (e.g., `versionSpec: '20.x'`).
 
 ### NEVER store secrets in pipeline YAML variables
 
-- **WHY**: YAML variables are committed to source control and visible in pipeline run logs, exposing credentials to anyone with repository read access or pipeline view permissions.
-- **BAD**: `variables: API_KEY: 'abc123'`
-- **GOOD**: Use Azure Key Vault task or pipeline variable groups with the "secret" flag enabled in the ADO UI.
+**WHY:** YAML variables are committed to source control and visible in pipeline run logs, exposing credentials to anyone with repository read access or pipeline view permissions.
+
+**BAD:** `variables: API_KEY: 'abc123'`
+
+**GOOD:** Use Azure Key Vault task or pipeline variable groups with the "secret" flag enabled in the ADO UI.
 
 ### NEVER omit `displayName:` on tasks and steps
 
-- **WHY**: Pipelines without display names produce cryptic logs like `Task 1 of 12` that are impossible to interpret when diagnosing a failure, especially in multi-stage pipelines.
-- **BAD**: `- script: npm ci` with no `displayName`.
-- **GOOD**: `- script: npm ci\n  displayName: 'Install dependencies'`
+**WHY:** Pipelines without display names produce cryptic logs like `Task 1 of 12` that are impossible to interpret when diagnosing a failure, especially in multi-stage pipelines.
+
+**BAD:** `- script: npm ci` with no `displayName`.
+
+**GOOD:** `- script: npm ci` followed by `displayName: 'Install dependencies'`.
 
 ### NEVER use `trigger: none` on templates used as main pipelines
 
-- **WHY**: `trigger: none` disables all automatic triggers, meaning the pipeline never runs on code push. This is appropriate only for templates called by other pipelines, not for CI entry-point pipelines.
-- **BAD**: `trigger: none` on a pipeline intended to run on every commit.
-- **GOOD**: Configure explicit branch includes — `trigger: branches: include: [main, develop]`.
+**WHY:** `trigger: none` disables all automatic triggers, meaning the pipeline never runs on code push. This is appropriate only for templates called by other pipelines, not for CI entry-point pipelines.
+
+**BAD:** `trigger: none` on a pipeline intended to run on every commit.
+
+**GOOD:** Configure explicit branch includes, for example `trigger: branches: include: [main, develop]`.
 
 ### NEVER define all logic inline in a single flat YAML
 
-- **WHY**: Single-file pipelines exceeding a few hundred lines become unmaintainable, impossible to test in isolation, and prone to merge conflicts when multiple teams update them simultaneously.
-- **BAD**: A 400-line `azure-pipelines.yml` with all stages, jobs, and scripts inlined.
-- **GOOD**: Extract stage and job logic into separate `templates/*.yml` files and reference them with `- template: templates/build.yml`.
+**WHY:** Single-file pipelines exceeding a few hundred lines become unmaintainable, impossible to test in isolation, and prone to merge conflicts when multiple teams update them simultaneously.
+
+**BAD:** A 400-line `azure-pipelines.yml` with all stages, jobs, and scripts inlined.
+
+**GOOD:** Extract stage and job logic into separate `templates/*.yml` files and reference them with `- template: templates/build.yml`.
+
+### NEVER use `ubuntu-latest` or other floating vmImage values
+
+**WHY:** a floating image changes underneath the pipeline, so builds stop being reproducible and can break without any code change.
+
+**BAD:** `vmImage: 'ubuntu-latest'`
+
+**GOOD:** `vmImage: 'ubuntu-22.04'`
+
+### NEVER deploy or pull the `latest` image tag in production
+
+**WHY:** `latest` is mutable, so the running version cannot be traced to a build and rollbacks are ambiguous.
+
+**BAD:** a Kubernetes manifest deploying `$(imageRepository):latest`.
+
+**GOOD:** push with `$(tag)` and `latest`, but deploy using only `$(tag)` (the `$(Build.BuildId)`).
+
+### NEVER use a regular job for an environment deployment
+
+**WHY:** only deployment jobs give environment tracking, approvals and deployment history.
+
+**BAD:** a `job:` that runs `kubectl apply` for the production stage.
+
+**GOOD:** a `deployment:` job with `environment: production` and a `runOnce` strategy.
+
+### NEVER skip test result publishing or run it only on success
+
+**WHY:** failed runs are exactly where the test report is needed, and a skipped publish hides which tests failed.
+
+**BAD:** `PublishTestResults@2` with no `condition`, or no publish step at all.
+
+**GOOD:** `condition: succeededOrFailed()` on `PublishTestResults@2`, plus code coverage publishing.
+
+### NEVER deliver a complete pipeline without validating it
+
+**WHY:** unvalidated YAML ships syntax, hierarchy and security errors straight to the user.
+
+**BAD:** presenting a generated `azure-pipelines.yml` straight away.
+
+**GOOD:** run the azure-pipelines-validator skill, fix reported issues, and re-validate before presenting.
 
 ## Troubleshooting
 
@@ -330,28 +400,19 @@ For a complete end-to-end workflow example (Understanding → Reading → Lookup
 
 ## References
 
-### Documentation (load as needed)
-
-| File | Purpose |
-|------|---------|
-| `references/yaml-schema.md` | Pipeline structure, triggers, pools, variables, conditions, expressions |
-| `references/tasks-reference.md` | Task catalog with inputs, outputs, service connection requirements |
-| `references/best-practices.md` | Security, performance, naming, anti-patterns |
-| `references/templates-guide.md` | Template types, parameter definitions, expressions, iteration |
-| `references/typical-workflow.md` | Complete end-to-end workflow example with validation steps |
-
-### Examples (read before generating matching pipeline type)
-
-| File | When to read |
-|------|-------------|
-| `assets/examples/basic-ci.yml` | Simple CI, single-stage builds |
-| `assets/examples/multi-stage-cicd.yml` | Multi-environment deployments |
-| `assets/examples/kubernetes-deploy.yml` | Docker + K8s/AKS deployments |
-| `assets/examples/go-cicd.yml` | Go/Golang applications |
-| `assets/examples/dotnet-cicd.yml` | .NET/C# applications |
-| `assets/examples/python-cicd.yml` | Python applications |
-| `assets/examples/template-usage.yml` | Template-consuming pipelines |
-| `assets/examples/templates/build-template.yml` | Reusable build templates |
-| `assets/examples/templates/deploy-template.yml` | Reusable deployment templates |
-
----
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| YAML schema | [references/yaml-schema.md](references/yaml-schema.md) | Pipeline structure, triggers, pools, variables, conditions, expressions |
+| Task catalogue | [references/tasks-reference.md](references/tasks-reference.md) | Task inputs, outputs and service connection requirements |
+| Best practices | [references/best-practices.md](references/best-practices.md) | Security, performance, naming and anti-patterns |
+| Templates | [references/templates-guide.md](references/templates-guide.md) | Template types, parameter definitions, expressions, iteration |
+| End-to-end workflow | [references/typical-workflow.md](references/typical-workflow.md) | A complete worked example including validation steps |
+| Basic CI example | [assets/examples/basic-ci.yml](assets/examples/basic-ci.yml) | Simple CI, single-stage builds |
+| Multi-stage example | [assets/examples/multi-stage-cicd.yml](assets/examples/multi-stage-cicd.yml) | Multi-environment deployments |
+| Kubernetes example | [assets/examples/kubernetes-deploy.yml](assets/examples/kubernetes-deploy.yml) | Docker plus K8s/AKS deployments |
+| Go example | [assets/examples/go-cicd.yml](assets/examples/go-cicd.yml) | Go applications |
+| .NET example | [assets/examples/dotnet-cicd.yml](assets/examples/dotnet-cicd.yml) | .NET/C# applications |
+| Python example | [assets/examples/python-cicd.yml](assets/examples/python-cicd.yml) | Python applications |
+| Template usage example | [assets/examples/template-usage.yml](assets/examples/template-usage.yml) | Template-consuming pipelines |
+| Build template | [assets/examples/templates/build-template.yml](assets/examples/templates/build-template.yml) | Reusable build templates |
+| Deploy template | [assets/examples/templates/deploy-template.yml](assets/examples/templates/deploy-template.yml) | Reusable deployment templates |

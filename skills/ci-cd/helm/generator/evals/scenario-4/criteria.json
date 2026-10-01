@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Config-Driven Web App with Hot Reload.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Checksum annotation present",
+      "description": "deployment.yaml pod template annotations include a checksum annotation using sha256sum (e.g., checksum/config: {{ include ... | sha256sum }})",
+      "max_score": 5
+    },
+    {
+      "name": "Checksum references configmap",
+      "description": "The checksum annotation uses print $.Template.BasePath \"/configmap.yaml\" or equivalent to hash the configmap template contents",
+      "max_score": 5
+    },
+    {
+      "name": "configMap enabled guard",
+      "description": "configmap.yaml is wrapped in an {{- if .Values.configMap.enabled }} conditional so it is only rendered when enabled",
+      "max_score": 5
+    },
+    {
+      "name": "secret enabled guard",
+      "description": "secret.yaml is wrapped in an {{- if .Values.secret.enabled }} conditional so it is only rendered when enabled",
+      "max_score": 5
+    },
+    {
+      "name": "values.yaml enabled flags",
+      "description": "values.yaml contains configMap.enabled and secret.enabled boolean fields (or equivalent structure)",
+      "max_score": 5
+    },
+    {
+      "name": "Helper used for name",
+      "description": "deployment.yaml uses a named template (include) for the resource name rather than a hardcoded string",
+      "max_score": 5
+    },
+    {
+      "name": "Labels via helper",
+      "description": "At least one resource template references a labels helper (include \"<chart>.labels\") rather than inlining label key-value pairs",
+      "max_score": 5
+    },
+    {
+      "name": "Resources block present",
+      "description": "deployment.yaml container spec includes a resources: block with at least requests or limits defined",
+      "max_score": 5
+    },
+    {
+      "name": "No hardcoded image tag",
+      "description": "values.yaml image tag is empty string or references appVersion, NOT a hardcoded literal version string",
+      "max_score": 5
+    },
+    {
+      "name": "values.yaml commented",
+      "description": "values.yaml contains at least 3 comment lines (starting with #) explaining individual settings",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No checksum annotation is present in the...",
+      "description": "Failure avoided: No checksum annotation is present in the deployment pod template",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The checksum annotation does not reference the...",
+      "description": "Failure avoided: The checksum annotation does not reference the ConfigMap template for hashing",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `configmap.yaml` renders unconditionally instead of being gated...",
+      "description": "Failure avoided: `configmap.yaml` renders unconditionally instead of being gated by `{{- if .Values.configMap.enabled }}`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `secret.yaml` renders unconditionally instead of being gated...",
+      "description": "Failure avoided: `secret.yaml` renders unconditionally instead of being gated by `{{- if .Values.secret.enabled }}`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `values.yaml` lacks `configMap.enabled` or `secret.enabled` boolean fields",
+      "description": "Failure avoided: `values.yaml` lacks `configMap.enabled` or `secret.enabled` boolean fields",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Resource names in deployment.yaml are hardcoded strings...",
+      "description": "Failure avoided: Resource names in deployment.yaml are hardcoded strings instead of using a named template helper",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No labels helper is referenced in any...",
+      "description": "Failure avoided: No labels helper is referenced in any resource template",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `resources:` block is present in the...",
+      "description": "Failure avoided: No `resources:` block is present in the deployment container spec",
+      "max_score": 15
+    }
+  ]
+}

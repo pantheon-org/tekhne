@@ -1,0 +1,61 @@
+{
+  "context": "Tests: requirements gathering, scaffolding script use, reading references at generation time, required and default usage, validation hand-off.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Asks for the image",
+      "description": "The agent asks which container image repository and tag to use instead of choosing one.",
+      "max_score": 8
+    },
+    {
+      "name": "Asks for port and probes",
+      "description": "The agent asks which port the application listens on and which health check endpoints it exposes.",
+      "max_score": 8
+    },
+    {
+      "name": "Asks for limits and scaling",
+      "description": "The agent asks for CPU and memory limits and whether autoscaling is needed, with min/max replicas and target CPU.",
+      "max_score": 8
+    },
+    {
+      "name": "Asks for workload type and storage",
+      "description": "The agent asks whether the workload is a Deployment, StatefulSet or DaemonSet and whether persistent storage is needed.",
+      "max_score": 8
+    },
+    {
+      "name": "No silent assumptions",
+      "description": "The agent does not generate the chart with guessed values before the questions are answered.",
+      "max_score": 10
+    },
+    {
+      "name": "Uses the scaffolding script",
+      "description": "After the answers, the chart is created with `bash scripts/generate_chart_structure.sh <chart-name> <output-dir>` and the relevant options.",
+      "max_score": 10
+    },
+    {
+      "name": "Image passed without a tag",
+      "description": "The `--image` option receives only the repository name, not `repo:tag`.",
+      "max_score": 8
+    },
+    {
+      "name": "Helpers script run",
+      "description": "The standard helpers are produced with the helpers script or the helpers template.",
+      "max_score": 8
+    },
+    {
+      "name": "References read at template stage",
+      "description": "The agent reads the resource templates and template functions references immediately before writing templates.",
+      "max_score": 10
+    },
+    {
+      "name": "Required and default used",
+      "description": "Templates use `required` for mandatory values and `default` for optional fallbacks rather than rendering empty strings.",
+      "max_score": 10
+    },
+    {
+      "name": "Delegates validation",
+      "description": "The agent hands the finished chart to the helm-validator skill rather than declaring it done unvalidated.",
+      "max_score": 12
+    }
+  ]
+}

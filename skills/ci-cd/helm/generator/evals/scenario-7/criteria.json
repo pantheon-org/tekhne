@@ -1,0 +1,61 @@
+{
+  "context": "Tests: CRD placement, CRD documentation lookup, CRD pattern reference, values schema, validation hand-off.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "CRD in crds directory",
+      "description": "The Widget CRD manifest is placed in the chart's `crds/` directory.",
+      "max_score": 12
+    },
+    {
+      "name": "CRD not templated",
+      "description": "The CRD file contains no template expressions and nothing is placed under `templates/` for it.",
+      "max_score": 10
+    },
+    {
+      "name": "ServiceMonitor templated",
+      "description": "The ServiceMonitor instance lives under `templates/` and is templated.",
+      "max_score": 10
+    },
+    {
+      "name": "ServiceMonitor is optional",
+      "description": "The ServiceMonitor is gated by an `enabled` flag in `values.yaml` with a documented default.",
+      "max_score": 8
+    },
+    {
+      "name": "CRD patterns reference read",
+      "description": "The agent reads the CRD patterns reference before writing the ServiceMonitor.",
+      "max_score": 10
+    },
+    {
+      "name": "Documentation lookup order",
+      "description": "For fields not in the reference, the agent tries Context7 first and falls back to a web search for the operator, kind and version.",
+      "max_score": 10
+    },
+    {
+      "name": "Fields verified",
+      "description": "The apiVersion and required spec fields of the ServiceMonitor match the retrieved documentation.",
+      "max_score": 10
+    },
+    {
+      "name": "Names and labels via helpers",
+      "description": "The ServiceMonitor uses the fullname and labels helpers rather than literals.",
+      "max_score": 8
+    },
+    {
+      "name": "Values schema provided",
+      "description": "A `values.schema.json` is created from the values schema template and covers the new values.",
+      "max_score": 10
+    },
+    {
+      "name": "Values documented",
+      "description": "New values carry `# --` comments in `values.yaml`.",
+      "max_score": 6
+    },
+    {
+      "name": "Validation delegated",
+      "description": "The agent hands the chart to the helm-validator skill and renders the output through a manifest validator before finishing.",
+      "max_score": 6
+    }
+  ]
+}

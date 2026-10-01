@@ -1,0 +1,178 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER use `@latest` or branch-based action references; pin to a commit SHA",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER use `secrets: inherit` in reusable workflows without justification; declare only required secrets",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER omit `permissions:` at the job or workflow level; default to contents read",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER set `fail-fast: false` by default in matrix builds",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER use `pull_request_target` with `actions/checkout` checking out PR code",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER pin an action to a SHA without a version comment",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER guess the version of a public action; use the common-actions reference or look up documentation",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER ship a workflow without concurrency control",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER deliver a generated workflow or action without validating it with the github-actions-validator skill",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER publish a custom action without inputs, outputs and documentation",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Understand requirements (triggers, runners, dependencies) and consult the best-practices and common-actions references before generating",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I12",
+      "content": "Generate workflows with semantic names, SHA-pinned actions, proper permissions, concurrency controls, caching and matrix strategies",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I13",
+      "content": "Choose composite, Docker or JavaScript actions by need and start from the provided action templates",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Give reusable workflows a `workflow_call` trigger with typed inputs",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Declare reusable workflow secrets explicitly and have the caller pass them by name",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Map reusable workflow outputs from job outputs",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Keep reusable workflow permissions minimal",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "Use `actions/dependency-review-action` for dependency review on pull requests",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "Grant `id-token: write` and `attestations: write` for SBOM attestations",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "Grant `security-events: write` for CodeQL analysis",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "Name workflow files with lowercase and hyphens",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I22",
+      "content": "Use dependency caching and shallow checkout for performance",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I23",
+      "content": "NEVER leave jobs without a timeout; set `timeout-minutes`",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I24",
+      "content": "Clean up with `if: always()` so cleanup runs on failure",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I25",
+      "content": "Name shared artifacts with the commit SHA and use upload-artifact and download-artifact v4",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I26",
+      "content": "Use matrix testing across operating systems and runtime versions",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I27",
+      "content": "Skip validation only for partial snippets, documentation examples, or when the user explicitly asks",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I28",
+      "content": "Use job summaries via GITHUB_STEP_SUMMARY, deployment environments with approvals and container jobs where they fit",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I29",
+      "content": "Search for documentation or use Context7 when using public actions that the reference does not cover",
+      "type": "procedure",
+      "why_given": "reminder"
+    }
+  ]
+}

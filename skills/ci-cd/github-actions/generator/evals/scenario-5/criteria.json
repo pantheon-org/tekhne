@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Security Scanning Suite for Java Microservice.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "security-events write permission",
+      "description": "The CodeQL workflow grants `security-events: write` permission (required for uploading SARIF results)",
+      "max_score": 5
+    },
+    {
+      "name": "id-token write for attestation",
+      "description": "The container build/attestation workflow grants `id-token: write` permission",
+      "max_score": 5
+    },
+    {
+      "name": "attestations write for attestation",
+      "description": "The container build/attestation workflow grants `attestations: write` permission",
+      "max_score": 5
+    },
+    {
+      "name": "dependency-review-action used",
+      "description": "A workflow step references `actions/dependency-review-action` (any SHA or tag)",
+      "max_score": 5
+    },
+    {
+      "name": "Dependency review on pull_request",
+      "description": "The dependency review step is triggered by (or only runs on) `pull_request` events",
+      "max_score": 5
+    },
+    {
+      "name": "SHA-pinned actions",
+      "description": "All `uses:` steps reference actions with a full 40-character SHA (not tag or branch)",
+      "max_score": 5
+    },
+    {
+      "name": "No write-all permissions",
+      "description": "No workflow uses `permissions: write-all` \u2014 permissions are scoped to specific needs",
+      "max_score": 5
+    },
+    {
+      "name": "Maven caching enabled",
+      "description": "The Java/Maven build step uses a setup-java action with `cache: 'maven'` or an explicit `actions/cache` step for Maven dependencies",
+      "max_score": 5
+    },
+    {
+      "name": "Concurrency block present",
+      "description": "At least one generated workflow contains a `concurrency:` block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The CodeQL workflow does not grant `security-events:...",
+      "description": "Failure avoided: The CodeQL workflow does not grant `security-events: write` permission",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The container build workflow does not grant...",
+      "description": "Failure avoided: The container build workflow does not grant `id-token: write` permission",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The container build workflow does not grant...",
+      "description": "Failure avoided: The container build workflow does not grant `attestations: write` permission",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No step references `actions/dependency-review-action`",
+      "description": "Failure avoided: No step references `actions/dependency-review-action`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The dependency review step runs on events...",
+      "description": "Failure avoided: The dependency review step runs on events other than `pull_request` (e.g., on push to main)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any action uses a tag or branch...",
+      "description": "Failure avoided: Any action uses a tag or branch reference instead of a full 40-character SHA",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any workflow uses `permissions: write-all` instead of...",
+      "description": "Failure avoided: Any workflow uses `permissions: write-all` instead of scoped permissions",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Maven caching is not configured in the...",
+      "description": "Failure avoided: Maven caching is not configured in the Java build step",
+      "max_score": 20
+    }
+  ]
+}

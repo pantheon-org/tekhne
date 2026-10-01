@@ -1,0 +1,1 @@
+Tests that CRDs ship in crds/, custom resource instances are templated, CRD documentation is looked up, and values get a JSON Schema.

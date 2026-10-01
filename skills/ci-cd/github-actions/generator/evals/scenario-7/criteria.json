@@ -1,0 +1,61 @@
+{
+  "context": "Tests: environments, job summaries, always-run cleanup, public action version lookup and validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Environment declared",
+      "description": "The deploy job declares `environment: production` so approvals and history apply.",
+      "max_score": 10
+    },
+    {
+      "name": "Deploy only on main after tests",
+      "description": "The deploy job has `needs:` on the test job and an `if:` limiting it to pushes on the main branch.",
+      "max_score": 10
+    },
+    {
+      "name": "Job summary written",
+      "description": "A step appends a short deployment summary to `$GITHUB_STEP_SUMMARY`.",
+      "max_score": 10
+    },
+    {
+      "name": "Cleanup always runs",
+      "description": "The temporary build directory is removed in a step guarded by `if: always()`.",
+      "max_score": 10
+    },
+    {
+      "name": "Versions taken from reference",
+      "description": "Pages and other public action versions come from the skill's common-actions reference or fetched documentation, not from memory.",
+      "max_score": 10
+    },
+    {
+      "name": "Public action docs consulted",
+      "description": "The agent looks up documentation for any public action not covered by the reference, using a search or Context7.",
+      "max_score": 8
+    },
+    {
+      "name": "Actions SHA-pinned with comment",
+      "description": "Every action is pinned to a full commit SHA followed by a version comment.",
+      "max_score": 10
+    },
+    {
+      "name": "Minimal permissions",
+      "description": "A top-level `permissions:` block is present and write scopes such as `pages` and `id-token` appear only on the deploy job.",
+      "max_score": 10
+    },
+    {
+      "name": "Concurrency and timeouts",
+      "description": "The workflow sets a concurrency group and every job sets `timeout-minutes:`.",
+      "max_score": 10
+    },
+    {
+      "name": "Lowercase-hyphen file name",
+      "description": "The workflow file name is lowercase with hyphens, for example `deploy-pages.yml`.",
+      "max_score": 4
+    },
+    {
+      "name": "Validated before presenting",
+      "description": "The agent runs the github-actions-validator skill, fixes errors and re-validates before presenting the workflow.",
+      "max_score": 8
+    }
+  ]
+}

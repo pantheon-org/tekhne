@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create a CI/CD Pipeline for a Go Microservice.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "GoTool@0 used",
+      "description": "The pipeline uses `GoTool@0` (exactly @0, not @1, @2, or @latest)",
+      "max_score": 5
+    },
+    {
+      "name": "Go modules cache path",
+      "description": "The Cache@2 task uses `$(GOPATH)/pkg/mod` as the cache path (not a generic or incorrect path)",
+      "max_score": 5
+    },
+    {
+      "name": "go.sum as cache key",
+      "description": "The Cache@2 task uses `go.sum` in its key (e.g., `go | \"$(Agent.OS)\" | go.sum`)",
+      "max_score": 5
+    },
+    {
+      "name": "go vet before tests",
+      "description": "A `go vet ./...` step appears before the test step",
+      "max_score": 5
+    },
+    {
+      "name": "-race flag on tests",
+      "description": "The test command includes the `-race` flag",
+      "max_score": 5
+    },
+    {
+      "name": "-coverprofile flag on tests",
+      "description": "The test command includes a `-coverprofile` flag",
+      "max_score": 5
+    },
+    {
+      "name": "CGO_ENABLED=0 on build",
+      "description": "The binary build step sets `CGO_ENABLED=0` as an environment variable or inline in the command",
+      "max_score": 5
+    },
+    {
+      "name": "displayName on all steps",
+      "description": "Every task and script step has a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Pinned vmImage",
+      "description": "Pool vmImage uses a specific version (e.g., ubuntu-22.04) not ubuntu-latest",
+      "max_score": 5
+    },
+    {
+      "name": "PublishTestResults task",
+      "description": "A PublishTestResults@2 task is present",
+      "max_score": 5
+    },
+    {
+      "name": "No @latest task usage",
+      "description": "No task in the file uses @latest version",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: GoTool uses @1, @2, or @latest instead...",
+      "description": "Failure avoided: GoTool uses @1, @2, or @latest instead of exactly @0",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Cache@2 uses an incorrect path (not $(GOPATH)/pkg/mod)...",
+      "description": "Failure avoided: Cache@2 uses an incorrect path (not $(GOPATH)/pkg/mod) or does not include go.sum in the key",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `go vet` step is absent or appears...",
+      "description": "Failure avoided: `go vet` step is absent or appears after the test step",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Test command is missing the `-race` flag",
+      "description": "Failure avoided: Test command is missing the `-race` flag",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Test command is missing the `-coverprofile` flag",
+      "description": "Failure avoided: Test command is missing the `-coverprofile` flag",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Binary build step does not set CGO_ENABLED=0",
+      "description": "Failure avoided: Binary build step does not set CGO_ENABLED=0",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any step is missing a displayName property",
+      "description": "Failure avoided: Any step is missing a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: vmImage uses ubuntu-latest or any task uses...",
+      "description": "Failure avoided: vmImage uses ubuntu-latest or any task uses @latest",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: PublishTestResults task is absent",
+      "description": "Failure avoided: PublishTestResults task is absent",
+      "max_score": 5
+    }
+  ]
+}

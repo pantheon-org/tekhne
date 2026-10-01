@@ -1,0 +1,111 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Refactor a Monolithic Pipeline into Templates.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Template file created",
+      "description": "A file `templates/build-service.yml` (or similar path) exists and contains reusable step or job definitions",
+      "max_score": 4
+    },
+    {
+      "name": "Parameter syntax correct",
+      "description": "The template uses `${{ parameters.name }}` syntax for parameter references (not $(parameters.name) or other forms)",
+      "max_score": 4
+    },
+    {
+      "name": "Template referenced from main",
+      "description": "The main `azure-pipelines.yml` references the template using `- template:` syntax for all four services",
+      "max_score": 4
+    },
+    {
+      "name": "Pinned vmImage",
+      "description": "The vmImage is changed from `ubuntu-latest` to a specific version (e.g., ubuntu-22.04)",
+      "max_score": 4
+    },
+    {
+      "name": "Cache@2 in template",
+      "description": "The build template includes a Cache@2 task for npm packages",
+      "max_score": 4
+    },
+    {
+      "name": "displayName on all steps",
+      "description": "Every task and script step in both the template and main pipeline has a displayName property",
+      "max_score": 4
+    },
+    {
+      "name": "PublishTestResults with succeededOrFailed",
+      "description": "The PublishTestResults@2 task in the template has `condition: succeededOrFailed()`",
+      "max_score": 4
+    },
+    {
+      "name": "No @latest task usage",
+      "description": "No task in any generated file uses @latest version",
+      "max_score": 4
+    },
+    {
+      "name": "Parameters for nodeVersion",
+      "description": "The template defines a parameter for the Node.js version (so each service can specify 18.x or 20.x)",
+      "max_score": 4
+    },
+    {
+      "name": "Parameters for artifactName",
+      "description": "The template defines a parameter for the artifact name (so api-drop, worker-drop, etc. are set per-service)",
+      "max_score": 4
+    },
+    {
+      "name": "Explicit trigger preserved",
+      "description": "The main pipeline retains the explicit trigger with main and develop branch includes",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No template file is created; build logic...",
+      "description": "Failure avoided: No template file is created; build logic remains duplicated across four stage definitions",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Template uses $(parameters.name) or other non-standard parameter...",
+      "description": "Failure avoided: Template uses $(parameters.name) or other non-standard parameter syntax instead of `${{ parameters.name }}`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Main pipeline does not use `- template:`...",
+      "description": "Failure avoided: Main pipeline does not use `- template:` syntax for all four services",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: vmImage remains ubuntu-latest in the refactored pipeline",
+      "description": "Failure avoided: vmImage remains ubuntu-latest in the refactored pipeline",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No Cache@2 task is added to the...",
+      "description": "Failure avoided: No Cache@2 task is added to the template",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any step is missing a displayName property",
+      "description": "Failure avoided: Any step is missing a displayName property",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: PublishTestResults@2 lacks condition: succeededOrFailed()",
+      "description": "Failure avoided: PublishTestResults@2 lacks condition: succeededOrFailed()",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any task uses @latest version",
+      "description": "Failure avoided: Any task uses @latest version",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Template has no parameter for Node.js version...",
+      "description": "Failure avoided: Template has no parameter for Node.js version or artifact name, forcing hardcoding in the template body",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Main pipeline trigger is removed or changed...",
+      "description": "Failure avoided: Main pipeline trigger is removed or changed to `trigger: none`",
+      "max_score": 20
+    }
+  ]
+}

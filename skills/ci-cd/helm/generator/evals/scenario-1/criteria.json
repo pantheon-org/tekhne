@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: New Microservice Helm Chart.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No hardcoded image tag",
+      "description": "The image tag in values.yaml is set to an empty string or a variable reference (e.g., tag: \"\"), NOT a literal version string like 'v2.1.0' or 'latest'",
+      "max_score": 5
+    },
+    {
+      "name": "appVersion default",
+      "description": "Chart.yaml includes an appVersion field, and/or the deployment template falls back to .Chart.AppVersion when the tag value is empty",
+      "max_score": 5
+    },
+    {
+      "name": "Resources block present",
+      "description": "The deployment template or values.yaml contains a resources: block with at least one CPU or memory entry under both requests and limits",
+      "max_score": 5
+    },
+    {
+      "name": "Both requests and limits",
+      "description": "The resources block specifies values under BOTH requests: and limits: (not just one of them)",
+      "max_score": 5
+    },
+    {
+      "name": "values.yaml comments",
+      "description": "values.yaml contains inline documentation comments (lines starting with #) describing the purpose of at least 3 distinct settings",
+      "max_score": 5
+    },
+    {
+      "name": "Liveness probe defined",
+      "description": "The deployment template includes a livenessProbe block pointing to a path or exec command",
+      "max_score": 5
+    },
+    {
+      "name": "Readiness probe defined",
+      "description": "The deployment template includes a readinessProbe block pointing to a path or exec command",
+      "max_score": 5
+    },
+    {
+      "name": "Security context present",
+      "description": "Either values.yaml or the deployment template includes a securityContext section (pod-level or container-level)",
+      "max_score": 5
+    },
+    {
+      "name": "Image repository separate",
+      "description": "In values.yaml the image is split into at least repository: and tag: sub-keys, rather than a single combined image: string",
+      "max_score": 5
+    },
+    {
+      "name": "Related settings grouped",
+      "description": "values.yaml groups related settings under named keys (e.g., image:, resources:, probes: or similar) rather than a flat list of top-level keys",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The image tag is hardcoded as `v2.1.0`...",
+      "description": "Failure avoided: The image tag is hardcoded as `v2.1.0` or `latest` in values.yaml",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Chart.yaml lacks an appVersion field and the...",
+      "description": "Failure avoided: Chart.yaml lacks an appVersion field and the deployment template does not fall back to .Chart.AppVersion",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The resources block is absent or specifies...",
+      "description": "Failure avoided: The resources block is absent or specifies only requests or only limits (not both)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: values.yaml has fewer than 3 inline documentation...",
+      "description": "Failure avoided: values.yaml has fewer than 3 inline documentation comment lines",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No livenessProbe block is defined in the...",
+      "description": "Failure avoided: No livenessProbe block is defined in the deployment template",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No readinessProbe block is defined in the...",
+      "description": "Failure avoided: No readinessProbe block is defined in the deployment template",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No securityContext section is present anywhere in...",
+      "description": "Failure avoided: No securityContext section is present anywhere in the chart",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The image is stored as a single...",
+      "description": "Failure avoided: The image is stored as a single combined string in values.yaml instead of separate repository: and tag: sub-keys",
+      "max_score": 15
+    }
+  ]
+}
