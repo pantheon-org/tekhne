@@ -2,8 +2,8 @@
   "skill": "infrastructure/k8s/yaml-validator",
   "date": "2026-10-02",
   "dimensions": {
-    "antiPatternQuality": 9,
-    "evalValidation": 0,
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
     "freedomCalibration": 11,
     "knowledgeDelta": 20,
     "mindsetProcedures": 11,
@@ -12,19 +12,13 @@
     "progressiveDisclosure": 10,
     "specificationCompliance": 15
   },
-  "total": 101,
+  "total": 120,
   "maxTotal": 140,
-  "grade": "C",
-  "lines": 412,
+  "grade": "B+",
+  "lines": 413,
   "hasReferences": true,
   "referenceCount": 2,
   "referenceSectionCompliant": false,
   "errors": 0,
-  "warnings": 1,
-  "warningDetails": [
-    {
-      "dimension": "D9",
-      "message": "evals/ directory missing entirely"
-    }
-  ]
+  "warnings": 0
 }
