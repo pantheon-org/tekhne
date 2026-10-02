@@ -120,8 +120,8 @@ exit $rc
 """#
     }
     // Builds the Rust auditor from source once (cached in target/release),
-    // then invokes it. Grade gate preserved: A/A+ pass; B+/B/C+/C warn
-    // (non-blocking); below C fail (rc=1).
+    // then invokes it. Grade gate matches CI (the Skill Audit workflow): A/A+
+    // pass; B+/B warn (non-blocking); below B fail (rc=1).
     ["skill-audit"] {
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
@@ -135,10 +135,35 @@ for f in {{files}}; do
   grade=$(target/release/pantheon-skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
   case "$grade" in
     A|A+) echo "PASS $rel: $grade";;
-    B+|B|C+|C) echo "WARN $rel: $grade (warning -- CI non-blocking)";;
-    *) echo "FAIL $rel: ${grade:-?} (below C -- blocked)"; rc=1;;
+    B+|B) echo "WARN $rel: $grade (warning -- CI non-blocking)";;
+    *) echo "FAIL $rel: ${grade:-?} (below B -- blocked)"; rc=1;;
   esac
 done
+exit $rc
+"""#
+    }
+    // Check only: refuse the push when a changed skill's stored audit no longer
+    // matches the skill, and print the command that fixes it. Never edits files
+    // or history. Maps every changed path under skills/ (not only SKILL.md) to
+    // its skill, the same walk CI uses (scripts/stored-audits/changed-skills.sh).
+    // A build failure or an auditor error skips locally with a message; CI is
+    // the gate, as for the steps above.
+    ["stored-audits"] {
+        glob = List("skills/**")
+        shell = "sh -c"
+        check = #"""
+if ! cargo build --release -q -p pantheon-skill-auditor; then
+  echo "pantheon-skill-auditor build failed; skipping local stored-audit check (CI enforces the gate)"
+  exit 0
+fi
+skills=$(printf '%s\n' {{files}} | bash scripts/stored-audits/changed-skills.sh)
+[ -z "$skills" ] && exit 0
+bash scripts/stored-audits/check.sh $skills
+rc=$?
+if [ "$rc" -eq 2 ]; then
+  echo "stored-audit check could not run; skipping locally (CI enforces the gate)"
+  exit 0
+fi
 exit $rc
 """#
     }

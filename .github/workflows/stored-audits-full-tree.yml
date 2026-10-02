@@ -1,0 +1,47 @@
+name: Stored Audits Full Tree
+
+# Guardrail for drift that a check on changed skills cannot see: a change to the
+# scorer makes every stored audit stale, and two pull requests that each pass can
+# combine on main into something neither audit describes. Runs the stored-audit
+# check over every skill on each push to main, and on any pull request that touches
+# the scorer, so a scorer change must refresh the audits it invalidates in the same
+# pull request.
+#
+# Revisit trigger: if this takes more than 10 minutes, switch it to a scheduled run.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - "crates/skill-auditor/**"
+      - "crates/skill-validator-rs/**"
+      - "Cargo.lock"
+      - ".github/workflows/stored-audits-full-tree.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  full-tree:
+    name: Stored Audits Full Tree
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # rustup is preinstalled on GitHub-hosted runners; keep this version in sync
+      # with mise.toml and the other workflows.
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install 1.96.1 --profile minimal
+          rustup default 1.96.1
+
+      - name: Build skill-auditor
+        run: cargo build --release --locked -p pantheon-skill-auditor
+
+      - name: Check every skill's stored audit
+        run: bash scripts/stored-audits/check.sh --all
