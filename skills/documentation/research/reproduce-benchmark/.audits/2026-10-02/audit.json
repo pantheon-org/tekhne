@@ -1,5 +1,5 @@
 {
-  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/reproduce-benchmark/SKILL.md",
+  "skill": "documentation/research/reproduce-benchmark",
   "date": "2026-10-02",
   "dimensions": {
     "antiPatternQuality": 11,

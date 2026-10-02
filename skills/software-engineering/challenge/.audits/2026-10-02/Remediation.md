@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/software-engineering/challenge/SKILL.md
+# Remediation Plan — software-engineering/challenge
 
 **Current Grade:** B (118/140)
 

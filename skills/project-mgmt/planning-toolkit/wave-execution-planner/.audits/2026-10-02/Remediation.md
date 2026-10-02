@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/project-mgmt/planning-toolkit/wave-execution-planner/SKILL.md
+# Remediation Plan — project-mgmt/planning-toolkit/wave-execution-planner
 
 **Current Grade:** B (117/140)
 

@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/agentic-harness/agents-md/SKILL.md
+# Remediation Plan — agentic-harness/agents-md
 
 **Current Grade:** B+ (120/140)
 

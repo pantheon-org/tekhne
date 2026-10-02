@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/sci-data-extractor/SKILL.md
+# Remediation Plan — documentation/research/sci-data-extractor
 
 **Current Grade:** B+ (122/140)
 

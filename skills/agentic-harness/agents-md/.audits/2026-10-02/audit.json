@@ -1,5 +1,5 @@
 {
-  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/agentic-harness/agents-md/SKILL.md",
+  "skill": "agentic-harness/agents-md",
   "date": "2026-10-02",
   "dimensions": {
     "antiPatternQuality": 11,

@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/workspace-patterns/SKILL.md
+# Skill Audit — repository-mgmt/nx/workspace-patterns
 
 **Grade:** B (118/140)
 

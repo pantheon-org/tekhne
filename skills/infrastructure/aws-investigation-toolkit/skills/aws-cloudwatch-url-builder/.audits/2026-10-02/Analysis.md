@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder/SKILL.md
+# Skill Audit — infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder
 
 **Grade:** B (117/140)
 

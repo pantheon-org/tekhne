@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/testing/ui-debug-workflow/SKILL.md
+# Skill Audit — testing/ui-debug-workflow
 
 **Grade:** B+ (120/140)
 

@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/ci-cd/azure-pipelines/generator/SKILL.md
+# Skill Audit — ci-cd/azure-pipelines/generator
 
 **Grade:** B+ (121/140)
 

@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/specialized/retrospect-domain/SKILL.md
+# Skill Audit — specialized/retrospect-domain
 
 **Grade:** B+ (122/140)
 

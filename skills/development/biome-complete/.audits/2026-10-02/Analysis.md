@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/biome-complete/SKILL.md
+# Skill Audit — development/biome-complete
 
 **Grade:** B (115/140)
 

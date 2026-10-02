@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/bun-integration/SKILL.md
+# Skill Audit — repository-mgmt/nx/bun-integration
 
 **Grade:** B+ (119/140)
 

@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/testing/test-driven-development/SKILL.md
+# Remediation Plan — testing/test-driven-development
 
 **Current Grade:** B (115/140)
 

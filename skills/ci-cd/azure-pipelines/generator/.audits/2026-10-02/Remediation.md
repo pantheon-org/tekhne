@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/ci-cd/azure-pipelines/generator/SKILL.md
+# Remediation Plan — ci-cd/azure-pipelines/generator
 
 **Current Grade:** B+ (121/140)
 

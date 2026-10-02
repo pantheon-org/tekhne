@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/notebooklm/SKILL.md
+# Skill Audit — documentation/research/notebooklm
 
 **Grade:** B+ (122/140)
 

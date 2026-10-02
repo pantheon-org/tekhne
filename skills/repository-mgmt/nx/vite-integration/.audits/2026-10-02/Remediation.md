@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/vite-integration/SKILL.md
+# Remediation Plan — repository-mgmt/nx/vite-integration
 
 **Current Grade:** B+ (124/140)
 

@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/ci-cd/github-actions/generator/SKILL.md
+# Skill Audit — ci-cd/github-actions/generator
 
 **Grade:** B+ (119/140)
 

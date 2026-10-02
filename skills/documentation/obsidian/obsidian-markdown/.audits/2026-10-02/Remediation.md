@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/obsidian/obsidian-markdown/SKILL.md
+# Remediation Plan — documentation/obsidian/obsidian-markdown
 
 **Current Grade:** B (117/140)
 

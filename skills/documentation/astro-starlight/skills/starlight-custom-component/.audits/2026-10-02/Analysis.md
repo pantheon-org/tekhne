@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/astro-starlight/skills/starlight-custom-component/SKILL.md
+# Skill Audit — documentation/astro-starlight/skills/starlight-custom-component
 
 **Grade:** B+ (121/140)
 

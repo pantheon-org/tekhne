@@ -1,5 +1,5 @@
 {
-  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/google-scholar-search/SKILL.md",
+  "skill": "documentation/research/google-scholar-search",
   "date": "2026-10-02",
   "dimensions": {
     "antiPatternQuality": 11,

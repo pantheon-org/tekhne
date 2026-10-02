@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/front-end/website-theme-porter/SKILL.md
+# Skill Audit — development/front-end/website-theme-porter
 
 **Grade:** B+ (123/140)
 

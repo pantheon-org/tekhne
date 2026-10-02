@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/vite-integration/SKILL.md
+# Skill Audit — repository-mgmt/nx/vite-integration
 
 **Grade:** B+ (124/140)
 

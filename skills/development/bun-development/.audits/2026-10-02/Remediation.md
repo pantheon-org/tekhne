@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/bun-development/SKILL.md
+# Remediation Plan — development/bun-development
 
 **Current Grade:** B+ (120/140)
 

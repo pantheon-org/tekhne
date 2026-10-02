@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/ci-cd/helm/generator/SKILL.md
+# Skill Audit — ci-cd/helm/generator
 
 **Grade:** B+ (121/140)
 

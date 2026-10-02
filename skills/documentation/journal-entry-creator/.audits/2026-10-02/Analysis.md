@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/journal-entry-creator/SKILL.md
+# Skill Audit — documentation/journal-entry-creator
 
 **Grade:** B+ (119/140)
 

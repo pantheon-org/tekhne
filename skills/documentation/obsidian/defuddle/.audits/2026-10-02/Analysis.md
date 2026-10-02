@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/obsidian/defuddle/SKILL.md
+# Skill Audit — documentation/obsidian/defuddle
 
 **Grade:** B+ (119/140)
 

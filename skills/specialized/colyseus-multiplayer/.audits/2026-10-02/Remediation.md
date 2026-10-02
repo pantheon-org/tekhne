@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/specialized/colyseus-multiplayer/SKILL.md
+# Remediation Plan — specialized/colyseus-multiplayer
 
 **Current Grade:** B+ (119/140)
 

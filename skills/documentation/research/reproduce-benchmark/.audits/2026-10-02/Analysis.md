@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/reproduce-benchmark/SKILL.md
+# Skill Audit — documentation/research/reproduce-benchmark
 
 **Grade:** B (117/140)
 

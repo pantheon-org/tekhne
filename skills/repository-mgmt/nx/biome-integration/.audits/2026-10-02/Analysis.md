@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/biome-integration/SKILL.md
+# Skill Audit — repository-mgmt/nx/biome-integration
 
 **Grade:** B+ (121/140)
 

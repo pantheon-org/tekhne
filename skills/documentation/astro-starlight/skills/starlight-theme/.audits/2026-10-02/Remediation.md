@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/astro-starlight/skills/starlight-theme/SKILL.md
+# Remediation Plan — documentation/astro-starlight/skills/starlight-theme
 
 **Current Grade:** B+ (119/140)
 

@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/proof-of-work/skills/proof-of-work/SKILL.md
+# Skill Audit — documentation/proof-of-work/skills/proof-of-work
 
 **Grade:** B+ (120/140)
 

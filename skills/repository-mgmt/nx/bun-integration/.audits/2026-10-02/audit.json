@@ -1,5 +1,5 @@
 {
-  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/bun-integration/SKILL.md",
+  "skill": "repository-mgmt/nx/bun-integration",
   "date": "2026-10-02",
   "dimensions": {
     "antiPatternQuality": 7,
