@@ -39,7 +39,7 @@ pub fn score(content: &str, b: &ValidatorBridge) -> i32 {
         || count_pattern(content, "python ") > 0
         || count_pattern(content, "go run") > 0;
     if has_run_cmd {
-        score += 4;
+        score += 3;
     }
 
     score.clamp(0, 15)
