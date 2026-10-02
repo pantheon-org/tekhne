@@ -1,9 +1,10 @@
 import { $ } from "bun";
 import type { SkillEntry } from "../types";
+import { parseFileList } from "./parse-file-list";
 
 export const findAllSkills = async (): Promise<SkillEntry[]> => {
   const output = await $`find skills -name "SKILL.md" -type f`.text();
-  const files = output.trim().split("\n").filter(Boolean);
+  const files = parseFileList(output);
 
   return files.map((file) => {
     const relativePath = file.replace("skills/", "").replace("/SKILL.md", "");

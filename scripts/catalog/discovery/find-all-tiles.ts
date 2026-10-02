@@ -3,13 +3,14 @@ import { parseShortName } from "../parsing";
 import type { TileEntry } from "../types";
 import { buildTileSkills } from "./build-tile-skills";
 import { isChildTile } from "./is-child-tile";
+import { parseFileList } from "./parse-file-list";
 import { parsePublishedStatus } from "./parse-published-status";
 import { tileRoot } from "./tile-root";
 
 export const findAllTiles = async (): Promise<TileEntry[]> => {
   const output =
     await $`find skills -name "plugin.json" -path "*/.tekhne/*" -o -name "tile.json" -type f`.text();
-  const files = output.trim().split("\n").filter(Boolean);
+  const files = parseFileList(output);
 
   const tileDirs = new Set(files.map(tileRoot));
   const tiles: TileEntry[] = [];
