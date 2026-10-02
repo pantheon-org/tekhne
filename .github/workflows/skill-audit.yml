@@ -128,6 +128,11 @@ jobs:
             rels+=("${dir#skills/}")
           done
           target/release/pantheon-skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
+          # The per-skill detail blocks are cosmetic. They come from a second
+          # run so that nothing in that path can change batch.json, the table or
+          # `fail` above. A failure here leaves an empty file, never a red job.
+          target/release/pantheon-skill-auditor batch "${rels[@]}" --json --details-markdown details.md > /dev/null 2>&1 || : > details.md
+          [ -f details.md ] || : > details.md
           rows=$(jq -r '
             .[]
             | (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; "")) as $rel
@@ -142,6 +147,16 @@ jobs:
           if [ "$got" -lt "$want" ]; then
             fail=$((fail + want - got))
           fi
+          # Skills that were asked for but did not come back, one per line, for
+          # the comment. Written to a file, not GITHUB_OUTPUT, because the names
+          # come from the PR; this does not feed `fail`, and a failure here
+          # leaves an empty list rather than failing the step.
+          {
+            jq -r '.[] | (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; ""))' batch.json > scored.txt
+            for rel in "${rels[@]}"; do
+              grep -qxF -- "$rel" scored.txt || printf '%s\n' "$rel"
+            done > unscored.txt
+          } || : > unscored.txt
           {
             echo "table<<AUDIT_EOF"
             printf '| Skill | Grade | Score | Tier |\n'
@@ -164,6 +179,44 @@ jobs:
           comment-author: github-actions[bot]
           body-includes: "## Skill Audit"
 
+      # The whole comment is built into one file so its total size can be
+      # checked (GitHub rejects comments over 65,536 characters; the limit here
+      # is lower and counted in bytes, which is stricter). Step outputs reach the
+      # script through env, never by being pasted into it. If the comment is too
+      # big, the per-skill detail is dropped and the table stays.
+      - name: Assemble audit comment
+        if: steps.dirs.outputs.found == 'true'
+        continue-on-error: true
+        env:
+          TABLE: ${{ steps.audit.outputs.table }}
+          DUP_SUMMARY: ${{ steps.dup.outputs.summary }}
+          MAX_COMMENT_BYTES: "60000"
+        run: |
+          set -euo pipefail
+          escape() {
+            sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/`/\&#96;/g' -e 's/@/\&#64;/g'
+          }
+          build() {
+            printf '## Skill Audit\n\n%s\n\n' "$TABLE"
+            printf '**Gate:**\n- ✅ pass = A / A+ (≥126)\n- ⚠️ warning = B – B+ (112–125, non-blocking)\n- ❌ fail = below B (<112, blocks merge)\n\n'
+            if [ -s unscored.txt ]; then
+              printf 'Not scored (the audit could not read them): '
+              escape < unscored.txt | awk '{ printf "%s<code>%s</code>", (NR > 1 ? ", " : ""), $0 } END { print "" }'
+              printf '\n'
+            fi
+            if [ "$1" = 1 ] && [ -s details.md ]; then
+              printf '**Where the points were lost** (the three biggest losses for each skill graded below A):\n\n'
+              cat details.md
+              printf '\n'
+            fi
+            printf '<details>\n<summary>Cross-skill duplication (advisory)</summary>\n\n%s\n\n</details>\n' "$DUP_SUMMARY"
+          }
+          build 1 > comment.md
+          if [ "$(wc -c < comment.md)" -gt "$MAX_COMMENT_BYTES" ]; then
+            echo "::warning::Skill Audit comment is over ${MAX_COMMENT_BYTES} bytes; posting without the per-skill detail."
+            build 0 > comment.md
+          fi
+
       - name: Post audit comment
         if: steps.dirs.outputs.found == 'true'
         continue-on-error: true
@@ -172,22 +225,7 @@ jobs:
           comment-id: ${{ steps.find-comment.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
-          body: |
-            ## Skill Audit
-
-            ${{ steps.audit.outputs.table }}
-
-            **Gate:**
-            - ✅ pass = A / A+ (≥126)
-            - ⚠️ warning = B – B+ (112–125, non-blocking)
-            - ❌ fail = below B (<112, blocks merge)
-
-            <details>
-            <summary>Cross-skill duplication (advisory)</summary>
-
-            ${{ steps.dup.outputs.summary }}
-
-            </details>
+          body-path: comment.md
 
       - name: Enforce gate (fail below B)
         if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail != '0'
