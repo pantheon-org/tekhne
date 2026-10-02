@@ -157,6 +157,8 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             git status --short
             git --no-pager diff --stat
+            # Show what differs, so the cause is visible without re-running locally.
+            git --no-pager diff --unified=0 | head -n 40
             echo "::error::The generated skills catalogue does not match the stored audits. Run 'bun scripts/catalog/update.ts' and commit README.md and docs/src/content/docs/tiles.md."
             exit 1
           fi
