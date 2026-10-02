@@ -366,7 +366,7 @@ fn check_subdirs(dir: &Path, dir_rel: &str, report: &mut ArtifactReport) {
     };
     for entry in entries.flatten().filter(is_dir) {
         let name = entry.file_name().to_string_lossy().into_owned();
-        // Dot-directories (e.g. `.tessl-plugin`) are skipped: the shell's `*/`
+        // Dot-directories (e.g. `.tekhne`) are skipped: the shell's `*/`
         // glob does not match hidden entries, so they were never flagged.
         if name.starts_with('.') {
             continue;
@@ -460,7 +460,7 @@ fn check_skill_md(dir: &Path, dir_rel: &str, skill_name: &str, report: &mut Arti
 /// `None` for an ordinary skill. Consolidated skills (generator/validator pairs
 /// and multi-skill toolkits like `cfn`, `k8s`, `nx`, `opencode-toolkit`) live in
 /// a sub-directory of a shared toolkit directory that carries the tool-level
-/// `.tessl-plugin/plugin.json`, and name themselves `<prefix>-<dir>`, so that
+/// `.tekhne/plugin.json`, and name themselves `<prefix>-<dir>`, so that
 /// form is accepted alongside the bare directory name. The prefix is the toolkit
 /// directory name with a trailing `-toolkit` removed (`terraform` -> `terraform`,
 /// `opencode-toolkit` -> `opencode`). Ordinary skills sit directly under a domain
@@ -468,7 +468,7 @@ fn check_skill_md(dir: &Path, dir_rel: &str, skill_name: &str, report: &mut Arti
 /// `name == directory` rule.
 fn consolidated_skill_name(dir: &Path, skill_name: &str) -> Option<String> {
     let parent = dir.parent()?;
-    if !parent.join(".tessl-plugin").join("plugin.json").is_file() {
+    if !parent.join(".tekhne").join("plugin.json").is_file() {
         return None;
     }
     let parent_name = parent.file_name()?.to_string_lossy();
@@ -653,13 +653,13 @@ mod tests {
 
     #[test]
     fn dot_directories_are_not_flagged() {
-        // `.tessl-plugin` (and any hidden dir) is skipped, matching the shell's
+        // `.tekhne` (and any hidden dir) is skipped, matching the shell's
         // `*/` glob which never matched dot-directories.
         let dir = tempdir().unwrap();
         let skill = dir.path().join("skills/d/my-skill");
         write(&skill.join("SKILL.md"), "---\nname: my-skill\n---\nBody\n");
-        fs::create_dir_all(skill.join(".tessl-plugin")).unwrap();
-        write(&skill.join(".tessl-plugin/plugin.json"), "{}\n");
+        fs::create_dir_all(skill.join(".tekhne")).unwrap();
+        write(&skill.join(".tekhne/plugin.json"), "{}\n");
         let mut report = ArtifactReport::default();
         check_skill_dir(&skill, &mut report);
         assert_eq!(report.errors(), 0, "{:?}", report.results);
@@ -686,11 +686,11 @@ mod tests {
         // A `<tool>/{generator,validator}` pair names itself `<tool>-generator` /
         // `<tool>-validator` while living in a `generator` / `validator` directory
         // under the shared `<tool>` dir, which carries the tool-level
-        // `.tessl-plugin/plugin.json`. Both are correctly structured and must not
+        // `.tekhne/plugin.json`. Both are correctly structured and must not
         // trip the name-vs-directory rule (issue #243).
         let dir = tempdir().unwrap();
         let toolkit = dir.path().join("skills/infrastructure/terraform");
-        write(&toolkit.join(".tessl-plugin/plugin.json"), "{}");
+        write(&toolkit.join(".tekhne/plugin.json"), "{}");
         for (sub, name) in [
             ("generator", "terraform-generator"),
             ("validator", "terraform-validator"),
@@ -730,10 +730,7 @@ mod tests {
             ),
         ] {
             let skill = dir.path().join(rel);
-            write(
-                &skill.parent().unwrap().join(".tessl-plugin/plugin.json"),
-                "{}",
-            );
+            write(&skill.parent().unwrap().join(".tekhne/plugin.json"), "{}");
             write(
                 &skill.join("SKILL.md"),
                 &format!("---\nname: {name}\n---\nBody\n"),
@@ -767,7 +764,7 @@ mod tests {
         // message surfaces the accepted consolidated form.
         let dir = tempdir().unwrap();
         let toolkit = dir.path().join("skills/infrastructure/terraform");
-        write(&toolkit.join(".tessl-plugin/plugin.json"), "{}");
+        write(&toolkit.join(".tekhne/plugin.json"), "{}");
         let skill = toolkit.join("generator");
         write(
             &skill.join("SKILL.md"),

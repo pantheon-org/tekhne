@@ -1,9 +1,0 @@
-{
-  "name": "pantheon-ai/create-context",
-  "version": "0.2.0",
-  "description": "Bootstrap project context from .context/session/in/ with manifest-driven organisation and token-aware file sizing.",
-  "private": false,
-  "skills": [
-    "SKILL.md"
-  ]
-}

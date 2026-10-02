@@ -8,7 +8,7 @@ import { tileRoot } from "./tile-root";
 
 export const findAllTiles = async (): Promise<TileEntry[]> => {
   const output =
-    await $`find skills -name "plugin.json" -path "*/.tessl-plugin/*" -o -name "tile.json" -type f`.text();
+    await $`find skills -name "plugin.json" -path "*/.tekhne/*" -o -name "tile.json" -type f`.text();
   const files = output.trim().split("\n").filter(Boolean);
 
   const tileDirs = new Set(files.map(tileRoot));

@@ -81,7 +81,7 @@ const registryUrl = (data) =>
 
 /**
  * Walk up the directory tree from skillSrcDir to find the nearest tile
- * manifest (.tessl-plugin/plugin.json, or a legacy tile.json).
+ * manifest (.tekhne/plugin.json, or a legacy tile.json).
  * Returns { publishedUrl, version } or null if not found.
  * @param {string} skillSrcDir
  */
@@ -90,7 +90,7 @@ const loadTileMetadata = (skillSrcDir) => {
   const root = skillsRoot;
   while (dir.startsWith(root)) {
     const manifestPath = [
-      join(dir, ".tessl-plugin", "plugin.json"),
+      join(dir, ".tekhne", "plugin.json"),
       join(dir, "tile.json"),
     ].find((candidate) => existsSync(candidate));
     if (manifestPath) {

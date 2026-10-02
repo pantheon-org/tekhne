@@ -11,7 +11,7 @@ use std::path::Path;
 /// match Go's `json.MarshalIndent`. The leading dot on `.audits` keeps it
 /// exempt from the skill-structure validator's allowed-subdirectory check
 /// (see `skill-validator-rs`'s dot-directory skip), the same way
-/// `.tessl-plugin` already is.
+/// `.tekhne` already is.
 pub fn store(repo_root: &Path, skill_path: &str, r: &Result) -> io::Result<()> {
     let dir = repo_root
         .join("skills")
