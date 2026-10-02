@@ -1,0 +1,30 @@
+{
+  "skill": "comedy/clarke-dawe-esque",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 10,
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 11
+  },
+  "total": 113,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 187,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: cline"
+    }
+  ]
+}

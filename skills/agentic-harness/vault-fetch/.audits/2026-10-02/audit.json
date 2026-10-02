@@ -1,0 +1,30 @@
+{
+  "skill": "agentic-harness/vault-fetch",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 3,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 14,
+    "mindsetProcedures": 8,
+    "patternRecognition": 10,
+    "practicalUsability": 9,
+    "progressiveDisclosure": 12,
+    "specificationCompliance": 13
+  },
+  "total": 101,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 63,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D5",
+      "message": "no references/ directory (progressive disclosure missing)"
+    }
+  ]
+}

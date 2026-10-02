@@ -1,0 +1,30 @@
+{
+  "skill": "infrastructure/cfn/behavior-validator",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 0,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 103,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 169,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D9",
+      "message": "evals/ directory missing entirely"
+    }
+  ]
+}

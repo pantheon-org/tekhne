@@ -1,0 +1,30 @@
+{
+  "skill": "software-engineering/blast-radius",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 17,
+    "freedomCalibration": 10,
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 9,
+    "progressiveDisclosure": 7,
+    "specificationCompliance": 13
+  },
+  "total": 104,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 146,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D5",
+      "message": "no references/ directory (progressive disclosure missing)"
+    }
+  ]
+}

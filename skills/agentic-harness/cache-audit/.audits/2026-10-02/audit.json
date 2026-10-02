@@ -1,0 +1,34 @@
+{
+  "skill": "agentic-harness/cache-audit",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 7,
+    "evalValidation": 17,
+    "freedomCalibration": 9,
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 13,
+    "patternRecognition": 9,
+    "practicalUsability": 8,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 10
+  },
+  "total": 99,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 216,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 2,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "harness-specific path found: .claude/"
+    },
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: claude code"
+    }
+  ]
+}
