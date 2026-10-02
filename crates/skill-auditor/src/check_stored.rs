@@ -4,6 +4,8 @@
 //! the scorer produces now. The audit date and the stored `skill` field are
 //! ignored, so re-storing an unchanged skill, or storing it from a different
 //! checkout, never counts as a change.
+//!
+//! (Proof run: this comment-only change must trigger the full-tree check and pass.)
 
 use crate::prune::{is_date_name, subdirs};
 use crate::scorer::Result as Audit;
