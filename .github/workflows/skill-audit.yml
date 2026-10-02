@@ -38,9 +38,15 @@ jobs:
           # assets/) re-audits that skill, because the auditor scores all of
           # them. Walk each changed path up to the nearest directory that holds
           # a SKILL.md; paths outside a skill, and deleted skills, are skipped.
+          #
+          # The toolkit manifest (.tekhne/plugin.json, formerly
+          # .tessl-plugin/plugin.json) is ignored: it holds release and docs
+          # metadata, the auditor never scores it, and a manifest-only change
+          # would otherwise re-audit every skill in the toolkit.
           DIRS=$(git diff --name-only --diff-filter=AMDR \
             "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
             -- 'skills/' 2>/dev/null \
+            | grep -vE '/\.(tekhne|tessl-plugin)/plugin\.json$' \
             | while read -r f; do
                 d=$(dirname "$f")
                 while [ "$d" != "skills" ] && [ "$d" != "." ]; do
