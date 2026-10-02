@@ -1,0 +1,61 @@
+{
+  "context": "Tests the routing guard: the generator should hand off when the task is checking an existing manifest.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises validation",
+      "description": "Identifies the request as validating an existing manifest and not generating a new one",
+      "max_score": 12
+    },
+    {
+      "name": "No fresh manifest",
+      "description": "Does not produce a new Deployment manifest from scratch",
+      "max_score": 12
+    },
+    {
+      "name": "Uses the validator",
+      "description": "Routes to the k8s-yaml-validator workflow and runs or follows its stages",
+      "max_score": 14
+    },
+    {
+      "name": "File untouched",
+      "description": "Does not edit or overwrite deployment.yaml",
+      "max_score": 10
+    },
+    {
+      "name": "Explains the choice",
+      "description": "States briefly why the generator is not the right tool for this request",
+      "max_score": 6
+    },
+    {
+      "name": "Syntax check",
+      "description": "Runs or names a YAML syntax check such as yamllint",
+      "max_score": 8
+    },
+    {
+      "name": "Schema check",
+      "description": "Runs or names a schema check such as kubeconform",
+      "max_score": 8
+    },
+    {
+      "name": "Dry-run",
+      "description": "Runs or names a cluster dry-run, or says it was not possible",
+      "max_score": 6
+    },
+    {
+      "name": "Line references",
+      "description": "Reports any findings with file and line references",
+      "max_score": 8
+    },
+    {
+      "name": "No false pass",
+      "description": "Does not claim the manifest is valid without running the checks",
+      "max_score": 8
+    },
+    {
+      "name": "No requirements questions",
+      "description": "Does not ask requirements questions such as replicas or ports that a validation does not need",
+      "max_score": 8
+    }
+  ]
+}

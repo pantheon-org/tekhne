@@ -1,0 +1,61 @@
+{
+  "context": "Tests resource counting, loading the detailed workflow reference, resilient parsing and per-resource tracking.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Counts resources",
+      "description": "Counts the resources (three) before running the tools and records the count in the report",
+      "max_score": 10
+    },
+    {
+      "name": "Loads the workflow reference",
+      "description": "Reads references/validation_workflow.md because the file has three or more resources",
+      "max_score": 10
+    },
+    {
+      "name": "Continues past the error",
+      "description": "Continues validating the Service (document 1) and the Certificate (document 3) after the Deployment (document 2) fails to parse",
+      "max_score": 12
+    },
+    {
+      "name": "File-absolute line numbers",
+      "description": "Reports the syntax error at line 13 of the file (the `kind Deployment` line) and not the document-relative line 2",
+      "max_score": 12
+    },
+    {
+      "name": "Per-resource table",
+      "description": "Shows the status of each resource (parsed, skipped, valid) in a table",
+      "max_score": 8
+    },
+    {
+      "name": "Validates as a unit",
+      "description": "Runs the dry-run on the whole file and not resource by resource",
+      "max_score": 8
+    },
+    {
+      "name": "Order matters",
+      "description": "Notes that resource order matters, or tests the file as a unit for that reason",
+      "max_score": 6
+    },
+    {
+      "name": "Detects the CRD",
+      "description": "Detects the Certificate as a CRD",
+      "max_score": 10
+    },
+    {
+      "name": "Does not abort",
+      "description": "Does not stop the workflow at the first failing document",
+      "max_score": 8
+    },
+    {
+      "name": "Report only",
+      "description": "Does not edit the file or apply fixes",
+      "max_score": 8
+    },
+    {
+      "name": "Summary and next steps",
+      "description": "Ends with a summary of stages and next steps",
+      "max_score": 8
+    }
+  ]
+}

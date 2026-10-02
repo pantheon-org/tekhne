@@ -1,0 +1,66 @@
+{
+  "context": "Tests the route-elsewhere guard: a one-field question is answered with kubectl explain, not a full validation report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Direct lookup",
+      "description": "Answers using kubectl explain deployment.spec.strategy.rollingUpdate.maxSurge or the official API reference",
+      "max_score": 16
+    },
+    {
+      "name": "No full funnel",
+      "description": "Does not run the multi-stage validation workflow",
+      "max_score": 12
+    },
+    {
+      "name": "No manifest requested",
+      "description": "Does not ask for a manifest file",
+      "max_score": 6
+    },
+    {
+      "name": "Field is valid",
+      "description": "States that the field is valid on a Deployment under spec.strategy.rollingUpdate",
+      "max_score": 10
+    },
+    {
+      "name": "Correct type",
+      "description": "States that the type is an integer or a percentage string (IntOrString)",
+      "max_score": 12
+    },
+    {
+      "name": "Applies to RollingUpdate",
+      "description": "Mentions that it only applies when the strategy type is RollingUpdate",
+      "max_score": 6
+    },
+    {
+      "name": "Concise",
+      "description": "Answers in a few sentences",
+      "max_score": 6
+    },
+    {
+      "name": "No files changed",
+      "description": "Does not create or edit any file",
+      "max_score": 6
+    },
+    {
+      "name": "No lint run",
+      "description": "Does not run yamllint or kubeconform",
+      "max_score": 6
+    },
+    {
+      "name": "No report table",
+      "description": "Does not produce a validation report or summary table",
+      "max_score": 6
+    },
+    {
+      "name": "No fix offer",
+      "description": "Does not offer to apply fixes",
+      "max_score": 6
+    },
+    {
+      "name": "No stage preamble",
+      "description": "Does not open with a stage-by-stage plan",
+      "max_score": 8
+    }
+  ]
+}

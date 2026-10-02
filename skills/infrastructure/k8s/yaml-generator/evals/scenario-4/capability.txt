@@ -1,0 +1,1 @@
+Translates a multi-service brief into ordered, consistent, current-API manifests.

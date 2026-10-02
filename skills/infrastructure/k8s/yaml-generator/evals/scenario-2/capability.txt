@@ -1,0 +1,1 @@
+Separates sensitive and non-sensitive configuration into the right objects and wires them in safely.

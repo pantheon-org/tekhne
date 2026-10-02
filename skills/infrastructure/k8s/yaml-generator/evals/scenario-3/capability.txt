@@ -1,0 +1,1 @@
+Consults CRD documentation for the right version and generates a resource with all required fields.

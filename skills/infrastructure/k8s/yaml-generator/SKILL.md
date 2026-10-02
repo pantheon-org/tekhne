@@ -37,9 +37,9 @@ Gather: resource type, target K8s version, app requirements (replicas, ports, vo
 
 ### 2. Fetch CRD Documentation (if needed)
 
-Query library documentation for CRD specifications:
+Look up the CRD specification in the project's own documentation. If the CRD is already installed in a reachable cluster, `kubectl explain <kind>.spec` shows the fields for the installed version. A documentation search looks like:
 ```
-tessl_query_library_docs: query: "<project-name> <CRD-kind> <version> specification"
+"<project-name> <CRD-kind> <version> specification"
 # e.g. "argo-cd Application v1alpha1 specification"
 # e.g. "istio VirtualService v1beta1 specification"
 # e.g. "cert-manager Certificate v1 specification"
@@ -343,8 +343,10 @@ selector: { app: myapp }  # Matches all versions
 Never output YAML without running it through the validation workflow:
 
 ```bash
-# Use yaml-validator from this tile
-tessl_query_library_docs: query: "kubernetes yaml validation kubeconform yamllint"
+# Run the yaml-validator workflow from this tile: syntax, schema, then dry-run
+yamllint <file>.yaml
+kubeconform -strict -summary <file>.yaml
+kubectl apply --dry-run=server -f <file>.yaml
 ```
 
 ### ALWAYS: Use Namespaces Explicitly

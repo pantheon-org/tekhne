@@ -1,0 +1,61 @@
+{
+  "context": "Tests the CRD stages: detection, documentation lookup, the catalog schema location, the unknown-field rule and the cluster version check.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects the CRD",
+      "description": "Detects the resource as a CRD with kind Certificate, group cert-manager.io and version v1",
+      "max_score": 10
+    },
+    {
+      "name": "Looks up the docs",
+      "description": "Looks up the CRD documentation (docs, kubectl explain or a search) and lists the required spec fields",
+      "max_score": 12
+    },
+    {
+      "name": "Catalog schema",
+      "description": "Runs kubeconform with the CRD catalog --schema-location and -strict",
+      "max_score": 12
+    },
+    {
+      "name": "No false pass",
+      "description": "Does not accept 'no schema found' or unknown-field output as a pass",
+      "max_score": 14
+    },
+    {
+      "name": "Finds the field error",
+      "description": "Identifies dnsName as unknown and dnsNames (a list) as the expected field",
+      "max_score": 12
+    },
+    {
+      "name": "Checks the CRD version",
+      "description": "Checks that the CRD version matches the cluster, for example with kubectl get crd and a jsonpath",
+      "max_score": 8
+    },
+    {
+      "name": "Manual fallback",
+      "description": "If no schema is available, validates the spec fields manually against the documentation",
+      "max_score": 8
+    },
+    {
+      "name": "Search fallback",
+      "description": "Suggests kubectl explain or a version-specific search if the documentation is insufficient",
+      "max_score": 6
+    },
+    {
+      "name": "Before and after",
+      "description": "Shows the fix as a before and after block",
+      "max_score": 8
+    },
+    {
+      "name": "Report only",
+      "description": "Does not edit cert.yaml",
+      "max_score": 6
+    },
+    {
+      "name": "Server-side dry-run",
+      "description": "Uses server-side dry-run and not client-side only",
+      "max_score": 4
+    }
+  ]
+}

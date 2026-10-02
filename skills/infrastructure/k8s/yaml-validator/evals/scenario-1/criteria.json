@@ -1,0 +1,66 @@
+{
+  "context": "Tests the primary happy path and the report format, including a removed API version, a wrong field type and policy gaps that only a policy checker finds.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Runs the stages in order",
+      "description": "Runs or follows the tool check, yamllint with the repository config, CRD detection, kubeconform and a dry-run, in that order",
+      "max_score": 10
+    },
+    {
+      "name": "Collects before reporting",
+      "description": "Continues through all stages and reports all issues together, not just the first",
+      "max_score": 10
+    },
+    {
+      "name": "Removed API version",
+      "description": "Flags extensions/v1beta1 as a problem to fix and gives apps/v1 as the fix, and does not wave it off as a minor warning",
+      "max_score": 10
+    },
+    {
+      "name": "Wrong field type",
+      "description": "Flags containerPort \"80\" as a string where an integer is required",
+      "max_score": 8
+    },
+    {
+      "name": "File and line",
+      "description": "Gives file:line references for the issues",
+      "max_score": 6
+    },
+    {
+      "name": "Before and after",
+      "description": "Shows a before and after code block for each issue",
+      "max_score": 8
+    },
+    {
+      "name": "Fix complexity",
+      "description": "Tags each fix as [Simple], [Medium] or [Complex]",
+      "max_score": 6
+    },
+    {
+      "name": "Severity table",
+      "description": "Gives a summary table classifying issues as Error, Warning or Info",
+      "max_score": 8
+    },
+    {
+      "name": "Targets the cluster version",
+      "description": "Validates against Kubernetes 1.28 using kubeconform -kubernetes-version or a server-side dry-run",
+      "max_score": 8
+    },
+    {
+      "name": "Policy checker",
+      "description": "Runs or recommends a policy checker such as Polaris or kube-score and flags the latest tag and missing limits and probes",
+      "max_score": 10
+    },
+    {
+      "name": "Report only",
+      "description": "Does not modify deployment.yaml and does not offer to apply the fixes",
+      "max_score": 10
+    },
+    {
+      "name": "Summary and next steps",
+      "description": "Ends with a stage status table and next steps",
+      "max_score": 6
+    }
+  ]
+}

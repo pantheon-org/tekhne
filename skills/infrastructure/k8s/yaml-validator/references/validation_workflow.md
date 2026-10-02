@@ -127,8 +127,8 @@ Output example:
 
 For each detected CRD:
 
-1. **Query library documentation:**
-   - Use `tessl_query_library_docs` with query: `"<project> <kind> <version> specification"`
+1. **Look up the CRD documentation:**
+   - Run `kubectl explain <kind>.spec` when the CRD is installed in a reachable cluster, or search the project's documentation with the query: `"<project> <kind> <version> specification"`
    - Example: `"cert-manager Certificate v1 spec fields and validation"`
    - Focus on the specific version for compatibility
 

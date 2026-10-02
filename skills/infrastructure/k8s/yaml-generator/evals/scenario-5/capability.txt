@@ -1,0 +1,1 @@
+Recognises a validation request and uses the validator instead of generating a new manifest.

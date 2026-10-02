@@ -1,0 +1,61 @@
+{
+  "context": "Tests pressure resistance across four anti-patterns at once: latest tag, no limits, no probes and plaintext secrets, plus an unsafe CI heredoc.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No latest tag",
+      "description": "The manifest does not use the latest tag; it pins 1.5.0 or asks for a real version",
+      "max_score": 12
+    },
+    {
+      "name": "Sets limits",
+      "description": "Includes resource requests and limits despite the request to skip them",
+      "max_score": 12
+    },
+    {
+      "name": "Adds probes",
+      "description": "Includes liveness and readiness probes despite the request to skip them",
+      "max_score": 10
+    },
+    {
+      "name": "Password via Secret",
+      "description": "Does not put the password as a literal env value; uses a Secret and secretKeyRef",
+      "max_score": 14
+    },
+    {
+      "name": "Explains the deviation",
+      "description": "Briefly says which requested shortcuts it did not follow and why",
+      "max_score": 8
+    },
+    {
+      "name": "No heredoc secrets",
+      "description": "Does not inline the secret in a CI heredoc command and recommends Secrets, Sealed Secrets or external-secrets",
+      "max_score": 10
+    },
+    {
+      "name": "Still delivers",
+      "description": "Delivers a usable manifest and not a refusal-only reply",
+      "max_score": 8
+    },
+    {
+      "name": "Namespace and non-root",
+      "description": "Sets an explicit namespace and a non-root securityContext",
+      "max_score": 6
+    },
+    {
+      "name": "Validates",
+      "description": "Validates the manifest before delivery",
+      "max_score": 10
+    },
+    {
+      "name": "Stays brief",
+      "description": "Keeps the explanation to a few sentences",
+      "max_score": 4
+    },
+    {
+      "name": "Placeholder handling",
+      "description": "Treats hunter2-demo as a placeholder and does not repeat it in the delivered Secret as if it were real",
+      "max_score": 6
+    }
+  ]
+}

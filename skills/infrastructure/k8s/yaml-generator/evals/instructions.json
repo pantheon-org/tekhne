@@ -1,0 +1,84 @@
+{
+  "instructions": [
+    {
+      "instruction": "Gather requirements first: resource type, target Kubernetes version, replicas, ports, volumes, namespace, labels and CRD specifics.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "For a CRD, consult its documentation for the right project, kind and API version before generating; fall back to a version-specific web search, and always include the version.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Apply the app.kubernetes.io recommended labels consistently across every resource.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Use explicit, non-deprecated API versions that match the target Kubernetes version (for example Ingress is networking.k8s.io/v1 from 1.19).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER omit resource requests and limits from container specs.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER create Deployments without liveness and readiness probes.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Set a non-root securityContext (runAsNonRoot) and follow Pod Security Standards.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER put secrets in ConfigMaps or as plain env values; use Secret objects referenced with secretKeyRef.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER use the latest image tag; pin an immutable version and set imagePullPolicy to IfNotPresent.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Specify the namespace explicitly on every namespace-scoped resource; never rely on the default namespace.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "NEVER mismatch selector labels between a Service and the Deployment it targets.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Always validate generated YAML with the k8s-yaml-validator workflow before delivery, and fix and re-validate until it is clean.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "For multi-resource output, respect dependency order (ConfigMaps before Deployments), keep labels consistent, validate each resource, and combine with --- separators.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Deliver the validated YAML with a brief summary, the key configuration choices and next steps (kubectl apply, get, describe).",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "NEVER inline secret values in CI pipeline commands using heredocs; reference Secrets, Sealed Secrets or external-secrets instead.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Route validation of an existing manifest to k8s-yaml-validator, do not generate Helm template logic, and copy and adapt a near-identical existing resource instead of generating a fresh one.",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

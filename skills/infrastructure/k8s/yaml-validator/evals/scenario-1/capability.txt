@@ -1,0 +1,1 @@
+Runs every validation layer, collects all issues and reports them with severities and before/after fixes.

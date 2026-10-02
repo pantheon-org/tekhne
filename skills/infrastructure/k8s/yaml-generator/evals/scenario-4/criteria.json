@@ -1,0 +1,66 @@
+{
+  "context": "Tests multi-resource generation: dependency order, consistent labels, selector agreement and a current Ingress API version.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Workloads and Services",
+      "description": "Produces a Deployment and a Service for each of web and cache",
+      "max_score": 8
+    },
+    {
+      "name": "ConfigMap first",
+      "description": "The ConfigMap for nginx.conf appears before the Deployment that uses it",
+      "max_score": 10
+    },
+    {
+      "name": "Current Ingress API",
+      "description": "The Ingress uses networking.k8s.io/v1 and not extensions/v1beta1 or networking.k8s.io/v1beta1",
+      "max_score": 12
+    },
+    {
+      "name": "Consistent labels",
+      "description": "Uses the same app.kubernetes.io labelling scheme across all resources",
+      "max_score": 8
+    },
+    {
+      "name": "Selectors match",
+      "description": "Each Service selector matches its Deployment pod labels exactly",
+      "max_score": 10
+    },
+    {
+      "name": "Pinned tags",
+      "description": "Uses web:3.1.0 and redis:7.2.4 and not latest",
+      "max_score": 8
+    },
+    {
+      "name": "Resources and probes",
+      "description": "Sets resource requests and limits and health probes on both workloads",
+      "max_score": 10
+    },
+    {
+      "name": "Explicit namespace",
+      "description": "Sets a namespace on every namespace-scoped resource",
+      "max_score": 6
+    },
+    {
+      "name": "Multi-document output",
+      "description": "Combines the resources into multi-document YAML separated by ---",
+      "max_score": 6
+    },
+    {
+      "name": "Validates each resource",
+      "description": "Validates each resource and the combined set before delivery",
+      "max_score": 10
+    },
+    {
+      "name": "Summary and next steps",
+      "description": "Delivers a brief summary and next steps",
+      "max_score": 6
+    },
+    {
+      "name": "Uses the target version",
+      "description": "States or applies Kubernetes 1.27 when choosing API versions",
+      "max_score": 6
+    }
+  ]
+}

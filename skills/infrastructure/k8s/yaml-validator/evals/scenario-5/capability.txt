@@ -1,0 +1,1 @@
+Falls back safely when the cluster is unreachable and reports exactly what was and was not verified.

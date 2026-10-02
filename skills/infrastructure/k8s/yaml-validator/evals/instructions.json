@@ -1,0 +1,99 @@
+{
+  "instructions": [
+    {
+      "instruction": "REPORT-ONLY: do NOT modify files, use the Edit tool or offer to apply fixes; show suggested fixes as before/after blocks and let the user decide.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "Stage 0: count the resources first; if the file has three or more, load references/validation_workflow.md, and note the count in the report.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Stage 1: check the tools (yamllint, kubeconform, optional kubectl) with scripts/setup_tools.sh and document any that are missing.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Stage 2: run yamllint with assets/.yamllint, report issues with file:line, and keep going to collect all issues.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "instruction": "Stage 3: detect CRDs with scripts/detect_crd_wrapper.sh, parse resiliently, and look up the documentation for each CRD (with a fallback search).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Stage 4: run kubeconform with -strict, the CRD catalog schema-location and -ignore-missing-schemas, and validate CRD spec fields manually from the documentation when there is no schema.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Stage 5: try server-side dry-run first; on a connection error fall back to client-side and document 'Limited validation (no cluster access)'; use kubectl diff for updates.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Stage 6: write the report with a summary table (severity, stage, location, issue, fix), severities Error, Warning and Info, before/after blocks tagged [Simple], [Medium] or [Complex], a stage status table and next steps.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "NEVER stop at the first clean layer or fix only the first error; run every applicable layer and collect all issues before reporting.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER ignore warnings; a deprecated API version is a future breakage to fix now.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER validate against the wrong Kubernetes version; check the cluster version and pass -kubernetes-version, or use server-side dry-run.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER trust client-side dry-run alone; use server-side dry-run to catch admission webhooks, RBAC and quotas.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Validate multi-resource files as a unit, track issues per resource, and always use file-absolute line numbers.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER treat kubeconform 'unknown fields' or 'no schema found' for CRDs as acceptable; supply the CRD schema with --schema-location.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER validate manifests without also running a policy checker such as Polaris or kube-score.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "NEVER skip namespace-specific validation for ClusterRole or PodSecurity resources; dry-run against the target namespace explicitly.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "ALWAYS check that a CRD version matches what is installed in the cluster (kubectl get crd ... -o jsonpath).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "instruction": "Do not run the full workflow for a single well-understood field (use kubectl explain), for generating a new resource, or when a server-side dry-run against the exact target already passed this session.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "instruction": "After the user applies fixes, re-run the full workflow, verify zero errors in all stages, check for new warnings and test in a non-production environment first.",
+      "type": "procedure",
+      "why_given": "reminder"
+    }
+  ]
+}

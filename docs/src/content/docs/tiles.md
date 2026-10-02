@@ -166,8 +166,8 @@ Comprehensive Kubernetes toolkit for YAML generation, validation, and cluster de
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [yaml-generator](/tekhne/skills/infrastructure/k8s/yaml-generator/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-10-02 | - |
-| [yaml-validator](/tekhne/skills/infrastructure/k8s/yaml-validator/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-10-02 | - |
+| [yaml-generator](/tekhne/skills/infrastructure/k8s/yaml-generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 6 |
+| [yaml-validator](/tekhne/skills/infrastructure/k8s/yaml-validator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 6 |
 | [debug](/tekhne/skills/infrastructure/k8s/debug/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-10-02 | - |
 
 ### terraform-toolkit

@@ -2,8 +2,8 @@
   "skill": "infrastructure/k8s/yaml-generator",
   "date": "2026-10-02",
   "dimensions": {
-    "antiPatternQuality": 9,
-    "evalValidation": 0,
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
     "freedomCalibration": 14,
     "knowledgeDelta": 20,
     "mindsetProcedures": 13,
@@ -12,19 +12,13 @@
     "progressiveDisclosure": 10,
     "specificationCompliance": 14
   },
-  "total": 105,
+  "total": 124,
   "maxTotal": 140,
-  "grade": "C+",
-  "lines": 442,
+  "grade": "B+",
+  "lines": 444,
   "hasReferences": true,
   "referenceCount": 1,
   "referenceSectionCompliant": false,
   "errors": 0,
-  "warnings": 1,
-  "warningDetails": [
-    {
-      "dimension": "D9",
-      "message": "evals/ directory missing entirely"
-    }
-  ]
+  "warnings": 0
 }
