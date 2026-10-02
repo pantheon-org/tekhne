@@ -129,7 +129,7 @@ If no number: `⚠️ Usage: /pin rm <number>`
 - 5 items per type, 20 total
 - When a category is full, drop the oldest item of that type (lowest id)
 
-## Philosophy
+## Approach
 
 The pin board is a **capture tool, not a management tool**. Its only job is to hold decisions and constraints in a persistent, queryable form so that context compaction does not erase them. ALWAYS treat the board as a write-once, append-only record during a session — edits and removals are operations of last resort, not routine cleanup. A well-run session generates fewer than 20 pins; if you hit the limit frequently, the signals are too granular.
 
