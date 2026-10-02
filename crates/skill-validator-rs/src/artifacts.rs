@@ -730,10 +730,7 @@ mod tests {
             ),
         ] {
             let skill = dir.path().join(rel);
-            write(
-                &skill.parent().unwrap().join(".tekhne/plugin.json"),
-                "{}",
-            );
+            write(&skill.parent().unwrap().join(".tekhne/plugin.json"), "{}");
             write(
                 &skill.join("SKILL.md"),
                 &format!("---\nname: {name}\n---\nBody\n"),
