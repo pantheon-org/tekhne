@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/proof-of-work/skills/proof-of-work/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 9,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 13,
+    "specificationCompliance": 12
+  },
+  "total": 120,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 139,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

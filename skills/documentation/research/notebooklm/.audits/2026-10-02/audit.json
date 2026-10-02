@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/notebooklm/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 9,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 15
+  },
+  "total": 122,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 222,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}
