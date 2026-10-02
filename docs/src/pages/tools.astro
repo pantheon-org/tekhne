@@ -32,6 +32,7 @@ const tools: Tool[] = [
     commands: [
       { usage: "pantheon-skill-auditor evaluate <skill>", summary: "Evaluate a single skill." },
       { usage: "pantheon-skill-auditor batch <skill...>", summary: "Evaluate multiple skills, with an optional --fail-below grade gate." },
+      { usage: "pantheon-skill-auditor check-stored <skill...>", summary: "Check each skill's latest stored audit still matches a fresh evaluation. Exits 0 when current, 1 when stale or missing, 2 on error." },
       { usage: "pantheon-skill-auditor duplication [dir]", summary: "Detect duplicate skills by line-overlap or --enhanced composite similarity." },
       { usage: "pantheon-skill-auditor prune-audits", summary: "Keep the most recent N audit snapshots per skill under .context/audits." },
       { usage: "pantheon-skill-auditor plan-aggregation --family <prefix>", summary: "Draft an aggregation plan for a family of skills sharing a name prefix." },
