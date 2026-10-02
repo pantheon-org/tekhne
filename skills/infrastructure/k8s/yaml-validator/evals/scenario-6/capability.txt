@@ -1,0 +1,1 @@
+Recognises a narrow lookup and answers it directly instead of running the whole validation funnel.

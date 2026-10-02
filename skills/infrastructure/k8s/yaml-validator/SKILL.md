@@ -108,9 +108,10 @@ Script outputs JSON with resource information and parse status:
 
 **For each detected CRD:**
 
-1. **Query library documentation:**
+1. **Look up the CRD documentation:**
    ```
-   tessl_query_library_docs: query: "<project> <kind> <version> spec fields"
+   kubectl explain <kind>.spec    # if the CRD is installed in a reachable cluster
+   Search: "<project> <kind> <version> spec fields"
    Example: "cert-manager Certificate v1 spec fields"
    Example: "istio VirtualService v1beta1 specification"
    ```

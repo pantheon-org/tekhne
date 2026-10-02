@@ -1,0 +1,61 @@
+{
+  "context": "Tests the hard constraint that the validator never edits files or offers to apply fixes, even when the fix is obvious and the user asks for it.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "File untouched",
+      "description": "Does not change the contents of service.yaml",
+      "max_score": 20
+    },
+    {
+      "name": "No edit tool",
+      "description": "Does not use an edit or write tool on the file",
+      "max_score": 10
+    },
+    {
+      "name": "No offer to apply",
+      "description": "Does not offer to apply the fix itself",
+      "max_score": 8
+    },
+    {
+      "name": "Before and after",
+      "description": "Presents the fix as a before and after code block",
+      "max_score": 12
+    },
+    {
+      "name": "Finds the typo",
+      "description": "Identifies targetPorrt as an unknown field, for example through kubeconform strict mode",
+      "max_score": 10
+    },
+    {
+      "name": "Line reference",
+      "description": "Gives a file:line reference for the typo",
+      "max_score": 6
+    },
+    {
+      "name": "Runs the checks",
+      "description": "Runs or names the validation stages and does not only eyeball the file",
+      "max_score": 8
+    },
+    {
+      "name": "Explains the constraint",
+      "description": "Says briefly that it reports only and that the user decides what to apply",
+      "max_score": 6
+    },
+    {
+      "name": "Severity and complexity",
+      "description": "Marks the issue as an Error and the fix as [Simple]",
+      "max_score": 6
+    },
+    {
+      "name": "No false claim",
+      "description": "Does not say the file has been fixed or saved",
+      "max_score": 4
+    },
+    {
+      "name": "Re-validation",
+      "description": "Tells the user to re-run validation after they apply the fix",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Tests the secrets anti-patterns: a password in a ConfigMap or a literal env value is the failure this scenario targets.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Password in a Secret",
+      "description": "Stores the database password in a Secret object, not a ConfigMap",
+      "max_score": 14
+    },
+    {
+      "name": "Flags in a ConfigMap",
+      "description": "Stores the feature flags in a ConfigMap",
+      "max_score": 8
+    },
+    {
+      "name": "Uses secretKeyRef",
+      "description": "The Deployment reads the password through valueFrom.secretKeyRef, not a literal env value",
+      "max_score": 14
+    },
+    {
+      "name": "ConfigMap is wired in",
+      "description": "The feature flags reach the container through envFrom or a mounted volume that references the ConfigMap",
+      "max_score": 8
+    },
+    {
+      "name": "No plaintext in ConfigMap or env",
+      "description": "The password does not appear in any ConfigMap or in a literal env value",
+      "max_score": 12
+    },
+    {
+      "name": "Explicit namespace",
+      "description": "Sets the shop namespace explicitly on the new Secret and ConfigMap",
+      "max_score": 8
+    },
+    {
+      "name": "Matches existing labels",
+      "description": "Reuses the existing app.kubernetes.io labels on the new objects",
+      "max_score": 6
+    },
+    {
+      "name": "Secret structure",
+      "description": "The Secret has a type (such as Opaque) and uses stringData or data",
+      "max_score": 6
+    },
+    {
+      "name": "Handles the real value",
+      "description": "Notes that the placeholder is not a real credential and suggests Sealed Secrets or external-secrets for the real value",
+      "max_score": 8
+    },
+    {
+      "name": "Dependency order",
+      "description": "Orders the ConfigMap and Secret before the Deployment in any combined output",
+      "max_score": 6
+    },
+    {
+      "name": "Validates before delivery",
+      "description": "Validates the generated YAML before delivering it",
+      "max_score": 10
+    }
+  ]
+}

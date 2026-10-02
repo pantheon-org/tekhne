@@ -1,0 +1,71 @@
+{
+  "context": "Tests the primary happy path: every best-practice default is applied and the brief's gaps (version, namespace) are handled explicitly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Handles missing requirements",
+      "description": "Asks for, or explicitly states an assumption about, the target Kubernetes version and the namespace",
+      "max_score": 8
+    },
+    {
+      "name": "Pins the image tag",
+      "description": "Uses image tag 2.4.1 and does not use `latest`",
+      "max_score": 10
+    },
+    {
+      "name": "Sets resources",
+      "description": "Sets resource requests and limits on the container",
+      "max_score": 10
+    },
+    {
+      "name": "Configures probes",
+      "description": "Configures a livenessProbe on /health and a readinessProbe on /ready, both on port 8080",
+      "max_score": 10
+    },
+    {
+      "name": "Runs as non-root",
+      "description": "Sets a non-root securityContext (runAsNonRoot or a non-zero runAsUser)",
+      "max_score": 8
+    },
+    {
+      "name": "Explicit namespace",
+      "description": "Sets a namespace explicitly on every namespace-scoped resource",
+      "max_score": 8
+    },
+    {
+      "name": "Recommended labels",
+      "description": "Applies the app.kubernetes.io name and instance labels consistently on all resources",
+      "max_score": 8
+    },
+    {
+      "name": "Selectors match",
+      "description": "The Service selector matches the Deployment pod template labels exactly",
+      "max_score": 10
+    },
+    {
+      "name": "Current API versions",
+      "description": "Uses apps/v1 for the Deployment and v1 for the Service",
+      "max_score": 4
+    },
+    {
+      "name": "Internal Service",
+      "description": "Uses a ClusterIP Service because access is cluster-internal only",
+      "max_score": 4
+    },
+    {
+      "name": "Validates before delivery",
+      "description": "Runs the validation workflow (yamllint, kubeconform, dry-run) or reports its results before delivering the YAML",
+      "max_score": 10
+    },
+    {
+      "name": "Summary and next steps",
+      "description": "Delivers a brief summary of key choices and next steps such as kubectl apply, get and describe",
+      "max_score": 6
+    },
+    {
+      "name": "No unsafe defaults",
+      "description": "The delivered YAML contains none of: the latest tag, missing limits, missing probes",
+      "max_score": 4
+    }
+  ]
+}

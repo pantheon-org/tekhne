@@ -1,0 +1,1 @@
+Detects a CRD, supplies its schema and refuses to treat skipped schema validation as success.

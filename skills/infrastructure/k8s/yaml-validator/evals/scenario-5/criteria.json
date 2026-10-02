@@ -1,0 +1,61 @@
+{
+  "context": "Tests the cluster-dependent rules: server-side first, documented fallback, target namespace and version, and missing tools.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Server-side first",
+      "description": "Tries a server-side dry-run first",
+      "max_score": 10
+    },
+    {
+      "name": "Documented fallback",
+      "description": "On the connection error, falls back to client-side dry-run and records 'Limited validation (no cluster access)'",
+      "max_score": 14
+    },
+    {
+      "name": "Does not overclaim",
+      "description": "Does not present the client-side result as proof that admission, RBAC or quota checks pass",
+      "max_score": 12
+    },
+    {
+      "name": "Target namespace",
+      "description": "Uses --namespace=production in the dry-run commands",
+      "max_score": 10
+    },
+    {
+      "name": "Namespace policy caveat",
+      "description": "Says that PodSecurity and RBAC behaviour differ by namespace and cannot be confirmed without cluster access",
+      "max_score": 8
+    },
+    {
+      "name": "Target version",
+      "description": "Runs kubeconform with -kubernetes-version 1.28.x",
+      "max_score": 10
+    },
+    {
+      "name": "Missing tools",
+      "description": "Documents that no policy checker is installed and recommends one",
+      "max_score": 10
+    },
+    {
+      "name": "Completes other stages",
+      "description": "Still runs the stages that do not need the cluster instead of stopping at the connection error",
+      "max_score": 8
+    },
+    {
+      "name": "Stage status table",
+      "description": "Marks the skipped or limited stages in the stage status table",
+      "max_score": 8
+    },
+    {
+      "name": "Report only",
+      "description": "Does not edit any file",
+      "max_score": 4
+    },
+    {
+      "name": "No blanket pass",
+      "description": "Does not declare the manifest overall valid",
+      "max_score": 6
+    }
+  ]
+}

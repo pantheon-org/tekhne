@@ -1,0 +1,1 @@
+Validates a multi-document file as a unit, continuing past a parse error and reporting file-absolute line numbers.

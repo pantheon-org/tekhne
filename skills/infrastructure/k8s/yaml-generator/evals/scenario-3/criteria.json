@@ -1,0 +1,61 @@
+{
+  "context": "Tests the CRD workflow: documentation lookup with the version, correct apiVersion, required spec fields, and honest validation when the schema is missing.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Looks up the CRD",
+      "description": "Consults documentation for the Certificate CRD (project docs, kubectl explain or a search) and includes the project, kind and API version",
+      "max_score": 14
+    },
+    {
+      "name": "Correct apiVersion",
+      "description": "Uses apiVersion cert-manager.io/v1",
+      "max_score": 10
+    },
+    {
+      "name": "Required fields",
+      "description": "Includes secretName, issuerRef (name and kind ClusterIssuer) and dnsNames",
+      "max_score": 14
+    },
+    {
+      "name": "Uses the stated values",
+      "description": "Uses secretName api-example-tls and includes api.example.com in dnsNames",
+      "max_score": 8
+    },
+    {
+      "name": "Explicit namespace",
+      "description": "Sets the shop namespace explicitly",
+      "max_score": 8
+    },
+    {
+      "name": "Version-specific fallback",
+      "description": "If the first lookup is insufficient, repeats it with the version included, rather than guessing",
+      "max_score": 6
+    },
+    {
+      "name": "Comments complex config",
+      "description": "Adds short comments on the non-obvious fields",
+      "max_score": 6
+    },
+    {
+      "name": "No invented fields",
+      "description": "Does not add fields that are not part of the Certificate spec",
+      "max_score": 10
+    },
+    {
+      "name": "Honest validation",
+      "description": "States whether kubeconform had a schema for the CRD and validates the spec fields against the documentation if it did not",
+      "max_score": 12
+    },
+    {
+      "name": "No false pass",
+      "description": "Does not claim the resource passed schema validation if the CRD schema was skipped",
+      "max_score": 6
+    },
+    {
+      "name": "Summary and next steps",
+      "description": "Delivers a brief summary and a next step such as kubectl get certificate",
+      "max_score": 6
+    }
+  ]
+}
