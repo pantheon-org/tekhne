@@ -43,10 +43,14 @@ jobs:
           # .tessl-plugin/plugin.json) is ignored: it holds release and docs
           # metadata, the auditor never scores it, and a manifest-only change
           # would otherwise re-audit every skill in the toolkit.
+          #
+          # Stored audits (.audits/) are ignored too: storing an audit records a
+          # result, it does not change the skill, so a pull request that only
+          # refreshes audits must not be graded as if it had changed the skill.
           DIRS=$(git diff --name-only --diff-filter=AMDR \
             "${{ github.event.pull_request.base.sha }}...${{ github.event.pull_request.head.sha }}" \
             -- 'skills/' 2>/dev/null \
-            | grep -vE '/\.(tekhne|tessl-plugin)/plugin\.json$' \
+            | grep -vE '/\.(tekhne|tessl-plugin)/plugin\.json$|/\.audits/' \
             | while read -r f; do
                 d=$(dirname "$f")
                 while [ "$d" != "skills" ] && [ "$d" != "." ]; do
