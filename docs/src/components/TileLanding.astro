@@ -10,7 +10,11 @@ interface Props {
 const { tile, skillEntries } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
-const tessInstallCmd = `npx tessl install ${tile.name}`;
+const skillKeys = Object.keys(tile.skills);
+const installCmd =
+  tile.private || skillKeys.length === 0
+    ? undefined
+    : `npx skills add github:pantheon-org/tekhne ${skillKeys.map((key) => `--skill ${key}`).join(" ")}`;
 
 interface SkillInfo {
   key: string;
@@ -51,16 +55,7 @@ const tileDomain = tile.tilePath.split("/")[0] ?? "";
   <div class="tile-header">
     <div class="tile-header__meta">
       {tileDomain && <span class="tile-badge tile-domain">{tileDomain.replace(/-/g, "\u00A0")}</span>}
-      {tile.private ? (
-        <span class="tile-badge tile-version">v{tile.version}</span>
-      ) : (
-        <a
-          class="tile-badge tile-version"
-          href={`https://tessl.io/registry/skills/${tile.name}`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >v{tile.version}</a>
-      )}
+      <span class="tile-badge tile-version">v{tile.version}</span>
       <span class="tile-badge tile-skills-count">{skills.length} skill{skills.length !== 1 ? "s" : ""}</span>
       {tile.private ? (
         <span class="tile-badge tile-visibility tile-visibility--private">private</span>
@@ -71,22 +66,24 @@ const tileDomain = tile.tilePath.split("/")[0] ?? "";
     <h1 class="tile-title">{tile.name}</h1>
     {tile.summary && <p class="tile-summary">{tile.summary}</p>}
 
+    {installCmd && (
     <div class="sk-install">
       <div class="sk-install__tabs">
-        <button class="sk-install__tab sk-install__tab--active" data-install-tab="tessl">npx tessl</button>
+        <button class="sk-install__tab sk-install__tab--active" data-install-tab="skills">npx skills</button>
       </div>
-      <div class="sk-install__panel sk-install__panel--active" data-install-panel="tessl">
-        <code class="sk-install__cmd">{tessInstallCmd}</code>
+      <div class="sk-install__panel sk-install__panel--active" data-install-panel="skills">
+        <code class="sk-install__cmd">{installCmd}</code>
         <button
           class="sk-install__copy"
           type="button"
           aria-label="Copy install command"
-          data-copy={tessInstallCmd}
+          data-copy={installCmd}
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
         </button>
       </div>
     </div>
+    )}
   </div>
 
   <section class="tile-skills">

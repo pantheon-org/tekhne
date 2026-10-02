@@ -43,14 +43,6 @@ const tileLabel = tileForSkill
   ? tileForSkill.name.replace(/^[^/]+\//, "").replace(/-/g, "\u00A0")
   : undefined;
 
-const tileName: string | undefined =
-  data.tileName ?? (skillName ? `pantheon-ai/${skillName}` : undefined);
-const tessInstallCmd = tileName
-  ? skillName && tileName !== `pantheon-ai/${skillName}`
-    ? `npx tessl install ${tileName} --skill ${skillName}`
-    : `npx tessl install ${tileName}`
-  : undefined;
-
 const gradeClass = grade
   ? `skill-badge--${grade
       .toLowerCase()
@@ -100,25 +92,9 @@ const gradeClass = grade
         {installSlug && (
           <div class="sk-install" data-install={installSlug}>
             <div class="sk-install__tabs">
-              {tessInstallCmd && (
-                <button class="sk-install__tab sk-install__tab--active" data-install-tab="tessl">npx tessl</button>
-              )}
-              <button class:list={["sk-install__tab", !tessInstallCmd && "sk-install__tab--active"]} data-install-tab="skills">npx skills</button>
+              <button class="sk-install__tab sk-install__tab--active" data-install-tab="skills">npx skills</button>
             </div>
-            {tessInstallCmd && (
-              <div class="sk-install__panel sk-install__panel--active" data-install-panel="tessl">
-                <code class="sk-install__cmd">{tessInstallCmd}</code>
-                <button
-                  class="sk-install__copy"
-                  type="button"
-                  aria-label="Copy install command"
-                  data-copy={tessInstallCmd}
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-                </button>
-              </div>
-            )}
-            <div class:list={["sk-install__panel", !tessInstallCmd && "sk-install__panel--active"]} data-install-panel="skills">
+            <div class="sk-install__panel sk-install__panel--active" data-install-panel="skills">
               <code class="sk-install__cmd">npx skills add github:pantheon-org/tekhne --skill {installSlug}</code>
               <button
                 class="sk-install__copy"
