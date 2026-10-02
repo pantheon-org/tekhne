@@ -1,13 +1,13 @@
 # Skill Audit — agentic-harness/pin
 
-**Grade:** B+ (120/140)
+**Grade:** B (118/140)
 
 ## Dimension Scores
 
 | Dimension | Score | Max |
 |---|---|---|
 | Knowledge Delta | 20 | 20 |
-| Mindset + Procedures | 13 | 15 |
+| Mindset + Procedures | 11 | 15 |
 | Anti-Pattern Quality | 11 | 15 |
 | Specification Compliance | 14 | 15 |
 | Progressive Disclosure | 10 | 15 |

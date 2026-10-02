@@ -410,7 +410,7 @@ Pin session decisions, questions, constraints, and corrections to a persistent b
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [pin](/tekhne/skills/agentic-harness/pin/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 7 |
+| [pin](/tekhne/skills/agentic-harness/pin/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 7 |
 
 ### save-context
 
