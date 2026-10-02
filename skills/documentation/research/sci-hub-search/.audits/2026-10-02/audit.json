@@ -1,0 +1,40 @@
+{
+  "skill": "documentation/research/sci-hub-search",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 13,
+    "freedomCalibration": 10,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 12
+  },
+  "total": 111,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 152,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 2,
+  "warnings": 1,
+  "errorDetails": [
+    {
+      "dimension": "D1",
+      "message": "instructions.json exists but cannot be parsed"
+    },
+    {
+      "dimension": "D3",
+      "message": "instructions.json exists but cannot be parsed"
+    }
+  ],
+  "warningDetails": [
+    {
+      "dimension": "D9",
+      "message": "3 flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+    }
+  ]
+}

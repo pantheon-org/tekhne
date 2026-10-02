@@ -1,0 +1,30 @@
+{
+  "skill": "project-mgmt/tech-debt",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 10
+  },
+  "total": 112,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 182,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    }
+  ]
+}

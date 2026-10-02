@@ -1,0 +1,24 @@
+{
+  "skill": "project-mgmt/issue-tracker-toolkit/acceptance-criteria",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 5,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 13,
+    "specificationCompliance": 14
+  },
+  "total": 114,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 163,
+  "hasReferences": true,
+  "referenceCount": 5,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

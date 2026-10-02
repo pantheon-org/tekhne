@@ -1,0 +1,30 @@
+{
+  "skill": "project-mgmt/risk-register",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 11,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 9,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 11
+  },
+  "total": 109,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 194,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    }
+  ]
+}

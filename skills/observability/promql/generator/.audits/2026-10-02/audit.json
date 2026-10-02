@@ -1,0 +1,24 @@
+{
+  "skill": "observability/promql/generator",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 114,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 330,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

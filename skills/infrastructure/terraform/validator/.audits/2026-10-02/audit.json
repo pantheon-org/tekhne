@@ -1,0 +1,24 @@
+{
+  "skill": "infrastructure/terraform/validator",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 8,
+    "evalValidation": 17,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 12
+  },
+  "total": 119,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 269,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

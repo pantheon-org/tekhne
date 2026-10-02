@@ -1,0 +1,34 @@
+{
+  "skill": "agentic-harness/context-radar-audit",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 113,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 109,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 2,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "harness-specific path found: .claude/"
+    },
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: claude code"
+    }
+  ]
+}

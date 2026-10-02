@@ -1,0 +1,30 @@
+{
+  "skill": "software-engineering/standards-to-tooling",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 6,
+    "evalValidation": 17,
+    "freedomCalibration": 10,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 8,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 107,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 209,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D5",
+      "message": "no references/ directory (progressive disclosure missing)"
+    }
+  ]
+}

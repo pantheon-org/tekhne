@@ -1,0 +1,34 @@
+{
+  "skill": "software-engineering/standards-review",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 7,
+    "evalValidation": 17,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 10,
+    "patternRecognition": 10,
+    "practicalUsability": 12,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 12
+  },
+  "total": 111,
+  "maxTotal": 140,
+  "grade": "C+",
+  "lines": 148,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 2,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    },
+    {
+      "dimension": "D5",
+      "message": "no references/ directory (progressive disclosure missing)"
+    }
+  ]
+}
