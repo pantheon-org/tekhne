@@ -1,8 +1,4 @@
-import {
-  getEvalCount,
-  getTileTessl,
-  parseSkillDescription,
-} from "../discovery";
+import { getEvalCount, parseSkillDescription } from "../discovery";
 import { formatSummary, getSkillDisplayName } from "../parsing";
 import type { SkillEntry, TileEntry } from "../types";
 import { buildCountLabel } from "./build-count-label";
@@ -29,9 +25,8 @@ export const buildDomainDocsSection = async (
     section += `\n### ${tile.shortName}\n\n`;
     section += `${formatSummary(tile.summary)}\n\n`;
 
-    const publishedCell = getTileTessl(tile);
     const versionCell = tile.version || "-";
-    section += `**Published:** ${publishedCell} | **Version:** ${versionCell}\n\n`;
+    section += `**Version:** ${versionCell}\n\n`;
 
     section += "| Skill | Rating | Audit | Evals |\n";
     section += "| --- | --- | --- | --- |\n";
