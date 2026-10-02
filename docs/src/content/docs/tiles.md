@@ -20,7 +20,7 @@ Complete azure-pipelines toolkit with generation and validation capabilities
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [generator](/tekhne/skills/ci-cd/azure-pipelines/generator/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 5 |
+| [generator](/tekhne/skills/ci-cd/azure-pipelines/generator/skill/) | <span class="skill-badge skill-badge--c">B+</span> | 2026-10-02 | 5 |
 | [validator](/tekhne/skills/ci-cd/azure-pipelines/validator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 8 |
 
 ### fluentbit-toolkit
