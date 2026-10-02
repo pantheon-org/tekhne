@@ -26,7 +26,7 @@ pub struct PrunePlan {
 }
 
 /// True when `s` is an ISO `YYYY-MM-DD` date name.
-fn is_date_name(s: &str) -> bool {
+pub(crate) fn is_date_name(s: &str) -> bool {
     let b = s.as_bytes();
     b.len() == 10
         && b[4] == b'-'
@@ -37,7 +37,7 @@ fn is_date_name(s: &str) -> bool {
 }
 
 /// Immediate subdirectory names of `dir` (empty when unreadable).
-fn subdirs(dir: &Path) -> Vec<(String, PathBuf)> {
+pub(crate) fn subdirs(dir: &Path) -> Vec<(String, PathBuf)> {
     let Ok(entries) = std::fs::read_dir(dir) else {
         return Vec::new();
     };

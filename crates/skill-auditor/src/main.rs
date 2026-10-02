@@ -4,6 +4,7 @@
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use skill_auditor::aggregation;
+use skill_auditor::check_stored;
 use skill_auditor::duplication;
 use skill_auditor::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
 use skill_auditor::pattern_analysis;
@@ -53,6 +54,22 @@ enum Command {
         /// Persist result to skills/<domain>/<skill>/.audits/.
         #[arg(long)]
         store: bool,
+        /// Repo root (auto-detected if empty).
+        #[arg(long = "repo-root")]
+        repo_root: Option<String>,
+    },
+    /// Check each skill's latest stored audit is still current.
+    ///
+    /// Exits 0 when every stored audit matches a fresh evaluation, 1 when any
+    /// is stale or missing, and 2 on an error (unknown skill, unreadable or
+    /// malformed stored audit).
+    CheckStored {
+        /// One or more skills (domain/skill-name, path, or SKILL.md path).
+        #[arg(required = true)]
+        skills: Vec<String>,
+        /// Emit JSON array output.
+        #[arg(long)]
+        json: bool,
         /// Repo root (auto-detected if empty).
         #[arg(long = "repo-root")]
         repo_root: Option<String>,
@@ -275,6 +292,11 @@ fn main() {
                 .map(|path| (path, details_budget)),
             repo_root.as_deref(),
         ),
+        Command::CheckStored {
+            skills,
+            json,
+            repo_root,
+        } => process::exit(run_check_stored(&skills, json, repo_root.as_deref())),
         Command::Duplication(args) => run_duplication(args),
         Command::PruneAudits(args) => run_prune_audits(args),
         Command::PlanAggregation(args) => run_plan_aggregation(args),
@@ -334,6 +356,67 @@ struct Entry {
     error: Option<String>,
 }
 
+/// Exit code for `check-stored`: 0 current, 1 stale or missing, 2 error. An
+/// error wins over stale, so a run that could not check something never
+/// reports success or a partial answer as the whole one. This is handled here,
+/// not through `main`'s generic path, which turns every error into exit 1.
+fn run_check_stored(args: &[String], json: bool, repo_root_flag: Option<&str>) -> i32 {
+    let repo_root = match resolve_repo_root(repo_root_flag) {
+        Ok(root) => root,
+        Err(e) => {
+            eprintln!("Error: cannot determine repo root: {e}");
+            return 2;
+        }
+    };
+
+    let mut findings: Vec<check_stored::Finding> = Vec::new();
+    let mut had_error = false;
+    for arg in args {
+        let skill_md = resolve_skill_path(arg, &repo_root);
+        let skill_key = canonical_skill_key(&skill_md, &repo_root);
+        let fresh = match scorer::score(&skill_md) {
+            Ok(result) => result,
+            Err(e) => {
+                eprintln!("Error: {skill_key}: {e}");
+                had_error = true;
+                continue;
+            }
+        };
+        let audits = skill_md.parent().unwrap_or(&repo_root).join(".audits");
+        match check_stored::latest_stored(&audits) {
+            Ok(stored) => {
+                findings.extend(check_stored::finding(&skill_key, stored.as_ref(), &fresh))
+            }
+            Err(e) => {
+                eprintln!("Error: {skill_key}: {e}");
+                had_error = true;
+            }
+        }
+    }
+
+    if json {
+        match serde_json::to_string_pretty(&findings) {
+            Ok(data) => println!("{data}"),
+            Err(e) => {
+                eprintln!("Error: marshal results: {e}");
+                return 2;
+            }
+        }
+    } else {
+        for f in &findings {
+            println!("STALE {}: {}", f.skill, f.reason);
+        }
+    }
+
+    if had_error {
+        2
+    } else if findings.is_empty() {
+        0
+    } else {
+        1
+    }
+}
+
 fn run_batch(
     args: &[String],
     json: bool,
@@ -348,15 +431,19 @@ fn run_batch(
     let mut entries: Vec<Entry> = Vec::with_capacity(args.len());
     for arg in args {
         let skill_path = resolve_skill_path(arg, &repo_root);
+        let skill_key = canonical_skill_key(&skill_path, &repo_root);
         match scorer::score(&skill_path) {
             Err(e) => entries.push(Entry {
                 arg: arg.clone(),
                 result: None,
                 error: Some(e.to_string()),
             }),
-            Ok(result) => {
+            Ok(mut result) => {
+                // Name the skill by its repo-relative key, as `evaluate` does, so
+                // a stored audit never records the path of the checkout it ran in.
+                result.skill = skill_key.clone();
                 if store {
-                    if let Err(e) = reporter::store(&repo_root, arg, &result) {
+                    if let Err(e) = reporter::store(&repo_root, &skill_key, &result) {
                         eprintln!("warning: store {arg}: {e}");
                     }
                 }

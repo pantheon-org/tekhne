@@ -4,6 +4,7 @@
 //! network access is involved anywhere.
 
 pub mod aggregation;
+pub mod check_stored;
 pub mod duplication;
 pub mod install_cmd;
 pub mod pattern_analysis;
