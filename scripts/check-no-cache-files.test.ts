@@ -28,9 +28,16 @@ const run = (root: string, paths: string[]) => {
   };
 };
 
+// Git exports GIT_DIR, GIT_WORK_TREE and GIT_INDEX_FILE to hooks, and they override
+// the working directory. The git commands here therefore run with the clean
+// environment above, or under a hook they would operate on the real repository
+// (and stage its files) instead of the throwaway one.
+const git = (root: string, ...args: string[]) =>
+  Bun.spawnSync(["git", ...args], { cwd: root, env: childEnv });
+
 const runTracked = (root: string) => {
-  Bun.spawnSync(["git", "init", "-q"], { cwd: root });
-  Bun.spawnSync(["git", "add", "-A", "-f"], { cwd: root });
+  git(root, "init", "-q");
+  git(root, "add", "-A", "-f");
   const proc = Bun.spawnSync(["bash", SCRIPT, "--root", root, "--tracked"], {
     env: childEnv,
   });
