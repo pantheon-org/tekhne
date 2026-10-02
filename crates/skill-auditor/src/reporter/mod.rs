@@ -2,11 +2,13 @@
 //! `tools/skill-auditor/reporter` package.
 
 mod analysis;
+mod pr_detail;
 mod remediation;
 mod report;
 mod store;
 
 pub use analysis::analysis;
+pub use pr_detail::pr_detail;
 pub use remediation::remediation;
 pub use report::format;
 pub use store::store;

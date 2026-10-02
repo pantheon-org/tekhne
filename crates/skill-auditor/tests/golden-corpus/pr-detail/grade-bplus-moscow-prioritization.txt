@@ -1,0 +1,9 @@
+<details>
+<summary><code>golden/grade-bplus-moscow-prioritization</code> B+, 120/140</summary>
+
+- Practical Usability (9/15)
+- Anti-Pattern Quality (10/15)
+- Eval Validation (17/20)
+- References section is missing, or is not the last section with a link.
+
+</details>

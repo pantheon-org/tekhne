@@ -1,0 +1,9 @@
+<details>
+<summary><code>golden/grade-b-google-scholar-search</code> B, 112/140</summary>
+
+- Freedom Calibration (8/15)
+- Eval Validation (13/20)
+- Anti-Pattern Quality (9/15)
+- References section is missing, or is not the last section with a link.
+
+</details>
