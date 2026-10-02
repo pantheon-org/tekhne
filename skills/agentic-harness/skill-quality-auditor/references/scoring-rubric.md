@@ -12,7 +12,7 @@
 | D6 Freedom Calibration | 15 | Constraint/flexibility balance |
 | D7 Pattern Recognition | 10 | Trigger/intent discoverability |
 | D8 Practical Usability | 15 | Actionable examples/commands |
-| D9 Eval Validation | 20 | Runtime validation via tessl evals |
+| D9 Eval Validation | 20 | Runtime validation via eval scenarios |
 | Total | 140 | Overall score |
 
 ## Grade Scale

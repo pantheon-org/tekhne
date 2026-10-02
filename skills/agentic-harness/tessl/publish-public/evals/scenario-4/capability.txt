@@ -1,1 +1,0 @@
-Validates agent-agnostic compliance check against tessl public-publication requirements.

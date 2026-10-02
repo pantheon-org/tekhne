@@ -671,10 +671,7 @@ Use the \`creating-eval-scenarios\` skill to generate evaluation scenarios.
 
 #### Step $phase.2: Run Evals
 
-\`\`\`bash
-tessl eval run <tile-path>
-tessl eval view-status <status_id> --json
-\`\`\`
+Run each scenario with your agent and compare its output against \`criteria.json\`.
 
 #### Step $phase.3: Validate Coverage
 

@@ -114,7 +114,6 @@ Optional features for power users:
 |------|---------|-------|--------------|
 | `advanced-trends-analysis.md` | Historical tracking | ~310 | Monitoring changes |
 | `advanced-custom-metrics.md` | Domain-specific evaluation | ~270 | Custom frameworks |
-| `tessl-compliance-framework.md` | Tessl registry compliance checks | ~280 | Preparing for public registry submission |
 
 **Use when**: Standard metrics insufficient
 
@@ -124,8 +123,8 @@ Optional features for power users:
 skills/agentic-harness/skill-quality-auditor/
 ├── SKILL.md                                          # Navigation hub
 ├── AGENTS.md                                         # This file
-├── tile.json                                         # Tessl tile manifest
-├── evals/                                            # Tessl eval scenarios
+├── .tekhne/plugin.json                               # Toolkit manifest
+├── evals/                                            # Eval scenarios
 ├── assets/
 │   ├── templates/
 │   │   ├── review-report-template.yaml               # Audit report format
@@ -157,7 +156,6 @@ skills/agentic-harness/skill-quality-auditor/
 │   ├── examples-audit-workflows.md                   # MEDIUM
 │   ├── reporting-analysis.md                         # MEDIUM
 │   ├── reporting-dashboards.md                       # MEDIUM
-│   ├── tessl-compliance-framework.md                 # LOW
 │   ├── advanced-trends-analysis.md                   # LOW
 │   └── advanced-custom-metrics.md                    # LOW
 └── scripts/
@@ -171,7 +169,6 @@ skills/agentic-harness/skill-quality-auditor/
     ├── validate-remediation-plan.sh                  # Plan schema validator
     ├── validate-review-format.sh                     # Review report validator
     ├── validate-skill-artifacts.sh                   # Artifact convention validator
-    ├── tessl-compliance-check.sh                     # Tessl registry compliance
     ├── pattern-recognition-pipeline.sh              # Pattern analysis pipeline
     ├── ml-pattern-detection.sh                       # ML-based pattern detection
     ├── semantic-analysis.sh                          # Semantic content analysis
@@ -216,7 +213,7 @@ Total: 25 references + 17 scripts + 2 templates + 2 schemas + 1 requirements spe
 
 1. Check if skill has `evals/` directory
 2. If missing, use `creating-eval-scenarios` skill to generate scenarios
-3. Run `tessl eval run <tile-path>` to execute evals
+3. Run each scenario with your agent and compare its output against `criteria.json`
 4. Verify `summary.json` shows `coverage_percentage >= 80`
 5. Re-run `skill-auditor evaluate <skill-name> --json` to confirm D9 score
 
@@ -244,4 +241,4 @@ After using this skill, you should have:
 - **skill-quality-auditor** - Foundation framework this implements
 - **skill-harvester** - Creates new skills (audit after creation)
 - **reducing-entropy** - Minimalism philosophy applied to skill collections
-- **creating-eval-scenarios** - Tessl eval scenario generation (D9 Eval Validation)
+- **creating-eval-scenarios** - eval scenario generation (D9 Eval Validation)

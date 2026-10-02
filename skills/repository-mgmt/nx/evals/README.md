@@ -149,18 +149,7 @@ All criteria are objectively verifiable through file inspection:
 
 ## Usage
 
-These scenarios are designed for use with the Tessl eval system:
-
-```bash
-# Run single scenario
-tessl eval run scenario-0
-
-# Run all scenarios
-tessl eval run --all
-
-# Generate report
-tessl eval report
-```
+These scenarios are run by giving an agent each scenario's `task.md`, then grading the files it produces.
 
 Each scenario expects the agent to produce specific output files that can be automatically graded against the criteria in `criteria.json`.
 

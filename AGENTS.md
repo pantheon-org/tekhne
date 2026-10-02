@@ -50,7 +50,7 @@ See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` 
 - `scripts/`: Executable scripts with proper shebangs (sh/bash/python3/bun/node).
 - Skills must be self-contained: no `../` paths, no absolute `skills/X/Y` paths, no `.context/` or `.agents/` references in SKILL.md (fenced code blocks and inline code spans are exempt).
 
-### Tessl Registry Preparation
+### Skill Standards
 
 - **Agent agnostic**: Avoid features specific to individual AI assistants.
 - **Quality threshold**: Target A-grade (>=126/140) using `skill-quality-auditor`.
@@ -75,23 +75,10 @@ Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (bl
 
 Build the auditor from source with `mise run build:skill-auditor` (a shortcut for `cargo build --release -p pantheon-skill-auditor`), then invoke `target/release/pantheon-skill-auditor evaluate`.
 
-## Skill Management with Tessl
-
-The Tessl registry lifecycle runs through the `tessl` CLI directly, wrapped by npm scripts:
-
-```bash
-bun run tessl:import      # tessl skill import
-bun run tessl:lint        # tessl plugin lint
-bun run tessl:review      # tessl review run
-bun run tessl:publish     # tessl plugin publish
-```
-
-Use `tessl skill review --optimize` for skills scoring below 90%. The former bulk `tessl manage` and `publish-check` commands were retired with the TypeScript CLI.
-
-### Skills distributed via crate installers (not the registry)
+## Skills distributed via crate installers
 
 Three skills are embedded into Rust crates at build time and distributed only by
-their crate's `install` command, never through the Tessl registry:
+their crate's `install` command:
 
 - `documentation/journal-entry-creator` (embedded in the `journal` crate)
 - `documentation/adr-creator` (embedded in the `adr` crate)
@@ -99,10 +86,8 @@ their crate's `install` command, never through the Tessl registry:
 
 These have `"private": true` in their `.tekhne/plugin.json` and are omitted
 from `release-please-config.json` and `.release-please-manifest.json`, so the crate
-version is canonical and `tessl:publish` skips them. Their previously published
-registry versions were archived with `tessl plugin archive`. Continue running
-evals, audits, and quality tooling on their `SKILL.md` as normal; only the registry
-publish step is retired. Install them with `pantheon-journal skill install`,
+version is canonical. Continue running evals, audits, and quality tooling on their
+`SKILL.md` as normal. Install them with `pantheon-journal skill install`,
 `pantheon-adr skill install`, or `pantheon-skill-auditor skill install`.
 
 **A released binary only has the `SKILL.md` that existed when it was built.** Editing
@@ -140,7 +125,3 @@ See `README.md` for the full list of 41+ supported agents.
 - Never rewrite generated reports in `.context/` unless part of the task.
 - If you detect unrelated dirty changes, avoid reverting them and continue safely.
 - If repository conventions conflict, prefer explicit user instructions.
-
-## Agent Rules <!-- tessl-managed -->
-
-@.tessl/RULES.md follow the [instructions](.tessl/RULES.md)

@@ -180,7 +180,7 @@ skill-name/
 
 **Requirements:**
 
-- Complete evals/ directory with tessl eval harness structure
+- Complete evals/ directory with the `scenario-N/` structure
 - instructions.json with full instruction extraction
 - summary.json showing >= 80% instruction coverage
 - At least 3 valid scenarios with task.md + criteria.json + capability.txt

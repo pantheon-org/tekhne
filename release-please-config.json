@@ -81,16 +81,6 @@
         }
       ]
     },
-    "skills/agentic-harness/tessl/publish-public": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "json",
-          "path": ".tekhne/plugin.json",
-          "jsonpath": "$.version"
-        }
-      ]
-    },
     "skills/ci-cd/azure-pipelines": {
       "release-type": "simple",
       "extra-files": [

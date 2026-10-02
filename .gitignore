@@ -15,9 +15,7 @@
 .gemini/
 .github/skills/
 .opencode/
-.tessl/
 .vscode/
-**/tessl__*
 **/.tools/
 dist/
 docs/node_modules/

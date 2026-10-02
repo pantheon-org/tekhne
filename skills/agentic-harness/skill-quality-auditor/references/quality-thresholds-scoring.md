@@ -12,7 +12,7 @@ Complete scoring framework and threshold interpretation for skill quality assess
 
 | Score Range | Grade | Status | Action Required |
 |-------------|-------|--------|----------------|
-| 126+ | A | Production Ready | Tessl registry eligible |
+| 126+ | A | Production Ready | Publication eligible |
 | 112-125 | B/B+ | Good Quality | Minor improvements |
 | 98-111 | C/C+ | Passing | Remediation recommended |
 | 91-97 | D | Below Standard | Major improvements required |
@@ -30,7 +30,7 @@ Complete scoring framework and threshold interpretation for skill quality assess
 | Dimension | Max Points | Priority | Focus Area |
 |-----------|------------|----------|------------|
 | Knowledge Delta | 20 | HIGHEST | Expert-only content |
-| Eval Validation | 20 | HIGHEST | Runtime validation via tessl evals |
+| Eval Validation | 20 | HIGHEST | Runtime validation via eval scenarios |
 | Mindset + Procedures | 15 | HIGH | Philosophy + workflows |
 | Anti-Pattern Quality | 15 | HIGH | NEVER + WHY + consequences |
 | Practical Usability | 15 | HIGH | Concrete examples |

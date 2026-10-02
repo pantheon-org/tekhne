@@ -85,7 +85,7 @@ Wave document row (phase table, Wave 0):
 
 | Phase | Focus | Tasks | Status | Model |
 |-------|-------|-------|--------|-------|
-| `feat/triage-memory` | Triage Mem0, Zep, MemoryOS, Letta via `tessl__triage-tool` | 4 | Pending | standard |
+| `feat/triage-memory` | Triage Mem0, Zep, MemoryOS, Letta via `triage-tool` | 4 | Pending | standard |
 
 Filled prompt:
 
@@ -94,7 +94,7 @@ You are working in the agentic-context repository.
 
 ## Your task
 
-Triage Mem0, Zep, MemoryOS, Letta via `tessl__triage-tool`
+Triage Mem0, Zep, MemoryOS, Letta via `triage-tool`
 
 ## Writes scope
 
