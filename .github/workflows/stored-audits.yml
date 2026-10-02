@@ -136,10 +136,13 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      # The generator uses only built-in modules and local files, so there is nothing
+      # to install. (A bare `bun install` here would run the repo's `prepare` script,
+      # which calls `hk install`, and hk is not on the runner.) Same bun version as
+      # the docs workflow.
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+        with:
+          bun-version: "1.3.10"
 
       - name: Regenerate the catalogue
         run: bun scripts/catalog/update.ts
