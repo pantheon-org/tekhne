@@ -69,13 +69,12 @@ same number**:
 | Version | Where it lives | What it gates |
 | --- | --- | --- |
 | Crate version | [`Cargo.toml`](Cargo.toml) `version` | What `pantheon-journal --version` reports and what a release tag bumps |
-| Plugin version | `skills/documentation/journal-entry-creator/.tekhne/plugin.json` | Historical Tessl registry metadata; unused for this distribution path |
+| Plugin version | `skills/documentation/journal-entry-creator/.tekhne/plugin.json` | Toolkit manifest metadata; unused for this distribution path |
 
 This skill is excluded from the release-please sync that keeps `plugin.json`
-versions current for registry-published skills, because it ships only via
-this crate's own release process, never via `tessl:publish`. Don't try to
-reconcile the two numbers — treat the crate version as authoritative for
-anyone installing via `pantheon-journal skill install`.
+versions current, because it ships only via this crate's own release
+process. Don't try to reconcile the two numbers — treat the crate version as
+authoritative for anyone installing via `pantheon-journal skill install`.
 
 ## Other commands
 
