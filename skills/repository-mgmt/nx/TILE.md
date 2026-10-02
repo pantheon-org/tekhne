@@ -6,7 +6,6 @@ Comprehensive toolkit for creating Nx plugins with custom generators and executo
 
 - **Name**: `pantheon-ai/nx-plugin-toolkit`
 - **Version**: `0.2.0`
-- **Registry**: [tessl.io/registry/pantheon-ai/nx-plugin-toolkit](https://tessl.io/registry/pantheon-ai/nx-plugin-toolkit)
 - **Visibility**: Public
 
 ## Summary
@@ -50,7 +49,6 @@ Create Nx plugins with custom generators and executors for TypeScript monorepos.
 
 ## Quality Metrics
 
-- **Tessl Review**: 100% (11/11 checks)
 - **Quality Audit**: B+ grade (124/140 points, 89%)
 - **Eval Coverage**: 85% instruction coverage (40/47 tested)
 - **Documentation**: 240-line navigation hub + 12 reference files
@@ -58,7 +56,7 @@ Create Nx plugins with custom generators and executors for TypeScript monorepos.
 ## Installation
 
 ```bash
-tessl install pantheon-ai/nx-plugin-toolkit
+npx skills add pantheon-org/tekhne
 ```
 
 ## Quick Reference

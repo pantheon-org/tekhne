@@ -1,1 +1,0 @@
-Validates tessl optimization impact against tessl public-publication requirements.

@@ -12,7 +12,7 @@ Canonical source reference: `framework-dimensions.md`
 
 ## Overview
 
-The 9-dimension quality framework evaluates skills across 9 dimensions totaling 140 points. **Dimension 1 (Knowledge Delta)** and **Dimension 9 (Eval Validation)** carry the highest weight at 20 points each - skills must contain expert-only knowledge AND be validated at runtime via tessl eval scenarios.
+The 9-dimension quality framework evaluates skills across 9 dimensions totaling 140 points. **Dimension 1 (Knowledge Delta)** and **Dimension 9 (Eval Validation)** carry the highest weight at 20 points each - skills must contain expert-only knowledge AND be validated at runtime via eval scenarios.
 
 **Target Score:** ≥126 points (90%) = A-grade
 
@@ -261,7 +261,7 @@ WHY: False positives waste hours debugging phantom issues
     - **No absolute repo paths in references (-2 max):** Each reference file referencing `skills/X/Y/Z` paths loses 1 point (capped at -2 total).
     - **No repo-root directory references in references (-2 max):** Each reference file referencing `.context/` or `.agents/` paths loses 1 point (capped at -2 total).
 
-    - **WHY:** Skills must be fully self-contained. When installed via `tessl install` or `npx skills add`, they land in arbitrary directories. Any reference to files outside the skill's own directory tree will break — whether in SKILL.md, scripts, or reference files.
+    - **WHY:** Skills must be fully self-contained. When installed via `npx skills add`, they land in arbitrary directories. Any reference to files outside the skill's own directory tree will break — whether in SKILL.md, scripts, or reference files.
     - **IMPACT:** Non-self-contained skills fail silently when installed outside their authoring repo.
 
 5. **Script Language Portability (bonus: +1 point)**
@@ -618,7 +618,7 @@ Too rigid - let has valid use cases.
 
 ## Dimension 9: Eval Validation (20 points) -- HIGHEST PRIORITY
 
-**Purpose:** Verify the skill has been validated at runtime through tessl eval scenarios, proving agents actually follow its instructions.
+**Purpose:** Verify the skill has been validated at runtime through eval scenarios, proving agents actually follow its instructions.
 
 **Scoring:**
 
@@ -634,7 +634,7 @@ Too rigid - let has valid use cases.
 
 1. **Eval Directory Structure (4 points)**
    - `evals/` directory exists with proper layout
-   - Follows tessl eval harness conventions
+   - Follows the `evals/scenario-N/` layout (`task.md`, `criteria.json`, `capability.txt`)
 
 2. **Instruction Inventory (3 points)**
    - `instructions.json` present and non-empty
@@ -665,11 +665,7 @@ When `instructions.json` exists, its data enriches other dimensions:
 
 Use the `creating-eval-scenarios` skill to generate evaluation scenarios:
 
-```bash
-# Ensure skill is packaged as a tessl tile first
-tessl eval run <tile-path>
-tessl eval view-status <status_id> --json
-```
+Then run each scenario with your agent and compare its output against `criteria.json`.
 
 ### Examples
 
@@ -714,11 +710,11 @@ skill-name/
 | D6: Freedom Calibration | 15 | MEDIUM | Appropriate rigidity |
 | D7: Pattern Recognition | 10 | LOW | Activation keywords |
 | D8: Practical Usability | 15 | HIGH | Concrete examples |
-| D9: Eval Validation | 20 | HIGHEST | Runtime validation via tessl evals |
+| D9: Eval Validation | 20 | HIGHEST | Runtime validation via eval scenarios |
 | **TOTAL** | **140** | | **A-grade = 126+** |
 
 ## See Also
 
 - `framework-scoring-rubric.md` - Detailed scoring methodology
 - `framework-quality-standards.md` - A-grade requirements
-- `creating-eval-scenarios` skill - Tessl eval scenario generation
+- `creating-eval-scenarios` skill - eval scenario generation

@@ -26,7 +26,6 @@
     "skills/agentic-harness/opencode-toolkit/build-plugins/references/**",
     "skills/agentic-harness/opencode-toolkit/design-agents/references/**",
     "skills/agentic-harness/opencode-toolkit/configure/references/**",
-    ".tessl/**",
     // Golden-corpus parity fixtures: copied third-party testdata and
     // deliberately malformed boundary cases, not authored docs.
     "crates/*/tests/golden-corpus/fixtures/**",

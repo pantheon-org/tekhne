@@ -52,7 +52,6 @@ skills/agentic-harness/professional-honesty
 skills/agentic-harness/save-context
 skills/agentic-harness/skill-quality-auditor
 skills/agentic-harness/socratic-method
-skills/agentic-harness/tessl/publish-public
 skills/agentic-harness/vault-capture
 skills/agentic-harness/vault-consolidate
 skills/agentic-harness/vault-fetch

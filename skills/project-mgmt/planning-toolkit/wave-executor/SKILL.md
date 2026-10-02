@@ -115,7 +115,7 @@ After all waves are done:
 
 **WHY:** Information loss — the verbatim focus or phase file contains constraints, tool names, and scope boundaries that summaries drop.
 
-**BAD** Summarise "Triage Mem0, Zep, MemoryOS, Letta via `tessl__triage-tool`" as "triage memory tools".
+**BAD** Summarise "Triage Mem0, Zep, MemoryOS, Letta via `triage-tool`" as "triage memory tools".
 **GOOD** Copy the full text verbatim into the per-agent prompt. ALWAYS paste the focus text unedited, even if it looks redundant with the branch name.
 
 ### NEVER omit the `model` parameter on Agent calls

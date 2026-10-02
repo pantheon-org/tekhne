@@ -7,7 +7,6 @@
   "skills/agentic-harness/opencode-toolkit/design-agents": "0.5.0",
   "skills/agentic-harness/opencode-toolkit/design-commands": "0.5.0",
   "skills/agentic-harness/socratic-method": "0.3.0",
-  "skills/agentic-harness/tessl/publish-public": "1.4.0",
   "skills/ci-cd/azure-pipelines": "5.0.0",
   "skills/ci-cd/fluentbit": "5.0.0",
   "skills/ci-cd/github-actions": "5.0.0",

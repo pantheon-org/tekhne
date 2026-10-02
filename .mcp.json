@@ -1,10 +1,5 @@
 {
   "mcpServers": {
-    "tessl": {
-      "type": "stdio",
-      "command": "tessl",
-      "args": ["mcp", "start"]
-    },
     "sigmap": {
       "type": "stdio",
       "command": "npx",

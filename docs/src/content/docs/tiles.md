@@ -344,7 +344,7 @@ Generate a comprehensive web design reference sheet (docs/design/design-referenc
 
 ---
 
-## Agentic Harness (10 tiles, 11 skills)
+## Agentic Harness (9 tiles, 11 skills)
 
 Agent framework configurations
 
@@ -431,16 +431,6 @@ Checkpoint the current session to .context/session/CONTEXT-llm.md with a structu
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
 | [save-context](/tekhne/skills/agentic-harness/save-context/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-09-30 | 6 |
-
-### tessl-publish-public
-
-Ensure Tessl plugins meet all requirements for public registry publishing with comprehensive validation, quality gates, and evaluation scenarios. Use when preparing skills for public Tessl release, validating plugin.json manifest, creating evaluation scenarios, enforcing quality thresholds, or checking agent-agnostic compliance. Keywords: tessl, plugin, publishing, public-registry, validation, quality-gates, plugin.json, eval-scenarios, skill-publishing
-
-**Published:** [Public](https://tessl.io/registry/skills/pantheon-ai/tessl-publish-public) | **Version:** 1.4.0
-
-| Skill | Rating | Audit | Evals |
-| --- | --- | --- | --- |
-| [publish-public](/tekhne/skills/agentic-harness/tessl/publish-public/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | 9 |
 
 ### pick-model
 
@@ -780,7 +770,7 @@ Research toolkit for triaging academic papers and GitHub projects. Triage papers
 | [google-scholar-search](/tekhne/skills/documentation/research/google-scholar-search/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 6 |
 | [semantic-scholar-search](/tekhne/skills/documentation/research/semantic-scholar-search/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 5 |
 | [pubmed-search](/tekhne/skills/documentation/research/pubmed-search/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 5 |
-| [sci-hub-search](/tekhne/skills/documentation/research/sci-hub-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 5 |
+| [sci-hub-search](/tekhne/skills/documentation/research/sci-hub-search/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-04-10 | 3 |
 | [sci-data-extractor](/tekhne/skills/documentation/research/sci-data-extractor/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 5 |
 | [scholar-evaluation](/tekhne/skills/documentation/research/scholar-evaluation/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 5 |
 | [scientific-schematics](/tekhne/skills/documentation/research/scientific-schematics/skill/) | <span class="skill-badge skill-badge--b-plus">B+</span> | 2026-10-02 | 5 |

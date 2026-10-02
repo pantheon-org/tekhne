@@ -18,7 +18,7 @@ Create Nx plugins with custom generators and executors for TypeScript monorepos.
 ## Installation
 
 ```bash
-tessl install pantheon-ai/nx-plugin-toolkit
+npx skills add pantheon-org/tekhne
 ```
 
 ## Quick Start
@@ -88,7 +88,6 @@ Executors define reusable build, test, and development tasks:
 
 ## Quality Metrics
 
-- **Tessl Score**: 100% (11/11 checks passed)
 - **Quality Grade**: B+ (124/140, 89%)
 - **Eval Coverage**: 85% (40/47 instructions tested)
 - **Documentation**: 9 reference guides, 3 knowledge-base articles
