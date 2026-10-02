@@ -47,8 +47,19 @@ See `skills/agentic-harness/skill-quality-auditor/references/skill-taxonomy.md` 
 - Use ASCII unless a file already requires Unicode.
 - `templates/`: YAML extensions (`.yaml` or `.yml`) only.
 - `schemas/`: JSON Schema files named `*.schema.json` with a `"$schema"` URL.
-- `scripts/`: Executable scripts with proper shebangs (sh/bash/python3/bun/node).
+- `scripts/`: Executable scripts with proper shebangs (sh/bash/bun/node/python3), chosen by the order in Language Preference below.
 - Skills must be self-contained: no `../` paths, no absolute `skills/X/Y` paths, no `.context/` or `.agents/` references in SKILL.md (fenced code blocks and inline code spans are exempt).
+
+### Language Preference
+
+When writing code or scripts for this repository, use the first option that fits:
+
+1. **Rust**, in the crates under `crates/`.
+2. **Bun with TypeScript**, when Rust is not a good fit.
+3. **Shell**, for thin glue only.
+4. **Python**, as a last resort.
+
+Python is kept out by a guardrail: any tracked `.py` file outside a directory listed in `python-allowlist.txt` fails the `python-allowlist` check (`scripts/check-python-allowlist.sh`, run locally by the `hk` hook and in CI), so new Python needs a reviewed allowlist entry.
 
 ### Skill Standards
 
