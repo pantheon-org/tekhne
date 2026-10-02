@@ -25,6 +25,9 @@ mod reports;
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const NAME: &str = env!("CARGO_PKG_NAME");
 
+/// Default size limit for `batch --details-markdown`, in bytes.
+const DEFAULT_DETAILS_BUDGET: usize = 40_000;
+
 #[derive(Parser)]
 #[command(
     name = "pantheon-skill-auditor",
@@ -69,6 +72,18 @@ enum Command {
         /// Exit 1 if any skill scores below this grade (e.g. B+).
         #[arg(long = "fail-below")]
         fail_below: Option<String>,
+        /// Write collapsed per-skill detail blocks (Markdown) for every skill
+        /// graded below A to this file. An empty file means none were needed.
+        #[arg(long = "details-markdown", value_name = "PATH")]
+        details_markdown: Option<String>,
+        /// Byte budget for the --details-markdown file; whole blocks are
+        /// dropped from the end when it is exceeded.
+        #[arg(
+            long = "details-budget",
+            value_name = "BYTES",
+            default_value_t = DEFAULT_DETAILS_BUDGET
+        )]
+        details_budget: usize,
         /// Repo root (auto-detected if empty).
         #[arg(long = "repo-root")]
         repo_root: Option<String>,
@@ -259,12 +274,17 @@ fn main() {
             json,
             store,
             fail_below,
+            details_markdown,
+            details_budget,
             repo_root,
         } => run_batch(
             &skills,
             json,
             store,
             fail_below.as_deref(),
+            details_markdown
+                .as_deref()
+                .map(|path| (path, details_budget)),
             repo_root.as_deref(),
         ),
         Command::Duplication(args) => run_duplication(args),
@@ -332,6 +352,7 @@ fn run_batch(
     json: bool,
     store: bool,
     fail_below: Option<&str>,
+    details: Option<(&str, usize)>,
     repo_root_flag: Option<&str>,
 ) -> std::result::Result<(), String> {
     let repo_root = resolve_repo_root(repo_root_flag)
@@ -358,6 +379,16 @@ fn run_batch(
                     error: None,
                 });
             }
+        }
+    }
+
+    // Written before the output and the --fail-below exit, so a run that fails
+    // the gate still leaves the file behind. A write failure is a warning: the
+    // detail is cosmetic and must never change what the command reports.
+    if let Some((path, budget)) = details {
+        let scored: Vec<AuditResult> = entries.iter().filter_map(|e| e.result.clone()).collect();
+        if let Err(e) = std::fs::write(path, reporter::pr_detail(&scored, budget)) {
+            eprintln!("warning: details-markdown {path}: {e}");
         }
     }
 
