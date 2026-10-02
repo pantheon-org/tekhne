@@ -9,7 +9,7 @@ The Plumber CI/CD security scan reports one open finding on `main`:
 
 - Rule `ISSUE-505`, severity high: `Branch 'main' has non-compliant protection settings`
 - Reason reported: `Code owner approval is not required`
-- Docs: https://getplumber.io/docs/cli/issues/ISSUE-505
+- Docs: <https://getplumber.io/docs/cli/issues/ISSUE-505>
 
 It is the only finding left after the authorized-sources tuning; the score is
 otherwise **B (85/100)**.
@@ -43,6 +43,67 @@ Accepting this finding does not leave `main` unprotected. The active ruleset
 
 The single residual gap is code-owner review, which carries no security value
 for a solo maintainer.
+
+## Requiring the stored-audit checks (proposed 02-10-2026, not yet applied)
+
+Two new checks stop a skill's stored audit, and the rating the catalogue shows,
+from going stale. They exist as workflows but are **not required yet**: a
+required check is a ruleset setting that only a repository administrator can
+change, so this section records the request. Once the ruleset is updated, move
+the two names into the list under "What `main` still enforces" and delete the
+"not yet applied" wording above.
+
+### Checks to require
+
+| Check name (exact) | Workflow | What it enforces |
+| --- | --- | --- |
+| `Stored Audits` | `stored-audits.yml` | A pull request that changes a skill must leave that skill's stored audit current, and comments with the fix command if not. |
+| `Catalogue Up To Date` | `stored-audits.yml` | The generated skills catalogue must match the stored audits, so a commit that skipped the local hook cannot leave it stale. |
+
+Both run on every pull request with no path filter, so they always report. The
+`Stored Audits` job is skipped for pull requests from forks and for pushes; a
+skipped job counts as passing for a required check, so this does not block
+anyone, but it means fork pull requests are not covered (the Skill Audit check
+has the same limit).
+
+### Check deliberately left out
+
+`Stored Audits Full Tree` (`stored-audits-full-tree.yml`) is **not** proposed as
+required. On pull requests it only runs when the scorer changes (a path filter),
+and GitHub waits indefinitely on a required check that never runs, which would
+block every other pull request. It already runs on each push to `main` as a
+safety net and fails on a scorer pull request that invalidates stored audits. To
+make it required later, move the path test inside the workflow (a first step
+that exits early) so it always reports, and treat that as a separate change.
+
+### How to apply
+
+In the repository settings, edit the ruleset named `main` (id `13518481`), open
+"Require status checks to pass", and add `Stored Audits` and
+`Catalogue Up To Date`, source GitHub Actions. The existing "Require branches to
+be up to date before merging" setting is already on, so no other change is
+needed. The same change through the API adds two entries next to the existing
+`Skill Audit` one:
+
+```json
+{ "context": "Stored Audits", "integration_id": 15368 }
+{ "context": "Catalogue Up To Date", "integration_id": 15368 }
+```
+
+### Why this is safe to require now
+
+The checks were proven in both directions on throwaway pull requests on
+02-10-2026: a stale audit fails with a comment and passes once fixed, and a
+wrong catalogue fails with the differing line printed. They start from a clean
+`main` (all 164 stored audits current). Manifest-only and changelog-only bot
+changes inside a skill leave its score unchanged, so they pass.
+
+### Revisit trigger
+
+There is no skip label, so the only escape from a misfiring required check is
+reverting the workflow. If either check is reverted or disabled more than once
+within 30 days of becoming required, add a documented skip label for
+maintainers.
 
 ## Impact
 
