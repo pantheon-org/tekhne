@@ -70,19 +70,9 @@ const rewriteReferenceLinks = (content) =>
   );
 
 /**
- * A plugin.json carries no publishedUrl; a public one is addressable on the
- * tessl registry by its name. Private tiles have no public page.
- * @param {{ name?: string, private?: boolean }} data
- */
-const registryUrl = (data) =>
-  data.private === false && data.name
-    ? `https://tessl.io/registry/skills/${data.name}`
-    : null;
-
-/**
  * Walk up the directory tree from skillSrcDir to find the nearest tile
  * manifest (.tekhne/plugin.json, or a legacy tile.json).
- * Returns { publishedUrl, version } or null if not found.
+ * Returns { version } or null if not found.
  * @param {string} skillSrcDir
  */
 const loadTileMetadata = (skillSrcDir) => {
@@ -97,7 +87,6 @@ const loadTileMetadata = (skillSrcDir) => {
       try {
         const data = JSON.parse(readFileSync(manifestPath, "utf-8"));
         return {
-          publishedUrl: data.publishedUrl ?? registryUrl(data),
           version: data.version ?? null,
         };
       } catch {
@@ -150,9 +139,6 @@ const processSkillContent = (raw, skillSrcDir, skillRelPath) => {
     ...(skillAudit ? { skillAudit } : {}),
     ...(skillAudits.length > 0 ? { skillAudits } : {}),
     ...(skillEvals.length > 0 ? { skillEvals } : {}),
-    ...(tileMeta?.publishedUrl
-      ? { tilePublishedUrl: tileMeta.publishedUrl }
-      : {}),
     ...(tileMeta?.version ? { tileVersion: tileMeta.version } : {}),
   };
 
