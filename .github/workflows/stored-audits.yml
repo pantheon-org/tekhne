@@ -1,0 +1,156 @@
+name: Stored Audits
+
+# Guardrail: a skill's stored audit (skills/<skill>/.audits/) drives the ratings in
+# the generated skills catalogue, so it must match the skill. This fails a pull
+# request when a skill it changes has a stale or missing stored audit, comments with
+# the exact command that fixes it, and checks the generated catalogue itself matches
+# the stored audits (so a commit that skipped the local hooks cannot leave it stale).
+#
+# The same check runs locally in the pre-push hook (hk.pkl), through the same
+# scripts, so both give the same answer. Kept in its own workflow, not in
+# skill-audit.yml, so it can be made a required check separately and does not
+# collide with other work on that file.
+#
+# Values from earlier steps reach shell only through env: variables or files, never
+# through ${{ }} in the script text.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  # Supersede an in-flight run when the ref updates (e.g. a rebase).
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  stored-audits:
+    name: Stored Audits
+    # Fork PRs get a read-only token and cannot comment; skip them, as the Skill
+    # Audit job does.
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      # Any change inside a skill re-checks that skill; stored audits themselves
+      # are ignored. Written to a file, not a step output, so nothing is
+      # interpolated into later scripts.
+      - name: Find changed skills
+        id: skills
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          git diff --name-only --diff-filter=AMDR "$BASE_SHA...$HEAD_SHA" -- skills/ \
+            | bash scripts/stored-audits/changed-skills.sh > "$RUNNER_TEMP/skills.txt"
+          if [ -s "$RUNNER_TEMP/skills.txt" ]; then
+            echo "found=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "found=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # rustup is preinstalled on GitHub-hosted runners; keep this version in sync
+      # with mise.toml and the other workflows. Only built when there are skills.
+      - name: Install Rust toolchain
+        if: steps.skills.outputs.found == 'true'
+        run: |
+          rustup toolchain install 1.96.1 --profile minimal
+          rustup default 1.96.1
+
+      - name: Build skill-auditor
+        if: steps.skills.outputs.found == 'true'
+        run: cargo build --release --locked -p pantheon-skill-auditor
+
+      - name: Check stored audits
+        id: check
+        if: steps.skills.outputs.found == 'true'
+        run: |
+          set +e
+          bash scripts/stored-audits/check.sh --from-file "$RUNNER_TEMP/skills.txt" > "$RUNNER_TEMP/report.txt" 2>&1
+          code=$?
+          cat "$RUNNER_TEMP/report.txt"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+
+      - name: Write the comment
+        if: always()
+        env:
+          FOUND: ${{ steps.skills.outputs.found }}
+          CODE: ${{ steps.check.outputs.code }}
+        run: |
+          {
+            echo "## Stored Audit Check"
+            echo
+            if [ "$FOUND" != "true" ]; then
+              echo "No skills changed, so there is nothing to check."
+            elif [ "$CODE" = "0" ]; then
+              echo "Stored audits are current for the skills this pull request changes."
+            else
+              echo "A skill this pull request changes has a stored audit that no longer matches it."
+              echo
+              echo '```text'
+              cat "$RUNNER_TEMP/report.txt"
+              echo '```'
+            fi
+          } > "$RUNNER_TEMP/comment.md"
+
+      - name: Find existing comment
+        id: find-comment
+        if: always()
+        continue-on-error: true
+        uses: peter-evans/find-comment@b30e6a3c0ed37e7c023ccd3f1db5c6c0b0c23aad # v4.0.0
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: "## Stored Audit Check"
+
+      # Post only when something is wrong, or to update an earlier comment once it
+      # is fixed. Never let a comment failure change the verdict.
+      - name: Post comment
+        if: always() && ((steps.skills.outputs.found == 'true' && steps.check.outputs.code != '0') || steps.find-comment.outputs.comment-id != '')
+        continue-on-error: true
+        uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
+        with:
+          comment-id: ${{ steps.find-comment.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          edit-mode: replace
+          body-path: ${{ runner.temp }}/comment.md
+
+      - name: Enforce
+        if: steps.skills.outputs.found == 'true' && steps.check.outputs.code != '0'
+        run: |
+          echo "::error::A changed skill has a stale or missing stored audit. See the output above or the Stored Audit Check comment for the command that fixes it."
+          exit 1
+
+  catalogue:
+    name: Catalogue Up To Date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Regenerate the catalogue
+        run: bun scripts/catalog/update.ts
+
+      # The catalogue is regenerated by the pre-commit hook; this catches a commit
+      # that skipped it (--no-verify, the web editor, a bot).
+      - name: Fail if the catalogue changed
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --short
+            git --no-pager diff --stat
+            echo "::error::The generated skills catalogue does not match the stored audits. Run 'bun scripts/catalog/update.ts' and commit README.md and docs/src/content/docs/tiles.md."
+            exit 1
+          fi
