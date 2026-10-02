@@ -1,0 +1,24 @@
+{
+  "skill": "software-engineering/fp-higher-order-functions",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 7,
+    "evalValidation": 17,
+    "freedomCalibration": 10,
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 11,
+    "patternRecognition": 8,
+    "practicalUsability": 13,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 11
+  },
+  "total": 104,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 379,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

@@ -1,0 +1,24 @@
+{
+  "skill": "software-engineering/simplicity-principles",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 17,
+    "freedomCalibration": 7,
+    "knowledgeDelta": 16,
+    "mindsetProcedures": 7,
+    "patternRecognition": 9,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 11
+  },
+  "total": 101,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 447,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

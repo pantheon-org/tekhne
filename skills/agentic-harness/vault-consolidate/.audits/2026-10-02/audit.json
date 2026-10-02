@@ -1,0 +1,30 @@
+{
+  "skill": "agentic-harness/vault-consolidate",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 5,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 15,
+    "mindsetProcedures": 8,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "progressiveDisclosure": 12,
+    "specificationCompliance": 13
+  },
+  "total": 103,
+  "maxTotal": 140,
+  "grade": "C",
+  "lines": 66,
+  "hasReferences": false,
+  "referenceCount": 0,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D5",
+      "message": "no references/ directory (progressive disclosure missing)"
+    }
+  ]
+}

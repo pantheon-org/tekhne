@@ -1,0 +1,30 @@
+{
+  "skill": "comedy/bird-fortune-political-satire",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 118,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 179,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: cline"
+    }
+  ]
+}

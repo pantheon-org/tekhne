@@ -1,0 +1,30 @@
+{
+  "skill": "project-mgmt/tech-evaluation",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 8,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 12
+  },
+  "total": 112,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 139,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": ".context/ or .agents/ reference outside code blocks: .context/"
+    }
+  ]
+}

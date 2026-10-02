@@ -1,0 +1,24 @@
+{
+  "skill": "project-mgmt/goal-tracker",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 14,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 13,
+    "specificationCompliance": 14
+  },
+  "total": 128,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 138,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}
