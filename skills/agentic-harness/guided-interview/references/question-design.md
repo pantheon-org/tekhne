@@ -23,7 +23,7 @@ actual choice and states its main implication in one short clause:
 | "Cache externally" | "Shared cache (Redis) — survives restarts and scales across instances, adds a network hop" |
 | "No caching" | "Skip caching for now — simplest to ship, revisit if latency becomes a problem" |
 
-Each option should let the user predict the consequence of picking it without needing to ask a
+Each option should let the user predict the result of picking it without needing to ask a
 follow-up question.
 
 ## Mutual exclusivity
