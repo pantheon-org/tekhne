@@ -13,6 +13,16 @@ on:
       # break them, but a new or malformed skill can still trip one and CI
       # should say so on that PR rather than on somebody else's.
       - "skills/**"
+      # Audit snapshots are output of the auditor, never read by it or the
+      # validator, so a PR that only refreshes them cannot affect these gates.
+      # Order matters: a negation only applies to patterns listed before it.
+      - "!skills/**/.audits/**"
+      # The exceptions: each crate's build.rs embeds one whole skill directory
+      # (adr, journal, skill-auditor) into its binary, snapshots included, so
+      # those three are compile inputs.
+      - "skills/documentation/adr-creator/.audits/**"
+      - "skills/documentation/journal-entry-creator/.audits/**"
+      - "skills/agentic-harness/skill-quality-auditor/.audits/**"
       - "rust-toolchain.toml"
       - ".github/workflows/rust-ci.yml"
   push:
@@ -26,6 +36,16 @@ on:
       # break them, but a new or malformed skill can still trip one and CI
       # should say so on that PR rather than on somebody else's.
       - "skills/**"
+      # Audit snapshots are output of the auditor, never read by it or the
+      # validator, so a PR that only refreshes them cannot affect these gates.
+      # Order matters: a negation only applies to patterns listed before it.
+      - "!skills/**/.audits/**"
+      # The exceptions: each crate's build.rs embeds one whole skill directory
+      # (adr, journal, skill-auditor) into its binary, snapshots included, so
+      # those three are compile inputs.
+      - "skills/documentation/adr-creator/.audits/**"
+      - "skills/documentation/journal-entry-creator/.audits/**"
+      - "skills/agentic-harness/skill-quality-auditor/.audits/**"
       - "rust-toolchain.toml"
       - ".github/workflows/rust-ci.yml"
 
