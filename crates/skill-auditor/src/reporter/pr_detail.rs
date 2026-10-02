@@ -1,6 +1,6 @@
 //! Collapsed per-skill detail blocks for the Skill Audit pull request comment.
 
-use super::remediation::{dimension_advice, gaps};
+use super::remediation::gaps;
 use crate::scorer::{grade_rank, Result};
 
 /// How many dimensions each block lists, largest loss first.
@@ -10,7 +10,11 @@ const REFERENCE_LINE: &str =
     "- References section is missing, or is not the last section with a link.\n";
 
 /// Render one collapsed block per skill graded below A, worst score first
-/// (ties by path), within `budget` bytes.
+/// (ties by path), within `budget` bytes. Each block lists the dimensions that
+/// lost the most points as `Name (score/max)`. No advice text is shown: the
+/// auditor's advice is one fixed sentence per dimension and can contradict the
+/// skill it is attached to (for example asking for a `references/` directory
+/// the skill already has).
 ///
 /// Whole blocks are dropped from the end when the budget is exceeded, replaced
 /// by one line saying how many were left out. The budget is measured in bytes,
@@ -62,13 +66,7 @@ fn join_with_omitted(kept: &[String], omitted: usize) -> String {
 fn block(r: &Result) -> String {
     let mut lines = String::new();
     for gap in gaps(r).into_iter().take(MAX_DIMENSIONS) {
-        match dimension_advice(gap.key) {
-            Some(advice) => lines.push_str(&format!(
-                "- {} ({}/{}): {advice}\n",
-                gap.label, gap.score, gap.max
-            )),
-            None => lines.push_str(&format!("- {} ({}/{})\n", gap.label, gap.score, gap.max)),
-        }
+        lines.push_str(&format!("- {} ({}/{})\n", gap.label, gap.score, gap.max));
     }
     if !r.reference_section_compliant {
         lines.push_str(REFERENCE_LINE);
@@ -114,7 +112,6 @@ fn relative_skill_path(skill: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::super::remediation::dimension_advice;
     use super::*;
     use std::collections::BTreeMap;
 
@@ -190,27 +187,24 @@ mod tests {
     }
 
     #[test]
-    fn a_b_skill_shows_its_three_biggest_losses_with_advice() {
+    fn a_b_skill_shows_its_three_biggest_losses_as_scores_only() {
         let out = pr_detail(
             &[b_skill(
                 "/home/runner/work/tekhne/tekhne/skills/ci-cd/fluentbit/generator/SKILL.md",
             )],
             40_000,
         );
-        let line = |label: &str, key: &str, score: i32, max: i32| {
-            format!(
-                "- {label} ({score}/{max}): {}\n",
-                dimension_advice(key).expect("advice for known key")
-            )
-        };
-        let expected = format!(
-            "<details>\n<summary><code>ci-cd/fluentbit/generator</code> B, 115/140</summary>\n\n{}{}{}\n</details>\n",
-            line("Anti-Pattern Quality", "antiPatternQuality", 9, 15),
-            line("Progressive Disclosure", "progressiveDisclosure", 10, 15),
-            line("Mindset + Procedures", "mindsetProcedures", 11, 15),
-        );
+        let expected = "<details>\n\
+<summary><code>ci-cd/fluentbit/generator</code> B, 115/140</summary>\n\
+\n\
+- Anti-Pattern Quality (9/15)\n\
+- Progressive Disclosure (10/15)\n\
+- Mindset + Procedures (11/15)\n\
+\n\
+</details>\n";
         assert_eq!(out, expected);
         assert!(!out.contains("Practical Usability"), "fourth loss is cut");
+        assert!(!out.contains("NEVER"), "no advice text is shown");
     }
 
     #[test]

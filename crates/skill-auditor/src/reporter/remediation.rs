@@ -9,7 +9,7 @@ use std::fmt::Write;
 
 /// Generic per-dimension improvement advice, keyed by camelCase dimension name
 /// (Go `dimensionAdvice`).
-pub(super) fn dimension_advice(key: &str) -> Option<&'static str> {
+fn dimension_advice(key: &str) -> Option<&'static str> {
     match key {
         "knowledgeDelta" => Some("Add expert-signal keywords: NEVER, ALWAYS, production, gotcha, pitfall, anti-pattern. Remove beginner-oriented patterns (npm install, getting started, hello world)."),
         "mindsetProcedures" => Some("Add a `## Mindset` or `## Philosophy` section. Use numbered procedure lists. Add `## When to Use` and `## When NOT to Use` sections."),
