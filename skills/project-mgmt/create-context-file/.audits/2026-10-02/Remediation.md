@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/project-mgmt/create-context-file/SKILL.md
+# Remediation Plan — project-mgmt/create-context-file
 
 **Current Grade:** A (126/140)
 

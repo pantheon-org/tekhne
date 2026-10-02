@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/cfn/template-compare/SKILL.md
+# Skill Audit — infrastructure/cfn/template-compare
 
 **Grade:** B (116/140)
 

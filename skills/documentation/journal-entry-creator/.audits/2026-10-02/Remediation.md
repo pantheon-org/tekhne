@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/journal-entry-creator/SKILL.md
+# Remediation Plan — documentation/journal-entry-creator
 
 **Current Grade:** B+ (119/140)
 

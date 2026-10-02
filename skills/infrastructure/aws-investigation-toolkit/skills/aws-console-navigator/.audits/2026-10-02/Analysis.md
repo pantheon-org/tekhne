@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-investigation-toolkit/skills/aws-console-navigator/SKILL.md
+# Skill Audit — infrastructure/aws-investigation-toolkit/skills/aws-console-navigator
 
 **Grade:** B (115/140)
 

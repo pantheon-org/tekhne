@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/package-mgmt/mise-complete/SKILL.md
+# Remediation Plan — package-mgmt/mise-complete
 
 **Current Grade:** B+ (121/140)
 

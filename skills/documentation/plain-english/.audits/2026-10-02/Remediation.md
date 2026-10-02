@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/plain-english/SKILL.md
+# Remediation Plan — documentation/plain-english
 
 **Current Grade:** B (117/140)
 

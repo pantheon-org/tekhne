@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/nx-plugin-authoring/SKILL.md
+# Skill Audit — repository-mgmt/nx/nx-plugin-authoring
 
 **Grade:** B (116/140)
 

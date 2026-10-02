@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/specialized/retrospect-collab/SKILL.md
+# Remediation Plan — specialized/retrospect-collab
 
 **Current Grade:** A (128/140)
 

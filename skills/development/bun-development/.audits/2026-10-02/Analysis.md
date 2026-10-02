@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/bun-development/SKILL.md
+# Skill Audit — development/bun-development
 
 **Grade:** B+ (120/140)
 

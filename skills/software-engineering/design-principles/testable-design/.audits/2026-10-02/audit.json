@@ -1,5 +1,5 @@
 {
-  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/software-engineering/design-principles/testable-design/SKILL.md",
+  "skill": "software-engineering/design-principles/testable-design",
   "date": "2026-10-02",
   "dimensions": {
     "antiPatternQuality": 11,

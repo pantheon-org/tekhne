@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/obsidian/obsidian-markdown/SKILL.md
+# Skill Audit — documentation/obsidian/obsidian-markdown
 
 **Grade:** B (117/140)
 

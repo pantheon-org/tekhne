@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/semantic-scholar-search/SKILL.md
+# Remediation Plan — documentation/research/semantic-scholar-search
 
 **Current Grade:** B (117/140)
 

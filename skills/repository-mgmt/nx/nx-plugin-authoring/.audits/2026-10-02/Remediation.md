@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/nx-plugin-authoring/SKILL.md
+# Remediation Plan — repository-mgmt/nx/nx-plugin-authoring
 
 **Current Grade:** B (116/140)
 

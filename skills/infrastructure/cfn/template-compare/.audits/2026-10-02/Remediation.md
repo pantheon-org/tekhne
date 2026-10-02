@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/cfn/template-compare/SKILL.md
+# Remediation Plan — infrastructure/cfn/template-compare
 
 **Current Grade:** B (116/140)
 

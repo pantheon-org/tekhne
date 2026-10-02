@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/project-mgmt/planning-toolkit/wave-execution-planner/SKILL.md
+# Skill Audit — project-mgmt/planning-toolkit/wave-execution-planner
 
 **Grade:** B (117/140)
 

@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/ci-cd/helm/generator/SKILL.md
+# Remediation Plan — ci-cd/helm/generator
 
 **Current Grade:** B+ (121/140)
 

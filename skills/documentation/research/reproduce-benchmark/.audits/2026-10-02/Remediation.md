@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/reproduce-benchmark/SKILL.md
+# Remediation Plan — documentation/research/reproduce-benchmark
 
 **Current Grade:** B (117/140)
 

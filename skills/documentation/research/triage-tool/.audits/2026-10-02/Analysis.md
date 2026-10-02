@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/triage-tool/SKILL.md
+# Skill Audit — documentation/research/triage-tool
 
 **Grade:** B+ (121/140)
 

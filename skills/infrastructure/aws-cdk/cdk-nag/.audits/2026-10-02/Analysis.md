@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-cdk/cdk-nag/SKILL.md
+# Skill Audit — infrastructure/aws-cdk/cdk-nag
 
 **Grade:** B+ (119/140)
 

@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/software-engineering/design-principles/testable-design/SKILL.md
+# Remediation Plan — software-engineering/design-principles/testable-design
 
 **Current Grade:** B (118/140)
 

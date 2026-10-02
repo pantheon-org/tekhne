@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/workspace-patterns/SKILL.md
+# Remediation Plan — repository-mgmt/nx/workspace-patterns
 
 **Current Grade:** B (118/140)
 

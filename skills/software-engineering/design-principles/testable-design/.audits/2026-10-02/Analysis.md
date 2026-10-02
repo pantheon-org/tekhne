@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/software-engineering/design-principles/testable-design/SKILL.md
+# Skill Audit — software-engineering/design-principles/testable-design
 
 **Grade:** B (118/140)
 

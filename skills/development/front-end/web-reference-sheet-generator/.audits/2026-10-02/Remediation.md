@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/front-end/web-reference-sheet-generator/SKILL.md
+# Remediation Plan — development/front-end/web-reference-sheet-generator
 
 **Current Grade:** B+ (119/140)
 

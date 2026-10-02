@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/testing/test-driven-development/SKILL.md
+# Skill Audit — testing/test-driven-development
 
 **Grade:** B (115/140)
 

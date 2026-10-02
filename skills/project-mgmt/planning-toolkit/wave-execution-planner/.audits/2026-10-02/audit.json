@@ -1,5 +1,5 @@
 {
-  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/project-mgmt/planning-toolkit/wave-execution-planner/SKILL.md",
+  "skill": "project-mgmt/planning-toolkit/wave-execution-planner",
   "date": "2026-10-02",
   "dimensions": {
     "antiPatternQuality": 11,

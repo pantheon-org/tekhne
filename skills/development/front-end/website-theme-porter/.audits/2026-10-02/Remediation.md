@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/front-end/website-theme-porter/SKILL.md
+# Remediation Plan — development/front-end/website-theme-porter
 
 **Current Grade:** B+ (123/140)
 

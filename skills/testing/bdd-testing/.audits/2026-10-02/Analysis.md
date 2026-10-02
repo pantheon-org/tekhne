@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/testing/bdd-testing/SKILL.md
+# Skill Audit — testing/bdd-testing
 
 **Grade:** B (114/140)
 

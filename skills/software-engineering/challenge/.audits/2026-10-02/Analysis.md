@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/software-engineering/challenge/SKILL.md
+# Skill Audit — software-engineering/challenge
 
 **Grade:** B (118/140)
 

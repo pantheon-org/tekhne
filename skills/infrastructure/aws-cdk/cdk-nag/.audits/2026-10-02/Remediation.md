@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-cdk/cdk-nag/SKILL.md
+# Remediation Plan — infrastructure/aws-cdk/cdk-nag
 
 **Current Grade:** B+ (119/140)
 

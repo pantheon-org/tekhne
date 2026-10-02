@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/project-mgmt/create-context-file/SKILL.md
+# Skill Audit — project-mgmt/create-context-file
 
 **Grade:** A (126/140)
 

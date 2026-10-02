@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/pubmed-search/SKILL.md
+# Skill Audit — documentation/research/pubmed-search
 
 **Grade:** B (118/140)
 

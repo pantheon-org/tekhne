@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/package-mgmt/mise-complete/SKILL.md
+# Skill Audit — package-mgmt/mise-complete
 
 **Grade:** B+ (121/140)
 

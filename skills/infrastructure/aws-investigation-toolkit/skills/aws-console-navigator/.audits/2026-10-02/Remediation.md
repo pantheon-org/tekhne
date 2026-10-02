@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-investigation-toolkit/skills/aws-console-navigator/SKILL.md
+# Remediation Plan — infrastructure/aws-investigation-toolkit/skills/aws-console-navigator
 
 **Current Grade:** B (115/140)
 

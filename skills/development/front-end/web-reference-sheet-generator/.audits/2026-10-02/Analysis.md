@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/front-end/web-reference-sheet-generator/SKILL.md
+# Skill Audit — development/front-end/web-reference-sheet-generator
 
 **Grade:** B+ (119/140)
 

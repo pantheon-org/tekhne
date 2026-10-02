@@ -1,5 +1,5 @@
 {
-  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder/SKILL.md",
+  "skill": "infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder",
   "date": "2026-10-02",
   "dimensions": {
     "antiPatternQuality": 11,

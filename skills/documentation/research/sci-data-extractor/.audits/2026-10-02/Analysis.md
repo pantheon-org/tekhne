@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/sci-data-extractor/SKILL.md
+# Skill Audit — documentation/research/sci-data-extractor
 
 **Grade:** B+ (122/140)
 

@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder/SKILL.md
+# Remediation Plan — infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder
 
 **Current Grade:** B (117/140)
 

@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/testing/ui-debug-workflow/SKILL.md
+# Remediation Plan — testing/ui-debug-workflow
 
 **Current Grade:** B+ (120/140)
 

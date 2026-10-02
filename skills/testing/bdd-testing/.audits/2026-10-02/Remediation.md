@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/testing/bdd-testing/SKILL.md
+# Remediation Plan — testing/bdd-testing
 
 **Current Grade:** B (114/140)
 

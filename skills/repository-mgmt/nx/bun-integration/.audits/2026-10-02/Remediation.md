@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/repository-mgmt/nx/bun-integration/SKILL.md
+# Remediation Plan — repository-mgmt/nx/bun-integration
 
 **Current Grade:** B+ (119/140)
 

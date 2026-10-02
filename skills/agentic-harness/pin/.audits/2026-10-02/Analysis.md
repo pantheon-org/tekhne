@@ -1,4 +1,4 @@
-# Skill Audit — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/agentic-harness/pin/SKILL.md
+# Skill Audit — agentic-harness/pin
 
 **Grade:** B+ (120/140)
 

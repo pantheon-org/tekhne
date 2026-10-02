@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/triage-paper/SKILL.md
+# Remediation Plan — documentation/research/triage-paper
 
 **Current Grade:** B+ (120/140)
 

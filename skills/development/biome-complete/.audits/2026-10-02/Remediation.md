@@ -1,4 +1,4 @@
-# Remediation Plan — /Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/development/biome-complete/SKILL.md
+# Remediation Plan — development/biome-complete
 
 **Current Grade:** B (115/140)
 
