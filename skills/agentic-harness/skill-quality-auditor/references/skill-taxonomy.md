@@ -551,7 +551,7 @@ Example: If `package-mgmt/` remains at 1-2 skills for 12+ months:
 ## References
 
 - [Agent Skills Specification](https://agentskills.io) - Cross-harness compatibility
-- Repository: `/Users/thomas.roche/Projects/github/pantheon-org/tekhne`
+- Repository: [pantheon-org/tekhne](https://github.com/pantheon-org/tekhne)
 - AGENTS.md: Repository collaboration guide with domain references
 
 ---
