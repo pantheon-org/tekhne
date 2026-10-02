@@ -22,34 +22,15 @@ Add a new academic paper to the research repo as a structured reference summary.
 
 ## Recommended MCP Servers
 
-When available, prefer these MCPs over `WebFetch` for paper discovery and metadata resolution — they return structured data and avoid HTML scraping.
+When available, prefer the `semantic-scholar` MCP (primary) and then the `google-scholar` MCP over `WebFetch` for paper discovery and metadata resolution. Fall back to `WebFetch` on the arxiv abstract page only when neither is configured or returns results. The server configuration and the order of preference are in [mcp-servers.md](references/mcp-servers.md).
 
-```json
-{
-  "mcpServers": {
-    "semantic-scholar": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": ["semantic-scholar-fastmcp"]
-    },
-    "google-scholar": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": ["google_scholar_mcp_server"]
-    }
-  }
-}
-```
-
-Use `semantic-scholar` as the primary source (open, structured, covers most CS/ML papers). Fall back to `google-scholar` for papers not indexed there. Fall back to `WebFetch` (arxiv abstract page) only when neither MCP is configured or returns results.
-
-## Mindset
+## Philosophy
 
 Triage is a quality gate, not a data-entry task. The goal is a scannable, honest record.
 
-1. **Evidence first**: quote what the paper reports; never infer or embellish claims.
-2. **Triage-then-promote**: every paper enters via `REVIEWED.md`; promotion to `ANALYSIS-*.md` requires a deliberate user decision — never automatic.
-3. **Scope over completeness**: a well-reasoned rejection is as valuable as a full summary. If the paper is tangentially related, triage it and flag it; don't silently skip it.
+- **Evidence first**: quote what the paper reports; never infer or embellish claims.
+- **Triage-then-promote**: every paper enters via `REVIEWED.md`; promotion to `ANALYSIS-*.md` requires a deliberate user decision, never automatic.
+- **Scope over completeness**: a well-reasoned rejection is as valuable as a full summary. If the paper is tangentially related, triage it and flag it; do not silently skip it.
 
 ## Workflow
 
@@ -67,15 +48,7 @@ Triage is a quality gate, not a data-entry task. The goal is a scannable, honest
 
 ### 3. Classify the paper
 
-Assign one or more tags appropriate to the research domain. Universal tags:
-
-| Tag | Meaning |
-|---|---|
-| `survey` | Overview paper covering the topic broadly |
-| `benchmark` | Evaluation dataset or framework |
-| `empirical` | Study with experimental evaluation |
-| `theoretical` | Formal or theoretical contribution |
-| `system` | System or implementation paper |
+Assign one or more tags appropriate to the research domain: `survey`, `benchmark`, `empirical`, `theoretical` or `system`. Their meanings are in [reviewed-and-index-formats.md](references/reviewed-and-index-formats.md).
 
 ### 4. Fill in the reference summary
 
@@ -94,24 +67,7 @@ Keep language precise. Do not pad. Quote all numbers with their source.
 
 ### 5. Update REVIEWED.md
 
-Add a row to the summary table at the top (reverse-chronological):
-
-```
-| <today's date> | <slug> | paper | pending | <one-line description> |
-```
-
-Add a detailed section below the table:
-
-```markdown
-## <slug> — <Full paper title>
-
-- **arxiv**: <ID>
-- **Authors**: <list>
-- **Date**: <YYYY-MM-DD>
-- **Tags**: <tags>
-- **Summary**: <2–3 sentences>
-- **Disposition**: pending — awaiting user decision on promotion
-```
+Add a row to the summary table at the top (reverse-chronological), then a detailed section below the table with the arxiv ID, authors, date, tags, a 2–3 sentence summary and the disposition `pending`. The exact formats are in [reviewed-and-index-formats.md](references/reviewed-and-index-formats.md).
 
 ### 6. Update REFERENCE_INDEX.md
 
@@ -155,27 +111,73 @@ cp templates/REFERENCE-paper.md references/<slug>.md
 
 **WHY:** Files without frontmatter fail schema validation and break indexing tools that rely on structured metadata.
 
-**BAD** Start the file with `# ANALYSIS: <slug>` followed by bold-text fields. → **GOOD** Open with `---` YAML frontmatter block containing all required fields before any prose.
+**BAD:** Start the file with `# ANALYSIS: <slug>` followed by bold-text fields.
+**GOOD:** Open with a `---` YAML frontmatter block containing all required fields before any prose.
 
 ### NEVER invent benchmark numbers
 
 **WHY:** Fabricated metrics corrupt the research record.
 
-**BAD** `"Achieves 87% recall on LongMemEval."` → **GOOD** `"Reports 87% recall on LongMemEval (as reported, Table 3)."`
+**BAD:** `"Achieves 87% recall on LongMemEval."`
+**GOOD:** `"Reports 87% recall on LongMemEval (as reported, Table 3)."`
 
 ### NEVER skip the duplicate check
 
 **WHY:** Re-triaging the same paper wastes effort and creates conflicting entries.
 
-**BAD** Create new file without checking REVIEWED.md. → **GOOD** Run `grep -i "<slug>" REVIEWED.md references/REFERENCE_INDEX.md` first.
+**BAD:** Create a new file without checking REVIEWED.md.
+**GOOD:** Run `grep -i "<slug>" REVIEWED.md references/REFERENCE_INDEX.md` first.
 
 ### NEVER promote without user confirmation
 
 **WHY:** Promotion to ANALYSIS-*.md is a quality gate, not automatic.
 
-**BAD** Create ANALYSIS-*.md as part of triage. → **GOOD** Triage to REVIEWED.md, then ask the user.
+**BAD:** Create ANALYSIS-*.md as part of triage.
+**GOOD:** Triage to REVIEWED.md, then ask the user.
+
+### NEVER infer or embellish claims the paper does not make
+
+**WHY:** The record must show what the paper reports, so later readers can trust each statement.
+
+**BAD:** `"The method generalises to all model sizes."` when only two sizes were tested.
+**GOOD:** `"Tested on two model sizes (as reported)."`
+
+### NEVER silently skip a tangential paper
+
+**WHY:** A well-reasoned rejection is as valuable as a full summary, and a silent skip leaves no record.
+
+**BAD:** Drop an adjacent paper without telling the user.
+**GOOD:** Triage it, flag the scope question, and let the user decide.
+
+### NEVER leave a template section blank
+
+**WHY:** A blank section reads as an oversight; an explicit marker shows the section was considered.
+
+**BAD:** An empty "Mechanism overview" for a survey.
+**GOOD:** `N/A` with a one-line reason for sections that do not apply.
+
+### NEVER state an evaluation number without marking it as reported
+
+**WHY:** Numbers come from the authors and have not been reproduced; the marker keeps that visible.
+
+**BAD:** `"Recall is 87%."`
+**GOOD:** `"Recall is 87% (as reported)."`
+
+### NEVER fall back to WebFetch while a configured MCP can answer
+
+**WHY:** The MCP servers return structured metadata, whereas scraping an HTML page is brittle.
+
+**BAD:** `WebFetch` on the arxiv abstract page with `semantic-scholar` configured.
+**GOOD:** Resolve through `semantic-scholar`, then `google-scholar`, and use `WebFetch` last.
 
 ## References
 
 - **Reference artifacts**: [YAML template](assets/templates/REFERENCE-paper.yaml) · [schema](assets/schemas/reference-paper.schema.json) · [validator](scripts/validate-reference-paper.sh)
 - **Analysis artifacts**: [YAML template](assets/templates/ANALYSIS-paper.yaml) · [schema](assets/schemas/analysis-paper.schema.json) · [validator](scripts/validate-analysis-paper.sh)
+
+## Reference Material
+
+| Topic | Reference | When to Use |
+|---|---|---|
+| MCP server setup and source order | [mcp-servers.md](references/mcp-servers.md) | Resolving arxiv IDs, DOIs and metadata |
+| REVIEWED.md and index formats, tags, promotion | [reviewed-and-index-formats.md](references/reviewed-and-index-formats.md) | Writing steps 3, 5, 6 and 8 |

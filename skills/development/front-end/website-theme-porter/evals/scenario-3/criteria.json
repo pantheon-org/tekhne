@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Apply Brand Theme to React Project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No hsl() in @theme inline",
+      "description": "Inside the `@theme inline` block, colour tokens are NOT wrapped in `hsl()` \u2014 they use `var()` references to `:root` variables",
+      "max_score": 5
+    },
+    {
+      "name": "hsl() used in :root",
+      "description": "Inside the `:root` block, colour values ARE wrapped in `hsl()`",
+      "max_score": 5
+    },
+    {
+      "name": "Tailwind import present",
+      "description": "`src/index.css` starts with `@import \"tailwindcss\"`",
+      "max_score": 5
+    },
+    {
+      "name": "radius token defined",
+      "description": "`src/index.css` defines a `--radius` variable in `:root`",
+      "max_score": 5
+    },
+    {
+      "name": "@layer base body styles",
+      "description": "`src/index.css` contains an `@layer base` block setting body background-color, color, and font-family using CSS variables",
+      "max_score": 5
+    },
+    {
+      "name": "Font loaded in index.html",
+      "description": "`index.html` includes a `<link>` tag loading Nunito from Google Fonts with `display=swap`",
+      "max_score": 5
+    },
+    {
+      "name": "Font preconnect",
+      "description": "`index.html` includes `<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">`",
+      "max_score": 5
+    },
+    {
+      "name": "No arbitrary values in Button",
+      "description": "`Button.tsx` does NOT contain any Tailwind arbitrary value syntax (e.g., `bg-[#E94560]`, `text-[#FFFFFF]`)",
+      "max_score": 5
+    },
+    {
+      "name": "Semantic tokens in Button",
+      "description": "`Button.tsx` uses semantic Tailwind classes derived from token names",
+      "max_score": 5
+    },
+    {
+      "name": "All tokens mapped in @theme inline",
+      "description": "All 7 semantic tokens from `colours.md` are mapped in the `@theme inline` block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent wraps colour values in `hsl()` inside...",
+      "description": "Failure avoided: Agent wraps colour values in `hsl()` inside the `@theme inline` block instead of using `var()` references",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not wrap colour values in...",
+      "description": "Failure avoided: Agent does not wrap colour values in `hsl()` inside the `:root` block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not start `src/index.css` with `@import...",
+      "description": "Failure avoided: Agent does not start `src/index.css` with `@import \"tailwindcss\"`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent leaves arbitrary Tailwind value syntax in...",
+      "description": "Failure avoided: Agent leaves arbitrary Tailwind value syntax in `Button.tsx` (e.g., `bg-[#E94560]`)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent uses hardcoded hex values instead of...",
+      "description": "Failure avoided: Agent uses hardcoded hex values instead of semantic token-based class names in `Button.tsx`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not load the Nunito font...",
+      "description": "Failure avoided: Agent does not load the Nunito font in `index.html`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits one or more of the...",
+      "description": "Failure avoided: Agent omits one or more of the 7 semantic tokens from the `@theme inline` block",
+      "max_score": 20
+    }
+  ]
+}

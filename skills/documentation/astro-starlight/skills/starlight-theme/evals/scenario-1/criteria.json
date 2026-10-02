@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Custom Accent Color.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct variable names (`--sl-color-accent-*`)",
+      "description": "Correct variable names (`--sl-color-accent-*`)",
+      "max_score": 11
+    },
+    {
+      "name": "File registered in `customCss`",
+      "description": "File registered in `customCss`",
+      "max_score": 11
+    },
+    {
+      "name": "Three accent variables provided (low/mid/high for full...",
+      "description": "Three accent variables provided (low/mid/high for full light+dark coverage)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Uses incorrect CSS variable names (e.g., `--accent-color`...",
+      "description": "Failure avoided: Uses incorrect CSS variable names (e.g., `--accent-color` instead of `--sl-color-accent`)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Adds a `<style>` block in a layout...",
+      "description": "Failure avoided: Adds a `<style>` block in a layout instead of a `customCss`-registered file",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Provides fewer than the three required accent...",
+      "description": "Failure avoided: Provides fewer than the three required accent variables",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Creates a CSS file with `--sl-color-accent-low`, `--sl-color-accent`,...",
+      "description": "Creates a CSS file with `--sl-color-accent-low`, `--sl-color-accent`, and `--sl-color-accent-high` set",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Registers the file in `customCss` array in...",
+      "description": "Registers the file in `customCss` array in `astro.config.mjs`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Does NOT add a raw `<style>` block...",
+      "description": "Does NOT add a raw `<style>` block in a layout component",
+      "max_score": 12
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Node.js CI Pipeline.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "SHA-pinned checkout",
+      "description": "The `actions/checkout` step uses a full 40-character SHA (not a tag like `@v4` or a branch name) as its reference",
+      "max_score": 5
+    },
+    {
+      "name": "Version comment on SHA",
+      "description": "The SHA-pinned `actions/checkout` step has an inline comment identifying the version (e.g., `# v4.x.x` or `# v5.x.x`)",
+      "max_score": 5
+    },
+    {
+      "name": "Top-level permissions block",
+      "description": "The workflow file contains a top-level `permissions:` key (not only job-level) that restricts default access",
+      "max_score": 5
+    },
+    {
+      "name": "Contents read default",
+      "description": "The top-level or job-level `permissions:` block sets `contents: read` (not `write-all` or absent)",
+      "max_score": 5
+    },
+    {
+      "name": "Concurrency block present",
+      "description": "The workflow includes a `concurrency:` block with a `group:` and `cancel-in-progress: true`",
+      "max_score": 5
+    },
+    {
+      "name": "Dependency caching enabled",
+      "description": "The `actions/setup-node` step (or an explicit `actions/cache` step) enables npm caching via the `cache: 'npm'` parameter or equivalent cache key using `package-lock.json`",
+      "max_score": 5
+    },
+    {
+      "name": "Job timeout set",
+      "description": "At least one job has a `timeout-minutes:` field defined",
+      "max_score": 5
+    },
+    {
+      "name": "Workflow file lowercase-hyphen",
+      "description": "The output file is named with lowercase letters and hyphens only (e.g., `ci.yml`, `ci-pipeline.yml`), not underscores or uppercase",
+      "max_score": 5
+    },
+    {
+      "name": "No branch/latest reference",
+      "description": "No `uses:` step references an action via `@main`, `@master`, or `@latest`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any action uses a tag reference (e.g.,...",
+      "description": "Failure avoided: Any action uses a tag reference (e.g., `@v4`) instead of a full 40-character SHA",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: SHA-pinned actions have no inline version comment",
+      "description": "Failure avoided: SHA-pinned actions have no inline version comment",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No top-level `permissions:` block is present in...",
+      "description": "Failure avoided: No top-level `permissions:` block is present in the workflow",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `contents: read` is absent from the permissions...",
+      "description": "Failure avoided: `contents: read` is absent from the permissions block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `concurrency:` block with `cancel-in-progress: true` is...",
+      "description": "Failure avoided: No `concurrency:` block with `cancel-in-progress: true` is present",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: npm dependency caching is not configured",
+      "description": "Failure avoided: npm dependency caching is not configured",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No job has a `timeout-minutes:` field",
+      "description": "Failure avoided: No job has a `timeout-minutes:` field",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Workflow file name contains uppercase letters or...",
+      "description": "Failure avoided: Workflow file name contains uppercase letters or underscores",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any action is referenced via `@main`, `@master`,...",
+      "description": "Failure avoided: Any action is referenced via `@main`, `@master`, or `@latest`",
+      "max_score": 15
+    }
+  ]
+}

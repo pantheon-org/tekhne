@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Configure Vitest in a vite.config.ts for an Nx Project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Vitest triple-slash reference added",
+      "description": "The file begins with `/// <reference types='vitest' />`.",
+      "max_score": 8
+    },
+    {
+      "name": "Existing config sections preserved",
+      "description": "`root`, `cacheDir`, `plugins`, `build`, `server`, and `preview` are identical to the starting file.",
+      "max_score": 8
+    },
+    {
+      "name": "test.environment set to jsdom",
+      "description": "`test.environment` is `'jsdom'`.",
+      "max_score": 8
+    },
+    {
+      "name": "test.cache.dir uses workspace-relative path",
+      "description": "`test.cache.dir` is `'../../node_modules/.vitest/apps/my-app'`, not `'./node_modules/.vitest'` or similar project-relative path.",
+      "max_score": 8
+    },
+    {
+      "name": "test.coverage.reportsDirectory uses workspace-relative path",
+      "description": "`test.coverage.reportsDirectory` is `'../../coverage/apps/my-app'`, not `'./coverage'`.",
+      "max_score": 8
+    },
+    {
+      "name": "test.globals and reporters present",
+      "description": "`test.globals` is `true` and `test.reporters` includes `'default'`.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The Vitest triple-slash reference comment is missing...",
+      "description": "Failure avoided: The Vitest triple-slash reference comment is missing from the top of the file",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Any existing config section (`root`, `cacheDir`, `plugins`,...",
+      "description": "Failure avoided: Any existing config section (`root`, `cacheDir`, `plugins`, `build`, `server`, `preview`) is modified or removed",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `test.environment` is missing or set to a...",
+      "description": "Failure avoided: `test.environment` is missing or set to a value other than `'jsdom'`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `test.cache.dir` uses a project-relative path instead of...",
+      "description": "Failure avoided: `test.cache.dir` uses a project-relative path instead of `../../node_modules/.vitest/apps/my-app`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `test.coverage.reportsDirectory` uses a project-relative path instead of...",
+      "description": "Failure avoided: `test.coverage.reportsDirectory` uses a project-relative path instead of `../../coverage/apps/my-app`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `test.globals` is absent or `test.reporters` does not...",
+      "description": "Failure avoided: `test.globals` is absent or `test.reporters` does not include `'default'`",
+      "max_score": 12
+    }
+  ]
+}

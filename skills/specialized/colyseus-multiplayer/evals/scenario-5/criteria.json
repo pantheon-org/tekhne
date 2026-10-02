@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Ranked Card Duel: Full Room Setup.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Metadata set in onCreate",
+      "description": "`onCreate` calls `this.setMetadata()` (or equivalent) with `mode` and `region` values from the `options` parameter",
+      "max_score": 6
+    },
+    {
+      "name": "Metadata from options",
+      "description": "Metadata values are derived from the `onCreate` options object \u2014 not hardcoded constants",
+      "max_score": 6
+    },
+    {
+      "name": "Schema fields decorated",
+      "description": "`DuelPlayer` fields (score, hand size, etc.) use `@type` decorator \u2014 no plain class properties for gameplay-critical values",
+      "max_score": 6
+    },
+    {
+      "name": "MapSchema for players",
+      "description": "`DuelState` uses `MapSchema<DuelPlayer>` for the players collection, keyed by `sessionId`",
+      "max_score": 6
+    },
+    {
+      "name": "Turn order tracked",
+      "description": "Room tracks whose turn it is \u2014 either via a `currentTurn` field in state or an internal server variable",
+      "max_score": 6
+    },
+    {
+      "name": "Turn order enforced",
+      "description": "`playCard` handler checks whether it is the sending client's turn and returns early / ignores the message if not",
+      "max_score": 6
+    },
+    {
+      "name": "Ranked reconnection timeout",
+      "description": "If reconnection is implemented, timeout is in the 10\u201315 second range (appropriate for ranked mode)",
+      "max_score": 6
+    },
+    {
+      "name": "All hooks present",
+      "description": "Room implements `onCreate`, `onJoin`, `onLeave`, and `onDispose`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `onCreate` does not call `setMetadata()` with `mode`...",
+      "description": "Failure avoided: `onCreate` does not call `setMetadata()` with `mode` and `region`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Metadata values are hardcoded instead of derived...",
+      "description": "Failure avoided: Metadata values are hardcoded instead of derived from the `options` parameter",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any `DuelPlayer` gameplay field is defined as...",
+      "description": "Failure avoided: Any `DuelPlayer` gameplay field is defined as a plain class property without `@type`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `DuelState` uses a plain array or object...",
+      "description": "Failure avoided: `DuelState` uses a plain array or object instead of `MapSchema<DuelPlayer>`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Room does not track whose turn it...",
+      "description": "Failure avoided: Room does not track whose turn it is",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `playCard` handler does not check turn order...",
+      "description": "Failure avoided: `playCard` handler does not check turn order before executing",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Reconnection timeout (if present) is outside the...",
+      "description": "Failure avoided: Reconnection timeout (if present) is outside the 10\u201315 second range for ranked mode",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any of the four required lifecycle hooks...",
+      "description": "Failure avoided: Any of the four required lifecycle hooks (`onCreate`, `onJoin`, `onLeave`, `onDispose`) is missing",
+      "max_score": 10
+    }
+  ]
+}

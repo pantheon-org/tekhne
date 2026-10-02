@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Produce a Correctly Formatted Context File.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct typology folder",
+      "description": "the file is under `.context/plans/`",
+      "max_score": 10
+    },
+    {
+      "name": "Date-prefixed filename",
+      "description": "the filename is `2026-03-16-feature-flag-rollout.md` (ISO date prefix + specific slug)",
+      "max_score": 10
+    },
+    {
+      "name": "Valid frontmatter with ISO date and type",
+      "description": "frontmatter contains `date: 2026-03-16`, `type: plan` (singular), and a formatted `title`",
+      "max_score": 10
+    },
+    {
+      "name": "Title heading present",
+      "description": "a `# Feature Flag Rollout` heading follows the frontmatter",
+      "max_score": 10
+    },
+    {
+      "name": "Content includes all three steps",
+      "description": "the body contains SDK addition, feature flag gate, and canary rollout",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Places the file under a typology other...",
+      "description": "Failure avoided: Places the file under a typology other than `plans`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits the date prefix, or uses a...",
+      "description": "Failure avoided: Omits the date prefix, or uses a date format other than ISO 8601 (YYYY-MM-DD)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses a three-word-ID prefix or a generic...",
+      "description": "Failure avoided: Uses a three-word-ID prefix or a generic slug (e.g. `notes`, `plan`, `todo`) instead of `feature-flag-rollout`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits `type` or `title` from the frontmatter",
+      "description": "Failure avoided: Omits `type` or `title` from the frontmatter",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits one or more of the three...",
+      "description": "Failure avoided: Omits one or more of the three rollout steps from the body",
+      "max_score": 10
+    }
+  ]
+}

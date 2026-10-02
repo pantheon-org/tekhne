@@ -1,0 +1,36 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Draft Pages.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Frontmatter syntax is correct",
+      "description": "Frontmatter syntax is correct",
+      "max_score": 16
+    },
+    {
+      "name": "Development vs. production behavior explained",
+      "description": "Development vs. production behavior explained",
+      "max_score": 16
+    },
+    {
+      "name": "Avoids: Suggests a config-level toggle instead of per-page...",
+      "description": "Failure avoided: Suggests a config-level toggle instead of per-page frontmatter",
+      "max_score": 16
+    },
+    {
+      "name": "Avoids: Does not explain the dev vs. production...",
+      "description": "Failure avoided: Does not explain the dev vs. production visibility difference",
+      "max_score": 16
+    },
+    {
+      "name": "Step: Adds `draft: true` to page frontmatter",
+      "description": "Adds `draft: true` to page frontmatter",
+      "max_score": 16
+    },
+    {
+      "name": "Step: Notes that draft pages are visible in...",
+      "description": "Notes that draft pages are visible in dev but excluded from production build and sitemap",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Recovering from a crashing browser, respecting platform limits, formatting tabular output and keeping credentials out of version control.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Cleanup preserves library",
+      "description": "The agent recovers from the crash with cleanup_manager.py using --preserve-library, so the notebook library is not wiped.",
+      "max_score": 10
+    },
+    {
+      "name": "Cleanup run through wrapper",
+      "description": "The cleanup command is invoked as python ./scripts/run.py cleanup_manager.py, not directly.",
+      "max_score": 10
+    },
+    {
+      "name": "Markdown output requested",
+      "description": "The table query uses ask_question.py with --markdown so the table is returned formatted.",
+      "max_score": 10
+    },
+    {
+      "name": "All scripts via wrapper",
+      "description": "Every script call, including the query, goes through python ./scripts/run.py.",
+      "max_score": 10
+    },
+    {
+      "name": "Daily limit flagged",
+      "description": "The agent tells the user that NotebookLM allows 50 queries per day per Google account and that 60 questions would exceed it.",
+      "max_score": 10
+    },
+    {
+      "name": "Plan to stay within the limit",
+      "description": "The agent proposes prioritising or batching questions, or switching Google account, rather than silently issuing all 60.",
+      "max_score": 10
+    },
+    {
+      "name": "Concurrency declined",
+      "description": "The agent explains that no concurrent sessions are supported because each query uses a fresh browser instance, and runs queries one after another.",
+      "max_score": 10
+    },
+    {
+      "name": "data/ excluded from commit",
+      "description": "The agent does not stage or commit the data/ directory, and explains it holds authentication state and library metadata.",
+      "max_score": 10
+    },
+    {
+      "name": "Alternative backup offered",
+      "description": "The agent offers to commit the rest of the skill folder or suggests another way to back up the library without committing credentials.",
+      "max_score": 10
+    },
+    {
+      "name": "Question scoped to the table",
+      "description": "The query asks specifically for revenue by region in comparison form, rather than a generic overview of the quarterly reports.",
+      "max_score": 10
+    }
+  ]
+}

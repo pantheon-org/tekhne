@@ -1,0 +1,1 @@
+Tests building a wave plan from a flat plan by inferring only logical ordering and keeping everything else parallel.

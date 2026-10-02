@@ -1,0 +1,56 @@
+{
+  "context": "Checks the response applies the fallback table: temporary broad dependencies with a warning and migration plan, independent tasks without target defaults, and a main-branch base with documented trade-off.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No tags allows broad dependencies temporarily",
+      "description": "The answer says that with no explicit tags broad dependencies are allowed only temporarily.",
+      "max_score": 12
+    },
+    {
+      "name": "Warning is raised",
+      "description": "The temporary allowance is accompanied by a warning rather than silence.",
+      "max_score": 10
+    },
+    {
+      "name": "Migration plan is written",
+      "description": "The answer includes a migration plan for tagging all twenty projects.",
+      "max_score": 12
+    },
+    {
+      "name": "No targetDefaults means independent tasks",
+      "description": "The answer states tasks run independently with reduced optimisation until `targetDefaults` exist.",
+      "max_score": 10
+    },
+    {
+      "name": "targetDefaults configured for dependency flow",
+      "description": "The answer adds `targetDefaults` with `dependsOn` for build, test and lint.",
+      "max_score": 10
+    },
+    {
+      "name": "Missing base defaults to main",
+      "description": "The answer says the base defaults to the main branch when no CI base or head is set.",
+      "max_score": 12
+    },
+    {
+      "name": "Trade-off is documented",
+      "description": "The answer states the base-branch trade-off must be written down.",
+      "max_score": 10
+    },
+    {
+      "name": "Explicit base and head preferred",
+      "description": "The target state uses an explicit base and head such as `--base=origin/main --head=HEAD`.",
+      "max_score": 8
+    },
+    {
+      "name": "Shallow clone addressed",
+      "description": "The answer recognises that a shallow checkout can break affected computation and asks for full history.",
+      "max_score": 8
+    },
+    {
+      "name": "Tag vocabulary stays consistent",
+      "description": "The tagging plan uses one defined vocabulary such as `scope:*` and `type:*`.",
+      "max_score": 8
+    }
+  ]
+}

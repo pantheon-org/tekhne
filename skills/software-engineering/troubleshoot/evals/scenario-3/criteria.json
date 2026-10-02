@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: npm Install Dependency Conflict.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Search-first",
+      "description": "Agent searches before asking qualifying questions.",
+      "max_score": 7
+    },
+    {
+      "name": "Exact error in query",
+      "description": "Search query includes `\"ERESOLVE\"` and the specific package names.",
+      "max_score": 7
+    },
+    {
+      "name": "Multi-source protocol",
+      "description": "Agent references `references/protocols/search-multi-source.md` if search iterates.",
+      "max_score": 7
+    },
+    {
+      "name": "Isolation technique",
+      "description": "Agent applies Swap One Variable to identify the conflicting pair.",
+      "max_score": 7
+    },
+    {
+      "name": "Concrete resolution",
+      "description": "Agent suggests a specific npm command or version change, not just \"try --force\".",
+      "max_score": 7
+    },
+    {
+      "name": "AskUserQuestion guard",
+      "description": "Agent checks for empty answers.",
+      "max_score": 7
+    },
+    {
+      "name": "Thinking artifact",
+      "description": "Written after resolution.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent immediately suggests `--legacy-peer-deps` or `--force` without...",
+      "description": "Failure avoided: Agent immediately suggests `--legacy-peer-deps` or `--force` without diagnosing which packages conflict.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips WebSearch and goes directly to...",
+      "description": "Failure avoided: Agent skips WebSearch and goes directly to qualifying questions.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not check for empty `AskUserQuestion`...",
+      "description": "Failure avoided: Agent does not check for empty `AskUserQuestion` responses.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not apply any isolation technique...",
+      "description": "Failure avoided: Agent does not apply any isolation technique to identify the conflicting package pair.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent provides no concrete resolution command.",
+      "description": "Failure avoided: Agent provides no concrete resolution command.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips thinking artifact without confirming no...",
+      "description": "Failure avoided: Agent skips thinking artifact without confirming no store is configured.",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Tests that the agent pins only genuine decisions, parses the emoji and detail correctly, derives the session path from the working directory, and refuses duplicates.

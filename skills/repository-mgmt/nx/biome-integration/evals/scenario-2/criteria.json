@@ -1,0 +1,61 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Configure nx.json targetDefaults for Cache-Stable Biome Targets.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "cache: true on biome-lint",
+      "description": "`targetDefaults.biome-lint.cache` is set to `true`.",
+      "max_score": 9
+    },
+    {
+      "name": "cache: true on biome-format",
+      "description": "`targetDefaults.biome-format.cache` is set to `true`.",
+      "max_score": 9
+    },
+    {
+      "name": "biome-lint inputs include default and ^default",
+      "description": "`targetDefaults.biome-lint.inputs` contains both `\"default\"` and `\"^default\"` strings.",
+      "max_score": 9
+    },
+    {
+      "name": "biome-format inputs include default and ^default",
+      "description": "`targetDefaults.biome-format.inputs` contains both `\"default\"` and `\"^default\"` strings.",
+      "max_score": 9
+    },
+    {
+      "name": "biome-lint inputs include workspaceRoot biome.json",
+      "description": "`targetDefaults.biome-lint.inputs` contains the string `\"{workspaceRoot}/biome.json\"`.",
+      "max_score": 9
+    },
+    {
+      "name": "biome-format inputs include workspaceRoot biome.json",
+      "description": "`targetDefaults.biome-format.inputs` contains the string `\"{workspaceRoot}/biome.json\"`.",
+      "max_score": 9
+    },
+    {
+      "name": "externalDependencies entry for @biomejs/biome on both targets",
+      "description": "Both `biome-lint` and `biome-format` inputs arrays contain an object with `externalDependencies` including `\"@biomejs/biome\"`.",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Either `biome-lint` or `biome-format` has `cache` absent...",
+      "description": "Failure avoided: Either `biome-lint` or `biome-format` has `cache` absent or set to `false`",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Either target's `inputs` omits `\"default\"` or `\"^default\"`",
+      "description": "Failure avoided: Either target's `inputs` omits `\"default\"` or `\"^default\"`",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Either target's `inputs` omits `\"{workspaceRoot}/biome.json\"`, meaning config...",
+      "description": "Failure avoided: Either target's `inputs` omits `\"{workspaceRoot}/biome.json\"`, meaning config changes do not invalidate the cache",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Either target's `inputs` omits the `externalDependencies` entry...",
+      "description": "Failure avoided: Either target's `inputs` omits the `externalDependencies` entry for `\"@biomejs/biome\"`, meaning version upgrades do not invalidate the cache",
+      "max_score": 10
+    }
+  ]
+}

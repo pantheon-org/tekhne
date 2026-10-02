@@ -159,11 +159,77 @@ The pin board is a **capture tool, not a management tool**. Its only job is to h
 
 ## Anti-Patterns
 
-- **NEVER reformulate or paraphrase the user's words when pinning** — store the exact wording as given. **Why:** Rewording introduces your interpretation and erases the original mental model; future agents will read the pin as authoritative, not as a paraphrase.
-- **NEVER pin implementation details like code edits or file changes** — pins are for decisions, constraints, and corrections only. **Why:** Flooding the board with low-signal items makes it harder to spot the constraints that actually govern future choices.
-- **NEVER add commentary or explanation after a pin response** — the response is one line only, then resume prior work. **Why:** This skill is a capture tool; any extra output derails the primary conversation and signals that the board matters more than the user's task.
-- **NEVER reuse or reassign an id after deletion** — `next_id` always increments forward. **Why:** Stable numbering prevents confusion when users reference pins by number across a session; id recycling silently corrupts that contract.
-- **NEVER skip the duplicate check before writing** — always compare incoming content against existing items. **Why:** Duplicate pins create a false picture of the decision count and waste the 20-item budget on noise.
+### NEVER reformulate or paraphrase the user's words when pinning
+
+**WHY:** rewording introduces your interpretation and erases the original mental model; future agents will read the pin as authoritative, not as a paraphrase.
+
+**BAD:** user says "no I meant artisans not developers" and you pin "refine target persona".
+
+**GOOD:** pin `🔧 target = artisans, not developers` using the user's own wording.
+
+### NEVER pin implementation details like code edits or file changes
+
+**WHY:** flooding the board with low-signal items makes it harder to spot the constraints that actually govern future choices.
+
+**BAD:** `/pin ✅ renamed helper in utils.ts`.
+
+**GOOD:** pin only decisions, constraints, questions, and corrections.
+
+### NEVER add commentary or explanation after a pin response
+
+**WHY:** this skill is a capture tool; any extra output derails the primary conversation and signals that the board matters more than the user's task.
+
+**BAD:** `📌 Pinned #3 ...` followed by a paragraph on why the pin matters.
+
+**GOOD:** one line, then resume prior work.
+
+### NEVER reuse or reassign an id after deletion
+
+**WHY:** stable numbering prevents confusion when users reference pins by number across a session; id recycling silently corrupts that contract.
+
+**BAD:** renumber the remaining pins after `/pin rm 2`, or reset `next_id`.
+
+**GOOD:** leave gaps and let `next_id` only ever increment.
+
+### NEVER skip the duplicate check before writing
+
+**WHY:** duplicate pins create a false picture of the decision count and waste the 20-item budget on noise.
+
+**BAD:** append the same content a second time.
+
+**GOOD:** compare incoming content against existing items and respond `⚠️ Already pinned.` on a match.
+
+### NEVER ask permission before pinning a detected decision
+
+**WHY:** the skill is auto-invoked; asking turns a silent capture into an interruption and the decision may be lost to compaction.
+
+**BAD:** "Should I pin this?" after the user approves a recommendation.
+
+**GOOD:** respond normally, then pin immediately with the right category.
+
+### NEVER pin casual conversation or already-pinned items
+
+**WHY:** greetings and repeats add noise and consume the per-type and total limits.
+
+**BAD:** pin "thanks, sounds good" as an approval.
+
+**GOOD:** check the board first and pin only genuine decisions and constraints.
+
+### NEVER use the wrong emoji or type for the user's intent
+
+**WHY:** `/pin clear triage` removes only approved and pending items, so a mistyped constraint can be wiped while a decision is kept.
+
+**BAD:** pin a scope constraint with ✅.
+
+**GOOD:** map ✅ approved, ❓ pending, ❌ killed, 📌 scope, 🔧 correction.
+
+### NEVER stop the conversation after pinning
+
+**WHY:** the pin is a side effect; the user's actual task is still waiting.
+
+**BAD:** end the turn after `📌 Pinned #N`.
+
+**GOOD:** resume the prior work exactly where it left off.
 
 ## Usage Examples
 
@@ -205,5 +271,12 @@ The pin board is a **capture tool, not a management tool**. Its only job is to h
 
 ## References
 
-- [Architectural Decision Records (ADR)](https://adr.github.io/) — lightweight format for capturing and tracking architectural decisions; pin is the session-scoped, in-conversation equivalent
-- [Cognitive Offloading and External Memory](https://en.wikipedia.org/wiki/Cognitive_offloading) — theoretical basis for persisting decisions to an external store so working memory is freed for active reasoning
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Read-only checks on `pins.json` | [references/inspecting-the-board.md](references/inspecting-the-board.md) | Verifying limits, duplicates, and numbering before or after a write |
+| Edge-case responses | [references/edge-cases.md](references/edge-cases.md) | Handling missing ids, full categories, and empty boards |
+
+### External reading
+
+- [Architectural Decision Records (ADR)](https://adr.github.io/): lightweight format for capturing and tracking architectural decisions; pin is the session-scoped, in-conversation equivalent
+- [Cognitive Offloading and External Memory](https://en.wikipedia.org/wiki/Cognitive_offloading): theoretical basis for persisting decisions to an external store so working memory is freed for active reasoning

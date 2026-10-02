@@ -1,0 +1,100 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Treat the CloudWatch console as a micro-frontend SPA inside iframe[name=\"microConsole-Logs\"]: window.document is the outer shell, so target the iframe contentDocument via page.frame({ name: 'microConsole-Logs' })",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "locator.click() on iframe elements times out after 5 s; use page.mouse.click(x, y) with coordinates built from the iframe bounding box plus the element's bounding box",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "The results table is its own scroll container (DIV.logs-table__wrapper); scroll it directly with frame.evaluate and scrollTop, not the window",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Do not use this skill for services that do not use the microConsole iframe (for example S3 or EC2), where locator.click() works normally",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "If only a CloudWatch URL is needed without opening a browser, use aws-cloudwatch-url-builder instead",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I06",
+      "content": "To reach Logs Insights: Services, CloudWatch, Logs, Logs Insights; select the log group, paste the query, set an Absolute time range, click Run query",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I07",
+      "content": "For alarms: CloudWatch, Alarms, All alarms, search by name, click the alarm, and verify which metric is graphed before capturing screenshots",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "For metrics: CloudWatch, Metrics, All metrics, select the namespace, filter by dimension, Graph metrics, then adjust the time range in the graph toolbar",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "Get the frame reference first with page.frame({ name: 'microConsole-Logs' }), optionally caching it for reuse across operations",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER use locator.click() directly on CloudWatch iframe elements",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER use window.scrollBy() or window.scrollTo() inside the CloudWatch iframe",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER query window.document from page.evaluate() to interact with CloudWatch content; use frame.evaluate()",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER assume AWS/Lambda Errors = 0 means no alarm triggered: a Logs metric filter alarm fires on ERROR-level log lines even when the invocation exits cleanly",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "ALWAYS screenshot the alarm detail page, not the raw AWS/Lambda Errors metric graph",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "After opening the console for the chosen role, dismiss the cookie banner and the new-experience banner before navigating further",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Set the region from the console header selector and confirm the matching region code (for example region=eu-west-1) appears in the URL",
+      "type": "procedure",
+      "why_given": "reminder"
+    }
+  ]
+}

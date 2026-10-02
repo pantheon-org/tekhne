@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Flaky Test That Fails Intermittently.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Search-first",
+      "description": "Agent searches for flaky test patterns before qualifying.",
+      "max_score": 7
+    },
+    {
+      "name": "Intermittent pattern recognized",
+      "description": "Agent identifies timing/async/shared-state as the primary suspect category.",
+      "max_score": 7
+    },
+    {
+      "name": "Isolation technique used",
+      "description": "Agent applies Swap One Variable (isolated run vs suite) or Minimal Repro.",
+      "max_score": 7
+    },
+    {
+      "name": "Diagnose protocol",
+      "description": "Agent references `references/protocols/diagnose.md` for isolation steps.",
+      "max_score": 7
+    },
+    {
+      "name": "OODA only if inconclusive",
+      "description": "Agent does not enter OODA before exhausting diagnosis phase.",
+      "max_score": 7
+    },
+    {
+      "name": "Thinking artifact",
+      "description": "Agent writes artifact after root cause confirmed.",
+      "max_score": 7
+    },
+    {
+      "name": "Learn phase offered",
+      "description": "Agent asks user whether to save the learning.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent jumps to OODA without attempting diagnosis...",
+      "description": "Failure avoided: Agent jumps to OODA without attempting diagnosis phase first.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent suggests only \"increase the timeout\" without...",
+      "description": "Failure avoided: Agent suggests only \"increase the timeout\" without investigating root cause.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not check for empty `AskUserQuestion`...",
+      "description": "Failure avoided: Agent does not check for empty `AskUserQuestion` responses.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips isolation entirely and goes straight...",
+      "description": "Failure avoided: Agent skips isolation entirely and goes straight to root cause hypothesis.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent fails to offer the Learn phase.",
+      "description": "Failure avoided: Agent fails to offer the Learn phase.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Thinking artifact is skipped without confirming no...",
+      "description": "Failure avoided: Thinking artifact is skipped without confirming no store is configured.",
+      "max_score": 16
+    }
+  ]
+}

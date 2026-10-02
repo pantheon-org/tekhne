@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: User Says \"Are You Sure?\" \u2014 Anchor Dispatch.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "AskUserQuestion guard",
+      "description": "Agent checks for empty/blank answers after every `AskUserQuestion` call.",
+      "max_score": 8
+    },
+    {
+      "name": "Anchor dispatch",
+      "description": "After user selects A, agent dispatches to the anchor protocol.",
+      "max_score": 8
+    },
+    {
+      "name": "Protocol file read",
+      "description": "Agent reads `references/protocols/anchor.md` before executing.",
+      "max_score": 8
+    },
+    {
+      "name": "All 4 patterns applied",
+      "description": "Gatekeeper, Reset, Alternative Approaches, and Pre-mortem each appear in the output.",
+      "max_score": 8
+    },
+    {
+      "name": "Report format",
+      "description": "Output follows the Challenge Report structure with Target, Error type, Technique Selection, Findings, Verdict, and Recommended Action sections.",
+      "max_score": 8
+    },
+    {
+      "name": "Thinking transparency",
+      "description": "Each finding includes Observation, Technique family, Reasoning, and Confidence fields.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent proceeds with assumptions when AskUserQuestion returns...",
+      "description": "Failure avoided: Agent proceeds with assumptions when AskUserQuestion returns empty answers.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent dispatches to wrong subcommand (e.g., verify...",
+      "description": "Failure avoided: Agent dispatches to wrong subcommand (e.g., verify or framing).",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips reading `references/protocols/anchor.md` and improvises pattern...",
+      "description": "Failure avoided: Agent skips reading `references/protocols/anchor.md` and improvises pattern execution.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent applies fewer than 4 anchor patterns.",
+      "description": "Failure avoided: Agent applies fewer than 4 anchor patterns.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent produces prose narrative instead of structured...",
+      "description": "Failure avoided: Agent produces prose narrative instead of structured Challenge Report.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits Confidence rating from any finding.",
+      "description": "Failure avoided: Agent omits Confidence rating from any finding.",
+      "max_score": 12
+    }
+  ]
+}

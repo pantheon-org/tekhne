@@ -1,0 +1,1 @@
+Handles bulk PubMed requests with delays, keeps API keys out of code, verifies open access before downloading and labels abstract-only analysis honestly.

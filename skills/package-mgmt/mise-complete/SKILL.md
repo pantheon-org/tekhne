@@ -148,6 +148,41 @@ NODE_ENV = "development"
 - **GOOD:** Migrate ownership per tool and remove overlapping activation.
 - **Consequence:** Unpredictable runtime resolution and flaky builds.
 
+### NEVER skip `mise doctor` after installing tools
+
+- **WHY:** `mise install` can succeed while PATH or plugin problems remain, and these surface later as confusing build failures.
+- **BAD:** Run `mise install`, see no error and move on without checking health.
+- **GOOD:** Run `mise install && mise doctor` and resolve any warnings before proceeding.
+- **Consequence:** Misconfigured plugins or PATH issues are discovered mid-build instead of at setup.
+
+### NEVER leave a failed `mise install` without diagnosing it
+
+- **WHY:** Re-running the same command repeats the same failure and hides the PATH or plugin cause.
+- **BAD:** Retry `mise install` several times, or loosen the pin until it passes.
+- **GOOD:** Run `mise doctor` to diagnose the path or plugin issue, fix it, then re-run `mise install`.
+- **Consequence:** Pins get weakened to hide a local setup fault.
+
+### NEVER define interactive tasks that wait for user input
+
+- **WHY:** Tasks must be deterministic and non-interactive by default so they run the same locally and in CI.
+- **BAD:** A task that prompts for confirmation before running.
+- **GOOD:** A task whose commands run to completion with no prompt.
+- **Consequence:** Unattended CI jobs hang or fail.
+
+### NEVER hardcode machine-specific absolute paths in `mise.toml`
+
+- **WHY:** Paths such as a home directory only exist on one machine, so the file stops being portable.
+- **BAD:** `PROJECT_DIR = "/Users/john/projects/myapp"`.
+- **GOOD:** `PROJECT_DIR = "{{ config_root }}"`.
+- **Consequence:** Teammates and CI resolve the wrong or missing directory.
+
+### NEVER keep more than one canonical `mise.toml` defining the same tools for one scope
+
+- **WHY:** Duplicate definitions drift apart and leave it unclear which pins apply.
+- **BAD:** Copies of the same tool pins in a repository root and a sub-package, edited independently.
+- **GOOD:** One canonical `mise.toml` per project scope, with shared settings in the global config.
+- **Consequence:** Different directories resolve different versions of the same tool.
+
 ## References
 
 - `references/tools-installation.md`

@@ -1,0 +1,61 @@
+{
+  "context": "Tests: refusing to run on zero session files and routing HOW-the-collaboration-worked questions to retrospect-collab.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Session loader run",
+      "description": "The agent runs the session filter script for the 3-day window",
+      "max_score": 10
+    },
+    {
+      "name": "Zero sessions recognised",
+      "description": "The agent notices that the loader returned no session paths",
+      "max_score": 9
+    },
+    {
+      "name": "Analysis not run",
+      "description": "The agent does not run the domain analysis on zero sessions",
+      "max_score": 9
+    },
+    {
+      "name": "No insights invented",
+      "description": "The agent does not produce learnings, decisions or patterns from nothing",
+      "max_score": 9
+    },
+    {
+      "name": "Reason given",
+      "description": "The agent says that no sessions means there are no domain insights to extract",
+      "max_score": 9
+    },
+    {
+      "name": "No empty report file written",
+      "description": "The agent does not write an empty or placeholder insights file",
+      "max_score": 9
+    },
+    {
+      "name": "Wider window offered",
+      "description": "The agent suggests a longer timeframe or a different date range",
+      "max_score": 9
+    },
+    {
+      "name": "Prompt quality question redirected",
+      "description": "The agent says the question about prompting well belongs to retrospect-collab",
+      "max_score": 9
+    },
+    {
+      "name": "Distinction explained",
+      "description": "The agent explains that retrospect-collab covers HOW the collaboration worked and this skill covers WHAT was learned",
+      "max_score": 9
+    },
+    {
+      "name": "Does not answer the collab question itself",
+      "description": "The agent does not assess prompt quality in this skill's report",
+      "max_score": 9
+    },
+    {
+      "name": "Next step suggested",
+      "description": "The agent proposes running the other skill once sessions exist",
+      "max_score": 9
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Routing requests to the correct skill and reusing existing candidate files instead of repeating searches.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Existing candidate file reused",
+      "description": "The agent reads /tmp/crispr-candidates.json and presents its contents instead of running a new PubMed search.",
+      "max_score": 14
+    },
+    {
+      "name": "No redundant search",
+      "description": "The agent does not run pubmed_search.py search for CRISPR gene therapy again.",
+      "max_score": 10
+    },
+    {
+      "name": "Known DOI routed to triage-paper",
+      "description": "The agent sends the DOI request straight to triage-paper without running a PubMed search first.",
+      "max_score": 14
+    },
+    {
+      "name": "Triage still confirmed",
+      "description": "The agent confirms with the user before triaging when the candidate list is involved.",
+      "max_score": 8
+    },
+    {
+      "name": "CS literature routed away from PubMed",
+      "description": "The agent recognises that transformer architectures papers are general academic literature, not biomedical.",
+      "max_score": 12
+    },
+    {
+      "name": "Correct alternative named",
+      "description": "The agent uses google-scholar-search or semantic-scholar-search for the computer science request.",
+      "max_score": 12
+    },
+    {
+      "name": "Candidates presented as a list",
+      "description": "The existing candidates are shown as a list for the user to review, with titles and PMIDs where present.",
+      "max_score": 8
+    },
+    {
+      "name": "No analysis performed unprompted",
+      "description": "The agent does not run analyze or download on the candidates without being asked.",
+      "max_score": 6
+    },
+    {
+      "name": "Handoff question asked",
+      "description": "The agent asks which candidates, if any, the user wants to triage.",
+      "max_score": 6
+    },
+    {
+      "name": "Routing explained briefly",
+      "description": "The agent explains in a sentence or two why each request goes to a different skill.",
+      "max_score": 6
+    },
+    {
+      "name": "No MCP assumed",
+      "description": "The agent does not claim an MCP server is available when none is configured.",
+      "max_score": 4
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Checks that the migration note treats Bun SQLite and Bun.spawn as different from their Node equivalents, as the nx-bun-integration skill's anti-pattern and gotcha sections require.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "States SQLite behaviour is not identical to Node wrappers",
+      "description": "The note says Bun SQLite transaction and connection behaviour differs from Node database libraries and must not be assumed identical.",
+      "max_score": 10
+    },
+    {
+      "name": "Rejects copying Node pooling directly",
+      "description": "The note does not carry the ten-connection pool over unchanged and explains that Node pooling assumptions should not be copied into Bun SQLite.",
+      "max_score": 10
+    },
+    {
+      "name": "Uses Bun SQLite patterns",
+      "description": "The sketch opens the database through Bun's built-in SQLite API (for example `bun:sqlite`) rather than a Node driver.",
+      "max_score": 10
+    },
+    {
+      "name": "Uses prepared statements for user values",
+      "description": "The sketch uses a prepared statement with bound parameters for any user-provided value.",
+      "max_score": 10
+    },
+    {
+      "name": "Wraps multi-statement writes in a transaction",
+      "description": "Any multi-statement write in the sketch is inside an explicit transaction block.",
+      "max_score": 10
+    },
+    {
+      "name": "Notes Bun.spawn is asynchronous",
+      "description": "The note states that `Bun.spawn` is async and returns a handle rather than finished output.",
+      "max_score": 10
+    },
+    {
+      "name": "Awaits the process before reading output",
+      "description": "The subprocess sketch waits for the handle (for example `await proc.exited`) before treating stdout as complete.",
+      "max_score": 10
+    },
+    {
+      "name": "Chooses stdout and stderr piping explicitly",
+      "description": "The subprocess sketch sets `stdout` and `stderr` options explicitly instead of relying on defaults.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Node pooling copied across",
+      "description": "Failure avoided: the sketch recreates a multi-connection pool for Bun SQLite without justification.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: synchronous reading of Bun.spawn output",
+      "description": "Failure avoided: the sketch reads stdout immediately after `Bun.spawn` returns without awaiting completion.",
+      "max_score": 10
+    }
+  ]
+}

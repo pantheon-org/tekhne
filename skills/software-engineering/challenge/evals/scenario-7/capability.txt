@@ -1,0 +1,1 @@
+Decide when not to run deep or a repeated challenge, and explain the decision instead of mechanically running every pattern.

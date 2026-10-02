@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Migrate from asdf .tool-versions to mise.toml.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All 4 tools pinned at exact same versions",
+      "description": "`mise.toml` `[tools]` section contains `nodejs`/`node` 20.11.0, `python` 3.11.7, `ruby` 3.3.0, and `terraform` 1.7.4 (exact versions, not ranges)",
+      "max_score": 10
+    },
+    {
+      "name": "3 tasks defined as Mise tasks",
+      "description": "`mise.toml` defines `[tasks.dev]`, `[tasks.test]`, and `[tasks.lint]` with equivalent run commands to the npm scripts",
+      "max_score": 10
+    },
+    {
+      "name": "Tasks are self-contained",
+      "description": "Task run commands do not rely on implicit shell state; they use explicit commands matching the npm script behavior",
+      "max_score": 10
+    },
+    {
+      "name": "MIGRATION.md addresses asdf overlap",
+      "description": "`MIGRATION.md` notes that asdf and Mise should not both be active; instructs team to deactivate asdf or remove `.tool-versions` to avoid PATH conflicts",
+      "max_score": 10
+    },
+    {
+      "name": "MIGRATION.md includes mise install step",
+      "description": "`MIGRATION.md` includes the step to run `mise install` (and optionally `mise doctor`) after migration",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses floating version specifiers or versions that...",
+      "description": "Failure avoided: Uses floating version specifiers or versions that differ from `.tool-versions`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits one or more of the three...",
+      "description": "Failure avoided: Omits one or more of the three tasks (`dev`, `test`, `lint`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Wraps task commands in `npm run` instead...",
+      "description": "Failure avoided: Wraps task commands in `npm run` instead of using the direct commands from `package.json` scripts",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not address the asdf/Mise overlap or...",
+      "description": "Failure avoided: Does not address the asdf/Mise overlap or PATH conflict risk in `MIGRATION.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits the `mise install` instruction from `MIGRATION.md`",
+      "description": "Failure avoided: Omits the `mise install` instruction from `MIGRATION.md`",
+      "max_score": 10
+    }
+  ]
+}

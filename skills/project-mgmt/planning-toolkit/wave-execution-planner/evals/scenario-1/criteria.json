@@ -1,0 +1,121 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create a Wave Execution Plan for a CLI Refactor.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "wave-document-created",
+      "description": "A wave document exists at `.context/plans/scripts-cli-refactor.md`",
+      "max_score": 4
+    },
+    {
+      "name": "dependency-graph-section-present",
+      "description": "The document contains a Dependency Graph section with an ASCII DAG showing which waves unlock which",
+      "max_score": 4
+    },
+    {
+      "name": "all-tasks-assigned-to-exactly-one-wave",
+      "description": "All 9 tasks (4 lib extractions, 1 CLI scaffold, 3 commands, 1 cleanup) appear in the document and each appears in exactly one wave",
+      "max_score": 4
+    },
+    {
+      "name": "no-dependent-tasks-in-same-wave",
+      "description": "No wave contains tasks that depend on each other",
+      "max_score": 4
+    },
+    {
+      "name": "parallel-waves-labelled-correctly",
+      "description": "Waves containing multiple independent tasks are labelled \"parallel\"",
+      "max_score": 4
+    },
+    {
+      "name": "sequential-waves-labelled-correctly",
+      "description": "Waves with a single task are labelled \"sequential\"",
+      "max_score": 4
+    },
+    {
+      "name": "verification-checklist-per-wave",
+      "description": "Each wave section includes a Verification checklist with at least one concrete runnable check",
+      "max_score": 4
+    },
+    {
+      "name": "branch-strategy-table-present",
+      "description": "The document includes a Branch Strategy section with a table assigning one branch per parallel task using the pattern `refactor/<task-slug>`",
+      "max_score": 4
+    },
+    {
+      "name": "output-path-correct",
+      "description": "The wave document was written to exactly `.context/plans/scripts-cli-refactor.md`",
+      "max_score": 4
+    },
+    {
+      "name": "wave-count-matches-dag",
+      "description": "The document contains exactly 4 waves matching the 4 dependency levels",
+      "max_score": 4
+    },
+    {
+      "name": "goal-section-present",
+      "description": "The document includes a Goal section describing the purpose of the refactor in one paragraph",
+      "max_score": 4
+    },
+    {
+      "name": "wave-headings-include-execution-mode",
+      "description": "Every wave heading includes its execution mode in parentheses",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Writes the document to a path other...",
+      "description": "Failure avoided: Writes the document to a path other than `.context/plans/scripts-cli-refactor.md`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Omits the Dependency Graph or ASCII DAG",
+      "description": "Failure avoided: Omits the Dependency Graph or ASCII DAG",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Assigns a task to multiple waves or...",
+      "description": "Failure avoided: Assigns a task to multiple waves or omits a task entirely",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Places CLI scaffold in the same wave...",
+      "description": "Failure avoided: Places CLI scaffold in the same wave as lib extraction (dependency violation)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Places cleanup in the same wave as...",
+      "description": "Failure avoided: Places cleanup in the same wave as command implementations (dependency violation)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Labels parallel waves as \"sequential\" or vice...",
+      "description": "Failure avoided: Labels parallel waves as \"sequential\" or vice versa",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Omits the Verification checklist for any wave",
+      "description": "Failure avoided: Omits the Verification checklist for any wave",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Does not include a Branch Strategy table",
+      "description": "Failure avoided: Does not include a Branch Strategy table",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Creates more or fewer than 4 waves",
+      "description": "Failure avoided: Creates more or fewer than 4 waves",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Omits the Goal section",
+      "description": "Failure avoided: Omits the Goal section",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Omits execution mode from wave headings",
+      "description": "Failure avoided: Omits execution mode from wave headings",
+      "max_score": 12
+    }
+  ]
+}

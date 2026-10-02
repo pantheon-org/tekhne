@@ -7,13 +7,25 @@ allowed-tools: read, write, edit, bash
 
 # Colyseus Multiplayer
 
+## Philosophy
+
+- Treat every client as untrusted: the server decides, the client only asks.
+- Validate before you mutate: parse the payload, check ownership and rules, then change state.
+- Plan for dropped connections as the normal case, not the exception.
+- Keep synchronised state in Schema and keep matchmaking metadata honest about the room.
+
 ## When to Use
 
-Use this skill for server-authoritative multiplayer game backends using Colyseus.
+- Building server-authoritative multiplayer game backends with Colyseus 0.17+.
+- Defining rooms, Schema state and lifecycle hooks (`onCreate`, `onJoin`, `onLeave`, `onDrop`).
+- Writing message handlers that must validate client payloads and resist cheating.
+- Configuring matchmaking metadata, authentication or reconnection policy.
 
 ## When Not to Use
 
-Do not use this skill for peer-to-peer networking or single-player game architecture.
+- Peer-to-peer networking, where there is no authoritative server.
+- Single-player game architecture with no networked state.
+- Client-side rendering or prediction code that never touches room logic.
 
 ## Core Principles
 
@@ -62,7 +74,7 @@ Expected result: room handlers and matchmaker initialized.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh colyseus-multiplayer --json
+pantheon-skill-auditor evaluate specialized/colyseus-multiplayer --json
 ```
 
 Expected result: updated dimension score breakdown.
@@ -70,7 +82,7 @@ Expected result: updated dimension score breakdown.
 ### Lint this skill docs
 
 ```bash
-bunx markdownlint-cli2 "skills/colyseus-multiplayer/**/*.md"
+bunx markdownlint-cli2 "specialized/colyseus-multiplayer/**/*.md"
 ```
 
 Expected result: no markdownlint violations.
@@ -107,6 +119,7 @@ export class GameRoom extends Room<GameState> {
       const dx = Math.max(-5, Math.min(5, payload.dx));
       const dy = Math.max(-5, Math.min(5, payload.dy));
       player.x += dx;
+      player.y += dy;
     });
   }
 
@@ -237,8 +250,65 @@ this.onMessage("startMatch", (client) => {
 
 **Consequence:** Match flow can be hijacked by unauthorized clients.
 
+### NEVER skip payload validation on message handlers
+
+**WHY:** Malformed or hostile payloads can crash the handler or corrupt shared state.
+
+**BAD:** Read `payload.dx` without checking its shape.
+
+**GOOD:** Parse the payload with a schema validator and return early when it fails.
+
+```typescript
+const parsed = moveSchema.safeParse(payload);
+if (!parsed.success) return;
+```
+
+**Consequence:** One bad message can break the room for every player.
+
+### NEVER accept absolute client coordinates
+
+**WHY:** Absolute positions let a modified client teleport; deltas can be clamped and range-checked on the server.
+
+**BAD:** `player.x = payload.x`.
+
+**GOOD:** Accept a delta, clamp it server-side and apply it to the stored position.
+
+**Consequence:** Players can move anywhere instantly and bypass level geometry.
+
+### NEVER hardcode matchmaking metadata
+
+**WHY:** Metadata drives room discovery, so values that do not reflect the room's real mode and capacity send players to the wrong rooms.
+
+**BAD:** `this.setMetadata({ mode: "ranked" })` regardless of the options the room was created with.
+
+**GOOD:** Derive `mode`, region or skill values from the creation `options` in `onCreate` and keep them consistent with runtime state.
+
+**Consequence:** Players are matched into rooms that do not match their request.
+
+### NEVER leave spam-prone messages without rate limiting
+
+**WHY:** Unthrottled message types allow one client to flood the room and starve other players.
+
+**BAD:** Process every `move` message the moment it arrives.
+
+**GOOD:** Enforce a cooldown or per-client message budget on spam-prone message types.
+
+**Consequence:** A single client can degrade latency for the whole room.
+
+### NEVER use an unbounded or mismatched reconnection window
+
+**WHY:** Seats held too long block other players, and a window too short for the mode ejects players unfairly.
+
+**BAD:** Hold a ranked slot for minutes, or pass no timeout to `allowReconnection`.
+
+**GOOD:** Use a bounded grace period for the mode: 20-30 seconds casual, 10-15 seconds ranked, strict for tournaments.
+
+**Consequence:** Rooms stay half empty, or players lose matches to brief network drops.
+
 ## References
 
-- [Room Lifecycle and State](references/room-lifecycle-and-state.md) — Schema setup, lifecycle hooks, state synchronization
-- [Message Validation and Security](references/message-validation-and-security.md) — Server-side payload validation, anti-cheat patterns
-- [Matchmaking and Reconnection](references/matchmaking-and-reconnection.md) — `allowReconnection`, metadata filters, lobby patterns
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Room lifecycle and state | [references/room-lifecycle-and-state.md](references/room-lifecycle-and-state.md) | Schema setup, lifecycle hook order, state synchronisation |
+| Message validation and security | [references/message-validation-and-security.md](references/message-validation-and-security.md) | Server-side payload validation and anti-cheat patterns |
+| Matchmaking and reconnection | [references/matchmaking-and-reconnection.md](references/matchmaking-and-reconnection.md) | `allowReconnection`, metadata filters and timeout policy |

@@ -1,0 +1,116 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Learning Documentation Task.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Schema consultation",
+      "description": "Shows evidence of loading learning.yaml template before generation",
+      "max_score": 4
+    },
+    {
+      "name": "Four-phase workflow",
+      "description": "Demonstrates systematic approach with gathering, schema loading, generation, validation phases",
+      "max_score": 4
+    },
+    {
+      "name": "File organization",
+      "description": "Creates proper YYYY/MM-Month/DD-Weekday/ directory structure for the file location",
+      "max_score": 4
+    },
+    {
+      "name": "Filename compliance",
+      "description": "Uses YYYY-MM-DD-slug.md format with lowercase-only slug and hyphens",
+      "max_score": 4
+    },
+    {
+      "name": "Date synchronization",
+      "description": "Maintains exact date match across filename, frontmatter, and H1 header",
+      "max_score": 4
+    },
+    {
+      "name": "Learning tag inclusion",
+      "description": "Includes required `learning` tag in frontmatter tags array",
+      "max_score": 4
+    },
+    {
+      "name": "Tag format compliance",
+      "description": "Uses lowercase-hyphenated format for all tags (no underscores or camelCase)",
+      "max_score": 4
+    },
+    {
+      "name": "Tag section consistency",
+      "description": "Tags section matches frontmatter array exactly with pipe-separated format",
+      "max_score": 4
+    },
+    {
+      "name": "Code language specifiers",
+      "description": "All code blocks include language identifiers (bash, yaml, etc.)",
+      "max_score": 4
+    },
+    {
+      "name": "Validation execution",
+      "description": "Shows evidence of running validation script on generated file",
+      "max_score": 4
+    },
+    {
+      "name": "Formatting compliance",
+      "description": "Evidence of prettier and markdownlint execution after validation",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of loading the learning.yaml template...",
+      "description": "Failure avoided: No evidence of loading the learning.yaml template schema before generation",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Skips one or more of the four...",
+      "description": "Failure avoided: Skips one or more of the four workflow phases (gather, schema, generate, validate)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: File placed in wrong directory or missing...",
+      "description": "Failure avoided: File placed in wrong directory or missing the YYYY/MM-Month/DD-Weekday/ structure",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Filename does not follow YYYY-MM-DD-slug.md, or slug...",
+      "description": "Failure avoided: Filename does not follow YYYY-MM-DD-slug.md, or slug contains uppercase or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Date is inconsistent between filename, frontmatter, or...",
+      "description": "Failure avoided: Date is inconsistent between filename, frontmatter, or H1 header",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `learning` tag is absent from the frontmatter...",
+      "description": "Failure avoided: `learning` tag is absent from the frontmatter tags array",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any tag contains uppercase letters, underscores, or...",
+      "description": "Failure avoided: Any tag contains uppercase letters, underscores, or camelCase",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Tags section does not match frontmatter array...",
+      "description": "Failure avoided: Tags section does not match frontmatter array or uses wrong format",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any code block is missing a language...",
+      "description": "Failure avoided: Any code block is missing a language identifier",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of running the validation script...",
+      "description": "Failure avoided: No evidence of running the validation script on the generated file",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of prettier or markdownlint execution",
+      "description": "Failure avoided: No evidence of prettier or markdownlint execution",
+      "max_score": 16
+    }
+  ]
+}

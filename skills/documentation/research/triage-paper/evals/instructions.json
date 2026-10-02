@@ -1,54 +1,124 @@
 {
   "instructions": [
     {
-      "instruction": "Check REVIEWED.md and references/REFERENCE_INDEX.md for duplicates before creating any file",
-      "original_snippets": "Search REVIEWED.md and references/REFERENCE_INDEX.md for the slug or arxiv ID. If already present, report it and stop.",
-      "relevant_when": "User provides an arxiv ID, arxiv URL, DOI, or paper PDF to triage"
+      "id": "I01",
+      "content": "Prefer the semantic-scholar MCP, then the google-scholar MCP, over WebFetch for paper discovery and metadata; fall back to WebFetch on the arxiv abstract page only when neither is configured or returns results.",
+      "type": "procedure",
+      "why_given": "new knowledge"
     },
     {
-      "instruction": "Derive a stable slug using <firstauthor-surname>-<2-3-word-topic> convention",
-      "original_snippets": "Derive a stable slug: <firstauthor-surname>-<2-3-word-topic> (e.g. jiang-llmlingua, press-longchat).",
-      "relevant_when": "Before creating any file for a new paper"
+      "id": "I02",
+      "content": "Resolve the source by input type: arxiv ID or URL via the MCP, DOI via the MCP rather than a raw HTTP fetch, and a PDF path by reading the file.",
+      "type": "procedure",
+      "why_given": "new knowledge"
     },
     {
-      "instruction": "Create references/<slug>.md using templates/REFERENCE-paper.md and populate every section",
-      "original_snippets": "Create references/<slug>.md using templates/REFERENCE-paper.md. Populate every section: TL;DR, What's novel, Mechanism overview, Evaluation, Implementation details worth stealing, Open questions.",
-      "relevant_when": "After duplicate check passes and slug is derived"
+      "id": "I03",
+      "content": "Derive a stable slug of the form <firstauthor-surname>-<2-3 word topic>.",
+      "type": "constraint",
+      "why_given": "preference"
     },
     {
-      "instruction": "TL;DR must contain 3 to 8 bullets",
-      "original_snippets": "TL;DR: 3–8 bullets capturing what the paper does and why it matters.",
-      "relevant_when": "Filling in references/<slug>.md"
+      "id": "I04",
+      "content": "Check REVIEWED.md and references/REFERENCE_INDEX.md for the slug or arxiv ID; if already present, report it and stop.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Always mark benchmark metrics and evaluation results as (as reported) — never state them as verified facts",
-      "original_snippets": "Evaluation: quote benchmark name, baselines, key metric, and result — always mark (as reported).",
-      "relevant_when": "Filling in the Evaluation section of the reference summary"
+      "id": "I05",
+      "content": "Classify the paper with one or more tags: survey, benchmark, empirical, theoretical, system.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Add a reverse-chronological row to REVIEWED.md summary table and a detailed section below it",
-      "original_snippets": "Add a row to the summary table at the top (reverse-chronological)... Add a detailed section below the table.",
-      "relevant_when": "After reference file is created"
+      "id": "I06",
+      "content": "Read assets/templates/REFERENCE-paper.yaml and create references/<slug>.md with all required frontmatter fields followed by the required sections.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Add a row to REFERENCE_INDEX.md under the most relevant category",
-      "original_snippets": "Add a row under the most relevant category table. If no category fits, add it to the closest one and note it for the user.",
-      "relevant_when": "After REVIEWED.md is updated"
+      "id": "I07",
+      "content": "Populate every section: TL;DR with 3 to 8 bullets, What's novel, Mechanism overview (N/A where not applicable), Evaluation, Implementation details worth stealing, Open questions.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Never create ANALYSIS-*.md automatically — offer promotion as an option and wait for user confirmation",
-      "original_snippets": "Triage-then-promote: every paper enters via REVIEWED.md; promotion to ANALYSIS-*.md requires a deliberate user decision — never automatic.",
-      "relevant_when": "At the end of every triage workflow"
+      "id": "I08",
+      "content": "Quote all numbers with their source and mark evaluation results (as reported).",
+      "type": "constraint",
+      "why_given": "new knowledge"
     },
     {
-      "instruction": "Skip sections not applicable to the paper and mark them N/A rather than leaving them blank",
-      "original_snippets": "Skip sections that are not applicable (mark N/A).",
-      "relevant_when": "Filling in the Mechanism overview section"
+      "id": "I09",
+      "content": "Add a REVIEWED.md summary row (reverse-chronological) and a detailed section with disposition pending.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Run validate-reference-paper.sh on the completed file before reporting",
-      "original_snippets": "./scripts/validate-reference-paper.sh references/<slug>.md",
-      "relevant_when": "After references/<slug>.md is fully populated"
+      "id": "I10",
+      "content": "Add a REFERENCE_INDEX.md row under the most relevant category, noting it for the user if no category fits.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Report what was created, then offer the user a choice: promote, keep in REVIEWED.md, or skip with reasoning.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "When the user confirms promotion, create analysis/ANALYSIS-arxiv-<id>-<slug>.md from assets/templates/ANALYSIS-paper.yaml and change the REVIEWED.md disposition from pending to analysis.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Validate completed files with scripts/validate-reference-paper.sh and scripts/validate-analysis-paper.sh.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER omit YAML frontmatter; open every file with a --- block containing all required fields.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER invent benchmark numbers; mark them (as reported) with their source.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER skip the duplicate check before creating files.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER promote to ANALYSIS-*.md without user confirmation.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I18",
+      "content": "Quote what the paper reports as evidence first; never infer or embellish claims.",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "If a paper is tangentially related, triage it and flag it; do not silently skip it.",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I20",
+      "content": "Do not use this skill for a paper already triaged, a paper clearly out of scope, or a full deep dive (triage first, then promote).",
+      "type": "constraint",
+      "why_given": "preference"
     }
   ]
 }

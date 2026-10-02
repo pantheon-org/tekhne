@@ -1,0 +1,36 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 88,
+    "total_instructions": 25,
+    "covered_instructions": 22,
+    "scenario_count": 8,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-3", "scenario-5"],
+      "I02": ["scenario-1", "scenario-3", "scenario-5"],
+      "I03": ["scenario-1", "scenario-4"],
+      "I04": ["scenario-1"],
+      "I05": ["scenario-5"],
+      "I06": ["scenario-1", "scenario-4"],
+      "I07": ["scenario-3"],
+      "I08": ["scenario-2", "scenario-8"],
+      "I09": [],
+      "I10": ["scenario-2"],
+      "I11": [],
+      "I12": ["scenario-7"],
+      "I13": ["scenario-1", "scenario-3"],
+      "I14": ["scenario-1", "scenario-4"],
+      "I15": ["scenario-4"],
+      "I16": ["scenario-1", "scenario-3"],
+      "I17": ["scenario-5"],
+      "I18": ["scenario-1", "scenario-5"],
+      "I19": ["scenario-4"],
+      "I20": ["scenario-5"],
+      "I21": ["scenario-3", "scenario-7"],
+      "I22": ["scenario-6"],
+      "I23": ["scenario-2", "scenario-8"],
+      "I24": ["scenario-2", "scenario-8"],
+      "I25": []
+    },
+    "notes": "I09, I11 and I25 are not checked by any scenario criteria: no scenario exercises the loop-back-on-business-logic-failure step, async await handling, or scenario-count limits."
+  }
+}

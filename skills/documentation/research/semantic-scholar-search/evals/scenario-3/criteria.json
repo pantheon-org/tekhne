@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Semantic Scholar Search \u2014 Author Profile Lookup.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Agent recognises that author subcommand requires an ID, not a name",
+      "description": "The agent does not attempt to run 'author --author-id \"Noam Shazeer\"'. It explicitly notes that a numeric Semantic Scholar author ID is required.",
+      "max_score": 10
+    },
+    {
+      "name": "search subcommand used to locate the author ID",
+      "description": "The agent runs a keyword or paper search and extracts the authorId field from the response to find Noam Shazeer's Semantic Scholar author ID.",
+      "max_score": 10
+    },
+    {
+      "name": "author subcommand called with the correct numeric author ID",
+      "description": "After locating the ID, the agent calls 'author --author-id <numeric-id>' with the correct ID found in the previous step.",
+      "max_score": 10
+    },
+    {
+      "name": "Profile output includes h-index and publications",
+      "description": "The agent presents at minimum the author's h-index and a list of recent publications from the API response.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent passes the author name directly to...",
+      "description": "Failure avoided: Agent passes the author name directly to `--author-id` without first resolving the numeric ID",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not use the `search` subcommand...",
+      "description": "Failure avoided: Agent does not use the `search` subcommand (or equivalent) to locate the author ID",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent calls `author --author-id` with an incorrect...",
+      "description": "Failure avoided: Agent calls `author --author-id` with an incorrect or mismatched numeric ID",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits the h-index or the list...",
+      "description": "Failure avoided: Agent omits the h-index or the list of recent publications from the presented profile",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Recognise that the `author` subcommand requires a...",
+      "description": "Recognise that the `author` subcommand requires a numeric Semantic Scholar author ID \u2014 do not attempt to pass the name `\"Noam Shazeer\"` directly to `--author-id`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Run a keyword or paper search and...",
+      "description": "Run a keyword or paper search and extract the `authorId` field from the response to find Noam Shazeer's Semantic Scholar author ID",
+      "max_score": 10
+    }
+  ]
+}

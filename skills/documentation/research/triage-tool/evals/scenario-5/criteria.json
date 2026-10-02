@@ -1,0 +1,66 @@
+{
+  "context": "Tests source recording, classification, scope assessment, evidence-first quoting and refusal to promote an out-of-scope tool.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "README and metadata recorded",
+      "description": "Records name, org acme-corp, MIT licence, TypeScript, version 4.2.0 and the primary URL",
+      "max_score": 10
+    },
+    {
+      "name": "Duplicate check first",
+      "description": "Searches REVIEWED.md and REFERENCE_INDEX.md before creating files",
+      "max_score": 8
+    },
+    {
+      "name": "Slug follows convention",
+      "description": "Uses acme-corp-ui-kit (author or org plus tool name)",
+      "max_score": 10
+    },
+    {
+      "name": "Tags from the controlled list",
+      "description": "Tags the tool with library and, if relevant, framework or sdk, from the classification guide",
+      "max_score": 8
+    },
+    {
+      "name": "Scope assessed as out of scope",
+      "description": "Concludes the tool has no meaningful connection to agent context and memory management",
+      "max_score": 12
+    },
+    {
+      "name": "Reasoning explained",
+      "description": "Gives a short reason for the out-of-scope ruling rather than a bare verdict",
+      "max_score": 8
+    },
+    {
+      "name": "Logged as out of scope",
+      "description": "REVIEWED.md records the scope-fit as out of scope",
+      "max_score": 10
+    },
+    {
+      "name": "Performance claim marked as reported",
+      "description": "Presents the 60% faster rendering claim as (as reported), sourced to the README",
+      "max_score": 10
+    },
+    {
+      "name": "No capabilities inferred",
+      "description": "Does not attribute features that the README does not describe",
+      "max_score": 6
+    },
+    {
+      "name": "No vendoring",
+      "description": "Does not run git submodule add",
+      "max_score": 6
+    },
+    {
+      "name": "No ANALYSIS file created",
+      "description": "Does not create an ANALYSIS-*.md file or offer to promote it as if in scope",
+      "max_score": 6
+    },
+    {
+      "name": "User informed",
+      "description": "Tells the user the tool was ruled out of scope and why",
+      "max_score": 6
+    }
+  ]
+}

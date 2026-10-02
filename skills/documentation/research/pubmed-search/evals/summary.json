@@ -1,5 +1,27 @@
 {
   "instructions_coverage": {
-    "coverage_percentage": "85"
+    "coverage_percentage": 100,
+    "total_instructions": 16,
+    "covered_instructions": 16,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-5"],
+      "I02": ["scenario-4"],
+      "I03": ["scenario-1", "scenario-4"],
+      "I04": ["scenario-4"],
+      "I05": ["scenario-3"],
+      "I06": ["scenario-4"],
+      "I07": ["scenario-1", "scenario-2", "scenario-3"],
+      "I08": ["scenario-3", "scenario-4"],
+      "I09": ["scenario-3", "scenario-4"],
+      "I10": ["scenario-1", "scenario-3", "scenario-4", "scenario-5"],
+      "I11": ["scenario-4"],
+      "I12": ["scenario-4"],
+      "I13": ["scenario-5"],
+      "I14": ["scenario-5"],
+      "I15": ["scenario-5"],
+      "I16": ["scenario-3"]
+    },
+    "notes": "All 16 instructions are checked by at least one scenario criterion; the previous summary.json held an unsupported string figure and was replaced with a computed map."
   }
 }

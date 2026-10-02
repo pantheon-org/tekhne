@@ -5,6 +5,13 @@ description: Compares deployed CloudFormation templates with locally synthesized
 
 # CloudFormation Template Comparison Skill
 
+## Mindset
+
+- Treat the deployed template as the source of truth for what is live, and the synthesised template as a claim about what will be live.
+- Compare from the coarse to the fine: structure, counts, added/removed IDs, then targeted deep diffs.
+- Classify every difference by risk before reporting; a diff that has not been classified has not been reviewed.
+- Keep the evidence: a comparison that is not saved cannot support an audit or an incident review.
+
 ## Quick Start
 
 ```bash
@@ -173,27 +180,75 @@ Always categorize diffs by risk level before approving:
 
 ### NEVER compare templates without verifying both sources are valid JSON first
 
-- **WHY**: invalid JSON from AWS CLI or CDK synth causes cryptic `jq` errors that waste time debugging.
-- **BAD**: `jq '.Resources' deployed.json` → `parse error: Expected separator between values at line 1, column 3`.
-- **GOOD**: `jq '.' deployed.json >/dev/null && echo "valid" || echo "INVALID"` before any comparison.
+**WHY:** invalid JSON from AWS CLI or CDK synth causes cryptic `jq` errors that waste time debugging.
+
+**BAD:** `jq '.Resources' deployed.json` → `parse error: Expected separator between values at line 1, column 3`.
+
+**GOOD:** `jq '.' deployed.json >/dev/null && echo "valid" || echo "INVALID"` before any comparison.
 
 ### NEVER rely on line-by-line diff for large templates
 
-- **WHY**: 5000+ line diffs are unreadable and hide critical changes in noise.
-- **BAD**: `diff deployed.json local.json` → terminal flooded with irrelevant formatting differences.
-- **GOOD**: hierarchical comparison (Step 3) — resource counts, added/removed IDs, then targeted deep diffs per resource.
+**WHY:** 5000+ line diffs are unreadable and hide critical changes in noise.
+
+**BAD:** `diff deployed.json local.json` → terminal flooded with irrelevant formatting differences.
+
+**GOOD:** hierarchical comparison (Step 3): resource counts, added/removed IDs, then targeted deep diffs per resource.
 
 ### NEVER approve deployments with unexplained IAM policy changes
 
-- **WHY**: unauthorized privilege escalation or resource exposure can occur through subtle IAM modifications.
-- **BAD**: `diff` shows IAM role trust policy changed → "looks fine, deploying" → security breach.
-- **GOOD**: extract IAM diff specifically (`jq` filter for `AWS::IAM::*`), document justification, get InfoSec approval before deploy.
+**WHY:** unauthorized privilege escalation or resource exposure can occur through subtle IAM modifications.
+
+**BAD:** `diff` shows IAM role trust policy changed → "looks fine, deploying" → security breach.
+
+**GOOD:** extract IAM diff specifically (`jq` filter for `AWS::IAM::*`), document justification, get InfoSec approval before deploy.
 
 ### NEVER skip saving comparison artifacts before deployment
 
-- **WHY**: if deployment goes wrong, you lose the evidence of what changed and can't rollback confidently.
-- **BAD**: run comparison in terminal, approve deploy, stack fails → no record of what was attempted.
-- **GOOD**: timestamped directory with deployed.json, local.json, diff report — audit trail for incident investigation.
+**WHY:** if deployment goes wrong, you lose the evidence of what changed and can't rollback confidently.
+
+**BAD:** run comparison in terminal, approve deploy, stack fails → no record of what was attempted.
+
+**GOOD:** timestamped directory with deployed.json, local.json, diff report: an audit trail for incident investigation.
+
+### NEVER approve a new CDK Nag suppression without documented justification
+
+**WHY:** a suppression silently disables a security check, so the template stays green while the risk grows.
+
+**BAD:** the `cdk_nag` metadata diff shows a new suppression and the change is waved through as cosmetic.
+
+**GOOD:** treat it as Critical, record the reason and obtain InfoSec or stakeholder approval before deploying.
+
+### NEVER deploy when the comparison shows a removed resource without stakeholder review
+
+**WHY:** removing a resource risks data loss that cannot be undone by redeploying.
+
+**BAD:** the added/removed list shows a missing bucket or table and the deployment proceeds.
+
+**GOOD:** block the deployment and review the removal with stakeholders first.
+
+### NEVER skip the prerequisite checks before retrieving templates
+
+**WHY:** a wrong profile, stack name or failing synth produces empty or misleading templates that look like drift.
+
+**BAD:** run `get-template` straight away and compare whatever comes back.
+
+**GOOD:** run `aws sts get-caller-identity`, `describe-stacks` and `make synth` first, and fix failures before comparing.
+
+### NEVER compare templates across different accounts
+
+**WHY:** different account IDs and ARNs make every diff noisy and unreliable.
+
+**BAD:** compare a stack deployed in one account against a template synthesised for another.
+
+**GOOD:** compare like for like, within one account and region, using the same profile.
+
+### NEVER treat Expected differences and High-risk differences with the same action
+
+**WHY:** auto-approving everything hides the few changes that need sign-off, while blocking everything stalls routine deployments.
+
+**BAD:** mark every difference "looks fine" after a quick scan.
+
+**GOOD:** categorise each difference (Expected, Low, Medium, High, Critical) and apply the matching action from the risk table.
 
 ## Error Recovery
 

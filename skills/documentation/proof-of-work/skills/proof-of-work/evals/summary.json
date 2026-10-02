@@ -1,0 +1,40 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 15,
+    "covered_instructions": 15,
+    "scenario_count": 7,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-2"],
+      "I02": ["scenario-1", "scenario-6"],
+      "I03": ["scenario-4"],
+      "I04": ["scenario-2"],
+      "I05": ["scenario-3"],
+      "I06": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-6"
+      ],
+      "I07": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-6"
+      ],
+      "I08": ["scenario-2", "scenario-4", "scenario-5"],
+      "I09": ["scenario-1", "scenario-6"],
+      "I10": ["scenario-5"],
+      "I11": ["scenario-1", "scenario-2", "scenario-3", "scenario-4"],
+      "I12": ["scenario-1", "scenario-3", "scenario-6"],
+      "I13": ["scenario-6"],
+      "I14": ["scenario-6"],
+      "I15": ["scenario-7"]
+    },
+    "notes": "All 15 instructions are checked by at least one scenario after adding scenarios 6 and 7."
+  }
+}

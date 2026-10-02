@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: CI/CD Integration for BDD Test Suite.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Basic cucumber execution",
+      "description": "Uses `npx cucumber-js features` or similar command to run all feature tests",
+      "max_score": 6
+    },
+    {
+      "name": "Dry-run validation",
+      "description": "Uses `--dry-run` flag to detect missing step definitions without full execution",
+      "max_score": 6
+    },
+    {
+      "name": "Tag-based filtering",
+      "description": "Uses `--tags` parameter with logical operators (e.g., `@smoke and not @wip`)",
+      "max_score": 6
+    },
+    {
+      "name": "JSON report generation",
+      "description": "Uses `--format json:` to generate machine-readable reports for CI/reporting",
+      "max_score": 6
+    },
+    {
+      "name": "Multiple execution methods",
+      "description": "Demonstrates at least 3 different ways to run Cucumber tests (full, filtered, dry-run)",
+      "max_score": 6
+    },
+    {
+      "name": "Proper file paths",
+      "description": "Correctly specifies `features` directory or specific `.feature` files in commands",
+      "max_score": 6
+    },
+    {
+      "name": "Exit code awareness",
+      "description": "Mentions or handles non-zero exit codes on test failures",
+      "max_score": 6
+    },
+    {
+      "name": "Report file organization",
+      "description": "Organizes generated reports in an appropriate directory structure",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No basic Cucumber execution command is demonstrated",
+      "description": "Failure avoided: No basic Cucumber execution command is demonstrated",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `--dry-run` flag is not used for step...",
+      "description": "Failure avoided: `--dry-run` flag is not used for step definition validation",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Tag filtering with `--tags` is not demonstrated",
+      "description": "Failure avoided: Tag filtering with `--tags` is not demonstrated",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `--format json:` is not used for report...",
+      "description": "Failure avoided: `--format json:` is not used for report generation",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Fewer than 3 different execution methods are...",
+      "description": "Failure avoided: Fewer than 3 different execution methods are shown",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Feature file paths are not correctly specified...",
+      "description": "Failure avoided: Feature file paths are not correctly specified in commands",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Non-zero exit codes on test failure are...",
+      "description": "Failure avoided: Non-zero exit codes on test failure are not mentioned or handled",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Generated reports are not organized in a...",
+      "description": "Failure avoided: Generated reports are not organized in a directory structure",
+      "max_score": 10
+    }
+  ]
+}

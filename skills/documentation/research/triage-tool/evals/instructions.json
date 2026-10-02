@@ -1,54 +1,142 @@
 {
   "instructions": [
     {
-      "instruction": "Check REVIEWED.md and references/REFERENCE_INDEX.md for duplicates before creating any file",
-      "original_snippets": "Search REVIEWED.md and references/REFERENCE_INDEX.md for the slug or repo URL. If already present, report it and stop.",
-      "relevant_when": "User provides a GitHub URL, npm/PyPI package, or tool name to triage"
+      "id": "I01",
+      "content": "Fetch the repo README and linked docs, and record tool name, author or org, license, language, latest version or commit, and primary URL.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Derive a stable slug using <author-or-org>-<tool-name> convention; use just the tool name for well-known single-name tools",
-      "original_snippets": "Derive a stable slug: <author-or-org>-<tool-name>. For well-known single-name tools, use just the tool name (e.g. context-mode, memv).",
-      "relevant_when": "Before creating any file for a new tool"
+      "id": "I02",
+      "content": "Derive the slug as <author-or-org>-<tool-name>, with no exceptions.",
+      "type": "constraint",
+      "why_given": "preference"
     },
     {
-      "instruction": "Confirm scope relevance before investing in a full write-up; a well-reasoned out-of-scope ruling is as valuable as a full summary",
-      "original_snippets": "Scope before summary: confirm the tool is relevant to the research domain before investing in a full write-up.",
-      "relevant_when": "After resolving the source and before filling in the reference summary"
+      "id": "I03",
+      "content": "Search REVIEWED.md and references/REFERENCE_INDEX.md for the slug or repo URL; if already present, report it and stop.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Quote README and docs only; never infer capabilities not described by the author",
-      "original_snippets": "Evidence first: quote README and docs; never infer capabilities not described by the author.",
-      "relevant_when": "Filling in all sections of references/<slug>.md"
+      "id": "I04",
+      "content": "Classify the tool with one or more tags from the controlled list in references/classification-guide.md.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Create references/<slug>.md using templates/REFERENCE-tool.md and populate every section",
-      "original_snippets": "Create references/<slug>.md using templates/REFERENCE-tool.md. Populate every section.",
-      "relevant_when": "After duplicate check passes and scope is confirmed"
+      "id": "I05",
+      "content": "Assess scope fit (in scope, borderline, out of scope) before writing the summary, and note any borderline ruling in REVIEWED.md rather than silently including or excluding it.",
+      "type": "procedure",
+      "why_given": "new knowledge"
     },
     {
-      "instruction": "TL;DR must contain 3 to 8 bullets",
-      "original_snippets": "TL;DR: 3–8 bullets capturing what the tool does and why it matters.",
-      "relevant_when": "Filling in references/<slug>.md"
+      "id": "I06",
+      "content": "Read assets/templates/REFERENCE-tool.yaml and create references/<slug>.md with all required frontmatter fields followed by the required sections.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Always mark self-reported benchmarks as (as reported) — never state them as verified facts",
-      "original_snippets": "Self-reported metrics: quote numbers with source — always mark (as reported).",
-      "relevant_when": "Filling in the Self-reported metrics section"
+      "id": "I07",
+      "content": "Populate TL;DR (3 to 8 bullets), What's novel, Architecture overview (N/A where not applicable), Deployment model, Self-reported metrics (as reported) and Open questions.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Never run git submodule add during triage — offer vendoring as a follow-up after the summary is written",
-      "original_snippets": "Triage-then-promote: vendoring both require explicit user confirmation — never automatic.",
-      "relevant_when": "When the tool warrants code-level inspection"
+      "id": "I08",
+      "content": "Keep language precise, do not pad, and mark all unverified claims.",
+      "type": "constraint",
+      "why_given": "preference"
     },
     {
-      "instruction": "Add a reverse-chronological row to REVIEWED.md summary table",
-      "original_snippets": "Add a row to the summary table at the top (reverse-chronological).",
-      "relevant_when": "After reference file is created"
+      "id": "I09",
+      "content": "Ask whether to vendor the repo as a git submodule in tools/<repo-name>/; when vendored, set local_clone to the submodule path relative to the document.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "instruction": "Never create ANALYSIS-*.md automatically — offer promotion as an option and wait for user confirmation",
-      "original_snippets": "Promotion to ANALYSIS-*.md is a quality gate, not automatic.",
-      "relevant_when": "At the end of every triage workflow"
+      "id": "I10",
+      "content": "Add a REVIEWED.md summary row (reverse-chronological, type tool, disposition pending).",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Add a REFERENCE_INDEX.md row under the most relevant category.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "Report what was created, then ask whether to promote, vendor, keep as pending, or skip with reasoning.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "When promotion is confirmed, create analysis/ANALYSIS-<slug>.md from assets/templates/ANALYSIS-tool.yaml and change the REVIEWED.md disposition from pending to analysis.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "After the analysis, create benchmarks/sources/<slug>-repro.md from the REPRO template; look for the harness in benchmarks/, eval/, evals/, then scripts/; set harness_present, harness_path and an allowed outcome value.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Validate completed files with scripts/validate-reference-tool.sh and scripts/validate-analysis-tool.sh.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER omit YAML frontmatter; open every file with a --- block containing all required fields.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER treat self-reported benchmarks as verified; mark them (as reported).",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER skip the duplicate check before creating files.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER vendor without user confirmation (no git submodule add during triage).",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER promote to ANALYSIS-*.md without user confirmation.",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I21",
+      "content": "Confirm relevance before investing in a full write-up; a well-reasoned out-of-scope ruling is as valuable as a full summary.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I22",
+      "content": "Quote README and docs as evidence; never infer capabilities the author does not describe.",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I23",
+      "content": "Do not use this skill for a tool already triaged, a tool clearly out of scope, or a full deep dive (triage first, then promote).",
+      "type": "constraint",
+      "why_given": "preference"
     }
   ]
 }

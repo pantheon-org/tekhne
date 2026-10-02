@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add Biome to a GitHub Actions CI Pipeline.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "--error-on-warnings flag used",
+      "description": "The Biome step in `ci.yml` uses `bunx @biomejs/biome check . --error-on-warnings` (not just `biome check .` without the flag)",
+      "max_score": 10
+    },
+    {
+      "name": "Biome step runs before test step",
+      "description": "The lint/check step appears before the `bun test` step in the job steps list",
+      "max_score": 10
+    },
+    {
+      "name": "Uses bunx to invoke Biome",
+      "description": "The command uses `bunx @biomejs/biome` (not `npx biome` or a global biome binary assumption)",
+      "max_score": 10
+    },
+    {
+      "name": "bun install step present before Biome",
+      "description": "`bun install` runs before the Biome step so the package is available",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses `biome check .` without `--error-on-warnings`,...",
+      "description": "Failure avoided: Agent uses `biome check .` without `--error-on-warnings`, missing the CI-fail-on-warnings requirement",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent places the Biome step after the...",
+      "description": "Failure avoided: Agent places the Biome step after the `bun test` step instead of before it",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses `npx biome` or assumes a...",
+      "description": "Failure avoided: Agent uses `npx biome` or assumes a globally installed Biome binary instead of `bunx @biomejs/biome`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent places the Biome step before `bun...",
+      "description": "Failure avoided: Agent places the Biome step before `bun install`, causing the step to fail because the package is not installed",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Add a Biome step using `bunx @biomejs/biome...",
+      "description": "Add a Biome step using `bunx @biomejs/biome check . --error-on-warnings` (not the bare dev command)",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Position the Biome step before the `bun...",
+      "description": "Position the Biome step before the `bun test` step in the job steps list",
+      "max_score": 10
+    }
+  ]
+}

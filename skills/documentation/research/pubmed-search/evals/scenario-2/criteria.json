@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: PubMed Search \u2014 Metadata Lookup by PMID.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "metadata subcommand used with correct --pmid flag",
+      "description": "The agent invokes the script with the 'metadata' subcommand and passes --pmid '33303479' and --format json.",
+      "max_score": 10
+    },
+    {
+      "name": "All required metadata fields are present in output",
+      "description": "The returned JSON includes PMID, Title, Authors, Journal, Publication Date, Abstract, and DOI fields.",
+      "max_score": 10
+    },
+    {
+      "name": "Output is valid JSON",
+      "description": "The agent presents output that is parseable JSON (not plain text or markdown table).",
+      "max_score": 10
+    },
+    {
+      "name": "No automatic triage or analysis performed",
+      "description": "The agent does not invoke triage-paper or the analyze subcommand without explicit user request.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses the wrong subcommand or incorrect...",
+      "description": "Failure avoided: Agent uses the wrong subcommand or incorrect PMID value",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits one or more required metadata...",
+      "description": "Failure avoided: Agent omits one or more required metadata fields (PMID, Title, Authors, Journal, Publication Date, Abstract, DOI)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent presents output as plain text or...",
+      "description": "Failure avoided: Agent presents output as plain text or a markdown table rather than valid JSON",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent automatically invokes triage-paper or analysis without...",
+      "description": "Failure avoided: Agent automatically invokes triage-paper or analysis without user request",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Use the `metadata` subcommand with `--pmid '33303479'`...",
+      "description": "Use the `metadata` subcommand with `--pmid '33303479'` and `--format json`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Return output that includes all required metadata...",
+      "description": "Return output that includes all required metadata fields: PMID, Title, Authors, Journal, Publication Date, Abstract, and DOI",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Checks that DOIs are resolved via MCP first and that off-topic papers are triaged and flagged instead of silently skipped.

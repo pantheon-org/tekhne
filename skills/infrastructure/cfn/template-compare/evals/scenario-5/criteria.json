@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Handle Very Large Template Comparison.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Problem threshold identified",
+      "description": "large-template-strategy.md mentions a specific line count threshold (e.g., >5000 lines) when diff becomes unmanageable",
+      "max_score": 5
+    },
+    {
+      "name": "Hierarchical approach recommended",
+      "description": "Document explicitly recommends hierarchical comparison instead of line diff for large templates",
+      "max_score": 5
+    },
+    {
+      "name": "Structure comparison first",
+      "description": "Comparison steps include checking top-level structure (keys) first",
+      "max_score": 5
+    },
+    {
+      "name": "Resource count comparison",
+      "description": "Comparison steps include checking resource counts (jq '.Resources | length')",
+      "max_score": 5
+    },
+    {
+      "name": "Added/removed resources",
+      "description": "Comparison steps include identifying which resources were added/removed",
+      "max_score": 5
+    },
+    {
+      "name": "Avoid line diff",
+      "description": "large-template-compare.sh uses jq, comm, or diff with process substitution rather than raw 'diff file1 file2'",
+      "max_score": 5
+    },
+    {
+      "name": "Summarized output",
+      "description": "Script commands produce concise output (counts, lists) rather than full template diffs",
+      "max_score": 5
+    },
+    {
+      "name": "Decision criteria clear",
+      "description": "Document explains when to use hierarchical vs line diff (based on size/complexity)",
+      "max_score": 5
+    },
+    {
+      "name": "Security focused subset",
+      "description": "Strategy mentions focusing on security-sensitive changes (IAM, CDK Nag) rather than all resources",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not mention a specific line count...",
+      "description": "Failure avoided: Does not mention a specific line count threshold for when diff becomes problematic",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not explicitly recommend hierarchical comparison over...",
+      "description": "Failure avoided: Does not explicitly recommend hierarchical comparison over line diff",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Top-level structure comparison is not the first...",
+      "description": "Failure avoided: Top-level structure comparison is not the first step",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `jq '.Resources | length'` is not used...",
+      "description": "Failure avoided: `jq '.Resources | length'` is not used for resource count comparison",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not include identifying added/removed resources",
+      "description": "Failure avoided: Does not include identifying added/removed resources",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `large-template-compare.sh` uses raw `diff file1 file2` instead...",
+      "description": "Failure avoided: `large-template-compare.sh` uses raw `diff file1 file2` instead of structured jq/comm comparisons",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Script produces verbose full-diff output instead of...",
+      "description": "Failure avoided: Script produces verbose full-diff output instead of summarized results",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No criteria given for when to use...",
+      "description": "Failure avoided: No criteria given for when to use hierarchical vs line diff approaches",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not mention focusing on security-sensitive resources...",
+      "description": "Failure avoided: Does not mention focusing on security-sensitive resources (IAM, CDK Nag)",
+      "max_score": 15
+    }
+  ]
+}

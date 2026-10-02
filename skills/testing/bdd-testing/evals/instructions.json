@@ -1,0 +1,154 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Specify observable behavior, not implementation details.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Keep a shared language across product, engineering, and QA.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Scenarios should be deterministic and independently executable.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Feature files should remain readable by non-developers.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I05",
+      "content": "Align on examples in a Three Amigos discussion before writing scenarios.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Write scenarios in Gherkin using Given/When/Then.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I07",
+      "content": "Implement step definitions that map to business language.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Execute Cucumber and review failures by scenario intent.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "If scenarios fail due to incorrect business logic, loop back to step 2 to clarify requirements.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "If scenarios fail due to step definition errors or missing steps, loop back to step 3; run npx cucumber-js --dry-run to identify missing step definitions before full execution.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "For async timing issues, verify step definitions properly await promises.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I12",
+      "content": "Refactor scenarios and steps to remove duplication.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I13",
+      "content": "Use business-facing language in feature files.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Keep each scenario focused on one behavior.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "Avoid cross-scenario state coupling.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER encode implementation details in Gherkin steps.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER skip Three Amigos before writing key scenarios.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER use vague Then steps without observable outcomes.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER couple scenarios with ordering dependencies.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I20",
+      "content": "Prefer explicit examples over abstract wording.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I21",
+      "content": "Reuse step phrases only when semantics are identical.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I22",
+      "content": "Do not use BDD feature files for low-level unit behavior that is internal and not stakeholder-facing.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I23",
+      "content": "Run tagged subsets with --tags, for example \"@smoke and not @wip\".",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I24",
+      "content": "Generate a JSON report with --format json:reports/cucumber-report.json for CI and reporting.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I25",
+      "content": "Keep the scenario count per feature manageable.",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

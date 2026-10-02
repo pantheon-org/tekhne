@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Google Scholar Search \u2014 Advanced Author + Year Filter.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "advanced subcommand is used",
+      "description": "The agent invokes the script with the 'advanced' subcommand rather than 'search'.",
+      "max_score": 10
+    },
+    {
+      "name": "--author flag is set to 'Ilya Sutskever'",
+      "description": "The --author flag is passed with the correct author name (case-insensitive).",
+      "max_score": 10
+    },
+    {
+      "name": "--year-start and --year-end flags are set",
+      "description": "Both --year-start 2017 and --year-end 2021 are passed to the script.",
+      "max_score": 10
+    },
+    {
+      "name": "Results are qualified as non-exhaustive",
+      "description": "The agent explicitly notes that Google Scholar's year filter is a ranking hint and that results may not include all papers in the range.",
+      "max_score": 10
+    },
+    {
+      "name": "Candidate list is returned without auto-triaging",
+      "description": "The results are presented to the user as candidates. No triage-paper invocation occurs without confirmation.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses the `search` subcommand instead of...",
+      "description": "Failure avoided: Agent uses the `search` subcommand instead of `advanced`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits or incorrectly sets the `--author`...",
+      "description": "Failure avoided: Agent omits or incorrectly sets the `--author` flag",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits `--year-start` or `--year-end` (or sets...",
+      "description": "Failure avoided: Agent omits `--year-start` or `--year-end` (or sets incorrect values)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent presents results without qualifying them as...",
+      "description": "Failure avoided: Agent presents results without qualifying them as non-exhaustive",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent automatically triages papers without user confirmation",
+      "description": "Failure avoided: Agent automatically triages papers without user confirmation",
+      "max_score": 10
+    }
+  ]
+}

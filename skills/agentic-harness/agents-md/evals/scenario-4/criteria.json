@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create AGENTS.md for pnpm Monorepo.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Command validation performed",
+      "description": "Agent validated that commands work before including them (evidence of checking)",
+      "max_score": 8
+    },
+    {
+      "name": "Correct package manager",
+      "description": "Uses correct package manager commands (e.g., pnpm for pnpm workspace, not npm)",
+      "max_score": 8
+    },
+    {
+      "name": "Valid test command",
+      "description": "Test command matches project's test setup (e.g., correct test runner, proper flags)",
+      "max_score": 8
+    },
+    {
+      "name": "Valid build command",
+      "description": "Build command is valid for the project's build system",
+      "max_score": 8
+    },
+    {
+      "name": "Valid lint command",
+      "description": "Lint command uses configured linter with correct paths",
+      "max_score": 8
+    },
+    {
+      "name": "No broken commands",
+      "description": "No commands that would fail when copy-pasted (no typos, correct flags)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Uses `npm install` or `yarn` in a...",
+      "description": "Failure avoided: Uses `npm install` or `yarn` in a pnpm workspace project",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Includes test commands referencing a test runner...",
+      "description": "Failure avoided: Includes test commands referencing a test runner not configured in the project",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Provides build commands that don't match the...",
+      "description": "Failure avoided: Provides build commands that don't match the workspace's build system",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Includes lint commands with incorrect paths or...",
+      "description": "Failure avoided: Includes lint commands with incorrect paths or flags that would fail",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Copies commands from a template or assumes...",
+      "description": "Failure avoided: Copies commands from a template or assumes defaults without checking project config",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Delivers a AGENTS.md with any command that...",
+      "description": "Failure avoided: Delivers a AGENTS.md with any command that would produce an error when run verbatim",
+      "max_score": 12
+    }
+  ]
+}

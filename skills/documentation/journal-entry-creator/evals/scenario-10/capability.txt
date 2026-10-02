@@ -1,0 +1,1 @@
+Store screenshots in the entry's own assets directory, use canonical tags and handle a missing companion CLI.

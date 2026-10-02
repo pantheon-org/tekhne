@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Identifying a Recurring Decision Pattern Across Sessions.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Multi-session scope processed",
+      "description": "Agent loads sessions spanning 14 days, not just the most recent",
+      "max_score": 7
+    },
+    {
+      "name": "Decision grouping performed",
+      "description": "Similar decisions from different sessions are grouped, not listed independently",
+      "max_score": 7
+    },
+    {
+      "name": "Recurrence count stated",
+      "description": "Report states \"this decision appeared in X of Y sessions\"",
+      "max_score": 7
+    },
+    {
+      "name": "Rationale assessment made",
+      "description": "Report notes whether consistent rationale was provided or the decision appears to be an unexamined default",
+      "max_score": 7
+    },
+    {
+      "name": "Patterns Emerged section populated",
+      "description": "At least one cross-session pattern is documented with session references",
+      "max_score": 7
+    },
+    {
+      "name": "Recommendation present if warranted",
+      "description": "If a recurring decision is identified as suboptimal, a Start or Stop item is included",
+      "max_score": 7
+    },
+    {
+      "name": "Output file written",
+      "description": "`.retro/insights/domain/` file created with the correct PERIOD",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent treats each session's decisions in isolation...",
+      "description": "Failure avoided: Agent treats each session's decisions in isolation without cross-session grouping",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent invents decision patterns not evidenced in...",
+      "description": "Failure avoided: Agent invents decision patterns not evidenced in the session data",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Report omits the Patterns Emerged section",
+      "description": "Failure avoided: Report omits the Patterns Emerged section",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Recurrence count is missing (no quantification of...",
+      "description": "Failure avoided: Recurrence count is missing (no quantification of how often the pattern appears)",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent flags every decision as a pattern...",
+      "description": "Failure avoided: Agent flags every decision as a pattern regardless of recurrence frequency",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Output file is not written; agent only...",
+      "description": "Failure avoided: Output file is not written; agent only prints findings to chat",
+      "max_score": 16
+    }
+  ]
+}

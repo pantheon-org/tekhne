@@ -1,0 +1,112 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER invent or infer design tokens that don't exist in source code",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER expand one brand colour into a full palette; document only the hardcoded values found",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER generate the reference sheet before reading actual CSS/config files",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER leave sections empty without a TBD marker; write `TBD \u2014 not yet defined`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER abort or refuse because the codebase is sparse; produce the sheet with TBD markers",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER use non-copy-pasteable code examples in the reference sheet; use actual tokens from source",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER use a generic description in the companion enforcement skill; name the project",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER place the companion enforcement skill under `docs/`; it lives in the project skills directory",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER leave `{PROJECT_NAME}` or `{TOKEN_*}` template placeholders in generated output",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER skip the final confirmation report listing populated sections and TBD items",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Discover design tokens by searching CSS for custom properties, `@theme`, `@font-face` and `@import`",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Inspect 3 to 5 representative components before writing",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Check dark mode and accessibility patterns",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Fill the structured scratchpad `templates/skill-output.yaml`, validated against the JSON schema, before any markdown",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Review the populated scratchpad for TBD or null values before generating the final docs",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "Generate `docs/design/design-reference.md` covering all 12 sections from the template",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "Validate the scratchpad against `schemas/design-reference.schema.json` and report populated sections and TBD items",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I18",
+      "content": "Do not use the skill for projects with no CSS source files, for updating an existing sheet, or for a generic design system template",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add cdk-nag to an Existing CDK Application.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Aspects.of(app).add used",
+      "description": "bin/app.ts uses Aspects.of(app).add(...) to apply the rule pack at the app level",
+      "max_score": 10
+    },
+    {
+      "name": "AwsSolutionsChecks instantiated with verbose: true",
+      "description": "The rule pack is instantiated as new AwsSolutionsChecks({ verbose: true })",
+      "max_score": 10
+    },
+    {
+      "name": "Applied before app.synth()",
+      "description": "The Aspects.of(app).add call appears before app.synth() in the file",
+      "max_score": 10
+    },
+    {
+      "name": "Install command in SETUP.md",
+      "description": "SETUP.md includes npm install --save-dev cdk-nag or equivalent install command",
+      "max_score": 10
+    },
+    {
+      "name": "Synth command in SETUP.md",
+      "description": "SETUP.md includes npx cdk synth as the command to surface findings",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Applies `AwsSolutionsChecks` per-stack instead of using `Aspects.of(app).add`",
+      "description": "Failure avoided: Applies `AwsSolutionsChecks` per-stack instead of using `Aspects.of(app).add`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Instantiates `AwsSolutionsChecks` without `{ verbose: true }`",
+      "description": "Failure avoided: Instantiates `AwsSolutionsChecks` without `{ verbose: true }`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Places the Aspects call after `app.synth()`",
+      "description": "Failure avoided: Places the Aspects call after `app.synth()`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: SETUP.md is missing the npm install command",
+      "description": "Failure avoided: SETUP.md is missing the npm install command",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: SETUP.md is missing `npx cdk synth` as...",
+      "description": "Failure avoided: SETUP.md is missing `npx cdk synth` as the trigger command",
+      "max_score": 10
+    }
+  ]
+}

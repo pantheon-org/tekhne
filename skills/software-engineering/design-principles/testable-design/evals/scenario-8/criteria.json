@@ -1,0 +1,56 @@
+{
+  "context": "Tests: verifying architectural boundaries with automated tests that run in CI.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Tool chosen for TypeScript",
+      "description": "The answer uses a dependency-checking tool suited to TypeScript, such as dependency-cruiser, rather than a Java-only tool",
+      "max_score": 10
+    },
+    {
+      "name": "Domain must not depend on infrastructure",
+      "description": "A rule forbids `src/domain` from importing `src/infrastructure`",
+      "max_score": 10
+    },
+    {
+      "name": "Domain must not use frameworks",
+      "description": "A rule forbids `src/domain` from importing frameworks or ORMs such as express or prisma",
+      "max_score": 10
+    },
+    {
+      "name": "Application must not reach infrastructure",
+      "description": "A rule forbids `src/application` from importing infrastructure or vendor SDKs such as Stripe",
+      "max_score": 10
+    },
+    {
+      "name": "Application must not access the interface layer",
+      "description": "A rule forbids use cases from importing from `src/interface`",
+      "max_score": 10
+    },
+    {
+      "name": "Dependencies point inward",
+      "description": "The rules together express that dependencies point toward the domain",
+      "max_score": 10
+    },
+    {
+      "name": "Current violations surfaced",
+      "description": "The answer identifies the existing `prisma` and Stripe imports as violations the rules would catch",
+      "max_score": 10
+    },
+    {
+      "name": "Violations fixed through ports",
+      "description": "The fix for the Stripe import introduces an interface in the application layer implemented in infrastructure",
+      "max_score": 10
+    },
+    {
+      "name": "Runs in CI",
+      "description": "The check is added as a step in the CI workflow so violations fail the build",
+      "max_score": 10
+    },
+    {
+      "name": "Explains the benefit",
+      "description": "The answer says automated rules stop boundary erosion and keep the architecture documented",
+      "max_score": 10
+    }
+  ]
+}

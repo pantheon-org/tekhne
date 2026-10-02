@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Migrate ESLint + Prettier to Biome.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "ESLint removed from scripts",
+      "description": "`package.json` scripts no longer contain eslint commands \u2014 Biome commands replace them",
+      "max_score": 7
+    },
+    {
+      "name": "Prettier removed from scripts",
+      "description": "`package.json` scripts no longer contain prettier commands \u2014 Biome commands replace them",
+      "max_score": 7
+    },
+    {
+      "name": "Biome scripts added",
+      "description": "`package.json` includes biome check and biome check --write (or equivalent) as lint and format scripts",
+      "max_score": 7
+    },
+    {
+      "name": "CI script uses --error-on-warnings",
+      "description": "The CI-targeted script in `package.json` uses `bunx @biomejs/biome check . --error-on-warnings`",
+      "max_score": 7
+    },
+    {
+      "name": "ESLint/Prettier devDeps removed",
+      "description": "`devDependencies` in `package.json` no longer include eslint, prettier, or their associated plugins",
+      "max_score": 7
+    },
+    {
+      "name": "biome.json linter configured",
+      "description": "`biome.json` has a linter section with at least one explicit rule enabled (not empty default)",
+      "max_score": 7
+    },
+    {
+      "name": "MIGRATION.md notes removal",
+      "description": "`MIGRATION.md` explicitly states that ESLint and Prettier have been removed and replaced with Biome",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent leaves eslint commands in `package.json` scripts...",
+      "description": "Failure avoided: Agent leaves eslint commands in `package.json` scripts alongside Biome commands",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent leaves prettier commands in `package.json` scripts...",
+      "description": "Failure avoided: Agent leaves prettier commands in `package.json` scripts alongside Biome commands",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not add Biome check and...",
+      "description": "Failure avoided: Agent does not add Biome check and format scripts to `package.json`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent uses the local dev check command...",
+      "description": "Failure avoided: Agent uses the local dev check command instead of `--error-on-warnings` for the CI script",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent leaves ESLint or Prettier packages in...",
+      "description": "Failure avoided: Agent leaves ESLint or Prettier packages in `devDependencies`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent produces an empty or default `biome.json`...",
+      "description": "Failure avoided: Agent produces an empty or default `biome.json` linter section with no explicit rules",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent omits `MIGRATION.md` or does not explicitly...",
+      "description": "Failure avoided: Agent omits `MIGRATION.md` or does not explicitly mention ESLint and Prettier removal",
+      "max_score": 9
+    }
+  ]
+}

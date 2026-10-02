@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Save a Documentation Page to a Local File.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Used defuddle parse",
+      "description": "The agent invoked `defuddle parse` with the target URL rather than using WebFetch or curl.",
+      "max_score": 10
+    },
+    {
+      "name": "Used --md flag",
+      "description": "The defuddle command included the `--md` flag to request markdown output.",
+      "max_score": 10
+    },
+    {
+      "name": "Used -o flag for file output",
+      "description": "The agent used the `-o bun-installation.md` flag rather than shell redirection (`>`) to write the file.",
+      "max_score": 10
+    },
+    {
+      "name": "Output file exists and contains content",
+      "description": "The file `bun-installation.md` exists in the working directory and contains non-empty markdown content.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses WebFetch or curl instead of `defuddle...",
+      "description": "Failure avoided: Uses WebFetch or curl instead of `defuddle parse` to retrieve the page",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Runs defuddle without the `--md` flag",
+      "description": "Failure avoided: Runs defuddle without the `--md` flag",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses shell redirection (`>`) instead of the...",
+      "description": "Failure avoided: Uses shell redirection (`>`) instead of the `-o` flag to write the file",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `bun-installation.md` file does not exist or...",
+      "description": "Failure avoided: The `bun-installation.md` file does not exist or is empty after the command",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Use `defuddle parse <url>` rather than WebFetch...",
+      "description": "Use `defuddle parse <url>` rather than WebFetch or curl to retrieve the page content",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Include the `--md` flag to request markdown...",
+      "description": "Include the `--md` flag to request markdown output",
+      "max_score": 10
+    }
+  ]
+}

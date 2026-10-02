@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Wrong Problem Framing Detected \u2014 Framing Dispatch.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Framing dispatch",
+      "description": "Agent dispatches to framing protocol without presenting options.",
+      "max_score": 8
+    },
+    {
+      "name": "Protocol file read",
+      "description": "Agent reads `references/protocols/framing.md` before executing.",
+      "max_score": 8
+    },
+    {
+      "name": "Both patterns applied",
+      "description": "Socratic (all 6 stages) and Steelman both appear in output.",
+      "max_score": 8
+    },
+    {
+      "name": "Real goal surfaced",
+      "description": "Maieutics stage produces a stripped-down actual objective distinct from \"add indexes\".",
+      "max_score": 8
+    },
+    {
+      "name": "Steelman quality",
+      "description": "Counter-argument is substantive, not a strawman.",
+      "max_score": 8
+    },
+    {
+      "name": "Report structure",
+      "description": "Framing verdict field present with one of: Framing holds / Framing needs revision / Wrong problem entirely.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent dispatches to anchor or verify instead...",
+      "description": "Failure avoided: Agent dispatches to anchor or verify instead of framing.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent applies only Socratic or only Steelman,...",
+      "description": "Failure avoided: Agent applies only Socratic or only Steelman, not both.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips any of the 6 Socratic...",
+      "description": "Failure avoided: Agent skips any of the 6 Socratic stages.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Steelman is a weak objection rather than...",
+      "description": "Failure avoided: Steelman is a weak objection rather than the strongest possible counter.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent agrees with the index recommendation without...",
+      "description": "Failure avoided: Agent agrees with the index recommendation without challenging the framing.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Framing verdict is absent from the Challenge...",
+      "description": "Failure avoided: Framing verdict is absent from the Challenge Report.",
+      "max_score": 12
+    }
+  ]
+}

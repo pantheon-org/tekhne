@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Semantic Scholar Search \u2014 Keyword Discovery.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "search subcommand used with --query flag",
+      "description": "The agent invokes the script with the 'search' subcommand and passes --query 'speculative decoding' (or equivalent). --limit is set to 8 or a reasonable value.",
+      "max_score": 10
+    },
+    {
+      "name": "Candidate list is presented to the user",
+      "description": "The agent displays a list of result titles (and ideally authors, year, citation count) framed as candidates for the user to review.",
+      "max_score": 10
+    },
+    {
+      "name": "Results qualified as relevance-ranked, not exhaustive",
+      "description": "The agent notes that results are ordered by Semantic Scholar relevance and do not represent all papers on the topic.",
+      "max_score": 10
+    },
+    {
+      "name": "No paper is triaged automatically",
+      "description": "The agent does not invoke triage-paper or create any reference/analysis file without explicit user confirmation.",
+      "max_score": 10
+    },
+    {
+      "name": "User is offered a handoff to triage-paper",
+      "description": "The agent asks the user which candidates (if any) they would like to triage.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses the wrong subcommand or omits...",
+      "description": "Failure avoided: Agent uses the wrong subcommand or omits the `--query` flag",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not present a formatted candidate...",
+      "description": "Failure avoided: Agent does not present a formatted candidate list with titles and metadata",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent presents results without qualifying them as...",
+      "description": "Failure avoided: Agent presents results without qualifying them as relevance-ranked or noting they are non-exhaustive",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent automatically triages papers without user confirmation",
+      "description": "Failure avoided: Agent automatically triages papers without user confirmation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not offer the user a...",
+      "description": "Failure avoided: Agent does not offer the user a handoff to triage-paper",
+      "max_score": 10
+    }
+  ]
+}

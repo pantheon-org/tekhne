@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Investigate a Triggered CloudWatch Alarm.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Navigates to alarm detail page",
+      "description": "Response directs to the CloudWatch alarm detail page, not to Metrics or Logs directly",
+      "max_score": 7
+    },
+    {
+      "name": "Correct alarm URL pattern",
+      "description": "URL uses the #alarmsV2:alarm/{alarm_name} fragment pattern",
+      "max_score": 7
+    },
+    {
+      "name": "Region in URL",
+      "description": "URL includes eu-west-1 in both subdomain and region= query parameter",
+      "max_score": 7
+    },
+    {
+      "name": "Alarm name correctly placed",
+      "description": "The full alarm name appears in the URL without extra encoding of hyphens",
+      "max_score": 7
+    },
+    {
+      "name": "Warns about metric filter vs native metric",
+      "description": "Response notes that the alarm may use a Logs metric filter rather than AWS/Lambda Errors",
+      "max_score": 7
+    },
+    {
+      "name": "Does NOT recommend navigating to AWS/Lambda Errors metric directly",
+      "description": "Response does not instruct navigating to Metrics > AWS/Lambda > Errors as primary evidence",
+      "max_score": 7
+    },
+    {
+      "name": "Mentions alarm Metric section as source of truth",
+      "description": "Response states the alarm detail page shows which metric triggered the alarm",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Navigates to CloudWatch Metrics or Logs instead...",
+      "description": "Failure avoided: Navigates to CloudWatch Metrics or Logs instead of the alarm detail page",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: URL does not use the `#alarmsV2:alarm/{alarm_name}` fragment...",
+      "description": "Failure avoided: URL does not use the `#alarmsV2:alarm/{alarm_name}` fragment pattern",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Region appears in only one location in...",
+      "description": "Failure avoided: Region appears in only one location in the URL",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Alarm name is incorrectly encoded or modified",
+      "description": "Failure avoided: Alarm name is incorrectly encoded or modified",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not warn about the metric filter...",
+      "description": "Failure avoided: Does not warn about the metric filter vs native metric distinction",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Recommends navigating to `Metrics > AWS/Lambda >...",
+      "description": "Failure avoided: Recommends navigating to `Metrics > AWS/Lambda > Errors` as the primary investigation step",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Does not mention that the alarm detail...",
+      "description": "Failure avoided: Does not mention that the alarm detail page is the authoritative source for which metric triggered the alarm",
+      "max_score": 9
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Pre-flight Checks for Template Comparison.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "AWS credential check",
+      "description": "preflight-checks.sh uses 'aws sts get-caller-identity' to verify credentials",
+      "max_score": 5
+    },
+    {
+      "name": "Profile flag usage",
+      "description": "The get-caller-identity command includes --profile flag",
+      "max_score": 5
+    },
+    {
+      "name": "Stack existence check",
+      "description": "preflight-checks.sh uses 'aws cloudformation describe-stacks' to confirm stack exists",
+      "max_score": 5
+    },
+    {
+      "name": "StackStatus query",
+      "description": "The describe-stacks command uses --query to extract StackStatus",
+      "max_score": 5
+    },
+    {
+      "name": "CDK synth validation",
+      "description": "preflight-checks.sh runs 'make synth' to verify synthesis works",
+      "max_score": 5
+    },
+    {
+      "name": "JSON validation",
+      "description": "preflight-checks.sh uses jq to validate JSON after template retrieval",
+      "max_score": 5
+    },
+    {
+      "name": "Error messages present",
+      "description": "Script includes error messages or echo statements for failures",
+      "max_score": 5
+    },
+    {
+      "name": "Credential error fix",
+      "description": "error-recovery.md explains what to do if credentials are invalid (e.g., check AWS_PROFILE, verify profile name)",
+      "max_score": 5
+    },
+    {
+      "name": "Stack not found fix",
+      "description": "error-recovery.md explains what to do if StackNotFoundException occurs (check stack name and region)",
+      "max_score": 5
+    },
+    {
+      "name": "Synth failure fix",
+      "description": "error-recovery.md explains what to do if synthesis fails (check env vars in env-local.mk or env.mk)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not use `aws sts get-caller-identity` for...",
+      "description": "Failure avoided: Does not use `aws sts get-caller-identity` for credential verification",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The identity check command does not include...",
+      "description": "Failure avoided: The identity check command does not include `--profile`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not use `aws cloudformation describe-stacks` for...",
+      "description": "Failure avoided: Does not use `aws cloudformation describe-stacks` for stack existence check",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `--query StackStatus` is absent from the describe-stacks...",
+      "description": "Failure avoided: `--query StackStatus` is absent from the describe-stacks command",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not run `make synth` for synthesis...",
+      "description": "Failure avoided: Does not run `make synth` for synthesis validation",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not use `jq` for JSON validation",
+      "description": "Failure avoided: Does not use `jq` for JSON validation",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Script has no error messages for failures",
+      "description": "Failure avoided: Script has no error messages for failures",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `error-recovery.md` does not explain credential failure recovery",
+      "description": "Failure avoided: `error-recovery.md` does not explain credential failure recovery",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `error-recovery.md` does not explain stack not found...",
+      "description": "Failure avoided: `error-recovery.md` does not explain stack not found recovery",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `error-recovery.md` does not explain synthesis failure recovery",
+      "description": "Failure avoided: `error-recovery.md` does not explain synthesis failure recovery",
+      "max_score": 5
+    }
+  ]
+}

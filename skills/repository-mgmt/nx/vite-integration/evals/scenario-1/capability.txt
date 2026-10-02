@@ -1,0 +1,1 @@
+Create a vite.config.ts for a React Application in an Nx Monorepo

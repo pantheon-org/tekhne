@@ -1,0 +1,100 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Prefer one root config unless migration constraints require nested overrides",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I02",
+      "content": "Keep lint and format authority singular for each file path",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Optimise for deterministic CI (read-only checks) and reproducible local fixes",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Confirm prerequisites first: an Nx workspace, Node.js 18+ and a selected package manager",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I05",
+      "content": "Install Biome and initialise the root configuration (root biome.json exists)",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I06",
+      "content": "Add project targets (or plugin inferred tasks) and enable Nx caching inputs",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Validate lint and format execution on one project, then run across the workspace with run-many",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "Apply a migration strategy: all-at-once, or selective with nested biome.json or scoped overrides",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Enforce anti-pattern checks before rollout",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER use nested biome.json for simple workspace-wide setups; use one root config and add nested configs only for migration or real overrides",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER run ESLint and Biome on the same files without an explicit boundary; each file set has one active lint authority",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER omit biome.json and the Biome dependency from Nx cache inputs; include \"{workspaceRoot}/biome.json\" and externalDependencies [\"@biomejs/biome\"]",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER auto-enable formatter writes in CI verification jobs; use check or lint mode in CI and reserve write mode for local or dedicated fix jobs",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER downgrade critical Biome rules to suppress migration noise; scope temporary exceptions narrowly with documented expiration",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Run nx reset after plugin changes so the daemon cache clears and targets refresh",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Do not use the skill when the repository intentionally standardises on ESLint and Prettier only, or when the task is not Nx-related",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

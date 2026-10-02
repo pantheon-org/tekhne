@@ -1,0 +1,61 @@
+{
+  "context": "Checks that CI verification does not mutate files and write mode is reserved for local or dedicated fix jobs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Removes write mode from CI",
+      "description": "The required CI checks no longer run biome format --write",
+      "max_score": 10
+    },
+    {
+      "name": "CI uses check or lint mode",
+      "description": "CI runs Biome in a read-only check or lint mode",
+      "max_score": 9
+    },
+    {
+      "name": "Explains why write mode in CI is harmful",
+      "description": "Says write mode mutates files and obscures validation failures",
+      "max_score": 9
+    },
+    {
+      "name": "Failures now surface",
+      "description": "States a formatting problem will fail the CI step instead of being silently rewritten",
+      "max_score": 9
+    },
+    {
+      "name": "Uses the Nx targets in CI",
+      "description": "Runs the checks through nx run-many for the Biome lint and format targets",
+      "max_score": 9
+    },
+    {
+      "name": "Keeps write mode local",
+      "description": "Developers run write-mode formatting locally",
+      "max_score": 9
+    },
+    {
+      "name": "Offers a dedicated fix job if wanted",
+      "description": "Says write mode may run in a separate dedicated fix job, not required checks",
+      "max_score": 9
+    },
+    {
+      "name": "Keeps CI deterministic",
+      "description": "Describes CI as deterministic and non-mutating",
+      "max_score": 9
+    },
+    {
+      "name": "Does not weaken rules to pass CI",
+      "description": "Does not turn rules off to make CI green",
+      "max_score": 9
+    },
+    {
+      "name": "Retains the cache inputs",
+      "description": "Keeps biome.json and the Biome dependency in the target cache inputs",
+      "max_score": 9
+    },
+    {
+      "name": "Keeps lint and format authority singular",
+      "description": "Does not leave a second tool also formatting the same files",
+      "max_score": 9
+    }
+  ]
+}

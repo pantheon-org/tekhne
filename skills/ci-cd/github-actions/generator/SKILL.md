@@ -7,6 +7,26 @@ description: Generates production-ready GitHub Actions workflows, custom actions
 
 Generate production-ready GitHub Actions workflows and custom actions following current best practices, security standards, and naming conventions. All generated resources are automatically validated using the devops-skills:github-actions-validator skill.
 
+## Philosophy
+
+- Treat the supply chain as hostile: pin actions to a commit SHA and grant the least permissions that work.
+- Prefer fast feedback: use caching, concurrency cancellation and sensible timeouts.
+- Validate every complete resource before presenting it, and fix before delivery rather than after.
+
+## When to Use
+
+- Creating or scaffolding workflows under `.github/workflows` for CI, testing or deployment.
+- Building composite, Docker or JavaScript actions, or reusable workflows.
+- Adding security scanning such as dependency review, CodeQL or SBOM attestation.
+- Setting up matrix builds, caching, environments or job summaries.
+
+## When Not to Use
+
+- Validating or debugging an existing workflow without generating anything: use the validator skill alone.
+- Targeting other CI systems such as GitLab CI, Azure Pipelines or Jenkins.
+- Administering repository settings, runners or organisation-level secrets.
+- Writing application code that the workflow merely builds or tests.
+
 ## Core Capabilities
 
 ### 1. Generate Workflows
@@ -232,66 +252,96 @@ deploy:
 
 ### NEVER use `@latest` or branch-based action references
 
-- **WHY**: Mutable references allow the action to change silently between runs, enabling supply chain attacks where a compromised upstream injects malicious code into your workflow.
-- **BAD**: `uses: actions/checkout@main`
-- **GOOD**: `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`
+**WHY:** Mutable references allow the action to change silently between runs, enabling supply chain attacks where a compromised upstream injects malicious code into your workflow.
+
+**BAD:** `uses: actions/checkout@main`
+
+**GOOD:** `uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`
 
 ### NEVER use `secrets: inherit` in reusable workflows without justification
 
-- **WHY**: `secrets: inherit` exposes every secret from the caller to the callee even when only one is needed, violating the principle of least privilege and widening the blast radius of a compromised workflow.
-- **BAD**: `secrets: inherit`
-- **GOOD**: Declare only required secrets explicitly — `secrets: deploy-token: required: true`
+**WHY:** `secrets: inherit` exposes every secret from the caller to the callee even when only one is needed, violating the principle of least privilege and widening the blast radius of a compromised workflow.
+
+**BAD:** `secrets: inherit`
+
+**GOOD:** Declare only required secrets explicitly, for example `secrets: deploy-token: required: true`.
 
 ### NEVER omit `permissions:` at the job or workflow level
 
-- **WHY**: `GITHUB_TOKEN` defaults to write permissions in older repositories. Omitting `permissions:` means every job can push commits, create releases, or modify issues unintentionally.
-- **BAD**: A workflow with no `permissions:` block at all.
-- **GOOD**: Set `permissions: contents: read` as the workflow default and override per-job only where write access is genuinely required.
+**WHY:** `GITHUB_TOKEN` defaults to write permissions in older repositories. Omitting `permissions:` means every job can push commits, create releases, or modify issues unintentionally.
+
+**BAD:** A workflow with no `permissions:` block at all.
+
+**GOOD:** Set `permissions: contents: read` as the workflow default and override per-job only where write access is genuinely required.
 
 ### NEVER set `fail-fast: false` by default in matrix builds
 
-- **WHY**: `fail-fast: false` causes the entire matrix to keep running after the first failure, wasting runner minutes and delaying feedback. It should be an intentional choice, not a default.
-- **BAD**: `strategy: fail-fast: false` added to every matrix without explanation.
-- **GOOD**: Omit `fail-fast` to use the default `true`, or add an explicit comment explaining why all combinations must complete.
+**WHY:** `fail-fast: false` causes the entire matrix to keep running after the first failure, wasting runner minutes and delaying feedback. It should be an intentional choice, not a default.
+
+**BAD:** `strategy: fail-fast: false` added to every matrix without explanation.
+
+**GOOD:** Omit `fail-fast` to use the default `true`, or add an explicit comment explaining why all combinations must complete.
 
 ### NEVER use `pull_request_target` with `actions/checkout` checking out PR code
 
-- **WHY**: `pull_request_target` runs with write permissions and access to secrets. Combining it with a checkout of untrusted PR code enables attackers to exfiltrate secrets or tamper with your repository.
-- **BAD**: `on: pull_request_target` combined with `uses: actions/checkout@... with: ref: ${{ github.event.pull_request.head.sha }}`
-- **GOOD**: Use `pull_request` for untrusted code, or carefully scope and audit any `pull_request_target` workflow before adding a checkout step.
+**WHY:** `pull_request_target` runs with write permissions and access to secrets. Combining it with a checkout of untrusted PR code enables attackers to exfiltrate secrets or tamper with your repository.
+
+**BAD:** `on: pull_request_target` combined with `uses: actions/checkout@... with: ref: ${{ github.event.pull_request.head.sha }}`
+
+**GOOD:** Use `pull_request` for untrusted code, or carefully scope and audit any `pull_request_target` workflow before adding a checkout step.
+
+### NEVER pin an action to a SHA without a version comment
+
+**WHY:** a bare SHA tells reviewers nothing about which release it is, so upgrades and audits become guesswork.
+
+**BAD:** `uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903`
+
+**GOOD:** `uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0`
+
+### NEVER guess the version of a public action
+
+**WHY:** invented versions or SHAs fail at run time or pin to the wrong release.
+
+**BAD:** typing a SHA from memory.
+
+**GOOD:** take the version from `references/common-actions.md`, or look up the action's documentation first.
+
+### NEVER ship a workflow without concurrency control and timeouts
+
+**WHY:** superseded runs keep consuming runner minutes and a hung job can run until the platform limit.
+
+**BAD:** a workflow with no `concurrency:` block and no `timeout-minutes:`.
+
+**GOOD:** add `concurrency` with `cancel-in-progress: true` and a `timeout-minutes` on each job.
+
+### NEVER deliver a generated workflow or action without validating it
+
+**WHY:** unvalidated YAML ships syntax and security errors to the user.
+
+**BAD:** presenting a new workflow straight after writing it.
+
+**GOOD:** invoke the github-actions-validator skill, fix errors, and re-validate before presenting.
+
+### NEVER publish a custom action without inputs, outputs and documentation
+
+**WHY:** consumers cannot use an action whose interface is undocumented, and branding and metadata are part of the contract.
+
+**BAD:** an `action.yml` with no inputs, outputs or description.
+
+**GOOD:** include branding, typed inputs and outputs, and documentation, following `references/custom-actions.md`.
 
 ## References
 
-### Reference Documents
-
-| Document | Content | When to Use |
-|----------|---------|-------------|
-| `references/best-practices.md` | Security, performance, patterns | Every workflow |
-| `references/common-actions.md` | Action versions, inputs, outputs | Public action usage |
-| `references/expressions-and-contexts.md` | `${{ }}` syntax, contexts, functions | Complex conditionals |
-| `references/advanced-triggers.md` | workflow_run, dispatch, ChatOps | Workflow orchestration |
-| `references/custom-actions.md` | Metadata, structure, versioning | Custom action creation |
-| `references/modern-features.md` | Summaries, environments, containers | Enhanced workflows |
-
-### Templates
-
-| Template | Location |
-|----------|----------|
-| Basic Workflow | `assets/templates/workflow/basic_workflow.yml` |
-| Composite Action | `assets/templates/action/composite/action.yml` |
-| Docker Action | `assets/templates/action/docker/` |
-| JavaScript Action | `assets/templates/action/javascript/` |
-
----
-
-| Capability | When to Use | Reference |
-|------------|-------------|-----------|
-| Workflows | CI/CD, automation, testing | `references/best-practices.md` |
-| Composite Actions | Reusable step combinations | `references/custom-actions.md` |
-| Docker Actions | Custom environments/tools | `references/custom-actions.md` |
-| JavaScript Actions | API interactions, complex logic | `references/custom-actions.md` |
-| Reusable Workflows | Shared patterns across repos | `references/advanced-triggers.md` |
-| Security Scanning | Dependency review, SBOM | `references/best-practices.md` |
-| Modern Features | Summaries, environments | `references/modern-features.md` |
-
----
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Best practices | [references/best-practices.md](references/best-practices.md) | Every workflow: security, performance, patterns |
+| Public actions | [references/common-actions.md](references/common-actions.md) | Action versions, inputs and outputs |
+| Expressions | [references/expressions-and-contexts.md](references/expressions-and-contexts.md) | Complex conditionals and `${{ }}` syntax |
+| Advanced triggers | [references/advanced-triggers.md](references/advanced-triggers.md) | workflow_run, dispatch, ChatOps and reusable workflows |
+| Custom actions | [references/custom-actions.md](references/custom-actions.md) | Metadata, structure and versioning |
+| Modern features | [references/modern-features.md](references/modern-features.md) | Summaries, environments and container jobs |
+| Basic workflow template | [assets/templates/workflow/basic_workflow.yml](assets/templates/workflow/basic_workflow.yml) | Starting a new workflow |
+| Reusable workflow template | [assets/templates/workflow/reusable_workflow.yml](assets/templates/workflow/reusable_workflow.yml) | Starting a callable workflow |
+| Composite action template | [assets/templates/action/composite/action.yml](assets/templates/action/composite/action.yml) | Combining steps into one action |
+| Docker action template | [assets/templates/action/docker/action.yml](assets/templates/action/docker/action.yml) | Custom environment or tools |
+| JavaScript action template | [assets/templates/action/javascript/action.yml](assets/templates/action/javascript/action.yml) | API access and complex logic |

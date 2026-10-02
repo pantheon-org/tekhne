@@ -1,0 +1,56 @@
+{
+  "context": "Checks the extraction hazards and exclusions: hashed class names, hover state colours, OS colour scheme, login walls and permission.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses computed values",
+      "description": "Extracts computed values with the JS snippets rather than reading class names",
+      "max_score": 10
+    },
+    {
+      "name": "Does not port hashed classes",
+      "description": "Does not copy or reference `_3xKy9`-style class names into the project",
+      "max_score": 10
+    },
+    {
+      "name": "Resting state for base token",
+      "description": "Takes the primary button colour from its resting state",
+      "max_score": 10
+    },
+    {
+      "name": "Hover documented separately",
+      "description": "Records the darker hover shade separately, not as the base token",
+      "max_score": 10
+    },
+    {
+      "name": "Light mode extraction",
+      "description": "Extracts in light mode or switches the scheme before extracting",
+      "max_score": 10
+    },
+    {
+      "name": "Notes mode in overview",
+      "description": "Records which colour scheme was active in `overview.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Rejects dark-mode base tokens",
+      "description": "Does not use near-black dark-mode computed values as the base palette",
+      "max_score": 10
+    },
+    {
+      "name": "Flags login wall",
+      "description": "States that the login-walled checkout cannot be extracted without credentials",
+      "max_score": 10
+    },
+    {
+      "name": "Raises permission",
+      "description": "Asks the user to confirm they have the right to replicate the competitor's visual identity before starting",
+      "max_score": 10
+    },
+    {
+      "name": "Keeps scope to public pages",
+      "description": "Limits the port to publicly reachable pages and says so",
+      "max_score": 10
+    }
+  ]
+}

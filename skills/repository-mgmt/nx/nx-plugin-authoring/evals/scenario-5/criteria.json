@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Register a Generator So It Can Be Invoked by Nx CLI.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "generators.json has scaffold entry with factory path",
+      "description": "`generators.json` includes a `'scaffold'` key under `'generators'` with a `factory` pointing to the generator function (e.g. `'./src/generators/scaffold/generator'`)",
+      "max_score": 10
+    },
+    {
+      "name": "generators.json schema path included",
+      "description": "The scaffold entry in `generators.json` includes a `schema` field pointing to the `schema.json` file",
+      "max_score": 10
+    },
+    {
+      "name": "src/index.ts exports the generator",
+      "description": "`src/index.ts` exports the scaffold generator function (default or named export matching the factory path)",
+      "max_score": 10
+    },
+    {
+      "name": "Both files consistent with each other",
+      "description": "The factory path in `generators.json` and the export in `src/index.ts` refer to the same generator implementation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `generators.json` has no `generators` key or no...",
+      "description": "Failure avoided: `generators.json` has no `generators` key or no `scaffold` entry, so Nx CLI cannot find the generator",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `scaffold` entry in `generators.json` has no...",
+      "description": "Failure avoided: The `scaffold` entry in `generators.json` has no `factory` path or points to the wrong file",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `scaffold` entry in `generators.json` has no...",
+      "description": "Failure avoided: The `scaffold` entry in `generators.json` has no `schema` field",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `src/index.ts` remains empty, so the generator function...",
+      "description": "Failure avoided: `src/index.ts` remains empty, so the generator function is not exported",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `factory` path and the export in...",
+      "description": "Failure avoided: The `factory` path and the export in `src/index.ts` are inconsistent, pointing to different implementations",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Add a `scaffold` entry under a `generators`...",
+      "description": "Add a `scaffold` entry under a `generators` key in `generators.json`, with a `factory` path pointing to the generator function (e.g. `'./src/generators/scaffold/generator'`)",
+      "max_score": 10
+    }
+  ]
+}

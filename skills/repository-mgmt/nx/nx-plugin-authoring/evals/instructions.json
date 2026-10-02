@@ -1,0 +1,154 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Keep plugins as orchestration tools, not business-logic containers.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Prefer small, composable generation steps over large mutation passes.",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I03",
+      "content": "Keep executors deterministic and cache-aware.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Use Tree API exclusively for filesystem operations in generators.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Create the plugin structure with npx create-nx-plugin for a new workspace, or npx nx add @nx/plugin then npx nx g plugin for an existing one.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Define a typed schema with required fields for generator options.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Add generator templates with EJS syntax.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Validate generators with --dry-run before execution and before broad rollouts; stop if unexpected files appear or required options fail validation.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Return { success: boolean } from the executor function.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Use package notation for executor references in targets.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Declare outputs for cacheable tasks.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Run plugin tests with nx test and validate the generator and target in a real workspace.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER modify files outside the Tree API.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER hardcode project paths in generator logic; derive them from readProjectConfiguration(...).root.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER skip schema validation and typed options.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER generate across project boundaries without explicit checks; verify tags and dependency direction and respect existing tags.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER mutate project configuration blindly; read, modify and update rather than overwriting project.json.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER put business logic directly inside executor entrypoints.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER use relative executor references in targets.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER omit outputs and dependencies semantics for cacheable work.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "NEVER block executor runs with synchronous file I/O in hot paths.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I22",
+      "content": "NEVER skip formatFiles after generating code.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I23",
+      "content": "NEVER ignore existing project structure when generating files; check tree.exists before writing.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I24",
+      "content": "NEVER forget to export the generator or executor from the plugin index and register it in generators.json.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I25",
+      "content": "When directory is omitted use the workspace default location, and apply safe schema defaults for omitted optional flags.",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

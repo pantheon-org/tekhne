@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/testing/test-driven-development/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 7,
+    "evalValidation": 17,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 9,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 14
+  },
+  "total": 115,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 196,
+  "hasReferences": true,
+  "referenceCount": 42,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

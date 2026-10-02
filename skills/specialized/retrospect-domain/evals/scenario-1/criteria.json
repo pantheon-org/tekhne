@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Extracting Learnings from a Debugging Session.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Technical domain framework applied",
+      "description": "Report uses Technical Domain headings (patterns, decisions, edge cases), not the generic framework",
+      "max_score": 8
+    },
+    {
+      "name": "Session evidence cited",
+      "description": "At least two findings reference specific tools used or conversation turns from the session",
+      "max_score": 8
+    },
+    {
+      "name": "Four required sections populated",
+      "description": "What I Learned, What Worked Well, What Didn't Work, Decisions Made are all non-empty",
+      "max_score": 8
+    },
+    {
+      "name": "Start/Stop/Continue present",
+      "description": "At least one item per category in the SSC section",
+      "max_score": 8
+    },
+    {
+      "name": "Output file written",
+      "description": "File exists at `.retro/insights/domain/` with the correct PERIOD in the filename",
+      "max_score": 8
+    },
+    {
+      "name": "Follow-up suggestion made",
+      "description": "Agent suggests the next retrospect command in the chat response",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent uses the generic framework instead of...",
+      "description": "Failure avoided: Agent uses the generic framework instead of the Technical Domain framework for a debugging session",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent invents technical decisions not evidenced in...",
+      "description": "Failure avoided: Agent invents technical decisions not evidenced in the session",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Report sections are empty or contain only...",
+      "description": "Failure avoided: Report sections are empty or contain only placeholder text",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not write the output file",
+      "description": "Failure avoided: Agent does not write the output file",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Follow-up suggestion to `/retrospect collab` or `/retrospect...",
+      "description": "Failure avoided: Follow-up suggestion to `/retrospect collab` or `/retrospect report` is omitted",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent uses a hardcoded output path instead...",
+      "description": "Failure avoided: Agent uses a hardcoded output path instead of the project-configurable `.retro/insights/` location",
+      "max_score": 12
+    }
+  ]
+}

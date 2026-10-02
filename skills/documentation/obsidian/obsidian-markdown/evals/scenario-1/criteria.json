@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create an Obsidian Note for Project Alpha.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Frontmatter is first",
+      "description": "The file begins with a YAML frontmatter block (`---`) before any headings or body content",
+      "max_score": 10
+    },
+    {
+      "name": "Wikilink used for internal note reference",
+      "description": "The note references Meeting Notes using `[[Meeting Notes]]` wikilink syntax, not `[Meeting Notes](meeting-notes.md)` or similar Markdown link",
+      "max_score": 10
+    },
+    {
+      "name": "Section embed used for Architecture Diagram",
+      "description": "The embed uses `![[Architecture Diagram#Overview]]` or similar section-scoped embed form, not `![[Architecture Diagram]]` (full note embed)",
+      "max_score": 10
+    },
+    {
+      "name": "Warning callout syntax correct",
+      "description": "The deadline callout uses `> [!warning]` syntax (with the bracketed type on the blockquote line)",
+      "max_score": 10
+    },
+    {
+      "name": "Tags are valid (no spaces)",
+      "description": "Any tags in frontmatter or inline do not contain spaces (e.g., `#project-alpha` not `#project alpha`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: YAML frontmatter block appears after a heading...",
+      "description": "Failure avoided: YAML frontmatter block appears after a heading or body content",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: \"Meeting Notes\" is referenced using `[Meeting Notes](meeting-notes.md)`...",
+      "description": "Failure avoided: \"Meeting Notes\" is referenced using `[Meeting Notes](meeting-notes.md)` instead of `[[Meeting Notes]]`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: \"Architecture Diagram\" is embedded using `![[Architecture Diagram]]`...",
+      "description": "Failure avoided: \"Architecture Diagram\" is embedded using `![[Architecture Diagram]]` (full note) instead of a section-scoped embed like `![[Architecture Diagram#Overview]]`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Deadline callout uses a syntax other than...",
+      "description": "Failure avoided: Deadline callout uses a syntax other than `> [!warning]` (e.g., `> Warning:` or a generic blockquote)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any tag in frontmatter contains a space...",
+      "description": "Failure avoided: Any tag in frontmatter contains a space (e.g., `#project alpha`)",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Fix a Broken Obsidian Note.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Frontmatter moved to top",
+      "description": "The YAML frontmatter block (`---`) appears before the `# Weekly Sync` heading and before any body content",
+      "max_score": 10
+    },
+    {
+      "name": "Tag space removed",
+      "description": "The tag `project alpha` is replaced with a valid tag that has no space, such as `#project-alpha` or `project-alpha` in the frontmatter list",
+      "max_score": 10
+    },
+    {
+      "name": "Internal note links converted to wikilinks",
+      "description": "All references to internal notes (Meeting Notes, Design Team, Architecture Overview) use `[[...]]` wikilink syntax, not `[text](file.md)` Markdown links",
+      "max_score": 10
+    },
+    {
+      "name": "External URL uses Markdown link syntax",
+      "description": "The company portal URL uses `[text](https://...)` syntax, not `[[https://...]]` wikilink syntax",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: YAML frontmatter block still appears after the...",
+      "description": "Failure avoided: YAML frontmatter block still appears after the `# Weekly Sync` heading or body content",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Tag still contains a space (e.g., `project...",
+      "description": "Failure avoided: Tag still contains a space (e.g., `project alpha`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any internal note reference (Meeting Notes, Design...",
+      "description": "Failure avoided: Any internal note reference (Meeting Notes, Design Team, Architecture Overview) still uses `[text](file.md)` instead of `[[...]]`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The external company portal URL still uses...",
+      "description": "Failure avoided: The external company portal URL still uses `[[https://...]]` wikilink syntax instead of standard Markdown link syntax",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Move the YAML frontmatter block so it...",
+      "description": "Move the YAML frontmatter block so it appears before the `# Weekly Sync` heading and before any body content",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Replace the tag `project alpha` with a...",
+      "description": "Replace the tag `project alpha` with a valid tag that has no space, such as `project-alpha`",
+      "max_score": 10
+    }
+  ]
+}

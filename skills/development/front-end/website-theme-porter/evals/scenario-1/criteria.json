@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Theme Extraction Setup.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct base path",
+      "description": "`setup.sh` defines `ARTIFACTS` as a path starting with `.context/artifacts/`",
+      "max_score": 5
+    },
+    {
+      "name": "Slug format",
+      "description": "`setup.sh` uses a lowercase hyphenated slug (e.g., `example-com`) as the directory name under `.context/artifacts/`",
+      "max_score": 5
+    },
+    {
+      "name": "Date subdirectory",
+      "description": "`setup.sh` includes a `YYYY-MM-DD` date subdirectory under the slug directory",
+      "max_score": 5
+    },
+    {
+      "name": "No /tmp usage",
+      "description": "`setup.sh` does NOT save any file to `/tmp`",
+      "max_score": 5
+    },
+    {
+      "name": "No docs/ usage",
+      "description": "`setup.sh` does NOT save any file to `docs/` or `docs/screenshots/`",
+      "max_score": 5
+    },
+    {
+      "name": "Screenshots under ARTIFACTS",
+      "description": "All `agent-browser` screenshot commands in `setup.sh` use `${ARTIFACTS}/` as the base path",
+      "max_score": 5
+    },
+    {
+      "name": "theme/ subdirectory",
+      "description": "`setup.sh` creates a `theme/` subdirectory inside the ARTIFACTS path",
+      "max_score": 5
+    },
+    {
+      "name": "overview.md location",
+      "description": "`overview.md` is placed inside `.context/artifacts/example-com/2026-03-13/theme/`",
+      "max_score": 5
+    },
+    {
+      "name": "Extraction method noted",
+      "description": "`overview.md` contains a field or note identifying which extraction method was used",
+      "max_score": 5
+    },
+    {
+      "name": "Source URL noted",
+      "description": "`overview.md` contains the source URL (`https://example.com`)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent writes artifact files to `/tmp` instead...",
+      "description": "Failure avoided: Agent writes artifact files to `/tmp` instead of `.context/artifacts/`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent writes artifact files to `docs/` or...",
+      "description": "Failure avoided: Agent writes artifact files to `docs/` or `docs/screenshots/`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not include a date subdirectory...",
+      "description": "Failure avoided: Agent does not include a date subdirectory under the slug",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent does not create a `theme/` subdirectory",
+      "description": "Failure avoided: Agent does not create a `theme/` subdirectory",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent places `overview.md` in the project root...",
+      "description": "Failure avoided: Agent places `overview.md` in the project root or under `docs/` instead of the theme subdirectory",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits the extraction method from `overview.md`",
+      "description": "Failure avoided: Agent omits the extraction method from `overview.md`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits the source URL from `overview.md`",
+      "description": "Failure avoided: Agent omits the source URL from `overview.md`",
+      "max_score": 20
+    }
+  ]
+}

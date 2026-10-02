@@ -1,0 +1,66 @@
+{
+  "context": "Tests the When Not to Use boundaries: data plots, exact reproductions and interactive or animated figures.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Bar chart declined",
+      "description": "Says this skill is not for the data visualisation request",
+      "max_score": 12
+    },
+    {
+      "name": "Plotting library named",
+      "description": "Recommends matplotlib, seaborn or R for the bar chart",
+      "max_score": 8
+    },
+    {
+      "name": "Data-bound reason",
+      "description": "Explains that plotting libraries give reproducible, data-bound figures with axes and error bars",
+      "max_score": 8
+    },
+    {
+      "name": "Exact reproduction declined",
+      "description": "Says this skill should not be used to reproduce a prior figure exactly",
+      "max_score": 12
+    },
+    {
+      "name": "Original source suggested",
+      "description": "Suggests the original source or a vector redraw tool for Figure 3",
+      "max_score": 8
+    },
+    {
+      "name": "Animation declined",
+      "description": "Says this skill cannot produce an animated diagram",
+      "max_score": 12
+    },
+    {
+      "name": "Static-only limit stated",
+      "description": "States the skill produces static publication images only",
+      "max_score": 8
+    },
+    {
+      "name": "Alternative for animation",
+      "description": "Suggests a different tool or approach for the interactive or animated figure",
+      "max_score": 6
+    },
+    {
+      "name": "No command run for declined items",
+      "description": "Does not run generate_schematic.py for any of the three requests",
+      "max_score": 8
+    },
+    {
+      "name": "Static alternative offered",
+      "description": "Offers a static schematic of the axon as a possible use of this skill",
+      "max_score": 6
+    },
+    {
+      "name": "Separate answer per request",
+      "description": "Gives a distinct decision for each of the three requests",
+      "max_score": 6
+    },
+    {
+      "name": "No data fabricated",
+      "description": "Does not invent values for the bar chart",
+      "max_score": 6
+    }
+  ]
+}

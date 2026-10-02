@@ -1,0 +1,112 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Make Vite defer to Nx for path resolution and task orchestration through nxViteTsPaths(); without it workspace aliases resolve to nothing.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Keep workspace-level decisions in project.json and build-level decisions in vite.config.ts, separate from each other.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Treat library mode differently from app mode: libraries externalize peer deps, apps bundle everything.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Install @nx/vite and vite, plus one framework plugin (react, vue or svelte), in an Nx workspace.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Generate the Vite setup with nx g @nx/vite:configuration <project-name>.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Ensure build, serve and test (Vitest) targets are valid.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I07",
+      "content": "ALWAYS configure outDir and cacheDir relative to the workspace root.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Add nxCopyAssetsPlugin if non-public files must be copied.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Add an environment replacement plugin when needed.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "For libraries, configure build.lib.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I11",
+      "content": "For libraries, add vite-plugin-dts for declaration output.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Verify with nx run <project>:build and nx run <project>:test.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER skip nxViteTsPaths() in Nx monorepos.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER bundle all dependencies in library mode; ALWAYS externalize peer dependencies for published libraries.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER use project-relative cache or coverage paths that ignore the workspace root.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER mix unrelated build and test concerns without intention; keep sections intentional and validate each step.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "ALWAYS set root: __dirname.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "ALWAYS define test.reporters, test.environment and deterministic cache and coverage paths.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

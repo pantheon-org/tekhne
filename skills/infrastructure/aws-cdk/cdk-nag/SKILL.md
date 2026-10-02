@@ -7,18 +7,24 @@ description: Enforce AWS CDK security and compliance controls with cdk-nag. Use 
 
 ## When to Use
 
-Use this skill when CDK infrastructure must be validated against security/compliance guardrails.
+- Validating CDK infrastructure against security and compliance guardrails.
+- Adding a rule pack such as `AwsSolutionsChecks` to a CDK app.
+- Triaging findings reported during `npx cdk synth`.
+- Writing justified, scoped suppressions for accepted findings.
+- Wiring nag checks into CI/CD so insecure patterns fail the build.
 
 ## When Not to Use
 
-Do not use this skill for Terraform-only repositories without AWS CDK constructs.
+- Terraform-only repositories without AWS CDK constructs.
+- Runtime or account-level posture checks, which cdk-nag does not perform.
+- Reviews of application code that never reach a CDK stack.
 
-## Core Principles
+## Philosophy
 
-1. Run compliance checks early in development.
-2. Prefer fixing insecure resources over suppressing findings.
-3. Use suppressions only with explicit, reviewable rationale.
-4. Keep CI enforcement consistent with risk profile.
+- Run compliance checks early in development, not at release.
+- Prefer fixing insecure resources over suppressing findings.
+- Use suppressions only with explicit, reviewable rationale.
+- Keep CI enforcement consistent with the risk profile.
 
 ## Deterministic Workflow
 
@@ -66,7 +72,7 @@ Expected result: failing status when tests or nag checks fail.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh cdk-nag --json
+pantheon-skill-auditor evaluate infrastructure/aws-cdk/cdk-nag --json
 ```
 
 Expected result: updated skill score and grade.
@@ -146,6 +152,51 @@ Expected result: only `myBucket` is exempted from `AwsSolutions-S1`; all other r
 **GOOD:** Fix root cause or add justified suppression once.
 
 **Consequence:** Compliance debt accumulates quickly.
+
+### NEVER suppress a finding when a fix is feasible
+
+**WHY:** Fixing the resource removes the risk; a suppression only hides it.
+
+**BAD:** Suppress `AwsSolutions-S10` instead of adding `enforceSSL: true`.
+**GOOD:** Change the construct so the finding no longer fires.
+
+**Consequence:** Fixable gaps stay in production behind a reason string.
+
+### NEVER leave a remaining finding without an owner and a decision
+
+**WHY:** An undecided finding is neither fixed nor accepted, so nobody is accountable.
+
+**BAD:** Move on to suppressions with three findings still unclassified.
+**GOOD:** Categorize each as fix / suppress / defer before advancing.
+
+**Consequence:** Findings are lost between triage and merge.
+
+### NEVER merge without re-running synth and the CI checks
+
+**WHY:** A fix or suppression can change the findings that remain.
+
+**BAD:** Merge straight after editing a suppression.
+**GOOD:** Re-run `npx cdk synth` and the CI pipeline first.
+
+**Consequence:** The merged change fails the pipeline or ships a new violation.
+
+### NEVER apply a rule pack to one stack and assume the app is covered
+
+**WHY:** Stacks without the aspect are never checked.
+
+**BAD:** `Aspects.of(stack).add(new AwsSolutionsChecks())` on a single stack.
+**GOOD:** `Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true }))` once on the app.
+
+**Consequence:** Unchecked stacks drift out of compliance silently.
+
+### NEVER use this skill for Terraform-only repositories
+
+**WHY:** cdk-nag inspects AWS CDK constructs and has nothing to analyse elsewhere.
+
+**BAD:** Add cdk-nag guidance to a pure Terraform module.
+**GOOD:** Use a Terraform-appropriate checker instead.
+
+**Consequence:** Effort is wasted and the repository gains no real guardrail.
 
 ## References
 

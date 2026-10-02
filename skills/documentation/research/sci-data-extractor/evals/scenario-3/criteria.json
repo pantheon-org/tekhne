@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Sci-Data-Extractor \u2014 Batch Processing with Failure Review.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "batch_extract.py invoked with correct arguments",
+      "description": "The agent runs ./scripts/batch_extract.py ./literature/ ./output/ --template review --format csv.",
+      "max_score": 10
+    },
+    {
+      "name": "failed files identified from batch summary",
+      "description": "The agent reads the batch summary output and correctly identifies paper3.pdf and paper5.pdf as failed files.",
+      "max_score": 10
+    },
+    {
+      "name": "individual re-run command provided with --print flag",
+      "description": "The agent provides the exact command to re-run one failed file individually, including --print for inspection, e.g. ./scripts/extractor.py ./literature/paper3.pdf --template review -o /tmp/paper3_debug.md --print.",
+      "max_score": 10
+    },
+    {
+      "name": "user advised not to treat partial batch as complete",
+      "description": "The agent explicitly warns that the output folder contains only 3 successful extractions and that the dataset is incomplete until failed files are resolved.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits `--template review` or `--format csv`...",
+      "description": "Failure avoided: Agent omits `--template review` or `--format csv` from the batch command, or uses the wrong paths",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent fails to read the batch summary...",
+      "description": "Failure avoided: Agent fails to read the batch summary or does not identify the correct failed files",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent provides a re-run command without the...",
+      "description": "Failure avoided: Agent provides a re-run command without the `--print` flag, or omits the individual re-run step entirely",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not warn the user that...",
+      "description": "Failure avoided: Agent does not warn the user that the dataset is incomplete due to the 2 failed extractions",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Run `./scripts/batch_extract.py ./literature/ ./output/ --template review --format..",
+      "description": "Run `./scripts/batch_extract.py ./literature/ ./output/ --template review --format csv`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Read the batch summary output and correctly...",
+      "description": "Read the batch summary output and correctly identify `paper3.pdf` and `paper5.pdf` as failed files",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Tests: framework loading and fallback, session filter parsing, reading git context, heading adaptation and the Sessions Reviewed list.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Framework lookup attempted",
+      "description": "The agent checks for domain-finance.md at the configured domain frameworks location",
+      "max_score": 9
+    },
+    {
+      "name": "Missing file warned",
+      "description": "The agent tells the user that the finance framework file is missing",
+      "max_score": 9
+    },
+    {
+      "name": "Falls back instead of aborting",
+      "description": "The agent continues with the generic framework and does not stop",
+      "max_score": 9
+    },
+    {
+      "name": "Session loader run",
+      "description": "The agent runs the session filter script with the 7-day argument",
+      "max_score": 9
+    },
+    {
+      "name": "PERIOD parsed separately",
+      "description": "The agent takes the PERIOD value from the first line and treats only the remaining 4 lines as session paths",
+      "max_score": 8
+    },
+    {
+      "name": "Conversation turns read",
+      "description": "The agent extracts conversation turns from each session",
+      "max_score": 8
+    },
+    {
+      "name": "Tools and git context read",
+      "description": "The agent also extracts tools used and git context from each session",
+      "max_score": 8
+    },
+    {
+      "name": "Headings adapted",
+      "description": "The agent adapts analysis headings where the policy-drafting content does not fit the standard questions",
+      "max_score": 8
+    },
+    {
+      "name": "Sessions Reviewed listed first",
+      "description": "The report starts with a Sessions Reviewed list covering the 4 sessions",
+      "max_score": 8
+    },
+    {
+      "name": "Learnings tied to sessions",
+      "description": "Each learning cites the specific session it came from",
+      "max_score": 8
+    },
+    {
+      "name": "Output written to the PERIOD file",
+      "description": "The report is written to the configured domain insights folder under the PERIOD file name",
+      "max_score": 8
+    },
+    {
+      "name": "File path reported",
+      "description": "The agent reports the output path to the user",
+      "max_score": 8
+    }
+  ]
+}

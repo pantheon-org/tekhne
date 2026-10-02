@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Scientific Schematics \u2014 CONSORT Flowchart for Journal Paper.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "ANTHROPIC_API_KEY loaded from environment",
+      "description": "The agent uses ANTHROPIC_API_KEY from the environment and does not hardcode any key.",
+      "max_score": 10
+    },
+    {
+      "name": "--doc-type journal used",
+      "description": "The agent passes --doc-type journal (threshold 8.5/10) to the generation script.",
+      "max_score": 10
+    },
+    {
+      "name": "Output stored in figures/",
+      "description": "The generated diagram is saved under figures/ with a descriptive filename.",
+      "max_score": 10
+    },
+    {
+      "name": "Quality threshold verified",
+      "description": "The agent confirms the diagram meets the 8.5/10 journal threshold before reporting completion.",
+      "max_score": 10
+    },
+    {
+      "name": "Diagram described to user",
+      "description": "The agent describes what was generated and provides the output file path.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent hardcodes an API key or fails...",
+      "description": "Failure avoided: Agent hardcodes an API key or fails to load it from the environment",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses the wrong `--doc-type` (e.g., `conference`...",
+      "description": "Failure avoided: Agent uses the wrong `--doc-type` (e.g., `conference` or `poster`) instead of `journal`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent saves the output outside `figures/` or...",
+      "description": "Failure avoided: Agent saves the output outside `figures/` or uses a non-descriptive filename",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent reports completion without verifying the 8.5/10...",
+      "description": "Failure avoided: Agent reports completion without verifying the 8.5/10 quality threshold",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not describe the generated diagram...",
+      "description": "Failure avoided: Agent does not describe the generated diagram or omits the output file path",
+      "max_score": 10
+    }
+  ]
+}

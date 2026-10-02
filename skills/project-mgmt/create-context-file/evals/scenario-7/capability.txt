@@ -1,0 +1,1 @@
+Tests the curated typology rule, dry-run preview and the allow-new-type escape hatch.

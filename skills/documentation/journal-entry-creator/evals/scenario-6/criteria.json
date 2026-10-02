@@ -1,0 +1,56 @@
+{
+  "context": "Tests the ticket-linked troubleshooting rules: slug prefix and the Jira Comment Draft section.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Loaded the troubleshooting schema",
+      "description": "The agent reads troubleshooting.yaml in full before generating the entry.",
+      "max_score": 8
+    },
+    {
+      "name": "Slug prefixed with the lowercase ticket key",
+      "description": "The filename is `2026-04-07-proj-1234-<slug>.md` with the ticket key in lowercase as the prefix.",
+      "max_score": 12
+    },
+    {
+      "name": "Ticket key not repeated in the slug",
+      "description": "The key appears only once in the filename, as the prefix.",
+      "max_score": 8
+    },
+    {
+      "name": "Placed in the dated directory",
+      "description": "The file is under `2026/04-April/07-Tuesday/`.",
+      "max_score": 8
+    },
+    {
+      "name": "jira_ticket set in frontmatter",
+      "description": "The frontmatter contains `jira_ticket: PROJ-1234`.",
+      "max_score": 12
+    },
+    {
+      "name": "Jira Comment Draft section present",
+      "description": "The entry has a `## Jira Comment Draft` section.",
+      "max_score": 14
+    },
+    {
+      "name": "Draft banner present",
+      "description": "The section starts with a `Draft for PROJ-1234 - review before posting; not yet posted.` style banner.",
+      "max_score": 12
+    },
+    {
+      "name": "Comment is self-contained",
+      "description": "The draft stands on its own for a ticket reader who has not seen the journal entry.",
+      "max_score": 8
+    },
+    {
+      "name": "Nothing posted to the tracker",
+      "description": "The agent does not post the comment to Jira.",
+      "max_score": 12
+    },
+    {
+      "name": "Validation run and passing",
+      "description": "The agent runs the validator and it passes before any commit.",
+      "max_score": 6
+    }
+  ]
+}

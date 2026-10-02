@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Update Wave Statuses After Wave 1 Completes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "wave-1-verification-checks-ticked",
+      "description": "All three Verification checklist items under Wave 1 are ticked (`- [x]`)",
+      "max_score": 5
+    },
+    {
+      "name": "wave-1-tasks-ticked",
+      "description": "All three task lines under Wave 1 are ticked (`- [x] T1.1`, `T1.2`, `T1.3`) \u2014 not left as `[~]` or `[ ]`",
+      "max_score": 5
+    },
+    {
+      "name": "wave-1-heading-marked-done",
+      "description": "The Wave 1 heading is updated to include `\u2014 DONE`",
+      "max_score": 5
+    },
+    {
+      "name": "wave-2-status-updated-to-in-progress",
+      "description": "The Wave 2 heading is updated to `\u2014 IN PROGRESS` (not still PENDING)",
+      "max_score": 5
+    },
+    {
+      "name": "t2-1-marked-in-progress",
+      "description": "T2.1 under Wave 2 is marked as in progress (e.g. `[~]`)",
+      "max_score": 5
+    },
+    {
+      "name": "next-wave-announced",
+      "description": "The agent output explicitly states that Wave 2 is now unblocked and describes its execution mode (parallel)",
+      "max_score": 5
+    },
+    {
+      "name": "file-written-back",
+      "description": "The agent wrote the updated content back to `.context/plans/test-coverage-improvement.md`",
+      "max_score": 5
+    },
+    {
+      "name": "no-status-tracked-in-task-files",
+      "description": "The agent did not create or modify separate task files to track status",
+      "max_score": 5
+    },
+    {
+      "name": "document-header-status-correct",
+      "description": "The document-level Status field remains \"In Progress\"",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Leaves Wave 1 Verification checklist items unticked",
+      "description": "Failure avoided: Leaves Wave 1 Verification checklist items unticked",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Leaves Wave 1 task lines as `[~]`...",
+      "description": "Failure avoided: Leaves Wave 1 task lines as `[~]` instead of ticking them `[x]`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not update the Wave 1 heading...",
+      "description": "Failure avoided: Does not update the Wave 1 heading to `\u2014 DONE`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Leaves Wave 2 heading as `PENDING` instead...",
+      "description": "Failure avoided: Leaves Wave 2 heading as `PENDING` instead of updating to `IN PROGRESS`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not mark T2.1 as in progress",
+      "description": "Failure avoided: Does not mark T2.1 as in progress",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not announce that Wave 2 is...",
+      "description": "Failure avoided: Does not announce that Wave 2 is now unblocked",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Does not write the updated content back...",
+      "description": "Failure avoided: Does not write the updated content back to the file",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Creates separate task status files instead of...",
+      "description": "Failure avoided: Creates separate task status files instead of updating the wave document",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Changes the document-level Status to \"Complete\" prematurely",
+      "description": "Failure avoided: Changes the document-level Status to \"Complete\" prematurely",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Tests the biomedical boundary and refusing scraped abstracts as the canonical summary.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identified the biomedical domain",
+      "description": "The agent recognises that GLP-1 trials for type 2 diabetes are biomedical literature.",
+      "max_score": 14
+    },
+    {
+      "name": "Redirected to PubMed or a domain source",
+      "description": "The agent recommends PubMed or a domain-specific source rather than Google Scholar.",
+      "max_score": 16
+    },
+    {
+      "name": "Did not run Google Scholar for the biomedical query",
+      "description": "The agent does not run `google-scholar-search.py` for the GLP-1 request.",
+      "max_score": 10
+    },
+    {
+      "name": "Refused the scraped abstract as the summary",
+      "description": "The agent declines to use the scraped abstract as the paper summary.",
+      "max_score": 16
+    },
+    {
+      "name": "Explained that scraped text is truncated",
+      "description": "The agent says scraped abstracts are truncated or misformatted, so they are not canonical.",
+      "max_score": 12
+    },
+    {
+      "name": "Proposed re-fetching from arXiv or the DOI",
+      "description": "The agent proposes getting the abstract from arXiv or the DOI during triage.",
+      "max_score": 14
+    },
+    {
+      "name": "Used the results for discovery only",
+      "description": "The agent treats the Scholar results only as a discovery list.",
+      "max_score": 6
+    },
+    {
+      "name": "Did not write the scraped abstract into notes.md",
+      "description": "`notes.md` does not receive the scraped abstract as the summary.",
+      "max_score": 6
+    },
+    {
+      "name": "Did not auto-triage",
+      "description": "The agent does not run `triage-paper` without confirmation.",
+      "max_score": 3
+    },
+    {
+      "name": "Offered the triage step",
+      "description": "The agent offers to triage the paper with a canonical source if the user wants.",
+      "max_score": 3
+    }
+  ]
+}

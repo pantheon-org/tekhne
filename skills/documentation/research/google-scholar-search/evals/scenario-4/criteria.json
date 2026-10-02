@@ -1,0 +1,56 @@
+{
+  "context": "Tests first-run environment setup, the author subcommand and JSON export of candidates.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Checked for an MCP first",
+      "description": "The agent checks whether a `semantic-scholar` or `google-scholar` MCP is configured before running the script.",
+      "max_score": 12
+    },
+    {
+      "name": "Set up the environment",
+      "description": "The agent creates a virtual environment and installs `requirements.txt` (uv or venv) before the first run, as described in the setup reference.",
+      "max_score": 12
+    },
+    {
+      "name": "Activated the environment",
+      "description": "The agent activates the venv before running the script.",
+      "max_score": 8
+    },
+    {
+      "name": "Used the author subcommand",
+      "description": "The agent runs `author --name \"Geoffrey Hinton\"` for the profile.",
+      "max_score": 12
+    },
+    {
+      "name": "Used the search subcommand for the topic",
+      "description": "The agent runs `search --query \"prompt compression\"` with 10 results.",
+      "max_score": 10
+    },
+    {
+      "name": "Exported JSON with --format json",
+      "description": "The search command includes `--format json`.",
+      "max_score": 10
+    },
+    {
+      "name": "Wrote to the requested path",
+      "description": "The search command includes `--output /tmp/prompt-compression-candidates.json`.",
+      "max_score": 10
+    },
+    {
+      "name": "Confirmed the file contents",
+      "description": "The agent previews or lists the saved candidate titles (for example by parsing the JSON) to confirm the export worked.",
+      "max_score": 8
+    },
+    {
+      "name": "Did not auto-triage",
+      "description": "No `triage-paper` invocation or reference file is created without confirmation.",
+      "max_score": 10
+    },
+    {
+      "name": "Offered the triage handoff",
+      "description": "The agent asks which candidates the user wants to triage.",
+      "max_score": 8
+    }
+  ]
+}

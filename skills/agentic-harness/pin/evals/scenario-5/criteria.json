@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Remove a Stale Pin by Number.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Item with `id: 3` is absent from...",
+      "description": "Item with `id: 3` is absent from `pins.json` after the command.",
+      "max_score": 8
+    },
+    {
+      "name": "Remaining items retain their original `id` values...",
+      "description": "Remaining items retain their original `id` values (no renumbering).",
+      "max_score": 8
+    },
+    {
+      "name": "`next_id` in the file is unchanged.",
+      "description": "`next_id` in the file is unchanged.",
+      "max_score": 8
+    },
+    {
+      "name": "Response is exactly `\ud83d\uddd1\ufe0f Pin #3 removed.`...",
+      "description": "Response is exactly `\ud83d\uddd1\ufe0f Pin #3 removed.` \u2014 one line, no extra commentary.",
+      "max_score": 8
+    },
+    {
+      "name": "Not-found case returns `\u26a0\ufe0f Pin #N not...",
+      "description": "Not-found case returns `\u26a0\ufe0f Pin #N not found.` rather than an error or silence.",
+      "max_score": 8
+    },
+    {
+      "name": "Missing-number case returns the usage hint `\u26a0\ufe0f...",
+      "description": "Missing-number case returns the usage hint `\u26a0\ufe0f Usage: /pin rm <number>`.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent renumbers remaining pins after removal (violates...",
+      "description": "Failure avoided: Agent renumbers remaining pins after removal (violates stable-numbering rule).",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent resets `next_id` after removal.",
+      "description": "Failure avoided: Agent resets `next_id` after removal.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent removes the wrong item (matches by...",
+      "description": "Failure avoided: Agent removes the wrong item (matches by position rather than `id` field).",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent adds commentary such as \"Done! The...",
+      "description": "Failure avoided: Agent adds commentary such as \"Done! The stale pin has been removed.\"",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent silently does nothing if the pin...",
+      "description": "Failure avoided: Agent silently does nothing if the pin is not found instead of warning.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent clears all pins instead of removing...",
+      "description": "Failure avoided: Agent clears all pins instead of removing only pin #3.",
+      "max_score": 12
+    }
+  ]
+}

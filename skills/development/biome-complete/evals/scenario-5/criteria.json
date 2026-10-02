@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Troubleshoot biome check Failures After ESLint Migration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Isolation strategy described",
+      "description": "`TRIAGE.md` explains the approach of temporarily disabling rule groups to identify which group causes failures",
+      "max_score": 10
+    },
+    {
+      "name": "Example biome.json shows group-level disabling",
+      "description": "`TRIAGE.md` includes a `biome.json` example that sets specific rule groups (e.g., `suspicious`, `correctness`, `style`) to `off` or `warn` \u2014 not just `recommended: false`",
+      "max_score": 10
+    },
+    {
+      "name": "Re-enable one at a time approach explained",
+      "description": "`TRIAGE.md` describes re-enabling one rule group at a time and running `biome check` after each change to isolate the failing group",
+      "max_score": 10
+    },
+    {
+      "name": "Outcome action described",
+      "description": "`TRIAGE.md` explains what to do once the offending group is found (fix violations, add targeted suppressions, or configure specific rules within that group)",
+      "max_score": 10
+    },
+    {
+      "name": "No blanket suppression recommended",
+      "description": "`TRIAGE.md` does not suggest disabling all linting or using blanket suppressions as the solution",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent recommends disabling all linting (`\"linter\": {...",
+      "description": "Failure avoided: Agent recommends disabling all linting (`\"linter\": { \"enabled\": false }`) as the solution",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent produces a `biome.json` example using only...",
+      "description": "Failure avoided: Agent produces a `biome.json` example using only `recommended: false` rather than group-level disabling",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits the re-enable-one-at-a-time approach",
+      "description": "Failure avoided: Agent omits the re-enable-one-at-a-time approach",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not describe what to do...",
+      "description": "Failure avoided: Agent does not describe what to do after identifying the offending rule group",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent recommends blanket `biome-ignore` suppressions across all...",
+      "description": "Failure avoided: Agent recommends blanket `biome-ignore` suppressions across all 47 errors",
+      "max_score": 10
+    }
+  ]
+}

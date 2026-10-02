@@ -1,0 +1,1 @@
+Repair a Starlight site's content location, config structure, logo, sidebar and landing page, and route theming elsewhere.

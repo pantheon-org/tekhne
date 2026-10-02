@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Enterprise CI/CD Pipeline BDD Integration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Multiple output formats",
+      "description": "Uses multiple `--format` options (JSON, HTML, JUnit) for different reporting needs",
+      "max_score": 6
+    },
+    {
+      "name": "Advanced tag strategies",
+      "description": "Demonstrates complex tag filtering for different pipeline stages (smoke vs regression vs integration)",
+      "max_score": 6
+    },
+    {
+      "name": "CI/CD pipeline integration",
+      "description": "Shows how BDD tests integrate into different CI/CD pipeline stages with appropriate execution strategies",
+      "max_score": 6
+    },
+    {
+      "name": "Failure analysis workflow",
+      "description": "Provides systematic approach for analyzing scenario failures and debugging steps",
+      "max_score": 6
+    },
+    {
+      "name": "Performance and timing considerations",
+      "description": "Addresses execution time requirements and optimization for different pipeline stages",
+      "max_score": 6
+    },
+    {
+      "name": "Report organization and usage",
+      "description": "Organizes different report formats for appropriate audiences (technical vs stakeholder)",
+      "max_score": 6
+    },
+    {
+      "name": "Configuration management",
+      "description": "Shows how to manage Cucumber configuration for different environments and use cases",
+      "max_score": 6
+    },
+    {
+      "name": "Exit code handling",
+      "description": "Properly handles Cucumber exit codes for CI/CD pipeline decision making",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Only a single output format is used...",
+      "description": "Failure avoided: Only a single output format is used rather than multiple formats for different audiences",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Tag filtering is not demonstrated for different...",
+      "description": "Failure avoided: Tag filtering is not demonstrated for different pipeline stages",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Pipeline configuration does not show stage-specific execution...",
+      "description": "Failure avoided: Pipeline configuration does not show stage-specific execution strategies",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No systematic failure analysis workflow is provided",
+      "description": "Failure avoided: No systematic failure analysis workflow is provided",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Execution time requirements for different pipeline stages...",
+      "description": "Failure avoided: Execution time requirements for different pipeline stages are not addressed",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Report formats are not differentiated for technical...",
+      "description": "Failure avoided: Report formats are not differentiated for technical vs stakeholder audiences",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No configuration management approach is shown for...",
+      "description": "Failure avoided: No configuration management approach is shown for different environments",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Cucumber exit codes are not handled in...",
+      "description": "Failure avoided: Cucumber exit codes are not handled in the CI/CD pipeline configuration",
+      "max_score": 10
+    }
+  ]
+}

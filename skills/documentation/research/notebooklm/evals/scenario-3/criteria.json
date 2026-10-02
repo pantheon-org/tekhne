@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: First-Time Setup and Notebook Query.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Authentication status checked first",
+      "description": "The agent runs auth_manager.py status as the very first action before any notebook or query operations.",
+      "max_score": 8
+    },
+    {
+      "name": "Auth setup run with browser-visible warning",
+      "description": "The agent runs auth_manager.py setup and explicitly tells the user that a browser window will open for Google login.",
+      "max_score": 8
+    },
+    {
+      "name": "Notebook added or activated before querying",
+      "description": "The agent adds or activates the ML research notebook before issuing any question.",
+      "max_score": 8
+    },
+    {
+      "name": "run.py wrapper used for every script invocation",
+      "description": "Every script call goes through python ./scripts/run.py \u2014 no direct script execution.",
+      "max_score": 8
+    },
+    {
+      "name": "Follow-up mechanism applied",
+      "description": "After receiving the first answer about attention mechanisms, the agent checks completeness and issues follow-ups if needed.",
+      "max_score": 8
+    },
+    {
+      "name": "Synthesised response delivered to user",
+      "description": "The agent combines all query results into a coherent answer before replying to the user.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips the authentication status check or...",
+      "description": "Failure avoided: Agent skips the authentication status check or does not run it first",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent runs auth setup without warning the...",
+      "description": "Failure avoided: Agent runs auth setup without warning the user that a browser window will open",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent issues queries without first adding or...",
+      "description": "Failure avoided: Agent issues queries without first adding or activating the notebook",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent invokes scripts directly rather than through...",
+      "description": "Failure avoided: Agent invokes scripts directly rather than through the run.py wrapper",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent fails to apply the follow-up mechanism...",
+      "description": "Failure avoided: Agent fails to apply the follow-up mechanism when the first answer is incomplete",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent dumps raw query output without synthesising...",
+      "description": "Failure avoided: Agent dumps raw query output without synthesising a coherent final response",
+      "max_score": 12
+    }
+  ]
+}

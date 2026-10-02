@@ -1,0 +1,38 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 21,
+    "covered_instructions": 21,
+    "scenario_count": 7,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-2", "scenario-3", "scenario-5"],
+      "I02": ["scenario-2", "scenario-3", "scenario-6"],
+      "I03": ["scenario-4"],
+      "I04": ["scenario-6"],
+      "I05": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-6"
+      ],
+      "I06": ["scenario-4"],
+      "I07": ["scenario-1", "scenario-2", "scenario-3", "scenario-5"],
+      "I08": ["scenario-6"],
+      "I09": ["scenario-1", "scenario-2", "scenario-4", "scenario-6"],
+      "I10": ["scenario-1", "scenario-2", "scenario-3"],
+      "I11": ["scenario-1", "scenario-4", "scenario-5", "scenario-6"],
+      "I12": ["scenario-1", "scenario-5"],
+      "I13": ["scenario-4"],
+      "I14": ["scenario-7"],
+      "I15": ["scenario-6"],
+      "I16": ["scenario-6"],
+      "I17": ["scenario-1", "scenario-3", "scenario-5", "scenario-7"],
+      "I18": ["scenario-2", "scenario-7"],
+      "I19": ["scenario-1", "scenario-4"],
+      "I20": ["scenario-1", "scenario-7"],
+      "I21": ["scenario-7"]
+    },
+    "notes": "All 21 instructions are checked by at least one scenario criteria file; scenarios 6 and 7 were added to cover longitudinal and cognitive analysis, missing data handling, and routing to retrospect-domain."
+  }
+}

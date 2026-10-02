@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Conditional Override \u2014 Banner Only on Guides Pages.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "`starlightRoute.id` used for condition check",
+      "description": "`starlightRoute.id` used for condition check",
+      "max_score": 11
+    },
+    {
+      "name": "Default component still rendered for non-guide pages",
+      "description": "Default component still rendered for non-guide pages",
+      "max_score": 11
+    },
+    {
+      "name": "`<slot />` included in `<Default>`",
+      "description": "`<slot />` included in `<Default>`",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Uses URL or pathname for the condition...",
+      "description": "Failure avoided: Uses URL or pathname for the condition instead of `starlightRoute.id`",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Omits rendering the default component for pages...",
+      "description": "Failure avoided: Omits rendering the default component for pages outside the condition",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Missing `<slot />` inside `<Default>`",
+      "description": "Failure avoided: Missing `<slot />` inside `<Default>`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Checks `Astro.locals.starlightRoute.id.startsWith('guides/')`",
+      "description": "Checks `Astro.locals.starlightRoute.id.startsWith('guides/')`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Conditionally renders banner",
+      "description": "Conditionally renders banner",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Still renders default header with `<Default><slot /></Default>`",
+      "description": "Still renders default header with `<Default><slot /></Default>`",
+      "max_score": 12
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Verify prerequisites first: aws sts get-caller-identity with the profile, describe-stacks to confirm the stack exists (StackStatus), and make synth to confirm the CDK project synthesises cleanly",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "Retrieve the deployed template with aws cloudformation get-template --stack-name --region --profile --query TemplateBody --output json into deployed.json, and copy the synthesised template from cdk.out into local.json",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "Validate both templates as JSON with jq before any comparison",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I04",
+      "content": "Compare hierarchically, starting with the top-level structure (jq 'keys') of both templates",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Compare resource counts with jq '.Resources | length' for both templates",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I06",
+      "content": "Find added and removed resource IDs by diffing or comm-ing sorted resource key lists with process substitution",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I07",
+      "content": "Diff the cdk_nag metadata on resources to catch changed CDK Nag suppressions",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Diff all resources whose Type starts with AWS::IAM to catch role and policy changes",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Categorise each difference by risk (Expected, Low, Medium, High, Critical) before reporting, with a matching action from auto-approve to block",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Save artifacts in a timestamped directory named with the branch: deployed.json, local.json, resource lists and comparison-report.md",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Write the comparison report with Summary (resource counts and status), Differences, Recommendations and Deployment Decision sections",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER compare templates without verifying both sources are valid JSON first",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER rely on line-by-line diff for large templates (5000+ lines); use the hierarchical comparison",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER approve deployments with unexplained IAM policy changes; extract the IAM diff, document justification and get InfoSec approval",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER skip saving comparison artifacts before deployment",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "Skip template comparison for initial deployments, cross-account comparisons, frequently changing resources, and stacks not created via CDK",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Recover from errors: wrong stack name or region for Stack not found, missing env vars in env-local.mk or env.mk for synth failures, --output json with --query TemplateBody for jq parse errors",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I18",
+      "content": "Block deployment on resource removal and require documented justification plus InfoSec approval for any new CDK Nag suppression",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

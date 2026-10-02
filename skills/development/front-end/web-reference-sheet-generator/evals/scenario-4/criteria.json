@@ -1,0 +1,56 @@
+{
+  "context": "Checks scratchpad-first generation: populate the YAML, review TBD or null values, validate against the schema and report gaps.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Searches for tokens",
+      "description": "Searches CSS for custom properties, `@theme`, `@font-face` and `@import` before anything else",
+      "max_score": 10
+    },
+    {
+      "name": "Inspects components",
+      "description": "Reads `Hero.astro` and `Nav.astro` before writing",
+      "max_score": 10
+    },
+    {
+      "name": "Checks dark mode and accessibility",
+      "description": "Searches for dark mode and accessibility patterns and records the findings",
+      "max_score": 10
+    },
+    {
+      "name": "Populates the scratchpad first",
+      "description": "Fills `templates/skill-output.yaml` before writing any markdown",
+      "max_score": 10
+    },
+    {
+      "name": "Reviews gaps",
+      "description": "Reviews the scratchpad for TBD or null values before generating the final docs",
+      "max_score": 10
+    },
+    {
+      "name": "Validates against the schema",
+      "description": "Validates the scratchpad against `schemas/design-reference.schema.json`",
+      "max_score": 10
+    },
+    {
+      "name": "Marks undefined sections TBD",
+      "description": "Spacing, shadows and motion are written as `TBD \u2014 not yet defined`",
+      "max_score": 10
+    },
+    {
+      "name": "No invented tokens",
+      "description": "No tokens appear that are absent from `theme.css`",
+      "max_score": 10
+    },
+    {
+      "name": "Generates all 12 sections",
+      "description": "`docs/design/design-reference.md` has all 12 sections",
+      "max_score": 10
+    },
+    {
+      "name": "Reports populated and TBD items",
+      "description": "Final report lists populated sections and each TBD item",
+      "max_score": 10
+    }
+  ]
+}

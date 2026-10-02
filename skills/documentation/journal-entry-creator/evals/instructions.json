@@ -1,0 +1,190 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER create entries without reading the complete template schema first.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER proceed with failed validation; fix the errors and re-run validation until it passes before committing.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER use bare code blocks; ALWAYS give fenced code blocks a language specifier.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER create date mismatches: the filename date, frontmatter date and H1 date must match exactly.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "The filename is YYYY-MM-DD-slug.md with a lowercase-only, hyphenated slug of 3-6 meaningful keywords.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Place the file in YYYY/MM-Month/DD-Weekday/ matching its date.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Use exactly ONE H1 in the format '# [Title] - [Month D, YYYY]'.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Frontmatter tags must match the final Tags section exactly.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Tags are lowercase with hyphens, not underscores or camelCase.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Include the entry type tag when required (troubleshooting, learning, article/video/podcast/talk, ticket-refinement, ticket-kickoff).",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER use emojis outside fenced code blocks; use a bold status word instead.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Create the metadata block with bold keys.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Follow the four phases: interactive gathering, schema loading, generation, validation and formatting.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Default to the current date unless the user specifies otherwise.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "If the file already exists, ask to overwrite or suggest an alternative filename; never overwrite without confirmation.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Select the entry type from the user's intent: problem resolution to Troubleshooting, new knowledge to Learning, external content to Article Summary, otherwise General.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "After validation passes, format with prettier, lint with markdownlint-cli2 --fix, then re-validate.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "If a schema file is missing or unreadable, STOP and report the error; do not guess the structure.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "For troubleshooting with a Jira ticket, prefix the slug with the lowercase ticket key once: YYYY-MM-DD-proj-1234-slug.md.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER post a Jira comment draft or create a ticket-linked entry without one: set jira_ticket and add a self-contained '## Jira Comment Draft' with a 'review before posting; not yet posted' banner.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "NEVER edit the ticket directly when refining it: set refinement_ticket and put the amended description in a fenced block under '## Proposed Ticket Description'.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I22",
+      "content": "For ticket kickoff set kickoff_ticket and fill all five required sections; never leave Open Questions & Gaps blank (write 'None identified').",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I23",
+      "content": "For multi-day work, create a new dated entry linked both ways with continues_from and continued_by; never fold a later day's narrative into an earlier entry.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I24",
+      "content": "NEVER place the Executive Summary anywhere other than the H2 immediately after '## Session Overview'.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I25",
+      "content": "Store screenshots and attachments in an entry-specific sibling directory YYYY-MM-DD-slug/assets/ and reference them by relative path.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I26",
+      "content": "When intent is ambiguous prefer the more specific type: Troubleshooting > Ticket Refinement > Ticket Kickoff > Learning > General.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I27",
+      "content": "Confirm the pantheon-journal binary is present before any CLI-backed step, and skip those steps if it is missing while the self-contained workflow still applies.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I28",
+      "content": "Prefer canonical tags from the taxonomy facets and canonical spellings over aliases; treat lint output as advisory.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I29",
+      "content": "Do not use the skill for quick notes without frontmatter, external documentation systems such as Confluence or Notion, or bulk backfilling of old entries.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I30",
+      "content": "Load compliance.md only if validation fails and detailed rules are needed.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I31",
+      "content": "Commit messages use the format 'Add journal entry: [Brief Description] (YYYY-MM-DD)', offered only after validation passes.",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

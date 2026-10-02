@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/package-mgmt/mise-complete/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 14
+  },
+  "total": 121,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 198,
+  "hasReferences": true,
+  "referenceCount": 16,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

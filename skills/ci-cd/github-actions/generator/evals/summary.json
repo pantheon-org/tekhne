@@ -1,0 +1,58 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 97,
+    "total_instructions": 29,
+    "covered_instructions": 28,
+    "scenario_count": 7,
+    "coverage_map": {
+      "I01": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5"
+      ],
+      "I02": ["scenario-3"],
+      "I03": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5"
+      ],
+      "I04": ["scenario-2"],
+      "I05": ["scenario-4"],
+      "I06": ["scenario-1", "scenario-7"],
+      "I07": ["scenario-7"],
+      "I08": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-4",
+        "scenario-5",
+        "scenario-7"
+      ],
+      "I09": ["scenario-6", "scenario-7"],
+      "I10": ["scenario-6"],
+      "I11": ["scenario-6"],
+      "I12": ["scenario-1", "scenario-2", "scenario-5"],
+      "I13": ["scenario-6"],
+      "I14": ["scenario-3"],
+      "I15": ["scenario-3"],
+      "I16": ["scenario-3"],
+      "I17": ["scenario-3"],
+      "I18": ["scenario-5"],
+      "I19": ["scenario-5"],
+      "I20": ["scenario-5"],
+      "I21": ["scenario-1", "scenario-7"],
+      "I22": ["scenario-1", "scenario-5"],
+      "I23": ["scenario-1", "scenario-2", "scenario-7"],
+      "I24": ["scenario-7"],
+      "I25": ["scenario-2"],
+      "I26": ["scenario-2"],
+      "I27": [],
+      "I28": ["scenario-7"],
+      "I29": ["scenario-7"]
+    },
+    "notes": "Only the rule for skipping validation on partial snippets is unchecked; scenarios 6 and 7 were added to cover custom actions, environments, job summaries, cleanup and version lookup."
+  }
+}

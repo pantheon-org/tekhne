@@ -1,0 +1,61 @@
+{
+  "context": "Checks the response lays out domains, removes the circular dependency by extraction and verifies boundaries with an uncached lint run.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Applications under apps/",
+      "description": "The layout places applications under `apps/`.",
+      "max_score": 8
+    },
+    {
+      "name": "Libraries under libs/",
+      "description": "The layout places libraries under `libs/`.",
+      "max_score": 8
+    },
+    {
+      "name": "Tooling under tools/",
+      "description": "The layout places scripts and workspace tooling under `tools/`.",
+      "max_score": 8
+    },
+    {
+      "name": "Names the cycle as the cause",
+      "description": "The answer identifies the `ui` and `data` mutual import as a circular dependency and says cycles destabilise build ordering.",
+      "max_score": 10
+    },
+    {
+      "name": "Extracts shared contracts to a lower-level library",
+      "description": "The fix moves shared contracts into a new lower-level library that both depend on, rather than leaving the mutual import.",
+      "max_score": 12
+    },
+    {
+      "name": "Removes the cycle in both directions",
+      "description": "After the change neither `libs/ui` nor `libs/data` depends on the other.",
+      "max_score": 10
+    },
+    {
+      "name": "Tags the new library",
+      "description": "The new shared library receives tags consistent with the existing vocabulary (for example `scope:shared`, `type:util`).",
+      "max_score": 8
+    },
+    {
+      "name": "Updates depConstraints",
+      "description": "The boundary configuration is updated so the new dependency direction is permitted and the old one is not.",
+      "max_score": 8
+    },
+    {
+      "name": "Verifies with an uncached lint run",
+      "description": "The proof command is `nx lint --skip-nx-cache` rather than a plain cached lint.",
+      "max_score": 12
+    },
+    {
+      "name": "Expects a violation to fail",
+      "description": "The answer states that deliberately adding a forbidden import should make that lint run fail.",
+      "max_score": 8
+    },
+    {
+      "name": "Graph inspection offered",
+      "description": "The answer suggests `nx graph` to confirm the cycle is gone.",
+      "max_score": 8
+    }
+  ]
+}

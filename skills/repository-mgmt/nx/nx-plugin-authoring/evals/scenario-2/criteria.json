@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Fix a Generator with Hardcoded Project Paths.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "readProjectConfiguration used to get project root",
+      "description": "`generator.ts` calls `readProjectConfiguration(tree, schema.projectName)` and uses the returned `.root` property to build the changelog path",
+      "max_score": 10
+    },
+    {
+      "name": "Hardcoded libs/ prefix removed",
+      "description": "`generator.ts` does not have a hardcoded `libs/` string in the file path \u2014 path is dynamic based on project config",
+      "max_score": 10
+    },
+    {
+      "name": "tree.exists check preserved",
+      "description": "`generator.ts` still checks `tree.exists` before writing to avoid overwriting an existing CHANGELOG.md",
+      "max_score": 10
+    },
+    {
+      "name": "formatFiles still called",
+      "description": "`generator.ts` still calls `formatFiles(tree)` after writing the file",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Generator still hardcodes `libs/` in the path,...",
+      "description": "Failure avoided: Generator still hardcodes `libs/` in the path, breaking projects located in `packages/` or other directories",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Generator does not call `readProjectConfiguration`, failing to...",
+      "description": "Failure avoided: Generator does not call `readProjectConfiguration`, failing to derive the correct project root",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `tree.exists` guard is removed, causing existing...",
+      "description": "Failure avoided: The `tree.exists` guard is removed, causing existing CHANGELOG.md files to be overwritten silently",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `formatFiles(tree)` is removed, leaving written files inconsistently...",
+      "description": "Failure avoided: `formatFiles(tree)` is removed, leaving written files inconsistently formatted",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Call `readProjectConfiguration(tree, schema.projectName)` and use the returned...",
+      "description": "Call `readProjectConfiguration(tree, schema.projectName)` and use the returned `.root` property to build the changelog path",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Remove the hardcoded `libs/` string \u2014 derive...",
+      "description": "Remove the hardcoded `libs/` string \u2014 derive the path dynamically from project configuration",
+      "max_score": 10
+    }
+  ]
+}

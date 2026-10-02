@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Refactor Concrete Dependency to Injected Interface.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "IOrderRepository interface file produced",
+      "description": "A file named `IOrderRepository.ts` exists and exports an interface or type named `IOrderRepository`",
+      "max_score": 8
+    },
+    {
+      "name": "Interface declares findById",
+      "description": "`IOrderRepository` includes a `findById` method signature returning a `Promise` of an `Order` or `null`",
+      "max_score": 8
+    },
+    {
+      "name": "Interface declares save",
+      "description": "`IOrderRepository` includes a `save` method signature accepting an `Order` and returning `Promise<void>`",
+      "max_score": 8
+    },
+    {
+      "name": "OrderService accepts interface via constructor",
+      "description": "The refactored `OrderService.ts` has a constructor parameter typed to `IOrderRepository` (not `PostgresOrderRepository`)",
+      "max_score": 8
+    },
+    {
+      "name": "No concrete import in refactored service",
+      "description": "`OrderService.ts` does not import `PostgresOrderRepository` anywhere",
+      "max_score": 8
+    },
+    {
+      "name": "Business logic preserved",
+      "description": "`getOrderTotal` and `markShipped` methods are present and contain the same calculation and status-update logic as the original",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `IOrderRepository.ts` is missing or does not export...",
+      "description": "Failure avoided: `IOrderRepository.ts` is missing or does not export an interface",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `IOrderRepository` is missing a `findById` signature",
+      "description": "Failure avoided: `IOrderRepository` is missing a `findById` signature",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `IOrderRepository` is missing a `save` signature",
+      "description": "Failure avoided: `IOrderRepository` is missing a `save` signature",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `OrderService` constructor still accepts `PostgresOrderRepository` directly",
+      "description": "Failure avoided: `OrderService` constructor still accepts `PostgresOrderRepository` directly",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `OrderService.ts` still imports `PostgresOrderRepository`, maintaining the concret",
+      "description": "Failure avoided: `OrderService.ts` still imports `PostgresOrderRepository`, maintaining the concrete dependency",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `getOrderTotal` or `markShipped` logic is changed or...",
+      "description": "Failure avoided: `getOrderTotal` or `markShipped` logic is changed or removed",
+      "max_score": 12
+    }
+  ]
+}

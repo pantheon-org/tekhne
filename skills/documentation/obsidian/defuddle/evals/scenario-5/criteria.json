@@ -1,0 +1,56 @@
+{
+  "context": "Tests whether the agent recognises URLs that defuddle cannot handle and picks a suitable alternative.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identified the SPA limitation",
+      "description": "The plan states that defuddle cannot execute JavaScript, so a client-rendered single-page app shell would return little or no content.",
+      "max_score": 12
+    },
+    {
+      "name": "Chose WebFetch or informed the user for the SPA",
+      "description": "The plan routes the SPA URL to WebFetch or tells the user the content cannot be extracted by defuddle, rather than running defuddle on it as if it were a normal article.",
+      "max_score": 12
+    },
+    {
+      "name": "Identified the JSON endpoint as non-HTML",
+      "description": "The plan states that the API URL returns JSON rather than an HTML page, so defuddle is the wrong tool.",
+      "max_score": 12
+    },
+    {
+      "name": "Chose a direct fetch for the JSON endpoint",
+      "description": "The plan uses a direct fetch (or tells the user it needs one) for the JSON endpoint instead of defuddle.",
+      "max_score": 12
+    },
+    {
+      "name": "Did not run defuddle on the SPA without caveat",
+      "description": "The agent did not run `defuddle parse` on the SPA URL as if success were guaranteed, or noted the empty-output risk if it tried.",
+      "max_score": 10
+    },
+    {
+      "name": "Did not run defuddle on the JSON URL",
+      "description": "The agent did not run `defuddle parse` against the JSON API endpoint.",
+      "max_score": 10
+    },
+    {
+      "name": "Mentions the fallback rule",
+      "description": "The plan mentions falling back to WebFetch when defuddle output is empty or navigation-only.",
+      "max_score": 8
+    },
+    {
+      "name": "Explains the reasoning for each URL",
+      "description": "Each URL has its own short reason tied to what defuddle does (server-side HTML stripping, no JavaScript, no credentials).",
+      "max_score": 8
+    },
+    {
+      "name": "Produces plan.md",
+      "description": "A file named `plan.md` exists in the working directory and addresses both URLs.",
+      "max_score": 8
+    },
+    {
+      "name": "Does not recommend defuddle as the default for both",
+      "description": "The plan does not claim defuddle is the best tool for both URLs.",
+      "max_score": 8
+    }
+  ]
+}

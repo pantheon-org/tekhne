@@ -1,0 +1,56 @@
+{
+  "context": "Tests reuse of an existing candidate list and routing a known paper straight to triage.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Reused the existing JSON",
+      "description": "The agent reads `/tmp/prompt-compression-candidates.json` rather than running the search again.",
+      "max_score": 18
+    },
+    {
+      "name": "Did not re-run the search script",
+      "description": "The agent does not invoke `google-scholar-search.py search` for the same topic.",
+      "max_score": 14
+    },
+    {
+      "name": "Printed the titles",
+      "description": "The agent lists the candidate titles from the file.",
+      "max_score": 12
+    },
+    {
+      "name": "Presented them as candidates",
+      "description": "The agent frames the titles as candidates for the user to choose from.",
+      "max_score": 8
+    },
+    {
+      "name": "Routed the known paper to triage-paper",
+      "description": "For the arXiv URL, the agent goes straight to `triage-paper` (or offers to) without searching Google Scholar for it.",
+      "max_score": 18
+    },
+    {
+      "name": "Did not search for the known paper",
+      "description": "The agent does not run a Scholar search for the paper with the arXiv ID.",
+      "max_score": 10
+    },
+    {
+      "name": "Did not triage the candidates automatically",
+      "description": "The agent does not triage any of the saved candidates without confirmation.",
+      "max_score": 8
+    },
+    {
+      "name": "Did not need setup or an MCP check for reuse",
+      "description": "The agent does not spend time installing dependencies just to read a JSON file.",
+      "max_score": 4
+    },
+    {
+      "name": "Offered a next step",
+      "description": "The agent asks whether the user wants to triage any listed candidate.",
+      "max_score": 4
+    },
+    {
+      "name": "Kept the two requests separate",
+      "description": "The saved-search request and the known-paper request are handled as separate steps.",
+      "max_score": 4
+    }
+  ]
+}

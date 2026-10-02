@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Multi-Step Order Processing System.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Single behavior per test",
+      "description": "Each test verifies only one workflow step or one specific behavior, not the entire order lifecycle",
+      "max_score": 5
+    },
+    {
+      "name": "No behavior combination",
+      "description": "Avoids tests that cover create/validate/pay/fulfill in one test case",
+      "max_score": 5
+    },
+    {
+      "name": "Visible test data",
+      "description": "All order data, test scenarios, and expected states are defined within test files",
+      "max_score": 5
+    },
+    {
+      "name": "Independent test cases",
+      "description": "Tests don't rely on shared state or data from other tests \u2014 each test creates its own data",
+      "max_score": 5
+    },
+    {
+      "name": "Logical test organization",
+      "description": "Tests are grouped by workflow step or component, not mixed together randomly",
+      "max_score": 5
+    },
+    {
+      "name": "Clear workflow step tests",
+      "description": "Separate tests for each workflow transition (pending\u2192validated, validated\u2192paid, etc.)",
+      "max_score": 5
+    },
+    {
+      "name": "Error scenario isolation",
+      "description": "Failure cases tested independently for each step, not combined into one failure test",
+      "max_score": 5
+    },
+    {
+      "name": "Descriptive test structure",
+      "description": "Test names clearly identify which workflow step and scenario is being tested",
+      "max_score": 5
+    },
+    {
+      "name": "Clean test setup",
+      "description": "Each test creates minimal required data, no excess or irrelevant test objects",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: A single test covers multiple workflow transitions...",
+      "description": "Failure avoided: A single test covers multiple workflow transitions in sequence (create \u2192 validate \u2192 pay \u2192 fulfill)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests combine multiple workflow step behaviors into...",
+      "description": "Failure avoided: Tests combine multiple workflow step behaviors into one assertion block",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Test data is loaded from shared fixtures...",
+      "description": "Failure avoided: Test data is loaded from shared fixtures or defined outside the test files",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests depend on state or data set...",
+      "description": "Failure avoided: Tests depend on state or data set up by other tests in the suite",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests for different workflow steps are not...",
+      "description": "Failure avoided: Tests for different workflow steps are not organized or grouped logically",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No individual tests exist for specific workflow...",
+      "description": "Failure avoided: No individual tests exist for specific workflow transitions",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Failure cases for multiple steps are tested...",
+      "description": "Failure avoided: Failure cases for multiple steps are tested in a single combined failure test",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Test names do not indicate which workflow...",
+      "description": "Failure avoided: Test names do not indicate which workflow step or scenario is under test",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests set up unnecessary data or objects...",
+      "description": "Failure avoided: Tests set up unnecessary data or objects beyond what the test requires",
+      "max_score": 15
+    }
+  ]
+}

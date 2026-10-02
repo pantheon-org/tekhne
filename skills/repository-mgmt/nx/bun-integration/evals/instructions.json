@@ -1,0 +1,94 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Install @nx-bun/nx and initialise the plugin.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Generate or convert projects to Bun executors.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Configure cache inputs and outputs for build and test targets.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Validate serve, build and test on one project and confirm all three exit with code 0 before proceeding; on failure check executor configuration in project.json, run nx reset and retry, and resolve all failures before rolling out.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Roll out to affected projects and enforce anti-pattern checks.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER mix npm/yarn installs with Bun in the same migration scope.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER run Jest and bun test on the same suite without a boundary.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER skip cache metadata on Bun build/test targets.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER assume SQLite behaviour is identical to Node DB wrappers.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER rely on hot reload defaults for production validation.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I11",
+      "content": "Bun.spawn is async and returns a handle; choose stdout/stderr piping explicitly.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Remove obsolete lockfiles as part of a controlled cutover.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Use nx reset after plugin updates because the Nx daemon and cache can mask executor changes.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Run affected projects in CI with bun nx affected -t lint,test,build --base=main --parallel=3.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I15",
+      "content": "Use the @nx-bun/nx build, run and test executors for the Bun targets.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

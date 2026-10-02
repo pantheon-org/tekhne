@@ -1,34 +1,136 @@
 {
   "instructions": [
     {
-      "original_snippets": "NEVER jump to a fix without reproducing the issue — reproduction confirms you're solving the actual problem, not a symptom.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
+      "id": "I01",
+      "content": "Run a search-first diagnostic workflow where the human executes the commands and the agent suggests them",
+      "type": "mindset",
+      "why_given": "preference"
     },
     {
-      "original_snippets": "NEVER end an investigation without a specific source code location (file and line) — vague module-level diagnoses cannot be verified or code-reviewed.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
+      "id": "I02",
+      "content": "After every AskUserQuestion call, check for empty answers; if empty, do NOT proceed with assumptions, present a numbered text list and wait for the reply",
+      "type": "constraint",
+      "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER treat correlation as causation — two events occurring together don't mean one causes the other.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
+      "id": "I03",
+      "content": "Step 0: if a project-level learnings file exists, read it and apply known patterns before searching",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "original_snippets": "Workflow: 0.Load → 1.Search → 2.Qualify → 3.Diagnose → 4.Investigate → 5.Persist → 6.Learn — steps must execute in order.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
+      "id": "I04",
+      "content": "Step 1: search first with WebSearch using the error, stack and framework; if a solution is found, skip ahead",
+      "type": "procedure",
+      "why_given": "new knowledge"
     },
     {
-      "original_snippets": "Always search for existing solutions before forming a hypothesis — WebSearch first, then analyze.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
+      "id": "I05",
+      "content": "Step 2: qualify with 2 to 3 AskUserQuestion questions: stack, environment and recent changes",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "original_snippets": "Cynefin domain: complicated — use structured analysis with known diagnostic patterns, not experimentation.",
-      "why_given": "preference",
-      "dimension": "D6"
+      "id": "I06",
+      "content": "Step 3: diagnose using mental models first (learnings file, WebSearch pattern, then first-principles reasoning with 5 Whys or Fishbone), following the diagnose protocol",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Isolate the cause with Wolf Fence (binary search, git bisect for commits), swap one variable, or a minimal repro",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Drill to the root cause with 5 Whys (3 to 5 levels) or the Fishbone 6 M's",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "When a pattern matches, suggest the fix and skip OODA",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Step 4: enter OODA only if diagnosis is inconclusive; the user runs commands and pastes output; exit when the root cause is confirmed and the fix verified",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Step 5: MUST persist a thinking artifact after the root cause is confirmed and the fix verified, without waiting to be asked; skip silently if no store is configured",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "The artifact must contain symptoms, hypotheses tested with results, OODA loops if entered, root cause, resolution, and any Cynefin transition",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Step 6: after resolution ask whether to save the learning: global, project scope, or skip",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Reproduce before you theorise: a bug that cannot be reproduced is a hypothesis, not a confirmed problem",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "Treat source location as the exit condition: every investigation ends with a specific file and line",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Distinguish symptom from cause: the first observable failure is rarely the root cause, so follow the chain",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I17",
+      "content": "Let the domain determine the method: Complicated problems have known solutions, Complex problems need probes; do not mix the strategies",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER jump to a fix without reproducing the issue",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER ignore the source code location step",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER treat correlation as causation",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I21",
+      "content": "NEVER skip the search step",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I22",
+      "content": "NEVER persist a thinking artifact before root cause is confirmed",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
     }
   ]
 }

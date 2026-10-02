@@ -1,0 +1,1 @@
+Checks that the agent refuses an excessive iteration count, sets the journal doc type and applies publication-format guidance to a vague request.

@@ -1,0 +1,1 @@
+Create a Library-Mode vite.config.ts with DTS and Peer Dependency Externalization

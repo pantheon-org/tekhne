@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Reproduce Benchmark \u2014 jiang-llmlingua (No Runnable Harness).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "benchmarks/sources/jiang-llmlingua-repro.md is created with valid YAML frontmatter",
+      "description": "The file is created at the correct path and opens with a YAML frontmatter block containing all required fields.",
+      "max_score": 5
+    },
+    {
+      "name": "outcome is set to unverified",
+      "description": "The frontmatter outcome field is exactly 'unverified' \u2014 not 'failed' (which implies the harness was found and errored).",
+      "max_score": 5
+    },
+    {
+      "name": "Blocker is documented in Reproduction attempt section",
+      "description": "The section explains that no vendored clone exists and the harness was not run locally. The reason is stated clearly.",
+      "max_score": 5
+    },
+    {
+      "name": "No results are fabricated",
+      "description": "The agent does not invent or transcribe figures as verified. The Reproduction attempt section explicitly states that no metrics were obtained.",
+      "max_score": 5
+    },
+    {
+      "name": "Reported figures section records paper tables with (as reported) markers",
+      "description": "Key figures from Tables 2\u20134 (LongBench, ZeroSCROLLS, MeetingBank) are recorded and marked (as reported).",
+      "max_score": 5
+    },
+    {
+      "name": "How to reproduce section documents what would be required",
+      "description": "The section explains what steps a reviewer would need to take (clone the repo, install deps, run eval scripts) to attempt reproduction.",
+      "max_score": 5
+    },
+    {
+      "name": "Harness location section acknowledges no local harness",
+      "description": "The section notes that no local harness is present and references the upstream repository URL.",
+      "max_score": 5
+    },
+    {
+      "name": "source array includes the reference file path",
+      "description": "The frontmatter source array contains references/jiang-llmlingua.md.",
+      "max_score": 5
+    },
+    {
+      "name": "No unfilled placeholders",
+      "description": "The produced file contains no angle-bracket placeholders.",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent creates the repro file at the...",
+      "description": "Failure avoided: Agent creates the repro file at the wrong path or with missing frontmatter fields",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent sets `outcome` to `failed` instead of...",
+      "description": "Failure avoided: Agent sets `outcome` to `failed` instead of `unverified`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits or vaguely states the blocker...",
+      "description": "Failure avoided: Agent omits or vaguely states the blocker in the Reproduction attempt section",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent fabricates or transcribes figures as verified...",
+      "description": "Failure avoided: Agent fabricates or transcribes figures as verified when the harness was never run",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits the reported figures section or...",
+      "description": "Failure avoided: Agent omits the reported figures section or fails to mark paper table figures `(as reported)`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits the How to reproduce section...",
+      "description": "Failure avoided: Agent omits the How to reproduce section or does not describe the required steps",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent fails to acknowledge the absence of...",
+      "description": "Failure avoided: Agent fails to acknowledge the absence of a local harness or omits the upstream URL",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits `references/jiang-llmlingua.md` from the frontmatter source...",
+      "description": "Failure avoided: Agent omits `references/jiang-llmlingua.md` from the frontmatter source array",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent leaves angle-bracket placeholders in the produced...",
+      "description": "Failure avoided: Agent leaves angle-bracket placeholders in the produced file",
+      "max_score": 15
+    }
+  ]
+}

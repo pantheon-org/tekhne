@@ -1,0 +1,1 @@
+Records a mixed reproduction honestly using tolerance categories, a partially-verified outcome, environmental caveats and the validator.

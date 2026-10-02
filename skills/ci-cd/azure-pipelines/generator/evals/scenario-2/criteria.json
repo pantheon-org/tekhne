@@ -1,0 +1,101 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add Deployment Stage with External Service Credentials.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No hardcoded secrets",
+      "description": "The pipeline YAML does NOT contain any literal secret values \u2014 no passwords, API keys, or connection strings as plain text in variables or task inputs",
+      "max_score": 5
+    },
+    {
+      "name": "Variable group or Key Vault reference",
+      "description": "The pipeline references a variable group or Azure Key Vault task/link for the payment gateway credentials, rather than inline YAML variables",
+      "max_score": 5
+    },
+    {
+      "name": "Service connection for registry",
+      "description": "The Docker registry connection uses a service connection reference (not hardcoded registry credentials)",
+      "max_score": 5
+    },
+    {
+      "name": "Deployment job in deploy stage",
+      "description": "The production deploy stage uses a `deployment:` job (not a regular `job:`) with an environment specified",
+      "max_score": 5
+    },
+    {
+      "name": "PascalCase stage names",
+      "description": "All stage names use PascalCase (e.g., Build, IntegrationTest, DeployProduction) \u2014 NOT snake_case, kebab-case, or ALL_CAPS",
+      "max_score": 5
+    },
+    {
+      "name": "PascalCase job names",
+      "description": "All job names use PascalCase",
+      "max_score": 5
+    },
+    {
+      "name": "displayName on all tasks",
+      "description": "Every task and script step has a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Pinned vmImage",
+      "description": "Pool vmImage uses a specific version (e.g., ubuntu-22.04) not ubuntu-latest",
+      "max_score": 5
+    },
+    {
+      "name": "Task versions pinned",
+      "description": "All tasks include explicit version pins (@N) and none use @latest",
+      "max_score": 5
+    },
+    {
+      "name": "Explicit trigger",
+      "description": "The pipeline has an explicit trigger with branch includes, not `trigger: none`",
+      "max_score": 5
+    },
+    {
+      "name": "dependsOn between stages",
+      "description": "Deploy stage has a `dependsOn` referencing the prior stage",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any literal secret, password, API key, or...",
+      "description": "Failure avoided: Any literal secret, password, API key, or connection string appears as a plain text value in the YAML",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No variable group or Key Vault reference...",
+      "description": "Failure avoided: No variable group or Key Vault reference is used for the payment gateway credentials",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Docker registry credentials are hardcoded instead of...",
+      "description": "Failure avoided: Docker registry credentials are hardcoded instead of using a service connection",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The production deploy stage uses a regular...",
+      "description": "Failure avoided: The production deploy stage uses a regular `job:` instead of `deployment:` with an environment",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Stage or job names use snake_case, kebab-case,...",
+      "description": "Failure avoided: Stage or job names use snake_case, kebab-case, or ALL_CAPS instead of PascalCase",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any step is missing a displayName property",
+      "description": "Failure avoided: Any step is missing a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: vmImage uses ubuntu-latest or any task uses...",
+      "description": "Failure avoided: vmImage uses ubuntu-latest or any task uses @latest",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Deploy stage has no dependsOn referencing a...",
+      "description": "Failure avoided: Deploy stage has no dependsOn referencing a prior stage",
+      "max_score": 10
+    }
+  ]
+}

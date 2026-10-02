@@ -1,0 +1,56 @@
+{
+  "context": "Tests Obsidian comments, math, Mermaid diagrams with internal links, and footnotes.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Hidden remark uses %% syntax",
+      "description": "The reviewer remark is wrapped in `%%...%%` (inline or block form) so it is hidden in reading view.",
+      "max_score": 10
+    },
+    {
+      "name": "Remark is not a visible HTML or Markdown comment",
+      "description": "The remark does not use `<!-- -->` or plain visible text.",
+      "max_score": 8
+    },
+    {
+      "name": "Inline math uses single dollar signs",
+      "description": "The hit ratio formula is written inline with `$...$` LaTeX.",
+      "max_score": 10
+    },
+    {
+      "name": "Block math uses double dollar signs",
+      "description": "The latency formula is written in a `$$ ... $$` block.",
+      "max_score": 10
+    },
+    {
+      "name": "Math uses LaTeX",
+      "description": "Fractions use `\\frac{}{}` or equivalent LaTeX rather than plain text.",
+      "max_score": 8
+    },
+    {
+      "name": "Mermaid fenced block",
+      "description": "The flowchart is inside a fenced code block tagged `mermaid`.",
+      "max_score": 10
+    },
+    {
+      "name": "Mermaid decision branches",
+      "description": "The diagram has the cache decision with two labelled outcomes (return and database).",
+      "max_score": 8
+    },
+    {
+      "name": "Cache node is linked to the vault note",
+      "description": "The Mermaid source adds `class Cache internal-link;` (or the equivalent for the node's name) to link it to the existing note.",
+      "max_score": 14
+    },
+    {
+      "name": "Footnote reference and definition",
+      "description": "The note has a `[^1]` style reference in the text and a matching `[^1]: ...` definition.",
+      "max_score": 12
+    },
+    {
+      "name": "File created as cache-design.md",
+      "description": "A file named `cache-design.md` exists and contains all four elements.",
+      "max_score": 10
+    }
+  ]
+}

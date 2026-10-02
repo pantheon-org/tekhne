@@ -1,0 +1,61 @@
+{
+  "context": "Checks correct use of linking flags, omission when nothing to link, and avoiding a never-done blocker.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Finding uses --related",
+      "description": "Finding command passes --related with the plan path",
+      "max_score": 10
+    },
+    {
+      "name": "Follow-up uses --blocked-by",
+      "description": "Follow-up command passes --blocked-by with the plan path",
+      "max_score": 9
+    },
+    {
+      "name": "Uses the follow-ups typology",
+      "description": "Follow-up is created with --type follow-ups",
+      "max_score": 9
+    },
+    {
+      "name": "Uses the findings typology",
+      "description": "Finding is created with --type findings",
+      "max_score": 9
+    },
+    {
+      "name": "Unrelated note passes no link flags",
+      "description": "The standup note command has no --related, --blocks or --blocked-by",
+      "max_score": 9
+    },
+    {
+      "name": "Does not write empty lists",
+      "description": "Does not hand-add related: [], blocks: [] or blocked-by: [] anywhere",
+      "max_score": 9
+    },
+    {
+      "name": "Explains omission",
+      "description": "States the key is omitted when there is nothing to link",
+      "max_score": 9
+    },
+    {
+      "name": "Mentions --blocks on the depended-on side",
+      "description": "Says --blocks can be set on the file being depended on, or both sides",
+      "max_score": 9
+    },
+    {
+      "name": "Rejects the guide as a blocker",
+      "description": "Advises against blocked-by on a guide that is never marked done",
+      "max_score": 9
+    },
+    {
+      "name": "Explains fail-closed behaviour",
+      "description": "Says the dependent would be reported as blocked indefinitely",
+      "max_score": 9
+    },
+    {
+      "name": "Suggests a blocker with a real close event",
+      "description": "Names a plan, follow-up, ticket or merge-request as a suitable blocker, or suggests recording it in prose",
+      "max_score": 9
+    }
+  ]
+}

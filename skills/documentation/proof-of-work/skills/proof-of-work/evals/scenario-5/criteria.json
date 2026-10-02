@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Anti-pattern Detection \u2014 Agent Reports Without Saving.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correctly identifies prose-without-artifact anti-patterns",
+      "description": "Agent correctly identifies that prose description without artifact violates anti-patterns I08 and I10",
+      "max_score": 10
+    },
+    {
+      "name": "Provides corrected capture command to .context/evidence/",
+      "description": "Agent provides corrected capture command that saves migration output to `.context/evidence/`",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected filename follows date-prefixed descriptive convention",
+      "description": "Corrected filename follows `YYYY-MM-DD-<descriptive-slug>.txt` convention",
+      "max_score": 10
+    },
+    {
+      "name": "Corrected response includes evidence summary table",
+      "description": "Corrected response includes evidence summary table",
+      "max_score": 10
+    },
+    {
+      "name": "Agent explains why original prose response is insufficient",
+      "description": "Agent explains why the original prose response is insufficient as proof-of-work",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Fails to identify anti-patterns I08 or I10...",
+      "description": "Failure avoided: Fails to identify anti-patterns I08 or I10 as the violations",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not provide a corrected capture command...",
+      "description": "Failure avoided: Does not provide a corrected capture command that saves output to `.context/evidence/`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Corrected filename does not follow the `YYYY-MM-DD-<slug>.txt`...",
+      "description": "Failure avoided: Corrected filename does not follow the `YYYY-MM-DD-<slug>.txt` convention",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Corrected response does not include an evidence...",
+      "description": "Failure avoided: Corrected response does not include an evidence summary table",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not explain why the original prose-only...",
+      "description": "Failure avoided: Does not explain why the original prose-only response is insufficient as proof-of-work",
+      "max_score": 10
+    }
+  ]
+}

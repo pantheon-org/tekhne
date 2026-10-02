@@ -1,0 +1,56 @@
+{
+  "context": "Checks the When Not to Use boundaries: no CSS source, existing sheet needing only updates, or a generic template request.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Searches before deciding",
+      "description": "Searches for CSS files, custom properties and `@theme` blocks before concluding",
+      "max_score": 10
+    },
+    {
+      "name": "Finds no extractable tokens",
+      "description": "Reports that no extractable tokens exist in the repo",
+      "max_score": 10
+    },
+    {
+      "name": "Recognises out of scope",
+      "description": "States that CSS-in-JS with no extractable tokens is outside this skill",
+      "max_score": 10
+    },
+    {
+      "name": "Does not generate a sheet",
+      "description": "Does not produce a project-specific `design-reference.md` of invented values",
+      "max_score": 10
+    },
+    {
+      "name": "No invented tokens",
+      "description": "Does not make up colour, spacing or typography tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Does not generate a companion skill",
+      "description": "Does not create an enforcement skill for tokens that do not exist",
+      "max_score": 10
+    },
+    {
+      "name": "Handles generic template request",
+      "description": "Notes that a generic design system template is not what this skill produces",
+      "max_score": 10
+    },
+    {
+      "name": "Mentions update case",
+      "description": "Notes that an existing sheet needing only updates should use the companion skill's update workflow",
+      "max_score": 10
+    },
+    {
+      "name": "Explains reasoning",
+      "description": "Explains why the skill is not applied rather than silently stopping",
+      "max_score": 10
+    },
+    {
+      "name": "Offers a next step",
+      "description": "Suggests what would make the skill applicable, such as extractable CSS tokens",
+      "max_score": 10
+    }
+  ]
+}

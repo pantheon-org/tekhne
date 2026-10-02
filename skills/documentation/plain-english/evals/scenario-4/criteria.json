@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write a Status Update for a Manager with Unknown Technical Depth.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Fallback rule applied and stated explicitly",
+      "description": "Response writes `Audience: unknown. Applying manager-level clarity (fallback).` at the top before writing the document.",
+      "max_score": 10
+    },
+    {
+      "name": "Technical jargon translated",
+      "description": "Terms like N+1 queries, composite index, p99 latency, read replicas, and DBA are translated into plain language.",
+      "max_score": 10
+    },
+    {
+      "name": "Key message leads the update",
+      "description": "Opening states the current status and most important blocker \u2014 not a list of technical tasks completed.",
+      "max_score": 10
+    },
+    {
+      "name": "Blocker has named owner and deadline",
+      "description": "The database administrator sign-off blocker uses `[Owner] must [action] by [deadline]` format with a named owner and specific deadline.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not write the fallback prefix `Audience:...",
+      "description": "Failure avoided: Does not write the fallback prefix `Audience: unknown. Applying manager-level clarity (fallback).` before the document",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Technical terms (N+1 queries, composite index, p99...",
+      "description": "Failure avoided: Technical terms (N+1 queries, composite index, p99 latency, read replicas, DBA) appear without translation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Update opens with a list of completed...",
+      "description": "Failure avoided: Update opens with a list of completed technical tasks rather than current status and blockers",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Blocker does not name a responsible owner...",
+      "description": "Failure avoided: Blocker does not name a responsible owner or specify a deadline",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Write `Audience: unknown. Applying manager-level clarity (fallback).`...",
+      "description": "Write `Audience: unknown. Applying manager-level clarity (fallback).` at the top before writing the document",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Translate terms like N+1 queries, composite index,...",
+      "description": "Translate terms like N+1 queries, composite index, p99 latency, read replicas, and DBA into plain language",
+      "max_score": 10
+    }
+  ]
+}

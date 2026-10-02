@@ -1,0 +1,88 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Identify SRP violations: list classes with more than one reason to change, such as business logic plus persistence plus notifications, and split them.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "Check open-closed compliance: where new features require editing stable code, introduce abstraction or polymorphism.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "Validate Liskov substitution: subtypes must preserve base contracts, not strengthen preconditions or weaken postconditions, and clients should not need type checks.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Segregate interfaces by client need so clients depend only on methods they use.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I05",
+      "content": "Invert dependencies: introduce abstractions at module boundaries so high-level modules do not depend on low-level concrete types.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I06",
+      "content": "Record each finding in the three-line format: violation, refactor, validation.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I07",
+      "content": "Where a subtype cannot honour the base contract by throwing, use a Result type instead.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Provide the concrete implementation through injection (container or constructor) rather than instantiating it in business logic.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER apply SOLID as a mechanical checklist to every class; apply it where the design is causing pain.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER create God Classes to avoid too many files.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER confuse ISP with one method per interface; group cohesive role-specific method sets.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER use deep inheritance to satisfy OCP when composition achieves the same result.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Do not use this skill for service or module boundaries (use clean-architecture), structural pattern choice (use design-patterns) or testing strategy (use testable-design).",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Use text searches to find candidate violations: multiple concerns, type checks and concrete instantiation under src.",
+      "type": "procedure",
+      "why_given": "preference"
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "context": "Checks the end-to-end four-stage workflow: method fallback, documentation before code, staged references, own tokens and visual verification.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Tries the automated method first",
+      "description": "Checks whether browser automation is available before choosing a method",
+      "max_score": 10
+    },
+    {
+      "name": "Falls back to source inspection",
+      "description": "Uses curl source inspection when automation is unavailable and says so",
+      "max_score": 10
+    },
+    {
+      "name": "Documents before coding",
+      "description": "Writes the five theme documents before editing any source file",
+      "max_score": 10
+    },
+    {
+      "name": "Loads references per stage",
+      "description": "Loads `references/extraction.md` for extraction only, not all three up front",
+      "max_score": 10
+    },
+    {
+      "name": "Loads the right later references",
+      "description": "Uses `references/tailwind-mapping.md` for documenting and applying and `references/verification.md` only for verification",
+      "max_score": 10
+    },
+    {
+      "name": "Does not copy stylesheets",
+      "description": "Does not copy the source site's CSS files into the project",
+      "max_score": 10
+    },
+    {
+      "name": "Rebuilds values as tokens",
+      "description": "Rebuilds extracted values as the project's own tokens",
+      "max_score": 10
+    },
+    {
+      "name": "Starts the dev server",
+      "description": "Starts the local server before verification",
+      "max_score": 10
+    },
+    {
+      "name": "Performs a visual diff",
+      "description": "Compares the reference site with the local build visually",
+      "max_score": 10
+    },
+    {
+      "name": "Does not declare done early",
+      "description": "Reports completion only after the diff result is recorded under the artifacts directory",
+      "max_score": 10
+    }
+  ]
+}

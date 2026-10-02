@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Payment Processing Feature Specification.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Three Amigos collaboration",
+      "description": "Documents or demonstrates alignment between product, engineering, and QA perspectives before writing scenarios",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids vague outcomes",
+      "description": "Then steps specify concrete, observable outcomes rather than vague assertions like \"should work correctly\"",
+      "max_score": 7
+    },
+    {
+      "name": "Observable behavior specification",
+      "description": "Scenarios specify user-visible or system-observable outcomes that can be verified",
+      "max_score": 7
+    },
+    {
+      "name": "Stakeholder alignment evidence",
+      "description": "Shows consideration of different stakeholder perspectives (product, engineering, QA) in scenario creation",
+      "max_score": 7
+    },
+    {
+      "name": "Specific examples over abstractions",
+      "description": "Uses concrete examples and specific values rather than abstract or generic wording",
+      "max_score": 7
+    },
+    {
+      "name": "Anti-pattern avoidance",
+      "description": "Actively avoids documented BDD anti-patterns like implementation details in steps or scenario dependencies",
+      "max_score": 7
+    },
+    {
+      "name": "Business language consistency",
+      "description": "Maintains shared business terminology that all stakeholders can understand",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No documentation of alignment between product, engineering,...",
+      "description": "Failure avoided: No documentation of alignment between product, engineering, and QA perspectives",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Then steps use vague assertions like \"payment...",
+      "description": "Failure avoided: Then steps use vague assertions like \"payment should work\" without concrete observable outcomes",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Scenarios describe internal system state rather than...",
+      "description": "Failure avoided: Scenarios describe internal system state rather than user-visible or verifiable outcomes",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Different stakeholder perspectives are not reflected in...",
+      "description": "Failure avoided: Different stakeholder perspectives are not reflected in the scenario design",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Scenarios use abstract wording instead of specific...",
+      "description": "Failure avoided: Scenarios use abstract wording instead of specific values and concrete examples",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: BDD anti-patterns (implementation details, scenario dependencies) are...",
+      "description": "Failure avoided: BDD anti-patterns (implementation details, scenario dependencies) are present without acknowledgment",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Business terminology in scenarios is inconsistent or...",
+      "description": "Failure avoided: Business terminology in scenarios is inconsistent or uses technical jargon",
+      "max_score": 9
+    }
+  ]
+}

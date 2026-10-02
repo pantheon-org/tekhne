@@ -1,0 +1,56 @@
+{
+  "context": "Tests: filtering what to pin, deriving the state file path, parsing emoji and detail, and the duplicate check.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Greeting not pinned",
+      "description": "No pin is created for the casual greeting.",
+      "max_score": 10
+    },
+    {
+      "name": "Implementation detail not pinned",
+      "description": "No pin is created for the request to rename a helper in utils.ts.",
+      "max_score": 10
+    },
+    {
+      "name": "Decision pinned as approved",
+      "description": "The bun decision is written with `type: \"approved\"` and `emoji: \"✅\"`.",
+      "max_score": 10
+    },
+    {
+      "name": "Content and detail split",
+      "description": "The text is split on the spaced em dash so `content` is `use bun everywhere` style wording and `detail` holds the CI fallback note.",
+      "max_score": 10
+    },
+    {
+      "name": "Verbatim wording",
+      "description": "The stored content uses the user's own words rather than a reworded version.",
+      "max_score": 10
+    },
+    {
+      "name": "Slug derived from working directory",
+      "description": "The state file lives under a session-scoped `.session-logs/` directory whose slug is `packages-api`, derived from the path relative to the git root.",
+      "max_score": 10
+    },
+    {
+      "name": "Directory created first",
+      "description": "The directory is created with `mkdir -p` before the file is written and the file is initialised as `{\"items\":[],\"next_id\":1}` when missing.",
+      "max_score": 10
+    },
+    {
+      "name": "Emoji parsed as a whole character",
+      "description": "The emoji prefix is split on the first emoji character rather than the first space, so the content does not start with a stray byte.",
+      "max_score": 10
+    },
+    {
+      "name": "Duplicate rejected",
+      "description": "The repeated decision is not appended and the response is `⚠️ Already pinned.`",
+      "max_score": 10
+    },
+    {
+      "name": "One-line confirmation",
+      "description": "The first pin is confirmed with a single line `📌 Pinned #1: ✅ <content>` and the conversation then resumes.",
+      "max_score": 10
+    }
+  ]
+}

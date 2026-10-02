@@ -1,0 +1,1 @@
+Add automated architecture tests that keep domain code free of infrastructure and framework imports.

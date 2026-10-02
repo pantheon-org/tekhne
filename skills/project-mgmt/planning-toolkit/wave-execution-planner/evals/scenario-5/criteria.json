@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create a Wave Execution Plan from Prose Requirements.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "correct-wave-count-and-structure",
+      "description": "Plan has exactly 5 waves matching the topological sort: (1) audit, (2) issuance + validation in parallel, (3) route guard, (4) legacy removal in parallel, (5) regression + runbook",
+      "max_score": 6
+    },
+    {
+      "name": "no-intra-wave-dependencies",
+      "description": "No wave contains two tasks where one depends on the other",
+      "max_score": 6
+    },
+    {
+      "name": "parallel-sequential-labels-correct",
+      "description": "Waves 2 and 4 are labelled \"parallel\"; waves 1, 3, and 5 are labelled \"sequential\"",
+      "max_score": 6
+    },
+    {
+      "name": "output-file-written",
+      "description": "Wave document is written to `.context/plans/auth-token-migration.md`",
+      "max_score": 6
+    },
+    {
+      "name": "dependency-graph-present",
+      "description": "An ASCII DAG section is included showing the dependency structure between waves and tasks",
+      "max_score": 6
+    },
+    {
+      "name": "branch-strategy-present",
+      "description": "A branch strategy table is included assigning one branch per parallel task using the `feat/auth-<slug>` pattern",
+      "max_score": 6
+    },
+    {
+      "name": "verification-checklists-present",
+      "description": "Each wave has a Verification checklist with at least one concrete, runnable command",
+      "max_score": 6
+    },
+    {
+      "name": "no-invented-dependencies",
+      "description": "Agent does not add ordering constraints not stated in the requirements",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Creates more or fewer than 5 waves",
+      "description": "Failure avoided: Creates more or fewer than 5 waves",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Places issuance and validation in separate waves...",
+      "description": "Failure avoided: Places issuance and validation in separate waves (they should be parallel in the same wave)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Labels parallel waves (2, 4) as \"sequential\"...",
+      "description": "Failure avoided: Labels parallel waves (2, 4) as \"sequential\" or sequential waves (1, 3, 5) as \"parallel\"",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Writes to a path other than `.context/plans/auth-token-migration.md`",
+      "description": "Failure avoided: Writes to a path other than `.context/plans/auth-token-migration.md`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits the ASCII DAG section",
+      "description": "Failure avoided: Omits the ASCII DAG section",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits the branch strategy table or uses...",
+      "description": "Failure avoided: Omits the branch strategy table or uses a different naming pattern",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: A wave is missing its Verification checklist",
+      "description": "Failure avoided: A wave is missing its Verification checklist",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Forces issuance before validation (or vice versa)...",
+      "description": "Failure avoided: Forces issuance before validation (or vice versa) when they are stated as independent",
+      "max_score": 10
+    }
+  ]
+}

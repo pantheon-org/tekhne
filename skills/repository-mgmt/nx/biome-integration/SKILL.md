@@ -79,47 +79,104 @@ nx reset
 
 Expected: daemon cache is cleared and targets refresh.
 
+## Example Configuration
+
+Cache inputs for the Biome targets in `nx.json`:
+
+```json
+{
+  "targetDefaults": {
+    "biome-lint": {
+      "cache": true,
+      "inputs": ["default", "^default", "{workspaceRoot}/biome.json", { "externalDependencies": ["@biomejs/biome"] }]
+    },
+    "biome-format": {
+      "cache": true,
+      "inputs": ["default", "^default", "{workspaceRoot}/biome.json", { "externalDependencies": ["@biomejs/biome"] }]
+    }
+  }
+}
+```
+
+Read-only verification in CI, with write mode kept for local fixes:
+
+```bash
+nx run-many -t biome-lint biome-format
+```
+
 ## Anti-Patterns
 
 ### NEVER use nested `biome.json` for simple workspace-wide setups
 
-- **WHY**: unnecessary config layering increases maintenance and rule drift.
-- **BAD**: create `biome.json` in every project by default.
-- **GOOD**: use one root config and add nested configs only for migration or real overrides.
-- **BAD**: nested configs everywhere.
-- **GOOD**: root-first config with explicit exceptions.
+**WHY:** unnecessary config layering increases maintenance and rule drift.
+
+**BAD:** create `biome.json` in every project by default.
+
+**GOOD:** use one root config and add nested configs only for migration or real overrides.
 
 ### NEVER run ESLint and Biome on the same files without explicit boundary
 
-- **WHY**: dual lint pipelines produce conflicting diagnostics and wasted CI time.
-- **BAD**: keep ESLint glob coverage unchanged after adding Biome.
-- **GOOD**: define migration boundaries so each file set has one active lint authority.
-- **BAD**: same files linted twice.
-- **GOOD**: single lint owner per file path.
+**WHY:** dual lint pipelines produce conflicting diagnostics and wasted CI time.
+
+**BAD:** keep ESLint glob coverage unchanged after adding Biome.
+
+**GOOD:** define migration boundaries so each file set has one active lint authority.
 
 ### NEVER omit `biome.json` and Biome dependency from Nx cache inputs
 
-- **WHY**: cache hits become stale after config/tool version changes.
-- **BAD**: cache only `default` and `^default` inputs.
-- **GOOD**: include `"{workspaceRoot}/biome.json"` and `externalDependencies: ["@biomejs/biome"]`.
-- **BAD**: omit config/dependency inputs.
-- **GOOD**: include config and tool-version inputs.
+**WHY:** cache hits become stale after config/tool version changes.
+
+**BAD:** cache only `default` and `^default` inputs.
+
+**GOOD:** include `"{workspaceRoot}/biome.json"` and `externalDependencies: ["@biomejs/biome"]`.
 
 ### NEVER auto-enable formatter writes in CI verification jobs
 
-- **WHY**: write-mode formatting in CI mutates files and obscures validation failures.
-- **BAD**: run `biome format --write` in required CI checks.
-- **GOOD**: use check/lint mode in CI; reserve write-mode for local or dedicated fix jobs.
-- **BAD**: mutating CI verification.
-- **GOOD**: read-only CI checks.
+**WHY:** write-mode formatting in CI mutates files and obscures validation failures.
+
+**BAD:** run `biome format --write` in required CI checks.
+
+**GOOD:** use check/lint mode in CI; reserve write-mode for local or dedicated fix jobs.
 
 ### NEVER downgrade critical Biome rules to suppress migration noise
 
-- **WHY**: suppressing high-signal rules hides real issues and delays stabilization.
-- **BAD**: globally reduce important rules to `off` during migration.
-- **GOOD**: scope temporary exceptions narrowly with documented expiration.
-- **BAD**: blanket rule disablement.
-- **GOOD**: time-boxed scoped exceptions.
+**WHY:** suppressing high-signal rules hides real issues and delays stabilization.
+
+**BAD:** globally reduce important rules to `off` during migration.
+
+**GOOD:** scope temporary exceptions narrowly with documented expiration.
+
+### NEVER roll out across the workspace before validating one project
+
+**WHY:** a misconfigured target or cache input fails everywhere at once and hides the real cause.
+
+**BAD:** run `nx run-many -t biome-lint` as the first execution after adding targets.
+
+**GOOD:** run `nx biome-lint my-project` and `nx biome-format my-project` first, then run across the workspace.
+
+### NEVER skip `nx reset` after changing plugin-inferred tasks
+
+**WHY:** the Nx daemon cache keeps serving the old target graph.
+
+**BAD:** edit the inference plugin and re-run tasks immediately, expecting new targets.
+
+**GOOD:** run `nx reset` so the daemon cache clears and targets refresh.
+
+### NEVER start the setup before confirming prerequisites
+
+**WHY:** a missing Nx workspace, an unsupported Node.js version or an unclear package manager breaks the install in confusing ways.
+
+**BAD:** run `npm install --save-dev @biomejs/biome` without checking Node.js 18+ or the package manager in use.
+
+**GOOD:** confirm the Nx workspace, Node.js 18+ and the package manager first, then install and initialise.
+
+### NEVER leave temporary migration exceptions undocumented
+
+**WHY:** undocumented exceptions become permanent and the migration never finishes.
+
+**BAD:** add an override with no owner or end date.
+
+**GOOD:** record each temporary exception with clear removal criteria.
 
 ## Reference Map
 

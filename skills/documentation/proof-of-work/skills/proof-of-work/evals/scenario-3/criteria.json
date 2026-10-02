@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Save Test Suite Output as Evidence.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Captures both stdout and stderr using 2>&1 | tee",
+      "description": "Agent captures both stdout and stderr using `2>&1 | tee`",
+      "max_score": 10
+    },
+    {
+      "name": "Artifact saved to .context/evidence/ with date-prefixed descriptive filename",
+      "description": "Artifact saved to `.context/evidence/` with date-prefixed descriptive filename",
+      "max_score": 10
+    },
+    {
+      "name": "Response includes evidence summary table with artifact path",
+      "description": "Response includes evidence summary table with artifact path",
+      "max_score": 10
+    },
+    {
+      "name": "Agent verifies artifact was written",
+      "description": "Agent verifies artifact was written (`ls .context/evidence/` or file check)",
+      "max_score": 10
+    },
+    {
+      "name": "Test result reported alongside artifact reference",
+      "description": "Test result (pass/fail) is reported alongside the artifact reference, not instead of it",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Runs `bun run test` without `2>&1 |...",
+      "description": "Failure avoided: Runs `bun run test` without `2>&1 | tee`, losing stderr output",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Artifact is not saved to `.context/evidence/` or...",
+      "description": "Failure avoided: Artifact is not saved to `.context/evidence/` or filename does not follow the date-prefixed convention",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Response does not include an evidence summary...",
+      "description": "Failure avoided: Response does not include an evidence summary table",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not verify the artifact file...",
+      "description": "Failure avoided: Agent does not verify the artifact file was written to disk",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Test pass/fail result is reported without any...",
+      "description": "Failure avoided: Test pass/fail result is reported without any reference to the saved artifact",
+      "max_score": 10
+    }
+  ]
+}

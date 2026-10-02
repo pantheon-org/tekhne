@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Custom Font with Fontsource.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Installs the font package",
+      "description": "Installs the font package",
+      "max_score": 11
+    },
+    {
+      "name": "Registers specific weight files (not `@fontsource/inter` \u2014...",
+      "description": "Registers specific weight files (not `@fontsource/inter` \u2014 no default export)",
+      "max_score": 11
+    },
+    {
+      "name": "Sets `--sl-font` variable",
+      "description": "Sets `--sl-font` variable",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Registers `@fontsource/inter` without a weight path (no...",
+      "description": "Failure avoided: Registers `@fontsource/inter` without a weight path (no default export exists)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Omits setting the `--sl-font` CSS variable",
+      "description": "Failure avoided: Omits setting the `--sl-font` CSS variable",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Does not add font files to `customCss`",
+      "description": "Failure avoided: Does not add font files to `customCss`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Runs `npm install @fontsource/inter`",
+      "description": "Runs `npm install @fontsource/inter`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Adds `'@fontsource/inter/400.css'` and `'@fontsource/inter/600.css'` to `customCss`",
+      "description": "Adds `'@fontsource/inter/400.css'` and `'@fontsource/inter/600.css'` to `customCss`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Sets `--sl-font: 'Inter', sans-serif` in a CSS...",
+      "description": "Sets `--sl-font: 'Inter', sans-serif` in a CSS file",
+      "max_score": 12
+    }
+  ]
+}

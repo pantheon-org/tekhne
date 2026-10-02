@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write an Nx Generator Using the Tree API.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "tree.write or generateFiles used instead of writeFileSync",
+      "description": "`generator.ts` uses `tree.write()` or `generateFiles()` from `@nx/devkit` \u2014 no `fs.writeFileSync` or direct filesystem writes",
+      "max_score": 10
+    },
+    {
+      "name": "formatFiles(tree) called",
+      "description": "`generator.ts` calls `formatFiles(tree)` after generating files to ensure consistent formatting",
+      "max_score": 10
+    },
+    {
+      "name": "No process.cwd() path construction",
+      "description": "`generator.ts` does not use `process.cwd()` or `join()` with absolute paths \u2014 Tree API paths are workspace-relative",
+      "max_score": 10
+    },
+    {
+      "name": "schema.json has typed fields",
+      "description": "`schema.json` defines `name` as a required string field with type and description (not `schema: any`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Generator still uses `fs.writeFileSync` or any other...",
+      "description": "Failure avoided: Generator still uses `fs.writeFileSync` or any other direct filesystem write instead of the Tree API",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Generator does not call `formatFiles(tree)`, leaving generated...",
+      "description": "Failure avoided: Generator does not call `formatFiles(tree)`, leaving generated files inconsistently formatted",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Generator still uses `process.cwd()` or `join()` with...",
+      "description": "Failure avoided: Generator still uses `process.cwd()` or `join()` with absolute paths to construct file locations",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `schema.json` uses a generic `any` type or...",
+      "description": "Failure avoided: `schema.json` uses a generic `any` type or is missing required field declarations",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Replace `fs.writeFileSync` calls with `tree.write()` or `generateFiles()`...",
+      "description": "Replace `fs.writeFileSync` calls with `tree.write()` or `generateFiles()` from `@nx/devkit`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Call `formatFiles(tree)` after generating files to ensure...",
+      "description": "Call `formatFiles(tree)` after generating files to ensure consistent formatting",
+      "max_score": 10
+    }
+  ]
+}

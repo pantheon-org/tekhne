@@ -1,0 +1,1 @@
+Recovers from browser crashes without losing the library, respects the daily limit and single-session constraint, and keeps the data directory out of commits.

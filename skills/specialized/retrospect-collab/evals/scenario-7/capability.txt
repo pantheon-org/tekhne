@@ -1,0 +1,1 @@
+Decline unreliable partial-session analysis and redirect a what-was-learned question to retrospect-domain.

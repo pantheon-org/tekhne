@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Select the Correct Typology.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Request A classified as findings",
+      "description": "`typology-selection.md` classifies Request A as `findings`",
+      "max_score": 10
+    },
+    {
+      "name": "Request B classified as plans",
+      "description": "`typology-selection.md` classifies Request B as `plans`",
+      "max_score": 10
+    },
+    {
+      "name": "Request C classified as guides",
+      "description": "`typology-selection.md` classifies Request C as `guides`",
+      "max_score": 10
+    },
+    {
+      "name": "Request D classified as follow-ups",
+      "description": "`typology-selection.md` classifies Request D as `follow-ups`",
+      "max_score": 10
+    },
+    {
+      "name": "Reasoning references the typology guide",
+      "description": "each classification explains the choice by what the artifact is, per the skill",
+      "max_score": 10
+    },
+    {
+      "name": "Specific slugs provided",
+      "description": "each entry includes a task-specific slug, not a generic term like `notes` or `todo`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Misclassifies any of A/B/C/D into the wrong...",
+      "description": "Failure avoided: Misclassifies any of A/B/C/D into the wrong typology",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Justifies a choice by lifecycle alone instead...",
+      "description": "Failure avoided: Justifies a choice by lifecycle alone instead of what the artifact is",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Provides generic slugs (e.g. `notes`, `todo`, `research`)",
+      "description": "Failure avoided: Provides generic slugs (e.g. `notes`, `todo`, `research`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Invents a brand-new typology when an existing...",
+      "description": "Failure avoided: Invents a brand-new typology when an existing curated one fits",
+      "max_score": 10
+    }
+  ]
+}

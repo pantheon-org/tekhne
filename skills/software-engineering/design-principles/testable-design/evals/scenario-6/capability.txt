@@ -1,0 +1,1 @@
+Replace static calls, singletons and direct clock access with injected interfaces.

@@ -1,0 +1,91 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Battle Arena: Player State Design.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "HP field decorated",
+      "description": "Player health/hp field uses `@type` decorator (not a plain class property)",
+      "max_score": 5
+    },
+    {
+      "name": "Position fields decorated",
+      "description": "Player x and y fields use `@type` decorator",
+      "max_score": 5
+    },
+    {
+      "name": "Score field decorated",
+      "description": "Player score field uses `@type` decorator",
+      "max_score": 5
+    },
+    {
+      "name": "Status field decorated",
+      "description": "Player active/isActive field uses `@type` decorator",
+      "max_score": 5
+    },
+    {
+      "name": "MapSchema for players",
+      "description": "`BattleState` uses `MapSchema<Player>` (not an array or plain object) for the players collection",
+      "max_score": 5
+    },
+    {
+      "name": "sessionId as map key",
+      "description": "Players are stored in the map using `client.sessionId` as the key",
+      "max_score": 5
+    },
+    {
+      "name": "onCreate sets state",
+      "description": "`onCreate` calls `this.setState()` with a new `BattleState` instance",
+      "max_score": 5
+    },
+    {
+      "name": "onJoin adds player",
+      "description": "`onJoin` creates a `Player` and adds it to `state.players` with `sessionId` as key",
+      "max_score": 5
+    },
+    {
+      "name": "onLeave removes player",
+      "description": "`onLeave` removes the player from `state.players` using `client.sessionId`",
+      "max_score": 5
+    },
+    {
+      "name": "All four hooks present",
+      "description": "File contains `onCreate`, `onJoin`, `onLeave`, and `onDispose` methods",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any Player gameplay field (hp, x, y,...",
+      "description": "Failure avoided: Any Player gameplay field (hp, x, y, score, active) is defined as a plain class property without `@type`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `BattleState` uses a plain array or object...",
+      "description": "Failure avoided: `BattleState` uses a plain array or object instead of `MapSchema<Player>` for the players collection",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Players are not keyed by `client.sessionId` in...",
+      "description": "Failure avoided: Players are not keyed by `client.sessionId` in the map",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `onCreate` does not call `this.setState()` with a...",
+      "description": "Failure avoided: `onCreate` does not call `this.setState()` with a `BattleState` instance",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `onJoin` does not add the new player...",
+      "description": "Failure avoided: `onJoin` does not add the new player to `state.players`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `onLeave` does not remove the player from...",
+      "description": "Failure avoided: `onLeave` does not remove the player from `state.players`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any of the four required lifecycle hooks...",
+      "description": "Failure avoided: Any of the four required lifecycle hooks (`onCreate`, `onJoin`, `onLeave`, `onDispose`) is missing",
+      "max_score": 20
+    }
+  ]
+}

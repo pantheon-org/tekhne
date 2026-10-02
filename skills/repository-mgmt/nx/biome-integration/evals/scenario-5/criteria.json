@@ -1,0 +1,61 @@
+{
+  "context": "Checks that migration coverage is split by project or glob and that overlap is verified.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Chooses a selective migration",
+      "description": "Treats this as a staged migration rather than replacing everything at once",
+      "max_score": 10
+    },
+    {
+      "name": "Keeps a root biome.json baseline",
+      "description": "Initialises or keeps a root biome.json as the baseline",
+      "max_score": 9
+    },
+    {
+      "name": "Moves only opted-in projects to Biome",
+      "description": "Adds Biome targets only to apps/web and apps/admin",
+      "max_score": 9
+    },
+    {
+      "name": "Narrows the ESLint coverage",
+      "description": "Removes or excludes apps/web and apps/admin from the ESLint globs",
+      "max_score": 9
+    },
+    {
+      "name": "Keeps ESLint on the legacy library",
+      "description": "libs/legacy-reports stays on ESLint until migrated",
+      "max_score": 9
+    },
+    {
+      "name": "States one lint authority per file path",
+      "description": "Says each file path must have exactly one active lint authority",
+      "max_score": 9
+    },
+    {
+      "name": "Explains the conflict if not done",
+      "description": "Says dual pipelines produce conflicting diagnostics and wasted CI time",
+      "max_score": 9
+    },
+    {
+      "name": "Checks no overlap",
+      "description": "Includes a step to confirm no file path is linted by both tools",
+      "max_score": 9
+    },
+    {
+      "name": "Does not downgrade rules to hide noise",
+      "description": "Does not set important rules to off globally to quiet migration findings",
+      "max_score": 9
+    },
+    {
+      "name": "Documents any temporary exceptions",
+      "description": "Any exception is scoped narrowly and documented with an expiry",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids a nested biome.json everywhere",
+      "description": "Does not create a biome.json in every project by default",
+      "max_score": 9
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Implement a Bun.serve HTTP API Server.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Bun.serve() used as the server primitive",
+      "description": "The file uses `Bun.serve({ fetch(req) { ... } })` as the entry point; no import from `node:http`, Express, Hono, or other frameworks",
+      "max_score": 8
+    },
+    {
+      "name": "PORT from environment variable",
+      "description": "The server port uses `process.env.PORT` or `Bun.env.PORT` with a fallback of 3000; port is not hardcoded",
+      "max_score": 8
+    },
+    {
+      "name": "All four routes implemented",
+      "description": "`GET /tasks`, `POST /tasks`, `GET /tasks/:id`, and `DELETE /tasks/:id` are all handled with appropriate HTTP status codes (200, 201, 404)",
+      "max_score": 8
+    },
+    {
+      "name": "POST body parsed correctly",
+      "description": "`POST /tasks` parses the JSON body using `await req.json()` (Bun-native Request API); does not use body-parser or stream concatenation",
+      "max_score": 8
+    },
+    {
+      "name": "404 fallback handler",
+      "description": "Any unmatched route returns a Response with status 404 and a JSON body `{ error: 'not found' }` or similar",
+      "max_score": 8
+    },
+    {
+      "name": "TypeScript types used",
+      "description": "The file uses TypeScript; task data structure has typed fields; no use of `any` as a shortcut for task shape",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent imports `http` from `node:http` or uses...",
+      "description": "Failure avoided: Agent imports `http` from `node:http` or uses Express, Hono, or another framework instead of `Bun.serve`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent hardcodes port `3000` without reading `process.env.PORT`...",
+      "description": "Failure avoided: Agent hardcodes port `3000` without reading `process.env.PORT` or `Bun.env.PORT`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits one or more of the...",
+      "description": "Failure avoided: Agent omits one or more of the four required routes or uses incorrect HTTP status codes",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent uses a body-parser library or stream...",
+      "description": "Failure avoided: Agent uses a body-parser library or stream concatenation to read the POST body instead of `await req.json()`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not add a 404 fallback...",
+      "description": "Failure avoided: Agent does not add a 404 fallback for unmatched routes",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent uses `any` for the task shape...",
+      "description": "Failure avoided: Agent uses `any` for the task shape instead of a typed interface or type alias",
+      "max_score": 12
+    }
+  ]
+}

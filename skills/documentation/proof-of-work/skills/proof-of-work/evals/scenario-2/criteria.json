@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Log Capture from a Failing Service.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Identifies log capture as the correct artifact type",
+      "description": "Agent identifies log capture as the correct artifact type",
+      "max_score": 10
+    },
+    {
+      "name": "Uses tee or output redirection to save to .context/evidence/",
+      "description": "Agent uses `tee` or output redirection to save logs to `.context/evidence/`",
+      "max_score": 10
+    },
+    {
+      "name": "Artifact filename is date-prefixed and descriptive",
+      "description": "Artifact filename is date-prefixed and descriptive, ending in `.txt`",
+      "max_score": 10
+    },
+    {
+      "name": "Response includes evidence summary table",
+      "description": "Response includes evidence summary table referencing the log artifact",
+      "max_score": 10
+    },
+    {
+      "name": "Agent avoids quoting raw log output in prose",
+      "description": "Agent avoids quoting raw log output in prose without saving to disk",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Misidentifies the artifact type (e.g., uses screenshot...",
+      "description": "Failure avoided: Misidentifies the artifact type (e.g., uses screenshot instead of log capture)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not use `tee` or redirection \u2014...",
+      "description": "Failure avoided: Does not use `tee` or redirection \u2014 runs the kubectl command without saving output",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Artifact is not saved to `.context/evidence/` or...",
+      "description": "Failure avoided: Artifact is not saved to `.context/evidence/` or filename is undescriptive",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Response does not include an evidence summary...",
+      "description": "Failure avoided: Response does not include an evidence summary table referencing the artifact",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent pastes raw log content inline in...",
+      "description": "Failure avoided: Agent pastes raw log content inline in prose rather than saving to disk",
+      "max_score": 10
+    }
+  ]
+}

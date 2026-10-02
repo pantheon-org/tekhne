@@ -1,0 +1,106 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER mix Node.js fs calls into Bun-native file workflows; use `await Bun.file(path).text()`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER run `npm install` in Bun-managed repositories; use `bun install`",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER interpolate untrusted input into SQL strings; bind values with prepared statements",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER pass unescaped user input into shell commands; use direct API calls or fixed command arguments",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER leave raw interpolated `query(` calls in existing code once flagged; refactor each to `db.prepare(...)` with bound parameters before merging",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER ignore a lockfile merge conflict when `bun install` fails; resolve `bun.lock`/`bun.lockb` conflicts and re-run `bun install`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER skip `bun test` after changing dependencies; run it to isolate regressions before proceeding",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER keep going after a failed validation; revert the last change, confirm the error, then address the specific failure before re-validating",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER finalise a change without running the anti-pattern checks",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER record a decision without linking the exact references used",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Confirm Bun is available (`bun --version`) and lock the dependency strategy before starting",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "Choose the category (runtime, file I/O, testing, sqlite, package, security) before implementing",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Implement with the copy/paste commands from Quick Commands",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Validate SQL with `rg -n \"query\\(|prepare\\(\" src`; queries on user-controlled input must use prepared statements",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Use `Bun.serve` as the HTTP service primitive",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Write tests with `bun test` and the `bun:test` module",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Do not apply the skill when the project standard runtime is strictly Node.js with no Bun support",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

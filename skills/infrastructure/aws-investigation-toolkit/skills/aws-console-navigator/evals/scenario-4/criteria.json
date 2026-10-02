@@ -1,0 +1,56 @@
+{
+  "context": "Checks the agent avoids the Lambda Errors = 0 trap and captures the alarm detail page after verifying the graphed metric.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "States the alarm is not a false positive",
+      "description": "Response does not accept that Errors = 0 means the alarm is wrong",
+      "max_score": 10
+    },
+    {
+      "name": "Explains native Errors metric semantics",
+      "description": "Says AWS/Lambda Errors counts invocation-level failures",
+      "max_score": 10
+    },
+    {
+      "name": "Explains Logs metric filter cause",
+      "description": "Says an alarm driven by a Logs metric filter can fire on ERROR-level log lines",
+      "max_score": 10
+    },
+    {
+      "name": "Notes clean exit still alarms",
+      "description": "Says the invocation can exit cleanly and the alarm still fires",
+      "max_score": 10
+    },
+    {
+      "name": "Captures alarm detail page",
+      "description": "Says to screenshot the alarm detail page as evidence",
+      "max_score": 10
+    },
+    {
+      "name": "Does not screenshot raw metric graph",
+      "description": "Does not choose the raw AWS/Lambda Errors graph as the evidence page",
+      "max_score": 10
+    },
+    {
+      "name": "Navigates via Alarms list",
+      "description": "Route goes CloudWatch, Alarms, All alarms",
+      "max_score": 10
+    },
+    {
+      "name": "Searches by alarm name",
+      "description": "Uses the alarm name to find the alarm and clicks it",
+      "max_score": 10
+    },
+    {
+      "name": "Verifies graphed metric first",
+      "description": "Checks which metric the alarm graphs before capturing",
+      "max_score": 10
+    },
+    {
+      "name": "Uses alarm deep-link form if giving a URL",
+      "description": "If a URL is given it follows https://{region}.console.aws.amazon.com/cloudwatch/home?region={region}#alarmsV2:alarm/{alarm_name}",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Reports a notebook's gaps honestly instead of filling them from general knowledge, and declines to use NotebookLM for web search.

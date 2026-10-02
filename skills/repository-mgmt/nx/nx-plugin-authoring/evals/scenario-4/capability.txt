@@ -1,0 +1,1 @@
+Fix a Generator That Destroys Existing Files

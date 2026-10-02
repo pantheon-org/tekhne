@@ -1,0 +1,136 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER hardcode image tags in `values.yaml`; leave the tag empty and default to appVersion",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER omit `resources:` limits and requests on containers",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER use `helm upgrade --install` without `--atomic` in CI/CD",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER place environment-specific values inside the chart's default `values.yaml`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER skip `helm template` plus `kubeval`/`kubeconform` validation",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER assume values for critical settings; ask for image, port, limits, probes, scaling, workload type and storage",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER skip reading the reference files at the template stage, even if read earlier",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER hardcode resource names or labels in templates; use the helpers",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER omit the checksum annotation on workloads that consume config",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER put CRDs in `templates/`; ship them in `crds/`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER leave the default `http` port name on a non-HTTP service",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Use AskUserQuestion when image, port, limits, probes, scaling, workload type or storage are missing or ambiguous",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "For custom resources, try Context7 first and fall back to a web search for CRD documentation",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Create the chart structure with generate_chart_structure.sh, passing the image repository without a tag",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Generate standard helpers with generate_standard_helpers.sh or the helpers template",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Use helpers for names and labels, `with` for conditional sections and `nindent` consistently",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I17",
+      "content": "Use `toYaml` for complex optional objects",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "Group related settings in values.yaml, document every value with `# --` comments, provide sensible defaults, and include security contexts, limits and probes",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I19",
+      "content": "Provide a JSON Schema for values validation",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "Validate the generated chart with the helm-validator skill",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I21",
+      "content": "When converting manifests, parameterise names with helpers and extract values",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I22",
+      "content": "Use `default` or `required` for undefined values",
+      "type": "procedure",
+      "why_given": "reminder"
+    }
+  ]
+}

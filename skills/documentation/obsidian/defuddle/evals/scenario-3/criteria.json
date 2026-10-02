@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Extract Page Metadata Only.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Used -p flag or --json for metadata extraction",
+      "description": "The agent used `defuddle parse <url> -p title` and/or `-p description` (or `--json`) rather than fetching the full page with `--md`.",
+      "max_score": 10
+    },
+    {
+      "name": "Did not fetch full page content unnecessarily",
+      "description": "The agent did not run `defuddle parse <url> --md` when only metadata was requested, avoiding wasteful full-content extraction.",
+      "max_score": 10
+    },
+    {
+      "name": "Produced metadata.md with title and description",
+      "description": "The file `metadata.md` exists and contains both the title and description values in the requested format.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Fetches the full page content with `--md`...",
+      "description": "Failure avoided: Fetches the full page content with `--md` when only title and description metadata was requested",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits the `-p` flags or `--json` and...",
+      "description": "Failure avoided: Omits the `-p` flags or `--json` and returns unfiltered full-page content",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not produce a `metadata.md` file",
+      "description": "Failure avoided: Does not produce a `metadata.md` file",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `metadata.md` is missing either the title or...",
+      "description": "Failure avoided: `metadata.md` is missing either the title or the description value",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Use `defuddle parse <url> -p title` and...",
+      "description": "Use `defuddle parse <url> -p title` and `-p description` flags (or `--json`) to extract only metadata, rather than fetching the full page with `--md`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Avoid running `defuddle parse <url> --md` when...",
+      "description": "Avoid running `defuddle parse <url> --md` when only metadata was requested",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Write a `metadata.md` file containing both the...",
+      "description": "Write a `metadata.md` file containing both the title and description values in the requested format",
+      "max_score": 10
+    }
+  ]
+}

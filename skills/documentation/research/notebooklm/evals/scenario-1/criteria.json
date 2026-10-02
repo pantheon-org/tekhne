@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Query a NotebookLM Notebook with Follow-Up.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Authentication checked before querying",
+      "description": "The agent runs auth_manager.py status before issuing any query.",
+      "max_score": 10
+    },
+    {
+      "name": "run.py wrapper used for all script invocations",
+      "description": "Every script call goes through python ./scripts/run.py \u2014 no direct script execution.",
+      "max_score": 10
+    },
+    {
+      "name": "Question is specific and scoped",
+      "description": "The query explicitly asks about inclusion and exclusion criteria, not a generic 'tell me about the methodology'.",
+      "max_score": 10
+    },
+    {
+      "name": "Follow-up mechanism applied",
+      "description": "After receiving the first answer, the agent checks whether both inclusion AND exclusion criteria are covered, and issues a follow-up query if either is missing.",
+      "max_score": 10
+    },
+    {
+      "name": "All answers synthesised before responding",
+      "description": "The agent combines results from all queries into a coherent response rather than dumping raw NotebookLM output.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent issues queries without first checking authentication...",
+      "description": "Failure avoided: Agent issues queries without first checking authentication status",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent invokes scripts directly rather than through...",
+      "description": "Failure avoided: Agent invokes scripts directly rather than through the run.py wrapper",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent asks a generic methodology question instead...",
+      "description": "Failure avoided: Agent asks a generic methodology question instead of scoping to inclusion/exclusion criteria",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent fails to issue a follow-up when...",
+      "description": "Failure avoided: Agent fails to issue a follow-up when one of inclusion or exclusion criteria is not addressed",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent dumps raw NotebookLM output without synthesising...",
+      "description": "Failure avoided: Agent dumps raw NotebookLM output without synthesising a coherent response",
+      "max_score": 10
+    }
+  ]
+}

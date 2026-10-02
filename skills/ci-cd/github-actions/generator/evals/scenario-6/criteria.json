@@ -1,0 +1,61 @@
+{
+  "context": "Tests: composite action generation from templates, metadata and documentation, validation before delivery.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Composite type chosen",
+      "description": "The action.yml declares `runs: using: composite`, the type suited to combining several steps.",
+      "max_score": 10
+    },
+    {
+      "name": "Starts from the composite template",
+      "description": "The action follows the structure of the skill's composite action template rather than an invented layout.",
+      "max_score": 10
+    },
+    {
+      "name": "Branding present",
+      "description": "The action metadata includes a `branding` block.",
+      "max_score": 8
+    },
+    {
+      "name": "Typed inputs defined",
+      "description": "The action declares inputs, such as the Node.js version, each with a description and a default where sensible.",
+      "max_score": 10
+    },
+    {
+      "name": "Outputs defined",
+      "description": "The action declares at least one output (for example whether the cache was hit) mapped from a step.",
+      "max_score": 8
+    },
+    {
+      "name": "Documentation included",
+      "description": "A README or usage section documents the inputs, outputs and an example `uses:` call.",
+      "max_score": 10
+    },
+    {
+      "name": "Requirements gathered first",
+      "description": "The agent confirms or states the requirements (runners, inputs, consumers) before writing files.",
+      "max_score": 8
+    },
+    {
+      "name": "Shell set on run steps",
+      "description": "Every `run:` step in the composite action sets `shell:` explicitly.",
+      "max_score": 10
+    },
+    {
+      "name": "Inner actions SHA-pinned",
+      "description": "Any action used inside the composite action is pinned to a full commit SHA with a version comment.",
+      "max_score": 10
+    },
+    {
+      "name": "npm cache restored",
+      "description": "The action restores the npm cache and installs with `npm ci`.",
+      "max_score": 8
+    },
+    {
+      "name": "Validated before presenting",
+      "description": "The agent invokes the github-actions-validator skill, fixes any errors and re-validates before presenting the result.",
+      "max_score": 8
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Tests keeping CI read-only and separating local write workflows.

@@ -1,0 +1,1 @@
+Write Obsidian comments, LaTeX math, a Mermaid diagram with an internal link, and a footnote correctly.

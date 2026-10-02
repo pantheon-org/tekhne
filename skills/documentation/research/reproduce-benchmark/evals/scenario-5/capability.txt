@@ -1,0 +1,1 @@
+Sets outcome to unverified with a documented blocker when a paid API is unavailable and uses the preferred MCP for paper lookups.

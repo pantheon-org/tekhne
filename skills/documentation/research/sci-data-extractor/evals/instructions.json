@@ -1,10 +1,124 @@
 {
   "instructions": [
-    "Configure EXTRACTOR_API_KEY and EXTRACTOR_BASE_URL before running any extraction.",
-    "Choose the correct preset template (enzyme, experiment, review) or write an explicit custom prompt that includes output format instructions.",
-    "Validate extracted output before saving: check text length after PyMuPDF extraction; switch to Mathpix OCR if content is empty or suspiciously short.",
-    "Never hardcode API keys in scripts or committed files; always use environment variables or a .env file excluded from version control.",
-    "After a batch run, always review the failed-files list printed at the end and re-run failed files individually to diagnose issues.",
-    "When handing off extracted data to a downstream tool, include the source PDF path and the template or prompt used so results can be reproduced."
+    {
+      "id": "I01",
+      "content": "OCR first, extraction second: PyMuPDF does not handle all PDFs equally, so switch to Mathpix for high-precision needs or pre-inspect output before running AI extraction.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Prompts determine quality: ALWAYS review the raw LLM output before saving, because ambiguous headers or merged cells can silently corrupt values.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Batch is not atomic: ALWAYS check the per-file success log, because failed files are listed at the end and may need re-running individually.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Install dependencies on first run as described in the setup reference.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I05",
+      "content": "Configure environment variables (EXTRACTOR_API_KEY, EXTRACTOR_BASE_URL, EXTRACTOR_MODEL, and optionally MATHPIX_APP_ID and MATHPIX_APP_KEY) before running.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Use a preset template (enzyme, experiment or review) with ./scripts/extractor.py <pdf> --template <name> -o <file>.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "For needs the presets do not cover, pass a custom prompt with -p.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Use --format csv to write CSV output.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Use --ocr mathpix for high-precision extraction.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Use ./scripts/batch_extract.py <input-folder> <output-folder> --template <name> --format <fmt> to process a folder of PDFs.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Use --print to show extracted results in the terminal for inspection.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER skip validating extracted output before saving to a database: print the results and spot-check at least 3 rows against the source PDF.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER pass a scanned image-only PDF to PyMuPDF without warning the user; check that the extracted text length is reasonable and switch to --ocr mathpix if it is empty or very short.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER use a custom prompt that omits output format instructions, such as the table columns and delimiter.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER treat batch output as complete without reviewing the failed-files list; re-run failed files individually with --print.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER store EXTRACTOR_API_KEY in plain text in a script or committed file; ALWAYS use environment variables or a dotenv file excluded from version control.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER assume Mathpix is available; ALWAYS confirm both MATHPIX_APP_ID and MATHPIX_APP_KEY are set before using it, and optionally fall back to PyMuPDF.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "Do not use this skill when the paper is already in a machine-readable format (XML, JSON, HTML); parse it directly.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "Do not use this skill for abstracts, titles, real-time citation counts or DOI resolution; use semantic-scholar-search.",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I20",
+      "content": "Do not rely on results from low-resolution scanned PDFs with no embedded text when Mathpix is unavailable; they will be unreliable.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
   ]
 }

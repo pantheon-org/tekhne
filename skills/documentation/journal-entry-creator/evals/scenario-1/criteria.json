@@ -1,0 +1,126 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Troubleshooting Documentation Task.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Template schema loaded",
+      "description": "Evidence shows troubleshooting.yaml template was consulted before generation",
+      "max_score": 4
+    },
+    {
+      "name": "Correct directory structure",
+      "description": "File placed in YYYY/MM-Month/DD-Weekday/ directory matching the date",
+      "max_score": 4
+    },
+    {
+      "name": "Lowercase filename slug",
+      "description": "Filename slug uses only lowercase letters and hyphens, no uppercase or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Triple date sync",
+      "description": "Date matches exactly across filename, frontmatter, and H1 title",
+      "max_score": 4
+    },
+    {
+      "name": "H1 date format",
+      "description": "H1 title uses `Month D, YYYY` format (not `Month DD`)",
+      "max_score": 4
+    },
+    {
+      "name": "Single H1 heading",
+      "description": "Document contains exactly one H1 heading",
+      "max_score": 4
+    },
+    {
+      "name": "Required troubleshooting tag",
+      "description": "Includes `troubleshooting` tag in frontmatter",
+      "max_score": 4
+    },
+    {
+      "name": "Tag consistency",
+      "description": "Tags match exactly between frontmatter array and Tags section",
+      "max_score": 4
+    },
+    {
+      "name": "Lowercase hyphenated tags",
+      "description": "All tags use lowercase with hyphens, no uppercase or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Code block languages",
+      "description": "All code blocks have language specifiers, no bare triple backticks",
+      "max_score": 4
+    },
+    {
+      "name": "Bold metadata formatting",
+      "description": "Metadata block uses `Key: Value` format with bold keys",
+      "max_score": 4
+    },
+    {
+      "name": "No emojis used",
+      "description": "Document contains no emojis in any section or content",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No evidence of consulting the troubleshooting.yaml template...",
+      "description": "Failure avoided: No evidence of consulting the troubleshooting.yaml template before generation",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: File placed in wrong directory or without...",
+      "description": "Failure avoided: File placed in wrong directory or without the YYYY/MM-Month/DD-Weekday/ structure",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Filename slug contains uppercase letters or underscores",
+      "description": "Failure avoided: Filename slug contains uppercase letters or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Date is inconsistent between filename, frontmatter, or...",
+      "description": "Failure avoided: Date is inconsistent between filename, frontmatter, or H1 title",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: H1 uses `Month 0D` zero-padded format instead...",
+      "description": "Failure avoided: H1 uses `Month 0D` zero-padded format instead of `Month D`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Document contains more than one H1 heading",
+      "description": "Failure avoided: Document contains more than one H1 heading",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `troubleshooting` tag is absent from frontmatter",
+      "description": "Failure avoided: `troubleshooting` tag is absent from frontmatter",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Tags in frontmatter array do not match...",
+      "description": "Failure avoided: Tags in frontmatter array do not match the Tags section exactly",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any tag contains uppercase letters or underscores",
+      "description": "Failure avoided: Any tag contains uppercase letters or underscores",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Any code block is missing a language...",
+      "description": "Failure avoided: Any code block is missing a language specifier",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Metadata block uses bullet points or non-bold...",
+      "description": "Failure avoided: Metadata block uses bullet points or non-bold keys instead of `Key: Value`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Document contains emojis in any section",
+      "description": "Failure avoided: Document contains emojis in any section",
+      "max_score": 8
+    }
+  ]
+}

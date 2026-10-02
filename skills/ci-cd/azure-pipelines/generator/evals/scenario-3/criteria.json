@@ -1,0 +1,101 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Build and Deploy a Containerized Service to AKS.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Build.BuildId tag",
+      "description": "Docker images are tagged with `$(Build.BuildId)` (or a variable holding it, like `$(tag)` where tag = $(Build.BuildId))",
+      "max_score": 5
+    },
+    {
+      "name": "Also pushes latest tag",
+      "description": "The Docker push step includes both the build-specific tag AND `latest` in the tags list",
+      "max_score": 5
+    },
+    {
+      "name": "Deploy uses specific tag only",
+      "description": "The Kubernetes deployment task references the specific build tag (e.g., $(tag)) and NOT `:latest` as the image tag",
+      "max_score": 5
+    },
+    {
+      "name": "Deployment jobs used",
+      "description": "Both staging and production deploy stages use `deployment:` jobs (not regular `job:`) with `environment:` specified",
+      "max_score": 5
+    },
+    {
+      "name": "KubernetesManifest@0 task",
+      "description": "The pipeline uses `KubernetesManifest@0` (pinned at @0) for Kubernetes deployments",
+      "max_score": 5
+    },
+    {
+      "name": "Docker@2 task used",
+      "description": "The Docker build/push step uses `Docker@2` (pinned at @2)",
+      "max_score": 5
+    },
+    {
+      "name": "Pinned vmImage",
+      "description": "Pool vmImage uses a specific version (e.g., ubuntu-22.04) not ubuntu-latest",
+      "max_score": 5
+    },
+    {
+      "name": "displayName on all tasks",
+      "description": "Every task and script step has a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "PascalCase stage names",
+      "description": "All stage names use PascalCase",
+      "max_score": 5
+    },
+    {
+      "name": "dependsOn between stages",
+      "description": "Deploy stages have `dependsOn` referencing prior stages",
+      "max_score": 5
+    },
+    {
+      "name": "No @latest task usage",
+      "description": "No task in the file uses @latest version",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Docker images are not tagged with Build.BuildId...",
+      "description": "Failure avoided: Docker images are not tagged with Build.BuildId (or equivalent build-specific identifier)",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: The `latest` tag is not pushed alongside...",
+      "description": "Failure avoided: The `latest` tag is not pushed alongside the build-specific tag",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Kubernetes deployment task uses `:latest` as the...",
+      "description": "Failure avoided: Kubernetes deployment task uses `:latest` as the image tag instead of the build-specific tag",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Staging or production deploy stages use regular...",
+      "description": "Failure avoided: Staging or production deploy stages use regular `job:` instead of `deployment:` with `environment:`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: KubernetesManifest or Docker tasks are missing version...",
+      "description": "Failure avoided: KubernetesManifest or Docker tasks are missing version pins or use incorrect versions",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any task uses @latest version",
+      "description": "Failure avoided: Any task uses @latest version",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any step is missing a displayName property",
+      "description": "Failure avoided: Any step is missing a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Deploy stages have no `dependsOn` referencing prior...",
+      "description": "Failure avoided: Deploy stages have no `dependsOn` referencing prior stages",
+      "max_score": 10
+    }
+  ]
+}

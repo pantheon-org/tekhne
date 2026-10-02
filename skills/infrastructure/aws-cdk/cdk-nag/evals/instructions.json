@@ -1,0 +1,112 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Run compliance checks early in development.",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I02",
+      "content": "Prefer fixing insecure resources over suppressing findings.",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Use suppressions only with explicit, reviewable rationale.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Keep CI enforcement consistent with the risk profile.",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I05",
+      "content": "Add relevant cdk-nag rule packs to the app.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Synthesize stacks and collect findings.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Fix failing resources where feasible.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "Checkpoint: if findings remain after fixing, categorize each as fix / suppress / defer before proceeding. Do not advance until every finding has an owner and decision.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "Add minimal, scoped suppressions when justified.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Re-run synth and CI checks before merge.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I11",
+      "content": "Apply a rule pack to every stack with Aspects.of(app).add(new AwsSolutionsChecks({ verbose: true })).",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Scope a suppression to the exact construct with NagSuppressions.addResourceSuppressions, not the whole stack.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER suppress findings without a concrete security rationale (not 'false positive').",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER apply broad stack-level suppressions for convenience.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER enable production rule packs only at release time; run them continuously in feature branches.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER ignore recurring nag violations in CI; fix the root cause or add a justified suppression once.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Do not use this skill for Terraform-only repositories without AWS CDK constructs.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "In CI, run tests and synth together (npm test && npx cdk synth) so a failure of either fails the job.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

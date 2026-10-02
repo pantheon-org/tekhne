@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/obsidian/obsidian-markdown/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 13
+  },
+  "total": 117,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 186,
+  "hasReferences": true,
+  "referenceCount": 5,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

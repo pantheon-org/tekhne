@@ -1,32 +1,118 @@
 {
   "instructions": [
     {
-      "original_snippets": "Set ANTHROPIC_API_KEY before invoking the generation script; NEVER hardcode the key in the script or task file.",
+      "id": "I01",
+      "content": "Describe the diagram specifically: ALWAYS include the type, components, flow or direction, labels and style, with element names, relationships and notation conventions; avoid vague prompts such as 'Make a flowchart'.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "ALWAYS pass the --doc-type flag matching the target venue (journal 8.5, conference 8.0, poster 7.0, presentation 6.5) so the correct quality threshold applies.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER set --iterations higher than 2; smart iteration stops early once the threshold is met.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Set ANTHROPIC_API_KEY in the environment before running the generation script.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER hardcode the API key in source or task files.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I06",
+      "content": "Store generated diagrams in the figures/ subfolder.",
+      "type": "constraint",
       "why_given": "preference"
     },
     {
-      "original_snippets": "Select the --doc-type flag matching the target venue (journal=8.5, conference=8.0, poster=7.0) to apply the correct quality threshold.",
+      "id": "I07",
+      "content": "Rely on smart iteration: review each image against the document-type threshold, stop when the score meets it, and regenerate with an improved prompt only if it falls below.",
+      "type": "procedure",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER request more than 2 iterations; the smart-iteration system stops early if quality is already above threshold.",
+      "id": "I08",
+      "content": "Use the threshold table: journal 8.5, conference 8.0, thesis 8.0, grant 8.0, preprint 7.5, report 7.5, poster 7.0, presentation 6.5, default 7.5.",
+      "type": "constraint",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "ALWAYS verify the output image exists and meets the quality threshold before referencing it in a manuscript.",
+      "id": "I09",
+      "content": "NEVER use this skill for data plots such as bar charts, scatter plots or heatmaps; use a plotting library.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Do not use this skill when a figure must be reproduced exactly from a prior publication; use the original source or a vector redraw tool.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Do not use this skill for interactive or animated diagrams; it produces static publication images only.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER skip the --doc-type flag for formal submissions, because the default 7.5 threshold is lower than the journal 8.5 threshold.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Use colourblind-friendly colours (Okabe-Ito palette), a clean light background, high contrast and sans-serif labels.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Prefer vector output (PDF for LaTeX, SVG for web) or 300+ DPI raster, with line weights of at least 0.5 pt.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Caption every diagram thoroughly, include it with \\includegraphics, and reference it in the text.",
+      "type": "procedure",
       "why_given": "preference"
     },
     {
-      "original_snippets": "Store all generated diagrams under figures/ and reference them with relative paths to keep the project portable.",
+      "id": "I16",
+      "content": "Keep the prompts and generated images in version control.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "Verify the result against the threshold using the review log (score, critique, early-stop reason) before reporting completion.",
+      "type": "procedure",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER use the generation script for decorative or non-scientific images — this tool targets publication-quality scientific diagrams only.",
-      "why_given": "new knowledge"
+      "id": "I18",
+      "content": "Confirm the API key is set before any generation by checking the environment variable.",
+      "type": "procedure",
+      "why_given": "preference"
     },
     {
-      "original_snippets": "Describe the diagram in precise scientific language; vague prompts produce generic output that fails quality review.",
-      "why_given": "new knowledge"
+      "id": "I19",
+      "content": "Use verbose mode (-v) when the generation and review steps should be shown.",
+      "type": "procedure",
+      "why_given": "preference"
     }
   ]
 }

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create Root Biome Configuration for an Nx Workspace.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Schema reference present",
+      "description": "The file contains a `$schema` field pointing to a `biomejs.dev/schemas` URL.",
+      "max_score": 10
+    },
+    {
+      "name": "Formatter enabled with correct indent settings",
+      "description": "`formatter.enabled` is `true`, `indentStyle` is `\"space\"`, and `indentWidth` is `2`.",
+      "max_score": 10
+    },
+    {
+      "name": "Linter enabled",
+      "description": "`linter.enabled` is `true`.",
+      "max_score": 10
+    },
+    {
+      "name": "Recommended ruleset activated",
+      "description": "`linter.rules.recommended` is `true`.",
+      "max_score": 10
+    },
+    {
+      "name": "files.ignoreUnknown set to false",
+      "description": "`files.ignoreUnknown` is explicitly set to `false`.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `$schema` field is missing or does...",
+      "description": "Failure avoided: The `$schema` field is missing or does not reference `biomejs.dev/schemas`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The formatter is missing, disabled, or uses...",
+      "description": "Failure avoided: The formatter is missing, disabled, or uses incorrect indent settings (e.g. tabs or width 4)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `linter.enabled` is absent or `false`",
+      "description": "Failure avoided: `linter.enabled` is absent or `false`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `linter.rules.recommended` is absent or `false`",
+      "description": "Failure avoided: `linter.rules.recommended` is absent or `false`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `files.ignoreUnknown` is absent or set to `true`",
+      "description": "Failure avoided: `files.ignoreUnknown` is absent or set to `true`",
+      "max_score": 10
+    }
+  ]
+}

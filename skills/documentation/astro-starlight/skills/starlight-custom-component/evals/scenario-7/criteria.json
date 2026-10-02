@@ -1,0 +1,41 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Anti-Pattern Detection \u2014 Wrong Registration Key.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Clarifies file name is irrelevant",
+      "description": "Clarifies file name is irrelevant",
+      "max_score": 14
+    },
+    {
+      "name": "Correct `components: {}` registration shown",
+      "description": "Correct `components: {}` registration shown",
+      "max_score": 14
+    },
+    {
+      "name": "No suggestion that naming conventions alone work",
+      "description": "No suggestion that naming conventions alone work",
+      "max_score": 14
+    },
+    {
+      "name": "Avoids: Implies that naming a file `Footer.astro` is...",
+      "description": "Failure avoided: Implies that naming a file `Footer.astro` is sufficient for the override to take effect",
+      "max_score": 14
+    },
+    {
+      "name": "Avoids: Does not show the required `components: {}`...",
+      "description": "Failure avoided: Does not show the required `components: {}` registration in `astro.config.mjs`",
+      "max_score": 14
+    },
+    {
+      "name": "Step: Explains that file name has no effect...",
+      "description": "Explains that file name has no effect on which slot is overridden",
+      "max_score": 14
+    },
+    {
+      "name": "Step: Instructs registering `Footer: './src/components/Footer.astro'` in `components: {}`.",
+      "description": "Instructs registering `Footer: './src/components/Footer.astro'` in `components: {}` in `astro.config.mjs`",
+      "max_score": 16
+    }
+  ]
+}

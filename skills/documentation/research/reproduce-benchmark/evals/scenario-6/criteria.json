@@ -1,0 +1,61 @@
+{
+  "context": "Stopping when the prerequisite triage has not happened instead of improvising a reproduction.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Reference and analysis lookup attempted",
+      "description": "The agent looks for references/rustpack.md and analysis/ANALYSIS-rustpack.md.",
+      "max_score": 10
+    },
+    {
+      "name": "Existing repro checked",
+      "description": "The agent checks benchmarks/sources/ for rustpack-repro.md.",
+      "max_score": 8
+    },
+    {
+      "name": "Missing triage identified",
+      "description": "The agent states that rustpack has not been triaged.",
+      "max_score": 12
+    },
+    {
+      "name": "Triage skill recommended",
+      "description": "The agent directs the user to triage-tool, or triage-paper if it is a paper, before reproducing.",
+      "max_score": 14
+    },
+    {
+      "name": "No harness run",
+      "description": "The agent does not clone, install or run any benchmark.",
+      "max_score": 12
+    },
+    {
+      "name": "No repro file created",
+      "description": "The agent does not create benchmarks/sources/rustpack-repro.md.",
+      "max_score": 12
+    },
+    {
+      "name": "No figures invented",
+      "description": "The agent does not state or guess any benchmark figures for rustpack.",
+      "max_score": 10
+    },
+    {
+      "name": "Confirms the slug",
+      "description": "The agent asks the user to confirm the slug or subject type before proceeding.",
+      "max_score": 8
+    },
+    {
+      "name": "Offers a next step",
+      "description": "The agent offers to run the reproduction once triage exists.",
+      "max_score": 8
+    },
+    {
+      "name": "Explains briefly",
+      "description": "The explanation is short and names the missing files.",
+      "max_score": 4
+    },
+    {
+      "name": "Does not backfill an analysis file",
+      "description": "The agent does not create or edit an analysis file.",
+      "max_score": 2
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Create a mise.toml for a New Project

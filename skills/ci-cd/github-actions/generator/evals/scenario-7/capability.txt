@@ -1,0 +1,1 @@
+Tests that a deployment workflow uses an environment, a job summary and guaranteed cleanup, with public action versions verified rather than guessed.

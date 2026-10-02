@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Detect and Fix Anti-Patterns in a Risk Assessment.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Jargon anti-patterns identified",
+      "description": "Response explicitly flags jargon terms (OAuth 2.0, JWT, RS256, Redis, attack surface) as anti-patterns requiring translation.",
+      "max_score": 10
+    },
+    {
+      "name": "Passive voice anti-patterns identified",
+      "description": "Response calls out passive voice in the Risks section (`should be mitigated`, `should be migrated`, `It is recommended`) as an anti-pattern.",
+      "max_score": 10
+    },
+    {
+      "name": "Buried decision anti-pattern identified",
+      "description": "Response notes that key risk/decision is buried after background context rather than leading the document.",
+      "max_score": 10
+    },
+    {
+      "name": "Rewrite leads with business impact and decision",
+      "description": "Rewritten document opens with what the risk is and what decision or action is required.",
+      "max_score": 10
+    },
+    {
+      "name": "Risks rewritten with named owners and deadlines",
+      "description": "Each risk item in the rewrite names a responsible team and includes a deadline using `[Owner] must [action] by [deadline]` format.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Jargon terms (OAuth 2.0, JWT, RS256, Redis,...",
+      "description": "Failure avoided: Jargon terms (OAuth 2.0, JWT, RS256, Redis, attack surface) are not identified as anti-patterns",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Passive voice in the Risks section is...",
+      "description": "Failure avoided: Passive voice in the Risks section is not flagged as an anti-pattern",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Buried key message/decision is not identified as...",
+      "description": "Failure avoided: Buried key message/decision is not identified as an anti-pattern",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Rewritten document still starts with technical background...",
+      "description": "Failure avoided: Rewritten document still starts with technical background rather than business impact and decision",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Risk items in the rewrite lack named...",
+      "description": "Failure avoided: Risk items in the rewrite lack named owners or deadlines",
+      "max_score": 10
+    }
+  ]
+}

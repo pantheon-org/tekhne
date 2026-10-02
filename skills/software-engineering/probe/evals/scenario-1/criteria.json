@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Designing a Safe-to-Fail Experiment for an Unknown Integration.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Phase 1 completes before Phase 2",
+      "description": "No execution steps run before the entry gate is confirmed.",
+      "max_score": 7
+    },
+    {
+      "name": "Hypothesis is specific and falsifiable",
+      "description": "Agent confirms the hypothesis meets the input quality table standard.",
+      "max_score": 7
+    },
+    {
+      "name": "Enabling constraints named",
+      "description": "Scope, reversibility boundary, and time box are all stated.",
+      "max_score": 7
+    },
+    {
+      "name": "Confirm/refute criteria defined",
+      "description": "At least one confirmed signal, one refuted signal, and one surprise signal are specified.",
+      "max_score": 7
+    },
+    {
+      "name": "Probe type classified",
+      "description": "Agent identifies this as an `integration` probe (per reference.md).",
+      "max_score": 7
+    },
+    {
+      "name": "Entry gate used",
+      "description": "AskUserQuestion confirms user approval before Phase 2.",
+      "max_score": 7
+    },
+    {
+      "name": "Thinking artifact written",
+      "description": "Probe result is persisted to `thinking/probes/{project}/{date}-{slug}-llm.md`.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent skips Phase 1 and begins sending...",
+      "description": "Failure avoided: Agent skips Phase 1 and begins sending Stripe webhook requests immediately.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent proceeds without defining confirm/refute criteria.",
+      "description": "Failure avoided: Agent proceeds without defining confirm/refute criteria.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent runs Phase 2 without passing through...",
+      "description": "Failure avoided: Agent runs Phase 2 without passing through the entry gate.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent writes to a production Stripe environment...",
+      "description": "Failure avoided: Agent writes to a production Stripe environment without explicit approval.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent omits the thinking artifact at the...",
+      "description": "Failure avoided: Agent omits the thinking artifact at the end of Phase 2.",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent classifies probe type as `architecture` instead...",
+      "description": "Failure avoided: Agent classifies probe type as `architecture` instead of `integration`.",
+      "max_score": 16
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "context": "Checks the plan follows the nx-plugin-authoring workflow: scaffold, generator, EJS templates, tests and real-workspace validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Adds the plugin package to the workspace",
+      "description": "The plan includes `npx nx add @nx/plugin` or uses `npx create-nx-plugin` for a new workspace.",
+      "max_score": 10
+    },
+    {
+      "name": "Generates the plugin project",
+      "description": "The plan includes `npx nx g plugin tools/<name>` (or the create-nx-plugin equivalent).",
+      "max_score": 8
+    },
+    {
+      "name": "Generates the generator",
+      "description": "The plan includes `npx nx g generator <plugin>/src/generators/<name>`.",
+      "max_score": 8
+    },
+    {
+      "name": "Templates use EJS placeholders",
+      "description": "The plan describes templates with EJS syntax such as `<%= name %>` under a `files/` directory.",
+      "max_score": 10
+    },
+    {
+      "name": "Template variables supplied",
+      "description": "The plan passes template variables (for example `names(schema.name)`) to `generateFiles`.",
+      "max_score": 8
+    },
+    {
+      "name": "Template filename suffix handled",
+      "description": "The plan mentions the `.template` suffix and the `tmpl: \"\"` variable to strip it.",
+      "max_score": 8
+    },
+    {
+      "name": "Unit tests with an in-memory workspace",
+      "description": "The plan includes tests using `createTreeWithEmptyWorkspace` and runs `npx nx test <plugin>`.",
+      "max_score": 10
+    },
+    {
+      "name": "Real workspace validation",
+      "description": "The plan validates in a real workspace with `--dry-run` and then runs the generator or target.",
+      "max_score": 10
+    },
+    {
+      "name": "Small composable generators",
+      "description": "The plan keeps the first release to one small generator and says later generators should be composed rather than one large generator.",
+      "max_score": 8
+    },
+    {
+      "name": "Plugin is orchestration only",
+      "description": "The plan states the plugin orchestrates scaffolding and does not hold business logic.",
+      "max_score": 10
+    },
+    {
+      "name": "Registered in index and generators.json",
+      "description": "The plan includes exporting the generator and registering it in `generators.json`.",
+      "max_score": 10
+    }
+  ]
+}

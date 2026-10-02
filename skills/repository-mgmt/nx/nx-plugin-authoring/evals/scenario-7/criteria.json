@@ -1,0 +1,61 @@
+{
+  "context": "Checks the executor rewrite follows the nx-plugin-authoring executor rules: thin entrypoint, async I/O, structured result, package notation and declared outputs.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Business logic moved out of the entrypoint",
+      "description": "The transformation logic is moved into separate composable library functions and the entrypoint only delegates.",
+      "max_score": 10
+    },
+    {
+      "name": "Entrypoint is thin",
+      "description": "The rewritten `executor.ts` contains orchestration only, not the long parsing and transformation block.",
+      "max_score": 10
+    },
+    {
+      "name": "Synchronous reads replaced",
+      "description": "`fs.readFileSync` is replaced with `await fs.promises.readFile` or an equivalent async call.",
+      "max_score": 10
+    },
+    {
+      "name": "Synchronous writes replaced",
+      "description": "`fs.writeFileSync` is replaced with an asynchronous write.",
+      "max_score": 10
+    },
+    {
+      "name": "Structured error handling",
+      "description": "Failures are caught and reported with a clear message rather than thrown unhandled.",
+      "max_score": 10
+    },
+    {
+      "name": "Returns success object",
+      "description": "The executor returns `{ success: boolean }` instead of a bare boolean.",
+      "max_score": 10
+    },
+    {
+      "name": "Success false on failure",
+      "description": "The error path returns `{ success: false }`.",
+      "max_score": 10
+    },
+    {
+      "name": "Package notation in target",
+      "description": "The target uses `@acme/tools:transform` instead of a relative path.",
+      "max_score": 10
+    },
+    {
+      "name": "Outputs declared",
+      "description": "The target declares `outputs` such as `{options.outputPath}` or the output file path so Nx can cache it.",
+      "max_score": 10
+    },
+    {
+      "name": "Executor stays deterministic",
+      "description": "The rewrite avoids time, randomness or hidden state so identical inputs give identical outputs.",
+      "max_score": 5
+    },
+    {
+      "name": "Plugin treated as orchestration",
+      "description": "The explanation says the plugin orchestrates and the transformation belongs in reusable library code.",
+      "max_score": 5
+    }
+  ]
+}

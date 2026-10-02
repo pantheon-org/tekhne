@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write a Stakeholder-Ready UI Debug Report.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Summary section present",
+      "description": "`debug-report.md` contains a clearly labeled summary section stating what was investigated and the key finding (button 8px too low)",
+      "max_score": 10
+    },
+    {
+      "name": "Pass/fail outcome table",
+      "description": "`debug-report.md` contains a table or list with explicit pass/fail outcomes for each compared artifact (screenshots, console errors)",
+      "max_score": 10
+    },
+    {
+      "name": "Artifact links included",
+      "description": "`debug-report.md` contains relative path references to `./baseline/`, `./changed/`, and `./comparison.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Root cause hypothesis",
+      "description": "`debug-report.md` references the CSS custom property warning (`--btn-offset not defined`) as the root cause hypothesis",
+      "max_score": 10
+    },
+    {
+      "name": "Next action and unresolved risks",
+      "description": "`debug-report.md` includes both a recommended next action and an explicit section for unresolved risks",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `debug-report.md` has no summary section or does...",
+      "description": "Failure avoided: `debug-report.md` has no summary section or does not mention the 8px button displacement finding",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The file has no pass/fail table or...",
+      "description": "Failure avoided: The file has no pass/fail table or list covering the compared artifacts",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Relative paths to `./baseline/`, `./changed/`, and `./comparison.md`...",
+      "description": "Failure avoided: Relative paths to `./baseline/`, `./changed/`, and `./comparison.md` are missing",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The CSS custom property warning (`--btn-offset not...",
+      "description": "Failure avoided: The CSS custom property warning (`--btn-offset not defined`) is not mentioned as the root cause hypothesis",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The file is missing either the recommended...",
+      "description": "Failure avoided: The file is missing either the recommended next action or the unresolved risks section",
+      "max_score": 10
+    }
+  ]
+}

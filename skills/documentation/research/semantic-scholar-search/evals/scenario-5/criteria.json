@@ -1,0 +1,66 @@
+{
+  "context": "Tests the When Not to Use routing: PubMed for biomedical, Google Scholar for patents, MCP or this skill for general literature.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Biomedical routed to PubMed",
+      "description": "Recommends PubMed for the clinical trial request instead of this script",
+      "max_score": 12
+    },
+    {
+      "name": "Biomedical reason given",
+      "description": "Explains that Semantic Scholar may not cover the biomedical domain adequately",
+      "max_score": 8
+    },
+    {
+      "name": "Patents routed to Google Scholar",
+      "description": "Recommends google-scholar-search for patents and grey literature",
+      "max_score": 12
+    },
+    {
+      "name": "Patent reason given",
+      "description": "Explains these sources are exclusive to Google Scholar",
+      "max_score": 8
+    },
+    {
+      "name": "General request uses a structured source",
+      "description": "Handles the retrieval-augmented generation request with Semantic Scholar rather than scraping",
+      "max_score": 8
+    },
+    {
+      "name": "MCP acknowledged",
+      "description": "Notes that the configured semantic-scholar MCP server can be preferred over the script",
+      "max_score": 10
+    },
+    {
+      "name": "Script still available as fallback",
+      "description": "Says the script can be used if the MCP server is not available",
+      "max_score": 6
+    },
+    {
+      "name": "Semantic Scholar preferred over Google Scholar",
+      "description": "States that this skill is preferred over google-scholar-search for the general request",
+      "max_score": 10
+    },
+    {
+      "name": "Reason for preference",
+      "description": "Says it uses the official API with no scraping",
+      "max_score": 6
+    },
+    {
+      "name": "Search subcommand named",
+      "description": "If the script is used, picks the search subcommand with --query for discovery",
+      "max_score": 6
+    },
+    {
+      "name": "No auto-triage",
+      "description": "Presents candidates and does not triage them without user confirmation",
+      "max_score": 8
+    },
+    {
+      "name": "One tool per request",
+      "description": "Gives a separate decision for each of the three requests",
+      "max_score": 6
+    }
+  ]
+}

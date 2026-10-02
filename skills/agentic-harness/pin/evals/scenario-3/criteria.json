@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Pin a Scope Constraint.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Item written to `pins.json` has `type: \"scope\"`...",
+      "description": "Item written to `pins.json` has `type: \"scope\"` and `emoji: \"\ud83d\udccc\"`.",
+      "max_score": 10
+    },
+    {
+      "name": "Pin response is a single line; no...",
+      "description": "Pin response is a single line; no explanation added.",
+      "max_score": 10
+    },
+    {
+      "name": "Agent's subsequent responses respect the scope constraint...",
+      "description": "Agent's subsequent responses respect the scope constraint (no production references).",
+      "max_score": 10
+    },
+    {
+      "name": "Duplicate check runs before append.",
+      "description": "Duplicate check runs before append.",
+      "max_score": 10
+    },
+    {
+      "name": "Agent does not ask the user to...",
+      "description": "Agent does not ask the user to confirm the pin.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent acknowledges the constraint verbally but does...",
+      "description": "Failure avoided: Agent acknowledges the constraint verbally but does not pin it.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses `approved` or `correction` type instead...",
+      "description": "Failure avoided: Agent uses `approved` or `correction` type instead of `scope`.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent adds a second sentence explaining what...",
+      "description": "Failure avoided: Agent adds a second sentence explaining what the scope constraint means.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent asks \"Do you want me to...",
+      "description": "Failure avoided: Agent asks \"Do you want me to pin this constraint?\" before pinning.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent later suggests production changes despite the...",
+      "description": "Failure avoided: Agent later suggests production changes despite the pinned scope constraint.",
+      "max_score": 10
+    }
+  ]
+}

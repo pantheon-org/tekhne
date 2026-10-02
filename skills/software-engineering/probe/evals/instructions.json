@@ -1,39 +1,130 @@
 {
   "instructions": [
     {
-      "original_snippets": "Phase 1 entry gate: AskUserQuestion must confirm user approval before Phase 2 executes. NEVER bypass this gate.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
+      "id": "I01",
+      "content": "Treat the Complex domain as one where cause-effect is only visible in retrospect: probe to sense patterns, not to prove",
+      "type": "mindset",
+      "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER run a probe with production traffic — probes are designed to fail safely; production failures are not safe.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
+      "id": "I02",
+      "content": "If the arguments reference a probe-to-probe handoff file, load it before Phase 1 so carried context speeds up qualification",
+      "type": "procedure",
+      "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER treat probe results as proof — Complex domains resist confirmation; one successful probe is a weak signal.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
+      "id": "I03",
+      "content": "After every AskUserQuestion call, check for empty answers; if empty, do NOT proceed with assumptions, present a numbered text list and wait for the reply",
+      "type": "constraint",
+      "why_given": "new knowledge"
     },
     {
-      "original_snippets": "NEVER design an irreversible probe — reversibility is the core property that makes probing safe.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
+      "id": "I04",
+      "content": "Phase 2 does not start until Phase 1 is complete; no bypass path exists",
+      "type": "constraint",
+      "why_given": "preference"
     },
     {
-      "original_snippets": "Persist thinking artifact to thinking/probes/{project}/{date}-{slug}-llm.md before exit gate. MANDATORY — do not skip.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
+      "id": "I05",
+      "content": "Parse the hypothesis and carry forward known enabling constraints and criteria without rediscovering them; if no hypothesis is present, ask for one and do not proceed",
+      "type": "procedure",
+      "why_given": "reminder"
     },
     {
-      "original_snippets": "Classify result as confirmed, refuted, partial, or surprise before selecting handoff template.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
+      "id": "I06",
+      "content": "Identify enabling constraints that bound the experiment without prescribing the path: scope, immutable and variable",
+      "type": "procedure",
+      "why_given": "new knowledge"
     },
     {
-      "original_snippets": "If AskUserQuestion returns empty, do NOT proceed with assumptions — present options as a numbered list and wait.",
-      "why_given": "preference",
-      "dimension": "D6"
+      "id": "I07",
+      "content": "Define confirmed, refuted and surprise criteria before Phase 2 executes, and gate on this",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Present the probe plan and classify the probe type: architecture, library, prompt, integration or design",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "Use one AskUserQuestion entry gate (Yes, Revise hypothesis, Revise criteria, Abort); anything other than confirmation loops back to the qualify steps",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "Run Phase 2 with worktree isolation and in the background, only after the entry gate passes",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Execute probe steps with minimal, reversible actions and sparse gates; enabling constraints bound the agent",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Sense patterns against the criteria: what signal emerged, what was unexpected, what constraints were discovered",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "MUST persist the thinking artifact before the exit gate, using the collision-numbering rule, and warn and skip if no workspace is configured",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Classify the result as confirmed, refuted, partial or surprise",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Select the handoff template from the table: confirmed or sufficient partial to investigate, partial needing another angle to probe, refuted or surprise to brainstorm",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Keep the handoff within the token budget: target 300, flex 200 to 500, hard cap 600; compress prior cycles to 200 tokens at an 800-token accumulated cap",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER run a probe with production traffic",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER treat probe results as proof",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER design an irreversible probe",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER skip Phase 1 qualification",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I21",
+      "content": "NEVER carry a failed hypothesis forward unchanged",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
     }
   ]
 }

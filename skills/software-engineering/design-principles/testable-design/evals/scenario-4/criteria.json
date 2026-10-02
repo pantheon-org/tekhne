@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Design Test Doubles for a Repository Interface.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All three classes implement IProductRepository",
+      "description": "`StubProductRepository`, `MockProductRepository`, and `InMemoryProductRepository` each have `'implements IProductRepository'` in their class declaration",
+      "max_score": 8
+    },
+    {
+      "name": "Stub returns fixed data",
+      "description": "`StubProductRepository.findById` returns a hardcoded `Product` object (not `null`, not dynamic) regardless of the `id` argument",
+      "max_score": 8
+    },
+    {
+      "name": "Mock records save call",
+      "description": "`MockProductRepository` has a property (`savedProduct` or equivalent) that is set to the product argument when `save` is called, and starts as `null`",
+      "max_score": 8
+    },
+    {
+      "name": "Fake uses a Map for storage",
+      "description": "`InMemoryProductRepository` stores products in a `Map<string, Product>` and all three methods (`findById`, `save`, `findAll`) operate against that map",
+      "max_score": 8
+    },
+    {
+      "name": "Fake findAll returns all stored products",
+      "description": "`InMemoryProductRepository.findAll` returns `Array.from` of the map's values (or equivalent), not a hardcoded array",
+      "max_score": 8
+    },
+    {
+      "name": "Types are correct",
+      "description": "`findById` return types are `Promise<Product | null>`, `save` returns `Promise<void>`, and `findAll` returns `Promise<Product[]>` across all three implementations",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Any class does not declare `implements IProductRepository`",
+      "description": "Failure avoided: Any class does not declare `implements IProductRepository`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `StubProductRepository.findById` returns `null` or a dynamic value...",
+      "description": "Failure avoided: `StubProductRepository.findById` returns `null` or a dynamic value instead of fixed hardcoded data",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `MockProductRepository` has no property to record the...",
+      "description": "Failure avoided: `MockProductRepository` has no property to record the `save` call, or `savedProduct` does not start as `null`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `InMemoryProductRepository` uses an array instead of a...",
+      "description": "Failure avoided: `InMemoryProductRepository` uses an array instead of a `Map`, breaking `findById` by key",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `InMemoryProductRepository.findAll` returns a hardcoded array instead of...",
+      "description": "Failure avoided: `InMemoryProductRepository.findAll` returns a hardcoded array instead of the map's current contents",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Any method has incorrect return types (e.g....",
+      "description": "Failure avoided: Any method has incorrect return types (e.g. `findById` returning `Promise<Product>` instead of `Promise<Product | null>`)",
+      "max_score": 12
+    }
+  ]
+}

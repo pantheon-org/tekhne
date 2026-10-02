@@ -1,0 +1,1 @@
+Validate SQL usage with the ripgrep check and refactor flagged calls to prepared statements before merging.

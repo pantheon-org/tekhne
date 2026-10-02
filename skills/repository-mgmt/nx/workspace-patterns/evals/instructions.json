@@ -1,0 +1,100 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Structure workspace domains (apps/, libs/, tools/).",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I02",
+      "content": "Define tags and project graph conventions.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Configure target pipelines and caching defaults.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Enforce module boundaries with tag-based depConstraints.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Verify boundary violations fail with nx lint --skip-nx-cache.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Integrate affected commands in CI with an explicit base/head strategy.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "MUST tag projects consistently for scope/type-based constraints.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "MUST configure targetDefaults for build/test/lint dependency flow.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "MUST use affected commands in CI for scalable execution.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "With no explicit tags, allow broad dependencies temporarily with a warning and a migration plan; with no target defaults, tasks run independently with reduced optimisation.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "With no CI base/head, default to the main branch and document the trade-off.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "NEVER create circular dependencies between projects; extract shared contracts to a lower-level library.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER run run-many --all in CI as the default verification path.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER tag projects inconsistently.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER skip target pipeline dependencies in targetDefaults.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER ignore cache inputs and outputs for critical targets.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    }
+  ]
+}

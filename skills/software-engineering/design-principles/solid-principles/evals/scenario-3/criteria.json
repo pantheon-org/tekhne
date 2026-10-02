@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Detect and Fix an LSP Violation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "LSP violation correctly identified",
+      "description": "`lsp-analysis.md` names `ReadOnlyStorage.save` as the violating method and states it breaks the base contract (which promises no throws)",
+      "max_score": 10
+    },
+    {
+      "name": "Impact on callers explained",
+      "description": "`lsp-analysis.md` explains that callers of `FileStorage.save` cannot substitute `ReadOnlyStorage` without catching unexpected exceptions or adding `instanceof` checks",
+      "max_score": 10
+    },
+    {
+      "name": "IReadableStorage interface produced",
+      "description": "`IReadableStorage.ts` exists and declares only a `read` method returning `Promise<string | null>`",
+      "max_score": 10
+    },
+    {
+      "name": "IWritableStorage interface produced",
+      "description": "`IWritableStorage.ts` exists and declares only a `save` method returning `Promise<void>`",
+      "max_score": 10
+    },
+    {
+      "name": "ReadOnlyStorage implements only IReadableStorage",
+      "description": "The updated or described `ReadOnlyStorage` implements `IReadableStorage` (not `IWritableStorage`) so the save contract violation is eliminated",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `lsp-analysis.md` does not identify `ReadOnlyStorage.save` as the...",
+      "description": "Failure avoided: `lsp-analysis.md` does not identify `ReadOnlyStorage.save` as the specific LSP violation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `lsp-analysis.md` does not explain the impact on...",
+      "description": "Failure avoided: `lsp-analysis.md` does not explain the impact on callers (unexpected exception, need for `instanceof` checks)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `IReadableStorage.ts` is missing or contains a `save`...",
+      "description": "Failure avoided: `IReadableStorage.ts` is missing or contains a `save` method",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `IWritableStorage.ts` is missing or contains a `read`...",
+      "description": "Failure avoided: `IWritableStorage.ts` is missing or contains a `read` method",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `ReadOnlyStorage` is shown implementing both `IReadableStorage` and...",
+      "description": "Failure avoided: `ReadOnlyStorage` is shown implementing both `IReadableStorage` and `IWritableStorage`, perpetuating the violation",
+      "max_score": 10
+    }
+  ]
+}

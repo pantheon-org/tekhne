@@ -1,0 +1,126 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Build a CloudWatch Logs Insights Deep-Link URL.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses *XX not %XX for value encoding",
+      "description": "All encoded characters in fragment values use asterisk prefix (e.g. *2f, *7c) not percent prefix (%2f, %7c)",
+      "max_score": 4
+    },
+    {
+      "name": "Epoch timestamps in seconds",
+      "description": "start and end values are Unix epoch seconds (10-digit numbers), not milliseconds (13-digit)",
+      "max_score": 4
+    },
+    {
+      "name": "Region in both URL subdomain and query string",
+      "description": "URL contains eu-west-1 in the subdomain AND as region= query parameter",
+      "max_score": 4
+    },
+    {
+      "name": "Path segment separators encoded correctly",
+      "description": "? encoded as $3F and = encoded as $3D between path segments after the # fragment",
+      "max_score": 4
+    },
+    {
+      "name": "Pipe character encoded as *7c",
+      "description": "The | characters in the query are encoded as *7c",
+      "max_score": 4
+    },
+    {
+      "name": "Slash encoded as *2f in query and log group",
+      "description": "Forward slashes in query text and log group name are encoded as *2f",
+      "max_score": 4
+    },
+    {
+      "name": "Newlines encoded as *0a",
+      "description": "Line breaks between query clauses are encoded as *0a",
+      "max_score": 4
+    },
+    {
+      "name": "@ symbol encoded as *40",
+      "description": "The @ in @timestamp and @message is encoded as *40",
+      "max_score": 4
+    },
+    {
+      "name": "Structural characters not encoded",
+      "description": "Characters ~ ( ) ' used as CloudWatch URL structural delimiters are left literal, not encoded",
+      "max_score": 4
+    },
+    {
+      "name": "Correct base path logsV2:logs-insights",
+      "description": "URL fragment starts with #logsV2:logs-insights",
+      "max_score": 4
+    },
+    {
+      "name": "timeType set to ABSOLUTE",
+      "description": "URL includes timeType~'ABSOLUTE to use explicit start/end times",
+      "max_score": 4
+    },
+    {
+      "name": "unit set to seconds",
+      "description": "URL includes unit~'seconds",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Uses `%XX` percent encoding instead of `*XX`...",
+      "description": "Failure avoided: Uses `%XX` percent encoding instead of `*XX` asterisk encoding for fragment values",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Uses millisecond (13-digit) timestamps instead of second...",
+      "description": "Failure avoided: Uses millisecond (13-digit) timestamps instead of second (10-digit) epoch values",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Region appears in only one location (subdomain...",
+      "description": "Failure avoided: Region appears in only one location (subdomain or query string, not both)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `?` and `=` path segment separators are...",
+      "description": "Failure avoided: `?` and `=` path segment separators are not encoded as `$3F` and `$3D`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Pipe characters are not encoded as `*7c`",
+      "description": "Failure avoided: Pipe characters are not encoded as `*7c`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Slashes are not encoded as `*2f`",
+      "description": "Failure avoided: Slashes are not encoded as `*2f`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Newlines between query clauses are not encoded...",
+      "description": "Failure avoided: Newlines between query clauses are not encoded as `*0a`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `@` symbols are not encoded as `*40`",
+      "description": "Failure avoided: `@` symbols are not encoded as `*40`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Structural characters (`~`, `(`, `)`, `'`) are...",
+      "description": "Failure avoided: Structural characters (`~`, `(`, `)`, `'`) are encoded when they should be literal",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: URL fragment does not start with `#logsV2:logs-insights`",
+      "description": "Failure avoided: URL fragment does not start with `#logsV2:logs-insights`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `timeType` is not set to `ABSOLUTE`",
+      "description": "Failure avoided: `timeType` is not set to `ABSOLUTE`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: `unit~'seconds` is missing from the URL",
+      "description": "Failure avoided: `unit~'seconds` is missing from the URL",
+      "max_score": 8
+    }
+  ]
+}

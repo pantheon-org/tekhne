@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: PubMed Search \u2014 Advanced Filtered Search with Rate-Limit Handling.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "search subcommand used with correct filters",
+      "description": "The agent invokes the script with --term 'Alzheimer disease biomarkers' (or equivalent), --journal 'Nature Neuroscience', --start-date '2020', --end-date '2024', --format json, and --output /tmp/alzheimer-candidates.json.",
+      "max_score": 10
+    },
+    {
+      "name": "JSON output saved to the correct path",
+      "description": "The agent confirms that results were saved to /tmp/alzheimer-candidates.json.",
+      "max_score": 10
+    },
+    {
+      "name": "Rate-limit handling is correct",
+      "description": "If a 429 or empty response occurs, the agent retries once after a delay (not in a loop) and recommends obtaining an API key or using the PubTator MCP as fallback.",
+      "max_score": 10
+    },
+    {
+      "name": "Candidate list presented and user asked for triage confirmation",
+      "description": "The agent presents the result list and asks the user which papers to triage, rather than auto-triaging.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits one or more required filters...",
+      "description": "Failure avoided: Agent omits one or more required filters (term, journal, date range, format, or output path)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not confirm that results were...",
+      "description": "Failure avoided: Agent does not confirm that results were saved to the specified output path",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent retries more than once, retries without...",
+      "description": "Failure avoided: Agent retries more than once, retries without a delay, or enters a retry loop on rate-limit errors",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent automatically triages papers without asking the...",
+      "description": "Failure avoided: Agent automatically triages papers without asking the user for confirmation",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Invoke the script with `--term 'Alzheimer disease...",
+      "description": "Invoke the script with `--term 'Alzheimer disease biomarkers'`, `--journal 'Nature Neuroscience'`, `--start-date '2020'`, `--end-date '2024'`, `--format json`, and `--output /tmp/alzheimer-candidates.json`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Confirm that results were saved to `/tmp/alzheimer-candidates.json`",
+      "description": "Confirm that results were saved to `/tmp/alzheimer-candidates.json`",
+      "max_score": 10
+    }
+  ]
+}

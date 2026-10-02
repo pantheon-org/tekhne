@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Party Game Lobby: Host Controls.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Host assigned server-side",
+      "description": "The host session is determined and stored by the server (e.g. first joiner's `sessionId` in `onJoin` or `onCreate`) \u2014 not provided by the client as a payload field",
+      "max_score": 7
+    },
+    {
+      "name": "Host set on first join",
+      "description": "The host is assigned when the first player joins (`onCreate` options or first `onJoin` call)",
+      "max_score": 7
+    },
+    {
+      "name": "startMatch guard",
+      "description": "`startMatch` handler checks `client.sessionId` against the stored host ID and returns early if not the host",
+      "max_score": 7
+    },
+    {
+      "name": "kickPlayer guard",
+      "description": "`kickPlayer` handler checks `client.sessionId` against the stored host ID and returns early if not the host",
+      "max_score": 7
+    },
+    {
+      "name": "Target from payload",
+      "description": "`kickPlayer` uses `payload.targetSessionId` to identify the player to remove \u2014 not a client-supplied authority flag",
+      "max_score": 7
+    },
+    {
+      "name": "Guard returns early",
+      "description": "Both privileged handlers return (do nothing) when the caller is not the host \u2014 they do not throw or allow partial execution",
+      "max_score": 7
+    },
+    {
+      "name": "All hooks present",
+      "description": "Room implements `onCreate`, `onJoin`, `onLeave`, and `onDispose`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The host identity is accepted from a...",
+      "description": "Failure avoided: The host identity is accepted from a client payload field instead of being assigned server-side",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: The host is not assigned on the...",
+      "description": "Failure avoided: The host is not assigned on the first join or room creation",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `startMatch` handler does not verify `client.sessionId` against...",
+      "description": "Failure avoided: `startMatch` handler does not verify `client.sessionId` against the stored host before executing",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `kickPlayer` handler does not verify `client.sessionId` against...",
+      "description": "Failure avoided: `kickPlayer` handler does not verify `client.sessionId` against the stored host before executing",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `kickPlayer` does not use `payload.targetSessionId` to identify...",
+      "description": "Failure avoided: `kickPlayer` does not use `payload.targetSessionId` to identify the target player",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Non-host callers can trigger partial execution or...",
+      "description": "Failure avoided: Non-host callers can trigger partial execution or cause side effects in either privileged handler",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any of the four required lifecycle hooks...",
+      "description": "Failure avoided: Any of the four required lifecycle hooks (`onCreate`, `onJoin`, `onLeave`, `onDispose`) is missing",
+      "max_score": 9
+    }
+  ]
+}

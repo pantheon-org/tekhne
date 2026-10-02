@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Migrate Raw Kubernetes Manifests to Helm.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Helper used for name",
+      "description": "The Helm deployment template uses {{ include \"<chart>.fullname\" . }} or equivalent helper for the resource name \u2014 NOT the hardcoded string 'notification-service'",
+      "max_score": 5
+    },
+    {
+      "name": "Standard labels helper",
+      "description": "At least one template uses {{ include \"<chart>.labels\" . }} or equivalent named template for labels, rather than manually listing app: label only",
+      "max_score": 5
+    },
+    {
+      "name": "Helpers tpl exists",
+      "description": "_helpers.tpl exists and defines at least a fullname and labels named template",
+      "max_score": 5
+    },
+    {
+      "name": "No hardcoded image tag",
+      "description": "values.yaml image tag is empty string or uses appVersion as fallback \u2014 NOT 'v3.0.1' or 'latest'",
+      "max_score": 5
+    },
+    {
+      "name": "Secret extracted to values",
+      "description": "The SMTP_PASSWORD or equivalent secret value is NOT hardcoded in the template; it is either moved to a values.yaml key or referenced via a Kubernetes Secret",
+      "max_score": 5
+    },
+    {
+      "name": "Resources block added",
+      "description": "The Helm deployment template includes a resources: block that was absent in the original raw manifest",
+      "max_score": 5
+    },
+    {
+      "name": "validate.sh has helm template",
+      "description": "validate.sh contains a 'helm template' command (not just helm lint)",
+      "max_score": 5
+    },
+    {
+      "name": "validate.sh has kubeval or kubeconform",
+      "description": "validate.sh pipes helm template output to kubeval or kubeconform for schema validation",
+      "max_score": 5
+    },
+    {
+      "name": "toYaml or nindent used",
+      "description": "At least one template uses toYaml or nindent when rendering a complex value (labels, annotations, env, or similar)",
+      "max_score": 5
+    },
+    {
+      "name": "Values extracted",
+      "description": "At least replica count and image repository are extracted into values.yaml as configurable keys rather than hardcoded in the template",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Resource names in the deployment template are...",
+      "description": "Failure avoided: Resource names in the deployment template are still hardcoded as `notification-service`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Labels are still manually set as `app:...",
+      "description": "Failure avoided: Labels are still manually set as `app: notification-service` instead of using a named labels helper",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `_helpers.tpl` is absent or defines no named...",
+      "description": "Failure avoided: `_helpers.tpl` is absent or defines no named templates",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Image tag is `v3.0.1` or `latest` in...",
+      "description": "Failure avoided: Image tag is `v3.0.1` or `latest` in `values.yaml`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: SMTP_PASSWORD is still a hardcoded literal string...",
+      "description": "Failure avoided: SMTP_PASSWORD is still a hardcoded literal string in the deployment template",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No `resources:` block is added to the...",
+      "description": "Failure avoided: No `resources:` block is added to the deployment container spec",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `validate.sh` contains only `helm lint` and no...",
+      "description": "Failure avoided: `validate.sh` contains only `helm lint` and no `helm template` command",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: `validate.sh` does not pipe `helm template` output...",
+      "description": "Failure avoided: `validate.sh` does not pipe `helm template` output to `kubeval` or `kubeconform`",
+      "max_score": 15
+    }
+  ]
+}

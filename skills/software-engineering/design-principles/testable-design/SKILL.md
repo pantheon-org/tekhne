@@ -7,6 +7,13 @@ description: Design code for testability using boundary isolation, dependency in
 
 Architecture and design patterns for testable code, focusing on boundary isolation and dependency injection.
 
+## Philosophy
+
+- Treat difficulty in testing as feedback about the design, not as a testing problem.
+- Fix coupling rather than compromising the architecture to make a test pass.
+- Test behaviour at architectural boundaries, not the internals behind them.
+- Prefer small, fast unit tests over pure logic, and a few integration tests at each adapter.
+
 ## When to Use
 
 - Designing test strategies for new features
@@ -14,12 +21,14 @@ Architecture and design patterns for testable code, focusing on boundary isolati
 - Improving test coverage by isolating layers
 - Evaluating whether code is testable before implementation
 - Designing boundaries that enable fast unit tests
+- Reviewing a test suite that relies on static mocking, real databases or skipped tests
 
 ## When Not to Use
 
 - Class-level SOLID violations (use solid-principles)
 - Architectural boundary decisions (use clean-architecture)
 - Choosing structural patterns (use design-patterns)
+- Writing a test-first workflow from scratch (use test-driven-development)
 
 ## Testable Design Principles
 
@@ -183,28 +192,66 @@ End-to-end test: POST /orders with real HTTP server and database
 
 ### NEVER instantiate concrete dependencies in business logic
 
-**BAD:** new PostgresRepository() in OrderService constructor.  
-**GOOD:** Depend on IRepository interface; inject implementation.
+**WHY:** A hard-wired dependency cannot be replaced in a test, so the class needs real infrastructure to run.
+
+**BAD:** `new PostgresRepository()` in the `OrderService` constructor.
+**GOOD:** Depend on the `IRepository` interface; inject the implementation.
 
 ### NEVER test implementation details
 
-**BAD:** Test that method X calls method Y internally.  
-**GOOD:** Test public behavior: given input, expect output.
+**WHY:** Tests coupled to internal calls break on every refactor while saying nothing about behaviour.
+
+**BAD:** Test that method X calls method Y internally.
+**GOOD:** Test public behaviour: given input, expect output.
 
 ### NEVER use real infrastructure in unit tests
 
-**BAD:** Unit test connects to real database.  
-**GOOD:** Unit test uses mock repository; integration test uses real database.
+**WHY:** Real databases and networks make unit tests slow, flaky and unable to pinpoint a failure.
+
+**BAD:** Unit test connects to a real database.
+**GOOD:** Unit test uses a mock repository; integration test uses the real database.
 
 ### NEVER skip tests because code is "hard to test"
 
-**BAD:** Skip test, ship untested code.  
-**GOOD:** Refactor code to be testable (dependency injection, layer isolation).
+**WHY:** Hard-to-test code is a design signal; skipping the test hides the coupling and ships untested code.
+
+**BAD:** Skip the test, ship untested code.
+**GOOD:** Refactor the code to be testable (dependency injection, layer isolation).
 
 ### NEVER tangle business logic with infrastructure
 
-**BAD:** OrderService contains SQL queries and HTTP response formatting.  
-**GOOD:** OrderService orchestrates pure entities; adapters handle infrastructure.
+**WHY:** Mixed logic and infrastructure forces every business rule test to set up SQL, HTTP or filesystems.
+
+**BAD:** `OrderService` contains SQL queries and HTTP response formatting.
+**GOOD:** `OrderService` orchestrates pure entities; adapters handle infrastructure.
+
+### NEVER depend on static calls or singletons for behaviour
+
+**WHY:** Statics and singletons are hidden dependencies that need static-mocking tools and shared-state resets in every test.
+
+**BAD:** `InventoryChecker.isAvailable(items)` and `NotificationService.getInstance()` inside the processor.
+**GOOD:** Inject an inventory interface and a notification port, and pass instances.
+
+### NEVER read the current time or random numbers directly in logic
+
+**WHY:** Direct access to the clock or randomness makes results non-deterministic, so tests cannot assert exact values.
+
+**BAD:** `order.setProcessedAt(new Date())` inside the service.
+**GOOD:** Inject a `Clock` and call `clock.now()`; tests supply a fixed time.
+
+### NEVER leave dependency rules unenforced
+
+**WHY:** Without automated checks, shortcuts such as framework imports in the domain accumulate until refactoring becomes impossible.
+
+**BAD:** Rely on code review to notice `import prisma` in the domain layer.
+**GOOD:** Run architecture tests (for example dependency-cruiser or ArchUnit) in CI so violations fail the build.
+
+### NEVER compromise the architecture for testability
+
+**WHY:** Test-only hooks and exposed internals hide the real coupling and leave the design worse than before.
+
+**BAD:** Make a private method public, or add a test flag, so a test can reach it.
+**GOOD:** Fix the coupling by extracting a collaborator and injecting it.
 
 ## Quick Commands
 
@@ -225,18 +272,21 @@ npm run test:coverage
 
 ## References
 
-### Testable Design Files
-
-- Boundary verification: [references/test-boundary-verification.md](references/test-boundary-verification.md)
-- Testable design: [references/test-testable-design.md](references/test-testable-design.md)
-- Layer isolation: [references/test-layer-isolation.md](references/test-layer-isolation.md)
-- Tests are architecture: [references/test-tests-are-architecture.md](references/test-tests-are-architecture.md)
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Boundary verification | [references/test-boundary-verification.md](references/test-boundary-verification.md) | Adding architecture tests that enforce dependency rules in CI |
+| Testable design | [references/test-testable-design.md](references/test-testable-design.md) | Removing hidden dependencies (statics, singletons, clock) |
+| Layer isolation | [references/test-layer-isolation.md](references/test-layer-isolation.md) | Deciding how each layer is tested in isolation |
+| Tests are architecture | [references/test-tests-are-architecture.md](references/test-tests-are-architecture.md) | Reviewing test suites that mock internals or sit apart from the design |
 
 ### Related Patterns
 
-For dependency inversion (DIP), see solid-principles.  
-For boundary design, see clean-architecture.  
+For dependency inversion (DIP), see solid-principles.
+For boundary design, see clean-architecture.
 For Humble Object pattern, see design-patterns.
+
+### Further Reading
+
 - [Growing Object-Oriented Software, Guided by Tests](http://www.growing-object-oriented-software.com/)
 - [Working Effectively with Legacy Code (Michael Feathers)](https://www.oreilly.com/library/view/working-effectively-with/0131177052/)
 - [Test-Driven Development by Example (Kent Beck)](https://www.oreilly.com/library/view/test-driven-development/0321146530/)

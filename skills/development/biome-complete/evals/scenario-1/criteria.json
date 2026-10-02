@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Onboard Biome to a TypeScript Project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Init command referenced",
+      "description": "`SETUP.md` mentions `bunx @biomejs/biome init` as the initialization step",
+      "max_score": 8
+    },
+    {
+      "name": "Formatter indent configured",
+      "description": "`biome.json` contains an explicit formatter section with `indentWidth` or `indentStyle` set to 2-space",
+      "max_score": 8
+    },
+    {
+      "name": "Quote style configured",
+      "description": "`biome.json` has an explicit quote style setting (e.g., `javascript.formatter.quoteStyle` or `formatter.quoteStyle`)",
+      "max_score": 8
+    },
+    {
+      "name": "Ignore patterns configured",
+      "description": "`biome.json` includes a `files.ignore` or `vcs` section that excludes `dist/` and/or `node_modules/`",
+      "max_score": 8
+    },
+    {
+      "name": "Check command documented",
+      "description": "`SETUP.md` includes `bunx @biomejs/biome check .` for running diagnostics locally",
+      "max_score": 8
+    },
+    {
+      "name": "CI command with error-on-warnings",
+      "description": "`SETUP.md` includes `bunx @biomejs/biome check . --error-on-warnings` for CI usage",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not mention `bunx @biomejs/biome init`...",
+      "description": "Failure avoided: Agent does not mention `bunx @biomejs/biome init` in `SETUP.md`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits the `formatter` section or does...",
+      "description": "Failure avoided: Agent omits the `formatter` section or does not set indent width to 2-space",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not configure an explicit quote...",
+      "description": "Failure avoided: Agent does not configure an explicit quote style in `biome.json`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent does not configure ignore patterns for...",
+      "description": "Failure avoided: Agent does not configure ignore patterns for `dist/` or `node_modules/`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits the local `biome check .`...",
+      "description": "Failure avoided: Agent omits the local `biome check .` command from `SETUP.md`",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits or uses the wrong CI...",
+      "description": "Failure avoided: Agent omits or uses the wrong CI command (missing `--error-on-warnings` flag)",
+      "max_score": 12
+    }
+  ]
+}

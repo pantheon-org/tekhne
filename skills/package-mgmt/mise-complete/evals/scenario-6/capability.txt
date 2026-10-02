@@ -1,0 +1,1 @@
+Tests detecting existing managers first, keeping one mise.toml per scope, and removing overlapping activation.

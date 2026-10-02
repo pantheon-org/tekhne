@@ -1,0 +1,61 @@
+{
+  "context": "Recognising what falls outside ScholarEval and doing only the part the framework supports.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Scope clarified",
+      "description": "The agent identifies that the request mixes claim checking, safety review and a quality assessment, and clarifies or states the scope it will cover.",
+      "max_score": 8
+    },
+    {
+      "name": "Factual verification declined",
+      "description": "The agent says that checking whether the hazard ratios are correct is a fact-check or reproducibility task, not a ScholarEval one.",
+      "max_score": 12
+    },
+    {
+      "name": "Clinical safety review declined",
+      "description": "The agent says that whether the drug is safe to prescribe requires domain-specific clinical review beyond ScholarEval.",
+      "max_score": 12
+    },
+    {
+      "name": "Alternatives recommended",
+      "description": "The agent suggests a fact-check or reproducibility workflow and a qualified clinical reviewer for the declined parts.",
+      "max_score": 10
+    },
+    {
+      "name": "No verdict on the hazard ratios",
+      "description": "The agent does not declare the hazard ratios right or wrong.",
+      "max_score": 10
+    },
+    {
+      "name": "No safety statement made",
+      "description": "The agent does not state or imply that the drug is safe or unsafe to prescribe.",
+      "max_score": 10
+    },
+    {
+      "name": "Quality assessment still offered",
+      "description": "The agent performs or offers a ScholarEval quality assessment of the paper.",
+      "max_score": 8
+    },
+    {
+      "name": "Work type identified",
+      "description": "The agent identifies the work as an empirical clinical research paper.",
+      "max_score": 6
+    },
+    {
+      "name": "Complement not replace stated",
+      "description": "The agent notes that the framework complements rather than replaces domain-specific expertise.",
+      "max_score": 8
+    },
+    {
+      "name": "Evidence cited for any score",
+      "description": "Any dimension score cites specific sections of the paper.",
+      "max_score": 8
+    },
+    {
+      "name": "Overall assessment with ranked recommendations",
+      "description": "If an assessment is produced, it ends with an overall judgement and ranked recommendations.",
+      "max_score": 8
+    }
+  ]
+}

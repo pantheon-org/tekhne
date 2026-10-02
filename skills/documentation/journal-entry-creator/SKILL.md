@@ -366,7 +366,7 @@ Entry is complete when ALL criteria are met:
 - Target 30-50 characters for readability
 - **Troubleshooting + Jira ticket:** prefix slug with the ticket ID in lowercase: `YYYY-MM-DD-proj-1234-slug.md`
 - **Do NOT include the Jira ticket again in the slug** — it appears once as the prefix only
-- Examples: `2026-04-07-proj-1234-verify-details-alarm`, `opencode-killed-process-fix`, `aws-bedrock-inventory`
+- Examples: `2026-04-07-proj-1234-verify-details-alarm`, `stuck-worker-process-fix`, `aws-bedrock-inventory`
 
 ### Phase 4: Validation & Formatting (LOW FREEDOM)
 
@@ -405,7 +405,7 @@ bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM-Mont
 - **Schema missing:** STOP immediately, list available schemas
 - **Validation fails:** Auto-fix formatting issues, ask user for content clarifications
 
-**For detailed resolution strategies:** Load `skills/journal-entry-creator/references/edge-cases.md` only when encountering an unusual or complex edge case.
+**For detailed resolution strategies:** Load `references/edge-cases.md` only when encountering an unusual or complex edge case.
 
 ## Git Integration (Optional)
 
@@ -421,7 +421,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - Prefix: `Add journal entry:`
 - Brief description (30-50 chars)
 - Date in parentheses (YYYY-MM-DD)
-- Example: `Add journal entry: OpenCode process fix (2025-02-24)`
+- Example: `Add journal entry: Stuck worker process fix (2025-02-24)`
 
 ## Anti-Patterns
 
@@ -429,7 +429,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 
 - **WHY**: guessing structure leads to validation failures and missing required sections.
 - **BAD**: immediately write journal entry based on assumptions about structure.
-- **GOOD**: `cat skills/journal-entry-creator/assets/templates/troubleshooting.yaml` first, review required fields, then generate.
+- **GOOD**: `cat assets/templates/troubleshooting.yaml` first, review required fields, then generate.
 
 ### NEVER proceed with failed validation
 
@@ -485,7 +485,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 - `ticket-refinement.yaml` - Issue-tracker ticket refinement (amended ticket captured in-entry, never written to the tracker)
 - `ticket-kickoff.yaml` - Issue-tracker ticket kickoff (CoS/AC, gaps, supporting info, work checklist, Proof of Work plan)
 
-Load with relative paths: `skills/journal-entry-creator/assets/templates/[file]`
+Load with paths relative to the skill folder: `assets/templates/[file]`
 
 ### Scripts (scripts/)
 

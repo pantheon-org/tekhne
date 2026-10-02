@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Competitive Runner: Movement and Score Handlers.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Payload schema validation",
+      "description": "Move handler validates the incoming payload with Zod (or equivalent) before using any fields",
+      "max_score": 6
+    },
+    {
+      "name": "Early return on invalid",
+      "description": "Handler returns early (or skips mutation) if payload validation fails",
+      "max_score": 6
+    },
+    {
+      "name": "Delta movement not absolute",
+      "description": "Move handler accepts dx/dy deltas and adds them to current position \u2014 does not assign client-provided absolute x/y directly",
+      "max_score": 6
+    },
+    {
+      "name": "Server-side clamping",
+      "description": "Movement delta is clamped with a max bound on the server (e.g. `Math.max`/`Math.min` or equivalent)",
+      "max_score": 6
+    },
+    {
+      "name": "Server-computed score",
+      "description": "`collectCoin` handler increments score using server-side logic \u2014 does not read a score value from the client payload",
+      "max_score": 6
+    },
+    {
+      "name": "Player lookup guard",
+      "description": "Both handlers look up the player by `client.sessionId` and return early if not found",
+      "max_score": 6
+    },
+    {
+      "name": "Rate limiting",
+      "description": "Move handler includes rate-limiting logic (e.g. timestamp check, cooldown) to reject messages sent too frequently",
+      "max_score": 6
+    },
+    {
+      "name": "Schema fields decorated",
+      "description": "Player x, y, and score fields use `@type` decorator",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Move handler uses the client-provided payload without...",
+      "description": "Failure avoided: Move handler uses the client-provided payload without schema validation",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Handler does not return early when payload...",
+      "description": "Failure avoided: Handler does not return early when payload validation fails",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Move handler assigns absolute x/y coordinates directly...",
+      "description": "Failure avoided: Move handler assigns absolute x/y coordinates directly from the client payload instead of applying deltas",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: No server-side clamping is applied to movement...",
+      "description": "Failure avoided: No server-side clamping is applied to movement deltas",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: `collectCoin` handler reads and applies a score...",
+      "description": "Failure avoided: `collectCoin` handler reads and applies a score value from the client message instead of computing server-side",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Either handler does not guard against missing...",
+      "description": "Failure avoided: Either handler does not guard against missing player by session ID",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Move handler has no rate-limiting mechanism",
+      "description": "Failure avoided: Move handler has no rate-limiting mechanism",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Any Player field (x, y, score) is...",
+      "description": "Failure avoided: Any Player field (x, y, score) is defined without `@type` decorator",
+      "max_score": 10
+    }
+  ]
+}

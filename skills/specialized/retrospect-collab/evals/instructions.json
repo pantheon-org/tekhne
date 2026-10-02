@@ -1,0 +1,130 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "Be evidence-only: reference actual prompts and tool calls from the sessions",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "Quantify always: write ratios such as 3 out of 8 sessions, never vague adjectives",
+      "type": "mindset",
+      "why_given": "preference"
+    },
+    {
+      "id": "I03",
+      "content": "Compare impact against the targets (>60% high-impact augmentation, <20% automation) and surface the gap explicitly when missed",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I04",
+      "content": "Take a longitudinal view: track skill evolution across sessions, not just a point-in-time snapshot",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Step 1: run the session filter script with the user's arguments; the first line is PERIOD and the remaining lines are session paths, so never treat the PERIOD line as a session",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Step 2: read sessions and extract user_prompts, tool_calls, duration_seconds, subagent_spawns and JSONL events",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Step 3: analyse technical effectiveness across context management, guidance, critical thinking and bias",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Step 4: analyse cognitive posture across intentionality, agency, impact and progression",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Categorise each session as Automation, Low-impact or High-impact augmentation",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Step 5: generate Start/Stop/Continue with specific session examples",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Step 6: write insights to the collab insights folder under the PERIOD file name",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "Step 7: report the output file path and suggest the aggregate report command",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Use the Metrics Summary format: sessions, total prompts and average, tool calls and average, duration and subagents, and the impact split against targets",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I14",
+      "content": "Do not run the skill on fewer than one complete session file, because partial data produces unreliable scores",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "When duration_seconds is absent from older session files, skip duration metrics rather than erroring",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Provide a partial report if some session files are unreadable rather than aborting entirely",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER fabricate session evidence",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER report a single session as a trend",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER skip the impact categorisation step",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER use a hardcoded output path",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I21",
+      "content": "Use retrospect-domain instead when the focus is on WHAT was learned, not HOW the collaboration worked",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

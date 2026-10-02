@@ -1,0 +1,1 @@
+Tests that the generator owns filename and frontmatter and a task-specific title is used.

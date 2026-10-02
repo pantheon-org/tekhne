@@ -1,0 +1,37 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 19,
+    "covered_instructions": 19,
+    "scenario_count": 7,
+    "coverage_map": {
+      "I01": ["scenario-1", "scenario-5"],
+      "I02": ["scenario-5"],
+      "I03": ["scenario-2", "scenario-3", "scenario-6"],
+      "I04": ["scenario-1"],
+      "I05": ["scenario-2"],
+      "I06": ["scenario-3", "scenario-6"],
+      "I07": ["scenario-4"],
+      "I08": ["scenario-5"],
+      "I09": ["scenario-1", "scenario-5"],
+      "I10": ["scenario-4"],
+      "I11": ["scenario-4"],
+      "I12": ["scenario-1", "scenario-6"],
+      "I13": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-6"
+      ],
+      "I14": ["scenario-6"],
+      "I15": ["scenario-6"],
+      "I16": ["scenario-6"],
+      "I17": ["scenario-7"],
+      "I18": ["scenario-6"],
+      "I19": ["scenario-7"]
+    },
+    "notes": "Scenarios 6 and 7 were added for the anti-patterns (person versus proposal, alternatives, softening) and for when not to run a challenge; every instruction is checked by at least one scenario."
+  }
+}

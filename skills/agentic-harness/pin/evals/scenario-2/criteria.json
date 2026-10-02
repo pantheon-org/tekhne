@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Pin a User Correction Mid-Session.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Item written to `pins.json` has `type: \"correction\"`...",
+      "description": "Item written to `pins.json` has `type: \"correction\"` and `emoji: \"\ud83d\udd27\"`.",
+      "max_score": 10
+    },
+    {
+      "name": "Content stored matches the user's phrasing, not...",
+      "description": "Content stored matches the user's phrasing, not a reworded version.",
+      "max_score": 10
+    },
+    {
+      "name": "Single-line pin confirmation is emitted with no...",
+      "description": "Single-line pin confirmation is emitted with no additional commentary.",
+      "max_score": 10
+    },
+    {
+      "name": "Agent's subsequent messages reflect the corrected understanding.",
+      "description": "Agent's subsequent messages reflect the corrected understanding.",
+      "max_score": 10
+    },
+    {
+      "name": "Limits check runs before appending (no silent...",
+      "description": "Limits check runs before appending (no silent overflow beyond 5 corrections).",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits the pin and only corrects...",
+      "description": "Failure avoided: Agent omits the pin and only corrects verbally.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent reformulates or cleans up the user's...",
+      "description": "Failure avoided: Agent reformulates or cleans up the user's correction text.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses a different emoji or type...",
+      "description": "Failure avoided: Agent uses a different emoji or type (e.g., `approved` or `scope`) for a correction.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent adds a second paragraph explaining why...",
+      "description": "Failure avoided: Agent adds a second paragraph explaining why the correction was pinned.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent stops the conversation after pinning instead...",
+      "description": "Failure avoided: Agent stops the conversation after pinning instead of resuming immediately.",
+      "max_score": 10
+    }
+  ]
+}

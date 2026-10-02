@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Scientific Schematics \u2014 Neural Network Architecture for Conference Paper.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "--doc-type conference applied",
+      "description": "The agent uses --doc-type conference (threshold 8.0/10), not the default or journal threshold.",
+      "max_score": 10
+    },
+    {
+      "name": "Verbose mode enabled",
+      "description": "The agent passes the -v flag to show generation and review steps as requested.",
+      "max_score": 10
+    },
+    {
+      "name": "Smart iteration explained",
+      "description": "The agent explains that regeneration only occurs if quality is below threshold \u2014 not unconditionally.",
+      "max_score": 10
+    },
+    {
+      "name": "Output file path reported",
+      "description": "The agent reports the path to the generated diagram in figures/.",
+      "max_score": 10
+    },
+    {
+      "name": "Diagram scientifically described",
+      "description": "The prompt passed to the generator includes encoder-decoder architecture with multi-head attention layers.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent uses the wrong `--doc-type` (e.g., `journal`...",
+      "description": "Failure avoided: Agent uses the wrong `--doc-type` (e.g., `journal` or `poster`) instead of `conference`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits the `-v` verbose flag",
+      "description": "Failure avoided: Agent omits the `-v` verbose flag",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not explain the conditional regeneration...",
+      "description": "Failure avoided: Agent does not explain the conditional regeneration logic (only regenerates if below threshold)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent does not report the output file...",
+      "description": "Failure avoided: Agent does not report the output file path in `figures/`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits encoder-decoder architecture or multi-head attention...",
+      "description": "Failure avoided: Agent omits encoder-decoder architecture or multi-head attention from the diagram description",
+      "max_score": 10
+    }
+  ]
+}

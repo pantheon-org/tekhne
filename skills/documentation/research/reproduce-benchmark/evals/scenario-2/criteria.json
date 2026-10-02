@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Reproduce Benchmark \u2014 codebase-memory-mcp (Harness Failure).",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "benchmarks/sources/deusdata-codebase-memory-mcp-repro.md is created with valid YAML frontm",
+      "description": "The file is created at the correct path and opens with a YAML frontmatter block containing all required fields.",
+      "max_score": 5
+    },
+    {
+      "name": "outcome is set to failed",
+      "description": "The frontmatter outcome field is exactly 'failed', not 'unverified' or 'partially-verified'.",
+      "max_score": 5
+    },
+    {
+      "name": "Error message is quoted verbatim in Reproduction attempt section",
+      "description": "The Cannot find module 'better-sqlite3' error is reproduced verbatim in the repro file \u2014 not paraphrased.",
+      "max_score": 5
+    },
+    {
+      "name": "No verified figures are fabricated",
+      "description": "The agent does not invent or copy verified figures from the README when the harness did not run. The Reproduction attempt section clearly states no metrics were obtained.",
+      "max_score": 5
+    },
+    {
+      "name": "Reported figures section present with (as reported) markers",
+      "description": "Self-reported figures from the README are still recorded, clearly marked (as reported), separate from the failed run.",
+      "max_score": 5
+    },
+    {
+      "name": "How to reproduce section documents the fix needed",
+      "description": "The section notes that npm install or equivalent is required before the harness can run.",
+      "max_score": 5
+    },
+    {
+      "name": "stderr is not suppressed",
+      "description": "The agent does not use 2>/dev/null or equivalent when running the harness. The error output is captured and quoted.",
+      "max_score": 5
+    },
+    {
+      "name": "ANALYSIS Stage 2.2 updated with failure pointer",
+      "description": "analysis/ANALYSIS-deusdata-codebase-memory-mcp.md Stage 2.2 references the repro file and notes outcome: failed.",
+      "max_score": 5
+    },
+    {
+      "name": "No unfilled placeholders",
+      "description": "The produced file contains no angle-bracket placeholders.",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent creates the repro file at the...",
+      "description": "Failure avoided: Agent creates the repro file at the wrong path or with missing frontmatter fields",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent sets `outcome` to `unverified` or `partially-verified`...",
+      "description": "Failure avoided: Agent sets `outcome` to `unverified` or `partially-verified` instead of `failed`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent paraphrases rather than quoting the error...",
+      "description": "Failure avoided: Agent paraphrases rather than quoting the error message verbatim",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent fabricates or copies verified metric figures...",
+      "description": "Failure avoided: Agent fabricates or copies verified metric figures when the harness did not run successfully",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits the reported figures section or...",
+      "description": "Failure avoided: Agent omits the reported figures section or fails to mark figures `(as reported)`",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent omits the `npm install` fix from...",
+      "description": "Failure avoided: Agent omits the `npm install` fix from the How to reproduce section",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent suppresses stderr output, losing the error...",
+      "description": "Failure avoided: Agent suppresses stderr output, losing the error message",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent fails to update Stage 2.2 in...",
+      "description": "Failure avoided: Agent fails to update Stage 2.2 in the ANALYSIS file",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Agent leaves angle-bracket placeholders in the produced...",
+      "description": "Failure avoided: Agent leaves angle-bracket placeholders in the produced file",
+      "max_score": 15
+    }
+  ]
+}

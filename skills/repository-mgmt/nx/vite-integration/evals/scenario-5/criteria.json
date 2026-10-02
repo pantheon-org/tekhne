@@ -1,0 +1,61 @@
+{
+  "context": "Checks the migration plan follows the nx-vite-integration workflow from dependency install through verification.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Installs @nx/vite and vite",
+      "description": "The plan includes `nx add @nx/vite` (or equivalent) and adds `vite` as a dev dependency.",
+      "max_score": 10
+    },
+    {
+      "name": "Installs a framework plugin",
+      "description": "The plan installs `@vitejs/plugin-react` as the framework plugin for the React app.",
+      "max_score": 8
+    },
+    {
+      "name": "Generates configuration with the Nx generator",
+      "description": "The plan uses `nx g @nx/vite:configuration storefront` to generate the Vite setup.",
+      "max_score": 10
+    },
+    {
+      "name": "Config includes nxViteTsPaths and root",
+      "description": "The resulting `vite.config.ts` includes `nxViteTsPaths()` and `root: __dirname`.",
+      "max_score": 8
+    },
+    {
+      "name": "build, serve and test targets present",
+      "description": "The plan ensures `build`, `serve` and `test` targets are valid for the project.",
+      "max_score": 10
+    },
+    {
+      "name": "Workspace-relative outDir and cacheDir",
+      "description": "`build.outDir` and `cacheDir` are set relative to the workspace root (for example `../../dist/apps/storefront`).",
+      "max_score": 10
+    },
+    {
+      "name": "Copies non-public files with nxCopyAssetsPlugin",
+      "description": "The config uses `nxCopyAssetsPlugin` with patterns such as `*.md` and `LICENSE`.",
+      "max_score": 10
+    },
+    {
+      "name": "Environment replacement plugin added",
+      "description": "The config replaces `environment.ts` with `environment.prod.ts` using the environment replacement plugin (`replaceFiles`).",
+      "max_score": 10
+    },
+    {
+      "name": "Verifies with nx build",
+      "description": "The plan runs `nx run storefront:build` and expects it to succeed.",
+      "max_score": 8
+    },
+    {
+      "name": "Verifies with nx test",
+      "description": "The plan runs `nx run storefront:test` and expects tests to run with configured cache directories.",
+      "max_score": 8
+    },
+    {
+      "name": "Test paths are deterministic",
+      "description": "Any Vitest configuration uses workspace-relative cache and coverage directories.",
+      "max_score": 8
+    }
+  ]
+}

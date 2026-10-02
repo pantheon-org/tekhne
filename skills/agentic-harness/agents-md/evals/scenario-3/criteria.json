@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create AGENTS.md for Python FastAPI Project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "No technology assumptions",
+      "description": "Documentation does NOT assume technologies that weren't present in the input (e.g., no React mention for Python project)",
+      "max_score": 7
+    },
+    {
+      "name": "Discovery-based content",
+      "description": "Content is based on discovered technologies from provided config files",
+      "max_score": 7
+    },
+    {
+      "name": "Concise root file",
+      "description": "Root AGENTS.md is NOT encyclopedic (no full framework manual embedded)",
+      "max_score": 7
+    },
+    {
+      "name": "No duplication",
+      "description": "Instructions are NOT duplicated across multiple files unnecessarily",
+      "max_score": 7
+    },
+    {
+      "name": "Verified commands",
+      "description": "Commands included are valid for the detected stack (e.g., correct package manager, testing framework)",
+      "max_score": 7
+    },
+    {
+      "name": "References over duplication",
+      "description": "Uses references/links to external docs rather than embedding full documentation",
+      "max_score": 7
+    },
+    {
+      "name": "Path-specific content",
+      "description": "Commands are specific to this project, not generic placeholders",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Documentation references npm, jest, tsc, or other...",
+      "description": "Failure avoided: Documentation references npm, jest, tsc, or other Node.js tools not present in this project",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Content is generated from assumptions about a...",
+      "description": "Failure avoided: Content is generated from assumptions about a typical web project rather than inspection of provided config files",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Root AGENTS.md embeds full Python tutorial content...",
+      "description": "Failure avoided: Root AGENTS.md embeds full Python tutorial content or generic FastAPI documentation",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Identical instructions appear in multiple places without...",
+      "description": "Failure avoided: Identical instructions appear in multiple places without referencing a single source",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Commands would fail if copy-pasted (e.g., wrong...",
+      "description": "Failure avoided: Commands would fail if copy-pasted (e.g., wrong package manager, incorrect test runner flags)",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Uses generic placeholder paths like `<your-project>` instead...",
+      "description": "Failure avoided: Uses generic placeholder paths like `<your-project>` instead of project-specific values",
+      "max_score": 16
+    }
+  ]
+}

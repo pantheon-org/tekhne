@@ -1,0 +1,124 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "If code is hard to test, treat it as a design problem, not a testing problem; fix the coupling rather than compromising the architecture for testability",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Test at architectural boundaries, not internal implementation details",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Use unit tests for pure business logic, integration tests for boundary adapters, and end-to-end tests for complete user workflows across boundaries",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I04",
+      "content": "Keep entities as pure functions with no dependencies",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Make use cases depend on interfaces (ports), not concrete implementations",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Test adapters with fake use cases or real infrastructure",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Test infrastructure with integration tests, not unit tests",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "Step 1: identify hard-to-test code and output a list of testability blockers (blocker, problem, refactor)",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "Step 2: apply dependency injection so dependencies arrive via constructor or method parameters",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I10",
+      "content": "Step 3: isolate side effects with the Humble Object pattern, keeping a thin adapter and a pure testable object",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Step 4: choose the right test double: stub for queries, mock for commands, fake for a lightweight implementation",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Step 5: verify boundary tests with the checklist (entities unit tested, use cases unit tested with mocked ports, adapters and controllers integration tested)",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER instantiate concrete dependencies in business logic",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER test implementation details",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER use real infrastructure in unit tests",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER skip tests because code is hard to test; refactor it to be testable",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER tangle business logic with infrastructure",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER depend on static calls or singletons for behaviour; use injected interfaces and pass instances",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER read the current time or random numbers directly in logic; inject a Clock or Random",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER leave dependency rules unenforced; verify boundaries with automated architecture tests run in CI",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    }
+  ]
+}

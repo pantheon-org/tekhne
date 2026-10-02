@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Identifying a Pattern of Over-Reliance on AI.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Multi-session scope processed",
+      "description": "Agent loads and reads sessions spanning 14 days, not just the most recent one",
+      "max_score": 8
+    },
+    {
+      "name": "Over-trust pattern quantified",
+      "description": "Report states a ratio like \"5 out of 9 sessions showed unchallenged acceptance of first AI output\"",
+      "max_score": 8
+    },
+    {
+      "name": "Specific prompt examples cited",
+      "description": "At least two actual user prompts from the session data are referenced as evidence",
+      "max_score": 8
+    },
+    {
+      "name": "Impact distribution reflects finding",
+      "description": "Automation and Low-impact percentages are elevated in the metrics summary when over-reliance is prevalent",
+      "max_score": 8
+    },
+    {
+      "name": "Stop recommendation is concrete",
+      "description": "SSC Stop section names the specific pattern (e.g., \"Stop accepting code changes without reviewing the diff\") not a generic \"verify more\"",
+      "max_score": 8
+    },
+    {
+      "name": "Bias section populated",
+      "description": "Report's Bias and Blindspots section is non-empty and addresses automation bias",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent reports over-reliance without citing session evidence",
+      "description": "Failure avoided: Agent reports over-reliance without citing session evidence",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent processes only one session despite the...",
+      "description": "Failure avoided: Agent processes only one session despite the two-week scope request",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Over-trust finding is buried rather than prominently...",
+      "description": "Failure avoided: Over-trust finding is buried rather than prominently flagged in the analysis",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent provides only generic bias warnings without...",
+      "description": "Failure avoided: Agent provides only generic bias warnings without tying them to actual session behavior",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Impact categorization does not reflect the identified...",
+      "description": "Failure avoided: Impact categorization does not reflect the identified over-reliance (e.g., High-impact target is met despite clear automation patterns)",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Stop recommendation is vague (\"be more careful\")...",
+      "description": "Failure avoided: Stop recommendation is vague (\"be more careful\") with no actionable specificity",
+      "max_score": 12
+    }
+  ]
+}

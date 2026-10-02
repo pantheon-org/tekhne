@@ -1,31 +1,117 @@
 {
   "instructions": [
     {
-      "original_snippets": "All commands must use the `run.py` wrapper to ensure proper environment",
-      "why_given": "preference"
-    },
-    {
-      "original_snippets": "NEVER guess or use generic descriptions! If details missing, use Smart Add to discover them.",
-      "why_given": "preference"
-    },
-    {
-      "original_snippets": "Every NotebookLM answer ends with: EXTREMELY IMPORTANT: Is that ALL you need to know? Required Claude Behavior: STOP, ANALYZE, IDENTIFY GAPS, ASK FOLLOW-UP, REPEAT, SYNTHESIZE",
-      "why_given": "preference"
-    },
-    {
-      "original_snippets": "See references/api_reference.md for full parameter documentation for all scripts",
+      "id": "I01",
+      "content": "Ground every answer in sources: answers come exclusively from uploaded documents; never synthesise from general knowledge when querying a notebook.",
+      "type": "mindset",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "All data stored in ~/.claude/skills/notebooklm/data/ — Protected by .gitignore, never commit to git",
+      "id": "I02",
+      "content": "Never guess notebook content: use Smart Add (query first) to discover what a notebook contains before labelling it.",
+      "type": "mindset",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "Rate limit: 50 queries per day per Google account",
+      "id": "I03",
+      "content": "Follow up until complete: check every answer for gaps and issue follow-ups before synthesising for the user.",
+      "type": "mindset",
       "why_given": "new knowledge"
     },
     {
-      "original_snippets": "Browser MUST be visible for authentication — user must manually log in to Google",
+      "id": "I04",
+      "content": "When adding a notebook without full details, query the notebook first to discover its content, then use the discovered information to add it.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER guess or use generic descriptions when adding a notebook; --description and --topics are REQUIRED.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "ALWAYS run scripts through the run.py wrapper; NEVER execute the scripts directly, because they depend on the isolated .venv.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "Check authentication status with auth_manager.py status before starting a session.",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "Authenticate with auth_manager.py setup; the browser MUST be visible for manual Google login, and the user must be told a browser window will open.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Manage the notebook library with notebook_manager.py (list, search, activate, add) so the right notebook is active before asking questions.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Use --markdown for responses containing code, lists or tables; add --log to save outputs.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Follow-up mechanism: when an answer ends with the 'Is that ALL you need to know?' prompt, STOP, ANALYZE, IDENTIFY GAPS, ASK FOLLOW-UP, REPEAT, then SYNTHESIZE before replying to the user.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Respect the 50 queries per day per Google account limit imposed by NotebookLM.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Do not run concurrent sessions: each query uses a fresh browser instance.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER commit the data/ directory (library.json, auth_info.json, browser_state/); it is protected by .gitignore.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER stop after the first answer when the request covers multiple points, because NotebookLM retrieves chunks, not full documents.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Keep questions specific and scoped; broad questions return fragmented answers.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I17",
+      "content": "When the browser crashes, recover with cleanup_manager.py --preserve-library so the notebook library is kept.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "Do not use NotebookLM for general web search, LLM knowledge, data analysis or code generation; it is for document Q&A only.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "Use descriptive names and topics so that library search is reliable.",
+      "type": "procedure",
       "why_given": "preference"
     }
   ]

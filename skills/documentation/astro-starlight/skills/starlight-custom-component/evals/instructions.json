@@ -1,0 +1,82 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER register a component path with a leading slash; paths in `components: {}` are relative to the project root",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER omit `<slot />` when wrapping a built-in component",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER access page data via `Astro.props` in override components; use `Astro.locals.starlightRoute`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER rely on file name to determine which slot is overridden; only the key in `components: {}` matters",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER forget to transfer named slots on layout components such as `PageFrame` and `TwoColumnContent`",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER import component internals not listed in the Overrides Reference",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER fully replace a component when wrapping the default would do",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER guess the slot name; use the exact name from the Overrides Reference",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER override a component when CSS alone is enough; use `starlight-theme`",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "NEVER use this skill to add documentation pages or sidebars; use `starlight-base`",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "Identify the slot name from the Overrides Reference or Overrides Map before creating the component",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Register the component under its slot key in `components: {}` inside `starlight({})` in `astro.config.mjs`",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Use `Astro.locals.starlightRoute.id` to apply an override conditionally on specific pages",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    }
+  ]
+}

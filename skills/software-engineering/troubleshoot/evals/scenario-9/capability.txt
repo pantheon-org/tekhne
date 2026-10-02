@@ -1,0 +1,1 @@
+Hold the thinking artifact until the root cause is confirmed and the fix verified, then write all required sections.

@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create a Collapsed Important Callout with Highlighted Date.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Callout uses 'important' type",
+      "description": "The callout opening line uses `[!important]` (e.g., `> [!important]-` or `> [!important]+`)",
+      "max_score": 10
+    },
+    {
+      "name": "Callout is collapsed by default",
+      "description": "The callout opening line includes a minus sign after the type bracket: `> [!important]-` (not `+` and not missing the symbol entirely)",
+      "max_score": 10
+    },
+    {
+      "name": "Custom title on the opening line",
+      "description": "The text \"Key Deadline\" appears on the same line as the callout type declaration (e.g., `> [!important]- Key Deadline`)",
+      "max_score": 10
+    },
+    {
+      "name": "Highlighted date uses == syntax",
+      "description": "The date or relevant text inside the callout body is wrapped in `==...==` highlight syntax (e.g., `==April 15th==`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Callout opening line uses a type other...",
+      "description": "Failure avoided: Callout opening line uses a type other than `[!important]` (e.g., `[!warning]` or `[!note]`)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Callout is not collapsed by default (uses...",
+      "description": "Failure avoided: Callout is not collapsed by default (uses `+` or omits the collapse symbol, making it open by default)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: \"Key Deadline\" title does not appear on...",
+      "description": "Failure avoided: \"Key Deadline\" title does not appear on the same line as the callout type declaration",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The release date inside the callout is...",
+      "description": "Failure avoided: The release date inside the callout is not wrapped in `==...==` highlight syntax",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Use the `[!important]` callout type on the...",
+      "description": "Use the `[!important]` callout type on the opening blockquote line",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Include a minus sign after the type...",
+      "description": "Include a minus sign after the type bracket to make the callout collapsed by default: `> [!important]-`",
+      "max_score": 10
+    }
+  ]
+}

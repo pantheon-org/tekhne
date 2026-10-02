@@ -1,0 +1,56 @@
+{
+  "context": "Tests the When Not to Use boundary: purely generative tasks need no captured evidence.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Provides the function in the reply",
+      "description": "The reply contains a TypeScript `slugify` function.",
+      "max_score": 16
+    },
+    {
+      "name": "Does not create evidence files",
+      "description": "The agent writes no file under `.context/evidence/` or any other evidence directory.",
+      "max_score": 16
+    },
+    {
+      "name": "Does not take a screenshot",
+      "description": "The agent does not call a screenshot tool.",
+      "max_score": 10
+    },
+    {
+      "name": "Does not capture logs or run commands only for evidence",
+      "description": "The agent does not run `tee` or redirect output to save logs for this task.",
+      "max_score": 10
+    },
+    {
+      "name": "Does not append an Evidence table",
+      "description": "The reply has no `## Evidence` summary table.",
+      "max_score": 14
+    },
+    {
+      "name": "Honours the explicit no-files request",
+      "description": "The reply follows the user's instruction not to create or save other files.",
+      "max_score": 10
+    },
+    {
+      "name": "Explains why no artifact is captured",
+      "description": "If it mentions evidence at all, it says that no external state was observed.",
+      "max_score": 6
+    },
+    {
+      "name": "Code lowercases the input",
+      "description": "The function lowercases the title.",
+      "max_score": 6
+    },
+    {
+      "name": "Code replaces spaces with hyphens",
+      "description": "The function replaces spaces with hyphens.",
+      "max_score": 6
+    },
+    {
+      "name": "Function has the requested signature",
+      "description": "The signature is `slugify(title: string): string`.",
+      "max_score": 6
+    }
+  ]
+}

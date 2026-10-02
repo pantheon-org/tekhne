@@ -1,0 +1,66 @@
+{
+  "context": "Tests the promotion step: template use, frontmatter, stage sections, disposition update and validation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Analysis template read",
+      "description": "Reads assets/templates/ANALYSIS-paper.yaml before writing the file",
+      "max_score": 8
+    },
+    {
+      "name": "Correct file name",
+      "description": "Creates analysis/ANALYSIS-arxiv-2310.05736-jiang-llmlingua.md",
+      "max_score": 10
+    },
+    {
+      "name": "Frontmatter present",
+      "description": "The file opens with a --- YAML block before any prose",
+      "max_score": 10
+    },
+    {
+      "name": "Required frontmatter fields",
+      "description": "Frontmatter includes title, date, type: analysis, paper (id, title, authors, year, venue) and source",
+      "max_score": 10
+    },
+    {
+      "name": "Source links to the reference file",
+      "description": "The source field lists references/jiang-llmlingua.md",
+      "max_score": 6
+    },
+    {
+      "name": "Three stage headings",
+      "description": "The body has Stage 1 Descriptive, Stage 2 Evaluative and Stage 3 Synthesis hooks headings",
+      "max_score": 10
+    },
+    {
+      "name": "Stage subsections present",
+      "description": "The numbered subsections (1.1 to 1.6, 2.1 to 2.5, 3.1 to 3.3) are present",
+      "max_score": 8
+    },
+    {
+      "name": "Results marked as reported",
+      "description": "Evaluation sections mark numbers (as reported)",
+      "max_score": 8
+    },
+    {
+      "name": "No invented numbers",
+      "description": "Does not state benchmark figures that were not taken from the paper",
+      "max_score": 6
+    },
+    {
+      "name": "Disposition updated",
+      "description": "REVIEWED.md disposition changes from pending to analysis",
+      "max_score": 10
+    },
+    {
+      "name": "Validator run",
+      "description": "Runs ./scripts/validate-analysis-paper.sh on the new file",
+      "max_score": 8
+    },
+    {
+      "name": "Triage not repeated",
+      "description": "Does not create a second references file or a new REVIEWED.md row",
+      "max_score": 6
+    }
+  ]
+}

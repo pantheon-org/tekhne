@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/research/sci-data-extractor/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 12
+  },
+  "total": 122,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 142,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

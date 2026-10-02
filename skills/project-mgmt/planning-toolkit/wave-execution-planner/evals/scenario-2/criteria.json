@@ -1,0 +1,111 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create a Wave Execution Plan from an Existing Flat Task List.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "wave-document-created",
+      "description": "A wave document exists at `.context/plans/infrastructure-cleanup.md`",
+      "max_score": 4
+    },
+    {
+      "name": "dependency-dag-matches-stated-deps",
+      "description": "The dependency graph correctly reflects stated dependencies: T0.1 blocks T1.x; T1.x blocks T2.x; T2.x blocks T3.x",
+      "max_score": 4
+    },
+    {
+      "name": "no-dependent-tasks-in-same-wave",
+      "description": "T0.1 is in Wave 1 alone; T1.x in Wave 2; T2.x in Wave 3; T3.x in Wave 4",
+      "max_score": 4
+    },
+    {
+      "name": "all-tasks-appear-exactly-once",
+      "description": "All 7 tasks appear in the document and each appears in exactly one wave",
+      "max_score": 4
+    },
+    {
+      "name": "parallel-waves-labelled-correctly",
+      "description": "Waves 2, 3, and 4 are labelled \"parallel\"",
+      "max_score": 4
+    },
+    {
+      "name": "sequential-wave-labelled-correctly",
+      "description": "Wave 1 (T0.1 alone) is labelled \"sequential\"",
+      "max_score": 4
+    },
+    {
+      "name": "verification-per-wave",
+      "description": "Each of the 4 waves includes a Verification checklist with at least one concrete runnable command",
+      "max_score": 4
+    },
+    {
+      "name": "branch-strategy-present",
+      "description": "A Branch Strategy section exists with a table assigning one branch per parallel task",
+      "max_score": 4
+    },
+    {
+      "name": "output-path-correct",
+      "description": "The wave document was written to exactly `.context/plans/infrastructure-cleanup.md`",
+      "max_score": 4
+    },
+    {
+      "name": "no-invented-dependencies",
+      "description": "The agent did not add dependencies not in the task list",
+      "max_score": 4
+    },
+    {
+      "name": "wave-headings-include-mode",
+      "description": "Every wave heading specifies its execution mode: (sequential) or (parallel)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Writes the document to a path other...",
+      "description": "Failure avoided: Writes the document to a path other than `.context/plans/infrastructure-cleanup.md`",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: The dependency graph does not match the...",
+      "description": "Failure avoided: The dependency graph does not match the stated task dependencies",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: A task is grouped with a task...",
+      "description": "Failure avoided: A task is grouped with a task it depends on (e.g. T0.1 in the same wave as T1.1)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: One or more tasks are omitted or...",
+      "description": "Failure avoided: One or more tasks are omitted or appear in multiple waves",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Parallel waves (2, 3, 4) are not...",
+      "description": "Failure avoided: Parallel waves (2, 3, 4) are not labelled \"parallel\"",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Wave 1 is not labelled \"sequential\"",
+      "description": "Failure avoided: Wave 1 is not labelled \"sequential\"",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: A wave is missing its Verification checklist",
+      "description": "Failure avoided: A wave is missing its Verification checklist",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: No Branch Strategy table is included",
+      "description": "Failure avoided: No Branch Strategy table is included",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: The agent invents new dependencies (e.g. makes...",
+      "description": "Failure avoided: The agent invents new dependencies (e.g. makes T3.1 depend on T3.2)",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Wave headings omit execution mode",
+      "description": "Failure avoided: Wave headings omit execution mode",
+      "max_score": 20
+    }
+  ]
+}

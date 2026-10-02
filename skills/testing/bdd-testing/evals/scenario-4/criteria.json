@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: User Account Management Test Suite.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Given/When/Then structure",
+      "description": "All scenarios follow proper Gherkin Given/When/Then structure with clear steps",
+      "max_score": 7
+    },
+    {
+      "name": "Scenario independence",
+      "description": "Each scenario creates or mocks its own prerequisites rather than depending on other scenarios",
+      "max_score": 7
+    },
+    {
+      "name": "No cross-scenario coupling",
+      "description": "Scenarios do NOT assume data or state created by other scenarios",
+      "max_score": 7
+    },
+    {
+      "name": "Deterministic execution",
+      "description": "Scenarios are designed to produce consistent results regardless of execution order",
+      "max_score": 7
+    },
+    {
+      "name": "Self-contained setup",
+      "description": "Each scenario includes its own Given steps for required context and data",
+      "max_score": 7
+    },
+    {
+      "name": "Single behavior focus",
+      "description": "Each scenario focuses on testing one specific behavior or user journey",
+      "max_score": 7
+    },
+    {
+      "name": "Cleanup consideration",
+      "description": "Scenarios are designed to not leave state that affects other scenarios",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any scenario does not follow Given/When/Then structure",
+      "description": "Failure avoided: Any scenario does not follow Given/When/Then structure",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: A scenario relies on data or state...",
+      "description": "Failure avoided: A scenario relies on data or state established by another scenario",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Scenarios assume shared state or data created...",
+      "description": "Failure avoided: Scenarios assume shared state or data created elsewhere in the suite",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Scenario outcomes vary depending on which other...",
+      "description": "Failure avoided: Scenario outcomes vary depending on which other scenarios ran before it",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: A scenario lacks Given steps and assumes...",
+      "description": "Failure avoided: A scenario lacks Given steps and assumes pre-existing context",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: A single scenario tests multiple unrelated behaviors",
+      "description": "Failure avoided: A single scenario tests multiple unrelated behaviors",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Scenarios leave shared state that causes other...",
+      "description": "Failure avoided: Scenarios leave shared state that causes other scenarios to fail or behave differently",
+      "max_score": 9
+    }
+  ]
+}

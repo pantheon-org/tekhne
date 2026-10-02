@@ -1,0 +1,1 @@
+Tests prerequisites, install, staged validation, the final anti-pattern check and the nx reset step.

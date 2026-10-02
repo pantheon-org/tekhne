@@ -1,0 +1,1 @@
+Check for a project-specific evidence location first and validate captured images before referencing them.

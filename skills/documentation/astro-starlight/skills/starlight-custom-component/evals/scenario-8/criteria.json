@@ -1,0 +1,56 @@
+{
+  "context": "Checks that overrides are used only when CSS is not enough, with the slot found from the reference, wrapped and registered correctly.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Colour change not an override",
+      "description": "Says the header colour change needs CSS rather than a component override and points to `starlight-theme`",
+      "max_score": 10
+    },
+    {
+      "name": "Pages belong to base setup",
+      "description": "Says the new page and sidebar entry belong to `starlight-base`",
+      "max_score": 10
+    },
+    {
+      "name": "Identifies the slot from the reference",
+      "description": "Looks up the slot name in the Overrides Reference or Overrides Map before building",
+      "max_score": 10
+    },
+    {
+      "name": "Uses the exact listed slot name",
+      "description": "Registers the component under the exact listed name such as `Hero`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids the internal import",
+      "description": "Declines to import the unlisted internal component",
+      "max_score": 10
+    },
+    {
+      "name": "Wraps the default",
+      "description": "Imports the default component and wraps it instead of copying its markup",
+      "max_score": 10
+    },
+    {
+      "name": "Keeps the slot",
+      "description": "Renders `<Default><slot /></Default>` so child content survives",
+      "max_score": 10
+    },
+    {
+      "name": "Registers with a relative path",
+      "description": "Registers the file in `components: {}` with a `./src/...` path",
+      "max_score": 10
+    },
+    {
+      "name": "Does not rely on the file name",
+      "description": "Registers by key and does not assume the file name selects the slot",
+      "max_score": 10
+    },
+    {
+      "name": "States when to override",
+      "description": "Explains overrides are for needs that CSS cannot address",
+      "max_score": 10
+    }
+  ]
+}

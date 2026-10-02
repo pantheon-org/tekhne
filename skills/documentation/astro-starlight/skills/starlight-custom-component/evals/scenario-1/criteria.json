@@ -1,0 +1,51 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Override the Footer Component.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Correct path format (`'./src/...'` not `'/src/...'`)",
+      "description": "Correct path format (`'./src/...'` not `'/src/...'`)",
+      "max_score": 11
+    },
+    {
+      "name": "Exact component name `Footer` as key in...",
+      "description": "Exact component name `Footer` as key in `components: {}`",
+      "max_score": 11
+    },
+    {
+      "name": "`astro.config.mjs` shows full integration registration",
+      "description": "`astro.config.mjs` shows full integration registration",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Path uses a leading slash (`'/src/...'`)",
+      "description": "Failure avoided: Path uses a leading slash (`'/src/...'`)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Component key in `components: {}` is incorrect...",
+      "description": "Failure avoided: Component key in `components: {}` is incorrect (e.g., `footer` instead of `Footer`)",
+      "max_score": 11
+    },
+    {
+      "name": "Avoids: Registration in `astro.config.mjs` is omitted or incomplete",
+      "description": "Failure avoided: Registration in `astro.config.mjs` is omitted or incomplete",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Creates `src/components/CustomFooter.astro` with custom markup",
+      "description": "Creates `src/components/CustomFooter.astro` with custom markup",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Registers `Footer: './src/components/CustomFooter.astro'` in `components: {}` in...",
+      "description": "Registers `Footer: './src/components/CustomFooter.astro'` in `components: {}` in `astro.config.mjs`",
+      "max_score": 11
+    },
+    {
+      "name": "Step: Uses path without leading slash",
+      "description": "Uses path without leading slash",
+      "max_score": 12
+    }
+  ]
+}

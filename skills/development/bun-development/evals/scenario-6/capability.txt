@@ -1,0 +1,1 @@
+Handle a Bun dependency change safely: lockfile conflict, bun install, bun test, revert on failure and linked decision notes.

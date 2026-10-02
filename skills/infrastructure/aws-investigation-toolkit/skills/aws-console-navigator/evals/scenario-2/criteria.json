@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Scroll the CloudWatch Logs Results Table in Playwright.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Obtains iframe frame object",
+      "description": "Code calls page.frame({ name: 'microConsole-Logs' }) to get the CloudWatch iframe context",
+      "max_score": 8
+    },
+    {
+      "name": "Does NOT use window.scrollBy or window.scrollTo",
+      "description": "Code does not call window.scrollBy() or window.scrollTo() to perform the scroll",
+      "max_score": 8
+    },
+    {
+      "name": "Does NOT use page.evaluate for CloudWatch content",
+      "description": "Code does not call page.evaluate() to query CloudWatch DOM elements \u2014 uses frame.evaluate()",
+      "max_score": 8
+    },
+    {
+      "name": "Targets logs-table__wrapper container",
+      "description": "Code queries .logs-table__wrapper as the scroll target element",
+      "max_score": 8
+    },
+    {
+      "name": "Sets scrollTop directly",
+      "description": "Code sets .scrollTop = 600 (not scrollBy, not scrollIntoView) on the container",
+      "max_score": 8
+    },
+    {
+      "name": "Uses frame.evaluate not page.evaluate",
+      "description": "The evaluate call is on the frame object, not on page",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Does not call `page.frame(...)` to obtain the...",
+      "description": "Failure avoided: Does not call `page.frame(...)` to obtain the iframe frame",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Uses `window.scrollBy()` or `window.scrollTo()` for the scroll...",
+      "description": "Failure avoided: Uses `window.scrollBy()` or `window.scrollTo()` for the scroll operation",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Uses `page.evaluate()` instead of `frame.evaluate()` to query...",
+      "description": "Failure avoided: Uses `page.evaluate()` instead of `frame.evaluate()` to query CloudWatch DOM elements",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Does not target `.logs-table__wrapper` as the scroll...",
+      "description": "Failure avoided: Does not target `.logs-table__wrapper` as the scroll container",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Uses `scrollBy()` or `scrollIntoView()` instead of setting...",
+      "description": "Failure avoided: Uses `scrollBy()` or `scrollIntoView()` instead of setting `.scrollTop` directly",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The evaluate call is on `page` instead...",
+      "description": "Failure avoided: The evaluate call is on `page` instead of the frame object",
+      "max_score": 12
+    }
+  ]
+}

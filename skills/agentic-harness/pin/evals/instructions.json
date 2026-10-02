@@ -1,0 +1,136 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "After responding to a message where a decision, an unresolved question about a proposal, or a constraint appears, IMMEDIATELY invoke /pin with the right category; do not ask permission",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "Do NOT pin casual conversation or greetings",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "Derive the state file path from the CWD relative to the git root as a slug under .session-logs, then mkdir -p the directory",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Parse the emoji prefix for the type and split text on the spaced em dash separator into content and detail; ALWAYS split on the first emoji character, not the first space",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Check whether the content is already pinned (exact match on content) and respond 'Already pinned' and stop if so",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Limit the board to 5 items per type and 20 in total, dropping the oldest item of a full category",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I07",
+      "content": "Append the new item with id=next_id, increment next_id, and write the file",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "Respond with exactly one line, then resume the prior work; one-line responses only",
+      "type": "constraint",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "/pin show displays the board header and numbered items, or 'Pin board is empty' when there are none",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "/pin rm <n> shows a usage hint with no number, 'not found' for an unknown id, and otherwise removes the item and confirms",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "/pin clear resets items to empty but keeps the current next_id",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "/pin clear triage removes approved and pending items and keeps killed, scope and correction items",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER reformulate or paraphrase the user's words when pinning; store them verbatim",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER pin implementation details like code edits or file changes",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER add commentary or explanation after a pin response",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I16",
+      "content": "NEVER reuse or reassign an id after deletion; next_id always increments",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "NEVER skip the duplicate check before writing",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I18",
+      "content": "NEVER ask permission before pinning a detected decision",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I19",
+      "content": "NEVER pin casual conversation or already-pinned items",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I20",
+      "content": "NEVER use the wrong emoji or type for the user's intent; map approved, pending, killed, scope, correction correctly",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "NEVER stop the conversation after pinning; resume prior work immediately",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I22",
+      "content": "Treat the board as a capture tool, not a management tool; edits and removals are operations of last resort",
+      "type": "mindset",
+      "why_given": "preference"
+    }
+  ]
+}

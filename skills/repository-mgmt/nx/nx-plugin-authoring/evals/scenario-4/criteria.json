@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Fix a Generator That Destroys Existing Files.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "tree.exists check before each write",
+      "description": "`generator.ts` calls `tree.exists(path)` before each `tree.write` call and skips writing if the file already exists",
+      "max_score": 10
+    },
+    {
+      "name": "Skipped files reported",
+      "description": "`generator.ts` logs or returns information about which files were skipped (e.g. `console.log`, output object, or comments in result)",
+      "max_score": 10
+    },
+    {
+      "name": "All 3 config files covered by the guard",
+      "description": "The `tree.exists` guard applies to all three files: `.eslintrc.json`, `tsconfig.json`, and `.prettierrc`",
+      "max_score": 10
+    },
+    {
+      "name": "readProjectConfiguration and formatFiles preserved",
+      "description": "`generator.ts` still uses `readProjectConfiguration` to derive the root path and calls `formatFiles(tree)` at the end",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Generator writes files without checking `tree.exists` first,...",
+      "description": "Failure avoided: Generator writes files without checking `tree.exists` first, destroying existing customizations",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Generator provides no output or logging indicating...",
+      "description": "Failure avoided: Generator provides no output or logging indicating which files were skipped",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: The `tree.exists` guard is applied to only...",
+      "description": "Failure avoided: The `tree.exists` guard is applied to only some of the three config files, leaving gaps",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `readProjectConfiguration` or `formatFiles(tree)` is removed from the...",
+      "description": "Failure avoided: `readProjectConfiguration` or `formatFiles(tree)` is removed from the implementation",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Call `tree.exists(path)` before each `tree.write` call and...",
+      "description": "Call `tree.exists(path)` before each `tree.write` call and skip writing if the file already exists",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Log or return information about which files...",
+      "description": "Log or return information about which files were skipped (e.g. via `console.log`, an output object, or comments in the result)",
+      "max_score": 10
+    }
+  ]
+}

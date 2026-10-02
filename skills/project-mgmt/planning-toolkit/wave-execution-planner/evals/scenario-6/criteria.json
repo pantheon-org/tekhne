@@ -1,0 +1,86 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Detect Must-Land-Together Runtime Dependency.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "phases-1-2-3-same-wave",
+      "description": "Phases 1, 2, and 3 are placed in the same wave (not in separate waves)",
+      "max_score": 6
+    },
+    {
+      "name": "must-land-together-label",
+      "description": "The wave containing Phases 1, 2, and 3 is labelled \"must land together\" with an explicit note that deploying Phase 1 alone would break the live services",
+      "max_score": 6
+    },
+    {
+      "name": "atomic-deploy-note",
+      "description": "The wave document includes a blockquote or note stating that the infrastructure change and service code changes must be deployed in the same operation",
+      "max_score": 6
+    },
+    {
+      "name": "phase-5-after-phases-2-3",
+      "description": "Phase 5 (remove SDK package dependency) is placed after Phases 2 and 3",
+      "max_score": 6
+    },
+    {
+      "name": "phase-0-first-wave",
+      "description": "Phase 0 (validation) is the sole occupant of Wave 1 and is labelled sequential or pre-work",
+      "max_score": 6
+    },
+    {
+      "name": "phases-2-3-parallel-within-wave",
+      "description": "Phases 2 and 3 are noted as independently workable (parallel worktrees) within their wave",
+      "max_score": 6
+    },
+    {
+      "name": "output-file-written",
+      "description": "Wave document is written to `.context/plans/decommission-third-party-sdk.md`",
+      "max_score": 6
+    },
+    {
+      "name": "verification-checklists-present",
+      "description": "Each wave has a `Verification:` checklist with at least one concrete, runnable command",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Places Phase 1 in an earlier wave...",
+      "description": "Failure avoided: Places Phase 1 in an earlier wave than Phases 2 and 3 (critical failure \u2014 this is the core correctness test)",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Does not label the shared wave as...",
+      "description": "Failure avoided: Does not label the shared wave as \"must land together\" or equivalent",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Omits the atomic deployment note from the...",
+      "description": "Failure avoided: Omits the atomic deployment note from the wave document",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Places Phase 5 before Phases 2 and...",
+      "description": "Failure avoided: Places Phase 5 before Phases 2 and 3 complete",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Places Phase 0 in the same wave...",
+      "description": "Failure avoided: Places Phase 0 in the same wave as Phase 1 or later phases",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Does not note that Phases 2 and...",
+      "description": "Failure avoided: Does not note that Phases 2 and 3 can work in parallel within their wave",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: Writes to a path other than `.context/plans/decommission-third-party-sdk.md`",
+      "description": "Failure avoided: Writes to a path other than `.context/plans/decommission-third-party-sdk.md`",
+      "max_score": 6
+    },
+    {
+      "name": "Avoids: A wave is missing its `Verification:` checklist",
+      "description": "Failure avoided: A wave is missing its `Verification:` checklist",
+      "max_score": 10
+    }
+  ]
+}

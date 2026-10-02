@@ -1,0 +1,56 @@
+{
+  "context": "Checks the base setup rules together: content location, single config object, logo options, sidebar behaviour, landing page and skill boundaries.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Moves content into the docs folder",
+      "description": "Moves the guide from `src/pages/` into `src/content/docs/`",
+      "max_score": 10
+    },
+    {
+      "name": "Fixes the logo config",
+      "description": "Uses either `src` or `light`/`dark`, not both together",
+      "max_score": 10
+    },
+    {
+      "name": "Single config object",
+      "description": "Moves the options into `starlight({})` in `astro.config.mjs` instead of a separate file",
+      "max_score": 10
+    },
+    {
+      "name": "Explains sidebar independence",
+      "description": "Explains that a page can exist without a sidebar entry unless `autogenerate` is used",
+      "max_score": 10
+    },
+    {
+      "name": "Adds the missing entry",
+      "description": "Adds a sidebar entry for `setup` or autogenerates the guides directory",
+      "max_score": 10
+    },
+    {
+      "name": "One approach per group",
+      "description": "Resolves the group so it uses either `items` or `autogenerate`",
+      "max_score": 10
+    },
+    {
+      "name": "Clean slug format",
+      "description": "Any slug has no leading slash and no `.md` extension",
+      "max_score": 10
+    },
+    {
+      "name": "Landing page template",
+      "description": "Creates the landing page with `template: splash`",
+      "max_score": 10
+    },
+    {
+      "name": "Frontmatter fields",
+      "description": "Content pages have `title` and `description` frontmatter",
+      "max_score": 10
+    },
+    {
+      "name": "Routes theming elsewhere",
+      "description": "Declines to do Tailwind theming here and points to `starlight-theme`",
+      "max_score": 10
+    }
+  ]
+}

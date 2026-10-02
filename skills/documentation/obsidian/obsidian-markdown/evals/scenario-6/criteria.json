@@ -1,0 +1,56 @@
+{
+  "context": "Tests embeds, tags, aliases, the verify step and the boundary for non-vault Markdown.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Image embed with width",
+      "description": "The cover is embedded as `![[cover.png|300]]`.",
+      "max_score": 10
+    },
+    {
+      "name": "PDF page embed",
+      "description": "The PDF is embedded as `![[paper.pdf#page=3]]`.",
+      "max_score": 10
+    },
+    {
+      "name": "Nested tag with slash",
+      "description": "The tag `research/papers` uses a forward slash for hierarchy.",
+      "max_score": 8
+    },
+    {
+      "name": "Tags have no spaces",
+      "description": "No tag contains a space; 'to-read' uses a hyphen.",
+      "max_score": 10
+    },
+    {
+      "name": "Tag with digits does not start with a digit",
+      "description": "The tag `q4_2026` keeps digits after the first character and underscores are allowed.",
+      "max_score": 8
+    },
+    {
+      "name": "Alias in frontmatter",
+      "description": "The frontmatter has `aliases:` containing `Papers to Read`.",
+      "max_score": 10
+    },
+    {
+      "name": "Frontmatter is first in the file",
+      "description": "The YAML frontmatter block starts on line 1 of `reading-list.md`.",
+      "max_score": 10
+    },
+    {
+      "name": "README uses standard Markdown links",
+      "description": "`README.md` links to the reading list with `[text](reading-list.md)` rather than `[[wikilinks]]`, because it renders on GitHub outside Obsidian.",
+      "max_score": 12
+    },
+    {
+      "name": "External URL is a Markdown link",
+      "description": "`https://example.org/docs` appears as `[text](url)` and is not wrapped in `[[...]]`.",
+      "max_score": 10
+    },
+    {
+      "name": "States how the result was checked",
+      "description": "The reply says the note should be checked in Obsidian's reading view, and that the README is plain Markdown for GitHub.",
+      "max_score": 12
+    }
+  ]
+}

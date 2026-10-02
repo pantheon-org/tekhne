@@ -1,0 +1,28 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 11,
+    "covered_instructions": 11,
+    "scenario_count": 7,
+    "coverage_map": {
+      "I01": [
+        "scenario-1",
+        "scenario-3",
+        "scenario-4",
+        "scenario-5",
+        "scenario-7"
+      ],
+      "I02": ["scenario-2", "scenario-7"],
+      "I03": ["scenario-4", "scenario-6", "scenario-7"],
+      "I04": ["scenario-7"],
+      "I05": ["scenario-7"],
+      "I06": ["scenario-7"],
+      "I07": ["scenario-7"],
+      "I08": ["scenario-1", "scenario-7"],
+      "I09": ["scenario-7"],
+      "I10": ["scenario-1", "scenario-3"],
+      "I11": ["scenario-2", "scenario-6"]
+    },
+    "notes": "All 11 instructions have at least one checking scenario; scenario-7 was added to cover the mixing, font-display, layering and component-boundary rules."
+  }
+}

@@ -1,0 +1,1 @@
+Register a Generator So It Can Be Invoked by Nx CLI

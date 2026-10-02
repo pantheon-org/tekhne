@@ -1,0 +1,61 @@
+{
+  "context": "Tests: refusing to analyse partial session data and routing WHAT-was-learned questions to retrospect-domain.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Incomplete session recognised",
+      "description": "The agent identifies that the only session file is incomplete",
+      "max_score": 10
+    },
+    {
+      "name": "Unreliable scores explained",
+      "description": "The agent explains that partial session data produces unreliable scores",
+      "max_score": 9
+    },
+    {
+      "name": "No full analysis fabricated",
+      "description": "The agent does not produce scored technical or cognitive findings from the truncated file",
+      "max_score": 9
+    },
+    {
+      "name": "Alternative offered",
+      "description": "The agent suggests widening the window to include at least one complete session",
+      "max_score": 9
+    },
+    {
+      "name": "Single session not a trend",
+      "description": "If any observations are shared, the agent labels them as one observation and not a pattern",
+      "max_score": 9
+    },
+    {
+      "name": "No invented evidence",
+      "description": "The agent does not quote prompts or tool calls that are not in the file",
+      "max_score": 9
+    },
+    {
+      "name": "Learning question redirected",
+      "description": "The agent says the question about concepts learned belongs to retrospect-domain",
+      "max_score": 9
+    },
+    {
+      "name": "Distinction explained",
+      "description": "The agent explains that this skill covers HOW the collaboration worked and the other covers WHAT was learned",
+      "max_score": 9
+    },
+    {
+      "name": "Does not answer the domain question itself",
+      "description": "The agent does not list queue library concepts as findings of this skill",
+      "max_score": 9
+    },
+    {
+      "name": "No hardcoded path used",
+      "description": "If an output file is mentioned, it uses the project-configurable insights path and not a hardcoded location",
+      "max_score": 9
+    },
+    {
+      "name": "Offers a next step",
+      "description": "The agent proposes a concrete next step, such as re-running once a complete session exists",
+      "max_score": 9
+    }
+  ]
+}

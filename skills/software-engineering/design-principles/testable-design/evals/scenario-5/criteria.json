@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Produce a Boundary Test Coverage Plan.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Entities assigned unit tests with no dependencies",
+      "description": "The plan specifies unit tests for `Order` and `OrderItem` with no mocks, stubs, or fakes \u2014 pure function input/output testing",
+      "max_score": 8
+    },
+    {
+      "name": "Use cases assigned unit tests with mocked ports",
+      "description": "`CreateOrderUseCase` and `CancelOrderUseCase` are assigned unit tests that use mocks or stubs for `IOrderRepository` and `IPaymentGateway`",
+      "max_score": 8
+    },
+    {
+      "name": "Adapters assigned integration tests",
+      "description": "`PostgresOrderRepository` and `StripePaymentGateway` are assigned integration tests (not unit tests), with explicit mention of real or fake infrastructure",
+      "max_score": 8
+    },
+    {
+      "name": "Controller assigned integration test",
+      "description": "`HttpOrderController` is assigned an integration test (not a unit test), with the use case either real or faked",
+      "max_score": 8
+    },
+    {
+      "name": "At least one end-to-end test described",
+      "description": "The plan includes at least one end-to-end scenario covering a complete workflow from HTTP request to database",
+      "max_score": 8
+    },
+    {
+      "name": "Boundary summary table present",
+      "description": "A markdown table with columns `Layer`, `Component`, `Test Type`, and `Dependencies Used` is present and covers all listed components",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `Order` or `OrderItem` are assigned integration tests...",
+      "description": "Failure avoided: `Order` or `OrderItem` are assigned integration tests or use test doubles, violating the \"pure unit test\" principle for entities",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `CreateOrderUseCase` or `CancelOrderUseCase` are assigned integration tests...",
+      "description": "Failure avoided: `CreateOrderUseCase` or `CancelOrderUseCase` are assigned integration tests or are tested without mocking their port interfaces",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `PostgresOrderRepository` or `StripePaymentGateway` are assigned unit tests...",
+      "description": "Failure avoided: `PostgresOrderRepository` or `StripePaymentGateway` are assigned unit tests instead of integration tests",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: `HttpOrderController` is assigned a unit test instead...",
+      "description": "Failure avoided: `HttpOrderController` is assigned a unit test instead of an integration test",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The plan contains no end-to-end test description",
+      "description": "Failure avoided: The plan contains no end-to-end test description",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: The boundary summary table is missing, incomplete,...",
+      "description": "Failure avoided: The boundary summary table is missing, incomplete, or does not include all four required columns",
+      "max_score": 12
+    }
+  ]
+}

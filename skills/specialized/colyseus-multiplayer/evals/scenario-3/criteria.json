@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Mobile Puzzle Co-op: Disconnect and Rejoin Handling.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Checks consented flag",
+      "description": "`onLeave` inspects the `consented` parameter to branch between voluntary and involuntary disconnect",
+      "max_score": 7
+    },
+    {
+      "name": "allowReconnection called",
+      "description": "Non-consented path calls `this.allowReconnection(client, timeout)` \u2014 not `this.state.players.delete()` immediately",
+      "max_score": 7
+    },
+    {
+      "name": "Timeout in 20-30s range",
+      "description": "The timeout passed to `allowReconnection` is between 20 and 30 seconds (appropriate for a casual match)",
+      "max_score": 7
+    },
+    {
+      "name": "Conditional removal",
+      "description": "Player is deleted from state only after `allowReconnection` resolves to falsy (timeout expired) \u2014 not before",
+      "max_score": 7
+    },
+    {
+      "name": "Consented remove immediately",
+      "description": "Voluntary disconnect (`consented === true`) removes the player from state without calling `allowReconnection`",
+      "max_score": 7
+    },
+    {
+      "name": "onLeave is async",
+      "description": "`onLeave` is declared as an async function (required for `await this.allowReconnection`)",
+      "max_score": 7
+    },
+    {
+      "name": "All hooks present",
+      "description": "Room implements `onCreate`, `onJoin`, `onLeave`, and `onDispose`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `onLeave` does not check the `consented` parameter...",
+      "description": "Failure avoided: `onLeave` does not check the `consented` parameter to distinguish voluntary from involuntary disconnect",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Non-consented path removes the player immediately instead...",
+      "description": "Failure avoided: Non-consented path removes the player immediately instead of calling `allowReconnection`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `allowReconnection` timeout is outside the 20\u201330 second...",
+      "description": "Failure avoided: `allowReconnection` timeout is outside the 20\u201330 second range",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Player is deleted from state before `allowReconnection`...",
+      "description": "Failure avoided: Player is deleted from state before `allowReconnection` resolves",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Voluntary disconnect path calls `allowReconnection` instead of...",
+      "description": "Failure avoided: Voluntary disconnect path calls `allowReconnection` instead of removing the player immediately",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: `onLeave` is not declared as `async`",
+      "description": "Failure avoided: `onLeave` is not declared as `async`",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Any of the four required lifecycle hooks...",
+      "description": "Failure avoided: Any of the four required lifecycle hooks (`onCreate`, `onJoin`, `onLeave`, `onDispose`) is missing",
+      "max_score": 9
+    }
+  ]
+}

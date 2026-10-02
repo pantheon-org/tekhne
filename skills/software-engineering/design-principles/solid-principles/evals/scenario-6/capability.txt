@@ -1,0 +1,1 @@
+Judge where SOLID helps and where it over-engineers, preferring composition to deep inheritance and fixing a subtype that breaks its base contract.

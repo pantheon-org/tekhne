@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/specialized/colyseus-multiplayer/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 17,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 119,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 315,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

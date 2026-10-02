@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/infrastructure/aws-investigation-toolkit/skills/aws-cloudwatch-url-builder/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 13,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 117,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 189,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}

@@ -1,0 +1,96 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Multi-Channel Notification Service.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Constructor dependency injection",
+      "description": "Service receives notification channels through constructor/parameters, not creating them internally",
+      "max_score": 5
+    },
+    {
+      "name": "External dependencies mocked",
+      "description": "Tests replace real email/SMS services with test doubles/mocks",
+      "max_score": 5
+    },
+    {
+      "name": "Interface-based design",
+      "description": "Uses interfaces/contracts for notification channels to enable easy mocking",
+      "max_score": 5
+    },
+    {
+      "name": "Test data visibility",
+      "description": "All test data (notification content, recipients, etc.) is defined within the test files",
+      "max_score": 5
+    },
+    {
+      "name": "Independent test execution",
+      "description": "Tests run without requiring real external services or network calls",
+      "max_score": 5
+    },
+    {
+      "name": "Mock verification",
+      "description": "Tests verify that mocked services are called with correct parameters",
+      "max_score": 5
+    },
+    {
+      "name": "Error scenario testing",
+      "description": "Tests cover failure cases by configuring mocks to simulate errors",
+      "max_score": 5
+    },
+    {
+      "name": "Clear test boundaries",
+      "description": "Tests focus on service behavior, not testing the mocked dependencies themselves",
+      "max_score": 5
+    },
+    {
+      "name": "Deterministic test data",
+      "description": "No random values or timestamps that could cause flaky tests",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Service instantiates its own email/SMS providers internally...",
+      "description": "Failure avoided: Service instantiates its own email/SMS providers internally rather than accepting them via constructor",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests call real external services or require...",
+      "description": "Failure avoided: Tests call real external services or require network connectivity",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Notification channels have no interface or contract,...",
+      "description": "Failure avoided: Notification channels have no interface or contract, making them impossible to mock",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Test data is loaded from external files...",
+      "description": "Failure avoided: Test data is loaded from external files or shared fixtures rather than defined inline",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests depend on network availability or external...",
+      "description": "Failure avoided: Tests depend on network availability or external service state",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests do not verify that mocked notification...",
+      "description": "Failure avoided: Tests do not verify that mocked notification providers were called with correct arguments",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No tests cover channel failure or error...",
+      "description": "Failure avoided: No tests cover channel failure or error scenarios",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests assert on mock internal behavior rather...",
+      "description": "Failure avoided: Tests assert on mock internal behavior rather than the notification service's behavior",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Tests use `Date.now()`, `Math.random()`, or other non-deterministic...",
+      "description": "Failure avoided: Tests use `Date.now()`, `Math.random()`, or other non-deterministic values",
+      "max_score": 15
+    }
+  ]
+}

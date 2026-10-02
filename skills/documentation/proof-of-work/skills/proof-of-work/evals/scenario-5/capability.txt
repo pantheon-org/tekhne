@@ -1,0 +1,1 @@
+Anti-pattern Detection — Agent Reports Without Saving

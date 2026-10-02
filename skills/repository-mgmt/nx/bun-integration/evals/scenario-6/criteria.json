@@ -1,0 +1,66 @@
+{
+  "context": "Checks that the rollout plan follows the nx-bun-integration workflow: install, convert, cache, pilot validation with recovery, then affected-only rollout.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Installs the plugin as a dev dependency",
+      "description": "The plan includes `bun add -D @nx-bun/nx` as the first step.",
+      "max_score": 8
+    },
+    {
+      "name": "Initialises the plugin with the init generator",
+      "description": "The plan runs `nx g @nx-bun/nx:init` (optionally with `--unitTestRunner=bun`).",
+      "max_score": 8
+    },
+    {
+      "name": "Uses the convert generator for existing projects",
+      "description": "The plan converts an existing project with `nx g @nx-bun/nx:convert-to-bun --project=<name>`.",
+      "max_score": 8
+    },
+    {
+      "name": "Configures cache inputs and outputs before rollout",
+      "description": "The plan configures cache inputs and outputs for the build and test targets before widening the rollout.",
+      "max_score": 8
+    },
+    {
+      "name": "Validates one pilot project first",
+      "description": "The plan runs build, test and serve on a single pilot project before any other project is converted.",
+      "max_score": 8
+    },
+    {
+      "name": "Requires exit code 0 from the pilot commands",
+      "description": "The plan states all three pilot commands must exit with code 0 before proceeding.",
+      "max_score": 8
+    },
+    {
+      "name": "Recovery path inspects project.json executor configuration",
+      "description": "If validation fails, the plan says to check the executor configuration in `project.json`.",
+      "max_score": 8
+    },
+    {
+      "name": "Recovery path runs nx reset then retries",
+      "description": "If validation fails, the plan says to run `nx reset` and retry.",
+      "max_score": 8
+    },
+    {
+      "name": "Resolves all failures before rolling out",
+      "description": "The plan forbids rolling out to remaining projects until every pilot failure is resolved.",
+      "max_score": 8
+    },
+    {
+      "name": "Rolls out to affected projects only",
+      "description": "The rollout step targets affected projects rather than rebuilding all twelve.",
+      "max_score": 8
+    },
+    {
+      "name": "CI uses nx affected with lint, test and build",
+      "description": "The CI command is `bun nx affected -t lint,test,build` with `--base=main` and a `--parallel` limit.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: validating only in hot mode",
+      "description": "Failure avoided: the plan validates only with a hot or watch serve and never runs a non-hot production-oriented run.",
+      "max_score": 10
+    }
+  ]
+}

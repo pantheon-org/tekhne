@@ -1,0 +1,106 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Create a Node.js CI Pipeline for a New Service.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Pinned vmImage",
+      "description": "The pool vmImage is set to a specific version (e.g., ubuntu-22.04) and NOT ubuntu-latest or windows-latest",
+      "max_score": 5
+    },
+    {
+      "name": "Task version pinned",
+      "description": "All tasks use the @version syntax (e.g., NodeTool@0, PublishTestResults@2) and NOT @latest or bare task names without version",
+      "max_score": 5
+    },
+    {
+      "name": "displayName on all tasks",
+      "description": "Every task and script step has a displayName property (no step without displayName)",
+      "max_score": 5
+    },
+    {
+      "name": "Sentence case displayName",
+      "description": "All displayName values use Sentence case (first word capitalized, rest lowercase, e.g., 'Install dependencies', not 'INSTALL DEPENDENCIES' or 'Install Dependencies')",
+      "max_score": 5
+    },
+    {
+      "name": "Cache@2 for npm",
+      "description": "A Cache@2 task is included to cache npm packages",
+      "max_score": 5
+    },
+    {
+      "name": "PublishTestResults task",
+      "description": "A PublishTestResults@2 task is included with condition: succeededOrFailed()",
+      "max_score": 5
+    },
+    {
+      "name": "Explicit trigger branches",
+      "description": "The trigger section specifies explicit branch includes (main and develop) and does NOT use `trigger: none`",
+      "max_score": 5
+    },
+    {
+      "name": "NodeTool version specified",
+      "description": "NodeTool@0 (or equivalent) is used with an explicit versionSpec (e.g., '20.x', '18.x')",
+      "max_score": 5
+    },
+    {
+      "name": "npm ci used",
+      "description": "The pipeline uses `npm ci` (not `npm install`) for dependency installation",
+      "max_score": 5
+    },
+    {
+      "name": "No @latest usage",
+      "description": "No task uses @latest version (zero occurrences of @latest in the file)",
+      "max_score": 5
+    },
+    {
+      "name": "camelCase variables",
+      "description": "Pipeline variable names use camelCase or snake_case (not mixed case like 'BuildConfiguration' or 'BUILD_CONFIGURATION')",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses ubuntu-latest or windows-latest instead of a...",
+      "description": "Failure avoided: Uses ubuntu-latest or windows-latest instead of a pinned vmImage version",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any task references @latest or omits the...",
+      "description": "Failure avoided: Any task references @latest or omits the @version suffix entirely",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any step is missing a displayName property",
+      "description": "Failure avoided: Any step is missing a displayName property",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: displayName values use title case or all...",
+      "description": "Failure avoided: displayName values use title case or all caps instead of Sentence case",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: No Cache@2 task is present for npm...",
+      "description": "Failure avoided: No Cache@2 task is present for npm packages",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: PublishTestResults task is absent or lacks condition:...",
+      "description": "Failure avoided: PublishTestResults task is absent or lacks condition: succeededOrFailed()",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Trigger block uses `trigger: none` or does...",
+      "description": "Failure avoided: Trigger block uses `trigger: none` or does not include main and develop branches",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Uses npm install instead of npm ci",
+      "description": "Failure avoided: Uses npm install instead of npm ci",
+      "max_score": 5
+    },
+    {
+      "name": "Avoids: Any @latest version reference appears in the...",
+      "description": "Failure avoided: Any @latest version reference appears in the file",
+      "max_score": 5
+    }
+  ]
+}

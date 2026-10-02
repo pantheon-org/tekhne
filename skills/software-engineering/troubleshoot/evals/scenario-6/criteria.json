@@ -1,0 +1,61 @@
+{
+  "context": "Tests: reproducing before fixing, ending at a file and line, and not treating correlation as causation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Searches before asking questions",
+      "description": "The agent runs a WebSearch for the error and SDK version before the qualifying questions",
+      "max_score": 10
+    },
+    {
+      "name": "Reproduction requested first",
+      "description": "The agent asks the user to reproduce the failure or collect a failing request before proposing any fix",
+      "max_score": 9
+    },
+    {
+      "name": "Unreproduced report treated as hypothesis",
+      "description": "The agent states that the report is a hypothesis until it can be reproduced",
+      "max_score": 9
+    },
+    {
+      "name": "Rollback not accepted as the answer",
+      "description": "The agent does not endorse the rollback as the fix without evidence the SDK is the cause",
+      "max_score": 9
+    },
+    {
+      "name": "Correlation named",
+      "description": "The agent says that the upgrade happening at the same time as the failures does not prove causation",
+      "max_score": 9
+    },
+    {
+      "name": "Differentiating check proposed",
+      "description": "The agent proposes a check that separates the SDK from other recent changes, such as swapping one variable or bisecting the deploy",
+      "max_score": 9
+    },
+    {
+      "name": "Symptom separated from cause",
+      "description": "The agent notes that the HTTP 500 is the first observable failure and asks for the underlying error or log",
+      "max_score": 9
+    },
+    {
+      "name": "Source location targeted",
+      "description": "The agent states the investigation should end at a specific file and line, not just 'the payments module'",
+      "max_score": 9
+    },
+    {
+      "name": "Human executes commands",
+      "description": "Commands for logs or reproduction are given to the user to run and paste back",
+      "max_score": 9
+    },
+    {
+      "name": "Qualifying questions asked",
+      "description": "The agent asks about stack, environment and recent changes using AskUserQuestion",
+      "max_score": 9
+    },
+    {
+      "name": "Empty-answer guard applied",
+      "description": "If AskUserQuestion answers come back empty the agent falls back to a numbered text list and waits",
+      "max_score": 9
+    }
+  ]
+}

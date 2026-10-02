@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Triage cdk-nag Findings Before Acting.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "All 5 findings categorized",
+      "description": "TRIAGE.md assigns fix/suppress/defer to all 5 findings (APIG1, APIG4, IAM4, RDS10, RDS11)",
+      "max_score": 10
+    },
+    {
+      "name": "IAM4 categorized as fix",
+      "description": "IAM4 (wildcard s3:*) is categorized as 'fix' \u2014 the correct scoped permission is known and this is a clear security defect",
+      "max_score": 10
+    },
+    {
+      "name": "RDS10 rationale references environment context",
+      "description": "RDS10 categorization notes that dev vs prod context matters (not a blanket suppress or fix without context)",
+      "max_score": 10
+    },
+    {
+      "name": "APIG4 suppression rationale is scoped",
+      "description": "APIG4 rationale notes the public health-check endpoint specifically, not 'authorization is not needed'",
+      "max_score": 10
+    },
+    {
+      "name": "Rationale provided for every decision",
+      "description": "Every finding in TRIAGE.md has at least one line of rationale explaining the decision",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any of the 5 findings is missing...",
+      "description": "Failure avoided: Any of the 5 findings is missing a fix/suppress/defer categorization",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: IAM4 is categorized as suppress or defer...",
+      "description": "Failure avoided: IAM4 is categorized as suppress or defer instead of fix",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: RDS10 is categorized without any reference to...",
+      "description": "Failure avoided: RDS10 is categorized without any reference to the dev vs prod distinction",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: APIG4 rationale says authorization is simply not...",
+      "description": "Failure avoided: APIG4 rationale says authorization is simply not needed without scoping to the health-check endpoint",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any finding has no rationale accompanying its...",
+      "description": "Failure avoided: Any finding has no rationale accompanying its categorization",
+      "max_score": 10
+    }
+  ]
+}

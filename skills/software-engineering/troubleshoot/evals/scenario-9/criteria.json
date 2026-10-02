@@ -1,0 +1,66 @@
+{
+  "context": "Tests: artifact timing, artifact content and the learn step.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Premature artifact declined",
+      "description": "The agent does not file the thinking artifact as a conclusion while the root cause is unconfirmed",
+      "max_score": 9
+    },
+    {
+      "name": "Reason given",
+      "description": "The agent explains that early writes record incomplete hypotheses as conclusions and mislead later sessions",
+      "max_score": 9
+    },
+    {
+      "name": "Interim status offered separately",
+      "description": "The agent offers a status summary in chat that is clearly marked as unconfirmed",
+      "max_score": 9
+    },
+    {
+      "name": "Session store treated as hypothesis",
+      "description": "The session store is listed as a hypothesis with a way to test it",
+      "max_score": 9
+    },
+    {
+      "name": "Test for the hypothesis proposed",
+      "description": "The agent proposes a command or check for the user to run to confirm or eliminate the session store",
+      "max_score": 8
+    },
+    {
+      "name": "Trigger for the artifact stated",
+      "description": "The agent says the artifact is written once the root cause is confirmed and the fix verified",
+      "max_score": 8
+    },
+    {
+      "name": "Symptoms section listed",
+      "description": "The planned content includes the symptoms as reported",
+      "max_score": 8
+    },
+    {
+      "name": "Hypotheses section listed",
+      "description": "The planned content includes hypotheses tested with confirmed or eliminated results",
+      "max_score": 8
+    },
+    {
+      "name": "OODA and root cause listed",
+      "description": "The planned content includes OODA loops if entered, the confirmed root cause and the resolution",
+      "max_score": 8
+    },
+    {
+      "name": "Cynefin note listed",
+      "description": "The planned content includes a Cynefin transition if the problem was reclassified",
+      "max_score": 8
+    },
+    {
+      "name": "Learning distinguished",
+      "description": "The agent separates the active thinking trail from the distilled learning and offers the learn step afterwards",
+      "max_score": 8
+    },
+    {
+      "name": "No wait for a prompt",
+      "description": "The agent says it will write the artifact itself once the conditions are met, without waiting to be asked",
+      "max_score": 8
+    }
+  ]
+}

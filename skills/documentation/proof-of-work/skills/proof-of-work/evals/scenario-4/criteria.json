@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: agent-browser Screenshot during Infrastructure Audit.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Uses agent-browser screenshot action",
+      "description": "Agent uses agent-browser `screenshot` action rather than a different tool",
+      "max_score": 10
+    },
+    {
+      "name": "Screenshot saved to .context/evidence/ with security group ID in slug",
+      "description": "Screenshot saved to `.context/evidence/` with security group ID in the slug",
+      "max_score": 10
+    },
+    {
+      "name": "Filename follows YYYY-MM-DD-<descriptive-slug>.png convention",
+      "description": "Filename follows `YYYY-MM-DD-<descriptive-slug>.png` convention",
+      "max_score": 10
+    },
+    {
+      "name": "Response includes evidence summary table",
+      "description": "Response includes evidence summary table with path and description",
+      "max_score": 10
+    },
+    {
+      "name": "Agent does not substitute prose description for saved artifact",
+      "description": "Agent does not substitute prose description of rules for a saved artifact",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Uses playwright-mcp or another tool instead of...",
+      "description": "Failure avoided: Uses playwright-mcp or another tool instead of agent-browser `screenshot` action",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Screenshot is not saved to `.context/evidence/` or...",
+      "description": "Failure avoided: Screenshot is not saved to `.context/evidence/` or the slug does not reference the security group ID",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Filename does not follow `YYYY-MM-DD-<slug>.png` convention",
+      "description": "Failure avoided: Filename does not follow `YYYY-MM-DD-<slug>.png` convention",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Response does not include an evidence summary...",
+      "description": "Failure avoided: Response does not include an evidence summary table",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent describes the security group inbound rules...",
+      "description": "Failure avoided: Agent describes the security group inbound rules in prose instead of (or as a substitute for) saving the screenshot",
+      "max_score": 10
+    }
+  ]
+}

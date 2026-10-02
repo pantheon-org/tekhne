@@ -1,0 +1,118 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER assume a technology stack without discovery; run discovery commands and map docs to the detected stack",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER dump encyclopedic content into root AGENTS.md; keep root concise and link to scoped files or references",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER duplicate the same instructions across root and sub-files; keep universal rules at root and package-specific rules locally",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER provide unverified commands; include only validated copy-paste commands",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER create a hierarchy for a simple, uniform project; use one root AGENTS.md when stack and patterns are uniform",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER put package-specific rules in the root file; keep package commands in that package's own AGENTS.md",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER use generic placeholder commands or paths; write the real path and command found during discovery",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER front-load every sub-file at once; start minimal and add scoped files iteratively as complexity grows",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER leave documentation stale after major repository changes; re-run discovery, remove obsolete content and document new scripts",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I10",
+      "content": "Discover repository shape and technologies first, and decide between a simple and a hierarchical documentation strategy",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I11",
+      "content": "Select the structure: a single root file for a simple project, or a root file plus scoped subdirectory files for a complex monorepo",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "Generate AGENTS.md content with concrete commands and paths, using JIT indexing to point at deeper detail",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "Validate command correctness and duplication boundaries so instruction files are copy-paste-safe",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I14",
+      "content": "Re-check the documentation after major repo changes so it stays synchronised",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I15",
+      "content": "Keep instructions concise, concrete, and path-specific",
+      "type": "mindset",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I16",
+      "content": "Prefer references and indices over duplicated prose",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Optimise for nearest-file relevance in hierarchical layouts",
+      "type": "mindset",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "Locate existing AGENTS.md or AI-DOCS.md files before creating new ones",
+      "type": "procedure",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "Verify the finished files with markdownlint and the project's lint script",
+      "type": "constraint",
+      "why_given": "preference"
+    }
+  ]
+}

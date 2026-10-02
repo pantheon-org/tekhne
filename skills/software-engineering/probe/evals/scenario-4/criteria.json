@@ -1,0 +1,66 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Cascading a Successful Probe to Investigate.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Result correctly classified as `confirmed`",
+      "description": "Agent selects investigate route, not re-probe or brainstorm.",
+      "max_score": 8
+    },
+    {
+      "name": "Domain transition stated",
+      "description": "Agent explicitly marks the shift from Complex to Complicated.",
+      "max_score": 8
+    },
+    {
+      "name": "Handoff template used",
+      "description": "Agent fills `references/probe-to-investigate-llm.md`, not probe-to-probe.",
+      "max_score": 8
+    },
+    {
+      "name": "Prior probe facts carried forward",
+      "description": "Confirmed cache hit rate and TTL value appear in the handoff.",
+      "max_score": 8
+    },
+    {
+      "name": "No re-probing of confirmed facts",
+      "description": "Handoff explicitly states what was confirmed and should not be re-tested.",
+      "max_score": 8
+    },
+    {
+      "name": "Thinking artifact written",
+      "description": "Persisted before presenting the transition.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent routes to re-probe (`probe-to-probe-llm.md`) despite result...",
+      "description": "Failure avoided: Agent routes to re-probe (`probe-to-probe-llm.md`) despite result being `confirmed`.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent routes to brainstorm because the investigation...",
+      "description": "Failure avoided: Agent routes to brainstorm because the investigation details are still unknown.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent fails to state the domain transition...",
+      "description": "Failure avoided: Agent fails to state the domain transition (Complex \u2192 Complicated).",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent omits confirmed facts from the handoff,...",
+      "description": "Failure avoided: Agent omits confirmed facts from the handoff, causing investigate to re-validate them.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent skips the thinking artifact because result...",
+      "description": "Failure avoided: Agent skips the thinking artifact because result was positive.",
+      "max_score": 8
+    },
+    {
+      "name": "Avoids: Agent presents the handoff without inviting user...",
+      "description": "Failure avoided: Agent presents the handoff without inviting user confirmation.",
+      "max_score": 12
+    }
+  ]
+}

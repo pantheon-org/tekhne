@@ -1,0 +1,56 @@
+{
+  "context": "Checks the agent declines or downsizes challenges that the skill says not to run, and explains why.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recognises the first target as trivial",
+      "description": "The agent identifies the rename as low-stakes and easily reversed.",
+      "max_score": 12
+    },
+    {
+      "name": "Does not spawn the deep sub-agent",
+      "description": "The agent does not spawn the devil's advocate sub-agent for the rename.",
+      "max_score": 14
+    },
+    {
+      "name": "Explains why deep is wrong here",
+      "description": "The reply says all nine patterns on a minor decision waste effort and devalue the signal.",
+      "max_score": 10
+    },
+    {
+      "name": "Offers a proportionate alternative",
+      "description": "The reply suggests a quick comment or no challenge instead of the full protocol.",
+      "max_score": 8
+    },
+    {
+      "name": "Recognises the second request as a repeat",
+      "description": "The agent notes the same subcommand was already run on the same target.",
+      "max_score": 12
+    },
+    {
+      "name": "Notes absence of new evidence",
+      "description": "The reply states that no new evidence has emerged since the earlier run.",
+      "max_score": 12
+    },
+    {
+      "name": "Does not silently rerun verify",
+      "description": "The agent does not execute the verify protocol again without first raising the repeat.",
+      "max_score": 10
+    },
+    {
+      "name": "Leaves a way to proceed",
+      "description": "The reply says what new evidence would justify a rerun, or asks the requester to confirm.",
+      "max_score": 8
+    },
+    {
+      "name": "Does not invent findings",
+      "description": "No fabricated challenge findings are produced for either target.",
+      "max_score": 8
+    },
+    {
+      "name": "Reply is concise",
+      "description": "The explanation is short and proportionate to the stakes.",
+      "max_score": 6
+    }
+  ]
+}

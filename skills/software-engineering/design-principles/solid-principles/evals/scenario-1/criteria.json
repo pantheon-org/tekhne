@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Identify and Refactor SRP Violations.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "violations.md uses required format",
+      "description": "`violations.md` contains at least three entries each using the three-line `SRP violation / Refactor / Validation` format",
+      "max_score": 10
+    },
+    {
+      "name": "Authentication concern extracted",
+      "description": "A separate file is produced for authentication logic (login, password hashing, JWT generation) \u2014 e.g. `AuthService.ts`",
+      "max_score": 10
+    },
+    {
+      "name": "Notification concern extracted",
+      "description": "Email-sending logic is not mixed into the same class as persistence logic; a separate notification or mailer class or delegation is present",
+      "max_score": 10
+    },
+    {
+      "name": "Persistence concern extracted or isolated",
+      "description": "Database queries are not scattered across multiple responsibility classes; they are in a dedicated repository or data-access class",
+      "max_score": 10
+    },
+    {
+      "name": "Each extracted class has a single responsibility",
+      "description": "No produced class contains methods from more than one of the concerns identified in `violations.md`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: `violations.md` does not use the required three-line...",
+      "description": "Failure avoided: `violations.md` does not use the required three-line format, or has fewer than three entries",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Authentication logic (login, password hashing, JWT) remains...",
+      "description": "Failure avoided: Authentication logic (login, password hashing, JWT) remains mixed with other concerns",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Email-sending logic is in the same class...",
+      "description": "Failure avoided: Email-sending logic is in the same class as database queries",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Database queries remain scattered across multiple classes...",
+      "description": "Failure avoided: Database queries remain scattered across multiple classes with different responsibilities",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Any extracted class still contains methods from...",
+      "description": "Failure avoided: Any extracted class still contains methods from more than one concern",
+      "max_score": 10
+    }
+  ]
+}

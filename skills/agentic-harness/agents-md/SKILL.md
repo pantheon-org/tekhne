@@ -10,11 +10,13 @@ description: Create and maintain AGENTS.md documentation for simple projects, co
 - "Create AGENTS.md for this repo."
 - "Update agent documentation for this monorepo."
 - "Set up hierarchical AGENTS.md files by package."
+- Repository shape or tooling changed and the existing agent guidance needs a refresh.
 
 ## When Not to Use
 
 - Pure code implementation work with no documentation update.
 - One-off prompts where repository guidance files are unnecessary.
+- Questions about a single function or file that need no standing project guidance.
 
 ## Principles
 
@@ -80,23 +82,75 @@ find . -name AGENTS.md -o -name AI-DOCS.md
 
 ### NEVER assume a technology stack without discovery
 
-WHY: incorrect assumptions produce unusable instructions.
-BAD: generate React/Jest guidance without evidence. GOOD: run discovery commands and map docs to detected stack.
+**WHY:** incorrect assumptions produce unusable instructions.
+
+**BAD:** generate React/Jest guidance without evidence.
+
+**GOOD:** run discovery commands and map docs to the detected stack.
 
 ### NEVER dump encyclopedic content into root AGENTS.md
 
-WHY: oversized docs increase token cost and reduce usability.
-BAD: embed full framework manuals. GOOD: keep root concise and link to scoped files/references.
+**WHY:** oversized docs increase token cost and reduce usability.
+
+**BAD:** embed full framework manuals.
+
+**GOOD:** keep root concise and link to scoped files or references.
 
 ### NEVER duplicate the same instructions across root and sub-files
 
-WHY: duplication creates drift and maintenance overhead.
-BAD: copy/paste identical conventions in every file. GOOD: keep universal rules at root and package-specific rules locally.
+**WHY:** duplication creates drift and maintenance overhead.
+
+**BAD:** copy/paste identical conventions in every file.
+
+**GOOD:** keep universal rules at root and package-specific rules locally.
 
 ### NEVER provide unverified commands
 
-WHY: broken commands erode trust and block contributors.
-BAD: include hypothetical commands. GOOD: include only validated copy-paste commands.
+**WHY:** broken commands erode trust and block contributors.
+
+**BAD:** include hypothetical commands.
+
+**GOOD:** include only validated copy-paste commands.
+
+### NEVER create a hierarchy for a simple, uniform project
+
+**WHY:** extra files add navigation cost and drift risk when one file would do.
+
+**BAD:** add a subdirectory AGENTS.md to every folder of a single-package repo.
+
+**GOOD:** use one root AGENTS.md when stack and patterns are uniform.
+
+### NEVER put package-specific rules in the root file
+
+**WHY:** agents read the nearest file, so misplaced rules waste tokens and mislead other packages.
+
+**BAD:** list UI build flags in the root file of a monorepo.
+
+**GOOD:** keep package commands in that package's own AGENTS.md.
+
+### NEVER use generic placeholder commands or paths
+
+**WHY:** placeholders cannot be copy-pasted and give the reader nothing concrete.
+
+**BAD:** write `<your-project>/src` or "run the tests".
+
+**GOOD:** write the real path and the real command found during discovery.
+
+### NEVER front-load every sub-file at once
+
+**WHY:** speculative files describe complexity that does not exist yet and go stale.
+
+**BAD:** generate an AGENTS.md for every package on the first pass.
+
+**GOOD:** start minimal and add scoped files iteratively as complexity grows.
+
+### NEVER leave documentation stale after major repository changes
+
+**WHY:** instructions for removed tooling mislead agents and break their commands.
+
+**BAD:** keep Jest commands after the project moved to another runner.
+
+**GOOD:** re-run discovery, remove obsolete content, and document new scripts.
 
 ## Verification
 

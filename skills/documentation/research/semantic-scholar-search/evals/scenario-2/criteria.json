@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Semantic Scholar Search \u2014 Paper Lookup by arxiv ID.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "paper subcommand used with arXiv: prefix",
+      "description": "The agent invokes the script with the 'paper' subcommand and passes --paper-id 'arXiv:2307.09288' (with the arXiv: prefix). Using the raw ID '2307.09288' without the prefix is incorrect.",
+      "max_score": 10
+    },
+    {
+      "name": "Full metadata is presented to the user",
+      "description": "The agent displays at minimum: title, authors, year, abstract summary, and citation count from the API response.",
+      "max_score": 10
+    },
+    {
+      "name": "User confirmation requested before triaging",
+      "description": "The agent asks the user whether to proceed with triage-paper before invoking it.",
+      "max_score": 10
+    },
+    {
+      "name": "triage-paper is handed the arxiv ID, not the S2 paper ID",
+      "description": "When handing off to triage-paper, the agent passes the arxiv ID (2307.09288) rather than the Semantic Scholar internal paper ID.",
+      "max_score": 10
+    },
+    {
+      "name": "No file is created before user confirmation",
+      "description": "The agent does not create references/<slug>.md or any other triage artifact before the user confirms.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent passes the raw ID `2307.09288` without...",
+      "description": "Failure avoided: Agent passes the raw ID `2307.09288` without the `arXiv:` prefix to the paper subcommand",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent omits one or more required metadata...",
+      "description": "Failure avoided: Agent omits one or more required metadata fields (title, authors, year, abstract summary, citation count)",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent invokes triage-paper without first asking for...",
+      "description": "Failure avoided: Agent invokes triage-paper without first asking for user confirmation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent passes the Semantic Scholar internal paper...",
+      "description": "Failure avoided: Agent passes the Semantic Scholar internal paper ID to triage-paper instead of the arxiv ID",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Agent creates a triage artifact file before...",
+      "description": "Failure avoided: Agent creates a triage artifact file before the user confirms",
+      "max_score": 10
+    }
+  ]
+}

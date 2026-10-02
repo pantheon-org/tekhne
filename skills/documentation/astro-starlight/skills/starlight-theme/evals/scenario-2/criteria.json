@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Add Tailwind to Existing Starlight Project.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Compatibility package installed",
+      "description": "Compatibility package installed",
+      "max_score": 10
+    },
+    {
+      "name": "Layer order: `@astrojs/starlight-tailwind` before `tailwindcss/theme.css`",
+      "description": "Layer order: `@astrojs/starlight-tailwind` before `tailwindcss/theme.css`",
+      "max_score": 10
+    },
+    {
+      "name": "`customCss` updated to point to the CSS...",
+      "description": "`customCss` updated to point to the CSS file",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Omits installing `@astrojs/starlight-tailwind`",
+      "description": "Failure avoided: Omits installing `@astrojs/starlight-tailwind`",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: CSS layer order puts Tailwind before the...",
+      "description": "Failure avoided: CSS layer order puts Tailwind before the Starlight compatibility import",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not register the CSS file in...",
+      "description": "Failure avoided: Does not register the CSS file in `customCss`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Runs `npx astro add tailwind`",
+      "description": "Runs `npx astro add tailwind`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Runs `npm install @astrojs/starlight-tailwind`",
+      "description": "Runs `npm install @astrojs/starlight-tailwind`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Replaces `global.css` with correct layer order starting...",
+      "description": "Replaces `global.css` with correct layer order starting with `@import '@astrojs/starlight-tailwind'`",
+      "max_score": 10
+    },
+    {
+      "name": "Step: Updates `astro.config.mjs` with `vite: { plugins: [tailwindcss()]...",
+      "description": "Updates `astro.config.mjs` with `vite: { plugins: [tailwindcss()] }` and registers the CSS file in `customCss`",
+      "max_score": 10
+    }
+  ]
+}

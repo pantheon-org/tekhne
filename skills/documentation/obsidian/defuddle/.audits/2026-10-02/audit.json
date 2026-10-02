@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/documentation/obsidian/defuddle/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 9,
+    "evalValidation": 17,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 18,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 13,
+    "specificationCompliance": 14
+  },
+  "total": 119,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 146,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}

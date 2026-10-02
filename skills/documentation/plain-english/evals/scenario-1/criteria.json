@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Rewrite an Incident Summary for Executives.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Audience explicitly identified",
+      "description": "Response identifies or acknowledges the audience as executive (CEO/CFO) before or at the start of the rewrite.",
+      "max_score": 10
+    },
+    {
+      "name": "Key message leads the opening paragraph",
+      "description": "Opening paragraph states what happened, the business impact, and what decision or action is needed \u2014 not background context.",
+      "max_score": 10
+    },
+    {
+      "name": "Technical jargon translated or removed",
+      "description": "All technical terms (Nginx, Kubernetes, ConfigMap, OPA Gatekeeper, IaC) are replaced with plain-language equivalents or removed entirely.",
+      "max_score": 10
+    },
+    {
+      "name": "Acronyms defined on first use",
+      "description": "Any acronyms retained in the rewrite (e.g., API, UTC, MTTR) are defined inline on their first occurrence.",
+      "max_score": 10
+    },
+    {
+      "name": "Decision not buried",
+      "description": "The budget request or recommendation is not buried after multiple paragraphs of technical background.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Audience is not identified or acknowledged before...",
+      "description": "Failure avoided: Audience is not identified or acknowledged before the rewrite",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Opening paragraph starts with technical background rather...",
+      "description": "Failure avoided: Opening paragraph starts with technical background rather than business impact and the decision needed",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Technical terms like Nginx, Kubernetes, ConfigMap, or...",
+      "description": "Failure avoided: Technical terms like Nginx, Kubernetes, ConfigMap, or OPA Gatekeeper appear without translation",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Acronyms (API, UTC, MTTR) are used without...",
+      "description": "Failure avoided: Acronyms (API, UTC, MTTR) are used without inline definitions on first use",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Budget request or recommendation appears only at...",
+      "description": "Failure avoided: Budget request or recommendation appears only at the end after extensive technical explanation",
+      "max_score": 10
+    }
+  ]
+}

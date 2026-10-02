@@ -165,4 +165,9 @@ npm run benchmark 2>&1 | tee /tmp/<slug>-benchmark-out.txt
 
 ## References
 
-- **Repro artifacts**: [YAML template](assets/templates/REPRO-benchmark.yaml) · [schema](assets/schemas/repro-benchmark.schema.json) · [validator](scripts/validate-repro-benchmark.sh)
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Metric categories, outcome values, required sections | [Repro file guide](references/repro-file-guide.md) | Writing or checking a repro file |
+| Required fields and section structure | [YAML template](assets/templates/REPRO-benchmark.yaml) | Step 7, creating the repro file |
+| Machine-readable contract | [Schema](assets/schemas/repro-benchmark.schema.json) | Checking frontmatter fields |
+| Validation | [Validator script](scripts/validate-repro-benchmark.sh) | Step 9, before reporting |

@@ -1,0 +1,121 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Triage Tool \u2014 Session Lifecycle Context Manager.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Duplicate check performed before any file is created",
+      "description": "The agent searches REVIEWED.md and/or references/REFERENCE_INDEX.md for the repo URL or a matching slug before writing any new file.",
+      "max_score": 4
+    },
+    {
+      "name": "Scope fit is assessed and documented",
+      "description": "The agent explicitly assesses whether the tool is in scope, borderline, or out of scope and documents the reasoning.",
+      "max_score": 4
+    },
+    {
+      "name": "references/<slug>.md is created",
+      "description": "A new file is created at references/<slug>.md (e.g. references/versatly-clawvault.md or references/clawvault.md).",
+      "max_score": 4
+    },
+    {
+      "name": "Slug follows naming conventions",
+      "description": "The slug is either <author-or-org>-<tool-name> or just the tool name for well-known tools.",
+      "max_score": 4
+    },
+    {
+      "name": "TL;DR contains 3 to 8 bullets",
+      "description": "The TL;DR section in the reference file has between 3 and 8 bullet points.",
+      "max_score": 4
+    },
+    {
+      "name": "Architecture overview covers context-relevant sections",
+      "description": "The architecture overview addresses injection mechanism, session lifecycle (wake/sleep/checkpoint), and any compression or eviction handling. Inapplicable sections are marked N/A.",
+      "max_score": 4
+    },
+    {
+      "name": "Self-reported metrics marked as reported",
+      "description": "Any benchmark numbers or performance claims from the README are marked '(as reported)'. No metric is stated as a verified fact.",
+      "max_score": 4
+    },
+    {
+      "name": "REVIEWED.md scope-fit field is present",
+      "description": "The detailed section in REVIEWED.md includes a scope-fit field showing 'in scope', 'borderline', or 'out of scope' with a brief reason.",
+      "max_score": 4
+    },
+    {
+      "name": "REVIEWED.md summary table row and detailed section are added",
+      "description": "A new row is added to the summary table and a detailed section is added with repo URL, author, version, language, tags, scope-fit, and disposition (pending).",
+      "max_score": 4
+    },
+    {
+      "name": "REFERENCE_INDEX.md is updated",
+      "description": "A new row is added to the appropriate category in references/REFERENCE_INDEX.md.",
+      "max_score": 4
+    },
+    {
+      "name": "No git submodule add is executed automatically",
+      "description": "The agent does not run git submodule add during triage. Vendoring is offered as a follow-up option only.",
+      "max_score": 4
+    },
+    {
+      "name": "User is offered promotion, vendor, keep, and skip choices at the end",
+      "description": "The agent ends by presenting at least the options to promote, vendor, keep, or skip.",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent creates files without first checking for...",
+      "description": "Failure avoided: Agent creates files without first checking for a duplicate",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent omits the scope fit assessment or...",
+      "description": "Failure avoided: Agent omits the scope fit assessment or does not document its reasoning",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent creates the reference file at the...",
+      "description": "Failure avoided: Agent creates the reference file at the wrong path or with a non-conforming slug",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent writes fewer than 3 or more...",
+      "description": "Failure avoided: Agent writes fewer than 3 or more than 8 TL;DR bullets",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent omits context-relevant architecture sections without marking...",
+      "description": "Failure avoided: Agent omits context-relevant architecture sections without marking them N/A",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent states performance claims as verified facts...",
+      "description": "Failure avoided: Agent states performance claims as verified facts without `(as reported)` qualifiers",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent omits the `scope-fit` field from the...",
+      "description": "Failure avoided: Agent omits the `scope-fit` field from the REVIEWED.md detailed section",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent omits the REVIEWED.md summary table row,...",
+      "description": "Failure avoided: Agent omits the REVIEWED.md summary table row, detailed section, or required fields",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent omits the REFERENCE_INDEX.md update",
+      "description": "Failure avoided: Agent omits the REFERENCE_INDEX.md update",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent runs `git submodule add` automatically during...",
+      "description": "Failure avoided: Agent runs `git submodule add` automatically during triage",
+      "max_score": 4
+    },
+    {
+      "name": "Avoids: Agent does not offer the user promotion,...",
+      "description": "Failure avoided: Agent does not offer the user promotion, vendor, keep, or skip choices at the end",
+      "max_score": 12
+    }
+  ]
+}

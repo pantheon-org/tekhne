@@ -1,0 +1,1 @@
+Tests that the agent builds a documented composite action from the skill templates and validates it before presenting.

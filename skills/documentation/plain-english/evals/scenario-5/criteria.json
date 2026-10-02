@@ -1,0 +1,56 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Write an Executive Risk Summary When Priorities Conflict.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Conflicting priorities fallback stated explicitly",
+      "description": "Response writes the required prefix `Multiple critical issues \u2014 leading with risk and deadlines.` before writing the document.",
+      "max_score": 10
+    },
+    {
+      "name": "Both issues visible near the opening",
+      "description": "Both the data breach and the security vulnerability appear prominently near the start \u2014 neither is buried after extensive background.",
+      "max_score": 10
+    },
+    {
+      "name": "GDPR deadline calculated and surfaced",
+      "description": "The remaining GDPR notification time (54 hours at time of writing) is calculated and prominently stated.",
+      "max_score": 10
+    },
+    {
+      "name": "Technical terms translated and acronyms defined",
+      "description": "CVE, PII, remote code execution, and supply chain vulnerability are explained in plain language with acronyms defined on first use.",
+      "max_score": 10
+    },
+    {
+      "name": "Each issue has owner and deadline",
+      "description": "Both issues name the responsible team using `[Owner] must [action] by [deadline]` format.",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Does not write `Multiple critical issues \u2014...",
+      "description": "Failure avoided: Does not write `Multiple critical issues \u2014 leading with risk and deadlines.` before the document",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Either the data breach or the security...",
+      "description": "Failure avoided: Either the data breach or the security vulnerability is buried after extensive background text",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Remaining GDPR notification time is not calculated...",
+      "description": "Failure avoided: Remaining GDPR notification time is not calculated or not prominently stated",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: CVE, PII, remote code execution, or supply...",
+      "description": "Failure avoided: CVE, PII, remote code execution, or supply chain vulnerability are not explained in plain language",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: Either issue is missing a named responsible...",
+      "description": "Failure avoided: Either issue is missing a named responsible team or a specific deadline",
+      "max_score": 10
+    }
+  ]
+}

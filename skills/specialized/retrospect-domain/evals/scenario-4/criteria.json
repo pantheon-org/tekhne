@@ -1,0 +1,71 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Generating a Domain Insight Summary.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Domain filtering applied",
+      "description": "Agent focuses on API integration content and notes how many sessions were relevant out of total loaded",
+      "max_score": 7
+    },
+    {
+      "name": "Technical Domain framework used",
+      "description": "All six Technical Domain questions are addressed (new patterns, decisions, what worked, what failed, edge cases, technical debt)",
+      "max_score": 7
+    },
+    {
+      "name": "Synthesis present",
+      "description": "Report provides a coherent narrative, not just a list of session summaries",
+      "max_score": 7
+    },
+    {
+      "name": "Uncertainty documented",
+      "description": "Report distinguishes between what is known and what remains unresolved",
+      "max_score": 7
+    },
+    {
+      "name": "SSC recommendations domain-specific",
+      "description": "Start/Stop/Continue items reference API integration practices, not generic development advice",
+      "max_score": 7
+    },
+    {
+      "name": "Metrics summary present",
+      "description": "Report includes session count and period as per the report template",
+      "max_score": 7
+    },
+    {
+      "name": "Output file written",
+      "description": "File exists at `.retro/insights/domain/` with correct PERIOD",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent includes all sessions without filtering for...",
+      "description": "Failure avoided: Agent includes all sessions without filtering for API-integration relevance",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Report is a chronological list of session...",
+      "description": "Failure avoided: Report is a chronological list of session summaries rather than a synthesized domain view",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Technical Domain framework questions are not addressed",
+      "description": "Failure avoided: Technical Domain framework questions are not addressed",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Agent does not distinguish between known patterns...",
+      "description": "Failure avoided: Agent does not distinguish between known patterns and unresolved uncertainties",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: SSC recommendations are generic and could apply...",
+      "description": "Failure avoided: SSC recommendations are generic and could apply to any technical domain",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Output file is not written",
+      "description": "Failure avoided: Output file is not written",
+      "max_score": 16
+    }
+  ]
+}

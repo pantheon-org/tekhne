@@ -1,0 +1,76 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Legacy BDD Test Suite Refactoring.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Duplication identification",
+      "description": "Identifies specific patterns of duplication in scenarios and step definitions",
+      "max_score": 7
+    },
+    {
+      "name": "Scenario consolidation strategy",
+      "description": "Demonstrates how to consolidate similar scenarios while preserving test coverage and intent",
+      "max_score": 7
+    },
+    {
+      "name": "Step definition refactoring",
+      "description": "Shows how to refactor similar steps into reusable, parameterized definitions",
+      "max_score": 7
+    },
+    {
+      "name": "Maintains scenario readability",
+      "description": "Ensures refactored scenarios remain readable and understandable to non-technical stakeholders",
+      "max_score": 7
+    },
+    {
+      "name": "Systematic refactoring approach",
+      "description": "Provides a methodical process for identifying and eliminating duplication across the test suite",
+      "max_score": 7
+    },
+    {
+      "name": "Preserves test intent",
+      "description": "Maintains the original business intent and coverage while reducing duplication",
+      "max_score": 7
+    },
+    {
+      "name": "Reusable step library design",
+      "description": "Creates patterns for building reusable, maintainable step definition libraries",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No specific duplication patterns are identified in...",
+      "description": "Failure avoided: No specific duplication patterns are identified in the analysis",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Similar scenarios are removed without demonstrating how...",
+      "description": "Failure avoided: Similar scenarios are removed without demonstrating how coverage is preserved",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Step definitions are not refactored into parameterized...",
+      "description": "Failure avoided: Step definitions are not refactored into parameterized or reusable forms",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Refactored scenarios become harder to read for...",
+      "description": "Failure avoided: Refactored scenarios become harder to read for non-technical stakeholders",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No systematic process is provided for identifying...",
+      "description": "Failure avoided: No systematic process is provided for identifying and eliminating duplication",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: Business intent or test coverage is lost...",
+      "description": "Failure avoided: Business intent or test coverage is lost during the consolidation process",
+      "max_score": 7
+    },
+    {
+      "name": "Avoids: No patterns or design approach are provided...",
+      "description": "Failure avoided: No patterns or design approach are provided for building a reusable step library",
+      "max_score": 9
+    }
+  ]
+}

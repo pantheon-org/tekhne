@@ -1,0 +1,61 @@
+{
+  "context": "Migrated from a flat scenario file. Tests: Auto-Pin an Approved Recommendation.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Pin is written to `pins.json` with `type:...",
+      "description": "Pin is written to `pins.json` with `type: \"approved\"` and `emoji: \"\u2705\"`.",
+      "max_score": 9
+    },
+    {
+      "name": "Response is a single line matching `\ud83d\udccc...",
+      "description": "Response is a single line matching `\ud83d\udccc Pinned #N: \u2705 <content>` with no extra commentary.",
+      "max_score": 9
+    },
+    {
+      "name": "Agent does not ask permission before pinning.",
+      "description": "Agent does not ask permission before pinning.",
+      "max_score": 9
+    },
+    {
+      "name": "Agent resumes the conversation after the one-line...",
+      "description": "Agent resumes the conversation after the one-line acknowledgement.",
+      "max_score": 9
+    },
+    {
+      "name": "`next_id` is incremented in the written file.",
+      "description": "`next_id` is incremented in the written file.",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent asks \"Should I pin this?\" before...",
+      "description": "Failure avoided: Agent asks \"Should I pin this?\" before pinning.",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent adds commentary or explanation about the...",
+      "description": "Failure avoided: Agent adds commentary or explanation about the pin content.",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent writes the pin but does not...",
+      "description": "Failure avoided: Agent writes the pin but does not respond with the expected one-line format.",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent pins with the wrong type (e.g.,...",
+      "description": "Failure avoided: Agent pins with the wrong type (e.g., `scope` instead of `approved`).",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent fails to create the directory before...",
+      "description": "Failure avoided: Agent fails to create the directory before writing the file.",
+      "max_score": 9
+    },
+    {
+      "name": "Avoids: Agent stops the conversation after pinning instead...",
+      "description": "Failure avoided: Agent stops the conversation after pinning instead of resuming.",
+      "max_score": 10
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 25,
+    "covered_instructions": 25,
+    "scenario_count": 8,
+    "coverage_map": {
+      "I01": ["scenario-7", "scenario-8"],
+      "I02": ["scenario-8"],
+      "I03": ["scenario-3", "scenario-7"],
+      "I04": ["scenario-1"],
+      "I05": ["scenario-8"],
+      "I06": ["scenario-1", "scenario-3", "scenario-6"],
+      "I07": ["scenario-8"],
+      "I08": ["scenario-6", "scenario-8"],
+      "I09": ["scenario-3", "scenario-7"],
+      "I10": ["scenario-3", "scenario-7"],
+      "I11": ["scenario-3", "scenario-7"],
+      "I12": ["scenario-8"],
+      "I13": ["scenario-1", "scenario-6"],
+      "I14": ["scenario-2"],
+      "I15": ["scenario-1", "scenario-3", "scenario-6"],
+      "I16": ["scenario-6"],
+      "I17": ["scenario-6"],
+      "I18": ["scenario-7"],
+      "I19": ["scenario-3", "scenario-7"],
+      "I20": ["scenario-3", "scenario-7"],
+      "I21": ["scenario-7"],
+      "I22": ["scenario-1", "scenario-2", "scenario-4"],
+      "I23": ["scenario-2", "scenario-4"],
+      "I24": ["scenario-5", "scenario-8"],
+      "I25": ["scenario-6"]
+    },
+    "notes": "Scenarios 6 to 8 were added for project-configuration updates and boundaries, executor refactoring, and plugin creation and testing; all instructions are checked by at least one scenario."
+  }
+}

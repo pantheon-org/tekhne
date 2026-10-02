@@ -1,9 +1,106 @@
 {
   "instructions": [
-    "Check whether a semantic-scholar or google-scholar MCP server is configured before invoking the Python script.",
-    "Use the correct subcommand (search, advanced, author) based on the user's request.",
-    "Handle blocked responses by retrying once after a delay, then offering the MCP fallback — never retry in a loop.",
-    "Present search results as a candidate list and wait for the user to choose which papers to triage.",
-    "Never auto-triage — always require explicit user confirmation before passing a result to triage-paper."
+    {
+      "id": "I01",
+      "content": "Check whether a semantic-scholar or google-scholar MCP server is configured and prefer it over the script when available.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER skip the MCP availability check; the script is the fragile fallback and needlessly risks rate-limiting.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I03",
+      "content": "Choose the right subcommand: search for keywords, advanced for author and year filters, author for a profile.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I04",
+      "content": "Look up an author profile with the author subcommand and --name.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "Export a candidate list with --format json --output <path>.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "Reuse an existing candidate JSON at /tmp/<topic>-candidates.json rather than re-running the search.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "If the paper is already known (arxiv ID, DOI, URL), go straight to triage-paper.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I08",
+      "content": "For biomedical literature, use PubMed or a domain-specific source instead of this skill.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "NEVER auto-triage search results; always confirm with the user before passing a result to triage-paper.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I10",
+      "content": "Present the result list and ask whether the user would like to triage any of the papers.",
+      "type": "procedure",
+      "why_given": "preference"
+    },
+    {
+      "id": "I11",
+      "content": "NEVER loop on blocked responses; on HTTP 429 or a short body, wait 60 seconds and retry once.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I12",
+      "content": "If still blocked after the retry, offer the semantic-scholar MCP as a fallback and document the blocker.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I13",
+      "content": "NEVER report no results without checking for a silent block; a near-empty body (under about 1 KB) is often a CAPTCHA redirect.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "NEVER treat year-range results as exhaustive; qualify them as a sample as returned by Google Scholar.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "NEVER treat scraped abstracts as canonical; use results for discovery only and re-fetch from arxiv or the DOI during triage.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "On the first run, create a virtual environment and install requirements before running the script.",
+      "type": "procedure",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I17",
+      "content": "Return candidates, not conclusions: search is discovery, not triage.",
+      "type": "mindset",
+      "why_given": "preference"
+    }
   ]
 }

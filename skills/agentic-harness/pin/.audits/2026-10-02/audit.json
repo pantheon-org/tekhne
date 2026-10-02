@@ -1,0 +1,24 @@
+{
+  "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/.claude/worktrees/sweep-flat-evals/skills/agentic-harness/pin/SKILL.md",
+  "date": "2026-10-02",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 14,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 11,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 14
+  },
+  "total": 120,
+  "maxTotal": 140,
+  "grade": "B+",
+  "lines": 283,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 0
+}
