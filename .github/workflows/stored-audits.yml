@@ -50,8 +50,11 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          git diff --name-only --diff-filter=AMDR "$BASE_SHA...$HEAD_SHA" -- skills/ \
-            | bash scripts/stored-audits/changed-skills.sh > "$RUNNER_TEMP/skills.txt"
+          # The changed paths go through a file, not a pipe into bash: the script is
+          # a trusted file in this repo, and a pipe into a shell is what the
+          # unverified-scripts rule in .plumber.yaml looks for.
+          git diff --name-only --diff-filter=AMDR "$BASE_SHA...$HEAD_SHA" -- skills/ > "$RUNNER_TEMP/changed.txt"
+          bash scripts/stored-audits/changed-skills.sh < "$RUNNER_TEMP/changed.txt" > "$RUNNER_TEMP/skills.txt"
           if [ -s "$RUNNER_TEMP/skills.txt" ]; then
             echo "found=true" >> "$GITHUB_OUTPUT"
           else
