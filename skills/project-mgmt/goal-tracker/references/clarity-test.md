@@ -39,7 +39,7 @@ reports.
 
 ## Check 3: evidence type known per item
 
-For each item, is it already plain what would prove it, and whether proving it
+For each item, is it already clear what would prove it, and whether proving it
 needs outside reach? See [`evidence.md`](evidence.md).
 
 An item failing this check is usually underspecified rather than unclear.
