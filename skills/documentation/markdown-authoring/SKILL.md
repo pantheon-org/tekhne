@@ -34,15 +34,15 @@ Do not use this skill for non-Markdown document formats (for example `.adoc` or 
 ### Lint all Markdown files
 
 ```bash
-bunx markdownlint-cli2 "**/*.md"
+rumdl check .
 ```
-
+Expected result: no errors for staged or target files. This repository lints with rumdl; for a repository that uses markdownlint, see [Lint: CLI](references/lint-cli.md).
 Expected result: no errors for staged or target files.
 
 ### Lint one skill folder
 
 ```bash
-bunx markdownlint-cli2 "skills/documentation/markdown-authoring/**/*.md"
+rumdl check skills/documentation/markdown-authoring
 ```
 
 Expected result: folder-specific Markdown issues reported or zero errors.
