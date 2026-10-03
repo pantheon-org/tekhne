@@ -71,7 +71,7 @@ Python is kept out by a guardrail: any tracked `.py` file outside a directory li
 
 ```bash
 bunx @biomejs/biome check .
-bunx markdownlint-cli2 "**/*.md"
+mise run lint   # rumdl check . (config: .rumdl.toml)
 ```
 
 ## Skill Quality Audits
@@ -121,7 +121,7 @@ working tree, not the last release. `mise run build:adr` / `build:journal` /
 
 ## Git Hooks
 
-Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, markdownlint on `.md`, YAML validation, artifact convention checks, skill structure validation, and the Python allowlist guardrail. Pre-push runs unit tests (`bun test scripts/`), integration tests (cucumber), and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`. The Python allowlist guardrail (`scripts/check-python-allowlist.sh`) is also enforced in CI by the Python Allowlist workflow, so a stray `.py` outside `python-allowlist.txt` cannot land by skipping the local hook.
+Pre-commit (`hk`, configured in `hk.pkl`): Biome on JS/TS/JSON, rumdl on `.md`, YAML validation, artifact convention checks, skill structure validation, and the Python allowlist guardrail. Pre-push runs unit tests (`bun test scripts/`), integration tests (cucumber), and skill quality gates. Hooks are installed via `hk install` (run automatically by `bun install`); `hk` and its tools are pinned in `mise.toml`. The Python allowlist guardrail (`scripts/check-python-allowlist.sh`) is also enforced in CI by the Python Allowlist workflow, so a stray `.py` outside `python-allowlist.txt` cannot land by skipping the local hook.
 
 Do not bypass hooks unless explicitly requested.
 

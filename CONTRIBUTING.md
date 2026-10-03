@@ -10,11 +10,11 @@ bun install
 bunx @biomejs/biome check .
 
 # Run markdown lint
-bunx markdownlint-cli2 "**/*.md"
+mise run lint   # rumdl check . (config: .rumdl.toml)
 ```
 
 Pre-commit hooks (via [`hk`](https://hk.jdx.dev), configured in `hk.pkl`) run
-Biome, markdownlint, YAML validation, skill artifact checks, and skill
+Biome, rumdl, YAML validation, skill artifact checks, and skill
 structure validation automatically on staged files.
 
 ## Adding or editing skills
