@@ -65,10 +65,10 @@ Expected result: updated score and grade for this skill.
 ### Lint this skill documentation
 
 ```bash
-bunx markdownlint-cli2 "skills/moscow-prioritization/**/*.md"
+rumdl check skills/moscow-prioritization
 ```
 
-Expected result: no markdownlint errors.
+Expected result: no rumdl errors.
 
 ## Anti-Patterns
 
