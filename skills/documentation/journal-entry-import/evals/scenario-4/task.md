@@ -31,14 +31,14 @@ Resolution facts (already looked up):
    migrated - do not invent a GitLab link for it.
 4. Handle the markdown forms correctly: the autolink `<...>` gets the annotation after the `>`; the inline link
    `[text](url)` gets it after the closing `)`. Never insert inside the link display text.
-5. Touched entries still pass their validators and markdownlint.
+5. Touched entries still pass their validators and the markdown linter.
 
 ## Success Criteria
 
 - `order-service` link annotated with the GitLab repo-root pointer; original Bitbucket URL retained.
 - `sql-file-executor` left unchanged (correctly identified as not migrated).
 - Annotation placed outside the link/autolink syntax, not inside display text.
-- Entries validate; markdownlint clean.
+- Entries validate; markdown lint clean.
 
 ## Failure Conditions
 

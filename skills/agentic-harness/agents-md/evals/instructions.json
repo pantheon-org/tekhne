@@ -110,7 +110,7 @@
     },
     {
       "id": "I19",
-      "content": "Verify the finished files with markdownlint and the project's lint script",
+      "content": "Verify the finished files with the repo's markdown linter and the project's lint script",
       "type": "constraint",
       "why_given": "preference"
     }

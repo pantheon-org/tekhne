@@ -24,7 +24,7 @@
     },
     {
       "name": "Validates and lints",
-      "description": "Touched entries pass their validators and markdownlint",
+      "description": "Touched entries pass their validators and the markdown linter",
       "max_score": 10
     }
   ]
