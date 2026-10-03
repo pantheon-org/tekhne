@@ -388,7 +388,7 @@ Complete toolkit for configuring and extending OpenCode: agent creation, custom 
 | --- | --- | --- | --- |
 | [design-agents](/tekhne/skills/agentic-harness/opencode-toolkit/design-agents/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-09-23 | 3 |
 | [design-commands](/tekhne/skills/agentic-harness/opencode-toolkit/design-commands/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-09-23 | 3 |
-| [configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-09-23 | 3 |
+| [configure](/tekhne/skills/agentic-harness/opencode-toolkit/configure/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-03 | 3 |
 | [build-plugins](/tekhne/skills/agentic-harness/opencode-toolkit/build-plugins/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-09-23 | 3 |
 | [build-tool](/tekhne/skills/agentic-harness/opencode-toolkit/build-tool/skill/) | <span class="skill-badge skill-badge--c-plus">C+</span> | 2026-09-23 | 3 |
 
@@ -554,7 +554,7 @@ Master Test-Driven Development with deterministic red-green-refactor workflows, 
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [test-driven-development](/tekhne/skills/testing/test-driven-development/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 5 |
+| [test-driven-development](/tekhne/skills/testing/test-driven-development/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-03 | 5 |
 
 ### ui-debug-workflow
 
