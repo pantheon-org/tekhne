@@ -31,3 +31,9 @@ exclude = [
 
 [MD010]
 code-blocks = false
+
+# Left as written, rule by rule, because the ADR tool owns their format: it
+# writes a single H1 under a front-matter title, and its tests expect that.
+[per-file-ignores]
+"docs/adr/consolidate-adr-tooling.md" = ["MD025", "MD064"]
+"crates/adr/docs/design/agent-driven-adr-lifecycle.md" = ["MD028", "MD033", "MD064"]
