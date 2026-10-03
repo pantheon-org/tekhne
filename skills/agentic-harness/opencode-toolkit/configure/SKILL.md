@@ -167,51 +167,59 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 
 ### NEVER commit API keys directly in config
 
-- **WHY**: secret leakage through source control history is irreversible.
+- **WHY:** secret leakage through source control history is irreversible.
 - **BAD**: `"apiKey": "sk-..."`.
 - **GOOD**: `"baseEnv": "OPENAI_API_KEY"`.
+- **CONSEQUENCE**: a leaked key is billed to you until it is rotated, and every clone and fork keeps a copy.
 
 ### NEVER use broad filesystem or shell permissions by default
 
-- **WHY**: permissive defaults increase blast radius of mistakes.
+- **WHY:** permissive defaults increase blast radius of mistakes.
 - **BAD**: root-level read/write and unrestricted shell.
 - **GOOD**: scoped paths and explicit command allowlists.
+- **CONSEQUENCE**: a mistaken or injected command can delete files or run arbitrary shell outside the project.
 
 ### NEVER use ambiguous model names
 
-- **WHY**: providers may resolve generic model aliases differently.
+- **WHY:** providers may resolve generic model aliases differently.
 - **BAD**: `"model": "gpt-4"`.
 - **GOOD**: provider-qualified or exact model identifiers.
+- **CONSEQUENCE**: the same config can pick different models across providers or releases, changing cost and behaviour without a visible edit.
 
 ### NEVER skip verification after permission changes
 
-- **WHY**: permission regressions are often silent until runtime.
+- **WHY:** permission regressions are often silent until runtime.
 - **BAD**: edit-and-commit without test.
 - **GOOD**: run `opencode run "test"` and validate behavior.
+- **CONSEQUENCE**: a broken permission or provider only fails mid-task, after other edits are already made.
 
 ### NEVER put AGENTS.md instructions in opencode.json and vice versa
 
-- **WHY**: `opencode.json` is runtime config (providers, permissions, tools). `AGENTS.md` is behavioral guidance for the agent. Mixing them causes ignored instructions or broken config parsing.
+- **WHY:** `opencode.json` is runtime config (providers, permissions, tools). `AGENTS.md` is behavioral guidance for the agent. Mixing them causes ignored instructions or broken config parsing.
 - **BAD**: putting `instructions:` blocks inside `opencode.json`, or adding JSON config snippets inside `AGENTS.md`.
 - **GOOD**: runtime settings → `opencode.json`; workflow rules, constraints, conventions → `AGENTS.md`.
+- **CONSEQUENCE**: the agent silently ignores the misplaced content, so a rule you thought was enforced is not.
 
 ### NEVER use global config for project-specific settings
 
-- **WHY**: global config (`~/.config/opencode/opencode.json`) bleeds into unrelated projects, causing unexpected behavior across your entire environment.
+- **WHY:** global config (`~/.config/opencode/opencode.json`) bleeds into unrelated projects, causing unexpected behavior across your entire environment.
 - **BAD**: adding a project's `npm test` to the global shell allowlist, or setting a project-specific model globally.
 - **GOOD**: put project-specific config in project-root `opencode.json`. Reserve global config for cross-project defaults (personal API keys via `baseEnv`, editor preferences).
+- **CONSEQUENCE**: a project's allowlist or model leaks into every unrelated repository on the machine, widening permissions everywhere.
 
 ### NEVER configure provider `models` with only `default: true` and no ID
 
-- **WHY**: `default: true` without a model `id` field is silently ignored or resolves to provider defaults, which may change between releases.
+- **WHY:** `default: true` without a model `id` field is silently ignored or resolves to provider defaults, which may change between releases.
 - **BAD**: `{ "default": true }` with no `id` key.
 - **GOOD**: always pair `default: true` with a fully-qualified `id`: `{ "id": "claude-sonnet-4-5", "default": true }`.
+- **CONSEQUENCE**: the default model can change between releases, so results and cost drift with no change in your config.
 
 ### NEVER ignore the precedence order when diagnosing config issues
 
-- **WHY**: OpenCode applies config in layers: shell environment > `.env` loader > project `opencode.json` > global `opencode.json`. Debugging config mismatches without knowing this order leads to wasted time.
+- **WHY:** OpenCode applies config in layers: shell environment > `.env` loader > project `opencode.json` > global `opencode.json`. Debugging config mismatches without knowing this order leads to wasted time.
 - **BAD**: Editing project `opencode.json` to fix an issue caused by a shell env override.
 - **GOOD**: Audit from the top of the precedence chain first (`echo $OPENAI_API_KEY`), then work downward.
+- **CONSEQUENCE**: you edit the wrong layer, the override still wins, and the fix changes nothing.
 
 ## Eval Scenarios
 
@@ -221,10 +229,9 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 
 ## References
 
-- [OpenCode Docs](https://opencode.ai/docs/)
-
-| Topic | Reference |
-| --- | --- |
-| Provider setup and model mapping | [references/provider-configuration.md](references/provider-configuration.md) |
-| Permission structure and patterns | [references/permission-schema.md](references/permission-schema.md) |
-| Full config field reference | [references/config-schema.md](references/config-schema.md) |
+| Topic | Reference | When to Use |
+| --- | --- | --- |
+| Provider setup and model mapping | [references/provider-configuration.md](references/provider-configuration.md) | When adding or changing a provider or default model |
+| Permission structure and patterns | [references/permission-schema.md](references/permission-schema.md) | When editing filesystem, shell or tool permissions |
+| Full config field reference | [references/config-schema.md](references/config-schema.md) | When a field's name, type or default is in question |
+| Official OpenCode documentation | [OpenCode Docs](https://opencode.ai/docs/) | For anything the references above do not cover |
