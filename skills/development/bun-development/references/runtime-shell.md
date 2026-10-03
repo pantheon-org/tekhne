@@ -175,5 +175,5 @@ for (const file of files.trim().split("\n")) {
 
 ## References
 
-- https://bun.sh/docs/runtime/shell
-- https://bun.sh/docs/api/spawn
+- <https://bun.sh/docs/runtime/shell>
+- <https://bun.sh/docs/api/spawn>

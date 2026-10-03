@@ -222,6 +222,7 @@ rg -n "API_KEY|baseEnv|permission" opencode.json .env*
 ## References
 
 - [OpenCode Docs](https://opencode.ai/docs/)
+
 | Topic | Reference |
 | --- | --- |
 | Provider setup and model mapping | [references/provider-configuration.md](references/provider-configuration.md) |

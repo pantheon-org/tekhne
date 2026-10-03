@@ -648,9 +648,9 @@ permissions:
 ```
 
 **Official Sources:**
-- GitHub Marketplace: https://github.com/marketplace
-- Action repository: https://github.com/[owner]/[repo]
-- Release notes: https://github.com/[owner]/[repo]/releases
+- GitHub Marketplace: <https://github.com/marketplace>
+- Action repository: `https://github.com/[owner]/[repo]`
+- Release notes: `https://github.com/[owner]/[repo]/releases`
 - Context7: Use for structured documentation lookup
 
 **Version Verification:**

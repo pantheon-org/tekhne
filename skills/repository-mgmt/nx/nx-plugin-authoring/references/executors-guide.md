@@ -5,13 +5,13 @@ last_updated: January 2026
 nx_version: 22
 ---
 
-# Nx Executors Guide
+## Nx Executors Guide
 
-## What Are Executors?
+### What Are Executors?
 
 Executors define reusable build, test, and development tasks. They encapsulate task logic that can be shared across multiple projects in a workspace with cache-aware execution.
 
-## Executor Implementation
+### Executor Implementation
 
 **Basic structure:**
 ```typescript
@@ -35,7 +35,7 @@ export default async function runExecutor(
 }
 ```
 
-## ExecutorContext API
+### ExecutorContext API
 
 **Available properties:**
 ```typescript
@@ -71,7 +71,7 @@ export default async function runExecutor(
 }
 ```
 
-## Schema Definition
+### Schema Definition
 
 **schema.json:**
 ```json
@@ -110,7 +110,7 @@ export interface ExecutorSchema {
 }
 ```
 
-## Executor Registration
+### Executor Registration
 
 **executors.json:**
 ```json
@@ -130,7 +130,7 @@ export interface ExecutorSchema {
 }
 ```
 
-## Target Configuration
+### Target Configuration
 
 **project.json:**
 ```json
@@ -154,7 +154,7 @@ export interface ExecutorSchema {
 }
 ```
 
-## Cache Configuration
+### Cache Configuration
 
 **Declare outputs for caching:**
 ```json
@@ -190,7 +190,7 @@ export interface ExecutorSchema {
 }
 ```
 
-## Async File Operations
+### Async File Operations
 
 **Use async I/O:**
 ```typescript
@@ -223,7 +223,7 @@ export default async function runExecutor(
 }
 ```
 
-## Watch Mode Support
+### Watch Mode Support
 
 **Implement watch mode:**
 ```typescript
@@ -256,7 +256,7 @@ async function build(options: ExecutorSchema, context: ExecutorContext) {
 }
 ```
 
-## Workspace Setup
+### Workspace Setup
 
 **Enable package references:**
 
@@ -296,7 +296,7 @@ export * from './executors/serve/executor';
 }
 ```
 
-## Testing
+### Testing
 
 **Unit test example:**
 ```typescript
@@ -333,7 +333,7 @@ describe('Build Executor', () => {
 });
 ```
 
-## Best Practices
+### Best Practices
 
 1. **Return success boolean** - always return `{ success: boolean }`
 2. **Use package notation** - use `@scope/package:executor` not relative paths
@@ -343,7 +343,7 @@ describe('Build Executor', () => {
 6. **Validate options** - check required fields early
 7. **Log clearly** - provide actionable output for debugging
 
-## References
+### References
 
 - [Nx Executors Documentation](https://nx.dev/extending-nx/recipes/local-executors)
 - [ExecutorContext API](executor-context-api.md)

@@ -4,7 +4,7 @@
 
 Bash (Bourne Again SHell) is a Unix shell and command language. This guide covers bash-specific features, syntax, and best practices.
 
-**Official Documentation:** https://www.gnu.org/software/bash/manual/
+**Official Documentation:** <https://www.gnu.org/software/bash/manual/>
 
 ## Bash vs POSIX Shell (sh)
 
@@ -21,7 +21,7 @@ Bash is a **superset** of POSIX sh with many extensions. Not all bash scripts ar
    declare -A associative_array
    ```
 
-2. **[[ ]] Test Construct**
+2. **`[[ ]]` Test Construct**
    ```bash
    # Bash only - more powerful than [ ]
    if [[ "$var" == pattern* ]]; then
@@ -308,7 +308,7 @@ if command -v shellcheck &>/dev/null; then
 fi
 ```
 
-### 6. Use [[ ]] for Tests
+### 6. Use `[[ ]]` for Tests
 ```bash
 # Preferred in bash
 if [[ "$var" == "value" ]]; then

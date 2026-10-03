@@ -374,8 +374,8 @@ Scenario: Expired reset link
 ├── SKILL.md
 ├── AGENTS.md
 ├── references/
-│   ├── category-file1.md
-│   └── category-file2.md
+│ ├── category-file1.md
+│ └── category-file2.md
 └── scripts/
     └── script.sh
 

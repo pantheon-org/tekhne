@@ -2,12 +2,10 @@
 
 ## [0.3.0](https://github.com/pantheon-org/tekhne/compare/v0.2.1...v0.3.0) (2026-09-08)
 
-
 ### Features
 
 * **chezmoi:** add managing-chezmoi-packages skill ([#87](https://github.com/pantheon-org/tekhne/issues/87)) ([c604dea](https://github.com/pantheon-org/tekhne/commit/c604deaef1e5a0af1e4bec98cd29e6ca92cfb4cb))
 * **skills:** add chezmoi dotfiles manager skill ([#85](https://github.com/pantheon-org/tekhne/issues/85)) ([86792ff](https://github.com/pantheon-org/tekhne/commit/86792ff42337c81ab2a00bdda269199051b320c7))
-
 
 ### Bug Fixes
 

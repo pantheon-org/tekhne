@@ -4,7 +4,7 @@
 
 POSIX sh is the portable shell specification defined by POSIX standards. Scripts written for POSIX sh should work across different Unix-like systems (bash, dash, ksh, etc.).
 
-**Official Specification:** https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
+**Official Specification:** <https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html>
 
 ## Why POSIX Shell Matters
 
@@ -24,7 +24,7 @@ POSIX sh is the portable shell specification defined by POSIX standards. Scripts
    echo "${array[0]}"
    ```
 
-2. **[[ ]] Test Construct**
+2. **`[[ ]]` Test Construct**
    ```bash
    # Bash only - NOT POSIX
    if [[ "$var" == "value" ]]; then

@@ -56,6 +56,6 @@ biome-complete/
 
 ---
 
-*Consolidates 2 original skills: biome-configuration, biome-linting*
+Consolidates 2 original skills: biome-configuration, biome-linting
 
-*15 reference files across 4 categories*
+15 reference files across 4 categories

@@ -311,6 +311,7 @@ module "vpc" {
 |------|-------------|
 | vpc_id | ID of the VPC |
 | private_subnet_ids | List of private subnet IDs |
+
 ```
 
 ## State Management

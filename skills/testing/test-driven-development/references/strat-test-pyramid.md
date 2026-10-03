@@ -44,6 +44,7 @@ Infrastructure cost: $100/month
 ```
 
 **Distribution guidelines:**
+
 | Layer | Count | Scope | Speed |
 |-------|-------|-------|-------|
 | Unit | 70-80% | Single function/class | <100ms |

@@ -188,5 +188,5 @@ fetch(req) {
 
 ## References
 
-- https://bun.sh/docs/api/http
-- https://bun.sh/docs/api/websockets
+- <https://bun.sh/docs/api/http>
+- <https://bun.sh/docs/api/websockets>

@@ -29,7 +29,7 @@ cucumber.js            # Cucumber configuration
 
 ## TypeScript Configuration
 
-**cucumber.js**
+`cucumber.js`
 
 ```javascript
 module.exports = {

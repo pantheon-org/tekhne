@@ -4,7 +4,7 @@
 
 grep (Global Regular Expression Print) searches for patterns in text files. It's one of the most commonly used Unix tools.
 
-**Official Manual:** https://www.gnu.org/software/grep/manual/
+**Official Manual:** <https://www.gnu.org/software/grep/manual/>
 **Man Page:** `man grep`
 
 ## Basic Syntax

@@ -58,6 +58,8 @@ scripts/fetch-models.sh --picker-only
 
 ### Script Options
 
+| Option             | Description               | Example                                |
+| ------------------ | ------------------------- | -------------------------------------- |
 | `--json`           | Raw JSON output           | `fetch-models.sh --json`               |
 | `--picker-only`    | Only show featured models | `fetch-models.sh --picker-only`        |
 | `--category <cat>` | Filter by category        | `fetch-models.sh --category versatile` |

@@ -1038,9 +1038,9 @@ deploy-production:
 
 ## Additional Resources
 
-- Official GitLab CI/CD YAML reference: https://docs.gitlab.com/ci/yaml/
-- GitLab CI/CD examples: https://docs.gitlab.com/ci/examples/
-- GitLab CI/CD templates: https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates
+- Official GitLab CI/CD YAML reference: <https://docs.gitlab.com/ci/yaml/>
+- GitLab CI/CD examples: <https://docs.gitlab.com/ci/examples/>
+- GitLab CI/CD templates: <https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates>
 
 ---
 

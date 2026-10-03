@@ -2,7 +2,6 @@
 
 ## [0.2.0](https://github.com/pantheon-org/tekhne/compare/v0.1.4...v0.2.0) (2026-05-15)
 
-
 ### Features
 
 * **agentic-context:** add triage-paper and triage-tool skills ([#57](https://github.com/pantheon-org/tekhne/issues/57)) ([27e33ef](https://github.com/pantheon-org/tekhne/commit/27e33ef245f1bb6a6830ff1e1c898142dc0cdf9c))
@@ -16,7 +15,6 @@
 * **skill-quality-auditor:** improve D4/D5/D7/D8 dimensions and fix 9-dimension references ([b6fd01e](https://github.com/pantheon-org/tekhne/commit/b6fd01e1047827a5cbe250ed98d2693c5d1cb277))
 * **software-engineering:** split software-design-principles into 4 focused skills ([c2b21c3](https://github.com/pantheon-org/tekhne/commit/c2b21c3e7dd977d62f3f846463c7fe3d7f8aa96d))
 * **tools:** add skill-auditor Go binary (replaces evaluate.sh) ([#90](https://github.com/pantheon-org/tekhne/issues/90)) ([57f5214](https://github.com/pantheon-org/tekhne/commit/57f5214761adbac2bbea8b01695cbc3e7b7f1429))
-
 
 ### Bug Fixes
 

@@ -32,7 +32,7 @@ Use this template when documenting design system or UI component packages.
 
 ### Development Commands
 **Analyze package.json scripts** to identify:
-- Storybook command: `grep -r "storybook" package.json` 
+- Storybook command: `grep -r "storybook" package.json`
 - Build command: `grep -r "build.*ui\|build.*components" package.json`
 - Test command: `grep -r "test.*components\|test.*ui" package.json`
 

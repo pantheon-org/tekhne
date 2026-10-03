@@ -150,5 +150,5 @@ const isValid = await Bun.password.verify(password, hash);
 
 ## References
 
-- https://bun.sh/docs/api/hashing#bun-password
-- https://en.wikipedia.org/wiki/Argon2
+- <https://bun.sh/docs/api/hashing#bun-password>
+- <https://en.wikipedia.org/wiki/Argon2>

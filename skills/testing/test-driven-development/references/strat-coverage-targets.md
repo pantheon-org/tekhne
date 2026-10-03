@@ -55,6 +55,7 @@ describe('StringUtils', () => {
 ```
 
 **Coverage strategy:**
+
 | Module Type | Target | Rationale |
 |-------------|--------|-----------|
 | Business logic | 90%+ | Critical, complex |

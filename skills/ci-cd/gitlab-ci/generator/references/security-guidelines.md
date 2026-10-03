@@ -748,10 +748,10 @@ When creating or reviewing GitLab CI/CD pipelines, ensure:
 
 ## Additional Resources
 
-- GitLab Security Best Practices: https://docs.gitlab.com/ee/security/
-- OWASP CI/CD Security: https://owasp.org/www-project-ci-cd-security/
-- CIS Docker Benchmark: https://www.cisecurity.org/benchmark/docker
-- NIST Supply Chain Security: https://www.nist.gov/itl/executive-order-improving-nations-cybersecurity/software-security-supply-chains
+- GitLab Security Best Practices: <https://docs.gitlab.com/ee/security/>
+- OWASP CI/CD Security: <https://owasp.org/www-project-ci-cd-security/>
+- CIS Docker Benchmark: <https://www.cisecurity.org/benchmark/docker>
+- NIST Supply Chain Security: <https://www.nist.gov/itl/executive-order-improving-nations-cybersecurity/software-security-supply-chains>
 
 ---
 

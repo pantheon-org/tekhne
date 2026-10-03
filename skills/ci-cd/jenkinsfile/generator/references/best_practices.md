@@ -246,6 +246,7 @@ stage('Test Suite') {
 ```
 
 **catchError Parameters:**
+
 | Parameter | Values | Description |
 |-----------|--------|-------------|
 | `buildResult` | SUCCESS, UNSTABLE, FAILURE, NOT_BUILT, ABORTED | Overall build result on error |

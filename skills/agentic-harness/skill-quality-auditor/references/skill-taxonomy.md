@@ -454,8 +454,8 @@ Before creating a new domain:
 domain/
 └── tool/
     ├── generator/
-    │   ├── SKILL.md
-    │   └── tile.json
+    │ ├── SKILL.md
+    │ └── tile.json
     └── validator/
         ├── SKILL.md
         └── tile.json
