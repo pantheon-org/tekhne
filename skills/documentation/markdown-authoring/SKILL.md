@@ -36,8 +36,8 @@ Do not use this skill for non-Markdown document formats (for example `.adoc` or 
 ```bash
 rumdl check .
 ```
+
 Expected result: no errors for staged or target files. This repository lints with rumdl; for a repository that uses markdownlint, see [Lint: CLI](references/lint-cli.md).
-Expected result: no errors for staged or target files.
 
 ### Lint one skill folder
 
