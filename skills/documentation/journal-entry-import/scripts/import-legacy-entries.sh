@@ -23,7 +23,7 @@
 # legacy source's headings do not follow the "Month Day" convention, adjust
 # the heading match below before running.
 #
-# After running, always: prettier --write, markdownlint-cli2 --fix, then
+# After running, always: prettier --write, the repo's markdown linter with --fix, then
 # journal-entry-creator's validate-journal-entry.sh on the generated files.
 set -euo pipefail
 
@@ -105,7 +105,7 @@ awk -v repo="$REPO" -v srcurl="$SRC_URL" -v author="$AUTHOR" '
     printf("- Filename: `%s-imported-entry.md` - **checked**\n", iso) >> path
     printf("- H1 format: Title with formatted date suffix - **checked**\n") >> path
     printf("- Imported verbatim from the legacy source; content not modified - **checked**\n") >> path
-    printf("- Linted: `prettier` + `markdownlint` - **pending**\n\n") >> path
+    printf("- Linted: `prettier` + the repo markdown linter - **pending**\n\n") >> path
     printf("## Tags\n\n- imported\n- legacy-import\n- %04d\n", year) >> path
     close(path)
     written++

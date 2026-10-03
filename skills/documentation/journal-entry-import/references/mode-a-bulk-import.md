@@ -65,7 +65,7 @@ retired, as the historical provenance record.
 ```bash
 bash skills/documentation/journal-entry-creator/scripts/validate-journal-entry.sh <generated-files>
 npx prettier --write <generated-files>
-npx markdownlint-cli2 --fix <generated-files>
+<markdown-linter> --fix <generated-files>
 ```
 
 Commit the import as one atomic commit before starting Mode B enrichment on any of the imported entries - a clean

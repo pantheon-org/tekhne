@@ -46,5 +46,5 @@ annotation. Get sign-off on the mapping table before editing when the set of lin
 - Handle every markdown form: autolink `<url>`, link target `[text](url)`, and bare url. Never insert the
   annotation inside a link's display text `[url]` - annotate the target, or after the autolink's closing `>`.
 - Be idempotent: skip a URL that is already followed by its resolved target, so a re-run does not double-annotate.
-- After editing, run prettier + markdownlint (long URLs can trip line-length; keep the annotation on its own
+- After editing, run prettier + the repo's markdown linter (long URLs can trip line-length; keep the annotation on its own
   wrapped line) and re-validate every touched entry.
