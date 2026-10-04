@@ -2,7 +2,7 @@
 
 ## When to Use Bun APIs
 
-### Prefer Bun for:
+### Prefer Bun for
 - Reading file contents (text, JSON, binary)
 - Writing files (strings, buffers, Blobs)
 - Checking file existence
@@ -10,7 +10,7 @@
 - Pattern matching (Bun.Glob)
 - Streaming file contents
 
-### Prefer Node.js fs for:
+### Prefer Node.js fs for
 - Directory operations (mkdir, readdir, rmdir)
 - Recursive file operations
 - File permissions (chmod)

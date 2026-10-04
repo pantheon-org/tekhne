@@ -4,7 +4,7 @@
 
 Regular expressions (regex) are patterns used to match character combinations in strings. POSIX defines two flavors: Basic (BRE) and Extended (ERE).
 
-**POSIX Specification:** https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html
+**POSIX Specification:** <https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html>
 
 ## BRE vs ERE
 

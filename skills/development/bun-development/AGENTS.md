@@ -68,6 +68,6 @@ bun-development/
 
 ---
 
-*Consolidates 6 original skills: bun-file-io, bun-package-manager, bun-runtime, bun-sqlite, bun-testing, security-bun*
+Consolidates 6 original skills: bun-file-io, bun-package-manager, bun-runtime, bun-sqlite, bun-testing, security-bun
 
-*22 reference files across 6 categories*
+22 reference files across 6 categories

@@ -297,6 +297,6 @@ For detailed documentation, see:
 
 ## External Resources
 
-- GitHub: https://github.com/tj/commander.js
-- Documentation: https://github.com/tj/commander.js/blob/master/Readme.md
-- Examples: https://github.com/tj/commander.js/tree/master/examples
+- GitHub: <https://github.com/tj/commander.js>
+- Documentation: <https://github.com/tj/commander.js/blob/master/Readme.md>
+- Examples: <https://github.com/tj/commander.js/tree/master/examples>

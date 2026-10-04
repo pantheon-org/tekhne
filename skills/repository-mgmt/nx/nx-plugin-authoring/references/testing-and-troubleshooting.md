@@ -4,11 +4,11 @@ category: nx-development
 last_updated: January 2026
 ---
 
-# Testing and Troubleshooting Nx Plugins
+## Testing and Troubleshooting Nx Plugins
 
-## Testing Generators
+### Testing Generators
 
-### Unit Tests
+#### Unit Tests
 
 **Basic generator test:**
 ```typescript
@@ -43,7 +43,7 @@ describe('library generator', () => {
 });
 ```
 
-### Dry-Run Validation
+#### Dry-Run Validation
 
 **Test before applying:**
 ```bash
@@ -55,9 +55,9 @@ npx nx g @my-org/my-plugin:library test --dry-run
 npx nx g @my-org/my-plugin:library test --dry-run | grep -E "CREATE|UPDATE"
 ```
 
-## Testing Executors
+### Testing Executors
 
-### Unit Tests
+#### Unit Tests
 
 **Basic executor test:**
 ```typescript
@@ -103,7 +103,7 @@ describe('Build Executor', () => {
 });
 ```
 
-### Integration Tests
+#### Integration Tests
 
 **Test executor in workspace:**
 ```bash
@@ -121,9 +121,9 @@ npx nx run my-project:build
 ls -la dist/apps/my-project
 ```
 
-## Common Issues
+### Common Issues
 
-### "Unable to resolve executor package reference"
+#### "Unable to resolve executor package reference"
 
 **Error:**
 ```
@@ -178,7 +178,7 @@ npx nx reset
 npx nx run my-project:build
 ```
 
-### "Generator not found"
+#### "Generator not found"
 
 **Error:**
 ```
@@ -213,7 +213,7 @@ export default async function libraryGenerator(tree: Tree, options: Schema) {
 }
 ```
 
-### Schema validation errors
+#### Schema validation errors
 
 **Error:**
 ```
@@ -256,7 +256,7 @@ Required property 'name' is missing
 }
 ```
 
-### Cache not working
+#### Cache not working
 
 **Symptoms:**
 - Executor runs every time
@@ -279,7 +279,7 @@ Required property 'name' is missing
 2. Check inputs configuration
 3. Verify executor returns `{ success: true }`
 
-### Tree API violations
+#### Tree API violations
 
 **Error:**
 ```
@@ -291,45 +291,45 @@ Cannot write file outside of workspace
 - Keep all paths relative to workspace root
 - Never bypass Tree with direct filesystem writes
 
-## Debugging Tips
+### Debugging Tips
 
-### Enable verbose output
+#### Enable verbose output
 
 ```bash
 npx nx run my-project:build --verbose
 ```
 
-### Reset Nx cache
+#### Reset Nx cache
 
 ```bash
 npx nx reset
 ```
 
-### Check project configuration
+#### Check project configuration
 
 ```bash
 npx nx show project my-project
 ```
 
-### Validate workspace
+#### Validate workspace
 
 ```bash
 npx nx workspace-lint
 ```
 
-### Inspect task graph
+#### Inspect task graph
 
 ```bash
 npx nx graph
 ```
 
-### Search for implementation patterns
+#### Search for implementation patterns
 
 ```bash
 rg -n "generateFiles|tree.write|ExecutorContext" tools plugins
 ```
 
-## E2E Testing
+### E2E Testing
 
 **Create test workspace:**
 ```typescript
@@ -359,7 +359,7 @@ describe('plugin e2e', () => {
 });
 ```
 
-## Performance Testing
+### Performance Testing
 
 **Measure generator performance:**
 ```bash
@@ -371,7 +371,7 @@ time npx nx g @my-org/my-plugin:library test --dry-run
 time npx nx run my-project:build --skip-nx-cache
 ```
 
-## References
+### References
 
 - [Nx Testing Utilities](https://nx.dev/packages/nx/documents/nx-devkit#testing-utilities)
 - [Debugging Nx](https://nx.dev/recipes/troubleshooting/debug-nx)

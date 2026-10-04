@@ -19,11 +19,11 @@ local preCommit = new Mapping<String, Step> {
         check = "bunx @biomejs/biome check --no-errors-on-unmatched {{files}}"
         fix = "bunx @biomejs/biome check --write --no-errors-on-unmatched {{files}}"
     }
-    ["markdownlint"] {
+    ["rumdl"] {
         glob = List("*.md")
         exclude = List(".context/**", "docs/src/content/docs/tiles.md", "crates/*/tests/golden-corpus/fixtures/**")
-        check = "markdownlint-cli2 --config .markdownlint-cli2.jsonc {{files}}"
-        fix = "markdownlint-cli2 --fix --config .markdownlint-cli2.jsonc {{files}}"
+        check = "rumdl check --config .rumdl.toml {{files}}"
+        fix = "rumdl check --fix --config .rumdl.toml {{files}}"
     }
     // Validation only (no file mutation); runs on every commit like the
     // original glob-less lefthook command. Ported from the shell
@@ -66,7 +66,7 @@ target/release/skill-validator-rs validate artifacts {{files}}
     // `hk check`; use `bun run readme:update:dry-run` for a CI drift check.
     ["readme-sync"] {
         glob = List("skills/**", ".context/audits/**")
-        fix = "bun scripts/catalog/update.ts && markdownlint-cli2 --config .markdownlint-cli2.jsonc README.md"
+        fix = "bun scripts/catalog/update.ts && rumdl fmt --config .rumdl.toml README.md"
         stage = List("README.md", "docs/src/content/docs/tiles.md")
     }
     ["yamllint"] {

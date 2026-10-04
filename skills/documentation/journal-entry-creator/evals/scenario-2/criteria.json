@@ -54,7 +54,7 @@
     },
     {
       "name": "Formatting compliance",
-      "description": "Evidence of prettier and markdownlint execution after validation",
+      "description": "Evidence of prettier and markdown lint execution after validation",
       "max_score": 4
     },
     {
@@ -108,8 +108,8 @@
       "max_score": 4
     },
     {
-      "name": "Avoids: No evidence of prettier or markdownlint execution",
-      "description": "Failure avoided: No evidence of prettier or markdownlint execution",
+      "name": "Avoids: No evidence of prettier or markdown lint execution",
+      "description": "Failure avoided: No evidence of prettier or markdown lint execution",
       "max_score": 16
     }
   ]

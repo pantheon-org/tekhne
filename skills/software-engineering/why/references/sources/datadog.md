@@ -19,6 +19,7 @@ Answers "what was the production reality around the time this code was written?"
 Before doing anything else, confirm whether an observability MCP is actually connected this session (check the connected-server list) — none is connected by default here. If one exists (Datadog, CloudWatch, New Relic, etc.), start broad, then narrow.
 
 1. **Identify the owning service(s)** via whatever service-catalog tools the MCP exposes.
+
 2. **Dashboards and monitors first. They tell you what the team cares about.** Search by feature name, service name, symbol.
 
    When a dashboard or monitor covers the target, note its queries and watched thresholds. The threshold is frequently the answer to "why is this clamped at N?"

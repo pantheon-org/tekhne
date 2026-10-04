@@ -1,0 +1,84 @@
+{
+  "instructions": [
+    {
+      "content": "Identify the target config file(s) from the request intent.",
+      "type": "workflow",
+      "why_given": "reminder"
+    },
+    {
+      "content": "Read the current config state and precedence (project against global) before editing.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Apply minimal configuration edits with an explicit rationale.",
+      "type": "workflow",
+      "why_given": "preference"
+    },
+    {
+      "content": "Validate syntax after each edit with `jq . opencode.json`.",
+      "type": "workflow",
+      "why_given": "reminder"
+    },
+    {
+      "content": "Run `opencode run \"test\"` as a smoke test and confirm the expected behaviour.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "If errors surface, re-read config precedence before widening permissions.",
+      "type": "workflow",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER commit API keys directly in config; reference them with `baseEnv`.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER use broad filesystem or shell permissions by default; scope paths and allowlist commands.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "content": "NEVER use ambiguous model names; use provider-qualified or exact model identifiers.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER skip verification after permission changes.",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "content": "NEVER put AGENTS.md instructions in opencode.json, or runtime settings in AGENTS.md.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER use global config for project-specific settings; put them in the project-root opencode.json.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER set a provider model to `default: true` without a fully qualified `id`.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "NEVER ignore the precedence order when diagnosing config issues; audit from the top of the chain first.",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "content": "Prefer least-privilege permissions and widen them only when required.",
+      "type": "constraint",
+      "why_given": "reminder"
+    },
+    {
+      "content": "Provider order matters when more than one provider can satisfy a model name.",
+      "type": "constraint",
+      "why_given": "new knowledge"
+    }
+  ]
+}

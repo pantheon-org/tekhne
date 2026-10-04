@@ -5,9 +5,9 @@ last_updated: January 2026
 nx_version: 22
 ---
 
-# Nx Plugin Scaffolding
+## Nx Plugin Scaffolding
 
-## Creating a New Plugin Workspace
+### Creating a New Plugin Workspace
 
 **Start from scratch:**
 ```bash
@@ -22,7 +22,7 @@ This creates:
 - E2E testing setup
 - TypeScript configuration
 
-## Adding Plugin to Existing Workspace
+### Adding Plugin to Existing Workspace
 
 **Install plugin package:**
 ```bash
@@ -51,7 +51,7 @@ tools/my-plugin/
 └── tsconfig.lib.json
 ```
 
-## Plugin Directory Structure
+### Plugin Directory Structure
 
 **Minimal plugin:**
 ```
@@ -76,7 +76,7 @@ my-plugin/
 └── project.json
 ```
 
-## Package Configuration
+### Package Configuration
 
 **tools/my-plugin/package.json:**
 ```json
@@ -93,7 +93,7 @@ my-plugin/
 }
 ```
 
-## Registry Files
+### Registry Files
 
 **generators.json:**
 ```json
@@ -121,7 +121,7 @@ my-plugin/
 }
 ```
 
-## Workspace Integration
+### Workspace Integration
 
 **Enable package references:**
 
@@ -152,7 +152,7 @@ export * from './generators/my-generator/generator';
 export * from './executors/my-executor/executor';
 ```
 
-## Testing Setup
+### Testing Setup
 
 **Unit tests:**
 ```typescript
@@ -197,7 +197,7 @@ describe('my-plugin e2e', () => {
 });
 ```
 
-## Publishing
+### Publishing
 
 **Local testing:**
 ```bash
@@ -214,7 +214,7 @@ npm publish --access public
 **Nx plugin registry:**
 Submit to [nx.dev/plugin-registry](https://nx.dev/plugin-registry) after publishing to npm.
 
-## References
+### References
 
 - [Nx Plugin Development](https://nx.dev/extending-nx/intro)
 - [Create Nx Plugin](https://nx.dev/nx-api/plugin/generators/create-package)

@@ -98,7 +98,7 @@
     },
     {
       "id": "I17",
-      "content": "After validation passes, format with prettier, lint with markdownlint-cli2 --fix, then re-validate.",
+      "content": "After validation passes, format with prettier, lint with the repo's markdown linter with --fix, then re-validate.",
       "type": "procedure",
       "why_given": "new knowledge"
     },

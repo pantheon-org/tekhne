@@ -2,7 +2,6 @@
 
 ## [5.0.0](https://github.com/pantheon-org/tekhne/compare/v4.0.0...v5.0.0) (2026-09-08)
 
-
 ### ⚠ BREAKING CHANGES
 
 * **tiles:** remove 31 individual skill tiles
@@ -14,11 +13,9 @@
 * **skills:** raise infrastructure validator/generator skills to C+/B+ ([#244](https://github.com/pantheon-org/tekhne/issues/244)) ([#261](https://github.com/pantheon-org/tekhne/issues/261)) ([ab79ade](https://github.com/pantheon-org/tekhne/commit/ab79ade58ccd0c0630bcc93bf69af29b0c4366c9))
 * **tiles:** add 15 consolidated sub-domain tiles ([358d4c3](https://github.com/pantheon-org/tekhne/commit/358d4c3f7bfc1e226940166aa6b84d3d2b02bec2))
 
-
 ### Bug Fixes
 
 * **skills:** clean up 53 artifact-convention violations ([#216](https://github.com/pantheon-org/tekhne/issues/216)) ([#218](https://github.com/pantheon-org/tekhne/issues/218)) ([e088188](https://github.com/pantheon-org/tekhne/commit/e0881884ffac97c7fc6fe813d42b5c2872e70333))
-
 
 ### Code Refactoring
 
@@ -26,7 +23,6 @@
 
 ## [4.0.0](https://github.com/pantheon-org/tekhne/compare/v3.0.0...v4.0.0) (2026-07-10)
 
-
 ### ⚠ BREAKING CHANGES
 
 * **tiles:** remove 31 individual skill tiles
@@ -36,7 +32,6 @@
 
 * **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([e6da355](https://github.com/pantheon-org/tekhne/commit/e6da355d773aa5646dea9ec6128af0fee0a43ebb))
 * **tiles:** add 15 consolidated sub-domain tiles ([a8a1028](https://github.com/pantheon-org/tekhne/commit/a8a1028172b9ce2ca8fd35edcf11d4fd36ffe749))
-
 
 ### Code Refactoring
 
@@ -44,7 +39,6 @@
 
 ## [3.0.0](https://github.com/pantheon-org/tekhne/compare/v2.0.0...v3.0.0) (2026-07-10)
 
-
 ### ⚠ BREAKING CHANGES
 
 * **tiles:** remove 31 individual skill tiles
@@ -54,7 +48,6 @@
 
 * **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([e6da355](https://github.com/pantheon-org/tekhne/commit/e6da355d773aa5646dea9ec6128af0fee0a43ebb))
 * **tiles:** add 15 consolidated sub-domain tiles ([a8a1028](https://github.com/pantheon-org/tekhne/commit/a8a1028172b9ce2ca8fd35edcf11d4fd36ffe749))
-
 
 ### Code Refactoring
 
@@ -62,7 +55,6 @@
 
 ## [2.0.0](https://github.com/pantheon-org/tekhne/compare/v1.0.0...v2.0.0) (2026-07-10)
 
-
 ### ⚠ BREAKING CHANGES
 
 * **tiles:** remove 31 individual skill tiles
@@ -72,7 +64,6 @@
 
 * **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([e6da355](https://github.com/pantheon-org/tekhne/commit/e6da355d773aa5646dea9ec6128af0fee0a43ebb))
 * **tiles:** add 15 consolidated sub-domain tiles ([a8a1028](https://github.com/pantheon-org/tekhne/commit/a8a1028172b9ce2ca8fd35edcf11d4fd36ffe749))
-
 
 ### Code Refactoring
 
@@ -80,7 +71,6 @@
 
 ## [1.0.0](https://github.com/pantheon-org/tekhne/compare/v0.1.0...v1.0.0) (2026-05-15)
 
-
 ### ⚠ BREAKING CHANGES
 
 * **tiles:** remove 31 individual skill tiles
@@ -90,7 +80,6 @@
 
 * **skill-quality-auditor:** enforce References table standard + add eval suites across 40+ skills ([#26](https://github.com/pantheon-org/tekhne/issues/26)) ([e6da355](https://github.com/pantheon-org/tekhne/commit/e6da355d773aa5646dea9ec6128af0fee0a43ebb))
 * **tiles:** add 15 consolidated sub-domain tiles ([a8a1028](https://github.com/pantheon-org/tekhne/commit/a8a1028172b9ce2ca8fd35edcf11d4fd36ffe749))
-
 
 ### Code Refactoring
 

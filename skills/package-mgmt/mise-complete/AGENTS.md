@@ -57,6 +57,6 @@ mise-complete/
 
 ---
 
-*Consolidates 3 original skills: mise-environment-management, mise-task-configuration, mise-tool-management*
+Consolidates 3 original skills: mise-environment-management, mise-task-configuration, mise-tool-management
 
-*16 reference files across 4 categories*
+16 reference files across 4 categories

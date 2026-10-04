@@ -153,7 +153,7 @@ source_audit: $AUDIT_JSON
 
 \`\`\`bash
 sh ./scripts/evaluate.sh $SKILL_NAME --json
-bunx markdownlint-cli2 "skills/$SKILL_NAME/**/*.md"
+rumdl check skills/$SKILL_NAME
 \`\`\`
 
 ## Success Criteria

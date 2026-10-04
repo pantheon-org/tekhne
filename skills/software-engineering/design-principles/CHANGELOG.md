@@ -2,7 +2,6 @@
 
 ## [1.4.0](https://github.com/pantheon-org/tekhne/compare/v1.3.0...v1.4.0) (2026-09-08)
 
-
 ### Features
 
 * **design-principles:** apply tessl optimizations to all 4 skills ([5d73d82](https://github.com/pantheon-org/tekhne/commit/5d73d8275db092a663e1bcbc5d782b87430298cd))
@@ -10,7 +9,6 @@
 * **software-engineering:** split software-design-principles into 4 focused skills ([7766492](https://github.com/pantheon-org/tekhne/commit/77664920fffe77becb04b991af6d04a085b4959c))
 
 ## [1.3.0](https://github.com/pantheon-org/tekhne/compare/v1.2.0...v1.3.0) (2026-07-10)
-
 
 ### Features
 
@@ -20,7 +18,6 @@
 
 ## [1.2.0](https://github.com/pantheon-org/tekhne/compare/v1.1.0...v1.2.0) (2026-07-10)
 
-
 ### Features
 
 * **design-principles:** apply tessl optimizations to all 4 skills ([e5aa437](https://github.com/pantheon-org/tekhne/commit/e5aa437b3c89c311ff750a7529a84a0dab8e0a1b))
@@ -28,7 +25,6 @@
 * **software-engineering:** split software-design-principles into 4 focused skills ([c2b21c3](https://github.com/pantheon-org/tekhne/commit/c2b21c3e7dd977d62f3f846463c7fe3d7f8aa96d))
 
 ## [1.1.0](https://github.com/pantheon-org/tekhne/compare/v1.0.0...v1.1.0) (2026-05-15)
-
 
 ### Features
 

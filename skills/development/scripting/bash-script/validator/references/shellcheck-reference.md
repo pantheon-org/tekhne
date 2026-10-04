@@ -4,9 +4,9 @@
 
 ShellCheck is a static analysis tool for shell scripts that provides warnings and suggestions for syntax and semantic issues to improve script quality and prevent errors.
 
-**Official Website:** https://www.shellcheck.net/
-**GitHub:** https://github.com/koalaman/shellcheck
-**Wiki:** https://github.com/koalaman/shellcheck/wiki
+**Official Website:** <https://www.shellcheck.net/>
+**GitHub:** <https://github.com/koalaman/shellcheck>
+**Wiki:** <https://github.com/koalaman/shellcheck/wiki>
 
 ## Installation
 
@@ -177,7 +177,7 @@ printf '%s\n' "$var" | grep pattern
 
 These warn about bash-specific features used in sh scripts:
 
-#### SC3001: Using Bash [[ ]] in sh Script
+#### SC3001: Using Bash `[[ ]]` in sh Script
 ```bash
 # In #!/bin/sh script
 if [[ condition ]]; then  # Wrong
@@ -316,7 +316,7 @@ fi
 cd /directory || exit 1
 ```
 
-### 5. Use [[ ]] in Bash, [ ] in sh
+### 5. Use `[[ ]]` in Bash, [ ] in sh
 ShellCheck knows your shell and will warn appropriately.
 
 ### 6. Proper Array Usage
@@ -378,10 +378,10 @@ ShellCheck integrates with most editors:
 
 ## Resources
 
-- **Main Website**: https://www.shellcheck.net/
-- **Wiki with Error Codes**: https://github.com/koalaman/shellcheck/wiki
-- **Try Online**: https://www.shellcheck.net/
-- **GitHub Issues**: https://github.com/koalaman/shellcheck/issues
+- **Main Website**: <https://www.shellcheck.net/>
+- **Wiki with Error Codes**: <https://github.com/koalaman/shellcheck/wiki>
+- **Try Online**: <https://www.shellcheck.net/>
+- **GitHub Issues**: <https://github.com/koalaman/shellcheck/issues>
 
 ## Quick Reference Table
 

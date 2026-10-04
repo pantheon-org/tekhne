@@ -49,4 +49,4 @@ TF_LOG=TRACE terragrunt plan
 - Commands like `render-json`, `validate-inputs` are deprecated
 - Use `terragrunt run -- <command>` for custom/unsupported commands
 - Replace `graph-dependencies` with `dag graph`
-- See: https://terragrunt.gruntwork.io/docs/migrate/cli-redesign/
+- See: <https://terragrunt.gruntwork.io/docs/migrate/cli-redesign/>

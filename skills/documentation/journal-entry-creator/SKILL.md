@@ -310,7 +310,7 @@ Entry is complete when ALL criteria are met:
 - ✅ All required sections present per schema, including type-specific ones (`jira_ticket`'s `## Jira Comment Draft`; `refinement_ticket`/`kickoff_ticket` sections; reciprocal
   `continues_from`/`continued_by` links; `## Executive Summary` immediately after `## Session Overview` if present)
 - ✅ Validation script passes with zero errors
-- ✅ Prettier formatting and markdownlint pass
+- ✅ Prettier formatting and markdown lint pass
 
 ## Four-Phase Workflow
 
@@ -379,8 +379,8 @@ bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM-Mont
 # 2. Format (only if validation passes)
 npx prettier --write YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md
 
-# 3. Lint and auto-fix
-npx markdownlint-cli2 YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md --fix
+# 3. Lint and auto-fix with the repo's markdown linter
+<markdown-linter> YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md --fix
 
 # 4. Re-validate to confirm
 bash skills/journal-entry-creator/scripts/validate-journal-entry.sh YYYY/MM-Month/DD-Weekday/YYYY-MM-DD-slug.md
@@ -439,7 +439,7 @@ git commit -m "Add journal entry: [Brief Description] (YYYY-MM-DD)"
 
 ### NEVER use bare code blocks without language specifiers
 
-- **WHY**: bare triple backticks fail markdownlint and reduce syntax highlighting readability.
+- **WHY**: bare triple backticks fail markdown lint and reduce syntax highlighting readability.
 - **BAD**: ` ```\ngit status\n``` ` (no language).
 - **GOOD**: ` ```bash\ngit status\n``` ` (explicit language).
 

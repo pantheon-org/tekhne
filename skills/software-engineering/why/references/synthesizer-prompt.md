@@ -62,6 +62,7 @@ File paths, line ranges, key symbols. Two or three lines to orient a reader who 
 
 **Claims with direct evidence**, one per bullet. Quote or paraphrase the source and cite precisely. Format each finding like:
 
+<!-- rumdl-disable-next-line MD057 -->
 - **[Direct]** {Claim}. Source: [PR/MR #123](url) / ticket ID / file:line. {Brief quote or paraphrase.}
 - **[Supported]** {Claim}. Evidence: {list of items and what each contributes}.
 

@@ -7,12 +7,12 @@ Purpose
 Quick automation (recommended)
 
 - Format: `npx prettier --write path/to/entry.md`
-- Lint: `npx markdownlint-cli2 path/to/entry.md`
+- Lint: run the repo's markdown linter on `path/to/entry.md`
 - Validator: `bash scripts/validate-journal-entry.sh path/to/entry.md` (accepts multiple files)
 
 Required tools
 
-- Node.js + `npx` (for Prettier and markdownlint-cli2)
+- Node.js + `npx` (for Prettier and the repo's markdown linter)
 - `bash`, `perl`, `rg` (ripgrep), and GNU awk (or `gawk`) for the repository validator
 
 YAML frontmatter (standardized)
@@ -60,7 +60,7 @@ Checklist (run for every new or updated entry)
 - [ ] Tags present and correctly formatted (lowercase, hyphen-separated, nested allowed)
 - [ ] Images include alt text where present
 - [ ] No trailing whitespace; prefer line length ≤ 120 characters when practical
-- [ ] Prettier-format and markdownlint report zero errors
+- [ ] Prettier-format and markdown lint reports zero errors
 - [ ] Commit message follows convention: `Add journal entry: [Brief Description] (YYYY-MM-DD)`
 
 ## Compliance Section
@@ -176,7 +176,7 @@ The validator checks this bidirectionally whenever `continues_from`/`continued_b
 
 CI and pre-commit behavior
 
-- Pre-commit (lefthook) runs Prettier, markdownlint, then the validator for staged files under `202*/**/*.md`.
+- Pre-commit (lefthook) runs Prettier, the markdown linter, then the validator for staged files under `202*/**/*.md`.
 - CI should treat validator failures as blocking; run the same commands used locally.
 - If Prettier fixes files during pre-commit, re-run linters/validator to ensure a clean state before committing.
 

@@ -177,7 +177,7 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh test-driven-
 
 ```bash
 # Lint this skill docs
-bunx markdownlint-cli2 "skills/test-driven-development/**/*.md"
+rumdl check skills/test-driven-development
 ```
 
 ## References

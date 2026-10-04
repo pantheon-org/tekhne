@@ -8,7 +8,7 @@
     "docs:dev": "cd docs && bun run dev",
     "prepare": "hk install",
     "check:biome": "bunx @biomejs/biome check .",
-    "check:markdown": "markdownlint-cli2 \"**/*.md\"",
+    "check:markdown": "rumdl check .",
     "check:skill-artifacts": "./skills/agentic-harness/skill-quality-auditor/scripts/validate-skill-artifacts.sh",
     "readme:update": "bun scripts/catalog/update.ts",
     "readme:update:dry-run": "bun scripts/catalog/update.ts --dry-run",

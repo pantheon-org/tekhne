@@ -1,0 +1,34 @@
+{
+  "skill": "agentic-harness/opencode-toolkit/configure",
+  "date": "2026-10-03",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 14,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 116,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 238,
+  "hasReferences": true,
+  "referenceCount": 3,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 2,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "agent-specific reference found: opencode"
+    },
+    {
+      "dimension": "D9",
+      "message": "summary.json coverage is 38% (below 80% threshold)"
+    }
+  ]
+}

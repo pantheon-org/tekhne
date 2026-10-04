@@ -1,0 +1,33 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 38,
+    "covered_instructions": [
+      "Validate syntax after each edit with `jq . opencode.json`.",
+      "Run `opencode run \"test\"` as a smoke test and confirm the expected behaviour.",
+      "NEVER commit API keys directly in config; reference them with `baseEnv`.",
+      "NEVER put AGENTS.md instructions in opencode.json, or runtime settings in AGENTS.md.",
+      "NEVER use global config for project-specific settings; put them in the project-root opencode.json.",
+      "NEVER set a provider model to `default: true` without a fully qualified `id`."
+    ],
+    "uncovered_instructions": [
+      "Identify the target config file(s) from the request intent.",
+      "Read the current config state and precedence (project against global) before editing.",
+      "Apply minimal configuration edits with an explicit rationale.",
+      "If errors surface, re-read config precedence before widening permissions.",
+      "NEVER use broad filesystem or shell permissions by default; scope paths and allowlist commands.",
+      "NEVER use ambiguous model names; use provider-qualified or exact model identifiers.",
+      "NEVER skip verification after permission changes.",
+      "NEVER ignore the precedence order when diagnosing config issues; audit from the top of the chain first.",
+      "Prefer least-privilege permissions and widen them only when required.",
+      "Provider order matters when more than one provider can satisfy a model name."
+    ]
+  },
+  "scenario_coverage": {
+    "total_scenarios": 3,
+    "capabilities_covered": [
+      "configure-provider-with-env-variable",
+      "separate-agents-md-from-opencode-json",
+      "fix-global-versus-project-config-scope"
+    ]
+  }
+}

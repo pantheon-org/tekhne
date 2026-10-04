@@ -178,7 +178,7 @@ After implementing remediation:
 
 ```bash
 skill-auditor evaluate <skill-name> --json
-bunx markdownlint-cli2 "skills/<skill-name>/**/*.md"
+rumdl check skills/<skill-name>
 ```
 
 Compare new score against target in plan.

@@ -82,10 +82,10 @@ Expected result: updated dimension score breakdown.
 ### Lint this skill docs
 
 ```bash
-bunx markdownlint-cli2 "specialized/colyseus-multiplayer/**/*.md"
+rumdl check specialized/colyseus-multiplayer
 ```
 
-Expected result: no markdownlint violations.
+Expected result: no rumdl violations.
 
 ## Room Implementation Example
 

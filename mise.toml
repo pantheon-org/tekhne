@@ -7,13 +7,18 @@ jq = "latest"
 shellcheck = "latest"
 hk = "latest"
 pkl = "latest"
-markdownlint-cli2 = "latest"
+# rumdl is pre-1.0, so a minor bump can add rules and change what the lint gate
+# reports. Pinned exactly (unlike the other linters), bumped on purpose.
+rumdl = "0.2.77"
 cargo-dist = "0.32.0"
+
+[settings]
+# Refuse tool releases younger than a week when resolving versions.
+minimum_release_age = "7d"
 
 [env]
 # Wrap hk-invoked git hooks in `mise x` so pinned tools (bun, node, yq,
-# shellcheck, markdownlint-cli2, rust/cargo) are on PATH without shell
-# activation.
+# shellcheck, rumdl, rust/cargo) are on PATH without shell activation.
 HK_MISE = "1"
 
 [hooks]
@@ -30,10 +35,10 @@ run = ["bun install", "hk install"]
 
 # Lint all markdown directly (git-independent; covers gitignored paths too)
 [tasks.lint]
-run = "markdownlint-cli2 '**/*.md'"
+run = "rumdl check ."
 
 [tasks.lint-fix]
-run = "markdownlint-cli2 --fix '**/*.md'"
+run = "rumdl check --fix ."
 
 # Zip a skill directory for upload (e.g. to claude.ai), dereferencing any
 # symlinks so the archive contains only real files.

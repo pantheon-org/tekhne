@@ -2,7 +2,6 @@
 
 ## [0.3.0](https://github.com/pantheon-org/tekhne/compare/v0.2.6...v0.3.0) (2026-09-08)
 
-
 ### Features
 
 * **notebooklm:** add scripts and port upstream improvements ([#77](https://github.com/pantheon-org/tekhne/issues/77)) ([5ac8cce](https://github.com/pantheon-org/tekhne/commit/5ac8cce1949153de83810a17d18287cb089149b5))
@@ -17,7 +16,6 @@
 * **research:** audit remediation for google-scholar-search — A+ grade ([#69](https://github.com/pantheon-org/tekhne/issues/69)) ([1ce409c](https://github.com/pantheon-org/tekhne/commit/1ce409c0f7d1632876aa8bcc21d906861b580181))
 * **research:** recommend semantic-scholar and google-scholar MCPs ([#67](https://github.com/pantheon-org/tekhne/issues/67)) ([2b689ef](https://github.com/pantheon-org/tekhne/commit/2b689ef8e05bd1bdd7100727801050c175ad59b4))
 * **skills:** import 12 digital-stoic-org skills ([#82](https://github.com/pantheon-org/tekhne/issues/82)) ([33e0546](https://github.com/pantheon-org/tekhne/commit/33e05463e65a2f87121482696d74dad11ab3708e))
-
 
 ### Bug Fixes
 

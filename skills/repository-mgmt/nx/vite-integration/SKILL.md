@@ -261,7 +261,7 @@ Good:
 bunx nx run <project>:build
 bunx nx run <project>:test
 bunx @biomejs/biome check skills/nx-vite-integration/
-bunx markdownlint-cli2 "skills/nx-vite-integration/**/*.md"
+rumdl check skills/nx-vite-integration
 ```
 
 ## References

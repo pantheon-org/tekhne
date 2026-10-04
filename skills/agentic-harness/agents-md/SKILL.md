@@ -155,7 +155,7 @@ find . -name AGENTS.md -o -name AI-DOCS.md
 ## Verification
 
 ```bash
-bunx markdownlint-cli2 "**/AGENTS.md"
+rumdl check --include "**/AGENTS.md" .
 ```
 
 ```bash

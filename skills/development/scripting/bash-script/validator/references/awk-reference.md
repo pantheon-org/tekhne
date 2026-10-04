@@ -4,7 +4,7 @@
 
 AWK is a powerful text processing language designed for pattern scanning and processing. It's particularly useful for field-based data manipulation.
 
-**Official Manual:** https://www.gnu.org/software/gawk/manual/
+**Official Manual:** <https://www.gnu.org/software/gawk/manual/>
 **Man Page:** `man awk`
 
 ## Basic Syntax

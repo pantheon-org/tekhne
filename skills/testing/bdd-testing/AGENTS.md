@@ -89,6 +89,6 @@ Reference files are named `{prefix}-{topic}.md`.
 
 ---
 
-*Consolidates 6 original skills: bdd-collaboration, bdd-gherkin, bdd-patterns, bdd-principles, bdd-scenarios, cucumber-best-practices*
+Consolidates 6 original skills: bdd-collaboration, bdd-gherkin, bdd-patterns, bdd-principles, bdd-scenarios, cucumber-best-practices
 
-*42 reference files across 6 categories*
+42 reference files across 6 categories

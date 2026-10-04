@@ -330,7 +330,7 @@ result=$(command arg1 arg2)
 
 ---
 
-## 14. Using = Instead of == in [[ ]]
+## 14. Using = Instead of == in `[[ ]]`
 
 Not really a mistake, but inconsistent:
 

@@ -578,7 +578,7 @@ limits_config:
 
 Loki 3.x can accelerate queries using bloom filters when structured metadata filters are placed correctly.
 
-**CRITICAL: Filter Order Matters for Acceleration**
+CRITICAL: Filter Order Matters for Acceleration
 
 **Accelerated (bloom filters used):**
 ```logql
@@ -614,9 +614,9 @@ The filter comes AFTER parsers, preventing acceleration.
 - Significant performance improvement for "needle in haystack" queries
 - Essential for large-scale deployments (75TB+ monthly logs)
 
-## __error__ Label Debugging
+## **error** Label Debugging
 
-### 37. Debug Parse Errors with __error__ Label
+### 37. Debug Parse Errors with **error** Label
 
 When parsing fails, Loki creates an `__error__` label with the error type.
 

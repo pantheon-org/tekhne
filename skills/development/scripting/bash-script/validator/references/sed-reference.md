@@ -4,7 +4,7 @@
 
 sed (Stream EDitor) is a powerful text processing tool that performs basic text transformations on an input stream (file or pipeline).
 
-**Official Manual:** https://www.gnu.org/software/sed/manual/
+**Official Manual:** <https://www.gnu.org/software/sed/manual/>
 **Man Page:** `man sed`
 
 ## Basic Syntax

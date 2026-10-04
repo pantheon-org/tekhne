@@ -50,7 +50,7 @@ A structured workshop technique using colored cards to explore features through 
 └─────────────────────────────────┘
 ```
 
-**3. Provide Examples (Green Cards)**
+3. Provide Examples (Green Cards)
 
 For each rule, add concrete examples:
 
@@ -105,8 +105,8 @@ So that I can make purchases
 **Green Cards (Examples):**
 
 Rule 1: Email must be unique
-- ✅ Register with "new@example.com" → Success
-- ❌ Register with existing "taken@example.com" → Error: "Email already registered"
+- ✅ Register with "<new@example.com>" → Success
+- ❌ Register with existing "<taken@example.com>" → Error: "Email already registered"
 
 Rule 2: Password must be strong
 - ❌ Password "abc" → Error: "Too short"
@@ -181,7 +181,7 @@ YELLOW
 
 After the session, convert cards to Gherkin scenarios:
 
-**Blue Rule + Green Examples → Gherkin Scenario**
+Blue Rule + Green Examples → Gherkin Scenario
 
 ```
 Blue: "Password must be strong"

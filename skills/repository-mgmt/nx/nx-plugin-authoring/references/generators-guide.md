@@ -5,13 +5,13 @@ last_updated: January 2026
 nx_version: 22
 ---
 
-# Nx Generators Guide
+## Nx Generators Guide
 
-## What Are Generators?
+### What Are Generators?
 
 Generators automate file and project scaffolding with repeatable conventions. They use the Tree API for filesystem operations and schema-driven options for type-safe inputs.
 
-## Generator Implementation
+### Generator Implementation
 
 **Basic structure:**
 ```typescript
@@ -35,7 +35,7 @@ export async function myGenerator(tree: Tree, options: GeneratorSchema) {
 export default myGenerator;
 ```
 
-## Tree API Operations
+### Tree API Operations
 
 **Write files:**
 ```typescript
@@ -74,7 +74,7 @@ updateJson(tree, 'package.json', (json) => {
 });
 ```
 
-## Project Configuration
+### Project Configuration
 
 **Read project:**
 ```typescript
@@ -121,7 +121,7 @@ addProjectConfiguration(tree, 'my-lib', {
 });
 ```
 
-## Template Generation
+### Template Generation
 
 **Directory structure:**
 ```
@@ -169,7 +169,7 @@ generateFiles(
 );
 ```
 
-## Schema-Driven Options
+### Schema-Driven Options
 
 **schema.json:**
 ```json
@@ -217,7 +217,7 @@ export interface GeneratorSchema {
 }
 ```
 
-## Utility Helpers
+### Utility Helpers
 
 **Name transformations:**
 ```typescript
@@ -252,7 +252,7 @@ addDependenciesToPackageJson(
 );
 ```
 
-## Validation and Testing
+### Validation and Testing
 
 **Dry run validation:**
 ```bash
@@ -290,7 +290,7 @@ describe('library generator', () => {
 });
 ```
 
-## Best Practices
+### Best Practices
 
 1. **Use Tree API exclusively** - never direct filesystem writes
 2. **Read before mutate** - always `readProjectConfiguration` before `updateProjectConfiguration`
@@ -299,7 +299,7 @@ describe('library generator', () => {
 5. **Test with dry-run** - validate before broad rollouts
 6. **Compose generators** - call other generators to reduce duplication
 
-## References
+### References
 
 - [Nx Devkit Generators](https://nx.dev/extending-nx/recipes/local-generators)
 - [Tree API Reference](tree-api-reference.md)

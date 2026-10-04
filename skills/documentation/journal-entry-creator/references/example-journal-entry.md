@@ -222,7 +222,7 @@ This research represents a paradigm shift toward more structured AI guidance sys
 - [x] Key findings organized with clear hierarchy
 - [x] Strategic implications and next steps identified
 - [x] Formatted with Prettier
-- [x] Linted with markdownlint-cli2
+- [x] Linted with the repo's markdown linter
 - [x] Validated with journal entry validation script
 
 ## Tags

@@ -60,7 +60,7 @@ environment - a direct API, an export/download, or an MCP connector:
   GitHub MCP connector), plus whatever the source host's archived URLs already give you.
 
 `bash`, `awk` (GNU awk / `gawk` - the bundled scripts use its 3-arg `match()` extension), `prettier`, and
-`markdownlint-cli2` (the repo's markdown toolchain) round out the requirements.
+the repo's markdown linter round out the requirements.
 
 ## When to Use
 
@@ -157,7 +157,7 @@ Run for every file created or edited, then commit only when clean:
 
 ```bash
 npx prettier --write <files>
-npx markdownlint-cli2 --fix <files>
+<markdown-linter> --fix <files>
 # imported entries and any other base-schema entry:
 bash skills/documentation/journal-entry-creator/scripts/validate-journal-entry.sh <files>
 # ticket-detail entries (runs the base validator too):

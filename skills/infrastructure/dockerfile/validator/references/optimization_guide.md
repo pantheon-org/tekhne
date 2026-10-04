@@ -24,7 +24,7 @@ RUN apk add --no-cache python3
 - ✅ Very small (5 MB)
 - ✅ Has package manager
 - ✅ Good for interpreted languages
-- ⚠️  Uses musl libc (compatibility issues with some C libraries)
+- ⚠️ Uses musl libc (compatibility issues with some C libraries)
 
 **Distroless** - Production containers
 ```dockerfile
@@ -34,8 +34,8 @@ COPY --from=builder /app /app
 - ✅ No shell, package manager (secure)
 - ✅ Minimal attack surface
 - ✅ Small size
-- ⚠️  Cannot exec into container for debugging
-- ⚠️  Must use multi-stage builds
+- ⚠️ Cannot exec into container for debugging
+- ⚠️ Must use multi-stage builds
 
 **Scratch** - Static binaries only
 ```dockerfile
@@ -44,12 +44,12 @@ COPY --from=builder /app/binary /
 ```
 - ✅ Absolutely minimal
 - ✅ Perfect for Go, Rust static binaries
-- ⚠️  No OS utilities
-- ⚠️  No debug capabilities
+- ⚠️ No OS utilities
+- ⚠️ No debug capabilities
 
 ### 2. Multi-Stage Builds
 
-**Problem: Build tools bloat production images**
+Problem: Build tools bloat production images
 
 **Single-stage (bloated):**
 ```dockerfile
@@ -137,7 +137,7 @@ RUN --mount=type=cache,target=/root/.npm \
 
 ### 5. Use .dockerignore
 
-**Problem: Entire project copied into image**
+Problem: Entire project copied into image
 
 ```
 .dockerignore contents:
