@@ -5,14 +5,14 @@ Handles browser launching, stealth features, and common interactions
 """
 
 import json
-import time
-import random
 import logging
+import random
+import time
 
 logger = logging.getLogger(__name__)
 
-from patchright.sync_api import Playwright, BrowserContext, Page
-from config import BROWSER_PROFILE_DIR, STATE_FILE, BROWSER_ARGS, USER_AGENT
+from config import BROWSER_ARGS, BROWSER_PROFILE_DIR, STATE_FILE, USER_AGENT
+from patchright.sync_api import BrowserContext, Page, Playwright
 
 
 class BrowserFactory:

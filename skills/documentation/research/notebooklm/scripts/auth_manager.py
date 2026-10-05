@@ -10,22 +10,22 @@ Implements hybrid auth approach:
 See: https://github.com/microsoft/playwright/issues/36139
 """
 
-import json
-import time
 import argparse
-import shutil
+import json
 import re
+import shutil
 import sys
+import time
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any
 
-from patchright.sync_api import sync_playwright, BrowserContext
+from patchright.sync_api import BrowserContext, sync_playwright
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from config import BROWSER_STATE_DIR, STATE_FILE, AUTH_INFO_FILE, DATA_DIR
 from browser_utils import BrowserFactory
+from config import AUTH_INFO_FILE, BROWSER_STATE_DIR, DATA_DIR, STATE_FILE
 
 
 class AuthManager:
@@ -61,7 +61,7 @@ class AuthManager:
 
         return True
 
-    def get_auth_info(self) -> Dict[str, Any]:
+    def get_auth_info(self) -> dict[str, Any]:
         """Get authentication information"""
         info = {
             'authenticated': self.is_authenticated(),
@@ -129,7 +129,7 @@ class AuthManager:
                 timeout_ms = int(timeout_minutes * 60 * 1000)
                 page.wait_for_url(re.compile(r"^https://notebooklm\.google\.com/"), timeout=timeout_ms)
 
-                print(f"  ✅ Login successful!")
+                print("  ✅ Login successful!")
 
                 # Save authentication state
                 self._save_browser_state(context)
@@ -326,7 +326,7 @@ def main():
             print("You can now use ask_question.py to query NotebookLM")
         else:
             print("\n❌ Authentication setup failed")
-            exit(1)
+            sys.exit(1)
 
     elif args.command == 'status':
         info = auth.get_auth_info()
@@ -354,7 +354,7 @@ def main():
             print("\n✅ Re-authentication complete!")
         else:
             print("\n❌ Re-authentication failed")
-            exit(1)
+            sys.exit(1)
 
     else:
         parser.print_help()

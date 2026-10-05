@@ -5,13 +5,12 @@ Manages a library of NotebookLM notebooks with metadata
 Based on the MCP server implementation
 """
 
-import json
 import argparse
-import os
+import json
 import logging
-from pathlib import Path
-from typing import Dict, List, Optional, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 
 class NotebookLibrary:
@@ -25,8 +24,8 @@ class NotebookLibrary:
         self.data_dir.mkdir(parents=True, exist_ok=True)
 
         self.library_file = self.data_dir / "library.json"
-        self.notebooks: Dict[str, Dict[str, Any]] = {}
-        self.active_notebook_id: Optional[str] = None
+        self.notebooks: dict[str, dict[str, Any]] = {}
+        self.active_notebook_id: str | None = None
 
         # Load existing library
         self._load_library()
@@ -65,11 +64,11 @@ class NotebookLibrary:
         url: str,
         name: str,
         description: str,
-        topics: List[str],
-        content_types: Optional[List[str]] = None,
-        use_cases: Optional[List[str]] = None,
-        tags: Optional[List[str]] = None
-    ) -> Dict[str, Any]:
+        topics: list[str],
+        content_types: list[str] | None = None,
+        use_cases: list[str] | None = None,
+        tags: list[str] | None = None
+    ) -> dict[str, Any]:
         """
         Add a new notebook to the library
 
@@ -138,7 +137,7 @@ class NotebookLibrary:
                 self.active_notebook_id = None
                 # Set new active if there are other notebooks
                 if self.notebooks:
-                    self.active_notebook_id = list(self.notebooks.keys())[0]
+                    self.active_notebook_id = next(iter(self.notebooks))
 
             self._save_library()
             print(f"✅ Removed notebook: {notebook_id}")
@@ -150,14 +149,14 @@ class NotebookLibrary:
     def update_notebook(
         self,
         notebook_id: str,
-        name: Optional[str] = None,
-        description: Optional[str] = None,
-        topics: Optional[List[str]] = None,
-        content_types: Optional[List[str]] = None,
-        use_cases: Optional[List[str]] = None,
-        tags: Optional[List[str]] = None,
-        url: Optional[str] = None
-    ) -> Dict[str, Any]:
+        name: str | None = None,
+        description: str | None = None,
+        topics: list[str] | None = None,
+        content_types: list[str] | None = None,
+        use_cases: list[str] | None = None,
+        tags: list[str] | None = None,
+        url: str | None = None
+    ) -> dict[str, Any]:
         """
         Update notebook metadata
 
@@ -195,15 +194,15 @@ class NotebookLibrary:
         print(f"✅ Updated notebook: {notebook['name']}")
         return notebook
 
-    def get_notebook(self, notebook_id: str) -> Optional[Dict[str, Any]]:
+    def get_notebook(self, notebook_id: str) -> dict[str, Any] | None:
         """Get a specific notebook by ID"""
         return self.notebooks.get(notebook_id)
 
-    def list_notebooks(self) -> List[Dict[str, Any]]:
+    def list_notebooks(self) -> list[dict[str, Any]]:
         """List all notebooks in the library"""
         return list(self.notebooks.values())
 
-    def search_notebooks(self, query: str) -> List[Dict[str, Any]]:
+    def search_notebooks(self, query: str) -> list[dict[str, Any]]:
         """
         Search notebooks by query
 
@@ -231,7 +230,7 @@ class NotebookLibrary:
 
         return results
 
-    def select_notebook(self, notebook_id: str) -> Dict[str, Any]:
+    def select_notebook(self, notebook_id: str) -> dict[str, Any]:
         """
         Set a notebook as active
 
@@ -251,13 +250,13 @@ class NotebookLibrary:
         print(f"✅ Activated notebook: {notebook['name']}")
         return notebook
 
-    def get_active_notebook(self) -> Optional[Dict[str, Any]]:
+    def get_active_notebook(self) -> dict[str, Any] | None:
         """Get the currently active notebook"""
         if self.active_notebook_id:
             return self.notebooks.get(self.active_notebook_id)
         return None
 
-    def increment_use_count(self, notebook_id: str) -> Dict[str, Any]:
+    def increment_use_count(self, notebook_id: str) -> dict[str, Any]:
         """
         Increment usage counter for a notebook
 
@@ -277,7 +276,7 @@ class NotebookLibrary:
         self._save_library()
         return notebook
 
-    def get_stats(self) -> Dict[str, Any]:
+    def get_stats(self) -> dict[str, Any]:
         """Get library statistics"""
         total_notebooks = len(self.notebooks)
         total_topics = set()
