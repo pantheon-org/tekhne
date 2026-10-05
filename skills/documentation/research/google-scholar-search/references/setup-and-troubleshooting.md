@@ -68,7 +68,7 @@ If `scholarly` triggers its own block, use Semantic Scholar's author API via MCP
 
 ### Wrong Python version
 
-The script requires Python 3.8+. Check with:
+The script requires Python 3.10+. Check with:
 
 ```bash
 python3 --version

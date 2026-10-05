@@ -8,9 +8,10 @@ and get author information from Google Scholar.
 
 import argparse
 import json
-import sys
 import logging
-from typing import Dict, Any, List, Optional
+import sys
+from typing import Any
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -24,7 +25,7 @@ class GoogleScholarSearch:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
         }
 
-    def search_papers(self, query: str, num_results: int = 10) -> List[Dict[str, Any]]:
+    def search_papers(self, query: str, num_results: int = 10) -> list[dict[str, Any]]:
         """Search for papers using a query string.
 
         Args:
@@ -66,14 +67,14 @@ class GoogleScholarSearch:
             return results
 
         except requests.RequestException as e:
-            return [{"error": f"Request failed: {str(e)}"}]
+            return [{"error": f"Request failed: {e!s}"}]
         except Exception as e:
-            return [{"error": f"An error occurred: {str(e)}"}]
+            return [{"error": f"An error occurred: {e!s}"}]
 
-    def search_papers_advanced(self, query: str, author: Optional[str] = None,
-                              year_start: Optional[int] = None,
-                              year_end: Optional[int] = None,
-                              num_results: int = 10) -> List[Dict[str, Any]]:
+    def search_papers_advanced(self, query: str, author: str | None = None,
+                              year_start: int | None = None,
+                              year_end: int | None = None,
+                              num_results: int = 10) -> list[dict[str, Any]]:
         """Search for papers using advanced filters.
 
         Args:
@@ -126,11 +127,11 @@ class GoogleScholarSearch:
             return results
 
         except requests.RequestException as e:
-            return [{"error": f"Request failed: {str(e)}"}]
+            return [{"error": f"Request failed: {e!s}"}]
         except Exception as e:
-            return [{"error": f"An error occurred: {str(e)}"}]
+            return [{"error": f"An error occurred: {e!s}"}]
 
-    def get_author_info(self, author_name: str) -> Dict[str, Any]:
+    def get_author_info(self, author_name: str) -> dict[str, Any]:
         """Get author information using scholarly library.
 
         Args:
@@ -169,7 +170,7 @@ class GoogleScholarSearch:
         except ImportError:
             return {"error": "scholarly library not installed. Install it with: pip install scholarly"}
         except Exception as e:
-            return {"error": f"Failed to get author info: {str(e)}"}
+            return {"error": f"Failed to get author info: {e!s}"}
 
 
 class OutputHandler:
@@ -219,7 +220,7 @@ class OutputHandler:
                     print(f"主页: {data.get('homepage', 'N/A')}")
 
                 if data.get('publications'):
-                    print(f"\n近期论文 (前10篇):")
+                    print("\n近期论文 (前10篇):")
                     for i, pub in enumerate(data['publications'], 1):
                         print(f"\n  {i}. {pub.get('title', 'N/A')}")
                         if pub.get('year') and pub['year'] != 'N/A':
@@ -228,7 +229,7 @@ class OutputHandler:
                             print(f"     引用数: {pub['citations']}")
 
     @staticmethod
-    def _print_paper(paper: Dict[str, Any]) -> None:
+    def _print_paper(paper: dict[str, Any]) -> None:
         """Print a single paper's information."""
         print(f"标题: {paper.get('title', 'N/A')}")
         print(f"作者: {paper.get('authors', 'N/A')}")
