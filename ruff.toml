@@ -1,0 +1,4 @@
+# The Python the skill scripts target. aislop's ruff step reads this file, and
+# with it the typing rules (for example `X | None`, `list[str]`) apply as they
+# do by default. Skill docs that name an older Python are raised to match.
+target-version = "py310"
