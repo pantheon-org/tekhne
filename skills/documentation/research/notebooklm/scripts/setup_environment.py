@@ -4,11 +4,11 @@ Environment Setup for NotebookLM Skill
 Manages virtual environment and dependencies automatically
 """
 
-import os
-import sys
-import subprocess
-import venv
 import logging
+import os
+import subprocess
+import sys
+import venv
 from pathlib import Path
 
 
@@ -60,7 +60,7 @@ class SkillEnvironment:
                 )
 
                 # Install requirements
-                result = subprocess.run(
+                subprocess.run(
                     [str(self.venv_pip), "install", "-r", str(self.requirements_file)],
                     check=True,
                     capture_output=True,
@@ -108,7 +108,7 @@ class SkillEnvironment:
             return str(self.venv_python)
         return sys.executable
 
-    def run_script(self, script_name: str, args: list = None) -> int:
+    def run_script(self, script_name: str, args: list | None = None) -> int:
         """Run a script with the virtual environment"""
         script_path = self.skill_dir / "scripts" / script_name
 
@@ -130,7 +130,7 @@ class SkillEnvironment:
 
         try:
             # Run the script with venv Python
-            result = subprocess.run(cmd)
+            result = subprocess.run(cmd, check=False)
             return result.returncode
         except Exception as e:
             print(f"❌ Failed to run script: {e}")
@@ -181,8 +181,8 @@ def main():
             print(f"   Python: {env.get_python_executable()}")
             print(f"   To activate manually: {env.activate_instructions()}")
         else:
-            print(f"❌ No virtual environment found")
-            print(f"   Run setup_environment.py to create it")
+            print("❌ No virtual environment found")
+            print("   Run setup_environment.py to create it")
         return
 
     if args.run:
@@ -195,7 +195,7 @@ def main():
         print(f"   Virtual env: {env.venv_dir}")
         print(f"   Python: {env.get_python_executable()}")
         print(f"\nTo activate manually: {env.activate_instructions()}")
-        print(f"Or run scripts directly: python setup_environment.py --run script_name.py")
+        print("Or run scripts directly: python setup_environment.py --run script_name.py")
     else:
         print("\n❌ Environment setup failed")
         return 1

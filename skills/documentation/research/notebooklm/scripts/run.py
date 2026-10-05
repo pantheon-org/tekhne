@@ -5,8 +5,8 @@ Ensures all scripts run with the correct virtual environment
 """
 
 import os
-import sys
 import subprocess
+import sys
 from pathlib import Path
 
 
@@ -35,7 +35,7 @@ def ensure_venv():
         print("   This may take a minute...")
 
         # Run setup with system Python
-        result = subprocess.run([sys.executable, str(setup_script)])
+        result = subprocess.run([sys.executable, str(setup_script)], check=False)
         if result.returncode != 0:
             print("❌ Failed to set up environment")
             sys.exit(1)
@@ -63,7 +63,7 @@ def main():
     # Handle both "scripts/script.py" and "script.py" formats
     if script_name.startswith('scripts/'):
         # Remove the scripts/ prefix if provided
-        script_name = script_name[8:]  # len('scripts/') = 8
+        script_name = script_name.removeprefix('scripts/')
 
     # Ensure .py extension
     if not script_name.endswith('.py'):
@@ -88,7 +88,7 @@ def main():
 
     # Run the script
     try:
-        result = subprocess.run(cmd)
+        result = subprocess.run(cmd, check=False)
         sys.exit(result.returncode)
     except KeyboardInterrupt:
         print("\n⚠️ Interrupted by user")

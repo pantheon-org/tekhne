@@ -10,9 +10,9 @@ See: https://github.com/microsoft/playwright/issues/36139
 """
 
 import argparse
+import re
 import sys
 import time
-import re
 from pathlib import Path
 
 from patchright.sync_api import sync_playwright
@@ -26,11 +26,10 @@ LOGS_DIR = PROJECT_ROOT / "logs"
 LOGS_DIR.mkdir(exist_ok=True)
 
 from auth_manager import AuthManager
-from notebook_manager import NotebookLibrary
-from config import QUERY_INPUT_SELECTORS, RESPONSE_SELECTORS
 from browser_utils import BrowserFactory, StealthUtils
+from config import QUERY_INPUT_SELECTORS, RESPONSE_SELECTORS
 from logger import QueryLogger
-
+from notebook_manager import NotebookLibrary
 
 # Follow-up reminder (adapted from MCP server for stateless operation)
 # Since we don't have persistent sessions, we encourage comprehensive questions
@@ -167,7 +166,7 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True, use_
                 if query_element:
                     print(f"  ✓ Found input: {selector}")
                     break
-            except:
+            except Exception:
                 continue
 
         if not query_element:
@@ -191,7 +190,7 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True, use_
                     text = el.inner_text().strip()
                     if text:
                         existing_responses.add(text)
-            except:
+            except Exception:
                 continue
 
         # Submit
@@ -260,7 +259,7 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True, use_
                         candidate = text
                         current_element = el
                         break
-                except:
+                except Exception:
                     continue
                 if candidate:
                     break

@@ -5,9 +5,8 @@ Handles saving query results and statistics to log files
 """
 
 import json
-from pathlib import Path
 from datetime import datetime
-from typing import Dict, Optional
+from pathlib import Path
 
 
 class QueryLogger:
@@ -44,9 +43,9 @@ class QueryLogger:
         self,
         question: str,
         notebook_url: str,
-        result: Dict[str, Optional[str]],
+        result: dict[str, str | None],
         use_markdown: bool = True
-    ) -> Dict[str, Path]:
+    ) -> dict[str, Path]:
         """
         Save query results to log files
 
@@ -117,7 +116,7 @@ class QueryLogger:
 
         return saved_files
 
-    def print_save_summary(self, saved_files: Dict[str, Path]):
+    def print_save_summary(self, saved_files: dict[str, Path]):
         """
         Print a summary of saved files
 
