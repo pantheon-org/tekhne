@@ -4,12 +4,10 @@ Extract Ansible module and collection information from playbooks and roles.
 Outputs JSON with detected modules, collections, and version constraints.
 """
 
-import sys
 import json
-import os
-import re
+import sys
 from pathlib import Path
-from typing import Dict, List, Set, Any
+from typing import Any, ClassVar
 
 try:
     import yaml
@@ -25,7 +23,7 @@ class AnsibleInfoExtractor:
     """Extract module and collection information from Ansible files"""
 
     # Common Ansible builtin modules (ansible.builtin collection)
-    BUILTIN_MODULES = {
+    BUILTIN_MODULES: ClassVar[set[str]] = {
         'debug', 'set_fact', 'assert', 'fail', 'include', 'include_tasks',
         'include_vars', 'import_tasks', 'import_playbook', 'add_host',
         'group_by', 'pause', 'wait_for', 'meta', 'command', 'shell',
@@ -38,12 +36,12 @@ class AnsibleInfoExtractor:
 
     def __init__(self, path: str):
         self.path = Path(path)
-        self.modules: Set[str] = set()
-        self.collections: Set[str] = set()
-        self.collection_versions: Dict[str, str] = {}
-        self.errors: List[str] = []
+        self.modules: set[str] = set()
+        self.collections: set[str] = set()
+        self.collection_versions: dict[str, str] = {}
+        self.errors: list[str] = []
 
-    def extract(self) -> Dict[str, Any]:
+    def extract(self) -> dict[str, Any]:
         """Extract information from Ansible files"""
         if self.path.is_file():
             self._process_file(self.path)
@@ -120,9 +118,9 @@ class AnsibleInfoExtractor:
                 self._extract_from_tasks(content)
 
         except yaml.YAMLError as e:
-            self.errors.append(f"YAML error in {file_path}: {str(e)}")
+            self.errors.append(f"YAML error in {file_path}: {e!s}")
         except Exception as e:
-            self.errors.append(f"Error processing {file_path}: {str(e)}")
+            self.errors.append(f"Error processing {file_path}: {e!s}")
 
     def _process_requirements(self, req_file: Path):
         """Process requirements.yml for collection versions"""
@@ -147,9 +145,9 @@ class AnsibleInfoExtractor:
                         self.collection_versions[collection] = 'latest'
 
         except Exception as e:
-            self.errors.append(f"Error processing requirements {req_file}: {str(e)}")
+            self.errors.append(f"Error processing requirements {req_file}: {e!s}")
 
-    def _extract_from_play(self, play: Dict):
+    def _extract_from_play(self, play: dict):
         """Extract modules from a play"""
         # Process pre_tasks
         if 'pre_tasks' in play:
@@ -171,7 +169,7 @@ class AnsibleInfoExtractor:
         if 'roles' in play:
             self._extract_from_roles(play['roles'])
 
-    def _extract_from_tasks(self, content: Dict):
+    def _extract_from_tasks(self, content: dict):
         """Extract from task file content"""
         # If it's a list of tasks
         if isinstance(content, list):
@@ -180,7 +178,7 @@ class AnsibleInfoExtractor:
         elif 'tasks' in content:
             self._extract_from_task_list(content['tasks'])
 
-    def _extract_from_task_list(self, tasks: List):
+    def _extract_from_task_list(self, tasks: list):
         """Extract modules from a list of tasks"""
         if not isinstance(tasks, list):
             return
@@ -190,7 +188,7 @@ class AnsibleInfoExtractor:
                 continue
 
             # Extract module name from task
-            for key in task.keys():
+            for key in task:
                 # Skip Ansible keywords
                 if key in ['name', 'when', 'with_items', 'loop', 'register',
                           'become', 'become_user', 'notify', 'tags', 'vars',
@@ -212,7 +210,6 @@ class AnsibleInfoExtractor:
                     parts = key.split('.')
                     if len(parts) >= 3:
                         collection = f"{parts[0]}.{parts[1]}"
-                        module = parts[2]
                         self.collections.add(collection)
                         self.modules.add(key)
                     elif len(parts) == 2:
@@ -239,11 +236,11 @@ class AnsibleInfoExtractor:
                         collection = f"{parts[0]}.{parts[1]}"
                         self.collections.add(collection)
 
-    def _build_result(self) -> Dict[str, Any]:
+    def _build_result(self) -> dict[str, Any]:
         """Build the result dictionary"""
         return {
-            "modules": sorted(list(self.modules)),
-            "collections": sorted(list(self.collections)),
+            "modules": sorted(self.modules),
+            "collections": sorted(self.collections),
             "collection_versions": self.collection_versions,
             "builtin_modules": sorted([m for m in self.modules if m in self.BUILTIN_MODULES]),
             "custom_modules": sorted([m for m in self.modules if m not in self.BUILTIN_MODULES]),
