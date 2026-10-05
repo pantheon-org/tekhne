@@ -13,13 +13,14 @@ This script scans GitLab CI/CD YAML files for security issues:
 - Unpinned external resources
 """
 
-import sys
-import yaml
-import re
 import json
-from pathlib import Path
-from typing import Dict, List, Any, Pattern
+import re
+import sys
 from collections import defaultdict
+from pathlib import Path
+from typing import Any, ClassVar
+
+import yaml
 
 
 class SecurityIssue:
@@ -38,7 +39,7 @@ class SecurityIssue:
             result += f"\n  🔒 Remediation: {self.remediation}"
         return result
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON output"""
         result = {
             'severity': self.severity,
@@ -55,7 +56,7 @@ class SecurityScanner:
     """Scans GitLab CI/CD files for security issues"""
 
     # Patterns for detecting hardcoded secrets
-    SECRET_PATTERNS = [
+    SECRET_PATTERNS: ClassVar[list[tuple[Any, ...]]] = [
         (re.compile(r'(?i)(password|passwd|pwd)\s*[:=]\s*["\']?[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:,.<>?/\\|`~]{8,}["\']?'), 'password'),
         (re.compile(r'(?i)(api[_-]?key|apikey)\s*[:=]\s*["\']?[a-zA-Z0-9_\-]{16,}["\']?'), 'api-key'),
         (re.compile(r'(?i)(secret|token)\s*[:=]\s*["\']?[a-zA-Z0-9_\-]{16,}["\']?'), 'secret-token'),
@@ -68,7 +69,7 @@ class SecurityScanner:
     ]
 
     # Dangerous script patterns
-    DANGEROUS_PATTERNS = [
+    DANGEROUS_PATTERNS: ClassVar[list[tuple[Any, ...]]] = [
         (re.compile(r'curl\s+[^|]*\|\s*(bash|sh)'), 'curl-pipe-bash', 'Download and verify scripts before execution'),
         (re.compile(r'wget\s+[^|]*\|\s*(bash|sh)'), 'wget-pipe-bash', 'Download and verify scripts before execution'),
         (re.compile(r'eval\s+\$'), 'eval-variable', 'Avoid using eval with variables to prevent code injection'),
@@ -79,7 +80,7 @@ class SecurityScanner:
     ]
 
     # Patterns that might leak secrets in logs
-    ECHO_SECRET_PATTERNS = [
+    ECHO_SECRET_PATTERNS: ClassVar[list[Any]] = [
         re.compile(r'echo\s+.*\$(PASSWORD|SECRET|TOKEN|KEY|CREDENTIAL)'),
         re.compile(r'print.*\$(PASSWORD|SECRET|TOKEN|KEY|CREDENTIAL)'),
         re.compile(r'console\.log.*\$(PASSWORD|SECRET|TOKEN|KEY|CREDENTIAL)'),
@@ -87,12 +88,12 @@ class SecurityScanner:
 
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
-        self.issues: List[SecurityIssue] = []
-        self.config: Dict[str, Any] = {}
+        self.issues: list[SecurityIssue] = []
+        self.config: dict[str, Any] = {}
         self.raw_content: str = ""
-        self.line_map: Dict[str, int] = {}
+        self.line_map: dict[str, int] = {}
 
-    def scan(self) -> List[SecurityIssue]:
+    def scan(self) -> list[SecurityIssue]:
         """Run all security scans"""
 
         try:
@@ -268,15 +269,14 @@ class SecurityScanner:
             # Check for debug flags that might expose secrets
             if 'variables' in job:
                 variables = job['variables']
-                if isinstance(variables, dict):
-                    if variables.get('CI_DEBUG_TRACE') == 'true':
-                        self.issues.append(SecurityIssue(
-                            'medium',
-                            line,
-                            f"Job '{job_name}' has CI_DEBUG_TRACE enabled",
-                            'debug-trace-enabled',
-                            "Debug trace may expose sensitive information; use only for troubleshooting"
-                        ))
+                if isinstance(variables, dict) and variables.get('CI_DEBUG_TRACE') == 'true':
+                    self.issues.append(SecurityIssue(
+                        'medium',
+                        line,
+                        f"Job '{job_name}' has CI_DEBUG_TRACE enabled",
+                        'debug-trace-enabled',
+                        "Debug trace may expose sensitive information; use only for troubleshooting"
+                    ))
 
     def _check_image_security(self):
         """Check Docker image security"""
@@ -311,15 +311,14 @@ class SecurityScanner:
             # Warn about unverified registries
             if not any(registry in image_value for registry in [
                 'docker.io', 'gcr.io', 'registry.gitlab.com', 'ghcr.io', 'quay.io'
-            ]) and '/' in image_value:
-                if not image_value.startswith('$'):
-                    self.issues.append(SecurityIssue(
-                        'low',
-                        line,
-                        f"Using image from unverified registry in {context}",
-                        'image-unknown-registry',
-                        "Ensure the registry is trusted and uses secure authentication"
-                    ))
+            ]) and '/' in image_value and not image_value.startswith('$'):
+                self.issues.append(SecurityIssue(
+                    'low',
+                    line,
+                    f"Using image from unverified registry in {context}",
+                    'image-unknown-registry',
+                    "Ensure the registry is trusted and uses secure authentication"
+                ))
 
         # Check global and default images
         if 'image' in self.config:
@@ -406,17 +405,21 @@ class SecurityScanner:
 
         for var_name, var_value in variables.items():
             # Check if sensitive variable name has a static value (might be hardcoded)
-            if any(pattern in var_name.upper() for pattern in sensitive_var_patterns):
-                if isinstance(var_value, str) and not var_value.startswith('$'):
-                    # Check if it looks like an actual secret (not a placeholder)
-                    if len(var_value) > 8 and not var_value.isupper():
-                        self.issues.append(SecurityIssue(
-                            'critical',
-                            line,
-                            f"Sensitive variable '{var_name}' in {context} appears to have hardcoded value",
-                            'variable-hardcoded-secret',
-                            "Use CI/CD variables with masking enabled or secrets manager"
-                        ))
+            # Check if it looks like an actual secret (not a placeholder)
+            if (
+                any(pattern in var_name.upper() for pattern in sensitive_var_patterns)
+                and isinstance(var_value, str)
+                and not var_value.startswith('$')
+                and len(var_value) > 8
+                and not var_value.isupper()
+            ):
+                self.issues.append(SecurityIssue(
+                    'critical',
+                    line,
+                    f"Sensitive variable '{var_name}' in {context} appears to have hardcoded value",
+                    'variable-hardcoded-secret',
+                    "Use CI/CD variables with masking enabled or secrets manager"
+                ))
 
     def _check_include_security(self):
         """Check include security for all types: component, project, remote, local, template"""
@@ -459,7 +462,7 @@ class SecurityScanner:
             if 'template' in inc:
                 self._check_template_include_security(inc, line, i+1)
 
-    def _check_component_include_security(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _check_component_include_security(self, inc: dict[str, Any], line: int, item_num: int):
         """Check security for component includes"""
 
         component = inc.get('component', '')
@@ -475,16 +478,15 @@ class SecurityScanner:
             ))
 
         # Check for external/untrusted component sources
-        if 'gitlab.com' in component and '$CI_SERVER_FQDN' not in component:
-            # Component from gitlab.com (public) - ensure it's from verified sources
-            if '/components/' not in component:
-                self.issues.append(SecurityIssue(
-                    'medium',
-                    line,
-                    f"Include item #{item_num}: Component from external source - ensure it's from a trusted organization",
-                    'include-component-external-source',
-                    "Verify the component source and consider mirroring to your own GitLab instance"
-                ))
+        # Component from gitlab.com (public) - ensure it's from verified sources
+        if 'gitlab.com' in component and '$CI_SERVER_FQDN' not in component and '/components/' not in component:
+            self.issues.append(SecurityIssue(
+                'medium',
+                line,
+                f"Include item #{item_num}: Component from external source - ensure it's from a trusted organization",
+                'include-component-external-source',
+                "Verify the component source and consider mirroring to your own GitLab instance"
+            ))
 
         # Check if inputs contain sensitive data (should use variables instead)
         if 'inputs' in inc:
@@ -494,18 +496,17 @@ class SecurityScanner:
                     if isinstance(value, str):
                         # Check for hardcoded secrets in inputs
                         sensitive_patterns = ['password', 'token', 'secret', 'key', 'credential']
-                        if any(pattern in key.lower() for pattern in sensitive_patterns):
-                            # Check if value is hardcoded (not a variable reference)
-                            if not value.startswith('$'):
-                                self.issues.append(SecurityIssue(
-                                    'critical',
-                                    line,
-                                    f"Include item #{item_num}: Component input '{key}' may contain hardcoded sensitive data",
-                                    'include-component-hardcoded-input',
-                                    "Use CI/CD variables ($VARIABLE_NAME) instead of hardcoded values"
-                                ))
+                        # Check if value is hardcoded (not a variable reference)
+                        if any(pattern in key.lower() for pattern in sensitive_patterns) and not value.startswith('$'):
+                            self.issues.append(SecurityIssue(
+                                'critical',
+                                line,
+                                f"Include item #{item_num}: Component input '{key}' may contain hardcoded sensitive data",
+                                'include-component-hardcoded-input',
+                                "Use CI/CD variables ($VARIABLE_NAME) instead of hardcoded values"
+                            ))
 
-    def _check_remote_include_security(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _check_remote_include_security(self, inc: dict[str, Any], line: int, item_num: int):
         """Check security for remote includes"""
 
         remote = inc.get('remote', '')
@@ -539,7 +540,7 @@ class SecurityScanner:
                 "Consider using GitLab's project include with pinned ref for better security"
             ))
 
-    def _check_project_include_security(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _check_project_include_security(self, inc: dict[str, Any], line: int, item_num: int):
         """Check security for project includes"""
 
         # Check project includes without specific ref
@@ -559,16 +560,15 @@ class SecurityScanner:
                 is_sha = re.match(r'^[0-9a-f]{40}$', ref)
                 is_version_tag = re.match(r'^v?\d+\.\d+', ref)
 
-                if not is_sha and not is_version_tag:
-                    # Check for common branch names
-                    if ref in ['main', 'master', 'develop', 'dev', 'staging', 'production']:
-                        self.issues.append(SecurityIssue(
-                            'medium',
-                            line,
-                            f"Include item #{item_num}: Uses branch name '{ref}' instead of commit SHA",
-                            'include-project-branch-ref',
-                            "Pin to specific commit SHA for reproducibility and security"
-                        ))
+                # Check for common branch names
+                if not is_sha and not is_version_tag and ref in ['main', 'master', 'develop', 'dev', 'staging', 'production']:
+                    self.issues.append(SecurityIssue(
+                        'medium',
+                        line,
+                        f"Include item #{item_num}: Uses branch name '{ref}' instead of commit SHA",
+                        'include-project-branch-ref',
+                        "Pin to specific commit SHA for reproducibility and security"
+                    ))
 
         # Check for cross-project includes (may have different security contexts)
         project = inc.get('project', '')
@@ -601,7 +601,7 @@ class SecurityScanner:
         # Note: Absolute paths starting with / are normal in GitLab CI local includes
         # They are relative to the repository root, so no additional warning needed
 
-    def _check_template_include_security(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _check_template_include_security(self, inc: dict[str, Any], line: int, item_num: int):
         """Check security for template includes"""
 
         template = inc.get('template', '')
@@ -724,15 +724,14 @@ class SecurityScanner:
                 ))
 
             # Warn about 'fetch' without depth limit
-            if strategy == 'fetch':
-                if 'GIT_DEPTH' not in variables:
-                    self.issues.append(SecurityIssue(
-                        'low',
-                        line,
-                        f"Git strategy 'fetch' in {context} without GIT_DEPTH may be inefficient",
-                        'git-strategy-fetch-no-depth',
-                        "Consider setting GIT_DEPTH to limit history and improve performance"
-                    ))
+            if strategy == 'fetch' and 'GIT_DEPTH' not in variables:
+                self.issues.append(SecurityIssue(
+                    'low',
+                    line,
+                    f"Git strategy 'fetch' in {context} without GIT_DEPTH may be inefficient",
+                    'git-strategy-fetch-no-depth',
+                    "Consider setting GIT_DEPTH to limit history and improve performance"
+                ))
 
 def main():
     """Main entry point"""

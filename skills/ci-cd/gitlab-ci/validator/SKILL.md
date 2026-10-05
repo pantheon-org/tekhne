@@ -161,7 +161,7 @@ def _check_custom_rule(self):
 
 ## Requirements
 
-- **Python 3.7+**
+- **Python 3.10+**
 - **PyYAML**: `pip3 install PyYAML`
 - **Bash**: For the orchestrator script
 

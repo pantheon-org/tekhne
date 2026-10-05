@@ -14,13 +14,14 @@ This script checks GitLab CI/CD YAML files for best practices:
 - DAG optimization opportunities
 """
 
-import sys
-import yaml
-import re
 import json
-from pathlib import Path
-from typing import Dict, List, Any, Set
+import re
+import sys
 from collections import defaultdict
+from pathlib import Path
+from typing import Any
+
+import yaml
 
 
 class BestPracticeIssue:
@@ -39,7 +40,7 @@ class BestPracticeIssue:
             result += f"\n  💡 Suggestion: {self.suggestion}"
         return result
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON output"""
         result = {
             'severity': self.severity,
@@ -57,11 +58,11 @@ class BestPracticesChecker:
 
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
-        self.issues: List[BestPracticeIssue] = []
-        self.config: Dict[str, Any] = {}
-        self.line_map: Dict[str, int] = {}
+        self.issues: list[BestPracticeIssue] = []
+        self.config: dict[str, Any] = {}
+        self.line_map: dict[str, int] = {}
 
-    def check(self) -> List[BestPracticeIssue]:
+    def check(self) -> list[BestPracticeIssue]:
         """Run all best practice checks"""
 
         try:
@@ -119,7 +120,7 @@ class BestPracticesChecker:
         }
         return key not in global_keywords and isinstance(self.config.get(key), dict)
 
-    def _inherits_setting(self, job: Dict[str, Any], setting: str, visited: Set[str] = None) -> bool:
+    def _inherits_setting(self, job: dict[str, Any], setting: str, visited: set[str] | None = None) -> bool:
         """Check if a job inherits a setting from extended templates or default.
 
         Args:
@@ -181,10 +182,11 @@ class BestPracticesChecker:
             # Check if job installs dependencies
             installs_deps = False
             for cmd in script:
-                if any(keyword in str(cmd).lower() for keyword in dependency_keywords):
-                    if any(install_cmd in str(cmd).lower() for install_cmd in ['install', 'ci', 'get', 'download']):
-                        installs_deps = True
-                        break
+                if any(keyword in str(cmd).lower() for keyword in dependency_keywords) and any(
+                    install_cmd in str(cmd).lower() for install_cmd in ['install', 'ci', 'get', 'download']
+                ):
+                    installs_deps = True
+                    break
 
             if installs_deps and 'cache' not in job:
                 # Check if it inherits from default
@@ -215,15 +217,14 @@ class BestPracticesChecker:
                 caches = [cache] if isinstance(cache, dict) else cache
 
                 for cache_item in caches:
-                    if isinstance(cache_item, dict):
-                        if 'key' not in cache_item:
-                            self.issues.append(BestPracticeIssue(
-                                'warning',
-                                line,
-                                f"Job '{job_name}' has cache without explicit 'key'",
-                                'cache-no-key',
-                                "Use 'key: ${CI_COMMIT_REF_SLUG}' or similar for better cache management"
-                            ))
+                    if isinstance(cache_item, dict) and 'key' not in cache_item:
+                        self.issues.append(BestPracticeIssue(
+                            'warning',
+                            line,
+                            f"Job '{job_name}' has cache without explicit 'key'",
+                            'cache-no-key',
+                            "Use 'key: ${CI_COMMIT_REF_SLUG}' or similar for better cache management"
+                        ))
 
     def _check_artifact_expiration(self):
         """Check artifact expiration settings"""
@@ -322,15 +323,14 @@ class BestPracticesChecker:
 
             # Long-running test jobs should be interruptible
             # Skip if default interruptible is set or inherited from template
-            if 'test' in job_name.lower() and 'interruptible' not in job:
-                if not default_interruptible and not has_inherited_interruptible:
-                    self.issues.append(BestPracticeIssue(
-                        'suggestion',
-                        line,
-                        f"Test job '{job_name}' not marked as interruptible",
-                        'missing-interruptible',
-                        "Add 'interruptible: true' to allow cancellation of redundant test runs"
-                    ))
+            if 'test' in job_name.lower() and 'interruptible' not in job and not default_interruptible and not has_inherited_interruptible:
+                self.issues.append(BestPracticeIssue(
+                    'suggestion',
+                    line,
+                    f"Test job '{job_name}' not marked as interruptible",
+                    'missing-interruptible',
+                    "Add 'interruptible: true' to allow cancellation of redundant test runs"
+                ))
 
     def _check_retry_configuration(self):
         """Check retry configuration"""
@@ -349,17 +349,16 @@ class BestPracticesChecker:
             # Check if job inherits retry from extends
             has_inherited_retry = self._inherits_setting(job, 'retry')
 
-            if is_potentially_flaky and 'retry' not in job:
-                # Skip if default retry is set or inherited from template
-                if not default_retry and not has_inherited_retry:
-                    line = self._get_line(job_name)
-                    self.issues.append(BestPracticeIssue(
-                        'suggestion',
-                        line,
-                        f"Job '{job_name}' might benefit from retry configuration",
-                        'missing-retry',
-                        "Add 'retry' with specific conditions (e.g., runner_system_failure, stuck_or_timeout_failure)"
-                    ))
+            # Skip if default retry is set or inherited from template
+            if is_potentially_flaky and 'retry' not in job and not default_retry and not has_inherited_retry:
+                line = self._get_line(job_name)
+                self.issues.append(BestPracticeIssue(
+                    'suggestion',
+                    line,
+                    f"Job '{job_name}' might benefit from retry configuration",
+                    'missing-retry',
+                    "Add 'retry' with specific conditions (e.g., runner_system_failure, stuck_or_timeout_failure)"
+                ))
 
             # Check retry configuration format
             if 'retry' in job:
@@ -429,16 +428,15 @@ class BestPracticesChecker:
                     "Pin to specific version (e.g., 'node:18-alpine') or SHA digest"
                 ))
             # Check if no version specified
-            elif ':' not in image_value and '@' not in image_value:
-                # Ignore if it's a variable
-                if not image_value.startswith('$'):
-                    self.issues.append(BestPracticeIssue(
-                        'warning',
-                        line,
-                        f"Image '{image_value}' has no version tag in {context}",
-                        'image-no-version',
-                        "Pin to specific version (e.g., 'node:18-alpine')"
-                    ))
+            # Ignore if it's a variable
+            elif ':' not in image_value and '@' not in image_value and not image_value.startswith('$'):
+                self.issues.append(BestPracticeIssue(
+                    'warning',
+                    line,
+                    f"Image '{image_value}' has no version tag in {context}",
+                    'image-no-version',
+                    "Pin to specific version (e.g., 'node:18-alpine')"
+                ))
 
         # Check global image
         if 'image' in self.config:
@@ -598,7 +596,7 @@ class BestPracticesChecker:
                 continue
 
             # Create a signature of common keywords
-            signature = tuple(sorted([k for k in job.keys() if k not in ['script', 'stage', 'environment']]))
+            signature = tuple(sorted([k for k in job if k not in ['script', 'stage', 'environment']]))
             if signature:
                 if signature not in job_configs:
                     job_configs[signature] = []
@@ -665,15 +663,14 @@ class BestPracticesChecker:
             # Check image
             if 'image' in job:
                 image = job['image']
-                if isinstance(image, str):
-                    # Check if it's from Docker Hub (no registry prefix or docker.io)
-                    if not any(reg in image for reg in ['gcr.io', 'ghcr.io', 'registry.gitlab.com', 'quay.io']):
-                        if '/' not in image or image.startswith('docker.io/') or image.count('/') == 1:
-                            has_docker_images = True
+                # Check if it's from Docker Hub (no registry prefix or docker.io)
+                if isinstance(image, str) and not any(reg in image for reg in ['gcr.io', 'ghcr.io', 'registry.gitlab.com', 'quay.io']):
+                    if '/' not in image or image.startswith('docker.io/') or image.count('/') == 1:
+                        has_docker_images = True
 
-                        # Check if using dependency proxy
-                        if '$CI_DEPENDENCY_PROXY' in image or '${CI_DEPENDENCY_PROXY' in image:
-                            uses_dependency_proxy = True
+                    # Check if using dependency proxy
+                    if '$CI_DEPENDENCY_PROXY' in image or '${CI_DEPENDENCY_PROXY' in image:
+                        uses_dependency_proxy = True
 
             # Check services
             if 'services' in job:
@@ -681,9 +678,10 @@ class BestPracticesChecker:
                 if isinstance(services, list):
                     for service in services:
                         if isinstance(service, str):
-                            if not any(reg in service for reg in ['gcr.io', 'ghcr.io', 'registry.gitlab.com', 'quay.io']):
-                                if '/' not in service or service.startswith('docker.io/') or service.count('/') == 1:
-                                    has_docker_images = True
+                            if not any(reg in service for reg in ['gcr.io', 'ghcr.io', 'registry.gitlab.com', 'quay.io']) and (
+                                '/' not in service or service.startswith('docker.io/') or service.count('/') == 1
+                            ):
+                                has_docker_images = True
 
                             if '$CI_DEPENDENCY_PROXY' in service or '${CI_DEPENDENCY_PROXY' in service:
                                 uses_dependency_proxy = True

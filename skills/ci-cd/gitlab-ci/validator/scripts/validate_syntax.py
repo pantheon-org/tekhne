@@ -11,13 +11,14 @@ This script validates GitLab CI/CD YAML files for:
 - Dependency references
 """
 
-import sys
-import yaml
-import re
 import json
-from pathlib import Path
-from typing import Dict, List, Any, Tuple, Set
+import re
+import sys
 from collections import defaultdict
+from pathlib import Path
+from typing import Any, ClassVar
+
+import yaml
 
 
 class ValidationError:
@@ -32,7 +33,7 @@ class ValidationError:
     def __str__(self):
         return f"{self.severity.upper()}: Line {self.line}: {self.message} [{self.rule}]"
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON output"""
         return {
             'severity': self.severity,
@@ -46,20 +47,20 @@ class GitLabCIValidator:
     """Validates GitLab CI/CD configuration files"""
 
     # Reserved keywords that cannot be used as job names
-    RESERVED_KEYWORDS = {
+    RESERVED_KEYWORDS: ClassVar[set[str]] = {
         'image', 'services', 'stages', 'types', 'before_script',
         'after_script', 'variables', 'cache', 'include', 'pages',
         'default', 'workflow', 'spec'
     }
 
     # Global keywords that can appear at the top level
-    GLOBAL_KEYWORDS = {
+    GLOBAL_KEYWORDS: ClassVar[set[str]] = {
         'default', 'include', 'stages', 'variables', 'workflow',
         'spec', 'pages'
     }
 
     # Valid job keywords
-    JOB_KEYWORDS = {
+    JOB_KEYWORDS: ClassVar[set[str]] = {
         'script', 'image', 'services', 'before_script', 'after_script',
         'stage', 'only', 'except', 'rules', 'tags', 'allow_failure',
         'when', 'dependencies', 'needs', 'artifacts', 'cache',
@@ -71,17 +72,17 @@ class GitLabCIValidator:
     }
 
     # Valid when values
-    VALID_WHEN_VALUES = {
+    VALID_WHEN_VALUES: ClassVar[set[str]] = {
         'on_success', 'on_failure', 'always', 'manual', 'delayed', 'never'
     }
 
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
-        self.errors: List[ValidationError] = []
-        self.config: Dict[str, Any] = {}
-        self.line_map: Dict[Any, int] = {}
+        self.errors: list[ValidationError] = []
+        self.config: dict[str, Any] = {}
+        self.line_map: dict[Any, int] = {}
 
-    def validate(self) -> Tuple[bool, List[ValidationError]]:
+    def validate(self) -> tuple[bool, list[ValidationError]]:
         """Run all validations and return results"""
 
         # Step 1: Load and parse YAML
@@ -146,7 +147,7 @@ class GitLabCIValidator:
             line = getattr(e, 'problem_mark', None)
             line_num = line.line + 1 if line else 1
             self.errors.append(ValidationError(
-                'error', line_num, f'YAML syntax error: {str(e)}', 'yaml-syntax'
+                'error', line_num, f'YAML syntax error: {e!s}', 'yaml-syntax'
             ))
             return False
         except FileNotFoundError:
@@ -156,7 +157,7 @@ class GitLabCIValidator:
             return False
         except Exception as e:
             self.errors.append(ValidationError(
-                'error', 0, f'Error reading file: {str(e)}', 'file-read-error'
+                'error', 0, f'Error reading file: {e!s}', 'file-read-error'
             ))
             return False
 
@@ -191,7 +192,7 @@ class GitLabCIValidator:
             try:
                 with open(self.file_path, 'r') as f:
                     self._file_content = f.read().split('\n')
-            except:
+            except (OSError, ValueError):
                 return 0
 
         for i, line in enumerate(self._file_content, 1):
@@ -286,7 +287,7 @@ class GitLabCIValidator:
 
             self._validate_job(key, value, valid_stages)
 
-    def _validate_job(self, job_name: str, job: Dict[str, Any], valid_stages: Set[str]):
+    def _validate_job(self, job_name: str, job: dict[str, Any], valid_stages: set[str]):
         """Validate a single job"""
 
         line = self._get_line(job_name)
@@ -375,7 +376,7 @@ class GitLabCIValidator:
             ))
 
         # Validate unknown keywords
-        for keyword in job.keys():
+        for keyword in job:
             if keyword not in self.JOB_KEYWORDS:
                 self.errors.append(ValidationError(
                     'warning',
@@ -441,7 +442,7 @@ class GitLabCIValidator:
             'untracked', 'when', 'reports', 'public'
         }
 
-        for keyword in artifacts.keys():
+        for keyword in artifacts:
             if keyword not in valid_artifact_keywords:
                 self.errors.append(ValidationError(
                     'warning',
@@ -487,7 +488,7 @@ class GitLabCIValidator:
                 'paths', 'key', 'untracked', 'policy', 'when'
             }
 
-            for keyword in cache_item.keys():
+            for keyword in cache_item:
                 if keyword not in valid_cache_keywords:
                     self.errors.append(ValidationError(
                         'warning',
@@ -588,7 +589,7 @@ class GitLabCIValidator:
 
         valid_hook_keywords = {'pre_get_sources_script'}
 
-        for keyword in hooks.keys():
+        for keyword in hooks:
             if keyword not in valid_hook_keywords:
                 self.errors.append(ValidationError(
                     'warning',
@@ -644,7 +645,7 @@ class GitLabCIValidator:
 
         # Collect all job names
         all_jobs = {
-            key for key in self.config.keys()
+            key for key in self.config
             if key not in self.GLOBAL_KEYWORDS and isinstance(self.config[key], dict)
         }
 
@@ -687,14 +688,13 @@ class GitLabCIValidator:
                                     f"Job '{job_name}': references undefined job '{need}' in needs",
                                     'needs-undefined-job'
                                 ))
-                        elif isinstance(need, dict):
-                            if 'job' in need and need['job'] not in all_jobs:
-                                self.errors.append(ValidationError(
-                                    'error',
-                                    line,
-                                    f"Job '{job_name}': references undefined job '{need['job']}' in needs",
-                                    'needs-undefined-job'
-                                ))
+                        elif isinstance(need, dict) and 'job' in need and need['job'] not in all_jobs:
+                            self.errors.append(ValidationError(
+                                'error',
+                                line,
+                                f"Job '{job_name}': references undefined job '{need['job']}' in needs",
+                                'needs-undefined-job'
+                            ))
                 elif not isinstance(needs, dict):
                     self.errors.append(ValidationError(
                         'error',
@@ -723,10 +723,10 @@ class GitLabCIValidator:
         # Check for circular dependencies in 'needs'
         self._check_circular_dependencies(all_jobs)
 
-    def _check_circular_dependencies(self, all_jobs: Set[str]):
+    def _check_circular_dependencies(self, all_jobs: set[str]):
         """Check for circular dependencies in 'needs'"""
 
-        def get_job_needs(job_name: str) -> Set[str]:
+        def get_job_needs(job_name: str) -> set[str]:
             """Get the set of jobs that this job needs"""
             job = self.config.get(job_name, {})
             needs = job.get('needs', [])
@@ -746,7 +746,7 @@ class GitLabCIValidator:
 
             return result
 
-        def has_cycle(job_name: str, visited: Set[str], path: Set[str]) -> List[str]:
+        def has_cycle(job_name: str, visited: set[str], path: set[str]) -> list[str]:
             """Check for cycles using DFS. Returns cycle path if found."""
             if job_name in path:
                 # Found a cycle
@@ -823,7 +823,7 @@ class GitLabCIValidator:
                     'variables', 'needs'
                 }
 
-                for keyword in rule.keys():
+                for keyword in rule:
                     if keyword not in valid_rule_keywords:
                         self.errors.append(ValidationError(
                             'warning',
@@ -895,12 +895,9 @@ class GitLabCIValidator:
 
                 if isinstance(needs, list):
                     needs_count = len(needs)
-                elif isinstance(needs, dict):
-                    # When needs is a dict, it can contain multiple jobs
-                    if 'job' in needs:
-                        needs_count = 1
-                    elif 'pipeline' in needs or 'project' in needs:
-                        needs_count = 1
+                # When needs is a dict, it can contain multiple jobs
+                elif isinstance(needs, dict) and ('job' in needs or 'pipeline' in needs or 'project' in needs):
+                    needs_count = 1
 
                 if needs_count > MAX_NEEDS:
                     self.errors.append(ValidationError(
@@ -921,7 +918,7 @@ class GitLabCIValidator:
             if isinstance(value, dict)
         }
 
-        def get_extends_list(job_name: str) -> List[str]:
+        def get_extends_list(job_name: str) -> list[str]:
             """Get the list of templates/jobs this job extends"""
             job = self.config.get(job_name, {})
             extends = job.get('extends', [])
@@ -932,7 +929,7 @@ class GitLabCIValidator:
                 return extends
             return []
 
-        def check_circular_extends(job_name: str, visited: Set[str], path: Set[str]) -> List[str]:
+        def check_circular_extends(job_name: str, visited: set[str], path: set[str]) -> list[str]:
             """Check for circular extends using DFS. Returns cycle path if found."""
             if job_name in path:
                 # Found a cycle
@@ -956,7 +953,7 @@ class GitLabCIValidator:
             path.remove(job_name)
             return []
 
-        def get_extends_depth(job_name: str, visited: Set[str] = None) -> int:
+        def get_extends_depth(job_name: str, visited: set[str] | None = None) -> int:
             """Calculate the extends chain depth for a job"""
             if visited is None:
                 visited = set()
@@ -981,7 +978,7 @@ class GitLabCIValidator:
 
         # Check for circular extends
         visited = set()
-        for job_name in all_jobs.keys():
+        for job_name in all_jobs:
             if job_name not in visited:
                 cycle = check_circular_extends(job_name, visited, set())
                 if cycle:
@@ -998,7 +995,7 @@ class GitLabCIValidator:
                     break  # Only report first cycle found
 
         # Check extends depth
-        for job_name in all_jobs.keys():
+        for job_name in all_jobs:
             # Skip hidden templates (they're meant to be extended)
             if job_name.startswith('.'):
                 continue
@@ -1133,7 +1130,7 @@ class GitLabCIValidator:
                 'include-component-limit-warning'
             ))
 
-    def _validate_component_include(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _validate_component_include(self, inc: dict[str, Any], line: int, item_num: int):
         """Validate include:component syntax (GitLab 16.x+)"""
 
         component = inc.get('component')
@@ -1249,7 +1246,7 @@ class GitLabCIValidator:
 
         # Check for invalid keywords with component
         valid_component_keywords = {'component', 'inputs', 'rules'}
-        for keyword in inc.keys():
+        for keyword in inc:
             if keyword not in valid_component_keywords:
                 self.errors.append(ValidationError(
                     'warning',
@@ -1288,7 +1285,7 @@ class GitLabCIValidator:
                 'include-local-file-extension'
             ))
 
-    def _validate_remote_include(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _validate_remote_include(self, inc: dict[str, Any], line: int, item_num: int):
         """Validate include:remote syntax"""
 
         remote = inc.get('remote')
@@ -1313,7 +1310,7 @@ class GitLabCIValidator:
 
         # Check for valid keywords with remote
         valid_remote_keywords = {'remote', 'rules'}
-        for keyword in inc.keys():
+        for keyword in inc:
             if keyword not in valid_remote_keywords:
                 self.errors.append(ValidationError(
                     'warning',
@@ -1322,7 +1319,7 @@ class GitLabCIValidator:
                     'include-remote-unknown-keyword'
                 ))
 
-    def _validate_template_include(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _validate_template_include(self, inc: dict[str, Any], line: int, item_num: int):
         """Validate include:template syntax"""
 
         template = inc.get('template')
@@ -1351,7 +1348,7 @@ class GitLabCIValidator:
 
         # Check for valid keywords with template
         valid_template_keywords = {'template', 'rules'}
-        for keyword in inc.keys():
+        for keyword in inc:
             if keyword not in valid_template_keywords:
                 self.errors.append(ValidationError(
                     'warning',
@@ -1360,7 +1357,7 @@ class GitLabCIValidator:
                     'include-template-unknown-keyword'
                 ))
 
-    def _validate_project_include(self, inc: Dict[str, Any], line: int, item_num: int):
+    def _validate_project_include(self, inc: dict[str, Any], line: int, item_num: int):
         """Validate include:project syntax"""
 
         project = inc.get('project')
@@ -1447,7 +1444,7 @@ class GitLabCIValidator:
 
         # Check for valid keywords with project
         valid_project_keywords = {'project', 'file', 'ref', 'rules'}
-        for keyword in inc.keys():
+        for keyword in inc:
             if keyword not in valid_project_keywords:
                 self.errors.append(ValidationError(
                     'warning',
