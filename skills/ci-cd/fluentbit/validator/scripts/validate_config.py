@@ -13,7 +13,6 @@ import re
 import shutil
 import subprocess
 import sys
-from typing import Dict
 
 
 class FluentBitValidator:
@@ -103,7 +102,7 @@ class FluentBitValidator:
                         }
 
         except Exception as e:
-            self.errors.append(f"Failed to parse configuration: {str(e)}")
+            self.errors.append(f"Failed to parse configuration: {e!s}")
 
     def validate_syntax(self) -> None:
         """Validate INI syntax."""
@@ -123,7 +122,6 @@ class FluentBitValidator:
 
         for section in self.sections:
             section_type = section["type"]
-            params = section["params"]
 
             if section_type == "SERVICE":
                 has_service = True
@@ -147,7 +145,7 @@ class FluentBitValidator:
         if not has_output:
             self.errors.append("Missing [OUTPUT] section (required)")
 
-    def _validate_service_section(self, section: Dict) -> None:
+    def _validate_service_section(self, section: dict) -> None:
         """Validate SERVICE section."""
         params = section["params"]
 
@@ -194,7 +192,7 @@ class FluentBitValidator:
                     f"Line {params['Parsers_File']['line']}: Parsers_File '{parser_file}' not found"
                 )
 
-    def _validate_input_section(self, section: Dict) -> None:
+    def _validate_input_section(self, section: dict) -> None:
         """Validate INPUT section."""
         params = section["params"]
 
@@ -212,11 +210,10 @@ class FluentBitValidator:
             )
 
         # Check Tag parameter (recommended)
-        if "Tag" not in params:
-            if plugin_name != "forward":  # forward provides dynamic tags
-                self.warnings.append(
-                    f"Line {section['line']}: [INPUT] missing Tag parameter (recommended)"
-                )
+        if "Tag" not in params and plugin_name != "forward":  # forward provides dynamic tags
+            self.warnings.append(
+                f"Line {section['line']}: [INPUT] missing Tag parameter (recommended)"
+            )
 
         # tail plugin specific checks
         if plugin_name == "tail":
@@ -240,7 +237,7 @@ class FluentBitValidator:
                     f"Line {section['line']}: [INPUT tail] consider adding Skip_Long_Lines On"
                 )
 
-    def _validate_filter_section(self, section: Dict) -> None:
+    def _validate_filter_section(self, section: dict) -> None:
         """Validate FILTER section."""
         params = section["params"]
 
@@ -274,7 +271,7 @@ class FluentBitValidator:
         elif filter_name == "multiline":
             self._validate_multiline_filter(section, params)
 
-    def _validate_kubernetes_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_kubernetes_filter(self, section: dict, params: dict) -> None:
         """Validate kubernetes filter specific parameters."""
         # Check for common K8s filter parameters
         if "Kube_URL" not in params:
@@ -307,7 +304,7 @@ class FluentBitValidator:
                     f"Line {params['Buffer_Size']['line']}: [FILTER kubernetes] Buffer_Size 0 is recommended for performance"
                 )
 
-    def _validate_parser_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_parser_filter(self, section: dict, params: dict) -> None:
         """Validate parser filter specific parameters."""
         if "Key_Name" not in params:
             self.errors.append(
@@ -325,7 +322,7 @@ class FluentBitValidator:
                 f"Line {section['line']}: [FILTER parser] consider setting Reserve_Data On to keep unparsed data"
             )
 
-    def _validate_grep_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_grep_filter(self, section: dict, params: dict) -> None:
         """Validate grep filter specific parameters."""
         has_regex = "Regex" in params
         has_exclude = "Exclude" in params
@@ -344,7 +341,7 @@ class FluentBitValidator:
                     f"Line {params['Regex']['line']}: [FILTER grep] Regex format should be 'key pattern'"
                 )
 
-    def _validate_modify_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_modify_filter(self, section: dict, params: dict) -> None:
         """Validate modify filter specific parameters."""
         has_operation = any(key in params for key in ["Add", "Remove", "Set", "Rename", "Copy", "Hard_Rename", "Hard_Copy"])
 
@@ -354,7 +351,7 @@ class FluentBitValidator:
                 f"(expected: Add, Remove, Set, Rename, Copy, etc.)"
             )
 
-    def _validate_nest_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_nest_filter(self, section: dict, params: dict) -> None:
         """Validate nest filter specific parameters."""
         if "Operation" not in params:
             self.errors.append(
@@ -374,28 +371,28 @@ class FluentBitValidator:
                 f"Line {section['line']}: [FILTER nest] missing required parameter 'Nested_under'"
             )
 
-    def _validate_rewrite_tag_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_rewrite_tag_filter(self, section: dict, params: dict) -> None:
         """Validate rewrite_tag filter specific parameters."""
         if "Rule" not in params:
             self.errors.append(
                 f"Line {section['line']}: [FILTER rewrite_tag] missing required parameter 'Rule'"
             )
 
-    def _validate_throttle_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_throttle_filter(self, section: dict, params: dict) -> None:
         """Validate throttle filter specific parameters."""
         if "Rate" not in params:
             self.errors.append(
                 f"Line {section['line']}: [FILTER throttle] missing required parameter 'Rate'"
             )
 
-    def _validate_multiline_filter(self, section: Dict, params: Dict) -> None:
+    def _validate_multiline_filter(self, section: dict, params: dict) -> None:
         """Validate multiline filter specific parameters."""
         if "multiline.parser" not in params:
             self.errors.append(
                 f"Line {section['line']}: [FILTER multiline] missing required parameter 'multiline.parser'"
             )
 
-    def _validate_output_section(self, section: Dict) -> None:
+    def _validate_output_section(self, section: dict) -> None:
         """Validate OUTPUT section."""
         params = section["params"]
 
@@ -439,7 +436,7 @@ class FluentBitValidator:
         elif plugin_name == "opentelemetry":
             self._validate_opentelemetry_output(section, params)
 
-    def _validate_elasticsearch_output(self, section: Dict, params: Dict) -> None:
+    def _validate_elasticsearch_output(self, section: dict, params: dict) -> None:
         """Validate Elasticsearch output specific parameters."""
         if "Host" not in params:
             self.errors.append(
@@ -458,7 +455,7 @@ class FluentBitValidator:
                 f"Line {section['line']}: [OUTPUT es] consider enabling TLS for production"
             )
 
-    def _validate_kafka_output(self, section: Dict, params: Dict) -> None:
+    def _validate_kafka_output(self, section: dict, params: dict) -> None:
         """Validate Kafka output specific parameters."""
         if "Brokers" not in params:
             self.errors.append(
@@ -476,7 +473,7 @@ class FluentBitValidator:
                 f"Line {section['line']}: [OUTPUT kafka] consider setting Format (json, msgpack, gelf)"
             )
 
-    def _validate_loki_output(self, section: Dict, params: Dict) -> None:
+    def _validate_loki_output(self, section: dict, params: dict) -> None:
         """Validate Loki output specific parameters."""
         if "Host" not in params:
             self.errors.append(
@@ -500,7 +497,7 @@ class FluentBitValidator:
                     f"(valid: {', '.join(valid_formats)})"
                 )
 
-    def _validate_s3_output(self, section: Dict, params: Dict) -> None:
+    def _validate_s3_output(self, section: dict, params: dict) -> None:
         """Validate S3 output specific parameters."""
         if "bucket" not in params:
             self.errors.append(
@@ -524,7 +521,7 @@ class FluentBitValidator:
                 f"Line {section['line']}: [OUTPUT s3] consider setting s3_key_format for log organization"
             )
 
-    def _validate_cloudwatch_output(self, section: Dict, params: Dict) -> None:
+    def _validate_cloudwatch_output(self, section: dict, params: dict) -> None:
         """Validate CloudWatch Logs output specific parameters."""
         if "region" not in params:
             self.errors.append(
@@ -542,7 +539,7 @@ class FluentBitValidator:
                 f"Line {section['line']}: [OUTPUT cloudwatch_logs] consider setting auto_create_group On"
             )
 
-    def _validate_http_output(self, section: Dict, params: Dict) -> None:
+    def _validate_http_output(self, section: dict, params: dict) -> None:
         """Validate HTTP output specific parameters."""
         if "Host" not in params:
             self.errors.append(
@@ -566,7 +563,7 @@ class FluentBitValidator:
                 f"Line {section['line']}: [OUTPUT http] consider enabling Compress (gzip)"
             )
 
-    def _validate_forward_output(self, section: Dict, params: Dict) -> None:
+    def _validate_forward_output(self, section: dict, params: dict) -> None:
         """Validate Forward output specific parameters."""
         if "Host" not in params:
             self.errors.append(
@@ -581,7 +578,7 @@ class FluentBitValidator:
                     f"Line {section['line']}: [OUTPUT forward] Require_ack_response On but missing Shared_Key"
                 )
 
-    def _validate_stdout_output(self, section: Dict, params: Dict) -> None:
+    def _validate_stdout_output(self, section: dict, params: dict) -> None:
         """Validate stdout output specific parameters."""
         # stdout is mainly for debugging, check format
         if "Format" in params:
@@ -593,7 +590,7 @@ class FluentBitValidator:
                     f"(valid: {', '.join(valid_formats)})"
                 )
 
-    def _validate_file_output(self, section: Dict, params: Dict) -> None:
+    def _validate_file_output(self, section: dict, params: dict) -> None:
         """Validate file output specific parameters."""
         if "Path" not in params:
             self.errors.append(
@@ -609,7 +606,7 @@ class FluentBitValidator:
                     f"Line {params['Path']['line']}: [OUTPUT file] Path '{path}' may not be writable"
                 )
 
-    def _validate_opentelemetry_output(self, section: Dict, params: Dict) -> None:
+    def _validate_opentelemetry_output(self, section: dict, params: dict) -> None:
         """Validate OpenTelemetry output specific parameters (Fluent Bit 2.x+)."""
         # Check for Host parameter (required)
         if "Host" not in params:
@@ -678,7 +675,7 @@ class FluentBitValidator:
                 f"Line {section['line']}: [OUTPUT opentelemetry] consider using add_label to add resource attributes"
             )
 
-    def _validate_parser_section(self, section: Dict) -> None:
+    def _validate_parser_section(self, section: dict) -> None:
         """Validate PARSER and MULTILINE_PARSER sections."""
         params = section["params"]
         section_type = section["type"]
@@ -700,11 +697,10 @@ class FluentBitValidator:
                     )
 
                 # Regex-specific checks
-                if parser_format == "regex":
-                    if "Regex" not in params:
-                        self.errors.append(
-                            f"Line {section['line']}: [PARSER regex] missing required parameter 'Regex'"
-                        )
+                if parser_format == "regex" and "Regex" not in params:
+                    self.errors.append(
+                        f"Line {section['line']}: [PARSER regex] missing required parameter 'Regex'"
+                    )
 
                 # Time parsing checks
                 if "Time_Key" in params and "Time_Format" not in params:
@@ -728,7 +724,7 @@ class FluentBitValidator:
                     )
 
             # Check for rule definitions
-            has_rule = any(key.lower().startswith("rule") for key in params.keys())
+            has_rule = any(key.lower().startswith("rule") for key in params)
             if not has_rule:
                 self.errors.append(
                     f"Line {section['line']}: [MULTILINE_PARSER] missing 'rule' definitions"
@@ -756,11 +752,10 @@ class FluentBitValidator:
                     filter_matches.append(
                         (section["params"]["Match"]["value"], section["line"])
                     )
-            elif section["type"] == "OUTPUT":
-                if "Match" in section["params"]:
-                    output_matches.append(
-                        (section["params"]["Match"]["value"], section["line"])
-                    )
+            elif section["type"] == "OUTPUT" and "Match" in section["params"]:
+                output_matches.append(
+                    (section["params"]["Match"]["value"], section["line"])
+                )
 
         # Check if FILTER Match patterns match any INPUT tags
         for match, line in filter_matches:
@@ -844,61 +839,56 @@ class FluentBitValidator:
             params = section["params"]
 
             # Check tail input buffer limits
-            if section["type"] == "INPUT" and params.get("Name", {}).get("value") == "tail":
-                if "Mem_Buf_Limit" in params:
-                    buf_limit = params["Mem_Buf_Limit"]["value"]
-                    # Parse size (e.g., "50MB", "1GB", "512" where unit defaults to bytes)
-                    size_match = re.match(r"^(\d+(?:\.\d+)?)\s*(MB|GB|KB|M|G|K|B)?$", buf_limit, re.IGNORECASE)
-                    if size_match:
-                        size = float(size_match.group(1))
-                        unit = (size_match.group(2) or "B").upper()
+            if section["type"] == "INPUT" and params.get("Name", {}).get("value") == "tail" and "Mem_Buf_Limit" in params:
+                buf_limit = params["Mem_Buf_Limit"]["value"]
+                # Parse size (e.g., "50MB", "1GB", "512" where unit defaults to bytes)
+                size_match = re.match(r"^(\d+(?:\.\d+)?)\s*(MB|GB|KB|M|G|K|B)?$", buf_limit, re.IGNORECASE)
+                if size_match:
+                    size = float(size_match.group(1))
+                    unit = (size_match.group(2) or "B").upper()
 
-                        # Normalize unit names (M -> MB, G -> GB, K -> KB)
-                        if unit == "M":
-                            unit = "MB"
-                        elif unit == "G":
-                            unit = "GB"
-                        elif unit == "K":
-                            unit = "KB"
+                    # Normalize unit names (M -> MB, G -> GB, K -> KB)
+                    if unit == "M":
+                        unit = "MB"
+                    elif unit == "G":
+                        unit = "GB"
+                    elif unit == "K":
+                        unit = "KB"
 
-                        # Convert to MB
-                        if unit == "B":
-                            size_mb = size / (1024 * 1024)
-                        elif unit == "KB":
-                            size_mb = size / 1024
-                        elif unit == "GB":
-                            size_mb = size * 1024
-                        else:
-                            size_mb = size
-
-                        if size_mb < 10:
-                            self.warnings.append(
-                                f"Line {params['Mem_Buf_Limit']['line']}: Mem_Buf_Limit < 10MB (may cause backpressure)"
-                            )
-                        elif size_mb > 500:
-                            self.warnings.append(
-                                f"Line {params['Mem_Buf_Limit']['line']}: Mem_Buf_Limit > 500MB (high memory usage)"
-                            )
+                    # Convert to MB
+                    if unit == "B":
+                        size_mb = size / (1024 * 1024)
+                    elif unit == "KB":
+                        size_mb = size / 1024
+                    elif unit == "GB":
+                        size_mb = size * 1024
                     else:
-                        self.errors.append(
-                            f"Line {params['Mem_Buf_Limit']['line']}: Invalid Mem_Buf_Limit format '{buf_limit}' "
-                            f"(expected format: number with optional unit KB/MB/GB)"
+                        size_mb = size
+
+                    if size_mb < 10:
+                        self.warnings.append(
+                            f"Line {params['Mem_Buf_Limit']['line']}: Mem_Buf_Limit < 10MB (may cause backpressure)"
                         )
+                    elif size_mb > 500:
+                        self.warnings.append(
+                            f"Line {params['Mem_Buf_Limit']['line']}: Mem_Buf_Limit > 500MB (high memory usage)"
+                        )
+                else:
+                    self.errors.append(
+                        f"Line {params['Mem_Buf_Limit']['line']}: Invalid Mem_Buf_Limit format '{buf_limit}' "
+                        f"(expected format: number with optional unit KB/MB/GB)"
+                    )
 
             # Check OUTPUT storage limits
-            if section["type"] == "OUTPUT":
-                if "storage.total_limit_size" not in params:
-                    self.info.append(
-                        f"Line {section['line']}: [OUTPUT] consider setting storage.total_limit_size"
-                    )
+            if section["type"] == "OUTPUT" and "storage.total_limit_size" not in params:
+                self.info.append(
+                    f"Line {section['line']}: [OUTPUT] consider setting storage.total_limit_size"
+                )
 
     def validate_best_practices(self) -> None:
         """Check best practices."""
         has_http_server = False
         has_storage_metrics = False
-        has_db_for_tail = False
-        has_retry_limit_on_outputs = True
-        has_mem_buf_limit_on_tail = True
         has_exclude_path_for_k8s = False
         is_kubernetes_setup = False
 
@@ -920,31 +910,17 @@ class FluentBitValidator:
 
             # INPUT section checks
             elif section_type == "INPUT":
-                if params.get("Name", {}).get("value") == "tail":
-                    # Check for DB parameter
-                    if "DB" in params:
-                        has_db_for_tail = True
+                # Check for Kubernetes setup
+                if params.get("Name", {}).get("value") == "tail" and "Path" in params:
+                    path = params["Path"]["value"]
+                    if "/var/log/containers" in path or "kube" in path.lower():
+                        is_kubernetes_setup = True
 
-                    # Check Mem_Buf_Limit
-                    if "Mem_Buf_Limit" not in params:
-                        has_mem_buf_limit_on_tail = False
-
-                    # Check for Kubernetes setup
-                    if "Path" in params:
-                        path = params["Path"]["value"]
-                        if "/var/log/containers" in path or "kube" in path.lower():
-                            is_kubernetes_setup = True
-
-                            # Check Exclude_Path for Kubernetes
-                            if "Exclude_Path" in params:
-                                exclude = params["Exclude_Path"]["value"]
-                                if "fluent-bit" in exclude or "fluentbit" in exclude:
-                                    has_exclude_path_for_k8s = True
-
-            # OUTPUT section checks
-            elif section_type == "OUTPUT":
-                if "Retry_Limit" not in params:
-                    has_retry_limit_on_outputs = False
+                        # Check Exclude_Path for Kubernetes
+                        if "Exclude_Path" in params:
+                            exclude = params["Exclude_Path"]["value"]
+                            if "fluent-bit" in exclude or "fluentbit" in exclude:
+                                has_exclude_path_for_k8s = True
 
         # Generate best practice recommendations
         if not has_http_server:
@@ -1016,7 +992,7 @@ class FluentBitValidator:
 
                 if error_lines:
                     self.errors.append(
-                        f"Dry-run test failed:\n  " + "\n  ".join(error_lines[:5])  # Limit to first 5 errors
+                        "Dry-run test failed:\n  " + "\n  ".join(error_lines[:5])  # Limit to first 5 errors
                     )
                 else:
                     self.errors.append(
@@ -1043,7 +1019,7 @@ class FluentBitValidator:
             )
         except Exception as e:
             self.warnings.append(
-                f"Dry-run test failed with exception: {str(e)}"
+                f"Dry-run test failed with exception: {e!s}"
             )
 
     def print_report(self) -> None:
@@ -1071,7 +1047,7 @@ class FluentBitValidator:
 
         print()
 
-    def get_summary(self) -> Dict:
+    def get_summary(self) -> dict:
         """Get validation summary as dict."""
         return {
             "file": self.config_file,
