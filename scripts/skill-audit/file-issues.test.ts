@@ -12,7 +12,12 @@ import { join } from "node:path";
 
 const SCRIPT = join(import.meta.dir, "file-issues.sh");
 
-type Audit = { skill: string; grade: string; total: number };
+type Audit = {
+  skill: string;
+  grade: string;
+  total: number;
+  tier: "pass" | "warn" | "debt" | "fail";
+};
 
 const dims = {
   knowledgeDelta: 18,
@@ -29,7 +34,7 @@ const dims = {
 const makeDir = (audits: Audit[]): string => {
   const dir = mkdtempSync(join(tmpdir(), "skill-audit-issues-"));
   writeFileSync(
-    join(dir, "batch.json"),
+    join(dir, "verdict.json"),
     JSON.stringify(
       audits.map((a) => ({ ...a, maxTotal: 140, dimensions: dims })),
     ),
@@ -76,7 +81,7 @@ esac
 };
 
 const run = (dir: string, extra: Record<string, string> = {}) =>
-  Bun.spawnSync(["bash", SCRIPT, join(dir, "batch.json")], {
+  Bun.spawnSync(["bash", SCRIPT, join(dir, "verdict.json")], {
     env: {
       PATH: `${join(dir, "bin")}:${process.env.PATH ?? ""}`,
       GITHUB_REPOSITORY: "o/r",
@@ -101,12 +106,27 @@ const below: Audit = {
   skill: "software-engineering/bridge",
   grade: "C",
   total: 100,
+  tier: "debt",
 };
-const fine: Audit = { skill: "agentic-harness/pin", grade: "B+", total: 120 };
+const fine: Audit = {
+  skill: "agentic-harness/pin",
+  grade: "B+",
+  total: 120,
+  tier: "warn",
+};
 
 describe("file-issues.sh", () => {
-  test("does nothing when every skill is B or above", () => {
+  test("does nothing when no skill is known debt", () => {
     const dir = makeDir([fine]);
+    fakeGh(dir);
+    const r = run(dir);
+    expect(r.exitCode).toBe(0);
+    expect(calls(dir)).not.toContain("issue create");
+    expect(tracked(dir)).toBe("");
+  });
+
+  test("files nothing for a skill that blocks the pull request", () => {
+    const dir = makeDir([{ ...below, tier: "fail" }]);
     fakeGh(dir);
     const r = run(dir);
     expect(r.exitCode).toBe(0);
@@ -133,6 +153,7 @@ describe("file-issues.sh", () => {
     expect(body).toContain("#42");
     expect(body).toContain("https://github.com/o/r/actions/runs/7");
     expect(body).toContain("D3 Anti-Pattern Quality");
+    expect(body).toContain("did not lower");
     expect(tracked(dir)).toContain("`software-engineering/bridge`: #999");
   });
 
@@ -230,7 +251,7 @@ describe("file-issues.sh", () => {
 
   test("skips a skill name that is not a plain path", () => {
     const dir = makeDir([
-      { skill: "x/$(rm -rf)", grade: "C", total: 100 },
+      { skill: "x/$(rm -rf)", grade: "C", total: 100, tier: "debt" },
       below,
     ]);
     fakeGh(dir);
@@ -256,7 +277,12 @@ describe("file-issues.sh", () => {
   test("keeps going when one issue cannot be created, then exits non-zero", () => {
     const dir = makeDir([
       below,
-      { skill: "agentic-harness/pick-model", grade: "C", total: 100 },
+      {
+        skill: "agentic-harness/pick-model",
+        grade: "C",
+        total: 100,
+        tier: "debt",
+      },
     ]);
     fakeGh(dir);
     // Make the first create fail by pointing gh at a failing variant.

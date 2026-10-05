@@ -84,7 +84,7 @@ pantheon-skill-auditor evaluate <domain>/<skill-name> --json --store
 
 Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (blocked from publishing).
 
-The pull request Skill Audit grades every skill that has any changed file, not only a changed `SKILL.md`, and fails the check below B. For each skill below B it also keeps one open GitHub issue (`scripts/skill-audit/file-issues.sh`), links it to the pull request and lists it in the Skill Audit comment. Nothing closes the issue automatically; close it when the grade is fixed.
+The pull request Skill Audit grades every skill that has any changed file, not only a changed `SKILL.md`, and audits the same skills at the base commit so the scores compare. A skill graded below B blocks the pull request only if it is new or scores lower than at the base commit. A skill that is already below B and not lowered passes with a warning and is tracked by one open GitHub issue (`scripts/skill-audit/classify.sh`, `file-issues.sh`), linked to the pull request and listed in the Skill Audit comment. Nothing closes the issue automatically; close it when the grade is fixed.
 
 Build the auditor from source with `mise run build:skill-auditor` (a shortcut for `cargo build --release -p pantheon-skill-auditor`), then invoke `target/release/pantheon-skill-auditor evaluate`.
 

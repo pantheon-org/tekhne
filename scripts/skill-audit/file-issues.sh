@@ -2,25 +2,26 @@
 #
 # file-issues.sh
 #
-# For every skill in an audit batch that grades below B, make sure there is one
-# open GitHub issue tracking it, and link that issue to the pull request that
-# found it. Run by the Skill Audit workflow after the audit.
+# For every skill the audit classified as known debt (graded below B, but not
+# lowered by the pull request, see classify.sh), make sure one open GitHub issue
+# tracks it, and link that issue to the pull request that found it. A skill the
+# pull request made worse blocks instead and gets no issue: it is fixed in that
+# pull request. Run by the Skill Audit workflow after the audit.
 #
 #   - An open issue is found by a marker in its body, or, for issues filed by
 #     hand, by a title that starts "Raise <skill> to grade B". Closed issues are
 #     ignored, so a skill that falls below B again gets a new one.
 #   - If none exists, one is created. Its body names the pull request and the
 #     workflow run, which puts the issue on the pull request's timeline.
-#   - If one exists, it gets a single comment per pull request ("Also blocking
+#   - If one exists, it gets a single comment per pull request ("Also found on
 #     #N"), never one per push.
 #   - The issue numbers are written to $TRACKED_FILE as a Markdown list for the
 #     Skill Audit comment to include.
 #
-# This never decides the gate: the workflow still fails the check below B. A
-# failure here exits non-zero after every skill has been tried, and the workflow
-# step is continue-on-error.
+# This never decides the gate (classify.sh does). A failure here exits non-zero
+# after every skill has been tried, and the workflow step is continue-on-error.
 #
-# Usage: file-issues.sh <batch.json>
+# Usage: file-issues.sh <verdict.json>   (the output of classify.sh)
 # Env:   GITHUB_REPOSITORY  owner/name (required)
 #        PR_NUMBER          pull request number (required)
 #        RUN_URL            link to the workflow run (optional)
@@ -28,7 +29,7 @@
 #        DRY_RUN=1          report what would happen, change nothing
 set -uo pipefail
 
-BATCH="${1:?usage: file-issues.sh <batch.json>}"
+BATCH="${1:?usage: file-issues.sh <verdict.json>}"
 REPO="${GITHUB_REPOSITORY:?GITHUB_REPOSITORY must be set}"
 PR="${PR_NUMBER:?PR_NUMBER must be set}"
 RUN_URL="${RUN_URL:-}"
@@ -50,14 +51,12 @@ valid_skill() {
 }
 
 FAILING="$(jq -c '
-    [ .[]
-      | select(.grade != "A" and .grade != "A+" and .grade != "B+" and .grade != "B")
-      | { skill: (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; "")),
-          grade, total, maxTotal, dimensions } ]
+    [ .[] | select(.tier == "debt")
+      | { skill, grade, total, maxTotal, dimensions, baseTotal } ]
 ' "$BATCH")"
 
 if [ "$(jq 'length' <<<"$FAILING")" -eq 0 ]; then
-    echo "No skill below B; no issues to file."
+    echo "No known-debt skill; no issues to file."
     exit 0
 fi
 
@@ -115,7 +114,7 @@ while IFS= read -r entry; do
                 echo "would comment on #${existing} linking #${PR} (${skill})"
             else
                 gh issue comment "$existing" --repo "$REPO" \
-                    --body "Also blocking #${PR}: \`${skill}\` is still graded ${grade} (${total}/${max}) there." \
+                    --body "Also found on #${PR}: \`${skill}\` is still graded ${grade} (${total}/${max}) there. That pull request did not lower its score, so it was not blocked." \
                     || status=1
             fi
         fi
@@ -132,9 +131,9 @@ while IFS= read -r entry; do
     {
         echo "## What"
         echo ""
-        echo "\`skills/${skill}\` grades **${grade} (${total}/${max})**. The pull request Skill Audit fails any skill below B (112/${max}), and it audits every skill that has a changed file, so no change under this directory can merge until the grade is raised."
+        echo "\`skills/${skill}\` grades **${grade} (${total}/${max})**, below the B (112/${max}) the Skill Audit expects."
         echo ""
-        echo "Found by the Skill Audit on #${PR}${RUN_URL:+ ([run](${RUN_URL}))}. Filed automatically; one open issue is kept per skill."
+        echo "Found by the Skill Audit on #${PR}${RUN_URL:+ ([run](${RUN_URL}))}, which did not lower its score and so was not blocked. A pull request that lowers this skill's score, or adds a skill below B, is blocked. Filed automatically; one open issue is kept per skill."
         echo ""
         echo "## Where the points are lost"
         echo ""
