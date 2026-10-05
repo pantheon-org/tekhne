@@ -4,7 +4,6 @@ Helper functions for generating proper Groovy/Jenkins syntax
 """
 
 import re
-from typing import List, Dict, Optional
 
 
 class GroovySyntax:
@@ -24,13 +23,13 @@ class GroovySyntax:
             return f"'{value}'"
 
     @staticmethod
-    def format_list(items: List[str]) -> str:
+    def format_list(items: list[str]) -> str:
         """Format a list in Groovy syntax"""
         formatted_items = [GroovySyntax.format_string(item) for item in items]
         return f"[{', '.join(formatted_items)}]"
 
     @staticmethod
-    def format_map(data: Dict[str, str]) -> str:
+    def format_map(data: dict[str, str]) -> str:
         """Format a map/dict in Groovy syntax"""
         formatted_items = [f"{k}: {GroovySyntax.format_string(v)}" for k, v in data.items()]
         return f"[{', '.join(formatted_items)}]"
@@ -138,7 +137,7 @@ class DeclarativeSyntax:
             return "    agent any"
 
     @staticmethod
-    def environment_block(env_vars: Dict[str, str], credentials: Dict[str, str] = None) -> str:
+    def environment_block(env_vars: dict[str, str], credentials: dict[str, str] | None = None) -> str:
         """Generate environment block"""
         if not env_vars and not credentials:
             return ""
@@ -158,7 +157,7 @@ class DeclarativeSyntax:
         return '\n'.join(lines)
 
     @staticmethod
-    def parameters_block(parameters: List[Dict]) -> str:
+    def parameters_block(parameters: list[dict]) -> str:
         """Generate parameters block"""
         if not parameters:
             return ""
@@ -189,7 +188,7 @@ class DeclarativeSyntax:
         return '\n'.join(lines)
 
     @staticmethod
-    def options_block(options: Dict[str, any]) -> str:
+    def options_block(options: dict[str, any]) -> str:
         """Generate options block"""
         if not options:
             return ""
@@ -248,7 +247,7 @@ class DeclarativeSyntax:
         return '\n'.join(lines)
 
     @staticmethod
-    def triggers_block(triggers: Dict[str, str]) -> str:
+    def triggers_block(triggers: dict[str, str]) -> str:
         """Generate triggers block"""
         if not triggers:
             return ""
@@ -268,7 +267,7 @@ class DeclarativeSyntax:
         return '\n'.join(lines)
 
     @staticmethod
-    def tools_block(tools: Dict[str, str]) -> str:
+    def tools_block(tools: dict[str, str]) -> str:
         """Generate tools block"""
         if not tools:
             return ""
@@ -282,7 +281,7 @@ class DeclarativeSyntax:
         return '\n'.join(lines)
 
     @staticmethod
-    def when_block(conditions: Dict) -> str:
+    def when_block(conditions: dict) -> str:
         """Generate when block for conditional stage execution"""
         if not conditions:
             return ""
@@ -329,7 +328,7 @@ class ScriptedSyntax:
     """Helper functions specific to Scripted Pipeline syntax"""
 
     @staticmethod
-    def node_block(label: Optional[str] = None, content: str = "") -> str:
+    def node_block(label: str | None = None, content: str = "") -> str:
         """Generate node block"""
         if label:
             return f"""node('{label}') {{
@@ -367,7 +366,7 @@ class ScriptedSyntax:
         return '\n'.join(blocks)
 
     @staticmethod
-    def parallel_block(parallel_stages: Dict[str, str]) -> str:
+    def parallel_block(parallel_stages: dict[str, str]) -> str:
         """Generate parallel block"""
         stage_blocks = []
         for stage_name, stage_content in parallel_stages.items():
@@ -380,7 +379,7 @@ class ScriptedSyntax:
     )"""
 
     @staticmethod
-    def withEnv_block(env_vars: List[str], content: str) -> str:
+    def withEnv_block(env_vars: list[str], content: str) -> str:
         """Generate withEnv block"""
         env_list = ', '.join([f"'{var}'" for var in env_vars])
         return f"""    withEnv([{env_list}]) {{

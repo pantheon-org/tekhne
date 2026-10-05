@@ -7,14 +7,13 @@ This script generates a Scripted Jenkinsfile with specified configuration.
 
 import argparse
 import sys
-import os
 from pathlib import Path
 
 # Add lib to path
 sys.path.insert(0, str(Path(__file__).parent / 'lib'))
 
 from common_patterns import PipelinePatterns
-from syntax_helpers import ScriptedSyntax, FormattingHelpers
+from syntax_helpers import FormattingHelpers, ScriptedSyntax
 
 
 class ScriptedPipelineGenerator:
@@ -48,7 +47,6 @@ class ScriptedPipelineGenerator:
 
     def _build_node_content(self):
         """Build content inside node block"""
-        parts = []
 
         # Get stages
         stages = self.config.get('stages', ['build', 'test'])

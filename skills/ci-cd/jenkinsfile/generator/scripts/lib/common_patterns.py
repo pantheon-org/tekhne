@@ -270,7 +270,7 @@ class StageTemplates:
         }}"""
 
     @staticmethod
-    def parallel_test_stage(test_types=['unit', 'integration']):
+    def parallel_test_stage(test_types=('unit', 'integration')):
         """Generate parallel test stages"""
         parallel_stages = []
         for test_type in test_types:
