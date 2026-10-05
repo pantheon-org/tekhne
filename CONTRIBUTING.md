@@ -29,6 +29,8 @@ sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<sk
 
 Target B-grade (112/140) minimum; A-grade (126/140) for publication.
 
+The pull request Skill Audit grades every skill that has any changed file, not only `SKILL.md`. A skill graded below B blocks the pull request only if it is new or its score is lower than on `main`, so a change that does not lower it can still merge. When a skill is already below B and not lowered, a tracking issue is opened for it automatically and linked to your pull request. If your change lowers a skill's score, raise it back before merging.
+
 ## Tooling
 
 Skill management, auditing, and validation are provided by Rust crates under
