@@ -3,15 +3,22 @@
 批量提取脚本 - 处理文件夹中的多个 PDF 文件
 """
 
+import argparse
 import os
 import sys
-import argparse
 from pathlib import Path
-from extractor import PDFProcessor, DataExtractor, OutputHandler, Config, PRESET_TEMPLATES
+
+from extractor import (
+    PRESET_TEMPLATES,
+    Config,
+    DataExtractor,
+    OutputHandler,
+    PDFProcessor,
+)
 
 
-def batch_extract(input_dir: str, output_dir: str, template: str = None,
-                  custom_prompt: str = None, ocr: str = 'pymupdf',
+def batch_extract(input_dir: str, output_dir: str, template: str | None = None,
+                  custom_prompt: str | None = None, ocr: str = 'pymupdf',
                   output_format: str = 'markdown'):
     """
     批量提取 PDF 数据
@@ -30,7 +37,7 @@ def batch_extract(input_dir: str, output_dir: str, template: str = None,
         prompt = PRESET_TEMPLATES.get(template)
 
     if not prompt:
-        print(f"错误: 无效的模板或缺少提示")
+        print("错误: 无效的模板或缺少提示")
         return False
 
     # 加载配置
@@ -80,7 +87,7 @@ def batch_extract(input_dir: str, output_dir: str, template: str = None,
                 content = PDFProcessor.extract_text_pymupdf(str(pdf_file))
 
             if not content:
-                print(f"  ✗ PDF 提取失败")
+                print("  ✗ PDF 提取失败")
                 failed_files.append(pdf_file.name)
                 continue
 
@@ -88,13 +95,13 @@ def batch_extract(input_dir: str, output_dir: str, template: str = None,
             result = extractor.extract_data(content, prompt)
 
             if not result:
-                print(f"  ✗ 数据提取失败")
+                print("  ✗ 数据提取失败")
                 failed_files.append(pdf_file.name)
                 continue
 
             # 保存结果
             OutputHandler.save_output(result, str(output_file), output_format)
-            print(f"  ✓ 成功\n")
+            print("  ✓ 成功\n")
             success_count += 1
 
         except Exception as e:
@@ -103,14 +110,14 @@ def batch_extract(input_dir: str, output_dir: str, template: str = None,
 
     # 总结
     print(f"{'='*60}")
-    print(f"批量提取完成！")
+    print("批量提取完成！")
     print(f"{'='*60}")
     print(f"总计: {len(pdf_files)} 个文件")
     print(f"成功: {success_count} 个")
     print(f"失败: {len(failed_files)} 个")
 
     if failed_files:
-        print(f"\n失败的文件:")
+        print("\n失败的文件:")
         for f in failed_files:
             print(f"  - {f}")
 

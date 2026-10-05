@@ -4,13 +4,12 @@ Sci-Data-Extractor: 科学文献数据提取工具
 支持从 PDF 文件中提取结构化数据
 """
 
+import argparse
+import json
 import os
 import re
 import sys
-import json
-import argparse
 from pathlib import Path
-from typing import Optional, Dict, List
 
 try:
     import fitz  # PyMuPDF
@@ -67,7 +66,7 @@ class PDFProcessor:
     """PDF 处理类"""
 
     @staticmethod
-    def extract_text_pymupdf(pdf_path: str) -> Optional[str]:
+    def extract_text_pymupdf(pdf_path: str) -> str | None:
         """
         使用 PyMuPDF 提取 PDF 文本
 
@@ -94,7 +93,7 @@ class PDFProcessor:
             return None
 
     @staticmethod
-    def extract_text_mathpix(pdf_path: str, app_id: str, app_key: str) -> Optional[str]:
+    def extract_text_mathpix(pdf_path: str, app_id: str, app_key: str) -> str | None:
         """
         使用 Mathpix OCR 提取 PDF 内容（需要 API）
 
@@ -107,8 +106,9 @@ class PDFProcessor:
             提取的 Markdown 内容
         """
         try:
-            import requests
             import time
+
+            import requests
 
             headers = {
                 'app_id': app_id,
@@ -208,7 +208,7 @@ class DataExtractor:
         self.config = config
         self.client = OpenAI(api_key=config.api_key, base_url=config.base_url)
 
-    def call_llm(self, messages: List[Dict], model: str = None, temperature: float = None, max_tokens: int = None) -> Optional[str]:
+    def call_llm(self, messages: list[dict], model: str | None = None, temperature: float | None = None, max_tokens: int | None = None) -> str | None:
         """
         调用 LLM API
 
@@ -226,7 +226,7 @@ class DataExtractor:
         max_tokens = max_tokens or self.config.default_max_tokens
 
         try:
-            print(f"API 调用信息:")
+            print("API 调用信息:")
             print(f"  - Model: {model}")
             print(f"  - Base URL: {self.config.base_url}")
             print(f"  - Messages: {len(messages)} 条")
@@ -259,8 +259,8 @@ class DataExtractor:
             traceback.print_exc()
             return None
 
-    def extract_data(self, content: str, prompt: str, model: str = None,
-                     temperature: float = None) -> Optional[str]:
+    def extract_data(self, content: str, prompt: str, model: str | None = None,
+                     temperature: float | None = None) -> str | None:
         """
         从文本内容中提取数据
 
@@ -476,10 +476,9 @@ def main():
         return 1
 
     # 检查 Mathpix 配置
-    if args.ocr == 'mathpix':
-        if not config.mathpix_app_id or not config.mathpix_app_key:
-            print("错误: Mathpix OCR 需要设置 MATHPIX_APP_ID 和 MATHPIX_APP_KEY 环境变量")
-            return 1
+    if args.ocr == 'mathpix' and (not config.mathpix_app_id or not config.mathpix_app_key):
+        print("错误: Mathpix OCR 需要设置 MATHPIX_APP_ID 和 MATHPIX_APP_KEY 环境变量")
+        return 1
 
     # 确定提取提示
     prompt = args.prompt
@@ -497,7 +496,7 @@ def main():
 
     # 步骤 1: 提取 PDF 内容
     print(f"\n{'='*60}")
-    print(f"步骤 1: 提取 PDF 内容")
+    print("步骤 1: 提取 PDF 内容")
     print(f"{'='*60}")
     print(f"输入文件: {args.input}")
     print(f"OCR 方式: {args.ocr}")
@@ -519,7 +518,7 @@ def main():
 
     # 步骤 2: AI 数据提取
     print(f"\n{'='*60}")
-    print(f"步骤 2: AI 数据提取")
+    print("步骤 2: AI 数据提取")
     print(f"{'='*60}")
 
     extractor = DataExtractor(config)
@@ -533,7 +532,7 @@ def main():
 
     # 步骤 3: 保存输出
     print(f"\n{'='*60}")
-    print(f"步骤 3: 保存输出")
+    print("步骤 3: 保存输出")
     print(f"{'='*60}")
 
     OutputHandler.save_output(result, args.output, args.format)
@@ -541,11 +540,11 @@ def main():
     # 打印结果
     if args.print:
         print(f"\n{'='*60}")
-        print(f"提取结果:")
+        print("提取结果:")
         print(f"{'='*60}\n")
         print(result)
 
-    print(f"\n✓ 完成！")
+    print("\n✓ 完成！")
 
     return 0
 
