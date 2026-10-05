@@ -5,6 +5,12 @@ name: Skill Audit Gate
 # detected early and pass immediately without building the Rust tools; a path
 # filter here would leave the required check unreported and block non-skill
 # PRs forever.
+#
+# Gate: a skill graded below B blocks only when this pull request made it worse
+# (it is new, or scores lower than at the base commit). A skill that is already
+# below B and not lowered passes with a warning and is tracked by an issue
+# (scripts/skill-audit/classify.sh, file-issues.sh). B and B+ are warnings; A
+# and A+ pass.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -13,6 +19,8 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  # Filing a tracking issue for each skill graded below B.
+  issues: write
 
 concurrency:
   # Supersede an in-flight run when the ref updates (e.g. a rebase), so
@@ -81,6 +89,28 @@ jobs:
         if: steps.dirs.outputs.found == 'true'
         run: cargo build --release --locked -p pantheon-skill-auditor
 
+      # Audit the same skills as they were at the base commit, with the same
+      # auditor build, so the two scores compare. Skills that do not exist at the
+      # base are left out (they are new). If any of this fails, base.json stays
+      # empty and every skill below B blocks, which is the safe answer.
+      - name: Audit changed skills at the base commit
+        id: base
+        if: steps.dirs.outputs.found == 'true'
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          echo '[]' > base.json
+          base="$RUNNER_TEMP/base"
+          git worktree add --detach "$base" "${{ github.event.pull_request.base.sha }}" || exit 0
+          rels=()
+          for dir in ${{ steps.dirs.outputs.dirs }}; do
+            rel="${dir#skills/}"
+            [ -f "$base/skills/$rel/SKILL.md" ] && rels+=("$rel")
+          done
+          [ "${#rels[@]}" -gt 0 ] || exit 0
+          (cd "$base" && "$GITHUB_WORKSPACE/target/release/pantheon-skill-auditor" batch "${rels[@]}" --json) > base.json.tmp 2>/dev/null \
+            && mv base.json.tmp base.json
+
       # Cross-skill duplication scan over the whole skills/ tree. Advisory here:
       # skill families legitimately share structure (the tree-wide maximum today
       # is ~54% similarity), so a hard tree-wide gate would be permanently red.
@@ -132,6 +162,8 @@ jobs:
             rels+=("${dir#skills/}")
           done
           target/release/pantheon-skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
+          [ -f base.json ] || echo '[]' > base.json
+          bash scripts/skill-audit/classify.sh batch.json base.json > verdict.json
           # The per-skill detail blocks are cosmetic. They come from a second
           # run so that nothing in that path can change batch.json, the table or
           # `fail` above. A failure here leaves an empty file, never a red job.
@@ -139,13 +171,14 @@ jobs:
           [ -f details.md ] || : > details.md
           rows=$(jq -r '
             .[]
-            | (.skill | sub(".*/skills/"; "") | sub("/SKILL.md$"; "")) as $rel
-            | (if (.grade == "A" or .grade == "A+") then "✅ pass"
-               elif (.grade == "B+" or .grade == "B") then "⚠️ warning"
-               else "❌ fail" end) as $tier
-            | "| `\($rel)` | \(.grade) | \(.total)/\(.maxTotal) | \($tier) |"
-          ' batch.json)
-          fail=$(jq '[.[] | select(.grade != "A" and .grade != "A+" and .grade != "B+" and .grade != "B")] | length' batch.json)
+            | (if .tier == "pass" then "✅ pass"
+               elif .tier == "warn" then "⚠️ warning"
+               elif .tier == "debt" then "⚠️ below B, not lower than base (tracked)"
+               else "❌ fail (" + .reason + ")" end) as $tier
+            | "| `\(.skill)` | \(.grade) | \(.total)/\(.maxTotal) | \(if .baseTotal == null then "new" else (.baseTotal | tostring) end) | \($tier) |"
+          ' verdict.json)
+          fail=$(jq '[.[] | select(.tier == "fail")] | length' verdict.json)
+          debt=$(jq '[.[] | select(.tier == "debt")] | length' verdict.json)
           got=$(jq 'length' batch.json)
           want=${#rels[@]}
           if [ "$got" -lt "$want" ]; then
@@ -163,12 +196,28 @@ jobs:
           } || : > unscored.txt
           {
             echo "table<<AUDIT_EOF"
-            printf '| Skill | Grade | Score | Tier |\n'
-            printf '| --- | --- | --- | --- |\n'
+            printf '| Skill | Grade | Score | Base | Tier |\n'
+            printf '| --- | --- | --- | --- | --- |\n'
             printf '%s\n' "$rows"
             echo "AUDIT_EOF"
             echo "fail=$fail"
+            echo "debt=$debt"
           } >> "$GITHUB_OUTPUT"
+
+      # Keep one open issue per skill that is below B but was not lowered by this
+      # pull request (known debt) and link it here (scripts/skill-audit/
+      # file-issues.sh). A skill this pull request made worse blocks instead and
+      # gets no issue. It never decides the gate: "Enforce gate" below does that,
+      # so a failure here is a warning, not a red check.
+      - name: File issues for known-debt skills
+        if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.debt != '0'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: bash scripts/skill-audit/file-issues.sh verdict.json
 
       # The audit comment is cosmetic. Never let a transient comment-API
       # failure (e.g. installation-token rate limit) fail the required gate —
@@ -202,10 +251,15 @@ jobs:
           }
           build() {
             printf '## Skill Audit\n\n%s\n\n' "$TABLE"
-            printf '**Gate:**\n- ✅ pass = A / A+ (≥126)\n- ⚠️ warning = B – B+ (112–125, non-blocking)\n- ❌ fail = below B (<112, blocks merge)\n\n'
+            printf '**Gate:**\n- ✅ pass = A / A+ (≥126)\n- ⚠️ warning = B – B+ (112–125, non-blocking)\n- ⚠️ below B, not lower than base = known debt (non-blocking, tracked by an issue)\n- ❌ fail = below B (<112) and either a new skill or scoring lower than on the base branch (blocks merge)\n\n'
             if [ -s unscored.txt ]; then
               printf 'Not scored (the audit could not read them): '
               escape < unscored.txt | awk '{ printf "%s<code>%s</code>", (NR > 1 ? ", " : ""), $0 } END { print "" }'
+              printf '\n'
+            fi
+            if [ -s tracked-issues.md ]; then
+              printf '**Tracking issues** (one open issue per skill below B that this pull request did not lower, filed automatically):\n\n'
+              cat tracked-issues.md
               printf '\n'
             fi
             if [ "$1" = 1 ] && [ -s details.md ]; then
@@ -234,5 +288,5 @@ jobs:
       - name: Enforce gate (fail below B)
         if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail != '0'
         run: |
-          echo "::error::One or more changed skills scored below B or could not be audited. Raise them to at least grade B (112/140) to pass; grade A for a green pass."
+          echo "::error::One or more changed skills are below B and either new or scoring lower than on the base branch, or could not be audited. Raise them to at least grade B (112/140), or at least back to their base score, to pass. A skill already below B that this pull request did not lower passes and is tracked by an issue."
           exit 1
