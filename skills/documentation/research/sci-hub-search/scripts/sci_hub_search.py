@@ -4,14 +4,15 @@ Sci-Hub-Search: 学术文献搜索和下载工具
 支持通过 DOI、标题、关键词搜索并下载 Sci-Hub 上的论文
 """
 
+import argparse
+import json
+import logging
 import os
 import sys
-import json
-import argparse
-import logging
-import urllib3
 from pathlib import Path
-from typing import Dict, List, Any
+from typing import Any
+
+import urllib3
 
 try:
     from scihub import SciHub
@@ -68,7 +69,7 @@ class SciHubSearch:
         sh.timeout = self.config.timeout
         return sh
 
-    def search_by_doi(self, doi: str) -> Dict[str, Any]:
+    def search_by_doi(self, doi: str) -> dict[str, Any]:
         """
         通过 DOI 在 Sci-Hub 上搜索论文
 
@@ -95,7 +96,7 @@ class SciHubSearch:
                 'error': str(e)
             }
 
-    def search_by_title(self, title: str) -> Dict[str, Any]:
+    def search_by_title(self, title: str) -> dict[str, Any]:
         """
         通过标题在 Sci-Hub 上搜索论文
         首先从 CrossRef 获取 DOI，然后使用 DOI 搜索
@@ -137,7 +138,7 @@ class SciHubSearch:
                 'error': str(e)
             }
 
-    def search_by_keyword(self, keyword: str, num_results: int = 10) -> List[Dict[str, Any]]:
+    def search_by_keyword(self, keyword: str, num_results: int = 10) -> list[dict[str, Any]]:
         """
         通过关键词搜索论文
 
@@ -201,7 +202,7 @@ class SciHubSearch:
             print(f"下载出错: {e}")
             return False
 
-    def get_metadata(self, doi: str) -> Dict[str, Any]:
+    def get_metadata(self, doi: str) -> dict[str, Any]:
         """
         获取论文元数据
 
@@ -236,7 +237,7 @@ class OutputHandler:
     """输出处理类"""
 
     @staticmethod
-    def format_console(result: Dict[str, Any] | List[Dict[str, Any]], show_url: bool = True) -> str:
+    def format_console(result: dict[str, Any] | list[dict[str, Any]], show_url: bool = True) -> str:
         """格式化控制台输出"""
         if isinstance(result, list):
             # 多个结果
@@ -268,7 +269,7 @@ class OutputHandler:
                 return f"未找到论文: {result.get('error', '未知错误')}"
 
     @staticmethod
-    def format_json(result: Dict[str, Any] | List[Dict[str, Any]]) -> str:
+    def format_json(result: dict[str, Any] | list[dict[str, Any]]) -> str:
         """格式化 JSON 输出"""
         return json.dumps(result, ensure_ascii=False, indent=2)
 
@@ -399,7 +400,7 @@ def main():
         if success:
             print(f"✓ 论文已成功下载到: {args.output}")
         else:
-            print(f"✗ 下载失败，请检查 DOI 或 URL 是否正确")
+            print("✗ 下载失败，请检查 DOI 或 URL 是否正确")
             return 1
 
     return 0
