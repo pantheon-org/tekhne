@@ -41,9 +41,10 @@ jobs:
       # scripts subtree is clean, drop the skills/**/scripts/** exclude to bring
       # them under this gate too.
       #
-      # aislop is unpinned (@latest) to match the local PostToolUse hook, which
-      # also tracks latest; there is no aislop version pin in mise.toml. If CI
-      # reproducibility later requires it, pin a specific version here and in the
-      # hook together.
+      # aislop is pinned so the score depends only on the repository, not on a
+      # new aislop release. Nothing updates this version automatically: it is
+      # an inline npx version, which Dependabot does not read. Bump it by hand
+      # and check the score before merging. The local PostToolUse hook takes its
+      # version from the developer's own install and is not pinned here.
       - name: aislop ci
-        run: npx --yes aislop@latest ci .
+        run: npx --yes aislop@0.17.0 ci .
