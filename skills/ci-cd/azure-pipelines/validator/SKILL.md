@@ -141,7 +141,7 @@ WebFetch("https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/referen
 
 ## Requirements
 
-- **Python 3.7+**, **Bash**
+- **Python 3.10+**, **Bash**
 - **PyYAML** and **yamllint**: auto-installed in a persistent `.venv` if not available system-wide: no manual setup required.
 
 ```bash

@@ -12,11 +12,12 @@ This script validates Azure Pipelines YAML files for:
 - Resource definitions
 """
 
-import sys
-import yaml
 import re
+import sys
 from pathlib import Path
-from typing import Dict, List, Any, Tuple, Set
+from typing import Any, ClassVar
+
+import yaml
 
 
 class ValidationError:
@@ -36,14 +37,14 @@ class AzurePipelinesValidator:
     """Validates Azure Pipelines configuration files"""
 
     # Top-level keywords in Azure Pipelines
-    PIPELINE_KEYWORDS = {
+    PIPELINE_KEYWORDS: ClassVar[set[str]] = {
         'name', 'trigger', 'pr', 'schedules', 'pool', 'variables', 'parameters',
         'resources', 'stages', 'jobs', 'steps', 'extends', 'strategy',
         'container', 'services', 'workspace', 'lockBehavior', 'appendCommitMessageToRunName'
     }
 
     # Job-level keywords
-    JOB_KEYWORDS = {
+    JOB_KEYWORDS: ClassVar[set[str]] = {
         'job', 'deployment', 'template', 'displayName', 'dependsOn', 'condition',
         'strategy', 'continueOnError', 'pool', 'workspace', 'container', 'services',
         'timeoutInMinutes', 'cancelTimeoutInMinutes', 'variables', 'steps',
@@ -51,26 +52,26 @@ class AzurePipelinesValidator:
     }
 
     # Step types in Azure Pipelines
-    STEP_TYPES = {
+    STEP_TYPES: ClassVar[set[str]] = {
         'task', 'script', 'bash', 'pwsh', 'powershell', 'checkout', 'download',
         'downloadBuild', 'getPackage', 'publish', 'template', 'reviewApp'
     }
 
     # Valid trigger types
-    TRIGGER_TYPES = {'batch', 'branches', 'paths', 'tags'}
+    TRIGGER_TYPES: ClassVar[set[str]] = {'batch', 'branches', 'paths', 'tags'}
 
     # Deployment strategies
-    DEPLOYMENT_STRATEGIES = {'runOnce', 'rolling', 'canary'}
+    DEPLOYMENT_STRATEGIES: ClassVar[set[str]] = {'runOnce', 'rolling', 'canary'}
 
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
-        self.errors: List[ValidationError] = []
-        self.config: Dict[str, Any] = {}
-        self.line_map: Dict[str, int] = {}
-        self.defined_stages: Set[str] = set()
-        self.defined_jobs: Set[str] = set()
+        self.errors: list[ValidationError] = []
+        self.config: dict[str, Any] = {}
+        self.line_map: dict[str, int] = {}
+        self.defined_stages: set[str] = set()
+        self.defined_jobs: set[str] = set()
 
-    def validate(self) -> Tuple[bool, List[ValidationError]]:
+    def validate(self) -> tuple[bool, list[ValidationError]]:
         """Run all validations and return results"""
 
         # Step 1: Load and parse YAML
@@ -140,7 +141,7 @@ class AzurePipelinesValidator:
             line = getattr(e, 'problem_mark', None)
             line_num = line.line + 1 if line else 1
             self.errors.append(ValidationError(
-                'error', line_num, f'YAML syntax error: {str(e)}', 'yaml-syntax'
+                'error', line_num, f'YAML syntax error: {e!s}', 'yaml-syntax'
                 ))
             return False
         except FileNotFoundError:
@@ -150,7 +151,7 @@ class AzurePipelinesValidator:
             return False
         except Exception as e:
             self.errors.append(ValidationError(
-                'error', 0, f'Error reading file: {str(e)}', 'file-read-error'
+                'error', 0, f'Error reading file: {e!s}', 'file-read-error'
             ))
             return False
 
@@ -160,14 +161,13 @@ class AzurePipelinesValidator:
 
         for line_num, line in enumerate(self.raw_lines, 1):
             stripped = line.strip()
-            if stripped and not stripped.startswith('#'):
-                # Extract key from line
-                if ':' in stripped:
-                    key = stripped.split(':')[0].strip('- ')
-                    if key and key not in self.line_map:
-                        self.line_map[key] = line_num
-                    # Also store full stripped line for value lookups
-                    self.line_map[stripped] = line_num
+            # Extract key from line
+            if stripped and not stripped.startswith('#') and ':' in stripped:
+                key = stripped.split(':')[0].strip('- ')
+                if key and key not in self.line_map:
+                    self.line_map[key] = line_num
+                # Also store full stripped line for value lookups
+                self.line_map[stripped] = line_num
 
     def _get_line(self, key: str) -> int:
         """Get approximate line number for a key or value"""
@@ -296,7 +296,7 @@ class AzurePipelinesValidator:
                         'stage-missing-identifier'
                     ))
 
-    def _validate_jobs(self, jobs: List[Any], context: str = 'pipeline'):
+    def _validate_jobs(self, jobs: list[Any], context: str = 'pipeline'):
         """Validate jobs configuration"""
         if not isinstance(jobs, list):
             self.errors.append(ValidationError(
@@ -366,7 +366,7 @@ class AzurePipelinesValidator:
             if 'dependsOn' in job:
                 self._validate_dependencies(job['dependsOn'], job_name, 'job')
 
-    def _validate_steps(self, steps: List[Any], context: str):
+    def _validate_steps(self, steps: list[Any], context: str):
         """Validate steps configuration"""
         if not isinstance(steps, list):
             self.errors.append(ValidationError(
@@ -415,7 +415,7 @@ class AzurePipelinesValidator:
                 'task-invalid-format'
             ))
 
-    def _validate_deployment_strategy(self, strategy: Dict[str, Any], job_name: str):
+    def _validate_deployment_strategy(self, strategy: dict[str, Any], job_name: str):
         """Validate deployment strategy"""
         if not isinstance(strategy, dict):
             return
@@ -458,7 +458,7 @@ class AzurePipelinesValidator:
         """Validate variables configuration"""
         if isinstance(variables, dict):
             # Simple key-value variables
-            for key, value in variables.items():
+            for key in variables:
                 self._validate_variable_name(key)
         elif isinstance(variables, list):
             # List of variable definitions
@@ -496,7 +496,7 @@ class AzurePipelinesValidator:
 
         valid_resource_types = {'pipelines', 'builds', 'repositories', 'containers', 'packages', 'webhooks'}
 
-        for resource_type in resources.keys():
+        for resource_type in resources:
             if resource_type not in valid_resource_types:
                 self.errors.append(ValidationError(
                     'warning', self._get_line(resource_type),
