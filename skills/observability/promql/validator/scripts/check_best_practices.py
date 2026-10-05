@@ -6,20 +6,20 @@ Detects anti-patterns, performance issues, and optimization opportunities in Pro
 Provides actionable suggestions for improving query efficiency and correctness.
 """
 
+import json
 import re
 import sys
-import json
-from typing import Dict, List
+from typing import ClassVar
 
 
 class PromQLBestPracticesChecker:
     """Checks PromQL queries for best practices and anti-patterns"""
 
     # Metric name patterns
-    COUNTER_SUFFIXES = ['_total', '_count', '_sum', '_bucket']
+    COUNTER_SUFFIXES: ClassVar[list[str]] = ['_total', '_count', '_sum', '_bucket']
     # Expanded gauge patterns based on common naming conventions
     # See: https://prometheus.io/docs/practices/naming/
-    GAUGE_PATTERNS = [
+    GAUGE_PATTERNS: ClassVar[list[str]] = [
         '_bytes',           # Memory, disk sizes (when not _bytes_total)
         '_ratio',           # Ratios like cache_hit_ratio
         '_usage',           # Resource usage metrics
@@ -41,21 +41,21 @@ class PromQLBestPracticesChecker:
     ]
 
     # Rate functions
-    RATE_FUNCTIONS = ['rate', 'irate', 'increase', 'delta', 'idelta']
+    RATE_FUNCTIONS: ClassVar[list[str]] = ['rate', 'irate', 'increase', 'delta', 'idelta']
 
     # Native histogram functions (Prometheus 2.40+/3.0)
-    NATIVE_HISTOGRAM_FUNCTIONS = [
+    NATIVE_HISTOGRAM_FUNCTIONS: ClassVar[list[str]] = [
         'histogram_avg', 'histogram_stddev', 'histogram_stdvar',
         'histogram_count', 'histogram_sum', 'histogram_fraction'
     ]
 
     def __init__(self, query: str):
         self.query = query.strip()
-        self.issues: List[Dict] = []
-        self.suggestions: List[Dict] = []
-        self.optimizations: List[Dict] = []
+        self.issues: list[dict] = []
+        self.suggestions: list[dict] = []
+        self.optimizations: list[dict] = []
 
-    def check(self) -> Dict:
+    def check(self) -> dict:
         """
         Run all best practice checks
 
@@ -267,28 +267,29 @@ class PromQLBestPracticesChecker:
         for metric in counter_metrics:
             # Check if it's wrapped in rate/irate/increase
             escaped_metric = re.escape(metric)
-            if not re.search(rf'(?:rate|irate|increase|delta|idelta)\s*\([^)]*{escaped_metric}', self.query):
-                # Check if it's in histogram_quantile (buckets are used differently)
-                if not re.search(rf'histogram_quantile\s*\([^)]*{escaped_metric}', self.query):
-                    # Skip _sum and _count metrics when used in histogram calculations
-                    # (they're used for average: _sum / _count)
-                    if metric.endswith('_sum') or metric.endswith('_count'):
-                        # Check if this is part of a division for average calculation
-                        base_metric = metric.rsplit('_', 1)[0]
-                        if re.search(rf'{base_metric}_sum.*{base_metric}_count|{base_metric}_count.*{base_metric}_sum', self.query):
-                            continue  # Skip - this is a valid average calculation pattern
+            # Check if it's in histogram_quantile (buckets are used differently)
+            if not re.search(rf'(?:rate|irate|increase|delta|idelta)\s*\([^)]*{escaped_metric}', self.query) and not re.search(
+                rf'histogram_quantile\s*\([^)]*{escaped_metric}', self.query
+            ):
+                # Skip _sum and _count metrics when used in histogram calculations
+                # (they're used for average: _sum / _count)
+                if metric.endswith(('_sum', '_count')):
+                    # Check if this is part of a division for average calculation
+                    base_metric = metric.rsplit('_', 1)[0]
+                    if re.search(rf'{base_metric}_sum.*{base_metric}_count|{base_metric}_count.*{base_metric}_sum', self.query):
+                        continue  # Skip - this is a valid average calculation pattern
 
-                    # Skip native histogram metrics (no _bucket suffix needed)
-                    # Native histograms use histogram_avg, histogram_stddev, etc.
-                    if re.search(rf'histogram_(?:avg|stddev|stdvar|count|sum|fraction)\s*\([^)]*{escaped_metric}', self.query):
-                        continue
+                # Skip native histogram metrics (no _bucket suffix needed)
+                # Native histograms use histogram_avg, histogram_stddev, etc.
+                if re.search(rf'histogram_(?:avg|stddev|stdvar|count|sum|fraction)\s*\([^)]*{escaped_metric}', self.query):
+                    continue
 
-                    self.issues.append({
-                        'type': 'missing_rate',
-                        'message': f'Counter metric "{metric}" used without rate() or increase()',
-                        'severity': 'warning',
-                        'recommendation': f'Use rate({metric}[5m]) to get per-second rate'
-                    })
+                self.issues.append({
+                    'type': 'missing_rate',
+                    'message': f'Counter metric "{metric}" used without rate() or increase()',
+                    'severity': 'warning',
+                    'recommendation': f'Use rate({metric}[5m]) to get per-second rate'
+                })
 
     def _check_rate_on_gauges(self):
         """Check if rate/irate is used on gauge metrics"""
@@ -354,7 +355,7 @@ class PromQLBestPracticesChecker:
                     'type': 'irate_long_range',
                     'message': f'irate() used with {duration}{unit} range - irate only looks at last 2 samples',
                     'severity': 'warning',
-                    'recommendation': f'Use rate() for ranges > 5m, or reduce irate range to [2m]'
+                    'recommendation': 'Use rate() for ranges > 5m, or reduce irate range to [2m]'
                 })
 
     def _check_rate_range(self):
@@ -393,7 +394,7 @@ class PromQLBestPracticesChecker:
                         'type': 'missing_aggregation_clause',
                         'message': f'{agg}() used without by() or without() clause (likely intentional for alerting)',
                         'severity': 'info',
-                        'recommendation': f'Full aggregation is common for alerting queries. Add "by (label)" only if you need per-label alerts.'
+                        'recommendation': 'Full aggregation is common for alerting queries. Add "by (label)" only if you need per-label alerts.'
                     })
                 else:
                     # For non-alerting queries, the standard recommendation applies
@@ -619,30 +620,26 @@ class PromQLBestPracticesChecker:
 
         # Check for binary operations that might need vector matching
         # Pattern: metric * metric or metric / metric without on() or ignoring()
-        binary_ops = ['*', '/', '+', '-', '%', '^']
-        has_binary_op = any(op in self.query for op in binary_ops)
         has_vector_matching = 'on(' in query_lower or 'ignoring(' in query_lower
 
         # Check for _info metric joins (common pattern)
         # Info metrics typically need group_left
-        if re.search(r'\*\s*on\s*\([^)]+\)\s*[a-zA-Z_]+_info\b', self.query):
-            if 'group_left' not in query_lower and 'group_right' not in query_lower:
-                self.issues.append({
-                    'type': 'info_metric_missing_group',
-                    'message': 'Joining with _info metric without group_left()',
-                    'severity': 'warning',
-                    'recommendation': 'Info metric joins typically need group_left() to bring labels from the info metric. Use: metric * on(job, instance) group_left(label1, label2) info_metric'
-                })
+        if re.search(r'\*\s*on\s*\([^)]+\)\s*[a-zA-Z_]+_info\b', self.query) and 'group_left' not in query_lower and 'group_right' not in query_lower:
+            self.issues.append({
+                'type': 'info_metric_missing_group',
+                'message': 'Joining with _info metric without group_left()',
+                'severity': 'warning',
+                'recommendation': 'Info metric joins typically need group_left() to bring labels from the info metric. Use: metric * on(job, instance) group_left(label1, label2) info_metric'
+            })
 
         # Check for group_left/group_right without on() or ignoring()
-        if re.search(r'\b(group_left|group_right)\s*\(', query_lower):
-            if 'on(' not in query_lower and 'ignoring(' not in query_lower:
-                self.issues.append({
-                    'type': 'group_without_matching',
-                    'message': 'group_left()/group_right() used without on() or ignoring()',
-                    'severity': 'error',
-                    'recommendation': 'group_left()/group_right() requires on() or ignoring() to specify matching labels'
-                })
+        if re.search(r'\b(group_left|group_right)\s*\(', query_lower) and 'on(' not in query_lower and 'ignoring(' not in query_lower:
+            self.issues.append({
+                'type': 'group_without_matching',
+                'message': 'group_left()/group_right() used without on() or ignoring()',
+                'severity': 'error',
+                'recommendation': 'group_left()/group_right() requires on() or ignoring() to specify matching labels'
+            })
 
         # Check for on() with empty parentheses - this is valid but might be unintentional
         if re.search(r'\bon\s*\(\s*\)', query_lower):
@@ -683,7 +680,6 @@ class PromQLBestPracticesChecker:
 
         for func in native_hist_matches:
             # Check if rate() is used (required for native histograms too)
-            func_call_pattern = rf'{func}\s*\([^)]*'
             if not re.search(rf'{func}\s*\(\s*rate\s*\(', self.query):
                 self.issues.append({
                     'type': 'native_histogram_missing_rate',
@@ -719,15 +715,16 @@ class PromQLBestPracticesChecker:
 
         # Provide helpful info about histogram_count and histogram_sum
         # These work with both native and classic histograms but differently
-        if re.search(r'\bhistogram_count\s*\(', self.query) or re.search(r'\bhistogram_sum\s*\(', self.query):
-            # Check if it's wrapping rate()
-            if not re.search(r'histogram_(?:count|sum)\s*\(\s*rate\s*\(', self.query):
-                self.suggestions.append({
-                    'type': 'histogram_helper_without_rate',
-                    'message': 'histogram_count()/histogram_sum() typically need rate() for meaningful results',
-                    'severity': 'info',
-                    'recommendation': 'Use: histogram_count(rate(histogram_metric[5m])) to get observations per second'
-                })
+        # Check if it's wrapping rate()
+        if (re.search(r'\bhistogram_count\s*\(', self.query) or re.search(r'\bhistogram_sum\s*\(', self.query)) and not re.search(
+            r'histogram_(?:count|sum)\s*\(\s*rate\s*\(', self.query
+        ):
+            self.suggestions.append({
+                'type': 'histogram_helper_without_rate',
+                'message': 'histogram_count()/histogram_sum() typically need rate() for meaningful results',
+                'severity': 'info',
+                'recommendation': 'Use: histogram_count(rate(histogram_metric[5m])) to get observations per second'
+            })
 
     def _check_mixed_metric_types(self):
         """
@@ -797,11 +794,10 @@ class PromQLBestPracticesChecker:
             elif any(pattern in metric for pattern in self.GAUGE_PATTERNS):
                 detected_types.add('gauge')
                 type_examples.setdefault('gauge', []).append(metric)
-            elif 'quantile' in self.query and metric in self.query:
-                # Check if this metric is used with a quantile label selector
-                if re.search(rf'{re.escape(metric)}\s*\{{[^}}]*quantile\s*=', self.query):
-                    detected_types.add('summary')
-                    type_examples.setdefault('summary', []).append(metric)
+            # Check if this metric is used with a quantile label selector
+            elif 'quantile' in self.query and metric in self.query and re.search(rf'{re.escape(metric)}\s*\{{[^}}]*quantile\s*=', self.query):
+                detected_types.add('summary')
+                type_examples.setdefault('summary', []).append(metric)
 
         # Check for histogram usage via histogram_quantile
         # Only add 'histogram' as a type if it's NOT a classic histogram query
@@ -853,7 +849,7 @@ class PromQLBestPracticesChecker:
         """Convert duration to hours"""
         return PromQLBestPracticesChecker._duration_to_seconds(value, unit) / 3600
 
-    def _build_result(self) -> Dict:
+    def _build_result(self) -> dict:
         """Build the check result dictionary"""
         all_findings = self.issues + self.suggestions + self.optimizations
 
