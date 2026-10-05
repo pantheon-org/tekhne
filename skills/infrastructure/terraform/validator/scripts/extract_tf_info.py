@@ -28,9 +28,9 @@ Requirements:
 """
 
 import json
+import logging
 import os
 import sys
-import logging
 from pathlib import Path
 from typing import Any
 
@@ -192,13 +192,13 @@ class TerraformParser:
 
     def _determine_module_type(self, source: str) -> str:
         """Determine module type from source string."""
-        if source.startswith('./') or source.startswith('../'):
+        if source.startswith(('./', '../')):
             return 'local'
-        elif source.startswith('git::') or source.startswith('git@'):
+        elif source.startswith(('git::', 'git@')):
             return 'git'
-        elif source.startswith('s3::') or source.startswith('gcs::'):
+        elif source.startswith(('s3::', 'gcs::')):
             return 'cloud_storage'
-        elif source.startswith('https://') or source.startswith('http://'):
+        elif source.startswith(('https://', 'http://')):
             return 'http'
         elif '/' in source and not source.startswith('.'):
             # Likely terraform registry format: namespace/name/provider
@@ -239,7 +239,7 @@ class TerraformParser:
             if isinstance(block, dict):
                 for data_type, instances in block.items():
                     if isinstance(instances, dict):
-                        for data_name, config in instances.items():
+                        for data_name in instances:
                             self.data_sources.append({
                                 'type': data_type,
                                 'name': data_name,
@@ -315,7 +315,7 @@ class TerraformParser:
 
         for block in locals_blocks:
             if isinstance(block, dict):
-                for name in block.keys():
+                for name in block:
                     self.locals.append({
                         'name': name,
                         'file': filepath
@@ -352,10 +352,10 @@ def check_dependencies() -> bool:
     """Check if required dependencies are installed."""
     if not HCL2_AVAILABLE:
         print("Error: python-hcl2 is required but not installed.", file=sys.stderr)
-        print("", file=sys.stderr)
+        print(file=sys.stderr)
         print("Install it with:", file=sys.stderr)
         print("  pip install python-hcl2", file=sys.stderr)
-        print("", file=sys.stderr)
+        print(file=sys.stderr)
         print("Or in a virtual environment:", file=sys.stderr)
         print("  python -m venv venv", file=sys.stderr)
         print("  source venv/bin/activate", file=sys.stderr)
@@ -368,13 +368,13 @@ def main():
     """Main entry point."""
     if len(sys.argv) < 2:
         print("Terraform Configuration Parser")
-        print("")
+        print()
         print("Usage: python extract_tf_info.py <path-to-tf-file-or-directory>")
-        print("")
+        print()
         print("Examples:")
         print("  python extract_tf_info.py main.tf")
         print("  python extract_tf_info.py ./terraform/")
-        print("")
+        print()
         print("Output: JSON structure with providers, modules, resources, and more")
         sys.exit(1)
 
