@@ -8,7 +8,7 @@ Supports multiple input sources, filters, and output destinations.
 
 import argparse
 import sys
-from typing import Dict, List, Optional, Callable
+from collections.abc import Callable
 
 
 class FluentBitConfigGenerator:
@@ -16,7 +16,7 @@ class FluentBitConfigGenerator:
 
     def __init__(self) -> None:
         """Initialize the generator with available use cases."""
-        self.use_cases: Dict[str, Callable[..., str]] = {
+        self.use_cases: dict[str, Callable[..., str]] = {
             "kubernetes-elasticsearch": self._generate_k8s_elasticsearch,
             "kubernetes-loki": self._generate_k8s_loki,
             "kubernetes-cloudwatch": self._generate_k8s_cloudwatch,
@@ -59,7 +59,7 @@ class FluentBitConfigGenerator:
         flush: int = 1,
         log_level: str = "info",
         http_server: bool = True,
-        parsers_file: Optional[str] = None,
+        parsers_file: str | None = None,
     ) -> str:
         """
         Generate SERVICE section with global Fluent Bit configuration.
@@ -1019,7 +1019,7 @@ def main() -> None:
         try:
             with open(args.output, "w", encoding="utf-8") as f:
                 f.write(config)
-        except IOError as e:
+        except OSError as e:
             print(f"Error: Failed to write configuration file: {e}", file=sys.stderr)
             sys.exit(1)
         except PermissionError as e:
@@ -1028,9 +1028,9 @@ def main() -> None:
 
         print(f"✓ Configuration generated successfully: {args.output}")
         print(f"\nUse case: {args.use_case}")
-        print(f"\nNext steps:")
+        print("\nNext steps:")
         print(f"1. Review the configuration: cat {args.output}")
-        print(f"2. Customize parameters as needed")
+        print("2. Customize parameters as needed")
         print(f"3. Validate the configuration: fluent-bit -c {args.output} --dry-run")
         print(f"4. Test the configuration: fluent-bit -c {args.output}")
 
