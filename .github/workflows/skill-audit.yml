@@ -13,6 +13,8 @@ on:
 permissions:
   contents: read
   pull-requests: write
+  # Filing a tracking issue for each skill graded below B.
+  issues: write
 
 concurrency:
   # Supersede an in-flight run when the ref updates (e.g. a rebase), so
@@ -170,6 +172,20 @@ jobs:
             echo "fail=$fail"
           } >> "$GITHUB_OUTPUT"
 
+      # Keep one open issue per skill graded below B and link it to this pull
+      # request (scripts/skill-audit/file-issues.sh). It never decides the gate:
+      # "Enforce gate" below does that from the grade alone, so a failure here is
+      # a warning, not a red check.
+      - name: File issues for skills below B
+        if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail != '0'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: bash scripts/skill-audit/file-issues.sh batch.json
+
       # The audit comment is cosmetic. Never let a transient comment-API
       # failure (e.g. installation-token rate limit) fail the required gate —
       # the verdict is decided by "Enforce gate" from the grade alone.
@@ -208,6 +224,11 @@ jobs:
               escape < unscored.txt | awk '{ printf "%s<code>%s</code>", (NR > 1 ? ", " : ""), $0 } END { print "" }'
               printf '\n'
             fi
+            if [ -s tracked-issues.md ]; then
+              printf '**Tracking issues** (one open issue per skill below B, filed automatically):\n\n'
+              cat tracked-issues.md
+              printf '\n'
+            fi
             if [ "$1" = 1 ] && [ -s details.md ]; then
               printf '**Where the points were lost** (the three biggest losses for each skill graded below A):\n\n'
               cat details.md
@@ -234,5 +255,5 @@ jobs:
       - name: Enforce gate (fail below B)
         if: steps.dirs.outputs.found == 'true' && steps.audit.outputs.fail != '0'
         run: |
-          echo "::error::One or more changed skills scored below B or could not be audited. Raise them to at least grade B (112/140) to pass; grade A for a green pass."
+          echo "::error::One or more changed skills scored below B or could not be audited. Raise them to at least grade B (112/140) to pass; grade A for a green pass. Each skill below B has a tracking issue, listed in the Skill Audit comment."
           exit 1
