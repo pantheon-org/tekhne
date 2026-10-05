@@ -10,16 +10,13 @@ This script analyzes Terragrunt and Terraform configurations to identify:
 Outputs a report that can be used to guide documentation lookup via WebSearch or Context7.
 """
 
-import os
-import re
-import json
 import argparse
+import json
 import logging
+import re
 import sys
-from pathlib import Path
-from typing import List
 from collections import defaultdict
-
+from pathlib import Path
 
 # Known official HashiCorp providers (comprehensive list)
 OFFICIAL_PROVIDERS = {
@@ -68,7 +65,7 @@ class ResourceDetector:
         self.custom_modules = defaultdict(list)
         self.terragrunt_configs = []
 
-    def find_hcl_files(self) -> List[Path]:
+    def find_hcl_files(self) -> list[Path]:
         """Find all .hcl and .tf files in the target directory."""
         hcl_files = []
         for ext in ['*.hcl', '*.tf']:
@@ -134,7 +131,6 @@ class ResourceDetector:
             # Now extract individual provider declarations
             provider_decl_pattern = r'(\w+)\s*=\s*{[^}]*source\s*=\s*"([^"]+)"[^}]*version\s*=\s*"([^"]+)"'
             for provider_match in re.finditer(provider_decl_pattern, block_content):
-                provider_name = provider_match.group(1)
                 provider_source = provider_match.group(2)
                 provider_version = provider_match.group(3)
 
@@ -224,14 +220,14 @@ class ResourceDetector:
 
     def _categorize_module_source(self, source: str) -> str:
         """Categorize the module source type."""
-        if source.startswith('./') or source.startswith('../'):
+        if source.startswith(('./', '../')):
             return 'local'
         elif source.startswith('tfr:///'):
             # Terragrunt registry format
             return 'terragrunt'
         elif source.startswith('git::') or 'github.com' in source or 'gitlab.com' in source:
             return 'git'
-        elif source.startswith('http://') or source.startswith('https://'):
+        elif source.startswith(('http://', 'https://')):
             return 'http'
         elif '/' in source and not source.startswith('.'):
             # Check if this looks like a provider source (org/name) vs module (org/name/provider)
@@ -329,7 +325,7 @@ class ResourceDetector:
                     lines.append(f"  → Action: Search for 'terraform {clean_source} module documentation'")
                     lines.append(f"            or visit https://registry.terraform.io/modules/{clean_source}")
                 else:
-                    lines.append(f"  → Action: Search for documentation related to this module source")
+                    lines.append("  → Action: Search for documentation related to this module source")
             lines.append("")
         else:
             lines.append("CUSTOM MODULES: None detected")
