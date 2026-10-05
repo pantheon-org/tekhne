@@ -37,15 +37,3 @@ code-blocks = false
 [per-file-ignores]
 "docs/adr/consolidate-adr-tooling.md" = ["MD025", "MD064"]
 "crates/adr/docs/design/agent-driven-adr-lifecycle.md" = ["MD028", "MD033", "MD064"]
-
-# Not fixed here: these skills grade below B, and the pull request gate re-audits any skill with a changed file,
-# so their CHANGELOG blank lines are left as they were until the skills are raised to B.
-"skills/agentic-harness/create-context/CHANGELOG.md" = ["MD012"]
-"skills/agentic-harness/opencode-toolkit/build-plugins/CHANGELOG.md" = ["MD012"]
-"skills/agentic-harness/opencode-toolkit/build-tool/CHANGELOG.md" = ["MD012"]
-"skills/agentic-harness/opencode-toolkit/design-agents/CHANGELOG.md" = ["MD012"]
-"skills/agentic-harness/pick-model/CHANGELOG.md" = ["MD012"]
-"skills/agentic-harness/socratic-method/CHANGELOG.md" = ["MD012"]
-"skills/infrastructure/cfn/behavior-validator/CHANGELOG.md" = ["MD012"]
-"skills/software-engineering/bridge/CHANGELOG.md" = ["MD012"]
-"skills/software-engineering/frame-problem/CHANGELOG.md" = ["MD012"]
