@@ -30,10 +30,8 @@ def split_yaml_documents(content):
     documents = []
     current_doc = []
     current_start_line = 1
-    line_num = 0
 
-    for line in content.split('\n'):
-        line_num += 1
+    for line_num, line in enumerate(content.split('\n'), start=1):
         if line.strip() == '---':
             if current_doc:
                 doc_content = '\n'.join(current_doc)

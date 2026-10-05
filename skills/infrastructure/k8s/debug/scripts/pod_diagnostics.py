@@ -4,10 +4,10 @@ Kubernetes Pod Diagnostics Script
 Gathers comprehensive diagnostic information about a specific pod
 """
 
-import subprocess
-import json
-import sys
 import argparse
+import contextlib
+import subprocess
+import sys
 from datetime import datetime
 
 
@@ -19,6 +19,7 @@ def run_kubectl(cmd):
             shell=True,
             capture_output=True,
             text=True,
+            check=False,
             timeout=30
         )
         return result.stdout, result.stderr, result.returncode
@@ -96,13 +97,11 @@ def main():
     args = parser.parse_args()
 
     if args.output:
-        sys.stdout = open(args.output, 'w')
-
-    get_pod_info(args.pod_name, args.namespace)
-
-    if args.output:
-        sys.stdout.close()
+        with open(args.output, 'w') as out, contextlib.redirect_stdout(out):
+            get_pod_info(args.pod_name, args.namespace)
         print(f"\nDiagnostics written to: {args.output}", file=sys.stderr)
+    else:
+        get_pod_info(args.pod_name, args.namespace)
 
 
 if __name__ == "__main__":
