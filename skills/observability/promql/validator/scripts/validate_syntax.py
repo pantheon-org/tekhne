@@ -6,10 +6,10 @@ Validates the syntax of Prometheus Query Language (PromQL) expressions.
 Checks for correct metric names, label matchers, operators, functions, and time durations.
 """
 
+import json
 import re
 import sys
-import json
-from typing import Dict, List
+from typing import ClassVar
 
 
 class PromQLSyntaxValidator:
@@ -21,7 +21,7 @@ class PromQLSyntaxValidator:
     LABEL_MATCHER_PATTERN = r'[a-zA-Z_][a-zA-Z0-9_]*\s*(?:=|!=|=~|!~)\s*"(?:[^"\\]|\\.)*"'
 
     # Valid PromQL functions
-    FUNCTIONS = {
+    FUNCTIONS: ClassVar[set[str]] = {
         # Aggregation operators
         'sum', 'min', 'max', 'avg', 'group', 'stddev', 'stdvar', 'count', 'count_values',
         'bottomk', 'topk', 'quantile',
@@ -61,7 +61,7 @@ class PromQLSyntaxValidator:
     }
 
     # Aggregation operators that support by/without clauses
-    AGGREGATION_OPERATORS = {
+    AGGREGATION_OPERATORS: ClassVar[set[str]] = {
         'sum', 'min', 'max', 'avg', 'group', 'stddev', 'stdvar', 'count',
         'count_values', 'bottomk', 'topk', 'quantile',
         # Prometheus 2.43+ (experimental, requires --enable-feature=promql-experimental-functions)
@@ -69,7 +69,7 @@ class PromQLSyntaxValidator:
     }
 
     # Binary operators
-    BINARY_OPERATORS = {
+    BINARY_OPERATORS: ClassVar[set[str]] = {
         '+', '-', '*', '/', '%', '^',  # Arithmetic
         '==', '!=', '>', '<', '>=', '<=',  # Comparison
         'and', 'or', 'unless',  # Logical
@@ -77,7 +77,7 @@ class PromQLSyntaxValidator:
 
     # Keywords that look like functions (followed by parentheses) but are NOT functions
     # These are aggregation modifiers, vector matching keywords, etc.
-    NON_FUNCTION_KEYWORDS = {
+    NON_FUNCTION_KEYWORDS: ClassVar[set[str]] = {
         'by',           # Aggregation modifier: sum by (label)
         'without',      # Aggregation modifier: sum without (label)
         'on',           # Vector matching: metric_a + on (label) metric_b
@@ -89,10 +89,10 @@ class PromQLSyntaxValidator:
 
     def __init__(self, query: str):
         self.query = query.strip()
-        self.errors: List[Dict] = []
-        self.warnings: List[Dict] = []
+        self.errors: list[dict] = []
+        self.warnings: list[dict] = []
 
-    def validate(self) -> Dict:
+    def validate(self) -> dict:
         """
         Run all validation checks
 
@@ -405,16 +405,15 @@ class PromQLSyntaxValidator:
         # 2. metric_name[5m] offset 1h (range vector)
         # 3. rate(metric_name[5m] offset 1h) (inside function)
         # Invalid: metric_name offset 1h [5m] (offset between metric and range)
-        if ' offset ' in self.query.lower():
-            # Check for invalid pattern: offset followed by range vector
-            if re.search(r'\boffset\s+\d+[smhdwy]\s*\[', self.query, re.IGNORECASE):
-                self.errors.append({
-                    'type': 'misplaced_offset',
-                    'message': 'offset modifier should come after the range vector [duration], not before it',
-                    'severity': 'error'
-                })
+        # Check for invalid pattern: offset followed by range vector
+        if ' offset ' in self.query.lower() and re.search(r'\boffset\s+\d+[smhdwy]\s*\[', self.query, re.IGNORECASE):
+            self.errors.append({
+                'type': 'misplaced_offset',
+                'message': 'offset modifier should come after the range vector [duration], not before it',
+                'severity': 'error'
+            })
 
-    def _find_close_matches(self, word: str, candidates: set, max_distance: int = 2) -> List[str]:
+    def _find_close_matches(self, word: str, candidates: set, max_distance: int = 2) -> list[str]:
         """Find close matches using simple edit distance"""
         matches = []
         for candidate in candidates:
@@ -444,7 +443,7 @@ class PromQLSyntaxValidator:
 
         return previous_row[-1]
 
-    def _build_result(self) -> Dict:
+    def _build_result(self) -> dict:
         """Build the validation result dictionary"""
         has_errors = len(self.errors) > 0
         has_warnings = len(self.warnings) > 0
