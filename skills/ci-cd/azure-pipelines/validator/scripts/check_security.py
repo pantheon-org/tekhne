@@ -12,11 +12,12 @@ This script scans Azure Pipelines YAML files for security issues:
 - Script injection vulnerabilities
 """
 
-import sys
-import yaml
 import re
+import sys
 from pathlib import Path
-from typing import Dict, List, Any, Pattern
+from typing import Any, ClassVar
+
+import yaml
 
 
 class SecurityIssue:
@@ -40,7 +41,7 @@ class SecurityScanner:
     """Scans Azure Pipelines files for security issues"""
 
     # Patterns for detecting hardcoded secrets
-    SECRET_PATTERNS = [
+    SECRET_PATTERNS: ClassVar[list[Any]] = [
         (re.compile(r'(?i)(password|passwd|pwd)\s*[:=]\s*["\']?(?!\$\()[a-zA-Z0-9!@#$%^&*()_+\-=\[\]{};:,.<>?/\\|`~]{8,}["\']?'), 'hardcoded-password'),
         (re.compile(r'(?i)(api[_-]?key|apikey)\s*[:=]\s*["\']?(?!\$\()[a-zA-Z0-9_\-]{16,}["\']?'), 'hardcoded-api-key'),
         (re.compile(r'(?i)(secret|token|access[_-]?key)\s*[:=]\s*["\']?(?!\$\()[a-zA-Z0-9_\-]{16,}["\']?'), 'hardcoded-secret'),
@@ -53,7 +54,7 @@ class SecurityScanner:
     ]
 
     # Dangerous script patterns
-    DANGEROUS_PATTERNS = [
+    DANGEROUS_PATTERNS: ClassVar[list[Any]] = [
         (re.compile(r'curl\s+[^|]*\|\s*(bash|sh|pwsh|powershell)'), 'curl-pipe-shell', 'Download and verify scripts before execution'),
         (re.compile(r'wget\s+[^|]*\|\s*(bash|sh|pwsh|powershell)'), 'wget-pipe-shell', 'Download and verify scripts before execution'),
         (re.compile(r'Invoke-WebRequest.*\|\s*(Invoke-Expression|iex)'), 'invoke-web-pipe-iex', 'Download and verify scripts before execution'),
@@ -65,7 +66,7 @@ class SecurityScanner:
     ]
 
     # Patterns that might leak secrets in logs
-    SECRET_EXPOSURE_PATTERNS = [
+    SECRET_EXPOSURE_PATTERNS: ClassVar[list[Any]] = [
         re.compile(r'(?i)echo\s+.*\$\((PASSWORD|SECRET|TOKEN|KEY|CREDENTIAL)'),
         re.compile(r'(?i)Write-Host.*\$\((PASSWORD|SECRET|TOKEN|KEY|CREDENTIAL)'),
         re.compile(r'(?i)console\.log.*\$\((PASSWORD|SECRET|TOKEN|KEY|CREDENTIAL)'),
@@ -74,21 +75,21 @@ class SecurityScanner:
     ]
 
     # Container image security patterns
-    INSECURE_IMAGE_PATTERNS = [
+    INSECURE_IMAGE_PATTERNS: ClassVar[list[Any]] = [
         re.compile(r':\s*latest\s*$'),  # Using :latest tag
         re.compile(r'(?i)FROM\s+[a-z0-9\-\./_]+:latest'),  # Dockerfile FROM with latest
     ]
 
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
-        self.issues: List[SecurityIssue] = []
-        self.config: Dict[str, Any] = {}
+        self.issues: list[SecurityIssue] = []
+        self.config: dict[str, Any] = {}
         self.raw_content: str = ""
-        self.line_map: Dict[str, int] = {}
+        self.line_map: dict[str, int] = {}
         # Track reported issues to avoid duplicates (line_number, rule) pairs
         self.reported_secrets: set = set()
 
-    def scan(self) -> List[SecurityIssue]:
+    def scan(self) -> list[SecurityIssue]:
         """Run all security scans"""
 
         try:
@@ -120,13 +121,12 @@ class SecurityScanner:
         self.raw_lines = self.raw_content.split('\n')
         for line_num, line in enumerate(self.raw_lines, 1):
             stripped = line.strip()
-            if stripped and not stripped.startswith('#'):
-                if ':' in stripped:
-                    key = stripped.split(':')[0].strip('- ')
-                    if key and key not in self.line_map:
-                        self.line_map[key] = line_num
-                    # Also store full stripped line for value lookups
-                    self.line_map[stripped] = line_num
+            if stripped and not stripped.startswith('#') and ':' in stripped:
+                key = stripped.split(':')[0].strip('- ')
+                if key and key not in self.line_map:
+                    self.line_map[key] = line_num
+                # Also store full stripped line for value lookups
+                self.line_map[stripped] = line_num
 
     def _get_line(self, key: str) -> int:
         """Get approximate line number for a key or value"""
@@ -189,7 +189,7 @@ class SecurityScanner:
                         self.reported_secrets.add(finding_key)
                         self.issues.append(SecurityIssue(
                             'high', line_num,
-                            f"Potential hardcoded secret detected",
+                            "Potential hardcoded secret detected",
                             rule,
                             "Use secret variables or Azure Key Vault instead of hardcoding secrets"
                         ))
@@ -212,7 +212,7 @@ class SecurityScanner:
                     ))
 
         # Check all script steps
-        def process_steps(steps: List[Any], context: str):
+        def process_steps(steps: list[Any], context: str):
             for step in steps:
                 if isinstance(step, dict):
                     for script_key in ['script', 'bash', 'pwsh', 'powershell']:
@@ -225,7 +225,7 @@ class SecurityScanner:
     def _check_secret_exposure(self):
         """Check for potential secret exposure in logs"""
 
-        def process_steps(steps: List[Any], context: str):
+        def process_steps(steps: list[Any], context: str):
             for step in steps:
                 if isinstance(step, dict):
                     for script_key in ['script', 'bash', 'pwsh', 'powershell']:
@@ -265,7 +265,7 @@ class SecurityScanner:
                                 break
 
         # Check container at job level
-        def check_job_containers(jobs: List[Any]):
+        def check_job_containers(jobs: list[Any]):
             for job in jobs:
                 if isinstance(job, dict) and 'container' in job:
                     container = job['container']
@@ -303,7 +303,7 @@ class SecurityScanner:
     def _check_task_security(self):
         """Check task version security"""
 
-        def process_steps(steps: List[Any], context: str):
+        def process_steps(steps: list[Any], context: str):
             for step in steps:
                 if isinstance(step, dict) and 'task' in step:
                     task = step['task']
@@ -319,14 +319,13 @@ class SecurityScanner:
                             ))
 
                         # Warn about very old tasks (@1 for critical tasks)
-                        if any(critical in task for critical in ['AzureCLI@', 'AzurePowerShell@', 'Kubernetes@']):
-                            if '@1' in task:
-                                self.issues.append(SecurityIssue(
-                                    'low', line_num,
-                                    f"Task '{task}' in {context} uses older version",
-                                    'task-old-version',
-                                    "Consider updating to latest major version for security fixes"
-                                ))
+                        if any(critical in task for critical in ['AzureCLI@', 'AzurePowerShell@', 'Kubernetes@']) and '@1' in task:
+                            self.issues.append(SecurityIssue(
+                                'low', line_num,
+                                f"Task '{task}' in {context} uses older version",
+                                'task-old-version',
+                                "Consider updating to latest major version for security fixes"
+                            ))
 
         self._traverse_steps(process_steps)
 
@@ -334,7 +333,7 @@ class SecurityScanner:
         """Check for hardcoded service connections"""
 
         # Check for Azure service connections in tasks
-        def process_steps(steps: List[Any], context: str):
+        def process_steps(steps: list[Any], context: str):
             for step in steps:
                 if isinstance(step, dict) and 'inputs' in step:
                     inputs = step['inputs']
@@ -357,29 +356,26 @@ class SecurityScanner:
     def _check_checkout_security(self):
         """Check checkout security settings"""
 
-        def process_steps(steps: List[Any], context: str):
+        def process_steps(steps: list[Any], context: str):
             for step in steps:
                 if isinstance(step, dict) and 'checkout' in step:
-                    checkout = step['checkout']
                     # Check if clean is disabled
-                    if isinstance(step, dict) and 'clean' in step:
-                        if step['clean'] == False or step['clean'] == 'false':
-                            self.issues.append(SecurityIssue(
-                                'low', 0,
-                                f"Checkout in {context} has clean disabled",
-                                'checkout-no-clean',
-                                "Enable clean checkout to prevent contamination from previous builds"
-                            ))
+                    if isinstance(step, dict) and 'clean' in step and (step['clean'] == False or step['clean'] == 'false'):
+                        self.issues.append(SecurityIssue(
+                            'low', 0,
+                            f"Checkout in {context} has clean disabled",
+                            'checkout-no-clean',
+                            "Enable clean checkout to prevent contamination from previous builds"
+                        ))
 
                     # Check for submodules without verification
-                    if isinstance(step, dict) and 'submodules' in step:
-                        if step.get('submodules') == 'recursive' and not step.get('fetchDepth'):
-                            self.issues.append(SecurityIssue(
-                                'low', 0,
-                                f"Checkout in {context} uses recursive submodules without depth limit",
-                                'checkout-submodule-risk',
-                                "Consider setting fetchDepth to limit exposure"
-                            ))
+                    if isinstance(step, dict) and 'submodules' in step and step.get('submodules') == 'recursive' and not step.get('fetchDepth'):
+                        self.issues.append(SecurityIssue(
+                            'low', 0,
+                            f"Checkout in {context} uses recursive submodules without depth limit",
+                            'checkout-submodule-risk',
+                            "Consider setting fetchDepth to limit exposure"
+                        ))
 
         self._traverse_steps(process_steps)
 
@@ -393,19 +389,21 @@ class SecurityScanner:
                 if isinstance(var, dict) and 'name' in var and 'value' in var:
                     var_name = var['name']
                     # Check if sensitive variable is not marked as secret
-                    if any(keyword in var_name.lower() for keyword in ['password', 'secret', 'token', 'key', 'credential']):
-                        if not var.get('isSecret'):
-                            self.issues.append(SecurityIssue(
-                                'medium', self._get_line(var_name),
-                                f"Variable '{var_name}' appears sensitive but not marked as secret",
-                                'variable-not-secret',
-                                "Add 'isSecret: true' to sensitive variables or use variable groups"
-                            ))
+                    if (
+                        any(keyword in var_name.lower() for keyword in ['password', 'secret', 'token', 'key', 'credential'])
+                        and not var.get('isSecret')
+                    ):
+                        self.issues.append(SecurityIssue(
+                            'medium', self._get_line(var_name),
+                            f"Variable '{var_name}' appears sensitive but not marked as secret",
+                            'variable-not-secret',
+                            "Add 'isSecret: true' to sensitive variables or use variable groups"
+                        ))
 
     def _traverse_steps(self, callback):
         """Traverse all steps in the pipeline and apply callback"""
 
-        def process_steps(steps: List[Any], context: str):
+        def process_steps(steps: list[Any], context: str):
             if isinstance(steps, list):
                 callback(steps, context)
 

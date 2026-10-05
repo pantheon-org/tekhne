@@ -15,11 +15,11 @@ This script checks Azure Pipelines YAML files for best practices:
 """
 
 import sys
-import yaml
-import re
-from pathlib import Path
-from typing import Dict, List, Any
 from collections import defaultdict
+from pathlib import Path
+from typing import Any, ClassVar
+
+import yaml
 
 
 class BestPracticeIssue:
@@ -43,7 +43,7 @@ class BestPracticesChecker:
     """Checks Azure Pipelines files for best practices"""
 
     # Package managers that should use caching
-    PACKAGE_MANAGERS = {
+    PACKAGE_MANAGERS: ClassVar[dict[str, Any]] = {
         'npm': {'install', 'ci'},
         'yarn': {'install'},
         'pip': {'install'},
@@ -53,11 +53,11 @@ class BestPracticesChecker:
     }
 
     # Tasks that commonly need caching
-    CACHE_TASKS = {'Npm@1', 'Maven@3', 'Gradle@2', 'DotNetCoreCLI@2'}
+    CACHE_TASKS: ClassVar[set[str]] = {'Npm@1', 'Maven@3', 'Gradle@2', 'DotNetCoreCLI@2'}
 
     # Tasks where @0 is the only/current major version and is acceptable
     # These tasks have not released a @1 version yet, so @0 is correct
-    ACCEPTABLE_AT_ZERO_TASKS = {
+    ACCEPTABLE_AT_ZERO_TASKS: ClassVar[set[str]] = {
         'GoTool',           # Go version installer - only @0 available
         'NodeTool',         # Node.js version installer - only @0 available
         'UsePythonVersion', # Python version selector - only @0 available
@@ -70,11 +70,11 @@ class BestPracticesChecker:
 
     def __init__(self, file_path: str):
         self.file_path = Path(file_path)
-        self.issues: List[BestPracticeIssue] = []
-        self.config: Dict[str, Any] = {}
-        self.line_map: Dict[str, int] = {}
+        self.issues: list[BestPracticeIssue] = []
+        self.config: dict[str, Any] = {}
+        self.line_map: dict[str, int] = {}
 
-    def check(self) -> List[BestPracticeIssue]:
+    def check(self) -> list[BestPracticeIssue]:
         """Run all best practice checks"""
 
         try:
@@ -108,13 +108,12 @@ class BestPracticesChecker:
         self.raw_lines = content.split('\n')
         for line_num, line in enumerate(self.raw_lines, 1):
             stripped = line.strip()
-            if stripped and not stripped.startswith('#'):
-                if ':' in stripped:
-                    key = stripped.split(':')[0].strip('- ')
-                    if key and key not in self.line_map:
-                        self.line_map[key] = line_num
-                    # Also store full stripped line for value lookups
-                    self.line_map[stripped] = line_num
+            if stripped and not stripped.startswith('#') and ':' in stripped:
+                key = stripped.split(':')[0].strip('- ')
+                if key and key not in self.line_map:
+                    self.line_map[key] = line_num
+                # Also store full stripped line for value lookups
+                self.line_map[stripped] = line_num
 
     def _get_line(self, key: str) -> int:
         """Get approximate line number for a key or value"""
@@ -156,7 +155,7 @@ class BestPracticesChecker:
         if 'jobs' in self.config:
             self._check_jobs_display_names(self.config['jobs'])
 
-    def _check_jobs_display_names(self, jobs: List[Any]):
+    def _check_jobs_display_names(self, jobs: list[Any]):
         """Check displayName for jobs"""
         for job in jobs:
             if isinstance(job, dict):
@@ -172,7 +171,7 @@ class BestPracticesChecker:
     def _check_task_versions(self):
         """Check that tasks use specific version numbers"""
 
-        def check_steps(steps: List[Any], context: str):
+        def check_steps(steps: list[Any], context: str):
             for step in steps:
                 if isinstance(step, dict) and 'task' in step:
                     task = step['task']
@@ -183,15 +182,14 @@ class BestPracticesChecker:
                         task_name = task.split('@')[0] if '@' in task else task
 
                         # Check if using @0 or missing version
-                        if '@0' in task:
-                            # Skip warning if task is in the acceptable @0 whitelist
-                            if task_name not in self.ACCEPTABLE_AT_ZERO_TASKS:
-                                self.issues.append(BestPracticeIssue(
-                                    'warning', line_num,
-                                    f"Task '{task}' in {context} uses @0 which may break with updates",
-                                    'task-version-zero',
-                                    "Pin to a specific major version (e.g., @1, @2, @3)"
-                                ))
+                        # Skip warning if task is in the acceptable @0 whitelist
+                        if '@0' in task and task_name not in self.ACCEPTABLE_AT_ZERO_TASKS:
+                            self.issues.append(BestPracticeIssue(
+                                'warning', line_num,
+                                f"Task '{task}' in {context} uses @0 which may break with updates",
+                                'task-version-zero',
+                                "Pin to a specific major version (e.g., @1, @2, @3)"
+                            ))
 
                         # Check if version is present
                         if '@' not in task:
@@ -211,22 +209,21 @@ class BestPracticesChecker:
         def check_pool(pool: Any, context: str):
             if isinstance(pool, dict) and 'vmImage' in pool:
                 vm_image = pool['vmImage']
-                if isinstance(vm_image, str):
-                    # Warn about using 'latest' tags
-                    if 'latest' in vm_image.lower():
-                        self.issues.append(BestPracticeIssue(
-                            'warning', self._get_line('vmImage'),
-                            f"Pool vmImage '{vm_image}' uses 'latest' which may cause inconsistent builds",
-                            'pool-latest-image',
-                            "Pin to specific OS version (e.g., 'ubuntu-22.04' instead of 'ubuntu-latest')"
-                        ))
+                # Warn about using 'latest' tags
+                if isinstance(vm_image, str) and 'latest' in vm_image.lower():
+                    self.issues.append(BestPracticeIssue(
+                        'warning', self._get_line('vmImage'),
+                        f"Pool vmImage '{vm_image}' uses 'latest' which may cause inconsistent builds",
+                        'pool-latest-image',
+                        "Pin to specific OS version (e.g., 'ubuntu-22.04' instead of 'ubuntu-latest')"
+                    ))
 
         # Check root-level pool
         if 'pool' in self.config:
             check_pool(self.config['pool'], 'pipeline')
 
         # Check job-level pools
-        def check_job_pools(jobs: List[Any]):
+        def check_job_pools(jobs: list[Any]):
             for job in jobs:
                 if isinstance(job, dict) and 'pool' in job:
                     job_name = job.get('job') or job.get('deployment', 'unknown')
@@ -246,7 +243,7 @@ class BestPracticesChecker:
         has_cache = False
         package_install_steps = []
 
-        def find_cache_and_installs(steps: List[Any], context: str):
+        def find_cache_and_installs(steps: list[Any], context: str):
             nonlocal has_cache
             for step in steps:
                 if isinstance(step, dict):
@@ -274,7 +271,7 @@ class BestPracticesChecker:
 
         # If we have package installations but no cache
         if package_install_steps and not has_cache:
-            contexts = ', '.join(set(ctx for ctx, _ in package_install_steps))
+            contexts = ', '.join({ctx for ctx, _ in package_install_steps})
             self.issues.append(BestPracticeIssue(
                 'warning', 0,
                 f"Pipeline installs packages but doesn't use caching in: {contexts}",
@@ -285,18 +282,17 @@ class BestPracticesChecker:
     def _check_timeouts(self):
         """Check for timeout configuration on long-running jobs"""
 
-        def check_job(job: Dict[str, Any]):
+        def check_job(job: dict[str, Any]):
             if isinstance(job, dict):
                 job_name = job.get('job') or job.get('deployment')
-                if job_name and 'timeoutInMinutes' not in job:
-                    # Check if it's a deployment job (usually long-running)
-                    if 'deployment' in job:
-                        self.issues.append(BestPracticeIssue(
-                            'info', self._get_line(job_name),
-                            f"Deployment job '{job_name}' should specify timeoutInMinutes",
-                            'missing-timeout',
-                            "Add 'timeoutInMinutes: 60' (or appropriate value) to prevent hung jobs"
-                        ))
+                # Check if it's a deployment job (usually long-running)
+                if job_name and 'timeoutInMinutes' not in job and 'deployment' in job:
+                    self.issues.append(BestPracticeIssue(
+                        'info', self._get_line(job_name),
+                        f"Deployment job '{job_name}' should specify timeoutInMinutes",
+                        'missing-timeout',
+                        "Add 'timeoutInMinutes: 60' (or appropriate value) to prevent hung jobs"
+                    ))
 
         if 'stages' in self.config:
             for stage in self.config['stages']:
@@ -311,7 +307,7 @@ class BestPracticesChecker:
     def _check_conditions(self):
         """Check for proper condition usage on deployment jobs"""
 
-        def check_job(job: Dict[str, Any], parent_stage_has_condition: bool = False):
+        def check_job(job: dict[str, Any], parent_stage_has_condition: bool = False):
             if isinstance(job, dict) and 'deployment' in job:
                 job_name = job['deployment']
                 # Only flag if NEITHER job NOR parent stage has a condition
@@ -342,7 +338,7 @@ class BestPracticesChecker:
     def _check_parallel_opportunities(self):
         """Check for opportunities to parallelize test jobs"""
 
-        def check_job(job: Dict[str, Any]):
+        def check_job(job: dict[str, Any]):
             if isinstance(job, dict):
                 job_name = job.get('job', '')
                 if 'test' in job_name.lower() and 'strategy' not in job:
@@ -376,16 +372,15 @@ class BestPracticesChecker:
     def _check_artifact_retention(self):
         """Check for artifact retention policies"""
 
-        def check_steps(steps: List[Any], context: str):
+        def check_steps(steps: list[Any], context: str):
             for step in steps:
-                if isinstance(step, dict):
-                    # Check PublishBuildArtifacts or PublishPipelineArtifact
-                    if 'task' in step:
-                        task = str(step['task'])
-                        if 'PublishBuildArtifacts@' in task or 'PublishPipelineArtifact@' in task:
-                            # Note: Artifact retention is typically set at project/org level
-                            # but we can suggest documenting it
-                            pass
+                # Check PublishBuildArtifacts or PublishPipelineArtifact
+                if isinstance(step, dict) and 'task' in step:
+                    task = str(step['task'])
+                    if 'PublishBuildArtifacts@' in task or 'PublishPipelineArtifact@' in task:
+                        # Note: Artifact retention is typically set at project/org level
+                        # but we can suggest documenting it
+                        pass
 
         self._traverse_steps(check_steps)
 
@@ -395,7 +390,7 @@ class BestPracticesChecker:
         # Count duplicate job patterns
         job_patterns = defaultdict(list)
 
-        def analyze_job(job: Dict[str, Any]):
+        def analyze_job(job: dict[str, Any]):
             if isinstance(job, dict) and 'template' not in job:
                 # Create a simple signature of the job
                 steps = job.get('steps', [])
@@ -419,7 +414,7 @@ class BestPracticesChecker:
                 analyze_job(job)
 
         # Report duplicate patterns
-        for pattern, jobs in job_patterns.items():
+        for jobs in job_patterns.values():
             if len(jobs) > 1:
                 self.issues.append(BestPracticeIssue(
                     'info', 0,
@@ -436,20 +431,19 @@ class BestPracticesChecker:
 
         variables = self.config['variables']
 
-        if isinstance(variables, dict):
-            # Inline variables
-            if len(variables) > 10:
-                self.issues.append(BestPracticeIssue(
-                    'info', self._get_line('variables'),
-                    f"Pipeline has {len(variables)} inline variables",
-                    'many-inline-variables',
-                    "Consider using variable groups for better organization and reusability"
-                ))
+        # Inline variables
+        if isinstance(variables, dict) and len(variables) > 10:
+            self.issues.append(BestPracticeIssue(
+                'info', self._get_line('variables'),
+                f"Pipeline has {len(variables)} inline variables",
+                'many-inline-variables',
+                "Consider using variable groups for better organization and reusability"
+            ))
 
     def _traverse_steps(self, callback):
         """Traverse all steps in the pipeline and apply callback"""
 
-        def process_steps(steps: List[Any], context: str):
+        def process_steps(steps: list[Any], context: str):
             if isinstance(steps, list):
                 callback(steps, context)
 
