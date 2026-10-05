@@ -7,13 +7,12 @@ This script generates a Declarative Jenkinsfile with specified configuration.
 
 import argparse
 import sys
-import os
 from pathlib import Path
 
 # Add lib to path
 sys.path.insert(0, str(Path(__file__).parent / 'lib'))
 
-from common_patterns import PipelinePatterns, StageTemplates, PostConditions
+from common_patterns import PipelinePatterns, PostConditions, StageTemplates
 from syntax_helpers import DeclarativeSyntax, FormattingHelpers
 
 
@@ -156,7 +155,6 @@ class DeclarativePipelineGenerator:
         """Add stages based on configuration"""
         self.pipeline_parts.append("")
         self.pipeline_parts.append("    stages {")
-        first_stage = True
 
         # Get stage list from config or use default
         stages = self.config.get('stages', ['build', 'test'])
