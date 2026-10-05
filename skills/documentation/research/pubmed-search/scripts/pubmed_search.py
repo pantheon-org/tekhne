@@ -4,14 +4,14 @@ PubMed-Search: Biomedical literature search and analysis tool.
 Supports searching, metadata retrieval, deep analysis, and PDF download from PubMed.
 """
 
+import argparse
+import json
 import os
 import sys
-import json
-import argparse
 import xml.etree.ElementTree as ET
-from urllib.parse import quote
 from pathlib import Path
-from typing import Optional, Dict, List, Any
+from typing import Any
+from urllib.parse import quote
 
 try:
     import requests
@@ -41,7 +41,7 @@ class Config:
         self.tool = os.getenv('PUBMED_TOOL', 'pubmed-search-skill')
         self.base_url = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 
-    def get_params(self, extra_params: dict = None) -> dict:
+    def get_params(self, extra_params: dict | None = None) -> dict:
         """Build API request parameters."""
         params = {
             'tool': self.tool,
@@ -97,7 +97,7 @@ class PubMedSearch:
 
         return f"{base_url}?{'&'.join([f'{k}={v}' for k, v in params.items()])}"
 
-    def search_articles(self, search_url: str) -> List[str]:
+    def search_articles(self, search_url: str) -> list[str]:
         """Parse PMID list from a PubMed esearch URL."""
         try:
             response = self.session.get(search_url)
@@ -118,7 +118,7 @@ class PubMedSearch:
             print(f"Error searching articles: {e}")
             return []
 
-    def get_metadata(self, pmid: str) -> Optional[Dict[str, Any]]:
+    def get_metadata(self, pmid: str) -> dict[str, Any] | None:
         """Fetch detailed metadata for a single PMID via efetch."""
         try:
             url = f"{self.config.base_url}/efetch.fcgi"
@@ -178,7 +178,7 @@ class PubMedSearch:
             print(f"Error fetching metadata: {e}")
             return None
 
-    def search_by_keywords(self, keywords: str, num_results: int = 10) -> List[Dict[str, Any]]:
+    def search_by_keywords(self, keywords: str, num_results: int = 10) -> list[dict[str, Any]]:
         """Search PubMed by keywords and return metadata list."""
         search_url = self.generate_search_url(term=keywords, num_results=num_results)
         print(f"Search URL: {search_url}")
@@ -194,7 +194,7 @@ class PubMedSearch:
         return articles
 
     def search_advanced(self, term=None, title=None, author=None, journal=None,
-                        start_date=None, end_date=None, num_results=10) -> List[Dict[str, Any]]:
+                        start_date=None, end_date=None, num_results=10) -> list[dict[str, Any]]:
         """Advanced multi-filter PubMed search."""
         search_url = self.generate_search_url(
             term=term, title=title, author=author, journal=journal,
@@ -266,7 +266,7 @@ class PubMedSearch:
         except Exception as e:
             return f"Error downloading PDF: {e}"
 
-    def generate_analysis(self, metadata: Dict[str, Any]) -> str:
+    def generate_analysis(self, metadata: dict[str, Any]) -> str:
         """Generate a deep-analysis prompt from article metadata."""
         title = metadata.get('Title', 'No title')
         authors = metadata.get('Authors', 'No authors')
@@ -341,7 +341,7 @@ class OutputHandler:
     """Handles formatting and saving of search results."""
 
     @staticmethod
-    def format_console(articles: List[Dict[str, Any]], show_abstract: bool = False) -> str:
+    def format_console(articles: list[dict[str, Any]], show_abstract: bool = False) -> str:
         """Human-readable console output."""
         if not articles:
             return "No articles found."
@@ -364,12 +364,12 @@ class OutputHandler:
         return "\n".join(lines)
 
     @staticmethod
-    def format_json(articles: List[Dict[str, Any]]) -> str:
+    def format_json(articles: list[dict[str, Any]]) -> str:
         """JSON output for machine processing."""
         return json.dumps(articles, ensure_ascii=False, indent=2)
 
     @staticmethod
-    def format_markdown(articles: List[Dict[str, Any]]) -> str:
+    def format_markdown(articles: list[dict[str, Any]]) -> str:
         """Markdown output for documentation."""
         if not articles:
             return "# Search Results\n\nNo articles found."

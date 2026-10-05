@@ -85,7 +85,7 @@ pip install -r requirements.txt
 
 ### Wrong Python version
 
-The script requires Python 3.8+. Check with:
+The script requires Python 3.10+. Check with:
 
 ```bash
 python3 --version
