@@ -8,16 +8,17 @@ get paper details, author information, and citation data from Semantic Scholar.
 
 import argparse
 import json
-import sys
 import logging
-from typing import Dict, Any, List, Optional
+import sys
+from typing import Any
+
 import semanticscholar as sch
-from semanticscholar import SemanticScholar, Author, Paper
+from semanticscholar import SemanticScholar
 
 
 class Config:
     """Configuration management."""
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: str | None = None):
         self.api_key = api_key
 
     @property
@@ -35,7 +36,7 @@ class SemanticScholarSearch:
         self.config = config
         self.client = config.client
 
-    def search_papers(self, query: str, limit: int = 10) -> List[Dict[str, Any]]:
+    def search_papers(self, query: str, limit: int = 10) -> list[dict[str, Any]]:
         """Search for papers using a query string.
 
         Args:
@@ -62,9 +63,9 @@ class SemanticScholarSearch:
                 })
             return papers
         except sch.SemanticScholarException as e:
-            return [{"error": f"Search failed: {str(e)}"}]
+            return [{"error": f"Search failed: {e!s}"}]
 
-    def get_paper_details(self, paper_id: str) -> Dict[str, Any]:
+    def get_paper_details(self, paper_id: str) -> dict[str, Any]:
         """Get detailed information about a specific paper.
 
         Args:
@@ -89,9 +90,9 @@ class SemanticScholarSearch:
                 "openAccessPdf": paper.openAccessPdf if hasattr(paper, 'openAccessPdf') else None
             }
         except sch.SemanticScholarException as e:
-            return {"error": f"Failed to get paper details: {str(e)}"}
+            return {"error": f"Failed to get paper details: {e!s}"}
 
-    def get_author_details(self, author_id: str) -> Dict[str, Any]:
+    def get_author_details(self, author_id: str) -> dict[str, Any]:
         """Get detailed information about an author.
 
         Args:
@@ -112,9 +113,9 @@ class SemanticScholarSearch:
                 "hIndex": author.hIndex
             }
         except sch.SemanticScholarException as e:
-            return {"error": f"Failed to get author details: {str(e)}"}
+            return {"error": f"Failed to get author details: {e!s}"}
 
-    def get_citations_and_references(self, paper_id: str, limit: int = 10) -> Dict[str, Any]:
+    def get_citations_and_references(self, paper_id: str, limit: int = 10) -> dict[str, Any]:
         """Get citations and references for a paper.
 
         Args:
@@ -155,7 +156,7 @@ class SemanticScholarSearch:
                 "references": references
             }
         except sch.SemanticScholarException as e:
-            return {"error": f"Failed to get citations and references: {str(e)}"}
+            return {"error": f"Failed to get citations and references: {e!s}"}
 
 
 class OutputHandler:
@@ -228,7 +229,7 @@ class OutputHandler:
                 OutputHandler._print_paper(data)
 
     @staticmethod
-    def _print_paper(paper: Dict[str, Any]) -> None:
+    def _print_paper(paper: dict[str, Any]) -> None:
         """Print a single paper's information."""
         print(f"标题: {paper.get('title', 'N/A')}")
         if paper.get('authors'):
