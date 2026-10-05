@@ -21,7 +21,7 @@ def parse_yaml_file(file_path):
     try:
         with open(file_path, 'r') as f:
             return list(yaml.safe_load_all(f))
-    except Exception as e:
+    except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
         print(f"Error parsing YAML file: {e}", file=sys.stderr)
         return []
 

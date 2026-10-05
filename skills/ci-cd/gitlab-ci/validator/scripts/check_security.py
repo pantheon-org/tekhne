@@ -101,7 +101,7 @@ class SecurityScanner:
                 self.raw_content = f.read()
             self.config = yaml.safe_load(self.raw_content)
             self._build_line_map()
-        except Exception as e:
+        except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
             print(f"Error loading file: {e}", file=sys.stderr)
             return []
 

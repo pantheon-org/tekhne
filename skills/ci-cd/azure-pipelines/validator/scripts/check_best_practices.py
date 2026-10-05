@@ -82,7 +82,7 @@ class BestPracticesChecker:
                 content = f.read()
             self.config = yaml.safe_load(content)
             self._build_line_map(content)
-        except Exception as e:
+        except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
             print(f"Error loading file: {e}", file=sys.stderr)
             return []
 
