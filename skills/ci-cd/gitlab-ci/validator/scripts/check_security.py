@@ -479,7 +479,7 @@ class SecurityScanner:
 
         # Check for external/untrusted component sources
         # Component from gitlab.com (public) - ensure it's from verified sources
-        if 'gitlab.com' in component and '$CI_SERVER_FQDN' not in component and '/components/' not in component:
+        if component.split('/', 1)[0] == 'gitlab.com' and '$CI_SERVER_FQDN' not in component and '/components/' not in component:
             self.issues.append(SecurityIssue(
                 'medium',
                 line,

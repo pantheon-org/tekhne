@@ -23,6 +23,20 @@ from typing import Any
 
 import yaml
 
+# Registries other than Docker Hub, matched against the registry host of an image.
+OTHER_REGISTRIES = ('gcr.io', 'ghcr.io', 'registry.gitlab.com', 'quay.io')
+
+
+def registry_host(image: str) -> str:
+    """The first path segment of an image reference, which is its registry host when it has one."""
+    return image.split('/', 1)[0]
+
+
+def is_other_registry(image: str) -> bool:
+    """True when the image comes from a known registry other than Docker Hub (including its subdomains)."""
+    host = registry_host(image)
+    return any(host == reg or host.endswith('.' + reg) for reg in OTHER_REGISTRIES)
+
 
 class BestPracticeIssue:
     """Represents a best practice issue"""
@@ -664,8 +678,8 @@ class BestPracticesChecker:
             if 'image' in job:
                 image = job['image']
                 # Check if it's from Docker Hub (no registry prefix or docker.io)
-                if isinstance(image, str) and not any(reg in image for reg in ['gcr.io', 'ghcr.io', 'registry.gitlab.com', 'quay.io']):
-                    if '/' not in image or image.startswith('docker.io/') or image.count('/') == 1:
+                if isinstance(image, str) and not is_other_registry(image):
+                    if '/' not in image or registry_host(image) == 'docker.io' or image.count('/') == 1:
                         has_docker_images = True
 
                     # Check if using dependency proxy
@@ -678,8 +692,8 @@ class BestPracticesChecker:
                 if isinstance(services, list):
                     for service in services:
                         if isinstance(service, str):
-                            if not any(reg in service for reg in ['gcr.io', 'ghcr.io', 'registry.gitlab.com', 'quay.io']) and (
-                                '/' not in service or service.startswith('docker.io/') or service.count('/') == 1
+                            if not is_other_registry(service) and (
+                                '/' not in service or registry_host(service) == 'docker.io' or service.count('/') == 1
                             ):
                                 has_docker_images = True
 
