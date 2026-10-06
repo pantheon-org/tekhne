@@ -34,12 +34,10 @@ jobs:
           node-version: 22
 
       # Blocking gate. `aislop ci` exits 1 below ci.failBelow (default 70) or on
-      # any error-severity diagnostic. Scope is tekhne's own code (crates/,
-      # scripts/, features/, docs/); curated skill scripts are excluded in
-      # .aislop/config.yml and cleaned incrementally (tracked in issue #233), so
-      # they do not block. Core scores 78/100 with zero errors. When the skill
-      # scripts subtree is clean, drop the skills/**/scripts/** exclude to bring
-      # them under this gate too.
+      # any error-severity diagnostic. Scope is the whole repository, including
+      # the skill scripts; only illustrative skill content (references/,
+      # templates/, examples/) is excluded in .aislop/config.yml. The skill
+      # scripts were brought under the gate in #233.
       #
       # aislop is pinned so the score depends only on the repository, not on a
       # new aislop release. Nothing updates this version automatically: it is
