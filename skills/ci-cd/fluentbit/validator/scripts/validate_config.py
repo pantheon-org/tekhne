@@ -101,7 +101,7 @@ class FluentBitValidator:
                             "line": line_num,
                         }
 
-        except Exception as e:
+        except (OSError, UnicodeDecodeError) as e:
             self.errors.append(f"Failed to parse configuration: {e!s}")
 
     def validate_syntax(self) -> None:
@@ -1017,7 +1017,7 @@ class FluentBitValidator:
             self.warnings.append(
                 "Dry-run test timed out after 10 seconds (configuration may have issues)"
             )
-        except Exception as e:
+        except OSError as e:
             self.warnings.append(
                 f"Dry-run test failed with exception: {e!s}"
             )

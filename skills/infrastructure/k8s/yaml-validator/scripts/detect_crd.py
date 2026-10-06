@@ -72,7 +72,7 @@ def parse_yaml_file(file_path):
     try:
         with open(file_path, 'r') as f:
             content = f.read()
-    except Exception as e:
+    except (OSError, UnicodeDecodeError) as e:
         print(f"Error reading file: {e}", file=sys.stderr)
         return [], [{'error': str(e), 'document': 0}]
 

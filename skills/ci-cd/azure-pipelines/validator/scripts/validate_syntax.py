@@ -149,7 +149,7 @@ class AzurePipelinesValidator:
                 'error', 0, f'File not found: {self.file_path}', 'file-not-found'
             ))
             return False
-        except Exception as e:
+        except (OSError, UnicodeDecodeError) as e:
             self.errors.append(ValidationError(
                 'error', 0, f'Error reading file: {e!s}', 'file-read-error'
             ))

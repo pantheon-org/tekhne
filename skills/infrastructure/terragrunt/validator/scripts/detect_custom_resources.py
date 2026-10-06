@@ -258,7 +258,7 @@ class ResourceDetector:
                     content = f.read()
                     self.extract_providers(content, filepath)
                     self.extract_modules(content, filepath)
-            except Exception as e:
+            except (OSError, UnicodeDecodeError) as e:
                 logging.getLogger(__name__).error("Error reading %s: %s", filepath, e)
 
     def generate_report(self, output_format: str = 'text') -> str:

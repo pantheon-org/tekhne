@@ -144,7 +144,7 @@ class AnsibleInfoExtractor:
                         self.collections.add(collection)
                         self.collection_versions[collection] = 'latest'
 
-        except Exception as e:
+        except (OSError, UnicodeDecodeError, yaml.YAMLError) as e:
             self.errors.append(f"Error processing requirements {req_file}: {e!s}")
 
     def _extract_from_play(self, play: dict):
