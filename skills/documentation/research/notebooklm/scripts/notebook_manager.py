@@ -39,7 +39,7 @@ class NotebookLibrary:
                     self.notebooks = data.get('notebooks', {})
                     self.active_notebook_id = data.get('active_notebook_id')
                     print(f"📚 Loaded library with {len(self.notebooks)} notebooks")
-            except Exception as e:
+            except (OSError, ValueError, AttributeError) as e:
                 print(f"⚠️ Error loading library: {e}")
                 self.notebooks = {}
                 self.active_notebook_id = None
@@ -56,7 +56,7 @@ class NotebookLibrary:
             }
             with open(self.library_file, 'w') as f:
                 json.dump(data, f, indent=2)
-        except Exception as e:
+        except (OSError, TypeError) as e:
             logging.getLogger(__name__).error("Error saving library: %s", e)
 
     def add_notebook(

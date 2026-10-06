@@ -13,6 +13,7 @@ logger = logging.getLogger(__name__)
 
 from config import BROWSER_ARGS, BROWSER_PROFILE_DIR, STATE_FILE, USER_AGENT
 from patchright.sync_api import BrowserContext, Page, Playwright
+from patchright.sync_api import Error as PlaywrightError
 
 
 class BrowserFactory:
@@ -55,7 +56,7 @@ class BrowserFactory:
                     if 'cookies' in state and len(state['cookies']) > 0:
                         context.add_cookies(state['cookies'])
                         # print(f"  🔧 Injected {len(state['cookies'])} cookies from state.json")
-            except Exception as e:
+            except (OSError, ValueError, TypeError, PlaywrightError) as e:
                 # Cookie injection is optional; the persistent profile still works.
                 logger.warning("Could not load state.json: %s", e)
 

@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from patchright.sync_api import BrowserContext
+from patchright.sync_api import Error as PlaywrightError
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -231,7 +232,7 @@ class BrowserSession:
         if self.page:
             try:
                 self.page.close()
-            except Exception as e:
+            except PlaywrightError as e:
                 # Best-effort close; a page that is already gone is fine to skip.
                 logging.getLogger(__name__).warning("Error closing page: %s", e)
 

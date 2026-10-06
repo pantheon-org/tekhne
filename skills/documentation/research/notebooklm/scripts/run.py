@@ -93,7 +93,7 @@ def main():
     except KeyboardInterrupt:
         print("\n⚠️ Interrupted by user")
         sys.exit(130)
-    except Exception as e:
+    except OSError as e:
         print(f"❌ Error: {e}")
         sys.exit(1)
 

@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from patchright.sync_api import BrowserContext, sync_playwright
+from patchright.sync_api import Error as PlaywrightError
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -74,7 +75,7 @@ class AuthManager:
                 with open(self.auth_info_file, 'r') as f:
                     saved_info = json.load(f)
                     info.update(saved_info)
-            except Exception:
+            except (OSError, ValueError, TypeError):
                 # Saved auth metadata is optional; keep the computed defaults.
                 pass
 
@@ -149,7 +150,7 @@ class AuthManager:
             if context:
                 try:
                     context.close()
-                except Exception:
+                except PlaywrightError:
                     # Best-effort cleanup; the context may already be closed.
                     pass
 
@@ -179,7 +180,7 @@ class AuthManager:
             }
             with open(self.auth_info_file, 'w') as f:
                 json.dump(info, f, indent=2)
-        except Exception:
+        except OSError:
             # Saving auth metadata is non-critical; ignore write failures.
             pass
 
@@ -211,7 +212,7 @@ class AuthManager:
 
             return True
 
-        except Exception as e:
+        except OSError as e:
             print(f"  ❌ Error clearing auth: {e}")
             return False
 
@@ -279,7 +280,7 @@ class AuthManager:
             if context:
                 try:
                     context.close()
-                except Exception:
+                except PlaywrightError:
                     # Best-effort cleanup; the context may already be closed.
                     pass
             if playwright:

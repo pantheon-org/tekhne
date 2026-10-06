@@ -43,7 +43,7 @@ class SkillEnvironment:
             try:
                 venv.create(self.venv_dir, with_pip=True)
                 print("✅ Virtual environment created")
-            except Exception as e:
+            except (OSError, subprocess.SubprocessError) as e:
                 print(f"❌ Failed to create venv: {e}")
                 return False
 
@@ -132,7 +132,7 @@ class SkillEnvironment:
             # Run the script with venv Python
             result = subprocess.run(cmd, check=False)
             return result.returncode
-        except Exception as e:
+        except OSError as e:
             print(f"❌ Failed to run script: {e}")
             return 1
 
