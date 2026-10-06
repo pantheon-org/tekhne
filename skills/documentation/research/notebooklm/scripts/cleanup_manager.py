@@ -123,7 +123,7 @@ class CleanupManager:
                 for item in path.rglob('*'):
                     if item.is_file():
                         total += item.stat().st_size
-            except Exception:
+            except OSError:
                 # Best-effort size probe; return whatever was summed so far.
                 pass
             return total
@@ -177,7 +177,7 @@ class CleanupManager:
                         deleted_items.append(str(path))
                         deleted_size += item_info['size']
                         print(f"  ✅ Deleted: {path.name}")
-                except Exception as e:
+                except OSError as e:
                     failed_items.append({
                         'path': str(path),
                         'error': str(e)

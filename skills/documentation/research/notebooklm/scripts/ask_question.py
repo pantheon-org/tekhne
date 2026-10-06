@@ -15,6 +15,7 @@ import sys
 import time
 from pathlib import Path
 
+from patchright.sync_api import Error as PlaywrightError
 from patchright.sync_api import sync_playwright
 
 # Add parent directory to path
@@ -312,7 +313,7 @@ def ask_notebooklm(question: str, notebook_url: str, headless: bool = True, use_
         if context:
             try:
                 context.close()
-            except Exception:
+            except PlaywrightError:
                 # Best-effort cleanup; the context may already be closed.
                 pass
 
