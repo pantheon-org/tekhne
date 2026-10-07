@@ -1,0 +1,41 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 22,
+    "covered_instructions": 22,
+    "scenario_count": 9,
+    "coverage_map": {
+      "I01": ["scenario-7"],
+      "I02": ["scenario-1", "scenario-2", "scenario-3", "scenario-4"],
+      "I03": ["scenario-7"],
+      "I04": ["scenario-1", "scenario-3", "scenario-7"],
+      "I05": ["scenario-2", "scenario-3", "scenario-4"],
+      "I06": ["scenario-1", "scenario-7"],
+      "I07": ["scenario-1", "scenario-6"],
+      "I08": ["scenario-7"],
+      "I09": ["scenario-1", "scenario-5", "scenario-8"],
+      "I10": ["scenario-8"],
+      "I11": ["scenario-1", "scenario-2"],
+      "I12": ["scenario-5"],
+      "I13": ["scenario-5"],
+      "I14": ["scenario-5"],
+      "I15": ["scenario-2"],
+      "I16": ["scenario-3"],
+      "I17": ["scenario-4"],
+      "I18": ["scenario-1", "scenario-7"],
+      "I19": ["scenario-8"],
+      "I20": ["scenario-6"],
+      "I21": [
+        "scenario-1",
+        "scenario-2",
+        "scenario-3",
+        "scenario-4",
+        "scenario-6",
+        "scenario-7",
+        "scenario-8"
+      ],
+      "I22": ["scenario-9"]
+    },
+    "notes": "Every instruction is checked by at least one scenario criterion. Scenarios 6 to 9 were added to cover the Chaotic, blank-answer, liminal and known-task paths that scenarios 1 to 5 did not exercise."
+  }
+}

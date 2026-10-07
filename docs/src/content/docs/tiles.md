@@ -613,7 +613,7 @@ Classify a problem using Cynefin triangulation before acting — routes to the r
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [frame-problem](/tekhne/skills/software-engineering/frame-problem/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | 5 |
+| [frame-problem](/tekhne/skills/software-engineering/frame-problem/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 9 |
 
 ### probe
 

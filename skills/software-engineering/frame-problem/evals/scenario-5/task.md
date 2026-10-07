@@ -11,9 +11,9 @@
 3. Agent presents sub-questions inline and asks them alongside T1/T2/T3/Q-Scale via a single AskUserQuestion call.
 4. User answers reveal a composite problem: CI build times are Complicated-Degraded, auth tech debt is Complicated-Evolving, database migration is Complex (no clear hypothesis), DX improvement is Complex (enabling, emergent).
 5. Agent runs Step 1.5 Decompose: breaks the problem into 4 sub-problems and maps each to a domain.
-6. Agent presents domain map with suggested sequence (highest-risk/Complex first).
+6. Agent presents domain map with a proposed sequence: blockers first, otherwise Complex first. Nothing in the prompt says any sub-problem blocks another, so Complex leads.
 7. Agent confirms decomposition with AskUserQuestion before routing to the first sub-problem.
-8. Agent routes Complex sub-problems before Complicated ones per sequencing guidance.
+8. Agent routes Complex sub-problems before Complicated ones per the dependency-then-Complex sequencing rule.
 
 ## Failure Conditions
 
@@ -22,4 +22,4 @@
 - Agent asks multiple separate AskUserQuestion calls instead of batching into one.
 - Agent skips Question Refinement and runs triangulation on the raw vague prompt.
 - Agent proceeds to routing without confirming decomposition with the user.
-- Agent routes the easiest (Complicated) sub-problems first, violating the risk-first sequencing guidance.
+- Agent routes the easiest (Complicated) sub-problems first, violating the dependency-then-Complex sequencing rule when nothing blocks anything else.

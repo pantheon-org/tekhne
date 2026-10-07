@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Solution-Shaped Request With Expertise Bias",
+  "checklist": [
+    {
+      "name": "Solution restated as a need",
+      "description": "**Solution restated as a need**: Agent rewrites \"a microservice\" as a problem or need before classifying.",
+      "max_score": 15
+    },
+    {
+      "name": "First framing challenged",
+      "description": "**First framing challenged**: Agent probes what sits behind the request instead of accepting it as stated.",
+      "max_score": 10
+    },
+    {
+      "name": "Tests asked, domain not self-reported",
+      "description": "**Tests asked**: Agent asks T1, T2, T3 and Q-Scale in one call and never asks the user to name the domain or constraint type.",
+      "max_score": 15
+    },
+    {
+      "name": "Majority rule beats expertise bias",
+      "description": "**Majority rule applied**: Agent classifies Complex on 2 of 3 tests, does not let T1=2 decide alone, and notes T1 as a liminal signal.",
+      "max_score": 25
+    },
+    {
+      "name": "Route matches table",
+      "description": "**Route matches table**: Agent selects brainstorm → probe → openspec-plan with OpenSpec = Yes, not investigate.",
+      "max_score": 20
+    },
+    {
+      "name": "Handoff and confirmation",
+      "description": "**Handoff and confirmation**: Agent fills the brainstorm handoff template and asks the user to confirm before invoking.",
+      "max_score": 15
+    }
+  ]
+}

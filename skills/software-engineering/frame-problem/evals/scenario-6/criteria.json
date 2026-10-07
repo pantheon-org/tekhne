@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Outage With No Visibility Routes to Experiment",
+  "checklist": [
+    {
+      "name": "Chaotic recognised without full triangulation",
+      "description": "**Chaotic recognised**: Agent classifies the situation as Chaotic from the urgency and the missing action-outcome link, and does not run the full T1/T2/T3 questionnaire.",
+      "max_score": 20
+    },
+    {
+      "name": "Route matches table",
+      "description": "**Route matches table**: Agent selects experiment → stabilise → frame-problem with OpenSpec = No.",
+      "max_score": 20
+    },
+    {
+      "name": "Q-Scale skipped",
+      "description": "**Q-Scale skipped**: Agent does not ask boulder or pebble because the domain is Chaotic.",
+      "max_score": 15
+    },
+    {
+      "name": "No diagnosis or fix proposed",
+      "description": "**No diagnosis or fix**: Agent offers no root-cause theory and no remediation during framing.",
+      "max_score": 15
+    },
+    {
+      "name": "Experiment handoff template used",
+      "description": "**Handoff template used**: Agent references or fills `references/frame-problem-to-experiment-llm.md`.",
+      "max_score": 15
+    },
+    {
+      "name": "Confirmation sought",
+      "description": "**Confirmation sought**: Agent uses AskUserQuestion to confirm before invoking experiment.",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+Recover from a silent AskUserQuestion failure with a numbered text fallback, then resolve split triangulation answers as a liminal state rather than forcing one domain.

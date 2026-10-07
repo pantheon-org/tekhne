@@ -1,0 +1,1 @@
+Recognise that a fully specified pebble-sized task needs no framing and execute it directly.
