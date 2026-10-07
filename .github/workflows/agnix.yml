@@ -39,8 +39,8 @@ env:
   # the new tarball's attestation locally and replace the digest:
   #   gh attestation verify agnix-x86_64-unknown-linux-gnu.tar.gz --repo agent-sh/agnix \
   #     --signer-workflow agent-sh/agnix/.github/workflows/release.yml
-  AGNIX_VERSION: "0.55.0"
-  AGNIX_SHA256: "97bea2471753b38608547606e2c1285a7748e95e693143be302c3cfbb3d9c3af"
+  AGNIX_VERSION: "0.56.6"
+  AGNIX_SHA256: "3228e88286c44da93bd591cc6358549c4a3d685b44c9d64625955d668528a155"
 
 jobs:
   agnix:
