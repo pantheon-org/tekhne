@@ -76,7 +76,7 @@ case "$1 $2" in
       case "$1" in
         --title) printf '%s\\n' "$2" >> "${dir}/created-titles.txt"; shift ;;
         --label) printf '%s\\n' "$2" >> "${dir}/created-labels.txt"; shift ;;
-        --body-file) cat "$2" >> "${dir}/created-bodies.md"; printf '\\n=====\\n' >> "${dir}/created-bodies.md"; shift ;;
+        --body-file) cat "$2" >> "${dir}/created-bodies.md"; printf '\\n=====\\n' >> "${dir}/created-bodies.md"; cp "$2" "${dir}/body-999.md"; shift ;;
       esac
       shift
     done
@@ -84,9 +84,11 @@ case "$1 $2" in
   "issue edit")
     num="$3"
     while [ $# -gt 0 ]; do
-      case "$1" in --body-file) printf '#%s\\n' "$num" >> "${dir}/edited-bodies.md"; cat "$2" >> "${dir}/edited-bodies.md"; shift ;; esac
+      case "$1" in --body-file) printf '#%s\\n' "$num" >> "${dir}/edited-bodies.md"; cat "$2" >> "${dir}/edited-bodies.md"; cp "$2" "${dir}/body-$num.md"; shift ;; esac
       shift
     done ;;
+  "issue view")
+    if [ -n "$FAKE_VIEW_CORRUPT" ]; then echo "mangled by github"; else cat "${dir}/body-$3.md" 2>/dev/null; fi ;;
   "issue close")
     num="$3"
     while [ $# -gt 0 ]; do
@@ -333,8 +335,8 @@ describe("agnix file-issues.sh: warnings", () => {
   test("files one issue per rule, listing every file and line", () => {
     const dir = makeDir([
       warn("CC-SK-017", a, 3, "Unknown frontmatter field 'x'"),
-      warn("CC-SK-017", a, 8),
-      warn("CC-SK-017", b, 4),
+      warn("CC-SK-017", a, 8, "Unknown frontmatter field 'y'"),
+      warn("CC-SK-017", b, 4, "Unknown frontmatter field 'z'"),
       warn("AS-012", c, 1, "Skill content exceeds 500 lines"),
     ]);
     fakeGh(dir);
@@ -349,9 +351,10 @@ describe("agnix file-issues.sh: warnings", () => {
     const bodies = read(dir, "created-bodies.md").split("=====");
     const multi = bodies.find((x) => x.includes(warningMarker("CC-SK-017")));
     expect(multi).toContain("2 files");
-    expect(multi).toContain(`\`${a}\`: lines 3, 8`);
-    expect(multi).toContain(`\`${b}\`: line 4`);
-    expect(multi).toContain("Unknown frontmatter field");
+    expect(multi).toContain(
+      `- \`${a}\`\n  - line 3: Unknown frontmatter field 'x'\n  - line 8: Unknown frontmatter field 'y'\n- \`${b}\`\n  - line 4: Unknown frontmatter field 'z'`,
+    );
+    expect(multi).not.toContain("Messages:");
     expect(read(dir, "tracked.md")).toContain(
       "warnings `AS-012` in 1 file: #999",
     );
@@ -456,5 +459,116 @@ describe("agnix file-issues.sh: warnings", () => {
       "would create: agnix warnings: CC-SK-017",
     );
     expect(read(dir, "calls.log")).not.toContain("issue create");
+  });
+  test("keeps a message with its own file when two files share a rule", () => {
+    const dir = makeDir([
+      warn("AS-012", a, 4, "Skill content exceeds 500 lines (got 518)"),
+      warn("AS-012", b, 4, "Skill content exceeds 500 lines (got 631)"),
+    ]);
+    fakeGh(dir);
+    run(dir);
+    const body = read(dir, "created-bodies.md");
+    expect(body).toContain(
+      `- \`${a}\`\n  - line 4: Skill content exceeds 500 lines (got 518)\n- \`${b}\`\n  - line 4: Skill content exceeds 500 lines (got 631)`,
+    );
+  });
+
+  test("shows at most 5 lines for one file and counts the rest", () => {
+    const dir = makeDir(
+      Array.from({ length: 8 }, (_, i) =>
+        warn("CC-SK-017", a, i + 1, `m${i + 1}`),
+      ),
+    );
+    fakeGh(dir);
+    run(dir);
+    const body = read(dir, "created-bodies.md");
+    expect(body).toContain("line 5: m5");
+    expect(body).not.toContain("line 6: m6");
+    expect(body).toContain("and 3 more lines");
+  });
+
+  test("trims the file list until the body fits GitHub's size limit", () => {
+    const long = "x".repeat(290);
+    const many = Array.from({ length: 100 }, (_, i) =>
+      Array.from({ length: 5 }, (_, j) =>
+        warn(
+          "CC-SK-017",
+          `skills/s/s${String(i).padStart(3, "0")}/SKILL.md`,
+          j + 1,
+          long,
+        ),
+      ),
+    ).flat();
+    const dir = makeDir(many);
+    fakeGh(dir);
+    const r = run(dir);
+    expect(r.exitCode).toBe(0);
+    const body = read(dir, "body-999.md");
+    expect(Buffer.byteLength(body)).toBeLessThan(60000);
+    expect(body).toContain("100 files");
+    expect(body).toMatch(/and \d+ more files/);
+  });
+});
+
+describe("agnix file-issues.sh: read-back check", () => {
+  const f = "skills/a/one/SKILL.md";
+
+  test("reads a created warnings issue back and passes when it matches", () => {
+    const dir = makeDir([warn("CC-SK-017", f, 3)]);
+    fakeGh(dir);
+    const r = run(dir);
+    expect(r.exitCode).toBe(0);
+    expect(read(dir, "calls.log")).toContain("issue view 999");
+    expect(r.stdout.toString()).toContain("Checked #999");
+  });
+
+  test("reads a created error issue back too", () => {
+    const dir = makeDir([diag("CC-SK-008", f, 4)]);
+    fakeGh(dir);
+    const r = run(dir);
+    expect(r.exitCode).toBe(0);
+    expect(read(dir, "calls.log")).toContain("issue view 999");
+  });
+
+  test("warns and fails the step when the stored body is not what was sent", () => {
+    const dir = makeDir([warn("CC-SK-017", f, 3)]);
+    fakeGh(dir);
+    const r = run(dir, { FAKE_VIEW_CORRUPT: "1" });
+    expect(r.exitCode).toBe(1);
+    expect(r.stdout.toString()).toContain("::warning::");
+    expect(r.stdout.toString()).toContain("does not match");
+  });
+
+  test("names the files missing from the stored body", () => {
+    const dir = makeDir([warn("CC-SK-017", f, 3)]);
+    fakeGh(dir);
+    const r = run(dir, { FAKE_VIEW_CORRUPT: "1" });
+    expect(r.stdout.toString()).toContain(f);
+  });
+
+  test("reads a refreshed warnings issue back on main", () => {
+    const first = makeDir([warn("CC-SK-017", f, 3)]);
+    fakeGh(first);
+    run(first, onMain);
+    const body = read(first, "created-bodies.md").split("=====")[0].trim();
+    const dir = makeDir([
+      warn("CC-SK-017", f, 3),
+      warn("CC-SK-017", "skills/a/two/SKILL.md", 5),
+    ]);
+    fakeGh(dir, { list: JSON.stringify([{ number: 440, title: "t", body }]) });
+    const r = run(dir, onMain);
+    expect(r.exitCode).toBe(0);
+    expect(read(dir, "calls.log")).toContain("issue view 440");
+  });
+
+  test("does not read back an issue it closed as a duplicate", () => {
+    const dir = makeDir([diag("CC-SK-008", f, 4)]);
+    const both = JSON.stringify([
+      { number: 500, title: "t", body: marker("CC-SK-008", f) },
+      { number: 999, title: "t", body: marker("CC-SK-008", f) },
+    ]);
+    fakeGh(dir, { list: "[]", list2: both });
+    run(dir);
+    expect(read(dir, "calls.log")).not.toContain("issue view");
   });
 });

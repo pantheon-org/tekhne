@@ -19,11 +19,18 @@
 #
 # Warnings: one issue per rule, labelled "enhancement", listing every file and
 # line the rule is reported on (the first 100 files).
+#   - Each file is listed with its own lines and messages, so a message is never
+#     separated from the file it belongs to.
 #   - Found by the marker "<!-- agnix-warnings: RULE -->" or the title
 #     "agnix warnings: RULE".
 #   - The body is deterministic (no run link, no pull request), so a main run can
 #     compare it and refresh the issue with "gh issue edit" only when the file
 #     list changed. A pull request run never edits an issue.
+#
+# Read-back: after an issue is created or refreshed, its stored body is read back
+# and compared with what was sent, and every file named in it must be present. A
+# mismatch is an annotation and fails this step (never the pull request), so the
+# result does not need checking by hand.
 #
 # Closing, on a main run only: an error issue whose finding agnix no longer
 # reports, and a warnings issue whose rule no file reports any more, is closed
@@ -46,7 +53,9 @@
 #     the fact (the later is closed as a duplicate), not prevented.
 #   - A rule, file or message agnix reports that fails the plain-path check is
 #     skipped with a warning and gets no issue.
-#   - A warnings issue lists at most 100 files; the rest are counted, not named.
+#   - A warnings issue lists at most 100 files and 5 lines per file, and fewer
+#     files if the body would pass 60000 bytes (GitHub's limit is 65536); the rest
+#     are counted, not named.
 #
 # The issue numbers are written to $TRACKED_FILE as a Markdown list for the
 # agnix comment on the pull request to include.
@@ -69,6 +78,8 @@ RUN_URL="${RUN_URL:-}"
 TRACKED_FILE="${TRACKED_FILE:-tracked-issues.md}"
 DRY_RUN="${DRY_RUN:-0}"
 MAX_FILES=100
+MAX_LINES=5
+MAX_BODY_BYTES=60000
 
 if [ -z "$JSON" ] || [ -z "$REPO" ]; then
     echo "usage: GITHUB_REPOSITORY=owner/name MODE=pr|main file-issues.sh <agnix.json>" >&2
@@ -158,9 +169,10 @@ WARNINGS="$(jq -c --arg r "$WARNING_PATTERN_RULE" --arg f "$WARNING_PATTERN_FILE
     map(select((.rule | test($r)) and (.file | test($f))))
     | group_by(.rule)
     | map({ rule: .[0].rule,
-            messages: ([ .[].message ] | unique | .[0:5]),
             files: (group_by(.file)
-                    | map({ file: .[0].file, lines: ([ .[].line ] | unique) })) })
+                    | map({ file: .[0].file,
+                            hits: (map({ line, message }) | unique_by([.line, .message])
+                                   | sort_by(.line)) })) })
 ' <<<"$ALL_WARNINGS")"
 
 if [ "$(jq 'length' <<<"$ERRORS")" -eq 0 ] && [ "$(jq 'length' <<<"$WARNINGS")" -eq 0 ] \
@@ -192,11 +204,34 @@ run_link() {
 status=0
 CREATED=""
 
-# create_issue <title> <marker> <label>: creates an issue from $BODY_FILE and sets
-# CREATED to the surviving number (this run's, or a lower one from an overlapping
-# run). CREATED stays empty if nothing was filed.
+# verify_body <number> <file>...: reads the issue back and checks that it holds
+# what $BODY_FILE holds and that every named file is in it.
+verify_body() {
+    local number="$1" stored expected missing=0 needle
+    shift
+    stored="$(gh issue view "$number" --repo "$REPO" --json body -q .body </dev/null 2>/dev/null | tr -d '\r')"
+    expected="$(cat "$BODY_FILE")"
+    for needle in "$@"; do
+        if ! grep -qF -- "$needle" <<<"$stored"; then
+            echo "::warning::#${number} is missing ${needle} after it was written."
+            missing=1
+        fi
+    done
+    if [ "$stored" != "$expected" ] || [ "$missing" -eq 1 ]; then
+        echo "::warning::The body stored on #${number} does not match what was sent; check it by hand."
+        status=1
+    else
+        echo "Checked #${number}: the stored body matches what was sent."
+    fi
+}
+
+# create_issue <title> <marker> <label> [file...]: creates an issue from
+# $BODY_FILE and sets CREATED to the surviving number (this run's, or a lower one
+# from an overlapping run). CREATED stays empty if nothing was filed. The issue
+# is read back and checked unless it was closed as a duplicate.
 create_issue() {
     local title="$1" mark="$2" label="$3" url number first
+    shift 3
     CREATED=""
     if url="$(gh issue create --repo "$REPO" --title "$title" --body-file "$BODY_FILE" --label "$label" </dev/null)"; then
         number="${url##*/}"
@@ -219,6 +254,8 @@ create_issue() {
                 --comment "Duplicate of #${first}, filed by a run that overlapped this one." \
                 </dev/null || status=1
             number="$first"
+        else
+            verify_body "$number" "$@"
         fi
         CREATED="$number"
     else
@@ -274,7 +311,7 @@ while IFS= read -r entry; do
         echo ""
     } >"$BODY_FILE"
 
-    create_issue "$title" "$(marker "$rule" "$file")" bug
+    create_issue "$title" "$(marker "$rule" "$file")" bug "$file"
     if [ -n "$CREATED" ]; then
         printf '%s\n' "- \`${rule}\` in \`${file}\`: #${CREATED}" >>"$TRACKED_FILE"
     fi
@@ -282,10 +319,11 @@ done < <(jq -c '.[]' <<<"$ERRORS")
 
 # --- Warnings -------------------------------------------------------------
 
-# write_warnings_body <entry>: the body of a warnings issue, with no run link or
-# pull request so that two runs over the same findings produce the same text.
-write_warnings_body() {
-    local entry="$1" rule total
+# render_warnings_body <entry> <max files>: the body of a warnings issue, with no
+# run link or pull request so that two runs over the same findings produce the
+# same text. Each file lists its own lines and messages.
+render_warnings_body() {
+    local entry="$1" cap="$2" rule total
     rule="$(jq -r '.rule' <<<"$entry")"
     total="$(jq '.files | length' <<<"$entry")"
     {
@@ -297,19 +335,18 @@ write_warnings_body() {
             echo "[agnix](https://github.com/agent-sh/agnix) reports warnings for \`${rule}\` in ${total} files:"
         fi
         echo ""
-        jq -r --argjson max "$MAX_FILES" '
-            .files[0:$max][]
-            | "- `\(.file)`: " + (if (.lines | length) == 1
-                                    then "line \(.lines[0])"
-                                    else "lines \(.lines | map(tostring) | join(", "))" end)
+        jq -r --argjson cap "$cap" --argjson lines "$MAX_LINES" '
+            def esc: gsub("&"; "&amp;") | gsub("<"; "&lt;") | gsub(">"; "&gt;")
+                     | gsub("`"; "&#96;") | gsub("@"; "&#64;");
+            .files[0:$cap][]
+            | "- `\(.file)`",
+              (.hits[0:$lines][] | "  - line \(.line): \(.message | esc)"),
+              (if (.hits | length) > $lines
+               then "  - and \((.hits | length) - $lines) more lines" else empty end)
         ' <<<"$entry"
-        if [ "$total" -gt "$MAX_FILES" ]; then
-            echo "- and $((total - MAX_FILES)) more files"
+        if [ "$total" -gt "$cap" ]; then
+            echo "- and $((total - cap)) more files"
         fi
-        echo ""
-        echo "Messages:"
-        echo ""
-        jq -r '.messages[] | "- \(.)"' <<<"$entry" | escape
         echo ""
         echo "Warnings never fail a pull request. Filed automatically; one open issue is kept per rule. It is refreshed when the file list on \`main\` changes and closed automatically once no file has the rule."
         echo ""
@@ -320,6 +357,21 @@ write_warnings_body() {
         warnings_marker "$rule"
         echo ""
     } >"$BODY_FILE"
+}
+
+# write_warnings_body <entry>: renders the body and, if it is too big for GitHub,
+# names fewer files until it fits. Sets SHOWN_FILES to the files it names.
+write_warnings_body() {
+    local entry="$1" cap="$MAX_FILES"
+    render_warnings_body "$entry" "$cap"
+    while [ "$(wc -c <"$BODY_FILE")" -gt "$MAX_BODY_BYTES" ] && [ "$cap" -gt 1 ]; do
+        cap=$((cap / 2))
+        render_warnings_body "$entry" "$cap"
+    done
+    SHOWN_FILES=()
+    while IFS= read -r shown; do
+        SHOWN_FILES+=("$shown")
+    done < <(jq -r --argjson cap "$cap" '.files[0:$cap][].file' <<<"$entry")
 }
 
 while IFS= read -r entry; do
@@ -343,8 +395,12 @@ while IFS= read -r entry; do
                 if [ "$DRY_RUN" = "1" ]; then
                     echo "would update #${existing} (${title})"
                 else
-                    gh issue edit "$existing" --repo "$REPO" --body-file "$BODY_FILE" \
-                        </dev/null || status=1
+                    if gh issue edit "$existing" --repo "$REPO" --body-file "$BODY_FILE" \
+                        </dev/null; then
+                        verify_body "$existing" "${SHOWN_FILES[@]}"
+                    else
+                        status=1
+                    fi
                 fi
             fi
         fi
@@ -356,7 +412,7 @@ while IFS= read -r entry; do
         continue
     fi
 
-    create_issue "$title" "$mark" enhancement
+    create_issue "$title" "$mark" enhancement "${SHOWN_FILES[@]}"
     if [ -n "$CREATED" ]; then
         printf '%s\n' "- warnings \`${rule}\` in ${count} ${plural}: #${CREATED}" >>"$TRACKED_FILE"
     fi
