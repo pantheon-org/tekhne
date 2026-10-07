@@ -91,10 +91,11 @@ docs/TECH_DEBT.md                           the tech-debt list
    ```
 
    If the result diverges meaningfully from the index's own header comment, run `context-index` first.
-2. **Follow-up sweep.** Filter the follow-up list to `status: ACTIVE`:
+2. **Follow-up sweep.** Filter the follow-up list to active entries, matching the status case-insensitively
+   (projects write it as `ACTIVE` or `active`):
 
    ```bash
-   grep -l 'status: ACTIVE' .context/follow-ups/*.md
+   grep -il 'status: active' .context/follow-ups/*.md
    ```
 
    `DONE` entries are closed; ignore them here. For each `ACTIVE` entry, read its `Context` + `Outstanding Work`,
@@ -103,6 +104,14 @@ docs/TECH_DEBT.md                           the tech-debt list
    close-as-superseded, needs promotion to the register, needs promotion to the tech-debt list, or still genuinely
    open. File nothing; that's the handoff, not this skill's job. If none are `ACTIVE`, say so explicitly and
    continue anyway (Rule 2).
+2a. **Rank the active follow-ups by grade.** A follow-up may carry `severity`, `priority` and `graded` (the context
+   index copies them into each follow-up's entry; otherwise read them from the last lines of the file's
+   frontmatter). Order the active ones that are graded by `severity` (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`), then
+   `priority` (`P1`, `P2`, `P3`), then newest `date`, then path; match values case-insensitively. List the rest
+   separately as **needs a grade**, newest first, with a count: those with no grades, and those with a partial set, no
+   `graded` date or a value outside the lists (show an invalid value as written, marked `?`). Ignore grades on closed
+   follow-ups. Never propose or write a grade from here (Rule 1), and do not suggest grading a file that already has a
+   `graded` line unless the user asks. If no active follow-up has a grade, say so and list them all newest first.
 3. **Build the wider candidate pool.** Count the committed-backlog side directly:
 
    ```bash
@@ -112,7 +121,7 @@ docs/TECH_DEBT.md                           the tech-debt list
    Apply the value-rubric read protocol (same reference doc) over the context
    index's `PLAN`/`FINDING`/`KNOWN_ISSUE` entries; separately collect `Open` rows from the register and the
    tech-debt list.
-4. **Synthesize one recommendation** (Rule 5 ordering): any `ACTIVE` follow-up first; otherwise the value-rubric
+4. **Synthesize one recommendation** (Rule 5 ordering): any `ACTIVE` follow-up first, the top of step 2a's ranking; otherwise the value-rubric
    pool's top tier-1 item; otherwise a qualitative judgment call across the register/tech-debt pool (Rule 3).
    Always state why the pick beats the runner-up, not just that it won.
 5. **Report** using the format in [Worked Example](references/worked-example.md), then stop -- offer the relevant
