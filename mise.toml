@@ -13,7 +13,7 @@ rumdl = "0.2.77"
 cargo-dist = "0.32.0"
 # Lints skill frontmatter and agent files (Claude Code semantics, leaked
 # tool-call markup). Keep in sync with AGNIX_VERSION in .github/workflows/agnix.yml.
-"github:agent-sh/agnix" = "0.55.0"
+"github:agent-sh/agnix" = "0.56.6"
 
 [settings]
 # Refuse tool releases younger than a week when resolving versions.
