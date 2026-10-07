@@ -3,6 +3,7 @@
 //! annotation lines (`--emit-annotations`). Renderers never decide the exit
 //! code; they only present the [`CliReport`] built by the runners.
 
+use skill_validator_rs::listing::ListingReport;
 use skill_validator_rs::{ContaminationReport, ContentReport, Level, ValidationResult};
 
 use crate::model::{CliReport, OutputFormat};
@@ -42,6 +43,9 @@ fn render_text(report: &CliReport) -> String {
         }
     }
 
+    if let Some(listing) = &report.listing {
+        out.push_str(&render_listing_text(listing));
+    }
     if let Some(content) = &report.content {
         out.push_str(&render_content_text("Content metrics", content));
     }
@@ -79,6 +83,86 @@ fn text_line(r: &ValidationResult) -> String {
     }
 }
 
+/// Largest contributors shown in the text and markdown listing reports.
+const LISTING_TOP: usize = 10;
+
+fn render_listing_text(l: &ListingReport) -> String {
+    let mut out = format!(
+        "Listing budget (estimate, advisory):\n  {} skills, {} chars of {} budget ({}); \
+         {} excluded by disable-model-invocation\n  budget: {}\n",
+        l.entries.len(),
+        l.total_chars,
+        l.budget_chars,
+        if l.over_budget() { "OVER" } else { "within" },
+        l.excluded_disabled,
+        l.budget_source,
+    );
+    for b in &l.bands {
+        out.push_str(&format!(
+            "  band: {} tokens -> {} chars ({})\n",
+            b.context_tokens,
+            b.budget_chars,
+            if b.over { "OVER" } else { "within" },
+        ));
+    }
+    for n in &l.notes {
+        out.push_str(&format!("  note: {n}\n"));
+    }
+    for (domain, chars) in &l.by_domain {
+        out.push_str(&format!("  domain {domain}: {chars}\n"));
+    }
+    out.push_str("  largest:\n");
+    for e in l.entries.iter().take(LISTING_TOP) {
+        let cut = if e.truncated { " (truncated)" } else { "" };
+        out.push_str(&format!("    {:>5}  {}{cut}\n", e.chars, e.path));
+    }
+    for u in &l.unreadable {
+        out.push_str(&format!("  unreadable, not counted: {u}\n"));
+    }
+    out
+}
+
+fn render_listing_markdown(l: &ListingReport) -> String {
+    let mut out = format!(
+        "{} skills, **{}** of {} chars ({}); {} excluded by `disable-model-invocation`. \
+         Estimate only; the live budget depends on the model and settings.\n\n",
+        l.entries.len(),
+        l.total_chars,
+        l.budget_chars,
+        if l.over_budget() {
+            "over budget"
+        } else {
+            "within budget"
+        },
+        l.excluded_disabled,
+    );
+    out.push_str(&format!("Budget: {}.\n\n", l.budget_source));
+    if !l.bands.is_empty() {
+        out.push_str(
+            "| Context window | Budget | Verdict |\n| -------------- | ------ | ------- |\n",
+        );
+        for b in &l.bands {
+            out.push_str(&format!(
+                "| {} tokens | {} | {} |\n",
+                b.context_tokens,
+                b.budget_chars,
+                if b.over { "over" } else { "within" },
+            ));
+        }
+        out.push('\n');
+    }
+    out.push_str("| Domain | Chars |\n| ------ | ----- |\n");
+    for (domain, chars) in &l.by_domain {
+        out.push_str(&format!("| {} | {chars} |\n", escape_pipes(domain)));
+    }
+    out.push_str("\n| Largest skills | Chars |\n| -------------- | ----- |\n");
+    for e in l.entries.iter().take(LISTING_TOP) {
+        out.push_str(&format!("| {} | {} |\n", escape_pipes(&e.path), e.chars));
+    }
+    out.push('\n');
+    out
+}
+
 fn render_content_text(title: &str, c: &ContentReport) -> String {
     format!(
         "{title}:\n  words={} code_blocks={} sentences={} imperative={} \
@@ -114,6 +198,10 @@ fn render_contamination_text(c: &ContaminationReport) -> String {
 fn render_markdown(report: &CliReport) -> String {
     let mut out = String::new();
     out.push_str(&format!("# Validation report: `{}`\n\n", report.skill_dir));
+
+    if let Some(listing) = &report.listing {
+        out.push_str(&render_listing_markdown(listing));
+    }
 
     let findings: Vec<&ValidationResult> = report
         .results

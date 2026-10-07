@@ -86,6 +86,19 @@ Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (bl
 
 The pull request Skill Audit grades every skill that has any changed file, not only a changed `SKILL.md`, and audits the same skills at the base commit so the scores compare. A skill graded below B blocks the pull request only if it is new or scores lower than at the base commit. A skill that is already below B and not lowered passes with a warning and is tracked by one open GitHub issue (`scripts/skill-audit/classify.sh`, `file-issues.sh`), linked to the pull request and listed in the Skill Audit comment. Nothing closes the issue automatically; close it when the grade is fixed.
 
+### Skill listing budget
+
+Every listing-eligible skill's name and description share one budget in the model's context (`skillListingBudgetFraction`, 1% of the context window; the documented fallback is 8000 characters). When it overflows, descriptions of the least-invoked skills are dropped with no signal, so each description you add spends it for every other skill. `skill-validator-rs analyze listing` estimates the aggregate. It is advisory and always exits 0; the Skill Audit workflow prints it in the job summary.
+
+```bash
+mise run audit:listing                        # documented 8000-char fallback
+mise run audit:listing -- --fraction 0.01     # band at 200k and 1M tokens
+mise run audit:listing -- --context-tokens 1000000
+mise run audit:listing -- --from-settings     # this machine's Claude settings
+```
+
+`--budget-chars` fixes the budget outright; `--chars-per-token` (default 4) changes the derivation. Precedence is `--budget-chars`, then `--context-tokens`, then `--fraction` alone (a band), then the 8000 fallback. `--from-settings` fills only what the flags leave unset: `SLASH_COMMAND_TOOL_CHAR_BUDGET`, then `skillListingBudgetFraction` from the first of project `.claude/settings.local.json`, project `.claude/settings.json`, and `~/.claude/settings.json` (`CLAUDE_CONFIG_DIR` relocates it). Managed policy settings are not read. A skill with `disable-model-invocation: true` spends none of it, and a description is capped at 1536 characters per entry. The 4 chars/token ratio and the 200k and 1M windows are assumptions of the estimate, not documented values.
+
 Build the auditor from source with `mise run build:skill-auditor` (a shortcut for `cargo build --release -p pantheon-skill-auditor`), then invoke `target/release/pantheon-skill-auditor evaluate`.
 
 ## Skills distributed via crate installers

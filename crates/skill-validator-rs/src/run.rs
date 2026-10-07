@@ -6,6 +6,9 @@
 use std::path::{Path, PathBuf};
 
 use skill_validator_rs::artifacts::{check_files, check_tree};
+use skill_validator_rs::listing::{
+    analyze as analyze_listing, read_machine_settings, resolve_budget, BudgetInputs,
+};
 use skill_validator_rs::structure::fsutil::read_dir_sorted;
 use skill_validator_rs::{analyze_contamination, analyze_content, validate, Options, Skill};
 
@@ -77,6 +80,53 @@ pub fn analyze_content_cmd(dir: &str) -> Result<CliReport, String> {
     Ok(CliReport {
         skill_dir: dir.to_string(),
         content: Some(analyze_content(&skill.raw_content)),
+        ..CliReport::default()
+    })
+}
+
+/// Run `analyze listing <root>`: the shared listing-budget estimate. With
+/// `from_settings`, fill the inputs the caller left unset from this machine's
+/// environment and Claude settings files (explicit inputs win).
+pub fn analyze_listing_cmd(
+    root: &str,
+    mut inputs: BudgetInputs,
+    from_settings: bool,
+) -> Result<CliReport, String> {
+    let path = Path::new(root);
+    if !path.is_dir() {
+        return Err(format!("skills root not found: {root}"));
+    }
+    if let Some(f) = inputs.fraction {
+        if !(f > 0.0 && f <= 1.0) {
+            return Err(format!("--fraction must be in (0, 1], got {f}"));
+        }
+    }
+    if matches!(inputs.chars_per_token, Some(c) if c <= 0.0) {
+        return Err("--chars-per-token must be positive".to_string());
+    }
+
+    let mut notes = Vec::new();
+    if from_settings {
+        let cwd = std::env::current_dir().map_err(|e| format!("current dir: {e}"))?;
+        let machine = read_machine_settings(&|k| std::env::var(k).ok(), &cwd);
+        notes = machine.notes;
+        let explicit_budget = inputs.chars.is_some() || inputs.context_tokens.is_some();
+        if inputs.fraction.is_none() {
+            inputs.fraction = machine.fraction;
+        }
+        if !explicit_budget {
+            if let Some(env_chars) = machine.env_chars {
+                inputs.chars = Some(env_chars);
+            }
+        }
+    }
+
+    let budget = resolve_budget(&inputs);
+    let mut listing = analyze_listing(path, &budget);
+    listing.notes = notes;
+    Ok(CliReport {
+        skill_dir: root.to_string(),
+        listing: Some(listing),
         ..CliReport::default()
     })
 }

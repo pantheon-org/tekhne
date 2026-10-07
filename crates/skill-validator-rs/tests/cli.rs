@@ -172,3 +172,133 @@ fn annotations_do_not_pollute_json_stdout() {
         "annotations emitted to stderr: {err}"
     );
 }
+
+/// Write a minimal skill under `root/rel` for the listing-budget tests.
+fn write_listing_skill(root: &std::path::Path, rel: &str, frontmatter: &str) {
+    let dir = root.join(rel);
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("SKILL.md"),
+        format!("---\n{frontmatter}---\n\nBody\n"),
+    )
+    .unwrap();
+}
+
+#[test]
+fn analyze_listing_is_advisory_and_reports_overflow() {
+    let tmp = tempfile::tempdir().unwrap();
+    write_listing_skill(
+        tmp.path(),
+        "dev/alpha",
+        "name: alpha\ndescription: Does a thing\n",
+    );
+    write_listing_skill(
+        tmp.path(),
+        "dev/hidden",
+        "name: hidden\ndescription: x\ndisable-model-invocation: true\n",
+    );
+    let root = tmp.path().to_str().unwrap();
+
+    let within = run(&["analyze", "listing", root]);
+    assert_eq!(code(&within), 0, "stdout: {}", stdout(&within));
+    assert!(stdout(&within).contains("1 skills"));
+    assert!(stdout(&within).contains("1 excluded"));
+
+    // Over budget is still advisory: exit 0.
+    let over = run(&["analyze", "listing", root, "--budget-chars", "5"]);
+    assert_eq!(code(&over), 0);
+    assert!(stdout(&over).contains("OVER"));
+
+    let json = run(&["analyze", "listing", root, "-o", "json"]);
+    assert!(stdout(&json).contains("\"total_chars\""));
+}
+
+#[test]
+fn analyze_listing_missing_root_is_an_error() {
+    let out = run(&["analyze", "listing", "/nonexistent/skills-root"]);
+    assert_eq!(code(&out), 1);
+}
+
+#[test]
+fn analyze_listing_context_window_and_band() {
+    let tmp = tempfile::tempdir().unwrap();
+    write_listing_skill(
+        tmp.path(),
+        "dev/alpha",
+        "name: alpha\ndescription: Does a thing\n",
+    );
+    let root = tmp.path().to_str().unwrap();
+
+    // 1000 tokens x 4 chars x 0.01 = 40 chars: the one skill (20 chars) fits.
+    let win = run(&["analyze", "listing", root, "--context-tokens", "1000"]);
+    assert_eq!(code(&win), 0);
+    assert!(
+        stdout(&win).contains("of 40 budget (within)"),
+        "{}",
+        stdout(&win)
+    );
+
+    let band = run(&["analyze", "listing", root, "--fraction", "0.01"]);
+    assert_eq!(code(&band), 0);
+    assert!(stdout(&band).contains("band: 200000 tokens -> 8000 chars"));
+    assert!(stdout(&band).contains("band: 1000000 tokens -> 40000 chars"));
+
+    let bad = run(&["analyze", "listing", root, "--fraction", "2"]);
+    assert_eq!(code(&bad), 1);
+}
+
+#[test]
+fn analyze_listing_from_settings_reads_env_and_project_file() {
+    let tmp = tempfile::tempdir().unwrap();
+    let skills = tmp.path().join("skills");
+    write_listing_skill(
+        &skills,
+        "dev/alpha",
+        "name: alpha\ndescription: Does a thing\n",
+    );
+    let project = tmp.path().join("proj");
+    std::fs::create_dir_all(project.join(".claude")).unwrap();
+    std::fs::write(
+        project.join(".claude/settings.json"),
+        r#"{"skillListingBudgetFraction": 0.02}"#,
+    )
+    .unwrap();
+
+    let bin = env!("CARGO_BIN_EXE_skill-validator-rs");
+    let from_file = Command::new(bin)
+        .args([
+            "analyze",
+            "listing",
+            skills.to_str().unwrap(),
+            "--from-settings",
+        ])
+        .env("CLAUDE_PROJECT_DIR", &project)
+        .env("CLAUDE_CONFIG_DIR", tmp.path().join("nocfg"))
+        .env_remove("SLASH_COMMAND_TOOL_CHAR_BUDGET")
+        .output()
+        .unwrap();
+    let text = stdout(&from_file);
+    assert!(
+        text.contains("band: 200000 tokens -> 16000 chars"),
+        "{text}"
+    );
+    assert!(text.contains("skillListingBudgetFraction=0.02"), "{text}");
+
+    let from_env = Command::new(bin)
+        .args([
+            "analyze",
+            "listing",
+            skills.to_str().unwrap(),
+            "--from-settings",
+        ])
+        .env("CLAUDE_PROJECT_DIR", &project)
+        .env("CLAUDE_CONFIG_DIR", tmp.path().join("nocfg"))
+        .env("SLASH_COMMAND_TOOL_CHAR_BUDGET", "10")
+        .output()
+        .unwrap();
+    assert!(
+        stdout(&from_env).contains("of 10 budget (OVER)"),
+        "{}",
+        stdout(&from_env)
+    );
+}
