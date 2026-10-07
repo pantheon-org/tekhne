@@ -89,8 +89,10 @@ Full section-by-section detail (what each one must contain, and why): `reference
 ## Relationship to other typologies
 
 `.context/handovers/` is a distinct, standalone typology from `.context/follow-ups/`, `.context/plans/`,
-and `.context/findings/`, and is not tracked in the auto-generated `.context/index.yaml`. A handover is
-broader than a single follow-up item: it is the whole session's end state. Full explanation of the
+and `.context/findings/`, and is tracked in the auto-generated `.context/index.yaml` under its own `handovers:` section
+(the `context-index` skill maps `type: handover` to it). An active handover is outstanding work, so any tool that reads the
+index for what is outstanding needs to see it. A handover is broader than a single follow-up item: it is the whole
+session's end state. Full explanation of the
 boundary, and why a handover is a snapshot rather than an in-place-edited document (unlike
 `tool-review-assessment`): `references/typology-and-lifecycle.md`.
 
