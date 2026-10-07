@@ -1,34 +1,76 @@
 {
   "instructions": [
     {
-      "original_snippets": "NEVER create context without scanning .context/session/in/ — source materials in the in-folder define the scope; a context built without them is speculative.",
-      "why_given": "anti-pattern",
+      "id": "I01",
+      "original_snippets": "NEVER build the manifest from memory: the in-folder defines the scope, so a manifest without a scan misleads downstream agents.",
+      "why_given": "new knowledge",
       "dimension": "D3"
     },
     {
-      "original_snippets": "NEVER write a manifest without a session_id — unnamed sessions cannot be retrieved by load-context.",
-      "why_given": "anti-pattern",
+      "id": "I02",
+      "original_snippets": "NEVER omit the high, medium or low section of sources, even when empty: validate-manifest.sh fails and consumers cannot iterate predictably.",
+      "why_given": "new knowledge",
       "dimension": "D3"
     },
     {
-      "original_snippets": "After EVERY AskUserQuestion call, check if answers are empty/blank — outside Plan Mode, AskUserQuestion silently returns empty answers without showing UI.",
+      "id": "I03",
+      "original_snippets": "Do not copy files matching .env*, *credentials*, *secrets*, *token*, *.key, *.pem, *.crt, *.p12 or *.pfx into the ctx folder.",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I04",
+      "original_snippets": "Avoid inlining a file above its threshold (1500 tokens HIGH, 2500 tokens MEDIUM): summarise it to keep the baseline within 2000 tokens.",
+      "why_given": "preference",
+      "dimension": "D3"
+    },
+    {
+      "id": "I05",
+      "original_snippets": "NEVER run the skill concurrently with save-context or load-context: nothing locks the ctx folder, so the last writer wins.",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I06",
+      "original_snippets": "After EVERY AskUserQuestion call check for blank answers: outside Plan Mode the tool can return them without showing its UI, so fall back to a numbered text list.",
       "why_given": "new knowledge",
       "dimension": "D2"
     },
     {
-      "original_snippets": "Use --force flag to overwrite an existing .context/session/ctx/ snapshot when source files have been updated.",
+      "id": "I07",
+      "original_snippets": "The in-folder is immutable bootstrap input: users drop raw documents there and no command modifies it.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "id": "I08",
+      "original_snippets": "Estimate tokens as words divided by 0.75 using wc -w, and delegate files above 25K tokens to the summarize-for-context sub-agent.",
+      "why_given": "new knowledge",
+      "dimension": "D1"
+    },
+    {
+      "id": "I09",
+      "original_snippets": "Write the manifest after sizing, because each action value (inline or summarized) depends on the sizing result.",
+      "why_given": "new knowledge",
+      "dimension": "D2"
+    },
+    {
+      "id": "I10",
+      "original_snippets": "Use the --force argument to rebuild an existing ctx snapshot; a plain rerun stops without changing anything.",
       "why_given": "preference",
       "dimension": "D6"
     },
     {
-      "original_snippets": "NEVER include security-sensitive files from in-folder in the manifest without explicit user confirmation.",
-      "why_given": "anti-pattern",
+      "id": "I11",
+      "original_snippets": "The scanner skips a file when any path component matches a sensitive pattern, so secrets/prod.yaml is skipped by directory name.",
+      "why_given": "new knowledge",
       "dimension": "D3"
     },
     {
-      "original_snippets": "In-folder is immutable bootstrap — user dumps raw docs there, commands never modify it.",
-      "why_given": "new knowledge",
-      "dimension": "D2"
+      "id": "I12",
+      "original_snippets": "Finish by reporting file counts and the RISEN INPUT table, then suggest /save-context baseline.",
+      "why_given": "preference",
+      "dimension": "D8"
     }
   ]
 }

@@ -1,0 +1,31 @@
+{
+  "context": "Oversized file and blank AskUserQuestion answers",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Detects blank answers",
+      "description": "Checks the answers after the call and recognises the empty result as the known tool bug",
+      "max_score": 25
+    },
+    {
+      "name": "Numbered fallback",
+      "description": "Prints the options as a numbered text list and waits for the user's reply instead of assuming priorities",
+      "max_score": 25
+    },
+    {
+      "name": "Sub-agent for large file",
+      "description": "Delegates the 40K-token file to the summarize-for-context sub-agent rather than reading it whole",
+      "max_score": 20
+    },
+    {
+      "name": "Summary size and action",
+      "description": "Produces a summary of about 500 tokens and records action summarized in the manifest",
+      "max_score": 15
+    },
+    {
+      "name": "Baseline stays in budget",
+      "description": "Does not inline the specification and keeps the baseline within 2000 tokens",
+      "max_score": 15
+    }
+  ]
+}

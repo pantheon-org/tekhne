@@ -1,0 +1,1 @@
+Detects blank AskUserQuestion answers, falls back to a numbered list, and routes a file above 25K tokens to the summarising sub-agent.

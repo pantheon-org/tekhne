@@ -1,172 +1,112 @@
 ---
 name: create-context
-description: Create baseline context from .context/session/in/ folder with manifest-driven organization (run once per project). Use when bootstrapping project context, setting up .context/session/ctx/ snapshot. Triggers include "create context", "bootstrap context", "setup context", "init context".
-argument-hint: "[--force to overwrite existing .context/session/ctx/]"
+description: Create the baseline session context from the in-folder of raw project documents, classifying each file by priority, writing a manifest, summarising oversized files and producing a token-budgeted baseline. Use when bootstrapping project context or setting up the ctx snapshot once per project. Triggers include "create context", "bootstrap context", "setup context", "init context".
+argument-hint: "[--force to overwrite an existing ctx snapshot]"
 allowed-tools: Read, Write, Glob, Bash, AskUserQuestion, Agent
 user-invocable: true
 ---
 
 # Create Context
 
-Bootstrap project context from `.context/session/in/` folder → `.context/session/ctx/` snapshot + baseline + RISEN INPUT table.
+Turn the raw documents in the in-folder into a prioritised, token-budgeted snapshot that later sessions load in one read.
 
-## ⚠️ AskUserQuestion Guard
+## Layout
 
-**CRITICAL**: After EVERY `AskUserQuestion` call, check if answers are empty/blank. Known harness bug affecting several agentic CLIs: outside Plan Mode, the AskUserQuestion tool can silently return empty answers without showing UI.
-
-**If answers are empty**: DO NOT proceed with assumptions. Instead:
-1. Output: "⚠️ Questions didn't display (known AskUserQuestion bug outside Plan Mode)."
-2. Present the options as a **numbered text list** and ask user to reply with their choice number.
-3. WAIT for user reply before continuing.
-
-## Folder Architecture
-
-- **`.context/session/in/`**: Immutable bootstrap (user dumps raw docs, never modified by commands)
-- **`.context/session/ctx/`**: Actionable snapshot (generated: manifest + summaries + copied files)
-
-## Steps
-
-### 1. Prerequisites
-
-```bash
-[ -d .context/session/in/ ] || error "No .context/session/in/ folder found. Create it and add source files first."
-[ -d .context/session/ctx/ ] && [ "$1" != "--force" ] && error ".context/session/ctx/ exists. Use --force to recreate."
+```text
+.context/session/in/                      immutable input: users drop documents here, no command edits it
+.context/session/ctx/                     generated snapshot: manifest, copies, summaries
+.context/session/CONTEXT-baseline-llm.md  single load point, 2000 tokens at most
 ```
 
-Skip security-sensitive files: `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`, `*.crt`
+## Mindset
 
-### 2. Scan & Prioritize
-
-1. Glob: `.context/session/in/**/*.{md,txt,csv,yaml,json}`
-2. AskUserQuestion per file: HIGH / MEDIUM / LOW + brief description
-
-### 3. Create .context/session/ctx/ and Generate Manifest
-
-Write `.context/session/ctx/manifest.yaml` — see `references/reference.md` for schema.
-
-### 4. Context Sizing & Copy
-
-Token estimation: `tokens ≈ words / 0.75` (via `wc -w`)
-
-| Priority | ≤ threshold | > threshold, ≤25K | > 25K |
-|----------|-------------|-------------------|-------|
-| HIGH | ≤1500 → inline | summarize directly | summarize via sub-agent |
-| MEDIUM | ≤2500 → inline | summarize directly | summarize via sub-agent |
-| LOW | reference only | — | — |
-
-Copy HIGH/MEDIUM files to `.context/session/ctx/`, preserving subdirectory structure.
-
-### 5. Summarize (if needed)
-
-- Direct: Read + generate ~500 token summary → `.context/session/ctx/{nn}-{basename}-summary-llm.md`
-- Sub-agent: Task(`summarize-for-context`) for files >25K tokens
-
-### 6. Write Baseline
-
-Create `.context/session/CONTEXT-baseline-llm.md` with inline content + summary refs + LOW references.
-Target: ≤2000 tokens.
-
-### 7. Output
-
-Report: file counts, RISEN INPUT table, suggest `/save-context baseline`.
-
-See `references/reference.md` for manifest schema, baseline template, and validation rules.
-
-## Philosophy
-
-- Context is **scoped to a session's open questions**, not a transcript of activity — include only what shapes decisions.
-- **In-folder as the source of truth** — everything in `.context/session/in/` is intentional input; the manifest reflects it faithfully.
-- **One manifest per session** — multiple contexts in the same directory cause ambiguity for load-context.
-- **Explicit over implicit** — every constraint, assumption, and decision captured in context must state its origin.
+- Use the in-folder as the source of truth. The manifest mirrors it faithfully.
+- Keep the snapshot scoped to the session's open questions. Include only what shapes decisions.
+- Keep one manifest per session. Two manifests in one folder leave load-context unable to choose.
+- State the origin of every constraint, assumption and decision that enters the baseline.
 
 ## When to Use
 
-- At the start of a new project or feature branch when raw source materials have been placed in `.context/session/in/` and no snapshot exists yet.
-- When multiple agents need a shared, prioritized view of project documents to avoid each agent independently re-reading every file.
-- When the `.context/session/ctx/` directory is missing or empty and a downstream skill (e.g., `load-context`) cannot find a manifest.
-- When source files in `.context/session/in/` have been replaced or significantly updated and a fresh snapshot is required (use `--force`).
-- When onboarding a new session after a project handoff and the inherited documents must be classified and summarized before work begins.
+- Use it once per project when raw documents sit in the in-folder and no ctx snapshot exists.
+- Use it with `--force` after the source documents changed materially.
+- Use it when load-context reports a missing manifest.
 
 ## When Not to Use
 
-- When `.context/session/ctx/` already contains a current manifest and the source files have not changed — re-running without `--force` is a no-op and may discard existing summaries.
-- When `.context/session/in/` is empty; there is nothing to scan and the skill will error.
-- When the goal is to update a single document's summary rather than rebuild the full snapshot — edit the relevant file and update the manifest entry directly.
-- When working in a read-only environment where writing to `.context/session/ctx/` is not permitted.
-- When a live session context already exists and only needs to be saved to a named stream — use `save-context` instead.
+- Do not use it when the ctx snapshot is current. A rerun without `--force` stops, and `--force` discards existing summaries.
+- Do not use it when the in-folder is empty. There is nothing to scan.
+- Do not use it to refresh one document. Update that summary and its manifest entry by hand.
+- Use save-context instead to store live session state in a named stream.
+
+## Steps
+
+1. Guard the prerequisites. Stop on a missing in-folder, and stop on an existing ctx folder unless `--force` was passed.
+
+```bash
+[ -d .context/session/in ] || { echo "No in-folder found. Add source files first." >&2; exit 1; }
+[ -d .context/session/ctx ] && [ "$ARGUMENTS" != "--force" ] && { echo "ctx exists. Use --force." >&2; exit 1; }
+```
+
+2. Scan the in-folder with the bundled script. It lists md, txt, csv, yaml, yml and json files with a token estimate, and skips sensitive paths.
+
+```bash
+./scripts/scan-in-folder.sh .context/session/in
+```
+
+3. Classify every file as HIGH, MEDIUM or LOW with a one-line description. Batch several files into each AskUserQuestion call, and check for blank answers after every call (see the guard below).
+4. Size each file with `wc -w`, where tokens are words divided by 0.75, then apply the thresholds.
+
+| Priority | At or under threshold | Over threshold, up to 25K | Over 25K |
+|----------|----------------------|---------------------------|----------|
+| HIGH (1500) | inline | summarise directly | summarise via sub-agent |
+| MEDIUM (2500) | inline | summarise directly | summarise via sub-agent |
+| LOW | reference only, no copy | not applicable | not applicable |
+
+5. Copy HIGH and MEDIUM files into the ctx folder and keep their subdirectories. Write a summary of about 500 tokens for each oversized file, and delegate files above 25K tokens to the `summarize-for-context` sub-agent.
+6. Write `manifest.yaml` in the ctx folder after sizing, because each `action` value depends on it. Then validate it.
+
+```bash
+./scripts/validate-manifest.sh .context/session/ctx/manifest.yaml
+```
+
+7. Write the baseline within 2000 tokens: inline content, summary pointers and LOW references. Report the file counts and the RISEN INPUT table, then suggest `/save-context baseline`.
+
+## AskUserQuestion Guard
+
+Outside Plan Mode the tool can return blank answers without showing its UI. After every call, check the answers. If they are blank, do not assume a priority. Print the options as a numbered list, ask for the number, and wait for the reply.
 
 ## Anti-Patterns
 
-- **NEVER create context without scanning `.context/session/in/`** — Skipping the input scan produces incomplete context. **Why:** Source materials in the in-folder define the scope; a context built without them is speculative and will mislead downstream agents.
+- NEVER build the manifest from memory. WHY: the in-folder defines the scope, so a manifest without a scan misleads every downstream agent.
 
-  ```yaml
-  # BAD - manifest fabricated from conversation memory, no scan performed
-  high_priority: []
-  medium_priority: []
-  low_priority: []
-  # (skill never globbed .context/session/in/**/*.{md,txt,csv,yaml,json})
+```yaml
+# BAD: fabricated, no scan, wrong shape
+high_priority: []
 
-  # GOOD - manifest reflects an actual glob of the in-folder
-  high_priority:
-    - path: design-doc.md
-      reason: "architecture decisions referenced throughout the session"
-  medium_priority:
-    - path: requirements.csv
-      reason: "acceptance criteria, read once for scope"
-  low_priority: []
-  ```
-
-- **NEVER write a manifest without all three priority sections (high/medium/low)** — Omitting a section causes validation failures in `validate-manifest.sh`. **Why:** The schema requires all three arrays to be present, even if empty, so that consumers can iterate predictably.
-- **NEVER copy security-sensitive files into `.context/session/ctx/`** — Files matching `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`, `*.crt` must be skipped. **Why:** The ctx snapshot may be committed or shared; leaking credentials through it is a serious security risk.
-
-  ```bash
-  # BAD - copies everything, including a real secrets file, into a folder that may get committed
-  cp -r .context/session/in/* .context/session/ctx/
-
-  # GOOD - skip security-sensitive patterns before copying
-  find .context/session/in/ -type f \
-    ! -name '.env*' ! -name '*credentials*' ! -name '*secrets*' \
-    ! -name '*token*' ! -name '*.key' ! -name '*.pem' ! -name '*.crt' \
-    -exec cp {} .context/session/ctx/ \;
-  ```
-
-- **NEVER inline files that exceed the token threshold** — Files above 1500 tokens (HIGH) or 2500 tokens (MEDIUM) must be summarized, not inlined verbatim. **Why:** Over-sized baselines break the 2000-token budget and degrade agent performance on every subsequent load.
-- **NEVER run the skill concurrently with `save-context` or `load-context`** — Parallel writes to `.context/session/ctx/` corrupt the manifest. **Why:** There is no locking mechanism; the last writer wins and partial manifests are silently invalid.
-
-## Usage Examples
-
-**Creating context at session start:**
-
-```bash
-# Drop source files into the immutable in-folder
-cp design-doc.md .context/session/in/
-cp requirements.csv .context/session/in/
-
-# Invoke the skill — it scans in-folder, classifies files, writes manifest
-# Output: .context/session/ctx/manifest.yaml + summaries + CONTEXT-baseline-llm.md
+# GOOD: sources.high/medium/low from a real scan
+sources:
+  high:
+    - {file: design-doc.md, desc: "Architecture decisions", action: inline}
+  medium: []
+  low: []
 ```
 
-**Force-recreating context after source files change:**
+- NEVER omit `high`, `medium` or `low`, even when empty. WHY: `validate-manifest.sh` fails and consumers cannot iterate predictably.
+- NEVER copy files matching `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`, `*.crt`, `*.p12` or `*.pfx`. WHY: the ctx folder gets committed and shared, so a copied secret leaks.
 
 ```bash
-# Update a source document
-cp updated-spec.md .context/session/in/spec.md
+# BAD: copies everything, secrets included
+cp -r .context/session/in/* .context/session/ctx/
 
-# Re-run with --force to overwrite the existing ctx snapshot
-# The skill will re-scan, re-prioritize, and rewrite all ctx artefacts
+# GOOD: select with the scanner, which also skips secrets inside a secrets/ directory
+./scripts/scan-in-folder.sh .context/session/in
 ```
 
-**Inspecting the generated manifest and baseline:**
-
-```bash
-# After the skill completes, review the generated artefacts
-ls .context/session/ctx/
-# manifest.yaml  01-design-doc-summary-llm.md  ...
-
-# The baseline provides a single load point for all context
-cat .context/session/CONTEXT-baseline-llm.md
-```
+- NEVER inline a file above its threshold. WHY: one oversized inline breaks the 2000-token baseline budget on every later load.
+- NEVER run the skill concurrently with save-context or load-context. WHY: nothing locks the ctx folder, so the last writer wins and leaves a partial manifest.
+- Pitfall: a filename pattern alone misses `secrets/prod.yaml`. Check directory names too, as the scanner does.
 
 ## References
 
-- [Reference](references/reference.md) — manifest schema, context sizing rules, baseline template, validation rules, and security skip patterns
+- [Reference](references/reference.md) - manifest schema, sizing rules, baseline template, validation rules and error messages
+- [Worked examples](references/examples.md) - bootstrap, forced rebuild and large-file runs with expected output

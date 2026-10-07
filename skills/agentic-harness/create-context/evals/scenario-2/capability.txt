@@ -1,0 +1,1 @@
+Refuses to copy security-sensitive files, including one skipped only because of its directory name, and tells the user which were skipped.

@@ -90,7 +90,9 @@ source: .context/session/in/
 
 ## Security
 
-Auto-skipped: `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`, `*.crt`
+Auto-skipped: `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`, `*.crt`, `*.p12`, `*.pfx`.
+
+The scanner matches every path component, so a file inside a directory named `secrets/` is skipped too. Skipped paths are printed on stderr as `SKIPPED (security)`. Set `CONTEXT_DIR` to scan a context root other than `.context`.
 
 ## RISEN INPUT Table (output)
 
@@ -104,8 +106,8 @@ Auto-skipped: `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`
 
 ## Scripts
 
-- `scripts/scan-in-folder.sh` — Scan .context/session/in/ for supported files
-- `scripts/validate-manifest.sh` — Validate manifest schema
+- `scripts/scan-in-folder.sh [IN_DIR]` — scan the in-folder, print JSON with a token estimate per file, skip sensitive paths
+- `scripts/validate-manifest.sh [MANIFEST]` — check required fields, the three priority sections, that listed files exist and that every file has a description; exits 1 on a schema error and 0 with warnings when files are missing
 
 ## Error Messages
 
@@ -120,4 +122,5 @@ Auto-skipped: `.env*`, `*credentials*`, `*secrets*`, `*token*`, `*.key`, `*.pem`
 - `/save-context [stream]` - Save session to named stream
 - `/load-context [stream]` - Load saved stream
 - `scripts/validate-manifest.sh` - Validate manifest schema
-- `.claude/agents/summarize-for-context.md` - Sub-agent for large files
+- `summarize-for-context` sub-agent - summarises files above 25K tokens in chunks
+- [Worked examples](examples.md) - end-to-end runs

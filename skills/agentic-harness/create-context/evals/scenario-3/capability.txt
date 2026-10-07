@@ -1,0 +1,1 @@
+Respects the --force guard, stops without side effects on a plain rerun, and warns that a forced rebuild discards hand edits.

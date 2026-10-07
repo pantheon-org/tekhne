@@ -366,7 +366,7 @@ Bootstrap project context from .context/session/in/ with manifest-driven organis
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [create-context](/tekhne/skills/agentic-harness/create-context/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | - |
+| [create-context](/tekhne/skills/agentic-harness/create-context/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 4 |
 
 ### load-context
 
