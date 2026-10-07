@@ -3,11 +3,11 @@
 # check-context-filenames.sh - enforce the date-first filename convention
 # create-context-file.sh writes: <root>/<typology>/<YYYY-MM-DD>-<slug>.md.
 #
-# Only files inside the nine curated typology directories (findings/, plans/,
-# guides/, follow-ups/, merge-requests/, tickets/, decisions/, notes/,
-# research/) are checked. A file living elsewhere under .context/ - a one-off
-# --allow-new-type folder, or content belonging to an unrelated tool - is out
-# of scope for this convention and is silently skipped, not flagged.
+# Only files inside the ten curated typology directories (findings/, plans/,
+# guides/, follow-ups/, handovers/, merge-requests/, tickets/, decisions/,
+# notes/, research/) are checked. A file living elsewhere under .context/ - a
+# one-off --allow-new-type folder, or content belonging to an unrelated tool -
+# is out of scope for this convention and is silently skipped, not flagged.
 set -euo pipefail
 
 ROOT="$(git rev-parse --show-toplevel)"
@@ -22,7 +22,7 @@ else
 fi
 
 date_first_re='^[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z0-9]+(-[a-z0-9]+)*\.md$'
-known_dirs=(findings plans guides follow-ups merge-requests tickets decisions notes research)
+known_dirs=(findings plans guides follow-ups handovers merge-requests tickets decisions notes research)
 
 errors=()
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+### Features
+
+* **create-context-file:** `singular_of` maps `handovers` to `handover`, matching the `handovers` typology that `context-index` now indexes. This was already the result of the trailing-`s` fallback, so generated files are unchanged. `handovers` is deliberately not in `KNOWN_TYPES`, because handovers are written by `handover-document-creator`, not this script.
+* **context-index:** the paired `check-context-filenames.sh` now treats `handovers/` as a known directory, so projects that run it also enforce the date-first filename and the filename-date-equals-frontmatter-date check for handovers.
+
 ## [1.0.0](https://github.com/pantheon-org/tekhne/compare/v0.4.0...v1.0.0) (2026-09-08)
 
 ### ⚠ BREAKING CHANGES

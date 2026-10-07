@@ -472,7 +472,7 @@ Conduct a structured, one-question-at-a-time interview to explore a specific top
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [handover-document-creator](/tekhne/skills/agentic-harness/handover-document-creator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 3 |
+| [handover-document-creator](/tekhne/skills/agentic-harness/handover-document-creator/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-07 | 3 |
 
 ### professional-honesty
 
@@ -928,13 +928,13 @@ Planning & organization
 
 ### context-index
 
-Regenerates .context/index.yaml from the YAML frontmatter across every .context/**/*.md file, grouped by typology (findings, plans, goals, evidence, guides, follow-ups, merge-requests, tickets, decisions, notes, research), and validates that each file carries the required frontmatter fields; use when the index is stale, context files were added or removed, or a pre-commit gate blocks on missing frontmatter.
+Regenerates .context/index.yaml from the YAML frontmatter across every .context/**/*.md file, grouped by typology (findings, plans, goals, evidence, guides, follow-ups, handovers, merge-requests, tickets, decisions, notes, research), and validates that each file carries the required frontmatter fields; use when the index is stale, context files were added or removed, or a pre-commit gate blocks on missing frontmatter.
 
 **Version:** 0.1.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 4 |
+| [context-index](/tekhne/skills/project-mgmt/context-index/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-07 | 4 |
 
 ### create-context-file
 
@@ -944,7 +944,7 @@ Create context files under .context/<typology>/ (findings, plans, guides, follow
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-02 | 8 |
+| [create-context-file](/tekhne/skills/project-mgmt/create-context-file/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 8 |
 
 ### issue-tracker-toolkit
 

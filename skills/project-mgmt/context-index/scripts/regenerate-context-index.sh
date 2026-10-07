@@ -5,8 +5,8 @@
 #
 # The index is a generated cache grouped by typology (the plural directory
 # name a file lives under: findings/, plans/, goals/, guides/, follow-ups/,
-# merge-requests/, tickets/, decisions/, notes/, research/). The source of
-# truth is always the frontmatter in each .md file, never this output.
+# handovers/, merge-requests/, tickets/, decisions/, notes/, research/). The
+# source of truth is always the frontmatter in each .md file, never this output.
 #
 # Usage:
 #   regenerate-context-index.sh          # write .context/index.yaml
@@ -135,6 +135,7 @@ type_group_key = {
     "evidence": "evidence",
     "guide": "guides",
     "follow-up": "follow-ups",
+    "handover": "handovers",
     "merge-request": "merge-requests",
     "ticket": "tickets",
     "decision": "decisions",
@@ -148,6 +149,7 @@ type_order = [
     "evidence",
     "guides",
     "follow-ups",
+    "handovers",
     "merge-requests",
     "tickets",
     "decisions",
@@ -161,6 +163,7 @@ type_label = {
     "evidence": "Evidence",
     "guides": "Guides",
     "follow-ups": "Follow-ups",
+    "handovers": "Handovers",
     "merge-requests": "Merge Requests",
     "tickets": "Tickets",
     "decisions": "Decisions",

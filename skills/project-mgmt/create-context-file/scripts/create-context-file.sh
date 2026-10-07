@@ -77,6 +77,7 @@ singular_of() {
 		evidence)       echo "evidence" ;;
 		guides)         echo "guide" ;;
 		follow-ups)     echo "follow-up" ;;
+		handovers)      echo "handover" ;;
 		merge-requests) echo "merge-request" ;;
 		tickets)        echo "ticket" ;;
 		decisions)      echo "decision" ;;

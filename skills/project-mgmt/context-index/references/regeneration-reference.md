@@ -25,6 +25,7 @@ Technical details and edge cases for the scripts in `scripts/`.
 | `plan` | `plans/` | `plans:` |
 | `guide` | `guides/` | `guides:` |
 | `follow-up` | `follow-ups/` | `follow-ups:` |
+| `handover` | `handovers/` | `handovers:` |
 | `merge-request` | `merge-requests/` | `merge-requests:` |
 | `ticket` | `tickets/` | `tickets:` |
 | `decision` | `decisions/` | `decisions:` |
@@ -32,7 +33,7 @@ Technical details and edge cases for the scripts in `scripts/`.
 | `research` | `research/` | `research:` |
 
 A file whose `type:` doesn't match this table, or whose directory isn't one
-of the nine above, still gets indexed — it lands in a catch-all `other:`
+of the typologies above, still gets indexed — it lands in a catch-all `other:`
 section rather than being dropped, so a one-off `--allow-new-type` folder
 from `create-context-file` is still discoverable. A file whose `type:`
 disagrees with the typology its *own* directory implies (e.g. `type: finding`
@@ -99,7 +100,7 @@ blocker is `done`) is `context-ready.sh`'s job, not this script's.
 | A file appears under `.context/` but not in the index | Missing or malformed frontmatter | Run `check-context-frontmatter.sh`, then `validate-context-frontmatter.sh`, to identify and fix it |
 | Index has duplicate-looking entries after a rename | The old and new paths both existed at some point | Regenerate — the index only ever reflects the files present at generation time |
 | Index is empty after regeneration | No `.md` file under `.context/` has valid frontmatter yet | Verify files exist and start with a `---\ntitle: ...\n---` block |
-| A finding/plan/etc. lands in `other:` | Its `type:` value isn't one of the nine known singular forms | Fix the typo, or confirm it's an intentional `--allow-new-type` typology |
+| A finding/plan/etc. lands in `other:` | Its `type:` value isn't one of the known singular forms in the table above | Fix the typo, or confirm it's an intentional `--allow-new-type` typology |
 
 ## Wiring Into a Pre-Commit Gate
 
