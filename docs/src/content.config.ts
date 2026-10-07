@@ -64,7 +64,20 @@ const skillExtraSchema = z.object({
       title: z.string().optional(),
       version: z.string().optional(),
       grade: z.string().optional(),
-      tags: z.array(z.string()).optional(),
+      // skill-validator-rs requires metadata values to be strings, so a
+      // skill may write tags as "a, b, c"; split it into the array pages use.
+      tags: z
+        .preprocess(
+          (value) =>
+            typeof value === "string"
+              ? value
+                  .split(",")
+                  .map((tag) => tag.trim())
+                  .filter(Boolean)
+              : value,
+          z.array(z.string()),
+        )
+        .optional(),
       category: z.string().optional(),
     })
     .passthrough()
