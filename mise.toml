@@ -62,6 +62,10 @@ run = "cargo build --release -p pantheon-adr"
 description = "Build the pantheon-journal CLI from source"
 run = "cargo build --release -p pantheon-journal"
 
+[tasks."audit:listing"]
+description = "Estimate the shared skill-listing description budget (pass flags after --, e.g. --from-settings)"
+run = ["cargo build --release -q -p skill-validator-rs", "target/release/skill-validator-rs analyze listing skills"]
+
 [tasks."audit:skill"]
 description = "Build pantheon-skill-auditor from source and run it (pass skill args after --)"
 run = ["cargo build --release -q -p pantheon-skill-auditor", "target/release/pantheon-skill-auditor evaluate"]

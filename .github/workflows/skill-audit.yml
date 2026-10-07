@@ -89,6 +89,22 @@ jobs:
         if: steps.dirs.outputs.found == 'true'
         run: cargo build --release --locked -p pantheon-skill-auditor
 
+      # Shared skill-listing budget (advisory). Every listing-eligible skill's
+      # name and description share one budget in the model's context, so a
+      # description added here spends it for every other skill. This is a
+      # whole-tree estimate against the documented fallback and the 1% band, so
+      # it never fails the job; it lands in the job summary and as a notice.
+      - name: Listing budget (advisory)
+        if: steps.dirs.outputs.found == 'true'
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          cargo build --release --locked -q -p skill-validator-rs
+          target/release/skill-validator-rs analyze listing skills --fraction 0.01 -o markdown > listing.md || exit 0
+          { echo "## Skill listing budget"; echo; cat listing.md; } >> "$GITHUB_STEP_SUMMARY"
+          target/release/skill-validator-rs analyze listing skills --fraction 0.01 -o json \
+            | jq -r '.listing | "::notice title=Skill listing budget::\(.entries | length) skills use \(.total_chars) description chars; budget \(.bands | map("\(.budget_chars) at \(.context_tokens) tokens") | join(", ")). Advisory only."' || true
+
       # Audit the same skills as they were at the base commit, with the same
       # auditor build, so the two scores compare. Skills that do not exist at the
       # base are left out (they are new). If any of this fails, base.json stays

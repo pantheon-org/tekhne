@@ -89,13 +89,25 @@ const LISTING_TOP: usize = 10;
 fn render_listing_text(l: &ListingReport) -> String {
     let mut out = format!(
         "Listing budget (estimate, advisory):\n  {} skills, {} chars of {} budget ({}); \
-         {} excluded by disable-model-invocation\n",
+         {} excluded by disable-model-invocation\n  budget: {}\n",
         l.entries.len(),
         l.total_chars,
         l.budget_chars,
         if l.over_budget() { "OVER" } else { "within" },
         l.excluded_disabled,
+        l.budget_source,
     );
+    for b in &l.bands {
+        out.push_str(&format!(
+            "  band: {} tokens -> {} chars ({})\n",
+            b.context_tokens,
+            b.budget_chars,
+            if b.over { "OVER" } else { "within" },
+        ));
+    }
+    for n in &l.notes {
+        out.push_str(&format!("  note: {n}\n"));
+    }
     for (domain, chars) in &l.by_domain {
         out.push_str(&format!("  domain {domain}: {chars}\n"));
     }
@@ -124,6 +136,21 @@ fn render_listing_markdown(l: &ListingReport) -> String {
         },
         l.excluded_disabled,
     );
+    out.push_str(&format!("Budget: {}.\n\n", l.budget_source));
+    if !l.bands.is_empty() {
+        out.push_str(
+            "| Context window | Budget | Verdict |\n| -------------- | ------ | ------- |\n",
+        );
+        for b in &l.bands {
+            out.push_str(&format!(
+                "| {} tokens | {} | {} |\n",
+                b.context_tokens,
+                b.budget_chars,
+                if b.over { "over" } else { "within" },
+            ));
+        }
+        out.push('\n');
+    }
     out.push_str("| Domain | Chars |\n| ------ | ----- |\n");
     for (domain, chars) in &l.by_domain {
         out.push_str(&format!("| {} | {chars} |\n", escape_pipes(domain)));

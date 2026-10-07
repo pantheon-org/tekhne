@@ -114,9 +114,24 @@ enum AnalyzeGroup {
     Listing {
         /// The skills root to scan.
         root: String,
-        /// Budget in characters (the documented fallback is 8000).
-        #[arg(long, default_value_t = skill_validator_rs::listing::DEFAULT_BUDGET_CHARS)]
-        budget_chars: usize,
+        /// Fixed budget in characters (the documented fallback is 8000).
+        #[arg(long)]
+        budget_chars: Option<usize>,
+        /// Model context window in tokens; budget = tokens x chars/token x fraction.
+        #[arg(long)]
+        context_tokens: Option<usize>,
+        /// `skillListingBudgetFraction` (default 0.01). Without a window, the
+        /// result is a band over 200k and 1M tokens.
+        #[arg(long)]
+        fraction: Option<f64>,
+        /// Characters per token used to derive a budget (default 4).
+        #[arg(long)]
+        chars_per_token: Option<f64>,
+        /// Also read this machine's budget: SLASH_COMMAND_TOOL_CHAR_BUDGET and
+        /// skillListingBudgetFraction from the Claude settings files. Explicit
+        /// flags win.
+        #[arg(long)]
+        from_settings: bool,
     },
 }
 
@@ -163,8 +178,27 @@ fn dispatch(cli: &Cli) -> Result<(CliReport, bool), String> {
             group: AnalyzeGroup::Content { dir },
         } => Ok((run::analyze_content_cmd(dir)?, false)),
         Command::Analyze {
-            group: AnalyzeGroup::Listing { root, budget_chars },
-        } => Ok((run::analyze_listing_cmd(root, *budget_chars)?, false)),
+            group:
+                AnalyzeGroup::Listing {
+                    root,
+                    budget_chars,
+                    context_tokens,
+                    fraction,
+                    chars_per_token,
+                    from_settings,
+                },
+        } => {
+            let inputs = skill_validator_rs::listing::BudgetInputs {
+                chars: *budget_chars,
+                context_tokens: *context_tokens,
+                fraction: *fraction,
+                chars_per_token: *chars_per_token,
+            };
+            Ok((
+                run::analyze_listing_cmd(root, inputs, *from_settings)?,
+                false,
+            ))
+        }
     }
 }
 

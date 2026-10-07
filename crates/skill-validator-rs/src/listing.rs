@@ -24,8 +24,180 @@ use crate::structure::fsutil::read_dir_sorted;
 pub const DEFAULT_BUDGET_CHARS: usize = 8000;
 /// Documented per-entry cap (`skillListingMaxDescChars`), in characters.
 pub const MAX_DESC_CHARS: usize = 1536;
+/// Documented default for `skillListingBudgetFraction`.
+pub const DEFAULT_FRACTION: f64 = 0.01;
+/// Assumed characters per token when deriving a budget from a context window.
+/// This is an assumption of the estimate, not a documented value.
+pub const DEFAULT_CHARS_PER_TOKEN: f64 = 4.0;
+/// Context windows reported as a band when only a fraction is known. Also an
+/// assumption: the window is per model and cannot be read from disk.
+pub const BAND_WINDOWS: [usize; 2] = [200_000, 1_000_000];
 /// Joiner between a skill name and its description in the listing.
 const JOINER: &str = " - ";
+
+/// What the caller knows about the budget. Every field is optional; see
+/// [`resolve_budget`] for precedence.
+#[derive(Debug, Clone, Default)]
+pub struct BudgetInputs {
+    /// A fixed aggregate budget in characters.
+    pub chars: Option<usize>,
+    /// The model's context window in tokens.
+    pub context_tokens: Option<usize>,
+    /// `skillListingBudgetFraction`.
+    pub fraction: Option<f64>,
+    /// Characters per token (default [`DEFAULT_CHARS_PER_TOKEN`]).
+    pub chars_per_token: Option<f64>,
+}
+
+/// One row of the context-window band.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct BudgetBand {
+    /// The assumed context window in tokens.
+    pub context_tokens: usize,
+    /// The budget that window gives, in characters.
+    pub budget_chars: usize,
+    /// Whether the estimated total exceeds it.
+    pub over: bool,
+}
+
+/// A resolved budget and how it was derived.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Budget {
+    /// The budget used for the headline verdict, in characters.
+    pub chars: usize,
+    /// Human-readable derivation.
+    pub source: String,
+    /// Band windows, set only when a fraction is known without a window.
+    pub band_fraction: Option<f64>,
+    /// Characters per token used for any derivation.
+    pub chars_per_token: f64,
+}
+
+fn derive_chars(tokens: usize, chars_per_token: f64, fraction: f64) -> usize {
+    (tokens as f64 * chars_per_token * fraction).floor() as usize
+}
+
+/// Resolve the budget. Precedence, highest first:
+/// 1. `chars` (a fixed budget);
+/// 2. `context_tokens` x `chars_per_token` x `fraction` (default fraction);
+/// 3. a `fraction` alone, reported as a band over [`BAND_WINDOWS`] with the
+///    smallest window as the headline;
+/// 4. the documented [`DEFAULT_BUDGET_CHARS`] fallback.
+pub fn resolve_budget(inputs: &BudgetInputs) -> Budget {
+    let cpt = inputs.chars_per_token.unwrap_or(DEFAULT_CHARS_PER_TOKEN);
+    if let Some(chars) = inputs.chars {
+        return Budget {
+            chars,
+            source: "fixed character budget".to_string(),
+            band_fraction: None,
+            chars_per_token: cpt,
+        };
+    }
+    if let Some(tokens) = inputs.context_tokens {
+        let fraction = inputs.fraction.unwrap_or(DEFAULT_FRACTION);
+        return Budget {
+            chars: derive_chars(tokens, cpt, fraction),
+            source: format!("{tokens} tokens x {cpt} chars/token x {fraction}"),
+            band_fraction: None,
+            chars_per_token: cpt,
+        };
+    }
+    if let Some(fraction) = inputs.fraction {
+        return Budget {
+            chars: derive_chars(BAND_WINDOWS[0], cpt, fraction),
+            source: format!("fraction {fraction}, band over assumed context windows"),
+            band_fraction: Some(fraction),
+            chars_per_token: cpt,
+        };
+    }
+    Budget {
+        chars: DEFAULT_BUDGET_CHARS,
+        source: "documented fallback (SLASH_COMMAND_TOOL_CHAR_BUDGET schema)".to_string(),
+        band_fraction: None,
+        chars_per_token: cpt,
+    }
+}
+
+/// Values read from the machine's environment and settings files.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct MachineSettings {
+    /// `SLASH_COMMAND_TOOL_CHAR_BUDGET`, when set to a positive integer.
+    pub env_chars: Option<usize>,
+    /// `skillListingBudgetFraction` from the first settings file that sets it.
+    pub fraction: Option<f64>,
+    /// What was read and what was not, for the report.
+    pub notes: Vec<String>,
+}
+
+/// Read the budget this machine resolves. `env` looks up an environment
+/// variable; `cwd` seeds the project-root search. Managed policy settings and a
+/// settings `env` block are not read, and the notes say so.
+pub fn read_machine_settings(env: &dyn Fn(&str) -> Option<String>, cwd: &Path) -> MachineSettings {
+    let mut out = MachineSettings::default();
+
+    if let Some(raw) = env("SLASH_COMMAND_TOOL_CHAR_BUDGET") {
+        match raw.trim().parse::<usize>() {
+            Ok(n) if n > 0 => {
+                out.env_chars = Some(n);
+                out.notes.push(format!(
+                    "SLASH_COMMAND_TOOL_CHAR_BUDGET={n} from the environment"
+                ));
+            }
+            _ => out.notes.push(format!(
+                "SLASH_COMMAND_TOOL_CHAR_BUDGET={raw:?} ignored (not a positive integer)"
+            )),
+        }
+    }
+
+    let project = env("CLAUDE_PROJECT_DIR")
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else(|| project_root(cwd));
+    let config = env("CLAUDE_CONFIG_DIR")
+        .map(std::path::PathBuf::from)
+        .or_else(|| env("HOME").map(|h| Path::new(&h).join(".claude")));
+
+    let mut files = vec![
+        project.join(".claude/settings.local.json"),
+        project.join(".claude/settings.json"),
+    ];
+    if let Some(c) = config {
+        files.push(c.join("settings.json"));
+    }
+    for file in files {
+        let Ok(text) = std::fs::read_to_string(&file) else {
+            continue;
+        };
+        let Ok(json) = serde_json::from_str::<serde_json::Value>(&text) else {
+            out.notes
+                .push(format!("{} is not valid JSON, skipped", file.display()));
+            continue;
+        };
+        if let Some(f) = json
+            .get("skillListingBudgetFraction")
+            .and_then(|v| v.as_f64())
+            .filter(|f| *f > 0.0 && *f <= 1.0)
+        {
+            out.fraction = Some(f);
+            out.notes.push(format!(
+                "skillListingBudgetFraction={f} from {}",
+                file.display()
+            ));
+            break;
+        }
+    }
+
+    out.notes
+        .push("managed policy settings and the settings env block are not read".to_string());
+    out
+}
+
+/// The nearest ancestor of `cwd` holding a `.git`, else `cwd` itself.
+fn project_root(cwd: &Path) -> std::path::PathBuf {
+    cwd.ancestors()
+        .find(|a| a.join(".git").exists())
+        .unwrap_or(cwd)
+        .to_path_buf()
+}
 
 /// One skill's contribution to the listing.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]
@@ -47,6 +219,15 @@ pub struct ListingReport {
     pub root: String,
     /// The budget the total is compared against, in characters.
     pub budget_chars: usize,
+    /// How the budget was derived.
+    pub budget_source: String,
+    /// The same total against each assumed context window; empty unless only a
+    /// fraction was known.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub bands: Vec<BudgetBand>,
+    /// Notes about the inputs (settings files read, anything skipped).
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub notes: Vec<String>,
     /// Sum of `chars` over all counted skills.
     pub total_chars: usize,
     /// Listing-eligible skills, largest first.
@@ -67,11 +248,12 @@ impl ListingReport {
 }
 
 /// Scan `root` for skills and estimate the shared listing cost against
-/// `budget_chars`.
-pub fn analyze(root: &Path, budget_chars: usize) -> ListingReport {
+/// `budget`.
+pub fn analyze(root: &Path, budget: &Budget) -> ListingReport {
     let mut report = ListingReport {
         root: root.to_string_lossy().into_owned(),
-        budget_chars,
+        budget_chars: budget.chars,
+        budget_source: budget.source.clone(),
         ..ListingReport::default()
     };
 
@@ -105,6 +287,20 @@ pub fn analyze(root: &Path, budget_chars: usize) -> ListingReport {
     report
         .entries
         .sort_by(|a, b| b.chars.cmp(&a.chars).then_with(|| a.path.cmp(&b.path)));
+
+    if let Some(fraction) = budget.band_fraction {
+        report.bands = BAND_WINDOWS
+            .iter()
+            .map(|&tokens| {
+                let chars = derive_chars(tokens, budget.chars_per_token, fraction);
+                BudgetBand {
+                    context_tokens: tokens,
+                    budget_chars: chars,
+                    over: report.total_chars > chars,
+                }
+            })
+            .collect();
+    }
     report
 }
 
@@ -177,6 +373,13 @@ mod tests {
     use super::*;
     use std::fs;
 
+    fn fixed(chars: usize) -> Budget {
+        resolve_budget(&BudgetInputs {
+            chars: Some(chars),
+            ..BudgetInputs::default()
+        })
+    }
+
     fn write_skill(root: &Path, rel: &str, frontmatter: &str) {
         let dir = root.join(rel);
         fs::create_dir_all(&dir).unwrap();
@@ -195,7 +398,7 @@ mod tests {
             "dev/alpha",
             "name: alpha\ndescription: Does a thing\n",
         );
-        let r = analyze(tmp.path(), 100);
+        let r = analyze(tmp.path(), &fixed(100));
         assert_eq!(r.entries.len(), 1);
         assert_eq!(r.total_chars, "alpha".len() + 3 + "Does a thing".len());
         assert_eq!(r.by_domain["dev"], r.total_chars);
@@ -211,7 +414,7 @@ mod tests {
             "name: hidden\ndescription: x\ndisable-model-invocation: true\n",
         );
         write_skill(tmp.path(), "dev/shown", "name: shown\ndescription: x\n");
-        let r = analyze(tmp.path(), 100);
+        let r = analyze(tmp.path(), &fixed(100));
         assert_eq!(r.excluded_disabled, 1);
         assert_eq!(r.entries.len(), 1);
         assert_eq!(r.entries[0].name, "shown");
@@ -226,7 +429,7 @@ mod tests {
             "dev/long",
             &format!("name: long\ndescription: {long}\nwhen_to_use: extra\n"),
         );
-        let r = analyze(tmp.path(), 100);
+        let r = analyze(tmp.path(), &fixed(100));
         assert!(r.entries[0].truncated);
         assert_eq!(r.entries[0].chars, 4 + 3 + MAX_DESC_CHARS);
         assert!(r.over_budget());
@@ -241,7 +444,7 @@ mod tests {
             "ops/big",
             "name: big\ndescription: much longer text\n",
         );
-        let r = analyze(tmp.path(), 8000);
+        let r = analyze(tmp.path(), &fixed(8000));
         assert_eq!(r.entries[0].name, "big");
         assert_eq!(r.entries[1].name, "small");
     }
@@ -255,7 +458,7 @@ mod tests {
             "dev/outer/evals/fixture",
             "name: fixture\ndescription: x\n",
         );
-        let r = analyze(tmp.path(), 8000);
+        let r = analyze(tmp.path(), &fixed(8000));
         assert_eq!(r.entries.len(), 1);
     }
 
@@ -265,7 +468,93 @@ mod tests {
         let dir = tmp.path().join("dev/bad");
         fs::create_dir_all(&dir).unwrap();
         fs::write(dir.join("SKILL.md"), "---\nname: bad\nnever closed\n").unwrap();
-        let r = analyze(tmp.path(), 8000);
+        let r = analyze(tmp.path(), &fixed(8000));
         assert_eq!(r.unreadable, vec!["dev/bad".to_string()]);
+    }
+
+    #[test]
+    fn budget_precedence() {
+        let d = resolve_budget(&BudgetInputs::default());
+        assert_eq!(d.chars, DEFAULT_BUDGET_CHARS);
+
+        let tokens = resolve_budget(&BudgetInputs {
+            context_tokens: Some(1_000_000),
+            ..BudgetInputs::default()
+        });
+        assert_eq!(tokens.chars, 40_000);
+
+        let fixed_wins = resolve_budget(&BudgetInputs {
+            chars: Some(123),
+            context_tokens: Some(1_000_000),
+            fraction: Some(0.5),
+            ..BudgetInputs::default()
+        });
+        assert_eq!(fixed_wins.chars, 123);
+
+        let frac = resolve_budget(&BudgetInputs {
+            fraction: Some(0.02),
+            ..BudgetInputs::default()
+        });
+        assert_eq!(frac.chars, 16_000);
+        assert_eq!(frac.band_fraction, Some(0.02));
+    }
+
+    #[test]
+    fn fraction_only_reports_a_band() {
+        let tmp = tempfile::tempdir().unwrap();
+        write_skill(tmp.path(), "dev/a", "name: a\ndescription: x\n");
+        let b = resolve_budget(&BudgetInputs {
+            fraction: Some(0.000001),
+            ..BudgetInputs::default()
+        });
+        let r = analyze(tmp.path(), &b);
+        assert_eq!(r.bands.len(), 2);
+        assert_eq!(r.bands[0].context_tokens, 200_000);
+        assert!(r.bands.iter().all(|x| x.over));
+    }
+
+    #[test]
+    fn machine_settings_reads_first_file_that_sets_the_fraction() {
+        let tmp = tempfile::tempdir().unwrap();
+        let project = tmp.path().join("proj");
+        let config = tmp.path().join("cfg");
+        fs::create_dir_all(project.join(".claude")).unwrap();
+        fs::create_dir_all(&config).unwrap();
+        fs::write(
+            project.join(".claude/settings.json"),
+            r#"{"skillListingBudgetFraction": 0.02}"#,
+        )
+        .unwrap();
+        fs::write(
+            config.join("settings.json"),
+            r#"{"skillListingBudgetFraction": 0.5}"#,
+        )
+        .unwrap();
+        let project_s = project.to_string_lossy().into_owned();
+        let config_s = config.to_string_lossy().into_owned();
+        let env = move |k: &str| match k {
+            "CLAUDE_PROJECT_DIR" => Some(project_s.clone()),
+            "CLAUDE_CONFIG_DIR" => Some(config_s.clone()),
+            "SLASH_COMMAND_TOOL_CHAR_BUDGET" => Some("12000".to_string()),
+            _ => None,
+        };
+        let m = read_machine_settings(&env, tmp.path());
+        assert_eq!(m.fraction, Some(0.02));
+        assert_eq!(m.env_chars, Some(12_000));
+        assert!(m.notes.iter().any(|n| n.contains("not read")));
+    }
+
+    #[test]
+    fn machine_settings_ignores_bad_values() {
+        let tmp = tempfile::tempdir().unwrap();
+        let env = |k: &str| match k {
+            "SLASH_COMMAND_TOOL_CHAR_BUDGET" => Some("lots".to_string()),
+            "CLAUDE_PROJECT_DIR" => Some("/nonexistent".to_string()),
+            "CLAUDE_CONFIG_DIR" => Some("/nonexistent".to_string()),
+            _ => None,
+        };
+        let m = read_machine_settings(&env, tmp.path());
+        assert_eq!(m.env_chars, None);
+        assert_eq!(m.fraction, None);
     }
 }

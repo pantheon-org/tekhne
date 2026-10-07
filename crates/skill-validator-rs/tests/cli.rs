@@ -218,3 +218,87 @@ fn analyze_listing_missing_root_is_an_error() {
     let out = run(&["analyze", "listing", "/nonexistent/skills-root"]);
     assert_eq!(code(&out), 1);
 }
+
+#[test]
+fn analyze_listing_context_window_and_band() {
+    let tmp = tempfile::tempdir().unwrap();
+    write_listing_skill(
+        tmp.path(),
+        "dev/alpha",
+        "name: alpha\ndescription: Does a thing\n",
+    );
+    let root = tmp.path().to_str().unwrap();
+
+    // 1000 tokens x 4 chars x 0.01 = 40 chars: the one skill (20 chars) fits.
+    let win = run(&["analyze", "listing", root, "--context-tokens", "1000"]);
+    assert_eq!(code(&win), 0);
+    assert!(
+        stdout(&win).contains("of 40 budget (within)"),
+        "{}",
+        stdout(&win)
+    );
+
+    let band = run(&["analyze", "listing", root, "--fraction", "0.01"]);
+    assert_eq!(code(&band), 0);
+    assert!(stdout(&band).contains("band: 200000 tokens -> 8000 chars"));
+    assert!(stdout(&band).contains("band: 1000000 tokens -> 40000 chars"));
+
+    let bad = run(&["analyze", "listing", root, "--fraction", "2"]);
+    assert_eq!(code(&bad), 1);
+}
+
+#[test]
+fn analyze_listing_from_settings_reads_env_and_project_file() {
+    let tmp = tempfile::tempdir().unwrap();
+    let skills = tmp.path().join("skills");
+    write_listing_skill(
+        &skills,
+        "dev/alpha",
+        "name: alpha\ndescription: Does a thing\n",
+    );
+    let project = tmp.path().join("proj");
+    std::fs::create_dir_all(project.join(".claude")).unwrap();
+    std::fs::write(
+        project.join(".claude/settings.json"),
+        r#"{"skillListingBudgetFraction": 0.02}"#,
+    )
+    .unwrap();
+
+    let bin = env!("CARGO_BIN_EXE_skill-validator-rs");
+    let from_file = Command::new(bin)
+        .args([
+            "analyze",
+            "listing",
+            skills.to_str().unwrap(),
+            "--from-settings",
+        ])
+        .env("CLAUDE_PROJECT_DIR", &project)
+        .env("CLAUDE_CONFIG_DIR", tmp.path().join("nocfg"))
+        .env_remove("SLASH_COMMAND_TOOL_CHAR_BUDGET")
+        .output()
+        .unwrap();
+    let text = stdout(&from_file);
+    assert!(
+        text.contains("band: 200000 tokens -> 16000 chars"),
+        "{text}"
+    );
+    assert!(text.contains("skillListingBudgetFraction=0.02"), "{text}");
+
+    let from_env = Command::new(bin)
+        .args([
+            "analyze",
+            "listing",
+            skills.to_str().unwrap(),
+            "--from-settings",
+        ])
+        .env("CLAUDE_PROJECT_DIR", &project)
+        .env("CLAUDE_CONFIG_DIR", tmp.path().join("nocfg"))
+        .env("SLASH_COMMAND_TOOL_CHAR_BUDGET", "10")
+        .output()
+        .unwrap();
+    assert!(
+        stdout(&from_env).contains("of 10 budget (OVER)"),
+        "{}",
+        stdout(&from_env)
+    );
+}
