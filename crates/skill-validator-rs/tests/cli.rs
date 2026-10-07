@@ -302,3 +302,55 @@ fn analyze_listing_from_settings_reads_env_and_project_file() {
         stdout(&from_env)
     );
 }
+
+fn write_trigger_skill(dir: &std::path::Path, description: &str) {
+    std::fs::create_dir_all(dir).unwrap();
+    std::fs::write(
+        dir.join("SKILL.md"),
+        format!("---\nname: s\ndescription: {description}\n---\n\nBody\n"),
+    )
+    .unwrap();
+}
+
+#[test]
+fn analyze_triggers_names_dropped_phrases_and_stays_advisory() {
+    let tmp = tempfile::tempdir().unwrap();
+    let (base, head) = (tmp.path().join("base"), tmp.path().join("head"));
+    write_trigger_skill(&base, "'X. Use when running lint, fixing formatter drift'");
+    write_trigger_skill(&head, "'X. Use when running lint'");
+
+    let out = run(&[
+        "analyze",
+        "triggers",
+        head.to_str().unwrap(),
+        "--base",
+        base.to_str().unwrap(),
+    ]);
+    assert_eq!(code(&out), 0);
+    assert!(
+        stdout(&out).contains("fixing formatter drift"),
+        "{}",
+        stdout(&out)
+    );
+
+    let json = run(&[
+        "analyze",
+        "triggers",
+        head.to_str().unwrap(),
+        "--base",
+        base.to_str().unwrap(),
+        "-o",
+        "json",
+    ]);
+    assert!(stdout(&json).contains("\"dropped\""));
+
+    let new = run(&[
+        "analyze",
+        "triggers",
+        head.to_str().unwrap(),
+        "--base",
+        "/nonexistent/base",
+    ]);
+    assert_eq!(code(&new), 0);
+    assert!(stdout(&new).contains("new skill"));
+}

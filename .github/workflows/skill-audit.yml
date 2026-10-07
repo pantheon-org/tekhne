@@ -127,6 +127,31 @@ jobs:
           (cd "$base" && "$GITHUB_WORKSPACE/target/release/pantheon-skill-auditor" batch "${rels[@]}" --json) > base.json.tmp 2>/dev/null \
             && mv base.json.tmp base.json
 
+      # Trigger-phrase drift (advisory). A rewrite can drop a description phrase
+      # that auto-invocation relied on while every score stays flat. Compare each
+      # changed skill's description with the same skill in the base worktree made
+      # above and list the phrases that vanished. It never fails the job: a drop
+      # is often a deliberate consolidation, so the comment asks the reviewer to
+      # confirm. A skill with no base copy is new and reports nothing. Phrases
+      # come from the pull request, so the markup characters are stripped before
+      # they reach the comment.
+      - name: Trigger phrase drift (advisory)
+        if: steps.dirs.outputs.found == 'true'
+        continue-on-error: true
+        run: |
+          set -uo pipefail
+          : > drift.md
+          cargo build --release --locked -q -p skill-validator-rs || exit 0
+          base="$RUNNER_TEMP/base"
+          for dir in ${{ steps.dirs.outputs.dirs }}; do
+            rel="${dir#skills/}"
+            target/release/skill-validator-rs analyze triggers "$dir" --base "$base/skills/$rel" -o json 2>/dev/null \
+              | jq -r 'select(.triggers.dropped | length > 0)
+                  | "- `\(.triggers.skill_dir | sub("^skills/"; "") | gsub("[`<>@&|]"; ""))`: "
+                    + (.triggers.dropped | map("`" + gsub("[`<>@&|]"; "") + "`") | join(", "))' >> drift.md || true
+          done
+          [ -s drift.md ] && echo "::notice title=Trigger phrase drift::$(wc -l < drift.md) changed skill(s) dropped description trigger phrases. Advisory only; see the Skill Audit comment." || true
+
       # Cross-skill duplication scan over the whole skills/ tree. Advisory here:
       # skill families legitimately share structure (the tree-wide maximum today
       # is ~54% similarity), so a hard tree-wide gate would be permanently red.
@@ -276,6 +301,11 @@ jobs:
             if [ -s tracked-issues.md ]; then
               printf '**Tracking issues** (one open issue per skill below B that this pull request did not lower, filed automatically):\n\n'
               cat tracked-issues.md
+              printf '\n'
+            fi
+            if [ -s drift.md ]; then
+              printf '**Dropped trigger phrases** (advisory; confirm the description still names each intent, or restore the phrase):\n\n'
+              cat drift.md
               printf '\n'
             fi
             if [ "$1" = 1 ] && [ -s details.md ]; then

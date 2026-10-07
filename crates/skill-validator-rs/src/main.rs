@@ -109,6 +109,16 @@ enum AnalyzeGroup {
         /// The skill directory.
         dir: String,
     },
+    /// Name trigger phrases a skill's description carried at a base and no
+    /// longer carries. Advisory: always exits 0.
+    Triggers {
+        /// The head skill directory.
+        dir: String,
+        /// The same skill at the base commit (a checkout or worktree). A
+        /// directory without a SKILL.md means a new skill.
+        #[arg(long)]
+        base: String,
+    },
     /// Estimate the shared skill-listing description budget for a skills root.
     /// Advisory: always exits 0.
     Listing {
@@ -177,6 +187,9 @@ fn dispatch(cli: &Cli) -> Result<(CliReport, bool), String> {
         Command::Analyze {
             group: AnalyzeGroup::Content { dir },
         } => Ok((run::analyze_content_cmd(dir)?, false)),
+        Command::Analyze {
+            group: AnalyzeGroup::Triggers { dir, base },
+        } => Ok((run::analyze_triggers_cmd(dir, base)?, false)),
         Command::Analyze {
             group:
                 AnalyzeGroup::Listing {
