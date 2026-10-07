@@ -10,6 +10,7 @@
 //! - pre-push:   `skill-validator-rs check --allow-dirs=evals --per-file <dir>`.
 
 mod model;
+mod probes_cmd;
 mod render;
 mod run;
 
@@ -79,6 +80,12 @@ enum Command {
     Check {
         /// The skill directory.
         dir: String,
+    },
+    /// Invocation probes: would a skill's description win the requests it should?
+    /// A lexical estimate, never a model-graded rate; always advisory.
+    Probes {
+        #[command(subcommand)]
+        action: probes_cmd::ProbesAction,
     },
     /// Analyse a skill without validating (subgroups select the analysis).
     Analyze {
@@ -164,6 +171,10 @@ fn main() -> ExitCode {
         Err(err) => return handle_parse_error(err),
     };
 
+    if let Command::Probes { action } = &cli.command {
+        return probes_cmd::run(action);
+    }
+
     match dispatch(&cli) {
         Ok((report, gated)) => finish(&cli, &report, gated),
         Err(message) => {
@@ -184,6 +195,7 @@ fn dispatch(cli: &Cli) -> Result<(CliReport, bool), String> {
             group: ValidateGroup::Artifacts { paths },
         } => Ok((run::validate_artifacts(paths), true)),
         Command::Check { dir } => Ok((run::check(dir, &cli.options(), cli.per_file), true)),
+        Command::Probes { .. } => unreachable!("handled before dispatch"),
         Command::Analyze {
             group: AnalyzeGroup::Content { dir },
         } => Ok((run::analyze_content_cmd(dir)?, false)),

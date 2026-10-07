@@ -69,6 +69,10 @@ run = "cargo build --release -p pantheon-journal"
 description = "Estimate the shared skill-listing description budget (pass flags after --, e.g. --from-settings)"
 run = ["cargo build --release -q -p skill-validator-rs", "target/release/skill-validator-rs analyze listing skills"]
 
+[tasks."audit:probes"]
+description = "Validate the invocation probes, then score them (pass skill-validator-rs probes flags after --)"
+run = ["cargo build --release -q -p skill-validator-rs", "target/release/skill-validator-rs probes validate probes", "target/release/skill-validator-rs probes score probes"]
+
 [tasks."audit:skill"]
 description = "Build pantheon-skill-auditor from source and run it (pass skill args after --)"
 run = ["cargo build --release -q -p pantheon-skill-auditor", "target/release/pantheon-skill-auditor evaluate"]
