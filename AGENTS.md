@@ -74,6 +74,8 @@ bunx @biomejs/biome check .
 mise run lint   # rumdl check . (config: .rumdl.toml)
 ```
 
+Frontmatter limits enforced by `skill-validator-rs validate structure`: `description` over 1024 bytes is an error, and one within 32 bytes of it warns so the ceiling is visible before the next trigger phrase breaches it. An unquoted `description` containing `": "` or a line ending in `:` fails YAML parsing, and the error says so; quote the value or use a block scalar (`description: |-`).
+
 ## Pull Requests
 
 Open pull requests from `.github/pull_request_template.md` and keep its three headings, `## What`, `## Why` and `## Notes`, in that order. Use a conventional-commit title (`type(scope): lowercase summary`), put verification evidence and anything left for later under Notes, and end with `Refs #N` for partial work or `Closes #N` when the pull request finishes the issue.

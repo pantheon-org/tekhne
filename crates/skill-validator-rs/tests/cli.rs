@@ -354,3 +354,67 @@ fn analyze_triggers_names_dropped_phrases_and_stays_advisory() {
     assert_eq!(code(&new), 0);
     assert!(stdout(&new).contains("new skill"));
 }
+
+fn write_fm_skill(dir: &std::path::Path, frontmatter: &str) {
+    std::fs::create_dir_all(dir).unwrap();
+    let name = dir.file_name().unwrap().to_string_lossy().into_owned();
+    std::fs::write(
+        dir.join("SKILL.md"),
+        format!("---\nname: {name}\n{frontmatter}\n---\n\n# S\n\nBody text for the skill with enough words to count.\n"),
+    )
+    .unwrap();
+}
+
+#[test]
+fn unquoted_description_with_colon_gets_an_actionable_error() {
+    let tmp = tempfile::tempdir().unwrap();
+    let dir = tmp.path().join("s");
+    write_fm_skill(&dir, "description: Does a thing. Use when: building tools");
+    let out = run(&["validate", "structure", dir.to_str().unwrap()]);
+    assert_eq!(code(&out), 1);
+    assert!(
+        stdout(&out).contains("wrap the description in quotes"),
+        "{}",
+        stdout(&out)
+    );
+
+    let quoted = tmp.path().join("q");
+    write_fm_skill(
+        &quoted,
+        "description: 'Does a thing. Use when: building tools'",
+    );
+    assert_eq!(
+        code(&run(&["validate", "structure", quoted.to_str().unwrap()])),
+        0
+    );
+}
+
+#[test]
+fn description_near_the_limit_warns_and_over_it_errors() {
+    let tmp = tempfile::tempdir().unwrap();
+    let near = tmp.path().join("near");
+    write_fm_skill(
+        &near,
+        &format!("description: {}", "word ".repeat(210)[..1000].trim_end()),
+    );
+    let out = run(&["validate", "structure", near.to_str().unwrap()]);
+    assert_eq!(code(&out), 2, "{}", stdout(&out));
+    assert!(stdout(&out).contains("left"), "{}", stdout(&out));
+
+    let over = tmp.path().join("over");
+    write_fm_skill(&over, &format!("description: {}", "a".repeat(1100)));
+    assert_eq!(
+        code(&run(&["validate", "structure", over.to_str().unwrap()])),
+        1
+    );
+
+    let fine = tmp.path().join("fine");
+    write_fm_skill(
+        &fine,
+        "description: A sufficiently descriptive description for a plain test skill.",
+    );
+    assert_eq!(
+        code(&run(&["validate", "structure", fine.to_str().unwrap()])),
+        0
+    );
+}

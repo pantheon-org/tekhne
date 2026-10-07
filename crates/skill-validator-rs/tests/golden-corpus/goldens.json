@@ -1288,6 +1288,13 @@
           "Line": 0
         },
         {
+          "Level": 2,
+          "Category": "Frontmatter",
+          "Message": "description is 1024 of 1024 characters, 0 left; the next added trigger phrase may breach the limit",
+          "File": "SKILL.md",
+          "Line": 0
+        },
+        {
           "Level": 0,
           "Category": "Markdown",
           "Message": "no unclosed code fences found",
@@ -1303,7 +1310,7 @@
       ],
       "other_token_counts": [],
       "errors": 0,
-      "warnings": 0
+      "warnings": 1
     }
   },
   {
