@@ -1,36 +1,56 @@
 {
   "type": "weighted_checklist",
-  "context": "Evaluates: Proactively Detect and Capture a Bridge Opportunity",
+  "context": "Evaluates: Capture a bridge the user never typed a command for",
   "checklist": [
     {
-      "name": "Bridge is captured without the user",
-      "description": "Bridge is captured without the user issuing an explicit `/bridge` command.",
-      "max_score": 17
+      "name": "Captures unprompted",
+      "description": "Captures the bridge without the user typing `/bridge`.",
+      "max_score": 10
     },
     {
-      "name": "YAML file is written with archetype:",
-      "description": "YAML file is written with `archetype: complexity` and `emoji: 🔬`.",
-      "max_score": 17
+      "name": "No confirmation",
+      "description": "Does not ask the user to confirm or to retype the request.",
+      "max_score": 10
     },
     {
-      "name": "Source and target aliases are correctly",
-      "description": "Source and target aliases are correctly resolved from project names.",
-      "max_score": 17
+      "name": "Resolves aliases",
+      "description": "Maps the project names to REG and FIN.",
+      "max_score": 10
     },
     {
-      "name": "Response is one line in the",
-      "description": "Response is one line in the canonical `🔗 Bridge #N:` format.",
-      "max_score": 17
+      "name": "Archetype complexity",
+      "description": "Sets `archetype: complexity` and `emoji: 🔬`, because several distinct signals support it.",
+      "max_score": 10
     },
     {
-      "name": "Agent does not ask the user",
-      "description": "Agent does not ask the user for confirmation before capturing.",
-      "max_score": 16
+      "name": "Direction and strength",
+      "description": "Sets `direction: one-way` and `strength: potential`.",
+      "max_score": 10
     },
     {
-      "name": "Agent resumes the conversation immediately after",
-      "description": "Agent resumes the conversation immediately after the capture line.",
-      "max_score": 16
+      "name": "Description kept",
+      "description": "Stores the user's wording without rewriting it.",
+      "max_score": 10
+    },
+    {
+      "name": "Bridges directory only",
+      "description": "Writes only inside the bridges directory.",
+      "max_score": 10
+    },
+    {
+      "name": "One-line response",
+      "description": "Replies with a single `🔗 Bridge #1:` line.",
+      "max_score": 10
+    },
+    {
+      "name": "No analysis",
+      "description": "Adds no paragraphs about the bridge.",
+      "max_score": 10
+    },
+    {
+      "name": "Resumes",
+      "description": "Returns to the compliance checklist immediately.",
+      "max_score": 10
     }
   ]
 }

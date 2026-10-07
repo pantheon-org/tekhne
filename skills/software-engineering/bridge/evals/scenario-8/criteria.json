@@ -1,0 +1,56 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Do not write a duplicate bridge",
+  "checklist": [
+    {
+      "name": "Reads existing files",
+      "description": "Globs and reads the existing bridges before writing.",
+      "max_score": 10
+    },
+    {
+      "name": "Compares the pair",
+      "description": "Compares source, target and archetype with the existing bridge.",
+      "max_score": 10
+    },
+    {
+      "name": "Recognises the match",
+      "description": "Identifies `2026-04-02-1-hp-to-br.yaml` as the same idea.",
+      "max_score": 10
+    },
+    {
+      "name": "Writes nothing",
+      "description": "Creates no new file.",
+      "max_score": 10
+    },
+    {
+      "name": "Leaves the original",
+      "description": "Does not modify the existing file.",
+      "max_score": 10
+    },
+    {
+      "name": "Names the file",
+      "description": "Names the existing file in the reply.",
+      "max_score": 10
+    },
+    {
+      "name": "One line",
+      "description": "Replies in one line, such as `🔗 Already captured: 2026-04-02-1-hp-to-br.yaml`.",
+      "max_score": 10
+    },
+    {
+      "name": "No bridge number",
+      "description": "Does not claim a new bridge number.",
+      "max_score": 10
+    },
+    {
+      "name": "No commentary",
+      "description": "Adds no commentary on the content.",
+      "max_score": 10
+    },
+    {
+      "name": "Resumes",
+      "description": "Resumes the prior conversation.",
+      "max_score": 10
+    }
+  ]
+}

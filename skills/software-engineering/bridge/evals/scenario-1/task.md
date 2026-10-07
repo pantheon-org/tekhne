@@ -1,26 +1,9 @@
-# Scenario 1: Capture a Shared Pattern Between Two Projects
+# Scenario 1: Capture a knowledge bridge when a sequence number has been freed
 
 ## User Prompt
 
-"/bridge HP → DS: the observability framework we built for the dashboard is reusable as atelier content"
+"/bridge HP → DS: the observability framework we built for the dashboard is reusable: same alerting rules apply to the atelier content"
 
-## Expected Behavior
+## Repository State
 
-1. Agent loads the project config to resolve aliases `HP` and `DS`.
-2. Agent parses the command: source=`HP`, target=`DS`, description from after the colon.
-3. Agent auto-detects archetype from description keywords ("framework", "reusable") → `knowledge`.
-4. Agent detects direction as `one-way` (no bidirectional indicator) and strength as `potential` (no active/theoretical keywords).
-5. Agent checks the configured workspace root for the bridges directory.
-6. Agent determines today's sequence number by counting existing `{date}-*` files.
-7. Agent writes a YAML file named `{date}-{seq}-hp-to-ds.yaml` with the correct schema fields.
-8. Agent responds with one line: `🔗 Bridge #N: 🧠 HP → DS (knowledge) — observability framework reusable as atelier content`.
-9. Agent resumes prior work immediately.
-
-## Failure Conditions
-
-- Agent stores a reformulated description instead of the user's verbatim text.
-- Agent assigns the wrong archetype (e.g., `narrative` instead of `knowledge`).
-- Agent creates the file in a location other than the configured bridges directory.
-- YAML file is missing one or more required schema fields.
-- Agent adds explanatory paragraphs after the capture response.
-- Agent does not resume the prior conversation after pinning.
+Project config defines aliases HP (Homo Promptus), DS (Digital Stoic), SL (Slasheo), BR (Personal Brand), FIN (Financial Planning), REG (Regulatory Compliance), CUR (Audience Building) and LTG (Platform Launch). Stakeholder Matthieu has `also_in: [HP, SL]`. `$PRAXIS_DIR` is set and the bridges directory exists. Today is 2026-04-08. The bridges directory holds `2026-04-08-1-hp-to-br.yaml` and `2026-04-08-3-ds-to-sl.yaml`. Number 2 was deleted earlier in the day.

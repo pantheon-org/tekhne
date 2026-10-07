@@ -1,36 +1,56 @@
 {
   "type": "weighted_checklist",
-  "context": "Evaluates: List All Bridges",
+  "context": "Evaluates: List bridges for one project",
   "checklist": [
     {
-      "name": "Output header is 🔗 Bridges (last",
-      "description": "Output header is `🔗 Bridges (last 10)` (or fewer if less than 10 exist).",
-      "max_score": 17
+      "name": "Globs the directory",
+      "description": "Reads the YAML files from the bridges directory.",
+      "max_score": 10
     },
     {
-      "name": "Each line shows date, emoji, source,",
-      "description": "Each line shows date, emoji, source, arrow notation, target, description, and strength.",
-      "max_score": 17
+      "name": "Project filter",
+      "description": "Includes only bridges where HP is source or target.",
+      "max_score": 10
     },
     {
-      "name": "List is sorted by date descending",
-      "description": "List is sorted by date descending (most recent first).",
-      "max_score": 17
+      "name": "Header",
+      "description": "Prints the `🔗 Bridges (last 10)` header.",
+      "max_score": 10
     },
     {
-      "name": "Bidirectional bridges use ↔ arrow, one-way",
-      "description": "Bidirectional bridges use `↔` arrow, one-way bridges use `→`.",
-      "max_score": 17
+      "name": "Ten at most",
+      "description": "Shows 10 entries, not 12.",
+      "max_score": 10
     },
     {
-      "name": "Empty-directory case returns the correct empty-state",
-      "description": "Empty-directory case returns the correct empty-state message with usage hint.",
-      "max_score": 16
+      "name": "Date order",
+      "description": "Sorts by date descending.",
+      "max_score": 10
     },
     {
-      "name": "No YAML files are created or",
-      "description": "No YAML files are created or modified during listing.",
-      "max_score": 16
+      "name": "Tie order",
+      "description": "Orders the two same-day bridges by sequence number.",
+      "max_score": 10
+    },
+    {
+      "name": "Arrow per direction",
+      "description": "Uses `→` for one-way bridges and `↔` for the bidirectional one.",
+      "max_score": 10
+    },
+    {
+      "name": "Line contents",
+      "description": "Shows date, emoji, source, target, description and strength on each line.",
+      "max_score": 10
+    },
+    {
+      "name": "No raw YAML",
+      "description": "Displays the formatted list, not raw YAML.",
+      "max_score": 10
+    },
+    {
+      "name": "Read only",
+      "description": "Creates and modifies no files.",
+      "max_score": 10
     }
   ]
 }

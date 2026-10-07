@@ -1,0 +1,56 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Default to knowledge and flag it when signals are weak",
+  "checklist": [
+    {
+      "name": "Single keyword noticed",
+      "description": "Treats \"local\" as a single weak signal, not as proof of `local`.",
+      "max_score": 10
+    },
+    {
+      "name": "Archetype knowledge",
+      "description": "Sets `archetype: knowledge` and `emoji: 🧠`.",
+      "max_score": 10
+    },
+    {
+      "name": "Flags the default",
+      "description": "Marks the response with `, defaulted` inside the brackets.",
+      "max_score": 10
+    },
+    {
+      "name": "Strength theoretical",
+      "description": "Sets `strength: theoretical`, because \"maybe\" is checked before \"could\".",
+      "max_score": 10
+    },
+    {
+      "name": "Direction one-way",
+      "description": "Sets `direction: one-way`.",
+      "max_score": 10
+    },
+    {
+      "name": "Verbatim description",
+      "description": "Stores the description exactly as typed.",
+      "max_score": 10
+    },
+    {
+      "name": "Not rare",
+      "description": "Does not set `local`, `mirror` or `complexity`.",
+      "max_score": 10
+    },
+    {
+      "name": "One line",
+      "description": "Replies with a single line in the specified format.",
+      "max_score": 10
+    },
+    {
+      "name": "No explanation",
+      "description": "Does not lecture on how the archetype was chosen.",
+      "max_score": 10
+    },
+    {
+      "name": "Resumes",
+      "description": "Resumes the prior conversation.",
+      "max_score": 10
+    }
+  ]
+}

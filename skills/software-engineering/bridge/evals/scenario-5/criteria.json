@@ -1,36 +1,56 @@
 {
   "type": "weighted_checklist",
-  "context": "Evaluates: Bridge a Current Project to a Long-Term Goal",
+  "context": "Evaluates: Capture an option-value bridge and trigger the weekly nudge",
   "checklist": [
     {
-      "name": "YAML file has archetype: option and",
-      "description": "YAML file has `archetype: option` and `emoji: ⚡`.",
-      "max_score": 17
+      "name": "Archetype option",
+      "description": "Sets `archetype: option` and `emoji: ⚡`.",
+      "max_score": 10
     },
     {
-      "name": "YAML file has strength: potential",
-      "description": "YAML file has `strength: potential`.",
-      "max_score": 17
+      "name": "Strength potential",
+      "description": "Sets `strength: potential` from \"unlocks\" and \"if it works\".",
+      "max_score": 10
     },
     {
-      "name": "YAML file has direction: one-way",
-      "description": "YAML file has `direction: one-way`.",
-      "max_score": 17
+      "name": "Direction one-way",
+      "description": "Sets `direction: one-way`.",
+      "max_score": 10
     },
     {
-      "name": "No files written outside the bridges",
-      "description": "No files written outside the bridges directory.",
-      "max_score": 17
+      "name": "Sequence number",
+      "description": "Picks the next free sequence number for the day.",
+      "max_score": 10
     },
     {
-      "name": "Response is a single line in",
-      "description": "Response is a single line in the `🔗 Bridge #N:` format.",
-      "max_score": 16
+      "name": "Verbatim description",
+      "description": "Stores the description exactly as typed.",
+      "max_score": 10
     },
     {
-      "name": "Description is stored verbatim (no reformulation)",
-      "description": "Description is stored verbatim (no reformulation).",
-      "max_score": 16
+      "name": "No GTD write",
+      "description": "Does not touch the GTD task file.",
+      "max_score": 10
+    },
+    {
+      "name": "No other writes",
+      "description": "Writes nothing outside the bridges directory.",
+      "max_score": 10
+    },
+    {
+      "name": "Response format",
+      "description": "Starts with the one-line `🔗 Bridge #N:` response.",
+      "max_score": 10
+    },
+    {
+      "name": "Weekly nudge",
+      "description": "Appends the nudge noting 3 bridges this week for the CUR and LTG pair.",
+      "max_score": 10
+    },
+    {
+      "name": "No other commentary",
+      "description": "Adds nothing beyond the response line and the nudge.",
+      "max_score": 10
     }
   ]
 }

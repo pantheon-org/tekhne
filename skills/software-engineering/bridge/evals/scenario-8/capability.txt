@@ -1,0 +1,1 @@
+Check existing bridges before writing, and report an existing match instead of creating a second file.

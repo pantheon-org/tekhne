@@ -1,0 +1,1 @@
+Fail early and clearly when the config is absent, instead of guessing aliases.

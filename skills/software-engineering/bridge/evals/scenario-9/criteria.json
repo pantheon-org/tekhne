@@ -1,0 +1,56 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Print the map and the stats without changing anything",
+  "checklist": [
+    {
+      "name": "Reads all files",
+      "description": "Reads every bridge file and the config.",
+      "max_score": 10
+    },
+    {
+      "name": "Config labels",
+      "description": "Uses project names from config as node labels.",
+      "max_score": 10
+    },
+    {
+      "name": "Mermaid block",
+      "description": "Prints a mermaid `graph LR` block.",
+      "max_score": 10
+    },
+    {
+      "name": "Strength colours",
+      "description": "Colours active green, potential orange and theoretical pink.",
+      "max_score": 10
+    },
+    {
+      "name": "Bidirectional edges",
+      "description": "Draws a bidirectional bridge with `<-->`.",
+      "max_score": 10
+    },
+    {
+      "name": "Stats header",
+      "description": "Prints the `📊 Bridge Stats` block.",
+      "max_score": 10
+    },
+    {
+      "name": "Exact counts",
+      "description": "Reports 3 this week and 9 all time, with the counts by archetype and strength matching the files.",
+      "max_score": 10
+    },
+    {
+      "name": "Tier information",
+      "description": "Includes tier information from config.",
+      "max_score": 10
+    },
+    {
+      "name": "No interpretation",
+      "description": "Offers no recommendations or reading of the counts.",
+      "max_score": 10
+    },
+    {
+      "name": "Read only",
+      "description": "Creates and modifies no files.",
+      "max_score": 10
+    }
+  ]
+}
