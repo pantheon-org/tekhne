@@ -15,6 +15,7 @@ pub mod artifacts;
 pub mod contamination;
 pub mod content;
 pub mod links;
+pub mod listing;
 pub mod skill;
 pub mod structure;
 pub mod types;

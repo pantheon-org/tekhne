@@ -5,6 +5,7 @@
 use clap::ValueEnum;
 use serde::Serialize;
 
+use skill_validator_rs::listing::ListingReport;
 use skill_validator_rs::{ContaminationReport, ContentReport, TokenCount, ValidationResult};
 
 /// The report shape produced by every command and handed to the renderers.
@@ -35,6 +36,9 @@ pub struct CliReport {
     /// Per-reference-file analysis (check --per-file only).
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub reference_reports: Vec<ReferenceReport>,
+    /// Shared listing-budget estimate (analyze listing only).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub listing: Option<ListingReport>,
     /// Count of error-level results.
     pub errors: usize,
     /// Count of warning-level results.

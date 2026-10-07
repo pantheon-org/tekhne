@@ -109,6 +109,15 @@ enum AnalyzeGroup {
         /// The skill directory.
         dir: String,
     },
+    /// Estimate the shared skill-listing description budget for a skills root.
+    /// Advisory: always exits 0.
+    Listing {
+        /// The skills root to scan.
+        root: String,
+        /// Budget in characters (the documented fallback is 8000).
+        #[arg(long, default_value_t = skill_validator_rs::listing::DEFAULT_BUDGET_CHARS)]
+        budget_chars: usize,
+    },
 }
 
 impl Cli {
@@ -153,6 +162,9 @@ fn dispatch(cli: &Cli) -> Result<(CliReport, bool), String> {
         Command::Analyze {
             group: AnalyzeGroup::Content { dir },
         } => Ok((run::analyze_content_cmd(dir)?, false)),
+        Command::Analyze {
+            group: AnalyzeGroup::Listing { root, budget_chars },
+        } => Ok((run::analyze_listing_cmd(root, *budget_chars)?, false)),
     }
 }
 

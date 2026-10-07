@@ -172,3 +172,49 @@ fn annotations_do_not_pollute_json_stdout() {
         "annotations emitted to stderr: {err}"
     );
 }
+
+/// Write a minimal skill under `root/rel` for the listing-budget tests.
+fn write_listing_skill(root: &std::path::Path, rel: &str, frontmatter: &str) {
+    let dir = root.join(rel);
+    std::fs::create_dir_all(&dir).unwrap();
+    std::fs::write(
+        dir.join("SKILL.md"),
+        format!("---\n{frontmatter}---\n\nBody\n"),
+    )
+    .unwrap();
+}
+
+#[test]
+fn analyze_listing_is_advisory_and_reports_overflow() {
+    let tmp = tempfile::tempdir().unwrap();
+    write_listing_skill(
+        tmp.path(),
+        "dev/alpha",
+        "name: alpha\ndescription: Does a thing\n",
+    );
+    write_listing_skill(
+        tmp.path(),
+        "dev/hidden",
+        "name: hidden\ndescription: x\ndisable-model-invocation: true\n",
+    );
+    let root = tmp.path().to_str().unwrap();
+
+    let within = run(&["analyze", "listing", root]);
+    assert_eq!(code(&within), 0, "stdout: {}", stdout(&within));
+    assert!(stdout(&within).contains("1 skills"));
+    assert!(stdout(&within).contains("1 excluded"));
+
+    // Over budget is still advisory: exit 0.
+    let over = run(&["analyze", "listing", root, "--budget-chars", "5"]);
+    assert_eq!(code(&over), 0);
+    assert!(stdout(&over).contains("OVER"));
+
+    let json = run(&["analyze", "listing", root, "-o", "json"]);
+    assert!(stdout(&json).contains("\"total_chars\""));
+}
+
+#[test]
+fn analyze_listing_missing_root_is_an_error() {
+    let out = run(&["analyze", "listing", "/nonexistent/skills-root"]);
+    assert_eq!(code(&out), 1);
+}

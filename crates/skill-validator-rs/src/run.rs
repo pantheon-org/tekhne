@@ -81,6 +81,19 @@ pub fn analyze_content_cmd(dir: &str) -> Result<CliReport, String> {
     })
 }
 
+/// Run `analyze listing <root>`: the shared listing-budget estimate.
+pub fn analyze_listing_cmd(root: &str, budget_chars: usize) -> Result<CliReport, String> {
+    let path = Path::new(root);
+    if !path.is_dir() {
+        return Err(format!("skills root not found: {root}"));
+    }
+    Ok(CliReport {
+        skill_dir: root.to_string(),
+        listing: Some(skill_validator_rs::listing::analyze(path, budget_chars)),
+        ..CliReport::default()
+    })
+}
+
 /// The skill name used for contamination (the directory basename), matching the
 /// Go tool's use of the skill identity for multi-interface-tool detection.
 fn skill_name(dir: &Path) -> String {
