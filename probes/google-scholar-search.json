@@ -1,0 +1,131 @@
+{
+  "skill": "research:google-scholar-search",
+  "skill_dir": "skills/documentation/research/google-scholar-search",
+  "competitors": [
+    "skills/documentation/research/semantic-scholar-search",
+    "skills/documentation/research/pubmed-search"
+  ],
+  "note": "Seed pair: two literature-search skills with the same job on different sources. Semantic Scholar's description says it is preferred, so a generic request with no source named belongs to it.",
+  "queries": [
+    {
+      "id": "pos-train-01",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "look up papers by Geoffrey Hinton from after 2019"
+    },
+    {
+      "id": "pos-train-02",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "what has this researcher published, show me their Scholar page"
+    },
+    {
+      "id": "pos-train-03",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "find articles about graph neural networks published between 2018 and 2021"
+    },
+    {
+      "id": "pos-train-04",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "who wrote the most cited work on transformers"
+    },
+    {
+      "id": "pos-train-05",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "I need a keyword search of scholarly literature on soil erosion"
+    },
+    {
+      "id": "pos-train-06",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "check Google Scholar for quantum error correction papers"
+    },
+    {
+      "id": "pos-val-01",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "get me the h-index and publication list for a professor"
+    },
+    {
+      "id": "pos-val-02",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "scholar results for climate adaptation, only since 2020"
+    },
+    {
+      "id": "pos-val-03",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "pull abstracts and links for studies on sleep and memory"
+    },
+    {
+      "id": "pos-val-04",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "find academic papers by this author name"
+    },
+    {
+      "id": "neg-train-01",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "get the details for DOI 10.1038/nature14539"
+    },
+    {
+      "id": "neg-train-02",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "who cites this paper and what does it reference"
+    },
+    {
+      "id": "neg-train-03",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "search PubMed for randomized trials of metformin"
+    },
+    {
+      "id": "neg-train-04",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "download the open access pdf from PubMed Central"
+    },
+    {
+      "id": "neg-train-05",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "summarize this pdf for me"
+    },
+    {
+      "id": "neg-train-06",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "write a literature review outline"
+    },
+    {
+      "id": "neg-val-01",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "look up a paper by its identifier"
+    },
+    {
+      "id": "neg-val-02",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "map the citation network around this article"
+    },
+    {
+      "id": "neg-val-03",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "find clinical studies on insulin resistance"
+    },
+    {
+      "id": "neg-val-04",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "find recent papers on diffusion models"
+    }
+  ]
+}
