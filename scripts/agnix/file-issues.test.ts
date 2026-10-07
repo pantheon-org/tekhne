@@ -28,6 +28,13 @@ const diag = (
   level: Diagnostic["level"] = "error",
 ): Diagnostic => ({ level, rule, file, line, message });
 
+const warn = (
+  rule: string,
+  file: string,
+  line: number,
+  message = "Careful.",
+): Diagnostic => diag(rule, file, line, message, "warning");
+
 const makeDir = (diagnostics: Diagnostic[], filesChecked = 2146): string => {
   const dir = mkdtempSync(join(tmpdir(), "agnix-issues-"));
   writeFileSync(
@@ -47,21 +54,15 @@ const makeDir = (diagnostics: Diagnostic[], filesChecked = 2146): string => {
 };
 
 // A fake gh that logs every call. `issue list` answers list.json the first time
-// and list2.json afterwards (so a race with another run can be simulated),
-// `issue view` answers view.json, and `issue create` "creates" issue 999.
-const fakeGh = (
-  dir: string,
-  opts: { list?: string; list2?: string; view?: string } = {},
-) => {
+// and list2.json afterwards (so a race with another run can be simulated), and
+// `issue create` "creates" issue 999. Titles, labels and bodies of created and
+// edited issues, and the comments given when closing, are kept for assertions.
+const fakeGh = (dir: string, opts: { list?: string; list2?: string } = {}) => {
   const bin = join(dir, "bin");
   mkdirSync(bin, { recursive: true });
   const list = opts.list ?? "[]";
   writeFileSync(join(dir, "list.json"), list);
   writeFileSync(join(dir, "list2.json"), opts.list2 ?? list);
-  writeFileSync(
-    join(dir, "view.json"),
-    opts.view ?? '{"body":"","comments":[]}',
-  );
   writeFileSync(
     join(bin, "gh"),
     `#!/usr/bin/env bash
@@ -70,7 +71,6 @@ case "$1 $2" in
   "issue list")
     n=$(cat "${dir}/list.n" 2>/dev/null || echo 0); n=$((n+1)); echo "$n" > "${dir}/list.n"
     if [ "$n" -ge 2 ]; then cat "${dir}/list2.json"; else cat "${dir}/list.json"; fi ;;
-  "issue view") cat "${dir}/view.json" ;;
   "issue create")
     while [ $# -gt 0 ]; do
       case "$1" in
@@ -81,10 +81,10 @@ case "$1 $2" in
       shift
     done
     echo "https://github.com/o/r/issues/999" ;;
-  "issue comment")
+  "issue edit")
     num="$3"
     while [ $# -gt 0 ]; do
-      case "$1" in --body) printf '%s\\t%s\\n' "$num" "$2" >> "${dir}/comments.log"; shift ;; esac
+      case "$1" in --body-file) printf '#%s\\n' "$num" >> "${dir}/edited-bodies.md"; cat "$2" >> "${dir}/edited-bodies.md"; shift ;; esac
       shift
     done ;;
   "issue close")
@@ -112,23 +112,26 @@ const run = (dir: string, extra: Record<string, string> = {}) =>
     },
   });
 
+const onMain = { MODE: "main", PR_NUMBER: "" };
+
 const read = (dir: string, name: string): string =>
   existsSync(join(dir, name)) ? readFileSync(join(dir, name), "utf8") : "";
 
 const marker = (rule: string, file: string): string =>
   `<!-- agnix-finding: ${rule} ${file} -->`;
 
+const warningMarker = (rule: string): string =>
+  `<!-- agnix-warnings: ${rule} -->`;
+
 const star = "skills/agentic-harness/professional-honesty/SKILL.md";
 
-describe("agnix file-issues.sh", () => {
-  test("does nothing when agnix reports no errors", () => {
-    const dir = makeDir([
-      diag("CC-SK-017", star, 3, "Unknown field", "warning"),
-    ]);
+describe("agnix file-issues.sh: errors", () => {
+  test("does nothing when agnix reports nothing on a pull request", () => {
+    const dir = makeDir([]);
     fakeGh(dir);
     const r = run(dir);
     expect(r.exitCode).toBe(0);
-    expect(read(dir, "calls.log")).not.toContain("issue create");
+    expect(read(dir, "calls.log")).toBe("");
     expect(read(dir, "tracked.md")).toBe("");
   });
 
@@ -174,7 +177,7 @@ describe("agnix file-issues.sh", () => {
     expect(first).toContain("line 9");
   });
 
-  test("adopts an open issue found by its marker and comments once per pull request", () => {
+  test("adopts an open issue found by its marker and adds no comment", () => {
     const dir = makeDir([diag("CC-SK-008", star, 4)]);
     fakeGh(dir, {
       list: JSON.stringify([
@@ -184,7 +187,7 @@ describe("agnix file-issues.sh", () => {
     const r = run(dir);
     expect(r.exitCode).toBe(0);
     expect(read(dir, "calls.log")).not.toContain("issue create");
-    expect(read(dir, "comments.log")).toContain("421\tAlso found on #42");
+    expect(read(dir, "calls.log")).not.toContain("issue comment");
     expect(read(dir, "tracked.md")).toBe(
       `- \`CC-SK-008\` in \`${star}\`: #421\n`,
     );
@@ -202,25 +205,10 @@ describe("agnix file-issues.sh", () => {
     expect(read(dir, "tracked.md")).toContain("#430");
   });
 
-  test("does not comment again when the issue already mentions the pull request", () => {
-    const dir = makeDir([diag("CC-SK-008", star, 4)]);
-    fakeGh(dir, {
-      list: JSON.stringify([
-        { number: 421, title: "t", body: marker("CC-SK-008", star) },
-      ]),
-      view: JSON.stringify({
-        body: marker("CC-SK-008", star),
-        comments: [{ body: "Also found on #42: still failing." }],
-      }),
-    });
-    run(dir);
-    expect(read(dir, "comments.log")).toBe("");
-  });
-
-  test("on main, creates a missing issue and never comments on an existing one", () => {
+  test("on main, creates a missing issue naming main and leaves an existing one alone", () => {
     const missing = makeDir([diag("CC-SK-008", star, 4)]);
     fakeGh(missing);
-    run(missing, { MODE: "main", PR_NUMBER: "" });
+    run(missing, onMain);
     expect(read(missing, "created-titles.txt")).toContain("CC-SK-008");
     expect(read(missing, "created-bodies.md")).toContain("`main`");
 
@@ -230,12 +218,12 @@ describe("agnix file-issues.sh", () => {
         { number: 421, title: "t", body: marker("CC-SK-008", star) },
       ]),
     });
-    run(existing, { MODE: "main", PR_NUMBER: "" });
-    expect(read(existing, "comments.log")).toBe("");
+    run(existing, onMain);
     expect(read(existing, "calls.log")).not.toContain("issue create");
+    expect(read(existing, "calls.log")).not.toContain("issue edit");
   });
 
-  test("on main, closes an issue whose finding is gone and keeps one that is still present", () => {
+  test("on main, closes an error issue whose finding is gone and keeps one still present", () => {
     const dir = makeDir([diag("CC-SK-002", "skills/a/b/SKILL.md", 7)]);
     fakeGh(dir, {
       list: JSON.stringify([
@@ -248,7 +236,7 @@ describe("agnix file-issues.sh", () => {
         { number: 423, title: "unrelated issue", body: "no marker" },
       ]),
     });
-    const r = run(dir, { MODE: "main", PR_NUMBER: "" });
+    const r = run(dir, onMain);
     expect(r.exitCode).toBe(0);
     const closed = read(dir, "closed.log");
     expect(closed).toContain("421\t");
@@ -262,6 +250,7 @@ describe("agnix file-issues.sh", () => {
     fakeGh(dir, {
       list: JSON.stringify([
         { number: 421, title: "t", body: marker("CC-SK-008", star) },
+        { number: 424, title: "t", body: warningMarker("CC-SK-017") },
       ]),
     });
     run(dir);
@@ -275,7 +264,7 @@ describe("agnix file-issues.sh", () => {
         { number: 421, title: "t", body: marker("CC-SK-008", star) },
       ]),
     });
-    const r = run(dir, { MODE: "main", PR_NUMBER: "" });
+    const r = run(dir, onMain);
     expect(r.exitCode).toBe(0);
     expect(read(dir, "closed.log")).toBe("");
   });
@@ -284,7 +273,7 @@ describe("agnix file-issues.sh", () => {
     const dir = makeDir([]);
     writeFileSync(join(dir, "agnix.json"), "not json");
     fakeGh(dir);
-    const r = run(dir, { MODE: "main", PR_NUMBER: "" });
+    const r = run(dir, onMain);
     expect(r.exitCode).toBe(0);
     expect(read(dir, "calls.log")).toBe("");
   });
@@ -332,6 +321,140 @@ describe("agnix file-issues.sh", () => {
     const r = run(dir, { DRY_RUN: "1" });
     expect(r.exitCode).toBe(0);
     expect(r.stdout.toString()).toContain("would create");
+    expect(read(dir, "calls.log")).not.toContain("issue create");
+  });
+});
+
+describe("agnix file-issues.sh: warnings", () => {
+  const a = "skills/a/one/SKILL.md";
+  const b = "skills/a/two/SKILL.md";
+  const c = "skills/b/three/SKILL.md";
+
+  test("files one issue per rule, listing every file and line", () => {
+    const dir = makeDir([
+      warn("CC-SK-017", a, 3, "Unknown frontmatter field 'x'"),
+      warn("CC-SK-017", a, 8),
+      warn("CC-SK-017", b, 4),
+      warn("AS-012", c, 1, "Skill content exceeds 500 lines"),
+    ]);
+    fakeGh(dir);
+    const r = run(dir);
+    expect(r.exitCode).toBe(0);
+    const titles = read(dir, "created-titles.txt").trim().split("\n");
+    expect(titles).toEqual([
+      "agnix warnings: AS-012",
+      "agnix warnings: CC-SK-017",
+    ]);
+    expect(read(dir, "created-labels.txt")).toBe("enhancement\nenhancement\n");
+    const bodies = read(dir, "created-bodies.md").split("=====");
+    const multi = bodies.find((x) => x.includes(warningMarker("CC-SK-017")));
+    expect(multi).toContain("2 files");
+    expect(multi).toContain(`\`${a}\`: lines 3, 8`);
+    expect(multi).toContain(`\`${b}\`: line 4`);
+    expect(multi).toContain("Unknown frontmatter field");
+    expect(read(dir, "tracked.md")).toContain(
+      "warnings `AS-012` in 1 file: #999",
+    );
+    expect(read(dir, "tracked.md")).toContain(
+      "warnings `CC-SK-017` in 2 files: #999",
+    );
+  });
+
+  test("files nothing for a rule whose files are all unusable", () => {
+    const dir = makeDir([warn("CC-SK-017", "skills/a b/SKILL.md", 3)]);
+    fakeGh(dir);
+    run(dir);
+    expect(read(dir, "calls.log")).not.toContain("issue create");
+  });
+
+  test("keeps a warning and an error of the same rule as separate issues", () => {
+    const dir = makeDir([warn("CC-SK-008", a, 1), diag("CC-SK-008", b, 2)]);
+    fakeGh(dir);
+    run(dir);
+    const titles = read(dir, "created-titles.txt").trim().split("\n");
+    expect(titles).toContain("agnix warnings: CC-SK-008");
+    expect(titles).toContain(`agnix CC-SK-008: ${b}`);
+  });
+
+  test("adopts an open warnings issue without editing it on a pull request", () => {
+    const dir = makeDir([warn("CC-SK-017", a, 3)]);
+    fakeGh(dir, {
+      list: JSON.stringify([
+        { number: 440, title: "t", body: warningMarker("CC-SK-017") },
+      ]),
+    });
+    run(dir);
+    expect(read(dir, "calls.log")).not.toContain("issue create");
+    expect(read(dir, "calls.log")).not.toContain("issue edit");
+    expect(read(dir, "tracked.md")).toContain("#440");
+  });
+
+  test("on main, refreshes the file list when it changed and leaves an unchanged one alone", () => {
+    const first = makeDir([warn("CC-SK-017", a, 3)]);
+    fakeGh(first);
+    run(first, onMain);
+    const unchangedBody = read(first, "created-bodies.md")
+      .split("=====")[0]
+      .trim();
+
+    const same = makeDir([warn("CC-SK-017", a, 3)]);
+    fakeGh(same, {
+      list: JSON.stringify([{ number: 440, title: "t", body: unchangedBody }]),
+    });
+    run(same, onMain);
+    expect(read(same, "calls.log")).not.toContain("issue edit");
+
+    const changed = makeDir([warn("CC-SK-017", a, 3), warn("CC-SK-017", b, 5)]);
+    fakeGh(changed, {
+      list: JSON.stringify([{ number: 440, title: "t", body: unchangedBody }]),
+    });
+    run(changed, onMain);
+    expect(read(changed, "calls.log")).toContain("issue edit 440");
+    expect(read(changed, "edited-bodies.md")).toContain(b);
+  });
+
+  test("on main, closes a warnings issue once no file has the rule and keeps a present one", () => {
+    const dir = makeDir([warn("AS-012", c, 1)]);
+    fakeGh(dir, {
+      list: JSON.stringify([
+        { number: 440, title: "t", body: warningMarker("CC-SK-017") },
+        { number: 441, title: "t", body: warningMarker("AS-012") },
+      ]),
+    });
+    run(dir, onMain);
+    const closed = read(dir, "closed.log");
+    expect(closed).toContain("440\t");
+    expect(closed).toContain("no longer reports");
+    expect(closed).not.toContain("441\t");
+  });
+
+  test("escapes a warning message and caps the file list at 100", () => {
+    const many = Array.from({ length: 120 }, (_, i) =>
+      warn(
+        "CC-SK-017",
+        `skills/s/s${String(i).padStart(3, "0")}/SKILL.md`,
+        1,
+        "see @octocat <i>x</i>",
+      ),
+    );
+    const dir = makeDir(many);
+    fakeGh(dir);
+    run(dir);
+    const body = read(dir, "created-bodies.md");
+    expect(body).toContain("120 files");
+    expect(body).toContain("and 20 more");
+    expect(body).not.toContain("@octocat");
+    expect(body).toContain("&#64;octocat");
+    expect(body).not.toContain("s119");
+  });
+
+  test("reports a warnings issue under DRY_RUN=1 without creating it", () => {
+    const dir = makeDir([warn("CC-SK-017", a, 3)]);
+    fakeGh(dir);
+    const r = run(dir, { DRY_RUN: "1" });
+    expect(r.stdout.toString()).toContain(
+      "would create: agnix warnings: CC-SK-017",
+    );
     expect(read(dir, "calls.log")).not.toContain("issue create");
   });
 });

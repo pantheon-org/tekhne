@@ -5,14 +5,20 @@ name: agnix
 # broken links and leaked tool-call markup. These are the defect classes fixed in
 # #414, which the skill validator and auditor do not check.
 #
-# Non-blocking for now: the job always passes. Findings appear as annotations on
-# the changed files, and one "## agnix" comment on the PR shows PASS (no errors)
-# or FAIL, updated in place on each run. Each error also gets one GitHub issue
-# (scripts/agnix/file-issues.sh): opened when a PR or main has it, never closed
-# by a PR, and closed by the run on main once main no longer has it. Make the
-# check blocking (exit 1 on errors in the last step) once it has run without
-# false positives for a while. Configuration lives in .agnix.toml. Never runs
-# --fix.
+# Runs on every push to a pull request and on every push to main.
+#
+# What fails a pull request: an error the pull request introduces, meaning an
+# error whose rule and file are not already an error on the base branch
+# (scripts/agnix/introduced-errors.sh). An error already on main is tracked by its
+# issue and does not hold up unrelated work. Warnings never fail.
+#
+# What is tracked (scripts/agnix/file-issues.sh): one issue per error (rule and
+# file) and one per warning rule listing every affected file. A pull request that
+# flags something opens the issue if it is missing; it never edits or closes one.
+# The run on main opens missing issues, refreshes the warning file lists and
+# closes issues whose finding is gone. One "## agnix" comment on the pull request
+# shows PASS or FAIL, updated in place on each run. Configuration lives in
+# .agnix.toml. Never runs --fix.
 #
 # No third-party action for agnix itself: the pinned release is downloaded from
 # its public URL and checked against a pinned SHA-256 before it runs. The digest
@@ -24,20 +30,8 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main]
-    paths:
-      - "skills/**"
-      - ".agnix.toml"
-      - ".github/workflows/agnix.yml"
-      - "scripts/agnix/**"
-  # The run on main keeps the issues in step with main: it opens any that are
-  # missing and closes those whose finding is gone.
   push:
     branches: [main]
-    paths:
-      - "skills/**"
-      - ".agnix.toml"
-      - ".github/workflows/agnix.yml"
-      - "scripts/agnix/**"
 
 permissions:
   contents: read
@@ -68,6 +62,15 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      # The base branch is linted with the head's config, so a change to the rules
+      # is compared like for like and cannot make every old error look new.
+      - name: Check out the base branch
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
       - name: Install agnix (pinned digest)
         run: |
           set -euo pipefail
@@ -81,17 +84,24 @@ jobs:
           echo "$dir" >> "$GITHUB_PATH"
 
       # agnix exits 1 when it reports errors; the verdict is read from the JSON
-      # in the comment step instead, so neither run fails the job.
+      # instead, so neither run fails this step.
       - name: Lint skills
         run: |
           agnix --version
           agnix -c .agnix.toml --format github skills || true
           agnix -c .agnix.toml --format json skills > agnix.json || true
 
+      - name: Lint the base branch
+        if: github.event_name == 'pull_request'
+        run: |
+          if [ -d base/skills ]; then
+            (cd base && agnix -c ../.agnix.toml --format json skills > ../agnix-base.json) || true
+          fi
+
       # Never blocks: a failure here leaves the PR comment and annotations as the
       # only signal. Values reach the script through env, never by being pasted
       # into it.
-      - name: File issues for errors
+      - name: File issues for findings
         continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
@@ -101,6 +111,16 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           TRACKED_FILE: tracked-issues.md
         run: bash scripts/agnix/file-issues.sh agnix.json
+
+      # continue-on-error so the comment is still posted; the "Fail" step below
+      # turns an introduced error into a failed job once the comment is up.
+      - name: Find errors this pull request introduces
+        id: gate
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        env:
+          INTRODUCED_FILE: introduced-errors.txt
+        run: bash scripts/agnix/introduced-errors.sh agnix.json agnix-base.json
 
       # Step data reaches the script through files, never by being pasted into it.
       # Messages are HTML-escaped so a finding cannot inject markup or mentions.
@@ -112,25 +132,28 @@ jobs:
           errors=$(jq '.summary.errors' agnix.json)
           warnings=$(jq '.summary.warnings' agnix.json)
           files=$(jq '.files_checked' agnix.json)
-          if [ "$errors" -eq 0 ]; then verdict="PASS"; else verdict="FAIL"; fi
+          introduced=0
+          if [ -s introduced-errors.txt ]; then introduced=$(wc -l < introduced-errors.txt | tr -d ' '); fi
+          existing=$((errors - introduced))
+          if [ "$introduced" -eq 0 ]; then verdict="PASS"; else verdict="FAIL"; fi
           escape() { sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g' -e 's/`/\&#96;/g' -e 's/@/\&#64;/g' -e 's/|/\&#124;/g'; }
           {
             echo "## agnix"
             echo
-            echo "**${verdict}**: ${errors} error(s), ${warnings} warning(s) across ${files} file(s), agnix ${AGNIX_VERSION}."
-            echo
-            echo "Non-blocking for now: this check does not fail the pull request. Findings are also shown as annotations on the changed files, and each error is tracked in a GitHub issue."
-            if [ "$errors" -gt 0 ]; then
+            if [ "$introduced" -eq 0 ]; then
+              echo "**${verdict}**: this pull request introduces no errors. agnix ${AGNIX_VERSION} checked ${files} file(s): ${existing} error(s) already on \`main\`, ${warnings} warning(s)."
+            else
+              echo "**${verdict}**: this pull request introduces ${introduced} error(s). agnix ${AGNIX_VERSION} checked ${files} file(s): ${existing} other error(s) already on \`main\`, ${warnings} warning(s)."
               echo
-              echo "| Rule | Location | Message |"
-              echo "| --- | --- | --- |"
-              jq -r '.diagnostics[] | select(.level == "error")
-                | "\(.rule)\t\(.file | sub("^.*?/skills/"; "skills/")):\(.line)\t\(.message | .[0:200])"' agnix.json \
-                | head -n 50 \
-                | while IFS=$'\t' read -r rule loc msg; do
-                    printf '| %s | %s | %s |\n' "$rule" "$(printf '%s' "$loc" | escape)" "$(printf '%s' "$msg" | escape)"
+              echo "| Rule | File |"
+              echo "| --- | --- |"
+              head -n 50 introduced-errors.txt \
+                | while IFS=$'\t' read -r rule file; do
+                    printf '| %s | %s |\n' "$(printf '%s' "$rule" | escape)" "$(printf '%s' "$file" | escape)"
                   done
             fi
+            echo
+            echo "Only an error the pull request introduces fails this check. Errors already on \`main\` and warnings are tracked in GitHub issues and do not. Findings are also shown as annotations on the changed files."
             if [ -s tracked-issues.md ]; then
               echo
               echo "Tracked in:"
@@ -166,3 +189,9 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           edit-mode: replace
           body-path: comment.md
+
+      - name: Fail on introduced errors
+        if: github.event_name == 'pull_request' && steps.gate.outcome == 'failure'
+        run: |
+          echo "::error::This pull request introduces agnix errors; see the agnix comment."
+          exit 1

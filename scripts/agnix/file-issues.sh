@@ -2,30 +2,41 @@
 #
 # file-issues.sh
 #
-# Keeps one GitHub issue open per agnix error, so a finding the agnix check
-# reports is tracked without anyone filing it by hand. Run by the agnix workflow
-# after the lint step; the step is continue-on-error, so it never blocks a pull
-# request.
+# Keeps GitHub issues open for what the agnix check reports, so a finding is
+# tracked without anyone filing it by hand. Run by the agnix workflow after the
+# lint step; the step is continue-on-error, so filing never blocks a pull
+# request. Whether a pull request fails is decided separately, by
+# introduced-errors.sh.
 #
-#   - Warnings never get an issue; only errors do.
-#   - One issue per rule and file. An open issue is found by a marker in its
-#     body, "<!-- agnix-finding: RULE FILE -->", or, for an issue filed by hand,
-#     by the title "agnix RULE: FILE". A closed issue is ignored, so a finding
-#     that comes back gets a new one.
-#   - If none exists, one is created, labelled "bug". Its body names the pull
-#     request (MODE=pr) or "main" (MODE=main) and the workflow run.
-#   - If one exists, a pull request run adds a single comment per pull request
-#     ("Also found on #N"), never one per push. A main run adds nothing.
-#   - On a main run only, an issue carrying a marker whose finding agnix no
-#     longer reports is closed with a comment. A pull request run never closes
-#     anything: a branch that fixes a finding has not fixed main yet. Nothing is
-#     closed unless agnix checked at least one file, so a broken run cannot close
-#     every issue.
-#   - After creating an issue, the open issues are listed again. If another run
-#     created the same one first, the later number is closed as a duplicate.
-#   - Values from agnix are validated as plain rule ids and paths before they go
-#     into a title, a marker or a gh argument, and messages are HTML-escaped so
-#     a finding cannot inject markup or mentions.
+# Errors: one issue per rule and file, labelled "bug".
+#   - An open issue is found by a marker in its body,
+#     "<!-- agnix-finding: RULE FILE -->", or, for an issue filed by hand, by the
+#     title "agnix RULE: FILE". A closed issue is ignored, so a finding that
+#     comes back gets a new one.
+#   - If none exists, one is created. Its body names the pull request (MODE=pr)
+#     or "main" (MODE=main) and the workflow run.
+#   - An existing issue is left alone: no comment is added for each pull request.
+#
+# Warnings: one issue per rule, labelled "enhancement", listing every file and
+# line the rule is reported on (the first 100 files).
+#   - Found by the marker "<!-- agnix-warnings: RULE -->" or the title
+#     "agnix warnings: RULE".
+#   - The body is deterministic (no run link, no pull request), so a main run can
+#     compare it and refresh the issue with "gh issue edit" only when the file
+#     list changed. A pull request run never edits an issue.
+#
+# Closing, on a main run only: an error issue whose finding agnix no longer
+# reports, and a warnings issue whose rule no file reports any more, is closed
+# with a comment. A pull request run never closes anything: a branch that fixes a
+# finding has not fixed main yet. Nothing is closed unless agnix checked at least
+# one file, so a broken run cannot close every issue.
+#
+# After creating an issue, the open issues are listed again. If another run
+# created the same one first, the later number is closed as a duplicate.
+#
+# Values from agnix are validated as plain rule ids and paths before they go into
+# a title, a marker or a gh argument, and messages are HTML-escaped so a finding
+# cannot inject markup or mentions.
 #
 # Known limits, accepted for now:
 #   - Open issues are listed 500 at a time. With more than 500 open, a marker
@@ -35,6 +46,7 @@
 #     the fact (the later is closed as a duplicate), not prevented.
 #   - A rule, file or message agnix reports that fails the plain-path check is
 #     skipped with a warning and gets no issue.
+#   - A warnings issue lists at most 100 files; the rest are counted, not named.
 #
 # The issue numbers are written to $TRACKED_FILE as a Markdown list for the
 # agnix comment on the pull request to include.
@@ -56,6 +68,7 @@ PR="${PR_NUMBER:-}"
 RUN_URL="${RUN_URL:-}"
 TRACKED_FILE="${TRACKED_FILE:-tracked-issues.md}"
 DRY_RUN="${DRY_RUN:-0}"
+MAX_FILES=100
 
 if [ -z "$JSON" ] || [ -z "$REPO" ]; then
     echo "usage: GITHUB_REPOSITORY=owner/name MODE=pr|main file-issues.sh <agnix.json>" >&2
@@ -110,10 +123,15 @@ marker() {
     printf '<!-- agnix-finding: %s %s -->' "$1" "$2"
 }
 
-# One entry per rule and file, with every line it was reported on. A runner path
-# becomes a path under skills/.
-ERRORS="$(jq -c '
-    def plain: if startswith("/") then sub("^.*?/skills/"; "skills/") else ltrimstr("./") end;
+warnings_marker() {
+    printf '<!-- agnix-warnings: %s -->' "$1"
+}
+
+# A runner path becomes a path under skills/.
+JQ_PLAIN='def plain: if startswith("/") then sub("^.*?/skills/"; "skills/") else ltrimstr("./") end;'
+
+# Errors: one entry per rule and file, with every line it was reported on.
+ERRORS="$(jq -c "${JQ_PLAIN}"'
     [ .diagnostics[] | select(.level == "error")
       | { rule, file: (.file | plain), line,
           message: ((.message // "") | gsub("[\n\r\t]+"; " ") | .[0:300]) } ]
@@ -122,8 +140,32 @@ ERRORS="$(jq -c '
             hits: map({ line, message }) })
 ' "$JSON")"
 
-if [ "$(jq 'length' <<<"$ERRORS")" -eq 0 ] && [ "$CAN_CLOSE" -ne 1 ]; then
-    echo "No agnix errors; no issues to file."
+# Warnings: one entry per rule, with every file and the lines in it. Findings
+# whose rule or path is not plain are dropped here and counted.
+WARNING_PATTERN_RULE='^[A-Z0-9]+(-[A-Z0-9]+)+$'
+WARNING_PATTERN_FILE='^[A-Za-z0-9._-]+(/[A-Za-z0-9._-]+)*$'
+ALL_WARNINGS="$(jq -c "${JQ_PLAIN}"'
+    [ .diagnostics[] | select(.level == "warning")
+      | { rule, file: (.file | plain), line,
+          message: ((.message // "") | gsub("[\n\r\t]+"; " ") | .[0:300]) } ]
+' "$JSON")"
+SKIPPED_WARNINGS="$(jq --arg r "$WARNING_PATTERN_RULE" --arg f "$WARNING_PATTERN_FILE" \
+    '[ .[] | select((.rule | test($r) | not) or (.file | test($f) | not)) ] | length' <<<"$ALL_WARNINGS")"
+if [ "$SKIPPED_WARNINGS" -gt 0 ]; then
+    echo "::warning::Skipping ${SKIPPED_WARNINGS} warning(s) whose rule or path is not plain."
+fi
+WARNINGS="$(jq -c --arg r "$WARNING_PATTERN_RULE" --arg f "$WARNING_PATTERN_FILE" '
+    map(select((.rule | test($r)) and (.file | test($f))))
+    | group_by(.rule)
+    | map({ rule: .[0].rule,
+            messages: ([ .[].message ] | unique | .[0:5]),
+            files: (group_by(.file)
+                    | map({ file: .[0].file, lines: ([ .[].line ] | unique) })) })
+' <<<"$ALL_WARNINGS")"
+
+if [ "$(jq 'length' <<<"$ERRORS")" -eq 0 ] && [ "$(jq 'length' <<<"$WARNINGS")" -eq 0 ] \
+    && [ "$CAN_CLOSE" -ne 1 ]; then
+    echo "No agnix findings; no issues to file."
     exit 0
 fi
 
@@ -133,8 +175,9 @@ if ! OPEN_ISSUES="$(gh issue list --repo "$REPO" --state open --limit 500 \
     exit 1
 fi
 
+# existing_for <marker> <title>: the lowest open issue number carrying either.
 existing_for() {
-    jq -r --arg m "$(marker "$1" "$2")" --arg t "agnix $1: $2" '
+    jq -r --arg m "$1" --arg t "$2" '
         [ .[] | select((.body // "" | contains($m)) or .title == $t) ]
         | sort_by(.number) | (.[0].number // empty)
     ' <<<"$OPEN_ISSUES"
@@ -147,7 +190,47 @@ run_link() {
 }
 
 status=0
+CREATED=""
+
+# create_issue <title> <marker> <label>: creates an issue from $BODY_FILE and sets
+# CREATED to the surviving number (this run's, or a lower one from an overlapping
+# run). CREATED stays empty if nothing was filed.
+create_issue() {
+    local title="$1" mark="$2" label="$3" url number first
+    CREATED=""
+    if url="$(gh issue create --repo "$REPO" --title "$title" --body-file "$BODY_FILE" --label "$label" </dev/null)"; then
+        number="${url##*/}"
+        if ! [[ "$number" =~ ^[0-9]+$ ]]; then
+            echo "::warning::Filed an issue but could not read its number."
+            status=1
+            return
+        fi
+        echo "Filed ${url}."
+
+        # Another run may have filed the same finding at the same moment. The
+        # lowest number wins; this run closes its own if it is the later one.
+        first="$(gh issue list --repo "$REPO" --state open --limit 500 \
+            --json number,title,body </dev/null 2>/dev/null \
+            | jq -r --arg m "$mark" '
+                [ .[] | select(.body // "" | contains($m)) | .number ] | min // empty
+            ' 2>/dev/null || true)"
+        if [[ "$first" =~ ^[0-9]+$ ]] && [ "$first" -lt "$number" ]; then
+            gh issue close "$number" --repo "$REPO" \
+                --comment "Duplicate of #${first}, filed by a run that overlapped this one." \
+                </dev/null || status=1
+            number="$first"
+        fi
+        CREATED="$number"
+    else
+        echo "::warning::Could not file an issue: ${title}."
+        status=1
+    fi
+}
+
+# --- Errors ---------------------------------------------------------------
+
 while IFS= read -r entry; do
+    [ -n "$entry" ] || continue
     rule="$(jq -r '.rule' <<<"$entry")"
     file="$(jq -r '.file' <<<"$entry")"
 
@@ -156,29 +239,14 @@ while IFS= read -r entry; do
         continue
     fi
 
-    existing="$(existing_for "$rule" "$file")"
+    title="agnix ${rule}: ${file}"
+    existing="$(existing_for "$(marker "$rule" "$file")" "$title")"
 
     if [ -n "$existing" ]; then
-        if [ "$MODE" = "pr" ]; then
-            linked="$(gh issue view "$existing" --repo "$REPO" --json body,comments </dev/null 2>/dev/null \
-                | jq -r --arg pr "#${PR}" '
-                    ([.body] + [.comments[].body])
-                    | any(test($pr + "([^0-9]|$)"))' 2>/dev/null || echo false)"
-            if [ "$linked" != "true" ]; then
-                if [ "$DRY_RUN" = "1" ]; then
-                    echo "would comment on #${existing} linking #${PR} (${rule} ${file})"
-                else
-                    gh issue comment "$existing" --repo "$REPO" \
-                        --body "Also found on #${PR}: agnix still reports \`${rule}\` for \`${file}\` there. The agnix check does not block a pull request, so it was not held up." \
-                        </dev/null || status=1
-                fi
-            fi
-        fi
         printf '%s\n' "- \`${rule}\` in \`${file}\`: #${existing}" >>"$TRACKED_FILE"
         continue
     fi
 
-    title="agnix ${rule}: ${file}"
     if [ "$DRY_RUN" = "1" ]; then
         echo "would create: ${title}"
         continue
@@ -196,7 +264,7 @@ while IFS= read -r entry; do
         else
             echo "Found by the agnix check on \`main\`$(run_link)."
         fi
-        echo "The check does not block a pull request. Filed automatically; one open issue is kept per rule and file, and it is closed automatically once \`main\` no longer has the finding."
+        echo "A pull request fails the check only for an error it introduces, so this does not hold up other work. Filed automatically; one open issue is kept per rule and file, and it is closed automatically once \`main\` no longer has the finding."
         echo ""
         echo "## Done when"
         echo ""
@@ -206,34 +274,95 @@ while IFS= read -r entry; do
         echo ""
     } >"$BODY_FILE"
 
-    if url="$(gh issue create --repo "$REPO" --title "$title" --body-file "$BODY_FILE" --label bug </dev/null)"; then
-        number="${url##*/}"
-        if ! [[ "$number" =~ ^[0-9]+$ ]]; then
-            echo "::warning::Filed an issue but could not read its number."
-            status=1
-            continue
-        fi
-        echo "Filed ${url}."
-
-        # Another run may have filed the same finding at the same moment. The
-        # lowest number wins; this run closes its own if it is the later one.
-        first="$(gh issue list --repo "$REPO" --state open --limit 500 \
-            --json number,title,body </dev/null 2>/dev/null \
-            | jq -r --arg m "$(marker "$rule" "$file")" '
-                [ .[] | select(.body // "" | contains($m)) | .number ] | min // empty
-            ' 2>/dev/null || true)"
-        if [[ "$first" =~ ^[0-9]+$ ]] && [ "$first" -lt "$number" ]; then
-            gh issue close "$number" --repo "$REPO" \
-                --comment "Duplicate of #${first}, filed by a run that overlapped this one." \
-                </dev/null || status=1
-            number="$first"
-        fi
-        printf '%s\n' "- \`${rule}\` in \`${file}\`: #${number}" >>"$TRACKED_FILE"
-    else
-        echo "::warning::Could not file an issue for a ${rule} finding."
-        status=1
+    create_issue "$title" "$(marker "$rule" "$file")" bug
+    if [ -n "$CREATED" ]; then
+        printf '%s\n' "- \`${rule}\` in \`${file}\`: #${CREATED}" >>"$TRACKED_FILE"
     fi
 done < <(jq -c '.[]' <<<"$ERRORS")
+
+# --- Warnings -------------------------------------------------------------
+
+# write_warnings_body <entry>: the body of a warnings issue, with no run link or
+# pull request so that two runs over the same findings produce the same text.
+write_warnings_body() {
+    local entry="$1" rule total
+    rule="$(jq -r '.rule' <<<"$entry")"
+    total="$(jq '.files | length' <<<"$entry")"
+    {
+        echo "## What"
+        echo ""
+        if [ "$total" -eq 1 ]; then
+            echo "[agnix](https://github.com/agent-sh/agnix) reports warnings for \`${rule}\` in 1 file:"
+        else
+            echo "[agnix](https://github.com/agent-sh/agnix) reports warnings for \`${rule}\` in ${total} files:"
+        fi
+        echo ""
+        jq -r --argjson max "$MAX_FILES" '
+            .files[0:$max][]
+            | "- `\(.file)`: " + (if (.lines | length) == 1
+                                    then "line \(.lines[0])"
+                                    else "lines \(.lines | map(tostring) | join(", "))" end)
+        ' <<<"$entry"
+        if [ "$total" -gt "$MAX_FILES" ]; then
+            echo "- and $((total - MAX_FILES)) more files"
+        fi
+        echo ""
+        echo "Messages:"
+        echo ""
+        jq -r '.messages[] | "- \(.)"' <<<"$entry" | escape
+        echo ""
+        echo "Warnings never fail a pull request. Filed automatically; one open issue is kept per rule. It is refreshed when the file list on \`main\` changes and closed automatically once no file has the rule."
+        echo ""
+        echo "## Done when"
+        echo ""
+        echo "- \`agnix -c .agnix.toml --format github skills\` reports no \`${rule}\` warnings."
+        echo ""
+        warnings_marker "$rule"
+        echo ""
+    } >"$BODY_FILE"
+}
+
+while IFS= read -r entry; do
+    [ -n "$entry" ] || continue
+    rule="$(jq -r '.rule' <<<"$entry")"
+    count="$(jq '.files | length' <<<"$entry")"
+    plural="files"
+    if [ "$count" -eq 1 ]; then plural="file"; fi
+    title="agnix warnings: ${rule}"
+    mark="$(warnings_marker "$rule")"
+    existing="$(existing_for "$mark" "$title")"
+
+    write_warnings_body "$entry"
+
+    if [ -n "$existing" ]; then
+        printf '%s\n' "- warnings \`${rule}\` in ${count} ${plural}: #${existing}" >>"$TRACKED_FILE"
+        if [ "$MODE" = "main" ]; then
+            current="$(jq -r --argjson n "$existing" \
+                '.[] | select(.number == $n) | (.body // "") | gsub("\r"; "")' <<<"$OPEN_ISSUES")"
+            if [ "$current" != "$(cat "$BODY_FILE")" ]; then
+                if [ "$DRY_RUN" = "1" ]; then
+                    echo "would update #${existing} (${title})"
+                else
+                    gh issue edit "$existing" --repo "$REPO" --body-file "$BODY_FILE" \
+                        </dev/null || status=1
+                fi
+            fi
+        fi
+        continue
+    fi
+
+    if [ "$DRY_RUN" = "1" ]; then
+        echo "would create: ${title}"
+        continue
+    fi
+
+    create_issue "$title" "$mark" enhancement
+    if [ -n "$CREATED" ]; then
+        printf '%s\n' "- warnings \`${rule}\` in ${count} ${plural}: #${CREATED}" >>"$TRACKED_FILE"
+    fi
+done < <(jq -c '.[]' <<<"$WARNINGS")
+
+# --- Closing (main only) --------------------------------------------------
 
 if [ "$CAN_CLOSE" -eq 1 ]; then
     CURRENT="$(jq -r '.[] | "\(.rule) \(.file)"' <<<"$ERRORS")"
@@ -257,6 +386,29 @@ if [ "$CAN_CLOSE" -eq 1 ]; then
         | select((.body // "") | test("<!-- agnix-finding: [^ ]+ [^ ]+ -->"))
         | (.body | capture("<!-- agnix-finding: (?<rule>[^ ]+) (?<file>[^ ]+) -->")) as $m
         | "\(.number)\t\($m.rule)\t\($m.file)"
+    ' <<<"$OPEN_ISSUES")
+
+    CURRENT_RULES="$(jq -r '.[].rule' <<<"$WARNINGS")"
+    while IFS=$'\t' read -r number rule; do
+        [ -n "$number" ] || continue
+        if ! valid_rule "$rule"; then
+            continue
+        fi
+        if grep -qxF -- "$rule" <<<"$CURRENT_RULES"; then
+            continue
+        fi
+        if [ "$DRY_RUN" = "1" ]; then
+            echo "would close #${number} (warnings ${rule})"
+            continue
+        fi
+        gh issue close "$number" --repo "$REPO" \
+            --comment "agnix no longer reports \`${rule}\` warnings on \`main\`$(run_link). Closing automatically; a new issue is filed if they come back." \
+            </dev/null || status=1
+    done < <(jq -r '
+        .[]
+        | select((.body // "") | test("<!-- agnix-warnings: [^ ]+ -->"))
+        | (.body | capture("<!-- agnix-warnings: (?<rule>[^ ]+) -->")) as $m
+        | "\(.number)\t\($m.rule)"
     ' <<<"$OPEN_ISSUES")
 fi
 
