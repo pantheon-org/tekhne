@@ -69,6 +69,9 @@ blocks:
   - ../relative/path/to/dependent.md # omit if this file blocks nothing
 blocked-by:
   - ../relative/path/to/blocker.md # omit if nothing blocks this file
+severity: CRITICAL | HIGH | MEDIUM | LOW # follow-ups only; set with priority and graded, last
+priority: P1 | P2 | P3
+graded: YYYY-MM-DD # the day the user confirmed the two grades
 ---
 ```
 
@@ -79,6 +82,12 @@ under (`findings/` → `finding`, `follow-ups/` → `follow-up`, `research/` →
 the index; `tags`, `related`, `blocks`, and `blocked-by` are optional and
 only rendered when non-empty. `blocked-by` is read by `scripts/context-ready.sh`
 to compute which active files have zero open blockers.
+
+Expect a follow-up's `severity`, `priority` and `graded` (the rubric lives in
+the `create-context-file` skill) in its index entry, after `date:`, whenever the
+file sets them. Use them to sort by grade without opening each file. Fix the
+source file when stderr reports a value outside the lists or an incomplete set:
+the index still writes it as authored, so readers show it as needing a grade.
 
 ## Procedure
 

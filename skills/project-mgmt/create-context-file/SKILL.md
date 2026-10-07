@@ -89,6 +89,17 @@ doing the depending, or both if the relationship is worth recording from
 either side.
 
 ```bash
+# Follow-up with confirmed grades (only after the user has confirmed them)
+./scripts/create-context-file.sh --type follow-ups --title "Wire up token refresh" \
+  --severity HIGH --priority P2 --graded 2026-10-07
+```
+
+Expected result: a dated follow-up file whose frontmatter ends with
+`severity:`, `priority:` and `graded:` lines, in that order, just before the
+closing `---`. Pass all three flags together: the generator rejects any one
+alone, and rejects all three on any typology other than `follow-ups`.
+
+```bash
 # Multi-line body via heredoc
 ./scripts/create-context-file.sh --type plans --title "Retriever rollout" << 'EOF'
 ## Phase 1
@@ -113,6 +124,21 @@ Expected result: the target path plus full file body printed; nothing written.
 Expected result: a file under a new typology folder, created knowingly.
 
 Full option list: see the CLI reference below.
+
+## Filing a follow-up
+
+Grade a follow-up with a `severity` and a `priority`, so that whatever lists
+follow-ups can put the most pressing first. Use the
+[grading rubric](references/follow-up-grading.md) to choose them. The user, not
+the agent, must settle each grade, because grades steer what gets done next:
+
+1. Propose a `severity` and a `priority` from the rubric. Give a one-line
+   reason drawn from each decision test.
+2. Wait for the user to confirm or change them, or to leave the follow-up
+   ungraded.
+3. Pass `--severity`, `--priority` and `--graded` (today's date) only after that
+   confirmation. Leave a follow-up without an answer ungraded. Never invent a
+   `--graded` date.
 
 ## Anti-Patterns
 
@@ -185,6 +211,19 @@ relationship in prose instead if it isn't really "done-or-not-done" shaped.
 nothing in `context-ready.sh`'s output explaining that the blocker itself is
 the problem rather than the work.
 
+### NEVER write `severity`, `priority` or `graded` the user has not confirmed
+
+**WHY:** a grade steers which follow-up gets picked up next, and nothing in the
+file records who chose it.
+
+**BAD:** passing `--severity HIGH --priority P1 --graded <today>` because the
+rubric seemed to fit.
+**GOOD:** propose the grades with a reason, wait for the user's answer, then
+pass the flags (or file the follow-up ungraded).
+
+**Consequence:** an agent-chosen grade ranks above work a person judged more
+pressing, and reads as a person's decision.
+
 ### NEVER invent a new typology for a one-off
 
 **WHY:** ad-hoc folders erode the curated set that makes context navigable.
@@ -198,4 +237,5 @@ the problem rather than the work.
 
 - [Typologies](references/typologies.md) — the curated catalog, selection rule, and how to extend the set; load when choosing or adding a typology.
 - [CLI reference](references/cli.md) — full generator flags, behavior, and examples; load when you need an option beyond the Quick Commands.
-- [Frontmatter schema](assets/schemas/context-frontmatter.schema.json) — the JSON Schema for `title`, `type`, `date`, `status`, `tags`, `related`, `blocks`, and `blocked-by`; load when validating a context file's frontmatter or wiring a lint check.
+- [Follow-up grading](references/follow-up-grading.md) — the decision test for each `severity` and `priority` value, who sets a grade, and the sort order; load when filing a follow-up or grading a batch of them.
+- [Frontmatter schema](assets/schemas/context-frontmatter.schema.json) — the JSON Schema for `title`, `type`, `date`, `status`, `tags`, `related`, `blocks`, `blocked-by`, and the follow-up grades `severity`, `priority` and `graded`; load when validating a context file's frontmatter or wiring a lint check. Nothing runs it yet.

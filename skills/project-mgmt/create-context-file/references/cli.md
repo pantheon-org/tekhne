@@ -21,6 +21,9 @@ scripts/create-context-file.sh --type <typology> --title "<title>" [options]
 | `-R`, `--related` | `PATHS` | Comma-separated relative paths to related `.context` files. Omitted entirely from frontmatter when empty — never written as `related: []`. |
 | `-b`, `--blocks` | `PATHS` | Comma-separated relative paths to `.context` files that cannot be ready until **this** file is done. Same omit-when-empty rule as `--related`. |
 | `-k`, `--blocked-by` | `PATHS` | Comma-separated relative paths to `.context` files that must be done before **this** file is ready. Same omit-when-empty rule as `--related`. Read by the `context-index` skill's `scripts/context-ready.sh`. |
+| `--severity` | `LEVEL` | Follow-ups only. `CRITICAL`, `HIGH`, `MEDIUM` or `LOW` (case-insensitive, written upper case). Required together with `--priority` and `--graded`. |
+| `--priority` | `LEVEL` | Follow-ups only. `P1`, `P2` or `P3` (case-insensitive, written upper case). Required together with `--severity` and `--graded`. |
+| `--graded` | `DATE` | Follow-ups only. `YYYY-MM-DD`, the day the user confirmed the grades. No default. |
 | `-d`, `--date` | `DATE` | Override the date (`YYYY-MM-DD`); defaults to today. |
 | `-r`, `--root` | `DIR` | Context root; defaults to `.context`. |
 | `-A`, `--allow-new-type` | | Permit a typology not in `KNOWN_TYPES`. |
@@ -37,6 +40,12 @@ scripts/create-context-file.sh --type <typology> --title "<title>" [options]
 - The date must match `YYYY-MM-DD`; other formats are rejected.
 - An unknown typology is rejected unless `--allow-new-type` is passed.
 - An existing target file is never overwritten unless `--force` is passed.
+- `--severity`, `--priority` and `--graded` are set together: any one without
+  the other two is an error, as is a value outside the lists above, a
+  malformed `--graded`, or any of them on a typology other than `follow-ups`.
+  They are written last in the frontmatter, just before the closing `---`, in
+  the order `severity`, `priority`, `graded`. Pass them only after the user has
+  confirmed the grades; see [Follow-up grading](follow-up-grading.md).
 
 ## Examples
 
@@ -52,6 +61,10 @@ scripts/create-context-file.sh --type findings --title "Auth token analysis" \
 # Follow-up that can't start until a plan is done
 scripts/create-context-file.sh --type follow-ups --title "Wire up token refresh" \
   --blocked-by "../plans/2026-03-16-auth-rollout.md"
+
+# Follow-up with grades the user has confirmed
+scripts/create-context-file.sh --type follow-ups --title "Wire up token refresh" \
+  --severity HIGH --priority P2 --graded 2026-10-07
 
 # Plan with a heredoc body
 scripts/create-context-file.sh --type plans --title "Retriever rollout" << 'EOF'

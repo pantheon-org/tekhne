@@ -11,6 +11,8 @@ Technical details and edge cases for the scripts in `scripts/`.
    `blocks`, and `blocked-by` when present. `blocked-by` is what
    `scripts/context-ready.sh` reads to compute which active files have zero
    open blockers.
+   For `follow-up` entries it also extracts `severity`, `priority` and
+   `graded` when the file sets them (see Follow-up Grades below).
 4. Skips files with missing or malformed frontmatter, printing them to
    stderr.
 5. Groups the remaining entries by typology (the plural directory name) and
@@ -76,6 +78,39 @@ relative to the *source file's own directory*, the same convention `related`
 already uses. Resolving them against the repo root (to check whether a
 blocker is `done`) is `context-ready.sh`'s job, not this script's.
 
+## Follow-up Grades
+
+A follow-up may set `severity` (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`),
+`priority` (`P1`, `P2`, `P3`) and `graded` (`YYYY-MM-DD`, the day the user
+confirmed the grades), together. For entries of type `follow-up` only, the
+index writes them as four-space scalars right after `date:` and before the
+list blocks:
+
+```yaml
+  - path: ".context/follow-ups/2026-10-07-wire-up-token-refresh.md"
+    title: "Wire up token refresh"
+    status: "active"
+    date: 2026-10-07
+    severity: "HIGH"
+    priority: "P2"
+    graded: 2026-10-07
+    tags:
+      - auth
+```
+
+`severity` and `priority` are quoted like `title` and `status`; `graded` is
+unquoted like `date`. They are written whenever the file sets them, valid or
+not, so a reader can show an invalid value as written instead of losing it, and
+they are written whatever the follow-up's `status`. A file that sets none of the
+three produces no grade lines, so an index with no graded follow-ups is
+byte-for-byte what it was before grades existed. Other typologies ignore the
+three fields.
+
+The script warns on stderr, and still exits 0, for an unknown `severity` or
+`priority`, a `graded` that is not a date, and an incomplete set. Values are
+matched case-insensitively, so `high` does not warn and is written as authored.
+A `graded` that is not a date is written quoted so it cannot break the YAML.
+
 ## Exit Codes
 
 | Script | Code | Meaning |
@@ -100,6 +135,7 @@ blocker is `done`) is `context-ready.sh`'s job, not this script's.
 | A file appears under `.context/` but not in the index | Missing or malformed frontmatter | Run `check-context-frontmatter.sh`, then `validate-context-frontmatter.sh`, to identify and fix it |
 | Index has duplicate-looking entries after a rename | The old and new paths both existed at some point | Regenerate — the index only ever reflects the files present at generation time |
 | Index is empty after regeneration | No `.md` file under `.context/` has valid frontmatter yet | Verify files exist and start with a `---\ntitle: ...\n---` block |
+| `WARNING: invalid follow-up grades` on stderr | A follow-up sets an unknown `severity` or `priority`, a malformed `graded`, or only some of the three | Fix the follow-up's three grade lines; they are set together, last in the frontmatter |
 | A finding/plan/etc. lands in `other:` | Its `type:` value isn't one of the known singular forms in the table above | Fix the typo, or confirm it's an intentional `--allow-new-type` typology |
 
 ## Wiring Into a Pre-Commit Gate

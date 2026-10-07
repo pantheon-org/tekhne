@@ -4,6 +4,9 @@
 
 ### Features
 
+* **create-context-file:** follow-ups can carry `severity` (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`), `priority` (`P1`, `P2`, `P3`) and `graded` (the day the user confirmed them). The generator takes `--severity`, `--priority` and `--graded`, requires all three together, accepts them on follow-ups only, has no default for `--graded`, and writes them last in the frontmatter. The schema declares the three fields at the root with no type restriction. A new `references/follow-up-grading.md` holds the decision test for each value, and `SKILL.md` gains a "Filing a follow-up" section: the agent proposes grades with a reason and passes the flags only after the user confirms.
+* **context-index:** `regenerate-context-index.sh` writes `severity:`, `priority:` and `graded:` into the index entry of a follow-up that sets them, after `date:`, and warns on stderr about an unknown value or an incomplete set. The entry is kept as written so readers can show it as needing a grade.
+* **follow-up:** a new workflow step ranks active follow-ups by grade (severity, then priority, then newest) and lists those needing a grade separately; the active-status match is now case-insensitive.
 * **create-context-file:** `singular_of` maps `handovers` to `handover`, matching the `handovers` typology that `context-index` now indexes. This was already the result of the trailing-`s` fallback, so generated files are unchanged. `handovers` is deliberately not in `KNOWN_TYPES`, because handovers are written by `handover-document-creator`, not this script.
 * **context-index:** the paired `check-context-filenames.sh` now treats `handovers/` as a known directory, so projects that run it also enforce the date-first filename and the filename-date-equals-frontmatter-date check for handovers.
 
