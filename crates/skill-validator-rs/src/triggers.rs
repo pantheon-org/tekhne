@@ -7,8 +7,8 @@
 //! deliberate consolidation of near-synonyms, so the caller never fails on it.
 //!
 //! Tekhne descriptions have no quoted-phrase convention. Triggers are the
-//! comma-separated clauses after a `Use when` marker and the list after a
-//! `Keywords:` marker, so those are the phrases. A base phrase counts as
+//! comma-separated clauses after a `Use when` marker and the lists after a
+//! `Keywords:` or `Triggers:` marker, so those are the phrases. A base phrase counts as
 //! preserved when its normalised text still appears anywhere in the head
 //! listing text, which keeps a reflowed or reordered clause from being
 //! reported as a drop.
@@ -96,7 +96,7 @@ fn marker_use_when() -> &'static Regex {
 /// sentence (so `Commander.js` and `biome.json` stay whole).
 fn clause_split() -> &'static Regex {
     static RE: OnceLock<Regex> = OnceLock::new();
-    RE.get_or_init(|| Regex::new(r"(?i)[,;\n]|\.(?:\s|$)|keywords\s*:").unwrap())
+    RE.get_or_init(|| Regex::new(r"(?i)[,;\n]|\.(?:\s|$)|\b(?:keywords|triggers?)\s*:").unwrap())
 }
 
 fn marker_keywords() -> &'static Regex {
@@ -104,14 +104,23 @@ fn marker_keywords() -> &'static Regex {
     RE.get_or_init(|| Regex::new(r"(?i)\bkeywords\s*:").unwrap())
 }
 
+/// `Triggers:` or `Trigger:`, the third marker tekhne descriptions use.
+fn marker_triggers() -> &'static Regex {
+    static RE: OnceLock<Regex> = OnceLock::new();
+    RE.get_or_init(|| Regex::new(r"(?i)\btriggers?\s*:").unwrap())
+}
+
 /// Extract the sorted, de-duplicated, normalised trigger phrases from listing
-/// text. A description with neither marker has no trigger phrases.
+/// text. A description with none of the three markers has no trigger phrases.
 pub fn phrases(text: &str) -> Vec<String> {
     let mut segments: Vec<&str> = Vec::new();
     if let Some(m) = marker_use_when().find(text) {
         segments.push(&text[m.end()..]);
     }
     if let Some(m) = marker_keywords().find(text) {
+        segments.push(&text[m.end()..]);
+    }
+    if let Some(m) = marker_triggers().find(text) {
         segments.push(&text[m.end()..]);
     }
 
@@ -191,6 +200,44 @@ mod tests {
         assert!(p.iter().all(|x| !x.contains("keywords")));
         let head = "Use when asked to \"ready up\" a ticket, write up PROJ-1, Jira";
         assert!(dropped(&p, head).is_empty());
+    }
+
+    #[test]
+    fn triggers_marker_alone_yields_phrases() {
+        let p = phrases(
+            "Search Semantic Scholar for papers. Preferred over the other. Triggers: search papers, \
+             paper by DOI, citation analysis.",
+        );
+        assert_eq!(
+            p,
+            vec!["citation analysis", "paper by doi", "search papers"]
+        );
+        let q = phrases("Does a thing. Trigger: first thing, second thing");
+        assert_eq!(q, vec!["first thing", "second thing"]);
+    }
+
+    #[test]
+    fn triggers_after_use_when_is_not_glued_to_the_first_phrase() {
+        let p = phrases(
+            "Find papers. Use when discovering papers. Triggers: search papers, find author.",
+        );
+        assert!(p.contains(&"search papers".to_string()), "{p:?}");
+        assert!(p.contains(&"find author".to_string()), "{p:?}");
+        assert!(p.iter().all(|x| !x.contains("triggers")), "{p:?}");
+    }
+
+    #[test]
+    fn triggers_marker_is_case_insensitive_and_needs_a_colon() {
+        assert!(phrases("TRIGGERS: alpha thing").contains(&"alpha thing".to_string()));
+        // Prose that merely uses the word is not a marker.
+        assert!(phrases("It triggers on every commit, always").is_empty());
+    }
+
+    #[test]
+    fn a_dropped_triggers_phrase_is_reported() {
+        let base = phrases("X. Triggers: search papers, paper by doi, citation analysis");
+        let head = "X. Triggers: search papers, citation analysis";
+        assert_eq!(dropped(&base, head), vec!["paper by doi"]);
     }
 
     #[test]

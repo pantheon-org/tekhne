@@ -266,7 +266,7 @@
           "expect_trigger": true,
           "predicted": true,
           "correct": true,
-          "target_score": 2,
+          "target_score": 12,
           "winner": "research:semantic-scholar-search",
           "request": "who cites this paper and what are its references"
         },
@@ -436,7 +436,7 @@
           "expect_trigger": false,
           "predicted": true,
           "correct": false,
-          "target_score": 1,
+          "target_score": 11,
           "winner": "research:semantic-scholar-search",
           "request": "format my references in apa style"
         },
