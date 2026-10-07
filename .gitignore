@@ -1,5 +1,7 @@
 .agents/
-.claude/
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
 .codex/
 !.context/
 .context/*
