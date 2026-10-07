@@ -23,6 +23,8 @@ on:
       - "skills/documentation/adr-creator/.audits/**"
       - "skills/documentation/journal-entry-creator/.audits/**"
       - "skills/agentic-harness/skill-quality-auditor/.audits/**"
+      # Invocation probes are read by the validator's committed-probes test.
+      - "probes/**"
       - "rust-toolchain.toml"
       - ".github/workflows/rust-ci.yml"
   push:
@@ -46,6 +48,8 @@ on:
       - "skills/documentation/adr-creator/.audits/**"
       - "skills/documentation/journal-entry-creator/.audits/**"
       - "skills/agentic-harness/skill-quality-auditor/.audits/**"
+      # Invocation probes are read by the validator's committed-probes test.
+      - "probes/**"
       - "rust-toolchain.toml"
       - ".github/workflows/rust-ci.yml"
 
