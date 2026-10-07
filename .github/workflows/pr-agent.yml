@@ -52,6 +52,7 @@ jobs:
         run: |
           if [ -n "$GEMINI_API_KEY" ] || [ -n "$MISTRAL_API_KEY" ] || [ -n "$CEREBRAS_API_KEY" ]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
+            echo "started=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
             echo "::notice::PR Agent skipped — no provider API key configured (GEMINI_API_KEY / MISTRAL_API_KEY / CEREBRAS_API_KEY)."
@@ -89,3 +90,50 @@ jobs:
           github_action_config.auto_describe: "true"
           github_action_config.auto_review: "true"
           github_action_config.auto_improve: "false"
+
+      # PR-Agent logs "Failed to generate prediction with any model" and still
+      # exits 0 (a bad key, a rate limit and a billing block all look like a
+      # passing step), so the step outcome cannot be trusted. Instead check that
+      # the review comment was written or refreshed during this run, and say so
+      # on the PR when it was not. Only pull_request events: an issue_comment
+      # event without a command legitimately posts nothing.
+      - name: Report a PR Agent failure on the PR
+        if: steps.key.outputs.present == 'true' && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          STARTED: ${{ steps.key.outputs.started }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          marker='<!-- pr-agent-failure -->'
+          comments=$(gh api "repos/$REPO/issues/$PR/comments" --paginate | jq -s '[.[][]]')
+
+          reviewed=$(jq --arg started "$STARTED" \
+            '[.[] | select(.body | contains("PR Reviewer Guide")) | select(.updated_at >= $started)] | length' \
+            <<<"$comments")
+          existing=$(jq -r --arg marker "$marker" \
+            '[.[] | select(.body | contains($marker)) | .id] | first // empty' <<<"$comments")
+
+          if [ "$reviewed" -gt 0 ]; then
+            echo "PR Agent posted a review during this run."
+            # Clear a stale failure notice from an earlier run.
+            if [ -n "$existing" ]; then
+              gh api -X DELETE "repos/$REPO/issues/comments/$existing"
+            fi
+            exit 0
+          fi
+
+          echo "::warning::PR Agent posted no review. See the PR Agent action step log."
+          body=$(printf '%s\n%s\n\n%s\n\n%s\n' \
+            "$marker" \
+            '## PR Agent did not post a review' \
+            "Every configured model failed, so no description or review was generated. The usual causes are an invalid or expired provider API key, a rate limit, or a billing block. The error is in the \"PR Agent action step\" log of [this run]($RUN_URL)." \
+            'This check stays green on purpose (PR Agent is advisory). Reopen the PR or mark it ready for review to run it again once the provider is fixed.')
+
+          if [ -n "$existing" ]; then
+            gh api -X PATCH "repos/$REPO/issues/comments/$existing" -f body="$body" >/dev/null
+          else
+            gh api -X POST "repos/$REPO/issues/$PR/comments" -f body="$body" >/dev/null
+          fi
