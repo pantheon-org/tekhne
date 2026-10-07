@@ -2,7 +2,7 @@
 name: retrospect-domain
 description: Analyze domain insights (WHAT/WHY learned) from captured sessions. Use when reviewing learnings, extracting patterns, analyzing decisions. Triggers include "retrospect domain", "domain analysis", "what did I learn", "session insights".
 argument-hint: "[domain] [--last Nd|--week|--month|--from DATE --to DATE]"
-allowed-tools: bash, read, write, grep
+allowed-tools: Bash, Read, Write, Grep
 model: opus
 user-invocable: true
 cynefin-domain: clear
