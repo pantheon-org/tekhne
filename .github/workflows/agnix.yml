@@ -9,8 +9,12 @@ name: agnix
 # Make it blocking (drop continue-on-error) once it has run without false
 # positives for a while. Configuration lives in .agnix.toml. Never runs --fix.
 #
-# No third-party action: the pinned release is downloaded with the preinstalled
-# gh CLI, and its GitHub build attestation is verified before it runs.
+# No third-party action: the pinned release is downloaded from its public URL and
+# checked against a pinned SHA-256 before it runs. The digest was taken from a
+# tarball whose GitHub build attestation verified against agnix's release.yml
+# (gh attestation verify). Verifying the attestation in this job is not possible:
+# the job token is scoped to this repository, so gh cannot read another
+# repository's releases or attestations ("release not found").
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -28,8 +32,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Keep in sync with "github:agent-sh/agnix" in mise.toml.
+  # Keep in sync with "github:agent-sh/agnix" in mise.toml. On a bump, re-verify
+  # the new tarball's attestation locally and replace the digest:
+  #   gh attestation verify agnix-x86_64-unknown-linux-gnu.tar.gz --repo agent-sh/agnix \
+  #     --signer-workflow agent-sh/agnix/.github/workflows/release.yml
   AGNIX_VERSION: "0.55.0"
+  AGNIX_SHA256: "97bea2471753b38608547606e2c1285a7748e95e693143be302c3cfbb3d9c3af"
 
 jobs:
   agnix:
@@ -38,17 +46,15 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Install agnix (attestation verified)
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Install agnix (pinned digest)
         run: |
           set -euo pipefail
           asset="agnix-x86_64-unknown-linux-gnu.tar.gz"
           dir="$RUNNER_TEMP/agnix"
           mkdir -p "$dir"
-          gh release download "v${AGNIX_VERSION}" -R agent-sh/agnix -p "$asset" -D "$dir"
-          gh attestation verify "$dir/$asset" --repo agent-sh/agnix \
-            --signer-workflow agent-sh/agnix/.github/workflows/release.yml
+          curl -fsSL -o "$dir/$asset" \
+            "https://github.com/agent-sh/agnix/releases/download/v${AGNIX_VERSION}/${asset}"
+          echo "${AGNIX_SHA256}  $dir/$asset" | sha256sum -c -
           tar -xzf "$dir/$asset" -C "$dir"
           echo "$dir" >> "$GITHUB_PATH"
 
