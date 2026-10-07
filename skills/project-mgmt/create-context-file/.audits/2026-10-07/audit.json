@@ -15,9 +15,9 @@
   "total": 126,
   "maxTotal": 140,
   "grade": "A",
-  "lines": 202,
+  "lines": 242,
   "hasReferences": true,
-  "referenceCount": 2,
+  "referenceCount": 3,
   "referenceSectionCompliant": true,
   "errors": 0,
   "warnings": 0

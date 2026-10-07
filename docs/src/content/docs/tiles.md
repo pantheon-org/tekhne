@@ -977,7 +977,7 @@ Read-only status check across the follow-up backlog: lists every ACTIVE follow-u
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [follow-up](/tekhne/skills/project-mgmt/follow-up/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-02 | 4 |
+| [follow-up](/tekhne/skills/project-mgmt/follow-up/skill/) | <span class="skill-badge skill-badge--b">B</span> | 2026-10-07 | 4 |
 
 ### goal-tracker
 

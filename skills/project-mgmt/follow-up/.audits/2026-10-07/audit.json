@@ -1,0 +1,30 @@
+{
+  "skill": "project-mgmt/follow-up",
+  "date": "2026-10-07",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 12,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 11,
+    "patternRecognition": 10,
+    "practicalUsability": 9,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 13
+  },
+  "total": 113,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 196,
+  "hasReferences": true,
+  "referenceCount": 2,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D4",
+      "message": "harness-specific path found: .claude/"
+    }
+  ]
+}
