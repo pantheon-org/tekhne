@@ -27,6 +27,15 @@
 #     into a title, a marker or a gh argument, and messages are HTML-escaped so
 #     a finding cannot inject markup or mentions.
 #
+# Known limits, accepted for now:
+#   - Open issues are listed 500 at a time. With more than 500 open, a marker
+#     past the first 500 is not seen: a duplicate could be filed and a fixed
+#     finding left open. Open issues were 26 on 07-10-2026.
+#   - Two runs creating the same issue at the same moment are reconciled after
+#     the fact (the later is closed as a duplicate), not prevented.
+#   - A rule, file or message agnix reports that fails the plain-path check is
+#     skipped with a warning and gets no issue.
+#
 # The issue numbers are written to $TRACKED_FILE as a Markdown list for the
 # agnix comment on the pull request to include.
 #
