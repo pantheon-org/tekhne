@@ -4,7 +4,6 @@ description: Save session to CONTEXT-llm.md with conversation summary. Use when 
 argument-hint: "[stream-name] [description]"
 allowed-tools: bash, read, write, edit, askuserquestion
 model: haiku
-context: main
 user-invocable: true
 ---
 

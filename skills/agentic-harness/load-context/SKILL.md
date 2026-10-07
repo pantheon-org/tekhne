@@ -4,7 +4,6 @@ description: Resume session from CONTEXT-llm.md. Use when resuming work, loading
 argument-hint: "[stream-name] [--full]"
 allowed-tools: bash, read, askuserquestion
 model: haiku
-context: main
 user-invocable: true
 ---
 

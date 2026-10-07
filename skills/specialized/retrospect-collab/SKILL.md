@@ -4,7 +4,6 @@ description: Analyze collaboration patterns (HOW) and compute metrics from captu
 argument-hint: "[--last Nd|--week|--month|--from DATE --to DATE]"
 allowed-tools: bash, read, write, grep
 model: opus
-context: main
 user-invocable: true
 cynefin-domain: clear
 cynefin-verb: execute

@@ -2,7 +2,6 @@
 name: pick-model
 description: Recommend optimal Claude model (haiku/sonnet/opus) for a task. Use when user asks "which model", "pick model", "model for", or before starting costly/complex tasks. Covers tech and non-tech tasks.
 model: haiku
-context: main
 ---
 
 # Pick Model

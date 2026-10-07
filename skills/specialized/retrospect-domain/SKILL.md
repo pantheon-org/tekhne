@@ -4,7 +4,6 @@ description: Analyze domain insights (WHAT/WHY learned) from captured sessions. 
 argument-hint: "[domain] [--last Nd|--week|--month|--from DATE --to DATE]"
 allowed-tools: bash, read, write, grep
 model: opus
-context: main
 user-invocable: true
 cynefin-domain: clear
 cynefin-verb: execute

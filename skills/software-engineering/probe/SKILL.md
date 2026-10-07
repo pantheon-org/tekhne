@@ -3,7 +3,6 @@ name: probe
 description: "Safe-to-fail experiment for Complex domain problems where cause-effect is only visible in retrospect. Two-phase: foreground qualify → background probe → sense result. Use when: probe, safe-to-fail, test hypothesis, experiment with hypothesis, Complex domain with hypothesis. NOT for brainstorming (use brainstorm) or known cause-effect (use investigate)."
 allowed-tools: AskUserQuestion, Read, Glob, Grep, WebSearch, WebFetch, Write, Bash, Task
 model: opus
-context: main
 argument-hint: <hypothesis to probe>
 cynefin-domain: complex
 cynefin-verb: probe

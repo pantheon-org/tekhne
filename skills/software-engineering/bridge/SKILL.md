@@ -4,7 +4,6 @@ description: "Capture cross-project connections on the fly. Use when you notice 
 allowed-tools: bash, read, write, edit, glob
 model: haiku
 argument-hint: "<source> → <target>: <description>"
-context: main
 user-invocable: true
 ---
 

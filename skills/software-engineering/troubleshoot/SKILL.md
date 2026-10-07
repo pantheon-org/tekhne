@@ -3,7 +3,6 @@ name: troubleshoot
 description: "Use when user reports an error, bug, or something not working. Search-first troubleshooting with diagnostic phase. Triggers: debug, error, broken, not working, failing, crash, exception."
 allowed-tools: WebSearch, WebFetch, AskUserQuestion, Read, Glob, Grep
 model: opus
-context: main
 argument-hint: <error or symptom description>
 cynefin-domain: complicated
 cynefin-verb: analyze
