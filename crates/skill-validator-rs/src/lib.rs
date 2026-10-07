@@ -18,6 +18,7 @@ pub mod links;
 pub mod listing;
 pub mod skill;
 pub mod structure;
+pub mod triggers;
 pub mod types;
 pub mod util;
 

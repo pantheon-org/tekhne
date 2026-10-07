@@ -84,6 +84,16 @@ pub fn analyze_content_cmd(dir: &str) -> Result<CliReport, String> {
     })
 }
 
+/// Run `analyze triggers <dir> --base <dir>`: trigger-phrase drift.
+pub fn analyze_triggers_cmd(dir: &str, base: &str) -> Result<CliReport, String> {
+    let report = skill_validator_rs::triggers::compare(Path::new(dir), Path::new(base))?;
+    Ok(CliReport {
+        skill_dir: dir.to_string(),
+        triggers: Some(report),
+        ..CliReport::default()
+    })
+}
+
 /// Run `analyze listing <root>`: the shared listing-budget estimate. With
 /// `from_settings`, fill the inputs the caller left unset from this machine's
 /// environment and Claude settings files (explicit inputs win).
