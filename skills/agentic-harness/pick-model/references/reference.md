@@ -213,4 +213,3 @@ Output confidence level based on task clarity:
 - **High**: Task signals clearly match one tier
 - **Medium**: Borderline between two tiers
 - **Low**: Insufficient information, recommend exploration
-</content>
