@@ -1,0 +1,24 @@
+{
+  "skill": "project-mgmt/context-index",
+  "date": "2026-10-07",
+  "dimensions": {
+    "antiPatternQuality": 10,
+    "evalValidation": 17,
+    "freedomCalibration": 13,
+    "knowledgeDelta": 20,
+    "mindsetProcedures": 13,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 10,
+    "specificationCompliance": 9
+  },
+  "total": 117,
+  "maxTotal": 140,
+  "grade": "B",
+  "lines": 218,
+  "hasReferences": true,
+  "referenceCount": 1,
+  "referenceSectionCompliant": false,
+  "errors": 0,
+  "warnings": 0
+}
