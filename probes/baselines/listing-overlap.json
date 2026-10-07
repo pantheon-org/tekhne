@@ -1,0 +1,456 @@
+{
+  "method": "listing-overlap",
+  "note": "Lexical floor, not a model-graded invocation rate: a high trigger rate means the listing already contains the request's words.",
+  "skills": [
+    {
+      "skill": "terraform:generator",
+      "splits": {
+        "train": {
+          "n": 12,
+          "n_positive": 6,
+          "n_negative": 6,
+          "trigger_hits": 5,
+          "false_triggers": 2,
+          "trigger_rate": 0.8333333333333334,
+          "false_trigger_rate": 0.3333333333333333
+        },
+        "validation": {
+          "n": 8,
+          "n_positive": 4,
+          "n_negative": 4,
+          "trigger_hits": 2,
+          "false_triggers": 1,
+          "trigger_rate": 0.5,
+          "false_trigger_rate": 0.25
+        }
+      },
+      "cases": [
+        {
+          "id": "pos-train-01",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "terraform:generator",
+          "request": "I need a new VPC with public and private subnets on AWS"
+        },
+        {
+          "id": "pos-train-02",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 3,
+          "winner": "terraform:generator",
+          "request": "set up an S3 bucket for remote state with locking"
+        },
+        {
+          "id": "pos-train-03",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 1,
+          "winner": "terraform:generator",
+          "request": "create a module for an Azure storage account"
+        },
+        {
+          "id": "pos-train-04",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 1,
+          "winner": "terraform:generator",
+          "request": "how should I lay out dev, staging and prod environments"
+        },
+        {
+          "id": "pos-train-05",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 3,
+          "winner": "terraform:generator",
+          "request": "write the variables and outputs for this module"
+        },
+        {
+          "id": "pos-train-06",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 0,
+          "winner": "none",
+          "request": "scaffold a GKE cluster definition from scratch"
+        },
+        {
+          "id": "pos-val-01",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "terraform:generator",
+          "request": "I want to provision a postgres database in the cloud with code"
+        },
+        {
+          "id": "pos-val-02",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "terraform:generator+skills/infrastructure/terraform/validator",
+          "request": "start a terraform project for my side project"
+        },
+        {
+          "id": "pos-val-03",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 0,
+          "winner": "none",
+          "request": "add a provider block for google and pin the version"
+        },
+        {
+          "id": "pos-val-04",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "terraform:generator",
+          "request": "generate hcl for an application load balancer"
+        },
+        {
+          "id": "neg-train-01",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "terraform:generator+skills/infrastructure/terraform/validator",
+          "request": "why does my plan fail with a cycle error"
+        },
+        {
+          "id": "neg-train-02",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/infrastructure/terraform/validator",
+          "request": "run a lint pass over these tf files"
+        },
+        {
+          "id": "neg-train-03",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": true,
+          "correct": false,
+          "target_score": 1,
+          "winner": "terraform:generator",
+          "request": "check my configuration for syntax mistakes before I apply"
+        },
+        {
+          "id": "neg-train-04",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": true,
+          "correct": false,
+          "target_score": 1,
+          "winner": "terraform:generator",
+          "request": "write an ansible playbook to install nginx"
+        },
+        {
+          "id": "neg-train-05",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "none",
+          "request": "convert this kubernetes deployment to a helm chart"
+        },
+        {
+          "id": "neg-train-06",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/infrastructure/terraform/validator",
+          "request": "test my modules with a dry run"
+        },
+        {
+          "id": "neg-val-01",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "none",
+          "request": "format check and tflint on this repo"
+        },
+        {
+          "id": "neg-val-02",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/infrastructure/terraform/validator",
+          "request": "my tfvars file is rejected, what is wrong"
+        },
+        {
+          "id": "neg-val-03",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": true,
+          "correct": false,
+          "target_score": 1,
+          "winner": "terraform:generator",
+          "request": "write a dockerfile for a node service"
+        },
+        {
+          "id": "neg-val-04",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "none",
+          "request": "explain what drift detection is"
+        }
+      ]
+    },
+    {
+      "skill": "terraform:validator",
+      "splits": {
+        "train": {
+          "n": 12,
+          "n_positive": 6,
+          "n_negative": 6,
+          "trigger_hits": 2,
+          "false_triggers": 0,
+          "trigger_rate": 0.3333333333333333,
+          "false_trigger_rate": 0.0
+        },
+        "validation": {
+          "n": 8,
+          "n_positive": 4,
+          "n_negative": 4,
+          "trigger_hits": 2,
+          "false_triggers": 0,
+          "trigger_rate": 0.5,
+          "false_trigger_rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "id": "pos-train-01",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "terraform:validator+skills/infrastructure/terraform/generator",
+          "request": "terraform validate keeps erroring on this module"
+        },
+        {
+          "id": "pos-train-02",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 2,
+          "winner": "terraform:validator+skills/infrastructure/terraform/generator",
+          "request": "lint these hcl files with tflint"
+        },
+        {
+          "id": "pos-train-03",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 11,
+          "winner": "terraform:validator",
+          "request": "does my tfvars match the declared variables"
+        },
+        {
+          "id": "pos-train-04",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "terraform:validator",
+          "request": "do a dry run and tell me what would change"
+        },
+        {
+          "id": "pos-train-05",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "terraform:validator+skills/infrastructure/terraform/generator",
+          "request": "debug this plan error about a dependency cycle"
+        },
+        {
+          "id": "pos-train-06",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "terraform:validator+skills/infrastructure/terraform/generator",
+          "request": "scan my modules for security problems"
+        },
+        {
+          "id": "pos-val-01",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 0,
+          "winner": "none",
+          "request": "check this config is correct before I merge"
+        },
+        {
+          "id": "pos-val-02",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "terraform:validator",
+          "request": "my terraform fails when I run init, help"
+        },
+        {
+          "id": "pos-val-03",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "terraform:validator",
+          "request": "run the checks on a custom provider I wrote"
+        },
+        {
+          "id": "pos-val-04",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 2,
+          "winner": "terraform:validator+skills/infrastructure/terraform/generator",
+          "request": "is this infrastructure code formatted properly"
+        },
+        {
+          "id": "neg-train-01",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "create a new terraform module for an rds instance"
+        },
+        {
+          "id": "neg-train-02",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "write hcl for an S3 bucket"
+        },
+        {
+          "id": "neg-train-03",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "scaffold a project for multiple environments"
+        },
+        {
+          "id": "neg-train-04",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "set up a remote backend"
+        },
+        {
+          "id": "neg-train-05",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "write an ansible role for postgres"
+        },
+        {
+          "id": "neg-train-06",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "none",
+          "request": "build a helm chart for my service"
+        },
+        {
+          "id": "neg-val-01",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "generate variables and outputs for me"
+        },
+        {
+          "id": "neg-val-02",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "start an azure project with code"
+        },
+        {
+          "id": "neg-val-03",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "write a github actions workflow"
+        },
+        {
+          "id": "neg-val-04",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/infrastructure/terraform/generator",
+          "request": "give me a gcp network definition"
+        }
+      ]
+    }
+  ]
+}

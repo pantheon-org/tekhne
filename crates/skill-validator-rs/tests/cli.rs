@@ -418,3 +418,123 @@ fn description_near_the_limit_warns_and_over_it_errors() {
         0
     );
 }
+
+fn write_probe_fixture(root: &std::path::Path) {
+    write_listing_skill(
+        root,
+        "skills/gen",
+        "name: gen\ndescription: Generate terraform modules. Use when writing terraform resources\n",
+    );
+    write_listing_skill(
+        root,
+        "skills/val",
+        "name: val\ndescription: Validate terraform configs. Use when linting terraform plans\n",
+    );
+    let q = |id: &str, split: &str, expect: bool, request: &str| serde_json::json!({"id": id, "split": split, "expect_trigger": expect, "request": request});
+    let mut queries = Vec::new();
+    for i in 0..5 {
+        queries.push(q(
+            &format!("p{i}"),
+            if i < 3 { "train" } else { "validation" },
+            true,
+            &format!("make {i} resources for the cloud"),
+        ));
+        queries.push(q(
+            &format!("n{i}"),
+            if i < 3 { "train" } else { "validation" },
+            false,
+            &format!("bake {i} cakes"),
+        ));
+    }
+    let probe = serde_json::json!({
+        "skill": "t:gen", "skill_dir": "skills/gen", "competitors": ["skills/val"], "queries": queries
+    });
+    std::fs::create_dir_all(root.join("probes/baselines")).unwrap();
+    std::fs::write(
+        root.join("probes/gen.json"),
+        serde_json::to_string(&probe).unwrap(),
+    )
+    .unwrap();
+}
+
+#[test]
+fn probes_validate_score_and_compare_round_trip() {
+    let tmp = tempfile::tempdir().unwrap();
+    write_probe_fixture(tmp.path());
+    let root = tmp.path().to_str().unwrap();
+    let dir = tmp.path().join("probes");
+    let dir = dir.to_str().unwrap();
+
+    let v = run(&["probes", "validate", dir, "--repo-root", root]);
+    assert_eq!(code(&v), 0, "{}", stdout(&v));
+    assert!(stdout(&v).contains("0 error(s)"));
+
+    let s = run(&["probes", "score", dir, "--repo-root", root]);
+    assert_eq!(code(&s), 0);
+    let report: serde_json::Value = serde_json::from_str(&stdout(&s)).unwrap();
+    assert_eq!(report["method"], "listing-overlap");
+    assert!(report["note"]
+        .as_str()
+        .unwrap()
+        .contains("not a model-graded"));
+    assert_eq!(report["skills"][0]["splits"]["train"]["n"], 6);
+
+    let base = tmp.path().join("base.json");
+    std::fs::write(&base, stdout(&s)).unwrap();
+    let c = run(&[
+        "probes",
+        "compare",
+        base.to_str().unwrap(),
+        base.to_str().unwrap(),
+    ]);
+    assert_eq!(code(&c), 0);
+    let delta: serde_json::Value = serde_json::from_str(&stdout(&c)).unwrap();
+    assert_eq!(delta["skills"][0]["train"]["trigger_rate_delta"], 0.0);
+}
+
+#[test]
+fn probes_validate_fails_on_a_bad_probe_file_and_score_on_a_missing_skill() {
+    let tmp = tempfile::tempdir().unwrap();
+    write_probe_fixture(tmp.path());
+    let probes = tmp.path().join("probes");
+    let mut p: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(probes.join("gen.json")).unwrap()).unwrap();
+    p["skill_dir"] = "skills/missing".into();
+    std::fs::write(probes.join("gen.json"), p.to_string()).unwrap();
+    let root = tmp.path().to_str().unwrap();
+
+    let v = run(&[
+        "probes",
+        "validate",
+        probes.to_str().unwrap(),
+        "--repo-root",
+        root,
+    ]);
+    assert_eq!(code(&v), 1);
+    assert!(stdout(&v).contains("FAIL"));
+    let s = run(&[
+        "probes",
+        "score",
+        probes.to_str().unwrap(),
+        "--repo-root",
+        root,
+    ]);
+    assert_eq!(code(&s), 1);
+    assert_eq!(
+        code(&run(&["probes", "validate", "/nonexistent/probes"])),
+        1
+    );
+}
+
+#[test]
+fn committed_probes_validate_against_the_repository() {
+    let repo = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let out = run(&[
+        "probes",
+        "validate",
+        repo.join("probes").to_str().unwrap(),
+        "--repo-root",
+        repo.to_str().unwrap(),
+    ]);
+    assert_eq!(code(&out), 0, "{}", stdout(&out));
+}

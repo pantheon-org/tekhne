@@ -19,6 +19,7 @@ This file defines how LLM agents should work in this repository.
 - `skills/<domain>/<skill-name>/schemas/`: JSON schemas for validation.
 - `.context/`: Working notes and generated analysis artifacts.
 - `crates/`: Rust tools (`skill-auditor`, `skill-validator-rs`, `adr`, `journal`) for auditing, validation, and skill distribution.
+- `probes/`: Invocation probes, one JSON file per skill (see Invocation probes below); `probes/baselines/` holds committed score reports.
 - `scripts/catalog/`: TypeScript catalog generator for `README.md` and the docs tiles page.
 
 **Note:** Generator/validator pairs are consolidated at the tool level (e.g. `terraform-generator` and `terraform-validator` share `skills/infrastructure/terraform/tile.json`).
@@ -101,6 +102,21 @@ A rewrite can drop a phrase from a skill's `description` that auto-invocation re
 ```bash
 skill-validator-rs analyze triggers skills/<domain>/<skill> --base <base-checkout>/skills/<domain>/<skill>
 ```
+
+### Invocation probes
+
+The limits, the budget and the drift report cannot say whether a description routes well. Invocation probes label requests a skill should win or should not, and score them against its listing text and its named competitors. `skill-validator-rs probes` runs three commands:
+
+```bash
+skill-validator-rs probes validate probes                 # schema, labels, splits, copied wording
+skill-validator-rs probes score probes > /tmp/score.json  # lexical floor, JSON on stdout
+skill-validator-rs probes compare probes/baselines/listing-overlap.json /tmp/score.json
+mise run audit:probes                                     # validate, then score
+```
+
+`score` is a **lexical floor, not a model-graded invocation rate**. A skill wins a request only when its score is above zero and no competitor matches or beats it, so a tie is a miss. A high trigger rate means the listing already contains the request's words; a low one means a rewrite has room. It cannot show that a model would pick the skill, so judge a rewrite on the validation split, never on train alone. `compare` prints treatment minus baseline per split with a paired 95% interval over the should-trigger probes, matched by id; with only a handful of probes the interval is wide or zero-width, so read the probe count first.
+
+A probe file is `probes/<name>.json` with `skill` (the report name), `skill_dir` and `competitors` (repository-relative skill directories), and `queries`. Each query has a unique `id`, a `split` of `train` or `validation`, `expect_trigger`, and a `request`. Aim for 16 to 24 queries covering both labels in both splits; fewer than 8 is an error. Word should-trigger requests the way a user would ask, not in the description's words: `validate` warns when one shares four consecutive words with the listing. Choose competitors that really overlap in vocabulary, such as a generator and its validator. After changing a description, re-run `score` and `compare` against the committed baseline, then refresh the baseline only when you mean to move it.
 
 ### Skill listing budget
 
