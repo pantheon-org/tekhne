@@ -92,6 +92,14 @@ Grades: **A** ≥126/140 · **B+** 119-125 · **B** 112-118 · **C/C+** <112 (bl
 
 The pull request Skill Audit grades every skill that has any changed file, not only a changed `SKILL.md`, and audits the same skills at the base commit so the scores compare. A skill graded below B blocks the pull request only if it is new or scores lower than at the base commit. A skill that is already below B and not lowered passes with a warning and is tracked by one open GitHub issue (`scripts/skill-audit/classify.sh`, `file-issues.sh`), linked to the pull request and listed in the Skill Audit comment. Nothing closes the issue automatically; close it when the grade is fixed.
 
+### Trigger phrase drift
+
+A rewrite can drop a phrase from a skill's `description` that auto-invocation relied on while the grade stays flat. The Skill Audit comment lists each trigger phrase a changed skill dropped compared with the base commit. It is advisory and never fails the run: a drop is often a deliberate consolidation, so confirm the description still names the intent or restore the phrase. Trigger phrases are the comma-separated clauses after `Use when` and after `Keywords:`; a description with neither marker is not checked, and a new skill has nothing to compare. A base phrase counts as kept when its lowercased text still appears anywhere in the new description and `when_to_use`, so reordering or rewrapping is not a drop. Run it locally against a checkout of the base:
+
+```bash
+skill-validator-rs analyze triggers skills/<domain>/<skill> --base <base-checkout>/skills/<domain>/<skill>
+```
+
 ### Skill listing budget
 
 Every listing-eligible skill's name and description share one budget in the model's context (`skillListingBudgetFraction`, 1% of the context window; the documented fallback is 8000 characters). When it overflows, descriptions of the least-invoked skills are dropped with no signal, so each description you add spends it for every other skill. `skill-validator-rs analyze listing` estimates the aggregate. It is advisory and always exits 0; the Skill Audit workflow prints it in the job summary.

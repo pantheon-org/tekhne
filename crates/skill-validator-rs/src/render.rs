@@ -4,6 +4,7 @@
 //! code; they only present the [`CliReport`] built by the runners.
 
 use skill_validator_rs::listing::ListingReport;
+use skill_validator_rs::triggers::TriggerReport;
 use skill_validator_rs::{ContaminationReport, ContentReport, Level, ValidationResult};
 
 use crate::model::{CliReport, OutputFormat};
@@ -43,6 +44,9 @@ fn render_text(report: &CliReport) -> String {
         }
     }
 
+    if let Some(triggers) = &report.triggers {
+        out.push_str(&render_triggers_text(triggers));
+    }
     if let Some(listing) = &report.listing {
         out.push_str(&render_listing_text(listing));
     }
@@ -81,6 +85,53 @@ fn text_line(r: &ValidationResult) -> String {
     } else {
         format!("[{level}] {}: {} ({location})", r.category, r.message)
     }
+}
+
+fn render_triggers_text(t: &TriggerReport) -> String {
+    if t.new_skill {
+        return "Trigger phrases: new skill, nothing to compare.\n".to_string();
+    }
+    if t.dropped.is_empty() {
+        return format!(
+            "Trigger phrases: all {} base phrase(s) preserved.\n",
+            t.base_phrases.len()
+        );
+    }
+    let mut out = format!(
+        "Trigger phrases (advisory): {} of {} base phrase(s) dropped:\n",
+        t.dropped.len(),
+        t.base_phrases.len()
+    );
+    for p in &t.dropped {
+        out.push_str(&format!("  - {p}\n"));
+    }
+    out.push_str(
+        "  Confirm the description still names each intent (a deliberate consolidation), \
+         or restore the phrase.\n",
+    );
+    out
+}
+
+fn render_triggers_markdown(t: &TriggerReport) -> String {
+    if t.new_skill {
+        return "New skill, no trigger phrases to compare.\n\n".to_string();
+    }
+    if t.dropped.is_empty() {
+        return format!(
+            "All {} base trigger phrase(s) preserved.\n\n",
+            t.base_phrases.len()
+        );
+    }
+    let mut out = format!(
+        "{} of {} base trigger phrase(s) dropped (advisory):\n\n",
+        t.dropped.len(),
+        t.base_phrases.len()
+    );
+    for p in &t.dropped {
+        out.push_str(&format!("- `{}`\n", p.replace('`', "'")));
+    }
+    out.push('\n');
+    out
 }
 
 /// Largest contributors shown in the text and markdown listing reports.
@@ -199,6 +250,9 @@ fn render_markdown(report: &CliReport) -> String {
     let mut out = String::new();
     out.push_str(&format!("# Validation report: `{}`\n\n", report.skill_dir));
 
+    if let Some(triggers) = &report.triggers {
+        out.push_str(&render_triggers_markdown(triggers));
+    }
     if let Some(listing) = &report.listing {
         out.push_str(&render_listing_markdown(listing));
     }
