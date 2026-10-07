@@ -538,3 +538,34 @@ fn committed_probes_validate_against_the_repository() {
     ]);
     assert_eq!(code(&out), 0, "{}", stdout(&out));
 }
+
+#[test]
+fn analyze_triggers_reads_a_triggers_marker() {
+    let tmp = tempfile::tempdir().unwrap();
+    let (base, head) = (tmp.path().join("base"), tmp.path().join("head"));
+    write_trigger_skill(
+        &base,
+        "'X. Triggers: search papers, paper by doi, citation analysis'",
+    );
+    write_trigger_skill(&head, "'X. Triggers: search papers, citation analysis'");
+
+    let out = run(&[
+        "analyze",
+        "triggers",
+        head.to_str().unwrap(),
+        "--base",
+        base.to_str().unwrap(),
+        "-o",
+        "json",
+    ]);
+    assert_eq!(code(&out), 0);
+    let report: serde_json::Value = serde_json::from_str(&stdout(&out)).unwrap();
+    assert_eq!(
+        report["triggers"]["dropped"],
+        serde_json::json!(["paper by doi"])
+    );
+    assert_eq!(
+        report["triggers"]["base_phrases"],
+        serde_json::json!(["citation analysis", "paper by doi", "search papers"])
+    );
+}
