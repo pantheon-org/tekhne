@@ -78,6 +78,8 @@ mise run lint   # rumdl check . (config: .rumdl.toml)
 
 Open pull requests from `.github/pull_request_template.md` and keep its three headings, `## What`, `## Why` and `## Notes`, in that order. Use a conventional-commit title (`type(scope): lowercase summary`), put verification evidence and anything left for later under Notes, and end with `Refs #N` for partial work or `Closes #N` when the pull request finishes the issue.
 
+Never include an agent session link, session ID or session trailer (for example `Claude-Session:`) in commit messages, pull request descriptions or comments. A session URL identifies a private session and must not be published.
+
 ## Skill Quality Audits
 
 Run before publishing or committing major changes. See `skills/agentic-harness/skill-quality-auditor/SKILL.md` for full workflow.
