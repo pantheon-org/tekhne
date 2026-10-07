@@ -111,6 +111,34 @@ impl Skill {
     }
 }
 
+/// When frontmatter fails to parse because a plain (unquoted, non-block)
+/// `description` holds `": "` or a line ending in `:`, name that cause. YAML
+/// reads either as a mapping indicator, and libyaml's own message ("mapping
+/// values are not allowed in this context") does not say which field or why.
+/// A quoted or block-scalar description may contain the indicator.
+pub fn description_yaml_hint(content: &str) -> Option<String> {
+    let (fm, _) = split_frontmatter(content).ok()?;
+    let mut lines = fm.lines();
+    let first = lines.find_map(|l| l.strip_prefix("description:"))?;
+    let value = first.trim();
+    if matches!(value.chars().next(), Some('\'' | '"' | '|' | '>')) {
+        return None;
+    }
+    let continuation = lines.take_while(|l| l.starts_with(' ') || l.starts_with('\t'));
+    let all = std::iter::once(value).chain(continuation.map(str::trim));
+    for line in all {
+        if line.contains(": ") || line.ends_with(':') {
+            return Some(
+                "the description is an unquoted YAML value containing \": \" or a line ending \
+                 in \":\", which YAML reads as a mapping key; wrap the description in quotes or \
+                 use a block scalar (`description: |-`)"
+                    .to_string(),
+            );
+        }
+    }
+    None
+}
+
 /// Coerce a scalar YAML value to a string the way `yaml.v3` does when
 /// decoding into a `string` field (numbers/bools stringify, null -> empty).
 fn scalar_to_string(v: &Value) -> Option<String> {
@@ -331,5 +359,48 @@ mod tests {
         let fm = parse_frontmatter(&raw).unwrap();
         assert_eq!(fm.allowed_tools.value, "Bash, Read, Write");
         assert!(!fm.allowed_tools.was_list);
+    }
+}
+
+#[cfg(test)]
+mod hint_tests {
+    use super::description_yaml_hint;
+
+    fn doc(desc: &str) -> String {
+        format!("---\nname: a\n{desc}\n---\n\nBody\n")
+    }
+
+    #[test]
+    fn flags_plain_description_with_colon_space() {
+        assert!(
+            description_yaml_hint(&doc("description: Does a thing. Use when: building")).is_some()
+        );
+    }
+
+    #[test]
+    fn flags_continuation_line_ending_in_colon() {
+        assert!(
+            description_yaml_hint(&doc("description: Does a thing\n  Use when:\n  building"))
+                .is_some()
+        );
+    }
+
+    #[test]
+    fn quoted_and_block_scalars_are_exempt() {
+        assert!(description_yaml_hint(&doc("description: 'Use when: building'")).is_none());
+        assert!(description_yaml_hint(&doc("description: \"Use when: building\"")).is_none());
+        assert!(description_yaml_hint(&doc("description: |-\n  Use when: building")).is_none());
+        assert!(description_yaml_hint(&doc("description: >\n  Use when: building")).is_none());
+    }
+
+    #[test]
+    fn clean_or_missing_description_has_no_hint() {
+        assert!(description_yaml_hint(&doc("description: Does a thing")).is_none());
+        assert!(description_yaml_hint("no frontmatter").is_none());
+    }
+
+    #[test]
+    fn stops_at_the_next_top_level_key() {
+        assert!(description_yaml_hint(&doc("description: Fine\nother: x: y")).is_none());
     }
 }

@@ -207,7 +207,13 @@ pub fn validate(dir: &Path, opts: &Options) -> Report {
         Ok(s) => s,
         Err(e) => {
             let ctx = ResultContext::with_file("Frontmatter", "SKILL.md");
-            report.results.push(ctx.error(e));
+            let hint = std::fs::read_to_string(dir.join("SKILL.md"))
+                .ok()
+                .and_then(|content| crate::skill::description_yaml_hint(&content));
+            report.results.push(ctx.error(match hint {
+                Some(h) if e.starts_with("parsing frontmatter YAML") => format!("{e}: {h}"),
+                _ => e,
+            }));
             report.tally();
             return report;
         }

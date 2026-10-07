@@ -23,6 +23,11 @@ static QUOTED_STRING: LazyLock<Regex> =
 
 const MIN_QUOTED_STRINGS: usize = 5;
 const MIN_COMMA_SEGMENTS: usize = 8;
+/// The spec's description maximum. Measured in bytes, like the error it guards
+/// (Go `len(string)`), so a non-ASCII description reaches it sooner.
+const DESCRIPTION_MAX: usize = 1024;
+/// A description within this many bytes of the maximum gets a warning.
+const DESCRIPTION_WARN_MARGIN: usize = 32;
 const MAX_SHORT_SEGMENT_PCT: usize = 60;
 const MIN_AVG_WORDS_PER_SEGMENT: usize = 3;
 
@@ -83,15 +88,23 @@ pub fn check_frontmatter(s: &Skill, opts: &Options) -> Vec<ValidationResult> {
     let desc = &s.frontmatter.description;
     if desc.is_empty() {
         results.push(ctx.error("description is required"));
-    } else if desc.len() > 1024 {
+    } else if desc.len() > DESCRIPTION_MAX {
         results.push(ctx.error(format!(
-            "description exceeds 1024 characters ({})",
+            "description exceeds {DESCRIPTION_MAX} characters ({})",
             desc.len()
         )));
     } else if desc.trim().is_empty() {
         results.push(ctx.error("description must not be empty/whitespace-only"));
     } else {
         results.push(ctx.pass(format!("description: ({} chars)", desc.len())));
+        if desc.len() > DESCRIPTION_MAX - DESCRIPTION_WARN_MARGIN {
+            results.push(ctx.warn(format!(
+                "description is {} of {DESCRIPTION_MAX} characters, {} left; the next added \
+                 trigger phrase may breach the limit",
+                desc.len(),
+                DESCRIPTION_MAX - desc.len()
+            )));
+        }
         results.extend(check_description_keyword_stuffing(&ctx, desc));
     }
 
