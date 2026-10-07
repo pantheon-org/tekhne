@@ -1,0 +1,41 @@
+# agnix lints the skills against Claude Code's documented formats: frontmatter
+# fields and values, allowed-tools names, broken links, leaked tool-call markup.
+# Run: mise x -- agnix -c .agnix.toml skills
+# CI (.github/workflows/agnix.yml) reports errors as annotations and never fixes.
+# Never run agnix with --fix: its autofixes have changed instruction meaning and
+# corrupted files in testing.
+target = "ClaudeCode"
+exclude = [
+  "node_modules/**",
+  ".git/**",
+  "target/**",
+  # tekhne's own skill manifests, not Claude Code plugin manifests; agnix reads
+  # them as plugin.json files and reports CC-PL-001/007/016 on every one.
+  "**/.tekhne/**",
+]
+
+[rules]
+# Other agents' rule families: skills here are linted against Claude Code.
+codex = false
+cursor = false
+copilot = false
+cline = false
+gemini_md = false
+kiro_agents = false
+kiro_steering = false
+amp_checks = false
+opencode = false
+roo_code = false
+windsurf = false
+# Portability and wording heuristics: no true positives when graded on these skills.
+cross_platform = false
+prompt_engineering = false
+disabled_rules = [
+  "AS-017",     # name must match the folder: nested skills here are named by domain prefix on purpose
+  "AS-013",     # references deeper than one level: assets/schemas/ and assets/scripts/ are the layout
+  "XML-001",    # prose placeholders such as <chart> read as unclosed tags
+  "CC-SK-007",  # unrestricted Bash: an opinion, not a defect
+  "CC-SK-021",  # example paths such as /home/runner read as leaked identity
+  "AGM-004",
+  "AGM-006",    # each skill carries its own AGENTS.md by design
+]
