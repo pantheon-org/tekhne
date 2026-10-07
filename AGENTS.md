@@ -74,6 +74,10 @@ bunx @biomejs/biome check .
 mise run lint   # rumdl check . (config: .rumdl.toml)
 ```
 
+## Pull Requests
+
+Open pull requests from `.github/pull_request_template.md` and keep its three headings, `## What`, `## Why` and `## Notes`, in that order. Use a conventional-commit title (`type(scope): lowercase summary`), put verification evidence and anything left for later under Notes, and end with `Refs #N` for partial work or `Closes #N` when the pull request finishes the issue.
+
 ## Skill Quality Audits
 
 Run before publishing or committing major changes. See `skills/agentic-harness/skill-quality-auditor/SKILL.md` for full workflow.
