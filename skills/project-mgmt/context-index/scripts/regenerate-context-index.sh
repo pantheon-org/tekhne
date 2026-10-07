@@ -8,6 +8,10 @@
 # handovers/, merge-requests/, tickets/, decisions/, notes/, research/). The
 # source of truth is always the frontmatter in each .md file, never this output.
 #
+# Follow-ups may also carry severity, priority and graded. For follow-ups only,
+# they are copied into the index entry after date: (see GRADE_FIELDS below), and
+# an invalid value or incomplete set is warned about on stderr.
+#
 # Usage:
 #   regenerate-context-index.sh          # write .context/index.yaml
 #   regenerate-context-index.sh --check  # verify it is already up to date
@@ -85,8 +89,36 @@ def parse_frontmatter(text):
     return fm
 
 
+# Follow-up grades. `severity`, `priority` and `graded` are optional, set
+# together, and meaningful on follow-ups only; other typologies ignore them.
+# Values are matched case-insensitively. A value outside the lists, or a
+# partial set, is still written to the index as the file has it so readers can
+# show it marked as needing a grade; the warning below tells the author.
+GRADE_FIELDS = ("severity", "priority", "graded")
+SEVERITY_VALUES = {"CRITICAL", "HIGH", "MEDIUM", "LOW"}
+PRIORITY_VALUES = {"P1", "P2", "P3"}
+DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def grade_problems(grades):
+    problems = []
+    absent = [f for f in GRADE_FIELDS if f not in grades]
+    if absent:
+        problems.append(
+            f"incomplete grades, missing: {', '.join(absent)} (set severity, priority and graded together)"
+        )
+    if "severity" in grades and grades["severity"].upper() not in SEVERITY_VALUES:
+        problems.append(f"severity: {grades['severity']!r} is not one of CRITICAL, HIGH, MEDIUM, LOW")
+    if "priority" in grades and grades["priority"].upper() not in PRIORITY_VALUES:
+        problems.append(f"priority: {grades['priority']!r} is not one of P1, P2, P3")
+    if "graded" in grades and not DATE_RE.match(grades["graded"]):
+        problems.append(f"graded: {grades['graded']!r} is not a YYYY-MM-DD date")
+    return problems
+
+
 entries = []
 missing = []
+bad_grades = []
 
 for md in sorted(context_dir.rglob("*.md")):
     rel = str(md.relative_to(root))
@@ -102,6 +134,11 @@ for md in sorted(context_dir.rglob("*.md")):
         continue
     entry = {k: fm[k] for k in required}
     entry["path"] = rel
+    if fm["type"] == "follow-up":
+        grades = {f: fm[f] for f in GRADE_FIELDS if fm.get(f)}
+        if grades:
+            entry.update(grades)
+            bad_grades.extend(f"{rel}: {p}" for p in grade_problems(grades))
     tags = parse_list_block(fm["_raw"], "tags")
     if tags:
         entry["tags"] = tags
@@ -122,6 +159,11 @@ if missing:
     )
     for f in missing:
         print(f"  {f}", file=sys.stderr)
+
+if bad_grades:
+    print("WARNING: invalid follow-up grades (entry kept as written, readers show it as needing a grade):", file=sys.stderr)
+    for b in bad_grades:
+        print(f"  {b}", file=sys.stderr)
 
 # The plural directory name a file lives under is the typology; the file's
 # own `type:` frontmatter field is the singular form of that same typology
@@ -236,6 +278,15 @@ for t in type_order:
         lines.append(f"    title: {emit_scalar(e['title'])}")
         lines.append(f"    status: {emit_scalar(e['status'])}")
         lines.append(f"    date: {e['date']}")
+        if e.get("severity"):
+            lines.append(f"    severity: {emit_scalar(e['severity'])}")
+        if e.get("priority"):
+            lines.append(f"    priority: {emit_scalar(e['priority'])}")
+        if e.get("graded"):
+            # A date stays unquoted like `date:`; anything else is quoted so a
+            # malformed value cannot break the emitted YAML.
+            graded = e["graded"]
+            lines.append(f"    graded: {graded if DATE_RE.match(graded) else emit_scalar(graded)}")
         if e.get("tags"):
             lines.append("    tags:")
             for tag in e["tags"]:

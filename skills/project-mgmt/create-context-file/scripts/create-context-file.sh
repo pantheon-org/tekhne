@@ -31,6 +31,16 @@
 #                          that must be done before THIS file is ready. Same
 #                          omit-when-empty rule as --related. Read by
 #                          context-index's scripts/context-ready.sh.
+#       --severity LEVEL   Follow-ups only. What is at risk if it is never done:
+#                          CRITICAL, HIGH, MEDIUM or LOW (case-insensitive).
+#       --priority LEVEL   Follow-ups only. How soon it should be picked up: P1,
+#                          P2 or P3 (case-insensitive).
+#       --graded   DATE    Follow-ups only. The day the user confirmed the two
+#                          grades (YYYY-MM-DD). No default: never filled in
+#                          automatically. --severity, --priority and --graded
+#                          are set together; any one alone is an error. They
+#                          are written last in the frontmatter. See
+#                          references/follow-up-grading.md.
 #   -d, --date    DATE     Override the date (YYYY-MM-DD). Defaults to today.
 #   -r, --root    DIR      Context root. Defaults to .context.
 #   -A, --allow-new-type   Permit a typology not in KNOWN_TYPES.
@@ -94,6 +104,9 @@ tags=""
 related=""
 blocks=""
 blocked_by=""
+severity=""
+priority=""
+graded=""
 date=""
 root=".context"
 allow_new=0
@@ -109,6 +122,9 @@ while [ $# -gt 0 ]; do
 		-R|--related)        related="${2:-}"; shift 2 ;;
 		-b|--blocks)         blocks="${2:-}"; shift 2 ;;
 		-k|--blocked-by)     blocked_by="${2:-}"; shift 2 ;;
+		--severity)          severity="${2:-}"; shift 2 ;;
+		--priority)          priority="${2:-}"; shift 2 ;;
+		--graded)            graded="${2:-}"; shift 2 ;;
 		-d|--date)           date="${2:-}"; shift 2 ;;
 		-r|--root)           root="${2:-}"; shift 2 ;;
 		-A|--allow-new-type) allow_new=1; shift ;;
@@ -135,6 +151,30 @@ case "$date" in
 	[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;;
 	*) die "--date must be YYYY-MM-DD (got: $date)" ;;
 esac
+
+# Grades: severity, priority and graded are set together, on follow-ups only.
+# There is no default for --graded: it records the day the user confirmed the
+# grades, so the caller must supply it.
+if [ -n "$severity$priority$graded" ]; then
+	[ -n "$severity" ] && [ -n "$priority" ] && [ -n "$graded" ] \
+		|| die "--severity, --priority and --graded are set together; any one alone is an error"
+	[ "$type" = "follow-ups" ] \
+		|| die "--severity, --priority and --graded apply to follow-ups only (got typology '$type')"
+	severity="$(printf '%s' "$severity" | tr '[:lower:]' '[:upper:]')"
+	priority="$(printf '%s' "$priority" | tr '[:lower:]' '[:upper:]')"
+	case "$severity" in
+		CRITICAL|HIGH|MEDIUM|LOW) ;;
+		*) die "--severity must be CRITICAL, HIGH, MEDIUM or LOW (got: $severity)" ;;
+	esac
+	case "$priority" in
+		P1|P2|P3) ;;
+		*) die "--priority must be P1, P2 or P3 (got: $priority)" ;;
+	esac
+	case "$graded" in
+		[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;;
+		*) die "--graded must be YYYY-MM-DD (got: $graded)" ;;
+	esac
+fi
 
 [ -n "$slug" ] || slug="$(slugify "$title")"
 slug="$(slugify "$slug")"
@@ -212,6 +252,15 @@ for _pl_block in "$related_block" "$blocks_block" "$blocked_by_block"; do
 ${_pl_block}"
 	fi
 done
+
+# Grades go last, just before the closing ---, so they stay away from the
+# status: line that other sessions edit when they close a follow-up.
+if [ -n "$severity" ]; then
+	body="${body}
+severity: ${severity}
+priority: ${priority}
+graded: ${graded}"
+fi
 
 body="${body}
 ---
