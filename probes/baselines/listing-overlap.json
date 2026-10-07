@@ -3,6 +3,456 @@
   "note": "Lexical floor, not a model-graded invocation rate: a high trigger rate means the listing already contains the request's words.",
   "skills": [
     {
+      "skill": "research:google-scholar-search",
+      "splits": {
+        "train": {
+          "n": 12,
+          "n_positive": 6,
+          "n_negative": 6,
+          "trigger_hits": 2,
+          "false_triggers": 0,
+          "trigger_rate": 0.3333333333333333,
+          "false_trigger_rate": 0.0
+        },
+        "validation": {
+          "n": 8,
+          "n_positive": 4,
+          "n_negative": 4,
+          "trigger_hits": 2,
+          "false_triggers": 0,
+          "trigger_rate": 0.5,
+          "false_trigger_rate": 0.0
+        }
+      },
+      "cases": [
+        {
+          "id": "pos-train-01",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 2,
+          "winner": "research:google-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "look up papers by Geoffrey Hinton from after 2019"
+        },
+        {
+          "id": "pos-train-02",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 2,
+          "winner": "research:google-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "what has this researcher published, show me their Scholar page"
+        },
+        {
+          "id": "pos-train-03",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "find articles about graph neural networks published between 2018 and 2021"
+        },
+        {
+          "id": "pos-train-04",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 0,
+          "winner": "none",
+          "request": "who wrote the most cited work on transformers"
+        },
+        {
+          "id": "pos-train-05",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 4,
+          "winner": "research:google-scholar-search",
+          "request": "I need a keyword search of scholarly literature on soil erosion"
+        },
+        {
+          "id": "pos-train-06",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 14,
+          "winner": "research:google-scholar-search",
+          "request": "check Google Scholar for quantum error correction papers"
+        },
+        {
+          "id": "pos-val-01",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 0,
+          "winner": "none",
+          "request": "get me the h-index and publication list for a professor"
+        },
+        {
+          "id": "pos-val-02",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "research:google-scholar-search+skills/documentation/research/semantic-scholar-search",
+          "request": "scholar results for climate adaptation, only since 2020"
+        },
+        {
+          "id": "pos-val-03",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 22,
+          "winner": "research:google-scholar-search",
+          "request": "pull abstracts and links for studies on sleep and memory"
+        },
+        {
+          "id": "pos-val-04",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 15,
+          "winner": "research:google-scholar-search",
+          "request": "find academic papers by this author name"
+        },
+        {
+          "id": "neg-train-01",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/documentation/research/semantic-scholar-search",
+          "request": "get the details for DOI 10.1038/nature14539"
+        },
+        {
+          "id": "neg-train-02",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "research:google-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "who cites this paper and what does it reference"
+        },
+        {
+          "id": "neg-train-03",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "search PubMed for randomized trials of metformin"
+        },
+        {
+          "id": "neg-train-04",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "download the open access pdf from PubMed Central"
+        },
+        {
+          "id": "neg-train-05",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "none",
+          "request": "summarize this pdf for me"
+        },
+        {
+          "id": "neg-train-06",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "research:google-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "write a literature review outline"
+        },
+        {
+          "id": "neg-val-01",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "research:google-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "look up a paper by its identifier"
+        },
+        {
+          "id": "neg-val-02",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "map the citation network around this article"
+        },
+        {
+          "id": "neg-val-03",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "find clinical studies on insulin resistance"
+        },
+        {
+          "id": "neg-val-04",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 3,
+          "winner": "research:google-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "find recent papers on diffusion models"
+        }
+      ]
+    },
+    {
+      "skill": "research:semantic-scholar-search",
+      "splits": {
+        "train": {
+          "n": 12,
+          "n_positive": 6,
+          "n_negative": 6,
+          "trigger_hits": 2,
+          "false_triggers": 0,
+          "trigger_rate": 0.3333333333333333,
+          "false_trigger_rate": 0.0
+        },
+        "validation": {
+          "n": 8,
+          "n_positive": 4,
+          "n_negative": 4,
+          "trigger_hits": 1,
+          "false_triggers": 1,
+          "trigger_rate": 0.25,
+          "false_trigger_rate": 0.25
+        }
+      },
+      "cases": [
+        {
+          "id": "pos-train-01",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "research:semantic-scholar-search",
+          "request": "fetch the metadata for DOI 10.1145/3292500.3330701"
+        },
+        {
+          "id": "pos-train-02",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "research:semantic-scholar-search",
+          "request": "who cites this paper and what are its references"
+        },
+        {
+          "id": "pos-train-03",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "research:semantic-scholar-search+skills/documentation/research/google-scholar-search",
+          "request": "look up a paper by its arXiv identifier"
+        },
+        {
+          "id": "pos-train-04",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "research:semantic-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "trace the citation network around this article"
+        },
+        {
+          "id": "pos-train-05",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 4,
+          "winner": "skills/documentation/research/google-scholar-search",
+          "request": "I want details about this author and their publications through the official API"
+        },
+        {
+          "id": "pos-train-06",
+          "split": "train",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 3,
+          "winner": "research:semantic-scholar-search+skills/documentation/research/google-scholar-search",
+          "request": "find recent papers on diffusion models"
+        },
+        {
+          "id": "pos-val-01",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "research:semantic-scholar-search+skills/documentation/research/google-scholar-search",
+          "request": "which later work builds on this paper"
+        },
+        {
+          "id": "pos-val-02",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": true,
+          "correct": true,
+          "target_score": 2,
+          "winner": "research:semantic-scholar-search",
+          "request": "pull the reference list for a paper I have the DOI of"
+        },
+        {
+          "id": "pos-val-03",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 1,
+          "winner": "research:semantic-scholar-search+skills/documentation/research/pubmed-search",
+          "request": "analyse how influential this article is by who cites it"
+        },
+        {
+          "id": "pos-val-04",
+          "split": "validation",
+          "expect_trigger": true,
+          "predicted": false,
+          "correct": false,
+          "target_score": 5,
+          "winner": "skills/documentation/research/google-scholar-search",
+          "request": "get author details for a researcher and their top papers"
+        },
+        {
+          "id": "neg-train-01",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 5,
+          "winner": "skills/documentation/research/google-scholar-search",
+          "request": "check Google Scholar for papers by this author between 2015 and 2020"
+        },
+        {
+          "id": "neg-train-02",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 3,
+          "winner": "skills/documentation/research/google-scholar-search",
+          "request": "keyword search of scholarly literature on soil erosion"
+        },
+        {
+          "id": "neg-train-03",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "search PubMed for randomized trials of metformin"
+        },
+        {
+          "id": "neg-train-04",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "download the open access pdf from PubMed Central"
+        },
+        {
+          "id": "neg-train-05",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 0,
+          "winner": "none",
+          "request": "summarize this pdf for me"
+        },
+        {
+          "id": "neg-train-06",
+          "split": "train",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "research:semantic-scholar-search+skills/documentation/research/google-scholar-search",
+          "request": "write a literature review outline"
+        },
+        {
+          "id": "neg-val-01",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 2,
+          "winner": "research:semantic-scholar-search+skills/documentation/research/google-scholar-search",
+          "request": "look at the scholar profile page for this professor"
+        },
+        {
+          "id": "neg-val-02",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/documentation/research/pubmed-search",
+          "request": "find clinical studies on insulin resistance"
+        },
+        {
+          "id": "neg-val-03",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": true,
+          "correct": false,
+          "target_score": 1,
+          "winner": "research:semantic-scholar-search",
+          "request": "format my references in apa style"
+        },
+        {
+          "id": "neg-val-04",
+          "split": "validation",
+          "expect_trigger": false,
+          "predicted": false,
+          "correct": true,
+          "target_score": 1,
+          "winner": "skills/documentation/research/google-scholar-search",
+          "request": "find articles from 2018 to 2021 about graph neural networks, by keyword"
+        }
+      ]
+    },
+    {
       "skill": "terraform:generator",
       "splits": {
         "train": {

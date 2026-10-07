@@ -1,0 +1,131 @@
+{
+  "skill": "research:semantic-scholar-search",
+  "skill_dir": "skills/documentation/research/semantic-scholar-search",
+  "competitors": [
+    "skills/documentation/research/google-scholar-search",
+    "skills/documentation/research/pubmed-search"
+  ],
+  "note": "Seed pair, mirror of research:google-scholar-search. Its description says it is preferred over Google Scholar, so a generic paper search with no source named is labelled as its request.",
+  "queries": [
+    {
+      "id": "pos-train-01",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "fetch the metadata for DOI 10.1145/3292500.3330701"
+    },
+    {
+      "id": "pos-train-02",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "who cites this paper and what are its references"
+    },
+    {
+      "id": "pos-train-03",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "look up a paper by its arXiv identifier"
+    },
+    {
+      "id": "pos-train-04",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "trace the citation network around this article"
+    },
+    {
+      "id": "pos-train-05",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "I want details about this author and their publications through the official API"
+    },
+    {
+      "id": "pos-train-06",
+      "split": "train",
+      "expect_trigger": true,
+      "request": "find recent papers on diffusion models"
+    },
+    {
+      "id": "pos-val-01",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "which later work builds on this paper"
+    },
+    {
+      "id": "pos-val-02",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "pull the reference list for a paper I have the DOI of"
+    },
+    {
+      "id": "pos-val-03",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "analyse how influential this article is by who cites it"
+    },
+    {
+      "id": "pos-val-04",
+      "split": "validation",
+      "expect_trigger": true,
+      "request": "get author details for a researcher and their top papers"
+    },
+    {
+      "id": "neg-train-01",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "check Google Scholar for papers by this author between 2015 and 2020"
+    },
+    {
+      "id": "neg-train-02",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "keyword search of scholarly literature on soil erosion"
+    },
+    {
+      "id": "neg-train-03",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "search PubMed for randomized trials of metformin"
+    },
+    {
+      "id": "neg-train-04",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "download the open access pdf from PubMed Central"
+    },
+    {
+      "id": "neg-train-05",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "summarize this pdf for me"
+    },
+    {
+      "id": "neg-train-06",
+      "split": "train",
+      "expect_trigger": false,
+      "request": "write a literature review outline"
+    },
+    {
+      "id": "neg-val-01",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "look at the scholar profile page for this professor"
+    },
+    {
+      "id": "neg-val-02",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "find clinical studies on insulin resistance"
+    },
+    {
+      "id": "neg-val-03",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "format my references in apa style"
+    },
+    {
+      "id": "neg-val-04",
+      "split": "validation",
+      "expect_trigger": false,
+      "request": "find articles from 2018 to 2021 about graph neural networks, by keyword"
+    }
+  ]
+}
