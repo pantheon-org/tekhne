@@ -1,5 +1,7 @@
 # Pick Model - Extended Reference
 
+Speed and cost ratios on this page are indicative and change between releases. Model version numbers date from when this page was written, so confirm them against current vendor documentation before quoting them. Rank models by tier (fast, balanced, reasoning) when in doubt.
+
 ## Model Characteristics
 
 ### Haiku 4.5
