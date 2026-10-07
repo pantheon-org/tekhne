@@ -1,0 +1,26 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Fully Specified Task Skips Framing",
+  "checklist": [
+    {
+      "name": "Known task recognised",
+      "description": "**Known task recognised**: Agent identifies the request as fully specified and does not frame it.",
+      "max_score": 35
+    },
+    {
+      "name": "Executes directly",
+      "description": "**Executes directly**: Agent performs the rename (or states it is proceeding to) without routing through other skills.",
+      "max_score": 25
+    },
+    {
+      "name": "No questions asked",
+      "description": "**No questions asked**: Agent does not call AskUserQuestion or ask the triangulation tests.",
+      "max_score": 20
+    },
+    {
+      "name": "No handoff produced",
+      "description": "**No handoff produced**: Agent produces no handoff template and no routing line.",
+      "max_score": 20
+    }
+  ]
+}

@@ -1,0 +1,151 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "type": "anti-pattern",
+      "why_given": "preference",
+      "content": "NEVER reformulate the user's description; store the exact wording (a paraphrase erases the original mental model)",
+      "original_snippets": "NEVER reformulate the user's description; store the exact wording (a paraphrase erases the original mental model)"
+    },
+    {
+      "id": "I02",
+      "type": "anti-pattern",
+      "why_given": "preference",
+      "content": "NEVER comment on the bridge content; the response is one line only",
+      "original_snippets": "NEVER comment on the bridge content; the response is one line only"
+    },
+    {
+      "id": "I03",
+      "type": "anti-pattern",
+      "why_given": "preference",
+      "content": "NEVER write to GTD files or project artifacts; write only to the bridges directory",
+      "original_snippets": "NEVER write to GTD files or project artifacts; write only to the bridges directory"
+    },
+    {
+      "id": "I04",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER invent a project alias that is not in config; warn and suggest adding it",
+      "original_snippets": "NEVER invent a project alias that is not in config; warn and suggest adding it"
+    },
+    {
+      "id": "I05",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER count files to get the sequence number; use the highest existing number plus one, because a deletion makes the count collide",
+      "original_snippets": "NEVER count files to get the sequence number; use the highest existing number plus one, because a deletion makes the count collide"
+    },
+    {
+      "id": "I06",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER guess a rare archetype (local, mirror, complexity) on a single keyword; default to knowledge",
+      "original_snippets": "NEVER guess a rare archetype (local, mirror, complexity) on a single keyword; default to knowledge"
+    },
+    {
+      "id": "I07",
+      "type": "anti-pattern",
+      "why_given": "new knowledge",
+      "content": "NEVER hardcode one-way and potential without running direction and strength detection",
+      "original_snippets": "NEVER hardcode one-way and potential without running direction and strength detection"
+    },
+    {
+      "id": "I08",
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Resolve aliases against config keys case-insensitively, then fuzzy-match against project names",
+      "original_snippets": "Resolve aliases against config keys case-insensitively, then fuzzy-match against project names"
+    },
+    {
+      "id": "I09",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Set direction to bidirectional for the arrow, \"bidirectional\" or \"both ways\", otherwise one-way",
+      "original_snippets": "Set direction to bidirectional for the arrow, \"bidirectional\" or \"both ways\", otherwise one-way"
+    },
+    {
+      "id": "I10",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Check strength hedges first (theoretical), then present tense (active), then potential markers; default potential",
+      "original_snippets": "Check strength hedges first (theoretical), then present tense (active), then potential markers; default potential"
+    },
+    {
+      "id": "I11",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "When the archetype signal is weak, use knowledge and mark the response with \", defaulted\"",
+      "original_snippets": "When the archetype signal is weak, use knowledge and mark the response with \", defaulted\""
+    },
+    {
+      "id": "I12",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Check for an existing bridge on the same pair and idea before writing; report it instead of writing a duplicate",
+      "original_snippets": "Check for an existing bridge on the same pair and idea before writing; report it instead of writing a duplicate"
+    },
+    {
+      "id": "I13",
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Stop with a warning when the project config is missing",
+      "original_snippets": "Stop with a warning when the project config is missing"
+    },
+    {
+      "id": "I14",
+      "type": "procedure",
+      "why_given": "new knowledge",
+      "content": "Quote the description in YAML and confirm the file parses after writing",
+      "original_snippets": "Quote the description in YAML and confirm the file parses after writing"
+    },
+    {
+      "id": "I15",
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "Capture proactively, without asking, when a link is stated and both projects resolve",
+      "original_snippets": "Capture proactively, without asking, when a link is stated and both projects resolve"
+    },
+    {
+      "id": "I16",
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "Answer with one line in the specified format, then resume the prior conversation at once",
+      "original_snippets": "Answer with one line in the specified format, then resume the prior conversation at once"
+    },
+    {
+      "id": "I17",
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "Append the weekly nudge when three or more bridges this week share one project pair",
+      "original_snippets": "Append the weekly nudge when three or more bridges this week share one project pair"
+    },
+    {
+      "id": "I18",
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "List the last 10 bridges by date descending with arrow, strength and the empty-state message, and write nothing",
+      "original_snippets": "List the last 10 bridges by date descending with arrow, strength and the empty-state message, and write nothing"
+    },
+    {
+      "id": "I19",
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "Print the map as a mermaid graph with nodes labelled from config and edges coloured by strength",
+      "original_snippets": "Print the map as a mermaid graph with nodes labelled from config and edges coloured by strength"
+    },
+    {
+      "id": "I20",
+      "type": "procedure",
+      "why_given": "preference",
+      "content": "Print stats as exact counts by project, archetype, strength and tier, with no interpretation",
+      "original_snippets": "Print stats as exact counts by project, archetype, strength and tier, with no interpretation"
+    },
+    {
+      "id": "I21",
+      "type": "procedure",
+      "why_given": "reminder",
+      "content": "Do not capture administrative links, same-project aliases or mid-decision moments",
+      "original_snippets": "Do not capture administrative links, same-project aliases or mid-decision moments"
+    }
+  ]
+}

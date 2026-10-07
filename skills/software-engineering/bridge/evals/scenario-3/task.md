@@ -1,24 +1,9 @@
-# Scenario 3: List All Bridges
+# Scenario 3: List bridges for one project
 
 ## User Prompt
 
-"/bridge list"
+"/bridge list HP"
 
-## Expected Behavior
+## Repository State
 
-1. Agent globs for all YAML files in the configured bridges directory.
-2. Agent reads and parses each YAML file found.
-3. Agent sorts the bridges by date descending, taking the most recent 10.
-4. Agent displays the list in the canonical format with the `🔗 Bridges (last 10)` header.
-5. Each item shows: number, date, archetype emoji, source → target (or ↔ for bidirectional), description snippet, and strength.
-6. If the bridges directory is empty or absent, agent responds: `🔗 No bridges captured yet. Use /bridge <source> → <target>: <description>`.
-7. Agent does not modify any files during the list operation.
-
-## Failure Conditions
-
-- Agent modifies or creates YAML files during a list command.
-- Agent shows more than 10 bridges without a project filter.
-- Agent does not sort by date (wrong order).
-- Agent displays raw YAML instead of the formatted list.
-- Agent silently returns nothing for an empty directory instead of the empty-state message.
-- Agent omits strength from the display line.
+Project config defines aliases HP (Homo Promptus), DS (Digital Stoic), SL (Slasheo), BR (Personal Brand), FIN (Financial Planning), REG (Regulatory Compliance), CUR (Audience Building) and LTG (Platform Launch). Stakeholder Matthieu has `also_in: [HP, SL]`. `$PRAXIS_DIR` is set and the bridges directory exists. The bridges directory holds 14 files. 12 involve HP as source or target, one of them bidirectional. Dates run from 2026-03-20 to 2026-04-08, with two files sharing 2026-04-08.

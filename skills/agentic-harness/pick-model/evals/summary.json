@@ -1,0 +1,22 @@
+{
+  "total_scenarios": 5,
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 10,
+    "covered_instructions": 10,
+    "scenario_count": 5,
+    "coverage_map": {
+      "I01": ["scenario-2", "scenario-3"],
+      "I02": ["scenario-1", "scenario-3"],
+      "I03": ["scenario-1"],
+      "I04": ["scenario-4"],
+      "I05": ["scenario-2"],
+      "I06": ["scenario-3"],
+      "I07": ["scenario-5"],
+      "I08": ["scenario-2", "scenario-5"],
+      "I09": ["scenario-1", "scenario-2", "scenario-3"],
+      "I10": ["scenario-5"]
+    },
+    "notes": "Every instruction is checked by at least one scenario criterion. Scenarios 1 and 3 cover the escalator rules, scenario 2 covers right-sizing and relative cost wording, scenario 4 covers tier aliases, scenario 5 covers the explicit-choice and low-confidence rules."
+  }
+}

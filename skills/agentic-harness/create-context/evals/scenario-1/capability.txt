@@ -1,0 +1,1 @@
+Runs the full seven-step bootstrap in the correct order and produces a valid manifest, summaries, baseline and RISEN INPUT table.

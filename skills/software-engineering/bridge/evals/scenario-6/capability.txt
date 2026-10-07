@@ -1,0 +1,1 @@
+Stop before writing when an alias cannot be resolved, and point the user to the config instead of inventing one.

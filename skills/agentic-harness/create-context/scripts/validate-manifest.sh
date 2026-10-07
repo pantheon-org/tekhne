@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 # shell: bash
-# Validates .context/session/ctx/manifest.yaml schema
-# Note: Manifest lives in .context/session/ctx/ (actionable snapshot), not .context/session/in/ (immutable bootstrap)
+# Validates the ctx manifest schema.
+# Usage: validate-manifest.sh [MANIFEST_FILE]
+# Env:   CONTEXT_DIR  context root, default ".context"
+# Note: the manifest lives in the ctx folder (actionable snapshot); the files it
+# lists live in the in-folder (immutable bootstrap), named by `source_folder`.
 
 set -e
 
-MANIFEST_FILE="${1:-.context/session/ctx/manifest.yaml}"
+CONTEXT_DIR="${CONTEXT_DIR:-.context}"
+MANIFEST_FILE="${1:-$CONTEXT_DIR/session/ctx/manifest.yaml}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -71,13 +75,13 @@ success "Section 'sources.low' present"
 echo ""
 echo "Validating file paths..."
 
-# Manifest is in .context/session/ctx/, but files are in .context/session/in/ (source_folder)
-SOURCE_FOLDER=$(grep "^source_folder:" "$MANIFEST_FILE" | sed 's/source_folder:[[:space:]]*//' || echo ".context/session/in/")
+# The manifest is in the ctx folder, but the files are in the in-folder (source_folder)
+SOURCE_FOLDER=$(grep "^source_folder:" "$MANIFEST_FILE" | sed 's/source_folder:[[:space:]]*//' || true)
 SOURCE_FOLDER="${SOURCE_FOLDER%/}"  # Remove trailing slash
 
-# If source_folder not specified, assume .context/session/in
+# If source_folder is not specified, assume the default in-folder
 if [ -z "$SOURCE_FOLDER" ]; then
-    SOURCE_FOLDER=".context/session/in"
+    SOURCE_FOLDER="$CONTEXT_DIR/session/in"
 fi
 
 MISSING_FILES=0

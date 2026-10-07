@@ -1,0 +1,31 @@
+{
+  "context": "Tier aliases instead of hardcoded model identifiers.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Flags the pinned identifiers",
+      "description": "Identifies that the config hardcodes model identifiers",
+      "max_score": 25
+    },
+    {
+      "name": "Proposes tier aliases",
+      "description": "Replaces them with fast and reasoning tiers resolved to current models at runtime",
+      "max_score": 30
+    },
+    {
+      "name": "Explains the retirement risk",
+      "description": "Explains that providers retire models, so pinned identifiers fail when that happens",
+      "max_score": 25
+    },
+    {
+      "name": "Keeps the roles",
+      "description": "Keeps the summariser on the fast tier and the reviewer on the reasoning tier",
+      "max_score": 10
+    },
+    {
+      "name": "Avoids: naming new fixed models",
+      "description": "Failure avoided: swaps in other pinned identifiers or invents model specifications",
+      "max_score": 10
+    }
+  ]
+}

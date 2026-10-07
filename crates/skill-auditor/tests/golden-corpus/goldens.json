@@ -2,7 +2,7 @@
   {
     "dir": "crates/skill-auditor/testdata/fixtures/skill-full",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/testdata/fixtures/skill-full/SKILL.md",
+      "skill": "crates/skill-auditor/testdata/fixtures/skill-full",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -29,7 +29,7 @@
   {
     "dir": "crates/skill-auditor/testdata/fixtures/skill-minimal",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/testdata/fixtures/skill-minimal/SKILL.md",
+      "skill": "crates/skill-auditor/testdata/fixtures/skill-minimal",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 0,
@@ -70,7 +70,7 @@
   {
     "dir": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-b-google-scholar-search",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/tests/golden-corpus/fixtures/grade-b-google-scholar-search/SKILL.md",
+      "skill": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-b-google-scholar-search",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -113,7 +113,7 @@
   {
     "dir": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-bplus-moscow-prioritization",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/tests/golden-corpus/fixtures/grade-bplus-moscow-prioritization/SKILL.md",
+      "skill": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-bplus-moscow-prioritization",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 10,
@@ -140,7 +140,7 @@
   {
     "dir": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-c-reproduce-benchmark",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/tests/golden-corpus/fixtures/grade-c-reproduce-benchmark/SKILL.md",
+      "skill": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-c-reproduce-benchmark",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 9,
@@ -177,7 +177,7 @@
   {
     "dir": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-cplus-scholar-evaluation",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/tests/golden-corpus/fixtures/grade-cplus-scholar-evaluation/SKILL.md",
+      "skill": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-cplus-scholar-evaluation",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 10,
@@ -210,7 +210,7 @@
   {
     "dir": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-d-chezmoi-assistant",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/tests/golden-corpus/fixtures/grade-d-chezmoi-assistant/SKILL.md",
+      "skill": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-d-chezmoi-assistant",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,
@@ -243,7 +243,7 @@
   {
     "dir": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-f-gitlab-api",
     "result": {
-      "skill": "/Users/thomas.roche/Projects/github/pantheon-org/tekhne/crates/skill-auditor/tests/golden-corpus/fixtures/grade-f-gitlab-api/SKILL.md",
+      "skill": "crates/skill-auditor/tests/golden-corpus/fixtures/grade-f-gitlab-api",
       "date": "",
       "dimensions": {
         "antiPatternQuality": 5,

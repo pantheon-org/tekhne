@@ -1,1 +1,1 @@
-Recognise a people-bridge from a stakeholder name and bidirectional-flow language, and record it with the correct archetype and direction.
+Recognise a people-bridge from a stakeholder with cross-references and bidirectional language, and record direction and strength correctly.

@@ -1,0 +1,1 @@
+Avoid a confident guess of a rare archetype on one keyword, and mark a hedged link as theoretical.

@@ -1,0 +1,23 @@
+{
+  "instructions_coverage": {
+    "coverage_percentage": 100,
+    "total_instructions": 12,
+    "covered_instructions": 12,
+    "scenario_count": 4,
+    "coverage_map": {
+      "I01": ["scenario-1"],
+      "I02": ["scenario-1"],
+      "I03": ["scenario-2"],
+      "I04": ["scenario-1", "scenario-4"],
+      "I05": ["scenario-3"],
+      "I06": ["scenario-4"],
+      "I07": ["scenario-2", "scenario-3"],
+      "I08": ["scenario-1", "scenario-4"],
+      "I09": ["scenario-1"],
+      "I10": ["scenario-3"],
+      "I11": ["scenario-2"],
+      "I12": ["scenario-1"]
+    },
+    "notes": "Every instruction is exercised by at least one scenario criterion."
+  }
+}

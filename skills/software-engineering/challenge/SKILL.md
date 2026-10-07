@@ -1,9 +1,8 @@
 ---
 name: challenge
 description: "Challenge, push back, play devil's advocate on AI output. Use when: challenge this, are you sure, push back, prove it, what if you're wrong, devil's advocate, stress test, poke holes, second opinion, sanity check, too confident, really?, question this decision. Subcommands: anchor (committed too fast), verify (facts wrong?), framing (wrong problem?), deep (full devil's advocate in separate context)."
-allowed-tools: read, glob, grep, agent, askuserquestion
+allowed-tools: Read, Glob, Grep, Agent, AskUserQuestion
 model: opus
-context: main
 argument-hint: "[anchor|verify|framing|deep] <target>"
 user-invocable: true
 cynefin-domain: complicated

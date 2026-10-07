@@ -1,36 +1,56 @@
 {
   "type": "weighted_checklist",
-  "context": "Evaluates: Capture a People-Bridge",
+  "context": "Evaluates: Capture a people-bridge with bidirectional flow",
   "checklist": [
     {
-      "name": "YAML file has direction: bidirectional",
-      "description": "YAML file has `direction: bidirectional`.",
-      "max_score": 17
+      "name": "Parses the arrow",
+      "description": "Splits the input on `↔` and takes HP as source and SL as target.",
+      "max_score": 10
     },
     {
-      "name": "YAML file has archetype: people and",
-      "description": "YAML file has `archetype: people` and `emoji: 👤`.",
-      "max_score": 17
+      "name": "Direction bidirectional",
+      "description": "Sets `direction: bidirectional` in a single file.",
+      "max_score": 10
     },
     {
-      "name": "YAML file has strength: active",
-      "description": "YAML file has `strength: active`.",
-      "max_score": 17
+      "name": "Archetype people",
+      "description": "Sets `archetype: people` and `emoji: 👤`.",
+      "max_score": 10
     },
     {
-      "name": "Response line uses ↔ to indicate",
-      "description": "Response line uses `↔` to indicate bidirectional direction.",
-      "max_score": 17
+      "name": "Stakeholder signal used",
+      "description": "Uses the stakeholder `also_in` entry for Matthieu as a detection signal.",
+      "max_score": 10
     },
     {
-      "name": "Description is stored verbatim from the",
-      "description": "Description is stored verbatim from the user's input.",
-      "max_score": 16
+      "name": "Strength active",
+      "description": "Sets `strength: active` because \"carries\" is present tense.",
+      "max_score": 10
     },
     {
-      "name": "No extra commentary is added beyond",
-      "description": "No extra commentary is added beyond the one-line response.",
-      "max_score": 16
+      "name": "Verbatim description",
+      "description": "Stores the description exactly as typed.",
+      "max_score": 10
+    },
+    {
+      "name": "Filename",
+      "description": "Names the file `2026-04-08-1-hp-to-sl.yaml`.",
+      "max_score": 10
+    },
+    {
+      "name": "Response arrow",
+      "description": "Uses `↔` in the one-line response.",
+      "max_score": 10
+    },
+    {
+      "name": "Single line",
+      "description": "Emits exactly one response line.",
+      "max_score": 10
+    },
+    {
+      "name": "Resumes",
+      "description": "Resumes the prior conversation without a summary of the bridge.",
+      "max_score": 10
     }
   ]
 }

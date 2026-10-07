@@ -1,0 +1,56 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Stop when the project config is missing",
+  "checklist": [
+    {
+      "name": "Looks for config",
+      "description": "Looks for the config at the configured path.",
+      "max_score": 10
+    },
+    {
+      "name": "Stops",
+      "description": "Stops the capture.",
+      "max_score": 10
+    },
+    {
+      "name": "Warning text",
+      "description": "Replies with the `⚠️ No project config found.` warning.",
+      "max_score": 10
+    },
+    {
+      "name": "Says what to do",
+      "description": "Tells the user to create the config with their project definitions.",
+      "max_score": 10
+    },
+    {
+      "name": "No file written",
+      "description": "Creates no bridge file.",
+      "max_score": 10
+    },
+    {
+      "name": "No directory created",
+      "description": "Does not create the bridges directory.",
+      "max_score": 10
+    },
+    {
+      "name": "No guessed aliases",
+      "description": "Does not treat HP and DS as aliases anyway.",
+      "max_score": 10
+    },
+    {
+      "name": "No archetype work",
+      "description": "Does not run archetype detection.",
+      "max_score": 10
+    },
+    {
+      "name": "Short",
+      "description": "Keeps the reply to the warning and the fix.",
+      "max_score": 10
+    },
+    {
+      "name": "No fabricated config",
+      "description": "Does not write a config file on its own.",
+      "max_score": 10
+    }
+  ]
+}

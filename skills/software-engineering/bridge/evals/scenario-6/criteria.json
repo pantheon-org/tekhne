@@ -1,0 +1,56 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Refuse to write a bridge for a project that is not in config",
+  "checklist": [
+    {
+      "name": "Resolves HP",
+      "description": "Resolves HP from config.",
+      "max_score": 10
+    },
+    {
+      "name": "Tries fuzzy match",
+      "description": "Tries a fuzzy match of ZETA against the `name` fields.",
+      "max_score": 10
+    },
+    {
+      "name": "Writes nothing",
+      "description": "Creates no file.",
+      "max_score": 10
+    },
+    {
+      "name": "No invented alias",
+      "description": "Does not add or invent a ZETA alias.",
+      "max_score": 10
+    },
+    {
+      "name": "Warns",
+      "description": "Warns that ZETA is not in config.",
+      "max_score": 10
+    },
+    {
+      "name": "Suggests the fix",
+      "description": "Suggests adding the project to the config.",
+      "max_score": 10
+    },
+    {
+      "name": "No guessed substitute",
+      "description": "Does not substitute a similar existing project.",
+      "max_score": 10
+    },
+    {
+      "name": "Short",
+      "description": "Keeps the reply to a couple of lines.",
+      "max_score": 10
+    },
+    {
+      "name": "No bridge line",
+      "description": "Does not print a `🔗 Bridge #N:` confirmation.",
+      "max_score": 10
+    },
+    {
+      "name": "Leaves config alone",
+      "description": "Does not edit the config file itself.",
+      "max_score": 10
+    }
+  ]
+}

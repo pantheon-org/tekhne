@@ -1,0 +1,31 @@
+{
+  "context": "Explicit user choice and vague tasks.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Respects the explicit choice",
+      "description": "Does not override the stated Haiku choice for the first request",
+      "max_score": 25
+    },
+    {
+      "name": "Flags the stakes",
+      "description": "Notes that a security audit on a payment service carries stakes the user should weigh",
+      "max_score": 25
+    },
+    {
+      "name": "Asks for detail on the second",
+      "description": "Asks one clarifying question for the second request instead of guessing a tier",
+      "max_score": 25
+    },
+    {
+      "name": "Low confidence stated",
+      "description": "Marks confidence as low for the vague request",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids: quoting prices as fact",
+      "description": "Failure avoided: quotes exact prices or speed multipliers as fact",
+      "max_score": 10
+    }
+  ]
+}

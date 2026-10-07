@@ -1,34 +1,98 @@
 {
   "instructions": [
     {
-      "original_snippets": "NEVER default to the most powerful model for every task — oversized models inflate costs without quality gain on simple tasks.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
-    },
-    {
-      "original_snippets": "NEVER pick a model based on benchmark leaderboards alone — benchmark tasks often differ from production workloads.",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
-    },
-    {
-      "original_snippets": "NEVER hardcode model names in agent workflows — providers rename and deprecate models; use model tier aliases (fast/balanced/reasoning).",
-      "why_given": "anti-pattern",
-      "dimension": "D3"
-    },
-    {
-      "original_snippets": "Parse task description from $ARGUMENTS, classify against decision matrix, output recommendation using format template.",
+      "id": "I01",
+      "instruction": "Classify by task type and reasoning demand, not by task length or volume.",
+      "original_snippets": ["Match what the task demands, not how long it is."],
+      "relevant_when": "Classifying any task",
       "why_given": "new knowledge",
       "dimension": "D2"
     },
     {
-      "original_snippets": "Model: haiku — this skill itself uses the fast tier because model selection is a classification task, not a reasoning task.",
+      "id": "I02",
+      "instruction": "Run every escalator check and move up exactly one tier when any fires, capped at Opus.",
+      "original_snippets": [
+        "Move up exactly one tier when any escalator fires, capped at Opus."
+      ],
+      "relevant_when": "A task shows scope, stakes, ambiguity or stakeholder signals",
       "why_given": "new knowledge",
       "dimension": "D2"
     },
     {
-      "original_snippets": "Output format: recommended model + tier label + one-line rationale + estimated cost tier (low/medium/high).",
+      "id": "I03",
+      "instruction": "NEVER classify on the task label alone: check escalators first.",
+      "original_snippets": [
+        "NEVER classify on the task label alone. Check the escalators first."
+      ],
+      "relevant_when": "A task looks like routine single-file work but touches credentials or many files",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I04",
+      "instruction": "NEVER hardcode model identifiers: use tier aliases (fast, balanced, reasoning) resolved at runtime.",
+      "original_snippets": [
+        "NEVER hardcode model identifiers in agent workflows."
+      ],
+      "relevant_when": "Writing routing config or agent workflow definitions",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I05",
+      "instruction": "NEVER default to the most powerful model for every task.",
+      "original_snippets": [
+        "NEVER default to the most powerful model for every task."
+      ],
+      "relevant_when": "The user or an agent proposes Opus for simple work",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I06",
+      "instruction": "NEVER choose Haiku for production-critical work to save money: apply the stakes escalator.",
+      "original_snippets": [
+        "NEVER choose Haiku for production-critical work to save money."
+      ],
+      "relevant_when": "A cheap tier is proposed for production or security work",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I07",
+      "instruction": "Do not override an explicit user model choice: recommend only when no model is named.",
+      "original_snippets": ["NEVER override an explicit user model choice."],
+      "relevant_when": "The user already named a model",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I08",
+      "instruction": "Do not quote prices or speed multipliers as fact: use relative ranks and point to current vendor pricing.",
+      "original_snippets": ["NEVER quote prices or speed multipliers as fact."],
+      "relevant_when": "Writing the cost and speed line of the recommendation",
+      "why_given": "new knowledge",
+      "dimension": "D3"
+    },
+    {
+      "id": "I09",
+      "instruction": "Always name the signal that decided the tier, and give a confidence rating (high, medium, low) in the output template.",
+      "original_snippets": [
+        "Always name the escalator or matrix row that decided it."
+      ],
+      "relevant_when": "Producing the recommendation",
       "why_given": "preference",
       "dimension": "D6"
+    },
+    {
+      "id": "I10",
+      "instruction": "When confidence is low, ask one clarifying question instead of guessing a tier.",
+      "original_snippets": [
+        "Ask one clarifying question instead of guessing when confidence is low."
+      ],
+      "relevant_when": "The task description is too vague to classify",
+      "why_given": "preference",
+      "dimension": "D2"
     }
   ]
 }

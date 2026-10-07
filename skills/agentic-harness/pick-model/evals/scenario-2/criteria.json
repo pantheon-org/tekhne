@@ -1,0 +1,31 @@
+{
+  "context": "Trivial task stays on the cheapest tier.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Recommends Haiku",
+      "description": "Recommends the fast tier (Haiku) for plain text transformation",
+      "max_score": 30
+    },
+    {
+      "name": "Checks the escalators",
+      "description": "States that no escalator fires (under 2K words, no trade-offs)",
+      "max_score": 25
+    },
+    {
+      "name": "Names the deciding signal",
+      "description": "The one-line reason cites the matrix row or the absence of escalators",
+      "max_score": 15
+    },
+    {
+      "name": "Relative cost and speed",
+      "description": "Gives cost and speed as relative ranks, such as lowest and fastest",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids: defaulting up",
+      "description": "Failure avoided: recommends Sonnet or Opus for safety on a trivial task",
+      "max_score": 15
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Blank Question Answers and a Liminal Result",
+  "checklist": [
+    {
+      "name": "Blank answers detected and announced",
+      "description": "**Blank answers detected**: Agent notices the empty answers and outputs the known-harness-bug notice instead of proceeding.",
+      "max_score": 20
+    },
+    {
+      "name": "Numbered text fallback",
+      "description": "**Numbered fallback**: Agent presents the options as a numbered text list and asks for a number.",
+      "max_score": 15
+    },
+    {
+      "name": "Waits for the reply",
+      "description": "**Waits for the reply**: Agent makes no routing decision until the user answers.",
+      "max_score": 15
+    },
+    {
+      "name": "Questions batched in one call",
+      "description": "**Questions batched**: T1, T2, T3 and Q-Scale are put in a single call, not separate calls.",
+      "max_score": 10
+    },
+    {
+      "name": "Liminal state identified",
+      "description": "**Liminal state identified**: Agent reports T3 as a dissenting signal and classifies Liminal Complicated↔Complex rather than plain Complicated.",
+      "max_score": 20
+    },
+    {
+      "name": "Route and template match",
+      "description": "**Route and template**: Agent selects probe first → re-frame with OpenSpec = No, using `references/frame-problem-to-probe-liminal-llm.md`.",
+      "max_score": 20
+    }
+  ]
+}

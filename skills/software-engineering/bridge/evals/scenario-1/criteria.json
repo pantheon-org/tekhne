@@ -1,36 +1,56 @@
 {
   "type": "weighted_checklist",
-  "context": "Evaluates: Capture a Shared Pattern Between Two Projects",
+  "context": "Evaluates: Capture a knowledge bridge when a sequence number has been freed",
   "checklist": [
     {
-      "name": "YAML file is created in the",
-      "description": "YAML file is created in the configured bridges directory with the correct filename pattern.",
-      "max_score": 17
+      "name": "Resolves HP and DS",
+      "description": "Resolves both aliases from the project config.",
+      "max_score": 10
     },
     {
-      "name": "File contains all required fields: source,",
-      "description": "File contains all required fields: `source`, `target`, `archetype`, `emoji`, `description`, `direction`, `strength`, `date`.",
-      "max_score": 17
+      "name": "Archetype knowledge",
+      "description": "Sets `archetype: knowledge` and `emoji: 🧠`.",
+      "max_score": 10
     },
     {
-      "name": "archetype is knowledge and emoji is",
-      "description": "`archetype` is `knowledge` and `emoji` is `🧠`.",
-      "max_score": 17
+      "name": "Defaults for direction and strength",
+      "description": "Sets `direction: one-way` and `strength: potential`.",
+      "max_score": 10
     },
     {
-      "name": "direction is one-way and strength is",
-      "description": "`direction` is `one-way` and `strength` is `potential`.",
-      "max_score": 17
+      "name": "Sequence number 4",
+      "description": "Names the file `2026-04-08-4-hp-to-ds.yaml`, one above the highest existing number.",
+      "max_score": 10
     },
     {
-      "name": "Response is a single line matching",
-      "description": "Response is a single line matching the `🔗 Bridge #N:` format.",
-      "max_score": 16
+      "name": "No overwrite",
+      "description": "Leaves both existing files unchanged.",
+      "max_score": 10
     },
     {
-      "name": "Agent does not add commentary beyond",
-      "description": "Agent does not add commentary beyond the one-line response.",
-      "max_score": 16
+      "name": "Verbatim description",
+      "description": "Stores the description exactly as typed, including the second colon.",
+      "max_score": 10
+    },
+    {
+      "name": "Valid YAML",
+      "description": "Quotes the description so the file parses, and checks that it parses.",
+      "max_score": 10
+    },
+    {
+      "name": "Bridges directory only",
+      "description": "Writes only inside the bridges directory.",
+      "max_score": 10
+    },
+    {
+      "name": "One-line response",
+      "description": "Replies with a single `🔗 Bridge #4:` line in the specified format.",
+      "max_score": 10
+    },
+    {
+      "name": "No commentary, resumes",
+      "description": "Adds no commentary on the bridge and resumes the prior conversation.",
+      "max_score": 10
     }
   ]
 }

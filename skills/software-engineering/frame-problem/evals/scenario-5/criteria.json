@@ -23,8 +23,8 @@
       "max_score": 17
     },
     {
-      "name": "Sequencing follows risk guidance: Complex sub-problems",
-      "description": "**Sequencing follows risk guidance**: Complex sub-problems appear first in the suggested sequence.",
+      "name": "Sequencing follows dependency-then-Complex rule: Complex sub-problems",
+      "description": "**Sequencing follows the dependency-then-Complex rule**: no sub-problem blocks another, so Complex sub-problems appear first in the suggested sequence.",
       "max_score": 16
     },
     {

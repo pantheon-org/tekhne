@@ -58,6 +58,9 @@ fn bless_if_requested(corpus: &[String], root: &std::path::Path) -> bool {
             let mut result = score_with_date(&skill_path, PINNED_DATE)
                 .unwrap_or_else(|e| panic!("score {}: {e}", skill_path.display()));
             result.date = String::new();
+            // The scorer reports the absolute path it was given; store the
+            // repo-relative directory so goldens are machine independent.
+            result.skill = rel.clone();
             Golden {
                 dir: rel.clone(),
                 result,
@@ -225,6 +228,22 @@ fn check_invariants(rel: &str, got: &ScoreResult, out: &mut Vec<String>) {
             got.total, got.max_total
         ));
     }
+}
+
+/// Goldens must not embed the absolute path of the machine that blessed them:
+/// each record's `skill` is its repo-root-relative corpus directory.
+#[test]
+fn goldens_record_repo_relative_skill_paths() {
+    let absolute: Vec<String> = read_goldens()
+        .iter()
+        .filter(|g| g.result.skill != g.dir)
+        .map(|g| format!("  [{}] skill={:?}", g.dir, g.result.skill))
+        .collect();
+    assert!(
+        absolute.is_empty(),
+        "goldens.json records skill paths that are not repo-relative; regenerate with BLESS_GOLDENS=1:\n{}",
+        absolute.join("\n"),
+    );
 }
 
 #[test]

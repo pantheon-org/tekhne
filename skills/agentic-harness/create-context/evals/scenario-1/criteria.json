@@ -1,0 +1,46 @@
+{
+  "context": "Bootstrap a fresh snapshot from three documents",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Prerequisite guard",
+      "description": "Checks that the in-folder exists and that the ctx folder does not, before writing anything",
+      "max_score": 10
+    },
+    {
+      "name": "Scans first",
+      "description": "Runs the bundled scanner or an equivalent glob over the in-folder before classifying",
+      "max_score": 15
+    },
+    {
+      "name": "Priorities from the user",
+      "description": "Asks the user for HIGH, MEDIUM or LOW per file rather than inventing priorities",
+      "max_score": 15
+    },
+    {
+      "name": "Sizing applied",
+      "description": "Treats the 1200-token design document as inline and the 3200-token CSV as summarised, using words divided by 0.75",
+      "max_score": 15
+    },
+    {
+      "name": "Manifest after sizing",
+      "description": "Writes manifest.yaml after sizing, with sources.high, sources.medium and sources.low all present and action values set",
+      "max_score": 15
+    },
+    {
+      "name": "Manifest validated",
+      "description": "Runs validate-manifest.sh on the manifest and reports the result",
+      "max_score": 10
+    },
+    {
+      "name": "Baseline within budget",
+      "description": "Writes a baseline of at most 2000 tokens that inlines the design document and references the others",
+      "max_score": 10
+    },
+    {
+      "name": "Report and handoff",
+      "description": "Reports file counts, prints the RISEN INPUT table and suggests /save-context baseline",
+      "max_score": 10
+    }
+  ]
+}

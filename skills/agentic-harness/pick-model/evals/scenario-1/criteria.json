@@ -1,0 +1,36 @@
+{
+  "context": "Escalator catches a task that looks routine.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Base tier identified",
+      "description": "States that the task type alone points to Sonnet (code refactoring) before escalating",
+      "max_score": 15
+    },
+    {
+      "name": "Scope escalator named",
+      "description": "Names Scope (6 files, 3 or more) as a signal that fired",
+      "max_score": 20
+    },
+    {
+      "name": "Stakes escalator named",
+      "description": "Names Stakes (credentials, production service) as a signal that fired",
+      "max_score": 20
+    },
+    {
+      "name": "One tier up, capped at Opus",
+      "description": "Recommends Opus and moves one tier, not two",
+      "max_score": 20
+    },
+    {
+      "name": "Output template followed",
+      "description": "Uses the emoji, model, one-line reason, cost, speed and confidence format",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids: classifying on the label",
+      "description": "Failure avoided: recommends Sonnet because the task is called a refactor",
+      "max_score": 10
+    }
+  ]
+}

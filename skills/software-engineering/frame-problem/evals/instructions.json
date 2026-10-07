@@ -1,0 +1,136 @@
+{
+  "instructions": [
+    {
+      "id": "I01",
+      "content": "NEVER frame the problem as a solution; restate it as a need before classifying",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I02",
+      "content": "NEVER skip domain classification; Clear problems need best practice and Complex problems need probes",
+      "type": "anti-pattern",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I03",
+      "content": "NEVER accept the first framing at face value; the real constraint is usually one 'why' deeper",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I04",
+      "content": "NEVER classify as Complicated just because you have knowledge; test for Complex before settling",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I05",
+      "content": "NEVER skip the Adjacent Domain Challenge when auto-classifying",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I06",
+      "content": "NEVER ask the user to name the constraint type; ask the three tests and derive the domain",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I07",
+      "content": "NEVER propose a fix or diagnosis while framing",
+      "type": "anti-pattern",
+      "why_given": "preference"
+    },
+    {
+      "id": "I08",
+      "content": "NEVER let T1 alone override a T2/T3 disagreement; the majority of the three tests decides",
+      "type": "anti-pattern",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I09",
+      "content": "Put T1, T2, T3 and Q-Scale in a single AskUserQuestion call",
+      "type": "guideline",
+      "why_given": "preference"
+    },
+    {
+      "id": "I10",
+      "content": "When AskUserQuestion returns blank answers, announce the bug, present a numbered text list and wait for the reply",
+      "type": "guideline",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I11",
+      "content": "Propose an auto-classification only at 80% confidence or above, otherwise triangulate",
+      "type": "guideline",
+      "why_given": "preference"
+    },
+    {
+      "id": "I12",
+      "content": "Write 2-3 clarifying sub-questions when the problem statement is vague or broad",
+      "type": "guideline",
+      "why_given": "preference"
+    },
+    {
+      "id": "I13",
+      "content": "Decompose into 2-4 sub-problems when the tests disagree or T3 is composite, and map each to a domain",
+      "type": "guideline",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I14",
+      "content": "Sequence sub-problems by dependency first, then Complex before Complicated",
+      "type": "guideline",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I15",
+      "content": "Route Complicated and Degraded to troubleshoot with OpenSpec No",
+      "type": "routing",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I16",
+      "content": "Route Complicated and Evolving boulders to investigate then openspec-plan",
+      "type": "routing",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I17",
+      "content": "Route Complex with a hypothesis to probe and carry the stated hypothesis forward unchanged",
+      "type": "routing",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I18",
+      "content": "Route Complex with no hypothesis to brainstorm then probe",
+      "type": "routing",
+      "why_given": "reminder"
+    },
+    {
+      "id": "I19",
+      "content": "Route a liminal Complicated/Complex result to probe first, report the dissenting test, then re-frame",
+      "type": "routing",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I20",
+      "content": "Route Chaotic to experiment immediately and skip Q-Scale",
+      "type": "routing",
+      "why_given": "new knowledge"
+    },
+    {
+      "id": "I21",
+      "content": "Fill the matching handoff template and confirm with the user before invoking the first skill",
+      "type": "guideline",
+      "why_given": "preference"
+    },
+    {
+      "id": "I22",
+      "content": "Do not frame fully specified tasks; execute them",
+      "type": "guideline",
+      "why_given": "preference"
+    }
+  ]
+}

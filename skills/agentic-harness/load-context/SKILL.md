@@ -2,9 +2,8 @@
 name: load-context
 description: Resume session from CONTEXT-llm.md. Use when resuming work, loading saved context, continuing a previous session. Triggers include "load context", "resume session", "continue where I left off".
 argument-hint: "[stream-name] [--full]"
-allowed-tools: bash, read, askuserquestion
+allowed-tools: Bash, Read, AskUserQuestion
 model: haiku
-context: main
 user-invocable: true
 ---
 

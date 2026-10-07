@@ -1,0 +1,31 @@
+{
+  "context": "Stakes outrank task type.",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Base tier identified",
+      "description": "Identifies the typo fix as Haiku work by task type",
+      "max_score": 20
+    },
+    {
+      "name": "Stakes escalator fires",
+      "description": "Names Stakes (production, payments) as the signal",
+      "max_score": 25
+    },
+    {
+      "name": "Recommends Sonnet",
+      "description": "Recommends Sonnet, one tier up, and not Opus",
+      "max_score": 30
+    },
+    {
+      "name": "Explains the reason",
+      "description": "States that the stakes, not the typo, decided the tier",
+      "max_score": 15
+    },
+    {
+      "name": "Avoids: false economy",
+      "description": "Failure avoided: recommends Haiku to save money on production-critical work",
+      "max_score": 10
+    }
+  ]
+}

@@ -366,7 +366,7 @@ Bootstrap project context from .context/session/in/ with manifest-driven organis
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [create-context](/tekhne/skills/agentic-harness/create-context/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | - |
+| [create-context](/tekhne/skills/agentic-harness/create-context/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 4 |
 
 ### load-context
 
@@ -400,7 +400,7 @@ Recommend the optimal Claude model (Haiku/Sonnet/Opus) for a task using a decisi
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [pick-model](/tekhne/skills/agentic-harness/pick-model/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | - |
+| [pick-model](/tekhne/skills/agentic-harness/pick-model/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 5 |
 
 ### pin
 
@@ -580,7 +580,7 @@ Capture cross-project connections on the fly and persist them as structured YAML
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [bridge](/tekhne/skills/software-engineering/bridge/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | 5 |
+| [bridge](/tekhne/skills/software-engineering/bridge/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 11 |
 
 ### challenge
 
@@ -613,7 +613,7 @@ Classify a problem using Cynefin triangulation before acting — routes to the r
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |
-| [frame-problem](/tekhne/skills/software-engineering/frame-problem/skill/) | <span class="skill-badge skill-badge--c">C</span> | 2026-09-23 | 5 |
+| [frame-problem](/tekhne/skills/software-engineering/frame-problem/skill/) | <span class="skill-badge skill-badge--a">A</span> | 2026-10-07 | 9 |
 
 ### probe
 

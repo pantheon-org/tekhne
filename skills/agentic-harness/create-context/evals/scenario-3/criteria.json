@@ -1,0 +1,31 @@
+{
+  "context": "Existing snapshot, rerun and forced rebuild",
+  "type": "weighted_checklist",
+  "checklist": [
+    {
+      "name": "Plain run stops",
+      "description": "Stops at the prerequisite guard with the message that the ctx folder exists and --force is needed, and changes no file",
+      "max_score": 30
+    },
+    {
+      "name": "Forced run rescans",
+      "description": "With --force, rescans the in-folder and asks for priorities again instead of reusing the old manifest",
+      "max_score": 20
+    },
+    {
+      "name": "Rewrites all artefacts",
+      "description": "Rewrites the manifest, copies, summaries and baseline together so they stay consistent",
+      "max_score": 20
+    },
+    {
+      "name": "Warns about edits",
+      "description": "Warns that hand-edited summaries are discarded and suggests saving any worth keeping first",
+      "max_score": 20
+    },
+    {
+      "name": "No concurrent run",
+      "description": "Does not start while a save-context or load-context run is writing to the same folder",
+      "max_score": 10
+    }
+  ]
+}

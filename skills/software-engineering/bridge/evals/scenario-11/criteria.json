@@ -1,0 +1,56 @@
+{
+  "type": "weighted_checklist",
+  "context": "Evaluates: Leave an administrative connection alone",
+  "checklist": [
+    {
+      "name": "Recognises admin link",
+      "description": "Treats a shared Slack channel as administrative.",
+      "max_score": 10
+    },
+    {
+      "name": "No capture",
+      "description": "Creates no bridge file.",
+      "max_score": 10
+    },
+    {
+      "name": "No procedure run",
+      "description": "Does not run the capture procedure.",
+      "max_score": 10
+    },
+    {
+      "name": "No archetype guess",
+      "description": "Does not force an archetype such as `local` onto it.",
+      "max_score": 10
+    },
+    {
+      "name": "No bridge line",
+      "description": "Does not print a `🔗 Bridge #N:` line.",
+      "max_score": 10
+    },
+    {
+      "name": "Does not interrupt",
+      "description": "Does not stop the user to ask whether to capture.",
+      "max_score": 10
+    },
+    {
+      "name": "No lecture",
+      "description": "Does not explain the bridge rules.",
+      "max_score": 10
+    },
+    {
+      "name": "Stays on task",
+      "description": "Continues with the design review.",
+      "max_score": 10
+    },
+    {
+      "name": "Writes nothing",
+      "description": "Writes nothing anywhere in the workspace.",
+      "max_score": 10
+    },
+    {
+      "name": "No announcement",
+      "description": "Does not announce that it chose not to capture.",
+      "max_score": 10
+    }
+  ]
+}

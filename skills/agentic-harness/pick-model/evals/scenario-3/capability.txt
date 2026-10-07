@@ -1,0 +1,1 @@
+Moves a Haiku-type task up one tier because of the stakes escalator
