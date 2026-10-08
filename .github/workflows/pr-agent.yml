@@ -2,13 +2,11 @@ name: PR Agent
 
 # General-purpose LLM PR review (auto-describe + auto-review) for non-skill PRs.
 #
-# The review step runs only when a provider API-key secret is configured
-# (GEMINI_API_KEY / MISTRAL_API_KEY / CEREBRAS_API_KEY); with none present it
-# skips cleanly. It sends the PR diff and metadata to an external LLM — Gemini
-# primary, Mistral then Cerebras as litellm fallbacks — and posts a description
-# and review. Advisory only (continue-on-error), so a provider outage or
-# rate-limit never turns this into a red, blocking check. Remove the secrets to
-# turn it off.
+# The review step runs only when GEMINI_API_KEY is configured; without it the
+# step skips cleanly. It sends the PR diff and metadata to Gemini and posts a
+# description and review. Advisory only (continue-on-error), so a provider
+# outage or rate-limit never turns this into a red, blocking check. Remove the
+# secret to turn it off.
 #
 # Skill PRs are excluded (paths-ignore: skills/**) — they are already covered by
 # the Skill Audit gate. A second LLM opinion on the same diff would be redundant.
@@ -40,22 +38,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # The agent step runs only when a provider key is configured; with none
-      # present it skips cleanly and posts a notice. Remove the secrets to
-      # disable the review entirely.
+      # The agent step runs only when the Gemini key is configured; without it
+      # the step skips cleanly and posts a notice. Remove the secret to disable
+      # the review entirely.
       - name: Check for a provider key
         id: key
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
         run: |
-          if [ -n "$GEMINI_API_KEY" ] || [ -n "$MISTRAL_API_KEY" ] || [ -n "$CEREBRAS_API_KEY" ]; then
+          if [ -n "$GEMINI_API_KEY" ]; then
             echo "present=true" >> "$GITHUB_OUTPUT"
             echo "started=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
           else
             echo "present=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::PR Agent skipped — no provider API key configured (GEMINI_API_KEY / MISTRAL_API_KEY / CEREBRAS_API_KEY)."
+            echo "::notice::PR Agent skipped — no provider API key configured (GEMINI_API_KEY)."
           fi
 
       # Digest-pinned image (this repo pins every third-party action by immutable
@@ -68,23 +64,16 @@ jobs:
         uses: docker://pragent/pr-agent@sha256:ea2ea90f072fd97708755e59827a317272f66097a1ef349eca23d39160bb0baf
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Model IDs on every provider are point-in-time; expect to bump these
-          # as providers retire models. Gemini primary, Mistral then Cerebras as
-          # litellm fallbacks so a single provider's rate limit is not a SPOF.
+          # Model IDs are point-in-time; expect to bump this as Google retires
+          # models. No fallbacks: the Mistral and Cerebras ones were rate-limited
+          # and unpaid, so they only added failures. Add one back only once its
+          # key works.
           config.model: "gemini/gemini-3.5-flash"
-          config.fallback_models: '["mistral/mistral-small-2603", "cerebras/gpt-oss-120b"]'
-          # The fallback models are not in PR-Agent's built-in MAX_TOKENS table,
-          # so without this they fail with "not defined in MAX_TOKENS" the moment
-          # Gemini is unavailable (e.g. a 503), leaving the review silently
-          # unposted. A positive custom_model_max_tokens gives any unknown model
-          # a context budget so the fallback chain actually works. Both fallbacks
-          # support >=128k context.
+          # A model missing from PR-Agent's built-in MAX_TOKENS table fails with
+          # "not defined in MAX_TOKENS"; a positive custom_model_max_tokens gives
+          # it a context budget.
           config.custom_model_max_tokens: "128000"
           GOOGLE_AI_STUDIO.GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # PR-Agent maps MISTRAL.KEY to MISTRAL_API_KEY; Cerebras has no
-          # PR-Agent-specific key, litellm reads CEREBRAS_API_KEY from the env.
-          MISTRAL.KEY: ${{ secrets.MISTRAL_API_KEY }}
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
           # describe + review only. auto_improve must be an explicit "false" — if
           # left unset, PR-Agent still runs /improve.
           github_action_config.auto_describe: "true"
