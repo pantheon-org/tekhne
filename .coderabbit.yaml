@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# CodeRabbit PR review, an alternative to the PR Agent workflow
+# (.github/workflows/pr-agent.yml). CodeRabbit runs as a GitHub App, so there is
+# no workflow or secret here: install the app on the repository to turn it on,
+# uninstall it (or set reviews.auto_review.enabled to false) to turn it off.
+#
+# Mirrors PR Agent's scope: skill PRs are already covered by the Skill Audit
+# gate, so skills/** is excluded from review to avoid a second LLM opinion on
+# the same diff. Advisory only: request_changes_workflow stays false so it never
+# blocks a merge.
+
+language: en-US
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+
+  path_filters:
+    - "!skills/**"
+    - "!target/**"
+    - "!**/node_modules/**"
+    - "!**/*.lock"
+    - "!bun.lock"
+
+  path_instructions:
+    - path: "crates/**"
+      instructions: |
+        Rust is the preferred language in this repository. Flag unwrap/expect
+        outside tests, ignored errors, and public API changes without tests.
+    - path: ".github/workflows/**"
+      instructions: |
+        Every third-party action must be pinned by commit SHA (or image digest).
+        Flag mutable tags, overly broad permissions, and secrets exposed to
+        untrusted triggers.
+    - path: "scripts/**"
+      instructions: |
+        Language preference is Rust, then Bun with TypeScript, then thin shell
+        glue, then Python as a last resort. Flag new Python files.
+
+chat:
+  auto_reply: true
