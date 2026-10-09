@@ -537,7 +537,10 @@ mod tests {
         }
         let (score, diags) = score(evals);
         assert_eq!(score, 17);
-        assert!(diags.is_empty(), "unexpected diagnostics: {diags:?}");
+        // The only diagnostic is the report-only note that no scenario has a
+        // failure check; it never moves the score asserted above.
+        assert_eq!(diags.len(), 1, "unexpected diagnostics: {diags:?}");
+        assert!(no_failure_check_report(&diags).is_some(), "{diags:?}");
         assert_eq!(count_valid_scenarios(evals), 3);
     }
 }
