@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.0 (2026-10-09)
+
+Crate `pantheon-skill-auditor` 0.2.3 to 0.3.0. No skill's total or grade changes.
+
+### Features
+
+* **skill-auditor:** each dimension gap in `Remediation.md` now carries what happened, likely cause and fix. The remediation-plan schema moves to version 2 (`schema_version`, with `dimension_gaps` required from 2; plans without the field stay valid as version 1)
+* **skill-auditor:** `evaluate` and `batch` take `--base <ref>`, which scores the whole skill folder at a git ref and reports the delta. It needs `--repo-root` to point at a git checkout, reports a skill missing at the ref as new, and in a shallow clone needs enough depth to contain the ref. With `--json` the output is a versioned comparison record (`schema_version` 1); without `--base` it is unchanged
+* **skill-auditor:** a `criteria.json` checklist item can be marked `failure_check`: it has no `max_score`, is pass or fail, and is outside the 100 sum, so it never changes a score. Adds `assets/schemas/criteria.schema.json`, a check in `validate-skill-artifacts.sh` and a section in `references/eval-format.md`
+* **skill-auditor:** D9 reports, without deducting, when a scenario has no failure check. It adds a warning and no change to any score or grade
+
+### Notes
+
+* The likely-cause lines and `--base` follow skilldiff (MIT); the licence text is in `crates/skill-auditor/NOTICE`
+
 ## [0.2.0](https://github.com/pantheon-org/tekhne/compare/v0.1.4...v0.2.0) (2026-05-15)
 
 ### Features
