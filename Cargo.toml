@@ -36,7 +36,7 @@ skill-install = { path = "crates/skill-install" }
 # journal's archive-media command (the one deliberate exception to this
 # workspace's otherwise offline-only tools): a blocking client, matching every
 # crate here being synchronous, so no async runtime is pulled in for one command.
-ureq = "2"
+ureq = "3"
 url = "2"
 
 [profile.release]
