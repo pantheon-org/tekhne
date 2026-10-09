@@ -259,3 +259,61 @@ fn the_working_tree_is_left_untouched() {
     assert_eq!(before, after);
     assert!(!repo.path().join("skills/demo/one/references").exists());
 }
+
+/// A skill folder outside `skills/` cannot be scored at the ref, because its
+/// key is an absolute path. It scores fine today; only the comparison fails.
+fn repo_with_a_loose_skill() -> (tempfile::TempDir, String) {
+    let repo = repo_with_history();
+    write(repo.path(), "extra/loose/SKILL.md", THIN);
+    let loose = repo.path().join("extra/loose").display().to_string();
+    (repo, loose)
+}
+
+#[test]
+fn a_failed_comparison_stays_in_the_json_with_its_error() {
+    let (repo, loose) = repo_with_a_loose_skill();
+    let v = json(&run(
+        repo.path(),
+        "batch",
+        &["demo/one", &loose],
+        &["--json", "--base", "base"],
+    ));
+    let records = v.as_array().expect("array");
+    assert_eq!(records.len(), 2, "a skill must not be dropped: {v}");
+    let failed: Vec<&Value> = records.iter().filter(|r| r["status"] == "error").collect();
+    assert_eq!(failed.len(), 1, "{v}");
+    assert!(
+        failed[0]["error"]
+            .as_str()
+            .is_some_and(|e| !e.trim().is_empty()),
+        "{v}"
+    );
+    assert!(failed[0]["current"]["total"].is_i64(), "{v}");
+    assert!(failed[0]["baseline"].is_null(), "{v}");
+}
+
+#[test]
+fn a_failed_comparison_does_not_hide_the_score_in_text() {
+    let (repo, loose) = repo_with_a_loose_skill();
+    let out = run(
+        repo.path(),
+        "batch",
+        &["demo/one", &loose],
+        &["--base", "base"],
+    );
+    assert!(out.status.success());
+    let text = String::from_utf8_lossy(&out.stdout);
+    assert_eq!(
+        text.matches("ERROR:").count(),
+        1,
+        "the comparison error should print once, under the comparison: {text}"
+    );
+    let row = text
+        .lines()
+        .find(|l| l.starts_with(&loose) && l.contains('/') && l.contains('('))
+        .unwrap_or_default();
+    assert!(
+        !row.contains("ERROR"),
+        "the score row must show a score: {text}"
+    );
+}

@@ -38,6 +38,8 @@ pub enum Status {
     Changed,
     /// Every dimension matches.
     Unchanged,
+    /// The skill scored now, but could not be scored at the ref.
+    Error,
 }
 
 /// One skill scored now and at the ref.
@@ -51,6 +53,9 @@ pub struct Comparison {
     pub current: AuditResult,
     pub delta: Option<i32>,
     pub dimension_deltas: Option<BTreeMap<String, i32>>,
+    /// Why the comparison failed. Present only when `status` is `error`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<String>,
 }
 
 /// Reject a ref that git could read as an option, before it reaches git.
@@ -202,6 +207,23 @@ pub fn compare(base: &BaseRef, current: AuditResult, baseline: Option<AuditResul
         current,
         delta,
         dimension_deltas,
+        error: None,
+    }
+}
+
+/// A skill that scored now but could not be compared: its score is kept and the
+/// reason is recorded, so a batch never silently drops it.
+pub fn failed(base: &BaseRef, current: AuditResult, error: String) -> Comparison {
+    Comparison {
+        schema_version: SCHEMA_VERSION,
+        base: base.clone(),
+        skill: current.skill.clone(),
+        status: Status::Error,
+        baseline: None,
+        current,
+        delta: None,
+        dimension_deltas: None,
+        error: Some(error),
     }
 }
 
@@ -213,6 +235,9 @@ pub fn heading(base: &BaseRef) -> String {
 /// The comparison as text: the headline, then each dimension that moved.
 pub fn format_comparison(c: &Comparison) -> String {
     let head = heading(&c.base);
+    if let Some(err) = &c.error {
+        return format!("{head}: could not compare: {err}\n");
+    }
     let Some(old) = &c.baseline else {
         return format!("{head}: new skill, no baseline.\n");
     };

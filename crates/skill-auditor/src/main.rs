@@ -386,6 +386,9 @@ struct Entry {
     arg: String,
     result: Option<AuditResult>,
     comparison: Option<Comparison>,
+    /// Why the skill could not be compared with the `--base` ref. Scoring
+    /// failures use `error`, so a skill that scored fine keeps its score.
+    comparison_error: Option<String>,
     error: Option<String>,
 }
 
@@ -472,6 +475,7 @@ fn run_batch(
                 arg: arg.clone(),
                 result: None,
                 comparison: None,
+                comparison_error: None,
                 error: Some(e.to_string()),
             }),
             Ok(mut result) => {
@@ -483,7 +487,7 @@ fn run_batch(
                         eprintln!("warning: store {arg}: {e}");
                     }
                 }
-                let (comparison, error) = match &base {
+                let (comparison, comparison_error) = match &base {
                     None => (None, None),
                     Some(base) => match compare_with_base(&repo_root, base, &skill_key, &result) {
                         Ok(c) => (Some(c), None),
@@ -494,7 +498,8 @@ fn run_batch(
                     arg: arg.clone(),
                     result: Some(result),
                     comparison,
-                    error,
+                    comparison_error,
+                    error: None,
                 });
             }
         }
@@ -511,10 +516,18 @@ fn run_batch(
     }
 
     if json {
-        let data = if base.is_some() {
-            let comparisons: Vec<&Comparison> = entries
+        let data = if let Some(base) = &base {
+            // A skill that scored but could not be compared stays in the output
+            // with its error, so a consumer can tell it was not skipped.
+            let comparisons: Vec<Comparison> = entries
                 .iter()
-                .filter_map(|e| e.comparison.as_ref())
+                .filter_map(|e| match (&e.comparison, &e.comparison_error, &e.result) {
+                    (Some(c), _, _) => Some(c.clone()),
+                    (None, Some(err), Some(r)) => {
+                        Some(baseline::failed(base, r.clone(), err.clone()))
+                    }
+                    _ => None,
+                })
                 .collect();
             serde_json::to_string_pretty(&comparisons)
         } else {
@@ -581,7 +594,7 @@ fn print_batch_comparison(base: &baseline::BaseRef, entries: &[Entry]) {
     println!();
     println!("{}", baseline::heading(base));
     for e in entries {
-        match (&e.comparison, &e.error) {
+        match (&e.comparison, &e.comparison_error) {
             (Some(c), _) => match (&c.baseline, c.delta) {
                 (Some(old), Some(delta)) => println!(
                     "{:<40}  {} -> {} ({delta:+})",
