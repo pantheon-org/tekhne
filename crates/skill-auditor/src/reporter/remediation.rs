@@ -233,7 +233,10 @@ mod tests {
         let what = section.find("- **What happened:** scored 9 of 15, 6 pts short.");
         let cause = section.find("- **Likely cause:**");
         let fix = section.find("- **Fix:**");
-        assert!(what.is_some() && cause.is_some() && fix.is_some(), "{section}");
+        assert!(
+            what.is_some() && cause.is_some() && fix.is_some(),
+            "{section}"
+        );
         assert!(what < cause && cause < fix);
     }
 
