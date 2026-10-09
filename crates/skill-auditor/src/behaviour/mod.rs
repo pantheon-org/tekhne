@@ -6,6 +6,7 @@
 //! commit 9271c26. See the `NOTICE` file beside this crate.
 
 pub mod assertions;
+pub mod ledger;
 pub mod load;
 pub mod scenario;
 pub mod trace;

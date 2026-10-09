@@ -5,6 +5,7 @@
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use skill_auditor::aggregation;
 use skill_auditor::baseline::{self, Comparison};
+use skill_auditor::behaviour::ledger;
 use skill_auditor::check_stored;
 use skill_auditor::duplication;
 use skill_auditor::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
@@ -355,23 +356,23 @@ fn run_evaluate(
         None => None,
     };
 
+    // Recorded behaviour checks sit beside the score and are not part of it.
+    // Only `evaluate` shows them, and never in a stored audit.
+    let behaviour = skill_path.parent().and_then(ledger::report_for_skill);
+
     match (&comparison, json) {
-        (Some(c), true) => {
-            let data =
-                serde_json::to_string_pretty(c).map_err(|e| format!("marshal result: {e}"))?;
-            println!("{data}");
-        }
+        (Some(c), true) => println!("{}", ledger::to_json(c, behaviour.as_ref())?),
         (Some(c), false) => {
             print!("{}", reporter::format(&result));
             println!();
             print!("{}", baseline::format_comparison(c));
         }
-        (None, true) => {
-            let data = serde_json::to_string_pretty(&result)
-                .map_err(|e| format!("marshal result: {e}"))?;
-            println!("{data}");
-        }
+        (None, true) => println!("{}", ledger::to_json(&result, behaviour.as_ref())?),
         (None, false) => print!("{}", reporter::format(&result)),
+    }
+    if let (false, Some(report)) = (json, &behaviour) {
+        println!();
+        print!("{}", ledger::format_text(report));
     }
 
     if store {
