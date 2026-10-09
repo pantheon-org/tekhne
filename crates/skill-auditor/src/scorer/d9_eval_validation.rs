@@ -173,6 +173,13 @@ fn count_valid_scenarios_with_diags(evals_dir: &Path) -> (i32, Vec<Diagnostic>) 
             continue;
         }
         let scenario_dir = entry.path();
+        // Report only: a broken behaviour file or trace never changes the score.
+        for problem in crate::behaviour::load::problems(&scenario_dir) {
+            diags.push(warn_diag(
+                "D9",
+                &format!("{name}/{problem} (behaviour check, not scored)"),
+            ));
+        }
         let has_task = file_exists(&scenario_dir.join("task.md"));
         let has_criteria = file_exists(&scenario_dir.join("criteria.json"));
         let has_capability = file_exists(&scenario_dir.join("capability.txt"));

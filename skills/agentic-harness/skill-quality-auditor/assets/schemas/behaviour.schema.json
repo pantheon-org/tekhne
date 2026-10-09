@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tekhne.io/schemas/behaviour.schema.json",
+  "title": "Eval Scenario Behaviour",
+  "description": "Schema for evals/scenario-N/behaviour.yaml: what an agent must and must not do with the skill, checked against two recorded traces (traces/old.json and traces/new.json). Unknown keys are errors, so a misspelt expectation is never silently dropped. Report-only: it never changes a score.",
+  "type": "object",
+  "required": ["schema_version", "name", "expect"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [1]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "prompt": {
+      "type": "string",
+      "description": "The prompt the agent was given when the traces were recorded."
+    },
+    "fixture": {
+      "type": "string",
+      "description": "The synthetic fixture the agent worked on, relative to the scenario folder."
+    },
+    "skillPaths": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "expect": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": false,
+      "description": "At least one assertion across all the lists below, including must_not.",
+      "properties": {
+        "files_changed": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Paths that must have been changed. Partial, case-insensitive match."
+        },
+        "commands_run": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Commands that must have been run. Partial, case-insensitive match."
+        },
+        "tool_calls": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Tools that must have been used, compared by normalised name (read, write, bash, glob, grep, spawn)."
+        },
+        "must_not": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "files_changed": { "type": "array", "items": { "type": "string" } },
+            "commands_run": { "type": "array", "items": { "type": "string" } },
+            "tool_calls": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "output_contains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Text that must appear in the final output. Case-insensitive."
+        },
+        "output_not_contains": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Text that must not appear in the final output. Case-insensitive."
+        }
+      }
+    }
+  }
+}

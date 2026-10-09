@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tekhne.io/schemas/trace.schema.json",
+  "title": "Recorded Agent Trace",
+  "description": "Schema for evals/scenario-N/traces/old.json and new.json: what an agent did with one version of a skill, recorded from a real run. Synthetic data only: no real tool output, paths, tokens or participant data. Unknown keys are errors.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "header",
+    "toolCalls",
+    "filesChanged",
+    "commandsRun",
+    "output"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [1]
+    },
+    "header": {
+      "type": "object",
+      "required": ["harness", "date", "skill_commit", "source"],
+      "additionalProperties": false,
+      "properties": {
+        "harness": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The tool that ran the agent, for example claude-code."
+        },
+        "date": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "skill_commit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Commit of the skill's SKILL.md the run was recorded against."
+        },
+        "source": {
+          "type": "string",
+          "enum": ["recorded", "hand-written"],
+          "description": "A trace written by a person and not recorded from a run must say so."
+        }
+      }
+    },
+    "toolCalls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool"],
+        "additionalProperties": false,
+        "properties": {
+          "tool": { "type": "string" },
+          "input": {}
+        }
+      }
+    },
+    "filesChanged": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths changed or created, relative to the fixture root."
+    },
+    "commandsRun": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "output": {
+      "type": "string",
+      "description": "The agent's final text."
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

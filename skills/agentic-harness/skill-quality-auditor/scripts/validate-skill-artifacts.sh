@@ -2,6 +2,7 @@
 set -eu
 
 errors=0
+script_dir=$(cd "$(dirname "$0")" && pwd)
 
 error() {
   printf 'ERROR: %s\n' "$1" >&2
@@ -163,6 +164,11 @@ check_file() {
     skills/*/evals/scenario-*/criteria.json)
       check_criteria_file "$file"
       ;;
+    skills/*/evals/scenario-*/behaviour.yaml|skills/*/evals/scenario-*/traces/*.json)
+      # Shape of the recorded behaviour checks; the auditor reports the same
+      # problems as a report-only D9 warning.
+      sh "$script_dir/validate-behaviour-files.sh" "$file" || errors=1
+      ;;
   esac
 }
 
@@ -234,7 +240,7 @@ if [ "$#" -gt 0 ]; then
 else
   tmp_files=$(mktemp)
   trap 'rm -f "$tmp_files"' EXIT INT TERM
-  find skills -type f \( -path 'skills/*/assets/templates/*' -o -path 'skills/*/assets/schemas/*' -o -path 'skills/*/scripts/*' -o -path 'skills/*/evals/scenario-*/criteria.json' \) > "$tmp_files"
+  find skills -type f \( -path 'skills/*/assets/templates/*' -o -path 'skills/*/assets/schemas/*' -o -path 'skills/*/scripts/*' -o -path 'skills/*/evals/scenario-*/criteria.json' -o -path 'skills/*/evals/scenario-*/behaviour.yaml' -o -path 'skills/*/evals/scenario-*/traces/*.json' \) > "$tmp_files"
   while IFS= read -r file; do
     check_file "$file"
   done < "$tmp_files"
