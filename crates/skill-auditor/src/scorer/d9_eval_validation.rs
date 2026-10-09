@@ -382,4 +382,33 @@ mod tests {
         assert_eq!(parse_coverage_percentage(&Value::from("abc")), -1);
         assert_eq!(parse_coverage_percentage(&Value::from(true)), -1);
     }
+
+    /// Pins the D9 outcome for scenarios whose checklist sums to 100, so later
+    /// criteria changes (failure checks, new fields) cannot move it unnoticed.
+    #[test]
+    fn criteria_summing_to_100_outcome_is_pinned() {
+        let dir = tempdir().unwrap();
+        let evals = dir.path();
+        write_file(
+            &evals.join("instructions.json"),
+            r#"{"instructions":[{"type":"a"}]}"#,
+        );
+        write_file(
+            &evals.join("summary.json"),
+            r#"{"instructions_coverage":{"coverage_percentage":85}}"#,
+        );
+        for i in 1..=3 {
+            let sdir = evals.join(format!("scenario-{i}"));
+            write_file(&sdir.join("task.md"), "# Task");
+            write_file(&sdir.join("capability.txt"), "cap");
+            write_file(
+                &sdir.join("criteria.json"),
+                r#"{"checklist":[{"description":"a","max_score":50},{"description":"b","max_score":30},{"description":"c","max_score":20}]}"#,
+            );
+        }
+        let (score, diags) = score(evals);
+        assert_eq!(score, 17);
+        assert!(diags.is_empty(), "unexpected diagnostics: {diags:?}");
+        assert_eq!(count_valid_scenarios(evals), 3);
+    }
 }
