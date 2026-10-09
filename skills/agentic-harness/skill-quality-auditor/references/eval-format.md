@@ -55,6 +55,35 @@ leaks the answer to the agent being tested.
 - Use 10 or more items, each a binary check, so two reviewers score the same
   transcript the same way.
 - Include failure checks (what a bad response does), not only success checks.
+  Mark them with `failure_check`, described next.
+
+### Failure checks
+
+A checklist item can be marked as a failure check: a behaviour the response
+must not show.
+
+```json
+{
+  "name": "Does not delete the user's file",
+  "description": "The response never removes or overwrites the original file",
+  "failure_check": true
+}
+```
+
+- `failure_check` is optional. Leave it out for an ordinary scored item, and
+  `"failure_check": false` means the same.
+- A failure check has **no `max_score`**. It is pass or fail: it passes when
+  the bad behaviour is absent.
+- It is **outside the 100 sum**, so it never changes a score. If one carries a
+  `max_score` anyway the auditor ignores it, and the artifact validator
+  reports it.
+- D9 reports, without deducting any points, when a scenario has no failure
+  check: "N of M scenario(s) have no failure check".
+- An older `pantheon-skill-auditor` build ignores the field and reads the item
+  as worth 0, so a file that uses it is still accepted and sums as before.
+
+The schema is `assets/schemas/criteria.schema.json`. `scripts/validate-skill-artifacts.sh`
+checks the `failure_check` rules for every `criteria.json` under `skills/`.
 
 ## scenario-N/capability.txt
 

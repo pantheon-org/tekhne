@@ -34,6 +34,11 @@ struct CriteriaData {
 struct ChecklistItem {
     #[serde(default)]
     max_score: i32,
+    /// A pass or fail check for a behaviour the response must not show. It is
+    /// outside the 100-point sum, so it can never change a score. An older
+    /// auditor ignores the field and reads the item as worth 0.
+    #[serde(default)]
+    failure_check: bool,
 }
 
 /// Score the Eval Validation dimension.
@@ -160,6 +165,8 @@ fn count_valid_scenarios_with_diags(evals_dir: &Path) -> (i32, Vec<Diagnostic>) 
     }
 
     let mut valid = 0;
+    let mut with_criteria = 0;
+    let mut without_failure_check = 0;
     for entry in &entries {
         let name = entry.file_name().to_string_lossy().into_owned();
         if !entry.path().is_dir() || !name.starts_with("scenario-") {
@@ -201,7 +208,16 @@ fn count_valid_scenarios_with_diags(evals_dir: &Path) -> (i32, Vec<Diagnostic>) 
                 valid += 1;
             }
             Ok(criteria_data) => {
-                let sum: i32 = criteria_data.checklist.iter().map(|c| c.max_score).sum();
+                with_criteria += 1;
+                if !criteria_data.checklist.iter().any(|c| c.failure_check) {
+                    without_failure_check += 1;
+                }
+                let sum: i32 = criteria_data
+                    .checklist
+                    .iter()
+                    .filter(|c| !c.failure_check)
+                    .map(|c| c.max_score)
+                    .sum();
                 if sum == 100 {
                     valid += 1;
                 } else {
@@ -219,6 +235,17 @@ fn count_valid_scenarios_with_diags(evals_dir: &Path) -> (i32, Vec<Diagnostic>) 
             "D9",
             &format!(
                 "{flat_count} flat scenario-NN.md file(s) found; migrate to scenario-N/ subdirectory format to score on D9"
+            ),
+        ));
+    }
+
+    // Report only: a warning never deducts points and the score above is
+    // already fixed by the time this is counted.
+    if without_failure_check > 0 {
+        diags.push(warn_diag(
+            "D9",
+            &format!(
+                "{without_failure_check} of {with_criteria} scenario(s) have no failure check; add a criteria.json item with \"failure_check\": true for a behaviour the response must not show (not scored)"
             ),
         ));
     }
@@ -381,6 +408,108 @@ mod tests {
         assert_eq!(parse_coverage_percentage(&Value::Null), -1);
         assert_eq!(parse_coverage_percentage(&Value::from("abc")), -1);
         assert_eq!(parse_coverage_percentage(&Value::from(true)), -1);
+    }
+
+    fn scenario(evals: &Path, n: usize, criteria: &str) {
+        let sdir = evals.join(format!("scenario-{n}"));
+        write_file(&sdir.join("task.md"), "# Task");
+        write_file(&sdir.join("capability.txt"), "cap");
+        write_file(&sdir.join("criteria.json"), criteria);
+    }
+
+    const SUMS_TO_100: &str =
+        r#"{"checklist":[{"description":"x","max_score":60},{"description":"y","max_score":40}]}"#;
+    const SUMS_TO_100_WITH_FAILURE_CHECK: &str = r#"{"checklist":[{"description":"x","max_score":60},{"description":"y","max_score":40},{"description":"never deletes the file","failure_check":true}]}"#;
+
+    fn no_failure_check_report(diags: &[Diagnostic]) -> Option<&Diagnostic> {
+        diags
+            .iter()
+            .find(|d| d.dimension == "D9" && d.message.contains("no failure check"))
+    }
+
+    #[test]
+    fn failure_check_items_are_excluded_from_the_sum() {
+        let dir = tempdir().unwrap();
+        scenario(dir.path(), 1, SUMS_TO_100_WITH_FAILURE_CHECK);
+        let (valid, diags) = count_valid_scenarios_with_diags(dir.path());
+        assert_eq!(valid, 1);
+        assert!(
+            !diags
+                .iter()
+                .any(|d| d.message.contains("does not sum to 100")),
+            "{diags:?}"
+        );
+    }
+
+    #[test]
+    fn a_failure_check_with_a_max_score_is_still_excluded_from_the_sum() {
+        let dir = tempdir().unwrap();
+        scenario(
+            dir.path(),
+            1,
+            r#"{"checklist":[{"max_score":100},{"description":"bad","failure_check":true,"max_score":25}]}"#,
+        );
+        assert_eq!(count_valid_scenarios(dir.path()), 1);
+    }
+
+    #[test]
+    fn failure_check_false_is_an_ordinary_scoring_item() {
+        let dir = tempdir().unwrap();
+        scenario(
+            dir.path(),
+            1,
+            r#"{"checklist":[{"max_score":100},{"failure_check":false,"max_score":25}]}"#,
+        );
+        assert_eq!(count_valid_scenarios(dir.path()), 0);
+    }
+
+    #[test]
+    fn a_scenario_without_a_failure_check_is_reported_and_costs_nothing() {
+        let with = tempdir().unwrap();
+        let without = tempdir().unwrap();
+        for dir in [with.path(), without.path()] {
+            write_file(
+                &dir.join("instructions.json"),
+                r#"{"instructions":[{"type":"a"}]}"#,
+            );
+            write_file(
+                &dir.join("summary.json"),
+                r#"{"instructions_coverage":{"coverage_percentage":85}}"#,
+            );
+        }
+        for n in 1..=3 {
+            scenario(with.path(), n, SUMS_TO_100_WITH_FAILURE_CHECK);
+            scenario(without.path(), n, SUMS_TO_100);
+        }
+        let (score_with, diags_with) = score(with.path());
+        let (score_without, diags_without) = score(without.path());
+        assert_eq!(
+            score_with, score_without,
+            "the report must not move the score"
+        );
+        assert!(no_failure_check_report(&diags_with).is_none());
+        let report = no_failure_check_report(&diags_without).expect("report");
+        assert_eq!(report.severity, "warning");
+        assert!(
+            report.message.contains("3 of 3 scenario(s)"),
+            "{}",
+            report.message
+        );
+    }
+
+    #[test]
+    fn the_report_counts_only_the_scenarios_that_lack_one() {
+        let dir = tempdir().unwrap();
+        scenario(dir.path(), 1, SUMS_TO_100_WITH_FAILURE_CHECK);
+        scenario(dir.path(), 2, SUMS_TO_100);
+        scenario(dir.path(), 3, SUMS_TO_100);
+        let (_, diags) = score(dir.path());
+        let report = no_failure_check_report(&diags).expect("report");
+        assert!(
+            report.message.contains("2 of 3 scenario(s)"),
+            "{}",
+            report.message
+        );
     }
 
     /// Pins the D9 outcome for scenarios whose checklist sums to 100, so later
