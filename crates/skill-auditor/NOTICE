@@ -6,6 +6,9 @@ skilldiff's src/baseline.ts: read the old version of a skill from a git ref
 with `git show` into a temporary folder, without touching the working tree.
 The likely-cause remediation lines (src/reporter/remediation.rs) are modelled
 on `adviceFor` in skilldiff's src/report.ts.
+The behaviour checks (src/behaviour/) port the six assertion kinds, the trace
+shape and the tool-name normalisation from skilldiff's src/assertions.ts and
+src/trace-utils.ts, as of skilldiff commit 9271c26.
 
 skilldiff
 https://github.com/scs0209/skilldiff

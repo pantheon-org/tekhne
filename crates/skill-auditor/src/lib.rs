@@ -5,6 +5,7 @@
 
 pub mod aggregation;
 pub mod baseline;
+pub mod behaviour;
 pub mod check_stored;
 pub mod duplication;
 pub mod install_cmd;
