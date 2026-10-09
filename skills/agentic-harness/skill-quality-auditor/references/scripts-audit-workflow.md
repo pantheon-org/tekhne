@@ -39,6 +39,7 @@ skill-auditor evaluate <domain/skill-name> --json
 - `--json` - Machine-readable JSON output
 - `--store` - Write results to `.context/audits/<skill>/YYYY-MM-DD/`
 - `--repo-root` - Explicit repo root (auto-detected if omitted)
+- `--base <ref>` - Also score the skill as it was at a git ref and report the delta (see [Audit against a git ref](#audit-against-a-git-ref))
 
 **Output:** JSON score report
 
@@ -53,6 +54,7 @@ skill-auditor batch <skill1> <skill2> [skill3...]
 - `--json` - Machine-readable JSON array output
 - `--store` - Write each result to `.context/audits/<skill>/YYYY-MM-DD/`
 - `--fail-below <grade>` - Exit 1 if any skill scores below this grade (e.g. `B+`)
+- `--base <ref>` - Also score each skill at a git ref and report the delta (see [Audit against a git ref](#audit-against-a-git-ref))
 
 **Features:**
 
@@ -64,6 +66,22 @@ skill-auditor batch <skill1> <skill2> [skill3...]
 **Output:** Summary table or JSON array
 
 **Use when:** Auditing multiple skills in phases or batches with consolidated tracking
+
+### Audit against a git ref
+
+```bash
+pantheon-skill-auditor evaluate <domain/skill-name> --repo-root <checkout> --base origin/main
+pantheon-skill-auditor batch <skill1> <skill2> --repo-root <checkout> --base origin/main --json
+```
+
+`--base <ref>` reads the whole skill folder (`SKILL.md`, `references/`, `evals/`, `assets/`) at the ref with `git show` into a temporary folder, scores it, scores the current tree, and reports the delta. The working tree is not touched, and `--store` still stores only the current result.
+
+- **Needs a checkout:** `--repo-root` must point at a git checkout. An installed copy of the skills is not a repository.
+- **New skills:** a skill that does not exist at the ref is reported as `new` with no baseline. It is not an error.
+- **Bad refs:** a ref that does not resolve fails the whole run with a clear message. A ref that starts with `-` is rejected before it reaches git.
+- **Shallow clones:** the ref must be in the clone's history. In CI, fetch enough depth (`fetch-depth: 0`, or `git fetch --deepen=<n>`) before using `--base`.
+- **Output:** with `--json`, `evaluate` prints one comparison record and `batch` an array. Each record has `schema_version` (1), `base` (`ref`, `sha`), `skill`, `status` (`new`, `changed` or `unchanged`), `baseline`, `current`, `delta` and `dimension_deltas`. Without `--base` the output is unchanged.
+- **Grades:** `--base` never changes a score. `--fail-below` still gates the current result.
 
 ### Duplication detection (shell helper)
 
