@@ -426,7 +426,7 @@ Checkpoint the current session to .context/session/CONTEXT-llm.md with a structu
 
 Audit and improve skill collections with a 9-dimension scoring framework (Knowledge Delta, Mindset, Anti-Patterns, Specification Compliance, Progressive Disclosure, Freedom Calibration, Pattern Recognition, Practical Usability, Eval Validation), duplication detection, remediation planning, baseline comparison, and CI quality gates; use when evaluating skill quality, generating remediation plans, detecting duplicates, validating artifact conventions, or enforcing publication thresholds.
 
-**Version:** 0.2.1
+**Version:** 0.3.0
 
 | Skill | Rating | Audit | Evals |
 | --- | --- | --- | --- |

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tekhne.io/schemas/criteria.schema.json",
+  "title": "Eval Scenario Criteria",
+  "description": "Schema for evals/scenario-N/criteria.json. Scored checklist items carry max_score and must sum to 100. A failure check (failure_check: true) is pass or fail, has no max_score, and is outside the 100 sum, so it never changes a score.",
+  "type": "object",
+  "required": ["checklist"],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [1],
+      "description": "Optional. Files without it are read as version 1."
+    },
+    "context": {
+      "type": "string",
+      "description": "What the scenario tests and why."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["weighted_checklist"]
+    },
+    "checklist": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string", "minLength": 1 },
+          "max_score": { "type": "integer", "minimum": 0 },
+          "failure_check": {
+            "type": "boolean",
+            "default": false,
+            "description": "True marks a behaviour the response must not show. Optional; omit for an ordinary scored item."
+          }
+        },
+        "if": {
+          "required": ["failure_check"],
+          "properties": { "failure_check": { "const": true } }
+        },
+        "then": {
+          "not": { "required": ["max_score"] }
+        },
+        "else": {
+          "required": ["max_score"]
+        }
+      }
+    }
+  }
+}

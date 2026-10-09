@@ -24,6 +24,24 @@ fn dimension_advice(key: &str) -> Option<&'static str> {
     }
 }
 
+/// Likely cause per dimension, keyed like [`dimension_advice`]. States what the
+/// scorer looks for and so what a shortfall usually means; it is a prompt for
+/// the author, not a diagnosis.
+fn likely_cause(key: &str) -> Option<&'static str> {
+    match key {
+        "knowledgeDelta" => Some("The text reads as generic or beginner material: few expert signals (NEVER, ALWAYS, production, gotcha, pitfall) and some tutorial phrasing the scorer penalises."),
+        "mindsetProcedures" => Some("There is no Mindset or Philosophy section, few numbered procedures, or the When to Use and When NOT to Use sections are missing."),
+        "antiPatternQuality" => Some("Anti-patterns are missing, or they are stated without a WHY or a BAD/GOOD contrast."),
+        "specificationCompliance" => Some("The `description` is short or keyword-stuffed, or the skill names harness-specific paths, agents, or `../` links outside code blocks."),
+        "progressiveDisclosure" => Some("Detail sits inline in `SKILL.md` instead of `references/`, `SKILL.md` is long, or the References section is not the last section with link bullets."),
+        "freedomCalibration" => Some("`SKILL.md` has too few directive markers (NEVER, ALWAYS, MUST) next to its permissive wording, so instruction specificity scores low."),
+        "patternRecognition" => Some("The `description` frontmatter is short, so it carries few trigger words for a model to match a request against."),
+        "practicalUsability" => Some("There are few fenced code blocks, some lack a language tag, or no runnable command appears."),
+        "evalValidation" => Some("`evals/` is missing or incomplete: no `instructions.json` or `summary.json`, coverage under 80%, or fewer than 3 valid scenarios."),
+        _ => None,
+    }
+}
+
 /// Map a dimension display label to its D-code for diagnostic lookup (Go
 /// `dimLabelToCode`).
 fn dim_label_to_code(label: &str) -> &'static str {
@@ -126,9 +144,21 @@ pub fn remediation(r: &Result) -> String {
             }
         }
 
-        if let Some(advice) = dimension_advice(g.key) {
-            let _ = write!(sb, "{advice}\n\n");
+        let _ = writeln!(
+            sb,
+            "- **What happened:** scored {} of {}, {} pt{} short.",
+            g.score,
+            g.max,
+            available,
+            plural(available)
+        );
+        if let Some(cause) = likely_cause(g.key) {
+            let _ = writeln!(sb, "- **Likely cause:** {cause}");
         }
+        if let Some(advice) = dimension_advice(g.key) {
+            let _ = writeln!(sb, "- **Fix:** {advice}");
+        }
+        sb.push('\n');
     }
 
     sb
@@ -184,6 +214,38 @@ mod tests {
         }
     }
 
+    #[test]
+    fn every_scored_dimension_has_a_likely_cause_and_a_fix() {
+        for (key, _, _) in DIMENSION_ORDER {
+            assert!(likely_cause(key).is_some(), "no likely cause for {key}");
+            assert!(dimension_advice(key).is_some(), "no fix for {key}");
+        }
+    }
+
+    #[test]
+    fn each_gap_carries_what_happened_likely_cause_and_fix_in_order() {
+        let out = remediation(&fixture());
+        let section = out
+            .split("### Anti-Pattern Quality")
+            .nth(1)
+            .and_then(|rest| rest.split("###").next())
+            .expect("anti-pattern section");
+        let what = section.find("- **What happened:** scored 9 of 15, 6 pts short.");
+        let cause = section.find("- **Likely cause:**");
+        let fix = section.find("- **Fix:**");
+        assert!(
+            what.is_some() && cause.is_some() && fix.is_some(),
+            "{section}"
+        );
+        assert!(what < cause && cause < fix);
+    }
+
+    #[test]
+    fn diagnostics_stay_above_the_three_lines_unchanged() {
+        let out = remediation(&fixture());
+        assert!(out.contains("\u{1f534} missing WHY\n\n- **What happened:**"));
+    }
+
     /// Pins the exact output so the gap/advice code can be shared with other
     /// renderers without changing what `remediation` prints. `{D}`, `{R}` and
     /// `{W}` stand for the em dash, red circle and warning sign, which the
@@ -200,33 +262,47 @@ mod tests {
 
 {R} missing WHY
 
-Add NEVER statements paired with `WHY:` explanations. Include BAD/GOOD contrast examples.
+- **What happened:** scored 9 of 15, 6 pts short.
+- **Likely cause:** Anti-patterns are missing, or they are stated without a WHY or a BAD/GOOD contrast.
+- **Fix:** Add NEVER statements paired with `WHY:` explanations. Include BAD/GOOD contrast examples.
 
 ### Progressive Disclosure (10/15) {D} 5 pts available
 
 {W} no references
 
-Add a `references/` directory with focused deep-dive `.md` files. Keep `SKILL.md` under 150 lines to maximise the score.
+- **What happened:** scored 10 of 15, 5 pts short.
+- **Likely cause:** Detail sits inline in `SKILL.md` instead of `references/`, `SKILL.md` is long, or the References section is not the last section with link bullets.
+- **Fix:** Add a `references/` directory with focused deep-dive `.md` files. Keep `SKILL.md` under 150 lines to maximise the score.
 
 ### Mindset + Procedures (11/15) {D} 4 pts available
 
-Add a `## Mindset` or `## Philosophy` section. Use numbered procedure lists. Add `## When to Use` and `## When NOT to Use` sections.
+- **What happened:** scored 11 of 15, 4 pts short.
+- **Likely cause:** There is no Mindset or Philosophy section, few numbered procedures, or the When to Use and When NOT to Use sections are missing.
+- **Fix:** Add a `## Mindset` or `## Philosophy` section. Use numbered procedure lists. Add `## When to Use` and `## When NOT to Use` sections.
 
 ### Practical Usability (11/15) {D} 4 pts available
 
-Add more fenced code blocks (aim for >5 pairs). Include `./` or `bun run` commands. Use language-tagged fences (```bash, ```typescript).
+- **What happened:** scored 11 of 15, 4 pts short.
+- **Likely cause:** There are few fenced code blocks, some lack a language tag, or no runnable command appears.
+- **Fix:** Add more fenced code blocks (aim for >5 pairs). Include `./` or `bun run` commands. Use language-tagged fences (```bash, ```typescript).
 
 ### Eval Validation (17/20) {D} 3 pts available
 
-Create an `evals/` directory with `instructions.json`, `summary.json`, and at least 3 scenario subdirectories each containing `task.md`, `criteria.json` (checklist summing to 100), and `capability.txt`.
+- **What happened:** scored 17 of 20, 3 pts short.
+- **Likely cause:** `evals/` is missing or incomplete: no `instructions.json` or `summary.json`, coverage under 80%, or fewer than 3 valid scenarios.
+- **Fix:** Create an `evals/` directory with `instructions.json`, `summary.json`, and at least 3 scenario subdirectories each containing `task.md`, `criteria.json` (checklist summing to 100), and `capability.txt`.
 
 ### Freedom Calibration (13/15) {D} 2 pts available
 
-Balance prescriptive language (NEVER/ALWAYS) with permissive alternatives (consider, optionally, may).
+- **What happened:** scored 13 of 15, 2 pts short.
+- **Likely cause:** `SKILL.md` has too few directive markers (NEVER, ALWAYS, MUST) next to its permissive wording, so instruction specificity scores low.
+- **Fix:** Balance prescriptive language (NEVER/ALWAYS) with permissive alternatives (consider, optionally, may).
 
 ### Specification Compliance (14/15) {D} 1 pt available
 
-Expand the `description` frontmatter to >100 characters. Ensure no harness-specific paths, agent references, or `../` escapes outside code blocks.
+- **What happened:** scored 14 of 15, 1 pt short.
+- **Likely cause:** The `description` is short or keyword-stuffed, or the skill names harness-specific paths, agents, or `../` links outside code blocks.
+- **Fix:** Expand the `description` frontmatter to >100 characters. Ensure no harness-specific paths, agent references, or `../` escapes outside code blocks.
 
 "####
         .replace("{D}", "\u{2014}")

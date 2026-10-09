@@ -4,6 +4,7 @@
 
 use clap::{Args, Parser, Subcommand, ValueEnum};
 use skill_auditor::aggregation;
+use skill_auditor::baseline::{self, Comparison};
 use skill_auditor::check_stored;
 use skill_auditor::duplication;
 use skill_auditor::install_cmd::{self, InstallOptions, Selection, UninstallOptions};
@@ -57,6 +58,11 @@ enum Command {
         /// Repo root (auto-detected if empty).
         #[arg(long = "repo-root")]
         repo_root: Option<String>,
+        /// Also score the skill as it was at this git ref and report the delta.
+        /// Needs --repo-root to point at a git checkout; a shallow clone must
+        /// be deep enough to contain the ref.
+        #[arg(long, value_name = "REF", requires = "repo_root")]
+        base: Option<String>,
     },
     /// Check each skill's latest stored audit is still current.
     ///
@@ -103,6 +109,11 @@ enum Command {
         /// Repo root (auto-detected if empty).
         #[arg(long = "repo-root")]
         repo_root: Option<String>,
+        /// Also score the skill as it was at this git ref and report the delta.
+        /// Needs --repo-root to point at a git checkout; a shallow clone must
+        /// be deep enough to contain the ref.
+        #[arg(long, value_name = "REF", requires = "repo_root")]
+        base: Option<String>,
     },
     /// Detect duplication across skills (line-overlap or composite similarity).
     Duplication(DuplicationArgs),
@@ -273,7 +284,8 @@ fn main() {
             json,
             store,
             repo_root,
-        } => run_evaluate(&skill, json, store, repo_root.as_deref()),
+            base,
+        } => run_evaluate(&skill, json, store, repo_root.as_deref(), base.as_deref()),
         Command::Batch {
             skills,
             json,
@@ -282,6 +294,7 @@ fn main() {
             details_markdown,
             details_budget,
             repo_root,
+            base,
         } => run_batch(
             &skills,
             json,
@@ -291,6 +304,7 @@ fn main() {
                 .as_deref()
                 .map(|path| (path, details_budget)),
             repo_root.as_deref(),
+            base.as_deref(),
         ),
         Command::CheckStored {
             skills,
@@ -325,21 +339,39 @@ fn run_evaluate(
     json: bool,
     store: bool,
     repo_root_flag: Option<&str>,
+    base_flag: Option<&str>,
 ) -> std::result::Result<(), String> {
     let repo_root = resolve_repo_root(repo_root_flag)
         .map_err(|e| format!("cannot determine repo root: {e}"))?;
+    let base = resolve_base(&repo_root, repo_root_flag, base_flag)?;
     let skill_path = resolve_skill_path(skill_arg, &repo_root);
     let skill_key = canonical_skill_key(&skill_path, &repo_root);
 
     let mut result = scorer::score(&skill_path).map_err(|e| format!("scoring failed: {e}"))?;
     result.skill = skill_key.clone();
 
-    if json {
-        let data =
-            serde_json::to_string_pretty(&result).map_err(|e| format!("marshal result: {e}"))?;
-        println!("{data}");
-    } else {
-        print!("{}", reporter::format(&result));
+    let comparison = match &base {
+        Some(base) => Some(compare_with_base(&repo_root, base, &skill_key, &result)?),
+        None => None,
+    };
+
+    match (&comparison, json) {
+        (Some(c), true) => {
+            let data =
+                serde_json::to_string_pretty(c).map_err(|e| format!("marshal result: {e}"))?;
+            println!("{data}");
+        }
+        (Some(c), false) => {
+            print!("{}", reporter::format(&result));
+            println!();
+            print!("{}", baseline::format_comparison(c));
+        }
+        (None, true) => {
+            let data = serde_json::to_string_pretty(&result)
+                .map_err(|e| format!("marshal result: {e}"))?;
+            println!("{data}");
+        }
+        (None, false) => print!("{}", reporter::format(&result)),
     }
 
     if store {
@@ -353,6 +385,10 @@ fn run_evaluate(
 struct Entry {
     arg: String,
     result: Option<AuditResult>,
+    comparison: Option<Comparison>,
+    /// Why the skill could not be compared with the `--base` ref. Scoring
+    /// failures use `error`, so a skill that scored fine keeps its score.
+    comparison_error: Option<String>,
     error: Option<String>,
 }
 
@@ -424,9 +460,11 @@ fn run_batch(
     fail_below: Option<&str>,
     details: Option<(&str, usize)>,
     repo_root_flag: Option<&str>,
+    base_flag: Option<&str>,
 ) -> std::result::Result<(), String> {
     let repo_root = resolve_repo_root(repo_root_flag)
         .map_err(|e| format!("cannot determine repo root: {e}"))?;
+    let base = resolve_base(&repo_root, repo_root_flag, base_flag)?;
 
     let mut entries: Vec<Entry> = Vec::with_capacity(args.len());
     for arg in args {
@@ -436,6 +474,8 @@ fn run_batch(
             Err(e) => entries.push(Entry {
                 arg: arg.clone(),
                 result: None,
+                comparison: None,
+                comparison_error: None,
                 error: Some(e.to_string()),
             }),
             Ok(mut result) => {
@@ -447,9 +487,18 @@ fn run_batch(
                         eprintln!("warning: store {arg}: {e}");
                     }
                 }
+                let (comparison, comparison_error) = match &base {
+                    None => (None, None),
+                    Some(base) => match compare_with_base(&repo_root, base, &skill_key, &result) {
+                        Ok(c) => (Some(c), None),
+                        Err(e) => (None, Some(e)),
+                    },
+                };
                 entries.push(Entry {
                     arg: arg.clone(),
                     result: Some(result),
+                    comparison,
+                    comparison_error,
                     error: None,
                 });
             }
@@ -467,12 +516,32 @@ fn run_batch(
     }
 
     if json {
-        let results: Vec<&AuditResult> = entries.iter().filter_map(|e| e.result.as_ref()).collect();
-        let data =
-            serde_json::to_string_pretty(&results).map_err(|e| format!("marshal results: {e}"))?;
+        let data = if let Some(base) = &base {
+            // A skill that scored but could not be compared stays in the output
+            // with its error, so a consumer can tell it was not skipped.
+            let comparisons: Vec<Comparison> = entries
+                .iter()
+                .filter_map(|e| match (&e.comparison, &e.comparison_error, &e.result) {
+                    (Some(c), _, _) => Some(c.clone()),
+                    (None, Some(err), Some(r)) => {
+                        Some(baseline::failed(base, r.clone(), err.clone()))
+                    }
+                    _ => None,
+                })
+                .collect();
+            serde_json::to_string_pretty(&comparisons)
+        } else {
+            let results: Vec<&AuditResult> =
+                entries.iter().filter_map(|e| e.result.as_ref()).collect();
+            serde_json::to_string_pretty(&results)
+        }
+        .map_err(|e| format!("marshal results: {e}"))?;
         println!("{data}");
     } else {
         print_batch_table(&mut entries);
+        if let Some(base) = &base {
+            print_batch_comparison(base, &entries);
+        }
     }
 
     if let Some(grade) = fail_below {
@@ -490,6 +559,53 @@ fn run_batch(
     }
 
     Ok(())
+}
+
+/// Resolve `--base` against the checkout, or `None` when the flag is absent.
+/// The ref is validated and looked up before any skill is scored, so a bad ref
+/// fails the whole run at once.
+fn resolve_base(
+    repo_root: &Path,
+    repo_root_flag: Option<&str>,
+    base_flag: Option<&str>,
+) -> std::result::Result<Option<baseline::BaseRef>, String> {
+    let Some(name) = base_flag else {
+        return Ok(None);
+    };
+    if repo_root_flag.is_none_or(str::is_empty) {
+        return Err("--base requires --repo-root to point at a git checkout".to_string());
+    }
+    baseline::resolve(repo_root, name).map(Some)
+}
+
+/// Score `skill_key` at the ref and compare it with `current`.
+fn compare_with_base(
+    repo_root: &Path,
+    base: &baseline::BaseRef,
+    skill_key: &str,
+    current: &AuditResult,
+) -> std::result::Result<Comparison, String> {
+    let old = baseline::score_at_ref(repo_root, base, skill_key)?;
+    Ok(baseline::compare(base, current.clone(), old))
+}
+
+/// After the batch table: one line per skill against the ref.
+fn print_batch_comparison(base: &baseline::BaseRef, entries: &[Entry]) {
+    println!();
+    println!("{}", baseline::heading(base));
+    for e in entries {
+        match (&e.comparison, &e.comparison_error) {
+            (Some(c), _) => match (&c.baseline, c.delta) {
+                (Some(old), Some(delta)) => println!(
+                    "{:<40}  {} -> {} ({delta:+})",
+                    e.arg, old.total, c.current.total
+                ),
+                _ => println!("{:<40}  new, no baseline", e.arg),
+            },
+            (None, Some(err)) => println!("{:<40}  ERROR: {err}", e.arg),
+            (None, None) => {}
+        }
+    }
 }
 
 fn print_batch_table(entries: &mut [Entry]) {

@@ -23,7 +23,13 @@
       "referenceCount": 1,
       "referenceSectionCompliant": true,
       "errors": 0,
-      "warnings": 0
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 of 3 scenario(s) have no failure check; add a criteria.json item with \"failure_check\": true for a behaviour the response must not show (not scored)"
+        }
+      ]
     }
   },
   {
@@ -134,7 +140,13 @@
       "referenceCount": 3,
       "referenceSectionCompliant": false,
       "errors": 0,
-      "warnings": 0
+      "warnings": 1,
+      "warningDetails": [
+        {
+          "dimension": "D9",
+          "message": "3 of 3 scenario(s) have no failure check; add a criteria.json item with \"failure_check\": true for a behaviour the response must not show (not scored)"
+        }
+      ]
     }
   },
   {

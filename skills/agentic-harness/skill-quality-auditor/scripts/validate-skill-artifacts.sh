@@ -48,6 +48,25 @@ check_schemas_file() {
   fi
 }
 
+# Mirrors the failure_check rules in assets/schemas/criteria.schema.json: the
+# field is a boolean, and a failure check has no max_score because it is pass
+# or fail and sits outside the 100 sum. Only the new field is checked, so a
+# criteria file that does not use it is never flagged here; D9 in the auditor
+# already reports malformed or mis-summed files.
+check_criteria_file() {
+  file=$1
+
+  command -v jq >/dev/null 2>&1 || return
+  jq -e . "$file" >/dev/null 2>&1 || return
+
+  if ! jq -e '[.checklist[]? | select(type == "object" and has("failure_check")) | select((.failure_check | type) != "boolean")] | length == 0' "$file" >/dev/null 2>&1; then
+    error "$file has a checklist item whose failure_check is not true or false."
+  fi
+  if ! jq -e '[.checklist[]? | select(type == "object" and .failure_check == true and has("max_score"))] | length == 0' "$file" >/dev/null 2>&1; then
+    error "$file has a failure_check item with a max_score; a failure check is pass or fail and must not carry one."
+  fi
+}
+
 check_scripts_file() {
   file=$1
 
@@ -141,6 +160,9 @@ check_file() {
     skills/*/scripts/*)
       check_scripts_file "$file"
       ;;
+    skills/*/evals/scenario-*/criteria.json)
+      check_criteria_file "$file"
+      ;;
   esac
 }
 
@@ -212,7 +234,7 @@ if [ "$#" -gt 0 ]; then
 else
   tmp_files=$(mktemp)
   trap 'rm -f "$tmp_files"' EXIT INT TERM
-  find skills -type f \( -path 'skills/*/assets/templates/*' -o -path 'skills/*/assets/schemas/*' -o -path 'skills/*/scripts/*' \) > "$tmp_files"
+  find skills -type f \( -path 'skills/*/assets/templates/*' -o -path 'skills/*/assets/schemas/*' -o -path 'skills/*/scripts/*' -o -path 'skills/*/evals/scenario-*/criteria.json' \) > "$tmp_files"
   while IFS= read -r file; do
     check_file "$file"
   done < "$tmp_files"

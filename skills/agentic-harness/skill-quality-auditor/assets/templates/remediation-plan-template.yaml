@@ -8,6 +8,7 @@
 # Required: YAML frontmatter with metadata
 # Format: Standard YAML frontmatter (--- delimited)
 ---
+schema_version: 2               # 2 adds dimension_gaps; a plan without this field is version 1
 plan_date: "YYYY-MM-DD"           # ISO date when plan was created
 skill_name: "string"              # Name of the skill being remediated
 source_audit: "path"              # Path to audit file (e.g., .context/audits/<skill>-audit-YYYY-MM-DD.md)
@@ -41,6 +42,17 @@ critical_issues:
     dimension: "string"          # e.g., "D3 (8/15)"
     severity: "Critical|High|Medium|Low"
     impact: "string"             # Why this matters
+
+# =============================================================================
+# DIMENSION GAPS SECTION
+# =============================================================================
+# Required from schema_version 2: one entry per dimension below its maximum,
+# the same three lines the auditor prints in Remediation.md
+dimension_gaps:
+  - dimension: "string"          # e.g., "D3: Anti-Pattern Quality (9/15)"
+    what_happened: "string"      # e.g., "scored 9 of 15, 6 pts short."
+    likely_cause: "string"       # What the scorer looks for, so what the shortfall usually means
+    fix: "string"                # The next move
 
 # =============================================================================
 # DETAILED REMEDIATION STEPS SECTION
