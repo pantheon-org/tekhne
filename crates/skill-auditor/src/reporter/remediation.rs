@@ -24,6 +24,24 @@ fn dimension_advice(key: &str) -> Option<&'static str> {
     }
 }
 
+/// Likely cause per dimension, keyed like [`dimension_advice`]. States what the
+/// scorer looks for and so what a shortfall usually means; it is a prompt for
+/// the author, not a diagnosis.
+fn likely_cause(key: &str) -> Option<&'static str> {
+    match key {
+        "knowledgeDelta" => Some("The text reads as generic or beginner material: few expert signals (NEVER, ALWAYS, production, gotcha, pitfall) and some tutorial phrasing the scorer penalises."),
+        "mindsetProcedures" => Some("There is no Mindset or Philosophy section, few numbered procedures, or the When to Use and When NOT to Use sections are missing."),
+        "antiPatternQuality" => Some("Anti-patterns are missing, or they are stated without a WHY or a BAD/GOOD contrast."),
+        "specificationCompliance" => Some("The `description` is short or keyword-stuffed, or the skill names harness-specific paths, agents, or `../` links outside code blocks."),
+        "progressiveDisclosure" => Some("Detail sits inline in `SKILL.md` instead of `references/`, `SKILL.md` is long, or the References section is not the last section with link bullets."),
+        "freedomCalibration" => Some("`SKILL.md` has too few directive markers (NEVER, ALWAYS, MUST) next to its permissive wording, so instruction specificity scores low."),
+        "patternRecognition" => Some("The `description` frontmatter is short, so it carries few trigger words for a model to match a request against."),
+        "practicalUsability" => Some("There are few fenced code blocks, some lack a language tag, or no runnable command appears."),
+        "evalValidation" => Some("`evals/` is missing or incomplete: no `instructions.json` or `summary.json`, coverage under 80%, or fewer than 3 valid scenarios."),
+        _ => None,
+    }
+}
+
 /// Map a dimension display label to its D-code for diagnostic lookup (Go
 /// `dimLabelToCode`).
 fn dim_label_to_code(label: &str) -> &'static str {
@@ -126,9 +144,21 @@ pub fn remediation(r: &Result) -> String {
             }
         }
 
-        if let Some(advice) = dimension_advice(g.key) {
-            let _ = write!(sb, "{advice}\n\n");
+        let _ = writeln!(
+            sb,
+            "- **What happened:** scored {} of {}, {} pt{} short.",
+            g.score,
+            g.max,
+            available,
+            plural(available)
+        );
+        if let Some(cause) = likely_cause(g.key) {
+            let _ = writeln!(sb, "- **Likely cause:** {cause}");
         }
+        if let Some(advice) = dimension_advice(g.key) {
+            let _ = writeln!(sb, "- **Fix:** {advice}");
+        }
+        sb.push('\n');
     }
 
     sb
@@ -182,6 +212,35 @@ mod tests {
                 severity: "warning".to_string(),
             }],
         }
+    }
+
+    #[test]
+    fn every_scored_dimension_has_a_likely_cause_and_a_fix() {
+        for (key, _, _) in DIMENSION_ORDER {
+            assert!(likely_cause(key).is_some(), "no likely cause for {key}");
+            assert!(dimension_advice(key).is_some(), "no fix for {key}");
+        }
+    }
+
+    #[test]
+    fn each_gap_carries_what_happened_likely_cause_and_fix_in_order() {
+        let out = remediation(&fixture());
+        let section = out
+            .split("### Anti-Pattern Quality")
+            .nth(1)
+            .and_then(|rest| rest.split("###").next())
+            .expect("anti-pattern section");
+        let what = section.find("- **What happened:** scored 9 of 15, 6 pts short.");
+        let cause = section.find("- **Likely cause:**");
+        let fix = section.find("- **Fix:**");
+        assert!(what.is_some() && cause.is_some() && fix.is_some(), "{section}");
+        assert!(what < cause && cause < fix);
+    }
+
+    #[test]
+    fn diagnostics_stay_above_the_three_lines_unchanged() {
+        let out = remediation(&fixture());
+        assert!(out.contains("\u{1f534} missing WHY\n\n- **What happened:**"));
     }
 
     /// Pins the exact output so the gap/advice code can be shared with other

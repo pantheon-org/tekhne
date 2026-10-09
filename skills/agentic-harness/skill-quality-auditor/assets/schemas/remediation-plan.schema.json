@@ -18,7 +18,22 @@
     "rollback_plan",
     "notes"
   ],
+  "allOf": [
+    {
+      "if": {
+        "required": ["schema_version"],
+        "properties": { "schema_version": { "const": 2 } }
+      },
+      "then": { "required": ["dimension_gaps"] }
+    }
+  ],
   "properties": {
+    "schema_version": {
+      "type": "integer",
+      "enum": [1, 2],
+      "default": 1,
+      "description": "Plan format version. 2 adds dimension_gaps (what happened, likely cause, fix per dimension). A plan without this field is version 1."
+    },
     "plan_date": {
       "type": "string",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
@@ -119,6 +134,23 @@
             "type": "string",
             "minLength": 10
           }
+        }
+      }
+    },
+    "dimension_gaps": {
+      "type": "array",
+      "description": "One entry per dimension scoring below its maximum. Required from schema_version 2.",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "what_happened", "likely_cause", "fix"],
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "pattern": "^D[1-9]:\\s+.+\\s+\\(\\d+/\\d+\\)$"
+          },
+          "what_happened": { "type": "string", "minLength": 10 },
+          "likely_cause": { "type": "string", "minLength": 10 },
+          "fix": { "type": "string", "minLength": 10 }
         }
       }
     },
