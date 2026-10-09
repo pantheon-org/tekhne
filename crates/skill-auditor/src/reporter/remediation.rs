@@ -259,33 +259,47 @@ mod tests {
 
 {R} missing WHY
 
-Add NEVER statements paired with `WHY:` explanations. Include BAD/GOOD contrast examples.
+- **What happened:** scored 9 of 15, 6 pts short.
+- **Likely cause:** Anti-patterns are missing, or they are stated without a WHY or a BAD/GOOD contrast.
+- **Fix:** Add NEVER statements paired with `WHY:` explanations. Include BAD/GOOD contrast examples.
 
 ### Progressive Disclosure (10/15) {D} 5 pts available
 
 {W} no references
 
-Add a `references/` directory with focused deep-dive `.md` files. Keep `SKILL.md` under 150 lines to maximise the score.
+- **What happened:** scored 10 of 15, 5 pts short.
+- **Likely cause:** Detail sits inline in `SKILL.md` instead of `references/`, `SKILL.md` is long, or the References section is not the last section with link bullets.
+- **Fix:** Add a `references/` directory with focused deep-dive `.md` files. Keep `SKILL.md` under 150 lines to maximise the score.
 
 ### Mindset + Procedures (11/15) {D} 4 pts available
 
-Add a `## Mindset` or `## Philosophy` section. Use numbered procedure lists. Add `## When to Use` and `## When NOT to Use` sections.
+- **What happened:** scored 11 of 15, 4 pts short.
+- **Likely cause:** There is no Mindset or Philosophy section, few numbered procedures, or the When to Use and When NOT to Use sections are missing.
+- **Fix:** Add a `## Mindset` or `## Philosophy` section. Use numbered procedure lists. Add `## When to Use` and `## When NOT to Use` sections.
 
 ### Practical Usability (11/15) {D} 4 pts available
 
-Add more fenced code blocks (aim for >5 pairs). Include `./` or `bun run` commands. Use language-tagged fences (```bash, ```typescript).
+- **What happened:** scored 11 of 15, 4 pts short.
+- **Likely cause:** There are few fenced code blocks, some lack a language tag, or no runnable command appears.
+- **Fix:** Add more fenced code blocks (aim for >5 pairs). Include `./` or `bun run` commands. Use language-tagged fences (```bash, ```typescript).
 
 ### Eval Validation (17/20) {D} 3 pts available
 
-Create an `evals/` directory with `instructions.json`, `summary.json`, and at least 3 scenario subdirectories each containing `task.md`, `criteria.json` (checklist summing to 100), and `capability.txt`.
+- **What happened:** scored 17 of 20, 3 pts short.
+- **Likely cause:** `evals/` is missing or incomplete: no `instructions.json` or `summary.json`, coverage under 80%, or fewer than 3 valid scenarios.
+- **Fix:** Create an `evals/` directory with `instructions.json`, `summary.json`, and at least 3 scenario subdirectories each containing `task.md`, `criteria.json` (checklist summing to 100), and `capability.txt`.
 
 ### Freedom Calibration (13/15) {D} 2 pts available
 
-Balance prescriptive language (NEVER/ALWAYS) with permissive alternatives (consider, optionally, may).
+- **What happened:** scored 13 of 15, 2 pts short.
+- **Likely cause:** `SKILL.md` has too few directive markers (NEVER, ALWAYS, MUST) next to its permissive wording, so instruction specificity scores low.
+- **Fix:** Balance prescriptive language (NEVER/ALWAYS) with permissive alternatives (consider, optionally, may).
 
 ### Specification Compliance (14/15) {D} 1 pt available
 
-Expand the `description` frontmatter to >100 characters. Ensure no harness-specific paths, agent references, or `../` escapes outside code blocks.
+- **What happened:** scored 14 of 15, 1 pt short.
+- **Likely cause:** The `description` is short or keyword-stuffed, or the skill names harness-specific paths, agents, or `../` links outside code blocks.
+- **Fix:** Expand the `description` frontmatter to >100 characters. Ensure no harness-specific paths, agent references, or `../` escapes outside code blocks.
 
 "####
         .replace("{D}", "\u{2014}")
