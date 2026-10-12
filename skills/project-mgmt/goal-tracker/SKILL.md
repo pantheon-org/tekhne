@@ -3,7 +3,7 @@ name: goal-tracker
 description: "Record a session goal as a dated file with items plus evidence, keep its status current, then answer \"what's left\" in under 100 words: achieved, parked, still open. Use when the user states a session goal, asks what's left, what's outstanding, what's still open, whether the goal is met, are we done, where the session got to. Also use to park an item, to promote an overgrown goal into a plan, to close a goal out."
 license: MIT
 metadata:
-  version: "1.4.0"
+  version: "1.4.1"
   audience: agents
   workflow: planning, tracking, session-management
 ---
@@ -126,7 +126,7 @@ Then confirm each of these:
 - Every `done` item has evidence; every outside one cites a dated user confirmation.
 - Item count is five or fewer, or promotion fired.
 - The log has a dated line per state change.
-- `./scripts/goal.sh check` exits zero.
+- `./scripts/goal.sh check --session <id>` exits zero. Run it before flipping the goal to `status: done`; once closed, it still checks the session's latest goal, but an un-scoped `check` has nothing active to inspect.
 
 ## References
 

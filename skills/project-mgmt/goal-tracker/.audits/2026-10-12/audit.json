@@ -1,0 +1,30 @@
+{
+  "skill": "project-mgmt/goal-tracker",
+  "date": "2026-10-12",
+  "dimensions": {
+    "antiPatternQuality": 11,
+    "evalValidation": 17,
+    "freedomCalibration": 15,
+    "knowledgeDelta": 19,
+    "mindsetProcedures": 14,
+    "patternRecognition": 10,
+    "practicalUsability": 15,
+    "progressiveDisclosure": 11,
+    "specificationCompliance": 14
+  },
+  "total": 126,
+  "maxTotal": 140,
+  "grade": "A",
+  "lines": 138,
+  "hasReferences": true,
+  "referenceCount": 4,
+  "referenceSectionCompliant": true,
+  "errors": 0,
+  "warnings": 1,
+  "warningDetails": [
+    {
+      "dimension": "D9",
+      "message": "7 of 7 scenario(s) have no failure check; add a criteria.json item with \"failure_check\": true for a behaviour the response must not show (not scored)"
+    }
+  ]
+}

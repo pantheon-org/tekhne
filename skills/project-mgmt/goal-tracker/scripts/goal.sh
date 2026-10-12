@@ -21,7 +21,8 @@
 #           single next action. Exits 0 with a notice when no goal is active.
 #   check   Validate the active goal against the evidence rules. Non-zero exit
 #           when an item is done without evidence, or an outside-reach item was
-#           closed without a recorded user confirmation.
+#           closed without a recorded user confirmation. With --session and no
+#           active goal, it validates the session's latest closed goal instead.
 #   park    Print the create-context-file invocation that files item N as a
 #           follow-up. Filing it and deleting the row remain manual, so the
 #           follow-up body gets written rather than generated empty.
@@ -159,6 +160,7 @@ goals_dir = sys.argv[1]
 root = sys.argv[2]
 
 active = []
+closed = []
 for path in sorted(glob.glob(os.path.join(goals_dir, "*.md"))):
     with open(path) as handle:
         text = handle.read()
@@ -176,12 +178,20 @@ for path in sorted(glob.glob(os.path.join(goals_dir, "*.md"))):
             value = value[1:-1]
         return value
 
-    if field("status") != "active":
-        continue
     if session and field("session") != session:
         continue
-    active.append((path, field("title", os.path.basename(path)),
-                   field("goal-status", "new"), text))
+    entry = (path, field("title", os.path.basename(path)),
+             field("goal-status", "new"), text)
+    if field("status") == "active":
+        active.append(entry)
+    elif field("status") == "done":
+        closed.append(entry)
+
+# A session's goal is usually closed before the final check runs. With no
+# active goal, check falls back to the session's latest closed one rather than
+# reporting "No active goal" and exiting zero without inspecting anything.
+if not active and mode == "check" and session and closed:
+    active = [closed[-1]]
 
 if not active:
     print("No active goal. State one to begin.")
