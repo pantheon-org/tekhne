@@ -18,6 +18,18 @@ Feature: goal-tracker keeps one active goal per session
     Then the exit code should be 0
     And the output should contain "ship-the-importer"
 
+  Scenario: Check does not pass vacuously on a closed goal with a done item missing evidence
+    Given a closed goal "Ship the importer" for session "s-one" has a done item with no evidence
+    When I run the goal check for session "s-one"
+    Then the exit code should be 1
+    And the output should contain "item 1 is done with no evidence"
+
+  Scenario: Check passes on a closed goal whose done items all carry evidence
+    Given a closed goal "Ship the importer" for session "s-one" has a done item with evidence
+    When I run the goal check for session "s-one"
+    Then the exit code should be 0
+    And the output should contain "OK"
+
   Scenario: Without a session, two active goals still refuse to answer
     Given a goal "Ship the importer" is active for session "s-one"
     And a goal "Fix the flaky test" is active for session "s-two"

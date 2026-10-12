@@ -39,6 +39,7 @@ const writeGoal = (
   world: GoalWorld,
   title: string,
   sessionValue: string,
+  closed?: { evidence: string },
 ): void => {
   const file = join(
     goalRoot(world),
@@ -53,8 +54,8 @@ const writeGoal = (
       `title: ${title}`,
       "type: goal",
       "date: 2026-09-30",
-      "status: active",
-      "goal-status: new",
+      closed ? "status: done" : "status: active",
+      closed ? "goal-status: completed" : "goal-status: new",
       `session: ${sessionValue}`,
       "tags: []",
       "---",
@@ -69,7 +70,9 @@ const writeGoal = (
       "",
       "| # | Item | State | Reach | Evidence |",
       "| - | ---- | ----- | ----- | -------- |",
-      "| 1 | Do the work | todo | local | |",
+      closed
+        ? `| 1 | Do the work | done | local | ${closed.evidence} |`
+        : "| 1 | Do the work | todo | local | |",
       "",
       "## Log",
       "",
@@ -90,6 +93,22 @@ Given(
   "a goal {string} has its session written as {string}",
   function (this: GoalWorld, title: string, sessionValue: string) {
     writeGoal(this, title, sessionValue);
+  },
+);
+
+Given(
+  "a closed goal {string} for session {string} has a done item with no evidence",
+  function (this: GoalWorld, title: string, session: string) {
+    writeGoal(this, title, session, { evidence: "" });
+  },
+);
+
+Given(
+  "a closed goal {string} for session {string} has a done item with evidence",
+  function (this: GoalWorld, title: string, session: string) {
+    writeGoal(this, title, session, {
+      evidence: "commit abc1234, 3 tests pass",
+    });
   },
 );
 

@@ -5,6 +5,19 @@ All notable changes to the goal-tracker skill.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this skill adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.1] - 2026-10-12
+
+### Fixed
+
+- `goal.sh check --session ID` no longer passes vacuously once the goal is closed. With no
+  active goal it now validates the session's latest closed goal, so a done item with no
+  evidence fails the check after `status: done` as well as before it.
+
+### Changed
+
+- SKILL.md Verification says to run `check --session <id>` before closing the goal.
+- `features/goal-tracker.feature`: two scenarios for a closed goal, one failing and one passing.
+
 ## [1.4.0] - 2026-09-30
 
 ### Added
