@@ -105,10 +105,31 @@ pub(crate) fn list_markdown(root: &Path, entries_dir: &Path) -> Vec<String> {
     out
 }
 
+/// Reject an `--entries-dir` that is absolute or contains `..`: the stored
+/// `file` prefix is built from the path text, so only plain names and `.`
+/// keep it equal to the directory actually read.
+pub fn check_entries_dir_syntax(entries_dir: &Path) -> std::result::Result<(), String> {
+    let plain = entries_dir.components().all(|c| {
+        matches!(
+            c,
+            std::path::Component::Normal(_) | std::path::Component::CurDir
+        )
+    });
+    if plain {
+        Ok(())
+    } else {
+        Err(format!(
+            "--entries-dir {} must be a relative path without `..`",
+            entries_dir.display()
+        ))
+    }
+}
+
 /// Fail when `root/<entries_dir>` is not a readable directory, so a mistyped
 /// `--entries-dir` is an error instead of an empty corpus that a command would
 /// then write out as an empty index.
 pub fn check_entries_dir(root: &Path, entries_dir: &Path) -> std::result::Result<(), String> {
+    check_entries_dir_syntax(entries_dir)?;
     let dir = root.join(entries_dir);
     std::fs::read_dir(&dir)
         .map(|_| ())

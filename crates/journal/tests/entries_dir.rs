@@ -266,3 +266,31 @@ fn a_missing_entries_dir_fails_and_leaves_the_index_untouched() {
     }
     assert_eq!(std::fs::read_to_string(&data).unwrap(), "committed\n");
 }
+
+#[test]
+fn an_entries_dir_with_parent_or_absolute_components_is_rejected() {
+    let tmp = tempfile::tempdir().unwrap();
+    build_corpus(tmp.path(), "entries");
+    let outside = tmp.path().join("entries");
+
+    for bad in [
+        "entries/../entries",
+        "../entries",
+        outside.to_str().unwrap(),
+    ] {
+        let out = Command::new(BIN)
+            .args(["lint", "--entries-dir", bad, "--root"])
+            .arg(tmp.path())
+            .output()
+            .unwrap();
+        assert!(!out.status.success(), "{bad:?} must be rejected");
+        assert!(
+            String::from_utf8_lossy(&out.stderr).contains("--entries-dir"),
+            "{bad:?}: stderr should explain the rejection"
+        );
+    }
+
+    // A plain `./entries` is still fine.
+    let out = run(&["lint", "--entries-dir", "./entries"], tmp.path());
+    assert!(out.status.success());
+}

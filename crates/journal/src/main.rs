@@ -377,6 +377,7 @@ fn main() {
 }
 
 fn run_new(args: NewArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir_syntax(&args.entries_dir)?;
     let title = args
         .title
         .filter(|t| !t.trim().is_empty())
@@ -664,6 +665,7 @@ fn run_backfill(args: BackfillArgs) -> std::result::Result<(), String> {
 }
 
 fn run_archive_media(args: ArchiveMediaCliArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir_syntax(&args.entries_dir)?;
     let names = if args.name.is_empty() {
         None
     } else {
