@@ -105,6 +105,16 @@ pub(crate) fn list_markdown(root: &Path, entries_dir: &Path) -> Vec<String> {
     out
 }
 
+/// Fail when `root/<entries_dir>` is not a readable directory, so a mistyped
+/// `--entries-dir` is an error instead of an empty corpus that a command would
+/// then write out as an empty index.
+pub fn check_entries_dir(root: &Path, entries_dir: &Path) -> std::result::Result<(), String> {
+    let dir = root.join(entries_dir);
+    std::fs::read_dir(&dir)
+        .map(|_| ())
+        .map_err(|e| format!("cannot read entries directory {}: {e}", dir.display()))
+}
+
 /// `entries_dir` as a `/`-terminated path prefix; empty for the root (`.`).
 fn rel_prefix(entries_dir: &Path) -> String {
     let parts: Vec<_> = entries_dir

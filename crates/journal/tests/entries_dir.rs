@@ -231,3 +231,38 @@ fn new_creates_under_the_wrapper_and_the_entry_round_trips() {
         .unwrap();
     assert!(String::from_utf8_lossy(&out.stdout).contains("\"file\":\"entries/"));
 }
+
+#[test]
+fn a_missing_entries_dir_fails_and_leaves_the_index_untouched() {
+    let tmp = tempfile::tempdir().unwrap();
+    build_corpus(tmp.path(), "entries");
+    let data = tmp.path().join("docs/journal-index.ndjson");
+    write(tmp.path(), "docs/journal-index.ndjson", "committed\n");
+    let view = tmp.path().join("docs/journal-index.md");
+
+    for args in [
+        vec![
+            "index",
+            "--data",
+            data.to_str().unwrap(),
+            "--view",
+            view.to_str().unwrap(),
+        ],
+        vec!["lint"],
+        vec!["backfill"],
+        vec!["taxonomy", "sync", "--check"],
+    ] {
+        let out = Command::new(BIN)
+            .args(&args)
+            .args(["--entries-dir", "entires", "--root"])
+            .arg(tmp.path())
+            .output()
+            .unwrap();
+        assert!(!out.status.success(), "{args:?} must fail on a typo'd dir");
+        assert!(
+            String::from_utf8_lossy(&out.stderr).contains("entires"),
+            "{args:?} stderr should name the directory"
+        );
+    }
+    assert_eq!(std::fs::read_to_string(&data).unwrap(), "committed\n");
+}

@@ -418,6 +418,7 @@ fn run_validate(file: &str) -> std::result::Result<(), String> {
 
 /// Lint corpus tags against the taxonomy and report advisory findings.
 fn run_lint(args: LintArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
     let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy);
@@ -490,6 +491,7 @@ fn print_lint_report(
 /// Generate (or validate) the browse index: an NDJSON source of truth and a
 /// markdown view rendered from the same scanned entries.
 fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let (taxonomy, _source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
     let data = args
@@ -634,6 +636,7 @@ fn run_kb_index(args: KbIndexArgs) -> std::result::Result<(), String> {
 
 /// Backfill missing `title` / `date` frontmatter across dated entries.
 fn run_backfill(args: BackfillArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let report = backfill::backfill_in(&args.root, &args.entries_dir, args.dry_run)
         .map_err(|e| format!("backfill failed: {e}"))?;
 
@@ -799,6 +802,7 @@ fn read_baseline_taxonomy(
 /// outstanding, matching the journal CLI's `taxonomy sync --check` semantics
 /// this repo's `hk.pkl` gate relies on.
 fn run_taxonomy_sync(args: TaxonomySyncArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
 
