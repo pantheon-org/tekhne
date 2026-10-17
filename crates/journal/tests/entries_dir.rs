@@ -294,3 +294,39 @@ fn an_entries_dir_with_parent_or_absolute_components_is_rejected() {
     let out = run(&["lint", "--entries-dir", "./entries"], tmp.path());
     assert!(out.status.success());
 }
+
+/// An unreadable subdirectory must stop the corpus commands: skipping it
+/// would write a partial index and report success.
+#[cfg(unix)]
+#[test]
+fn an_unreadable_subdirectory_fails_and_leaves_the_index_untouched() {
+    use std::os::unix::fs::PermissionsExt;
+
+    let tmp = tempfile::tempdir().unwrap();
+    build_corpus(tmp.path(), "entries");
+    let data = tmp.path().join("docs/journal-index.ndjson");
+    let view = tmp.path().join("docs/journal-index.md");
+    write(tmp.path(), "docs/journal-index.ndjson", "committed\n");
+    let locked = tmp.path().join("entries/2026/07-July");
+    std::fs::set_permissions(&locked, std::fs::Permissions::from_mode(0o000)).unwrap();
+    // Running as root would read it anyway; nothing to prove then.
+    let readable = std::fs::read_dir(&locked).is_ok();
+
+    let out = Command::new(BIN)
+        .args(["index", "--entries-dir", "entries", "--root"])
+        .arg(tmp.path())
+        .arg("--data")
+        .arg(&data)
+        .arg("--view")
+        .arg(&view)
+        .output()
+        .unwrap();
+    std::fs::set_permissions(&locked, std::fs::Permissions::from_mode(0o755)).unwrap();
+    if readable {
+        return;
+    }
+    assert!(!out.status.success(), "a partial scan must not succeed");
+    assert!(String::from_utf8_lossy(&out.stderr).contains("07-July"));
+    assert_eq!(std::fs::read_to_string(&data).unwrap(), "committed\n");
+    assert!(!view.exists());
+}

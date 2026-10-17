@@ -89,20 +89,32 @@ fn is_year_dir(name: &str) -> bool {
 /// repository root); each returned path is relative to `root`, so it keeps the
 /// `entries_dir` prefix.
 pub(crate) fn list_markdown(root: &Path, entries_dir: &Path) -> Vec<String> {
+    try_list_markdown(root, entries_dir).unwrap_or_default()
+}
+
+/// [`list_markdown`] that reports the first directory or entry it cannot read
+/// instead of returning a partial listing.
+fn try_list_markdown(root: &Path, entries_dir: &Path) -> std::result::Result<Vec<String>, String> {
     let mut out = Vec::new();
     let prefix = rel_prefix(entries_dir);
-    let Ok(top) = std::fs::read_dir(root.join(entries_dir)) else {
-        return out;
-    };
-    for entry in top.flatten() {
+    let top_dir = root.join(entries_dir);
+    for entry in read_dir_checked(&top_dir)? {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         if entry.path().is_dir() && is_year_dir(&name) {
-            walk_md(&entry.path(), &format!("{prefix}{name}"), &mut out);
+            walk_md(&entry.path(), &format!("{prefix}{name}"), &mut out)?;
         }
     }
     out.sort();
-    out
+    Ok(out)
+}
+
+/// Every entry of `dir`, or the first error from opening it or advancing the
+/// iterator (which can fail after a successful `read_dir`).
+fn read_dir_checked(dir: &Path) -> std::result::Result<Vec<std::fs::DirEntry>, String> {
+    std::fs::read_dir(dir)
+        .and_then(|read| read.collect())
+        .map_err(|e| format!("cannot read {}: {e}", dir.display()))
 }
 
 /// Reject an `--entries-dir` that is absolute or contains `..`: the stored
@@ -125,15 +137,13 @@ pub fn check_entries_dir_syntax(entries_dir: &Path) -> std::result::Result<(), S
     }
 }
 
-/// Fail when `root/<entries_dir>` is not a readable directory, so a mistyped
-/// `--entries-dir` is an error instead of an empty corpus that a command would
-/// then write out as an empty index.
+/// Fail when `root/<entries_dir>` or anything below its year directories
+/// cannot be read, so a mistyped `--entries-dir` or an unreadable subdirectory
+/// is an error instead of an empty or partial corpus that a command would then
+/// write out as an index.
 pub fn check_entries_dir(root: &Path, entries_dir: &Path) -> std::result::Result<(), String> {
     check_entries_dir_syntax(entries_dir)?;
-    let dir = root.join(entries_dir);
-    std::fs::read_dir(&dir)
-        .map(|_| ())
-        .map_err(|e| format!("cannot read entries directory {}: {e}", dir.display()))
+    try_list_markdown(root, entries_dir).map(|_| ())
 }
 
 /// `entries_dir` as a `/`-terminated path prefix; empty for the root (`.`).
@@ -153,21 +163,19 @@ fn rel_prefix(entries_dir: &Path) -> String {
 }
 
 /// Recursively collect `.md` files under `dir`, prefixing each with `rel`.
-fn walk_md(dir: &Path, rel: &str, out: &mut Vec<String>) {
-    let Ok(read) = std::fs::read_dir(dir) else {
-        return;
-    };
-    for entry in read.flatten() {
+fn walk_md(dir: &Path, rel: &str, out: &mut Vec<String>) -> std::result::Result<(), String> {
+    for entry in read_dir_checked(dir)? {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         let child_rel = format!("{rel}/{name}");
         let path = entry.path();
         if path.is_dir() {
-            walk_md(&path, &child_rel, out);
+            walk_md(&path, &child_rel, out)?;
         } else if name.ends_with(".md") {
             out.push(child_rel);
         }
     }
+    Ok(())
 }
 
 /// The frontmatter fields the index cares about, parsed from a document.
