@@ -330,3 +330,18 @@ fn an_unreadable_subdirectory_fails_and_leaves_the_index_untouched() {
     assert_eq!(std::fs::read_to_string(&data).unwrap(), "committed\n");
     assert!(!view.exists());
 }
+
+/// A symlink that points back at one of its own ancestors would make the
+/// walk recurse forever; it must be reported instead.
+#[cfg(unix)]
+#[test]
+fn a_symlink_loop_fails_instead_of_recursing_forever() {
+    let tmp = tempfile::tempdir().unwrap();
+    build_corpus(tmp.path(), "entries");
+    let month = tmp.path().join("entries/2026/07-July");
+    std::os::unix::fs::symlink(tmp.path().join("entries/2026"), month.join("loop")).unwrap();
+
+    let out = run(&["lint", "--entries-dir", "entries"], tmp.path());
+    assert!(!out.status.success(), "a symlink loop must fail");
+    assert!(String::from_utf8_lossy(&out.stderr).contains("loop"));
+}

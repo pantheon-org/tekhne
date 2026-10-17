@@ -13,7 +13,7 @@
 //! `  - item` lines) and an inline flow sequence (`tags: [a, b]`).
 
 use std::collections::{BTreeMap, BTreeSet};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use regex::Regex;
 
@@ -102,7 +102,12 @@ fn try_list_markdown(root: &Path, entries_dir: &Path) -> std::result::Result<Vec
         let name = entry.file_name();
         let name = name.to_string_lossy();
         if entry.path().is_dir() && is_year_dir(&name) {
-            walk_md(&entry.path(), &format!("{prefix}{name}"), &mut out)?;
+            walk_md(
+                &entry.path(),
+                &format!("{prefix}{name}"),
+                &mut Vec::new(),
+                &mut out,
+            )?;
         }
     }
     out.sort();
@@ -163,18 +168,33 @@ fn rel_prefix(entries_dir: &Path) -> String {
 }
 
 /// Recursively collect `.md` files under `dir`, prefixing each with `rel`.
-fn walk_md(dir: &Path, rel: &str, out: &mut Vec<String>) -> std::result::Result<(), String> {
+/// `ancestors` holds the canonical paths of the directories being walked, so a
+/// symlink back to one of them is reported rather than followed forever.
+fn walk_md(
+    dir: &Path,
+    rel: &str,
+    ancestors: &mut Vec<PathBuf>,
+    out: &mut Vec<String>,
+) -> std::result::Result<(), String> {
+    let canonical = dir
+        .canonicalize()
+        .map_err(|e| format!("cannot read {}: {e}", dir.display()))?;
+    if ancestors.contains(&canonical) {
+        return Err(format!("symlink loop at {}", dir.display()));
+    }
+    ancestors.push(canonical);
     for entry in read_dir_checked(dir)? {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         let child_rel = format!("{rel}/{name}");
         let path = entry.path();
         if path.is_dir() {
-            walk_md(&path, &child_rel, out)?;
+            walk_md(&path, &child_rel, ancestors, out)?;
         } else if name.ends_with(".md") {
             out.push(child_rel);
         }
     }
+    ancestors.pop();
     Ok(())
 }
 
