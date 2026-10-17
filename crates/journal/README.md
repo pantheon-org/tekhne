@@ -80,3 +80,18 @@ authoritative for anyone installing via `pantheon-journal skill install`.
 
 Run `pantheon-journal --help` for the full command list (`new`, `lint`,
 `index`, `backfill`, `skill install`, `skill uninstall`).
+
+## Entries directory
+
+By default the corpus commands (`index`, `lint`, `backfill`, `taxonomy sync`)
+look for the `20NN` year directories at the top of `--root`. When a repository
+keeps them under a wrapper directory, pass `--entries-dir <dir>` (default `.`):
+
+```bash
+pantheon-journal index --root . --entries-dir entries --validate
+```
+
+The stored `file` paths keep the prefix (`entries/2026/...`), so the index's
+`../<file>` links stay correct. `new` takes the same option, relative to
+`--dir`, and `archive-media`, relative to `--root`. `kb-index` is unaffected: it
+scans its own `--root`, not dated entries.

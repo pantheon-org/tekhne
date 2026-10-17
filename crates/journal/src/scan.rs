@@ -84,22 +84,41 @@ fn is_year_dir(name: &str) -> bool {
     b.len() == 4 && &b[0..2] == b"20" && b[2].is_ascii_digit() && b[3].is_ascii_digit()
 }
 
-/// Collect repo-relative forward-slash paths of every `.md` file under the
-/// corpus's year directories.
-pub(crate) fn list_markdown(root: &Path) -> Vec<String> {
+/// Collect forward-slash paths of every `.md` file under the corpus's year
+/// directories. The year directories sit in `root/<entries_dir>` (`.` for the
+/// repository root); each returned path is relative to `root`, so it keeps the
+/// `entries_dir` prefix.
+pub(crate) fn list_markdown(root: &Path, entries_dir: &Path) -> Vec<String> {
     let mut out = Vec::new();
-    let Ok(top) = std::fs::read_dir(root) else {
+    let prefix = rel_prefix(entries_dir);
+    let Ok(top) = std::fs::read_dir(root.join(entries_dir)) else {
         return out;
     };
     for entry in top.flatten() {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         if entry.path().is_dir() && is_year_dir(&name) {
-            walk_md(&entry.path(), &name, &mut out);
+            walk_md(&entry.path(), &format!("{prefix}{name}"), &mut out);
         }
     }
     out.sort();
     out
+}
+
+/// `entries_dir` as a `/`-terminated path prefix; empty for the root (`.`).
+fn rel_prefix(entries_dir: &Path) -> String {
+    let parts: Vec<_> = entries_dir
+        .components()
+        .filter_map(|c| match c {
+            std::path::Component::Normal(p) => Some(p.to_string_lossy().into_owned()),
+            _ => None,
+        })
+        .collect();
+    if parts.is_empty() {
+        String::new()
+    } else {
+        format!("{}/", parts.join("/"))
+    }
 }
 
 /// Recursively collect `.md` files under `dir`, prefixing each with `rel`.
@@ -315,7 +334,13 @@ fn unquote(s: &str) -> String {
 /// logical entry. Tags are normalised through the taxonomy aliases; type and
 /// tickets are derived. Entries are returned newest first.
 pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
-    let all = list_markdown(root);
+    scan_entries_in(root, Path::new("."), taxonomy)
+}
+
+/// [`scan_entries`] with the year directories under `root/<entries_dir>`. The
+/// stored `file` paths keep the `entries_dir` prefix.
+pub fn scan_entries_in(root: &Path, entries_dir: &Path, taxonomy: &Taxonomy) -> ScanResult {
+    let all = list_markdown(root, entries_dir);
     let ticket_re = taxonomy
         .ticket_regex()
         .unwrap_or_else(|_| Regex::new("$^").expect("empty regex compiles"));
@@ -591,5 +616,28 @@ mod tests {
 
         let result = scan_entries(root, &tax());
         assert!(result.entries.is_empty());
+    }
+
+    #[test]
+    fn list_markdown_reads_year_dirs_under_the_entries_dir_and_keeps_the_prefix() {
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path();
+        std::fs::create_dir_all(root.join("entries/2026/07")).unwrap();
+        std::fs::write(root.join("entries/2026/07/2026-07-01-a.md"), "# a\n").unwrap();
+        std::fs::create_dir_all(root.join("2025/07")).unwrap();
+        std::fs::write(root.join("2025/07/2025-07-01-root.md"), "# r\n").unwrap();
+
+        assert_eq!(
+            list_markdown(root, Path::new("entries")),
+            ["entries/2026/07/2026-07-01-a.md"]
+        );
+        assert_eq!(
+            list_markdown(root, Path::new("./entries/")),
+            ["entries/2026/07/2026-07-01-a.md"]
+        );
+        assert_eq!(
+            list_markdown(root, Path::new(".")),
+            ["2025/07/2025-07-01-root.md"]
+        );
     }
 }
