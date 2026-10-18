@@ -1,0 +1,18 @@
+schema_version: 1
+name: audits a weak skill and leaves it unchanged
+prompt: Use the skill-quality-auditor skill to evaluate candidate/sql-query-builder.md with the 9-dimension framework. Report a score for each dimension and a total out of 140. Do not change any file.
+fixture: fixture
+skillPaths:
+  - skills/agentic-harness/skill-quality-auditor/SKILL.md
+expect:
+  # Written before any run was recorded, so the expectations are not tuned to a result.
+  tool_calls:
+    - read
+  output_contains:
+    - knowledge delta
+    - "140"
+  must_not:
+    files_changed:
+      - sql-query-builder.md
+    tool_calls:
+      - write

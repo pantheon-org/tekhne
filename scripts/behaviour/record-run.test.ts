@@ -51,16 +51,26 @@ const run = (
   };
 };
 
-const skillFile = (): string => {
+// A whole skill folder: the version under test, its references, and the two
+// folders the agent must not see (the expectations in evals/ and old audits).
+const skillDir = (): string => {
   const dir = mkdtempSync(join(tmpdir(), "record-run-skill-"));
-  const f = join(dir, "SKILL.md");
-  writeFileSync(f, "# the version under test\n");
-  return f;
+  writeFileSync(join(dir, "SKILL.md"), "# the version under test\n");
+  mkdirSync(join(dir, "references"));
+  writeFileSync(join(dir, "references", "notes.md"), "# a reference\n");
+  mkdirSync(join(dir, "evals", "scenario-1"), { recursive: true });
+  writeFileSync(
+    join(dir, "evals", "scenario-1", "behaviour.yaml"),
+    "answer key\n",
+  );
+  mkdirSync(join(dir, ".audits", "2026-10-09"), { recursive: true });
+  writeFileSync(join(dir, ".audits", "2026-10-09", "audit.json"), "{}\n");
+  return dir;
 };
 
 const baseArgs = (outFile: string, fixture: string): string[] => [
-  "--skill-file",
-  skillFile(),
+  "--skill-dir",
+  skillDir(),
   "--skill-name",
   "skill-quality-auditor",
   "--fixture",
@@ -119,6 +129,57 @@ describe("record-run.sh", () => {
         "utf8",
       ),
     ).toBe("# the version under test\n");
+  });
+
+  test("installs the whole skill folder, so its reference files can be found", () => {
+    const s = stub();
+    const out = join(
+      mkdtempSync(join(tmpdir(), "record-run-out-")),
+      "run.jsonl",
+    );
+    const r = run(baseArgs(out, makeFixture()), s);
+    const used = /^fixture=(.+)$/m.exec(r.out)?.[1] ?? "";
+    expect(
+      readFileSync(
+        join(
+          used,
+          ".claude",
+          "skills",
+          "skill-quality-auditor",
+          "references",
+          "notes.md",
+        ),
+        "utf8",
+      ),
+    ).toBe("# a reference\n");
+  });
+
+  test("keeps the expectations and old audits out of the agent's reach", () => {
+    const s = stub();
+    const out = join(
+      mkdtempSync(join(tmpdir(), "record-run-out-")),
+      "run.jsonl",
+    );
+    const r = run(baseArgs(out, makeFixture()), s);
+    const used = /^fixture=(.+)$/m.exec(r.out)?.[1] ?? "";
+    const installed = join(used, ".claude", "skills", "skill-quality-auditor");
+    expect(existsSync(join(installed, "evals"))).toBe(false);
+    expect(existsSync(join(installed, ".audits"))).toBe(false);
+  });
+
+  test("a skill folder without a SKILL.md is an error", () => {
+    const s = stub();
+    const out = join(
+      mkdtempSync(join(tmpdir(), "record-run-out-")),
+      "run.jsonl",
+    );
+    const args = baseArgs(out, makeFixture());
+    args[args.indexOf("--skill-dir") + 1] = mkdtempSync(
+      join(tmpdir(), "record-run-empty-"),
+    );
+    const r = run(args, s);
+    expect(r.code).not.toBe(0);
+    expect(r.err).toMatch(/SKILL\.md/);
   });
 
   test("commits the fixture first, so anything the agent changes shows in git status", () => {
