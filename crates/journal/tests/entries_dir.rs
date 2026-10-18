@@ -345,3 +345,21 @@ fn a_symlink_loop_fails_instead_of_recursing_forever() {
     assert!(!out.status.success(), "a symlink loop must fail");
     assert!(String::from_utf8_lossy(&out.stderr).contains("loop"));
 }
+
+#[test]
+fn library_scan_and_backfill_report_an_unreadable_entries_dir() {
+    use journal::taxonomy::Taxonomy;
+
+    let tmp = tempfile::tempdir().unwrap();
+    let missing = Path::new("entires");
+    let taxonomy = Taxonomy::from_json(
+        r#"{ "threshold": 2, "aliases": {}, "facets": {}, "pin": [], "suppress": [], "ticketPattern": "^x-[0-9]+$" }"#,
+        "test",
+    )
+    .unwrap();
+
+    let err = journal::scan::scan_entries_in(tmp.path(), missing, &taxonomy).unwrap_err();
+    assert!(err.contains("entires"), "{err}");
+    let err = journal::backfill::backfill_in(tmp.path(), missing, true).unwrap_err();
+    assert!(err.to_string().contains("entires"), "{err}");
+}

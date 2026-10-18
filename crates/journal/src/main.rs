@@ -422,7 +422,7 @@ fn run_lint(args: LintArgs) -> std::result::Result<(), String> {
     scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
-    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy);
+    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy)?;
     let report = lint::lint(&scan.entries, &taxonomy, &args.files)
         .map_err(|e| format!("lint failed: {e}"))?;
 
@@ -502,7 +502,7 @@ fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
         .view
         .unwrap_or_else(|| PathBuf::from(index::INDEX_VIEW_PATH));
 
-    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy);
+    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy)?;
     for err in &scan.errors {
         eprintln!("  warning: {}: {}", err.file, err.error);
     }
@@ -808,7 +808,7 @@ fn run_taxonomy_sync(args: TaxonomySyncArgs) -> std::result::Result<(), String> 
     let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
 
-    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy);
+    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy)?;
     let report =
         lint::lint(&scan.entries, &taxonomy, &[]).map_err(|e| format!("lint failed: {e}"))?;
 

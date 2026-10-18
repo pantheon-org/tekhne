@@ -88,13 +88,12 @@ fn is_year_dir(name: &str) -> bool {
 /// directories. The year directories sit in `root/<entries_dir>` (`.` for the
 /// repository root); each returned path is relative to `root`, so it keeps the
 /// `entries_dir` prefix.
-pub(crate) fn list_markdown(root: &Path, entries_dir: &Path) -> Vec<String> {
-    try_list_markdown(root, entries_dir).unwrap_or_default()
-}
-
-/// [`list_markdown`] that reports the first directory or entry it cannot read
-/// instead of returning a partial listing.
-fn try_list_markdown(root: &Path, entries_dir: &Path) -> std::result::Result<Vec<String>, String> {
+/// Fails on the first directory or entry it cannot read rather than returning
+/// a partial listing.
+pub(crate) fn try_list_markdown(
+    root: &Path,
+    entries_dir: &Path,
+) -> std::result::Result<Vec<String>, String> {
     let mut out = Vec::new();
     let prefix = rel_prefix(entries_dir);
     let top_dir = root.join(entries_dir);
@@ -391,15 +390,21 @@ fn unquote(s: &str) -> String {
 
 /// Scan every dated entry under `root`, grouping a nested spike folder into one
 /// logical entry. Tags are normalised through the taxonomy aliases; type and
-/// tickets are derived. Entries are returned newest first.
-pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
+/// tickets are derived. Entries are returned newest first. Fails when the
+/// corpus directory or anything below it cannot be read, rather than scanning
+/// part of it.
+pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> std::result::Result<ScanResult, String> {
     scan_entries_in(root, Path::new("."), taxonomy)
 }
 
 /// [`scan_entries`] with the year directories under `root/<entries_dir>`. The
 /// stored `file` paths keep the `entries_dir` prefix.
-pub fn scan_entries_in(root: &Path, entries_dir: &Path, taxonomy: &Taxonomy) -> ScanResult {
-    let all = list_markdown(root, entries_dir);
+pub fn scan_entries_in(
+    root: &Path,
+    entries_dir: &Path,
+    taxonomy: &Taxonomy,
+) -> std::result::Result<ScanResult, String> {
+    let all = try_list_markdown(root, entries_dir)?;
     let ticket_re = taxonomy
         .ticket_regex()
         .unwrap_or_else(|_| Regex::new("$^").expect("empty regex compiles"));
@@ -495,7 +500,7 @@ pub fn scan_entries_in(root: &Path, entries_dir: &Path, taxonomy: &Taxonomy) -> 
     result
         .entries
         .sort_by(|a, b| b.date.cmp(&a.date).then_with(|| a.slug.cmp(&b.slug)));
-    result
+    Ok(result)
 }
 
 #[cfg(test)]
@@ -628,7 +633,7 @@ mod tests {
         )
         .unwrap();
 
-        let result = scan_entries(root, &tax());
+        let result = scan_entries(root, &tax()).unwrap();
         assert!(result.errors.is_empty());
         assert_eq!(result.entries.len(), 1);
         let e = &result.entries[0];
@@ -659,7 +664,7 @@ mod tests {
             )
             .unwrap();
         }
-        let result = scan_entries(root, &tax());
+        let result = scan_entries(root, &tax()).unwrap();
         assert_eq!(result.entries[0].slug, "2026-07-09-newer");
         assert_eq!(result.entries[1].slug, "2026-07-01-older");
     }
@@ -673,7 +678,7 @@ mod tests {
         std::fs::create_dir_all(root.join("2026/07")).unwrap();
         std::fs::write(root.join("2026/07/undated-note.md"), "# note\n").unwrap();
 
-        let result = scan_entries(root, &tax());
+        let result = scan_entries(root, &tax()).unwrap();
         assert!(result.entries.is_empty());
     }
 
@@ -687,15 +692,15 @@ mod tests {
         std::fs::write(root.join("2025/07/2025-07-01-root.md"), "# r\n").unwrap();
 
         assert_eq!(
-            list_markdown(root, Path::new("entries")),
+            try_list_markdown(root, Path::new("entries")).unwrap(),
             ["entries/2026/07/2026-07-01-a.md"]
         );
         assert_eq!(
-            list_markdown(root, Path::new("./entries/")),
+            try_list_markdown(root, Path::new("./entries/")).unwrap(),
             ["entries/2026/07/2026-07-01-a.md"]
         );
         assert_eq!(
-            list_markdown(root, Path::new(".")),
+            try_list_markdown(root, Path::new(".")).unwrap(),
             ["2025/07/2025-07-01-root.md"]
         );
     }
