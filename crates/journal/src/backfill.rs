@@ -10,10 +10,10 @@
 use std::collections::BTreeSet;
 use std::path::Path;
 
-use common::Result;
+use common::{Error, Result};
 use regex::Regex;
 
-use crate::scan::{first_h1, is_dated, list_markdown, parse_frontmatter};
+use crate::scan::{first_h1, is_dated, parse_frontmatter, try_list_markdown};
 
 /// The outcome of a backfill pass.
 #[derive(Debug, Default, Clone, PartialEq, Eq)]
@@ -115,7 +115,12 @@ fn is_dated_file(rel: &str) -> bool {
 /// Run the backfill over every dated entry under `root`. When `dry_run` is set,
 /// nothing is written but the report still reflects what would change.
 pub fn backfill(root: &Path, dry_run: bool) -> Result<BackfillReport> {
-    let files = list_markdown(root);
+    backfill_in(root, Path::new("."), dry_run)
+}
+
+/// [`backfill`] with the year directories under `root/<entries_dir>`.
+pub fn backfill_in(root: &Path, entries_dir: &Path, dry_run: bool) -> Result<BackfillReport> {
+    let files = try_list_markdown(root, entries_dir).map_err(Error::Config)?;
     let mut report = BackfillReport::default();
 
     for rel in files.into_iter().filter(|f| is_dated_file(f)) {

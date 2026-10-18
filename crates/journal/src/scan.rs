@@ -13,7 +13,7 @@
 //! `  - item` lines) and an inline flow sequence (`tags: [a, b]`).
 
 use std::collections::{BTreeMap, BTreeSet};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use regex::Regex;
 
@@ -84,40 +84,117 @@ fn is_year_dir(name: &str) -> bool {
     b.len() == 4 && &b[0..2] == b"20" && b[2].is_ascii_digit() && b[3].is_ascii_digit()
 }
 
-/// Collect repo-relative forward-slash paths of every `.md` file under the
-/// corpus's year directories.
-pub(crate) fn list_markdown(root: &Path) -> Vec<String> {
+/// Collect forward-slash paths of every `.md` file under the corpus's year
+/// directories. The year directories sit in `root/<entries_dir>` (`.` for the
+/// repository root); each returned path is relative to `root`, so it keeps the
+/// `entries_dir` prefix.
+/// Fails on the first directory or entry it cannot read rather than returning
+/// a partial listing.
+pub(crate) fn try_list_markdown(
+    root: &Path,
+    entries_dir: &Path,
+) -> std::result::Result<Vec<String>, String> {
     let mut out = Vec::new();
-    let Ok(top) = std::fs::read_dir(root) else {
-        return out;
-    };
-    for entry in top.flatten() {
+    let prefix = rel_prefix(entries_dir);
+    let top_dir = root.join(entries_dir);
+    for entry in read_dir_checked(&top_dir)? {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         if entry.path().is_dir() && is_year_dir(&name) {
-            walk_md(&entry.path(), &name, &mut out);
+            walk_md(
+                &entry.path(),
+                &format!("{prefix}{name}"),
+                &mut Vec::new(),
+                &mut out,
+            )?;
         }
     }
     out.sort();
-    out
+    Ok(out)
+}
+
+/// Every entry of `dir`, or the first error from opening it or advancing the
+/// iterator (which can fail after a successful `read_dir`).
+fn read_dir_checked(dir: &Path) -> std::result::Result<Vec<std::fs::DirEntry>, String> {
+    std::fs::read_dir(dir)
+        .and_then(|read| read.collect())
+        .map_err(|e| format!("cannot read {}: {e}", dir.display()))
+}
+
+/// Reject an `--entries-dir` that is absolute or contains `..`: the stored
+/// `file` prefix is built from the path text, so only plain names and `.`
+/// keep it equal to the directory actually read.
+pub fn check_entries_dir_syntax(entries_dir: &Path) -> std::result::Result<(), String> {
+    let plain = entries_dir.components().all(|c| {
+        matches!(
+            c,
+            std::path::Component::Normal(_) | std::path::Component::CurDir
+        )
+    });
+    if plain {
+        Ok(())
+    } else {
+        Err(format!(
+            "--entries-dir {} must be a relative path without `..`",
+            entries_dir.display()
+        ))
+    }
+}
+
+/// Fail when `root/<entries_dir>` or anything below its year directories
+/// cannot be read, so a mistyped `--entries-dir` or an unreadable subdirectory
+/// is an error instead of an empty or partial corpus that a command would then
+/// write out as an index.
+pub fn check_entries_dir(root: &Path, entries_dir: &Path) -> std::result::Result<(), String> {
+    check_entries_dir_syntax(entries_dir)?;
+    try_list_markdown(root, entries_dir).map(|_| ())
+}
+
+/// `entries_dir` as a `/`-terminated path prefix; empty for the root (`.`).
+fn rel_prefix(entries_dir: &Path) -> String {
+    let parts: Vec<_> = entries_dir
+        .components()
+        .filter_map(|c| match c {
+            std::path::Component::Normal(p) => Some(p.to_string_lossy().into_owned()),
+            _ => None,
+        })
+        .collect();
+    if parts.is_empty() {
+        String::new()
+    } else {
+        format!("{}/", parts.join("/"))
+    }
 }
 
 /// Recursively collect `.md` files under `dir`, prefixing each with `rel`.
-fn walk_md(dir: &Path, rel: &str, out: &mut Vec<String>) {
-    let Ok(read) = std::fs::read_dir(dir) else {
-        return;
-    };
-    for entry in read.flatten() {
+/// `ancestors` holds the canonical paths of the directories being walked, so a
+/// symlink back to one of them is reported rather than followed forever.
+fn walk_md(
+    dir: &Path,
+    rel: &str,
+    ancestors: &mut Vec<PathBuf>,
+    out: &mut Vec<String>,
+) -> std::result::Result<(), String> {
+    let canonical = dir
+        .canonicalize()
+        .map_err(|e| format!("cannot read {}: {e}", dir.display()))?;
+    if ancestors.contains(&canonical) {
+        return Err(format!("symlink loop at {}", dir.display()));
+    }
+    ancestors.push(canonical);
+    for entry in read_dir_checked(dir)? {
         let name = entry.file_name();
         let name = name.to_string_lossy();
         let child_rel = format!("{rel}/{name}");
         let path = entry.path();
         if path.is_dir() {
-            walk_md(&path, &child_rel, out);
+            walk_md(&path, &child_rel, ancestors, out)?;
         } else if name.ends_with(".md") {
             out.push(child_rel);
         }
     }
+    ancestors.pop();
+    Ok(())
 }
 
 /// The frontmatter fields the index cares about, parsed from a document.
@@ -313,9 +390,21 @@ fn unquote(s: &str) -> String {
 
 /// Scan every dated entry under `root`, grouping a nested spike folder into one
 /// logical entry. Tags are normalised through the taxonomy aliases; type and
-/// tickets are derived. Entries are returned newest first.
-pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
-    let all = list_markdown(root);
+/// tickets are derived. Entries are returned newest first. Fails when the
+/// corpus directory or anything below it cannot be read, rather than scanning
+/// part of it.
+pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> std::result::Result<ScanResult, String> {
+    scan_entries_in(root, Path::new("."), taxonomy)
+}
+
+/// [`scan_entries`] with the year directories under `root/<entries_dir>`. The
+/// stored `file` paths keep the `entries_dir` prefix.
+pub fn scan_entries_in(
+    root: &Path,
+    entries_dir: &Path,
+    taxonomy: &Taxonomy,
+) -> std::result::Result<ScanResult, String> {
+    let all = try_list_markdown(root, entries_dir)?;
     let ticket_re = taxonomy
         .ticket_regex()
         .unwrap_or_else(|_| Regex::new("$^").expect("empty regex compiles"));
@@ -411,7 +500,7 @@ pub fn scan_entries(root: &Path, taxonomy: &Taxonomy) -> ScanResult {
     result
         .entries
         .sort_by(|a, b| b.date.cmp(&a.date).then_with(|| a.slug.cmp(&b.slug)));
-    result
+    Ok(result)
 }
 
 #[cfg(test)]
@@ -544,7 +633,7 @@ mod tests {
         )
         .unwrap();
 
-        let result = scan_entries(root, &tax());
+        let result = scan_entries(root, &tax()).unwrap();
         assert!(result.errors.is_empty());
         assert_eq!(result.entries.len(), 1);
         let e = &result.entries[0];
@@ -575,7 +664,7 @@ mod tests {
             )
             .unwrap();
         }
-        let result = scan_entries(root, &tax());
+        let result = scan_entries(root, &tax()).unwrap();
         assert_eq!(result.entries[0].slug, "2026-07-09-newer");
         assert_eq!(result.entries[1].slug, "2026-07-01-older");
     }
@@ -589,7 +678,30 @@ mod tests {
         std::fs::create_dir_all(root.join("2026/07")).unwrap();
         std::fs::write(root.join("2026/07/undated-note.md"), "# note\n").unwrap();
 
-        let result = scan_entries(root, &tax());
+        let result = scan_entries(root, &tax()).unwrap();
         assert!(result.entries.is_empty());
+    }
+
+    #[test]
+    fn list_markdown_reads_year_dirs_under_the_entries_dir_and_keeps_the_prefix() {
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path();
+        std::fs::create_dir_all(root.join("entries/2026/07")).unwrap();
+        std::fs::write(root.join("entries/2026/07/2026-07-01-a.md"), "# a\n").unwrap();
+        std::fs::create_dir_all(root.join("2025/07")).unwrap();
+        std::fs::write(root.join("2025/07/2025-07-01-root.md"), "# r\n").unwrap();
+
+        assert_eq!(
+            try_list_markdown(root, Path::new("entries")).unwrap(),
+            ["entries/2026/07/2026-07-01-a.md"]
+        );
+        assert_eq!(
+            try_list_markdown(root, Path::new("./entries/")).unwrap(),
+            ["entries/2026/07/2026-07-01-a.md"]
+        );
+        assert_eq!(
+            try_list_markdown(root, Path::new(".")).unwrap(),
+            ["2025/07/2025-07-01-root.md"]
+        );
     }
 }

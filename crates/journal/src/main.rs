@@ -91,6 +91,10 @@ struct TaxonomySyncArgs {
     /// Journal root to discover `taxonomy.json` at.
     #[arg(long, default_value = ".")]
     root: PathBuf,
+    /// Directory under `--root` that holds the `20NN` year directories. The
+    /// stored `file` paths keep this prefix (e.g. `entries/2026/...`).
+    #[arg(long, default_value = ".")]
+    entries_dir: PathBuf,
     /// Explicit taxonomy file to read and write, overriding `<root>/taxonomy.json`.
     #[arg(long)]
     taxonomy: Option<PathBuf>,
@@ -130,6 +134,9 @@ struct NewArgs {
     /// Base directory the `YYYY/MM-Month/DD-Weekday/` tree is created under.
     #[arg(long, default_value = ".")]
     dir: PathBuf,
+    /// Directory under `--dir` that holds the `YYYY/MM-Month/DD-Weekday/` tree.
+    #[arg(long, default_value = ".")]
+    entries_dir: PathBuf,
     /// Author recorded in the frontmatter.
     #[arg(long, default_value = "Unknown")]
     author: String,
@@ -150,6 +157,10 @@ struct LintArgs {
     /// Journal root to scan for entries and a `taxonomy.json`.
     #[arg(long, default_value = ".")]
     root: PathBuf,
+    /// Directory under `--root` that holds the `20NN` year directories. The
+    /// stored `file` paths keep this prefix (e.g. `entries/2026/...`).
+    #[arg(long, default_value = ".")]
+    entries_dir: PathBuf,
     /// Explicit taxonomy file, overriding `<root>/taxonomy.json` and the
     /// embedded default.
     #[arg(long)]
@@ -167,6 +178,10 @@ struct IndexArgs {
     /// Journal root to scan for entries and a `taxonomy.json`.
     #[arg(long, default_value = ".")]
     root: PathBuf,
+    /// Directory under `--root` that holds the `20NN` year directories. The
+    /// stored `file` paths keep this prefix (e.g. `entries/2026/...`).
+    #[arg(long, default_value = ".")]
+    entries_dir: PathBuf,
     /// Explicit taxonomy file, overriding `<root>/taxonomy.json` and the default.
     #[arg(long)]
     taxonomy: Option<PathBuf>,
@@ -212,6 +227,10 @@ struct BackfillArgs {
     /// Journal root to scan for dated entries.
     #[arg(long, default_value = ".")]
     root: PathBuf,
+    /// Directory under `--root` that holds the `20NN` year directories. The
+    /// stored `file` paths keep this prefix (e.g. `entries/2026/...`).
+    #[arg(long, default_value = ".")]
+    entries_dir: PathBuf,
     /// Preview changes without writing any files.
     #[arg(long = "dry-run")]
     dry_run: bool,
@@ -236,6 +255,9 @@ struct ArchiveMediaCliArgs {
     /// Journal root the entry lives under.
     #[arg(long, default_value = ".")]
     root: PathBuf,
+    /// Directory under `--root` that holds the `20NN` year directories.
+    #[arg(long, default_value = ".")]
+    entries_dir: PathBuf,
 }
 
 #[derive(Args)]
@@ -355,6 +377,7 @@ fn main() {
 }
 
 fn run_new(args: NewArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir_syntax(&args.entries_dir)?;
     let title = args
         .title
         .filter(|t| !t.trim().is_empty())
@@ -370,7 +393,7 @@ fn run_new(args: NewArgs) -> std::result::Result<(), String> {
     };
 
     let path = spec
-        .create(&args.dir)
+        .create(&args.dir.join(&args.entries_dir))
         .map_err(|e| format!("cannot create entry: {e}"))?;
     println!("Created {}", path.display());
     Ok(())
@@ -396,9 +419,10 @@ fn run_validate(file: &str) -> std::result::Result<(), String> {
 
 /// Lint corpus tags against the taxonomy and report advisory findings.
 fn run_lint(args: LintArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
-    let scan = scan::scan_entries(&args.root, &taxonomy);
+    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy)?;
     let report = lint::lint(&scan.entries, &taxonomy, &args.files)
         .map_err(|e| format!("lint failed: {e}"))?;
 
@@ -468,6 +492,7 @@ fn print_lint_report(
 /// Generate (or validate) the browse index: an NDJSON source of truth and a
 /// markdown view rendered from the same scanned entries.
 fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let (taxonomy, _source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
     let data = args
@@ -477,7 +502,7 @@ fn run_index(args: IndexArgs) -> std::result::Result<(), String> {
         .view
         .unwrap_or_else(|| PathBuf::from(index::INDEX_VIEW_PATH));
 
-    let scan = scan::scan_entries(&args.root, &taxonomy);
+    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy)?;
     for err in &scan.errors {
         eprintln!("  warning: {}: {}", err.file, err.error);
     }
@@ -612,7 +637,8 @@ fn run_kb_index(args: KbIndexArgs) -> std::result::Result<(), String> {
 
 /// Backfill missing `title` / `date` frontmatter across dated entries.
 fn run_backfill(args: BackfillArgs) -> std::result::Result<(), String> {
-    let report = backfill::backfill(&args.root, args.dry_run)
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
+    let report = backfill::backfill_in(&args.root, &args.entries_dir, args.dry_run)
         .map_err(|e| format!("backfill failed: {e}"))?;
 
     for w in &report.warnings {
@@ -639,6 +665,7 @@ fn run_backfill(args: BackfillArgs) -> std::result::Result<(), String> {
 }
 
 fn run_archive_media(args: ArchiveMediaCliArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir_syntax(&args.entries_dir)?;
     let names = if args.name.is_empty() {
         None
     } else {
@@ -651,11 +678,13 @@ fn run_archive_media(args: ArchiveMediaCliArgs) -> std::result::Result<(), Strin
         prefix: &args.prefix,
         force: args.force,
     };
-    let saved =
-        archive_media::archive_media(&args.root, &core_args, archive_media::fetch_bytes, |line| {
-            eprintln!("{line}")
-        })
-        .map_err(|e| e.to_string())?;
+    let saved = archive_media::archive_media(
+        &args.root.join(&args.entries_dir),
+        &core_args,
+        archive_media::fetch_bytes,
+        |line| eprintln!("{line}"),
+    )
+    .map_err(|e| e.to_string())?;
     for asset in &saved {
         println!("{} ({} bytes)", asset.path.display(), asset.bytes);
     }
@@ -775,10 +804,11 @@ fn read_baseline_taxonomy(
 /// outstanding, matching the journal CLI's `taxonomy sync --check` semantics
 /// this repo's `hk.pkl` gate relies on.
 fn run_taxonomy_sync(args: TaxonomySyncArgs) -> std::result::Result<(), String> {
+    scan::check_entries_dir(&args.root, &args.entries_dir)?;
     let (taxonomy, source) = Taxonomy::resolve(&args.root, args.taxonomy.as_deref())
         .map_err(|e| format!("cannot load taxonomy: {e}"))?;
 
-    let scan = scan::scan_entries(&args.root, &taxonomy);
+    let scan = scan::scan_entries_in(&args.root, &args.entries_dir, &taxonomy)?;
     let report =
         lint::lint(&scan.entries, &taxonomy, &[]).map_err(|e| format!("lint failed: {e}"))?;
 
