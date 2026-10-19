@@ -5,14 +5,14 @@
 
 use std::path::{Path, PathBuf};
 
-use skill_validator_rs::artifacts::{check_files, check_tree};
-use skill_validator_rs::listing::{
+use crate::artifacts::{check_files, check_tree};
+use crate::listing::{
     analyze as analyze_listing, read_machine_settings, resolve_budget, BudgetInputs,
 };
-use skill_validator_rs::structure::fsutil::read_dir_sorted;
-use skill_validator_rs::{analyze_contamination, analyze_content, validate, Options, Skill};
+use crate::structure::fsutil::read_dir_sorted;
+use crate::{analyze_contamination, analyze_content, validate, Options, Skill};
 
-use crate::model::{CliReport, ReferenceReport};
+use crate::cli::model::{CliReport, ReferenceReport};
 
 /// Run `validate structure <dir>`: the structure group only.
 pub fn validate_structure(dir: &str, opts: &Options) -> CliReport {
@@ -86,7 +86,7 @@ pub fn analyze_content_cmd(dir: &str) -> Result<CliReport, String> {
 
 /// Run `analyze triggers <dir> --base <dir>`: trigger-phrase drift.
 pub fn analyze_triggers_cmd(dir: &str, base: &str) -> Result<CliReport, String> {
-    let report = skill_validator_rs::triggers::compare(Path::new(dir), Path::new(base))?;
+    let report = crate::triggers::compare(Path::new(dir), Path::new(base))?;
     Ok(CliReport {
         skill_dir: dir.to_string(),
         triggers: Some(report),

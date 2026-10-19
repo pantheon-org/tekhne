@@ -3,11 +3,11 @@
 //! annotation lines (`--emit-annotations`). Renderers never decide the exit
 //! code; they only present the [`CliReport`] built by the runners.
 
-use skill_validator_rs::listing::ListingReport;
-use skill_validator_rs::triggers::TriggerReport;
-use skill_validator_rs::{ContaminationReport, ContentReport, Level, ValidationResult};
+use crate::listing::ListingReport;
+use crate::triggers::TriggerReport;
+use crate::{ContaminationReport, ContentReport, Level, ValidationResult};
 
-use crate::model::{CliReport, OutputFormat};
+use crate::cli::model::{CliReport, OutputFormat};
 
 /// Render `report` in the requested `format` and return the string to print to
 /// stdout. Pass results are omitted from text and markdown to keep the gate

@@ -4,7 +4,7 @@
 //! Ported from `github.com/agent-ecosystem/skill-validator` per the S1 spike
 //! (`.context/plans/skill-validator-port-spec.md`). Only the offline,
 //! deterministic surface is covered; the LLM scoring path and the external
-//! (network) link group are out of scope. The CLI/binary is deferred to A5b.
+//! (network) link group are out of scope.
 //!
 //! The public entry points mirror the two Go calls the auditor bridge makes:
 //! [`structure::validate`] (directory, frontmatter, tokens, markdown, internal
@@ -12,6 +12,7 @@
 //! [`contamination`].
 
 pub mod artifacts;
+pub mod cli;
 pub mod contamination;
 pub mod content;
 pub mod links;
