@@ -29,12 +29,21 @@ const VALIDATOR_BIN = "pantheon-skill-auditor";
 
 const MISSING_VALIDATOR = `${VALIDATOR_BIN} not found on PATH. Run \`mise install\`, then run the suite through mise: \`mise exec -- bun run test:integration\`.\n`;
 
-// Run the pinned auditor, turning a missing binary into an actionable message
-// instead of a bare spawn error.
+// Run the pinned auditor. A missing binary gets an actionable message; any other
+// launch failure (for example EACCES) reports the spawn error itself, so a
+// failing scenario names the cause instead of showing empty output.
 const runAuditor = (cwd: string, args: string[]): CommandResult => {
   const result = spawnSync(VALIDATOR_BIN, args, { cwd, encoding: "utf-8" });
-  if ((result.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+  const error = result.error as NodeJS.ErrnoException | undefined;
+  if (error?.code === "ENOENT") {
     return { stdout: "", stderr: MISSING_VALIDATOR, exitCode: 127 };
+  }
+  if (error) {
+    return {
+      stdout: "",
+      stderr: `could not run ${VALIDATOR_BIN}: ${error.message}\n`,
+      exitCode: 1,
+    };
   }
   return capture(result);
 };
