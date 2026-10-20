@@ -18,6 +18,7 @@ use skill_auditor::skill_bundle;
 use skill_install::agents::all as all_agents;
 use skill_install::env::Environment;
 use skill_install::install::InstallMode;
+use std::ffi::OsString;
 use std::path::{Path, PathBuf};
 use std::process;
 
@@ -45,6 +46,34 @@ struct Cli {
 enum Command {
     /// Print the version.
     Version,
+    /// Offline structural validation: `validate structure <dir>` or `validate
+    /// artifacts [paths]`. Runs the embedded validator, so `validate --help`
+    /// lists its flags and exit codes (0 clean, 1 error, 2 warning, 3 usage).
+    #[command(disable_help_flag = true)]
+    Validate {
+        #[arg(num_args = 0.., allow_hyphen_values = true, trailing_var_arg = true)]
+        args: Vec<OsString>,
+    },
+    /// Run every offline validation group on one skill directory (embedded
+    /// validator, same flags and exit codes as `validate`).
+    #[command(disable_help_flag = true)]
+    Check {
+        #[arg(num_args = 0.., allow_hyphen_values = true, trailing_var_arg = true)]
+        args: Vec<OsString>,
+    },
+    /// Invocation probes: `probes validate|score|compare` (embedded validator).
+    #[command(disable_help_flag = true)]
+    Probes {
+        #[arg(num_args = 0.., allow_hyphen_values = true, trailing_var_arg = true)]
+        args: Vec<OsString>,
+    },
+    /// Analysis without validating: `analyze content|triggers|listing`
+    /// (embedded validator, advisory, always exit 0).
+    #[command(disable_help_flag = true)]
+    Analyze {
+        #[arg(num_args = 0.., allow_hyphen_values = true, trailing_var_arg = true)]
+        args: Vec<OsString>,
+    },
     /// Evaluate a single skill.
     Evaluate {
         /// The skill (domain/skill-name, path, or SKILL.md path).
@@ -273,8 +302,20 @@ struct SkillUninstallArgs {
 }
 
 fn main() {
+    // Route validator invocations before the auditor parses anything, so the
+    // validator's own global flags work before the subcommand too
+    // (`--strict validate ...`), exactly as on the standalone binary.
+    let raw: Vec<OsString> = std::env::args_os().collect();
+    if skill_validator_rs::cli::is_invocation(&raw) {
+        process::exit(i32::from(skill_validator_rs::cli::run_code(NAME, raw)));
+    }
+
     let cli = Cli::parse();
     let result = match cli.command {
+        Command::Validate { args } => process::exit(run_validator("validate", args)),
+        Command::Check { args } => process::exit(run_validator("check", args)),
+        Command::Probes { args } => process::exit(run_validator("probes", args)),
+        Command::Analyze { args } => process::exit(run_validator("analyze", args)),
         Command::Version => {
             println!("{NAME} v{VERSION}");
             Ok(())
@@ -332,6 +373,17 @@ fn main() {
         eprintln!("Error: {e}");
         process::exit(1);
     }
+}
+
+/// Run the embedded validator CLI for one of its top-level subcommands and
+/// return its exit code (0 clean, 1 error, 2 warning, 3 usage). The remaining
+/// arguments are forwarded unchanged, so its flags and `--help` work as they
+/// do on the standalone `skill-validator-rs` binary.
+fn run_validator(subcommand: &str, args: Vec<OsString>) -> i32 {
+    let argv = std::iter::once(OsString::from(NAME))
+        .chain(std::iter::once(OsString::from(subcommand)))
+        .chain(args);
+    i32::from(skill_validator_rs::cli::run_code(NAME, argv))
 }
 
 fn run_evaluate(

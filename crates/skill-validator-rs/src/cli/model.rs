@@ -5,9 +5,9 @@
 use clap::ValueEnum;
 use serde::Serialize;
 
-use skill_validator_rs::listing::ListingReport;
-use skill_validator_rs::triggers::TriggerReport;
-use skill_validator_rs::{ContaminationReport, ContentReport, TokenCount, ValidationResult};
+use crate::listing::ListingReport;
+use crate::triggers::TriggerReport;
+use crate::{ContaminationReport, ContentReport, TokenCount, ValidationResult};
 
 /// The report shape produced by every command and handed to the renderers.
 ///

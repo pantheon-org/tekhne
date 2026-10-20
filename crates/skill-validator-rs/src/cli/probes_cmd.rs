@@ -3,10 +3,9 @@
 //! [`CliReport`](crate::model::CliReport) flow rather than inside it.
 
 use std::path::{Path, PathBuf};
-use std::process::ExitCode;
 
+use crate::probes::{self, ScoreReport, DEFAULT_COPY_SPAN};
 use clap::Subcommand;
-use skill_validator_rs::probes::{self, ScoreReport, DEFAULT_COPY_SPAN};
 
 #[derive(Subcommand)]
 pub enum ProbesAction {
@@ -42,17 +41,17 @@ pub enum ProbesAction {
     },
 }
 
-pub fn run(action: &ProbesAction) -> ExitCode {
+pub fn run(action: &ProbesAction) -> u8 {
     match execute(action) {
         Ok(code) => code,
         Err(message) => {
             eprintln!("error: {message}");
-            ExitCode::from(1)
+            1
         }
     }
 }
 
-fn execute(action: &ProbesAction) -> Result<ExitCode, String> {
+fn execute(action: &ProbesAction) -> Result<u8, String> {
     match action {
         ProbesAction::Validate {
             dir,
@@ -75,7 +74,7 @@ fn execute(action: &ProbesAction) -> Result<ExitCode, String> {
                 files.len(),
                 findings.len() - errors
             );
-            Ok(ExitCode::from(u8::from(errors > 0)))
+            Ok(u8::from(errors > 0))
         }
         ProbesAction::Score { dir, repo_root } => {
             let files = probes::load_dir(dir)?;
@@ -98,7 +97,7 @@ fn execute(action: &ProbesAction) -> Result<ExitCode, String> {
                 );
             }
             print_json(&report)?;
-            Ok(ExitCode::SUCCESS)
+            Ok(0)
         }
         ProbesAction::Compare {
             baseline,
@@ -125,7 +124,7 @@ fn execute(action: &ProbesAction) -> Result<ExitCode, String> {
                 }
             }
             print_json(&report)?;
-            Ok(ExitCode::SUCCESS)
+            Ok(0)
         }
     }
 }
