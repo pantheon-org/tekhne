@@ -105,3 +105,16 @@ specifiers = ["0.56.6"]
 checksum = "sha256:3228e88286c44da93bd591cc6358549c4a3d685b44c9d64625955d668528a155"
 size = 3658598
 url = "https://github.com/agent-sh/agnix/releases/download/v0.56.6/agnix-x86_64-unknown-linux-gnu.tar.gz"
+
+[[tools."github:pantheon-org/tekhne"]]
+version = "0.3.0"
+backend = "github:pantheon-org/tekhne"
+specifiers = ["0.3.0"]
+
+[tools."github:pantheon-org/tekhne".options]
+version_prefix = "tool/pantheon-skill-auditor-v"
+
+[tools."github:pantheon-org/tekhne"."platforms.linux-x64"]
+checksum = "sha256:092abe13e3ab7456a95bcd145e8c3074181d5f2c0e9eb6a9de54eb86ed6486d7"
+size = 2645752
+url = "https://github.com/pantheon-org/tekhne/releases/download/tool/pantheon-skill-auditor-v0.3.0/pantheon-skill-auditor-x86_64-unknown-linux-gnu.tar.xz"
