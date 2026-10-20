@@ -302,6 +302,14 @@ struct SkillUninstallArgs {
 }
 
 fn main() {
+    // Route validator invocations before the auditor parses anything, so the
+    // validator's own global flags work before the subcommand too
+    // (`--strict validate ...`), exactly as on the standalone binary.
+    let raw: Vec<OsString> = std::env::args_os().collect();
+    if skill_validator_rs::cli::is_invocation(&raw) {
+        process::exit(i32::from(skill_validator_rs::cli::run_code(NAME, raw)));
+    }
+
     let cli = Cli::parse();
     let result = match cli.command {
         Command::Validate { args } => process::exit(run_validator("validate", args)),

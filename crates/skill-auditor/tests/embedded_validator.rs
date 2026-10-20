@@ -67,3 +67,40 @@ fn probes_validate_runs_through_the_embedded_validator() {
     let stderr = String::from_utf8_lossy(&out.stderr);
     assert!(stderr.contains("no probe files"), "{stderr}");
 }
+
+#[test]
+fn validator_global_flags_work_before_the_subcommand() {
+    let dir = tempfile::tempdir().expect("tempdir");
+    let root = dir.path().to_str().expect("utf8");
+
+    // `-o json` precedes `analyze`, as it can on the standalone validator.
+    let out = auditor(&["-o", "json", "analyze", "listing", root]);
+    assert_eq!(code(&out), 0, "{}", String::from_utf8_lossy(&out.stderr));
+    assert!(text(&out).contains("budget_chars"), "{}", text(&out));
+
+    // `--strict` and an inline-value flag precede `validate`.
+    let missing = dir.path().join("absent");
+    let missing = missing.to_str().expect("utf8");
+    let out = auditor(&[
+        "--strict",
+        "--allow-dirs=evals",
+        "validate",
+        "structure",
+        missing,
+    ]);
+    assert_eq!(code(&out), 1, "{}", text(&out));
+}
+
+#[test]
+fn auditor_commands_and_help_are_not_swallowed_by_the_validator() {
+    let out = auditor(&["version"]);
+    assert_eq!(code(&out), 0);
+    assert!(
+        text(&out).contains("pantheon-skill-auditor v"),
+        "{}",
+        text(&out)
+    );
+
+    let out = auditor(&["help", "validate"]);
+    assert_eq!(code(&out), 0);
+}

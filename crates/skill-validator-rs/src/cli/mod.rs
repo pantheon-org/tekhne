@@ -14,7 +14,7 @@ mod probes_cmd;
 mod render;
 mod run;
 
-use std::ffi::OsString;
+use std::ffi::{OsStr, OsString};
 use std::process::ExitCode;
 
 use crate::Options;
@@ -197,6 +197,52 @@ where
     }
 }
 
+/// Whether `args` (the first item is the program name) is a validator
+/// invocation: validator global flags, then one of its subcommands. A host
+/// binary calls this before its own parsing so that flags placed before the
+/// subcommand (`--strict validate ...`, `-o json analyze ...`) keep working
+/// exactly as on the standalone binary.
+///
+/// The flag table comes from the clap definition, so a new global flag is
+/// recognised without touching this function. Anything else (an unknown flag,
+/// another subcommand, `help`, a `--` separator) is not a validator invocation.
+pub fn is_invocation<S: AsRef<OsStr>>(args: &[S]) -> bool {
+    let mut command = Cli::command();
+    command.build();
+    let mut rest = args.iter().skip(1);
+    while let Some(arg) = rest.next() {
+        let Some(arg) = arg.as_ref().to_str() else {
+            return false;
+        };
+        if let Some(long) = arg.strip_prefix("--") {
+            let (name, inline_value) = match long.split_once('=') {
+                Some((name, _)) => (name, true),
+                None => (long, false),
+            };
+            let Some(flag) = command.get_arguments().find(|a| a.get_long() == Some(name)) else {
+                return false;
+            };
+            if flag.get_action().takes_values() && !inline_value {
+                rest.next();
+            }
+        } else if let Some(shorts) = arg.strip_prefix('-').filter(|s| !s.is_empty()) {
+            let Some(flag) = command
+                .get_arguments()
+                .find(|a| a.get_short() == shorts.chars().next())
+            else {
+                return false;
+            };
+            // `-o json` takes its value from the next argument; `-ojson` carries it.
+            if flag.get_action().takes_values() && shorts.chars().count() == 1 {
+                rest.next();
+            }
+        } else {
+            return arg != "help" && command.get_subcommands().any(|s| s.get_name() == arg);
+        }
+    }
+    false
+}
+
 /// [`run_code`] as an [`ExitCode`], for a binary's `main`.
 pub fn run<I, T>(bin_name: &str, args: I) -> ExitCode
 where
@@ -281,5 +327,68 @@ fn handle_parse_error(err: clap::Error) -> u8 {
         | ErrorKind::DisplayVersion
         | ErrorKind::DisplayHelpOnMissingArgumentOrSubcommand => 0,
         _ => 3,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::is_invocation;
+
+    fn argv(rest: &[&str]) -> Vec<String> {
+        std::iter::once("pantheon-skill-auditor")
+            .chain(rest.iter().copied())
+            .map(str::to_owned)
+            .collect()
+    }
+
+    #[test]
+    fn plain_subcommands_are_validator_invocations() {
+        for sub in ["validate", "check", "probes", "analyze"] {
+            assert!(is_invocation(&argv(&[sub, "dir"])), "{sub}");
+        }
+    }
+
+    #[test]
+    fn global_flags_before_the_subcommand_are_skipped() {
+        assert!(is_invocation(&argv(&[
+            "--strict",
+            "validate",
+            "structure",
+            "d"
+        ])));
+        assert!(is_invocation(&argv(&[
+            "-o", "json", "analyze", "listing", "r"
+        ])));
+        assert!(is_invocation(&argv(&["-ojson", "check", "d"])));
+        assert!(is_invocation(&argv(&["--output=json", "check", "d"])));
+        assert!(is_invocation(&argv(&[
+            "--allow-dirs",
+            "evals",
+            "check",
+            "d"
+        ])));
+        assert!(is_invocation(&argv(&[
+            "--allow-dirs=evals",
+            "--per-file",
+            "check",
+            "d"
+        ])));
+    }
+
+    #[test]
+    fn a_flag_value_is_not_mistaken_for_the_subcommand() {
+        // `check` here is the value of --allow-dirs, so no subcommand follows.
+        assert!(!is_invocation(&argv(&["--allow-dirs", "check"])));
+    }
+
+    #[test]
+    fn other_invocations_are_left_to_the_host() {
+        assert!(!is_invocation(&argv(&[])));
+        assert!(!is_invocation(&argv(&["evaluate", "skill"])));
+        assert!(!is_invocation(&argv(&["help"])));
+        assert!(!is_invocation(&argv(&["help", "validate"])));
+        assert!(!is_invocation(&argv(&["--unknown", "validate"])));
+        assert!(!is_invocation(&argv(&["--", "validate"])));
+        assert!(!is_invocation(&argv(&["--version"])));
     }
 }
