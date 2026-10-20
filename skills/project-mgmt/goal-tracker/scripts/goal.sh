@@ -325,3 +325,5 @@ EOF
 		die "unknown subcommand: $cmd"
 		;;
 esac
+
+# Throwaway line for CI verification of the pinned gates.
