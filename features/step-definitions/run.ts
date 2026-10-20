@@ -1,6 +1,4 @@
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import type { CommandResult } from "./world";
 
 interface Spawned {
@@ -24,24 +22,14 @@ export const runCatalogDryRun = (cwd: string): CommandResult =>
     }),
   );
 
-const VALIDATOR_BIN = "target/release/skill-validator-rs";
-
-// Build the Rust validator from source once (cached), mirroring the hk.pkl gate
-// so the integration suite never depends on a pre-built binary.
-const ensureValidator = (cwd: string): void => {
-  if (existsSync(join(cwd, VALIDATOR_BIN))) {
-    return;
-  }
-  spawnSync("cargo", ["build", "--release", "-q", "-p", "skill-validator-rs"], {
-    cwd,
-    encoding: "utf-8",
-  });
-};
+// The validator is the `validate` subcommand of the pinned pantheon-skill-auditor
+// release (mise.toml), the same binary the hk.pkl gate runs. It must be on PATH:
+// the suite fails with the spawn error when it is not, rather than building one.
+const VALIDATOR_BIN = "pantheon-skill-auditor";
 
 export const runValidatorHelp = (cwd: string): CommandResult => {
-  ensureValidator(cwd);
   return capture(
-    spawnSync(join(cwd, VALIDATOR_BIN), ["validate", "--help"], {
+    spawnSync(VALIDATOR_BIN, ["validate", "--help"], {
       cwd,
       encoding: "utf-8",
     }),
@@ -52,10 +40,9 @@ export const runValidatorStructure = (
   cwd: string,
   skill: string,
 ): CommandResult => {
-  ensureValidator(cwd);
   return capture(
     spawnSync(
-      join(cwd, VALIDATOR_BIN),
+      VALIDATOR_BIN,
       ["validate", "structure", "--allow-dirs=evals", `skills/${skill}`],
       { cwd, encoding: "utf-8" },
     ),

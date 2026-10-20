@@ -106,13 +106,11 @@ describe("check.sh", () => {
     expect(r.code).toBe(2);
   });
 
-  test("a missing auditor binary is an error with the build command", () => {
+  test("a missing auditor binary is an error with the install command", () => {
     const root = makeRepo(["a/one"]);
     const r = run(root, join(root, "no-such-binary"), ["a/one"]);
     expect(r.code).toBe(2);
-    expect(r.out + r.err).toContain(
-      "cargo build --release -p pantheon-skill-auditor",
-    );
+    expect(r.out + r.err).toContain("Install it with: mise install");
   });
 
   test("--from-file reads one skill per line", () => {

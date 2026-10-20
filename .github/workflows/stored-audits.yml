@@ -61,17 +61,11 @@ jobs:
             echo "found=false" >> "$GITHUB_OUTPUT"
           fi
 
-      # rustup is preinstalled on GitHub-hosted runners; keep this version in sync
-      # with mise.toml and the other workflows. Only built when there are skills.
-      - name: Install Rust toolchain
+      # The pinned release (keep its version in sync with mise.toml). Only
+      # installed when there are skills to check.
+      - name: Install skill-auditor
         if: steps.skills.outputs.found == 'true'
-        run: |
-          rustup toolchain install 1.96.1 --profile minimal
-          rustup default 1.96.1
-
-      - name: Build skill-auditor
-        if: steps.skills.outputs.found == 'true'
-        run: cargo build --release --locked -p pantheon-skill-auditor
+        uses: ./.github/actions/install-skill-auditor
 
       - name: Check stored audits
         id: check

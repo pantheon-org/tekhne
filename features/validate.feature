@@ -1,7 +1,7 @@
-Feature: Skill structure validation (skill-validator-rs)
-  The Rust skill-validator-rs checks a skill's directory layout, frontmatter,
-  tokens, markdown, and links. It is built from source and exits 0 for a
-  well-formed skill.
+Feature: Skill structure validation (pantheon-skill-auditor validate)
+  The validate subcommand of the pinned pantheon-skill-auditor release checks a
+  skill's directory layout, frontmatter, tokens, markdown, and links. It exits 0
+  for a well-formed skill.
 
   Scenario: Validator help shows the structure check
     Given I am at the repository root
