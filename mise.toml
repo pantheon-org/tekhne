@@ -15,8 +15,8 @@ cargo-dist = "0.32.0"
 # used by the git hooks and the Skill Audit and Stored Audits workflows. Exact
 # version: bump it on purpose, together with VERSION and SHA256 in
 # .github/actions/install-skill-auditor/action.yml and the linux-x64 checksum in
-# mise.lock. Released from this repository under tool/ tags until the tool moves.
-"github:pantheon-org/tekhne" = { version = "0.3.0", version_prefix = "tool/pantheon-skill-auditor-v" }
+# mise.lock. Released from pantheon-org/pantheon-skill-auditor on plain v tags.
+"github:pantheon-org/pantheon-skill-auditor" = "0.3.1"
 # Lints skill frontmatter and agent files (Claude Code semantics, leaked
 # tool-call markup). Keep in sync with AGNIX_VERSION in .github/workflows/agnix.yml.
 "github:agent-sh/agnix" = "0.56.6"
