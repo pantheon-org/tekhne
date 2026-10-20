@@ -73,21 +73,12 @@ jobs:
         if: steps.dirs.outputs.found == 'false'
         run: echo "No SKILL.md changed — nothing to audit. Skill Audit passes."
 
-      # skill-auditor bundles its own D1-D9 scoring with the skill-validator-rs
-      # structural checks (both crates live in the Rust workspace). Only build
-      # from source when there are skills to audit.
-      #
-      # rustup is preinstalled on GitHub-hosted runners; pin the toolchain to
-      # match mise.toml and rust-ci.yml. Keep this version in sync with them.
-      - name: Install Rust toolchain
+      # The pinned pantheon-skill-auditor release bundles the D1-D9 scoring and the
+      # offline validator (validate, check, probes, analyze). Only installed when
+      # there are skills to audit. Keep its version in sync with mise.toml.
+      - name: Install skill-auditor
         if: steps.dirs.outputs.found == 'true'
-        run: |
-          rustup toolchain install 1.96.1 --profile minimal
-          rustup default 1.96.1
-
-      - name: Build skill-auditor
-        if: steps.dirs.outputs.found == 'true'
-        run: cargo build --release --locked -p pantheon-skill-auditor
+        uses: ./.github/actions/install-skill-auditor
 
       # Shared skill-listing budget (advisory). Every listing-eligible skill's
       # name and description share one budget in the model's context, so a
@@ -99,10 +90,9 @@ jobs:
         continue-on-error: true
         run: |
           set -uo pipefail
-          cargo build --release --locked -q -p skill-validator-rs
-          target/release/skill-validator-rs analyze listing skills --fraction 0.01 -o markdown > listing.md || exit 0
+          pantheon-skill-auditor analyze listing skills --fraction 0.01 -o markdown > listing.md || exit 0
           { echo "## Skill listing budget"; echo; cat listing.md; } >> "$GITHUB_STEP_SUMMARY"
-          target/release/skill-validator-rs analyze listing skills --fraction 0.01 -o json \
+          pantheon-skill-auditor analyze listing skills --fraction 0.01 -o json \
             | jq -r '.listing | "::notice title=Skill listing budget::\(.entries | length) skills use \(.total_chars) description chars; budget \(.bands | map("\(.budget_chars) at \(.context_tokens) tokens") | join(", ")). Advisory only."' || true
 
       # Audit the same skills as they were at the base commit, with the same
@@ -124,7 +114,7 @@ jobs:
             [ -f "$base/skills/$rel/SKILL.md" ] && rels+=("$rel")
           done
           [ "${#rels[@]}" -gt 0 ] || exit 0
-          (cd "$base" && "$GITHUB_WORKSPACE/target/release/pantheon-skill-auditor" batch "${rels[@]}" --json) > base.json.tmp 2>/dev/null \
+          (cd "$base" && pantheon-skill-auditor batch "${rels[@]}" --json) > base.json.tmp 2>/dev/null \
             && mv base.json.tmp base.json
 
       # Trigger-phrase drift (advisory). A rewrite can drop a description phrase
@@ -141,11 +131,10 @@ jobs:
         run: |
           set -uo pipefail
           : > drift.md
-          cargo build --release --locked -q -p skill-validator-rs || exit 0
           base="$RUNNER_TEMP/base"
           for dir in ${{ steps.dirs.outputs.dirs }}; do
             rel="${dir#skills/}"
-            target/release/skill-validator-rs analyze triggers "$dir" --base "$base/skills/$rel" -o json 2>/dev/null \
+            pantheon-skill-auditor analyze triggers "$dir" --base "$base/skills/$rel" -o json 2>/dev/null \
               | jq -r 'select(.triggers.dropped | length > 0)
                   | "- `\(.triggers.skill_dir | sub("^skills/"; "") | gsub("[`<>@&|]"; ""))`: "
                     + (.triggers.dropped | map("`" + gsub("[`<>@&|]"; "") + "`") | join(", "))' >> drift.md || true
@@ -163,7 +152,7 @@ jobs:
         if: steps.dirs.outputs.found == 'true'
         run: |
           set -euo pipefail
-          target/release/pantheon-skill-auditor duplication skills --threshold 70 --json > duplication.json || echo '[]' > duplication.json
+          pantheon-skill-auditor duplication skills --threshold 70 --json > duplication.json || echo '[]' > duplication.json
           changed=$(for dir in ${{ steps.dirs.outputs.dirs }}; do basename "$dir"; done | sort -u | jq -R . | jq -cs .)
           jq -c --argjson names "$changed" \
             '[.[] | select((.name1 as $a | $names | index($a)) or (.name2 as $b | $names | index($b)))]' \
@@ -202,13 +191,13 @@ jobs:
           for dir in ${{ steps.dirs.outputs.dirs }}; do
             rels+=("${dir#skills/}")
           done
-          target/release/pantheon-skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
+          pantheon-skill-auditor batch "${rels[@]}" --json > batch.json || echo '[]' > batch.json
           [ -f base.json ] || echo '[]' > base.json
           bash scripts/skill-audit/classify.sh batch.json base.json > verdict.json
           # The per-skill detail blocks are cosmetic. They come from a second
           # run so that nothing in that path can change batch.json, the table or
           # `fail` above. A failure here leaves an empty file, never a red job.
-          target/release/pantheon-skill-auditor batch "${rels[@]}" --json --details-markdown details.md > /dev/null 2>&1 || : > details.md
+          pantheon-skill-auditor batch "${rels[@]}" --json --details-markdown details.md > /dev/null 2>&1 || : > details.md
           [ -f details.md ] || : > details.md
           rows=$(jq -r '
             .[]

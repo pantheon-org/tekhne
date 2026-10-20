@@ -12,7 +12,8 @@
 #   scripts/stored-audits/check.sh [--root DIR] --all              every skill under skills/
 #
 # Skills are keys relative to skills/ (for example ci-cd/helm/validator).
-# The auditor binary is $AUDITOR, default <root>/target/release/pantheon-skill-auditor.
+# The auditor binary is $AUDITOR, default pantheon-skill-auditor on PATH (the
+# release pinned in mise.toml).
 #
 # Exit: 0 = all current (or nothing to check); 1 = stale or missing audit(s);
 #       2 = the check itself could not run.
@@ -33,7 +34,7 @@ while [ $# -gt 0 ]; do
 done
 
 root="${root:-$(git rev-parse --show-toplevel)}"
-auditor="${AUDITOR:-$root/target/release/pantheon-skill-auditor}"
+auditor="${AUDITOR:-pantheon-skill-auditor}"
 
 if [ "$all" -eq 1 ]; then
   while IFS= read -r skill_md; do
@@ -53,9 +54,9 @@ if [ "${#skills[@]}" -eq 0 ]; then
   exit 0
 fi
 
-if [ ! -x "$auditor" ]; then
-  echo "Could not check stored audits: auditor not found at $auditor." >&2
-  echo "Build it with: cargo build --release -p pantheon-skill-auditor" >&2
+if ! command -v "$auditor" >/dev/null 2>&1; then
+  echo "Could not check stored audits: auditor not found: $auditor." >&2
+  echo "Install it with: mise install" >&2
   exit 2
 fi
 

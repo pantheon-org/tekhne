@@ -27,9 +27,9 @@ local preCommit = new Mapping<String, Step> {
     }
     // Validation only (no file mutation); runs on every commit like the
     // original glob-less lefthook command. Ported from the shell
-    // validate-skill-artifacts.sh into `skill-validator-rs validate artifacts`
-    // (Wave 2). Builds the Rust validator once (cached in target/release) then
-    // invokes it; exit 1 = error (blocking), exit 0 = clean.
+    // validate-skill-artifacts.sh into `pantheon-skill-auditor validate artifacts`.
+    // Uses the pinned release from mise.toml (fails loudly if it is not on
+    // PATH); exit 1 = error (blocking), exit 0 = clean.
     ["skill-artifacts"] {
         // Scoped to skill files so the step only runs (per-file) when a skill
         // changes. Without a glob, a commit touching no skill files passes an
@@ -38,10 +38,8 @@ local preCommit = new Mapping<String, Step> {
         glob = List("skills/**")
         shell = "sh -c"
         check = #"""
-if [ ! -x target/release/skill-validator-rs ]; then
-  cargo build --release -q -p skill-validator-rs || { echo "skill-validator-rs build failed; skipping local validation (CI enforces the gate)"; exit 0; }
-fi
-target/release/skill-validator-rs validate artifacts {{files}}
+command -v pantheon-skill-auditor >/dev/null && pantheon-skill-auditor validate --help >/dev/null 2>&1 || { echo "pantheon-skill-auditor >= 0.3.0 not found on PATH: run mise install" >&2; exit 1; }
+pantheon-skill-auditor validate artifacts {{files}}
 """#
     }
     // Guardrail: no .py may live outside a directory listed in
@@ -81,19 +79,17 @@ target/release/skill-validator-rs validate artifacts {{files}}
         shell = "sh -c"
         check = "command -v shellcheck >/dev/null 2>&1 && shellcheck {{files}}"
     }
-    // Builds the Rust validator from source once (cached in target/release),
-    // then invokes it. Exit-code contract preserved: exit 1 = error (blocking,
+    // Runs the pinned pantheon-skill-auditor release (mise.toml) and fails if it
+    // is not on PATH. Exit-code contract preserved: exit 1 = error (blocking,
     // rc=1); exit 2 = warning (non-blocking); exit 0 = clean.
     ["skill-validate"] {
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
         check = #"""
-if [ ! -x target/release/skill-validator-rs ]; then
-  cargo build --release -q -p skill-validator-rs || { echo "skill-validator-rs build failed; skipping local validation (CI enforces the gate)"; exit 0; }
-fi
+command -v pantheon-skill-auditor >/dev/null && pantheon-skill-auditor validate --help >/dev/null 2>&1 || { echo "pantheon-skill-auditor >= 0.3.0 not found on PATH: run mise install" >&2; exit 1; }
 rc=0
 for f in {{files}}; do
-  target/release/skill-validator-rs validate structure --allow-dirs=evals "$(dirname "$f")"
+  pantheon-skill-auditor validate structure --allow-dirs=evals "$(dirname "$f")"
   [ $? -eq 1 ] && rc=1
 done
 exit $rc
@@ -109,38 +105,34 @@ local prePush = new Mapping<String, Step> {
     ["integration-tests"] {
         check = "bunx cucumber-js"
     }
-    // Builds the Rust validator from source once (cached in target/release),
-    // then invokes it. Exit 1 = error (blocking, rc=1); exit 2 = warning
+    // Runs the pinned pantheon-skill-auditor release (mise.toml) and fails if it
+    // is not on PATH. Exit 1 = error (blocking, rc=1); exit 2 = warning
     // (non-blocking); exit 0 = clean.
     ["skill-check"] {
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
         check = #"""
-if [ ! -x target/release/skill-validator-rs ]; then
-  cargo build --release -q -p skill-validator-rs || { echo "skill-validator-rs build failed; skipping local validation (CI enforces the gate)"; exit 0; }
-fi
+command -v pantheon-skill-auditor >/dev/null && pantheon-skill-auditor validate --help >/dev/null 2>&1 || { echo "pantheon-skill-auditor >= 0.3.0 not found on PATH: run mise install" >&2; exit 1; }
 rc=0
 for f in {{files}}; do
-  target/release/skill-validator-rs check --allow-dirs=evals --per-file "$(dirname "$f")"
+  pantheon-skill-auditor check --allow-dirs=evals --per-file "$(dirname "$f")"
   [ $? -eq 1 ] && rc=1
 done
 exit $rc
 """#
     }
-    // Builds the Rust auditor from source once (cached in target/release),
-    // then invokes it. Grade gate matches CI (the Skill Audit workflow): A/A+
+    // Runs the pinned pantheon-skill-auditor release (mise.toml) and fails if it
+    // is not on PATH. Grade gate matches CI (the Skill Audit workflow): A/A+
     // pass; B+/B warn (non-blocking); below B fail (rc=1).
     ["skill-audit"] {
         glob = List("skills/**/SKILL.md")
         shell = "sh -c"
         check = #"""
-if [ ! -x target/release/pantheon-skill-auditor ]; then
-  cargo build --release -q -p pantheon-skill-auditor || { echo "pantheon-skill-auditor build failed; skipping local audit (CI enforces the gate)"; exit 0; }
-fi
+command -v pantheon-skill-auditor >/dev/null && pantheon-skill-auditor validate --help >/dev/null 2>&1 || { echo "pantheon-skill-auditor >= 0.3.0 not found on PATH: run mise install" >&2; exit 1; }
 rc=0
 for f in {{files}}; do
   rel="$(dirname "$f")"; rel="${rel#skills/}"
-  grade=$(target/release/pantheon-skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
+  grade=$(pantheon-skill-auditor evaluate "$rel" --json 2>/dev/null | jq -r '.grade // "?"' 2>/dev/null)
   case "$grade" in
     A|A+) echo "PASS $rel: $grade";;
     B+|B) echo "WARN $rel: $grade (warning -- CI non-blocking)";;
@@ -160,10 +152,7 @@ exit $rc
         glob = List("skills/**")
         shell = "sh -c"
         check = #"""
-if ! cargo build --release -q -p pantheon-skill-auditor; then
-  echo "pantheon-skill-auditor build failed; skipping local stored-audit check (CI enforces the gate)"
-  exit 0
-fi
+command -v pantheon-skill-auditor >/dev/null && pantheon-skill-auditor validate --help >/dev/null 2>&1 || { echo "pantheon-skill-auditor >= 0.3.0 not found on PATH: run mise install" >&2; exit 1; }
 skills=$(printf '%s\n' {{files}} | bash scripts/stored-audits/changed-skills.sh)
 [ -z "$skills" ] && exit 0
 bash scripts/stored-audits/check.sh $skills

@@ -1,6 +1,4 @@
 import { spawnSync } from "node:child_process";
-import { existsSync } from "node:fs";
-import { join } from "node:path";
 import type { CommandResult } from "./world";
 
 interface Spawned {
@@ -24,43 +22,45 @@ export const runCatalogDryRun = (cwd: string): CommandResult =>
     }),
   );
 
-const VALIDATOR_BIN = "target/release/skill-validator-rs";
+// The validator is the `validate` subcommand of the pinned pantheon-skill-auditor
+// release (mise.toml), the same binary the hk.pkl gate runs. It must be on PATH,
+// which `mise install` alone does not do for a shell without mise activation.
+const VALIDATOR_BIN = "pantheon-skill-auditor";
 
-// Build the Rust validator from source once (cached), mirroring the hk.pkl gate
-// so the integration suite never depends on a pre-built binary.
-const ensureValidator = (cwd: string): void => {
-  if (existsSync(join(cwd, VALIDATOR_BIN))) {
-    return;
+const MISSING_VALIDATOR = `${VALIDATOR_BIN} not found on PATH. Run \`mise install\`, then run the suite through mise: \`mise exec -- bun run test:integration\`.\n`;
+
+// Run the pinned auditor. A missing binary gets an actionable message; any other
+// launch failure (for example EACCES) reports the spawn error itself, so a
+// failing scenario names the cause instead of showing empty output.
+const runAuditor = (cwd: string, args: string[]): CommandResult => {
+  const result = spawnSync(VALIDATOR_BIN, args, { cwd, encoding: "utf-8" });
+  const error = result.error as NodeJS.ErrnoException | undefined;
+  if (error?.code === "ENOENT") {
+    return { stdout: "", stderr: MISSING_VALIDATOR, exitCode: 127 };
   }
-  spawnSync("cargo", ["build", "--release", "-q", "-p", "skill-validator-rs"], {
-    cwd,
-    encoding: "utf-8",
-  });
+  if (error) {
+    return {
+      stdout: "",
+      stderr: `could not run ${VALIDATOR_BIN}: ${error.message}\n`,
+      exitCode: 1,
+    };
+  }
+  return capture(result);
 };
 
-export const runValidatorHelp = (cwd: string): CommandResult => {
-  ensureValidator(cwd);
-  return capture(
-    spawnSync(join(cwd, VALIDATOR_BIN), ["validate", "--help"], {
-      cwd,
-      encoding: "utf-8",
-    }),
-  );
-};
+export const runValidatorHelp = (cwd: string): CommandResult =>
+  runAuditor(cwd, ["validate", "--help"]);
 
 export const runValidatorStructure = (
   cwd: string,
   skill: string,
-): CommandResult => {
-  ensureValidator(cwd);
-  return capture(
-    spawnSync(
-      join(cwd, VALIDATOR_BIN),
-      ["validate", "structure", "--allow-dirs=evals", `skills/${skill}`],
-      { cwd, encoding: "utf-8" },
-    ),
-  );
-};
+): CommandResult =>
+  runAuditor(cwd, [
+    "validate",
+    "structure",
+    "--allow-dirs=evals",
+    `skills/${skill}`,
+  ]);
 
 const GOAL_SCRIPT = "skills/project-mgmt/goal-tracker/scripts/goal.sh";
 

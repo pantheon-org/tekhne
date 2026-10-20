@@ -39,11 +39,11 @@ Skill management, auditing, and validation are provided by Rust crates under
 or runs with Bun, so there is no separate install step.
 
 ```bash
-# Audit a single skill (builds the auditor from source, then evaluates)
+# Audit a single skill with the pinned pantheon-skill-auditor release (mise.toml)
 mise run audit:skill <domain>/<skill-name>
 
-# Validate a skill's structure
-cargo run -p skill-validator-rs -- validate structure skills/<domain>/<skill-name>
+# Validate a skill's structure (the auditor's embedded validator)
+mise exec -- pantheon-skill-auditor validate structure skills/<domain>/<skill-name>
 
 # Regenerate the skill catalog in README.md and the docs tiles page
 bun run readme:update
@@ -58,8 +58,10 @@ bun test scripts/
 # Rust workspace tests
 cargo test --workspace
 
-# Integration (cucumber) tests
-bun run test:integration
+# Integration (cucumber) tests. They run the pinned pantheon-skill-auditor, so
+# go through mise: `mise install` alone does not put it on PATH without shell
+# activation.
+mise exec -- bun run test:integration
 ```
 
 ## Commit style

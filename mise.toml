@@ -11,6 +11,12 @@ pkl = "latest"
 # reports. Pinned exactly (unlike the other linters), bumped on purpose.
 rumdl = "0.2.77"
 cargo-dist = "0.32.0"
+# The pantheon-skill-auditor release (scoring, validate, check, probes, analyze)
+# used by the git hooks and the Skill Audit and Stored Audits workflows. Exact
+# version: bump it on purpose, together with VERSION and SHA256 in
+# .github/actions/install-skill-auditor/action.yml and the linux-x64 checksum in
+# mise.lock. Released from this repository under tool/ tags until the tool moves.
+"github:pantheon-org/tekhne" = { version = "0.3.0", version_prefix = "tool/pantheon-skill-auditor-v" }
 # Lints skill frontmatter and agent files (Claude Code semantics, leaked
 # tool-call markup). Keep in sync with AGNIX_VERSION in .github/workflows/agnix.yml.
 "github:agent-sh/agnix" = "0.56.6"
@@ -67,15 +73,15 @@ run = "cargo build --release -p pantheon-journal"
 
 [tasks."audit:listing"]
 description = "Estimate the shared skill-listing description budget (pass flags after --, e.g. --from-settings)"
-run = ["cargo build --release -q -p skill-validator-rs", "target/release/skill-validator-rs analyze listing skills"]
+run = "pantheon-skill-auditor analyze listing skills"
 
 [tasks."audit:probes"]
-description = "Validate the invocation probes, then score them (pass skill-validator-rs probes flags after --)"
-run = ["cargo build --release -q -p skill-validator-rs", "target/release/skill-validator-rs probes validate probes", "target/release/skill-validator-rs probes score probes"]
+description = "Validate the invocation probes, then score them (pass pantheon-skill-auditor probes flags after --)"
+run = ["pantheon-skill-auditor probes validate probes", "pantheon-skill-auditor probes score probes"]
 
 [tasks."audit:skill"]
-description = "Build pantheon-skill-auditor from source and run it (pass skill args after --)"
-run = ["cargo build --release -q -p pantheon-skill-auditor", "target/release/pantheon-skill-auditor evaluate"]
+description = "Run the pinned pantheon-skill-auditor (pass skill args after --)"
+run = "pantheon-skill-auditor evaluate"
 
 # Build a crate-distributed skill tool from the working tree and install its
 # skill from that build, instead of waiting on the PR -> merge -> release loop
