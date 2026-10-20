@@ -2,8 +2,8 @@ name: Install pantheon-skill-auditor
 description: >
   Install the pinned pantheon-skill-auditor release (linux x86_64) and put it on
   PATH. Verifies the tarball against a pinned SHA-256 before extracting.
-  Keep VERSION and SHA256 in sync with "github:pantheon-org/tekhne" in mise.toml
-  and its linux-x64 checksum in mise.lock.
+  Keep VERSION and SHA256 in sync with "github:pantheon-org/pantheon-skill-auditor"
+  in mise.toml and its linux-x64 checksum in mise.lock.
 
 runs:
   using: composite
@@ -11,15 +11,15 @@ runs:
     - name: Install pantheon-skill-auditor (pinned digest)
       shell: bash
       env:
-        VERSION: "0.3.0"
-        SHA256: "092abe13e3ab7456a95bcd145e8c3074181d5f2c0e9eb6a9de54eb86ed6486d7"
+        VERSION: "0.3.1"
+        SHA256: "538863c9929331cd3ff0af6a0f8780fb409592d55757335d91e4627808656799"
       run: |
         set -euo pipefail
         asset="pantheon-skill-auditor-x86_64-unknown-linux-gnu.tar.xz"
         dir="$RUNNER_TEMP/pantheon-skill-auditor"
         mkdir -p "$dir"
         curl -fsSL -o "$dir/$asset" \
-          "https://github.com/pantheon-org/tekhne/releases/download/tool/pantheon-skill-auditor-v${VERSION}/${asset}"
+          "https://github.com/pantheon-org/pantheon-skill-auditor/releases/download/v${VERSION}/${asset}"
         echo "${SHA256}  $dir/$asset" | sha256sum -c -
         tar -xJf "$dir/$asset" -C "$dir" --strip-components=1
         test -x "$dir/pantheon-skill-auditor"
