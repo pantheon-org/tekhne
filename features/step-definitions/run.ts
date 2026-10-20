@@ -23,31 +23,35 @@ export const runCatalogDryRun = (cwd: string): CommandResult =>
   );
 
 // The validator is the `validate` subcommand of the pinned pantheon-skill-auditor
-// release (mise.toml), the same binary the hk.pkl gate runs. It must be on PATH:
-// the suite fails with the spawn error when it is not, rather than building one.
+// release (mise.toml), the same binary the hk.pkl gate runs. It must be on PATH,
+// which `mise install` alone does not do for a shell without mise activation.
 const VALIDATOR_BIN = "pantheon-skill-auditor";
 
-export const runValidatorHelp = (cwd: string): CommandResult => {
-  return capture(
-    spawnSync(VALIDATOR_BIN, ["validate", "--help"], {
-      cwd,
-      encoding: "utf-8",
-    }),
-  );
+const MISSING_VALIDATOR = `${VALIDATOR_BIN} not found on PATH. Run \`mise install\`, then run the suite through mise: \`mise exec -- bun run test:integration\`.\n`;
+
+// Run the pinned auditor, turning a missing binary into an actionable message
+// instead of a bare spawn error.
+const runAuditor = (cwd: string, args: string[]): CommandResult => {
+  const result = spawnSync(VALIDATOR_BIN, args, { cwd, encoding: "utf-8" });
+  if ((result.error as NodeJS.ErrnoException | undefined)?.code === "ENOENT") {
+    return { stdout: "", stderr: MISSING_VALIDATOR, exitCode: 127 };
+  }
+  return capture(result);
 };
+
+export const runValidatorHelp = (cwd: string): CommandResult =>
+  runAuditor(cwd, ["validate", "--help"]);
 
 export const runValidatorStructure = (
   cwd: string,
   skill: string,
-): CommandResult => {
-  return capture(
-    spawnSync(
-      VALIDATOR_BIN,
-      ["validate", "structure", "--allow-dirs=evals", `skills/${skill}`],
-      { cwd, encoding: "utf-8" },
-    ),
-  );
-};
+): CommandResult =>
+  runAuditor(cwd, [
+    "validate",
+    "structure",
+    "--allow-dirs=evals",
+    `skills/${skill}`,
+  ]);
 
 const GOAL_SCRIPT = "skills/project-mgmt/goal-tracker/scripts/goal.sh";
 
