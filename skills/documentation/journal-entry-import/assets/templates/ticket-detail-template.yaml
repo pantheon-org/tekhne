@@ -133,7 +133,7 @@ data_policy:
 
 validation:
   scripts:
-    - "journal-entry-creator/scripts/validate-journal-entry.sh (base)"
+    - "pantheon-journal validate <file> (base, from the pantheon-journal CLI)"
     - "journal-entry-import/scripts/validate-ticket-detail.sh (ticket-detail specific)"
   required_checks:
     - "Base checks pass (single dated H1, Session Overview + Compliance + Tags, tags match, code fences)"

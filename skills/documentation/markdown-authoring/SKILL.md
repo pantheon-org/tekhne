@@ -58,7 +58,7 @@ Expected result: non-Markdown formatting/lint issues also caught.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh documentation/markdown-authoring --json
+pantheon-skill-auditor evaluate documentation/markdown-authoring --json
 ```
 
 Expected result: updated dimension scores and grade.

@@ -79,7 +79,7 @@ Expected result: complete session output with report-ready evidence.
 ### Evaluate this skill quality
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh ui-debug-workflow --json
+pantheon-skill-auditor evaluate ui-debug-workflow --json
 ```
 
 Expected result: updated score and grade.

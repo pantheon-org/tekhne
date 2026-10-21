@@ -38,8 +38,8 @@ entries that do not exist yet, and this skill deliberately avoids that name to k
 ## Prerequisites
 
 This skill produces entries in the `journal-entry-creator` format and depends on it for the base frontmatter
-schema, the tag taxonomy, and the structural validator
-(`journal-entry-creator/scripts/validate-journal-entry.sh`). Read that skill's `SKILL.md` first if you have not
+schema, the tag taxonomy, and the structural validator (`pantheon-journal validate <file>`, from the
+[pantheon-journal](https://github.com/pantheon-org/pantheon-journal) CLI, which must be on PATH). Read that skill's `SKILL.md` first if you have not
 used it before - this skill assumes its conventions (triple-synced dates, single-H1 format, tag consistency) and
 does not repeat them.
 
@@ -159,7 +159,7 @@ Run for every file created or edited, then commit only when clean:
 npx prettier --write <files>
 <markdown-linter> --fix <files>
 # imported entries and any other base-schema entry:
-bash skills/documentation/journal-entry-creator/scripts/validate-journal-entry.sh <files>
+for f in <files>; do pantheon-journal validate "$f"; done
 # ticket-detail entries (runs the base validator too):
 bash skills/documentation/journal-entry-import/scripts/validate-ticket-detail.sh <detail-files>
 ```

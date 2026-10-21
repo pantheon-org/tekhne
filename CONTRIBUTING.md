@@ -24,7 +24,7 @@ structure validation automatically on staged files.
 3. Run the quality audit before publishing:
 
 ```bash
-sh skills/agentic-harness/skill-quality-auditor/scripts/evaluate.sh <domain>/<skill-name> --json --store
+mise exec -- pantheon-skill-auditor evaluate <domain>/<skill-name> --json --store
 ```
 
 Target B-grade (112/140) minimum; A-grade (126/140) for publication.

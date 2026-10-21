@@ -1,1 +1,0 @@
-Decline out-of-scope requests, stop when a schema is missing and gate commits on passing validation.

@@ -2,7 +2,7 @@
 # shell: bash
 # Validate a ticket-detail journal entry (journal-entry-import Mode B).
 #
-# Runs the base journal validator, then validates the entry's frontmatter and
+# Runs the base journal validator (pantheon-journal validate), then validates the entry's frontmatter and
 # structure against
 # skills/documentation/journal-entry-import/assets/schemas/ticket-detail-frontmatter.schema.json
 # (schema-driven: required / enum / pattern / x-forbidden-fields / x-required-sections /
@@ -14,25 +14,29 @@ set -uo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="${ROOT:-$(cd "$SCRIPT_DIR/../../../.." 2>/dev/null && pwd)}"
 SCHEMA="$ROOT/skills/documentation/journal-entry-import/assets/schemas/ticket-detail-frontmatter.schema.json"
-BASE_VALIDATOR="$ROOT/skills/documentation/journal-entry-creator/scripts/validate-journal-entry.sh"
 
 if [[ $# -eq 0 ]]; then
   echo "Usage: $(basename "$0") <file.md> [more.md ...]" >&2
   exit 2
 fi
 
+# The base validation is done by the pantheon-journal CLI. Skipping it when the CLI is
+# missing would pass entries that fail the base rules, so stop instead.
+if ! command -v pantheon-journal >/dev/null 2>&1; then
+  echo "pantheon-journal not found on PATH: install it from https://github.com/pantheon-org/pantheon-journal to validate ticket-detail entries" >&2
+  exit 2
+fi
+
 rc=0
 
 # 1) Base journal validation (single dated H1, Session Overview/Compliance/Tags, tags match, code fences).
-if [[ -f "$BASE_VALIDATOR" ]]; then
-  for f in "$@"; do
-    if ! bash "$BASE_VALIDATOR" "$f" >/dev/null 2>&1; then
-      bash "$BASE_VALIDATOR" "$f" >&2 || true
-      echo "Invalid: base validator failed for $f" >&2
-      rc=1
-    fi
-  done
-fi
+for f in "$@"; do
+  if ! pantheon-journal validate "$f" >/dev/null 2>&1; then
+    pantheon-journal validate "$f" >&2 || true
+    echo "Invalid: base validator failed for $f" >&2
+    rc=1
+  fi
+done
 
 # 2) Ticket-detail frontmatter + structure, driven by the JSON schema.
 if ! python3 - "$SCHEMA" "$@" <<'PYEOF'
