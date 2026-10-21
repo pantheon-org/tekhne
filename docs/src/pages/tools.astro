@@ -1,9 +1,9 @@
 ---
 import DocsLayout from "../layouts/DocsLayout.astro";
-import { crateVersions } from "../lib/crate-versions";
+import { latestVersion } from "../lib/tool-releases";
 
 const base = import.meta.env.BASE_URL;
-const repo = "pantheon-org/tekhne";
+const org = "pantheon-org";
 
 interface ToolCommand {
   usage: string;
@@ -20,15 +20,16 @@ interface Tool {
   bundledSkillHref: string;
 }
 
-// Sourced from each crate's Cargo.toml `description`, the clap `about`/`long_about`
-// command surface, and the bundled skill recorded in `skill_bundle.rs`.
+// Each tool lives in its own repository (the repository name is the tool name),
+// described by its Cargo.toml `description`, its clap `about`/`long_about` command
+// surface and the skill it bundles.
 const tools: Tool[] = [
   {
     name: "pantheon-skill-auditor",
     icon: "🔍",
     tagline: "Audit skill quality using the 9-dimension framework.",
     description:
-      "Deterministic 9-dimension skill quality auditor (a Rust port of the Go skill-auditor). It combines skill-validator structural checks with the custom D1 to D9 scoring and can emit human or JSON reports, persist audits, and gate a batch below a grade threshold.",
+      "Skill quality auditor and offline skill validator in one binary. It scores skills on the 9-dimension framework, validates structure, links and artifacts, runs invocation probes, and can emit human or JSON reports, persist audits, and gate a batch below a grade threshold.",
     commands: [
       { usage: "pantheon-skill-auditor evaluate <skill>", summary: "Evaluate a single skill." },
       { usage: "pantheon-skill-auditor batch <skill...>", summary: "Evaluate multiple skills, with an optional --fail-below grade gate." },
@@ -39,11 +40,15 @@ const tools: Tool[] = [
       { usage: "pantheon-skill-auditor quality-signals [dir]", summary: "Score per-skill quality signals (structural, content, quality markers)." },
       { usage: "pantheon-skill-auditor semantic-analysis [dir]", summary: "Report pairwise semantic similarity between skills." },
       { usage: "pantheon-skill-auditor pattern-analysis [dir]", summary: "Combined duplication + semantic + quality repository health score." },
+      { usage: "pantheon-skill-auditor validate structure <dir>", summary: "Validate a skill's layout, frontmatter, tokens, markdown and links (exit 0 clean, 1 error, 2 warning, 3 usage)." },
+      { usage: "pantheon-skill-auditor check <dir>", summary: "Run every offline validation group on one skill." },
+      { usage: "pantheon-skill-auditor probes validate|score|compare", summary: "Invocation probes: would a skill's description win the requests it should?" },
+      { usage: "pantheon-skill-auditor analyze content|triggers|listing", summary: "Content metrics, trigger-phrase drift and the shared skill-listing budget." },
       { usage: "pantheon-skill-auditor skill install", summary: "Register the bundled skill into detected agent directories." },
       { usage: "pantheon-skill-auditor skill bundle", summary: "List the skill files embedded in the binary (--manifest for JSON)." },
     ],
     bundledSkill: "skill-quality-auditor",
-    bundledSkillHref: `${base}/skills/agentic-harness/skill-quality-auditor/skill/`,
+    bundledSkillHref: `https://github.com/${org}/pantheon-skill-auditor/tree/main/skill-quality-auditor`,
   },
   {
     name: "pantheon-adr",
@@ -58,7 +63,7 @@ const tools: Tool[] = [
       { usage: "pantheon-adr skill install", summary: "Register the bundled skill into detected agent directories." },
     ],
     bundledSkill: "adr-creator",
-    bundledSkillHref: `${base}/skills/documentation/adr-creator/skill/`,
+    bundledSkillHref: `https://github.com/${org}/pantheon-adr/tree/main/adr-creator`,
   },
   {
     name: "pantheon-journal",
@@ -75,23 +80,34 @@ const tools: Tool[] = [
       { usage: "pantheon-journal skill install", summary: "Register the bundled skill into detected agent directories." },
     ],
     bundledSkill: "journal-entry-creator",
-    bundledSkillHref: `${base}/skills/documentation/journal-entry-creator/skill/`,
+    bundledSkillHref: `https://github.com/${org}/pantheon-journal/tree/main/journal-entry-creator`,
   },
 ];
 
-const versions = crateVersions();
-const versionOf = (tool: Tool) => versions.get(tool.name) ?? "0.0.0";
+// The latest release of each tool repository, read at build time. A null version
+// (lookup failed) hides the badge; the installer link below does not need it.
+const token = import.meta.env.GITHUB_TOKEN ?? process.env.GITHUB_TOKEN;
+const versions = new Map<string, string | null>(
+  await Promise.all(
+    tools.map(
+      async (tool) =>
+        [tool.name, await latestVersion(tool.name, { token })] as const,
+    ),
+  ),
+);
+const versionOf = (tool: Tool) => versions.get(tool.name) ?? null;
 
 const installerUrl = (tool: Tool) =>
-  `https://github.com/${repo}/releases/download/tool/${tool.name}-v${versionOf(tool)}/${tool.name}-installer.sh`;
+  `https://github.com/${org}/${tool.name}/releases/latest/download/${tool.name}-installer.sh`;
 ---
 
-<DocsLayout title="Tools" description="The shipped Tekhne tool CLIs: skill-auditor, adr, and journal. Standalone Rust binaries you install with a single curl command, each bundling a companion skill." sidebar={false}>
+<DocsLayout title="Tools" description="The Pantheon tool CLIs: skill-auditor, adr, and journal. Standalone Rust binaries from their own repositories, installed with a single curl command, each bundling a companion skill." sidebar={false}>
   <div class="lp-section">
     <div class="section-label">Tools</div>
     <h1 class="page-title">Standalone CLIs</h1>
     <p class="page-sub">
-      Three of the Tekhne skills also ship as standalone Rust binaries. Each installs
+      Three skills also ship as standalone Rust binaries, each released from its own
+      repository. Each installs
       on macOS or Linux with a single <code>curl | sh</code> command, then registers its
       bundled companion skill into your agents with an explicit <code>skill install</code>
       subcommand. The installer only places the binary on your PATH, so registering the
@@ -100,10 +116,12 @@ const installerUrl = (tool: Tool) =>
 
     <div class="install-note">
       <p>
-        Installers follow the cargo-dist shell installer shape and are published under the
-        <code>tool/</code> tag namespace, so every release tag looks like
-        <code>tool/&lt;package&gt;-v&lt;semver&gt;</code> (for example
-        <code>tool/pantheon-skill-auditor-v0.2.0</code>). Binaries land in <code>CARGO_HOME</code>.
+        Installers follow the cargo-dist shell installer shape and download the latest
+        release of the tool's repository (tags are plain <code>v&lt;semver&gt;</code>).
+        Binaries land in <code>CARGO_HOME</code>. Older releases (up to
+        <code>pantheon-skill-auditor</code> 0.3.0, <code>pantheon-journal</code> 0.2.5 and
+        <code>pantheon-adr</code> 0.2.4) are under <code>tool/</code> tags in the
+        <a href="https://github.com/pantheon-org/tekhne/releases">tekhne releases</a>.
         Looking for the validators or the other skills? They ship as plain Markdown skills in the
         <a href={`${base}/tiles/`}>Skills catalog</a>.
       </p>
@@ -117,7 +135,7 @@ const installerUrl = (tool: Tool) =>
         <div class="tool-titles">
           <h2 class="tool-name">
             {tool.name}
-            <span class="tool-version">v{versionOf(tool)}</span>
+            {versionOf(tool) && <span class="tool-version">v{versionOf(tool)}</span>}
           </h2>
           <p class="tool-tagline">{tool.tagline}</p>
         </div>
